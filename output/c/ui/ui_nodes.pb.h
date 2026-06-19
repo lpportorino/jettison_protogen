@@ -63,29 +63,31 @@ typedef struct _ui_CommandBinding {
     ui_FixedPointScale scale;
 } ui_CommandBinding;
 
-/* The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
- a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
- proven Phase-1 slice; the per-node shape every L3 node generalizes to. */
-typedef struct _ui_ClaheControl {
+/* L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+ normalized state field and SENDS a set-value command. The day-camera CLAHE
+ node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+ instance; every single-state-single-command slider node is generated data of
+ this shape. */
+typedef struct _ui_SliderControl {
     /* Schema version — checked FIRST by the lowering (fail-fast guard). A node
  whose version != the current NodeSchemaVersion is rejected with
  Err(SchemaMismatch); {gte: 1} rejects the unset/0 default. */
     uint32_t version;
     /* Card title shown above the slider (lowered to a Label atom). */
     pb_callback_t title;
-    /* State display binding: camera_day.clahe_level → "day_clahe" subject,
- scale 1000 (double → per-mille int). */
+    /* State display binding: the bound state field → subject, with the per-mille
+ fixed-point scale (double → int). */
     bool has_state;
     ui_StateBinding state;
-    /* Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
- scale 1000 (per-mille int → double). */
+    /* Command binding: slider value-changed → the set-value command, with the
+ per-mille fixed-point scale (int → double). */
     bool has_command;
     ui_CommandBinding command;
     /* Slider integer range AFTER scaling (e.g. 0..1000 for a  double at
  scale 1000). These become the lowered SliderProps.min_value/max_value. */
     int32_t min_value;
     int32_t max_value;
-} ui_ClaheControl;
+} ui_SliderControl;
 
 
 #ifdef __cplusplus
@@ -106,11 +108,11 @@ extern "C" {
 #define ui_FixedPointScale_init_default          {0}
 #define ui_StateBinding_init_default             {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_default}
 #define ui_CommandBinding_init_default           {{{NULL}, NULL}, false, ui_FixedPointScale_init_default}
-#define ui_ClaheControl_init_default             {0, {{NULL}, NULL}, false, ui_StateBinding_init_default, false, ui_CommandBinding_init_default, 0, 0}
+#define ui_SliderControl_init_default            {0, {{NULL}, NULL}, false, ui_StateBinding_init_default, false, ui_CommandBinding_init_default, 0, 0}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_CommandBinding_init_zero              {{{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
-#define ui_ClaheControl_init_zero                {0, {{NULL}, NULL}, false, ui_StateBinding_init_zero, false, ui_CommandBinding_init_zero, 0, 0}
+#define ui_SliderControl_init_zero               {0, {{NULL}, NULL}, false, ui_StateBinding_init_zero, false, ui_CommandBinding_init_zero, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_FixedPointScale_scale_tag             1
@@ -119,12 +121,12 @@ extern "C" {
 #define ui_StateBinding_scale_tag                3
 #define ui_CommandBinding_command_id_tag         1
 #define ui_CommandBinding_scale_tag              2
-#define ui_ClaheControl_version_tag              1
-#define ui_ClaheControl_title_tag                2
-#define ui_ClaheControl_state_tag                3
-#define ui_ClaheControl_command_tag              4
-#define ui_ClaheControl_min_value_tag            5
-#define ui_ClaheControl_max_value_tag            6
+#define ui_SliderControl_version_tag             1
+#define ui_SliderControl_title_tag               2
+#define ui_SliderControl_state_tag               3
+#define ui_SliderControl_command_tag             4
+#define ui_SliderControl_min_value_tag           5
+#define ui_SliderControl_max_value_tag           6
 
 /* Struct field encoding specification for nanopb */
 #define ui_FixedPointScale_FIELDLIST(X, a) \
@@ -147,33 +149,33 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  scale,             2)
 #define ui_CommandBinding_DEFAULT NULL
 #define ui_CommandBinding_scale_MSGTYPE ui_FixedPointScale
 
-#define ui_ClaheControl_FIELDLIST(X, a) \
+#define ui_SliderControl_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
 X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  state,             3) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  command,           4) \
 X(a, STATIC,   SINGULAR, INT32,    min_value,         5) \
 X(a, STATIC,   SINGULAR, INT32,    max_value,         6)
-#define ui_ClaheControl_CALLBACK pb_default_field_callback
-#define ui_ClaheControl_DEFAULT NULL
-#define ui_ClaheControl_state_MSGTYPE ui_StateBinding
-#define ui_ClaheControl_command_MSGTYPE ui_CommandBinding
+#define ui_SliderControl_CALLBACK pb_default_field_callback
+#define ui_SliderControl_DEFAULT NULL
+#define ui_SliderControl_state_MSGTYPE ui_StateBinding
+#define ui_SliderControl_command_MSGTYPE ui_CommandBinding
 
 extern const pb_msgdesc_t ui_FixedPointScale_msg;
 extern const pb_msgdesc_t ui_StateBinding_msg;
 extern const pb_msgdesc_t ui_CommandBinding_msg;
-extern const pb_msgdesc_t ui_ClaheControl_msg;
+extern const pb_msgdesc_t ui_SliderControl_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_FixedPointScale_fields &ui_FixedPointScale_msg
 #define ui_StateBinding_fields &ui_StateBinding_msg
 #define ui_CommandBinding_fields &ui_CommandBinding_msg
-#define ui_ClaheControl_fields &ui_ClaheControl_msg
+#define ui_SliderControl_fields &ui_SliderControl_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ui_StateBinding_size depends on runtime parameters */
 /* ui_CommandBinding_size depends on runtime parameters */
-/* ui_ClaheControl_size depends on runtime parameters */
+/* ui_SliderControl_size depends on runtime parameters */
 #define UI_UI_UI_NODES_PB_H_MAX_SIZE             ui_FixedPointScale_size
 #define ui_FixedPointScale_size                  6
 

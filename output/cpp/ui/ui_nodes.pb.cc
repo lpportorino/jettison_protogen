@@ -110,7 +110,7 @@ struct CommandBindingDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CommandBindingDefaultTypeInternal _CommandBinding_default_instance_;
 
-inline constexpr ClaheControl::Impl_::Impl_(
+inline constexpr SliderControl::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         title_(
@@ -123,7 +123,7 @@ inline constexpr ClaheControl::Impl_::Impl_(
         max_value_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR ClaheControl::ClaheControl(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR SliderControl::SliderControl(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
@@ -131,16 +131,16 @@ PROTOBUF_CONSTEXPR ClaheControl::ClaheControl(::_pbi::ConstantInitialized)
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct ClaheControlDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ClaheControlDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ClaheControlDefaultTypeInternal() {}
+struct SliderControlDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SliderControlDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SliderControlDefaultTypeInternal() {}
   union {
-    ClaheControl _instance;
+    SliderControl _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ClaheControlDefaultTypeInternal _ClaheControl_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SliderControlDefaultTypeInternal _SliderControl_default_instance_;
 }  // namespace ui
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ui_2fui_5fnodes_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor**
@@ -183,20 +183,20 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ui::CommandBinding, _impl_.scale_),
         ~0u,
         0,
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_.version_),
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_.title_),
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_.state_),
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_.command_),
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_.min_value_),
-        PROTOBUF_FIELD_OFFSET(::ui::ClaheControl, _impl_.max_value_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_.version_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_.title_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_.state_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_.command_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_.min_value_),
+        PROTOBUF_FIELD_OFFSET(::ui::SliderControl, _impl_.max_value_),
         ~0u,
         ~0u,
         0,
@@ -210,13 +210,13 @@ static const ::_pbi::MigrationSchema
         {0, -1, -1, sizeof(::ui::FixedPointScale)},
         {9, 20, -1, sizeof(::ui::StateBinding)},
         {23, 33, -1, sizeof(::ui::CommandBinding)},
-        {35, 49, -1, sizeof(::ui::ClaheControl)},
+        {35, 49, -1, sizeof(::ui::SliderControl)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_FixedPointScale_default_instance_._instance,
     &::ui::_StateBinding_default_instance_._instance,
     &::ui::_CommandBinding_default_instance_._instance,
-    &::ui::_ClaheControl_default_instance_._instance,
+    &::ui::_SliderControl_default_instance_._instance,
 };
 const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -227,16 +227,16 @@ const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SE
     "name\030\002 \001(\tB\t\272H\006r\004\020\001\030\?\022\"\n\005scale\030\003 \001(\0132\023.u"
     "i.FixedPointScale\"S\n\016CommandBinding\022\035\n\nc"
     "ommand_id\030\001 \001(\tB\t\272H\006r\004\020\001\030\?\022\"\n\005scale\030\002 \001("
-    "\0132\023.ui.FixedPointScale\"\270\001\n\014ClaheControl\022"
-    "\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 "
-    "\001(\tB\007\272H\004r\002\030\?\022\037\n\005state\030\003 \001(\0132\020.ui.StateBi"
-    "nding\022#\n\007command\030\004 \001(\0132\022.ui.CommandBindi"
-    "ng\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001(\005"
-    "B\007\272H\004\032\002 \000*T\n\021NodeSchemaVersion\022#\n\037NODE_S"
-    "CHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCHE"
-    "MA_VERSION_V1\020\001BEZCgit-codecommit.eu-cen"
-    "tral-1.amazonaws.com/v1/repos/jettison/j"
-    "onp/uib\006proto3"
+    "\0132\023.ui.FixedPointScale\"\271\001\n\rSliderControl"
+    "\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002"
+    " \001(\tB\007\272H\004r\002\030\?\022\037\n\005state\030\003 \001(\0132\020.ui.StateB"
+    "inding\022#\n\007command\030\004 \001(\0132\022.ui.CommandBind"
+    "ing\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001("
+    "\005B\007\272H\004\032\002 \000*T\n\021NodeSchemaVersion\022#\n\037NODE_"
+    "SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCH"
+    "EMA_VERSION_V1\020\001BEZCgit-codecommit.eu-ce"
+    "ntral-1.amazonaws.com/v1/repos/jettison/"
+    "jonp/uib\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fnodes_2eproto_deps[1] =
     {
@@ -246,7 +246,7 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fnodes_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fnodes_2eproto = {
     false,
     false,
-    654,
+    655,
     descriptor_table_protodef_ui_2fui_5fnodes_2eproto,
     "ui/ui_nodes.proto",
     &descriptor_table_ui_2fui_5fnodes_2eproto_once,
@@ -1077,39 +1077,39 @@ void CommandBinding::InternalSwap(CommandBinding* PROTOBUF_RESTRICT other) {
 }
 // ===================================================================
 
-class ClaheControl::_Internal {
+class SliderControl::_Internal {
  public:
   using HasBits =
-      decltype(std::declval<ClaheControl>()._impl_._has_bits_);
+      decltype(std::declval<SliderControl>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(SliderControl, _impl_._has_bits_);
 };
 
-ClaheControl::ClaheControl(::google::protobuf::Arena* arena)
+SliderControl::SliderControl(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ui.ClaheControl)
+  // @@protoc_insertion_point(arena_constructor:ui.SliderControl)
 }
-inline PROTOBUF_NDEBUG_INLINE ClaheControl::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE SliderControl::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::ui::ClaheControl& from_msg)
+    const Impl_& from, const ::ui::SliderControl& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         title_(arena, from.title_) {}
 
-ClaheControl::ClaheControl(
+SliderControl::SliderControl(
     ::google::protobuf::Arena* arena,
-    const ClaheControl& from)
+    const SliderControl& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  ClaheControl* const _this = this;
+  SliderControl* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -1129,15 +1129,15 @@ ClaheControl::ClaheControl(
                offsetof(Impl_, version_) +
                sizeof(Impl_::max_value_));
 
-  // @@protoc_insertion_point(copy_constructor:ui.ClaheControl)
+  // @@protoc_insertion_point(copy_constructor:ui.SliderControl)
 }
-inline PROTOBUF_NDEBUG_INLINE ClaheControl::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE SliderControl::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0},
         title_(arena) {}
 
-inline void ClaheControl::SharedCtor(::_pb::Arena* arena) {
+inline void SliderControl::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, state_),
@@ -1146,12 +1146,12 @@ inline void ClaheControl::SharedCtor(::_pb::Arena* arena) {
                offsetof(Impl_, state_) +
                sizeof(Impl_::max_value_));
 }
-ClaheControl::~ClaheControl() {
-  // @@protoc_insertion_point(destructor:ui.ClaheControl)
+SliderControl::~SliderControl() {
+  // @@protoc_insertion_point(destructor:ui.SliderControl)
   SharedDtor(*this);
 }
-inline void ClaheControl::SharedDtor(MessageLite& self) {
-  ClaheControl& this_ = static_cast<ClaheControl&>(self);
+inline void SliderControl::SharedDtor(MessageLite& self) {
+  SliderControl& this_ = static_cast<SliderControl&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.title_.Destroy();
@@ -1160,45 +1160,45 @@ inline void ClaheControl::SharedDtor(MessageLite& self) {
   this_._impl_.~Impl_();
 }
 
-inline void* ClaheControl::PlacementNew_(const void*, void* mem,
+inline void* SliderControl::PlacementNew_(const void*, void* mem,
                                         ::google::protobuf::Arena* arena) {
-  return ::new (mem) ClaheControl(arena);
+  return ::new (mem) SliderControl(arena);
 }
-constexpr auto ClaheControl::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(ClaheControl),
-                                            alignof(ClaheControl));
+constexpr auto SliderControl::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(SliderControl),
+                                            alignof(SliderControl));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull ClaheControl::_class_data_ = {
+const ::google::protobuf::internal::ClassDataFull SliderControl::_class_data_ = {
     ::google::protobuf::internal::ClassData{
-        &_ClaheControl_default_instance_._instance,
+        &_SliderControl_default_instance_._instance,
         &_table_.header,
         nullptr,  // OnDemandRegisterArenaDtor
         nullptr,  // IsInitialized
-        &ClaheControl::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<ClaheControl>(),
+        &SliderControl::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SliderControl>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        &ClaheControl::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<ClaheControl>(), &ClaheControl::ByteSizeLong,
-            &ClaheControl::_InternalSerialize,
+        &SliderControl::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SliderControl>(), &SliderControl::ByteSizeLong,
+            &SliderControl::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_._cached_size_),
+        PROTOBUF_FIELD_OFFSET(SliderControl, _impl_._cached_size_),
         false,
     },
-    &ClaheControl::kDescriptorMethods,
+    &SliderControl::kDescriptorMethods,
     &descriptor_table_ui_2fui_5fnodes_2eproto,
     nullptr,  // tracker
 };
-const ::google::protobuf::internal::ClassData* ClaheControl::GetClassData() const {
+const ::google::protobuf::internal::ClassData* SliderControl::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 2, 29, 2> ClaheControl::_table_ = {
+const ::_pbi::TcParseTable<3, 6, 2, 30, 2> SliderControl::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(SliderControl, _impl_._has_bits_),
     0, // no _extensions_
     6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -1211,62 +1211,62 @@ const ::_pbi::TcParseTable<3, 6, 2, 29, 2> ClaheControl::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::ui::ClaheControl>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::ui::SliderControl>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
     // uint32 version = 1 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ClaheControl, _impl_.version_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.version_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SliderControl, _impl_.version_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.version_)}},
     // string title = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastUS1,
-     {18, 63, 0, PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.title_)}},
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.title_)}},
     // .ui.StateBinding state = 3;
     {::_pbi::TcParser::FastMtS1,
-     {26, 0, 0, PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.state_)}},
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.state_)}},
     // .ui.CommandBinding command = 4;
     {::_pbi::TcParser::FastMtS1,
-     {34, 1, 1, PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.command_)}},
+     {34, 1, 1, PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.command_)}},
     // int32 min_value = 5;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ClaheControl, _impl_.min_value_), 63>(),
-     {40, 63, 0, PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.min_value_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SliderControl, _impl_.min_value_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.min_value_)}},
     // int32 max_value = 6 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ClaheControl, _impl_.max_value_), 63>(),
-     {48, 63, 0, PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.max_value_)}},
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SliderControl, _impl_.max_value_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.max_value_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // uint32 version = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.version_), -1, 0,
+    {PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.version_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
     // string title = 2 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.title_), -1, 0,
+    {PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.title_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // .ui.StateBinding state = 3;
-    {PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.state_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.state_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // .ui.CommandBinding command = 4;
-    {PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.command_), _Internal::kHasBitsOffset + 1, 1,
+    {PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.command_), _Internal::kHasBitsOffset + 1, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // int32 min_value = 5;
-    {PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.min_value_), -1, 0,
+    {PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.min_value_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // int32 max_value = 6 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.max_value_), -1, 0,
+    {PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.max_value_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ui::StateBinding>()},
     {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
   }}, {{
-    "\17\0\5\0\0\0\0\0"
-    "ui.ClaheControl"
+    "\20\0\5\0\0\0\0\0"
+    "ui.SliderControl"
     "title"
   }},
 };
 
-PROTOBUF_NOINLINE void ClaheControl::Clear() {
-// @@protoc_insertion_point(message_clear_start:ui.ClaheControl)
+PROTOBUF_NOINLINE void SliderControl::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.SliderControl)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -1292,17 +1292,17 @@ PROTOBUF_NOINLINE void ClaheControl::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* ClaheControl::_InternalSerialize(
+        ::uint8_t* SliderControl::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const ClaheControl& this_ = static_cast<const ClaheControl&>(base);
+          const SliderControl& this_ = static_cast<const SliderControl&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* ClaheControl::_InternalSerialize(
+        ::uint8_t* SliderControl::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const ClaheControl& this_ = *this;
+          const SliderControl& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:ui.ClaheControl)
+          // @@protoc_insertion_point(serialize_to_array_start:ui.SliderControl)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -1317,7 +1317,7 @@ PROTOBUF_NOINLINE void ClaheControl::Clear() {
           if (!this_._internal_title().empty()) {
             const std::string& _s = this_._internal_title();
             ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ui.ClaheControl.title");
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ui.SliderControl.title");
             target = stream->WriteStringMaybeAliased(2, _s, target);
           }
 
@@ -1355,18 +1355,18 @@ PROTOBUF_NOINLINE void ClaheControl::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:ui.ClaheControl)
+          // @@protoc_insertion_point(serialize_to_array_end:ui.SliderControl)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t ClaheControl::ByteSizeLong(const MessageLite& base) {
-          const ClaheControl& this_ = static_cast<const ClaheControl&>(base);
+        ::size_t SliderControl::ByteSizeLong(const MessageLite& base) {
+          const SliderControl& this_ = static_cast<const SliderControl&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t ClaheControl::ByteSizeLong() const {
-          const ClaheControl& this_ = *this;
+        ::size_t SliderControl::ByteSizeLong() const {
+          const SliderControl& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:ui.ClaheControl)
+          // @@protoc_insertion_point(message_byte_size_start:ui.SliderControl)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -1415,11 +1415,11 @@ PROTOBUF_NOINLINE void ClaheControl::Clear() {
                                                      &this_._impl_._cached_size_);
         }
 
-void ClaheControl::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<ClaheControl*>(&to_msg);
-  auto& from = static_cast<const ClaheControl&>(from_msg);
+void SliderControl::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SliderControl*>(&to_msg);
+  auto& from = static_cast<const SliderControl&>(from_msg);
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:ui.ClaheControl)
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.SliderControl)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1461,15 +1461,15 @@ void ClaheControl::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void ClaheControl::CopyFrom(const ClaheControl& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ui.ClaheControl)
+void SliderControl::CopyFrom(const SliderControl& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.SliderControl)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void ClaheControl::InternalSwap(ClaheControl* PROTOBUF_RESTRICT other) {
+void SliderControl::InternalSwap(SliderControl* PROTOBUF_RESTRICT other) {
   using std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -1477,14 +1477,14 @@ void ClaheControl::InternalSwap(ClaheControl* PROTOBUF_RESTRICT other) {
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.title_, &other->_impl_.title_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.max_value_)
-      + sizeof(ClaheControl::_impl_.max_value_)
-      - PROTOBUF_FIELD_OFFSET(ClaheControl, _impl_.state_)>(
+      PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.max_value_)
+      + sizeof(SliderControl::_impl_.max_value_)
+      - PROTOBUF_FIELD_OFFSET(SliderControl, _impl_.state_)>(
           reinterpret_cast<char*>(&_impl_.state_),
           reinterpret_cast<char*>(&other->_impl_.state_));
 }
 
-::google::protobuf::Metadata ClaheControl::GetMetadata() const {
+::google::protobuf::Metadata SliderControl::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

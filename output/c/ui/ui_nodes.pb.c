@@ -15,7 +15,7 @@ PB_BIND(ui_StateBinding, ui_StateBinding, AUTO)
 PB_BIND(ui_CommandBinding, ui_CommandBinding, AUTO)
 
 
-PB_BIND(ui_ClaheControl, ui_ClaheControl, AUTO)
+PB_BIND(ui_SliderControl, ui_SliderControl, AUTO)
 
 
 

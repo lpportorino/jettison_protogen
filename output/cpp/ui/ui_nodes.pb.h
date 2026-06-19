@@ -54,15 +54,15 @@ struct TableStruct_ui_2fui_5fnodes_2eproto {
 extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_ui_2fui_5fnodes_2eproto;
 namespace ui {
-class ClaheControl;
-struct ClaheControlDefaultTypeInternal;
-extern ClaheControlDefaultTypeInternal _ClaheControl_default_instance_;
 class CommandBinding;
 struct CommandBindingDefaultTypeInternal;
 extern CommandBindingDefaultTypeInternal _CommandBinding_default_instance_;
 class FixedPointScale;
 struct FixedPointScaleDefaultTypeInternal;
 extern FixedPointScaleDefaultTypeInternal _FixedPointScale_default_instance_;
+class SliderControl;
+struct SliderControlDefaultTypeInternal;
+extern SliderControlDefaultTypeInternal _SliderControl_default_instance_;
 class StateBinding;
 struct StateBindingDefaultTypeInternal;
 extern StateBindingDefaultTypeInternal _StateBinding_default_instance_;
@@ -748,31 +748,31 @@ class CommandBinding final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class ClaheControl final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ui.ClaheControl) */ {
+class SliderControl final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.SliderControl) */ {
  public:
-  inline ClaheControl() : ClaheControl(nullptr) {}
-  ~ClaheControl() PROTOBUF_FINAL;
+  inline SliderControl() : SliderControl(nullptr) {}
+  ~SliderControl() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ClaheControl* msg, std::destroying_delete_t) {
+  void operator delete(SliderControl* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ClaheControl));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SliderControl));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ClaheControl(
+  explicit PROTOBUF_CONSTEXPR SliderControl(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline ClaheControl(const ClaheControl& from) : ClaheControl(nullptr, from) {}
-  inline ClaheControl(ClaheControl&& from) noexcept
-      : ClaheControl(nullptr, std::move(from)) {}
-  inline ClaheControl& operator=(const ClaheControl& from) {
+  inline SliderControl(const SliderControl& from) : SliderControl(nullptr, from) {}
+  inline SliderControl(SliderControl&& from) noexcept
+      : SliderControl(nullptr, std::move(from)) {}
+  inline SliderControl& operator=(const SliderControl& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ClaheControl& operator=(ClaheControl&& from) noexcept {
+  inline SliderControl& operator=(SliderControl&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -800,16 +800,16 @@ class ClaheControl final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const ClaheControl& default_instance() {
+  static const SliderControl& default_instance() {
     return *internal_default_instance();
   }
-  static inline const ClaheControl* internal_default_instance() {
-    return reinterpret_cast<const ClaheControl*>(
-        &_ClaheControl_default_instance_);
+  static inline const SliderControl* internal_default_instance() {
+    return reinterpret_cast<const SliderControl*>(
+        &_SliderControl_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 3;
-  friend void swap(ClaheControl& a, ClaheControl& b) { a.Swap(&b); }
-  inline void Swap(ClaheControl* other) {
+  friend void swap(SliderControl& a, SliderControl& b) { a.Swap(&b); }
+  inline void Swap(SliderControl* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -817,7 +817,7 @@ class ClaheControl final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(ClaheControl* other) {
+  void UnsafeArenaSwap(SliderControl* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -825,13 +825,13 @@ class ClaheControl final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  ClaheControl* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<ClaheControl>(arena);
+  SliderControl* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SliderControl>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const ClaheControl& from);
+  void CopyFrom(const SliderControl& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const ClaheControl& from) { ClaheControl::MergeImpl(*this, from); }
+  void MergeFrom(const SliderControl& from) { SliderControl::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -868,18 +868,18 @@ class ClaheControl final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(ClaheControl* other);
+  void InternalSwap(SliderControl* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "ui.ClaheControl"; }
+  static ::absl::string_view FullMessageName() { return "ui.SliderControl"; }
 
  protected:
-  explicit ClaheControl(::google::protobuf::Arena* arena);
-  ClaheControl(::google::protobuf::Arena* arena, const ClaheControl& from);
-  ClaheControl(::google::protobuf::Arena* arena, ClaheControl&& from) noexcept
-      : ClaheControl(arena) {
+  explicit SliderControl(::google::protobuf::Arena* arena);
+  SliderControl(::google::protobuf::Arena* arena, const SliderControl& from);
+  SliderControl(::google::protobuf::Arena* arena, SliderControl&& from) noexcept
+      : SliderControl(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -977,13 +977,13 @@ class ClaheControl final : public ::google::protobuf::Message
   void _internal_set_max_value(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:ui.ClaheControl)
+  // @@protoc_insertion_point(class_scope:ui.SliderControl)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
       3, 6, 2,
-      29, 2>
+      30, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -999,7 +999,7 @@ class ClaheControl final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const ClaheControl& from_msg);
+                          const SliderControl& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr title_;
@@ -1398,99 +1398,99 @@ inline void CommandBinding::set_allocated_scale(::ui::FixedPointScale* value) {
 
 // -------------------------------------------------------------------
 
-// ClaheControl
+// SliderControl
 
 // uint32 version = 1 [(.buf.validate.field) = {
-inline void ClaheControl::clear_version() {
+inline void SliderControl::clear_version() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.version_ = 0u;
 }
-inline ::uint32_t ClaheControl::version() const {
-  // @@protoc_insertion_point(field_get:ui.ClaheControl.version)
+inline ::uint32_t SliderControl::version() const {
+  // @@protoc_insertion_point(field_get:ui.SliderControl.version)
   return _internal_version();
 }
-inline void ClaheControl::set_version(::uint32_t value) {
+inline void SliderControl::set_version(::uint32_t value) {
   _internal_set_version(value);
-  // @@protoc_insertion_point(field_set:ui.ClaheControl.version)
+  // @@protoc_insertion_point(field_set:ui.SliderControl.version)
 }
-inline ::uint32_t ClaheControl::_internal_version() const {
+inline ::uint32_t SliderControl::_internal_version() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.version_;
 }
-inline void ClaheControl::_internal_set_version(::uint32_t value) {
+inline void SliderControl::_internal_set_version(::uint32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.version_ = value;
 }
 
 // string title = 2 [(.buf.validate.field) = {
-inline void ClaheControl::clear_title() {
+inline void SliderControl::clear_title() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.title_.ClearToEmpty();
 }
-inline const std::string& ClaheControl::title() const
+inline const std::string& SliderControl::title() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ui.ClaheControl.title)
+  // @@protoc_insertion_point(field_get:ui.SliderControl.title)
   return _internal_title();
 }
 template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void ClaheControl::set_title(Arg_&& arg,
+inline PROTOBUF_ALWAYS_INLINE void SliderControl::set_title(Arg_&& arg,
                                                      Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:ui.ClaheControl.title)
+  // @@protoc_insertion_point(field_set:ui.SliderControl.title)
 }
-inline std::string* ClaheControl::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline std::string* SliderControl::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_title();
-  // @@protoc_insertion_point(field_mutable:ui.ClaheControl.title)
+  // @@protoc_insertion_point(field_mutable:ui.SliderControl.title)
   return _s;
 }
-inline const std::string& ClaheControl::_internal_title() const {
+inline const std::string& SliderControl::_internal_title() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.title_.Get();
 }
-inline void ClaheControl::_internal_set_title(const std::string& value) {
+inline void SliderControl::_internal_set_title(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.title_.Set(value, GetArena());
 }
-inline std::string* ClaheControl::_internal_mutable_title() {
+inline std::string* SliderControl::_internal_mutable_title() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _impl_.title_.Mutable( GetArena());
 }
-inline std::string* ClaheControl::release_title() {
+inline std::string* SliderControl::release_title() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ui.ClaheControl.title)
+  // @@protoc_insertion_point(field_release:ui.SliderControl.title)
   return _impl_.title_.Release();
 }
-inline void ClaheControl::set_allocated_title(std::string* value) {
+inline void SliderControl::set_allocated_title(std::string* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.title_.SetAllocated(value, GetArena());
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
     _impl_.title_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:ui.ClaheControl.title)
+  // @@protoc_insertion_point(field_set_allocated:ui.SliderControl.title)
 }
 
 // .ui.StateBinding state = 3;
-inline bool ClaheControl::has_state() const {
+inline bool SliderControl::has_state() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.state_ != nullptr);
   return value;
 }
-inline void ClaheControl::clear_state() {
+inline void SliderControl::clear_state() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.state_ != nullptr) _impl_.state_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::ui::StateBinding& ClaheControl::_internal_state() const {
+inline const ::ui::StateBinding& SliderControl::_internal_state() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::ui::StateBinding* p = _impl_.state_;
   return p != nullptr ? *p : reinterpret_cast<const ::ui::StateBinding&>(::ui::_StateBinding_default_instance_);
 }
-inline const ::ui::StateBinding& ClaheControl::state() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ui.ClaheControl.state)
+inline const ::ui::StateBinding& SliderControl::state() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.SliderControl.state)
   return _internal_state();
 }
-inline void ClaheControl::unsafe_arena_set_allocated_state(::ui::StateBinding* value) {
+inline void SliderControl::unsafe_arena_set_allocated_state(::ui::StateBinding* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.state_);
@@ -1501,9 +1501,9 @@ inline void ClaheControl::unsafe_arena_set_allocated_state(::ui::StateBinding* v
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ClaheControl.state)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.SliderControl.state)
 }
-inline ::ui::StateBinding* ClaheControl::release_state() {
+inline ::ui::StateBinding* SliderControl::release_state() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000001u;
@@ -1522,16 +1522,16 @@ inline ::ui::StateBinding* ClaheControl::release_state() {
   }
   return released;
 }
-inline ::ui::StateBinding* ClaheControl::unsafe_arena_release_state() {
+inline ::ui::StateBinding* SliderControl::unsafe_arena_release_state() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ui.ClaheControl.state)
+  // @@protoc_insertion_point(field_release:ui.SliderControl.state)
 
   _impl_._has_bits_[0] &= ~0x00000001u;
   ::ui::StateBinding* temp = _impl_.state_;
   _impl_.state_ = nullptr;
   return temp;
 }
-inline ::ui::StateBinding* ClaheControl::_internal_mutable_state() {
+inline ::ui::StateBinding* SliderControl::_internal_mutable_state() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.state_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::StateBinding>(GetArena());
@@ -1539,13 +1539,13 @@ inline ::ui::StateBinding* ClaheControl::_internal_mutable_state() {
   }
   return _impl_.state_;
 }
-inline ::ui::StateBinding* ClaheControl::mutable_state() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::ui::StateBinding* SliderControl::mutable_state() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000001u;
   ::ui::StateBinding* _msg = _internal_mutable_state();
-  // @@protoc_insertion_point(field_mutable:ui.ClaheControl.state)
+  // @@protoc_insertion_point(field_mutable:ui.SliderControl.state)
   return _msg;
 }
-inline void ClaheControl::set_allocated_state(::ui::StateBinding* value) {
+inline void SliderControl::set_allocated_state(::ui::StateBinding* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1563,30 +1563,30 @@ inline void ClaheControl::set_allocated_state(::ui::StateBinding* value) {
   }
 
   _impl_.state_ = reinterpret_cast<::ui::StateBinding*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ui.ClaheControl.state)
+  // @@protoc_insertion_point(field_set_allocated:ui.SliderControl.state)
 }
 
 // .ui.CommandBinding command = 4;
-inline bool ClaheControl::has_command() const {
+inline bool SliderControl::has_command() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.command_ != nullptr);
   return value;
 }
-inline void ClaheControl::clear_command() {
+inline void SliderControl::clear_command() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.command_ != nullptr) _impl_.command_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::ui::CommandBinding& ClaheControl::_internal_command() const {
+inline const ::ui::CommandBinding& SliderControl::_internal_command() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::ui::CommandBinding* p = _impl_.command_;
   return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
 }
-inline const ::ui::CommandBinding& ClaheControl::command() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ui.ClaheControl.command)
+inline const ::ui::CommandBinding& SliderControl::command() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.SliderControl.command)
   return _internal_command();
 }
-inline void ClaheControl::unsafe_arena_set_allocated_command(::ui::CommandBinding* value) {
+inline void SliderControl::unsafe_arena_set_allocated_command(::ui::CommandBinding* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_);
@@ -1597,9 +1597,9 @@ inline void ClaheControl::unsafe_arena_set_allocated_command(::ui::CommandBindin
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ClaheControl.command)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.SliderControl.command)
 }
-inline ::ui::CommandBinding* ClaheControl::release_command() {
+inline ::ui::CommandBinding* SliderControl::release_command() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
@@ -1618,16 +1618,16 @@ inline ::ui::CommandBinding* ClaheControl::release_command() {
   }
   return released;
 }
-inline ::ui::CommandBinding* ClaheControl::unsafe_arena_release_command() {
+inline ::ui::CommandBinding* SliderControl::unsafe_arena_release_command() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ui.ClaheControl.command)
+  // @@protoc_insertion_point(field_release:ui.SliderControl.command)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
   ::ui::CommandBinding* temp = _impl_.command_;
   _impl_.command_ = nullptr;
   return temp;
 }
-inline ::ui::CommandBinding* ClaheControl::_internal_mutable_command() {
+inline ::ui::CommandBinding* SliderControl::_internal_mutable_command() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.command_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
@@ -1635,13 +1635,13 @@ inline ::ui::CommandBinding* ClaheControl::_internal_mutable_command() {
   }
   return _impl_.command_;
 }
-inline ::ui::CommandBinding* ClaheControl::mutable_command() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::ui::CommandBinding* SliderControl::mutable_command() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
   ::ui::CommandBinding* _msg = _internal_mutable_command();
-  // @@protoc_insertion_point(field_mutable:ui.ClaheControl.command)
+  // @@protoc_insertion_point(field_mutable:ui.SliderControl.command)
   return _msg;
 }
-inline void ClaheControl::set_allocated_command(::ui::CommandBinding* value) {
+inline void SliderControl::set_allocated_command(::ui::CommandBinding* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -1659,49 +1659,49 @@ inline void ClaheControl::set_allocated_command(::ui::CommandBinding* value) {
   }
 
   _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ui.ClaheControl.command)
+  // @@protoc_insertion_point(field_set_allocated:ui.SliderControl.command)
 }
 
 // int32 min_value = 5;
-inline void ClaheControl::clear_min_value() {
+inline void SliderControl::clear_min_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.min_value_ = 0;
 }
-inline ::int32_t ClaheControl::min_value() const {
-  // @@protoc_insertion_point(field_get:ui.ClaheControl.min_value)
+inline ::int32_t SliderControl::min_value() const {
+  // @@protoc_insertion_point(field_get:ui.SliderControl.min_value)
   return _internal_min_value();
 }
-inline void ClaheControl::set_min_value(::int32_t value) {
+inline void SliderControl::set_min_value(::int32_t value) {
   _internal_set_min_value(value);
-  // @@protoc_insertion_point(field_set:ui.ClaheControl.min_value)
+  // @@protoc_insertion_point(field_set:ui.SliderControl.min_value)
 }
-inline ::int32_t ClaheControl::_internal_min_value() const {
+inline ::int32_t SliderControl::_internal_min_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.min_value_;
 }
-inline void ClaheControl::_internal_set_min_value(::int32_t value) {
+inline void SliderControl::_internal_set_min_value(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.min_value_ = value;
 }
 
 // int32 max_value = 6 [(.buf.validate.field) = {
-inline void ClaheControl::clear_max_value() {
+inline void SliderControl::clear_max_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.max_value_ = 0;
 }
-inline ::int32_t ClaheControl::max_value() const {
-  // @@protoc_insertion_point(field_get:ui.ClaheControl.max_value)
+inline ::int32_t SliderControl::max_value() const {
+  // @@protoc_insertion_point(field_get:ui.SliderControl.max_value)
   return _internal_max_value();
 }
-inline void ClaheControl::set_max_value(::int32_t value) {
+inline void SliderControl::set_max_value(::int32_t value) {
   _internal_set_max_value(value);
-  // @@protoc_insertion_point(field_set:ui.ClaheControl.max_value)
+  // @@protoc_insertion_point(field_set:ui.SliderControl.max_value)
 }
-inline ::int32_t ClaheControl::_internal_max_value() const {
+inline ::int32_t SliderControl::_internal_max_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.max_value_;
 }
-inline void ClaheControl::_internal_set_max_value(::int32_t value) {
+inline void SliderControl::_internal_set_max_value(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.max_value_ = value;
 }

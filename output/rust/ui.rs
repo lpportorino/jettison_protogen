@@ -43,11 +43,13 @@ pub struct CommandBinding {
     #[prost(message, optional, tag = "2")]
     pub scale: ::core::option::Option<FixedPointScale>,
 }
-/// The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
-/// a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
-/// proven Phase-1 slice; the per-node shape every L3 node generalizes to.
+/// L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+/// normalized state field and SENDS a set-value command. The day-camera CLAHE
+/// node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+/// instance; every single-state-single-command slider node is generated data of
+/// this shape.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ClaheControl {
+pub struct SliderControl {
     /// Schema version — checked FIRST by the lowering (fail-fast guard). A node
     /// whose version != the current NodeSchemaVersion is rejected with
     /// Err(SchemaMismatch); {gte: 1} rejects the unset/0 default.
@@ -56,12 +58,12 @@ pub struct ClaheControl {
     /// Card title shown above the slider (lowered to a Label atom).
     #[prost(string, tag = "2")]
     pub title: ::prost::alloc::string::String,
-    /// State display binding: camera_day.clahe_level → "day_clahe" subject,
-    /// scale 1000 (double → per-mille int).
+    /// State display binding: the bound state field → subject, with the per-mille
+    /// fixed-point scale (double → int).
     #[prost(message, optional, tag = "3")]
     pub state: ::core::option::Option<StateBinding>,
-    /// Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-    /// scale 1000 (per-mille int → double).
+    /// Command binding: slider value-changed → the set-value command, with the
+    /// per-mille fixed-point scale (int → double).
     #[prost(message, optional, tag = "4")]
     pub command: ::core::option::Option<CommandBinding>,
     /// Slider integer range AFTER scaling (e.g. 0..1000 for a  double at

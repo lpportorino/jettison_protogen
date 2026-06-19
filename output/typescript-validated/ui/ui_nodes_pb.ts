@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ui/ui_nodes.proto.
  */
 export const file_ui_ui_nodes: GenFile = /*@__PURE__*/
-  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrgBCgxDbGFoZUNvbnRyb2wSGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIWCgV0aXRsZRgCIAEoCUIHukgEcgIYPxIfCgVzdGF0ZRgDIAEoCzIQLnVpLlN0YXRlQmluZGluZxIjCgdjb21tYW5kGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSEQoJbWluX3ZhbHVlGAUgASgFEhoKCW1heF92YWx1ZRgGIAEoBUIHukgEGgIgACpUChFOb2RlU2NoZW1hVmVyc2lvbhIjCh9OT0RFX1NDSEVNQV9WRVJTSU9OX1VOU1BFQ0lGSUVEEAASGgoWTk9ERV9TQ0hFTUFfVkVSU0lPTl9WMRABQkVaQ2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvdWliBnByb3RvMw", [file_buf_validate_validate]);
+  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAqVAoRTm9kZVNjaGVtYVZlcnNpb24SIwofTk9ERV9TQ0hFTUFfVkVSU0lPTl9VTlNQRUNJRklFRBAAEhoKFk5PREVfU0NIRU1BX1ZFUlNJT05fVjEQAUJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * How a normalized control value crosses the int-only WASM ABI. The camera
@@ -112,13 +112,15 @@ export const CommandBindingSchema: GenMessage<CommandBinding> = /*@__PURE__*/
   messageDesc(file_ui_ui_nodes, 2);
 
 /**
- * The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
- * a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
- * proven Phase-1 slice; the per-node shape every L3 node generalizes to.
+ * L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+ * normalized state field and SENDS a set-value command. The day-camera CLAHE
+ * node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+ * instance; every single-state-single-command slider node is generated data of
+ * this shape.
  *
- * @generated from message ui.ClaheControl
+ * @generated from message ui.SliderControl
  */
-export type ClaheControl = Message<"ui.ClaheControl"> & {
+export type SliderControl = Message<"ui.SliderControl"> & {
   /**
    * Schema version — checked FIRST by the lowering (fail-fast guard). A node
    * whose version != the current NodeSchemaVersion is rejected with
@@ -136,16 +138,16 @@ export type ClaheControl = Message<"ui.ClaheControl"> & {
   title: string;
 
   /**
-   * State display binding: camera_day.clahe_level → "day_clahe" subject,
-   * scale 1000 (double[0,1] → per-mille int).
+   * State display binding: the bound state field → subject, with the per-mille
+   * fixed-point scale (double[0,1] → int).
    *
    * @generated from field: ui.StateBinding state = 3;
    */
   state?: StateBinding | undefined;
 
   /**
-   * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-   * scale 1000 (per-mille int → double[0,1]).
+   * Command binding: slider value-changed → the set-value command, with the
+   * per-mille fixed-point scale (int → double[0,1]).
    *
    * @generated from field: ui.CommandBinding command = 4;
    */
@@ -166,10 +168,10 @@ export type ClaheControl = Message<"ui.ClaheControl"> & {
 };
 
 /**
- * Describes the message ui.ClaheControl.
- * Use `create(ClaheControlSchema)` to create a new message.
+ * Describes the message ui.SliderControl.
+ * Use `create(SliderControlSchema)` to create a new message.
  */
-export const ClaheControlSchema: GenMessage<ClaheControl> = /*@__PURE__*/
+export const SliderControlSchema: GenMessage<SliderControl> = /*@__PURE__*/
   messageDesc(file_ui_ui_nodes, 3);
 
 /**

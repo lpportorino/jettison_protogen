@@ -231,7 +231,7 @@ pub const CommandBinding = struct {
     }
 };
 
-pub const ClaheControl = struct {
+pub const SliderControl = struct {
     version: u32 = 0,
     title: []const u8 = &.{},
     state: ?StateBinding = null,

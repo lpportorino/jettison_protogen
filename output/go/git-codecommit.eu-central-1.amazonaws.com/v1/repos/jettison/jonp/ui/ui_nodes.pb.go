@@ -256,10 +256,12 @@ func (x *CommandBinding) GetScale() *FixedPointScale {
 	return nil
 }
 
-// The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
-// a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
-// proven Phase-1 slice; the per-node shape every L3 node generalizes to.
-type ClaheControl struct {
+// L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+// normalized state field and SENDS a set-value command. The day-camera CLAHE
+// node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+// instance; every single-state-single-command slider node is generated data of
+// this shape.
+type SliderControl struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Schema version — checked FIRST by the lowering (fail-fast guard). A node
 	// whose version != the current NodeSchemaVersion is rejected with
@@ -267,11 +269,11 @@ type ClaheControl struct {
 	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Card title shown above the slider (lowered to a Label atom).
 	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	// State display binding: camera_day.clahe_level → "day_clahe" subject,
-	// scale 1000 (double[0,1] → per-mille int).
+	// State display binding: the bound state field → subject, with the per-mille
+	// fixed-point scale (double[0,1] → int).
 	State *StateBinding `protobuf:"bytes,3,opt,name=state,proto3" json:"state,omitempty"`
-	// Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-	// scale 1000 (per-mille int → double[0,1]).
+	// Command binding: slider value-changed → the set-value command, with the
+	// per-mille fixed-point scale (int → double[0,1]).
 	Command *CommandBinding `protobuf:"bytes,4,opt,name=command,proto3" json:"command,omitempty"`
 	// Slider integer range AFTER scaling (e.g. 0..1000 for a [0,1] double at
 	// scale 1000). These become the lowered SliderProps.min_value/max_value.
@@ -281,20 +283,20 @@ type ClaheControl struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ClaheControl) Reset() {
-	*x = ClaheControl{}
+func (x *SliderControl) Reset() {
+	*x = SliderControl{}
 	mi := &file_ui_ui_nodes_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ClaheControl) String() string {
+func (x *SliderControl) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ClaheControl) ProtoMessage() {}
+func (*SliderControl) ProtoMessage() {}
 
-func (x *ClaheControl) ProtoReflect() protoreflect.Message {
+func (x *SliderControl) ProtoReflect() protoreflect.Message {
 	mi := &file_ui_ui_nodes_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -306,47 +308,47 @@ func (x *ClaheControl) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ClaheControl.ProtoReflect.Descriptor instead.
-func (*ClaheControl) Descriptor() ([]byte, []int) {
+// Deprecated: Use SliderControl.ProtoReflect.Descriptor instead.
+func (*SliderControl) Descriptor() ([]byte, []int) {
 	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ClaheControl) GetVersion() uint32 {
+func (x *SliderControl) GetVersion() uint32 {
 	if x != nil {
 		return x.Version
 	}
 	return 0
 }
 
-func (x *ClaheControl) GetTitle() string {
+func (x *SliderControl) GetTitle() string {
 	if x != nil {
 		return x.Title
 	}
 	return ""
 }
 
-func (x *ClaheControl) GetState() *StateBinding {
+func (x *SliderControl) GetState() *StateBinding {
 	if x != nil {
 		return x.State
 	}
 	return nil
 }
 
-func (x *ClaheControl) GetCommand() *CommandBinding {
+func (x *SliderControl) GetCommand() *CommandBinding {
 	if x != nil {
 		return x.Command
 	}
 	return nil
 }
 
-func (x *ClaheControl) GetMinValue() int32 {
+func (x *SliderControl) GetMinValue() int32 {
 	if x != nil {
 		return x.MinValue
 	}
 	return 0
 }
 
-func (x *ClaheControl) GetMaxValue() int32 {
+func (x *SliderControl) GetMaxValue() int32 {
 	if x != nil {
 		return x.MaxValue
 	}
@@ -367,8 +369,8 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\x0eCommandBinding\x12(\n" +
 	"\n" +
 	"command_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\tcommandId\x12)\n" +
-	"\x05scale\x18\x02 \x01(\v2\x13.ui.FixedPointScaleR\x05scale\"\xec\x01\n" +
-	"\fClaheControl\x12$\n" +
+	"\x05scale\x18\x02 \x01(\v2\x13.ui.FixedPointScaleR\x05scale\"\xed\x01\n" +
+	"\rSliderControl\x12$\n" +
 	"\aversion\x18\x01 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12&\n" +
@@ -400,13 +402,13 @@ var file_ui_ui_nodes_proto_goTypes = []any{
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
 	(*StateBinding)(nil),    // 2: ui.StateBinding
 	(*CommandBinding)(nil),  // 3: ui.CommandBinding
-	(*ClaheControl)(nil),    // 4: ui.ClaheControl
+	(*SliderControl)(nil),   // 4: ui.SliderControl
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
 	1, // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
 	1, // 1: ui.CommandBinding.scale:type_name -> ui.FixedPointScale
-	2, // 2: ui.ClaheControl.state:type_name -> ui.StateBinding
-	3, // 3: ui.ClaheControl.command:type_name -> ui.CommandBinding
+	2, // 2: ui.SliderControl.state:type_name -> ui.StateBinding
+	3, // 3: ui.SliderControl.command:type_name -> ui.CommandBinding
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name

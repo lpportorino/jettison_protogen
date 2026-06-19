@@ -103,11 +103,13 @@ export interface CommandBinding {
 }
 
 /**
- * The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
- * a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
- * proven Phase-1 slice; the per-node shape every L3 node generalizes to.
+ * L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+ * normalized state field and SENDS a set-value command. The day-camera CLAHE
+ * node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+ * instance; every single-state-single-command slider node is generated data of
+ * this shape.
  */
-export interface ClaheControl {
+export interface SliderControl {
   /**
    * Schema version — checked FIRST by the lowering (fail-fast guard). A node
    * whose version != the current NodeSchemaVersion is rejected with
@@ -117,15 +119,15 @@ export interface ClaheControl {
   /** Card title shown above the slider (lowered to a Label atom). */
   title: string;
   /**
-   * State display binding: camera_day.clahe_level → "day_clahe" subject,
-   * scale 1000 (double → per-mille int).
+   * State display binding: the bound state field → subject, with the per-mille
+   * fixed-point scale (double → int).
    */
   state:
     | StateBinding
     | undefined;
   /**
-   * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-   * scale 1000 (per-mille int → double).
+   * Command binding: slider value-changed → the set-value command, with the
+   * per-mille fixed-point scale (int → double).
    */
   command:
     | CommandBinding
@@ -380,12 +382,12 @@ export const CommandBinding: MessageFns<CommandBinding> = {
   },
 };
 
-function createBaseClaheControl(): ClaheControl {
+function createBaseSliderControl(): SliderControl {
   return { version: 0, title: "", state: undefined, command: undefined, minValue: 0, maxValue: 0 };
 }
 
-export const ClaheControl: MessageFns<ClaheControl> = {
-  encode(message: ClaheControl, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const SliderControl: MessageFns<SliderControl> = {
+  encode(message: SliderControl, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.version !== 0) {
       writer.uint32(8).uint32(message.version);
     }
@@ -407,10 +409,10 @@ export const ClaheControl: MessageFns<ClaheControl> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ClaheControl {
+  decode(input: BinaryReader | Uint8Array, length?: number): SliderControl {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseClaheControl();
+    const message = createBaseSliderControl();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -471,7 +473,7 @@ export const ClaheControl: MessageFns<ClaheControl> = {
     return message;
   },
 
-  fromJSON(object: any): ClaheControl {
+  fromJSON(object: any): SliderControl {
     return {
       version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       title: isSet(object.title) ? globalThis.String(object.title) : "",
@@ -490,7 +492,7 @@ export const ClaheControl: MessageFns<ClaheControl> = {
     };
   },
 
-  toJSON(message: ClaheControl): unknown {
+  toJSON(message: SliderControl): unknown {
     const obj: any = {};
     if (message.version !== 0) {
       obj.version = Math.round(message.version);
@@ -513,11 +515,11 @@ export const ClaheControl: MessageFns<ClaheControl> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ClaheControl>, I>>(base?: I): ClaheControl {
-    return ClaheControl.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<SliderControl>, I>>(base?: I): SliderControl {
+    return SliderControl.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ClaheControl>, I>>(object: I): ClaheControl {
-    const message = createBaseClaheControl();
+  fromPartial<I extends Exact<DeepPartial<SliderControl>, I>>(object: I): SliderControl {
+    const message = createBaseSliderControl();
     message.version = object.version ?? 0;
     message.title = object.title ?? "";
     message.state = (object.state !== undefined && object.state !== null)

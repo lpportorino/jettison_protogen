@@ -36,7 +36,7 @@ class CommandBinding(_message.Message):
     scale: FixedPointScale
     def __init__(self, command_id: _Optional[str] = ..., scale: _Optional[_Union[FixedPointScale, _Mapping]] = ...) -> None: ...
 
-class ClaheControl(_message.Message):
+class SliderControl(_message.Message):
     __slots__ = ("version", "title", "state", "command", "min_value", "max_value")
     VERSION_FIELD_NUMBER: _ClassVar[int]
     TITLE_FIELD_NUMBER: _ClassVar[int]

@@ -2494,8 +2494,8 @@ public final class UiNodes {
 
   }
 
-  public interface ClaheControlOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ui.ClaheControl)
+  public interface SliderControlOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.SliderControl)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2532,8 +2532,8 @@ public final class UiNodes {
 
     /**
      * <pre>
-     * State display binding: camera_day.clahe_level → "day_clahe" subject,
-     * scale 1000 (double[0,1] → per-mille int).
+     * State display binding: the bound state field → subject, with the per-mille
+     * fixed-point scale (double[0,1] → int).
      * </pre>
      *
      * <code>.ui.StateBinding state = 3;</code>
@@ -2542,8 +2542,8 @@ public final class UiNodes {
     boolean hasState();
     /**
      * <pre>
-     * State display binding: camera_day.clahe_level → "day_clahe" subject,
-     * scale 1000 (double[0,1] → per-mille int).
+     * State display binding: the bound state field → subject, with the per-mille
+     * fixed-point scale (double[0,1] → int).
      * </pre>
      *
      * <code>.ui.StateBinding state = 3;</code>
@@ -2552,8 +2552,8 @@ public final class UiNodes {
     ui.UiNodes.StateBinding getState();
     /**
      * <pre>
-     * State display binding: camera_day.clahe_level → "day_clahe" subject,
-     * scale 1000 (double[0,1] → per-mille int).
+     * State display binding: the bound state field → subject, with the per-mille
+     * fixed-point scale (double[0,1] → int).
      * </pre>
      *
      * <code>.ui.StateBinding state = 3;</code>
@@ -2562,8 +2562,8 @@ public final class UiNodes {
 
     /**
      * <pre>
-     * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-     * scale 1000 (per-mille int → double[0,1]).
+     * Command binding: slider value-changed → the set-value command, with the
+     * per-mille fixed-point scale (int → double[0,1]).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 4;</code>
@@ -2572,8 +2572,8 @@ public final class UiNodes {
     boolean hasCommand();
     /**
      * <pre>
-     * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-     * scale 1000 (per-mille int → double[0,1]).
+     * Command binding: slider value-changed → the set-value command, with the
+     * per-mille fixed-point scale (int → double[0,1]).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 4;</code>
@@ -2582,8 +2582,8 @@ public final class UiNodes {
     ui.UiNodes.CommandBinding getCommand();
     /**
      * <pre>
-     * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-     * scale 1000 (per-mille int → double[0,1]).
+     * Command binding: slider value-changed → the set-value command, with the
+     * per-mille fixed-point scale (int → double[0,1]).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 4;</code>
@@ -2609,17 +2609,19 @@ public final class UiNodes {
   }
   /**
    * <pre>
-   * The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
-   * a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
-   * proven Phase-1 slice; the per-node shape every L3 node generalizes to.
+   * L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+   * normalized state field and SENDS a set-value command. The day-camera CLAHE
+   * node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+   * instance; every single-state-single-command slider node is generated data of
+   * this shape.
    * </pre>
    *
-   * Protobuf type {@code ui.ClaheControl}
+   * Protobuf type {@code ui.SliderControl}
    */
-  public static final class ClaheControl extends
+  public static final class SliderControl extends
       com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:ui.ClaheControl)
-      ClaheControlOrBuilder {
+      // @@protoc_insertion_point(message_implements:ui.SliderControl)
+      SliderControlOrBuilder {
   private static final long serialVersionUID = 0L;
     static {
       com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -2628,27 +2630,27 @@ public final class UiNodes {
         /* minor= */ 29,
         /* patch= */ 2,
         /* suffix= */ "",
-        ClaheControl.class.getName());
+        SliderControl.class.getName());
     }
-    // Use ClaheControl.newBuilder() to construct.
-    private ClaheControl(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    // Use SliderControl.newBuilder() to construct.
+    private SliderControl(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
-    private ClaheControl() {
+    private SliderControl() {
       title_ = "";
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ui.UiNodes.internal_static_ui_ClaheControl_descriptor;
+      return ui.UiNodes.internal_static_ui_SliderControl_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ui.UiNodes.internal_static_ui_ClaheControl_fieldAccessorTable
+      return ui.UiNodes.internal_static_ui_SliderControl_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ui.UiNodes.ClaheControl.class, ui.UiNodes.ClaheControl.Builder.class);
+              ui.UiNodes.SliderControl.class, ui.UiNodes.SliderControl.Builder.class);
     }
 
     private int bitField0_;
@@ -2720,8 +2722,8 @@ public final class UiNodes {
     private ui.UiNodes.StateBinding state_;
     /**
      * <pre>
-     * State display binding: camera_day.clahe_level → "day_clahe" subject,
-     * scale 1000 (double[0,1] → per-mille int).
+     * State display binding: the bound state field → subject, with the per-mille
+     * fixed-point scale (double[0,1] → int).
      * </pre>
      *
      * <code>.ui.StateBinding state = 3;</code>
@@ -2733,8 +2735,8 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * State display binding: camera_day.clahe_level → "day_clahe" subject,
-     * scale 1000 (double[0,1] → per-mille int).
+     * State display binding: the bound state field → subject, with the per-mille
+     * fixed-point scale (double[0,1] → int).
      * </pre>
      *
      * <code>.ui.StateBinding state = 3;</code>
@@ -2746,8 +2748,8 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * State display binding: camera_day.clahe_level → "day_clahe" subject,
-     * scale 1000 (double[0,1] → per-mille int).
+     * State display binding: the bound state field → subject, with the per-mille
+     * fixed-point scale (double[0,1] → int).
      * </pre>
      *
      * <code>.ui.StateBinding state = 3;</code>
@@ -2761,8 +2763,8 @@ public final class UiNodes {
     private ui.UiNodes.CommandBinding command_;
     /**
      * <pre>
-     * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-     * scale 1000 (per-mille int → double[0,1]).
+     * Command binding: slider value-changed → the set-value command, with the
+     * per-mille fixed-point scale (int → double[0,1]).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 4;</code>
@@ -2774,8 +2776,8 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-     * scale 1000 (per-mille int → double[0,1]).
+     * Command binding: slider value-changed → the set-value command, with the
+     * per-mille fixed-point scale (int → double[0,1]).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 4;</code>
@@ -2787,8 +2789,8 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-     * scale 1000 (per-mille int → double[0,1]).
+     * Command binding: slider value-changed → the set-value command, with the
+     * per-mille fixed-point scale (int → double[0,1]).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 4;</code>
@@ -2899,10 +2901,10 @@ public final class UiNodes {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ui.UiNodes.ClaheControl)) {
+      if (!(obj instanceof ui.UiNodes.SliderControl)) {
         return super.equals(obj);
       }
-      ui.UiNodes.ClaheControl other = (ui.UiNodes.ClaheControl) obj;
+      ui.UiNodes.SliderControl other = (ui.UiNodes.SliderControl) obj;
 
       if (getVersion()
           != other.getVersion()) return false;
@@ -2954,44 +2956,44 @@ public final class UiNodes {
       return hash;
     }
 
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(byte[] data)
+    public static ui.UiNodes.SliderControl parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(java.io.InputStream input)
+    public static ui.UiNodes.SliderControl parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2999,26 +3001,26 @@ public final class UiNodes {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static ui.UiNodes.ClaheControl parseDelimitedFrom(java.io.InputStream input)
+    public static ui.UiNodes.SliderControl parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static ui.UiNodes.ClaheControl parseDelimitedFrom(
+    public static ui.UiNodes.SliderControl parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static ui.UiNodes.ClaheControl parseFrom(
+    public static ui.UiNodes.SliderControl parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -3031,7 +3033,7 @@ public final class UiNodes {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ui.UiNodes.ClaheControl prototype) {
+    public static Builder newBuilder(ui.UiNodes.SliderControl prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -3048,31 +3050,33 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
-     * a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
-     * proven Phase-1 slice; the per-node shape every L3 node generalizes to.
+     * L3 SliderControl kind — a labelled card holding a slider that DISPLAYS a
+     * normalized state field and SENDS a set-value command. The day-camera CLAHE
+     * node (camera_day.clahe_level ↔ SetClaheLevel, scale 1000) is the proven first
+     * instance; every single-state-single-command slider node is generated data of
+     * this shape.
      * </pre>
      *
-     * Protobuf type {@code ui.ClaheControl}
+     * Protobuf type {@code ui.SliderControl}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ui.ClaheControl)
-        ui.UiNodes.ClaheControlOrBuilder {
+        // @@protoc_insertion_point(builder_implements:ui.SliderControl)
+        ui.UiNodes.SliderControlOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return ui.UiNodes.internal_static_ui_ClaheControl_descriptor;
+        return ui.UiNodes.internal_static_ui_SliderControl_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return ui.UiNodes.internal_static_ui_ClaheControl_fieldAccessorTable
+        return ui.UiNodes.internal_static_ui_SliderControl_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ui.UiNodes.ClaheControl.class, ui.UiNodes.ClaheControl.Builder.class);
+                ui.UiNodes.SliderControl.class, ui.UiNodes.SliderControl.Builder.class);
       }
 
-      // Construct using ui.UiNodes.ClaheControl.newBuilder()
+      // Construct using ui.UiNodes.SliderControl.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3113,17 +3117,17 @@ public final class UiNodes {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return ui.UiNodes.internal_static_ui_ClaheControl_descriptor;
+        return ui.UiNodes.internal_static_ui_SliderControl_descriptor;
       }
 
       @java.lang.Override
-      public ui.UiNodes.ClaheControl getDefaultInstanceForType() {
-        return ui.UiNodes.ClaheControl.getDefaultInstance();
+      public ui.UiNodes.SliderControl getDefaultInstanceForType() {
+        return ui.UiNodes.SliderControl.getDefaultInstance();
       }
 
       @java.lang.Override
-      public ui.UiNodes.ClaheControl build() {
-        ui.UiNodes.ClaheControl result = buildPartial();
+      public ui.UiNodes.SliderControl build() {
+        ui.UiNodes.SliderControl result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -3131,14 +3135,14 @@ public final class UiNodes {
       }
 
       @java.lang.Override
-      public ui.UiNodes.ClaheControl buildPartial() {
-        ui.UiNodes.ClaheControl result = new ui.UiNodes.ClaheControl(this);
+      public ui.UiNodes.SliderControl buildPartial() {
+        ui.UiNodes.SliderControl result = new ui.UiNodes.SliderControl(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(ui.UiNodes.ClaheControl result) {
+      private void buildPartial0(ui.UiNodes.SliderControl result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.version_ = version_;
@@ -3170,16 +3174,16 @@ public final class UiNodes {
 
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ui.UiNodes.ClaheControl) {
-          return mergeFrom((ui.UiNodes.ClaheControl)other);
+        if (other instanceof ui.UiNodes.SliderControl) {
+          return mergeFrom((ui.UiNodes.SliderControl)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ui.UiNodes.ClaheControl other) {
-        if (other == ui.UiNodes.ClaheControl.getDefaultInstance()) return this;
+      public Builder mergeFrom(ui.UiNodes.SliderControl other) {
+        if (other == ui.UiNodes.SliderControl.getDefaultInstance()) return this;
         if (other.getVersion() != 0) {
           setVersion(other.getVersion());
         }
@@ -3424,8 +3428,8 @@ public final class UiNodes {
           ui.UiNodes.StateBinding, ui.UiNodes.StateBinding.Builder, ui.UiNodes.StateBindingOrBuilder> stateBuilder_;
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3436,8 +3440,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3452,8 +3456,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3473,8 +3477,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3492,8 +3496,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3518,8 +3522,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3536,8 +3540,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3549,8 +3553,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3565,8 +3569,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * State display binding: camera_day.clahe_level → "day_clahe" subject,
-       * scale 1000 (double[0,1] → per-mille int).
+       * State display binding: the bound state field → subject, with the per-mille
+       * fixed-point scale (double[0,1] → int).
        * </pre>
        *
        * <code>.ui.StateBinding state = 3;</code>
@@ -3590,8 +3594,8 @@ public final class UiNodes {
           ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandBuilder_;
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3602,8 +3606,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3618,8 +3622,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3639,8 +3643,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3658,8 +3662,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3684,8 +3688,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3702,8 +3706,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3715,8 +3719,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3731,8 +3735,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
-       * scale 1000 (per-mille int → double[0,1]).
+       * Command binding: slider value-changed → the set-value command, with the
+       * per-mille fixed-point scale (int → double[0,1]).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 4;</code>
@@ -3830,23 +3834,23 @@ public final class UiNodes {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ui.ClaheControl)
+      // @@protoc_insertion_point(builder_scope:ui.SliderControl)
     }
 
-    // @@protoc_insertion_point(class_scope:ui.ClaheControl)
-    private static final ui.UiNodes.ClaheControl DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:ui.SliderControl)
+    private static final ui.UiNodes.SliderControl DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ui.UiNodes.ClaheControl();
+      DEFAULT_INSTANCE = new ui.UiNodes.SliderControl();
     }
 
-    public static ui.UiNodes.ClaheControl getDefaultInstance() {
+    public static ui.UiNodes.SliderControl getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<ClaheControl>
-        PARSER = new com.google.protobuf.AbstractParser<ClaheControl>() {
+    private static final com.google.protobuf.Parser<SliderControl>
+        PARSER = new com.google.protobuf.AbstractParser<SliderControl>() {
       @java.lang.Override
-      public ClaheControl parsePartialFrom(
+      public SliderControl parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3865,17 +3869,17 @@ public final class UiNodes {
       }
     };
 
-    public static com.google.protobuf.Parser<ClaheControl> parser() {
+    public static com.google.protobuf.Parser<SliderControl> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ClaheControl> getParserForType() {
+    public com.google.protobuf.Parser<SliderControl> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public ui.UiNodes.ClaheControl getDefaultInstanceForType() {
+    public ui.UiNodes.SliderControl getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -3897,10 +3901,10 @@ public final class UiNodes {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_CommandBinding_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ui_ClaheControl_descriptor;
+    internal_static_ui_SliderControl_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ui_ClaheControl_fieldAccessorTable;
+      internal_static_ui_SliderControl_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3917,16 +3921,16 @@ public final class UiNodes {
       "name\030\002 \001(\tB\t\272H\006r\004\020\001\030?\022\"\n\005scale\030\003 \001(\0132\023.u" +
       "i.FixedPointScale\"S\n\016CommandBinding\022\035\n\nc" +
       "ommand_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\"\n\005scale\030\002 \001(" +
-      "\0132\023.ui.FixedPointScale\"\270\001\n\014ClaheControl\022" +
-      "\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 " +
-      "\001(\tB\007\272H\004r\002\030?\022\037\n\005state\030\003 \001(\0132\020.ui.StateBi" +
-      "nding\022#\n\007command\030\004 \001(\0132\022.ui.CommandBindi" +
-      "ng\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001(\005" +
-      "B\007\272H\004\032\002 \000*T\n\021NodeSchemaVersion\022#\n\037NODE_S" +
-      "CHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCHE" +
-      "MA_VERSION_V1\020\001BEZCgit-codecommit.eu-cen" +
-      "tral-1.amazonaws.com/v1/repos/jettison/j" +
-      "onp/uib\006proto3"
+      "\0132\023.ui.FixedPointScale\"\271\001\n\rSliderControl" +
+      "\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002" +
+      " \001(\tB\007\272H\004r\002\030?\022\037\n\005state\030\003 \001(\0132\020.ui.StateB" +
+      "inding\022#\n\007command\030\004 \001(\0132\022.ui.CommandBind" +
+      "ing\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001(" +
+      "\005B\007\272H\004\032\002 \000*T\n\021NodeSchemaVersion\022#\n\037NODE_" +
+      "SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCH" +
+      "EMA_VERSION_V1\020\001BEZCgit-codecommit.eu-ce" +
+      "ntral-1.amazonaws.com/v1/repos/jettison/" +
+      "jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3951,11 +3955,11 @@ public final class UiNodes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_CommandBinding_descriptor,
         new java.lang.String[] { "CommandId", "Scale", });
-    internal_static_ui_ClaheControl_descriptor =
+    internal_static_ui_SliderControl_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_ui_ClaheControl_fieldAccessorTable = new
+    internal_static_ui_SliderControl_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_ui_ClaheControl_descriptor,
+        internal_static_ui_SliderControl_descriptor,
         new java.lang.String[] { "Version", "Title", "State", "Command", "MinValue", "MaxValue", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
