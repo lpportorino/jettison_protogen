@@ -1,7 +1,8 @@
 (ns protodoc.nodes-test
   "Hermetic tests for the node codegen IR generator (in-memory db fixtures —
    no proto-db.edn / filesystem dependency)."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.string :as str]
+            [clojure.test :refer [deftest is testing]]
             [protodoc.nodes :as nodes]))
 
 (def ^:private clahe-msg
@@ -74,3 +75,39 @@
         {:keys [nodes non-slider-count]} (nodes/derive-nodes db)]
     (is (= 1 (count nodes)))
     (is (= 1 non-slider-count))))
+
+;; A minimal cmd oneof graph: Root.payload(day_camera) → DayCamera.Root.cmd(
+;; set_clahe_level) → SetClaheLevel. Proves prost paths come from the ONEOF
+;; FIELD names, not the message ids.
+(def ^:private cmd-graph-db
+  {:messages
+   {"cmd.Root"
+    {:id "cmd.Root" :name "Root"
+     :fields [{:number 1 :name "protocol_version" :type :uint32}
+              {:number 13 :name "day_camera" :type :message :type-ref "cmd.DayCamera.Root"}]}
+    "cmd.DayCamera.Root"
+    {:id "cmd.DayCamera.Root" :name "Root" :package "cmd.DayCamera"
+     :fields [{:number 16 :name "set_clahe_level" :type :message
+               :type-ref "cmd.DayCamera.SetClaheLevel"}
+              {:number 17 :name "start" :type :message :type-ref "cmd.DayCamera.Start"}]}
+    "cmd.DayCamera.SetClaheLevel" clahe-msg
+    "cmd.DayCamera.Start" {:id "cmd.DayCamera.Start" :name "Start" :fields []}}})
+
+(deftest cmd-builder-traverses-oneof-graph
+  (testing "arm-specs resolve prost paths from the oneof field names (not ids)"
+    (let [arms (nodes/set-value-command-arms cmd-graph-db)]
+      (is (= 1 (count arms)) "only the single-double-field leaf, not parameterless Start")
+      (is (= {:command-id "cmd.DayCamera.SetClaheLevel"
+              :payload-variant "DayCamera"
+              :module "day_camera"
+              :cmd-variant "SetClaheLevel"
+              :struct "SetClaheLevel"
+              :field "value"}
+             (first arms)))))
+  (testing "emitted Rust is the typed match (no runtime reflection)"
+    (let [{:keys [rust count]} (nodes/cmd-builders-rust cmd-graph-db)]
+      (is (= 1 count))
+      (is (str/includes? rust "pub fn build_set_value_command"))
+      (is (str/includes?
+           rust
+           "cmd::day_camera::root::Cmd::SetClaheLevel(cmd::day_camera::SetClaheLevel { value: value })")))))
