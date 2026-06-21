@@ -3,6 +3,7 @@
             [clojure.edn :as edn]
             [clojure.data.json :as json]
             [clojure.java.io :as io]
+            [malli.core :as m]
             [protodoc.manifest :as manifest]))
 
 ;; ============================================================================
@@ -119,35 +120,171 @@
 ;; Constraints → Malli Tests
 ;; ============================================================================
 
+;; Helper: an edn-able schema must equal an expected DATA form AND survive a
+;; pr-str → edn/read-string roundtrip yielding the same schema. (The
+;; double-exclusive :fn kind is NOT edn-able — a fn cannot be read back — so it
+;; is asserted via m/validate on boundary values instead.)
+(defn- edn-roundtrips? [schema]
+  (= schema (edn/read-string (pr-str schema))))
+
+;; A small enum-def map shaped exactly like proto-db.edn's :enums entries:
+;; each value carries :number (the numeric, possibly the proto3 zero default)
+;; and :name (the constant). The :not-in exclusion joins :number.
+(def ^:private enums-fixture
+  {"ser.JonGuiDataRotaryDirection"
+   {:id "ser.JonGuiDataRotaryDirection"
+    :values [{:number 0 :name "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED"}
+             {:number 1 :name "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"}
+             {:number 2 :name "JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKWISE"}]}})
+
 (deftest constraints->malli-test
-  (testing "double with range"
-    (is (= "[:double {:min 0 :max 1}]"
-           (manifest/constraints->malli
-             {:type :double :constraints {:gte 0 :lte 1}} {}))))
+  (testing "double — inclusive range (gte/lte) needs NO :fn"
+    (let [s (manifest/constraints->malli
+              {:type :double :constraints {:gte 0 :lte 1}} {})]
+      (is (= [:double {:min 0 :max 1}] s))
+      (is (edn-roundtrips? s))))
 
   (testing "double without constraints"
-    (is (= ":double"
-           (manifest/constraints->malli
-             {:type :double} {}))))
+    (let [s (manifest/constraints->malli {:type :double} {})]
+      (is (= :double s))
+      (is (edn-roundtrips? s))))
+
+  (testing "float kept DISTINCT from double"
+    (let [s (manifest/constraints->malli
+              {:type :float :constraints {:gte 0 :lte 1}} {})]
+      (is (= [:float {:min 0 :max 1}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "int32 with inclusive range (gte/lte)"
+    (let [s (manifest/constraints->malli
+              {:type :int32 :constraints {:gte 0 :lte 255}} {})]
+      (is (= [:int {:min 0 :max 255}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "int32 lt is exclusive — dec IS correct for ints (max = b-1)"
+    (let [s (manifest/constraints->malli
+              {:type :int32 :constraints {:lt 595 :gte 0}} {})]
+      (is (= [:int {:min 0 :max 594}] s))
+      (is (edn-roundtrips? s))
+      (is (m/validate s 594))
+      (is (not (m/validate s 595)))))
+
+  (testing "int32 gt is exclusive — inc IS correct for ints (min = a+1)"
+    (let [s (manifest/constraints->malli
+              {:type :int32 :constraints {:gt 0}} {})]
+      ;; gt:0 → :no-default marker AND open upper end capped at int32-max
+      (is (= [:int {:min 1 :max 2147483647 :no-default true}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "int gte-only caps the open upper end at int32-max (finite gen)"
+    (let [s (manifest/constraints->malli
+              {:type :int32 :constraints {:gte 5}} {})]
+      (is (= [:int {:min 5 :max 2147483647}] s))
+      (is (edn-roundtrips? s))))
 
   (testing "uint32 with range"
-    (is (= "[:int {:min 0 :max 100}]"
-           (manifest/constraints->malli
-             {:type :uint32 :constraints {:gte 0 :lte 100}} {}))))
+    (let [s (manifest/constraints->malli
+              {:type :uint32 :constraints {:gte 0 :lte 100}} {})]
+      (is (= [:int {:min 0 :max 100}] s))
+      (is (edn-roundtrips? s))))
 
-  (testing "uint32 without constraints (default min 0)"
-    (is (= "[:int {:min 0}]"
-           (manifest/constraints->malli
-             {:type :uint32} {}))))
+  (testing "uint32 without constraints → [:int {:min 0}] (no upper cap)"
+    (let [s (manifest/constraints->malli {:type :uint32} {})]
+      (is (= [:int {:min 0}] s))
+      (is (edn-roundtrips? s))))
 
   (testing "bool"
-    (is (= ":boolean"
-           (manifest/constraints->malli {:type :bool} {}))))
+    (let [s (manifest/constraints->malli {:type :bool} {})]
+      (is (= :boolean s))
+      (is (edn-roundtrips? s))))
 
   (testing "string with min length"
-    (is (= "[:string {:min 1}]"
-           (manifest/constraints->malli
-             {:type :string :constraints {:min-len 1}} {})))))
+    (let [s (manifest/constraints->malli
+              {:type :string :constraints {:min-len 1}} {})]
+      (is (= [:string {:min 1}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "string with min AND max length"
+    (let [s (manifest/constraints->malli
+              {:type :string :constraints {:min-len 36 :max-len 36}} {})]
+      (is (= [:string {:min 36 :max 36}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing ":no-default marker — scalar gte:1 (proto3 zero-reject)"
+    (let [s (manifest/constraints->malli
+              {:type :uint32 :constraints {:gte 1}} {})]
+      (is (= [:int {:min 1 :max 2147483647 :no-default true}] s))
+      (is (edn-roundtrips? s))
+      ;; the marker is a real malli property — schema still validates/excludes 0
+      (is (not (m/validate s 0)))
+      (is (m/validate s 1))))
+
+  (testing "double exclusive lt — NOT dec, boundary excluded via :fn guard"
+    (let [s (manifest/constraints->malli
+              {:type :double :constraints {:lt 360 :gte 0}} {})]
+      ;; props keep the bound INCLUSIVE (360, not 359); the :fn excludes it.
+      ;; A fn is not edn-readable, so assert via m/validate on boundaries.
+      (is (= :and (first s)))
+      (is (= [:double {:min 0 :max 360}] (second s)))
+      (is (m/validate s 0.0))
+      (is (m/validate s 359.9999))
+      (is (not (m/validate s 360.0)))
+      (is (not (m/validate s -0.1)))))
+
+  (testing "double exclusive both ends (gt/lt) — both boundaries excluded"
+    (let [s (manifest/constraints->malli
+              {:type :double :constraints {:lt 360 :gt -360}} {})]
+      (is (= [:double {:min -360 :max 360}] (second s)))
+      (is (m/validate s 0.0))
+      (is (m/validate s 359.9999))
+      (is (not (m/validate s 360.0)))
+      (is (not (m/validate s -360.0)))))
+
+  (testing "enum not_in:[0] — sentinel excluded + :no-default marker"
+    (let [s (manifest/constraints->malli
+              {:type :enum
+               :type-ref "ser.JonGuiDataRotaryDirection"
+               :constraints {:defined-only true :not-in [0]}}
+              enums-fixture)]
+      ;; UNSPECIFIED (:number 0) dropped; allowed subset is the explicit names
+      (is (= [:enum {:no-default true}
+              "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"
+              "JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKWISE"]
+             s))
+      (is (edn-roundtrips? s))
+      (is (not (m/validate s "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED")))
+      (is (m/validate s "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"))))
+
+  (testing "enum defined_only WITHOUT not_in — full value set, no marker"
+    (let [s (manifest/constraints->malli
+              {:type :enum
+               :type-ref "ser.JonGuiDataRotaryDirection"
+               :constraints {:defined-only true}}
+              enums-fixture)]
+      (is (= [:enum
+              "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED"
+              "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"
+              "JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKWISE"]
+             s))
+      (is (edn-roundtrips? s))))
+
+  (testing "enum general not_in:[2] is a LITERAL exclusion (no :no-default)"
+    (let [s (manifest/constraints->malli
+              {:type :enum
+               :type-ref "ser.JonGuiDataRotaryDirection"
+               :constraints {:not-in [2]}}
+              enums-fixture)]
+      (is (= [:enum
+              "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED"
+              "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"]
+             s))
+      (is (edn-roundtrips? s))))
+
+  (testing "enum not in enums-map falls back to :string"
+    (let [s (manifest/constraints->malli
+              {:type :enum :type-ref "ser.Missing"} enums-fixture)]
+      (is (= :string s))
+      (is (edn-roundtrips? s)))))
 
 ;; ============================================================================
 ;; Full Manifest Generation from Real proto-db.edn

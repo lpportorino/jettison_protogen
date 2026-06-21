@@ -68,69 +68,157 @@
 ;; Constraint → Malli Schema Conversion
 ;; ============================================================================
 
+;; Bound the open end of an unconstrained-upper integer range so malli's
+;; generator stays finite (proto int32/uint32 max).
+(def ^:private int32-max 2147483647)
+
+(defn- int-range
+  "Build the {:min .. :max ..} props map for an integer field from its
+   buf.validate constraints. dec/inc is CORRECT for integers (the bound is a
+   whole number, so the exclusive `gt a` is exactly `min (inc a)` and `lt b`
+   is exactly `max (dec b)`).
+
+   `floor` seeds the lower bound (0 for uint, nil for signed int) so an
+   unsigned field with no lower constraint still gets :min 0. When an explicit
+   lower CONSTRAINT (gte/gt) opens the range with no upper bound, cap the upper
+   end at int32-max so the generator stays finite. The type floor alone does
+   NOT trigger the cap — an unconstrained uint stays [:int {:min 0}]."
+  [constraints floor]
+  (let [{:keys [gte gt lte lt]} constraints
+        lo-constraint (cond gte gte
+                            gt (inc gt)
+                            :else nil)
+        lo (or lo-constraint floor)
+        hi (cond lte lte
+                 lt (dec lt)
+                 ;; explicit lower constraint with open upper end → cap so the
+                 ;; generator is finite (type floor alone does not cap)
+                 (some? lo-constraint) int32-max
+                 :else nil)]
+    (cond-> {}
+      (some? lo) (assoc :min lo)
+      (some? hi) (assoc :max hi))))
+
+(defn- no-default?
+  "Does this constraint set encode the proto3 \"reject the zero default\"
+   intent? Two patterns mean exactly that: gte:1 or gt:0 on a scalar. (The
+   enum not_in:[0] case is handled in the :enum branch.) A general exclusion
+   like not_in:[3 7] is a literal exclusion, NOT this marker."
+  [{:keys [gte gt]}]
+  (or (= gte 1) (= gt 0)))
+
+(defn- with-no-default
+  "Mark a schema with the :no-default property (a proto3 zero-reject marker).
+   The marker lives inside the schema's own malli properties map so the result
+   stays a valid, generatable, edn-round-trippable schema. A bare-keyword
+   schema (e.g. :int) is promoted to its vector form to carry the property."
+  [schema]
+  (cond
+    (keyword? schema) [schema {:no-default true}]
+    ;; [:tag {props} ...] — merge into existing props map
+    (and (vector? schema) (map? (second schema)))
+    (update schema 1 assoc :no-default true)
+    ;; [:tag child ...] with no props map — insert one
+    (vector? schema)
+    (into [(first schema) {:no-default true}] (rest schema))
+    :else schema))
+
+(defn- int-schema
+  "Malli schema for an integer field. `floor` is the implicit lower bound for
+   the type (0 for unsigned, nil for signed). Surfaces a :no-default marker for
+   the proto3 zero-reject patterns (gte:1 / gt:0)."
+  [constraints floor]
+  (let [props (int-range constraints floor)
+        base (if (seq props) [:int props] :int)]
+    (if (and constraints (no-default? constraints))
+      (with-no-default base)
+      base)))
+
+(defn- double-schema
+  "Malli schema for a double/float field. Inclusive bounds (gte/lte) map
+   straight onto :min/:max. EXCLUSIVE double bounds must NOT use dec/inc (a
+   double {lt 360} would still accept 359.9999): the bound stays inclusive in
+   the props and an :fn guard excludes exactly the open boundary. A
+   pure-inclusive range needs no :fn. Surfaces a :no-default marker for the
+   proto3 zero-reject patterns (gte:1 / gt:0)."
+  [base-tag constraints]
+  (if-not constraints
+    base-tag
+    (let [{:keys [gte gt lte lt]} constraints
+          lo (or gte gt)
+          hi (or lte lt)
+          excl-lo? (some? gt)
+          excl-hi? (some? lt)
+          props (cond-> {}
+                  (some? lo) (assoc :min lo)
+                  (some? hi) (assoc :max hi))
+          base (if (seq props) [base-tag props] base-tag)
+          schema (if (or excl-lo? excl-hi?)
+                   [:and base
+                    [:fn (fn [x]
+                           (and (or (not excl-lo?) (> x lo))
+                                (or (not excl-hi?) (< x hi))))]]
+                   base)]
+      (if (no-default? constraints)
+        (with-no-default schema)
+        schema))))
+
+(defn- string-schema
+  "Malli schema for a string field from min-len/max-len constraints."
+  [constraints]
+  (let [{:keys [min-len max-len]} constraints
+        props (cond-> {}
+                (some? min-len) (assoc :min min-len)
+                (some? max-len) (assoc :max max-len))]
+    (if (seq props) [:string props] :string)))
+
+(defn- enum-schema
+  "Malli schema for an enum field: the EXPLICIT allowed subset
+   [:enum name ...], excluding any sentinel listed in the field's :not-in (the
+   exclusion joins the enum's :number against :not-in). When :not-in is the
+   proto3 zero-default [0], surface a :no-default marker. Enum values are the
+   constant NAMES (the manifest serializes enum names; there is no :value key).
+   Falls back to :string when the enum-def is not in enums-map."
+  [constraints type-ref enums-map]
+  (if-let [enum-def (get enums-map type-ref)]
+    (let [not-in (set (:not-in constraints))
+          names (->> (:values enum-def)
+                     (remove #(contains? not-in (:number %)))
+                     (mapv :name))]
+      (if (= not-in #{0})
+        (into [:enum {:no-default true}] names)
+        (into [:enum] names)))
+    :string))
+
 (defn constraints->malli
-  "Convert buf.validate constraints + field type to Malli schema string."
+  "Convert buf.validate constraints + field type to a Malli schema as DATA
+   (vectors / keywords / maps; an :fn only where a double-exclusive bound
+   requires it). The result is a generatable, constrained schema — never a
+   string.
+
+   Encoding highlights:
+   - integers use dec/inc for exclusive bounds (correct: bounds are whole);
+     a lower-bounded-but-open-upper int is capped at int32-max so the
+     generator is finite; uint with no constraints → [:int {:min 0}].
+   - doubles keep exclusive bounds inclusive in props and add an :fn guard
+     that excludes exactly the open boundary (dec/inc is WRONG for doubles).
+   - enums emit the explicit allowed subset with :not-in sentinels removed.
+   - the proto3 zero-reject patterns (enum not_in:[0], scalar gte:1 / gt:0)
+     carry a :no-default marker in the schema's malli properties map."
   [{:keys [type constraints type-ref]} enums-map]
   (case type
-    :double (if constraints
-              (let [parts (cond-> [:double]
-                            (:gte constraints) (conj (str ":min " (:gte constraints)))
-                            (:gt constraints) (conj (str ":min " (inc (:gt constraints))))
-                            (:lte constraints) (conj (str ":max " (:lte constraints)))
-                            (:lt constraints) (conj (str ":max " (dec (:lt constraints)))))]
-                (if (> (count parts) 1)
-                  (str "[:double {" (str/join " " (rest parts)) "}]")
-                  ":double"))
-              ":double")
-    :float (if constraints
-             (let [parts (cond-> [:float]
-                           (:gte constraints) (conj (str ":min " (:gte constraints)))
-                           (:gt constraints) (conj (str ":min " (inc (:gt constraints))))
-                           (:lte constraints) (conj (str ":max " (:lte constraints)))
-                           (:lt constraints) (conj (str ":max " (dec (:lt constraints)))))]
-               (if (> (count parts) 1)
-                 (str "[:double {" (str/join " " (rest parts)) "}]")
-                 ":double"))
-             ":double")
-    :int32 (if constraints
-             (let [parts (cond-> [:int]
-                           (:gte constraints) (conj (str ":min " (:gte constraints)))
-                           (:gt constraints) (conj (str ":min " (inc (:gt constraints))))
-                           (:lte constraints) (conj (str ":max " (:lte constraints)))
-                           (:lt constraints) (conj (str ":max " (dec (:lt constraints)))))]
-               (if (> (count parts) 1)
-                 (str "[:int {" (str/join " " (rest parts)) "}]")
-                 ":int"))
-             ":int")
-    :uint32 (if constraints
-              (let [parts (cond-> [:int]
-                            (:gte constraints) (conj (str ":min " (:gte constraints)))
-                            (:gt constraints) (conj (str ":min " (inc (:gt constraints))))
-                            (:lte constraints) (conj (str ":max " (:lte constraints)))
-                            (:lt constraints) (conj (str ":max " (dec (:lt constraints)))))]
-                (if (> (count parts) 1)
-                  (str "[:int {" (str/join " " (rest parts)) "}]")
-                  "[:int {:min 0}]"))
-              "[:int {:min 0}]")
-    (:int64 :uint64) ":int"
-    :bool ":boolean"
-    :string (if constraints
-              (let [parts (cond-> [:string]
-                            (:min-len constraints) (conj (str ":min " (:min-len constraints)))
-                            (:max-len constraints) (conj (str ":max " (:max-len constraints))))]
-                (if (> (count parts) 1)
-                  (str "[:string {" (str/join " " (rest parts)) "}]")
-                  ":string"))
-              ":string")
-    :enum (if-let [enum-def (get enums-map type-ref)]
-            (let [vals (->> (:values enum-def)
-                            (map :name)
-                            (map #(str "\"" % "\"")))]
-              (str "[:enum " (str/join " " vals) "]"))
-            ":string")
-    :bytes ":string"
-    :message ":map"
-    ":any"))
+    :double (double-schema :double constraints)
+    ;; :float kept distinct from :double so the field type survives.
+    :float (double-schema :float constraints)
+    :int32 (int-schema constraints nil)
+    :uint32 (int-schema constraints 0)
+    (:int64 :uint64) :int
+    :bool :boolean
+    :string (string-schema constraints)
+    :enum (enum-schema constraints type-ref enums-map)
+    :bytes :string
+    :message :map
+    :any))
 
 ;; ============================================================================
 ;; Endpoint Extraction
