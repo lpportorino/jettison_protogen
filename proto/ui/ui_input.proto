@@ -3,38 +3,38 @@ package ui;
 
 option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/ui";
 
-import "jon_shared_data_types.proto";
-
-// ── Bidirectional host↔WASM gesture / pointer / lifecycle channel ────────
+// ── Bidirectional host↔WASM pointer / lifecycle / feedback channel ───────────
 //
 // A size-bound, versioned, bidirectional protobuf channel between the
 // LVGL-in-WASM controls program and its host (the native Rust shell AND the
-// browser controls worker — one shared controls.wasm, two hosts).
+// browser controls worker — ONE shared controls.wasm, two thin symmetric hosts).
 //
-//   host → WASM   ui.HostToWasm { pointer | gesture | lifecycle }
+//   host → WASM   ui.HostToWasm { pointer | lifecycle }
 //   WASM → host   ui.WasmToHost { hover | cursor }
 //
-// Responsibility split: the HOST recognizes gestures (timing-critical,
-// device-tuned FSM) and submits the RECOGNIZED INTENT here; the WASM hit-tests
-// against the LVGL UI it draws and maps a gesture that lands on the video area
-// to the full cmd.* device command (emitted as opaque bytes over a separate
-// ABI, NOT in this proto). This channel carries ONLY the light recognized
-// intent + the feedback report — never the heavy cmd.* command and never the
-// UI tree.
+// Responsibility split (the rework — see docs/ui-nodes/04): gesture RECOGNITION
+// lives INSIDE the shared controls.wasm (a reusable gesture module), so the host
+// forwards ONLY raw W3C-style pointer events + lifecycle; it does NOT recognize
+// gestures and there is NO `GestureCommand` on this channel. The WASM keeps a
+// bounded pointer-state table, runs the gesture FSM off the pointer stream it
+// already receives for LVGL hit-testing, and builds the full cmd.* device
+// command itself (emitted as OPAQUE bytes over a separate `env.host_command`
+// ABI, NOT in this proto — the host relays them to cmd_server without decoding).
 //
-// SIZE-BOUND BY CONSTRUCTION — and therefore nanopb-friendly with NO sibling
-// ui_input.options: every field is scalar / enum / fixed-count. No strings (a
-// nanopb string forces a max_size char[N]); no repeated (forces a max_count
-// static array or a non-size-bound FT_CALLBACK). nanopb emits flat fixed-width
-// C structs (the jon_shared_data_camera_day.proto precedent — also no
-// .options). The ABSENT .options is the strongest proof of size-boundedness.
-// (Contrast ui_ast.options, which exists only because ui_ast has strings +
-// repeated + recursion.)
+// SIZE-BOUND BY CONSTRUCTION — nanopb-friendly with NO sibling ui_input.options:
+// every field is scalar / enum. No strings (a nanopb string forces a max_size
+// char[N]); no repeated (forces a max_count array or a non-size-bound
+// FT_CALLBACK). ONE PointerEvent crosses per call; the multi-pointer bound lives
+// in the WASM's fixed pointer-state table (MAX ~10), never on the wire. nanopb
+// emits flat fixed-width C structs (the jon_shared_data_camera_day.proto
+// precedent — also no .options). The ABSENT .options is the proof of
+// size-boundedness. (Contrast ui_ast.options, which exists only because ui_ast
+// has strings + repeated + recursion.)
 //
-// NDC coordinates are double ∈ [-1.0, 1.0], +x right / +y UP — the established
-// convention shared with the cmd.* NDC commands (RotateToNDC / HaltWithNDC /
-// StartTrackNDC), so the WASM-built device command is byte-identical (no
-// fixed-point re-cast, no host-side conversion divergence).
+// NDC coordinates are double ∈ [-1.0, 1.0], +x right / +y UP (Y-flipped from
+// screen) — the convention shared with the cmd.* NDC commands (RotateToNDC /
+// HaltWithNDC / StartTrackNDC), so the WASM-built device command is
+// byte-identical (no fixed-point re-cast, no host-side conversion divergence).
 
 // ── Shared enums (each carries _UNSPECIFIED = 0; consumers use
 //    defined_only + not_in:[0] to reject the proto3 zero-default) ──────────
@@ -42,37 +42,30 @@ import "jon_shared_data_types.proto";
 // Channel schema version registry — the canonical list of valid versions. The
 // wire field is a uint32 (range-validated {gte:1,lte:255}) so it fail-fast
 // rejects the proto3 default 0; this enum documents which values are valid.
-// (Mirrors the NodeSchemaVersion / uint32 version pattern.)
 enum InputSchemaVersion {
   INPUT_SCHEMA_VERSION_UNSPECIFIED = 0;
   INPUT_SCHEMA_VERSION_V1 = 1;
 }
 
-// Raw pointer lifecycle phase (host input device → WASM hit-testing).
+// W3C-style pointer lifecycle phase (host input device → WASM hit-test + FSM).
+// CANCEL = pointercancel / lostpointercapture (palm-reject / OS-takeover /
+// capture loss) — the FSM hard-aborts the pointer and emits NO terminal, so a
+// lost contact never fires a phantom pan-end / tap device command.
 enum PointerPhase {
   POINTER_PHASE_UNSPECIFIED = 0;
   POINTER_PHASE_DOWN = 1;
   POINTER_PHASE_MOVE = 2;
   POINTER_PHASE_UP = 3;
+  POINTER_PHASE_CANCEL = 4;
 }
 
-// Pointing-device kind, for LVGL input semantics.
+// Pointing-device kind (W3C pointerType), for LVGL input semantics + the
+// hit-test path (mouse can hover without contact; touch cannot).
 enum PointerKind {
   POINTER_KIND_UNSPECIFIED = 0;
   POINTER_KIND_MOUSE = 1;
   POINTER_KIND_TOUCH = 2;
   POINTER_KIND_PEN = 3;
-}
-
-// The gesture the HOST has already recognized — selects which GestureCommand
-// fields are meaningful (the WASM interprets the scalar set per this tag).
-enum RecognizedGesture {
-  RECOGNIZED_GESTURE_UNSPECIFIED = 0;
-  RECOGNIZED_GESTURE_PAN_MOVE = 1;   // continuous rotary slew (Axis)
-  RECOGNIZED_GESTURE_PAN_END = 2;    // slew release (HaltWithNDC)
-  RECOGNIZED_GESTURE_TAP = 3;        // slew-to-point (RotateToNDC)
-  RECOGNIZED_GESTURE_TRACK = 4;      // CV point-track (StartTrackNDC)
-  RECOGNIZED_GESTURE_PINCH = 5;      // optical zoom (SetZoomTableValue)
 }
 
 // OS theme the host reports for WASM restyle.
@@ -95,48 +88,24 @@ enum CursorType {
 
 // ── Host → WASM payloads ─────────────────────────────────────────────────
 
-// Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
-// input device; the WASM needs the raw pointer to hit-test its own layout.
+// A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+// unified). The host forwards every pointer event; the WASM accumulates them
+// into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+// The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+// reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+// pointer_id, clamp non-positive FSM time deltas.
 message PointerEvent {
   PointerPhase phase = 1 [(buf.validate.field).enum = {defined_only: true, not_in: [0]}];
   PointerKind kind = 2 [(buf.validate.field).enum = {defined_only: true, not_in: [0]}];
-  double x = 3 [(buf.validate.field).double = {gte: -1.0, lte: 1.0}];   // NDC, +x right
-  double y = 4 [(buf.validate.field).double = {gte: -1.0, lte: 1.0}];   // NDC, +y UP
-  uint32 buttons = 5;   // held-button bitfield (fixed 32-bit)
+  uint32 pointer_id = 3;   // W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+  double x = 4 [(buf.validate.field).double = {gte: -1.0, lte: 1.0}];   // NDC, +x right
+  double y = 5 [(buf.validate.field).double = {gte: -1.0, lte: 1.0}];   // NDC, +y UP
+  uint64 event_time = 6;   // W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
 }
 
-// A gesture the HOST already recognized → the device-command intent. A flat,
-// scalar-only struct (size-bound); the `gesture` tag selects which fields the
-// WASM reads when it maps this to the full cmd.* command.
-message GestureCommand {
-  RecognizedGesture gesture = 1 [(buf.validate.field).enum = {defined_only: true, not_in: [0]}];
-  ser.JonGuiDataVideoChannel channel = 2 [(buf.validate.field).enum = {defined_only: true, not_in: [0]}];
-
-  // NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-  // commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-  // and StartTrackNDC (jon_shared_cmd_cv).
-  double x = 3 [(buf.validate.field).double = {gte: -1.0, lte: 1.0}];
-  double y = 4 [(buf.validate.field).double = {gte: -1.0, lte: 1.0}];
-
-  // Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-  // when the gesture is not a pan.
-  double az_speed = 5 [(buf.validate.field).double = {gte: 0.0, lte: 1.0}];
-  double el_speed = 6 [(buf.validate.field).double = {gte: 0.0, lte: 1.0}];
-  ser.JonGuiDataRotaryDirection az_dir = 7;
-  ser.JonGuiDataRotaryDirection el_dir = 8;
-
-  // PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-  // WASM is a stateless 1:1 pass-through, so the host owns the running value
-  // and resolves any ±1 step into this absolute (a delta is inexpressible).
-  int32 zoom = 9 [(buf.validate.field).int32 = {gte: 0}];
-
-  // Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-  // (RotateToNDC / HaltWithNDC frame_time/state_time).
-  uint64 frame_time = 10;
-  uint64 state_time = 11;
-}
-
-// OS lifecycle the host pushes for WASM restyle / pause.
+// OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+// also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+// pointer loss that a per-pointer CANCEL cannot cover).
 message Lifecycle {
   ThemeMode theme = 1 [(buf.validate.field).enum = {defined_only: true, not_in: [0]}];
   bool focused = 2;
@@ -151,8 +120,7 @@ message HostToWasm {
   oneof event {
     option (buf.validate.oneof).required = true;
     PointerEvent pointer = 2;
-    GestureCommand gesture = 3;
-    Lifecycle lifecycle = 4;
+    Lifecycle lifecycle = 3;
   }
 }
 
