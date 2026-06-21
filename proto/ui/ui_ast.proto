@@ -151,6 +151,13 @@ message WidgetNode {
   // lv_obj user_data and a uid→obj registry so ScreenPatch ops can
   // address live widgets.
   uint32 uid = 43;
+
+  // Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+  // gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+  // PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+  // analogue so it is never emitted here. The host recognizer matches a
+  // gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+  repeated GestureSpec gestures = 44 [(buf.validate.field).repeated = {max_items: 5}];
 }
 
 // ── Tree patches — partial UI updates (controls_apply_patch) ──────────
@@ -479,6 +486,71 @@ message EventBinding {
   int32 set_value = 6; // value to set on subject
   bool toggle = 7; // flip 0↔1 instead of set_value
   bool notify_host = 8; // also send to host when mutating subject
+  // Pre-encoded cmd.* device-command template + slot patch descriptor
+  // (R5a). When present the renderer (R5b) builds the full cmd.Root by
+  // memcpy'ing root_template and overwriting the patch slot(s) with the
+  // widget value, then relays the result as OPAQUE bytes via host_command —
+  // controls.wasm no longer round-trips through the server /node-cmd shim.
+  CmdSpec cmd = 9;
+}
+
+// ── cmd-out pre-encode (R5a) ──────────────────────────────────────────
+// The uigen GENERATOR pre-encodes a full cmd.Root template (deterministic
+// envelope + the command's leaf in a FIXED-WIDTH slot) at GENERATION time;
+// at runtime the renderer memcpy's root_template and overwrites just the
+// slot(s) named by `patches`. The byte stream is fixed-width: DOUBLE leaves
+// are wire-type 1 (8 fixed LE bytes, byte-identical NDC), VARINT int leaves
+// are pre-encoded as a NON-MINIMAL padded varint of fixed max width so the
+// slot stays a clean fixed offset (value-identity holds for varint leaves).
+
+// Which gesture/value the patcher writes into a slot, and how to encode it.
+enum PatchKind {
+  PATCH_KIND_UNSPECIFIED = 0;
+  PATCH_KIND_NDC_X = 1; // gesture NDC x → a double slot (verbatim, no recast)
+  PATCH_KIND_NDC_Y = 2; // gesture NDC y → a double slot (verbatim, no recast)
+  PATCH_KIND_DELTA = 3; // pinch/wheel ±1 step → a padded-varint int slot
+  PATCH_KIND_WIDGET_VALUE = 4; // widget int value → a padded-varint int slot
+}
+
+// One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
+message FieldPatch {
+  uint32 byte_offset = 1; // start of the slot in root_template
+  uint32 byte_width = 2; // slot width (8 for a double, 5/10 for a padded varint)
+  PatchKind kind = 3 [(buf.validate.field).enum = {defined_only: true}];
+  // gen-time wire-scale (uigen.scales): the runtime value × scale is the
+  // wire int for a varint leaf; 1 for a verbatim double (NDC).
+  sint32 wire_scale = 4;
+}
+
+// A pre-encoded cmd.Root template + the slots the renderer overwrites.
+message CmdSpec {
+  // the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+  // pre-encode provenance; the renderer never re-derives a route from it.
+  string command_id = 1 [(buf.validate.field).string = {max_len: 127}];
+  // the full deterministic cmd.Root protobuf (envelope + leaf in its
+  // fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+  bytes root_template = 2;
+  // the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+  repeated FieldPatch patches = 3 [(buf.validate.field).repeated = {max_items: 2}];
+}
+
+// A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
+// host-side decision tag selects its pre-encoded template directly.
+enum GestureKind {
+  GESTURE_KIND_PAN_MOVE = 0; // → cmd.RotaryPlatform.Axis (continuous slew)
+  GESTURE_KIND_PAN_END = 1; // → cmd.RotaryPlatform.HaltWithNDC
+  GESTURE_KIND_TAP = 2; // → cmd.RotaryPlatform.RotateToNDC
+  GESTURE_KIND_TRACK = 3; // → cmd.CV.StartTrackNDC
+  GESTURE_KIND_PINCH = 4; // → cmd.{Day,Heat}Camera.SetZoomTableValue
+  GESTURE_KIND_WHEEL = 5; // web-only; no device analogue (no template)
+}
+
+// One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
+// the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
+// selects the matching kind and patches its slots with the gesture decision.
+message GestureSpec {
+  GestureKind kind = 1 [(buf.validate.field).enum = {defined_only: true}];
+  CmdSpec cmd = 2;
 }
 
 // Comparison operator for conditional visibility bindings.
