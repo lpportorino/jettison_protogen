@@ -6,7 +6,6 @@
             [protodoc.render :as render]
             [protodoc.lint :as lint]
             [protodoc.manifest :as manifest]
-            [protodoc.nodes :as nodes]
             [protodoc.binary-dedup :as binary-dedup]
             [clojure.edn :as edn]
             [clojure.string :as str]
@@ -264,7 +263,6 @@
       "lint"     (lint-cli options)
       "validate" (validate-cli options)
       "manifest" (manifest/generate-manifests options)
-      "nodes"    (nodes/generate-nodes options)
       "binary-dedup" (binary-dedup/generate! (:descriptor options) (:output options))
       (do
         (println "Usage: protodoc <command> [options]")

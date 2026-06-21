@@ -172,12 +172,6 @@ docs-manifests: ## Generate machine-readable JSON manifests from proto-db.edn
 	@cd docs/.protodoc/tools && clojure -M:run manifest --db-path ../proto-db.edn --config-path ../manifest-config.edn --output-dir ../../../output/manifests --git-sha "$$(cd ../../.. && git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 	@printf "$(GREEN)Manifests written to output/manifests/$(NC)\n"
 
-.PHONY: docs-nodes
-docs-nodes: ## Generate the layered LVGL node codegen IR (nodes.json) from proto-db.edn
-	@printf "$(GREEN)Generating node codegen IR...$(NC)\n"
-	@cd docs/.protodoc/tools && clojure -M:run nodes --db-path ../proto-db.edn --output-dir ../../../output/nodes --git-sha "$$(cd ../../.. && git rev-parse --short HEAD 2>/dev/null || echo unknown)"
-	@printf "$(GREEN)Node IR written to output/nodes/$(NC)\n"
-
 .PHONY: docs-docker-build
 docs-docker-build: ## Build proto docs Docker image
 	@printf "$(GREEN)Building proto docs Docker image...$(NC)\n"
