@@ -11,6 +11,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 - **Automatic distribution**: Generated code pushed to language-specific repositories
 - **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them
 - **CI/CD Integration**: Fully automated via GitHub Actions
+- **Cross-language wire contract**: [`docs/INTERFACE-CONTRACTS.md`](docs/INTERFACE-CONTRACTS.md) is the canonical byte-level wire contract (stream framing, codec/transport headers, the `cmd.*`/state/enrichment encoding, the `controls.tar`/`controls.wasm` ABI + golden vectors) the downstream ARM web + native clients implement — update it when a proto change touches those surfaces
 
 ## Prerequisites
 

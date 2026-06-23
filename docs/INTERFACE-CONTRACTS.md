@@ -315,28 +315,29 @@ Length-prefixed on the `CW` stream:
 
 (`09 00 00 00` = LE uint32 length 9, then the 9 ping bytes.)
 
-**The datasart hand-roll is WRONG.** `ts/controls/cmd-sender.ts`
-`buildPingPayload()` currently emits:
+**Negative vector (the former datasart hand-roll bug).** `ts/controls/cmd-sender.ts`
+`buildPingPayload()` formerly emitted:
 
 ```
-08 01 10 02 18 03 42 00            (WRONG)
+08 01 10 02 18 03 42 00            (WRONG — kept only as the negative test vector)
 ```
 
 which decodes as: field 1 = `1` (correct), field 2 (`session_id`) = `2`, field
-3 (`important`) = `3`, field 8 (`state_time`) as wire-type-2-length-0. The
+3 (`important`) = `3`, field 8 (`state_time`) as wire-type-2-length-0 — the
 intended `client_type` (field 5), `client_app` (field 10), and `ping` (field 28)
-are NOT set; field 8 (`state_time`) is a uint64 (varint, wire type 0) and is
-written here with wire type 2 — a malformed value even for the field it hit. The
-correct bytes are `08 01 28 05 50 0a e2 01 00` as above; the field-2/3/8 form
-must be replaced with the field-5/10/28 form.
+were NOT set. That form has been REPLACED by the correct
+`08 01 28 05 50 0a e2 01 00` (field-5/10/28); the broken bytes are retained ONLY
+as the non-vacuous negative vector asserted by `ts/controls/cmd-sender.test.ts`.
 
 Reference implementations:
 - proto (authoritative): `proto/jon_shared_cmd.proto` (`Root.protocol_version=1`,
   `client_type=5`, `client_app=10`, `ping=28`; `message Ping {}` empty).
-- datasart: `ts/controls/cmd-sender.ts` `buildPingPayload()` — **incorrect, per
-  above; the field-2/3/8 encoding must become field-5/10/28**.
-- tauri: `jettison_wt_client/src/session/command.rs` (`send_persistent` length
-  framing on the `CW` stream; the ping payload is supplied by the app layer).
+- datasart: `ts/controls/cmd-sender.ts` `buildPingPayload()` — emits G1, asserted
+  byte-for-byte by `ts/controls/cmd-sender.test.ts`.
+- tauri: `tauri-app/src/proto.rs` `build_ping_command()` (prost `cmd::Root` → G1,
+  asserted by `test_build_ping_command_matches_g1_golden_vector`);
+  `jettison_wt_client/src/session/command.rs` (`send_persistent` `CW`-stream length
+  framing; the ping payload is the app-supplied `cmd.Root`).
 
 ---
 
@@ -534,11 +535,41 @@ flattened (26 bytes):
 ```
 
 Reference implementations:
-- datasart: `ts/controls/cmd-sender.ts` (G1 — must be corrected per §6),
+- datasart: `ts/controls/cmd-sender.ts` (G1, asserted by `cmd-sender.test.ts`),
   `ts/video/frame-protocol.ts` (G2), `ts/video/ingress-protocol.ts` (G3),
   `ts/osd/state-worker.ts` (G4 is the inbound rate the server honors).
 - tauri: `jettison_wt_client/src/protocol/wb.rs` test `make_wb_datagram`
   (G3 — uses exactly `frame_seq=42, total_datagrams=3, payload_size=2922`),
   `jettison_view/src/decoder.rs` (G2 — strips the 25-byte header),
   `jettison_wt_client/src/session/state.rs` test asserts `[0x52, 20]` (G4),
-  the `cmd.Root` ping (G1) is the app-supplied `CW` payload.
+  the `cmd.Root` ping (G1) is the app-supplied `CW` payload, asserted by
+  `tauri-app/src/proto.rs` `test_build_ping_command_matches_g1_golden_vector`.
+
+---
+
+## 10. Evolving this contract (anti-drift)
+
+These are CROSS-LANGUAGE wire surfaces: every encoder/decoder of them lives in
+two repos and must agree byte-for-byte. Two mechanisms keep them from drifting.
+
+1. **Generate, don't hand-roll.** Encoders should be built from the pinned proto
+   (`prost` in Rust, the generated ts-proto in TypeScript). A hand-roll is
+   permitted ONLY as an optimization that EXACTLY reproduces the generated wire
+   bytes (e.g. §5 enrichment, §6 ping) — and then only behind a parity test.
+
+2. **Each consumer asserts the §9 golden vectors in a wire-parity test** that
+   decodes its own encoder output against the pinned generated proto and asserts
+   the §9 bytes:
+   - datasart: `ts/controls/cmd-sender.test.ts` (G1 ping),
+     `ts/video/enrichment.test.ts` (§5 enrichment).
+   - tauri: `tauri-app/src/proto.rs::test_build_ping_command_matches_g1_golden_vector`
+     (G1), `jettison_view/src/proto.rs::test_enrichment_matches_section5_wire_contract`
+     (§5).
+   Touch a wire encoder ⇒ the parity test guards it; this contract + the §9
+   vectors are the source of truth.
+
+**The evolution loop** — when a proto change touches a surface named here: edit
+`proto/`, regenerate the bindings, update this doc to match, bump the
+`jettison_protogen` submodule pin in BOTH consumers (datasart + tauri) in
+lockstep, and rebuild. Renumbering is allowed (no compat shims — both consumers
+rebuild together); the §9 parity tests fail loudly on any divergence.

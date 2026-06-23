@@ -124,6 +124,15 @@ When new messages or fields are added to proto files, you MUST regenerate the do
 
 5. **Commit all changes** including the updated docs
 
+6. **If the change touches a cross-language WIRE surface** (stream framing, the
+   codec/transport headers, the `cmd.*`/state/enrichment encoding, or the
+   `controls.tar` / `controls.wasm` ABI), also update
+   **`docs/INTERFACE-CONTRACTS.md`** — the canonical cross-language wire contract
+   the ARM web + native clients consume — and bump the `jettison_protogen` pin in
+   both consumer repos in lockstep. Their wire-parity tests assert this doc's §9
+   golden vectors and fail loudly on drift (see that doc's § "Evolving this
+   contract").
+
 ### Understanding Message Context
 
 **Before implementing features involving proto messages, read the documentation in `docs/`.**
