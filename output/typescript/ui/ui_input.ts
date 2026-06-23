@@ -7,20 +7,11 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
-import {
-  JonGuiDataRotaryDirection,
-  jonGuiDataRotaryDirectionFromJSON,
-  jonGuiDataRotaryDirectionToJSON,
-  JonGuiDataVideoChannel,
-  jonGuiDataVideoChannelFromJSON,
-  jonGuiDataVideoChannelToJSON,
-} from "../jon_shared_data_types";
 
 /**
  * Channel schema version registry — the canonical list of valid versions. The
  * wire field is a uint32 (range-validated {gte:1,lte:255}) so it fail-fast
  * rejects the proto3 default 0; this enum documents which values are valid.
- * (Mirrors the NodeSchemaVersion / uint32 version pattern.)
  */
 export enum InputSchemaVersion {
   INPUT_SCHEMA_VERSION_UNSPECIFIED = 0,
@@ -55,12 +46,18 @@ export function inputSchemaVersionToJSON(object: InputSchemaVersion): string {
   }
 }
 
-/** Raw pointer lifecycle phase (host input device → WASM hit-testing). */
+/**
+ * W3C-style pointer lifecycle phase (host input device → WASM hit-test + FSM).
+ * CANCEL = pointercancel / lostpointercapture (palm-reject / OS-takeover /
+ * capture loss) — the FSM hard-aborts the pointer and emits NO terminal, so a
+ * lost contact never fires a phantom pan-end / tap device command.
+ */
 export enum PointerPhase {
   POINTER_PHASE_UNSPECIFIED = 0,
   POINTER_PHASE_DOWN = 1,
   POINTER_PHASE_MOVE = 2,
   POINTER_PHASE_UP = 3,
+  POINTER_PHASE_CANCEL = 4,
   UNRECOGNIZED = -1,
 }
 
@@ -78,6 +75,9 @@ export function pointerPhaseFromJSON(object: any): PointerPhase {
     case 3:
     case "POINTER_PHASE_UP":
       return PointerPhase.POINTER_PHASE_UP;
+    case 4:
+    case "POINTER_PHASE_CANCEL":
+      return PointerPhase.POINTER_PHASE_CANCEL;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -95,13 +95,18 @@ export function pointerPhaseToJSON(object: PointerPhase): string {
       return "POINTER_PHASE_MOVE";
     case PointerPhase.POINTER_PHASE_UP:
       return "POINTER_PHASE_UP";
+    case PointerPhase.POINTER_PHASE_CANCEL:
+      return "POINTER_PHASE_CANCEL";
     case PointerPhase.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
 }
 
-/** Pointing-device kind, for LVGL input semantics. */
+/**
+ * Pointing-device kind (W3C pointerType), for LVGL input semantics + the
+ * hit-test path (mouse can hover without contact; touch cannot).
+ */
 export enum PointerKind {
   POINTER_KIND_UNSPECIFIED = 0,
   POINTER_KIND_MOUSE = 1,
@@ -142,72 +147,6 @@ export function pointerKindToJSON(object: PointerKind): string {
     case PointerKind.POINTER_KIND_PEN:
       return "POINTER_KIND_PEN";
     case PointerKind.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
-}
-
-/**
- * The gesture the HOST has already recognized — selects which GestureCommand
- * fields are meaningful (the WASM interprets the scalar set per this tag).
- */
-export enum RecognizedGesture {
-  RECOGNIZED_GESTURE_UNSPECIFIED = 0,
-  /** RECOGNIZED_GESTURE_PAN_MOVE - continuous rotary slew (Axis) */
-  RECOGNIZED_GESTURE_PAN_MOVE = 1,
-  /** RECOGNIZED_GESTURE_PAN_END - slew release (HaltWithNDC) */
-  RECOGNIZED_GESTURE_PAN_END = 2,
-  /** RECOGNIZED_GESTURE_TAP - slew-to-point (RotateToNDC) */
-  RECOGNIZED_GESTURE_TAP = 3,
-  /** RECOGNIZED_GESTURE_TRACK - CV point-track (StartTrackNDC) */
-  RECOGNIZED_GESTURE_TRACK = 4,
-  /** RECOGNIZED_GESTURE_PINCH - optical zoom (SetZoomTableValue) */
-  RECOGNIZED_GESTURE_PINCH = 5,
-  UNRECOGNIZED = -1,
-}
-
-export function recognizedGestureFromJSON(object: any): RecognizedGesture {
-  switch (object) {
-    case 0:
-    case "RECOGNIZED_GESTURE_UNSPECIFIED":
-      return RecognizedGesture.RECOGNIZED_GESTURE_UNSPECIFIED;
-    case 1:
-    case "RECOGNIZED_GESTURE_PAN_MOVE":
-      return RecognizedGesture.RECOGNIZED_GESTURE_PAN_MOVE;
-    case 2:
-    case "RECOGNIZED_GESTURE_PAN_END":
-      return RecognizedGesture.RECOGNIZED_GESTURE_PAN_END;
-    case 3:
-    case "RECOGNIZED_GESTURE_TAP":
-      return RecognizedGesture.RECOGNIZED_GESTURE_TAP;
-    case 4:
-    case "RECOGNIZED_GESTURE_TRACK":
-      return RecognizedGesture.RECOGNIZED_GESTURE_TRACK;
-    case 5:
-    case "RECOGNIZED_GESTURE_PINCH":
-      return RecognizedGesture.RECOGNIZED_GESTURE_PINCH;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return RecognizedGesture.UNRECOGNIZED;
-  }
-}
-
-export function recognizedGestureToJSON(object: RecognizedGesture): string {
-  switch (object) {
-    case RecognizedGesture.RECOGNIZED_GESTURE_UNSPECIFIED:
-      return "RECOGNIZED_GESTURE_UNSPECIFIED";
-    case RecognizedGesture.RECOGNIZED_GESTURE_PAN_MOVE:
-      return "RECOGNIZED_GESTURE_PAN_MOVE";
-    case RecognizedGesture.RECOGNIZED_GESTURE_PAN_END:
-      return "RECOGNIZED_GESTURE_PAN_END";
-    case RecognizedGesture.RECOGNIZED_GESTURE_TAP:
-      return "RECOGNIZED_GESTURE_TAP";
-    case RecognizedGesture.RECOGNIZED_GESTURE_TRACK:
-      return "RECOGNIZED_GESTURE_TRACK";
-    case RecognizedGesture.RECOGNIZED_GESTURE_PINCH:
-      return "RECOGNIZED_GESTURE_PINCH";
-    case RecognizedGesture.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
@@ -318,58 +257,31 @@ export function cursorTypeToJSON(object: CursorType): string {
 }
 
 /**
- * Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
- * input device; the WASM needs the raw pointer to hit-test its own layout.
+ * A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+ * unified). The host forwards every pointer event; the WASM accumulates them
+ * into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+ * The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+ * reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+ * pointer_id, clamp non-positive FSM time deltas.
  */
 export interface PointerEvent {
   phase: PointerPhase;
   kind: PointerKind;
+  /** W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2) */
+  pointerId: number;
   /** NDC, +x right */
   x: number;
   /** NDC, +y UP */
   y: number;
-  /** held-button bitfield (fixed 32-bit) */
-  buttons: number;
+  /** W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick) */
+  eventTime: Long;
 }
 
 /**
- * A gesture the HOST already recognized → the device-command intent. A flat,
- * scalar-only struct (size-bound); the `gesture` tag selects which fields the
- * WASM reads when it maps this to the full cmd.* command.
+ * OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+ * also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+ * pointer loss that a per-pointer CANCEL cannot cover).
  */
-export interface GestureCommand {
-  gesture: RecognizedGesture;
-  channel: JonGuiDataVideoChannel;
-  /**
-   * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-   * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-   * and StartTrackNDC (jon_shared_cmd_cv).
-   */
-  x: number;
-  y: number;
-  /**
-   * Continuous rotary pan (Axis): az/el speed ∈  + direction. 0 / unset
-   * when the gesture is not a pan.
-   */
-  azSpeed: number;
-  elSpeed: number;
-  azDir: JonGuiDataRotaryDirection;
-  elDir: JonGuiDataRotaryDirection;
-  /**
-   * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-   * WASM is a stateless 1:1 pass-through, so the host owns the running value
-   * and resolves any ±1 step into this absolute (a delta is inexpressible).
-   */
-  zoom: number;
-  /**
-   * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-   * (RotateToNDC / HaltWithNDC frame_time/state_time).
-   */
-  frameTime: Long;
-  stateTime: Long;
-}
-
-/** OS lifecycle the host pushes for WASM restyle / pause. */
 export interface Lifecycle {
   theme: ThemeMode;
   focused: boolean;
@@ -384,7 +296,6 @@ export interface Lifecycle {
 export interface HostToWasm {
   version: number;
   pointer?: PointerEvent | undefined;
-  gesture?: GestureCommand | undefined;
   lifecycle?: Lifecycle | undefined;
 }
 
@@ -412,7 +323,7 @@ export interface WasmToHost {
 }
 
 function createBasePointerEvent(): PointerEvent {
-  return { phase: 0, kind: 0, x: 0, y: 0, buttons: 0 };
+  return { phase: 0, kind: 0, pointerId: 0, x: 0, y: 0, eventTime: Long.UZERO };
 }
 
 export const PointerEvent: MessageFns<PointerEvent> = {
@@ -423,14 +334,17 @@ export const PointerEvent: MessageFns<PointerEvent> = {
     if (message.kind !== 0) {
       writer.uint32(16).int32(message.kind);
     }
+    if (message.pointerId !== 0) {
+      writer.uint32(24).uint32(message.pointerId);
+    }
     if (message.x !== 0) {
-      writer.uint32(25).double(message.x);
+      writer.uint32(33).double(message.x);
     }
     if (message.y !== 0) {
-      writer.uint32(33).double(message.y);
+      writer.uint32(41).double(message.y);
     }
-    if (message.buttons !== 0) {
-      writer.uint32(40).uint32(message.buttons);
+    if (!message.eventTime.equals(Long.UZERO)) {
+      writer.uint32(48).uint64(message.eventTime.toString());
     }
     return writer;
   },
@@ -459,11 +373,11 @@ export const PointerEvent: MessageFns<PointerEvent> = {
           continue;
         }
         case 3: {
-          if (tag !== 25) {
+          if (tag !== 24) {
             break;
           }
 
-          message.x = reader.double();
+          message.pointerId = reader.uint32();
           continue;
         }
         case 4: {
@@ -471,15 +385,23 @@ export const PointerEvent: MessageFns<PointerEvent> = {
             break;
           }
 
-          message.y = reader.double();
+          message.x = reader.double();
           continue;
         }
         case 5: {
-          if (tag !== 40) {
+          if (tag !== 41) {
             break;
           }
 
-          message.buttons = reader.uint32();
+          message.y = reader.double();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.eventTime = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
       }
@@ -495,9 +417,18 @@ export const PointerEvent: MessageFns<PointerEvent> = {
     return {
       phase: isSet(object.phase) ? pointerPhaseFromJSON(object.phase) : 0,
       kind: isSet(object.kind) ? pointerKindFromJSON(object.kind) : 0,
+      pointerId: isSet(object.pointerId)
+        ? globalThis.Number(object.pointerId)
+        : isSet(object.pointer_id)
+        ? globalThis.Number(object.pointer_id)
+        : 0,
       x: isSet(object.x) ? globalThis.Number(object.x) : 0,
       y: isSet(object.y) ? globalThis.Number(object.y) : 0,
-      buttons: isSet(object.buttons) ? globalThis.Number(object.buttons) : 0,
+      eventTime: isSet(object.eventTime)
+        ? Long.fromValue(object.eventTime)
+        : isSet(object.event_time)
+        ? Long.fromValue(object.event_time)
+        : Long.UZERO,
     };
   },
 
@@ -509,14 +440,17 @@ export const PointerEvent: MessageFns<PointerEvent> = {
     if (message.kind !== 0) {
       obj.kind = pointerKindToJSON(message.kind);
     }
+    if (message.pointerId !== 0) {
+      obj.pointerId = Math.round(message.pointerId);
+    }
     if (message.x !== 0) {
       obj.x = message.x;
     }
     if (message.y !== 0) {
       obj.y = message.y;
     }
-    if (message.buttons !== 0) {
-      obj.buttons = Math.round(message.buttons);
+    if (!message.eventTime.equals(Long.UZERO)) {
+      obj.eventTime = (message.eventTime || Long.UZERO).toString();
     }
     return obj;
   },
@@ -528,268 +462,11 @@ export const PointerEvent: MessageFns<PointerEvent> = {
     const message = createBasePointerEvent();
     message.phase = object.phase ?? 0;
     message.kind = object.kind ?? 0;
+    message.pointerId = object.pointerId ?? 0;
     message.x = object.x ?? 0;
     message.y = object.y ?? 0;
-    message.buttons = object.buttons ?? 0;
-    return message;
-  },
-};
-
-function createBaseGestureCommand(): GestureCommand {
-  return {
-    gesture: 0,
-    channel: 0,
-    x: 0,
-    y: 0,
-    azSpeed: 0,
-    elSpeed: 0,
-    azDir: 0,
-    elDir: 0,
-    zoom: 0,
-    frameTime: Long.UZERO,
-    stateTime: Long.UZERO,
-  };
-}
-
-export const GestureCommand: MessageFns<GestureCommand> = {
-  encode(message: GestureCommand, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.gesture !== 0) {
-      writer.uint32(8).int32(message.gesture);
-    }
-    if (message.channel !== 0) {
-      writer.uint32(16).int32(message.channel);
-    }
-    if (message.x !== 0) {
-      writer.uint32(25).double(message.x);
-    }
-    if (message.y !== 0) {
-      writer.uint32(33).double(message.y);
-    }
-    if (message.azSpeed !== 0) {
-      writer.uint32(41).double(message.azSpeed);
-    }
-    if (message.elSpeed !== 0) {
-      writer.uint32(49).double(message.elSpeed);
-    }
-    if (message.azDir !== 0) {
-      writer.uint32(56).int32(message.azDir);
-    }
-    if (message.elDir !== 0) {
-      writer.uint32(64).int32(message.elDir);
-    }
-    if (message.zoom !== 0) {
-      writer.uint32(72).int32(message.zoom);
-    }
-    if (!message.frameTime.equals(Long.UZERO)) {
-      writer.uint32(80).uint64(message.frameTime.toString());
-    }
-    if (!message.stateTime.equals(Long.UZERO)) {
-      writer.uint32(88).uint64(message.stateTime.toString());
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): GestureCommand {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseGestureCommand();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.gesture = reader.int32() as any;
-          continue;
-        }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.channel = reader.int32() as any;
-          continue;
-        }
-        case 3: {
-          if (tag !== 25) {
-            break;
-          }
-
-          message.x = reader.double();
-          continue;
-        }
-        case 4: {
-          if (tag !== 33) {
-            break;
-          }
-
-          message.y = reader.double();
-          continue;
-        }
-        case 5: {
-          if (tag !== 41) {
-            break;
-          }
-
-          message.azSpeed = reader.double();
-          continue;
-        }
-        case 6: {
-          if (tag !== 49) {
-            break;
-          }
-
-          message.elSpeed = reader.double();
-          continue;
-        }
-        case 7: {
-          if (tag !== 56) {
-            break;
-          }
-
-          message.azDir = reader.int32() as any;
-          continue;
-        }
-        case 8: {
-          if (tag !== 64) {
-            break;
-          }
-
-          message.elDir = reader.int32() as any;
-          continue;
-        }
-        case 9: {
-          if (tag !== 72) {
-            break;
-          }
-
-          message.zoom = reader.int32();
-          continue;
-        }
-        case 10: {
-          if (tag !== 80) {
-            break;
-          }
-
-          message.frameTime = Long.fromString(reader.uint64().toString(), true);
-          continue;
-        }
-        case 11: {
-          if (tag !== 88) {
-            break;
-          }
-
-          message.stateTime = Long.fromString(reader.uint64().toString(), true);
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): GestureCommand {
-    return {
-      gesture: isSet(object.gesture) ? recognizedGestureFromJSON(object.gesture) : 0,
-      channel: isSet(object.channel) ? jonGuiDataVideoChannelFromJSON(object.channel) : 0,
-      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
-      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
-      azSpeed: isSet(object.azSpeed)
-        ? globalThis.Number(object.azSpeed)
-        : isSet(object.az_speed)
-        ? globalThis.Number(object.az_speed)
-        : 0,
-      elSpeed: isSet(object.elSpeed)
-        ? globalThis.Number(object.elSpeed)
-        : isSet(object.el_speed)
-        ? globalThis.Number(object.el_speed)
-        : 0,
-      azDir: isSet(object.azDir)
-        ? jonGuiDataRotaryDirectionFromJSON(object.azDir)
-        : isSet(object.az_dir)
-        ? jonGuiDataRotaryDirectionFromJSON(object.az_dir)
-        : 0,
-      elDir: isSet(object.elDir)
-        ? jonGuiDataRotaryDirectionFromJSON(object.elDir)
-        : isSet(object.el_dir)
-        ? jonGuiDataRotaryDirectionFromJSON(object.el_dir)
-        : 0,
-      zoom: isSet(object.zoom) ? globalThis.Number(object.zoom) : 0,
-      frameTime: isSet(object.frameTime)
-        ? Long.fromValue(object.frameTime)
-        : isSet(object.frame_time)
-        ? Long.fromValue(object.frame_time)
-        : Long.UZERO,
-      stateTime: isSet(object.stateTime)
-        ? Long.fromValue(object.stateTime)
-        : isSet(object.state_time)
-        ? Long.fromValue(object.state_time)
-        : Long.UZERO,
-    };
-  },
-
-  toJSON(message: GestureCommand): unknown {
-    const obj: any = {};
-    if (message.gesture !== 0) {
-      obj.gesture = recognizedGestureToJSON(message.gesture);
-    }
-    if (message.channel !== 0) {
-      obj.channel = jonGuiDataVideoChannelToJSON(message.channel);
-    }
-    if (message.x !== 0) {
-      obj.x = message.x;
-    }
-    if (message.y !== 0) {
-      obj.y = message.y;
-    }
-    if (message.azSpeed !== 0) {
-      obj.azSpeed = message.azSpeed;
-    }
-    if (message.elSpeed !== 0) {
-      obj.elSpeed = message.elSpeed;
-    }
-    if (message.azDir !== 0) {
-      obj.azDir = jonGuiDataRotaryDirectionToJSON(message.azDir);
-    }
-    if (message.elDir !== 0) {
-      obj.elDir = jonGuiDataRotaryDirectionToJSON(message.elDir);
-    }
-    if (message.zoom !== 0) {
-      obj.zoom = Math.round(message.zoom);
-    }
-    if (!message.frameTime.equals(Long.UZERO)) {
-      obj.frameTime = (message.frameTime || Long.UZERO).toString();
-    }
-    if (!message.stateTime.equals(Long.UZERO)) {
-      obj.stateTime = (message.stateTime || Long.UZERO).toString();
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<GestureCommand>, I>>(base?: I): GestureCommand {
-    return GestureCommand.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<GestureCommand>, I>>(object: I): GestureCommand {
-    const message = createBaseGestureCommand();
-    message.gesture = object.gesture ?? 0;
-    message.channel = object.channel ?? 0;
-    message.x = object.x ?? 0;
-    message.y = object.y ?? 0;
-    message.azSpeed = object.azSpeed ?? 0;
-    message.elSpeed = object.elSpeed ?? 0;
-    message.azDir = object.azDir ?? 0;
-    message.elDir = object.elDir ?? 0;
-    message.zoom = object.zoom ?? 0;
-    message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
-      ? Long.fromValue(object.frameTime)
-      : Long.UZERO;
-    message.stateTime = (object.stateTime !== undefined && object.stateTime !== null)
-      ? Long.fromValue(object.stateTime)
+    message.eventTime = (object.eventTime !== undefined && object.eventTime !== null)
+      ? Long.fromValue(object.eventTime)
       : Long.UZERO;
     return message;
   },
@@ -888,7 +565,7 @@ export const Lifecycle: MessageFns<Lifecycle> = {
 };
 
 function createBaseHostToWasm(): HostToWasm {
-  return { version: 0, pointer: undefined, gesture: undefined, lifecycle: undefined };
+  return { version: 0, pointer: undefined, lifecycle: undefined };
 }
 
 export const HostToWasm: MessageFns<HostToWasm> = {
@@ -899,11 +576,8 @@ export const HostToWasm: MessageFns<HostToWasm> = {
     if (message.pointer !== undefined) {
       PointerEvent.encode(message.pointer, writer.uint32(18).fork()).join();
     }
-    if (message.gesture !== undefined) {
-      GestureCommand.encode(message.gesture, writer.uint32(26).fork()).join();
-    }
     if (message.lifecycle !== undefined) {
-      Lifecycle.encode(message.lifecycle, writer.uint32(34).fork()).join();
+      Lifecycle.encode(message.lifecycle, writer.uint32(26).fork()).join();
     }
     return writer;
   },
@@ -936,14 +610,6 @@ export const HostToWasm: MessageFns<HostToWasm> = {
             break;
           }
 
-          message.gesture = GestureCommand.decode(reader, reader.uint32());
-          continue;
-        }
-        case 4: {
-          if (tag !== 34) {
-            break;
-          }
-
           message.lifecycle = Lifecycle.decode(reader, reader.uint32());
           continue;
         }
@@ -960,7 +626,6 @@ export const HostToWasm: MessageFns<HostToWasm> = {
     return {
       version: isSet(object.version) ? globalThis.Number(object.version) : 0,
       pointer: isSet(object.pointer) ? PointerEvent.fromJSON(object.pointer) : undefined,
-      gesture: isSet(object.gesture) ? GestureCommand.fromJSON(object.gesture) : undefined,
       lifecycle: isSet(object.lifecycle) ? Lifecycle.fromJSON(object.lifecycle) : undefined,
     };
   },
@@ -972,9 +637,6 @@ export const HostToWasm: MessageFns<HostToWasm> = {
     }
     if (message.pointer !== undefined) {
       obj.pointer = PointerEvent.toJSON(message.pointer);
-    }
-    if (message.gesture !== undefined) {
-      obj.gesture = GestureCommand.toJSON(message.gesture);
     }
     if (message.lifecycle !== undefined) {
       obj.lifecycle = Lifecycle.toJSON(message.lifecycle);
@@ -990,9 +652,6 @@ export const HostToWasm: MessageFns<HostToWasm> = {
     message.version = object.version ?? 0;
     message.pointer = (object.pointer !== undefined && object.pointer !== null)
       ? PointerEvent.fromPartial(object.pointer)
-      : undefined;
-    message.gesture = (object.gesture !== undefined && object.gesture !== null)
-      ? GestureCommand.fromPartial(object.gesture)
       : undefined;
     message.lifecycle = (object.lifecycle !== undefined && object.lifecycle !== null)
       ? Lifecycle.fromPartial(object.lifecycle)

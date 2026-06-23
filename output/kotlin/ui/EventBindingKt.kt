@@ -234,9 +234,63 @@ public object EventBindingKt {
     public fun clearNotifyHost() {
       _builder.clearNotifyHost()
     }
+
+    /**
+     * ```
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * ```
+     *
+     * `.ui.CmdSpec cmd = 9;`
+     */
+    public var cmd: ui.UiAst.CmdSpec
+      @JvmName("getCmd")
+      get() = _builder.cmd
+      @JvmName("setCmd")
+      set(value) {
+        _builder.cmd = value
+      }
+    /**
+     * ```
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * ```
+     *
+     * `.ui.CmdSpec cmd = 9;`
+     */
+    public fun clearCmd() {
+      _builder.clearCmd()
+    }
+    /**
+     * ```
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * ```
+     *
+     * `.ui.CmdSpec cmd = 9;`
+     * @return Whether the cmd field is set.
+     */
+    public fun hasCmd(): kotlin.Boolean {
+      return _builder.hasCmd()
+    }
+
+    public val EventBindingKt.Dsl.cmdOrNull: ui.UiAst.CmdSpec?
+      get() = _builder.cmdOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
 public inline fun ui.UiAst.EventBinding.copy(block: `ui`.EventBindingKt.Dsl.() -> kotlin.Unit): ui.UiAst.EventBinding =
   `ui`.EventBindingKt.Dsl._create(this.toBuilder()).apply { block() }._build()
+
+public val ui.UiAst.EventBindingOrBuilder.cmdOrNull: ui.UiAst.CmdSpec?
+  get() = if (hasCmd()) getCmd() else null
 

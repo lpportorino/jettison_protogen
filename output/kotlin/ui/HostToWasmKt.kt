@@ -76,31 +76,7 @@ public object HostToWasmKt {
     }
 
     /**
-     * `.ui.GestureCommand gesture = 3;`
-     */
-    public var gesture: ui.UiInput.GestureCommand
-      @JvmName("getGesture")
-      get() = _builder.gesture
-      @JvmName("setGesture")
-      set(value) {
-        _builder.gesture = value
-      }
-    /**
-     * `.ui.GestureCommand gesture = 3;`
-     */
-    public fun clearGesture() {
-      _builder.clearGesture()
-    }
-    /**
-     * `.ui.GestureCommand gesture = 3;`
-     * @return Whether the gesture field is set.
-     */
-    public fun hasGesture(): kotlin.Boolean {
-      return _builder.hasGesture()
-    }
-
-    /**
-     * `.ui.Lifecycle lifecycle = 4;`
+     * `.ui.Lifecycle lifecycle = 3;`
      */
     public var lifecycle: ui.UiInput.Lifecycle
       @JvmName("getLifecycle")
@@ -110,13 +86,13 @@ public object HostToWasmKt {
         _builder.lifecycle = value
       }
     /**
-     * `.ui.Lifecycle lifecycle = 4;`
+     * `.ui.Lifecycle lifecycle = 3;`
      */
     public fun clearLifecycle() {
       _builder.clearLifecycle()
     }
     /**
-     * `.ui.Lifecycle lifecycle = 4;`
+     * `.ui.Lifecycle lifecycle = 3;`
      * @return Whether the lifecycle field is set.
      */
     public fun hasLifecycle(): kotlin.Boolean {
@@ -137,9 +113,6 @@ public inline fun ui.UiInput.HostToWasm.copy(block: `ui`.HostToWasmKt.Dsl.() -> 
 
 public val ui.UiInput.HostToWasmOrBuilder.pointerOrNull: ui.UiInput.PointerEvent?
   get() = if (hasPointer()) getPointer() else null
-
-public val ui.UiInput.HostToWasmOrBuilder.gestureOrNull: ui.UiInput.GestureCommand?
-  get() = if (hasGesture()) getGesture() else null
 
 public val ui.UiInput.HostToWasmOrBuilder.lifecycleOrNull: ui.UiInput.Lifecycle?
   get() = if (hasLifecycle()) getLifecycle() else null

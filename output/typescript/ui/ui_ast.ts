@@ -350,6 +350,129 @@ export function eventTriggerToJSON(object: EventTrigger): string {
   }
 }
 
+/** Which gesture/value the patcher writes into a slot, and how to encode it. */
+export enum PatchKind {
+  PATCH_KIND_UNSPECIFIED = 0,
+  /** PATCH_KIND_NDC_X - gesture NDC x → a double slot (verbatim, no recast) */
+  PATCH_KIND_NDC_X = 1,
+  /** PATCH_KIND_NDC_Y - gesture NDC y → a double slot (verbatim, no recast) */
+  PATCH_KIND_NDC_Y = 2,
+  /** PATCH_KIND_DELTA - pinch/wheel ±1 step → a padded-varint int slot */
+  PATCH_KIND_DELTA = 3,
+  /** PATCH_KIND_WIDGET_VALUE - widget int value → a padded-varint int slot */
+  PATCH_KIND_WIDGET_VALUE = 4,
+  UNRECOGNIZED = -1,
+}
+
+export function patchKindFromJSON(object: any): PatchKind {
+  switch (object) {
+    case 0:
+    case "PATCH_KIND_UNSPECIFIED":
+      return PatchKind.PATCH_KIND_UNSPECIFIED;
+    case 1:
+    case "PATCH_KIND_NDC_X":
+      return PatchKind.PATCH_KIND_NDC_X;
+    case 2:
+    case "PATCH_KIND_NDC_Y":
+      return PatchKind.PATCH_KIND_NDC_Y;
+    case 3:
+    case "PATCH_KIND_DELTA":
+      return PatchKind.PATCH_KIND_DELTA;
+    case 4:
+    case "PATCH_KIND_WIDGET_VALUE":
+      return PatchKind.PATCH_KIND_WIDGET_VALUE;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return PatchKind.UNRECOGNIZED;
+  }
+}
+
+export function patchKindToJSON(object: PatchKind): string {
+  switch (object) {
+    case PatchKind.PATCH_KIND_UNSPECIFIED:
+      return "PATCH_KIND_UNSPECIFIED";
+    case PatchKind.PATCH_KIND_NDC_X:
+      return "PATCH_KIND_NDC_X";
+    case PatchKind.PATCH_KIND_NDC_Y:
+      return "PATCH_KIND_NDC_Y";
+    case PatchKind.PATCH_KIND_DELTA:
+      return "PATCH_KIND_DELTA";
+    case PatchKind.PATCH_KIND_WIDGET_VALUE:
+      return "PATCH_KIND_WIDGET_VALUE";
+    case PatchKind.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/**
+ * A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
+ * host-side decision tag selects its pre-encoded template directly.
+ */
+export enum GestureKind {
+  /** GESTURE_KIND_PAN_MOVE - → cmd.RotaryPlatform.Axis (continuous slew) */
+  GESTURE_KIND_PAN_MOVE = 0,
+  /** GESTURE_KIND_PAN_END - → cmd.RotaryPlatform.HaltWithNDC */
+  GESTURE_KIND_PAN_END = 1,
+  /** GESTURE_KIND_TAP - → cmd.RotaryPlatform.RotateToNDC */
+  GESTURE_KIND_TAP = 2,
+  /** GESTURE_KIND_TRACK - → cmd.CV.StartTrackNDC */
+  GESTURE_KIND_TRACK = 3,
+  /** GESTURE_KIND_PINCH - → cmd.{Day,Heat}Camera.SetZoomTableValue */
+  GESTURE_KIND_PINCH = 4,
+  /** GESTURE_KIND_WHEEL - web-only; no device analogue (no template) */
+  GESTURE_KIND_WHEEL = 5,
+  UNRECOGNIZED = -1,
+}
+
+export function gestureKindFromJSON(object: any): GestureKind {
+  switch (object) {
+    case 0:
+    case "GESTURE_KIND_PAN_MOVE":
+      return GestureKind.GESTURE_KIND_PAN_MOVE;
+    case 1:
+    case "GESTURE_KIND_PAN_END":
+      return GestureKind.GESTURE_KIND_PAN_END;
+    case 2:
+    case "GESTURE_KIND_TAP":
+      return GestureKind.GESTURE_KIND_TAP;
+    case 3:
+    case "GESTURE_KIND_TRACK":
+      return GestureKind.GESTURE_KIND_TRACK;
+    case 4:
+    case "GESTURE_KIND_PINCH":
+      return GestureKind.GESTURE_KIND_PINCH;
+    case 5:
+    case "GESTURE_KIND_WHEEL":
+      return GestureKind.GESTURE_KIND_WHEEL;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return GestureKind.UNRECOGNIZED;
+  }
+}
+
+export function gestureKindToJSON(object: GestureKind): string {
+  switch (object) {
+    case GestureKind.GESTURE_KIND_PAN_MOVE:
+      return "GESTURE_KIND_PAN_MOVE";
+    case GestureKind.GESTURE_KIND_PAN_END:
+      return "GESTURE_KIND_PAN_END";
+    case GestureKind.GESTURE_KIND_TAP:
+      return "GESTURE_KIND_TAP";
+    case GestureKind.GESTURE_KIND_TRACK:
+      return "GESTURE_KIND_TRACK";
+    case GestureKind.GESTURE_KIND_PINCH:
+      return "GESTURE_KIND_PINCH";
+    case GestureKind.GESTURE_KIND_WHEEL:
+      return "GESTURE_KIND_WHEEL";
+    case GestureKind.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 /** Comparison operator for conditional visibility bindings. */
 export enum CompareOp {
   /** COMPARE_EQ - show when subject == ref_value (native LVGL bind) */
@@ -2279,6 +2402,14 @@ export interface WidgetNode {
    * address live widgets.
    */
   uid: number;
+  /**
+   * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+   * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+   * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+   * analogue so it is never emitted here. The host recognizer matches a
+   * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+   */
+  gestures: GestureSpec[];
 }
 
 export interface WidgetNode_BindingsEntry {
@@ -2601,6 +2732,54 @@ export interface EventBinding {
   toggle: boolean;
   /** also send to host when mutating subject */
   notifyHost: boolean;
+  /**
+   * Pre-encoded cmd.* device-command template + slot patch descriptor
+   * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+   * memcpy'ing root_template and overwriting the patch slot(s) with the
+   * widget value, then relays the result as OPAQUE bytes via host_command —
+   * controls.wasm no longer round-trips through the server /node-cmd shim.
+   */
+  cmd: CmdSpec | undefined;
+}
+
+/** One fixed-width slot in a CmdSpec.root_template the renderer overwrites. */
+export interface FieldPatch {
+  /** start of the slot in root_template */
+  byteOffset: number;
+  /** slot width (8 for a double, 5/10 for a padded varint) */
+  byteWidth: number;
+  kind: PatchKind;
+  /**
+   * gen-time wire-scale (uigen.scales): the runtime value × scale is the
+   * wire int for a varint leaf; 1 for a verbatim double (NDC).
+   */
+  wireScale: number;
+}
+
+/** A pre-encoded cmd.Root template + the slots the renderer overwrites. */
+export interface CmdSpec {
+  /**
+   * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+   * pre-encode provenance; the renderer never re-derives a route from it.
+   */
+  commandId: string;
+  /**
+   * the full deterministic cmd.Root protobuf (envelope + leaf in its
+   * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+   */
+  rootTemplate: Uint8Array;
+  /** the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair). */
+  patches: FieldPatch[];
+}
+
+/**
+ * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
+ * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
+ * selects the matching kind and patches its slots with the gesture decision.
+ */
+export interface GestureSpec {
+  kind: GestureKind;
+  cmd: CmdSpec | undefined;
 }
 
 /** Conditional visibility — show/hide widget based on subject value comparison. */
@@ -3081,6 +3260,7 @@ function createBaseWidgetNode(): WidgetNode {
     inTabBar: false,
     checkedWhen: undefined,
     uid: 0,
+    gestures: [],
   };
 }
 
@@ -3218,6 +3398,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.uid !== 0) {
       writer.uint32(344).uint32(message.uid);
+    }
+    for (const v of message.gestures) {
+      GestureSpec.encode(v!, writer.uint32(354).fork()).join();
     }
     return writer;
   },
@@ -3599,6 +3782,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.uid = reader.uint32();
           continue;
         }
+        case 44: {
+          if (tag !== 354) {
+            break;
+          }
+
+          message.gestures.push(GestureSpec.decode(reader, reader.uint32()));
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3799,6 +3990,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         ? VisibilityBinding.fromJSON(object.checked_when)
         : undefined,
       uid: isSet(object.uid) ? globalThis.Number(object.uid) : 0,
+      gestures: globalThis.Array.isArray(object?.gestures)
+        ? object.gestures.map((e: any) => GestureSpec.fromJSON(e))
+        : [],
     };
   },
 
@@ -3945,6 +4139,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.uid !== 0) {
       obj.uid = Math.round(message.uid);
     }
+    if (message.gestures?.length) {
+      obj.gestures = message.gestures.map((e) => GestureSpec.toJSON(e));
+    }
     return obj;
   },
 
@@ -4064,6 +4261,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
       ? VisibilityBinding.fromPartial(object.checkedWhen)
       : undefined;
     message.uid = object.uid ?? 0;
+    message.gestures = object.gestures?.map((e) => GestureSpec.fromPartial(e)) || [];
     return message;
   },
 };
@@ -7350,6 +7548,7 @@ function createBaseEventBinding(): EventBinding {
     setValue: 0,
     toggle: false,
     notifyHost: false,
+    cmd: undefined,
   };
 }
 
@@ -7378,6 +7577,9 @@ export const EventBinding: MessageFns<EventBinding> = {
     }
     if (message.notifyHost !== false) {
       writer.uint32(64).bool(message.notifyHost);
+    }
+    if (message.cmd !== undefined) {
+      CmdSpec.encode(message.cmd, writer.uint32(74).fork()).join();
     }
     return writer;
   },
@@ -7453,6 +7655,14 @@ export const EventBinding: MessageFns<EventBinding> = {
           message.notifyHost = reader.bool();
           continue;
         }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.cmd = CmdSpec.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -7492,6 +7702,7 @@ export const EventBinding: MessageFns<EventBinding> = {
         : isSet(object.notify_host)
         ? globalThis.Boolean(object.notify_host)
         : false,
+      cmd: isSet(object.cmd) ? CmdSpec.fromJSON(object.cmd) : undefined,
     };
   },
 
@@ -7521,6 +7732,9 @@ export const EventBinding: MessageFns<EventBinding> = {
     if (message.notifyHost !== false) {
       obj.notifyHost = message.notifyHost;
     }
+    if (message.cmd !== undefined) {
+      obj.cmd = CmdSpec.toJSON(message.cmd);
+    }
     return obj;
   },
 
@@ -7537,6 +7751,303 @@ export const EventBinding: MessageFns<EventBinding> = {
     message.setValue = object.setValue ?? 0;
     message.toggle = object.toggle ?? false;
     message.notifyHost = object.notifyHost ?? false;
+    message.cmd = (object.cmd !== undefined && object.cmd !== null) ? CmdSpec.fromPartial(object.cmd) : undefined;
+    return message;
+  },
+};
+
+function createBaseFieldPatch(): FieldPatch {
+  return { byteOffset: 0, byteWidth: 0, kind: 0, wireScale: 0 };
+}
+
+export const FieldPatch: MessageFns<FieldPatch> = {
+  encode(message: FieldPatch, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.byteOffset !== 0) {
+      writer.uint32(8).uint32(message.byteOffset);
+    }
+    if (message.byteWidth !== 0) {
+      writer.uint32(16).uint32(message.byteWidth);
+    }
+    if (message.kind !== 0) {
+      writer.uint32(24).int32(message.kind);
+    }
+    if (message.wireScale !== 0) {
+      writer.uint32(32).sint32(message.wireScale);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FieldPatch {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFieldPatch();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.byteOffset = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.byteWidth = reader.uint32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.kind = reader.int32() as any;
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.wireScale = reader.sint32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): FieldPatch {
+    return {
+      byteOffset: isSet(object.byteOffset)
+        ? globalThis.Number(object.byteOffset)
+        : isSet(object.byte_offset)
+        ? globalThis.Number(object.byte_offset)
+        : 0,
+      byteWidth: isSet(object.byteWidth)
+        ? globalThis.Number(object.byteWidth)
+        : isSet(object.byte_width)
+        ? globalThis.Number(object.byte_width)
+        : 0,
+      kind: isSet(object.kind) ? patchKindFromJSON(object.kind) : 0,
+      wireScale: isSet(object.wireScale)
+        ? globalThis.Number(object.wireScale)
+        : isSet(object.wire_scale)
+        ? globalThis.Number(object.wire_scale)
+        : 0,
+    };
+  },
+
+  toJSON(message: FieldPatch): unknown {
+    const obj: any = {};
+    if (message.byteOffset !== 0) {
+      obj.byteOffset = Math.round(message.byteOffset);
+    }
+    if (message.byteWidth !== 0) {
+      obj.byteWidth = Math.round(message.byteWidth);
+    }
+    if (message.kind !== 0) {
+      obj.kind = patchKindToJSON(message.kind);
+    }
+    if (message.wireScale !== 0) {
+      obj.wireScale = Math.round(message.wireScale);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<FieldPatch>, I>>(base?: I): FieldPatch {
+    return FieldPatch.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<FieldPatch>, I>>(object: I): FieldPatch {
+    const message = createBaseFieldPatch();
+    message.byteOffset = object.byteOffset ?? 0;
+    message.byteWidth = object.byteWidth ?? 0;
+    message.kind = object.kind ?? 0;
+    message.wireScale = object.wireScale ?? 0;
+    return message;
+  },
+};
+
+function createBaseCmdSpec(): CmdSpec {
+  return { commandId: "", rootTemplate: new Uint8Array(0), patches: [] };
+}
+
+export const CmdSpec: MessageFns<CmdSpec> = {
+  encode(message: CmdSpec, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.commandId !== "") {
+      writer.uint32(10).string(message.commandId);
+    }
+    if (message.rootTemplate.length !== 0) {
+      writer.uint32(18).bytes(message.rootTemplate);
+    }
+    for (const v of message.patches) {
+      FieldPatch.encode(v!, writer.uint32(26).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CmdSpec {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCmdSpec();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.commandId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.rootTemplate = reader.bytes();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.patches.push(FieldPatch.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CmdSpec {
+    return {
+      commandId: isSet(object.commandId)
+        ? globalThis.String(object.commandId)
+        : isSet(object.command_id)
+        ? globalThis.String(object.command_id)
+        : "",
+      rootTemplate: isSet(object.rootTemplate)
+        ? bytesFromBase64(object.rootTemplate)
+        : isSet(object.root_template)
+        ? bytesFromBase64(object.root_template)
+        : new Uint8Array(0),
+      patches: globalThis.Array.isArray(object?.patches) ? object.patches.map((e: any) => FieldPatch.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: CmdSpec): unknown {
+    const obj: any = {};
+    if (message.commandId !== "") {
+      obj.commandId = message.commandId;
+    }
+    if (message.rootTemplate.length !== 0) {
+      obj.rootTemplate = base64FromBytes(message.rootTemplate);
+    }
+    if (message.patches?.length) {
+      obj.patches = message.patches.map((e) => FieldPatch.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CmdSpec>, I>>(base?: I): CmdSpec {
+    return CmdSpec.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CmdSpec>, I>>(object: I): CmdSpec {
+    const message = createBaseCmdSpec();
+    message.commandId = object.commandId ?? "";
+    message.rootTemplate = object.rootTemplate ?? new Uint8Array(0);
+    message.patches = object.patches?.map((e) => FieldPatch.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseGestureSpec(): GestureSpec {
+  return { kind: 0, cmd: undefined };
+}
+
+export const GestureSpec: MessageFns<GestureSpec> = {
+  encode(message: GestureSpec, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.kind !== 0) {
+      writer.uint32(8).int32(message.kind);
+    }
+    if (message.cmd !== undefined) {
+      CmdSpec.encode(message.cmd, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GestureSpec {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGestureSpec();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.kind = reader.int32() as any;
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.cmd = CmdSpec.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GestureSpec {
+    return {
+      kind: isSet(object.kind) ? gestureKindFromJSON(object.kind) : 0,
+      cmd: isSet(object.cmd) ? CmdSpec.fromJSON(object.cmd) : undefined,
+    };
+  },
+
+  toJSON(message: GestureSpec): unknown {
+    const obj: any = {};
+    if (message.kind !== 0) {
+      obj.kind = gestureKindToJSON(message.kind);
+    }
+    if (message.cmd !== undefined) {
+      obj.cmd = CmdSpec.toJSON(message.cmd);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GestureSpec>, I>>(base?: I): GestureSpec {
+    return GestureSpec.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GestureSpec>, I>>(object: I): GestureSpec {
+    const message = createBaseGestureSpec();
+    message.kind = object.kind ?? 0;
+    message.cmd = (object.cmd !== undefined && object.cmd !== null) ? CmdSpec.fromPartial(object.cmd) : undefined;
     return message;
   },
 };
@@ -8315,6 +8826,31 @@ export const ShadowBundle: MessageFns<ShadowBundle> = {
     return message;
   },
 };
+
+function bytesFromBase64(b64: string): Uint8Array {
+  if ((globalThis as any).Buffer) {
+    return Uint8Array.from((globalThis as any).Buffer.from(b64, "base64"));
+  } else {
+    const bin = globalThis.atob(b64);
+    const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; ++i) {
+      arr[i] = bin.charCodeAt(i);
+    }
+    return arr;
+  }
+}
+
+function base64FromBytes(arr: Uint8Array): string {
+  if ((globalThis as any).Buffer) {
+    return (globalThis as any).Buffer.from(arr).toString("base64");
+  } else {
+    const bin: string[] = [];
+    arr.forEach((byte) => {
+      bin.push(globalThis.String.fromCharCode(byte));
+    });
+    return globalThis.btoa(bin.join(""));
+  }
+}
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 

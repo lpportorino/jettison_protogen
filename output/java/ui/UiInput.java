@@ -30,7 +30,6 @@ public final class UiInput {
    * Channel schema version registry — the canonical list of valid versions. The
    * wire field is a uint32 (range-validated {gte:1,lte:255}) so it fail-fast
    * rejects the proto3 default 0; this enum documents which values are valid.
-   * (Mirrors the NodeSchemaVersion / uint32 version pattern.)
    * </pre>
    *
    * Protobuf enum {@code ui.InputSchemaVersion}
@@ -151,7 +150,10 @@ public final class UiInput {
 
   /**
    * <pre>
-   * Raw pointer lifecycle phase (host input device → WASM hit-testing).
+   * W3C-style pointer lifecycle phase (host input device → WASM hit-test + FSM).
+   * CANCEL = pointercancel / lostpointercapture (palm-reject / OS-takeover /
+   * capture loss) — the FSM hard-aborts the pointer and emits NO terminal, so a
+   * lost contact never fires a phantom pan-end / tap device command.
    * </pre>
    *
    * Protobuf enum {@code ui.PointerPhase}
@@ -174,6 +176,10 @@ public final class UiInput {
      * <code>POINTER_PHASE_UP = 3;</code>
      */
     POINTER_PHASE_UP(3),
+    /**
+     * <code>POINTER_PHASE_CANCEL = 4;</code>
+     */
+    POINTER_PHASE_CANCEL(4),
     UNRECOGNIZED(-1),
     ;
 
@@ -202,6 +208,10 @@ public final class UiInput {
      * <code>POINTER_PHASE_UP = 3;</code>
      */
     public static final int POINTER_PHASE_UP_VALUE = 3;
+    /**
+     * <code>POINTER_PHASE_CANCEL = 4;</code>
+     */
+    public static final int POINTER_PHASE_CANCEL_VALUE = 4;
 
 
     public final int getNumber() {
@@ -232,6 +242,7 @@ public final class UiInput {
         case 1: return POINTER_PHASE_DOWN;
         case 2: return POINTER_PHASE_MOVE;
         case 3: return POINTER_PHASE_UP;
+        case 4: return POINTER_PHASE_CANCEL;
         default: return null;
       }
     }
@@ -290,7 +301,8 @@ public final class UiInput {
 
   /**
    * <pre>
-   * Pointing-device kind, for LVGL input semantics.
+   * Pointing-device kind (W3C pointerType), for LVGL input semantics + the
+   * hit-test path (mouse can hover without contact; touch cannot).
    * </pre>
    *
    * Protobuf enum {@code ui.PointerKind}
@@ -429,204 +441,6 @@ public final class UiInput {
 
   /**
    * <pre>
-   * The gesture the HOST has already recognized — selects which GestureCommand
-   * fields are meaningful (the WASM interprets the scalar set per this tag).
-   * </pre>
-   *
-   * Protobuf enum {@code ui.RecognizedGesture}
-   */
-  public enum RecognizedGesture
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>RECOGNIZED_GESTURE_UNSPECIFIED = 0;</code>
-     */
-    RECOGNIZED_GESTURE_UNSPECIFIED(0),
-    /**
-     * <pre>
-     * continuous rotary slew (Axis)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_PAN_MOVE = 1;</code>
-     */
-    RECOGNIZED_GESTURE_PAN_MOVE(1),
-    /**
-     * <pre>
-     * slew release (HaltWithNDC)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_PAN_END = 2;</code>
-     */
-    RECOGNIZED_GESTURE_PAN_END(2),
-    /**
-     * <pre>
-     * slew-to-point (RotateToNDC)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_TAP = 3;</code>
-     */
-    RECOGNIZED_GESTURE_TAP(3),
-    /**
-     * <pre>
-     * CV point-track (StartTrackNDC)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_TRACK = 4;</code>
-     */
-    RECOGNIZED_GESTURE_TRACK(4),
-    /**
-     * <pre>
-     * optical zoom (SetZoomTableValue)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_PINCH = 5;</code>
-     */
-    RECOGNIZED_GESTURE_PINCH(5),
-    UNRECOGNIZED(-1),
-    ;
-
-    static {
-      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-        /* major= */ 4,
-        /* minor= */ 29,
-        /* patch= */ 2,
-        /* suffix= */ "",
-        RecognizedGesture.class.getName());
-    }
-    /**
-     * <code>RECOGNIZED_GESTURE_UNSPECIFIED = 0;</code>
-     */
-    public static final int RECOGNIZED_GESTURE_UNSPECIFIED_VALUE = 0;
-    /**
-     * <pre>
-     * continuous rotary slew (Axis)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_PAN_MOVE = 1;</code>
-     */
-    public static final int RECOGNIZED_GESTURE_PAN_MOVE_VALUE = 1;
-    /**
-     * <pre>
-     * slew release (HaltWithNDC)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_PAN_END = 2;</code>
-     */
-    public static final int RECOGNIZED_GESTURE_PAN_END_VALUE = 2;
-    /**
-     * <pre>
-     * slew-to-point (RotateToNDC)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_TAP = 3;</code>
-     */
-    public static final int RECOGNIZED_GESTURE_TAP_VALUE = 3;
-    /**
-     * <pre>
-     * CV point-track (StartTrackNDC)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_TRACK = 4;</code>
-     */
-    public static final int RECOGNIZED_GESTURE_TRACK_VALUE = 4;
-    /**
-     * <pre>
-     * optical zoom (SetZoomTableValue)
-     * </pre>
-     *
-     * <code>RECOGNIZED_GESTURE_PINCH = 5;</code>
-     */
-    public static final int RECOGNIZED_GESTURE_PINCH_VALUE = 5;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static RecognizedGesture valueOf(int value) {
-      return forNumber(value);
-    }
-
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     */
-    public static RecognizedGesture forNumber(int value) {
-      switch (value) {
-        case 0: return RECOGNIZED_GESTURE_UNSPECIFIED;
-        case 1: return RECOGNIZED_GESTURE_PAN_MOVE;
-        case 2: return RECOGNIZED_GESTURE_PAN_END;
-        case 3: return RECOGNIZED_GESTURE_TAP;
-        case 4: return RECOGNIZED_GESTURE_TRACK;
-        case 5: return RECOGNIZED_GESTURE_PINCH;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<RecognizedGesture>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        RecognizedGesture> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<RecognizedGesture>() {
-            public RecognizedGesture findValueByNumber(int number) {
-              return RecognizedGesture.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalStateException(
-            "Can't get the descriptor of an unrecognized enum value.");
-      }
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return ui.UiInput.getDescriptor().getEnumTypes().get(3);
-    }
-
-    private static final RecognizedGesture[] VALUES = values();
-
-    public static RecognizedGesture valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private RecognizedGesture(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:ui.RecognizedGesture)
-  }
-
-  /**
-   * <pre>
    * OS theme the host reports for WASM restyle.
    * </pre>
    *
@@ -729,7 +543,7 @@ public final class UiInput {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiInput.getDescriptor().getEnumTypes().get(4);
+      return ui.UiInput.getDescriptor().getEnumTypes().get(3);
     }
 
     private static final ThemeMode[] VALUES = values();
@@ -895,7 +709,7 @@ public final class UiInput {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiInput.getDescriptor().getEnumTypes().get(5);
+      return ui.UiInput.getDescriptor().getEnumTypes().get(4);
     }
 
     private static final CursorType[] VALUES = values();
@@ -949,10 +763,20 @@ public final class UiInput {
 
     /**
      * <pre>
+     * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+     * </pre>
+     *
+     * <code>uint32 pointer_id = 3;</code>
+     * @return The pointerId.
+     */
+    int getPointerId();
+
+    /**
+     * <pre>
      * NDC, +x right
      * </pre>
      *
-     * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double x = 4 [(.buf.validate.field) = { ... }</code>
      * @return The x.
      */
     double getX();
@@ -962,25 +786,29 @@ public final class UiInput {
      * NDC, +y UP
      * </pre>
      *
-     * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double y = 5 [(.buf.validate.field) = { ... }</code>
      * @return The y.
      */
     double getY();
 
     /**
      * <pre>
-     * held-button bitfield (fixed 32-bit)
+     * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
      * </pre>
      *
-     * <code>uint32 buttons = 5;</code>
-     * @return The buttons.
+     * <code>uint64 event_time = 6;</code>
+     * @return The eventTime.
      */
-    int getButtons();
+    long getEventTime();
   }
   /**
    * <pre>
-   * Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
-   * input device; the WASM needs the raw pointer to hit-test its own layout.
+   * A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+   * unified). The host forwards every pointer event; the WASM accumulates them
+   * into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+   * The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+   * reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+   * pointer_id, clamp non-positive FSM time deltas.
    * </pre>
    *
    * Protobuf type {@code ui.PointerEvent}
@@ -1057,14 +885,29 @@ public final class UiInput {
       return result == null ? ui.UiInput.PointerKind.UNRECOGNIZED : result;
     }
 
-    public static final int X_FIELD_NUMBER = 3;
+    public static final int POINTER_ID_FIELD_NUMBER = 3;
+    private int pointerId_ = 0;
+    /**
+     * <pre>
+     * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+     * </pre>
+     *
+     * <code>uint32 pointer_id = 3;</code>
+     * @return The pointerId.
+     */
+    @java.lang.Override
+    public int getPointerId() {
+      return pointerId_;
+    }
+
+    public static final int X_FIELD_NUMBER = 4;
     private double x_ = 0D;
     /**
      * <pre>
      * NDC, +x right
      * </pre>
      *
-     * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double x = 4 [(.buf.validate.field) = { ... }</code>
      * @return The x.
      */
     @java.lang.Override
@@ -1072,14 +915,14 @@ public final class UiInput {
       return x_;
     }
 
-    public static final int Y_FIELD_NUMBER = 4;
+    public static final int Y_FIELD_NUMBER = 5;
     private double y_ = 0D;
     /**
      * <pre>
      * NDC, +y UP
      * </pre>
      *
-     * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double y = 5 [(.buf.validate.field) = { ... }</code>
      * @return The y.
      */
     @java.lang.Override
@@ -1087,19 +930,19 @@ public final class UiInput {
       return y_;
     }
 
-    public static final int BUTTONS_FIELD_NUMBER = 5;
-    private int buttons_ = 0;
+    public static final int EVENT_TIME_FIELD_NUMBER = 6;
+    private long eventTime_ = 0L;
     /**
      * <pre>
-     * held-button bitfield (fixed 32-bit)
+     * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
      * </pre>
      *
-     * <code>uint32 buttons = 5;</code>
-     * @return The buttons.
+     * <code>uint64 event_time = 6;</code>
+     * @return The eventTime.
      */
     @java.lang.Override
-    public int getButtons() {
-      return buttons_;
+    public long getEventTime() {
+      return eventTime_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1122,14 +965,17 @@ public final class UiInput {
       if (kind_ != ui.UiInput.PointerKind.POINTER_KIND_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, kind_);
       }
+      if (pointerId_ != 0) {
+        output.writeUInt32(3, pointerId_);
+      }
       if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
-        output.writeDouble(3, x_);
+        output.writeDouble(4, x_);
       }
       if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
-        output.writeDouble(4, y_);
+        output.writeDouble(5, y_);
       }
-      if (buttons_ != 0) {
-        output.writeUInt32(5, buttons_);
+      if (eventTime_ != 0L) {
+        output.writeUInt64(6, eventTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1148,17 +994,21 @@ public final class UiInput {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, kind_);
       }
+      if (pointerId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, pointerId_);
+      }
       if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(3, x_);
+          .computeDoubleSize(4, x_);
       }
       if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(4, y_);
+          .computeDoubleSize(5, y_);
       }
-      if (buttons_ != 0) {
+      if (eventTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(5, buttons_);
+          .computeUInt64Size(6, eventTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1177,14 +1027,16 @@ public final class UiInput {
 
       if (phase_ != other.phase_) return false;
       if (kind_ != other.kind_) return false;
+      if (getPointerId()
+          != other.getPointerId()) return false;
       if (java.lang.Double.doubleToLongBits(getX())
           != java.lang.Double.doubleToLongBits(
               other.getX())) return false;
       if (java.lang.Double.doubleToLongBits(getY())
           != java.lang.Double.doubleToLongBits(
               other.getY())) return false;
-      if (getButtons()
-          != other.getButtons()) return false;
+      if (getEventTime()
+          != other.getEventTime()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1200,14 +1052,17 @@ public final class UiInput {
       hash = (53 * hash) + phase_;
       hash = (37 * hash) + KIND_FIELD_NUMBER;
       hash = (53 * hash) + kind_;
+      hash = (37 * hash) + POINTER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getPointerId();
       hash = (37 * hash) + X_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getX()));
       hash = (37 * hash) + Y_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getY()));
-      hash = (37 * hash) + BUTTONS_FIELD_NUMBER;
-      hash = (53 * hash) + getButtons();
+      hash = (37 * hash) + EVENT_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getEventTime());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1307,8 +1162,12 @@ public final class UiInput {
     }
     /**
      * <pre>
-     * Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
-     * input device; the WASM needs the raw pointer to hit-test its own layout.
+     * A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+     * unified). The host forwards every pointer event; the WASM accumulates them
+     * into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+     * The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+     * reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+     * pointer_id, clamp non-positive FSM time deltas.
      * </pre>
      *
      * Protobuf type {@code ui.PointerEvent}
@@ -1346,9 +1205,10 @@ public final class UiInput {
         bitField0_ = 0;
         phase_ = 0;
         kind_ = 0;
+        pointerId_ = 0;
         x_ = 0D;
         y_ = 0D;
-        buttons_ = 0;
+        eventTime_ = 0L;
         return this;
       }
 
@@ -1389,13 +1249,16 @@ public final class UiInput {
           result.kind_ = kind_;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.x_ = x_;
+          result.pointerId_ = pointerId_;
         }
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.y_ = y_;
+          result.x_ = x_;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.buttons_ = buttons_;
+          result.y_ = y_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.eventTime_ = eventTime_;
         }
       }
 
@@ -1417,14 +1280,17 @@ public final class UiInput {
         if (other.kind_ != 0) {
           setKindValue(other.getKindValue());
         }
+        if (other.getPointerId() != 0) {
+          setPointerId(other.getPointerId());
+        }
         if (other.getX() != 0D) {
           setX(other.getX());
         }
         if (other.getY() != 0D) {
           setY(other.getY());
         }
-        if (other.getButtons() != 0) {
-          setButtons(other.getButtons());
+        if (other.getEventTime() != 0L) {
+          setEventTime(other.getEventTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1462,21 +1328,26 @@ public final class UiInput {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 16
-              case 25: {
-                x_ = input.readDouble();
+              case 24: {
+                pointerId_ = input.readUInt32();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 25
+              } // case 24
               case 33: {
-                y_ = input.readDouble();
+                x_ = input.readDouble();
                 bitField0_ |= 0x00000008;
                 break;
               } // case 33
-              case 40: {
-                buttons_ = input.readUInt32();
+              case 41: {
+                y_ = input.readDouble();
                 bitField0_ |= 0x00000010;
                 break;
-              } // case 40
+              } // case 41
+              case 48: {
+                eventTime_ = input.readUInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1600,13 +1471,57 @@ public final class UiInput {
         return this;
       }
 
+      private int pointerId_ ;
+      /**
+       * <pre>
+       * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+       * </pre>
+       *
+       * <code>uint32 pointer_id = 3;</code>
+       * @return The pointerId.
+       */
+      @java.lang.Override
+      public int getPointerId() {
+        return pointerId_;
+      }
+      /**
+       * <pre>
+       * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+       * </pre>
+       *
+       * <code>uint32 pointer_id = 3;</code>
+       * @param value The pointerId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPointerId(int value) {
+
+        pointerId_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+       * </pre>
+       *
+       * <code>uint32 pointer_id = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPointerId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        pointerId_ = 0;
+        onChanged();
+        return this;
+      }
+
       private double x_ ;
       /**
        * <pre>
        * NDC, +x right
        * </pre>
        *
-       * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 4 [(.buf.validate.field) = { ... }</code>
        * @return The x.
        */
       @java.lang.Override
@@ -1618,14 +1533,14 @@ public final class UiInput {
        * NDC, +x right
        * </pre>
        *
-       * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 4 [(.buf.validate.field) = { ... }</code>
        * @param value The x to set.
        * @return This builder for chaining.
        */
       public Builder setX(double value) {
 
         x_ = value;
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -1634,11 +1549,11 @@ public final class UiInput {
        * NDC, +x right
        * </pre>
        *
-       * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 4 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearX() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         x_ = 0D;
         onChanged();
         return this;
@@ -1650,7 +1565,7 @@ public final class UiInput {
        * NDC, +y UP
        * </pre>
        *
-       * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 5 [(.buf.validate.field) = { ... }</code>
        * @return The y.
        */
       @java.lang.Override
@@ -1662,14 +1577,14 @@ public final class UiInput {
        * NDC, +y UP
        * </pre>
        *
-       * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 5 [(.buf.validate.field) = { ... }</code>
        * @param value The y to set.
        * @return This builder for chaining.
        */
       public Builder setY(double value) {
 
         y_ = value;
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -1678,56 +1593,56 @@ public final class UiInput {
        * NDC, +y UP
        * </pre>
        *
-       * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 5 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearY() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         y_ = 0D;
         onChanged();
         return this;
       }
 
-      private int buttons_ ;
+      private long eventTime_ ;
       /**
        * <pre>
-       * held-button bitfield (fixed 32-bit)
+       * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
        * </pre>
        *
-       * <code>uint32 buttons = 5;</code>
-       * @return The buttons.
+       * <code>uint64 event_time = 6;</code>
+       * @return The eventTime.
        */
       @java.lang.Override
-      public int getButtons() {
-        return buttons_;
+      public long getEventTime() {
+        return eventTime_;
       }
       /**
        * <pre>
-       * held-button bitfield (fixed 32-bit)
+       * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
        * </pre>
        *
-       * <code>uint32 buttons = 5;</code>
-       * @param value The buttons to set.
+       * <code>uint64 event_time = 6;</code>
+       * @param value The eventTime to set.
        * @return This builder for chaining.
        */
-      public Builder setButtons(int value) {
+      public Builder setEventTime(long value) {
 
-        buttons_ = value;
-        bitField0_ |= 0x00000010;
+        eventTime_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * held-button bitfield (fixed 32-bit)
+       * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
        * </pre>
        *
-       * <code>uint32 buttons = 5;</code>
+       * <code>uint64 event_time = 6;</code>
        * @return This builder for chaining.
        */
-      public Builder clearButtons() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        buttons_ = 0;
+      public Builder clearEventTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        eventTime_ = 0L;
         onChanged();
         return this;
       }
@@ -1783,1424 +1698,6 @@ public final class UiInput {
 
   }
 
-  public interface GestureCommandOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ui.GestureCommand)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The enum numeric value on the wire for gesture.
-     */
-    int getGestureValue();
-    /**
-     * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The gesture.
-     */
-    ui.UiInput.RecognizedGesture getGesture();
-
-    /**
-     * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The enum numeric value on the wire for channel.
-     */
-    int getChannelValue();
-    /**
-     * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The channel.
-     */
-    ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel();
-
-    /**
-     * <pre>
-     * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-     * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-     * and StartTrackNDC (jon_shared_cmd_cv).
-     * </pre>
-     *
-     * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
-     * @return The x.
-     */
-    double getX();
-
-    /**
-     * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
-     * @return The y.
-     */
-    double getY();
-
-    /**
-     * <pre>
-     * Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-     * when the gesture is not a pan.
-     * </pre>
-     *
-     * <code>double az_speed = 5 [(.buf.validate.field) = { ... }</code>
-     * @return The azSpeed.
-     */
-    double getAzSpeed();
-
-    /**
-     * <code>double el_speed = 6 [(.buf.validate.field) = { ... }</code>
-     * @return The elSpeed.
-     */
-    double getElSpeed();
-
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-     * @return The enum numeric value on the wire for azDir.
-     */
-    int getAzDirValue();
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-     * @return The azDir.
-     */
-    ser.JonSharedDataTypes.JonGuiDataRotaryDirection getAzDir();
-
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-     * @return The enum numeric value on the wire for elDir.
-     */
-    int getElDirValue();
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-     * @return The elDir.
-     */
-    ser.JonSharedDataTypes.JonGuiDataRotaryDirection getElDir();
-
-    /**
-     * <pre>
-     * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-     * WASM is a stateless 1:1 pass-through, so the host owns the running value
-     * and resolves any ±1 step into this absolute (a delta is inexpressible).
-     * </pre>
-     *
-     * <code>int32 zoom = 9 [(.buf.validate.field) = { ... }</code>
-     * @return The zoom.
-     */
-    int getZoom();
-
-    /**
-     * <pre>
-     * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-     * (RotateToNDC / HaltWithNDC frame_time/state_time).
-     * </pre>
-     *
-     * <code>uint64 frame_time = 10;</code>
-     * @return The frameTime.
-     */
-    long getFrameTime();
-
-    /**
-     * <code>uint64 state_time = 11;</code>
-     * @return The stateTime.
-     */
-    long getStateTime();
-  }
-  /**
-   * <pre>
-   * A gesture the HOST already recognized → the device-command intent. A flat,
-   * scalar-only struct (size-bound); the `gesture` tag selects which fields the
-   * WASM reads when it maps this to the full cmd.* command.
-   * </pre>
-   *
-   * Protobuf type {@code ui.GestureCommand}
-   */
-  public static final class GestureCommand extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:ui.GestureCommand)
-      GestureCommandOrBuilder {
-  private static final long serialVersionUID = 0L;
-    static {
-      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-        /* major= */ 4,
-        /* minor= */ 29,
-        /* patch= */ 2,
-        /* suffix= */ "",
-        GestureCommand.class.getName());
-    }
-    // Use GestureCommand.newBuilder() to construct.
-    private GestureCommand(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-    }
-    private GestureCommand() {
-      gesture_ = 0;
-      channel_ = 0;
-      azDir_ = 0;
-      elDir_ = 0;
-    }
-
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return ui.UiInput.internal_static_ui_GestureCommand_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return ui.UiInput.internal_static_ui_GestureCommand_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              ui.UiInput.GestureCommand.class, ui.UiInput.GestureCommand.Builder.class);
-    }
-
-    public static final int GESTURE_FIELD_NUMBER = 1;
-    private int gesture_ = 0;
-    /**
-     * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The enum numeric value on the wire for gesture.
-     */
-    @java.lang.Override public int getGestureValue() {
-      return gesture_;
-    }
-    /**
-     * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The gesture.
-     */
-    @java.lang.Override public ui.UiInput.RecognizedGesture getGesture() {
-      ui.UiInput.RecognizedGesture result = ui.UiInput.RecognizedGesture.forNumber(gesture_);
-      return result == null ? ui.UiInput.RecognizedGesture.UNRECOGNIZED : result;
-    }
-
-    public static final int CHANNEL_FIELD_NUMBER = 2;
-    private int channel_ = 0;
-    /**
-     * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The enum numeric value on the wire for channel.
-     */
-    @java.lang.Override public int getChannelValue() {
-      return channel_;
-    }
-    /**
-     * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The channel.
-     */
-    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel() {
-      ser.JonSharedDataTypes.JonGuiDataVideoChannel result = ser.JonSharedDataTypes.JonGuiDataVideoChannel.forNumber(channel_);
-      return result == null ? ser.JonSharedDataTypes.JonGuiDataVideoChannel.UNRECOGNIZED : result;
-    }
-
-    public static final int X_FIELD_NUMBER = 3;
-    private double x_ = 0D;
-    /**
-     * <pre>
-     * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-     * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-     * and StartTrackNDC (jon_shared_cmd_cv).
-     * </pre>
-     *
-     * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
-     * @return The x.
-     */
-    @java.lang.Override
-    public double getX() {
-      return x_;
-    }
-
-    public static final int Y_FIELD_NUMBER = 4;
-    private double y_ = 0D;
-    /**
-     * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
-     * @return The y.
-     */
-    @java.lang.Override
-    public double getY() {
-      return y_;
-    }
-
-    public static final int AZ_SPEED_FIELD_NUMBER = 5;
-    private double azSpeed_ = 0D;
-    /**
-     * <pre>
-     * Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-     * when the gesture is not a pan.
-     * </pre>
-     *
-     * <code>double az_speed = 5 [(.buf.validate.field) = { ... }</code>
-     * @return The azSpeed.
-     */
-    @java.lang.Override
-    public double getAzSpeed() {
-      return azSpeed_;
-    }
-
-    public static final int EL_SPEED_FIELD_NUMBER = 6;
-    private double elSpeed_ = 0D;
-    /**
-     * <code>double el_speed = 6 [(.buf.validate.field) = { ... }</code>
-     * @return The elSpeed.
-     */
-    @java.lang.Override
-    public double getElSpeed() {
-      return elSpeed_;
-    }
-
-    public static final int AZ_DIR_FIELD_NUMBER = 7;
-    private int azDir_ = 0;
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-     * @return The enum numeric value on the wire for azDir.
-     */
-    @java.lang.Override public int getAzDirValue() {
-      return azDir_;
-    }
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-     * @return The azDir.
-     */
-    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataRotaryDirection getAzDir() {
-      ser.JonSharedDataTypes.JonGuiDataRotaryDirection result = ser.JonSharedDataTypes.JonGuiDataRotaryDirection.forNumber(azDir_);
-      return result == null ? ser.JonSharedDataTypes.JonGuiDataRotaryDirection.UNRECOGNIZED : result;
-    }
-
-    public static final int EL_DIR_FIELD_NUMBER = 8;
-    private int elDir_ = 0;
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-     * @return The enum numeric value on the wire for elDir.
-     */
-    @java.lang.Override public int getElDirValue() {
-      return elDir_;
-    }
-    /**
-     * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-     * @return The elDir.
-     */
-    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataRotaryDirection getElDir() {
-      ser.JonSharedDataTypes.JonGuiDataRotaryDirection result = ser.JonSharedDataTypes.JonGuiDataRotaryDirection.forNumber(elDir_);
-      return result == null ? ser.JonSharedDataTypes.JonGuiDataRotaryDirection.UNRECOGNIZED : result;
-    }
-
-    public static final int ZOOM_FIELD_NUMBER = 9;
-    private int zoom_ = 0;
-    /**
-     * <pre>
-     * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-     * WASM is a stateless 1:1 pass-through, so the host owns the running value
-     * and resolves any ±1 step into this absolute (a delta is inexpressible).
-     * </pre>
-     *
-     * <code>int32 zoom = 9 [(.buf.validate.field) = { ... }</code>
-     * @return The zoom.
-     */
-    @java.lang.Override
-    public int getZoom() {
-      return zoom_;
-    }
-
-    public static final int FRAME_TIME_FIELD_NUMBER = 10;
-    private long frameTime_ = 0L;
-    /**
-     * <pre>
-     * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-     * (RotateToNDC / HaltWithNDC frame_time/state_time).
-     * </pre>
-     *
-     * <code>uint64 frame_time = 10;</code>
-     * @return The frameTime.
-     */
-    @java.lang.Override
-    public long getFrameTime() {
-      return frameTime_;
-    }
-
-    public static final int STATE_TIME_FIELD_NUMBER = 11;
-    private long stateTime_ = 0L;
-    /**
-     * <code>uint64 state_time = 11;</code>
-     * @return The stateTime.
-     */
-    @java.lang.Override
-    public long getStateTime() {
-      return stateTime_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (gesture_ != ui.UiInput.RecognizedGesture.RECOGNIZED_GESTURE_UNSPECIFIED.getNumber()) {
-        output.writeEnum(1, gesture_);
-      }
-      if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
-        output.writeEnum(2, channel_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
-        output.writeDouble(3, x_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
-        output.writeDouble(4, y_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(azSpeed_) != 0) {
-        output.writeDouble(5, azSpeed_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(elSpeed_) != 0) {
-        output.writeDouble(6, elSpeed_);
-      }
-      if (azDir_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
-        output.writeEnum(7, azDir_);
-      }
-      if (elDir_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
-        output.writeEnum(8, elDir_);
-      }
-      if (zoom_ != 0) {
-        output.writeInt32(9, zoom_);
-      }
-      if (frameTime_ != 0L) {
-        output.writeUInt64(10, frameTime_);
-      }
-      if (stateTime_ != 0L) {
-        output.writeUInt64(11, stateTime_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (gesture_ != ui.UiInput.RecognizedGesture.RECOGNIZED_GESTURE_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, gesture_);
-      }
-      if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, channel_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(3, x_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(4, y_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(azSpeed_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(5, azSpeed_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(elSpeed_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(6, elSpeed_);
-      }
-      if (azDir_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(7, azDir_);
-      }
-      if (elDir_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(8, elDir_);
-      }
-      if (zoom_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, zoom_);
-      }
-      if (frameTime_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(10, frameTime_);
-      }
-      if (stateTime_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(11, stateTime_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof ui.UiInput.GestureCommand)) {
-        return super.equals(obj);
-      }
-      ui.UiInput.GestureCommand other = (ui.UiInput.GestureCommand) obj;
-
-      if (gesture_ != other.gesture_) return false;
-      if (channel_ != other.channel_) return false;
-      if (java.lang.Double.doubleToLongBits(getX())
-          != java.lang.Double.doubleToLongBits(
-              other.getX())) return false;
-      if (java.lang.Double.doubleToLongBits(getY())
-          != java.lang.Double.doubleToLongBits(
-              other.getY())) return false;
-      if (java.lang.Double.doubleToLongBits(getAzSpeed())
-          != java.lang.Double.doubleToLongBits(
-              other.getAzSpeed())) return false;
-      if (java.lang.Double.doubleToLongBits(getElSpeed())
-          != java.lang.Double.doubleToLongBits(
-              other.getElSpeed())) return false;
-      if (azDir_ != other.azDir_) return false;
-      if (elDir_ != other.elDir_) return false;
-      if (getZoom()
-          != other.getZoom()) return false;
-      if (getFrameTime()
-          != other.getFrameTime()) return false;
-      if (getStateTime()
-          != other.getStateTime()) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + GESTURE_FIELD_NUMBER;
-      hash = (53 * hash) + gesture_;
-      hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
-      hash = (53 * hash) + channel_;
-      hash = (37 * hash) + X_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getX()));
-      hash = (37 * hash) + Y_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getY()));
-      hash = (37 * hash) + AZ_SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getAzSpeed()));
-      hash = (37 * hash) + EL_SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getElSpeed()));
-      hash = (37 * hash) + AZ_DIR_FIELD_NUMBER;
-      hash = (53 * hash) + azDir_;
-      hash = (37 * hash) + EL_DIR_FIELD_NUMBER;
-      hash = (53 * hash) + elDir_;
-      hash = (37 * hash) + ZOOM_FIELD_NUMBER;
-      hash = (53 * hash) + getZoom();
-      hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getFrameTime());
-      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getStateTime());
-      hash = (29 * hash) + getUnknownFields().hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static ui.UiInput.GestureCommand parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public static ui.UiInput.GestureCommand parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-
-    public static ui.UiInput.GestureCommand parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static ui.UiInput.GestureCommand parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(ui.UiInput.GestureCommand prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * <pre>
-     * A gesture the HOST already recognized → the device-command intent. A flat,
-     * scalar-only struct (size-bound); the `gesture` tag selects which fields the
-     * WASM reads when it maps this to the full cmd.* command.
-     * </pre>
-     *
-     * Protobuf type {@code ui.GestureCommand}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ui.GestureCommand)
-        ui.UiInput.GestureCommandOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return ui.UiInput.internal_static_ui_GestureCommand_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return ui.UiInput.internal_static_ui_GestureCommand_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                ui.UiInput.GestureCommand.class, ui.UiInput.GestureCommand.Builder.class);
-      }
-
-      // Construct using ui.UiInput.GestureCommand.newBuilder()
-      private Builder() {
-
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        bitField0_ = 0;
-        gesture_ = 0;
-        channel_ = 0;
-        x_ = 0D;
-        y_ = 0D;
-        azSpeed_ = 0D;
-        elSpeed_ = 0D;
-        azDir_ = 0;
-        elDir_ = 0;
-        zoom_ = 0;
-        frameTime_ = 0L;
-        stateTime_ = 0L;
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return ui.UiInput.internal_static_ui_GestureCommand_descriptor;
-      }
-
-      @java.lang.Override
-      public ui.UiInput.GestureCommand getDefaultInstanceForType() {
-        return ui.UiInput.GestureCommand.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public ui.UiInput.GestureCommand build() {
-        ui.UiInput.GestureCommand result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public ui.UiInput.GestureCommand buildPartial() {
-        ui.UiInput.GestureCommand result = new ui.UiInput.GestureCommand(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
-        onBuilt();
-        return result;
-      }
-
-      private void buildPartial0(ui.UiInput.GestureCommand result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.gesture_ = gesture_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.channel_ = channel_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.x_ = x_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.y_ = y_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.azSpeed_ = azSpeed_;
-        }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.elSpeed_ = elSpeed_;
-        }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.azDir_ = azDir_;
-        }
-        if (((from_bitField0_ & 0x00000080) != 0)) {
-          result.elDir_ = elDir_;
-        }
-        if (((from_bitField0_ & 0x00000100) != 0)) {
-          result.zoom_ = zoom_;
-        }
-        if (((from_bitField0_ & 0x00000200) != 0)) {
-          result.frameTime_ = frameTime_;
-        }
-        if (((from_bitField0_ & 0x00000400) != 0)) {
-          result.stateTime_ = stateTime_;
-        }
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ui.UiInput.GestureCommand) {
-          return mergeFrom((ui.UiInput.GestureCommand)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(ui.UiInput.GestureCommand other) {
-        if (other == ui.UiInput.GestureCommand.getDefaultInstance()) return this;
-        if (other.gesture_ != 0) {
-          setGestureValue(other.getGestureValue());
-        }
-        if (other.channel_ != 0) {
-          setChannelValue(other.getChannelValue());
-        }
-        if (other.getX() != 0D) {
-          setX(other.getX());
-        }
-        if (other.getY() != 0D) {
-          setY(other.getY());
-        }
-        if (other.getAzSpeed() != 0D) {
-          setAzSpeed(other.getAzSpeed());
-        }
-        if (other.getElSpeed() != 0D) {
-          setElSpeed(other.getElSpeed());
-        }
-        if (other.azDir_ != 0) {
-          setAzDirValue(other.getAzDirValue());
-        }
-        if (other.elDir_ != 0) {
-          setElDirValue(other.getElDirValue());
-        }
-        if (other.getZoom() != 0) {
-          setZoom(other.getZoom());
-        }
-        if (other.getFrameTime() != 0L) {
-          setFrameTime(other.getFrameTime());
-        }
-        if (other.getStateTime() != 0L) {
-          setStateTime(other.getStateTime());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 8: {
-                gesture_ = input.readEnum();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 8
-              case 16: {
-                channel_ = input.readEnum();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 16
-              case 25: {
-                x_ = input.readDouble();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 25
-              case 33: {
-                y_ = input.readDouble();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 33
-              case 41: {
-                azSpeed_ = input.readDouble();
-                bitField0_ |= 0x00000010;
-                break;
-              } // case 41
-              case 49: {
-                elSpeed_ = input.readDouble();
-                bitField0_ |= 0x00000020;
-                break;
-              } // case 49
-              case 56: {
-                azDir_ = input.readEnum();
-                bitField0_ |= 0x00000040;
-                break;
-              } // case 56
-              case 64: {
-                elDir_ = input.readEnum();
-                bitField0_ |= 0x00000080;
-                break;
-              } // case 64
-              case 72: {
-                zoom_ = input.readInt32();
-                bitField0_ |= 0x00000100;
-                break;
-              } // case 72
-              case 80: {
-                frameTime_ = input.readUInt64();
-                bitField0_ |= 0x00000200;
-                break;
-              } // case 80
-              case 88: {
-                stateTime_ = input.readUInt64();
-                bitField0_ |= 0x00000400;
-                break;
-              } // case 88
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.unwrapIOException();
-        } finally {
-          onChanged();
-        } // finally
-        return this;
-      }
-      private int bitField0_;
-
-      private int gesture_ = 0;
-      /**
-       * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-       * @return The enum numeric value on the wire for gesture.
-       */
-      @java.lang.Override public int getGestureValue() {
-        return gesture_;
-      }
-      /**
-       * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-       * @param value The enum numeric value on the wire for gesture to set.
-       * @return This builder for chaining.
-       */
-      public Builder setGestureValue(int value) {
-        gesture_ = value;
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-       * @return The gesture.
-       */
-      @java.lang.Override
-      public ui.UiInput.RecognizedGesture getGesture() {
-        ui.UiInput.RecognizedGesture result = ui.UiInput.RecognizedGesture.forNumber(gesture_);
-        return result == null ? ui.UiInput.RecognizedGesture.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-       * @param value The gesture to set.
-       * @return This builder for chaining.
-       */
-      public Builder setGesture(ui.UiInput.RecognizedGesture value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        gesture_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearGesture() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        gesture_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int channel_ = 0;
-      /**
-       * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-       * @return The enum numeric value on the wire for channel.
-       */
-      @java.lang.Override public int getChannelValue() {
-        return channel_;
-      }
-      /**
-       * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-       * @param value The enum numeric value on the wire for channel to set.
-       * @return This builder for chaining.
-       */
-      public Builder setChannelValue(int value) {
-        channel_ = value;
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-       * @return The channel.
-       */
-      @java.lang.Override
-      public ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel() {
-        ser.JonSharedDataTypes.JonGuiDataVideoChannel result = ser.JonSharedDataTypes.JonGuiDataVideoChannel.forNumber(channel_);
-        return result == null ? ser.JonSharedDataTypes.JonGuiDataVideoChannel.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-       * @param value The channel to set.
-       * @return This builder for chaining.
-       */
-      public Builder setChannel(ser.JonSharedDataTypes.JonGuiDataVideoChannel value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000002;
-        channel_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearChannel() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        channel_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private double x_ ;
-      /**
-       * <pre>
-       * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-       * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-       * and StartTrackNDC (jon_shared_cmd_cv).
-       * </pre>
-       *
-       * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
-       * @return The x.
-       */
-      @java.lang.Override
-      public double getX() {
-        return x_;
-      }
-      /**
-       * <pre>
-       * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-       * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-       * and StartTrackNDC (jon_shared_cmd_cv).
-       * </pre>
-       *
-       * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
-       * @param value The x to set.
-       * @return This builder for chaining.
-       */
-      public Builder setX(double value) {
-
-        x_ = value;
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-       * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-       * and StartTrackNDC (jon_shared_cmd_cv).
-       * </pre>
-       *
-       * <code>double x = 3 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearX() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        x_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double y_ ;
-      /**
-       * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
-       * @return The y.
-       */
-      @java.lang.Override
-      public double getY() {
-        return y_;
-      }
-      /**
-       * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
-       * @param value The y to set.
-       * @return This builder for chaining.
-       */
-      public Builder setY(double value) {
-
-        y_ = value;
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double y = 4 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearY() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        y_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double azSpeed_ ;
-      /**
-       * <pre>
-       * Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-       * when the gesture is not a pan.
-       * </pre>
-       *
-       * <code>double az_speed = 5 [(.buf.validate.field) = { ... }</code>
-       * @return The azSpeed.
-       */
-      @java.lang.Override
-      public double getAzSpeed() {
-        return azSpeed_;
-      }
-      /**
-       * <pre>
-       * Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-       * when the gesture is not a pan.
-       * </pre>
-       *
-       * <code>double az_speed = 5 [(.buf.validate.field) = { ... }</code>
-       * @param value The azSpeed to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAzSpeed(double value) {
-
-        azSpeed_ = value;
-        bitField0_ |= 0x00000010;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-       * when the gesture is not a pan.
-       * </pre>
-       *
-       * <code>double az_speed = 5 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearAzSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        azSpeed_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private double elSpeed_ ;
-      /**
-       * <code>double el_speed = 6 [(.buf.validate.field) = { ... }</code>
-       * @return The elSpeed.
-       */
-      @java.lang.Override
-      public double getElSpeed() {
-        return elSpeed_;
-      }
-      /**
-       * <code>double el_speed = 6 [(.buf.validate.field) = { ... }</code>
-       * @param value The elSpeed to set.
-       * @return This builder for chaining.
-       */
-      public Builder setElSpeed(double value) {
-
-        elSpeed_ = value;
-        bitField0_ |= 0x00000020;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>double el_speed = 6 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearElSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000020);
-        elSpeed_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      private int azDir_ = 0;
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-       * @return The enum numeric value on the wire for azDir.
-       */
-      @java.lang.Override public int getAzDirValue() {
-        return azDir_;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-       * @param value The enum numeric value on the wire for azDir to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAzDirValue(int value) {
-        azDir_ = value;
-        bitField0_ |= 0x00000040;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-       * @return The azDir.
-       */
-      @java.lang.Override
-      public ser.JonSharedDataTypes.JonGuiDataRotaryDirection getAzDir() {
-        ser.JonSharedDataTypes.JonGuiDataRotaryDirection result = ser.JonSharedDataTypes.JonGuiDataRotaryDirection.forNumber(azDir_);
-        return result == null ? ser.JonSharedDataTypes.JonGuiDataRotaryDirection.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-       * @param value The azDir to set.
-       * @return This builder for chaining.
-       */
-      public Builder setAzDir(ser.JonSharedDataTypes.JonGuiDataRotaryDirection value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000040;
-        azDir_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection az_dir = 7;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearAzDir() {
-        bitField0_ = (bitField0_ & ~0x00000040);
-        azDir_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int elDir_ = 0;
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-       * @return The enum numeric value on the wire for elDir.
-       */
-      @java.lang.Override public int getElDirValue() {
-        return elDir_;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-       * @param value The enum numeric value on the wire for elDir to set.
-       * @return This builder for chaining.
-       */
-      public Builder setElDirValue(int value) {
-        elDir_ = value;
-        bitField0_ |= 0x00000080;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-       * @return The elDir.
-       */
-      @java.lang.Override
-      public ser.JonSharedDataTypes.JonGuiDataRotaryDirection getElDir() {
-        ser.JonSharedDataTypes.JonGuiDataRotaryDirection result = ser.JonSharedDataTypes.JonGuiDataRotaryDirection.forNumber(elDir_);
-        return result == null ? ser.JonSharedDataTypes.JonGuiDataRotaryDirection.UNRECOGNIZED : result;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-       * @param value The elDir to set.
-       * @return This builder for chaining.
-       */
-      public Builder setElDir(ser.JonSharedDataTypes.JonGuiDataRotaryDirection value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000080;
-        elDir_ = value.getNumber();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.ser.JonGuiDataRotaryDirection el_dir = 8;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearElDir() {
-        bitField0_ = (bitField0_ & ~0x00000080);
-        elDir_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private int zoom_ ;
-      /**
-       * <pre>
-       * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-       * WASM is a stateless 1:1 pass-through, so the host owns the running value
-       * and resolves any ±1 step into this absolute (a delta is inexpressible).
-       * </pre>
-       *
-       * <code>int32 zoom = 9 [(.buf.validate.field) = { ... }</code>
-       * @return The zoom.
-       */
-      @java.lang.Override
-      public int getZoom() {
-        return zoom_;
-      }
-      /**
-       * <pre>
-       * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-       * WASM is a stateless 1:1 pass-through, so the host owns the running value
-       * and resolves any ±1 step into this absolute (a delta is inexpressible).
-       * </pre>
-       *
-       * <code>int32 zoom = 9 [(.buf.validate.field) = { ... }</code>
-       * @param value The zoom to set.
-       * @return This builder for chaining.
-       */
-      public Builder setZoom(int value) {
-
-        zoom_ = value;
-        bitField0_ |= 0x00000100;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-       * WASM is a stateless 1:1 pass-through, so the host owns the running value
-       * and resolves any ±1 step into this absolute (a delta is inexpressible).
-       * </pre>
-       *
-       * <code>int32 zoom = 9 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearZoom() {
-        bitField0_ = (bitField0_ & ~0x00000100);
-        zoom_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private long frameTime_ ;
-      /**
-       * <pre>
-       * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-       * (RotateToNDC / HaltWithNDC frame_time/state_time).
-       * </pre>
-       *
-       * <code>uint64 frame_time = 10;</code>
-       * @return The frameTime.
-       */
-      @java.lang.Override
-      public long getFrameTime() {
-        return frameTime_;
-      }
-      /**
-       * <pre>
-       * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-       * (RotateToNDC / HaltWithNDC frame_time/state_time).
-       * </pre>
-       *
-       * <code>uint64 frame_time = 10;</code>
-       * @param value The frameTime to set.
-       * @return This builder for chaining.
-       */
-      public Builder setFrameTime(long value) {
-
-        frameTime_ = value;
-        bitField0_ |= 0x00000200;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-       * (RotateToNDC / HaltWithNDC frame_time/state_time).
-       * </pre>
-       *
-       * <code>uint64 frame_time = 10;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearFrameTime() {
-        bitField0_ = (bitField0_ & ~0x00000200);
-        frameTime_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long stateTime_ ;
-      /**
-       * <code>uint64 state_time = 11;</code>
-       * @return The stateTime.
-       */
-      @java.lang.Override
-      public long getStateTime() {
-        return stateTime_;
-      }
-      /**
-       * <code>uint64 state_time = 11;</code>
-       * @param value The stateTime to set.
-       * @return This builder for chaining.
-       */
-      public Builder setStateTime(long value) {
-
-        stateTime_ = value;
-        bitField0_ |= 0x00000400;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 state_time = 11;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearStateTime() {
-        bitField0_ = (bitField0_ & ~0x00000400);
-        stateTime_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:ui.GestureCommand)
-    }
-
-    // @@protoc_insertion_point(class_scope:ui.GestureCommand)
-    private static final ui.UiInput.GestureCommand DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new ui.UiInput.GestureCommand();
-    }
-
-    public static ui.UiInput.GestureCommand getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<GestureCommand>
-        PARSER = new com.google.protobuf.AbstractParser<GestureCommand>() {
-      @java.lang.Override
-      public GestureCommand parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
-      }
-    };
-
-    public static com.google.protobuf.Parser<GestureCommand> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GestureCommand> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public ui.UiInput.GestureCommand getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface LifecycleOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ui.Lifecycle)
       com.google.protobuf.MessageOrBuilder {
@@ -3230,7 +1727,9 @@ public final class UiInput {
   }
   /**
    * <pre>
-   * OS lifecycle the host pushes for WASM restyle / pause.
+   * OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+   * also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+   * pointer loss that a per-pointer CANCEL cannot cover).
    * </pre>
    *
    * Protobuf type {@code ui.Lifecycle}
@@ -3492,7 +1991,9 @@ public final class UiInput {
     }
     /**
      * <pre>
-     * OS lifecycle the host pushes for WASM restyle / pause.
+     * OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+     * also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+     * pointer loss that a per-pointer CANCEL cannot cover).
      * </pre>
      *
      * Protobuf type {@code ui.Lifecycle}
@@ -3848,32 +2349,17 @@ public final class UiInput {
     ui.UiInput.PointerEventOrBuilder getPointerOrBuilder();
 
     /**
-     * <code>.ui.GestureCommand gesture = 3;</code>
-     * @return Whether the gesture field is set.
-     */
-    boolean hasGesture();
-    /**
-     * <code>.ui.GestureCommand gesture = 3;</code>
-     * @return The gesture.
-     */
-    ui.UiInput.GestureCommand getGesture();
-    /**
-     * <code>.ui.GestureCommand gesture = 3;</code>
-     */
-    ui.UiInput.GestureCommandOrBuilder getGestureOrBuilder();
-
-    /**
-     * <code>.ui.Lifecycle lifecycle = 4;</code>
+     * <code>.ui.Lifecycle lifecycle = 3;</code>
      * @return Whether the lifecycle field is set.
      */
     boolean hasLifecycle();
     /**
-     * <code>.ui.Lifecycle lifecycle = 4;</code>
+     * <code>.ui.Lifecycle lifecycle = 3;</code>
      * @return The lifecycle.
      */
     ui.UiInput.Lifecycle getLifecycle();
     /**
-     * <code>.ui.Lifecycle lifecycle = 4;</code>
+     * <code>.ui.Lifecycle lifecycle = 3;</code>
      */
     ui.UiInput.LifecycleOrBuilder getLifecycleOrBuilder();
 
@@ -3929,8 +2415,7 @@ public final class UiInput {
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       POINTER(2),
-      GESTURE(3),
-      LIFECYCLE(4),
+      LIFECYCLE(3),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -3949,8 +2434,7 @@ public final class UiInput {
       public static EventCase forNumber(int value) {
         switch (value) {
           case 2: return POINTER;
-          case 3: return GESTURE;
-          case 4: return LIFECYCLE;
+          case 3: return LIFECYCLE;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -4008,63 +2492,32 @@ public final class UiInput {
       return ui.UiInput.PointerEvent.getDefaultInstance();
     }
 
-    public static final int GESTURE_FIELD_NUMBER = 3;
+    public static final int LIFECYCLE_FIELD_NUMBER = 3;
     /**
-     * <code>.ui.GestureCommand gesture = 3;</code>
-     * @return Whether the gesture field is set.
-     */
-    @java.lang.Override
-    public boolean hasGesture() {
-      return eventCase_ == 3;
-    }
-    /**
-     * <code>.ui.GestureCommand gesture = 3;</code>
-     * @return The gesture.
-     */
-    @java.lang.Override
-    public ui.UiInput.GestureCommand getGesture() {
-      if (eventCase_ == 3) {
-         return (ui.UiInput.GestureCommand) event_;
-      }
-      return ui.UiInput.GestureCommand.getDefaultInstance();
-    }
-    /**
-     * <code>.ui.GestureCommand gesture = 3;</code>
-     */
-    @java.lang.Override
-    public ui.UiInput.GestureCommandOrBuilder getGestureOrBuilder() {
-      if (eventCase_ == 3) {
-         return (ui.UiInput.GestureCommand) event_;
-      }
-      return ui.UiInput.GestureCommand.getDefaultInstance();
-    }
-
-    public static final int LIFECYCLE_FIELD_NUMBER = 4;
-    /**
-     * <code>.ui.Lifecycle lifecycle = 4;</code>
+     * <code>.ui.Lifecycle lifecycle = 3;</code>
      * @return Whether the lifecycle field is set.
      */
     @java.lang.Override
     public boolean hasLifecycle() {
-      return eventCase_ == 4;
+      return eventCase_ == 3;
     }
     /**
-     * <code>.ui.Lifecycle lifecycle = 4;</code>
+     * <code>.ui.Lifecycle lifecycle = 3;</code>
      * @return The lifecycle.
      */
     @java.lang.Override
     public ui.UiInput.Lifecycle getLifecycle() {
-      if (eventCase_ == 4) {
+      if (eventCase_ == 3) {
          return (ui.UiInput.Lifecycle) event_;
       }
       return ui.UiInput.Lifecycle.getDefaultInstance();
     }
     /**
-     * <code>.ui.Lifecycle lifecycle = 4;</code>
+     * <code>.ui.Lifecycle lifecycle = 3;</code>
      */
     @java.lang.Override
     public ui.UiInput.LifecycleOrBuilder getLifecycleOrBuilder() {
-      if (eventCase_ == 4) {
+      if (eventCase_ == 3) {
          return (ui.UiInput.Lifecycle) event_;
       }
       return ui.UiInput.Lifecycle.getDefaultInstance();
@@ -4091,10 +2544,7 @@ public final class UiInput {
         output.writeMessage(2, (ui.UiInput.PointerEvent) event_);
       }
       if (eventCase_ == 3) {
-        output.writeMessage(3, (ui.UiInput.GestureCommand) event_);
-      }
-      if (eventCase_ == 4) {
-        output.writeMessage(4, (ui.UiInput.Lifecycle) event_);
+        output.writeMessage(3, (ui.UiInput.Lifecycle) event_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4115,11 +2565,7 @@ public final class UiInput {
       }
       if (eventCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (ui.UiInput.GestureCommand) event_);
-      }
-      if (eventCase_ == 4) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (ui.UiInput.Lifecycle) event_);
+          .computeMessageSize(3, (ui.UiInput.Lifecycle) event_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -4145,10 +2591,6 @@ public final class UiInput {
               .equals(other.getPointer())) return false;
           break;
         case 3:
-          if (!getGesture()
-              .equals(other.getGesture())) return false;
-          break;
-        case 4:
           if (!getLifecycle()
               .equals(other.getLifecycle())) return false;
           break;
@@ -4174,10 +2616,6 @@ public final class UiInput {
           hash = (53 * hash) + getPointer().hashCode();
           break;
         case 3:
-          hash = (37 * hash) + GESTURE_FIELD_NUMBER;
-          hash = (53 * hash) + getGesture().hashCode();
-          break;
-        case 4:
           hash = (37 * hash) + LIFECYCLE_FIELD_NUMBER;
           hash = (53 * hash) + getLifecycle().hashCode();
           break;
@@ -4325,9 +2763,6 @@ public final class UiInput {
         if (pointerBuilder_ != null) {
           pointerBuilder_.clear();
         }
-        if (gestureBuilder_ != null) {
-          gestureBuilder_.clear();
-        }
         if (lifecycleBuilder_ != null) {
           lifecycleBuilder_.clear();
         }
@@ -4380,10 +2815,6 @@ public final class UiInput {
           result.event_ = pointerBuilder_.build();
         }
         if (eventCase_ == 3 &&
-            gestureBuilder_ != null) {
-          result.event_ = gestureBuilder_.build();
-        }
-        if (eventCase_ == 4 &&
             lifecycleBuilder_ != null) {
           result.event_ = lifecycleBuilder_.build();
         }
@@ -4407,10 +2838,6 @@ public final class UiInput {
         switch (other.getEventCase()) {
           case POINTER: {
             mergePointer(other.getPointer());
-            break;
-          }
-          case GESTURE: {
-            mergeGesture(other.getGesture());
             break;
           }
           case LIFECYCLE: {
@@ -4461,18 +2888,11 @@ public final class UiInput {
               } // case 18
               case 26: {
                 input.readMessage(
-                    getGestureFieldBuilder().getBuilder(),
+                    getLifecycleFieldBuilder().getBuilder(),
                     extensionRegistry);
                 eventCase_ = 3;
                 break;
               } // case 26
-              case 34: {
-                input.readMessage(
-                    getLifecycleFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                eventCase_ = 4;
-                break;
-              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4680,177 +3100,35 @@ public final class UiInput {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          ui.UiInput.GestureCommand, ui.UiInput.GestureCommand.Builder, ui.UiInput.GestureCommandOrBuilder> gestureBuilder_;
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       * @return Whether the gesture field is set.
-       */
-      @java.lang.Override
-      public boolean hasGesture() {
-        return eventCase_ == 3;
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       * @return The gesture.
-       */
-      @java.lang.Override
-      public ui.UiInput.GestureCommand getGesture() {
-        if (gestureBuilder_ == null) {
-          if (eventCase_ == 3) {
-            return (ui.UiInput.GestureCommand) event_;
-          }
-          return ui.UiInput.GestureCommand.getDefaultInstance();
-        } else {
-          if (eventCase_ == 3) {
-            return gestureBuilder_.getMessage();
-          }
-          return ui.UiInput.GestureCommand.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      public Builder setGesture(ui.UiInput.GestureCommand value) {
-        if (gestureBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          event_ = value;
-          onChanged();
-        } else {
-          gestureBuilder_.setMessage(value);
-        }
-        eventCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      public Builder setGesture(
-          ui.UiInput.GestureCommand.Builder builderForValue) {
-        if (gestureBuilder_ == null) {
-          event_ = builderForValue.build();
-          onChanged();
-        } else {
-          gestureBuilder_.setMessage(builderForValue.build());
-        }
-        eventCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      public Builder mergeGesture(ui.UiInput.GestureCommand value) {
-        if (gestureBuilder_ == null) {
-          if (eventCase_ == 3 &&
-              event_ != ui.UiInput.GestureCommand.getDefaultInstance()) {
-            event_ = ui.UiInput.GestureCommand.newBuilder((ui.UiInput.GestureCommand) event_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            event_ = value;
-          }
-          onChanged();
-        } else {
-          if (eventCase_ == 3) {
-            gestureBuilder_.mergeFrom(value);
-          } else {
-            gestureBuilder_.setMessage(value);
-          }
-        }
-        eventCase_ = 3;
-        return this;
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      public Builder clearGesture() {
-        if (gestureBuilder_ == null) {
-          if (eventCase_ == 3) {
-            eventCase_ = 0;
-            event_ = null;
-            onChanged();
-          }
-        } else {
-          if (eventCase_ == 3) {
-            eventCase_ = 0;
-            event_ = null;
-          }
-          gestureBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      public ui.UiInput.GestureCommand.Builder getGestureBuilder() {
-        return getGestureFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      @java.lang.Override
-      public ui.UiInput.GestureCommandOrBuilder getGestureOrBuilder() {
-        if ((eventCase_ == 3) && (gestureBuilder_ != null)) {
-          return gestureBuilder_.getMessageOrBuilder();
-        } else {
-          if (eventCase_ == 3) {
-            return (ui.UiInput.GestureCommand) event_;
-          }
-          return ui.UiInput.GestureCommand.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.ui.GestureCommand gesture = 3;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          ui.UiInput.GestureCommand, ui.UiInput.GestureCommand.Builder, ui.UiInput.GestureCommandOrBuilder> 
-          getGestureFieldBuilder() {
-        if (gestureBuilder_ == null) {
-          if (!(eventCase_ == 3)) {
-            event_ = ui.UiInput.GestureCommand.getDefaultInstance();
-          }
-          gestureBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              ui.UiInput.GestureCommand, ui.UiInput.GestureCommand.Builder, ui.UiInput.GestureCommandOrBuilder>(
-                  (ui.UiInput.GestureCommand) event_,
-                  getParentForChildren(),
-                  isClean());
-          event_ = null;
-        }
-        eventCase_ = 3;
-        onChanged();
-        return gestureBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
           ui.UiInput.Lifecycle, ui.UiInput.Lifecycle.Builder, ui.UiInput.LifecycleOrBuilder> lifecycleBuilder_;
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        * @return Whether the lifecycle field is set.
        */
       @java.lang.Override
       public boolean hasLifecycle() {
-        return eventCase_ == 4;
+        return eventCase_ == 3;
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        * @return The lifecycle.
        */
       @java.lang.Override
       public ui.UiInput.Lifecycle getLifecycle() {
         if (lifecycleBuilder_ == null) {
-          if (eventCase_ == 4) {
+          if (eventCase_ == 3) {
             return (ui.UiInput.Lifecycle) event_;
           }
           return ui.UiInput.Lifecycle.getDefaultInstance();
         } else {
-          if (eventCase_ == 4) {
+          if (eventCase_ == 3) {
             return lifecycleBuilder_.getMessage();
           }
           return ui.UiInput.Lifecycle.getDefaultInstance();
         }
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       public Builder setLifecycle(ui.UiInput.Lifecycle value) {
         if (lifecycleBuilder_ == null) {
@@ -4862,11 +3140,11 @@ public final class UiInput {
         } else {
           lifecycleBuilder_.setMessage(value);
         }
-        eventCase_ = 4;
+        eventCase_ = 3;
         return this;
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       public Builder setLifecycle(
           ui.UiInput.Lifecycle.Builder builderForValue) {
@@ -4876,15 +3154,15 @@ public final class UiInput {
         } else {
           lifecycleBuilder_.setMessage(builderForValue.build());
         }
-        eventCase_ = 4;
+        eventCase_ = 3;
         return this;
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       public Builder mergeLifecycle(ui.UiInput.Lifecycle value) {
         if (lifecycleBuilder_ == null) {
-          if (eventCase_ == 4 &&
+          if (eventCase_ == 3 &&
               event_ != ui.UiInput.Lifecycle.getDefaultInstance()) {
             event_ = ui.UiInput.Lifecycle.newBuilder((ui.UiInput.Lifecycle) event_)
                 .mergeFrom(value).buildPartial();
@@ -4893,27 +3171,27 @@ public final class UiInput {
           }
           onChanged();
         } else {
-          if (eventCase_ == 4) {
+          if (eventCase_ == 3) {
             lifecycleBuilder_.mergeFrom(value);
           } else {
             lifecycleBuilder_.setMessage(value);
           }
         }
-        eventCase_ = 4;
+        eventCase_ = 3;
         return this;
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       public Builder clearLifecycle() {
         if (lifecycleBuilder_ == null) {
-          if (eventCase_ == 4) {
+          if (eventCase_ == 3) {
             eventCase_ = 0;
             event_ = null;
             onChanged();
           }
         } else {
-          if (eventCase_ == 4) {
+          if (eventCase_ == 3) {
             eventCase_ = 0;
             event_ = null;
           }
@@ -4922,33 +3200,33 @@ public final class UiInput {
         return this;
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       public ui.UiInput.Lifecycle.Builder getLifecycleBuilder() {
         return getLifecycleFieldBuilder().getBuilder();
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       @java.lang.Override
       public ui.UiInput.LifecycleOrBuilder getLifecycleOrBuilder() {
-        if ((eventCase_ == 4) && (lifecycleBuilder_ != null)) {
+        if ((eventCase_ == 3) && (lifecycleBuilder_ != null)) {
           return lifecycleBuilder_.getMessageOrBuilder();
         } else {
-          if (eventCase_ == 4) {
+          if (eventCase_ == 3) {
             return (ui.UiInput.Lifecycle) event_;
           }
           return ui.UiInput.Lifecycle.getDefaultInstance();
         }
       }
       /**
-       * <code>.ui.Lifecycle lifecycle = 4;</code>
+       * <code>.ui.Lifecycle lifecycle = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           ui.UiInput.Lifecycle, ui.UiInput.Lifecycle.Builder, ui.UiInput.LifecycleOrBuilder> 
           getLifecycleFieldBuilder() {
         if (lifecycleBuilder_ == null) {
-          if (!(eventCase_ == 4)) {
+          if (!(eventCase_ == 3)) {
             event_ = ui.UiInput.Lifecycle.getDefaultInstance();
           }
           lifecycleBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -4958,7 +3236,7 @@ public final class UiInput {
                   isClean());
           event_ = null;
         }
-        eventCase_ = 4;
+        eventCase_ = 3;
         onChanged();
         return lifecycleBuilder_;
       }
@@ -7017,11 +5295,6 @@ public final class UiInput {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_PointerEvent_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ui_GestureCommand_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ui_GestureCommand_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_Lifecycle_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -7056,110 +5329,86 @@ public final class UiInput {
   static {
     java.lang.String[] descriptorData = {
       "\n\021ui/ui_input.proto\022\002ui\032\033buf/validate/va" +
-      "lidate.proto\032\033jon_shared_data_types.prot" +
-      "o\"\277\001\n\014PointerEvent\022+\n\005phase\030\001 \001(\0162\020.ui.P" +
-      "ointerPhaseB\n\272H\007\202\001\004\020\001 \000\022)\n\004kind\030\002 \001(\0162\017." +
-      "ui.PointerKindB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\003 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\004 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\017\n\007buttons\030\005 \001(\r\"\273\003\n\016" +
-      "GestureCommand\0222\n\007gesture\030\001 \001(\0162\025.ui.Rec" +
-      "ognizedGestureB\n\272H\007\202\001\004\020\001 \000\0228\n\007channel\030\002 " +
-      "\001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004" +
-      "\020\001 \000\022\"\n\001x\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
-      "\022\"\n\001y\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022)\n\010" +
-      "az_speed\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022" +
-      ")\n\010el_speed\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000" +
-      "\000\000\022.\n\006az_dir\030\007 \001(\0162\036.ser.JonGuiDataRotar" +
-      "yDirection\022.\n\006el_dir\030\010 \001(\0162\036.ser.JonGuiD" +
-      "ataRotaryDirection\022\025\n\004zoom\030\t \001(\005B\007\272H\004\032\002(" +
-      "\000\022\022\n\nframe_time\030\n \001(\004\022\022\n\nstate_time\030\013 \001(" +
-      "\004\"W\n\tLifecycle\022(\n\005theme\030\001 \001(\0162\r.ui.Theme" +
-      "ModeB\n\272H\007\202\001\004\020\001 \000\022\017\n\007focused\030\002 \001(\010\022\017\n\007vis" +
-      "ible\030\003 \001(\010\"\251\001\n\nHostToWasm\022\033\n\007version\030\001 \001" +
-      "(\rB\n\272H\007*\005\030\377\001(\001\022#\n\007pointer\030\002 \001(\0132\020.ui.Poi" +
-      "nterEventH\000\022%\n\007gesture\030\003 \001(\0132\022.ui.Gestur" +
-      "eCommandH\000\022\"\n\tlifecycle\030\004 \001(\0132\r.ui.Lifec" +
-      "ycleH\000B\016\n\005event\022\005\272H\002\010\001\"6\n\nHoverState\022\023\n\013" +
-      "hovered_uid\030\001 \001(\r\022\023\n\013interactive\030\002 \001(\010\";" +
-      "\n\rCursorRequest\022*\n\006cursor\030\001 \001(\0162\016.ui.Cur" +
-      "sorTypeB\n\272H\007\202\001\004\020\001 \000\"\200\001\n\nWasmToHost\022\033\n\007ve" +
-      "rsion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\037\n\005hover\030\002 \001(\0132\016" +
-      ".ui.HoverStateH\000\022#\n\006cursor\030\003 \001(\0132\021.ui.Cu" +
-      "rsorRequestH\000B\017\n\006report\022\005\272H\002\010\001*W\n\022InputS" +
-      "chemaVersion\022$\n INPUT_SCHEMA_VERSION_UNS" +
-      "PECIFIED\020\000\022\033\n\027INPUT_SCHEMA_VERSION_V1\020\001*" +
-      "s\n\014PointerPhase\022\035\n\031POINTER_PHASE_UNSPECI" +
-      "FIED\020\000\022\026\n\022POINTER_PHASE_DOWN\020\001\022\026\n\022POINTE" +
-      "R_PHASE_MOVE\020\002\022\024\n\020POINTER_PHASE_UP\020\003*q\n\013" +
-      "PointerKind\022\034\n\030POINTER_KIND_UNSPECIFIED\020" +
-      "\000\022\026\n\022POINTER_KIND_MOUSE\020\001\022\026\n\022POINTER_KIN" +
-      "D_TOUCH\020\002\022\024\n\020POINTER_KIND_PEN\020\003*\320\001\n\021Reco" +
-      "gnizedGesture\022\"\n\036RECOGNIZED_GESTURE_UNSP" +
-      "ECIFIED\020\000\022\037\n\033RECOGNIZED_GESTURE_PAN_MOVE" +
-      "\020\001\022\036\n\032RECOGNIZED_GESTURE_PAN_END\020\002\022\032\n\026RE" +
-      "COGNIZED_GESTURE_TAP\020\003\022\034\n\030RECOGNIZED_GES" +
-      "TURE_TRACK\020\004\022\034\n\030RECOGNIZED_GESTURE_PINCH" +
-      "\020\005*R\n\tThemeMode\022\032\n\026THEME_MODE_UNSPECIFIE" +
-      "D\020\000\022\024\n\020THEME_MODE_LIGHT\020\001\022\023\n\017THEME_MODE_" +
-      "DARK\020\002*\274\001\n\nCursorType\022\033\n\027CURSOR_TYPE_UNS" +
-      "PECIFIED\020\000\022\027\n\023CURSOR_TYPE_DEFAULT\020\001\022\027\n\023C" +
-      "URSOR_TYPE_POINTER\020\002\022\024\n\020CURSOR_TYPE_TEXT" +
-      "\020\003\022\024\n\020CURSOR_TYPE_GRAB\020\004\022\026\n\022CURSOR_TYPE_" +
-      "RESIZE\020\005\022\033\n\027CURSOR_TYPE_NOT_ALLOWED\020\006BEZ" +
-      "Cgit-codecommit.eu-central-1.amazonaws.c" +
-      "om/v1/repos/jettison/jonp/uib\006proto3"
+      "lidate.proto\"\326\001\n\014PointerEvent\022+\n\005phase\030\001" +
+      " \001(\0162\020.ui.PointerPhaseB\n\272H\007\202\001\004\020\001 \000\022)\n\004ki" +
+      "nd\030\002 \001(\0162\017.ui.PointerKindB\n\272H\007\202\001\004\020\001 \000\022\022\n" +
+      "\npointer_id\030\003 \001(\r\022\"\n\001x\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?" +
+      ")\000\000\000\000\000\000\360\277\022\022\n\nevent_time\030\006 \001(\004\"W\n\tLifecyc" +
+      "le\022(\n\005theme\030\001 \001(\0162\r.ui.ThemeModeB\n\272H\007\202\001\004" +
+      "\020\001 \000\022\017\n\007focused\030\002 \001(\010\022\017\n\007visible\030\003 \001(\010\"\202" +
+      "\001\n\nHostToWasm\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001" +
+      "(\001\022#\n\007pointer\030\002 \001(\0132\020.ui.PointerEventH\000\022" +
+      "\"\n\tlifecycle\030\003 \001(\0132\r.ui.LifecycleH\000B\016\n\005e" +
+      "vent\022\005\272H\002\010\001\"6\n\nHoverState\022\023\n\013hovered_uid" +
+      "\030\001 \001(\r\022\023\n\013interactive\030\002 \001(\010\";\n\rCursorReq" +
+      "uest\022*\n\006cursor\030\001 \001(\0162\016.ui.CursorTypeB\n\272H" +
+      "\007\202\001\004\020\001 \000\"\200\001\n\nWasmToHost\022\033\n\007version\030\001 \001(\r" +
+      "B\n\272H\007*\005\030\377\001(\001\022\037\n\005hover\030\002 \001(\0132\016.ui.HoverSt" +
+      "ateH\000\022#\n\006cursor\030\003 \001(\0132\021.ui.CursorRequest" +
+      "H\000B\017\n\006report\022\005\272H\002\010\001*W\n\022InputSchemaVersio" +
+      "n\022$\n INPUT_SCHEMA_VERSION_UNSPECIFIED\020\000\022" +
+      "\033\n\027INPUT_SCHEMA_VERSION_V1\020\001*\215\001\n\014Pointer" +
+      "Phase\022\035\n\031POINTER_PHASE_UNSPECIFIED\020\000\022\026\n\022" +
+      "POINTER_PHASE_DOWN\020\001\022\026\n\022POINTER_PHASE_MO" +
+      "VE\020\002\022\024\n\020POINTER_PHASE_UP\020\003\022\030\n\024POINTER_PH" +
+      "ASE_CANCEL\020\004*q\n\013PointerKind\022\034\n\030POINTER_K" +
+      "IND_UNSPECIFIED\020\000\022\026\n\022POINTER_KIND_MOUSE\020" +
+      "\001\022\026\n\022POINTER_KIND_TOUCH\020\002\022\024\n\020POINTER_KIN" +
+      "D_PEN\020\003*R\n\tThemeMode\022\032\n\026THEME_MODE_UNSPE" +
+      "CIFIED\020\000\022\024\n\020THEME_MODE_LIGHT\020\001\022\023\n\017THEME_" +
+      "MODE_DARK\020\002*\274\001\n\nCursorType\022\033\n\027CURSOR_TYP" +
+      "E_UNSPECIFIED\020\000\022\027\n\023CURSOR_TYPE_DEFAULT\020\001" +
+      "\022\027\n\023CURSOR_TYPE_POINTER\020\002\022\024\n\020CURSOR_TYPE" +
+      "_TEXT\020\003\022\024\n\020CURSOR_TYPE_GRAB\020\004\022\026\n\022CURSOR_" +
+      "TYPE_RESIZE\020\005\022\033\n\027CURSOR_TYPE_NOT_ALLOWED" +
+      "\020\006BEZCgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/uib\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           build.buf.validate.ValidateProto.getDescriptor(),
-          ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_ui_PointerEvent_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_ui_PointerEvent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_PointerEvent_descriptor,
-        new java.lang.String[] { "Phase", "Kind", "X", "Y", "Buttons", });
-    internal_static_ui_GestureCommand_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_ui_GestureCommand_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_ui_GestureCommand_descriptor,
-        new java.lang.String[] { "Gesture", "Channel", "X", "Y", "AzSpeed", "ElSpeed", "AzDir", "ElDir", "Zoom", "FrameTime", "StateTime", });
+        new java.lang.String[] { "Phase", "Kind", "PointerId", "X", "Y", "EventTime", });
     internal_static_ui_Lifecycle_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_ui_Lifecycle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Lifecycle_descriptor,
         new java.lang.String[] { "Theme", "Focused", "Visible", });
     internal_static_ui_HostToWasm_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_ui_HostToWasm_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_HostToWasm_descriptor,
-        new java.lang.String[] { "Version", "Pointer", "Gesture", "Lifecycle", "Event", });
+        new java.lang.String[] { "Version", "Pointer", "Lifecycle", "Event", });
     internal_static_ui_HoverState_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_ui_HoverState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_HoverState_descriptor,
         new java.lang.String[] { "HoveredUid", "Interactive", });
     internal_static_ui_CursorRequest_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_ui_CursorRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_CursorRequest_descriptor,
         new java.lang.String[] { "Cursor", });
     internal_static_ui_WasmToHost_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_ui_WasmToHost_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WasmToHost_descriptor,
         new java.lang.String[] { "Version", "Hover", "Cursor", "Report", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
-    ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

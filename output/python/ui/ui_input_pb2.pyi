@@ -1,4 +1,3 @@
-import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
@@ -17,6 +16,7 @@ class PointerPhase(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     POINTER_PHASE_DOWN: _ClassVar[PointerPhase]
     POINTER_PHASE_MOVE: _ClassVar[PointerPhase]
     POINTER_PHASE_UP: _ClassVar[PointerPhase]
+    POINTER_PHASE_CANCEL: _ClassVar[PointerPhase]
 
 class PointerKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -24,15 +24,6 @@ class PointerKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     POINTER_KIND_MOUSE: _ClassVar[PointerKind]
     POINTER_KIND_TOUCH: _ClassVar[PointerKind]
     POINTER_KIND_PEN: _ClassVar[PointerKind]
-
-class RecognizedGesture(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
-    __slots__ = ()
-    RECOGNIZED_GESTURE_UNSPECIFIED: _ClassVar[RecognizedGesture]
-    RECOGNIZED_GESTURE_PAN_MOVE: _ClassVar[RecognizedGesture]
-    RECOGNIZED_GESTURE_PAN_END: _ClassVar[RecognizedGesture]
-    RECOGNIZED_GESTURE_TAP: _ClassVar[RecognizedGesture]
-    RECOGNIZED_GESTURE_TRACK: _ClassVar[RecognizedGesture]
-    RECOGNIZED_GESTURE_PINCH: _ClassVar[RecognizedGesture]
 
 class ThemeMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -55,16 +46,11 @@ POINTER_PHASE_UNSPECIFIED: PointerPhase
 POINTER_PHASE_DOWN: PointerPhase
 POINTER_PHASE_MOVE: PointerPhase
 POINTER_PHASE_UP: PointerPhase
+POINTER_PHASE_CANCEL: PointerPhase
 POINTER_KIND_UNSPECIFIED: PointerKind
 POINTER_KIND_MOUSE: PointerKind
 POINTER_KIND_TOUCH: PointerKind
 POINTER_KIND_PEN: PointerKind
-RECOGNIZED_GESTURE_UNSPECIFIED: RecognizedGesture
-RECOGNIZED_GESTURE_PAN_MOVE: RecognizedGesture
-RECOGNIZED_GESTURE_PAN_END: RecognizedGesture
-RECOGNIZED_GESTURE_TAP: RecognizedGesture
-RECOGNIZED_GESTURE_TRACK: RecognizedGesture
-RECOGNIZED_GESTURE_PINCH: RecognizedGesture
 THEME_MODE_UNSPECIFIED: ThemeMode
 THEME_MODE_LIGHT: ThemeMode
 THEME_MODE_DARK: ThemeMode
@@ -77,44 +63,20 @@ CURSOR_TYPE_RESIZE: CursorType
 CURSOR_TYPE_NOT_ALLOWED: CursorType
 
 class PointerEvent(_message.Message):
-    __slots__ = ("phase", "kind", "x", "y", "buttons")
+    __slots__ = ("phase", "kind", "pointer_id", "x", "y", "event_time")
     PHASE_FIELD_NUMBER: _ClassVar[int]
     KIND_FIELD_NUMBER: _ClassVar[int]
+    POINTER_ID_FIELD_NUMBER: _ClassVar[int]
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]
-    BUTTONS_FIELD_NUMBER: _ClassVar[int]
+    EVENT_TIME_FIELD_NUMBER: _ClassVar[int]
     phase: PointerPhase
     kind: PointerKind
+    pointer_id: int
     x: float
     y: float
-    buttons: int
-    def __init__(self, phase: _Optional[_Union[PointerPhase, str]] = ..., kind: _Optional[_Union[PointerKind, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., buttons: _Optional[int] = ...) -> None: ...
-
-class GestureCommand(_message.Message):
-    __slots__ = ("gesture", "channel", "x", "y", "az_speed", "el_speed", "az_dir", "el_dir", "zoom", "frame_time", "state_time")
-    GESTURE_FIELD_NUMBER: _ClassVar[int]
-    CHANNEL_FIELD_NUMBER: _ClassVar[int]
-    X_FIELD_NUMBER: _ClassVar[int]
-    Y_FIELD_NUMBER: _ClassVar[int]
-    AZ_SPEED_FIELD_NUMBER: _ClassVar[int]
-    EL_SPEED_FIELD_NUMBER: _ClassVar[int]
-    AZ_DIR_FIELD_NUMBER: _ClassVar[int]
-    EL_DIR_FIELD_NUMBER: _ClassVar[int]
-    ZOOM_FIELD_NUMBER: _ClassVar[int]
-    FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
-    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
-    gesture: RecognizedGesture
-    channel: _jon_shared_data_types_pb2.JonGuiDataVideoChannel
-    x: float
-    y: float
-    az_speed: float
-    el_speed: float
-    az_dir: _jon_shared_data_types_pb2.JonGuiDataRotaryDirection
-    el_dir: _jon_shared_data_types_pb2.JonGuiDataRotaryDirection
-    zoom: int
-    frame_time: int
-    state_time: int
-    def __init__(self, gesture: _Optional[_Union[RecognizedGesture, str]] = ..., channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., az_speed: _Optional[float] = ..., el_speed: _Optional[float] = ..., az_dir: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataRotaryDirection, str]] = ..., el_dir: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataRotaryDirection, str]] = ..., zoom: _Optional[int] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
+    event_time: int
+    def __init__(self, phase: _Optional[_Union[PointerPhase, str]] = ..., kind: _Optional[_Union[PointerKind, str]] = ..., pointer_id: _Optional[int] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., event_time: _Optional[int] = ...) -> None: ...
 
 class Lifecycle(_message.Message):
     __slots__ = ("theme", "focused", "visible")
@@ -127,16 +89,14 @@ class Lifecycle(_message.Message):
     def __init__(self, theme: _Optional[_Union[ThemeMode, str]] = ..., focused: bool = ..., visible: bool = ...) -> None: ...
 
 class HostToWasm(_message.Message):
-    __slots__ = ("version", "pointer", "gesture", "lifecycle")
+    __slots__ = ("version", "pointer", "lifecycle")
     VERSION_FIELD_NUMBER: _ClassVar[int]
     POINTER_FIELD_NUMBER: _ClassVar[int]
-    GESTURE_FIELD_NUMBER: _ClassVar[int]
     LIFECYCLE_FIELD_NUMBER: _ClassVar[int]
     version: int
     pointer: PointerEvent
-    gesture: GestureCommand
     lifecycle: Lifecycle
-    def __init__(self, version: _Optional[int] = ..., pointer: _Optional[_Union[PointerEvent, _Mapping]] = ..., gesture: _Optional[_Union[GestureCommand, _Mapping]] = ..., lifecycle: _Optional[_Union[Lifecycle, _Mapping]] = ...) -> None: ...
+    def __init__(self, version: _Optional[int] = ..., pointer: _Optional[_Union[PointerEvent, _Mapping]] = ..., lifecycle: _Optional[_Union[Lifecycle, _Mapping]] = ...) -> None: ...
 
 class HoverState(_message.Message):
     __slots__ = ("hovered_uid", "interactive")

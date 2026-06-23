@@ -32,7 +32,8 @@ inline constexpr PointerEvent::Impl_::Impl_(
         kind_{static_cast< ::ui::PointerKind >(0)},
         x_{0},
         y_{0},
-        buttons_{0u},
+        event_time_{::uint64_t{0u}},
+        pointer_id_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -107,41 +108,6 @@ struct HoverStateDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HoverStateDefaultTypeInternal _HoverState_default_instance_;
-
-inline constexpr GestureCommand::Impl_::Impl_(
-    ::_pbi::ConstantInitialized) noexcept
-      : gesture_{static_cast< ::ui::RecognizedGesture >(0)},
-        channel_{static_cast< ::ser::JonGuiDataVideoChannel >(0)},
-        x_{0},
-        y_{0},
-        az_speed_{0},
-        el_speed_{0},
-        az_dir_{static_cast< ::ser::JonGuiDataRotaryDirection >(0)},
-        el_dir_{static_cast< ::ser::JonGuiDataRotaryDirection >(0)},
-        frame_time_{::uint64_t{0u}},
-        state_time_{::uint64_t{0u}},
-        zoom_{0},
-        _cached_size_{0} {}
-
-template <typename>
-PROTOBUF_CONSTEXPR GestureCommand::GestureCommand(::_pbi::ConstantInitialized)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(_class_data_.base()),
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(),
-#endif  // PROTOBUF_CUSTOM_VTABLE
-      _impl_(::_pbi::ConstantInitialized()) {
-}
-struct GestureCommandDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR GestureCommandDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~GestureCommandDefaultTypeInternal() {}
-  union {
-    GestureCommand _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GestureCommandDefaultTypeInternal _GestureCommand_default_instance_;
 
 inline constexpr CursorRequest::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -222,7 +188,7 @@ struct HostToWasmDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HostToWasmDefaultTypeInternal _HostToWasm_default_instance_;
 }  // namespace ui
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ui_2fui_5finput_2eproto[6];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ui_2fui_5finput_2eproto[5];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_ui_2fui_5finput_2eproto = nullptr;
 const ::uint32_t
@@ -238,28 +204,10 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.phase_),
         PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.kind_),
+        PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.pointer_id_),
         PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.x_),
         PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.y_),
-        PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.buttons_),
-        ~0u,  // no _has_bits_
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _internal_metadata_),
-        ~0u,  // no _extensions_
-        ~0u,  // no _oneof_case_
-        ~0u,  // no _weak_field_map_
-        ~0u,  // no _inlined_string_donated_
-        ~0u,  // no _split_
-        ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.gesture_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.channel_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.x_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.y_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.az_speed_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.el_speed_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.az_dir_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.el_dir_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.zoom_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.frame_time_),
-        PROTOBUF_FIELD_OFFSET(::ui::GestureCommand, _impl_.state_time_),
+        PROTOBUF_FIELD_OFFSET(::ui::PointerEvent, _impl_.event_time_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ui::Lifecycle, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -280,7 +228,6 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::ui::HostToWasm, _impl_.version_),
-        ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::ui::HostToWasm, _impl_.event_),
@@ -320,16 +267,14 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::ui::PointerEvent)},
-        {13, -1, -1, sizeof(::ui::GestureCommand)},
-        {32, -1, -1, sizeof(::ui::Lifecycle)},
-        {43, -1, -1, sizeof(::ui::HostToWasm)},
-        {56, -1, -1, sizeof(::ui::HoverState)},
-        {66, -1, -1, sizeof(::ui::CursorRequest)},
-        {75, -1, -1, sizeof(::ui::WasmToHost)},
+        {14, -1, -1, sizeof(::ui::Lifecycle)},
+        {25, -1, -1, sizeof(::ui::HostToWasm)},
+        {37, -1, -1, sizeof(::ui::HoverState)},
+        {47, -1, -1, sizeof(::ui::CursorRequest)},
+        {56, -1, -1, sizeof(::ui::WasmToHost)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_PointerEvent_default_instance_._instance,
-    &::ui::_GestureCommand_default_instance_._instance,
     &::ui::_Lifecycle_default_instance_._instance,
     &::ui::_HostToWasm_default_instance_._instance,
     &::ui::_HoverState_default_instance_._instance,
@@ -339,75 +284,58 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_ui_2fui_5finput_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\021ui/ui_input.proto\022\002ui\032\033buf/validate/va"
-    "lidate.proto\032\033jon_shared_data_types.prot"
-    "o\"\277\001\n\014PointerEvent\022+\n\005phase\030\001 \001(\0162\020.ui.P"
-    "ointerPhaseB\n\272H\007\202\001\004\020\001 \000\022)\n\004kind\030\002 \001(\0162\017."
-    "ui.PointerKindB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\003 \001(\001B\027\272"
-    "H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\004 \001(\001B\027\272H\024\022\022"
-    "\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\017\n\007buttons\030\005 \001(\r\"\273\003\n\016"
-    "GestureCommand\0222\n\007gesture\030\001 \001(\0162\025.ui.Rec"
-    "ognizedGestureB\n\272H\007\202\001\004\020\001 \000\0228\n\007channel\030\002 "
-    "\001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004"
-    "\020\001 \000\022\"\n\001x\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
-    "\022\"\n\001y\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022)\n\010"
-    "az_speed\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022"
-    ")\n\010el_speed\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000"
-    "\000\000\022.\n\006az_dir\030\007 \001(\0162\036.ser.JonGuiDataRotar"
-    "yDirection\022.\n\006el_dir\030\010 \001(\0162\036.ser.JonGuiD"
-    "ataRotaryDirection\022\025\n\004zoom\030\t \001(\005B\007\272H\004\032\002("
-    "\000\022\022\n\nframe_time\030\n \001(\004\022\022\n\nstate_time\030\013 \001("
-    "\004\"W\n\tLifecycle\022(\n\005theme\030\001 \001(\0162\r.ui.Theme"
-    "ModeB\n\272H\007\202\001\004\020\001 \000\022\017\n\007focused\030\002 \001(\010\022\017\n\007vis"
-    "ible\030\003 \001(\010\"\251\001\n\nHostToWasm\022\033\n\007version\030\001 \001"
-    "(\rB\n\272H\007*\005\030\377\001(\001\022#\n\007pointer\030\002 \001(\0132\020.ui.Poi"
-    "nterEventH\000\022%\n\007gesture\030\003 \001(\0132\022.ui.Gestur"
-    "eCommandH\000\022\"\n\tlifecycle\030\004 \001(\0132\r.ui.Lifec"
-    "ycleH\000B\016\n\005event\022\005\272H\002\010\001\"6\n\nHoverState\022\023\n\013"
-    "hovered_uid\030\001 \001(\r\022\023\n\013interactive\030\002 \001(\010\";"
-    "\n\rCursorRequest\022*\n\006cursor\030\001 \001(\0162\016.ui.Cur"
-    "sorTypeB\n\272H\007\202\001\004\020\001 \000\"\200\001\n\nWasmToHost\022\033\n\007ve"
-    "rsion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\037\n\005hover\030\002 \001(\0132\016"
-    ".ui.HoverStateH\000\022#\n\006cursor\030\003 \001(\0132\021.ui.Cu"
-    "rsorRequestH\000B\017\n\006report\022\005\272H\002\010\001*W\n\022InputS"
-    "chemaVersion\022$\n INPUT_SCHEMA_VERSION_UNS"
-    "PECIFIED\020\000\022\033\n\027INPUT_SCHEMA_VERSION_V1\020\001*"
-    "s\n\014PointerPhase\022\035\n\031POINTER_PHASE_UNSPECI"
-    "FIED\020\000\022\026\n\022POINTER_PHASE_DOWN\020\001\022\026\n\022POINTE"
-    "R_PHASE_MOVE\020\002\022\024\n\020POINTER_PHASE_UP\020\003*q\n\013"
-    "PointerKind\022\034\n\030POINTER_KIND_UNSPECIFIED\020"
-    "\000\022\026\n\022POINTER_KIND_MOUSE\020\001\022\026\n\022POINTER_KIN"
-    "D_TOUCH\020\002\022\024\n\020POINTER_KIND_PEN\020\003*\320\001\n\021Reco"
-    "gnizedGesture\022\"\n\036RECOGNIZED_GESTURE_UNSP"
-    "ECIFIED\020\000\022\037\n\033RECOGNIZED_GESTURE_PAN_MOVE"
-    "\020\001\022\036\n\032RECOGNIZED_GESTURE_PAN_END\020\002\022\032\n\026RE"
-    "COGNIZED_GESTURE_TAP\020\003\022\034\n\030RECOGNIZED_GES"
-    "TURE_TRACK\020\004\022\034\n\030RECOGNIZED_GESTURE_PINCH"
-    "\020\005*R\n\tThemeMode\022\032\n\026THEME_MODE_UNSPECIFIE"
-    "D\020\000\022\024\n\020THEME_MODE_LIGHT\020\001\022\023\n\017THEME_MODE_"
-    "DARK\020\002*\274\001\n\nCursorType\022\033\n\027CURSOR_TYPE_UNS"
-    "PECIFIED\020\000\022\027\n\023CURSOR_TYPE_DEFAULT\020\001\022\027\n\023C"
-    "URSOR_TYPE_POINTER\020\002\022\024\n\020CURSOR_TYPE_TEXT"
-    "\020\003\022\024\n\020CURSOR_TYPE_GRAB\020\004\022\026\n\022CURSOR_TYPE_"
-    "RESIZE\020\005\022\033\n\027CURSOR_TYPE_NOT_ALLOWED\020\006BEZ"
-    "Cgit-codecommit.eu-central-1.amazonaws.c"
-    "om/v1/repos/jettison/jonp/uib\006proto3"
+    "lidate.proto\"\326\001\n\014PointerEvent\022+\n\005phase\030\001"
+    " \001(\0162\020.ui.PointerPhaseB\n\272H\007\202\001\004\020\001 \000\022)\n\004ki"
+    "nd\030\002 \001(\0162\017.ui.PointerKindB\n\272H\007\202\001\004\020\001 \000\022\022\n"
+    "\npointer_id\030\003 \001(\r\022\"\n\001x\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000"
+    "\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?"
+    ")\000\000\000\000\000\000\360\277\022\022\n\nevent_time\030\006 \001(\004\"W\n\tLifecyc"
+    "le\022(\n\005theme\030\001 \001(\0162\r.ui.ThemeModeB\n\272H\007\202\001\004"
+    "\020\001 \000\022\017\n\007focused\030\002 \001(\010\022\017\n\007visible\030\003 \001(\010\"\202"
+    "\001\n\nHostToWasm\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001"
+    "(\001\022#\n\007pointer\030\002 \001(\0132\020.ui.PointerEventH\000\022"
+    "\"\n\tlifecycle\030\003 \001(\0132\r.ui.LifecycleH\000B\016\n\005e"
+    "vent\022\005\272H\002\010\001\"6\n\nHoverState\022\023\n\013hovered_uid"
+    "\030\001 \001(\r\022\023\n\013interactive\030\002 \001(\010\";\n\rCursorReq"
+    "uest\022*\n\006cursor\030\001 \001(\0162\016.ui.CursorTypeB\n\272H"
+    "\007\202\001\004\020\001 \000\"\200\001\n\nWasmToHost\022\033\n\007version\030\001 \001(\r"
+    "B\n\272H\007*\005\030\377\001(\001\022\037\n\005hover\030\002 \001(\0132\016.ui.HoverSt"
+    "ateH\000\022#\n\006cursor\030\003 \001(\0132\021.ui.CursorRequest"
+    "H\000B\017\n\006report\022\005\272H\002\010\001*W\n\022InputSchemaVersio"
+    "n\022$\n INPUT_SCHEMA_VERSION_UNSPECIFIED\020\000\022"
+    "\033\n\027INPUT_SCHEMA_VERSION_V1\020\001*\215\001\n\014Pointer"
+    "Phase\022\035\n\031POINTER_PHASE_UNSPECIFIED\020\000\022\026\n\022"
+    "POINTER_PHASE_DOWN\020\001\022\026\n\022POINTER_PHASE_MO"
+    "VE\020\002\022\024\n\020POINTER_PHASE_UP\020\003\022\030\n\024POINTER_PH"
+    "ASE_CANCEL\020\004*q\n\013PointerKind\022\034\n\030POINTER_K"
+    "IND_UNSPECIFIED\020\000\022\026\n\022POINTER_KIND_MOUSE\020"
+    "\001\022\026\n\022POINTER_KIND_TOUCH\020\002\022\024\n\020POINTER_KIN"
+    "D_PEN\020\003*R\n\tThemeMode\022\032\n\026THEME_MODE_UNSPE"
+    "CIFIED\020\000\022\024\n\020THEME_MODE_LIGHT\020\001\022\023\n\017THEME_"
+    "MODE_DARK\020\002*\274\001\n\nCursorType\022\033\n\027CURSOR_TYP"
+    "E_UNSPECIFIED\020\000\022\027\n\023CURSOR_TYPE_DEFAULT\020\001"
+    "\022\027\n\023CURSOR_TYPE_POINTER\020\002\022\024\n\020CURSOR_TYPE"
+    "_TEXT\020\003\022\024\n\020CURSOR_TYPE_GRAB\020\004\022\026\n\022CURSOR_"
+    "TYPE_RESIZE\020\005\022\033\n\027CURSOR_TYPE_NOT_ALLOWED"
+    "\020\006BEZCgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/uib\006proto"
+    "3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5finput_2eproto_deps[2] =
+static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5finput_2eproto_deps[1] =
     {
         &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
-        &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_ui_2fui_5finput_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5finput_2eproto = {
     false,
     false,
-    2116,
+    1441,
     descriptor_table_protodef_ui_2fui_5finput_2eproto,
     "ui/ui_input.proto",
     &descriptor_table_ui_2fui_5finput_2eproto_once,
     descriptor_table_ui_2fui_5finput_2eproto_deps,
-    2,
-    7,
+    1,
+    6,
     schemas,
     file_default_instances,
     TableStruct_ui_2fui_5finput_2eproto::offsets,
@@ -429,9 +357,9 @@ const ::google::protobuf::EnumDescriptor* PointerPhase_descriptor() {
   return file_level_enum_descriptors_ui_2fui_5finput_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t PointerPhase_internal_data_[] = {
-    262144u, 0u, };
+    327680u, 0u, };
 bool PointerPhase_IsValid(int value) {
-  return 0 <= value && value <= 3;
+  return 0 <= value && value <= 4;
 }
 const ::google::protobuf::EnumDescriptor* PointerKind_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_ui_2fui_5finput_2eproto);
@@ -442,18 +370,9 @@ PROTOBUF_CONSTINIT const uint32_t PointerKind_internal_data_[] = {
 bool PointerKind_IsValid(int value) {
   return 0 <= value && value <= 3;
 }
-const ::google::protobuf::EnumDescriptor* RecognizedGesture_descriptor() {
-  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_ui_2fui_5finput_2eproto);
-  return file_level_enum_descriptors_ui_2fui_5finput_2eproto[3];
-}
-PROTOBUF_CONSTINIT const uint32_t RecognizedGesture_internal_data_[] = {
-    393216u, 0u, };
-bool RecognizedGesture_IsValid(int value) {
-  return 0 <= value && value <= 5;
-}
 const ::google::protobuf::EnumDescriptor* ThemeMode_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_ui_2fui_5finput_2eproto);
-  return file_level_enum_descriptors_ui_2fui_5finput_2eproto[4];
+  return file_level_enum_descriptors_ui_2fui_5finput_2eproto[3];
 }
 PROTOBUF_CONSTINIT const uint32_t ThemeMode_internal_data_[] = {
     196608u, 0u, };
@@ -462,7 +381,7 @@ bool ThemeMode_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* CursorType_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_ui_2fui_5finput_2eproto);
-  return file_level_enum_descriptors_ui_2fui_5finput_2eproto[5];
+  return file_level_enum_descriptors_ui_2fui_5finput_2eproto[4];
 }
 PROTOBUF_CONSTINIT const uint32_t CursorType_internal_data_[] = {
     458752u, 0u, };
@@ -499,9 +418,9 @@ inline void PointerEvent::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, phase_),
            0,
-           offsetof(Impl_, buttons_) -
+           offsetof(Impl_, pointer_id_) -
                offsetof(Impl_, phase_) +
-               sizeof(Impl_::buttons_));
+               sizeof(Impl_::pointer_id_));
 }
 PointerEvent::~PointerEvent() {
   // @@protoc_insertion_point(destructor:ui.PointerEvent)
@@ -550,15 +469,15 @@ const ::google::protobuf::internal::ClassData* PointerEvent::GetClassData() cons
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 5, 0, 0, 2> PointerEvent::_table_ = {
+const ::_pbi::TcParseTable<3, 6, 0, 0, 2> PointerEvent::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    5, 56,  // max_field_number, fast_idx_mask
+    6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967264,  // skipmap
+    4294967232,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    5,  // num_field_entries
+    6,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -575,16 +494,18 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> PointerEvent::_table_ = {
     // .ui.PointerKind kind = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PointerEvent, _impl_.kind_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.kind_)}},
-    // double x = 3 [(.buf.validate.field) = {
+    // uint32 pointer_id = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PointerEvent, _impl_.pointer_id_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.pointer_id_)}},
+    // double x = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
-     {25, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.x_)}},
-    // double y = 4 [(.buf.validate.field) = {
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.x_)}},
+    // double y = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.y_)}},
-    // uint32 buttons = 5;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PointerEvent, _impl_.buttons_), 63>(),
-     {40, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.buttons_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+     {41, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.y_)}},
+    // uint64 event_time = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(PointerEvent, _impl_.event_time_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.event_time_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
@@ -595,15 +516,18 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> PointerEvent::_table_ = {
     // .ui.PointerKind kind = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.kind_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // double x = 3 [(.buf.validate.field) = {
+    // uint32 pointer_id = 3;
+    {PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.pointer_id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // double x = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.x_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y = 4 [(.buf.validate.field) = {
+    // double y = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.y_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // uint32 buttons = 5;
-    {PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.buttons_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 event_time = 6;
+    {PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.event_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -618,8 +542,8 @@ PROTOBUF_NOINLINE void PointerEvent::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.phase_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.buttons_) -
-      reinterpret_cast<char*>(&_impl_.phase_)) + sizeof(_impl_.buttons_));
+      reinterpret_cast<char*>(&_impl_.pointer_id_) -
+      reinterpret_cast<char*>(&_impl_.phase_)) + sizeof(_impl_.pointer_id_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -652,25 +576,32 @@ PROTOBUF_NOINLINE void PointerEvent::Clear() {
                 2, this_._internal_kind(), target);
           }
 
-          // double x = 3 [(.buf.validate.field) = {
+          // uint32 pointer_id = 3;
+          if (this_._internal_pointer_id() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                3, this_._internal_pointer_id(), target);
+          }
+
+          // double x = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                3, this_._internal_x(), target);
+                4, this_._internal_x(), target);
           }
 
-          // double y = 4 [(.buf.validate.field) = {
+          // double y = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                4, this_._internal_y(), target);
+                5, this_._internal_y(), target);
           }
 
-          // uint32 buttons = 5;
-          if (this_._internal_buttons() != 0) {
+          // uint64 event_time = 6;
+          if (this_._internal_event_time() != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                5, this_._internal_buttons(), target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                6, this_._internal_event_time(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -708,18 +639,23 @@ PROTOBUF_NOINLINE void PointerEvent::Clear() {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_kind());
             }
-            // double x = 3 [(.buf.validate.field) = {
+            // double x = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
               total_size += 9;
             }
-            // double y = 4 [(.buf.validate.field) = {
+            // double y = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
               total_size += 9;
             }
-            // uint32 buttons = 5;
-            if (this_._internal_buttons() != 0) {
+            // uint64 event_time = 6;
+            if (this_._internal_event_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_event_time());
+            }
+            // uint32 pointer_id = 3;
+            if (this_._internal_pointer_id() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-                  this_._internal_buttons());
+                  this_._internal_pointer_id());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -746,8 +682,11 @@ void PointerEvent::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   if (::absl::bit_cast<::uint64_t>(from._internal_y()) != 0) {
     _this->_impl_.y_ = from._impl_.y_;
   }
-  if (from._internal_buttons() != 0) {
-    _this->_impl_.buttons_ = from._impl_.buttons_;
+  if (from._internal_event_time() != 0) {
+    _this->_impl_.event_time_ = from._impl_.event_time_;
+  }
+  if (from._internal_pointer_id() != 0) {
+    _this->_impl_.pointer_id_ = from._impl_.pointer_id_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -764,445 +703,14 @@ void PointerEvent::InternalSwap(PointerEvent* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.buttons_)
-      + sizeof(PointerEvent::_impl_.buttons_)
+      PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.pointer_id_)
+      + sizeof(PointerEvent::_impl_.pointer_id_)
       - PROTOBUF_FIELD_OFFSET(PointerEvent, _impl_.phase_)>(
           reinterpret_cast<char*>(&_impl_.phase_),
           reinterpret_cast<char*>(&other->_impl_.phase_));
 }
 
 ::google::protobuf::Metadata PointerEvent::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-class GestureCommand::_Internal {
- public:
-};
-
-GestureCommand::GestureCommand(::google::protobuf::Arena* arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ui.GestureCommand)
-}
-GestureCommand::GestureCommand(
-    ::google::protobuf::Arena* arena, const GestureCommand& from)
-    : GestureCommand(arena) {
-  MergeFrom(from);
-}
-inline PROTOBUF_NDEBUG_INLINE GestureCommand::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility,
-    ::google::protobuf::Arena* arena)
-      : _cached_size_{0} {}
-
-inline void GestureCommand::SharedCtor(::_pb::Arena* arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, gesture_),
-           0,
-           offsetof(Impl_, zoom_) -
-               offsetof(Impl_, gesture_) +
-               sizeof(Impl_::zoom_));
-}
-GestureCommand::~GestureCommand() {
-  // @@protoc_insertion_point(destructor:ui.GestureCommand)
-  SharedDtor(*this);
-}
-inline void GestureCommand::SharedDtor(MessageLite& self) {
-  GestureCommand& this_ = static_cast<GestureCommand&>(self);
-  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.~Impl_();
-}
-
-inline void* GestureCommand::PlacementNew_(const void*, void* mem,
-                                        ::google::protobuf::Arena* arena) {
-  return ::new (mem) GestureCommand(arena);
-}
-constexpr auto GestureCommand::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(GestureCommand),
-                                            alignof(GestureCommand));
-}
-PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::google::protobuf::internal::ClassDataFull GestureCommand::_class_data_ = {
-    ::google::protobuf::internal::ClassData{
-        &_GestureCommand_default_instance_._instance,
-        &_table_.header,
-        nullptr,  // OnDemandRegisterArenaDtor
-        nullptr,  // IsInitialized
-        &GestureCommand::MergeImpl,
-        ::google::protobuf::Message::GetNewImpl<GestureCommand>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        &GestureCommand::SharedDtor,
-        ::google::protobuf::Message::GetClearImpl<GestureCommand>(), &GestureCommand::ByteSizeLong,
-            &GestureCommand::_InternalSerialize,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-        PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_._cached_size_),
-        false,
-    },
-    &GestureCommand::kDescriptorMethods,
-    &descriptor_table_ui_2fui_5finput_2eproto,
-    nullptr,  // tracker
-};
-const ::google::protobuf::internal::ClassData* GestureCommand::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
-  return _class_data_.base();
-}
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 11, 0, 0, 2> GestureCommand::_table_ = {
-  {
-    0,  // no _has_bits_
-    0, // no _extensions_
-    11, 120,  // max_field_number, fast_idx_mask
-    offsetof(decltype(_table_), field_lookup_table),
-    4294965248,  // skipmap
-    offsetof(decltype(_table_), field_entries),
-    11,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
-    _class_data_.base(),
-    nullptr,  // post_loop_handler
-    ::_pbi::TcParser::GenericFallback,  // fallback
-    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::ui::GestureCommand>(),  // to_prefetch
-    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-  }, {{
-    {::_pbi::TcParser::MiniParse, {}},
-    // .ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GestureCommand, _impl_.gesture_), 63>(),
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.gesture_)}},
-    // .ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GestureCommand, _impl_.channel_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.channel_)}},
-    // double x = 3 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {25, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.x_)}},
-    // double y = 4 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.y_)}},
-    // double az_speed = 5 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {41, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.az_speed_)}},
-    // double el_speed = 6 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF64S1,
-     {49, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.el_speed_)}},
-    // .ser.JonGuiDataRotaryDirection az_dir = 7;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GestureCommand, _impl_.az_dir_), 63>(),
-     {56, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.az_dir_)}},
-    // .ser.JonGuiDataRotaryDirection el_dir = 8;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GestureCommand, _impl_.el_dir_), 63>(),
-     {64, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.el_dir_)}},
-    // int32 zoom = 9 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(GestureCommand, _impl_.zoom_), 63>(),
-     {72, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.zoom_)}},
-    // uint64 frame_time = 10;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(GestureCommand, _impl_.frame_time_), 63>(),
-     {80, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.frame_time_)}},
-    // uint64 state_time = 11;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(GestureCommand, _impl_.state_time_), 63>(),
-     {88, 63, 0, PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.state_time_)}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
-  }}, {{
-    65535, 65535
-  }}, {{
-    // .ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.gesture_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // .ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.channel_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // double x = 3 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.x_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y = 4 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.y_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double az_speed = 5 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.az_speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double el_speed = 6 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.el_speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // .ser.JonGuiDataRotaryDirection az_dir = 7;
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.az_dir_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // .ser.JonGuiDataRotaryDirection el_dir = 8;
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.el_dir_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // int32 zoom = 9 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.zoom_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // uint64 frame_time = 10;
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.frame_time_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // uint64 state_time = 11;
-    {PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.state_time_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-  }},
-  // no aux_entries
-  {{
-  }},
-};
-
-PROTOBUF_NOINLINE void GestureCommand::Clear() {
-// @@protoc_insertion_point(message_clear_start:ui.GestureCommand)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  ::memset(&_impl_.gesture_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.zoom_) -
-      reinterpret_cast<char*>(&_impl_.gesture_)) + sizeof(_impl_.zoom_));
-  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
-}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* GestureCommand::_InternalSerialize(
-            const MessageLite& base, ::uint8_t* target,
-            ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const GestureCommand& this_ = static_cast<const GestureCommand&>(base);
-#else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* GestureCommand::_InternalSerialize(
-            ::uint8_t* target,
-            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const GestureCommand& this_ = *this;
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:ui.GestureCommand)
-          ::uint32_t cached_has_bits = 0;
-          (void)cached_has_bits;
-
-          // .ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = {
-          if (this_._internal_gesture() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteEnumToArray(
-                1, this_._internal_gesture(), target);
-          }
-
-          // .ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = {
-          if (this_._internal_channel() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteEnumToArray(
-                2, this_._internal_channel(), target);
-          }
-
-          // double x = 3 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                3, this_._internal_x(), target);
-          }
-
-          // double y = 4 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                4, this_._internal_y(), target);
-          }
-
-          // double az_speed = 5 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_az_speed()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                5, this_._internal_az_speed(), target);
-          }
-
-          // double el_speed = 6 [(.buf.validate.field) = {
-          if (::absl::bit_cast<::uint64_t>(this_._internal_el_speed()) != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                6, this_._internal_el_speed(), target);
-          }
-
-          // .ser.JonGuiDataRotaryDirection az_dir = 7;
-          if (this_._internal_az_dir() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteEnumToArray(
-                7, this_._internal_az_dir(), target);
-          }
-
-          // .ser.JonGuiDataRotaryDirection el_dir = 8;
-          if (this_._internal_el_dir() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteEnumToArray(
-                8, this_._internal_el_dir(), target);
-          }
-
-          // int32 zoom = 9 [(.buf.validate.field) = {
-          if (this_._internal_zoom() != 0) {
-            target = ::google::protobuf::internal::WireFormatLite::
-                WriteInt32ToArrayWithField<9>(
-                    stream, this_._internal_zoom(), target);
-          }
-
-          // uint64 frame_time = 10;
-          if (this_._internal_frame_time() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                10, this_._internal_frame_time(), target);
-          }
-
-          // uint64 state_time = 11;
-          if (this_._internal_state_time() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
-                11, this_._internal_state_time(), target);
-          }
-
-          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
-            target =
-                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
-          }
-          // @@protoc_insertion_point(serialize_to_array_end:ui.GestureCommand)
-          return target;
-        }
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t GestureCommand::ByteSizeLong(const MessageLite& base) {
-          const GestureCommand& this_ = static_cast<const GestureCommand&>(base);
-#else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t GestureCommand::ByteSizeLong() const {
-          const GestureCommand& this_ = *this;
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:ui.GestureCommand)
-          ::size_t total_size = 0;
-
-          ::uint32_t cached_has_bits = 0;
-          // Prevent compiler warnings about cached_has_bits being unused
-          (void)cached_has_bits;
-
-          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
-            // .ui.RecognizedGesture gesture = 1 [(.buf.validate.field) = {
-            if (this_._internal_gesture() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_gesture());
-            }
-            // .ser.JonGuiDataVideoChannel channel = 2 [(.buf.validate.field) = {
-            if (this_._internal_channel() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_channel());
-            }
-            // double x = 3 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
-              total_size += 9;
-            }
-            // double y = 4 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
-              total_size += 9;
-            }
-            // double az_speed = 5 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_az_speed()) != 0) {
-              total_size += 9;
-            }
-            // double el_speed = 6 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_el_speed()) != 0) {
-              total_size += 9;
-            }
-            // .ser.JonGuiDataRotaryDirection az_dir = 7;
-            if (this_._internal_az_dir() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_az_dir());
-            }
-            // .ser.JonGuiDataRotaryDirection el_dir = 8;
-            if (this_._internal_el_dir() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_el_dir());
-            }
-            // uint64 frame_time = 10;
-            if (this_._internal_frame_time() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                  this_._internal_frame_time());
-            }
-            // uint64 state_time = 11;
-            if (this_._internal_state_time() != 0) {
-              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
-                  this_._internal_state_time());
-            }
-            // int32 zoom = 9 [(.buf.validate.field) = {
-            if (this_._internal_zoom() != 0) {
-              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-                  this_._internal_zoom());
-            }
-          }
-          return this_.MaybeComputeUnknownFieldsSize(total_size,
-                                                     &this_._impl_._cached_size_);
-        }
-
-void GestureCommand::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<GestureCommand*>(&to_msg);
-  auto& from = static_cast<const GestureCommand&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:ui.GestureCommand)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_gesture() != 0) {
-    _this->_impl_.gesture_ = from._impl_.gesture_;
-  }
-  if (from._internal_channel() != 0) {
-    _this->_impl_.channel_ = from._impl_.channel_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_x()) != 0) {
-    _this->_impl_.x_ = from._impl_.x_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_y()) != 0) {
-    _this->_impl_.y_ = from._impl_.y_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_az_speed()) != 0) {
-    _this->_impl_.az_speed_ = from._impl_.az_speed_;
-  }
-  if (::absl::bit_cast<::uint64_t>(from._internal_el_speed()) != 0) {
-    _this->_impl_.el_speed_ = from._impl_.el_speed_;
-  }
-  if (from._internal_az_dir() != 0) {
-    _this->_impl_.az_dir_ = from._impl_.az_dir_;
-  }
-  if (from._internal_el_dir() != 0) {
-    _this->_impl_.el_dir_ = from._impl_.el_dir_;
-  }
-  if (from._internal_frame_time() != 0) {
-    _this->_impl_.frame_time_ = from._impl_.frame_time_;
-  }
-  if (from._internal_state_time() != 0) {
-    _this->_impl_.state_time_ = from._impl_.state_time_;
-  }
-  if (from._internal_zoom() != 0) {
-    _this->_impl_.zoom_ = from._impl_.zoom_;
-  }
-  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void GestureCommand::CopyFrom(const GestureCommand& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ui.GestureCommand)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-
-void GestureCommand::InternalSwap(GestureCommand* PROTOBUF_RESTRICT other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.zoom_)
-      + sizeof(GestureCommand::_impl_.zoom_)
-      - PROTOBUF_FIELD_OFFSET(GestureCommand, _impl_.gesture_)>(
-          reinterpret_cast<char*>(&_impl_.gesture_),
-          reinterpret_cast<char*>(&other->_impl_.gesture_));
-}
-
-::google::protobuf::Metadata GestureCommand::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
@@ -1487,19 +995,6 @@ void HostToWasm::set_allocated_pointer(::ui::PointerEvent* pointer) {
   }
   // @@protoc_insertion_point(field_set_allocated:ui.HostToWasm.pointer)
 }
-void HostToWasm::set_allocated_gesture(::ui::GestureCommand* gesture) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_event();
-  if (gesture) {
-    ::google::protobuf::Arena* submessage_arena = gesture->GetArena();
-    if (message_arena != submessage_arena) {
-      gesture = ::google::protobuf::internal::GetOwnedMessage(message_arena, gesture, submessage_arena);
-    }
-    set_has_gesture();
-    _impl_.event_.gesture_ = gesture;
-  }
-  // @@protoc_insertion_point(field_set_allocated:ui.HostToWasm.gesture)
-}
 void HostToWasm::set_allocated_lifecycle(::ui::Lifecycle* lifecycle) {
   ::google::protobuf::Arena* message_arena = GetArena();
   clear_event();
@@ -1549,9 +1044,6 @@ HostToWasm::HostToWasm(
       case kPointer:
         _impl_.event_.pointer_ = ::google::protobuf::Message::CopyConstruct<::ui::PointerEvent>(arena, *from._impl_.event_.pointer_);
         break;
-      case kGesture:
-        _impl_.event_.gesture_ = ::google::protobuf::Message::CopyConstruct<::ui::GestureCommand>(arena, *from._impl_.event_.gesture_);
-        break;
       case kLifecycle:
         _impl_.event_.lifecycle_ = ::google::protobuf::Message::CopyConstruct<::ui::Lifecycle>(arena, *from._impl_.event_.lifecycle_);
         break;
@@ -1593,14 +1085,6 @@ void HostToWasm::clear_event() {
         delete _impl_.event_.pointer_;
       } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
         ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.event_.pointer_);
-      }
-      break;
-    }
-    case kGesture: {
-      if (GetArena() == nullptr) {
-        delete _impl_.event_.gesture_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.event_.gesture_);
       }
       break;
     }
@@ -1656,16 +1140,16 @@ const ::google::protobuf::internal::ClassData* HostToWasm::GetClassData() const 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 4, 3, 0, 2> HostToWasm::_table_ = {
+const ::_pbi::TcParseTable<0, 3, 2, 0, 2> HostToWasm::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 0,  // max_field_number, fast_idx_mask
+    3, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
-    3,  // num_aux_entries
+    3,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1686,15 +1170,11 @@ const ::_pbi::TcParseTable<0, 4, 3, 0, 2> HostToWasm::_table_ = {
     // .ui.PointerEvent pointer = 2;
     {PROTOBUF_FIELD_OFFSET(HostToWasm, _impl_.event_.pointer_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .ui.GestureCommand gesture = 3;
-    {PROTOBUF_FIELD_OFFSET(HostToWasm, _impl_.event_.gesture_), _Internal::kOneofCaseOffset + 0, 1,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .ui.Lifecycle lifecycle = 4;
-    {PROTOBUF_FIELD_OFFSET(HostToWasm, _impl_.event_.lifecycle_), _Internal::kOneofCaseOffset + 0, 2,
+    // .ui.Lifecycle lifecycle = 3;
+    {PROTOBUF_FIELD_OFFSET(HostToWasm, _impl_.event_.lifecycle_), _Internal::kOneofCaseOffset + 0, 1,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ui::PointerEvent>()},
-    {::_pbi::TcParser::GetTable<::ui::GestureCommand>()},
     {::_pbi::TcParser::GetTable<::ui::Lifecycle>()},
   }}, {{
   }},
@@ -1741,15 +1221,9 @@ PROTOBUF_NOINLINE void HostToWasm::Clear() {
                   stream);
               break;
             }
-            case kGesture: {
-              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  3, *this_._impl_.event_.gesture_, this_._impl_.event_.gesture_->GetCachedSize(), target,
-                  stream);
-              break;
-            }
             case kLifecycle: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  4, *this_._impl_.event_.lifecycle_, this_._impl_.event_.lifecycle_->GetCachedSize(), target,
+                  3, *this_._impl_.event_.lifecycle_, this_._impl_.event_.lifecycle_->GetCachedSize(), target,
                   stream);
               break;
             }
@@ -1793,13 +1267,7 @@ PROTOBUF_NOINLINE void HostToWasm::Clear() {
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.event_.pointer_);
               break;
             }
-            // .ui.GestureCommand gesture = 3;
-            case kGesture: {
-              total_size += 1 +
-                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.event_.gesture_);
-              break;
-            }
-            // .ui.Lifecycle lifecycle = 4;
+            // .ui.Lifecycle lifecycle = 3;
             case kLifecycle: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.event_.lifecycle_);
@@ -1842,15 +1310,6 @@ void HostToWasm::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
               ::google::protobuf::Message::CopyConstruct<::ui::PointerEvent>(arena, *from._impl_.event_.pointer_);
         } else {
           _this->_impl_.event_.pointer_->MergeFrom(from._internal_pointer());
-        }
-        break;
-      }
-      case kGesture: {
-        if (oneof_needs_init) {
-          _this->_impl_.event_.gesture_ =
-              ::google::protobuf::Message::CopyConstruct<::ui::GestureCommand>(arena, *from._impl_.event_.gesture_);
-        } else {
-          _this->_impl_.event_.gesture_->MergeFrom(from._internal_gesture());
         }
         break;
       }

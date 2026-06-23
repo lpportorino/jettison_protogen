@@ -5,19 +5,21 @@
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "../buf/validate/validate_pb";
-import type { JonGuiDataRotaryDirection, JonGuiDataVideoChannel } from "../jon_shared_data_types_pb";
-import { file_jon_shared_data_types } from "../jon_shared_data_types_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file ui/ui_input.proto.
  */
 export const file_ui_ui_input: GenFile = /*@__PURE__*/
-  fileDesc("ChF1aS91aV9pbnB1dC5wcm90bxICdWkivwEKDFBvaW50ZXJFdmVudBIrCgVwaGFzZRgBIAEoDjIQLnVpLlBvaW50ZXJQaGFzZUIKukgHggEEEAEgABIpCgRraW5kGAIgASgOMg8udWkuUG9pbnRlcktpbmRCCrpIB4IBBBABIAASIgoBeBgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgEIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SDwoHYnV0dG9ucxgFIAEoDSK7AwoOR2VzdHVyZUNvbW1hbmQSMgoHZ2VzdHVyZRgBIAEoDjIVLnVpLlJlY29nbml6ZWRHZXN0dXJlQgq6SAeCAQQQASAAEjgKB2NoYW5uZWwYAiABKA4yGy5zZXIuSm9uR3VpRGF0YVZpZGVvQ2hhbm5lbEIKukgHggEEEAEgABIiCgF4GAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIiCgF5GAQgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIpCghhel9zcGVlZBgFIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASKQoIZWxfc3BlZWQYBiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEi4KBmF6X2RpchgHIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uEi4KBmVsX2RpchgIIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uEhUKBHpvb20YCSABKAVCB7pIBBoCKAASEgoKZnJhbWVfdGltZRgKIAEoBBISCgpzdGF0ZV90aW1lGAsgASgEIlcKCUxpZmVjeWNsZRIoCgV0aGVtZRgBIAEoDjINLnVpLlRoZW1lTW9kZUIKukgHggEEEAEgABIPCgdmb2N1c2VkGAIgASgIEg8KB3Zpc2libGUYAyABKAgiqQEKCkhvc3RUb1dhc20SGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIjCgdwb2ludGVyGAIgASgLMhAudWkuUG9pbnRlckV2ZW50SAASJQoHZ2VzdHVyZRgDIAEoCzISLnVpLkdlc3R1cmVDb21tYW5kSAASIgoJbGlmZWN5Y2xlGAQgASgLMg0udWkuTGlmZWN5Y2xlSABCDgoFZXZlbnQSBbpIAggBIjYKCkhvdmVyU3RhdGUSEwoLaG92ZXJlZF91aWQYASABKA0SEwoLaW50ZXJhY3RpdmUYAiABKAgiOwoNQ3Vyc29yUmVxdWVzdBIqCgZjdXJzb3IYASABKA4yDi51aS5DdXJzb3JUeXBlQgq6SAeCAQQQASAAIoABCgpXYXNtVG9Ib3N0EhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESHwoFaG92ZXIYAiABKAsyDi51aS5Ib3ZlclN0YXRlSAASIwoGY3Vyc29yGAMgASgLMhEudWkuQ3Vyc29yUmVxdWVzdEgAQg8KBnJlcG9ydBIFukgCCAEqVwoSSW5wdXRTY2hlbWFWZXJzaW9uEiQKIElOUFVUX1NDSEVNQV9WRVJTSU9OX1VOU1BFQ0lGSUVEEAASGwoXSU5QVVRfU0NIRU1BX1ZFUlNJT05fVjEQASpzCgxQb2ludGVyUGhhc2USHQoZUE9JTlRFUl9QSEFTRV9VTlNQRUNJRklFRBAAEhYKElBPSU5URVJfUEhBU0VfRE9XThABEhYKElBPSU5URVJfUEhBU0VfTU9WRRACEhQKEFBPSU5URVJfUEhBU0VfVVAQAypxCgtQb2ludGVyS2luZBIcChhQT0lOVEVSX0tJTkRfVU5TUEVDSUZJRUQQABIWChJQT0lOVEVSX0tJTkRfTU9VU0UQARIWChJQT0lOVEVSX0tJTkRfVE9VQ0gQAhIUChBQT0lOVEVSX0tJTkRfUEVOEAMq0AEKEVJlY29nbml6ZWRHZXN0dXJlEiIKHlJFQ09HTklaRURfR0VTVFVSRV9VTlNQRUNJRklFRBAAEh8KG1JFQ09HTklaRURfR0VTVFVSRV9QQU5fTU9WRRABEh4KGlJFQ09HTklaRURfR0VTVFVSRV9QQU5fRU5EEAISGgoWUkVDT0dOSVpFRF9HRVNUVVJFX1RBUBADEhwKGFJFQ09HTklaRURfR0VTVFVSRV9UUkFDSxAEEhwKGFJFQ09HTklaRURfR0VTVFVSRV9QSU5DSBAFKlIKCVRoZW1lTW9kZRIaChZUSEVNRV9NT0RFX1VOU1BFQ0lGSUVEEAASFAoQVEhFTUVfTU9ERV9MSUdIVBABEhMKD1RIRU1FX01PREVfREFSSxACKrwBCgpDdXJzb3JUeXBlEhsKF0NVUlNPUl9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTQ1VSU09SX1RZUEVfREVGQVVMVBABEhcKE0NVUlNPUl9UWVBFX1BPSU5URVIQAhIUChBDVVJTT1JfVFlQRV9URVhUEAMSFAoQQ1VSU09SX1RZUEVfR1JBQhAEEhYKEkNVUlNPUl9UWVBFX1JFU0laRRAFEhsKF0NVUlNPUl9UWVBFX05PVF9BTExPV0VEEAZCRVpDZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC91aWIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("ChF1aS91aV9pbnB1dC5wcm90bxICdWki1gEKDFBvaW50ZXJFdmVudBIrCgVwaGFzZRgBIAEoDjIQLnVpLlBvaW50ZXJQaGFzZUIKukgHggEEEAEgABIpCgRraW5kGAIgASgOMg8udWkuUG9pbnRlcktpbmRCCrpIB4IBBBABIAASEgoKcG9pbnRlcl9pZBgDIAEoDRIiCgF4GAQgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIiCgF5GAUgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxISCgpldmVudF90aW1lGAYgASgEIlcKCUxpZmVjeWNsZRIoCgV0aGVtZRgBIAEoDjINLnVpLlRoZW1lTW9kZUIKukgHggEEEAEgABIPCgdmb2N1c2VkGAIgASgIEg8KB3Zpc2libGUYAyABKAgiggEKCkhvc3RUb1dhc20SGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIjCgdwb2ludGVyGAIgASgLMhAudWkuUG9pbnRlckV2ZW50SAASIgoJbGlmZWN5Y2xlGAMgASgLMg0udWkuTGlmZWN5Y2xlSABCDgoFZXZlbnQSBbpIAggBIjYKCkhvdmVyU3RhdGUSEwoLaG92ZXJlZF91aWQYASABKA0SEwoLaW50ZXJhY3RpdmUYAiABKAgiOwoNQ3Vyc29yUmVxdWVzdBIqCgZjdXJzb3IYASABKA4yDi51aS5DdXJzb3JUeXBlQgq6SAeCAQQQASAAIoABCgpXYXNtVG9Ib3N0EhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESHwoFaG92ZXIYAiABKAsyDi51aS5Ib3ZlclN0YXRlSAASIwoGY3Vyc29yGAMgASgLMhEudWkuQ3Vyc29yUmVxdWVzdEgAQg8KBnJlcG9ydBIFukgCCAEqVwoSSW5wdXRTY2hlbWFWZXJzaW9uEiQKIElOUFVUX1NDSEVNQV9WRVJTSU9OX1VOU1BFQ0lGSUVEEAASGwoXSU5QVVRfU0NIRU1BX1ZFUlNJT05fVjEQASqNAQoMUG9pbnRlclBoYXNlEh0KGVBPSU5URVJfUEhBU0VfVU5TUEVDSUZJRUQQABIWChJQT0lOVEVSX1BIQVNFX0RPV04QARIWChJQT0lOVEVSX1BIQVNFX01PVkUQAhIUChBQT0lOVEVSX1BIQVNFX1VQEAMSGAoUUE9JTlRFUl9QSEFTRV9DQU5DRUwQBCpxCgtQb2ludGVyS2luZBIcChhQT0lOVEVSX0tJTkRfVU5TUEVDSUZJRUQQABIWChJQT0lOVEVSX0tJTkRfTU9VU0UQARIWChJQT0lOVEVSX0tJTkRfVE9VQ0gQAhIUChBQT0lOVEVSX0tJTkRfUEVOEAMqUgoJVGhlbWVNb2RlEhoKFlRIRU1FX01PREVfVU5TUEVDSUZJRUQQABIUChBUSEVNRV9NT0RFX0xJR0hUEAESEwoPVEhFTUVfTU9ERV9EQVJLEAIqvAEKCkN1cnNvclR5cGUSGwoXQ1VSU09SX1RZUEVfVU5TUEVDSUZJRUQQABIXChNDVVJTT1JfVFlQRV9ERUZBVUxUEAESFwoTQ1VSU09SX1RZUEVfUE9JTlRFUhACEhQKEENVUlNPUl9UWVBFX1RFWFQQAxIUChBDVVJTT1JfVFlQRV9HUkFCEAQSFgoSQ1VSU09SX1RZUEVfUkVTSVpFEAUSGwoXQ1VSU09SX1RZUEVfTk9UX0FMTE9XRUQQBkJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
- * Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
- * input device; the WASM needs the raw pointer to hit-test its own layout.
+ * A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+ * unified). The host forwards every pointer event; the WASM accumulates them
+ * into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+ * The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+ * reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+ * pointer_id, clamp non-positive FSM time deltas.
  *
  * @generated from message ui.PointerEvent
  */
@@ -33,25 +35,32 @@ export type PointerEvent = Message<"ui.PointerEvent"> & {
   kind: PointerKind;
 
   /**
+   * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+   *
+   * @generated from field: uint32 pointer_id = 3;
+   */
+  pointerId: number;
+
+  /**
    * NDC, +x right
    *
-   * @generated from field: double x = 3;
+   * @generated from field: double x = 4;
    */
   x: number;
 
   /**
    * NDC, +y UP
    *
-   * @generated from field: double y = 4;
+   * @generated from field: double y = 5;
    */
   y: number;
 
   /**
-   * held-button bitfield (fixed 32-bit)
+   * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
    *
-   * @generated from field: uint32 buttons = 5;
+   * @generated from field: uint64 event_time = 6;
    */
-  buttons: number;
+  eventTime: bigint;
 };
 
 /**
@@ -62,92 +71,9 @@ export const PointerEventSchema: GenMessage<PointerEvent> = /*@__PURE__*/
   messageDesc(file_ui_ui_input, 0);
 
 /**
- * A gesture the HOST already recognized → the device-command intent. A flat,
- * scalar-only struct (size-bound); the `gesture` tag selects which fields the
- * WASM reads when it maps this to the full cmd.* command.
- *
- * @generated from message ui.GestureCommand
- */
-export type GestureCommand = Message<"ui.GestureCommand"> & {
-  /**
-   * @generated from field: ui.RecognizedGesture gesture = 1;
-   */
-  gesture: RecognizedGesture;
-
-  /**
-   * @generated from field: ser.JonGuiDataVideoChannel channel = 2;
-   */
-  channel: JonGuiDataVideoChannel;
-
-  /**
-   * NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-   * commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-   * and StartTrackNDC (jon_shared_cmd_cv).
-   *
-   * @generated from field: double x = 3;
-   */
-  x: number;
-
-  /**
-   * @generated from field: double y = 4;
-   */
-  y: number;
-
-  /**
-   * Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-   * when the gesture is not a pan.
-   *
-   * @generated from field: double az_speed = 5;
-   */
-  azSpeed: number;
-
-  /**
-   * @generated from field: double el_speed = 6;
-   */
-  elSpeed: number;
-
-  /**
-   * @generated from field: ser.JonGuiDataRotaryDirection az_dir = 7;
-   */
-  azDir: JonGuiDataRotaryDirection;
-
-  /**
-   * @generated from field: ser.JonGuiDataRotaryDirection el_dir = 8;
-   */
-  elDir: JonGuiDataRotaryDirection;
-
-  /**
-   * PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-   * WASM is a stateless 1:1 pass-through, so the host owns the running value
-   * and resolves any ±1 step into this absolute (a delta is inexpressible).
-   *
-   * @generated from field: int32 zoom = 9;
-   */
-  zoom: number;
-
-  /**
-   * Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-   * (RotateToNDC / HaltWithNDC frame_time/state_time).
-   *
-   * @generated from field: uint64 frame_time = 10;
-   */
-  frameTime: bigint;
-
-  /**
-   * @generated from field: uint64 state_time = 11;
-   */
-  stateTime: bigint;
-};
-
-/**
- * Describes the message ui.GestureCommand.
- * Use `create(GestureCommandSchema)` to create a new message.
- */
-export const GestureCommandSchema: GenMessage<GestureCommand> = /*@__PURE__*/
-  messageDesc(file_ui_ui_input, 1);
-
-/**
- * OS lifecycle the host pushes for WASM restyle / pause.
+ * OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+ * also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+ * pointer loss that a per-pointer CANCEL cannot cover).
  *
  * @generated from message ui.Lifecycle
  */
@@ -173,7 +99,7 @@ export type Lifecycle = Message<"ui.Lifecycle"> & {
  * Use `create(LifecycleSchema)` to create a new message.
  */
 export const LifecycleSchema: GenMessage<Lifecycle> = /*@__PURE__*/
-  messageDesc(file_ui_ui_input, 2);
+  messageDesc(file_ui_ui_input, 1);
 
 /**
  * Host → WASM envelope. `version` is field 1 (fail-fast guard); the consumer
@@ -199,13 +125,7 @@ export type HostToWasm = Message<"ui.HostToWasm"> & {
     case: "pointer";
   } | {
     /**
-     * @generated from field: ui.GestureCommand gesture = 3;
-     */
-    value: GestureCommand;
-    case: "gesture";
-  } | {
-    /**
-     * @generated from field: ui.Lifecycle lifecycle = 4;
+     * @generated from field: ui.Lifecycle lifecycle = 3;
      */
     value: Lifecycle;
     case: "lifecycle";
@@ -217,7 +137,7 @@ export type HostToWasm = Message<"ui.HostToWasm"> & {
  * Use `create(HostToWasmSchema)` to create a new message.
  */
 export const HostToWasmSchema: GenMessage<HostToWasm> = /*@__PURE__*/
-  messageDesc(file_ui_ui_input, 3);
+  messageDesc(file_ui_ui_input, 2);
 
 /**
  * What the WASM hit-test found under the pointer. Identity travels as the
@@ -246,7 +166,7 @@ export type HoverState = Message<"ui.HoverState"> & {
  * Use `create(HoverStateSchema)` to create a new message.
  */
 export const HoverStateSchema: GenMessage<HoverState> = /*@__PURE__*/
-  messageDesc(file_ui_ui_input, 4);
+  messageDesc(file_ui_ui_input, 3);
 
 /**
  * The cursor the WASM wants the host to render.
@@ -265,7 +185,7 @@ export type CursorRequest = Message<"ui.CursorRequest"> & {
  * Use `create(CursorRequestSchema)` to create a new message.
  */
 export const CursorRequestSchema: GenMessage<CursorRequest> = /*@__PURE__*/
-  messageDesc(file_ui_ui_input, 5);
+  messageDesc(file_ui_ui_input, 4);
 
 /**
  * WASM → host envelope. Same version-guard contract as HostToWasm.
@@ -301,13 +221,12 @@ export type WasmToHost = Message<"ui.WasmToHost"> & {
  * Use `create(WasmToHostSchema)` to create a new message.
  */
 export const WasmToHostSchema: GenMessage<WasmToHost> = /*@__PURE__*/
-  messageDesc(file_ui_ui_input, 6);
+  messageDesc(file_ui_ui_input, 5);
 
 /**
  * Channel schema version registry — the canonical list of valid versions. The
  * wire field is a uint32 (range-validated {gte:1,lte:255}) so it fail-fast
  * rejects the proto3 default 0; this enum documents which values are valid.
- * (Mirrors the NodeSchemaVersion / uint32 version pattern.)
  *
  * @generated from enum ui.InputSchemaVersion
  */
@@ -330,7 +249,10 @@ export const InputSchemaVersionSchema: GenEnum<InputSchemaVersion> = /*@__PURE__
   enumDesc(file_ui_ui_input, 0);
 
 /**
- * Raw pointer lifecycle phase (host input device → WASM hit-testing).
+ * W3C-style pointer lifecycle phase (host input device → WASM hit-test + FSM).
+ * CANCEL = pointercancel / lostpointercapture (palm-reject / OS-takeover /
+ * capture loss) — the FSM hard-aborts the pointer and emits NO terminal, so a
+ * lost contact never fires a phantom pan-end / tap device command.
  *
  * @generated from enum ui.PointerPhase
  */
@@ -354,6 +276,11 @@ export enum PointerPhase {
    * @generated from enum value: POINTER_PHASE_UP = 3;
    */
   UP = 3,
+
+  /**
+   * @generated from enum value: POINTER_PHASE_CANCEL = 4;
+   */
+  CANCEL = 4,
 }
 
 /**
@@ -363,7 +290,8 @@ export const PointerPhaseSchema: GenEnum<PointerPhase> = /*@__PURE__*/
   enumDesc(file_ui_ui_input, 1);
 
 /**
- * Pointing-device kind, for LVGL input semantics.
+ * Pointing-device kind (W3C pointerType), for LVGL input semantics + the
+ * hit-test path (mouse can hover without contact; touch cannot).
  *
  * @generated from enum ui.PointerKind
  */
@@ -396,60 +324,6 @@ export const PointerKindSchema: GenEnum<PointerKind> = /*@__PURE__*/
   enumDesc(file_ui_ui_input, 2);
 
 /**
- * The gesture the HOST has already recognized — selects which GestureCommand
- * fields are meaningful (the WASM interprets the scalar set per this tag).
- *
- * @generated from enum ui.RecognizedGesture
- */
-export enum RecognizedGesture {
-  /**
-   * @generated from enum value: RECOGNIZED_GESTURE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * continuous rotary slew (Axis)
-   *
-   * @generated from enum value: RECOGNIZED_GESTURE_PAN_MOVE = 1;
-   */
-  PAN_MOVE = 1,
-
-  /**
-   * slew release (HaltWithNDC)
-   *
-   * @generated from enum value: RECOGNIZED_GESTURE_PAN_END = 2;
-   */
-  PAN_END = 2,
-
-  /**
-   * slew-to-point (RotateToNDC)
-   *
-   * @generated from enum value: RECOGNIZED_GESTURE_TAP = 3;
-   */
-  TAP = 3,
-
-  /**
-   * CV point-track (StartTrackNDC)
-   *
-   * @generated from enum value: RECOGNIZED_GESTURE_TRACK = 4;
-   */
-  TRACK = 4,
-
-  /**
-   * optical zoom (SetZoomTableValue)
-   *
-   * @generated from enum value: RECOGNIZED_GESTURE_PINCH = 5;
-   */
-  PINCH = 5,
-}
-
-/**
- * Describes the enum ui.RecognizedGesture.
- */
-export const RecognizedGestureSchema: GenEnum<RecognizedGesture> = /*@__PURE__*/
-  enumDesc(file_ui_ui_input, 3);
-
-/**
  * OS theme the host reports for WASM restyle.
  *
  * @generated from enum ui.ThemeMode
@@ -475,7 +349,7 @@ export enum ThemeMode {
  * Describes the enum ui.ThemeMode.
  */
 export const ThemeModeSchema: GenEnum<ThemeMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_input, 4);
+  enumDesc(file_ui_ui_input, 3);
 
 /**
  * Cursor the WASM requests the host render over the hovered region.
@@ -523,5 +397,5 @@ export enum CursorType {
  * Describes the enum ui.CursorType.
  */
 export const CursorTypeSchema: GenEnum<CursorType> = /*@__PURE__*/
-  enumDesc(file_ui_ui_input, 5);
+  enumDesc(file_ui_ui_input, 4);
 

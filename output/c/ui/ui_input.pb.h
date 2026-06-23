@@ -4,7 +4,6 @@
 #ifndef PB_UI_UI_UI_INPUT_PB_H_INCLUDED
 #define PB_UI_UI_UI_INPUT_PB_H_INCLUDED
 #include <pb.h>
-#include "jon_shared_data_types.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -13,39 +12,32 @@
 /* Enum definitions */
 /* Channel schema version registry — the canonical list of valid versions. The
  wire field is a uint32 (range-validated {gte:1,lte:255}) so it fail-fast
- rejects the proto3 default 0; this enum documents which values are valid.
- (Mirrors the NodeSchemaVersion / uint32 version pattern.) */
+ rejects the proto3 default 0; this enum documents which values are valid. */
 typedef enum _ui_InputSchemaVersion {
     ui_InputSchemaVersion_INPUT_SCHEMA_VERSION_UNSPECIFIED = 0,
     ui_InputSchemaVersion_INPUT_SCHEMA_VERSION_V1 = 1
 } ui_InputSchemaVersion;
 
-/* Raw pointer lifecycle phase (host input device → WASM hit-testing). */
+/* W3C-style pointer lifecycle phase (host input device → WASM hit-test + FSM).
+ CANCEL = pointercancel / lostpointercapture (palm-reject / OS-takeover /
+ capture loss) — the FSM hard-aborts the pointer and emits NO terminal, so a
+ lost contact never fires a phantom pan-end / tap device command. */
 typedef enum _ui_PointerPhase {
     ui_PointerPhase_POINTER_PHASE_UNSPECIFIED = 0,
     ui_PointerPhase_POINTER_PHASE_DOWN = 1,
     ui_PointerPhase_POINTER_PHASE_MOVE = 2,
-    ui_PointerPhase_POINTER_PHASE_UP = 3
+    ui_PointerPhase_POINTER_PHASE_UP = 3,
+    ui_PointerPhase_POINTER_PHASE_CANCEL = 4
 } ui_PointerPhase;
 
-/* Pointing-device kind, for LVGL input semantics. */
+/* Pointing-device kind (W3C pointerType), for LVGL input semantics + the
+ hit-test path (mouse can hover without contact; touch cannot). */
 typedef enum _ui_PointerKind {
     ui_PointerKind_POINTER_KIND_UNSPECIFIED = 0,
     ui_PointerKind_POINTER_KIND_MOUSE = 1,
     ui_PointerKind_POINTER_KIND_TOUCH = 2,
     ui_PointerKind_POINTER_KIND_PEN = 3
 } ui_PointerKind;
-
-/* The gesture the HOST has already recognized — selects which GestureCommand
- fields are meaningful (the WASM interprets the scalar set per this tag). */
-typedef enum _ui_RecognizedGesture {
-    ui_RecognizedGesture_RECOGNIZED_GESTURE_UNSPECIFIED = 0,
-    ui_RecognizedGesture_RECOGNIZED_GESTURE_PAN_MOVE = 1, /* continuous rotary slew (Axis) */
-    ui_RecognizedGesture_RECOGNIZED_GESTURE_PAN_END = 2, /* slew release (HaltWithNDC) */
-    ui_RecognizedGesture_RECOGNIZED_GESTURE_TAP = 3, /* slew-to-point (RotateToNDC) */
-    ui_RecognizedGesture_RECOGNIZED_GESTURE_TRACK = 4, /* CV point-track (StartTrackNDC) */
-    ui_RecognizedGesture_RECOGNIZED_GESTURE_PINCH = 5 /* optical zoom (SetZoomTableValue) */
-} ui_RecognizedGesture;
 
 /* OS theme the host reports for WASM restyle. */
 typedef enum _ui_ThemeMode {
@@ -66,44 +58,24 @@ typedef enum _ui_CursorType {
 } ui_CursorType;
 
 /* Struct definitions */
-/* Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
- input device; the WASM needs the raw pointer to hit-test its own layout. */
+/* A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+ unified). The host forwards every pointer event; the WASM accumulates them
+ into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+ The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+ reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+ pointer_id, clamp non-positive FSM time deltas. */
 typedef struct _ui_PointerEvent {
     ui_PointerPhase phase;
     ui_PointerKind kind;
+    uint32_t pointer_id; /* W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2) */
     double x; /* NDC, +x right */
     double y; /* NDC, +y UP */
-    uint32_t buttons; /* held-button bitfield (fixed 32-bit) */
+    uint64_t event_time; /* W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick) */
 } ui_PointerEvent;
 
-/* A gesture the HOST already recognized → the device-command intent. A flat,
- scalar-only struct (size-bound); the `gesture` tag selects which fields the
- WASM reads when it maps this to the full cmd.* command. */
-typedef struct _ui_GestureCommand {
-    ui_RecognizedGesture gesture;
-    ser_JonGuiDataVideoChannel channel;
-    /* NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
- commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
- and StartTrackNDC (jon_shared_cmd_cv). */
-    double x;
-    double y;
-    /* Continuous rotary pan (Axis): az/el speed ∈  + direction. 0 / unset
- when the gesture is not a pan. */
-    double az_speed;
-    double el_speed;
-    ser_JonGuiDataRotaryDirection az_dir;
-    ser_JonGuiDataRotaryDirection el_dir;
-    /* PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
- WASM is a stateless 1:1 pass-through, so the host owns the running value
- and resolves any ±1 step into this absolute (a delta is inexpressible). */
-    int32_t zoom;
-    /* Frame-accurate aim-point resolution — the NDC commands REQUIRE these
- (RotateToNDC / HaltWithNDC frame_time/state_time). */
-    uint64_t frame_time;
-    uint64_t state_time;
-} ui_GestureCommand;
-
-/* OS lifecycle the host pushes for WASM restyle / pause. */
+/* OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+ also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+ pointer loss that a per-pointer CANCEL cannot cover). */
 typedef struct _ui_Lifecycle {
     ui_ThemeMode theme;
     bool focused;
@@ -118,7 +90,6 @@ typedef struct _ui_HostToWasm {
     pb_size_t which_event;
     union {
         ui_PointerEvent pointer;
-        ui_GestureCommand gesture;
         ui_Lifecycle lifecycle;
     } event;
 } ui_HostToWasm;
@@ -156,16 +127,12 @@ extern "C" {
 #define _ui_InputSchemaVersion_ARRAYSIZE ((ui_InputSchemaVersion)(ui_InputSchemaVersion_INPUT_SCHEMA_VERSION_V1+1))
 
 #define _ui_PointerPhase_MIN ui_PointerPhase_POINTER_PHASE_UNSPECIFIED
-#define _ui_PointerPhase_MAX ui_PointerPhase_POINTER_PHASE_UP
-#define _ui_PointerPhase_ARRAYSIZE ((ui_PointerPhase)(ui_PointerPhase_POINTER_PHASE_UP+1))
+#define _ui_PointerPhase_MAX ui_PointerPhase_POINTER_PHASE_CANCEL
+#define _ui_PointerPhase_ARRAYSIZE ((ui_PointerPhase)(ui_PointerPhase_POINTER_PHASE_CANCEL+1))
 
 #define _ui_PointerKind_MIN ui_PointerKind_POINTER_KIND_UNSPECIFIED
 #define _ui_PointerKind_MAX ui_PointerKind_POINTER_KIND_PEN
 #define _ui_PointerKind_ARRAYSIZE ((ui_PointerKind)(ui_PointerKind_POINTER_KIND_PEN+1))
-
-#define _ui_RecognizedGesture_MIN ui_RecognizedGesture_RECOGNIZED_GESTURE_UNSPECIFIED
-#define _ui_RecognizedGesture_MAX ui_RecognizedGesture_RECOGNIZED_GESTURE_PINCH
-#define _ui_RecognizedGesture_ARRAYSIZE ((ui_RecognizedGesture)(ui_RecognizedGesture_RECOGNIZED_GESTURE_PINCH+1))
 
 #define _ui_ThemeMode_MIN ui_ThemeMode_THEME_MODE_UNSPECIFIED
 #define _ui_ThemeMode_MAX ui_ThemeMode_THEME_MODE_DARK
@@ -178,11 +145,6 @@ extern "C" {
 #define ui_PointerEvent_phase_ENUMTYPE ui_PointerPhase
 #define ui_PointerEvent_kind_ENUMTYPE ui_PointerKind
 
-#define ui_GestureCommand_gesture_ENUMTYPE ui_RecognizedGesture
-#define ui_GestureCommand_channel_ENUMTYPE ser_JonGuiDataVideoChannel
-#define ui_GestureCommand_az_dir_ENUMTYPE ser_JonGuiDataRotaryDirection
-#define ui_GestureCommand_el_dir_ENUMTYPE ser_JonGuiDataRotaryDirection
-
 #define ui_Lifecycle_theme_ENUMTYPE ui_ThemeMode
 
 
@@ -192,15 +154,13 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ui_PointerEvent_init_default             {_ui_PointerPhase_MIN, _ui_PointerKind_MIN, 0, 0, 0}
-#define ui_GestureCommand_init_default           {_ui_RecognizedGesture_MIN, _ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0, _ser_JonGuiDataRotaryDirection_MIN, _ser_JonGuiDataRotaryDirection_MIN, 0, 0, 0}
+#define ui_PointerEvent_init_default             {_ui_PointerPhase_MIN, _ui_PointerKind_MIN, 0, 0, 0, 0}
 #define ui_Lifecycle_init_default                {_ui_ThemeMode_MIN, 0, 0}
 #define ui_HostToWasm_init_default               {0, 0, {ui_PointerEvent_init_default}}
 #define ui_HoverState_init_default               {0, 0}
 #define ui_CursorRequest_init_default            {_ui_CursorType_MIN}
 #define ui_WasmToHost_init_default               {0, 0, {ui_HoverState_init_default}}
-#define ui_PointerEvent_init_zero                {_ui_PointerPhase_MIN, _ui_PointerKind_MIN, 0, 0, 0}
-#define ui_GestureCommand_init_zero              {_ui_RecognizedGesture_MIN, _ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0, _ser_JonGuiDataRotaryDirection_MIN, _ser_JonGuiDataRotaryDirection_MIN, 0, 0, 0}
+#define ui_PointerEvent_init_zero                {_ui_PointerPhase_MIN, _ui_PointerKind_MIN, 0, 0, 0, 0}
 #define ui_Lifecycle_init_zero                   {_ui_ThemeMode_MIN, 0, 0}
 #define ui_HostToWasm_init_zero                  {0, 0, {ui_PointerEvent_init_zero}}
 #define ui_HoverState_init_zero                  {0, 0}
@@ -210,27 +170,16 @@ extern "C" {
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_PointerEvent_phase_tag                1
 #define ui_PointerEvent_kind_tag                 2
-#define ui_PointerEvent_x_tag                    3
-#define ui_PointerEvent_y_tag                    4
-#define ui_PointerEvent_buttons_tag              5
-#define ui_GestureCommand_gesture_tag            1
-#define ui_GestureCommand_channel_tag            2
-#define ui_GestureCommand_x_tag                  3
-#define ui_GestureCommand_y_tag                  4
-#define ui_GestureCommand_az_speed_tag           5
-#define ui_GestureCommand_el_speed_tag           6
-#define ui_GestureCommand_az_dir_tag             7
-#define ui_GestureCommand_el_dir_tag             8
-#define ui_GestureCommand_zoom_tag               9
-#define ui_GestureCommand_frame_time_tag         10
-#define ui_GestureCommand_state_time_tag         11
+#define ui_PointerEvent_pointer_id_tag           3
+#define ui_PointerEvent_x_tag                    4
+#define ui_PointerEvent_y_tag                    5
+#define ui_PointerEvent_event_time_tag           6
 #define ui_Lifecycle_theme_tag                   1
 #define ui_Lifecycle_focused_tag                 2
 #define ui_Lifecycle_visible_tag                 3
 #define ui_HostToWasm_version_tag                1
 #define ui_HostToWasm_pointer_tag                2
-#define ui_HostToWasm_gesture_tag                3
-#define ui_HostToWasm_lifecycle_tag              4
+#define ui_HostToWasm_lifecycle_tag              3
 #define ui_HoverState_hovered_uid_tag            1
 #define ui_HoverState_interactive_tag            2
 #define ui_CursorRequest_cursor_tag              1
@@ -242,26 +191,12 @@ extern "C" {
 #define ui_PointerEvent_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    phase,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    kind,              2) \
-X(a, STATIC,   SINGULAR, DOUBLE,   x,                 3) \
-X(a, STATIC,   SINGULAR, DOUBLE,   y,                 4) \
-X(a, STATIC,   SINGULAR, UINT32,   buttons,           5)
+X(a, STATIC,   SINGULAR, UINT32,   pointer_id,        3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x,                 4) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y,                 5) \
+X(a, STATIC,   SINGULAR, UINT64,   event_time,        6)
 #define ui_PointerEvent_CALLBACK NULL
 #define ui_PointerEvent_DEFAULT NULL
-
-#define ui_GestureCommand_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UENUM,    gesture,           1) \
-X(a, STATIC,   SINGULAR, UENUM,    channel,           2) \
-X(a, STATIC,   SINGULAR, DOUBLE,   x,                 3) \
-X(a, STATIC,   SINGULAR, DOUBLE,   y,                 4) \
-X(a, STATIC,   SINGULAR, DOUBLE,   az_speed,          5) \
-X(a, STATIC,   SINGULAR, DOUBLE,   el_speed,          6) \
-X(a, STATIC,   SINGULAR, UENUM,    az_dir,            7) \
-X(a, STATIC,   SINGULAR, UENUM,    el_dir,            8) \
-X(a, STATIC,   SINGULAR, INT32,    zoom,              9) \
-X(a, STATIC,   SINGULAR, UINT64,   frame_time,       10) \
-X(a, STATIC,   SINGULAR, UINT64,   state_time,       11)
-#define ui_GestureCommand_CALLBACK NULL
-#define ui_GestureCommand_DEFAULT NULL
 
 #define ui_Lifecycle_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    theme,             1) \
@@ -273,12 +208,10 @@ X(a, STATIC,   SINGULAR, BOOL,     visible,           3)
 #define ui_HostToWasm_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (event,pointer,event.pointer),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (event,gesture,event.gesture),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (event,lifecycle,event.lifecycle),   4)
+X(a, STATIC,   ONEOF,    MESSAGE,  (event,lifecycle,event.lifecycle),   3)
 #define ui_HostToWasm_CALLBACK NULL
 #define ui_HostToWasm_DEFAULT NULL
 #define ui_HostToWasm_event_pointer_MSGTYPE ui_PointerEvent
-#define ui_HostToWasm_event_gesture_MSGTYPE ui_GestureCommand
 #define ui_HostToWasm_event_lifecycle_MSGTYPE ui_Lifecycle
 
 #define ui_HoverState_FIELDLIST(X, a) \
@@ -302,7 +235,6 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (report,cursor,report.cursor),   3)
 #define ui_WasmToHost_report_cursor_MSGTYPE ui_CursorRequest
 
 extern const pb_msgdesc_t ui_PointerEvent_msg;
-extern const pb_msgdesc_t ui_GestureCommand_msg;
 extern const pb_msgdesc_t ui_Lifecycle_msg;
 extern const pb_msgdesc_t ui_HostToWasm_msg;
 extern const pb_msgdesc_t ui_HoverState_msg;
@@ -311,7 +243,6 @@ extern const pb_msgdesc_t ui_WasmToHost_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_PointerEvent_fields &ui_PointerEvent_msg
-#define ui_GestureCommand_fields &ui_GestureCommand_msg
 #define ui_Lifecycle_fields &ui_Lifecycle_msg
 #define ui_HostToWasm_fields &ui_HostToWasm_msg
 #define ui_HoverState_fields &ui_HoverState_msg
@@ -321,11 +252,10 @@ extern const pb_msgdesc_t ui_WasmToHost_msg;
 /* Maximum encoded size of messages (where known) */
 #define UI_UI_UI_INPUT_PB_H_MAX_SIZE             ui_HostToWasm_size
 #define ui_CursorRequest_size                    2
-#define ui_GestureCommand_size                   77
-#define ui_HostToWasm_size                       85
+#define ui_HostToWasm_size                       47
 #define ui_HoverState_size                       8
 #define ui_Lifecycle_size                        6
-#define ui_PointerEvent_size                     28
+#define ui_PointerEvent_size                     39
 #define ui_WasmToHost_size                       16
 
 #ifdef __cplusplus

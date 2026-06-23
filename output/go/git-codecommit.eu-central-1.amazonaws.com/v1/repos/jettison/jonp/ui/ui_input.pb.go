@@ -8,7 +8,6 @@ package ui
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	types "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -26,7 +25,6 @@ const (
 // Channel schema version registry — the canonical list of valid versions. The
 // wire field is a uint32 (range-validated {gte:1,lte:255}) so it fail-fast
 // rejects the proto3 default 0; this enum documents which values are valid.
-// (Mirrors the NodeSchemaVersion / uint32 version pattern.)
 type InputSchemaVersion int32
 
 const (
@@ -73,7 +71,10 @@ func (InputSchemaVersion) EnumDescriptor() ([]byte, []int) {
 	return file_ui_ui_input_proto_rawDescGZIP(), []int{0}
 }
 
-// Raw pointer lifecycle phase (host input device → WASM hit-testing).
+// W3C-style pointer lifecycle phase (host input device → WASM hit-test + FSM).
+// CANCEL = pointercancel / lostpointercapture (palm-reject / OS-takeover /
+// capture loss) — the FSM hard-aborts the pointer and emits NO terminal, so a
+// lost contact never fires a phantom pan-end / tap device command.
 type PointerPhase int32
 
 const (
@@ -81,6 +82,7 @@ const (
 	PointerPhase_POINTER_PHASE_DOWN        PointerPhase = 1
 	PointerPhase_POINTER_PHASE_MOVE        PointerPhase = 2
 	PointerPhase_POINTER_PHASE_UP          PointerPhase = 3
+	PointerPhase_POINTER_PHASE_CANCEL      PointerPhase = 4
 )
 
 // Enum value maps for PointerPhase.
@@ -90,12 +92,14 @@ var (
 		1: "POINTER_PHASE_DOWN",
 		2: "POINTER_PHASE_MOVE",
 		3: "POINTER_PHASE_UP",
+		4: "POINTER_PHASE_CANCEL",
 	}
 	PointerPhase_value = map[string]int32{
 		"POINTER_PHASE_UNSPECIFIED": 0,
 		"POINTER_PHASE_DOWN":        1,
 		"POINTER_PHASE_MOVE":        2,
 		"POINTER_PHASE_UP":          3,
+		"POINTER_PHASE_CANCEL":      4,
 	}
 )
 
@@ -126,7 +130,8 @@ func (PointerPhase) EnumDescriptor() ([]byte, []int) {
 	return file_ui_ui_input_proto_rawDescGZIP(), []int{1}
 }
 
-// Pointing-device kind, for LVGL input semantics.
+// Pointing-device kind (W3C pointerType), for LVGL input semantics + the
+// hit-test path (mouse can hover without contact; touch cannot).
 type PointerKind int32
 
 const (
@@ -179,66 +184,6 @@ func (PointerKind) EnumDescriptor() ([]byte, []int) {
 	return file_ui_ui_input_proto_rawDescGZIP(), []int{2}
 }
 
-// The gesture the HOST has already recognized — selects which GestureCommand
-// fields are meaningful (the WASM interprets the scalar set per this tag).
-type RecognizedGesture int32
-
-const (
-	RecognizedGesture_RECOGNIZED_GESTURE_UNSPECIFIED RecognizedGesture = 0
-	RecognizedGesture_RECOGNIZED_GESTURE_PAN_MOVE    RecognizedGesture = 1 // continuous rotary slew (Axis)
-	RecognizedGesture_RECOGNIZED_GESTURE_PAN_END     RecognizedGesture = 2 // slew release (HaltWithNDC)
-	RecognizedGesture_RECOGNIZED_GESTURE_TAP         RecognizedGesture = 3 // slew-to-point (RotateToNDC)
-	RecognizedGesture_RECOGNIZED_GESTURE_TRACK       RecognizedGesture = 4 // CV point-track (StartTrackNDC)
-	RecognizedGesture_RECOGNIZED_GESTURE_PINCH       RecognizedGesture = 5 // optical zoom (SetZoomTableValue)
-)
-
-// Enum value maps for RecognizedGesture.
-var (
-	RecognizedGesture_name = map[int32]string{
-		0: "RECOGNIZED_GESTURE_UNSPECIFIED",
-		1: "RECOGNIZED_GESTURE_PAN_MOVE",
-		2: "RECOGNIZED_GESTURE_PAN_END",
-		3: "RECOGNIZED_GESTURE_TAP",
-		4: "RECOGNIZED_GESTURE_TRACK",
-		5: "RECOGNIZED_GESTURE_PINCH",
-	}
-	RecognizedGesture_value = map[string]int32{
-		"RECOGNIZED_GESTURE_UNSPECIFIED": 0,
-		"RECOGNIZED_GESTURE_PAN_MOVE":    1,
-		"RECOGNIZED_GESTURE_PAN_END":     2,
-		"RECOGNIZED_GESTURE_TAP":         3,
-		"RECOGNIZED_GESTURE_TRACK":       4,
-		"RECOGNIZED_GESTURE_PINCH":       5,
-	}
-)
-
-func (x RecognizedGesture) Enum() *RecognizedGesture {
-	p := new(RecognizedGesture)
-	*p = x
-	return p
-}
-
-func (x RecognizedGesture) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (RecognizedGesture) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_input_proto_enumTypes[3].Descriptor()
-}
-
-func (RecognizedGesture) Type() protoreflect.EnumType {
-	return &file_ui_ui_input_proto_enumTypes[3]
-}
-
-func (x RecognizedGesture) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use RecognizedGesture.Descriptor instead.
-func (RecognizedGesture) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{3}
-}
-
 // OS theme the host reports for WASM restyle.
 type ThemeMode int32
 
@@ -273,11 +218,11 @@ func (x ThemeMode) String() string {
 }
 
 func (ThemeMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_input_proto_enumTypes[4].Descriptor()
+	return file_ui_ui_input_proto_enumTypes[3].Descriptor()
 }
 
 func (ThemeMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_input_proto_enumTypes[4]
+	return &file_ui_ui_input_proto_enumTypes[3]
 }
 
 func (x ThemeMode) Number() protoreflect.EnumNumber {
@@ -286,7 +231,7 @@ func (x ThemeMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ThemeMode.Descriptor instead.
 func (ThemeMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{4}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{3}
 }
 
 // Cursor the WASM requests the host render over the hovered region.
@@ -335,11 +280,11 @@ func (x CursorType) String() string {
 }
 
 func (CursorType) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_input_proto_enumTypes[5].Descriptor()
+	return file_ui_ui_input_proto_enumTypes[4].Descriptor()
 }
 
 func (CursorType) Type() protoreflect.EnumType {
-	return &file_ui_ui_input_proto_enumTypes[5]
+	return &file_ui_ui_input_proto_enumTypes[4]
 }
 
 func (x CursorType) Number() protoreflect.EnumNumber {
@@ -348,18 +293,23 @@ func (x CursorType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CursorType.Descriptor instead.
 func (CursorType) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{5}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{4}
 }
 
-// Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
-// input device; the WASM needs the raw pointer to hit-test its own layout.
+// A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+// unified). The host forwards every pointer event; the WASM accumulates them
+// into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+// The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+// reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+// pointer_id, clamp non-positive FSM time deltas.
 type PointerEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Phase         PointerPhase           `protobuf:"varint,1,opt,name=phase,proto3,enum=ui.PointerPhase" json:"phase,omitempty"`
 	Kind          PointerKind            `protobuf:"varint,2,opt,name=kind,proto3,enum=ui.PointerKind" json:"kind,omitempty"`
-	X             float64                `protobuf:"fixed64,3,opt,name=x,proto3" json:"x,omitempty"`            // NDC, +x right
-	Y             float64                `protobuf:"fixed64,4,opt,name=y,proto3" json:"y,omitempty"`            // NDC, +y UP
-	Buttons       uint32                 `protobuf:"varint,5,opt,name=buttons,proto3" json:"buttons,omitempty"` // held-button bitfield (fixed 32-bit)
+	PointerId     uint32                 `protobuf:"varint,3,opt,name=pointer_id,json=pointerId,proto3" json:"pointer_id,omitempty"` // W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+	X             float64                `protobuf:"fixed64,4,opt,name=x,proto3" json:"x,omitempty"`                                 // NDC, +x right
+	Y             float64                `protobuf:"fixed64,5,opt,name=y,proto3" json:"y,omitempty"`                                 // NDC, +y UP
+	EventTime     uint64                 `protobuf:"varint,6,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"` // W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -408,6 +358,13 @@ func (x *PointerEvent) GetKind() PointerKind {
 	return PointerKind_POINTER_KIND_UNSPECIFIED
 }
 
+func (x *PointerEvent) GetPointerId() uint32 {
+	if x != nil {
+		return x.PointerId
+	}
+	return 0
+}
+
 func (x *PointerEvent) GetX() float64 {
 	if x != nil {
 		return x.X
@@ -422,151 +379,16 @@ func (x *PointerEvent) GetY() float64 {
 	return 0
 }
 
-func (x *PointerEvent) GetButtons() uint32 {
+func (x *PointerEvent) GetEventTime() uint64 {
 	if x != nil {
-		return x.Buttons
+		return x.EventTime
 	}
 	return 0
 }
 
-// A gesture the HOST already recognized → the device-command intent. A flat,
-// scalar-only struct (size-bound); the `gesture` tag selects which fields the
-// WASM reads when it maps this to the full cmd.* command.
-type GestureCommand struct {
-	state   protoimpl.MessageState       `protogen:"open.v1"`
-	Gesture RecognizedGesture            `protobuf:"varint,1,opt,name=gesture,proto3,enum=ui.RecognizedGesture" json:"gesture,omitempty"`
-	Channel types.JonGuiDataVideoChannel `protobuf:"varint,2,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
-	// NDC aim point for PAN_MOVE / PAN_END / TAP / TRACK. The mirrored device
-	// commands all carry x,y: RotateToNDC + HaltWithNDC (jon_shared_cmd_rotary)
-	// and StartTrackNDC (jon_shared_cmd_cv).
-	X float64 `protobuf:"fixed64,3,opt,name=x,proto3" json:"x,omitempty"`
-	Y float64 `protobuf:"fixed64,4,opt,name=y,proto3" json:"y,omitempty"`
-	// Continuous rotary pan (Axis): az/el speed ∈ [0,1] + direction. 0 / unset
-	// when the gesture is not a pan.
-	AzSpeed float64                         `protobuf:"fixed64,5,opt,name=az_speed,json=azSpeed,proto3" json:"az_speed,omitempty"`
-	ElSpeed float64                         `protobuf:"fixed64,6,opt,name=el_speed,json=elSpeed,proto3" json:"el_speed,omitempty"`
-	AzDir   types.JonGuiDataRotaryDirection `protobuf:"varint,7,opt,name=az_dir,json=azDir,proto3,enum=ser.JonGuiDataRotaryDirection" json:"az_dir,omitempty"`
-	ElDir   types.JonGuiDataRotaryDirection `protobuf:"varint,8,opt,name=el_dir,json=elDir,proto3,enum=ser.JonGuiDataRotaryDirection" json:"el_dir,omitempty"`
-	// PINCH: ABSOLUTE zoom-table value. SetZoomTableValue is absolute and the
-	// WASM is a stateless 1:1 pass-through, so the host owns the running value
-	// and resolves any ±1 step into this absolute (a delta is inexpressible).
-	Zoom int32 `protobuf:"varint,9,opt,name=zoom,proto3" json:"zoom,omitempty"`
-	// Frame-accurate aim-point resolution — the NDC commands REQUIRE these
-	// (RotateToNDC / HaltWithNDC frame_time/state_time).
-	FrameTime     uint64 `protobuf:"varint,10,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
-	StateTime     uint64 `protobuf:"varint,11,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GestureCommand) Reset() {
-	*x = GestureCommand{}
-	mi := &file_ui_ui_input_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GestureCommand) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GestureCommand) ProtoMessage() {}
-
-func (x *GestureCommand) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_input_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GestureCommand.ProtoReflect.Descriptor instead.
-func (*GestureCommand) Descriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *GestureCommand) GetGesture() RecognizedGesture {
-	if x != nil {
-		return x.Gesture
-	}
-	return RecognizedGesture_RECOGNIZED_GESTURE_UNSPECIFIED
-}
-
-func (x *GestureCommand) GetChannel() types.JonGuiDataVideoChannel {
-	if x != nil {
-		return x.Channel
-	}
-	return types.JonGuiDataVideoChannel(0)
-}
-
-func (x *GestureCommand) GetX() float64 {
-	if x != nil {
-		return x.X
-	}
-	return 0
-}
-
-func (x *GestureCommand) GetY() float64 {
-	if x != nil {
-		return x.Y
-	}
-	return 0
-}
-
-func (x *GestureCommand) GetAzSpeed() float64 {
-	if x != nil {
-		return x.AzSpeed
-	}
-	return 0
-}
-
-func (x *GestureCommand) GetElSpeed() float64 {
-	if x != nil {
-		return x.ElSpeed
-	}
-	return 0
-}
-
-func (x *GestureCommand) GetAzDir() types.JonGuiDataRotaryDirection {
-	if x != nil {
-		return x.AzDir
-	}
-	return types.JonGuiDataRotaryDirection(0)
-}
-
-func (x *GestureCommand) GetElDir() types.JonGuiDataRotaryDirection {
-	if x != nil {
-		return x.ElDir
-	}
-	return types.JonGuiDataRotaryDirection(0)
-}
-
-func (x *GestureCommand) GetZoom() int32 {
-	if x != nil {
-		return x.Zoom
-	}
-	return 0
-}
-
-func (x *GestureCommand) GetFrameTime() uint64 {
-	if x != nil {
-		return x.FrameTime
-	}
-	return 0
-}
-
-func (x *GestureCommand) GetStateTime() uint64 {
-	if x != nil {
-		return x.StateTime
-	}
-	return 0
-}
-
-// OS lifecycle the host pushes for WASM restyle / pause.
+// OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+// also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+// pointer loss that a per-pointer CANCEL cannot cover).
 type Lifecycle struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Theme         ThemeMode              `protobuf:"varint,1,opt,name=theme,proto3,enum=ui.ThemeMode" json:"theme,omitempty"`
@@ -578,7 +400,7 @@ type Lifecycle struct {
 
 func (x *Lifecycle) Reset() {
 	*x = Lifecycle{}
-	mi := &file_ui_ui_input_proto_msgTypes[2]
+	mi := &file_ui_ui_input_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -590,7 +412,7 @@ func (x *Lifecycle) String() string {
 func (*Lifecycle) ProtoMessage() {}
 
 func (x *Lifecycle) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_input_proto_msgTypes[2]
+	mi := &file_ui_ui_input_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -603,7 +425,7 @@ func (x *Lifecycle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Lifecycle.ProtoReflect.Descriptor instead.
 func (*Lifecycle) Descriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{2}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Lifecycle) GetTheme() ThemeMode {
@@ -636,7 +458,6 @@ type HostToWasm struct {
 	// Types that are valid to be assigned to Event:
 	//
 	//	*HostToWasm_Pointer
-	//	*HostToWasm_Gesture
 	//	*HostToWasm_Lifecycle
 	Event         isHostToWasm_Event `protobuf_oneof:"event"`
 	unknownFields protoimpl.UnknownFields
@@ -645,7 +466,7 @@ type HostToWasm struct {
 
 func (x *HostToWasm) Reset() {
 	*x = HostToWasm{}
-	mi := &file_ui_ui_input_proto_msgTypes[3]
+	mi := &file_ui_ui_input_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -657,7 +478,7 @@ func (x *HostToWasm) String() string {
 func (*HostToWasm) ProtoMessage() {}
 
 func (x *HostToWasm) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_input_proto_msgTypes[3]
+	mi := &file_ui_ui_input_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -670,7 +491,7 @@ func (x *HostToWasm) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HostToWasm.ProtoReflect.Descriptor instead.
 func (*HostToWasm) Descriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{3}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *HostToWasm) GetVersion() uint32 {
@@ -696,15 +517,6 @@ func (x *HostToWasm) GetPointer() *PointerEvent {
 	return nil
 }
 
-func (x *HostToWasm) GetGesture() *GestureCommand {
-	if x != nil {
-		if x, ok := x.Event.(*HostToWasm_Gesture); ok {
-			return x.Gesture
-		}
-	}
-	return nil
-}
-
 func (x *HostToWasm) GetLifecycle() *Lifecycle {
 	if x != nil {
 		if x, ok := x.Event.(*HostToWasm_Lifecycle); ok {
@@ -722,17 +534,11 @@ type HostToWasm_Pointer struct {
 	Pointer *PointerEvent `protobuf:"bytes,2,opt,name=pointer,proto3,oneof"`
 }
 
-type HostToWasm_Gesture struct {
-	Gesture *GestureCommand `protobuf:"bytes,3,opt,name=gesture,proto3,oneof"`
-}
-
 type HostToWasm_Lifecycle struct {
-	Lifecycle *Lifecycle `protobuf:"bytes,4,opt,name=lifecycle,proto3,oneof"`
+	Lifecycle *Lifecycle `protobuf:"bytes,3,opt,name=lifecycle,proto3,oneof"`
 }
 
 func (*HostToWasm_Pointer) isHostToWasm_Event() {}
-
-func (*HostToWasm_Gesture) isHostToWasm_Event() {}
 
 func (*HostToWasm_Lifecycle) isHostToWasm_Event() {}
 
@@ -748,7 +554,7 @@ type HoverState struct {
 
 func (x *HoverState) Reset() {
 	*x = HoverState{}
-	mi := &file_ui_ui_input_proto_msgTypes[4]
+	mi := &file_ui_ui_input_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -760,7 +566,7 @@ func (x *HoverState) String() string {
 func (*HoverState) ProtoMessage() {}
 
 func (x *HoverState) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_input_proto_msgTypes[4]
+	mi := &file_ui_ui_input_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -773,7 +579,7 @@ func (x *HoverState) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HoverState.ProtoReflect.Descriptor instead.
 func (*HoverState) Descriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{4}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *HoverState) GetHoveredUid() uint32 {
@@ -800,7 +606,7 @@ type CursorRequest struct {
 
 func (x *CursorRequest) Reset() {
 	*x = CursorRequest{}
-	mi := &file_ui_ui_input_proto_msgTypes[5]
+	mi := &file_ui_ui_input_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -812,7 +618,7 @@ func (x *CursorRequest) String() string {
 func (*CursorRequest) ProtoMessage() {}
 
 func (x *CursorRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_input_proto_msgTypes[5]
+	mi := &file_ui_ui_input_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -825,7 +631,7 @@ func (x *CursorRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CursorRequest.ProtoReflect.Descriptor instead.
 func (*CursorRequest) Descriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{5}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CursorRequest) GetCursor() CursorType {
@@ -850,7 +656,7 @@ type WasmToHost struct {
 
 func (x *WasmToHost) Reset() {
 	*x = WasmToHost{}
-	mi := &file_ui_ui_input_proto_msgTypes[6]
+	mi := &file_ui_ui_input_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -862,7 +668,7 @@ func (x *WasmToHost) String() string {
 func (*WasmToHost) ProtoMessage() {}
 
 func (x *WasmToHost) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_input_proto_msgTypes[6]
+	mi := &file_ui_ui_input_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -875,7 +681,7 @@ func (x *WasmToHost) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WasmToHost.ProtoReflect.Descriptor instead.
 func (*WasmToHost) Descriptor() ([]byte, []int) {
-	return file_ui_ui_input_proto_rawDescGZIP(), []int{6}
+	return file_ui_ui_input_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *WasmToHost) GetVersion() uint32 {
@@ -930,44 +736,29 @@ var File_ui_ui_input_proto protoreflect.FileDescriptor
 
 const file_ui_ui_input_proto_rawDesc = "" +
 	"\n" +
-	"\x11ui/ui_input.proto\x12\x02ui\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xdb\x01\n" +
+	"\x11ui/ui_input.proto\x12\x02ui\x1a\x1bbuf/validate/validate.proto\"\xff\x01\n" +
 	"\fPointerEvent\x122\n" +
 	"\x05phase\x18\x01 \x01(\x0e2\x10.ui.PointerPhaseB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x05phase\x12/\n" +
 	"\x04kind\x18\x02 \x01(\x0e2\x0f.ui.PointerKindB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04kind\x12%\n" +
-	"\x01x\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
-	"\x01y\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\x12\x18\n" +
-	"\abuttons\x18\x05 \x01(\rR\abuttons\"\x8f\x04\n" +
-	"\x0eGestureCommand\x12;\n" +
-	"\agesture\x18\x01 \x01(\x0e2\x15.ui.RecognizedGestureB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\agesture\x12A\n" +
-	"\achannel\x18\x02 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12%\n" +
-	"\x01x\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
-	"\x01y\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\x122\n" +
-	"\baz_speed\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\aazSpeed\x122\n" +
-	"\bel_speed\x18\x06 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\aelSpeed\x125\n" +
-	"\x06az_dir\x18\a \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionR\x05azDir\x125\n" +
-	"\x06el_dir\x18\b \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionR\x05elDir\x12\x1b\n" +
-	"\x04zoom\x18\t \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x04zoom\x12\x1d\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04kind\x12\x1d\n" +
 	"\n" +
-	"frame_time\x18\n" +
-	" \x01(\x04R\tframeTime\x12\x1d\n" +
+	"pointer_id\x18\x03 \x01(\rR\tpointerId\x12%\n" +
+	"\x01x\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
+	"\x01y\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\x12\x1d\n" +
 	"\n" +
-	"state_time\x18\v \x01(\x04R\tstateTime\"p\n" +
+	"event_time\x18\x06 \x01(\x04R\teventTime\"p\n" +
 	"\tLifecycle\x12/\n" +
 	"\x05theme\x18\x01 \x01(\x0e2\r.ui.ThemeModeB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x05theme\x12\x18\n" +
 	"\afocused\x18\x02 \x01(\bR\afocused\x12\x18\n" +
-	"\avisible\x18\x03 \x01(\bR\avisible\"\xcf\x01\n" +
+	"\avisible\x18\x03 \x01(\bR\avisible\"\x9f\x01\n" +
 	"\n" +
 	"HostToWasm\x12$\n" +
 	"\aversion\x18\x01 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12,\n" +
-	"\apointer\x18\x02 \x01(\v2\x10.ui.PointerEventH\x00R\apointer\x12.\n" +
-	"\agesture\x18\x03 \x01(\v2\x12.ui.GestureCommandH\x00R\agesture\x12-\n" +
-	"\tlifecycle\x18\x04 \x01(\v2\r.ui.LifecycleH\x00R\tlifecycleB\x0e\n" +
+	"\apointer\x18\x02 \x01(\v2\x10.ui.PointerEventH\x00R\apointer\x12-\n" +
+	"\tlifecycle\x18\x03 \x01(\v2\r.ui.LifecycleH\x00R\tlifecycleB\x0e\n" +
 	"\x05event\x12\x05\xbaH\x02\b\x01\"O\n" +
 	"\n" +
 	"HoverState\x12\x1f\n" +
@@ -986,24 +777,18 @@ const file_ui_ui_input_proto_rawDesc = "" +
 	"\x06report\x12\x05\xbaH\x02\b\x01*W\n" +
 	"\x12InputSchemaVersion\x12$\n" +
 	" INPUT_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1b\n" +
-	"\x17INPUT_SCHEMA_VERSION_V1\x10\x01*s\n" +
+	"\x17INPUT_SCHEMA_VERSION_V1\x10\x01*\x8d\x01\n" +
 	"\fPointerPhase\x12\x1d\n" +
 	"\x19POINTER_PHASE_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12POINTER_PHASE_DOWN\x10\x01\x12\x16\n" +
 	"\x12POINTER_PHASE_MOVE\x10\x02\x12\x14\n" +
-	"\x10POINTER_PHASE_UP\x10\x03*q\n" +
+	"\x10POINTER_PHASE_UP\x10\x03\x12\x18\n" +
+	"\x14POINTER_PHASE_CANCEL\x10\x04*q\n" +
 	"\vPointerKind\x12\x1c\n" +
 	"\x18POINTER_KIND_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12POINTER_KIND_MOUSE\x10\x01\x12\x16\n" +
 	"\x12POINTER_KIND_TOUCH\x10\x02\x12\x14\n" +
-	"\x10POINTER_KIND_PEN\x10\x03*\xd0\x01\n" +
-	"\x11RecognizedGesture\x12\"\n" +
-	"\x1eRECOGNIZED_GESTURE_UNSPECIFIED\x10\x00\x12\x1f\n" +
-	"\x1bRECOGNIZED_GESTURE_PAN_MOVE\x10\x01\x12\x1e\n" +
-	"\x1aRECOGNIZED_GESTURE_PAN_END\x10\x02\x12\x1a\n" +
-	"\x16RECOGNIZED_GESTURE_TAP\x10\x03\x12\x1c\n" +
-	"\x18RECOGNIZED_GESTURE_TRACK\x10\x04\x12\x1c\n" +
-	"\x18RECOGNIZED_GESTURE_PINCH\x10\x05*R\n" +
+	"\x10POINTER_KIND_PEN\x10\x03*R\n" +
 	"\tThemeMode\x12\x1a\n" +
 	"\x16THEME_MODE_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10THEME_MODE_LIGHT\x10\x01\x12\x13\n" +
@@ -1031,44 +816,35 @@ func file_ui_ui_input_proto_rawDescGZIP() []byte {
 	return file_ui_ui_input_proto_rawDescData
 }
 
-var file_ui_ui_input_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
-var file_ui_ui_input_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_ui_ui_input_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_ui_ui_input_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_ui_ui_input_proto_goTypes = []any{
-	(InputSchemaVersion)(0),              // 0: ui.InputSchemaVersion
-	(PointerPhase)(0),                    // 1: ui.PointerPhase
-	(PointerKind)(0),                     // 2: ui.PointerKind
-	(RecognizedGesture)(0),               // 3: ui.RecognizedGesture
-	(ThemeMode)(0),                       // 4: ui.ThemeMode
-	(CursorType)(0),                      // 5: ui.CursorType
-	(*PointerEvent)(nil),                 // 6: ui.PointerEvent
-	(*GestureCommand)(nil),               // 7: ui.GestureCommand
-	(*Lifecycle)(nil),                    // 8: ui.Lifecycle
-	(*HostToWasm)(nil),                   // 9: ui.HostToWasm
-	(*HoverState)(nil),                   // 10: ui.HoverState
-	(*CursorRequest)(nil),                // 11: ui.CursorRequest
-	(*WasmToHost)(nil),                   // 12: ui.WasmToHost
-	(types.JonGuiDataVideoChannel)(0),    // 13: ser.JonGuiDataVideoChannel
-	(types.JonGuiDataRotaryDirection)(0), // 14: ser.JonGuiDataRotaryDirection
+	(InputSchemaVersion)(0), // 0: ui.InputSchemaVersion
+	(PointerPhase)(0),       // 1: ui.PointerPhase
+	(PointerKind)(0),        // 2: ui.PointerKind
+	(ThemeMode)(0),          // 3: ui.ThemeMode
+	(CursorType)(0),         // 4: ui.CursorType
+	(*PointerEvent)(nil),    // 5: ui.PointerEvent
+	(*Lifecycle)(nil),       // 6: ui.Lifecycle
+	(*HostToWasm)(nil),      // 7: ui.HostToWasm
+	(*HoverState)(nil),      // 8: ui.HoverState
+	(*CursorRequest)(nil),   // 9: ui.CursorRequest
+	(*WasmToHost)(nil),      // 10: ui.WasmToHost
 }
 var file_ui_ui_input_proto_depIdxs = []int32{
-	1,  // 0: ui.PointerEvent.phase:type_name -> ui.PointerPhase
-	2,  // 1: ui.PointerEvent.kind:type_name -> ui.PointerKind
-	3,  // 2: ui.GestureCommand.gesture:type_name -> ui.RecognizedGesture
-	13, // 3: ui.GestureCommand.channel:type_name -> ser.JonGuiDataVideoChannel
-	14, // 4: ui.GestureCommand.az_dir:type_name -> ser.JonGuiDataRotaryDirection
-	14, // 5: ui.GestureCommand.el_dir:type_name -> ser.JonGuiDataRotaryDirection
-	4,  // 6: ui.Lifecycle.theme:type_name -> ui.ThemeMode
-	6,  // 7: ui.HostToWasm.pointer:type_name -> ui.PointerEvent
-	7,  // 8: ui.HostToWasm.gesture:type_name -> ui.GestureCommand
-	8,  // 9: ui.HostToWasm.lifecycle:type_name -> ui.Lifecycle
-	5,  // 10: ui.CursorRequest.cursor:type_name -> ui.CursorType
-	10, // 11: ui.WasmToHost.hover:type_name -> ui.HoverState
-	11, // 12: ui.WasmToHost.cursor:type_name -> ui.CursorRequest
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	1, // 0: ui.PointerEvent.phase:type_name -> ui.PointerPhase
+	2, // 1: ui.PointerEvent.kind:type_name -> ui.PointerKind
+	3, // 2: ui.Lifecycle.theme:type_name -> ui.ThemeMode
+	5, // 3: ui.HostToWasm.pointer:type_name -> ui.PointerEvent
+	6, // 4: ui.HostToWasm.lifecycle:type_name -> ui.Lifecycle
+	4, // 5: ui.CursorRequest.cursor:type_name -> ui.CursorType
+	8, // 6: ui.WasmToHost.hover:type_name -> ui.HoverState
+	9, // 7: ui.WasmToHost.cursor:type_name -> ui.CursorRequest
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_input_proto_init() }
@@ -1076,12 +852,11 @@ func file_ui_ui_input_proto_init() {
 	if File_ui_ui_input_proto != nil {
 		return
 	}
-	file_ui_ui_input_proto_msgTypes[3].OneofWrappers = []any{
+	file_ui_ui_input_proto_msgTypes[2].OneofWrappers = []any{
 		(*HostToWasm_Pointer)(nil),
-		(*HostToWasm_Gesture)(nil),
 		(*HostToWasm_Lifecycle)(nil),
 	}
-	file_ui_ui_input_proto_msgTypes[6].OneofWrappers = []any{
+	file_ui_ui_input_proto_msgTypes[5].OneofWrappers = []any{
 		(*WasmToHost_Hover)(nil),
 		(*WasmToHost_Cursor)(nil),
 	}
@@ -1090,8 +865,8 @@ func file_ui_ui_input_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_input_proto_rawDesc), len(file_ui_ui_input_proto_rawDesc)),
-			NumEnums:      6,
-			NumMessages:   7,
+			NumEnums:      5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

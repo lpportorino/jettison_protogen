@@ -11,8 +11,12 @@ public inline fun pointerEvent(block: ui.PointerEventKt.Dsl.() -> kotlin.Unit): 
   ui.PointerEventKt.Dsl._create(ui.UiInput.PointerEvent.newBuilder()).apply { block() }._build()
 /**
  * ```
- * Raw pointer + position for WASM-side LVGL hit-testing. The host owns the
- * input device; the WASM needs the raw pointer to hit-test its own layout.
+ * A bounded adaptation of the W3C Pointer Events API (mouse + touch + pen
+ * unified). The host forwards every pointer event; the WASM accumulates them
+ * into its fixed pointer-state table by `pointer_id` and runs the gesture FSM.
+ * The WASM SELF-VALIDATES at the decode boundary (nanopb strips buf.validate):
+ * reject phase/kind = 0, reject event_time = 0, clamp NDC, find-slot-or-drop on
+ * pointer_id, clamp non-positive FSM time deltas.
  * ```
  *
  * Protobuf type `ui.PointerEvent`
@@ -83,10 +87,35 @@ public object PointerEventKt {
 
     /**
      * ```
+     * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+     * ```
+     *
+     * `uint32 pointer_id = 3;`
+     */
+    public var pointerId: kotlin.Int
+      @JvmName("getPointerId")
+      get() = _builder.pointerId
+      @JvmName("setPointerId")
+      set(value) {
+        _builder.pointerId = value
+      }
+    /**
+     * ```
+     * W3C pointerId — the multi-pointer FSM key (pinch keys on ≥2)
+     * ```
+     *
+     * `uint32 pointer_id = 3;`
+     */
+    public fun clearPointerId() {
+      _builder.clearPointerId()
+    }
+
+    /**
+     * ```
      * NDC, +x right
      * ```
      *
-     * `double x = 3 [(.buf.validate.field) = { ... }`
+     * `double x = 4 [(.buf.validate.field) = { ... }`
      */
     public var x: kotlin.Double
       @JvmName("getX")
@@ -100,7 +129,7 @@ public object PointerEventKt {
      * NDC, +x right
      * ```
      *
-     * `double x = 3 [(.buf.validate.field) = { ... }`
+     * `double x = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearX() {
       _builder.clearX()
@@ -111,7 +140,7 @@ public object PointerEventKt {
      * NDC, +y UP
      * ```
      *
-     * `double y = 4 [(.buf.validate.field) = { ... }`
+     * `double y = 5 [(.buf.validate.field) = { ... }`
      */
     public var y: kotlin.Double
       @JvmName("getY")
@@ -125,7 +154,7 @@ public object PointerEventKt {
      * NDC, +y UP
      * ```
      *
-     * `double y = 4 [(.buf.validate.field) = { ... }`
+     * `double y = 5 [(.buf.validate.field) = { ... }`
      */
     public fun clearY() {
       _builder.clearY()
@@ -133,27 +162,27 @@ public object PointerEventKt {
 
     /**
      * ```
-     * held-button bitfield (fixed 32-bit)
+     * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
      * ```
      *
-     * `uint32 buttons = 5;`
+     * `uint64 event_time = 6;`
      */
-    public var buttons: kotlin.Int
-      @JvmName("getButtons")
-      get() = _builder.buttons
-      @JvmName("setButtons")
+    public var eventTime: kotlin.Long
+      @JvmName("getEventTime")
+      get() = _builder.eventTime
+      @JvmName("setEventTime")
       set(value) {
-        _builder.buttons = value
+        _builder.eventTime = value
       }
     /**
      * ```
-     * held-button bitfield (fixed 32-bit)
+     * W3C event.timeStamp, ms — the FSM clock (EVENT time, NOT the render tick)
      * ```
      *
-     * `uint32 buttons = 5;`
+     * `uint64 event_time = 6;`
      */
-    public fun clearButtons() {
-      _builder.clearButtons()
+    public fun clearEventTime() {
+      _builder.clearEventTime()
     }
   }
 }

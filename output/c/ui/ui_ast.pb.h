@@ -66,6 +66,26 @@ typedef enum _ui_EventTrigger {
     ui_EventTrigger_TRIGGER_LONG_PRESSED = 2 /* LV_EVENT_LONG_PRESSED */
 } ui_EventTrigger;
 
+/* Which gesture/value the patcher writes into a slot, and how to encode it. */
+typedef enum _ui_PatchKind {
+    ui_PatchKind_PATCH_KIND_UNSPECIFIED = 0,
+    ui_PatchKind_PATCH_KIND_NDC_X = 1, /* gesture NDC x → a double slot (verbatim, no recast) */
+    ui_PatchKind_PATCH_KIND_NDC_Y = 2, /* gesture NDC y → a double slot (verbatim, no recast) */
+    ui_PatchKind_PATCH_KIND_DELTA = 3, /* pinch/wheel ±1 step → a padded-varint int slot */
+    ui_PatchKind_PATCH_KIND_WIDGET_VALUE = 4 /* widget int value → a padded-varint int slot */
+} ui_PatchKind;
+
+/* A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
+ host-side decision tag selects its pre-encoded template directly. */
+typedef enum _ui_GestureKind {
+    ui_GestureKind_GESTURE_KIND_PAN_MOVE = 0, /* → cmd.RotaryPlatform.Axis (continuous slew) */
+    ui_GestureKind_GESTURE_KIND_PAN_END = 1, /* → cmd.RotaryPlatform.HaltWithNDC */
+    ui_GestureKind_GESTURE_KIND_TAP = 2, /* → cmd.RotaryPlatform.RotateToNDC */
+    ui_GestureKind_GESTURE_KIND_TRACK = 3, /* → cmd.CV.StartTrackNDC */
+    ui_GestureKind_GESTURE_KIND_PINCH = 4, /* → cmd.{Day,Heat}Camera.SetZoomTableValue */
+    ui_GestureKind_GESTURE_KIND_WHEEL = 5 /* web-only; no device analogue (no template) */
+} ui_GestureKind;
+
 /* Comparison operator for conditional visibility bindings. */
 typedef enum _ui_CompareOp {
     ui_CompareOp_COMPARE_EQ = 0, /* show when subject == ref_value (native LVGL bind) */
@@ -609,6 +629,28 @@ typedef struct _ui_Point {
     int32_t y;
 } ui_Point;
 
+/* One fixed-width slot in a CmdSpec.root_template the renderer overwrites. */
+typedef struct _ui_FieldPatch {
+    uint32_t byte_offset; /* start of the slot in root_template */
+    uint32_t byte_width; /* slot width (8 for a double, 5/10 for a padded varint) */
+    ui_PatchKind kind;
+    /* gen-time wire-scale (uigen.scales): the runtime value × scale is the
+ wire int for a varint leaf; 1 for a verbatim double (NDC). */
+    int32_t wire_scale;
+} ui_FieldPatch;
+
+/* A pre-encoded cmd.Root template + the slots the renderer overwrites. */
+typedef struct _ui_CmdSpec {
+    /* the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+ pre-encode provenance; the renderer never re-derives a route from it. */
+    pb_callback_t command_id;
+    /* the full deterministic cmd.Root protobuf (envelope + leaf in its
+ fixed-width slot, leaf written at a SENTINEL the gen-time patch located). */
+    pb_callback_t root_template;
+    /* the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair). */
+    pb_callback_t patches;
+} ui_CmdSpec;
+
 typedef struct _ui_EventBinding {
     /* event keyword — IS the command identifier */
     pb_callback_t name;
@@ -621,7 +663,23 @@ typedef struct _ui_EventBinding {
     int32_t set_value; /* value to set on subject */
     bool toggle; /* flip 0↔1 instead of set_value */
     bool notify_host; /* also send to host when mutating subject */
+    /* Pre-encoded cmd.* device-command template + slot patch descriptor
+ (R5a). When present the renderer (R5b) builds the full cmd.Root by
+ memcpy'ing root_template and overwriting the patch slot(s) with the
+ widget value, then relays the result as OPAQUE bytes via host_command —
+ controls.wasm no longer round-trips through the server /node-cmd shim. */
+    bool has_cmd;
+    ui_CmdSpec cmd;
 } ui_EventBinding;
+
+/* One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
+ the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
+ selects the matching kind and patches its slots with the gesture decision. */
+typedef struct _ui_GestureSpec {
+    ui_GestureKind kind;
+    bool has_cmd;
+    ui_CmdSpec cmd;
+} ui_GestureSpec;
 
 /* Conditional visibility — show/hide widget based on subject value comparison. */
 typedef struct _ui_VisibilityBinding {
@@ -759,6 +817,12 @@ typedef struct _ui_WidgetNode {
  lv_obj user_data and a uid→obj registry so ScreenPatch ops can
  address live widgets. */
     uint32_t uid;
+    /* Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+ gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+ PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+ analogue so it is never emitted here. The host recognizer matches a
+ gesture_kind_t decision to its GestureSpec.kind and patches the slots. */
+    pb_callback_t gestures;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -862,6 +926,14 @@ extern "C" {
 #define _ui_EventTrigger_MIN ui_EventTrigger_TRIGGER_CLICKED
 #define _ui_EventTrigger_MAX ui_EventTrigger_TRIGGER_LONG_PRESSED
 #define _ui_EventTrigger_ARRAYSIZE ((ui_EventTrigger)(ui_EventTrigger_TRIGGER_LONG_PRESSED+1))
+
+#define _ui_PatchKind_MIN ui_PatchKind_PATCH_KIND_UNSPECIFIED
+#define _ui_PatchKind_MAX ui_PatchKind_PATCH_KIND_WIDGET_VALUE
+#define _ui_PatchKind_ARRAYSIZE ((ui_PatchKind)(ui_PatchKind_PATCH_KIND_WIDGET_VALUE+1))
+
+#define _ui_GestureKind_MIN ui_GestureKind_GESTURE_KIND_PAN_MOVE
+#define _ui_GestureKind_MAX ui_GestureKind_GESTURE_KIND_WHEEL
+#define _ui_GestureKind_ARRAYSIZE ((ui_GestureKind)(ui_GestureKind_GESTURE_KIND_WHEEL+1))
 
 #define _ui_CompareOp_MIN ui_CompareOp_COMPARE_EQ
 #define _ui_CompareOp_MAX ui_CompareOp_COMPARE_LTE
@@ -993,6 +1065,11 @@ extern "C" {
 
 #define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
 
+#define ui_FieldPatch_kind_ENUMTYPE ui_PatchKind
+
+
+#define ui_GestureSpec_kind_ENUMTYPE ui_GestureKind
+
 #define ui_VisibilityBinding_compare_ENUMTYPE ui_CompareOp
 
 #define ui_Layout_flow_ENUMTYPE ui_FlexFlow
@@ -1012,7 +1089,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default, 0}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default, 0, {{NULL}, NULL}}
 #define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
@@ -1042,7 +1119,10 @@ extern "C" {
 #define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_HostProxyProps_init_default           {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_default                    {0, 0}
-#define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
+#define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_default}
+#define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0}
+#define ui_CmdSpec_init_default                  {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default}
 #define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_default               {0, {{NULL}, NULL}}
@@ -1054,7 +1134,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero, 0}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, {{NULL}, NULL}}
 #define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
@@ -1084,7 +1164,10 @@ extern "C" {
 #define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_HostProxyProps_init_zero              {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_zero                       {0, 0}
-#define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
+#define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_zero}
+#define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0}
+#define ui_CmdSpec_init_zero                     {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero}
 #define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_zero                  {0, {{NULL}, NULL}}
@@ -1193,6 +1276,13 @@ extern "C" {
 #define ui_HostProxyProps_z_tag                  8
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
+#define ui_FieldPatch_byte_offset_tag            1
+#define ui_FieldPatch_byte_width_tag             2
+#define ui_FieldPatch_kind_tag                   3
+#define ui_FieldPatch_wire_scale_tag             4
+#define ui_CmdSpec_command_id_tag                1
+#define ui_CmdSpec_root_template_tag             2
+#define ui_CmdSpec_patches_tag                   3
 #define ui_EventBinding_name_tag                 1
 #define ui_EventBinding_trigger_tag              2
 #define ui_EventBinding_int_value_tag            3
@@ -1201,6 +1291,9 @@ extern "C" {
 #define ui_EventBinding_set_value_tag            6
 #define ui_EventBinding_toggle_tag               7
 #define ui_EventBinding_notify_host_tag          8
+#define ui_EventBinding_cmd_tag                  9
+#define ui_GestureSpec_kind_tag                  1
+#define ui_GestureSpec_cmd_tag                   2
 #define ui_VisibilityBinding_subject_tag         1
 #define ui_VisibilityBinding_ref_value_tag       2
 #define ui_VisibilityBinding_compare_tag         3
@@ -1260,6 +1353,7 @@ extern "C" {
 #define ui_WidgetNode_in_tab_bar_tag             39
 #define ui_WidgetNode_checked_when_tag           42
 #define ui_WidgetNode_uid_tag                    43
+#define ui_WidgetNode_gestures_tag               44
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_TreePatchOp_kind_tag                  1
@@ -1361,7 +1455,8 @@ X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_props),  40) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,host_proxy_props,widget_props.host_proxy_props),  41) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42) \
-X(a, STATIC,   SINGULAR, UINT32,   uid,              43)
+X(a, STATIC,   SINGULAR, UINT32,   uid,              43) \
+X(a, CALLBACK, REPEATED, MESSAGE,  gestures,         44)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1394,6 +1489,7 @@ X(a, STATIC,   SINGULAR, UINT32,   uid,              43)
 #define ui_WidgetNode_widget_props_chart_props_MSGTYPE ui_ChartProps
 #define ui_WidgetNode_widget_props_host_proxy_props_MSGTYPE ui_HostProxyProps
 #define ui_WidgetNode_checked_when_MSGTYPE ui_VisibilityBinding
+#define ui_WidgetNode_gestures_MSGTYPE ui_GestureSpec
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
@@ -1637,9 +1733,34 @@ X(a, STATIC,   SINGULAR, BOOL,     include_widget_value,   4) \
 X(a, CALLBACK, SINGULAR, STRING,   set_subject,       5) \
 X(a, STATIC,   SINGULAR, INT32,    set_value,         6) \
 X(a, STATIC,   SINGULAR, BOOL,     toggle,            7) \
-X(a, STATIC,   SINGULAR, BOOL,     notify_host,       8)
+X(a, STATIC,   SINGULAR, BOOL,     notify_host,       8) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               9)
 #define ui_EventBinding_CALLBACK pb_default_field_callback
 #define ui_EventBinding_DEFAULT NULL
+#define ui_EventBinding_cmd_MSGTYPE ui_CmdSpec
+
+#define ui_FieldPatch_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   byte_offset,       1) \
+X(a, STATIC,   SINGULAR, UINT32,   byte_width,        2) \
+X(a, STATIC,   SINGULAR, UENUM,    kind,              3) \
+X(a, STATIC,   SINGULAR, SINT32,   wire_scale,        4)
+#define ui_FieldPatch_CALLBACK NULL
+#define ui_FieldPatch_DEFAULT NULL
+
+#define ui_CmdSpec_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   command_id,        1) \
+X(a, CALLBACK, SINGULAR, BYTES,    root_template,     2) \
+X(a, CALLBACK, REPEATED, MESSAGE,  patches,           3)
+#define ui_CmdSpec_CALLBACK pb_default_field_callback
+#define ui_CmdSpec_DEFAULT NULL
+#define ui_CmdSpec_patches_MSGTYPE ui_FieldPatch
+
+#define ui_GestureSpec_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    kind,              1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               2)
+#define ui_GestureSpec_CALLBACK NULL
+#define ui_GestureSpec_DEFAULT NULL
+#define ui_GestureSpec_cmd_MSGTYPE ui_CmdSpec
 
 #define ui_VisibilityBinding_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   subject,           1) \
@@ -1733,6 +1854,9 @@ extern const pb_msgdesc_t ui_ChartProps_msg;
 extern const pb_msgdesc_t ui_HostProxyProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
 extern const pb_msgdesc_t ui_EventBinding_msg;
+extern const pb_msgdesc_t ui_FieldPatch_msg;
+extern const pb_msgdesc_t ui_CmdSpec_msg;
+extern const pb_msgdesc_t ui_GestureSpec_msg;
 extern const pb_msgdesc_t ui_VisibilityBinding_msg;
 extern const pb_msgdesc_t ui_Layout_msg;
 extern const pb_msgdesc_t ui_StyleGroup_msg;
@@ -1777,6 +1901,9 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_HostProxyProps_fields &ui_HostProxyProps_msg
 #define ui_Point_fields &ui_Point_msg
 #define ui_EventBinding_fields &ui_EventBinding_msg
+#define ui_FieldPatch_fields &ui_FieldPatch_msg
+#define ui_CmdSpec_fields &ui_CmdSpec_msg
+#define ui_GestureSpec_fields &ui_GestureSpec_msg
 #define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
 #define ui_Layout_fields &ui_Layout_msg
 #define ui_StyleGroup_fields &ui_StyleGroup_msg
@@ -1807,6 +1934,8 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_ChartProps_size depends on runtime parameters */
 /* ui_HostProxyProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
+/* ui_CmdSpec_size depends on runtime parameters */
+/* ui_GestureSpec_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_StyleVariant_size depends on runtime parameters */
@@ -1817,6 +1946,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ButtonProps_size                      0
 #define ui_CheckboxProps_size                    2
 #define ui_Color_size                            18
+#define ui_FieldPatch_size                       20
 #define ui_LabelProps_size                       2
 #define ui_Layout_size                           8
 #define ui_LedProps_size                         26

@@ -79,6 +79,9 @@ extern ChartSeriesDefaultTypeInternal _ChartSeries_default_instance_;
 class CheckboxProps;
 struct CheckboxPropsDefaultTypeInternal;
 extern CheckboxPropsDefaultTypeInternal _CheckboxProps_default_instance_;
+class CmdSpec;
+struct CmdSpecDefaultTypeInternal;
+extern CmdSpecDefaultTypeInternal _CmdSpec_default_instance_;
 class Color;
 struct ColorDefaultTypeInternal;
 extern ColorDefaultTypeInternal _Color_default_instance_;
@@ -88,6 +91,12 @@ extern DropdownPropsDefaultTypeInternal _DropdownProps_default_instance_;
 class EventBinding;
 struct EventBindingDefaultTypeInternal;
 extern EventBindingDefaultTypeInternal _EventBinding_default_instance_;
+class FieldPatch;
+struct FieldPatchDefaultTypeInternal;
+extern FieldPatchDefaultTypeInternal _FieldPatch_default_instance_;
+class GestureSpec;
+struct GestureSpecDefaultTypeInternal;
+extern GestureSpecDefaultTypeInternal _GestureSpec_default_instance_;
 class HostProxyProps;
 struct HostProxyPropsDefaultTypeInternal;
 extern HostProxyPropsDefaultTypeInternal _HostProxyProps_default_instance_;
@@ -381,6 +390,79 @@ inline const std::string& EventTrigger_Name(EventTrigger value) {
 inline bool EventTrigger_Parse(absl::string_view name, EventTrigger* value) {
   return ::google::protobuf::internal::ParseNamedEnum<EventTrigger>(
       EventTrigger_descriptor(), name, value);
+}
+enum PatchKind : int {
+  PATCH_KIND_UNSPECIFIED = 0,
+  PATCH_KIND_NDC_X = 1,
+  PATCH_KIND_NDC_Y = 2,
+  PATCH_KIND_DELTA = 3,
+  PATCH_KIND_WIDGET_VALUE = 4,
+  PatchKind_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  PatchKind_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool PatchKind_IsValid(int value);
+extern const uint32_t PatchKind_internal_data_[];
+constexpr PatchKind PatchKind_MIN = static_cast<PatchKind>(0);
+constexpr PatchKind PatchKind_MAX = static_cast<PatchKind>(4);
+constexpr int PatchKind_ARRAYSIZE = 4 + 1;
+const ::google::protobuf::EnumDescriptor*
+PatchKind_descriptor();
+template <typename T>
+const std::string& PatchKind_Name(T value) {
+  static_assert(std::is_same<T, PatchKind>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to PatchKind_Name().");
+  return PatchKind_Name(static_cast<PatchKind>(value));
+}
+template <>
+inline const std::string& PatchKind_Name(PatchKind value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<PatchKind_descriptor,
+                                                 0, 4>(
+      static_cast<int>(value));
+}
+inline bool PatchKind_Parse(absl::string_view name, PatchKind* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PatchKind>(
+      PatchKind_descriptor(), name, value);
+}
+enum GestureKind : int {
+  GESTURE_KIND_PAN_MOVE = 0,
+  GESTURE_KIND_PAN_END = 1,
+  GESTURE_KIND_TAP = 2,
+  GESTURE_KIND_TRACK = 3,
+  GESTURE_KIND_PINCH = 4,
+  GESTURE_KIND_WHEEL = 5,
+  GestureKind_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  GestureKind_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool GestureKind_IsValid(int value);
+extern const uint32_t GestureKind_internal_data_[];
+constexpr GestureKind GestureKind_MIN = static_cast<GestureKind>(0);
+constexpr GestureKind GestureKind_MAX = static_cast<GestureKind>(5);
+constexpr int GestureKind_ARRAYSIZE = 5 + 1;
+const ::google::protobuf::EnumDescriptor*
+GestureKind_descriptor();
+template <typename T>
+const std::string& GestureKind_Name(T value) {
+  static_assert(std::is_same<T, GestureKind>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to GestureKind_Name().");
+  return GestureKind_Name(static_cast<GestureKind>(value));
+}
+template <>
+inline const std::string& GestureKind_Name(GestureKind value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<GestureKind_descriptor,
+                                                 0, 5>(
+      static_cast<int>(value));
+}
+inline bool GestureKind_Parse(absl::string_view name, GestureKind* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<GestureKind>(
+      GestureKind_descriptor(), name, value);
 }
 enum CompareOp : int {
   COMPARE_EQ = 0,
@@ -1351,7 +1433,7 @@ class VisibilityBinding final : public ::google::protobuf::Message
     return reinterpret_cast<const VisibilityBinding*>(
         &_VisibilityBinding_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 35;
+  static constexpr int kIndexInFileMessages = 38;
   friend void swap(VisibilityBinding& a, VisibilityBinding& b) { a.Swap(&b); }
   inline void Swap(VisibilityBinding* other) {
     if (other == this) return;
@@ -3623,7 +3705,7 @@ class ShadowBundle final : public ::google::protobuf::Message
     return reinterpret_cast<const ShadowBundle*>(
         &_ShadowBundle_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 41;
+  static constexpr int kIndexInFileMessages = 44;
   friend void swap(ShadowBundle& a, ShadowBundle& b) { a.Swap(&b); }
   inline void Swap(ShadowBundle* other) {
     if (other == this) return;
@@ -4440,7 +4522,7 @@ class Layout final : public ::google::protobuf::Message
     return reinterpret_cast<const Layout*>(
         &_Layout_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 36;
+  static constexpr int kIndexInFileMessages = 39;
   friend void swap(Layout& a, Layout& b) { a.Swap(&b); }
   inline void Swap(Layout* other) {
     if (other == this) return;
@@ -5321,31 +5403,31 @@ class HostProxyProps final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class EventBinding final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ui.EventBinding) */ {
+class FieldPatch final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.FieldPatch) */ {
  public:
-  inline EventBinding() : EventBinding(nullptr) {}
-  ~EventBinding() PROTOBUF_FINAL;
+  inline FieldPatch() : FieldPatch(nullptr) {}
+  ~FieldPatch() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(EventBinding* msg, std::destroying_delete_t) {
+  void operator delete(FieldPatch* msg, std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(EventBinding));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FieldPatch));
   }
 #endif
 
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR EventBinding(
+  explicit PROTOBUF_CONSTEXPR FieldPatch(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline EventBinding(const EventBinding& from) : EventBinding(nullptr, from) {}
-  inline EventBinding(EventBinding&& from) noexcept
-      : EventBinding(nullptr, std::move(from)) {}
-  inline EventBinding& operator=(const EventBinding& from) {
+  inline FieldPatch(const FieldPatch& from) : FieldPatch(nullptr, from) {}
+  inline FieldPatch(FieldPatch&& from) noexcept
+      : FieldPatch(nullptr, std::move(from)) {}
+  inline FieldPatch& operator=(const FieldPatch& from) {
     CopyFrom(from);
     return *this;
   }
-  inline EventBinding& operator=(EventBinding&& from) noexcept {
+  inline FieldPatch& operator=(FieldPatch&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -5373,16 +5455,16 @@ class EventBinding final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const EventBinding& default_instance() {
+  static const FieldPatch& default_instance() {
     return *internal_default_instance();
   }
-  static inline const EventBinding* internal_default_instance() {
-    return reinterpret_cast<const EventBinding*>(
-        &_EventBinding_default_instance_);
+  static inline const FieldPatch* internal_default_instance() {
+    return reinterpret_cast<const FieldPatch*>(
+        &_FieldPatch_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 34;
-  friend void swap(EventBinding& a, EventBinding& b) { a.Swap(&b); }
-  inline void Swap(EventBinding* other) {
+  static constexpr int kIndexInFileMessages = 35;
+  friend void swap(FieldPatch& a, FieldPatch& b) { a.Swap(&b); }
+  inline void Swap(FieldPatch* other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -5390,7 +5472,7 @@ class EventBinding final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(EventBinding* other) {
+  void UnsafeArenaSwap(FieldPatch* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -5398,13 +5480,13 @@ class EventBinding final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  EventBinding* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<EventBinding>(arena);
+  FieldPatch* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<FieldPatch>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const EventBinding& from);
+  void CopyFrom(const FieldPatch& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const EventBinding& from) { EventBinding::MergeImpl(*this, from); }
+  void MergeFrom(const FieldPatch& from) { FieldPatch::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(
@@ -5441,18 +5523,18 @@ class EventBinding final : public ::google::protobuf::Message
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(EventBinding* other);
+  void InternalSwap(FieldPatch* other);
  private:
   template <typename T>
   friend ::absl::string_view(
       ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "ui.EventBinding"; }
+  static ::absl::string_view FullMessageName() { return "ui.FieldPatch"; }
 
  protected:
-  explicit EventBinding(::google::protobuf::Arena* arena);
-  EventBinding(::google::protobuf::Arena* arena, const EventBinding& from);
-  EventBinding(::google::protobuf::Arena* arena, EventBinding&& from) noexcept
-      : EventBinding(arena) {
+  explicit FieldPatch(::google::protobuf::Arena* arena);
+  FieldPatch(::google::protobuf::Arena* arena, const FieldPatch& from);
+  FieldPatch(::google::protobuf::Arena* arena, FieldPatch&& from) noexcept
+      : FieldPatch(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
@@ -5467,114 +5549,58 @@ class EventBinding final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNameFieldNumber = 1,
-    kSetSubjectFieldNumber = 5,
-    kTriggerFieldNumber = 2,
-    kIntValueFieldNumber = 3,
-    kSetValueFieldNumber = 6,
-    kIncludeWidgetValueFieldNumber = 4,
-    kToggleFieldNumber = 7,
-    kNotifyHostFieldNumber = 8,
+    kByteOffsetFieldNumber = 1,
+    kByteWidthFieldNumber = 2,
+    kKindFieldNumber = 3,
+    kWireScaleFieldNumber = 4,
   };
-  // string name = 1 [(.buf.validate.field) = {
-  void clear_name() ;
-  const std::string& name() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_name(Arg_&& arg, Args_... args);
-  std::string* mutable_name();
-  PROTOBUF_NODISCARD std::string* release_name();
-  void set_allocated_name(std::string* value);
+  // uint32 byte_offset = 1;
+  void clear_byte_offset() ;
+  ::uint32_t byte_offset() const;
+  void set_byte_offset(::uint32_t value);
 
   private:
-  const std::string& _internal_name() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
-      const std::string& value);
-  std::string* _internal_mutable_name();
+  ::uint32_t _internal_byte_offset() const;
+  void _internal_set_byte_offset(::uint32_t value);
 
   public:
-  // string set_subject = 5 [(.buf.validate.field) = {
-  void clear_set_subject() ;
-  const std::string& set_subject() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_set_subject(Arg_&& arg, Args_... args);
-  std::string* mutable_set_subject();
-  PROTOBUF_NODISCARD std::string* release_set_subject();
-  void set_allocated_set_subject(std::string* value);
+  // uint32 byte_width = 2;
+  void clear_byte_width() ;
+  ::uint32_t byte_width() const;
+  void set_byte_width(::uint32_t value);
 
   private:
-  const std::string& _internal_set_subject() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_set_subject(
-      const std::string& value);
-  std::string* _internal_mutable_set_subject();
+  ::uint32_t _internal_byte_width() const;
+  void _internal_set_byte_width(::uint32_t value);
 
   public:
-  // .ui.EventTrigger trigger = 2 [(.buf.validate.field) = {
-  void clear_trigger() ;
-  ::ui::EventTrigger trigger() const;
-  void set_trigger(::ui::EventTrigger value);
+  // .ui.PatchKind kind = 3 [(.buf.validate.field) = {
+  void clear_kind() ;
+  ::ui::PatchKind kind() const;
+  void set_kind(::ui::PatchKind value);
 
   private:
-  ::ui::EventTrigger _internal_trigger() const;
-  void _internal_set_trigger(::ui::EventTrigger value);
+  ::ui::PatchKind _internal_kind() const;
+  void _internal_set_kind(::ui::PatchKind value);
 
   public:
-  // int32 int_value = 3;
-  void clear_int_value() ;
-  ::int32_t int_value() const;
-  void set_int_value(::int32_t value);
+  // sint32 wire_scale = 4;
+  void clear_wire_scale() ;
+  ::int32_t wire_scale() const;
+  void set_wire_scale(::int32_t value);
 
   private:
-  ::int32_t _internal_int_value() const;
-  void _internal_set_int_value(::int32_t value);
+  ::int32_t _internal_wire_scale() const;
+  void _internal_set_wire_scale(::int32_t value);
 
   public:
-  // int32 set_value = 6;
-  void clear_set_value() ;
-  ::int32_t set_value() const;
-  void set_set_value(::int32_t value);
-
-  private:
-  ::int32_t _internal_set_value() const;
-  void _internal_set_set_value(::int32_t value);
-
-  public:
-  // bool include_widget_value = 4;
-  void clear_include_widget_value() ;
-  bool include_widget_value() const;
-  void set_include_widget_value(bool value);
-
-  private:
-  bool _internal_include_widget_value() const;
-  void _internal_set_include_widget_value(bool value);
-
-  public:
-  // bool toggle = 7;
-  void clear_toggle() ;
-  bool toggle() const;
-  void set_toggle(bool value);
-
-  private:
-  bool _internal_toggle() const;
-  void _internal_set_toggle(bool value);
-
-  public:
-  // bool notify_host = 8;
-  void clear_notify_host() ;
-  bool notify_host() const;
-  void set_notify_host(bool value);
-
-  private:
-  bool _internal_notify_host() const;
-  void _internal_set_notify_host(bool value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:ui.EventBinding)
+  // @@protoc_insertion_point(class_scope:ui.FieldPatch)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 8, 0,
-      47, 2>
+      2, 4, 0,
+      0, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -5590,15 +5616,11 @@ class EventBinding final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const EventBinding& from_msg);
-    ::google::protobuf::internal::ArenaStringPtr name_;
-    ::google::protobuf::internal::ArenaStringPtr set_subject_;
-    int trigger_;
-    ::int32_t int_value_;
-    ::int32_t set_value_;
-    bool include_widget_value_;
-    bool toggle_;
-    bool notify_host_;
+                          const FieldPatch& from_msg);
+    ::uint32_t byte_offset_;
+    ::uint32_t byte_width_;
+    int kind_;
+    ::int32_t wire_scale_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -5886,7 +5908,7 @@ class Color final : public ::google::protobuf::Message
     return reinterpret_cast<const Color*>(
         &_Color_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 40;
+  static constexpr int kIndexInFileMessages = 43;
   friend void swap(Color& a, Color& b) { a.Swap(&b); }
   inline void Swap(Color* other) {
     if (other == this) return;
@@ -7175,7 +7197,7 @@ class StyleProperty final : public ::google::protobuf::Message
     return reinterpret_cast<const StyleProperty*>(
         &_StyleProperty_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 39;
+  static constexpr int kIndexInFileMessages = 42;
   friend void swap(StyleProperty& a, StyleProperty& b) { a.Swap(&b); }
   inline void Swap(StyleProperty* other) {
     if (other == this) return;
@@ -8282,6 +8304,239 @@ class LedProps final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class CmdSpec final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.CmdSpec) */ {
+ public:
+  inline CmdSpec() : CmdSpec(nullptr) {}
+  ~CmdSpec() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CmdSpec* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CmdSpec));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CmdSpec(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline CmdSpec(const CmdSpec& from) : CmdSpec(nullptr, from) {}
+  inline CmdSpec(CmdSpec&& from) noexcept
+      : CmdSpec(nullptr, std::move(from)) {}
+  inline CmdSpec& operator=(const CmdSpec& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CmdSpec& operator=(CmdSpec&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CmdSpec& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CmdSpec* internal_default_instance() {
+    return reinterpret_cast<const CmdSpec*>(
+        &_CmdSpec_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 36;
+  friend void swap(CmdSpec& a, CmdSpec& b) { a.Swap(&b); }
+  inline void Swap(CmdSpec* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CmdSpec* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CmdSpec* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CmdSpec>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CmdSpec& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const CmdSpec& from) { CmdSpec::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(CmdSpec* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.CmdSpec"; }
+
+ protected:
+  explicit CmdSpec(::google::protobuf::Arena* arena);
+  CmdSpec(::google::protobuf::Arena* arena, const CmdSpec& from);
+  CmdSpec(::google::protobuf::Arena* arena, CmdSpec&& from) noexcept
+      : CmdSpec(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kPatchesFieldNumber = 3,
+    kCommandIdFieldNumber = 1,
+    kRootTemplateFieldNumber = 2,
+  };
+  // repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = {
+  int patches_size() const;
+  private:
+  int _internal_patches_size() const;
+
+  public:
+  void clear_patches() ;
+  ::ui::FieldPatch* mutable_patches(int index);
+  ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>* mutable_patches();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>& _internal_patches() const;
+  ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>* _internal_mutable_patches();
+  public:
+  const ::ui::FieldPatch& patches(int index) const;
+  ::ui::FieldPatch* add_patches();
+  const ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>& patches() const;
+  // string command_id = 1 [(.buf.validate.field) = {
+  void clear_command_id() ;
+  const std::string& command_id() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_command_id(Arg_&& arg, Args_... args);
+  std::string* mutable_command_id();
+  PROTOBUF_NODISCARD std::string* release_command_id();
+  void set_allocated_command_id(std::string* value);
+
+  private:
+  const std::string& _internal_command_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_command_id(
+      const std::string& value);
+  std::string* _internal_mutable_command_id();
+
+  public:
+  // bytes root_template = 2;
+  void clear_root_template() ;
+  const std::string& root_template() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_root_template(Arg_&& arg, Args_... args);
+  std::string* mutable_root_template();
+  PROTOBUF_NODISCARD std::string* release_root_template();
+  void set_allocated_root_template(std::string* value);
+
+  private:
+  const std::string& _internal_root_template() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_root_template(
+      const std::string& value);
+  std::string* _internal_mutable_root_template();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.CmdSpec)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 1,
+      29, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const CmdSpec& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::ui::FieldPatch > patches_;
+    ::google::protobuf::internal::ArenaStringPtr command_id_;
+    ::google::protobuf::internal::ArenaStringPtr root_template_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fast_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ChartSeries final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ui.ChartSeries) */ {
  public:
@@ -8570,7 +8825,7 @@ class StyleVariant final : public ::google::protobuf::Message
     return reinterpret_cast<const StyleVariant*>(
         &_StyleVariant_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 38;
+  static constexpr int kIndexInFileMessages = 41;
   friend void swap(StyleVariant& a, StyleVariant& b) { a.Swap(&b); }
   inline void Swap(StyleVariant* other) {
     if (other == this) return;
@@ -9043,6 +9298,518 @@ class ScaleProps final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class GestureSpec final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.GestureSpec) */ {
+ public:
+  inline GestureSpec() : GestureSpec(nullptr) {}
+  ~GestureSpec() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(GestureSpec* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(GestureSpec));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR GestureSpec(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline GestureSpec(const GestureSpec& from) : GestureSpec(nullptr, from) {}
+  inline GestureSpec(GestureSpec&& from) noexcept
+      : GestureSpec(nullptr, std::move(from)) {}
+  inline GestureSpec& operator=(const GestureSpec& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GestureSpec& operator=(GestureSpec&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GestureSpec& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GestureSpec* internal_default_instance() {
+    return reinterpret_cast<const GestureSpec*>(
+        &_GestureSpec_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 37;
+  friend void swap(GestureSpec& a, GestureSpec& b) { a.Swap(&b); }
+  inline void Swap(GestureSpec* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GestureSpec* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GestureSpec* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<GestureSpec>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const GestureSpec& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const GestureSpec& from) { GestureSpec::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(GestureSpec* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.GestureSpec"; }
+
+ protected:
+  explicit GestureSpec(::google::protobuf::Arena* arena);
+  GestureSpec(::google::protobuf::Arena* arena, const GestureSpec& from);
+  GestureSpec(::google::protobuf::Arena* arena, GestureSpec&& from) noexcept
+      : GestureSpec(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kCmdFieldNumber = 2,
+    kKindFieldNumber = 1,
+  };
+  // .ui.CmdSpec cmd = 2;
+  bool has_cmd() const;
+  void clear_cmd() ;
+  const ::ui::CmdSpec& cmd() const;
+  PROTOBUF_NODISCARD ::ui::CmdSpec* release_cmd();
+  ::ui::CmdSpec* mutable_cmd();
+  void set_allocated_cmd(::ui::CmdSpec* value);
+  void unsafe_arena_set_allocated_cmd(::ui::CmdSpec* value);
+  ::ui::CmdSpec* unsafe_arena_release_cmd();
+
+  private:
+  const ::ui::CmdSpec& _internal_cmd() const;
+  ::ui::CmdSpec* _internal_mutable_cmd();
+
+  public:
+  // .ui.GestureKind kind = 1 [(.buf.validate.field) = {
+  void clear_kind() ;
+  ::ui::GestureKind kind() const;
+  void set_kind(::ui::GestureKind value);
+
+  private:
+  ::ui::GestureKind _internal_kind() const;
+  void _internal_set_kind(::ui::GestureKind value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.GestureSpec)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 1,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const GestureSpec& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ui::CmdSpec* cmd_;
+    int kind_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fast_2eproto;
+};
+// -------------------------------------------------------------------
+
+class EventBinding final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.EventBinding) */ {
+ public:
+  inline EventBinding() : EventBinding(nullptr) {}
+  ~EventBinding() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(EventBinding* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(EventBinding));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR EventBinding(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline EventBinding(const EventBinding& from) : EventBinding(nullptr, from) {}
+  inline EventBinding(EventBinding&& from) noexcept
+      : EventBinding(nullptr, std::move(from)) {}
+  inline EventBinding& operator=(const EventBinding& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EventBinding& operator=(EventBinding&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EventBinding& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EventBinding* internal_default_instance() {
+    return reinterpret_cast<const EventBinding*>(
+        &_EventBinding_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 34;
+  friend void swap(EventBinding& a, EventBinding& b) { a.Swap(&b); }
+  inline void Swap(EventBinding* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EventBinding* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EventBinding* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<EventBinding>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const EventBinding& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const EventBinding& from) { EventBinding::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(EventBinding* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.EventBinding"; }
+
+ protected:
+  explicit EventBinding(::google::protobuf::Arena* arena);
+  EventBinding(::google::protobuf::Arena* arena, const EventBinding& from);
+  EventBinding(::google::protobuf::Arena* arena, EventBinding&& from) noexcept
+      : EventBinding(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 1,
+    kSetSubjectFieldNumber = 5,
+    kCmdFieldNumber = 9,
+    kTriggerFieldNumber = 2,
+    kIntValueFieldNumber = 3,
+    kSetValueFieldNumber = 6,
+    kIncludeWidgetValueFieldNumber = 4,
+    kToggleFieldNumber = 7,
+    kNotifyHostFieldNumber = 8,
+  };
+  // string name = 1 [(.buf.validate.field) = {
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* value);
+
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
+      const std::string& value);
+  std::string* _internal_mutable_name();
+
+  public:
+  // string set_subject = 5 [(.buf.validate.field) = {
+  void clear_set_subject() ;
+  const std::string& set_subject() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_set_subject(Arg_&& arg, Args_... args);
+  std::string* mutable_set_subject();
+  PROTOBUF_NODISCARD std::string* release_set_subject();
+  void set_allocated_set_subject(std::string* value);
+
+  private:
+  const std::string& _internal_set_subject() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_set_subject(
+      const std::string& value);
+  std::string* _internal_mutable_set_subject();
+
+  public:
+  // .ui.CmdSpec cmd = 9;
+  bool has_cmd() const;
+  void clear_cmd() ;
+  const ::ui::CmdSpec& cmd() const;
+  PROTOBUF_NODISCARD ::ui::CmdSpec* release_cmd();
+  ::ui::CmdSpec* mutable_cmd();
+  void set_allocated_cmd(::ui::CmdSpec* value);
+  void unsafe_arena_set_allocated_cmd(::ui::CmdSpec* value);
+  ::ui::CmdSpec* unsafe_arena_release_cmd();
+
+  private:
+  const ::ui::CmdSpec& _internal_cmd() const;
+  ::ui::CmdSpec* _internal_mutable_cmd();
+
+  public:
+  // .ui.EventTrigger trigger = 2 [(.buf.validate.field) = {
+  void clear_trigger() ;
+  ::ui::EventTrigger trigger() const;
+  void set_trigger(::ui::EventTrigger value);
+
+  private:
+  ::ui::EventTrigger _internal_trigger() const;
+  void _internal_set_trigger(::ui::EventTrigger value);
+
+  public:
+  // int32 int_value = 3;
+  void clear_int_value() ;
+  ::int32_t int_value() const;
+  void set_int_value(::int32_t value);
+
+  private:
+  ::int32_t _internal_int_value() const;
+  void _internal_set_int_value(::int32_t value);
+
+  public:
+  // int32 set_value = 6;
+  void clear_set_value() ;
+  ::int32_t set_value() const;
+  void set_set_value(::int32_t value);
+
+  private:
+  ::int32_t _internal_set_value() const;
+  void _internal_set_set_value(::int32_t value);
+
+  public:
+  // bool include_widget_value = 4;
+  void clear_include_widget_value() ;
+  bool include_widget_value() const;
+  void set_include_widget_value(bool value);
+
+  private:
+  bool _internal_include_widget_value() const;
+  void _internal_set_include_widget_value(bool value);
+
+  public:
+  // bool toggle = 7;
+  void clear_toggle() ;
+  bool toggle() const;
+  void set_toggle(bool value);
+
+  private:
+  bool _internal_toggle() const;
+  void _internal_set_toggle(bool value);
+
+  public:
+  // bool notify_host = 8;
+  void clear_notify_host() ;
+  bool notify_host() const;
+  void set_notify_host(bool value);
+
+  private:
+  bool _internal_notify_host() const;
+  void _internal_set_notify_host(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.EventBinding)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      4, 9, 1,
+      47, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const EventBinding& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::google::protobuf::internal::ArenaStringPtr set_subject_;
+    ::ui::CmdSpec* cmd_;
+    int trigger_;
+    ::int32_t int_value_;
+    ::int32_t set_value_;
+    bool include_widget_value_;
+    bool toggle_;
+    bool notify_host_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fast_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ChartProps final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ui.ChartProps) */ {
  public:
@@ -9371,7 +10138,7 @@ class StyleGroup final : public ::google::protobuf::Message
     return reinterpret_cast<const StyleGroup*>(
         &_StyleGroup_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 37;
+  static constexpr int kIndexInFileMessages = 40;
   friend void swap(StyleGroup& a, StyleGroup& b) { a.Swap(&b); }
   inline void Swap(StyleGroup* other) {
     if (other == this) return;
@@ -9698,6 +10465,7 @@ class WidgetNode final : public ::google::protobuf::Message
     kBindFormatsFieldNumber = 30,
     kGridColDscFieldNumber = 35,
     kGridRowDscFieldNumber = 36,
+    kGesturesFieldNumber = 44,
     kTextFieldNumber = 4,
     kEventFieldNumber = 6,
     kLayoutFieldNumber = 7,
@@ -9836,6 +10604,23 @@ class WidgetNode final : public ::google::protobuf::Message
   ::google::protobuf::RepeatedField<::int32_t>* _internal_mutable_grid_row_dsc();
 
   public:
+  // repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = {
+  int gestures_size() const;
+  private:
+  int _internal_gestures_size() const;
+
+  public:
+  void clear_gestures() ;
+  ::ui::GestureSpec* mutable_gestures(int index);
+  ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>* mutable_gestures();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>& _internal_gestures() const;
+  ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>* _internal_mutable_gestures();
+  public:
+  const ::ui::GestureSpec& gestures(int index) const;
+  ::ui::GestureSpec* add_gestures();
+  const ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>& gestures() const;
   // string text = 4 [(.buf.validate.field) = {
   void clear_text() ;
   const std::string& text() const;
@@ -10461,7 +11246,7 @@ class WidgetNode final : public ::google::protobuf::Message
   inline void clear_has_widget_props();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 43, 30,
+      5, 44, 31,
       86, 7>
       _table_;
 
@@ -10495,6 +11280,7 @@ class WidgetNode final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _grid_col_dsc_cached_byte_size_;
     ::google::protobuf::RepeatedField<::int32_t> grid_row_dsc_;
     ::google::protobuf::internal::CachedSize _grid_row_dsc_cached_byte_size_;
+    ::google::protobuf::RepeatedPtrField< ::ui::GestureSpec > gestures_;
     ::google::protobuf::internal::ArenaStringPtr text_;
     ::ui::EventBinding* event_;
     ::ui::Layout* layout_;
@@ -14459,6 +15245,55 @@ inline void WidgetNode::_internal_set_uid(::uint32_t value) {
   _impl_.uid_ = value;
 }
 
+// repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = {
+inline int WidgetNode::_internal_gestures_size() const {
+  return _internal_gestures().size();
+}
+inline int WidgetNode::gestures_size() const {
+  return _internal_gestures_size();
+}
+inline void WidgetNode::clear_gestures() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.gestures_.Clear();
+}
+inline ::ui::GestureSpec* WidgetNode::mutable_gestures(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:ui.WidgetNode.gestures)
+  return _internal_mutable_gestures()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>* WidgetNode::mutable_gestures()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ui.WidgetNode.gestures)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_gestures();
+}
+inline const ::ui::GestureSpec& WidgetNode::gestures(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.WidgetNode.gestures)
+  return _internal_gestures().Get(index);
+}
+inline ::ui::GestureSpec* WidgetNode::add_gestures() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ui::GestureSpec* _add = _internal_mutable_gestures()->Add();
+  // @@protoc_insertion_point(field_add:ui.WidgetNode.gestures)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>& WidgetNode::gestures() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ui.WidgetNode.gestures)
+  return _internal_gestures();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>&
+WidgetNode::_internal_gestures() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.gestures_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::GestureSpec>*
+WidgetNode::_internal_mutable_gestures() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.gestures_;
+}
+
 inline bool WidgetNode::has_widget_props() const {
   return widget_props_case() != WIDGET_PROPS_NOT_SET;
 }
@@ -17799,6 +18634,465 @@ inline void EventBinding::_internal_set_notify_host(bool value) {
   _impl_.notify_host_ = value;
 }
 
+// .ui.CmdSpec cmd = 9;
+inline bool EventBinding::has_cmd() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.cmd_ != nullptr);
+  return value;
+}
+inline void EventBinding::clear_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.cmd_ != nullptr) _impl_.cmd_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CmdSpec& EventBinding::_internal_cmd() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CmdSpec* p = _impl_.cmd_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CmdSpec&>(::ui::_CmdSpec_default_instance_);
+}
+inline const ::ui::CmdSpec& EventBinding::cmd() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.EventBinding.cmd)
+  return _internal_cmd();
+}
+inline void EventBinding::unsafe_arena_set_allocated_cmd(::ui::CmdSpec* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cmd_);
+  }
+  _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.EventBinding.cmd)
+}
+inline ::ui::CmdSpec* EventBinding::release_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CmdSpec* released = _impl_.cmd_;
+  _impl_.cmd_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CmdSpec* EventBinding::unsafe_arena_release_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.EventBinding.cmd)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CmdSpec* temp = _impl_.cmd_;
+  _impl_.cmd_ = nullptr;
+  return temp;
+}
+inline ::ui::CmdSpec* EventBinding::_internal_mutable_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.cmd_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CmdSpec>(GetArena());
+    _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(p);
+  }
+  return _impl_.cmd_;
+}
+inline ::ui::CmdSpec* EventBinding::mutable_cmd() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CmdSpec* _msg = _internal_mutable_cmd();
+  // @@protoc_insertion_point(field_mutable:ui.EventBinding.cmd)
+  return _msg;
+}
+inline void EventBinding::set_allocated_cmd(::ui::CmdSpec* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.cmd_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.EventBinding.cmd)
+}
+
+// -------------------------------------------------------------------
+
+// FieldPatch
+
+// uint32 byte_offset = 1;
+inline void FieldPatch::clear_byte_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.byte_offset_ = 0u;
+}
+inline ::uint32_t FieldPatch::byte_offset() const {
+  // @@protoc_insertion_point(field_get:ui.FieldPatch.byte_offset)
+  return _internal_byte_offset();
+}
+inline void FieldPatch::set_byte_offset(::uint32_t value) {
+  _internal_set_byte_offset(value);
+  // @@protoc_insertion_point(field_set:ui.FieldPatch.byte_offset)
+}
+inline ::uint32_t FieldPatch::_internal_byte_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.byte_offset_;
+}
+inline void FieldPatch::_internal_set_byte_offset(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.byte_offset_ = value;
+}
+
+// uint32 byte_width = 2;
+inline void FieldPatch::clear_byte_width() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.byte_width_ = 0u;
+}
+inline ::uint32_t FieldPatch::byte_width() const {
+  // @@protoc_insertion_point(field_get:ui.FieldPatch.byte_width)
+  return _internal_byte_width();
+}
+inline void FieldPatch::set_byte_width(::uint32_t value) {
+  _internal_set_byte_width(value);
+  // @@protoc_insertion_point(field_set:ui.FieldPatch.byte_width)
+}
+inline ::uint32_t FieldPatch::_internal_byte_width() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.byte_width_;
+}
+inline void FieldPatch::_internal_set_byte_width(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.byte_width_ = value;
+}
+
+// .ui.PatchKind kind = 3 [(.buf.validate.field) = {
+inline void FieldPatch::clear_kind() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kind_ = 0;
+}
+inline ::ui::PatchKind FieldPatch::kind() const {
+  // @@protoc_insertion_point(field_get:ui.FieldPatch.kind)
+  return _internal_kind();
+}
+inline void FieldPatch::set_kind(::ui::PatchKind value) {
+  _internal_set_kind(value);
+  // @@protoc_insertion_point(field_set:ui.FieldPatch.kind)
+}
+inline ::ui::PatchKind FieldPatch::_internal_kind() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ui::PatchKind>(_impl_.kind_);
+}
+inline void FieldPatch::_internal_set_kind(::ui::PatchKind value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kind_ = value;
+}
+
+// sint32 wire_scale = 4;
+inline void FieldPatch::clear_wire_scale() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.wire_scale_ = 0;
+}
+inline ::int32_t FieldPatch::wire_scale() const {
+  // @@protoc_insertion_point(field_get:ui.FieldPatch.wire_scale)
+  return _internal_wire_scale();
+}
+inline void FieldPatch::set_wire_scale(::int32_t value) {
+  _internal_set_wire_scale(value);
+  // @@protoc_insertion_point(field_set:ui.FieldPatch.wire_scale)
+}
+inline ::int32_t FieldPatch::_internal_wire_scale() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.wire_scale_;
+}
+inline void FieldPatch::_internal_set_wire_scale(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.wire_scale_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// CmdSpec
+
+// string command_id = 1 [(.buf.validate.field) = {
+inline void CmdSpec::clear_command_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.command_id_.ClearToEmpty();
+}
+inline const std::string& CmdSpec::command_id() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.CmdSpec.command_id)
+  return _internal_command_id();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void CmdSpec::set_command_id(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.command_id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.CmdSpec.command_id)
+}
+inline std::string* CmdSpec::mutable_command_id() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_command_id();
+  // @@protoc_insertion_point(field_mutable:ui.CmdSpec.command_id)
+  return _s;
+}
+inline const std::string& CmdSpec::_internal_command_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.command_id_.Get();
+}
+inline void CmdSpec::_internal_set_command_id(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.command_id_.Set(value, GetArena());
+}
+inline std::string* CmdSpec::_internal_mutable_command_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.command_id_.Mutable( GetArena());
+}
+inline std::string* CmdSpec::release_command_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.CmdSpec.command_id)
+  return _impl_.command_id_.Release();
+}
+inline void CmdSpec::set_allocated_command_id(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.command_id_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.command_id_.IsDefault()) {
+    _impl_.command_id_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.CmdSpec.command_id)
+}
+
+// bytes root_template = 2;
+inline void CmdSpec::clear_root_template() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.root_template_.ClearToEmpty();
+}
+inline const std::string& CmdSpec::root_template() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.CmdSpec.root_template)
+  return _internal_root_template();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void CmdSpec::set_root_template(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.root_template_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.CmdSpec.root_template)
+}
+inline std::string* CmdSpec::mutable_root_template() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_root_template();
+  // @@protoc_insertion_point(field_mutable:ui.CmdSpec.root_template)
+  return _s;
+}
+inline const std::string& CmdSpec::_internal_root_template() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.root_template_.Get();
+}
+inline void CmdSpec::_internal_set_root_template(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.root_template_.Set(value, GetArena());
+}
+inline std::string* CmdSpec::_internal_mutable_root_template() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.root_template_.Mutable( GetArena());
+}
+inline std::string* CmdSpec::release_root_template() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.CmdSpec.root_template)
+  return _impl_.root_template_.Release();
+}
+inline void CmdSpec::set_allocated_root_template(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.root_template_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.root_template_.IsDefault()) {
+    _impl_.root_template_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.CmdSpec.root_template)
+}
+
+// repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = {
+inline int CmdSpec::_internal_patches_size() const {
+  return _internal_patches().size();
+}
+inline int CmdSpec::patches_size() const {
+  return _internal_patches_size();
+}
+inline void CmdSpec::clear_patches() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.patches_.Clear();
+}
+inline ::ui::FieldPatch* CmdSpec::mutable_patches(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:ui.CmdSpec.patches)
+  return _internal_mutable_patches()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>* CmdSpec::mutable_patches()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ui.CmdSpec.patches)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_patches();
+}
+inline const ::ui::FieldPatch& CmdSpec::patches(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.CmdSpec.patches)
+  return _internal_patches().Get(index);
+}
+inline ::ui::FieldPatch* CmdSpec::add_patches() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ui::FieldPatch* _add = _internal_mutable_patches()->Add();
+  // @@protoc_insertion_point(field_add:ui.CmdSpec.patches)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>& CmdSpec::patches() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ui.CmdSpec.patches)
+  return _internal_patches();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>&
+CmdSpec::_internal_patches() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.patches_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::FieldPatch>*
+CmdSpec::_internal_mutable_patches() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.patches_;
+}
+
+// -------------------------------------------------------------------
+
+// GestureSpec
+
+// .ui.GestureKind kind = 1 [(.buf.validate.field) = {
+inline void GestureSpec::clear_kind() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kind_ = 0;
+}
+inline ::ui::GestureKind GestureSpec::kind() const {
+  // @@protoc_insertion_point(field_get:ui.GestureSpec.kind)
+  return _internal_kind();
+}
+inline void GestureSpec::set_kind(::ui::GestureKind value) {
+  _internal_set_kind(value);
+  // @@protoc_insertion_point(field_set:ui.GestureSpec.kind)
+}
+inline ::ui::GestureKind GestureSpec::_internal_kind() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ui::GestureKind>(_impl_.kind_);
+}
+inline void GestureSpec::_internal_set_kind(::ui::GestureKind value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kind_ = value;
+}
+
+// .ui.CmdSpec cmd = 2;
+inline bool GestureSpec::has_cmd() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.cmd_ != nullptr);
+  return value;
+}
+inline void GestureSpec::clear_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.cmd_ != nullptr) _impl_.cmd_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CmdSpec& GestureSpec::_internal_cmd() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CmdSpec* p = _impl_.cmd_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CmdSpec&>(::ui::_CmdSpec_default_instance_);
+}
+inline const ::ui::CmdSpec& GestureSpec::cmd() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.GestureSpec.cmd)
+  return _internal_cmd();
+}
+inline void GestureSpec::unsafe_arena_set_allocated_cmd(::ui::CmdSpec* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cmd_);
+  }
+  _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.GestureSpec.cmd)
+}
+inline ::ui::CmdSpec* GestureSpec::release_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CmdSpec* released = _impl_.cmd_;
+  _impl_.cmd_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CmdSpec* GestureSpec::unsafe_arena_release_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.GestureSpec.cmd)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CmdSpec* temp = _impl_.cmd_;
+  _impl_.cmd_ = nullptr;
+  return temp;
+}
+inline ::ui::CmdSpec* GestureSpec::_internal_mutable_cmd() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.cmd_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CmdSpec>(GetArena());
+    _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(p);
+  }
+  return _impl_.cmd_;
+}
+inline ::ui::CmdSpec* GestureSpec::mutable_cmd() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CmdSpec* _msg = _internal_mutable_cmd();
+  // @@protoc_insertion_point(field_mutable:ui.GestureSpec.cmd)
+  return _msg;
+}
+inline void GestureSpec::set_allocated_cmd(::ui::CmdSpec* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.cmd_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.GestureSpec.cmd)
+}
+
 // -------------------------------------------------------------------
 
 // VisibilityBinding
@@ -18705,6 +19999,18 @@ struct is_proto_enum<::ui::EventTrigger> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ui::EventTrigger>() {
   return ::ui::EventTrigger_descriptor();
+}
+template <>
+struct is_proto_enum<::ui::PatchKind> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ui::PatchKind>() {
+  return ::ui::PatchKind_descriptor();
+}
+template <>
+struct is_proto_enum<::ui::GestureKind> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ui::GestureKind>() {
+  return ::ui::GestureKind_descriptor();
 }
 template <>
 struct is_proto_enum<::ui::CompareOp> : std::true_type {};

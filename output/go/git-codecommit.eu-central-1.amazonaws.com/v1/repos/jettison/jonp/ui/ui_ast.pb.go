@@ -335,6 +335,122 @@ func (EventTrigger) EnumDescriptor() ([]byte, []int) {
 	return file_ui_ui_ast_proto_rawDescGZIP(), []int{4}
 }
 
+// Which gesture/value the patcher writes into a slot, and how to encode it.
+type PatchKind int32
+
+const (
+	PatchKind_PATCH_KIND_UNSPECIFIED  PatchKind = 0
+	PatchKind_PATCH_KIND_NDC_X        PatchKind = 1 // gesture NDC x → a double slot (verbatim, no recast)
+	PatchKind_PATCH_KIND_NDC_Y        PatchKind = 2 // gesture NDC y → a double slot (verbatim, no recast)
+	PatchKind_PATCH_KIND_DELTA        PatchKind = 3 // pinch/wheel ±1 step → a padded-varint int slot
+	PatchKind_PATCH_KIND_WIDGET_VALUE PatchKind = 4 // widget int value → a padded-varint int slot
+)
+
+// Enum value maps for PatchKind.
+var (
+	PatchKind_name = map[int32]string{
+		0: "PATCH_KIND_UNSPECIFIED",
+		1: "PATCH_KIND_NDC_X",
+		2: "PATCH_KIND_NDC_Y",
+		3: "PATCH_KIND_DELTA",
+		4: "PATCH_KIND_WIDGET_VALUE",
+	}
+	PatchKind_value = map[string]int32{
+		"PATCH_KIND_UNSPECIFIED":  0,
+		"PATCH_KIND_NDC_X":        1,
+		"PATCH_KIND_NDC_Y":        2,
+		"PATCH_KIND_DELTA":        3,
+		"PATCH_KIND_WIDGET_VALUE": 4,
+	}
+)
+
+func (x PatchKind) Enum() *PatchKind {
+	p := new(PatchKind)
+	*p = x
+	return p
+}
+
+func (x PatchKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PatchKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_ui_ui_ast_proto_enumTypes[5].Descriptor()
+}
+
+func (PatchKind) Type() protoreflect.EnumType {
+	return &file_ui_ui_ast_proto_enumTypes[5]
+}
+
+func (x PatchKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PatchKind.Descriptor instead.
+func (PatchKind) EnumDescriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{5}
+}
+
+// A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
+// host-side decision tag selects its pre-encoded template directly.
+type GestureKind int32
+
+const (
+	GestureKind_GESTURE_KIND_PAN_MOVE GestureKind = 0 // → cmd.RotaryPlatform.Axis (continuous slew)
+	GestureKind_GESTURE_KIND_PAN_END  GestureKind = 1 // → cmd.RotaryPlatform.HaltWithNDC
+	GestureKind_GESTURE_KIND_TAP      GestureKind = 2 // → cmd.RotaryPlatform.RotateToNDC
+	GestureKind_GESTURE_KIND_TRACK    GestureKind = 3 // → cmd.CV.StartTrackNDC
+	GestureKind_GESTURE_KIND_PINCH    GestureKind = 4 // → cmd.{Day,Heat}Camera.SetZoomTableValue
+	GestureKind_GESTURE_KIND_WHEEL    GestureKind = 5 // web-only; no device analogue (no template)
+)
+
+// Enum value maps for GestureKind.
+var (
+	GestureKind_name = map[int32]string{
+		0: "GESTURE_KIND_PAN_MOVE",
+		1: "GESTURE_KIND_PAN_END",
+		2: "GESTURE_KIND_TAP",
+		3: "GESTURE_KIND_TRACK",
+		4: "GESTURE_KIND_PINCH",
+		5: "GESTURE_KIND_WHEEL",
+	}
+	GestureKind_value = map[string]int32{
+		"GESTURE_KIND_PAN_MOVE": 0,
+		"GESTURE_KIND_PAN_END":  1,
+		"GESTURE_KIND_TAP":      2,
+		"GESTURE_KIND_TRACK":    3,
+		"GESTURE_KIND_PINCH":    4,
+		"GESTURE_KIND_WHEEL":    5,
+	}
+)
+
+func (x GestureKind) Enum() *GestureKind {
+	p := new(GestureKind)
+	*p = x
+	return p
+}
+
+func (x GestureKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GestureKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_ui_ui_ast_proto_enumTypes[6].Descriptor()
+}
+
+func (GestureKind) Type() protoreflect.EnumType {
+	return &file_ui_ui_ast_proto_enumTypes[6]
+}
+
+func (x GestureKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GestureKind.Descriptor instead.
+func (GestureKind) EnumDescriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{6}
+}
+
 // Comparison operator for conditional visibility bindings.
 type CompareOp int32
 
@@ -378,11 +494,11 @@ func (x CompareOp) String() string {
 }
 
 func (CompareOp) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[5].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[7].Descriptor()
 }
 
 func (CompareOp) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[5]
+	return &file_ui_ui_ast_proto_enumTypes[7]
 }
 
 func (x CompareOp) Number() protoreflect.EnumNumber {
@@ -391,7 +507,7 @@ func (x CompareOp) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CompareOp.Descriptor instead.
 func (CompareOp) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{5}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{7}
 }
 
 type FlexFlow int32
@@ -445,11 +561,11 @@ func (x FlexFlow) String() string {
 }
 
 func (FlexFlow) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[6].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[8].Descriptor()
 }
 
 func (FlexFlow) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[6]
+	return &file_ui_ui_ast_proto_enumTypes[8]
 }
 
 func (x FlexFlow) Number() protoreflect.EnumNumber {
@@ -458,7 +574,7 @@ func (x FlexFlow) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use FlexFlow.Descriptor instead.
 func (FlexFlow) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{6}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{8}
 }
 
 type FlexAlign int32
@@ -503,11 +619,11 @@ func (x FlexAlign) String() string {
 }
 
 func (FlexAlign) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[7].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[9].Descriptor()
 }
 
 func (FlexAlign) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[7]
+	return &file_ui_ui_ast_proto_enumTypes[9]
 }
 
 func (x FlexAlign) Number() protoreflect.EnumNumber {
@@ -516,7 +632,7 @@ func (x FlexAlign) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use FlexAlign.Descriptor instead.
 func (FlexAlign) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{7}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{9}
 }
 
 type GridAlign int32
@@ -564,11 +680,11 @@ func (x GridAlign) String() string {
 }
 
 func (GridAlign) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[8].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[10].Descriptor()
 }
 
 func (GridAlign) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[8]
+	return &file_ui_ui_ast_proto_enumTypes[10]
 }
 
 func (x GridAlign) Number() protoreflect.EnumNumber {
@@ -577,7 +693,7 @@ func (x GridAlign) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GridAlign.Descriptor instead.
 func (GridAlign) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{8}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{10}
 }
 
 type TextAlign int32
@@ -616,11 +732,11 @@ func (x TextAlign) String() string {
 }
 
 func (TextAlign) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[9].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[11].Descriptor()
 }
 
 func (TextAlign) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[9]
+	return &file_ui_ui_ast_proto_enumTypes[11]
 }
 
 func (x TextAlign) Number() protoreflect.EnumNumber {
@@ -629,7 +745,7 @@ func (x TextAlign) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TextAlign.Descriptor instead.
 func (TextAlign) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{9}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{11}
 }
 
 type TextDecor int32
@@ -665,11 +781,11 @@ func (x TextDecor) String() string {
 }
 
 func (TextDecor) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[10].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[12].Descriptor()
 }
 
 func (TextDecor) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[10]
+	return &file_ui_ui_ast_proto_enumTypes[12]
 }
 
 func (x TextDecor) Number() protoreflect.EnumNumber {
@@ -678,7 +794,7 @@ func (x TextDecor) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TextDecor.Descriptor instead.
 func (TextDecor) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{10}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{12}
 }
 
 type BlendMode int32
@@ -720,11 +836,11 @@ func (x BlendMode) String() string {
 }
 
 func (BlendMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[11].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[13].Descriptor()
 }
 
 func (BlendMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[11]
+	return &file_ui_ui_ast_proto_enumTypes[13]
 }
 
 func (x BlendMode) Number() protoreflect.EnumNumber {
@@ -733,7 +849,7 @@ func (x BlendMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BlendMode.Descriptor instead.
 func (BlendMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{11}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{13}
 }
 
 type BaseDir int32
@@ -775,11 +891,11 @@ func (x BaseDir) String() string {
 }
 
 func (BaseDir) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[12].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[14].Descriptor()
 }
 
 func (BaseDir) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[12]
+	return &file_ui_ui_ast_proto_enumTypes[14]
 }
 
 func (x BaseDir) Number() protoreflect.EnumNumber {
@@ -788,7 +904,7 @@ func (x BaseDir) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BaseDir.Descriptor instead.
 func (BaseDir) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{12}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{14}
 }
 
 type GradDir int32
@@ -833,11 +949,11 @@ func (x GradDir) String() string {
 }
 
 func (GradDir) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[13].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[15].Descriptor()
 }
 
 func (GradDir) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[13]
+	return &file_ui_ui_ast_proto_enumTypes[15]
 }
 
 func (x GradDir) Number() protoreflect.EnumNumber {
@@ -846,7 +962,7 @@ func (x GradDir) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GradDir.Descriptor instead.
 func (GradDir) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{13}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{15}
 }
 
 type Dir int32
@@ -897,11 +1013,11 @@ func (x Dir) String() string {
 }
 
 func (Dir) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[14].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[16].Descriptor()
 }
 
 func (Dir) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[14]
+	return &file_ui_ui_ast_proto_enumTypes[16]
 }
 
 func (x Dir) Number() protoreflect.EnumNumber {
@@ -910,7 +1026,7 @@ func (x Dir) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Dir.Descriptor instead.
 func (Dir) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{14}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{16}
 }
 
 type Align int32
@@ -1003,11 +1119,11 @@ func (x Align) String() string {
 }
 
 func (Align) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[15].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[17].Descriptor()
 }
 
 func (Align) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[15]
+	return &file_ui_ui_ast_proto_enumTypes[17]
 }
 
 func (x Align) Number() protoreflect.EnumNumber {
@@ -1016,7 +1132,7 @@ func (x Align) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Align.Descriptor instead.
 func (Align) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{15}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{17}
 }
 
 type BorderSide int32
@@ -1064,11 +1180,11 @@ func (x BorderSide) String() string {
 }
 
 func (BorderSide) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[16].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[18].Descriptor()
 }
 
 func (BorderSide) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[16]
+	return &file_ui_ui_ast_proto_enumTypes[18]
 }
 
 func (x BorderSide) Number() protoreflect.EnumNumber {
@@ -1077,7 +1193,7 @@ func (x BorderSide) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BorderSide.Descriptor instead.
 func (BorderSide) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{16}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{18}
 }
 
 type LabelLongMode int32
@@ -1119,11 +1235,11 @@ func (x LabelLongMode) String() string {
 }
 
 func (LabelLongMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[17].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[19].Descriptor()
 }
 
 func (LabelLongMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[17]
+	return &file_ui_ui_ast_proto_enumTypes[19]
 }
 
 func (x LabelLongMode) Number() protoreflect.EnumNumber {
@@ -1132,7 +1248,7 @@ func (x LabelLongMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LabelLongMode.Descriptor instead.
 func (LabelLongMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{17}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{19}
 }
 
 type BarMode int32
@@ -1168,11 +1284,11 @@ func (x BarMode) String() string {
 }
 
 func (BarMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[18].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[20].Descriptor()
 }
 
 func (BarMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[18]
+	return &file_ui_ui_ast_proto_enumTypes[20]
 }
 
 func (x BarMode) Number() protoreflect.EnumNumber {
@@ -1181,7 +1297,7 @@ func (x BarMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BarMode.Descriptor instead.
 func (BarMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{18}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{20}
 }
 
 type ArcMode int32
@@ -1217,11 +1333,11 @@ func (x ArcMode) String() string {
 }
 
 func (ArcMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[19].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[21].Descriptor()
 }
 
 func (ArcMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[19]
+	return &file_ui_ui_ast_proto_enumTypes[21]
 }
 
 func (x ArcMode) Number() protoreflect.EnumNumber {
@@ -1230,7 +1346,7 @@ func (x ArcMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ArcMode.Descriptor instead.
 func (ArcMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{19}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{21}
 }
 
 type RollerMode int32
@@ -1263,11 +1379,11 @@ func (x RollerMode) String() string {
 }
 
 func (RollerMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[20].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[22].Descriptor()
 }
 
 func (RollerMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[20]
+	return &file_ui_ui_ast_proto_enumTypes[22]
 }
 
 func (x RollerMode) Number() protoreflect.EnumNumber {
@@ -1276,7 +1392,7 @@ func (x RollerMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RollerMode.Descriptor instead.
 func (RollerMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{20}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{22}
 }
 
 type ScaleMode int32
@@ -1321,11 +1437,11 @@ func (x ScaleMode) String() string {
 }
 
 func (ScaleMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[21].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[23].Descriptor()
 }
 
 func (ScaleMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[21]
+	return &file_ui_ui_ast_proto_enumTypes[23]
 }
 
 func (x ScaleMode) Number() protoreflect.EnumNumber {
@@ -1334,7 +1450,7 @@ func (x ScaleMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ScaleMode.Descriptor instead.
 func (ScaleMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{21}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{23}
 }
 
 type ChartType int32
@@ -1379,11 +1495,11 @@ func (x ChartType) String() string {
 }
 
 func (ChartType) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[22].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[24].Descriptor()
 }
 
 func (ChartType) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[22]
+	return &file_ui_ui_ast_proto_enumTypes[24]
 }
 
 func (x ChartType) Number() protoreflect.EnumNumber {
@@ -1392,7 +1508,7 @@ func (x ChartType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ChartType.Descriptor instead.
 func (ChartType) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{22}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{24}
 }
 
 type ChartAxis int32
@@ -1431,11 +1547,11 @@ func (x ChartAxis) String() string {
 }
 
 func (ChartAxis) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[23].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[25].Descriptor()
 }
 
 func (ChartAxis) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[23]
+	return &file_ui_ui_ast_proto_enumTypes[25]
 }
 
 func (x ChartAxis) Number() protoreflect.EnumNumber {
@@ -1444,7 +1560,7 @@ func (x ChartAxis) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ChartAxis.Descriptor instead.
 func (ChartAxis) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{23}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{25}
 }
 
 type StylePropertyType int32
@@ -1809,11 +1925,11 @@ func (x StylePropertyType) String() string {
 }
 
 func (StylePropertyType) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[24].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[26].Descriptor()
 }
 
 func (StylePropertyType) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[24]
+	return &file_ui_ui_ast_proto_enumTypes[26]
 }
 
 func (x StylePropertyType) Number() protoreflect.EnumNumber {
@@ -1822,7 +1938,7 @@ func (x StylePropertyType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use StylePropertyType.Descriptor instead.
 func (StylePropertyType) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{24}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{26}
 }
 
 // Declaration of a reactive subject (lives in Screen, initialized at load time)
@@ -2201,7 +2317,13 @@ type WidgetNode struct {
 	// 0 = never assigned (proto3 default); the renderer mirrors it into
 	// lv_obj user_data and a uid→obj registry so ScreenPatch ops can
 	// address live widgets.
-	Uid           uint32 `protobuf:"varint,43,opt,name=uid,proto3" json:"uid,omitempty"`
+	Uid uint32 `protobuf:"varint,43,opt,name=uid,proto3" json:"uid,omitempty"`
+	// Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+	// gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+	// PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+	// analogue so it is never emitted here. The host recognizer matches a
+	// gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+	Gestures      []*GestureSpec `protobuf:"bytes,44,rep,name=gestures,proto3" json:"gestures,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2586,6 +2708,13 @@ func (x *WidgetNode) GetUid() uint32 {
 		return x.Uid
 	}
 	return 0
+}
+
+func (x *WidgetNode) GetGestures() []*GestureSpec {
+	if x != nil {
+		return x.Gestures
+	}
+	return nil
 }
 
 type isWidgetNode_WidgetProps interface {
@@ -4591,10 +4720,16 @@ type EventBinding struct {
 	IntValue           int32        `protobuf:"varint,3,opt,name=int_value,json=intValue,proto3" json:"int_value,omitempty"`                                 // static int payload
 	IncludeWidgetValue bool         `protobuf:"varint,4,opt,name=include_widget_value,json=includeWidgetValue,proto3" json:"include_widget_value,omitempty"` // inject widget's current value as int_value
 	// local subject to mutate (empty = host event)
-	SetSubject    string `protobuf:"bytes,5,opt,name=set_subject,json=setSubject,proto3" json:"set_subject,omitempty"`
-	SetValue      int32  `protobuf:"varint,6,opt,name=set_value,json=setValue,proto3" json:"set_value,omitempty"`       // value to set on subject
-	Toggle        bool   `protobuf:"varint,7,opt,name=toggle,proto3" json:"toggle,omitempty"`                           // flip 0↔1 instead of set_value
-	NotifyHost    bool   `protobuf:"varint,8,opt,name=notify_host,json=notifyHost,proto3" json:"notify_host,omitempty"` // also send to host when mutating subject
+	SetSubject string `protobuf:"bytes,5,opt,name=set_subject,json=setSubject,proto3" json:"set_subject,omitempty"`
+	SetValue   int32  `protobuf:"varint,6,opt,name=set_value,json=setValue,proto3" json:"set_value,omitempty"`       // value to set on subject
+	Toggle     bool   `protobuf:"varint,7,opt,name=toggle,proto3" json:"toggle,omitempty"`                           // flip 0↔1 instead of set_value
+	NotifyHost bool   `protobuf:"varint,8,opt,name=notify_host,json=notifyHost,proto3" json:"notify_host,omitempty"` // also send to host when mutating subject
+	// Pre-encoded cmd.* device-command template + slot patch descriptor
+	// (R5a). When present the renderer (R5b) builds the full cmd.Root by
+	// memcpy'ing root_template and overwriting the patch slot(s) with the
+	// widget value, then relays the result as OPAQUE bytes via host_command —
+	// controls.wasm no longer round-trips through the server /node-cmd shim.
+	Cmd           *CmdSpec `protobuf:"bytes,9,opt,name=cmd,proto3" json:"cmd,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4685,6 +4820,205 @@ func (x *EventBinding) GetNotifyHost() bool {
 	return false
 }
 
+func (x *EventBinding) GetCmd() *CmdSpec {
+	if x != nil {
+		return x.Cmd
+	}
+	return nil
+}
+
+// One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
+type FieldPatch struct {
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	ByteOffset uint32                 `protobuf:"varint,1,opt,name=byte_offset,json=byteOffset,proto3" json:"byte_offset,omitempty"` // start of the slot in root_template
+	ByteWidth  uint32                 `protobuf:"varint,2,opt,name=byte_width,json=byteWidth,proto3" json:"byte_width,omitempty"`    // slot width (8 for a double, 5/10 for a padded varint)
+	Kind       PatchKind              `protobuf:"varint,3,opt,name=kind,proto3,enum=ui.PatchKind" json:"kind,omitempty"`
+	// gen-time wire-scale (uigen.scales): the runtime value × scale is the
+	// wire int for a varint leaf; 1 for a verbatim double (NDC).
+	WireScale     int32 `protobuf:"zigzag32,4,opt,name=wire_scale,json=wireScale,proto3" json:"wire_scale,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FieldPatch) Reset() {
+	*x = FieldPatch{}
+	mi := &file_ui_ui_ast_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FieldPatch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FieldPatch) ProtoMessage() {}
+
+func (x *FieldPatch) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_ast_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FieldPatch.ProtoReflect.Descriptor instead.
+func (*FieldPatch) Descriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *FieldPatch) GetByteOffset() uint32 {
+	if x != nil {
+		return x.ByteOffset
+	}
+	return 0
+}
+
+func (x *FieldPatch) GetByteWidth() uint32 {
+	if x != nil {
+		return x.ByteWidth
+	}
+	return 0
+}
+
+func (x *FieldPatch) GetKind() PatchKind {
+	if x != nil {
+		return x.Kind
+	}
+	return PatchKind_PATCH_KIND_UNSPECIFIED
+}
+
+func (x *FieldPatch) GetWireScale() int32 {
+	if x != nil {
+		return x.WireScale
+	}
+	return 0
+}
+
+// A pre-encoded cmd.Root template + the slots the renderer overwrites.
+type CmdSpec struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+	// pre-encode provenance; the renderer never re-derives a route from it.
+	CommandId string `protobuf:"bytes,1,opt,name=command_id,json=commandId,proto3" json:"command_id,omitempty"`
+	// the full deterministic cmd.Root protobuf (envelope + leaf in its
+	// fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+	RootTemplate []byte `protobuf:"bytes,2,opt,name=root_template,json=rootTemplate,proto3" json:"root_template,omitempty"`
+	// the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+	Patches       []*FieldPatch `protobuf:"bytes,3,rep,name=patches,proto3" json:"patches,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CmdSpec) Reset() {
+	*x = CmdSpec{}
+	mi := &file_ui_ui_ast_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CmdSpec) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CmdSpec) ProtoMessage() {}
+
+func (x *CmdSpec) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_ast_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CmdSpec.ProtoReflect.Descriptor instead.
+func (*CmdSpec) Descriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *CmdSpec) GetCommandId() string {
+	if x != nil {
+		return x.CommandId
+	}
+	return ""
+}
+
+func (x *CmdSpec) GetRootTemplate() []byte {
+	if x != nil {
+		return x.RootTemplate
+	}
+	return nil
+}
+
+func (x *CmdSpec) GetPatches() []*FieldPatch {
+	if x != nil {
+		return x.Patches
+	}
+	return nil
+}
+
+// One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
+// the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
+// selects the matching kind and patches its slots with the gesture decision.
+type GestureSpec struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Kind          GestureKind            `protobuf:"varint,1,opt,name=kind,proto3,enum=ui.GestureKind" json:"kind,omitempty"`
+	Cmd           *CmdSpec               `protobuf:"bytes,2,opt,name=cmd,proto3" json:"cmd,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GestureSpec) Reset() {
+	*x = GestureSpec{}
+	mi := &file_ui_ui_ast_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GestureSpec) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GestureSpec) ProtoMessage() {}
+
+func (x *GestureSpec) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_ast_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GestureSpec.ProtoReflect.Descriptor instead.
+func (*GestureSpec) Descriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *GestureSpec) GetKind() GestureKind {
+	if x != nil {
+		return x.Kind
+	}
+	return GestureKind_GESTURE_KIND_PAN_MOVE
+}
+
+func (x *GestureSpec) GetCmd() *CmdSpec {
+	if x != nil {
+		return x.Cmd
+	}
+	return nil
+}
+
 // Conditional visibility — show/hide widget based on subject value comparison.
 type VisibilityBinding struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -4699,7 +5033,7 @@ type VisibilityBinding struct {
 
 func (x *VisibilityBinding) Reset() {
 	*x = VisibilityBinding{}
-	mi := &file_ui_ui_ast_proto_msgTypes[33]
+	mi := &file_ui_ui_ast_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4711,7 +5045,7 @@ func (x *VisibilityBinding) String() string {
 func (*VisibilityBinding) ProtoMessage() {}
 
 func (x *VisibilityBinding) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[33]
+	mi := &file_ui_ui_ast_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4724,7 +5058,7 @@ func (x *VisibilityBinding) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VisibilityBinding.ProtoReflect.Descriptor instead.
 func (*VisibilityBinding) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{33}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *VisibilityBinding) GetSubject() string {
@@ -4760,7 +5094,7 @@ type Layout struct {
 
 func (x *Layout) Reset() {
 	*x = Layout{}
-	mi := &file_ui_ui_ast_proto_msgTypes[34]
+	mi := &file_ui_ui_ast_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4772,7 +5106,7 @@ func (x *Layout) String() string {
 func (*Layout) ProtoMessage() {}
 
 func (x *Layout) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[34]
+	mi := &file_ui_ui_ast_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4785,7 +5119,7 @@ func (x *Layout) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Layout.ProtoReflect.Descriptor instead.
 func (*Layout) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{34}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *Layout) GetFlow() FlexFlow {
@@ -4835,7 +5169,7 @@ type StyleGroup struct {
 
 func (x *StyleGroup) Reset() {
 	*x = StyleGroup{}
-	mi := &file_ui_ui_ast_proto_msgTypes[35]
+	mi := &file_ui_ui_ast_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4847,7 +5181,7 @@ func (x *StyleGroup) String() string {
 func (*StyleGroup) ProtoMessage() {}
 
 func (x *StyleGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[35]
+	mi := &file_ui_ui_ast_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4860,7 +5194,7 @@ func (x *StyleGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleGroup.ProtoReflect.Descriptor instead.
 func (*StyleGroup) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{35}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *StyleGroup) GetStateSelector() uint32 {
@@ -4890,7 +5224,7 @@ type StyleVariant struct {
 
 func (x *StyleVariant) Reset() {
 	*x = StyleVariant{}
-	mi := &file_ui_ui_ast_proto_msgTypes[36]
+	mi := &file_ui_ui_ast_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4902,7 +5236,7 @@ func (x *StyleVariant) String() string {
 func (*StyleVariant) ProtoMessage() {}
 
 func (x *StyleVariant) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[36]
+	mi := &file_ui_ui_ast_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4915,7 +5249,7 @@ func (x *StyleVariant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleVariant.ProtoReflect.Descriptor instead.
 func (*StyleVariant) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{36}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *StyleVariant) GetVariantIndex() uint32 {
@@ -4950,7 +5284,7 @@ type StyleProperty struct {
 
 func (x *StyleProperty) Reset() {
 	*x = StyleProperty{}
-	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	mi := &file_ui_ui_ast_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4962,7 +5296,7 @@ func (x *StyleProperty) String() string {
 func (*StyleProperty) ProtoMessage() {}
 
 func (x *StyleProperty) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	mi := &file_ui_ui_ast_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4975,7 +5309,7 @@ func (x *StyleProperty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleProperty.ProtoReflect.Descriptor instead.
 func (*StyleProperty) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{37}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *StyleProperty) GetType() StylePropertyType {
@@ -5083,7 +5417,7 @@ type Color struct {
 
 func (x *Color) Reset() {
 	*x = Color{}
-	mi := &file_ui_ui_ast_proto_msgTypes[38]
+	mi := &file_ui_ui_ast_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5095,7 +5429,7 @@ func (x *Color) String() string {
 func (*Color) ProtoMessage() {}
 
 func (x *Color) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[38]
+	mi := &file_ui_ui_ast_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5108,7 +5442,7 @@ func (x *Color) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Color.ProtoReflect.Descriptor instead.
 func (*Color) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{38}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *Color) GetR() uint32 {
@@ -5145,7 +5479,7 @@ type ShadowBundle struct {
 
 func (x *ShadowBundle) Reset() {
 	*x = ShadowBundle{}
-	mi := &file_ui_ui_ast_proto_msgTypes[39]
+	mi := &file_ui_ui_ast_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5157,7 +5491,7 @@ func (x *ShadowBundle) String() string {
 func (*ShadowBundle) ProtoMessage() {}
 
 func (x *ShadowBundle) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[39]
+	mi := &file_ui_ui_ast_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5170,7 +5504,7 @@ func (x *ShadowBundle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShadowBundle.ProtoReflect.Descriptor instead.
 func (*ShadowBundle) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{39}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *ShadowBundle) GetWidth() uint32 {
@@ -5230,7 +5564,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xc1\x10\n" +
+	"\x05_root\"\xf8\x10\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
@@ -5289,7 +5623,8 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\n" +
 	"in_tab_bar\x18' \x01(\bR\binTabBar\x128\n" +
 	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x12\x10\n" +
-	"\x03uid\x18+ \x01(\rR\x03uid\x1a;\n" +
+	"\x03uid\x18+ \x01(\rR\x03uid\x125\n" +
+	"\bgestures\x18, \x03(\v2\x0f.ui.GestureSpecB\b\xbaH\x05\x92\x01\x02\x10\x05R\bgestures\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +
@@ -5454,7 +5789,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x01z\x18\b \x01(\x05R\x01z\"#\n" +
 	"\x05Point\x12\f\n" +
 	"\x01x\x18\x01 \x01(\x05R\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\x05R\x01y\"\xb2\x02\n" +
+	"\x01y\x18\x02 \x01(\x05R\x01y\"\xd1\x02\n" +
 	"\fEventBinding\x12\x1d\n" +
 	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\x04name\x124\n" +
 	"\atrigger\x18\x02 \x01(\x0e2\x10.ui.EventTriggerB\b\xbaH\x05\x82\x01\x02\x10\x01R\atrigger\x12\x1b\n" +
@@ -5465,7 +5800,25 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\tset_value\x18\x06 \x01(\x05R\bsetValue\x12\x16\n" +
 	"\x06toggle\x18\a \x01(\bR\x06toggle\x12\x1f\n" +
 	"\vnotify_host\x18\b \x01(\bR\n" +
-	"notifyHost\"\x88\x01\n" +
+	"notifyHost\x12\x1d\n" +
+	"\x03cmd\x18\t \x01(\v2\v.ui.CmdSpecR\x03cmd\"\x98\x01\n" +
+	"\n" +
+	"FieldPatch\x12\x1f\n" +
+	"\vbyte_offset\x18\x01 \x01(\rR\n" +
+	"byteOffset\x12\x1d\n" +
+	"\n" +
+	"byte_width\x18\x02 \x01(\rR\tbyteWidth\x12+\n" +
+	"\x04kind\x18\x03 \x01(\x0e2\r.ui.PatchKindB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04kind\x12\x1d\n" +
+	"\n" +
+	"wire_scale\x18\x04 \x01(\x11R\twireScale\"\x8a\x01\n" +
+	"\aCmdSpec\x12&\n" +
+	"\n" +
+	"command_id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18\x7fR\tcommandId\x12#\n" +
+	"\rroot_template\x18\x02 \x01(\fR\frootTemplate\x122\n" +
+	"\apatches\x18\x03 \x03(\v2\x0e.ui.FieldPatchB\b\xbaH\x05\x92\x01\x02\x10\x02R\apatches\"[\n" +
+	"\vGestureSpec\x12-\n" +
+	"\x04kind\x18\x01 \x01(\x0e2\x0f.ui.GestureKindB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04kind\x12\x1d\n" +
+	"\x03cmd\x18\x02 \x01(\v2\v.ui.CmdSpecR\x03cmd\"\x88\x01\n" +
 	"\x11VisibilityBinding\x12#\n" +
 	"\asubject\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\asubject\x12\x1b\n" +
 	"\tref_value\x18\x02 \x01(\x05R\brefValue\x121\n" +
@@ -5554,7 +5907,20 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fEventTrigger\x12\x13\n" +
 	"\x0fTRIGGER_CLICKED\x10\x00\x12\x19\n" +
 	"\x15TRIGGER_VALUE_CHANGED\x10\x01\x12\x18\n" +
-	"\x14TRIGGER_LONG_PRESSED\x10\x02*q\n" +
+	"\x14TRIGGER_LONG_PRESSED\x10\x02*\x86\x01\n" +
+	"\tPatchKind\x12\x1a\n" +
+	"\x16PATCH_KIND_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10PATCH_KIND_NDC_X\x10\x01\x12\x14\n" +
+	"\x10PATCH_KIND_NDC_Y\x10\x02\x12\x14\n" +
+	"\x10PATCH_KIND_DELTA\x10\x03\x12\x1b\n" +
+	"\x17PATCH_KIND_WIDGET_VALUE\x10\x04*\xa0\x01\n" +
+	"\vGestureKind\x12\x19\n" +
+	"\x15GESTURE_KIND_PAN_MOVE\x10\x00\x12\x18\n" +
+	"\x14GESTURE_KIND_PAN_END\x10\x01\x12\x14\n" +
+	"\x10GESTURE_KIND_TAP\x10\x02\x12\x16\n" +
+	"\x12GESTURE_KIND_TRACK\x10\x03\x12\x16\n" +
+	"\x12GESTURE_KIND_PINCH\x10\x04\x12\x16\n" +
+	"\x12GESTURE_KIND_WHEEL\x10\x05*q\n" +
 	"\tCompareOp\x12\x0e\n" +
 	"\n" +
 	"COMPARE_EQ\x10\x00\x12\x12\n" +
@@ -5826,150 +6192,161 @@ func file_ui_ui_ast_proto_rawDescGZIP() []byte {
 	return file_ui_ui_ast_proto_rawDescData
 }
 
-var file_ui_ui_ast_proto_enumTypes = make([]protoimpl.EnumInfo, 25)
-var file_ui_ui_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 42)
+var file_ui_ui_ast_proto_enumTypes = make([]protoimpl.EnumInfo, 27)
+var file_ui_ui_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
 var file_ui_ui_ast_proto_goTypes = []any{
 	(SubjectType)(0),           // 0: ui.SubjectType
 	(PatchOpKind)(0),           // 1: ui.PatchOpKind
 	(WidgetType)(0),            // 2: ui.WidgetType
 	(ProxyMode)(0),             // 3: ui.ProxyMode
 	(EventTrigger)(0),          // 4: ui.EventTrigger
-	(CompareOp)(0),             // 5: ui.CompareOp
-	(FlexFlow)(0),              // 6: ui.FlexFlow
-	(FlexAlign)(0),             // 7: ui.FlexAlign
-	(GridAlign)(0),             // 8: ui.GridAlign
-	(TextAlign)(0),             // 9: ui.TextAlign
-	(TextDecor)(0),             // 10: ui.TextDecor
-	(BlendMode)(0),             // 11: ui.BlendMode
-	(BaseDir)(0),               // 12: ui.BaseDir
-	(GradDir)(0),               // 13: ui.GradDir
-	(Dir)(0),                   // 14: ui.Dir
-	(Align)(0),                 // 15: ui.Align
-	(BorderSide)(0),            // 16: ui.BorderSide
-	(LabelLongMode)(0),         // 17: ui.LabelLongMode
-	(BarMode)(0),               // 18: ui.BarMode
-	(ArcMode)(0),               // 19: ui.ArcMode
-	(RollerMode)(0),            // 20: ui.RollerMode
-	(ScaleMode)(0),             // 21: ui.ScaleMode
-	(ChartType)(0),             // 22: ui.ChartType
-	(ChartAxis)(0),             // 23: ui.ChartAxis
-	(StylePropertyType)(0),     // 24: ui.StylePropertyType
-	(*SubjectDeclaration)(nil), // 25: ui.SubjectDeclaration
-	(*StateUpdate)(nil),        // 26: ui.StateUpdate
-	(*SubjectValue)(nil),       // 27: ui.SubjectValue
-	(*Screen)(nil),             // 28: ui.Screen
-	(*WidgetNode)(nil),         // 29: ui.WidgetNode
-	(*TreePatchOp)(nil),        // 30: ui.TreePatchOp
-	(*ScreenPatch)(nil),        // 31: ui.ScreenPatch
-	(*ObjProps)(nil),           // 32: ui.ObjProps
-	(*ButtonProps)(nil),        // 33: ui.ButtonProps
-	(*LabelProps)(nil),         // 34: ui.LabelProps
-	(*SliderProps)(nil),        // 35: ui.SliderProps
-	(*ImageProps)(nil),         // 36: ui.ImageProps
-	(*ArcProps)(nil),           // 37: ui.ArcProps
-	(*BarProps)(nil),           // 38: ui.BarProps
-	(*SwitchProps)(nil),        // 39: ui.SwitchProps
-	(*CheckboxProps)(nil),      // 40: ui.CheckboxProps
-	(*DropdownProps)(nil),      // 41: ui.DropdownProps
-	(*RollerProps)(nil),        // 42: ui.RollerProps
-	(*TextareaProps)(nil),      // 43: ui.TextareaProps
-	(*SpinboxProps)(nil),       // 44: ui.SpinboxProps
-	(*SpinnerProps)(nil),       // 45: ui.SpinnerProps
-	(*LedProps)(nil),           // 46: ui.LedProps
-	(*LineProps)(nil),          // 47: ui.LineProps
-	(*ScaleProps)(nil),         // 48: ui.ScaleProps
-	(*ScaleSection)(nil),       // 49: ui.ScaleSection
-	(*ButtonMatrixProps)(nil),  // 50: ui.ButtonMatrixProps
-	(*TableProps)(nil),         // 51: ui.TableProps
-	(*TabviewProps)(nil),       // 52: ui.TabviewProps
-	(*ChartSeries)(nil),        // 53: ui.ChartSeries
-	(*ChartProps)(nil),         // 54: ui.ChartProps
-	(*HostProxyProps)(nil),     // 55: ui.HostProxyProps
-	(*Point)(nil),              // 56: ui.Point
-	(*EventBinding)(nil),       // 57: ui.EventBinding
-	(*VisibilityBinding)(nil),  // 58: ui.VisibilityBinding
-	(*Layout)(nil),             // 59: ui.Layout
-	(*StyleGroup)(nil),         // 60: ui.StyleGroup
-	(*StyleVariant)(nil),       // 61: ui.StyleVariant
-	(*StyleProperty)(nil),      // 62: ui.StyleProperty
-	(*Color)(nil),              // 63: ui.Color
-	(*ShadowBundle)(nil),       // 64: ui.ShadowBundle
-	nil,                        // 65: ui.WidgetNode.BindingsEntry
-	nil,                        // 66: ui.WidgetNode.BindFormatsEntry
+	(PatchKind)(0),             // 5: ui.PatchKind
+	(GestureKind)(0),           // 6: ui.GestureKind
+	(CompareOp)(0),             // 7: ui.CompareOp
+	(FlexFlow)(0),              // 8: ui.FlexFlow
+	(FlexAlign)(0),             // 9: ui.FlexAlign
+	(GridAlign)(0),             // 10: ui.GridAlign
+	(TextAlign)(0),             // 11: ui.TextAlign
+	(TextDecor)(0),             // 12: ui.TextDecor
+	(BlendMode)(0),             // 13: ui.BlendMode
+	(BaseDir)(0),               // 14: ui.BaseDir
+	(GradDir)(0),               // 15: ui.GradDir
+	(Dir)(0),                   // 16: ui.Dir
+	(Align)(0),                 // 17: ui.Align
+	(BorderSide)(0),            // 18: ui.BorderSide
+	(LabelLongMode)(0),         // 19: ui.LabelLongMode
+	(BarMode)(0),               // 20: ui.BarMode
+	(ArcMode)(0),               // 21: ui.ArcMode
+	(RollerMode)(0),            // 22: ui.RollerMode
+	(ScaleMode)(0),             // 23: ui.ScaleMode
+	(ChartType)(0),             // 24: ui.ChartType
+	(ChartAxis)(0),             // 25: ui.ChartAxis
+	(StylePropertyType)(0),     // 26: ui.StylePropertyType
+	(*SubjectDeclaration)(nil), // 27: ui.SubjectDeclaration
+	(*StateUpdate)(nil),        // 28: ui.StateUpdate
+	(*SubjectValue)(nil),       // 29: ui.SubjectValue
+	(*Screen)(nil),             // 30: ui.Screen
+	(*WidgetNode)(nil),         // 31: ui.WidgetNode
+	(*TreePatchOp)(nil),        // 32: ui.TreePatchOp
+	(*ScreenPatch)(nil),        // 33: ui.ScreenPatch
+	(*ObjProps)(nil),           // 34: ui.ObjProps
+	(*ButtonProps)(nil),        // 35: ui.ButtonProps
+	(*LabelProps)(nil),         // 36: ui.LabelProps
+	(*SliderProps)(nil),        // 37: ui.SliderProps
+	(*ImageProps)(nil),         // 38: ui.ImageProps
+	(*ArcProps)(nil),           // 39: ui.ArcProps
+	(*BarProps)(nil),           // 40: ui.BarProps
+	(*SwitchProps)(nil),        // 41: ui.SwitchProps
+	(*CheckboxProps)(nil),      // 42: ui.CheckboxProps
+	(*DropdownProps)(nil),      // 43: ui.DropdownProps
+	(*RollerProps)(nil),        // 44: ui.RollerProps
+	(*TextareaProps)(nil),      // 45: ui.TextareaProps
+	(*SpinboxProps)(nil),       // 46: ui.SpinboxProps
+	(*SpinnerProps)(nil),       // 47: ui.SpinnerProps
+	(*LedProps)(nil),           // 48: ui.LedProps
+	(*LineProps)(nil),          // 49: ui.LineProps
+	(*ScaleProps)(nil),         // 50: ui.ScaleProps
+	(*ScaleSection)(nil),       // 51: ui.ScaleSection
+	(*ButtonMatrixProps)(nil),  // 52: ui.ButtonMatrixProps
+	(*TableProps)(nil),         // 53: ui.TableProps
+	(*TabviewProps)(nil),       // 54: ui.TabviewProps
+	(*ChartSeries)(nil),        // 55: ui.ChartSeries
+	(*ChartProps)(nil),         // 56: ui.ChartProps
+	(*HostProxyProps)(nil),     // 57: ui.HostProxyProps
+	(*Point)(nil),              // 58: ui.Point
+	(*EventBinding)(nil),       // 59: ui.EventBinding
+	(*FieldPatch)(nil),         // 60: ui.FieldPatch
+	(*CmdSpec)(nil),            // 61: ui.CmdSpec
+	(*GestureSpec)(nil),        // 62: ui.GestureSpec
+	(*VisibilityBinding)(nil),  // 63: ui.VisibilityBinding
+	(*Layout)(nil),             // 64: ui.Layout
+	(*StyleGroup)(nil),         // 65: ui.StyleGroup
+	(*StyleVariant)(nil),       // 66: ui.StyleVariant
+	(*StyleProperty)(nil),      // 67: ui.StyleProperty
+	(*Color)(nil),              // 68: ui.Color
+	(*ShadowBundle)(nil),       // 69: ui.ShadowBundle
+	nil,                        // 70: ui.WidgetNode.BindingsEntry
+	nil,                        // 71: ui.WidgetNode.BindFormatsEntry
 }
 var file_ui_ui_ast_proto_depIdxs = []int32{
 	0,  // 0: ui.SubjectDeclaration.type:type_name -> ui.SubjectType
-	27, // 1: ui.StateUpdate.values:type_name -> ui.SubjectValue
-	29, // 2: ui.Screen.root:type_name -> ui.WidgetNode
-	25, // 3: ui.Screen.subjects:type_name -> ui.SubjectDeclaration
+	29, // 1: ui.StateUpdate.values:type_name -> ui.SubjectValue
+	31, // 2: ui.Screen.root:type_name -> ui.WidgetNode
+	27, // 3: ui.Screen.subjects:type_name -> ui.SubjectDeclaration
 	2,  // 4: ui.WidgetNode.type:type_name -> ui.WidgetType
-	65, // 5: ui.WidgetNode.bindings:type_name -> ui.WidgetNode.BindingsEntry
-	57, // 6: ui.WidgetNode.event:type_name -> ui.EventBinding
-	59, // 7: ui.WidgetNode.layout:type_name -> ui.Layout
-	29, // 8: ui.WidgetNode.children:type_name -> ui.WidgetNode
-	60, // 9: ui.WidgetNode.style_groups:type_name -> ui.StyleGroup
-	32, // 10: ui.WidgetNode.obj_props:type_name -> ui.ObjProps
-	33, // 11: ui.WidgetNode.button_props:type_name -> ui.ButtonProps
-	34, // 12: ui.WidgetNode.label_props:type_name -> ui.LabelProps
-	35, // 13: ui.WidgetNode.slider_props:type_name -> ui.SliderProps
-	36, // 14: ui.WidgetNode.image_props:type_name -> ui.ImageProps
-	37, // 15: ui.WidgetNode.arc_props:type_name -> ui.ArcProps
-	38, // 16: ui.WidgetNode.bar_props:type_name -> ui.BarProps
-	39, // 17: ui.WidgetNode.switch_props:type_name -> ui.SwitchProps
-	40, // 18: ui.WidgetNode.checkbox_props:type_name -> ui.CheckboxProps
-	41, // 19: ui.WidgetNode.dropdown_props:type_name -> ui.DropdownProps
-	42, // 20: ui.WidgetNode.roller_props:type_name -> ui.RollerProps
-	43, // 21: ui.WidgetNode.textarea_props:type_name -> ui.TextareaProps
-	44, // 22: ui.WidgetNode.spinbox_props:type_name -> ui.SpinboxProps
-	45, // 23: ui.WidgetNode.spinner_props:type_name -> ui.SpinnerProps
-	46, // 24: ui.WidgetNode.led_props:type_name -> ui.LedProps
-	47, // 25: ui.WidgetNode.line_props:type_name -> ui.LineProps
-	48, // 26: ui.WidgetNode.scale_props:type_name -> ui.ScaleProps
-	50, // 27: ui.WidgetNode.buttonmatrix_props:type_name -> ui.ButtonMatrixProps
-	51, // 28: ui.WidgetNode.table_props:type_name -> ui.TableProps
-	52, // 29: ui.WidgetNode.tabview_props:type_name -> ui.TabviewProps
-	54, // 30: ui.WidgetNode.chart_props:type_name -> ui.ChartProps
-	55, // 31: ui.WidgetNode.host_proxy_props:type_name -> ui.HostProxyProps
-	58, // 32: ui.WidgetNode.visibility:type_name -> ui.VisibilityBinding
-	66, // 33: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
-	58, // 34: ui.WidgetNode.checked_when:type_name -> ui.VisibilityBinding
-	1,  // 35: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
-	29, // 36: ui.TreePatchOp.node:type_name -> ui.WidgetNode
-	30, // 37: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
-	17, // 38: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
-	18, // 39: ui.SliderProps.mode:type_name -> ui.BarMode
-	19, // 40: ui.ArcProps.mode:type_name -> ui.ArcMode
-	18, // 41: ui.BarProps.mode:type_name -> ui.BarMode
-	14, // 42: ui.DropdownProps.direction:type_name -> ui.Dir
-	20, // 43: ui.RollerProps.mode:type_name -> ui.RollerMode
-	63, // 44: ui.LedProps.color:type_name -> ui.Color
-	56, // 45: ui.LineProps.points:type_name -> ui.Point
-	21, // 46: ui.ScaleProps.mode:type_name -> ui.ScaleMode
-	49, // 47: ui.ScaleProps.sections:type_name -> ui.ScaleSection
-	63, // 48: ui.ScaleSection.color:type_name -> ui.Color
-	63, // 49: ui.ScaleSection.main_color:type_name -> ui.Color
-	14, // 50: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
-	63, // 51: ui.ChartSeries.color:type_name -> ui.Color
-	23, // 52: ui.ChartSeries.axis:type_name -> ui.ChartAxis
-	22, // 53: ui.ChartProps.type:type_name -> ui.ChartType
-	53, // 54: ui.ChartProps.series:type_name -> ui.ChartSeries
-	3,  // 55: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
-	4,  // 56: ui.EventBinding.trigger:type_name -> ui.EventTrigger
-	5,  // 57: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
-	6,  // 58: ui.Layout.flow:type_name -> ui.FlexFlow
-	7,  // 59: ui.Layout.main_place:type_name -> ui.FlexAlign
-	7,  // 60: ui.Layout.cross_place:type_name -> ui.FlexAlign
-	7,  // 61: ui.Layout.track_place:type_name -> ui.FlexAlign
-	61, // 62: ui.StyleGroup.variants:type_name -> ui.StyleVariant
-	62, // 63: ui.StyleVariant.properties:type_name -> ui.StyleProperty
-	24, // 64: ui.StyleProperty.type:type_name -> ui.StylePropertyType
-	63, // 65: ui.StyleProperty.color_value:type_name -> ui.Color
-	64, // 66: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
-	67, // [67:67] is the sub-list for method output_type
-	67, // [67:67] is the sub-list for method input_type
-	67, // [67:67] is the sub-list for extension type_name
-	67, // [67:67] is the sub-list for extension extendee
-	0,  // [0:67] is the sub-list for field type_name
+	70, // 5: ui.WidgetNode.bindings:type_name -> ui.WidgetNode.BindingsEntry
+	59, // 6: ui.WidgetNode.event:type_name -> ui.EventBinding
+	64, // 7: ui.WidgetNode.layout:type_name -> ui.Layout
+	31, // 8: ui.WidgetNode.children:type_name -> ui.WidgetNode
+	65, // 9: ui.WidgetNode.style_groups:type_name -> ui.StyleGroup
+	34, // 10: ui.WidgetNode.obj_props:type_name -> ui.ObjProps
+	35, // 11: ui.WidgetNode.button_props:type_name -> ui.ButtonProps
+	36, // 12: ui.WidgetNode.label_props:type_name -> ui.LabelProps
+	37, // 13: ui.WidgetNode.slider_props:type_name -> ui.SliderProps
+	38, // 14: ui.WidgetNode.image_props:type_name -> ui.ImageProps
+	39, // 15: ui.WidgetNode.arc_props:type_name -> ui.ArcProps
+	40, // 16: ui.WidgetNode.bar_props:type_name -> ui.BarProps
+	41, // 17: ui.WidgetNode.switch_props:type_name -> ui.SwitchProps
+	42, // 18: ui.WidgetNode.checkbox_props:type_name -> ui.CheckboxProps
+	43, // 19: ui.WidgetNode.dropdown_props:type_name -> ui.DropdownProps
+	44, // 20: ui.WidgetNode.roller_props:type_name -> ui.RollerProps
+	45, // 21: ui.WidgetNode.textarea_props:type_name -> ui.TextareaProps
+	46, // 22: ui.WidgetNode.spinbox_props:type_name -> ui.SpinboxProps
+	47, // 23: ui.WidgetNode.spinner_props:type_name -> ui.SpinnerProps
+	48, // 24: ui.WidgetNode.led_props:type_name -> ui.LedProps
+	49, // 25: ui.WidgetNode.line_props:type_name -> ui.LineProps
+	50, // 26: ui.WidgetNode.scale_props:type_name -> ui.ScaleProps
+	52, // 27: ui.WidgetNode.buttonmatrix_props:type_name -> ui.ButtonMatrixProps
+	53, // 28: ui.WidgetNode.table_props:type_name -> ui.TableProps
+	54, // 29: ui.WidgetNode.tabview_props:type_name -> ui.TabviewProps
+	56, // 30: ui.WidgetNode.chart_props:type_name -> ui.ChartProps
+	57, // 31: ui.WidgetNode.host_proxy_props:type_name -> ui.HostProxyProps
+	63, // 32: ui.WidgetNode.visibility:type_name -> ui.VisibilityBinding
+	71, // 33: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
+	63, // 34: ui.WidgetNode.checked_when:type_name -> ui.VisibilityBinding
+	62, // 35: ui.WidgetNode.gestures:type_name -> ui.GestureSpec
+	1,  // 36: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
+	31, // 37: ui.TreePatchOp.node:type_name -> ui.WidgetNode
+	32, // 38: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
+	19, // 39: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
+	20, // 40: ui.SliderProps.mode:type_name -> ui.BarMode
+	21, // 41: ui.ArcProps.mode:type_name -> ui.ArcMode
+	20, // 42: ui.BarProps.mode:type_name -> ui.BarMode
+	16, // 43: ui.DropdownProps.direction:type_name -> ui.Dir
+	22, // 44: ui.RollerProps.mode:type_name -> ui.RollerMode
+	68, // 45: ui.LedProps.color:type_name -> ui.Color
+	58, // 46: ui.LineProps.points:type_name -> ui.Point
+	23, // 47: ui.ScaleProps.mode:type_name -> ui.ScaleMode
+	51, // 48: ui.ScaleProps.sections:type_name -> ui.ScaleSection
+	68, // 49: ui.ScaleSection.color:type_name -> ui.Color
+	68, // 50: ui.ScaleSection.main_color:type_name -> ui.Color
+	16, // 51: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
+	68, // 52: ui.ChartSeries.color:type_name -> ui.Color
+	25, // 53: ui.ChartSeries.axis:type_name -> ui.ChartAxis
+	24, // 54: ui.ChartProps.type:type_name -> ui.ChartType
+	55, // 55: ui.ChartProps.series:type_name -> ui.ChartSeries
+	3,  // 56: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
+	4,  // 57: ui.EventBinding.trigger:type_name -> ui.EventTrigger
+	61, // 58: ui.EventBinding.cmd:type_name -> ui.CmdSpec
+	5,  // 59: ui.FieldPatch.kind:type_name -> ui.PatchKind
+	60, // 60: ui.CmdSpec.patches:type_name -> ui.FieldPatch
+	6,  // 61: ui.GestureSpec.kind:type_name -> ui.GestureKind
+	61, // 62: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
+	7,  // 63: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
+	8,  // 64: ui.Layout.flow:type_name -> ui.FlexFlow
+	9,  // 65: ui.Layout.main_place:type_name -> ui.FlexAlign
+	9,  // 66: ui.Layout.cross_place:type_name -> ui.FlexAlign
+	9,  // 67: ui.Layout.track_place:type_name -> ui.FlexAlign
+	66, // 68: ui.StyleGroup.variants:type_name -> ui.StyleVariant
+	67, // 69: ui.StyleVariant.properties:type_name -> ui.StyleProperty
+	26, // 70: ui.StyleProperty.type:type_name -> ui.StylePropertyType
+	68, // 71: ui.StyleProperty.color_value:type_name -> ui.Color
+	69, // 72: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
+	73, // [73:73] is the sub-list for method output_type
+	73, // [73:73] is the sub-list for method input_type
+	73, // [73:73] is the sub-list for extension type_name
+	73, // [73:73] is the sub-list for extension extendee
+	0,  // [0:73] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_ast_proto_init() }
@@ -6011,7 +6388,7 @@ func file_ui_ui_ast_proto_init() {
 		(*WidgetNode_HostProxyProps)(nil),
 	}
 	file_ui_ui_ast_proto_msgTypes[5].OneofWrappers = []any{}
-	file_ui_ui_ast_proto_msgTypes[37].OneofWrappers = []any{
+	file_ui_ui_ast_proto_msgTypes[40].OneofWrappers = []any{
 		(*StyleProperty_UintValue)(nil),
 		(*StyleProperty_IntValue)(nil),
 		(*StyleProperty_ColorValue)(nil),
@@ -6023,8 +6400,8 @@ func file_ui_ui_ast_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_ast_proto_rawDesc), len(file_ui_ui_ast_proto_rawDesc)),
-			NumEnums:      25,
-			NumMessages:   42,
+			NumEnums:      27,
+			NumMessages:   45,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

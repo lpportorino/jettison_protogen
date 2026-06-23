@@ -956,6 +956,392 @@ public final class UiAst {
 
   /**
    * <pre>
+   * Which gesture/value the patcher writes into a slot, and how to encode it.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.PatchKind}
+   */
+  public enum PatchKind
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>PATCH_KIND_UNSPECIFIED = 0;</code>
+     */
+    PATCH_KIND_UNSPECIFIED(0),
+    /**
+     * <pre>
+     * gesture NDC x → a double slot (verbatim, no recast)
+     * </pre>
+     *
+     * <code>PATCH_KIND_NDC_X = 1;</code>
+     */
+    PATCH_KIND_NDC_X(1),
+    /**
+     * <pre>
+     * gesture NDC y → a double slot (verbatim, no recast)
+     * </pre>
+     *
+     * <code>PATCH_KIND_NDC_Y = 2;</code>
+     */
+    PATCH_KIND_NDC_Y(2),
+    /**
+     * <pre>
+     * pinch/wheel ±1 step → a padded-varint int slot
+     * </pre>
+     *
+     * <code>PATCH_KIND_DELTA = 3;</code>
+     */
+    PATCH_KIND_DELTA(3),
+    /**
+     * <pre>
+     * widget int value → a padded-varint int slot
+     * </pre>
+     *
+     * <code>PATCH_KIND_WIDGET_VALUE = 4;</code>
+     */
+    PATCH_KIND_WIDGET_VALUE(4),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        PatchKind.class.getName());
+    }
+    /**
+     * <code>PATCH_KIND_UNSPECIFIED = 0;</code>
+     */
+    public static final int PATCH_KIND_UNSPECIFIED_VALUE = 0;
+    /**
+     * <pre>
+     * gesture NDC x → a double slot (verbatim, no recast)
+     * </pre>
+     *
+     * <code>PATCH_KIND_NDC_X = 1;</code>
+     */
+    public static final int PATCH_KIND_NDC_X_VALUE = 1;
+    /**
+     * <pre>
+     * gesture NDC y → a double slot (verbatim, no recast)
+     * </pre>
+     *
+     * <code>PATCH_KIND_NDC_Y = 2;</code>
+     */
+    public static final int PATCH_KIND_NDC_Y_VALUE = 2;
+    /**
+     * <pre>
+     * pinch/wheel ±1 step → a padded-varint int slot
+     * </pre>
+     *
+     * <code>PATCH_KIND_DELTA = 3;</code>
+     */
+    public static final int PATCH_KIND_DELTA_VALUE = 3;
+    /**
+     * <pre>
+     * widget int value → a padded-varint int slot
+     * </pre>
+     *
+     * <code>PATCH_KIND_WIDGET_VALUE = 4;</code>
+     */
+    public static final int PATCH_KIND_WIDGET_VALUE_VALUE = 4;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static PatchKind valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static PatchKind forNumber(int value) {
+      switch (value) {
+        case 0: return PATCH_KIND_UNSPECIFIED;
+        case 1: return PATCH_KIND_NDC_X;
+        case 2: return PATCH_KIND_NDC_Y;
+        case 3: return PATCH_KIND_DELTA;
+        case 4: return PATCH_KIND_WIDGET_VALUE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<PatchKind>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        PatchKind> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<PatchKind>() {
+            public PatchKind findValueByNumber(int number) {
+              return PatchKind.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(5);
+    }
+
+    private static final PatchKind[] VALUES = values();
+
+    public static PatchKind valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private PatchKind(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.PatchKind)
+  }
+
+  /**
+   * <pre>
+   * A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
+   * host-side decision tag selects its pre-encoded template directly.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.GestureKind}
+   */
+  public enum GestureKind
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * → cmd.RotaryPlatform.Axis (continuous slew)
+     * </pre>
+     *
+     * <code>GESTURE_KIND_PAN_MOVE = 0;</code>
+     */
+    GESTURE_KIND_PAN_MOVE(0),
+    /**
+     * <pre>
+     * → cmd.RotaryPlatform.HaltWithNDC
+     * </pre>
+     *
+     * <code>GESTURE_KIND_PAN_END = 1;</code>
+     */
+    GESTURE_KIND_PAN_END(1),
+    /**
+     * <pre>
+     * → cmd.RotaryPlatform.RotateToNDC
+     * </pre>
+     *
+     * <code>GESTURE_KIND_TAP = 2;</code>
+     */
+    GESTURE_KIND_TAP(2),
+    /**
+     * <pre>
+     * → cmd.CV.StartTrackNDC
+     * </pre>
+     *
+     * <code>GESTURE_KIND_TRACK = 3;</code>
+     */
+    GESTURE_KIND_TRACK(3),
+    /**
+     * <pre>
+     * → cmd.{Day,Heat}Camera.SetZoomTableValue
+     * </pre>
+     *
+     * <code>GESTURE_KIND_PINCH = 4;</code>
+     */
+    GESTURE_KIND_PINCH(4),
+    /**
+     * <pre>
+     * web-only; no device analogue (no template)
+     * </pre>
+     *
+     * <code>GESTURE_KIND_WHEEL = 5;</code>
+     */
+    GESTURE_KIND_WHEEL(5),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        GestureKind.class.getName());
+    }
+    /**
+     * <pre>
+     * → cmd.RotaryPlatform.Axis (continuous slew)
+     * </pre>
+     *
+     * <code>GESTURE_KIND_PAN_MOVE = 0;</code>
+     */
+    public static final int GESTURE_KIND_PAN_MOVE_VALUE = 0;
+    /**
+     * <pre>
+     * → cmd.RotaryPlatform.HaltWithNDC
+     * </pre>
+     *
+     * <code>GESTURE_KIND_PAN_END = 1;</code>
+     */
+    public static final int GESTURE_KIND_PAN_END_VALUE = 1;
+    /**
+     * <pre>
+     * → cmd.RotaryPlatform.RotateToNDC
+     * </pre>
+     *
+     * <code>GESTURE_KIND_TAP = 2;</code>
+     */
+    public static final int GESTURE_KIND_TAP_VALUE = 2;
+    /**
+     * <pre>
+     * → cmd.CV.StartTrackNDC
+     * </pre>
+     *
+     * <code>GESTURE_KIND_TRACK = 3;</code>
+     */
+    public static final int GESTURE_KIND_TRACK_VALUE = 3;
+    /**
+     * <pre>
+     * → cmd.{Day,Heat}Camera.SetZoomTableValue
+     * </pre>
+     *
+     * <code>GESTURE_KIND_PINCH = 4;</code>
+     */
+    public static final int GESTURE_KIND_PINCH_VALUE = 4;
+    /**
+     * <pre>
+     * web-only; no device analogue (no template)
+     * </pre>
+     *
+     * <code>GESTURE_KIND_WHEEL = 5;</code>
+     */
+    public static final int GESTURE_KIND_WHEEL_VALUE = 5;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static GestureKind valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static GestureKind forNumber(int value) {
+      switch (value) {
+        case 0: return GESTURE_KIND_PAN_MOVE;
+        case 1: return GESTURE_KIND_PAN_END;
+        case 2: return GESTURE_KIND_TAP;
+        case 3: return GESTURE_KIND_TRACK;
+        case 4: return GESTURE_KIND_PINCH;
+        case 5: return GESTURE_KIND_WHEEL;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<GestureKind>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        GestureKind> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<GestureKind>() {
+            public GestureKind findValueByNumber(int number) {
+              return GestureKind.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(6);
+    }
+
+    private static final GestureKind[] VALUES = values();
+
+    public static GestureKind valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private GestureKind(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.GestureKind)
+  }
+
+  /**
+   * <pre>
    * Comparison operator for conditional visibility bindings.
    * </pre>
    *
@@ -1133,7 +1519,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(5);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
     }
 
     private static final CompareOp[] VALUES = values();
@@ -1313,7 +1699,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(6);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
     }
 
     private static final FlexFlow[] VALUES = values();
@@ -1466,7 +1852,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
     }
 
     private static final FlexAlign[] VALUES = values();
@@ -1628,7 +2014,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
     }
 
     private static final GridAlign[] VALUES = values();
@@ -1763,7 +2149,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
     }
 
     private static final TextAlign[] VALUES = values();
@@ -1889,7 +2275,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
     }
 
     private static final TextDecor[] VALUES = values();
@@ -2033,7 +2419,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
     }
 
     private static final BlendMode[] VALUES = values();
@@ -2177,7 +2563,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
     }
 
     private static final BaseDir[] VALUES = values();
@@ -2330,7 +2716,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
     }
 
     private static final GradDir[] VALUES = values();
@@ -2501,7 +2887,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
     }
 
     private static final Dir[] VALUES = values();
@@ -2798,7 +3184,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
     }
 
     private static final Align[] VALUES = values();
@@ -2960,7 +3346,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
     }
 
     private static final BorderSide[] VALUES = values();
@@ -3104,7 +3490,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
     }
 
     private static final LabelLongMode[] VALUES = values();
@@ -3230,7 +3616,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
     }
 
     private static final BarMode[] VALUES = values();
@@ -3356,7 +3742,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
     }
 
     private static final ArcMode[] VALUES = values();
@@ -3473,7 +3859,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
     }
 
     private static final RollerMode[] VALUES = values();
@@ -3626,7 +4012,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
     }
 
     private static final ScaleMode[] VALUES = values();
@@ -3779,7 +4165,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
     }
 
     private static final ChartType[] VALUES = values();
@@ -3914,7 +4300,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
     }
 
     private static final ChartAxis[] VALUES = values();
@@ -5112,7 +5498,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
     }
 
     private static final StylePropertyType[] VALUES = values();
@@ -9858,6 +10244,70 @@ java.lang.String defaultValue);
      */
     int getUid();
 
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<ui.UiAst.GestureSpec> 
+        getGesturesList();
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.GestureSpec getGestures(int index);
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    int getGesturesCount();
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<? extends ui.UiAst.GestureSpecOrBuilder> 
+        getGesturesOrBuilderList();
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.GestureSpecOrBuilder getGesturesOrBuilder(
+        int index);
+
     ui.UiAst.WidgetNode.WidgetPropsCase getWidgetPropsCase();
   }
   /**
@@ -9892,6 +10342,7 @@ java.lang.String defaultValue);
       styleGroups_ = java.util.Collections.emptyList();
       gridColDsc_ = emptyIntList();
       gridRowDsc_ = emptyIntList();
+      gestures_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -11450,6 +11901,87 @@ java.lang.String defaultValue) {
       return uid_;
     }
 
+    public static final int GESTURES_FIELD_NUMBER = 44;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiAst.GestureSpec> gestures_;
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiAst.GestureSpec> getGesturesList() {
+      return gestures_;
+    }
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiAst.GestureSpecOrBuilder> 
+        getGesturesOrBuilderList() {
+      return gestures_;
+    }
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public int getGesturesCount() {
+      return gestures_.size();
+    }
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.GestureSpec getGestures(int index) {
+      return gestures_.get(index);
+    }
+    /**
+     * <pre>
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * </pre>
+     *
+     * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.GestureSpecOrBuilder getGesturesOrBuilder(
+        int index) {
+      return gestures_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -11607,6 +12139,9 @@ java.lang.String defaultValue) {
       }
       if (uid_ != 0) {
         output.writeUInt32(43, uid_);
+      }
+      for (int i = 0; i < gestures_.size(); i++) {
+        output.writeMessage(44, gestures_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -11820,6 +12355,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(43, uid_);
       }
+      for (int i = 0; i < gestures_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(44, gestures_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -11888,6 +12427,8 @@ java.lang.String defaultValue) {
       }
       if (getUid()
           != other.getUid()) return false;
+      if (!getGesturesList()
+          .equals(other.getGesturesList())) return false;
       if (!getWidgetPropsCase().equals(other.getWidgetPropsCase())) return false;
       switch (widgetPropsCase_) {
         case 10:
@@ -12056,6 +12597,10 @@ java.lang.String defaultValue) {
       }
       hash = (37 * hash) + UID_FIELD_NUMBER;
       hash = (53 * hash) + getUid();
+      if (getGesturesCount() > 0) {
+        hash = (37 * hash) + GESTURES_FIELD_NUMBER;
+        hash = (53 * hash) + getGesturesList().hashCode();
+      }
       switch (widgetPropsCase_) {
         case 10:
           hash = (37 * hash) + OBJ_PROPS_FIELD_NUMBER;
@@ -12314,6 +12859,7 @@ java.lang.String defaultValue) {
           getStyleGroupsFieldBuilder();
           getVisibilityFieldBuilder();
           getCheckedWhenFieldBuilder();
+          getGesturesFieldBuilder();
         }
       }
       @java.lang.Override
@@ -12436,6 +12982,13 @@ java.lang.String defaultValue) {
           checkedWhenBuilder_ = null;
         }
         uid_ = 0;
+        if (gesturesBuilder_ == null) {
+          gestures_ = java.util.Collections.emptyList();
+        } else {
+          gestures_ = null;
+          gesturesBuilder_.clear();
+        }
+        bitField1_ = (bitField1_ & ~0x00000800);
         widgetPropsCase_ = 0;
         widgetProps_ = null;
         return this;
@@ -12490,6 +13043,15 @@ java.lang.String defaultValue) {
           result.styleGroups_ = styleGroups_;
         } else {
           result.styleGroups_ = styleGroupsBuilder_.build();
+        }
+        if (gesturesBuilder_ == null) {
+          if (((bitField1_ & 0x00000800) != 0)) {
+            gestures_ = java.util.Collections.unmodifiableList(gestures_);
+            bitField1_ = (bitField1_ & ~0x00000800);
+          }
+          result.gestures_ = gestures_;
+        } else {
+          result.gestures_ = gesturesBuilder_.build();
         }
       }
 
@@ -12809,6 +13371,32 @@ java.lang.String defaultValue) {
         }
         if (other.getUid() != 0) {
           setUid(other.getUid());
+        }
+        if (gesturesBuilder_ == null) {
+          if (!other.gestures_.isEmpty()) {
+            if (gestures_.isEmpty()) {
+              gestures_ = other.gestures_;
+              bitField1_ = (bitField1_ & ~0x00000800);
+            } else {
+              ensureGesturesIsMutable();
+              gestures_.addAll(other.gestures_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.gestures_.isEmpty()) {
+            if (gesturesBuilder_.isEmpty()) {
+              gesturesBuilder_.dispose();
+              gesturesBuilder_ = null;
+              gestures_ = other.gestures_;
+              bitField1_ = (bitField1_ & ~0x00000800);
+              gesturesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getGesturesFieldBuilder() : null;
+            } else {
+              gesturesBuilder_.addAllMessages(other.gestures_);
+            }
+          }
         }
         switch (other.getWidgetPropsCase()) {
           case OBJ_PROPS: {
@@ -13242,6 +13830,19 @@ java.lang.String defaultValue) {
                 bitField1_ |= 0x00000400;
                 break;
               } // case 344
+              case 354: {
+                ui.UiAst.GestureSpec m =
+                    input.readMessage(
+                        ui.UiAst.GestureSpec.parser(),
+                        extensionRegistry);
+                if (gesturesBuilder_ == null) {
+                  ensureGesturesIsMutable();
+                  gestures_.add(m);
+                } else {
+                  gesturesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 354
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -18779,6 +19380,390 @@ java.lang.String defaultValue) {
         uid_ = 0;
         onChanged();
         return this;
+      }
+
+      private java.util.List<ui.UiAst.GestureSpec> gestures_ =
+        java.util.Collections.emptyList();
+      private void ensureGesturesIsMutable() {
+        if (!((bitField1_ & 0x00000800) != 0)) {
+          gestures_ = new java.util.ArrayList<ui.UiAst.GestureSpec>(gestures_);
+          bitField1_ |= 0x00000800;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder> gesturesBuilder_;
+
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.GestureSpec> getGesturesList() {
+        if (gesturesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(gestures_);
+        } else {
+          return gesturesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public int getGesturesCount() {
+        if (gesturesBuilder_ == null) {
+          return gestures_.size();
+        } else {
+          return gesturesBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.GestureSpec getGestures(int index) {
+        if (gesturesBuilder_ == null) {
+          return gestures_.get(index);
+        } else {
+          return gesturesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setGestures(
+          int index, ui.UiAst.GestureSpec value) {
+        if (gesturesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGesturesIsMutable();
+          gestures_.set(index, value);
+          onChanged();
+        } else {
+          gesturesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setGestures(
+          int index, ui.UiAst.GestureSpec.Builder builderForValue) {
+        if (gesturesBuilder_ == null) {
+          ensureGesturesIsMutable();
+          gestures_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          gesturesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addGestures(ui.UiAst.GestureSpec value) {
+        if (gesturesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGesturesIsMutable();
+          gestures_.add(value);
+          onChanged();
+        } else {
+          gesturesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addGestures(
+          int index, ui.UiAst.GestureSpec value) {
+        if (gesturesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGesturesIsMutable();
+          gestures_.add(index, value);
+          onChanged();
+        } else {
+          gesturesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addGestures(
+          ui.UiAst.GestureSpec.Builder builderForValue) {
+        if (gesturesBuilder_ == null) {
+          ensureGesturesIsMutable();
+          gestures_.add(builderForValue.build());
+          onChanged();
+        } else {
+          gesturesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addGestures(
+          int index, ui.UiAst.GestureSpec.Builder builderForValue) {
+        if (gesturesBuilder_ == null) {
+          ensureGesturesIsMutable();
+          gestures_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          gesturesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addAllGestures(
+          java.lang.Iterable<? extends ui.UiAst.GestureSpec> values) {
+        if (gesturesBuilder_ == null) {
+          ensureGesturesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, gestures_);
+          onChanged();
+        } else {
+          gesturesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearGestures() {
+        if (gesturesBuilder_ == null) {
+          gestures_ = java.util.Collections.emptyList();
+          bitField1_ = (bitField1_ & ~0x00000800);
+          onChanged();
+        } else {
+          gesturesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder removeGestures(int index) {
+        if (gesturesBuilder_ == null) {
+          ensureGesturesIsMutable();
+          gestures_.remove(index);
+          onChanged();
+        } else {
+          gesturesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.GestureSpec.Builder getGesturesBuilder(
+          int index) {
+        return getGesturesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.GestureSpecOrBuilder getGesturesOrBuilder(
+          int index) {
+        if (gesturesBuilder_ == null) {
+          return gestures_.get(index);  } else {
+          return gesturesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<? extends ui.UiAst.GestureSpecOrBuilder> 
+           getGesturesOrBuilderList() {
+        if (gesturesBuilder_ != null) {
+          return gesturesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(gestures_);
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.GestureSpec.Builder addGesturesBuilder() {
+        return getGesturesFieldBuilder().addBuilder(
+            ui.UiAst.GestureSpec.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.GestureSpec.Builder addGesturesBuilder(
+          int index) {
+        return getGesturesFieldBuilder().addBuilder(
+            index, ui.UiAst.GestureSpec.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+       * analogue so it is never emitted here. The host recognizer matches a
+       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * </pre>
+       *
+       * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.GestureSpec.Builder> 
+           getGesturesBuilderList() {
+        return getGesturesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder> 
+          getGesturesFieldBuilder() {
+        if (gesturesBuilder_ == null) {
+          gesturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder>(
+                  gestures_,
+                  ((bitField1_ & 0x00000800) != 0),
+                  getParentForChildren(),
+                  isClean());
+          gestures_ = null;
+        }
+        return gesturesBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.WidgetNode)
@@ -40564,6 +41549,45 @@ java.lang.String defaultValue) {
      * @return The notifyHost.
      */
     boolean getNotifyHost();
+
+    /**
+     * <pre>
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * </pre>
+     *
+     * <code>.ui.CmdSpec cmd = 9;</code>
+     * @return Whether the cmd field is set.
+     */
+    boolean hasCmd();
+    /**
+     * <pre>
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * </pre>
+     *
+     * <code>.ui.CmdSpec cmd = 9;</code>
+     * @return The cmd.
+     */
+    ui.UiAst.CmdSpec getCmd();
+    /**
+     * <pre>
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * </pre>
+     *
+     * <code>.ui.CmdSpec cmd = 9;</code>
+     */
+    ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder();
   }
   /**
    * Protobuf type {@code ui.EventBinding}
@@ -40605,6 +41629,7 @@ java.lang.String defaultValue) {
               ui.UiAst.EventBinding.class, ui.UiAst.EventBinding.Builder.class);
     }
 
+    private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
@@ -40800,6 +41825,56 @@ java.lang.String defaultValue) {
       return notifyHost_;
     }
 
+    public static final int CMD_FIELD_NUMBER = 9;
+    private ui.UiAst.CmdSpec cmd_;
+    /**
+     * <pre>
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * </pre>
+     *
+     * <code>.ui.CmdSpec cmd = 9;</code>
+     * @return Whether the cmd field is set.
+     */
+    @java.lang.Override
+    public boolean hasCmd() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * </pre>
+     *
+     * <code>.ui.CmdSpec cmd = 9;</code>
+     * @return The cmd.
+     */
+    @java.lang.Override
+    public ui.UiAst.CmdSpec getCmd() {
+      return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+    }
+    /**
+     * <pre>
+     * Pre-encoded cmd.* device-command template + slot patch descriptor
+     * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+     * memcpy'ing root_template and overwriting the patch slot(s) with the
+     * widget value, then relays the result as OPAQUE bytes via host_command —
+     * controls.wasm no longer round-trips through the server /node-cmd shim.
+     * </pre>
+     *
+     * <code>.ui.CmdSpec cmd = 9;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder() {
+      return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -40837,6 +41912,9 @@ java.lang.String defaultValue) {
       }
       if (notifyHost_ != false) {
         output.writeBool(8, notifyHost_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(9, getCmd());
       }
       getUnknownFields().writeTo(output);
     }
@@ -40877,6 +41955,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, notifyHost_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, getCmd());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -40907,6 +41989,11 @@ java.lang.String defaultValue) {
           != other.getToggle()) return false;
       if (getNotifyHost()
           != other.getNotifyHost()) return false;
+      if (hasCmd() != other.hasCmd()) return false;
+      if (hasCmd()) {
+        if (!getCmd()
+            .equals(other.getCmd())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -40937,6 +42024,10 @@ java.lang.String defaultValue) {
       hash = (37 * hash) + NOTIFY_HOST_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getNotifyHost());
+      if (hasCmd()) {
+        hash = (37 * hash) + CMD_FIELD_NUMBER;
+        hash = (53 * hash) + getCmd().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -41056,13 +42147,19 @@ java.lang.String defaultValue) {
 
       // Construct using ui.UiAst.EventBinding.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCmdFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -41076,6 +42173,11 @@ java.lang.String defaultValue) {
         setValue_ = 0;
         toggle_ = false;
         notifyHost_ = false;
+        cmd_ = null;
+        if (cmdBuilder_ != null) {
+          cmdBuilder_.dispose();
+          cmdBuilder_ = null;
+        }
         return this;
       }
 
@@ -41133,6 +42235,14 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000080) != 0)) {
           result.notifyHost_ = notifyHost_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.cmd_ = cmdBuilder_ == null
+              ? cmd_
+              : cmdBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -41174,6 +42284,9 @@ java.lang.String defaultValue) {
         }
         if (other.getNotifyHost() != false) {
           setNotifyHost(other.getNotifyHost());
+        }
+        if (other.hasCmd()) {
+          mergeCmd(other.getCmd());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -41241,6 +42354,13 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00000080;
                 break;
               } // case 64
+              case 74: {
+                input.readMessage(
+                    getCmdFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 74
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -41735,6 +42855,199 @@ java.lang.String defaultValue) {
         return this;
       }
 
+      private ui.UiAst.CmdSpec cmd_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder> cmdBuilder_;
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       * @return Whether the cmd field is set.
+       */
+      public boolean hasCmd() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       * @return The cmd.
+       */
+      public ui.UiAst.CmdSpec getCmd() {
+        if (cmdBuilder_ == null) {
+          return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+        } else {
+          return cmdBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      public Builder setCmd(ui.UiAst.CmdSpec value) {
+        if (cmdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+        } else {
+          cmdBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      public Builder setCmd(
+          ui.UiAst.CmdSpec.Builder builderForValue) {
+        if (cmdBuilder_ == null) {
+          cmd_ = builderForValue.build();
+        } else {
+          cmdBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      public Builder mergeCmd(ui.UiAst.CmdSpec value) {
+        if (cmdBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) != 0) &&
+            cmd_ != null &&
+            cmd_ != ui.UiAst.CmdSpec.getDefaultInstance()) {
+            getCmdBuilder().mergeFrom(value);
+          } else {
+            cmd_ = value;
+          }
+        } else {
+          cmdBuilder_.mergeFrom(value);
+        }
+        if (cmd_ != null) {
+          bitField0_ |= 0x00000100;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      public Builder clearCmd() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        cmd_ = null;
+        if (cmdBuilder_ != null) {
+          cmdBuilder_.dispose();
+          cmdBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      public ui.UiAst.CmdSpec.Builder getCmdBuilder() {
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return getCmdFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      public ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder() {
+        if (cmdBuilder_ != null) {
+          return cmdBuilder_.getMessageOrBuilder();
+        } else {
+          return cmd_ == null ?
+              ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* device-command template + slot patch descriptor
+       * (R5a). When present the renderer (R5b) builds the full cmd.Root by
+       * memcpy'ing root_template and overwriting the patch slot(s) with the
+       * widget value, then relays the result as OPAQUE bytes via host_command —
+       * controls.wasm no longer round-trips through the server /node-cmd shim.
+       * </pre>
+       *
+       * <code>.ui.CmdSpec cmd = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder> 
+          getCmdFieldBuilder() {
+        if (cmdBuilder_ == null) {
+          cmdBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder>(
+                  getCmd(),
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        return cmdBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ui.EventBinding)
     }
 
@@ -41781,6 +43094,2600 @@ java.lang.String defaultValue) {
 
     @java.lang.Override
     public ui.UiAst.EventBinding getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FieldPatchOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.FieldPatch)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * start of the slot in root_template
+     * </pre>
+     *
+     * <code>uint32 byte_offset = 1;</code>
+     * @return The byteOffset.
+     */
+    int getByteOffset();
+
+    /**
+     * <pre>
+     * slot width (8 for a double, 5/10 for a padded varint)
+     * </pre>
+     *
+     * <code>uint32 byte_width = 2;</code>
+     * @return The byteWidth.
+     */
+    int getByteWidth();
+
+    /**
+     * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for kind.
+     */
+    int getKindValue();
+    /**
+     * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The kind.
+     */
+    ui.UiAst.PatchKind getKind();
+
+    /**
+     * <pre>
+     * gen-time wire-scale (uigen.scales): the runtime value × scale is the
+     * wire int for a varint leaf; 1 for a verbatim double (NDC).
+     * </pre>
+     *
+     * <code>sint32 wire_scale = 4;</code>
+     * @return The wireScale.
+     */
+    int getWireScale();
+  }
+  /**
+   * <pre>
+   * One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
+   * </pre>
+   *
+   * Protobuf type {@code ui.FieldPatch}
+   */
+  public static final class FieldPatch extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.FieldPatch)
+      FieldPatchOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        FieldPatch.class.getName());
+    }
+    // Use FieldPatch.newBuilder() to construct.
+    private FieldPatch(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private FieldPatch() {
+      kind_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_FieldPatch_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_FieldPatch_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.FieldPatch.class, ui.UiAst.FieldPatch.Builder.class);
+    }
+
+    public static final int BYTE_OFFSET_FIELD_NUMBER = 1;
+    private int byteOffset_ = 0;
+    /**
+     * <pre>
+     * start of the slot in root_template
+     * </pre>
+     *
+     * <code>uint32 byte_offset = 1;</code>
+     * @return The byteOffset.
+     */
+    @java.lang.Override
+    public int getByteOffset() {
+      return byteOffset_;
+    }
+
+    public static final int BYTE_WIDTH_FIELD_NUMBER = 2;
+    private int byteWidth_ = 0;
+    /**
+     * <pre>
+     * slot width (8 for a double, 5/10 for a padded varint)
+     * </pre>
+     *
+     * <code>uint32 byte_width = 2;</code>
+     * @return The byteWidth.
+     */
+    @java.lang.Override
+    public int getByteWidth() {
+      return byteWidth_;
+    }
+
+    public static final int KIND_FIELD_NUMBER = 3;
+    private int kind_ = 0;
+    /**
+     * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for kind.
+     */
+    @java.lang.Override public int getKindValue() {
+      return kind_;
+    }
+    /**
+     * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The kind.
+     */
+    @java.lang.Override public ui.UiAst.PatchKind getKind() {
+      ui.UiAst.PatchKind result = ui.UiAst.PatchKind.forNumber(kind_);
+      return result == null ? ui.UiAst.PatchKind.UNRECOGNIZED : result;
+    }
+
+    public static final int WIRE_SCALE_FIELD_NUMBER = 4;
+    private int wireScale_ = 0;
+    /**
+     * <pre>
+     * gen-time wire-scale (uigen.scales): the runtime value × scale is the
+     * wire int for a varint leaf; 1 for a verbatim double (NDC).
+     * </pre>
+     *
+     * <code>sint32 wire_scale = 4;</code>
+     * @return The wireScale.
+     */
+    @java.lang.Override
+    public int getWireScale() {
+      return wireScale_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (byteOffset_ != 0) {
+        output.writeUInt32(1, byteOffset_);
+      }
+      if (byteWidth_ != 0) {
+        output.writeUInt32(2, byteWidth_);
+      }
+      if (kind_ != ui.UiAst.PatchKind.PATCH_KIND_UNSPECIFIED.getNumber()) {
+        output.writeEnum(3, kind_);
+      }
+      if (wireScale_ != 0) {
+        output.writeSInt32(4, wireScale_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (byteOffset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, byteOffset_);
+      }
+      if (byteWidth_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, byteWidth_);
+      }
+      if (kind_ != ui.UiAst.PatchKind.PATCH_KIND_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, kind_);
+      }
+      if (wireScale_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeSInt32Size(4, wireScale_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.FieldPatch)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.FieldPatch other = (ui.UiAst.FieldPatch) obj;
+
+      if (getByteOffset()
+          != other.getByteOffset()) return false;
+      if (getByteWidth()
+          != other.getByteWidth()) return false;
+      if (kind_ != other.kind_) return false;
+      if (getWireScale()
+          != other.getWireScale()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + BYTE_OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getByteOffset();
+      hash = (37 * hash) + BYTE_WIDTH_FIELD_NUMBER;
+      hash = (53 * hash) + getByteWidth();
+      hash = (37 * hash) + KIND_FIELD_NUMBER;
+      hash = (53 * hash) + kind_;
+      hash = (37 * hash) + WIRE_SCALE_FIELD_NUMBER;
+      hash = (53 * hash) + getWireScale();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.FieldPatch parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.FieldPatch parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.FieldPatch parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.FieldPatch parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.FieldPatch prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
+     * </pre>
+     *
+     * Protobuf type {@code ui.FieldPatch}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.FieldPatch)
+        ui.UiAst.FieldPatchOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_FieldPatch_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_FieldPatch_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.FieldPatch.class, ui.UiAst.FieldPatch.Builder.class);
+      }
+
+      // Construct using ui.UiAst.FieldPatch.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        byteOffset_ = 0;
+        byteWidth_ = 0;
+        kind_ = 0;
+        wireScale_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_FieldPatch_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.FieldPatch getDefaultInstanceForType() {
+        return ui.UiAst.FieldPatch.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.FieldPatch build() {
+        ui.UiAst.FieldPatch result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.FieldPatch buildPartial() {
+        ui.UiAst.FieldPatch result = new ui.UiAst.FieldPatch(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.FieldPatch result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.byteOffset_ = byteOffset_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.byteWidth_ = byteWidth_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.kind_ = kind_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.wireScale_ = wireScale_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.FieldPatch) {
+          return mergeFrom((ui.UiAst.FieldPatch)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.FieldPatch other) {
+        if (other == ui.UiAst.FieldPatch.getDefaultInstance()) return this;
+        if (other.getByteOffset() != 0) {
+          setByteOffset(other.getByteOffset());
+        }
+        if (other.getByteWidth() != 0) {
+          setByteWidth(other.getByteWidth());
+        }
+        if (other.kind_ != 0) {
+          setKindValue(other.getKindValue());
+        }
+        if (other.getWireScale() != 0) {
+          setWireScale(other.getWireScale());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                byteOffset_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                byteWidth_ = input.readUInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                kind_ = input.readEnum();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                wireScale_ = input.readSInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int byteOffset_ ;
+      /**
+       * <pre>
+       * start of the slot in root_template
+       * </pre>
+       *
+       * <code>uint32 byte_offset = 1;</code>
+       * @return The byteOffset.
+       */
+      @java.lang.Override
+      public int getByteOffset() {
+        return byteOffset_;
+      }
+      /**
+       * <pre>
+       * start of the slot in root_template
+       * </pre>
+       *
+       * <code>uint32 byte_offset = 1;</code>
+       * @param value The byteOffset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setByteOffset(int value) {
+
+        byteOffset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * start of the slot in root_template
+       * </pre>
+       *
+       * <code>uint32 byte_offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearByteOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        byteOffset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int byteWidth_ ;
+      /**
+       * <pre>
+       * slot width (8 for a double, 5/10 for a padded varint)
+       * </pre>
+       *
+       * <code>uint32 byte_width = 2;</code>
+       * @return The byteWidth.
+       */
+      @java.lang.Override
+      public int getByteWidth() {
+        return byteWidth_;
+      }
+      /**
+       * <pre>
+       * slot width (8 for a double, 5/10 for a padded varint)
+       * </pre>
+       *
+       * <code>uint32 byte_width = 2;</code>
+       * @param value The byteWidth to set.
+       * @return This builder for chaining.
+       */
+      public Builder setByteWidth(int value) {
+
+        byteWidth_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * slot width (8 for a double, 5/10 for a padded varint)
+       * </pre>
+       *
+       * <code>uint32 byte_width = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearByteWidth() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        byteWidth_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int kind_ = 0;
+      /**
+       * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for kind.
+       */
+      @java.lang.Override public int getKindValue() {
+        return kind_;
+      }
+      /**
+       * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for kind to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKindValue(int value) {
+        kind_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The kind.
+       */
+      @java.lang.Override
+      public ui.UiAst.PatchKind getKind() {
+        ui.UiAst.PatchKind result = ui.UiAst.PatchKind.forNumber(kind_);
+        return result == null ? ui.UiAst.PatchKind.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The kind to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKind(ui.UiAst.PatchKind value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        kind_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.PatchKind kind = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKind() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        kind_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int wireScale_ ;
+      /**
+       * <pre>
+       * gen-time wire-scale (uigen.scales): the runtime value × scale is the
+       * wire int for a varint leaf; 1 for a verbatim double (NDC).
+       * </pre>
+       *
+       * <code>sint32 wire_scale = 4;</code>
+       * @return The wireScale.
+       */
+      @java.lang.Override
+      public int getWireScale() {
+        return wireScale_;
+      }
+      /**
+       * <pre>
+       * gen-time wire-scale (uigen.scales): the runtime value × scale is the
+       * wire int for a varint leaf; 1 for a verbatim double (NDC).
+       * </pre>
+       *
+       * <code>sint32 wire_scale = 4;</code>
+       * @param value The wireScale to set.
+       * @return This builder for chaining.
+       */
+      public Builder setWireScale(int value) {
+
+        wireScale_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * gen-time wire-scale (uigen.scales): the runtime value × scale is the
+       * wire int for a varint leaf; 1 for a verbatim double (NDC).
+       * </pre>
+       *
+       * <code>sint32 wire_scale = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearWireScale() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        wireScale_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.FieldPatch)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.FieldPatch)
+    private static final ui.UiAst.FieldPatch DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.FieldPatch();
+    }
+
+    public static ui.UiAst.FieldPatch getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FieldPatch>
+        PARSER = new com.google.protobuf.AbstractParser<FieldPatch>() {
+      @java.lang.Override
+      public FieldPatch parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<FieldPatch> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FieldPatch> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.FieldPatch getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface CmdSpecOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.CmdSpec)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+     * pre-encode provenance; the renderer never re-derives a route from it.
+     * </pre>
+     *
+     * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The commandId.
+     */
+    java.lang.String getCommandId();
+    /**
+     * <pre>
+     * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+     * pre-encode provenance; the renderer never re-derives a route from it.
+     * </pre>
+     *
+     * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for commandId.
+     */
+    com.google.protobuf.ByteString
+        getCommandIdBytes();
+
+    /**
+     * <pre>
+     * the full deterministic cmd.Root protobuf (envelope + leaf in its
+     * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+     * </pre>
+     *
+     * <code>bytes root_template = 2;</code>
+     * @return The rootTemplate.
+     */
+    com.google.protobuf.ByteString getRootTemplate();
+
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<ui.UiAst.FieldPatch> 
+        getPatchesList();
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.FieldPatch getPatches(int index);
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    int getPatchesCount();
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<? extends ui.UiAst.FieldPatchOrBuilder> 
+        getPatchesOrBuilderList();
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.FieldPatchOrBuilder getPatchesOrBuilder(
+        int index);
+  }
+  /**
+   * <pre>
+   * A pre-encoded cmd.Root template + the slots the renderer overwrites.
+   * </pre>
+   *
+   * Protobuf type {@code ui.CmdSpec}
+   */
+  public static final class CmdSpec extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.CmdSpec)
+      CmdSpecOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        CmdSpec.class.getName());
+    }
+    // Use CmdSpec.newBuilder() to construct.
+    private CmdSpec(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private CmdSpec() {
+      commandId_ = "";
+      rootTemplate_ = com.google.protobuf.ByteString.EMPTY;
+      patches_ = java.util.Collections.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_CmdSpec_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_CmdSpec_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.CmdSpec.class, ui.UiAst.CmdSpec.Builder.class);
+    }
+
+    public static final int COMMAND_ID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object commandId_ = "";
+    /**
+     * <pre>
+     * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+     * pre-encode provenance; the renderer never re-derives a route from it.
+     * </pre>
+     *
+     * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The commandId.
+     */
+    @java.lang.Override
+    public java.lang.String getCommandId() {
+      java.lang.Object ref = commandId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        commandId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+     * pre-encode provenance; the renderer never re-derives a route from it.
+     * </pre>
+     *
+     * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for commandId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getCommandIdBytes() {
+      java.lang.Object ref = commandId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        commandId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ROOT_TEMPLATE_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString rootTemplate_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * the full deterministic cmd.Root protobuf (envelope + leaf in its
+     * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+     * </pre>
+     *
+     * <code>bytes root_template = 2;</code>
+     * @return The rootTemplate.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getRootTemplate() {
+      return rootTemplate_;
+    }
+
+    public static final int PATCHES_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiAst.FieldPatch> patches_;
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiAst.FieldPatch> getPatchesList() {
+      return patches_;
+    }
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiAst.FieldPatchOrBuilder> 
+        getPatchesOrBuilderList() {
+      return patches_;
+    }
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public int getPatchesCount() {
+      return patches_.size();
+    }
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.FieldPatch getPatches(int index) {
+      return patches_.get(index);
+    }
+    /**
+     * <pre>
+     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * </pre>
+     *
+     * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.FieldPatchOrBuilder getPatchesOrBuilder(
+        int index) {
+      return patches_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(commandId_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, commandId_);
+      }
+      if (!rootTemplate_.isEmpty()) {
+        output.writeBytes(2, rootTemplate_);
+      }
+      for (int i = 0; i < patches_.size(); i++) {
+        output.writeMessage(3, patches_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(commandId_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, commandId_);
+      }
+      if (!rootTemplate_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, rootTemplate_);
+      }
+      for (int i = 0; i < patches_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, patches_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.CmdSpec)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.CmdSpec other = (ui.UiAst.CmdSpec) obj;
+
+      if (!getCommandId()
+          .equals(other.getCommandId())) return false;
+      if (!getRootTemplate()
+          .equals(other.getRootTemplate())) return false;
+      if (!getPatchesList()
+          .equals(other.getPatchesList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + COMMAND_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCommandId().hashCode();
+      hash = (37 * hash) + ROOT_TEMPLATE_FIELD_NUMBER;
+      hash = (53 * hash) + getRootTemplate().hashCode();
+      if (getPatchesCount() > 0) {
+        hash = (37 * hash) + PATCHES_FIELD_NUMBER;
+        hash = (53 * hash) + getPatchesList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.CmdSpec parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.CmdSpec parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.CmdSpec parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.CmdSpec parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.CmdSpec prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * A pre-encoded cmd.Root template + the slots the renderer overwrites.
+     * </pre>
+     *
+     * Protobuf type {@code ui.CmdSpec}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.CmdSpec)
+        ui.UiAst.CmdSpecOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_CmdSpec_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_CmdSpec_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.CmdSpec.class, ui.UiAst.CmdSpec.Builder.class);
+      }
+
+      // Construct using ui.UiAst.CmdSpec.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        commandId_ = "";
+        rootTemplate_ = com.google.protobuf.ByteString.EMPTY;
+        if (patchesBuilder_ == null) {
+          patches_ = java.util.Collections.emptyList();
+        } else {
+          patches_ = null;
+          patchesBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_CmdSpec_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.CmdSpec getDefaultInstanceForType() {
+        return ui.UiAst.CmdSpec.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.CmdSpec build() {
+        ui.UiAst.CmdSpec result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.CmdSpec buildPartial() {
+        ui.UiAst.CmdSpec result = new ui.UiAst.CmdSpec(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(ui.UiAst.CmdSpec result) {
+        if (patchesBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0)) {
+            patches_ = java.util.Collections.unmodifiableList(patches_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.patches_ = patches_;
+        } else {
+          result.patches_ = patchesBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(ui.UiAst.CmdSpec result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.commandId_ = commandId_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.rootTemplate_ = rootTemplate_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.CmdSpec) {
+          return mergeFrom((ui.UiAst.CmdSpec)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.CmdSpec other) {
+        if (other == ui.UiAst.CmdSpec.getDefaultInstance()) return this;
+        if (!other.getCommandId().isEmpty()) {
+          commandId_ = other.commandId_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.getRootTemplate() != com.google.protobuf.ByteString.EMPTY) {
+          setRootTemplate(other.getRootTemplate());
+        }
+        if (patchesBuilder_ == null) {
+          if (!other.patches_.isEmpty()) {
+            if (patches_.isEmpty()) {
+              patches_ = other.patches_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensurePatchesIsMutable();
+              patches_.addAll(other.patches_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.patches_.isEmpty()) {
+            if (patchesBuilder_.isEmpty()) {
+              patchesBuilder_.dispose();
+              patchesBuilder_ = null;
+              patches_ = other.patches_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              patchesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPatchesFieldBuilder() : null;
+            } else {
+              patchesBuilder_.addAllMessages(other.patches_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                commandId_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                rootTemplate_ = input.readBytes();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                ui.UiAst.FieldPatch m =
+                    input.readMessage(
+                        ui.UiAst.FieldPatch.parser(),
+                        extensionRegistry);
+                if (patchesBuilder_ == null) {
+                  ensurePatchesIsMutable();
+                  patches_.add(m);
+                } else {
+                  patchesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 26
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object commandId_ = "";
+      /**
+       * <pre>
+       * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+       * pre-encode provenance; the renderer never re-derives a route from it.
+       * </pre>
+       *
+       * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The commandId.
+       */
+      public java.lang.String getCommandId() {
+        java.lang.Object ref = commandId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          commandId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+       * pre-encode provenance; the renderer never re-derives a route from it.
+       * </pre>
+       *
+       * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for commandId.
+       */
+      public com.google.protobuf.ByteString
+          getCommandIdBytes() {
+        java.lang.Object ref = commandId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          commandId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+       * pre-encode provenance; the renderer never re-derives a route from it.
+       * </pre>
+       *
+       * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The commandId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCommandId(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        commandId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+       * pre-encode provenance; the renderer never re-derives a route from it.
+       * </pre>
+       *
+       * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCommandId() {
+        commandId_ = getDefaultInstance().getCommandId();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
+       * pre-encode provenance; the renderer never re-derives a route from it.
+       * </pre>
+       *
+       * <code>string command_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for commandId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCommandIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        commandId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString rootTemplate_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * the full deterministic cmd.Root protobuf (envelope + leaf in its
+       * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+       * </pre>
+       *
+       * <code>bytes root_template = 2;</code>
+       * @return The rootTemplate.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getRootTemplate() {
+        return rootTemplate_;
+      }
+      /**
+       * <pre>
+       * the full deterministic cmd.Root protobuf (envelope + leaf in its
+       * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+       * </pre>
+       *
+       * <code>bytes root_template = 2;</code>
+       * @param value The rootTemplate to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRootTemplate(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        rootTemplate_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * the full deterministic cmd.Root protobuf (envelope + leaf in its
+       * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
+       * </pre>
+       *
+       * <code>bytes root_template = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRootTemplate() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        rootTemplate_ = getDefaultInstance().getRootTemplate();
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<ui.UiAst.FieldPatch> patches_ =
+        java.util.Collections.emptyList();
+      private void ensurePatchesIsMutable() {
+        if (!((bitField0_ & 0x00000004) != 0)) {
+          patches_ = new java.util.ArrayList<ui.UiAst.FieldPatch>(patches_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.FieldPatch, ui.UiAst.FieldPatch.Builder, ui.UiAst.FieldPatchOrBuilder> patchesBuilder_;
+
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.FieldPatch> getPatchesList() {
+        if (patchesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(patches_);
+        } else {
+          return patchesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public int getPatchesCount() {
+        if (patchesBuilder_ == null) {
+          return patches_.size();
+        } else {
+          return patchesBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.FieldPatch getPatches(int index) {
+        if (patchesBuilder_ == null) {
+          return patches_.get(index);
+        } else {
+          return patchesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setPatches(
+          int index, ui.UiAst.FieldPatch value) {
+        if (patchesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePatchesIsMutable();
+          patches_.set(index, value);
+          onChanged();
+        } else {
+          patchesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setPatches(
+          int index, ui.UiAst.FieldPatch.Builder builderForValue) {
+        if (patchesBuilder_ == null) {
+          ensurePatchesIsMutable();
+          patches_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          patchesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addPatches(ui.UiAst.FieldPatch value) {
+        if (patchesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePatchesIsMutable();
+          patches_.add(value);
+          onChanged();
+        } else {
+          patchesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addPatches(
+          int index, ui.UiAst.FieldPatch value) {
+        if (patchesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePatchesIsMutable();
+          patches_.add(index, value);
+          onChanged();
+        } else {
+          patchesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addPatches(
+          ui.UiAst.FieldPatch.Builder builderForValue) {
+        if (patchesBuilder_ == null) {
+          ensurePatchesIsMutable();
+          patches_.add(builderForValue.build());
+          onChanged();
+        } else {
+          patchesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addPatches(
+          int index, ui.UiAst.FieldPatch.Builder builderForValue) {
+        if (patchesBuilder_ == null) {
+          ensurePatchesIsMutable();
+          patches_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          patchesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addAllPatches(
+          java.lang.Iterable<? extends ui.UiAst.FieldPatch> values) {
+        if (patchesBuilder_ == null) {
+          ensurePatchesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, patches_);
+          onChanged();
+        } else {
+          patchesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearPatches() {
+        if (patchesBuilder_ == null) {
+          patches_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          patchesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder removePatches(int index) {
+        if (patchesBuilder_ == null) {
+          ensurePatchesIsMutable();
+          patches_.remove(index);
+          onChanged();
+        } else {
+          patchesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.FieldPatch.Builder getPatchesBuilder(
+          int index) {
+        return getPatchesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.FieldPatchOrBuilder getPatchesOrBuilder(
+          int index) {
+        if (patchesBuilder_ == null) {
+          return patches_.get(index);  } else {
+          return patchesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<? extends ui.UiAst.FieldPatchOrBuilder> 
+           getPatchesOrBuilderList() {
+        if (patchesBuilder_ != null) {
+          return patchesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(patches_);
+        }
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.FieldPatch.Builder addPatchesBuilder() {
+        return getPatchesFieldBuilder().addBuilder(
+            ui.UiAst.FieldPatch.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.FieldPatch.Builder addPatchesBuilder(
+          int index) {
+        return getPatchesFieldBuilder().addBuilder(
+            index, ui.UiAst.FieldPatch.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+       * </pre>
+       *
+       * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.FieldPatch.Builder> 
+           getPatchesBuilderList() {
+        return getPatchesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.FieldPatch, ui.UiAst.FieldPatch.Builder, ui.UiAst.FieldPatchOrBuilder> 
+          getPatchesFieldBuilder() {
+        if (patchesBuilder_ == null) {
+          patchesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiAst.FieldPatch, ui.UiAst.FieldPatch.Builder, ui.UiAst.FieldPatchOrBuilder>(
+                  patches_,
+                  ((bitField0_ & 0x00000004) != 0),
+                  getParentForChildren(),
+                  isClean());
+          patches_ = null;
+        }
+        return patchesBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.CmdSpec)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.CmdSpec)
+    private static final ui.UiAst.CmdSpec DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.CmdSpec();
+    }
+
+    public static ui.UiAst.CmdSpec getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CmdSpec>
+        PARSER = new com.google.protobuf.AbstractParser<CmdSpec>() {
+      @java.lang.Override
+      public CmdSpec parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<CmdSpec> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CmdSpec> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.CmdSpec getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GestureSpecOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.GestureSpec)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for kind.
+     */
+    int getKindValue();
+    /**
+     * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The kind.
+     */
+    ui.UiAst.GestureKind getKind();
+
+    /**
+     * <code>.ui.CmdSpec cmd = 2;</code>
+     * @return Whether the cmd field is set.
+     */
+    boolean hasCmd();
+    /**
+     * <code>.ui.CmdSpec cmd = 2;</code>
+     * @return The cmd.
+     */
+    ui.UiAst.CmdSpec getCmd();
+    /**
+     * <code>.ui.CmdSpec cmd = 2;</code>
+     */
+    ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder();
+  }
+  /**
+   * <pre>
+   * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
+   * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
+   * selects the matching kind and patches its slots with the gesture decision.
+   * </pre>
+   *
+   * Protobuf type {@code ui.GestureSpec}
+   */
+  public static final class GestureSpec extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.GestureSpec)
+      GestureSpecOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        GestureSpec.class.getName());
+    }
+    // Use GestureSpec.newBuilder() to construct.
+    private GestureSpec(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private GestureSpec() {
+      kind_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_GestureSpec_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_GestureSpec_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.GestureSpec.class, ui.UiAst.GestureSpec.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int KIND_FIELD_NUMBER = 1;
+    private int kind_ = 0;
+    /**
+     * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for kind.
+     */
+    @java.lang.Override public int getKindValue() {
+      return kind_;
+    }
+    /**
+     * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The kind.
+     */
+    @java.lang.Override public ui.UiAst.GestureKind getKind() {
+      ui.UiAst.GestureKind result = ui.UiAst.GestureKind.forNumber(kind_);
+      return result == null ? ui.UiAst.GestureKind.UNRECOGNIZED : result;
+    }
+
+    public static final int CMD_FIELD_NUMBER = 2;
+    private ui.UiAst.CmdSpec cmd_;
+    /**
+     * <code>.ui.CmdSpec cmd = 2;</code>
+     * @return Whether the cmd field is set.
+     */
+    @java.lang.Override
+    public boolean hasCmd() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.ui.CmdSpec cmd = 2;</code>
+     * @return The cmd.
+     */
+    @java.lang.Override
+    public ui.UiAst.CmdSpec getCmd() {
+      return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+    }
+    /**
+     * <code>.ui.CmdSpec cmd = 2;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder() {
+      return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (kind_ != ui.UiAst.GestureKind.GESTURE_KIND_PAN_MOVE.getNumber()) {
+        output.writeEnum(1, kind_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(2, getCmd());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (kind_ != ui.UiAst.GestureKind.GESTURE_KIND_PAN_MOVE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, kind_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getCmd());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.GestureSpec)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.GestureSpec other = (ui.UiAst.GestureSpec) obj;
+
+      if (kind_ != other.kind_) return false;
+      if (hasCmd() != other.hasCmd()) return false;
+      if (hasCmd()) {
+        if (!getCmd()
+            .equals(other.getCmd())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + KIND_FIELD_NUMBER;
+      hash = (53 * hash) + kind_;
+      if (hasCmd()) {
+        hash = (37 * hash) + CMD_FIELD_NUMBER;
+        hash = (53 * hash) + getCmd().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.GestureSpec parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.GestureSpec parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.GestureSpec parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.GestureSpec parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.GestureSpec prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
+     * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
+     * selects the matching kind and patches its slots with the gesture decision.
+     * </pre>
+     *
+     * Protobuf type {@code ui.GestureSpec}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.GestureSpec)
+        ui.UiAst.GestureSpecOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_GestureSpec_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_GestureSpec_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.GestureSpec.class, ui.UiAst.GestureSpec.Builder.class);
+      }
+
+      // Construct using ui.UiAst.GestureSpec.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCmdFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        kind_ = 0;
+        cmd_ = null;
+        if (cmdBuilder_ != null) {
+          cmdBuilder_.dispose();
+          cmdBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_GestureSpec_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.GestureSpec getDefaultInstanceForType() {
+        return ui.UiAst.GestureSpec.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.GestureSpec build() {
+        ui.UiAst.GestureSpec result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.GestureSpec buildPartial() {
+        ui.UiAst.GestureSpec result = new ui.UiAst.GestureSpec(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.GestureSpec result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.kind_ = kind_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.cmd_ = cmdBuilder_ == null
+              ? cmd_
+              : cmdBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.GestureSpec) {
+          return mergeFrom((ui.UiAst.GestureSpec)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.GestureSpec other) {
+        if (other == ui.UiAst.GestureSpec.getDefaultInstance()) return this;
+        if (other.kind_ != 0) {
+          setKindValue(other.getKindValue());
+        }
+        if (other.hasCmd()) {
+          mergeCmd(other.getCmd());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                kind_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                input.readMessage(
+                    getCmdFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int kind_ = 0;
+      /**
+       * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for kind.
+       */
+      @java.lang.Override public int getKindValue() {
+        return kind_;
+      }
+      /**
+       * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for kind to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKindValue(int value) {
+        kind_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The kind.
+       */
+      @java.lang.Override
+      public ui.UiAst.GestureKind getKind() {
+        ui.UiAst.GestureKind result = ui.UiAst.GestureKind.forNumber(kind_);
+        return result == null ? ui.UiAst.GestureKind.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The kind to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKind(ui.UiAst.GestureKind value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        kind_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.GestureKind kind = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKind() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        kind_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiAst.CmdSpec cmd_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder> cmdBuilder_;
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       * @return Whether the cmd field is set.
+       */
+      public boolean hasCmd() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       * @return The cmd.
+       */
+      public ui.UiAst.CmdSpec getCmd() {
+        if (cmdBuilder_ == null) {
+          return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+        } else {
+          return cmdBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      public Builder setCmd(ui.UiAst.CmdSpec value) {
+        if (cmdBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+        } else {
+          cmdBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      public Builder setCmd(
+          ui.UiAst.CmdSpec.Builder builderForValue) {
+        if (cmdBuilder_ == null) {
+          cmd_ = builderForValue.build();
+        } else {
+          cmdBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      public Builder mergeCmd(ui.UiAst.CmdSpec value) {
+        if (cmdBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            cmd_ != null &&
+            cmd_ != ui.UiAst.CmdSpec.getDefaultInstance()) {
+            getCmdBuilder().mergeFrom(value);
+          } else {
+            cmd_ = value;
+          }
+        } else {
+          cmdBuilder_.mergeFrom(value);
+        }
+        if (cmd_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      public Builder clearCmd() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        cmd_ = null;
+        if (cmdBuilder_ != null) {
+          cmdBuilder_.dispose();
+          cmdBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      public ui.UiAst.CmdSpec.Builder getCmdBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getCmdFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      public ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder() {
+        if (cmdBuilder_ != null) {
+          return cmdBuilder_.getMessageOrBuilder();
+        } else {
+          return cmd_ == null ?
+              ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
+        }
+      }
+      /**
+       * <code>.ui.CmdSpec cmd = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder> 
+          getCmdFieldBuilder() {
+        if (cmdBuilder_ == null) {
+          cmdBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder>(
+                  getCmd(),
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        return cmdBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.GestureSpec)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.GestureSpec)
+    private static final ui.UiAst.GestureSpec DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.GestureSpec();
+    }
+
+    public static ui.UiAst.GestureSpec getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GestureSpec>
+        PARSER = new com.google.protobuf.AbstractParser<GestureSpec>() {
+      @java.lang.Override
+      public GestureSpec parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GestureSpec> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GestureSpec> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.GestureSpec getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -48055,6 +51962,21 @@ java.lang.String defaultValue) {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_EventBinding_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_FieldPatch_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_FieldPatch_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_CmdSpec_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_CmdSpec_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_GestureSpec_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_GestureSpec_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_VisibilityBinding_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -48109,7 +52031,7 @@ java.lang.String defaultValue) {
       "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va" +
       "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN" +
       "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD" +
-      "eclarationB\007\n\005_root\"\313\014\n\nWidgetNode\022&\n\004ty" +
+      "eclarationB\007\n\005_root\"\370\014\n\nWidgetNode\022&\n\004ty" +
       "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\t\n\001x\030" +
       "\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\026\n\004text\030\004 \001(\tB\010\272H\005r\003\030\377\001" +
       "\022.\n\010bindings\030\005 \003(\0132\034.ui.WidgetNode.Bindi" +
@@ -48146,266 +52068,283 @@ java.lang.String defaultValue) {
       "\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014grid_col_dsc\030# \003" +
       "(\005\022\024\n\014grid_row_dsc\030$ \003(\005\022\014\n\004bare\030% \001(\010\022\022" +
       "\n\nin_tab_bar\030\' \001(\010\022+\n\014checked_when\030* \001(\013" +
-      "2\025.ui.VisibilityBinding\022\013\n\003uid\030+ \001(\r\032/\n\r" +
-      "BindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(" +
-      "\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231\001\n\013Tr" +
-      "eePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchOpKind" +
-      "B\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\nparent" +
-      "_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005 \001(\0132" +
-      "\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013ScreenP" +
-      "atch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_hash\030\002" +
-      " \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"\n\n\010Ob" +
-      "jProps\"\r\n\013ButtonProps\"<\n\nLabelProps\022.\n\tl" +
-      "ong_mode\030\001 \001(\0162\021.ui.LabelLongModeB\010\272H\005\202\001" +
-      "\002\020\001\"g\n\013SliderProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n" +
-      "\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004mode\030" +
-      "\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\"j\n\nImagePro" +
-      "ps\022\025\n\003src\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002" +
-      " \001(\010\022\017\n\007pivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020" +
-      "\n\010rotation\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_a" +
-      "ngle\030\001 \001(\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB" +
-      "\010\272H\005*\003\030\350\002\022 \n\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003" +
-      "\030\350\002\022\036\n\014bg_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010r" +
-      "otation\030\005 \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcMode" +
-      "B\010\272H\005\202\001\002\020\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_val" +
-      "ue\030\010 \001(\005\022\r\n\005value\030\t \001(\005\"y\n\010BarProps\022\021\n\tm" +
-      "in_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005val" +
-      "ue\030\003 \001(\005\022\023\n\013start_value\030\004 \001(\005\022#\n\004mode\030\005 " +
-      "\001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProp" +
-      "s\022\017\n\007checked\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007c" +
-      "hecked\030\001 \001(\010\"b\n\rDropdownProps\022\031\n\007options" +
-      "\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdi" +
-      "rection\030\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\"}\n\013Roll" +
-      "erProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010se" +
-      "lected\030\002 \001(\r\022\031\n\021visible_row_count\030\003 \001(\r\022" +
-      "&\n\004mode\030\004 \001(\0162\016.ui.RollerModeB\010\272H\005\202\001\002\020\001\"" +
-      "k\n\rTextareaProps\022\035\n\013placeholder\030\001 \001(\tB\010\272" +
-      "H\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022\020\n\010one_line\030" +
-      "\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010\"\202\001\n\014Spinbox" +
-      "Props\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_value\030\002 " +
-      "\001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digi" +
-      "t_count\030\005 \001(\r\022\032\n\022separator_position\030\006 \001(" +
-      "\r\"5\n\014SpinnerProps\022\021\n\tspin_time\030\001 \001(\r\022\022\n\n" +
-      "arc_length\030\002 \001(\r\"B\n\010LedProps\022\030\n\005color\030\001 " +
-      "\001(\0132\t.ui.Color\022\034\n\nbrightness\030\002 \001(\rB\010\272H\005*" +
-      "\003\030\377\001\"8\n\tLineProps\022\031\n\006points\030\001 \003(\0132\t.ui.P" +
-      "oint\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n" +
-      "\004mode\030\001 \001(\0162\r.ui.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020" +
-      "total_tick_count\030\002 \001(\r\022\030\n\020major_tick_eve" +
-      "ry\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010\022\021\n\tmin_valu" +
-      "e\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020\n\010rotation\030\007" +
-      " \001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010t" +
-      "ext_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001" +
-      "(\010\022,\n\010sections\030\013 \003(\0132\020.ui.ScaleSectionB\010" +
-      "\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n\trange_min\030\001" +
-      " \001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t" +
-      ".ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\nmain_color\030\005" +
-      " \001(\0132\t.ui.Color\022\022\n\nmain_width\030\006 \001(\r\"A\n\021B" +
-      "uttonMatrixProps\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003" +
-      "\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTableProps\022\021\n\t" +
-      "row_count\030\001 \001(\r\022\024\n\014column_count\030\002 \001(\r\"\244\001" +
-      "\n\014TabviewProps\022!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001" +
-      "\010\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 \001(\005\022\024\n\014activ" +
-      "e_index\030\003 \001(\r\022+\n\020tab_bar_position\030\004 \001(\0162" +
-      "\007.ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_bar_pad_left\030\005" +
-      " \001(\005\"h\n\013ChartSeries\022\030\n\005color\030\001 \001(\0132\t.ui." +
-      "Color\022%\n\004axis\030\002 \001(\0162\r.ui.ChartAxisB\010\272H\005\202" +
-      "\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChart" +
-      "Props\022%\n\004type\030\001 \001(\0162\r.ui.ChartTypeB\010\272H\005\202" +
-      "\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n\rhas_div_lin" +
-      "es\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034" +
-      "\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006" +
-      " \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_" +
-      "area\030\007 \001(\010\"\260\001\n\016HostProxyProps\022\033\n\010proxy_i" +
-      "d\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui.Pr" +
-      "oxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_" +
-      "h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n" +
-      "\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t" +
-      "\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\333\001\n\014EventBinding\022\027\n" +
-      "\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022+\n\007trigger\030\002 \001(\0162" +
-      "\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tint_value" +
-      "\030\003 \001(\005\022\034\n\024include_widget_value\030\004 \001(\010\022\034\n\013" +
-      "set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset_value\030" +
-      "\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_host\030\010 \001" +
-      "(\010\"l\n\021VisibilityBinding\022\032\n\007subject\030\001 \001(\t" +
-      "B\t\272H\006r\004\020\001\030?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compar" +
-      "e\030\003 \001(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"\267\001\n\006Lay" +
-      "out\022$\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020" +
-      "\001\022+\n\nmain_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H" +
-      "\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAli" +
-      "gnB\010\272H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.F" +
-      "lexAlignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016stat" +
-      "e_selector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui." +
-      "StyleVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant" +
-      "\022\036\n\rvariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nprop" +
-      "erties\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStyl" +
-      "eProperty\022-\n\004type\030\001 \001(\0162\025.ui.StyleProper" +
-      "tyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023" +
-      "\n\tint_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\013" +
-      "2\t.ui.ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004" +
-      "r\002\030?H\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.Shadow" +
-      "BundleH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272" +
-      "H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB" +
-      "\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r" +
-      "\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006" +
-      "spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013S" +
-      "ubjectType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_S" +
-      "TRING\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDA" +
-      "TE_PROPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n" +
-      "\024PATCH_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMO" +
-      "VE_NODE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\256\003\n\nWi" +
-      "dgetType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTO" +
-      "N\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003" +
-      "\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWI" +
-      "DGET_BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_" +
-      "CHECKBOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGE" +
-      "T_ROLLER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGE" +
-      "T_SPINBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGE" +
-      "T_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE" +
-      "\020\020\022\027\n\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TA" +
-      "BLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHAR" +
-      "T\020\024\022\025\n\021WIDGET_HOST_PROXY\020\025*p\n\tProxyMode\022" +
-      "\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_DRA" +
-      "GGABLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024PR" +
-      "OXY_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023\n\017" +
-      "TRIGGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANG" +
-      "ED\020\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*q\n\tCompar" +
-      "eOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022" +
-      "\016\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMP" +
-      "ARE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022" +
-      "\n\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n" +
-      "\020FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRA" +
-      "P\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_F" +
-      "LOW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLU" +
-      "MN_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022" +
-      "!\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tF" +
-      "lexAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_A" +
-      "LIGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLE" +
-      "X_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPA" +
-      "CE_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020" +
-      "\005*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n" +
-      "\021GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002" +
-      "\022\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_S" +
-      "PACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND" +
-      "\020\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tText" +
-      "Align\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN" +
-      "_LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_A" +
-      "LIGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_" +
-      "NONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT" +
-      "_DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021" +
-      "BLEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITI" +
-      "VE\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEN" +
-      "D_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFEREN" +
-      "CE\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BAS" +
-      "E_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_D" +
-      "IR_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007Grad" +
-      "Dir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001" +
-      "\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022" +
-      "\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL" +
-      "\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n" +
-      "\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020" +
-      "\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017" +
-      "*\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_T" +
-      "OP_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TO" +
-      "P_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIG" +
-      "N_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022" +
-      "\n\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022" +
-      "\020\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020" +
-      "\n\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TO" +
-      "P_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024" +
-      "ALIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTT" +
-      "OM_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022AL" +
-      "IGN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOT" +
-      "TOM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_" +
-      "OUT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTO" +
-      "M\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000" +
-      "\022\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_" +
-      "TOP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SI" +
-      "DE_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORD" +
-      "ER_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024" +
-      "LABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MOD" +
-      "E_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037" +
-      "LABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LAB" +
-      "EL_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MO" +
-      "DE_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n" +
-      "\016BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE" +
-      "_NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020A" +
-      "RC_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLE" +
-      "R_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020" +
-      "\001*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL" +
-      "_TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001" +
-      "\022\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_" +
-      "MODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUN" +
-      "D_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001" +
-      "\n\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHAR" +
-      "T_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016C" +
-      "HART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022" +
-      "\026\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024" +
-      "CHART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SEC" +
-      "ONDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026" +
-      "CHART_AXIS_SECONDARY_X\020\004*\273\022\n\021StyleProper" +
-      "tyType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA" +
-      "\020\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FON" +
-      "T\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDE" +
-      "R_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_A" +
-      "LL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017" +
-      "\n\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP" +
-      "_PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MAR" +
-      "GIN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_M" +
-      "IN_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_M" +
-      "IN_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP" +
-      "_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPRO" +
-      "P_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025P" +
-      "ROP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE" +
-      "_X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE" +
-      "_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020" +
-      "\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n" +
-      "\013PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_" +
-      "PAD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_P" +
-      "AD_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PA" +
-      "D_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MAR" +
-      "GIN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PRO" +
-      "P_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026" +
-      "\n\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_D" +
-      "IR\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_G" +
-      "RAD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP" +
-      "_BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n" +
-      "\021PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RE" +
-      "COLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027" +
-      "\n\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_S" +
-      "IDE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTL" +
-      "INE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020P" +
-      "ROP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022" +
-      "\025\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OF" +
-      "FSET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PR" +
-      "OP_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020" +
-      "B\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA" +
-      "\020D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE" +
-      "_RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024P" +
-      "ROP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_" +
-      "GAP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LIN" +
-      "E_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC" +
-      "_WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_A" +
-      "RC_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEX" +
-      "T_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024P" +
-      "ROP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR" +
-      "\020T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_COR" +
-      "NER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020" +
-      "X\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANI" +
-      "M_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPRO" +
-      "P_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020" +
-      "]\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_" +
-      "PLACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PR" +
-      "OP_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020" +
-      "b\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GR" +
-      "ID_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_" +
-      "POS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PRO" +
-      "P_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_C" +
-      "ELL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020" +
-      "i\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-co" +
-      "decommit.eu-central-1.amazonaws.com/v1/r" +
-      "epos/jettison/jonp/uib\006proto3"
+      "2\025.ui.VisibilityBinding\022\013\n\003uid\030+ \001(\r\022+\n\010" +
+      "gestures\030, \003(\0132\017.ui.GestureSpecB\010\272H\005\222\001\002\020" +
+      "\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
+      "\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231" +
+      "\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchO" +
+      "pKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\np" +
+      "arent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005" +
+      " \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013Sc" +
+      "reenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_h" +
+      "ash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"" +
+      "\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelProps" +
+      "\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongModeB\010" +
+      "\272H\005\202\001\002\020\001\"g\n\013SliderProps\022\021\n\tmin_value\030\001 \001" +
+      "(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004" +
+      "mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\"j\n\nIma" +
+      "geProps\022\025\n\003src\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pi" +
+      "vot\030\002 \001(\010\022\017\n\007pivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 " +
+      "\001(\005\022\020\n\010rotation\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013st" +
+      "art_angle\030\001 \001(\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002" +
+      " \001(\rB\010\272H\005*\003\030\350\002\022 \n\016bg_start_angle\030\003 \001(\rB\010" +
+      "\272H\005*\003\030\350\002\022\036\n\014bg_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002" +
+      "\022\020\n\010rotation\030\005 \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.Ar" +
+      "cModeB\010\272H\005\202\001\002\020\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tma" +
+      "x_value\030\010 \001(\005\022\r\n\005value\030\t \001(\005\"y\n\010BarProps" +
+      "\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r" +
+      "\n\005value\030\003 \001(\005\022\023\n\013start_value\030\004 \001(\005\022#\n\004mo" +
+      "de\030\005 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013Switc" +
+      "hProps\022\017\n\007checked\030\001 \001(\010\" \n\rCheckboxProps" +
+      "\022\017\n\007checked\030\001 \001(\010\"b\n\rDropdownProps\022\031\n\007op" +
+      "tions\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022" +
+      "$\n\tdirection\030\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\"}\n" +
+      "\013RollerProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\003\022" +
+      "\020\n\010selected\030\002 \001(\r\022\031\n\021visible_row_count\030\003" +
+      " \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui.RollerModeB\010\272H\005\202" +
+      "\001\002\020\001\"k\n\rTextareaProps\022\035\n\013placeholder\030\001 \001" +
+      "(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022\020\n\010one_" +
+      "line\030\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010\"\202\001\n\014Sp" +
+      "inboxProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_val" +
+      "ue\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004 \001(\005\022\023\n" +
+      "\013digit_count\030\005 \001(\r\022\032\n\022separator_position" +
+      "\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspin_time\030\001 \001(" +
+      "\r\022\022\n\narc_length\030\002 \001(\r\"B\n\010LedProps\022\030\n\005col" +
+      "or\030\001 \001(\0132\t.ui.Color\022\034\n\nbrightness\030\002 \001(\rB" +
+      "\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031\n\006points\030\001 \003(\0132\t" +
+      ".ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nScalePro" +
+      "ps\022%\n\004mode\030\001 \001(\0162\r.ui.ScaleModeB\010\272H\005\202\001\002\020" +
+      "\001\022\030\n\020total_tick_count\030\002 \001(\r\022\030\n\020major_tic" +
+      "k_every\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010\022\021\n\tmin" +
+      "_value\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020\n\010rotat" +
+      "ion\030\007 \001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272H\005*\003\030\350\002" +
+      "\022\032\n\010text_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tpost_dra" +
+      "w\030\n \001(\010\022,\n\010sections\030\013 \003(\0132\020.ui.ScaleSect" +
+      "ionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n\trange_" +
+      "min\030\001 \001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005color\030\003 " +
+      "\001(\0132\t.ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\nmain_co" +
+      "lor\030\005 \001(\0132\t.ui.Color\022\022\n\nmain_width\030\006 \001(\r" +
+      "\"A\n\021ButtonMatrixProps\022\031\n\007map_str\030\001 \001(\tB\010" +
+      "\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTableProp" +
+      "s\022\021\n\trow_count\030\001 \001(\r\022\024\n\014column_count\030\002 \001" +
+      "(\r\"\244\001\n\014TabviewProps\022!\n\ttab_names\030\001 \003(\tB\016" +
+      "\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 \001(\005\022\024\n\014" +
+      "active_index\030\003 \001(\r\022+\n\020tab_bar_position\030\004" +
+      " \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_bar_pad_l" +
+      "eft\030\005 \001(\005\"h\n\013ChartSeries\022\030\n\005color\030\001 \001(\0132" +
+      "\t.ui.Color\022%\n\004axis\030\002 \001(\0162\r.ui.ChartAxisB" +
+      "\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\n" +
+      "ChartProps\022%\n\004type\030\001 \001(\0162\r.ui.ChartTypeB" +
+      "\010\272H\005\202\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n\rhas_di" +
+      "v_lines\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\rB\010\272H\005*\003" +
+      "\030\377\001\022\034\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006ser" +
+      "ies\030\006 \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001\002\020\010\022\021\n\t" +
+      "fade_area\030\007 \001(\010\"\260\001\n\016HostProxyProps\022\033\n\010pr" +
+      "oxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r." +
+      "ui.ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n" +
+      "\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001" +
+      "(\005\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Po" +
+      "int\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\365\001\n\014EventBindi" +
+      "ng\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022+\n\007trigger\030\002" +
+      " \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tint_" +
+      "value\030\003 \001(\005\022\034\n\024include_widget_value\030\004 \001(" +
+      "\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset_v" +
+      "alue\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_hos" +
+      "t\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\"p\n\nFie" +
+      "ldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\nbyte_wid" +
+      "th\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.PatchKindB\010\272" +
+      "H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"h\n\007CmdSpec\022\033" +
+      "\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_temp" +
+      "late\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.FieldPa" +
+      "tchB\010\272H\005\222\001\002\020\002\"P\n\013GestureSpec\022\'\n\004kind\030\001 \001" +
+      "(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001" +
+      "(\0132\013.ui.CmdSpec\"l\n\021VisibilityBinding\022\032\n\007" +
+      "subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_value\030\002 " +
+      "\001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOpB\010\272H\005" +
+      "\202\001\002\020\001\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui.Flex" +
+      "FlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162\r.ui." +
+      "FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001(\016" +
+      "2\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_place" +
+      "\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\nStyle" +
+      "Group\022\026\n\016state_selector\030\001 \001(\r\022.\n\010variant" +
+      "s\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n" +
+      "\014StyleVariant\022\036\n\rvariant_index\030\001 \001(\rB\007\272H" +
+      "\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.StyleProp" +
+      "erty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(\0162\025.u" +
+      "i.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_va" +
+      "lue\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013colo" +
+      "r_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014string_val" +
+      "ue\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value\030\006 \001(" +
+      "\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005Color\022" +
+      "\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377" +
+      "\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle\022\r" +
+      "\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010offse" +
+      "t_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010" +
+      "\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_INT\020\000" +
+      "\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKind\022\031\n\025" +
+      "PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP_REPL" +
+      "ACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020\002\022\030\n\024" +
+      "PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_MOVE_" +
+      "NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022\021\n" +
+      "\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWI" +
+      "DGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWIDGE" +
+      "T_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWITCH" +
+      "\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROPDO" +
+      "WN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXTAR" +
+      "EA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPINN" +
+      "ER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n" +
+      "\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX\020\021" +
+      "\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020" +
+      "\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PROXY\020\025*" +
+      "p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024P" +
+      "ROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE_RESI" +
+      "ZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X\n\014Eve" +
+      "ntTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIGGE" +
+      "R_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_PRESSE" +
+      "D\020\002*\206\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNSPECIF" +
+      "IED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATCH_KIN" +
+      "D_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PATCH" +
+      "_KIND_WIDGET_VALUE\020\004*\240\001\n\013GestureKind\022\031\n\025" +
+      "GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTURE_KIND_" +
+      "PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022GESTU" +
+      "RE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_PINCH\020\004\022" +
+      "\026\n\022GESTURE_KIND_WHEEL\020\005*q\n\tCompareOp\022\016\n\n" +
+      "COMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMP" +
+      "ARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020" +
+      "\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_" +
+      "FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_F" +
+      "LOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025" +
+      "FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW" +
+      "_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP" +
+      "\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX" +
+      "_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlig" +
+      "n\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_EN" +
+      "D\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN" +
+      "_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROU" +
+      "ND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tG" +
+      "ridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_A" +
+      "LIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRI" +
+      "D_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EV" +
+      "ENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030G" +
+      "RID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023" +
+      "\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001" +
+      "\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RI" +
+      "GHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022" +
+      "\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_" +
+      "STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_M" +
+      "ODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n" +
+      "\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_" +
+      "MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n" +
+      "\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_R" +
+      "TL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUT" +
+      "RAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\r" +
+      "GRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRA" +
+      "D_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD" +
+      "_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003D" +
+      "ir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RI" +
+      "GHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DI" +
+      "R_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Al" +
+      "ign\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT" +
+      "\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT" +
+      "\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTO" +
+      "M_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN" +
+      "_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIG" +
+      "N_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021AL" +
+      "IGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT" +
+      "\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_O" +
+      "UT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGH" +
+      "T\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT" +
+      "_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027" +
+      "\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIG" +
+      "HT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n" +
+      "\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BOR" +
+      "DER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024" +
+      "\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGH" +
+      "T\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE" +
+      "_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_L" +
+      "ONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020" +
+      "\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_L" +
+      "ONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG" +
+      "_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORM" +
+      "AL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MO" +
+      "DE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL" +
+      "\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE" +
+      "_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_" +
+      "NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tS" +
+      "caleMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022" +
+      " \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCA" +
+      "LE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VE" +
+      "RTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER" +
+      "\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChart" +
+      "Type\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_" +
+      "LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TY" +
+      "PE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHAR" +
+      "T_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_A" +
+      "XIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_" +
+      "Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_A" +
+      "XIS_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022" +
+      "\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017P" +
+      "ROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021" +
+      "PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH" +
+      "\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n" +
+      "\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_" +
+      "HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HO" +
+      "R\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL" +
+      "\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDT" +
+      "H\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIG" +
+      "HT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH" +
+      "\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN" +
+      "\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRA" +
+      "NSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n" +
+      "\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n" +
+      "\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PR" +
+      "OP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_S" +
+      "KEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP" +
+      "\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT" +
+      "\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'" +
+      "\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP" +
+      "\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGI" +
+      "N_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_" +
+      "BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n" +
+      "\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STO" +
+      "P\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRA" +
+      "D_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_B" +
+      "G_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205" +
+      "\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_" +
+      "BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024" +
+      "\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WID" +
+      "TH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUT" +
+      "LINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP" +
+      "_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020" +
+      "?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHAD" +
+      "OW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PR" +
+      "OP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022P" +
+      "ROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLO" +
+      "R_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LIN" +
+      "E_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025" +
+      "\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR" +
+      "\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020" +
+      "M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLO" +
+      "R\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q" +
+      "\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEX" +
+      "T_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017P" +
+      "ROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014" +
+      "\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PR" +
+      "OP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURAT" +
+      "ION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_" +
+      "DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PR" +
+      "OP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_" +
+      "\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX" +
+      "_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PR" +
+      "OP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_" +
+      "ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032" +
+      "\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_" +
+      "CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW" +
+      "_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PR" +
+      "OP_GRID_CELL_ROW_SPAN\020jBEZCgit-codecommi" +
+      "t.eu-central-1.amazonaws.com/v1/repos/je" +
+      "ttison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -48441,7 +52380,7 @@ java.lang.String defaultValue) {
     internal_static_ui_WidgetNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_descriptor,
-        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "Uid", "WidgetProps", });
+        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "Uid", "Gestures", "WidgetProps", });
     internal_static_ui_WidgetNode_BindingsEntry_descriptor =
       internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(0);
     internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable = new
@@ -48621,45 +52560,63 @@ java.lang.String defaultValue) {
     internal_static_ui_EventBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_EventBinding_descriptor,
-        new java.lang.String[] { "Name", "Trigger", "IntValue", "IncludeWidgetValue", "SetSubject", "SetValue", "Toggle", "NotifyHost", });
-    internal_static_ui_VisibilityBinding_descriptor =
+        new java.lang.String[] { "Name", "Trigger", "IntValue", "IncludeWidgetValue", "SetSubject", "SetValue", "Toggle", "NotifyHost", "Cmd", });
+    internal_static_ui_FieldPatch_descriptor =
       getDescriptor().getMessageTypes().get(33);
+    internal_static_ui_FieldPatch_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_FieldPatch_descriptor,
+        new java.lang.String[] { "ByteOffset", "ByteWidth", "Kind", "WireScale", });
+    internal_static_ui_CmdSpec_descriptor =
+      getDescriptor().getMessageTypes().get(34);
+    internal_static_ui_CmdSpec_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_CmdSpec_descriptor,
+        new java.lang.String[] { "CommandId", "RootTemplate", "Patches", });
+    internal_static_ui_GestureSpec_descriptor =
+      getDescriptor().getMessageTypes().get(35);
+    internal_static_ui_GestureSpec_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_GestureSpec_descriptor,
+        new java.lang.String[] { "Kind", "Cmd", });
+    internal_static_ui_VisibilityBinding_descriptor =
+      getDescriptor().getMessageTypes().get(36);
     internal_static_ui_VisibilityBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_VisibilityBinding_descriptor,
         new java.lang.String[] { "Subject", "RefValue", "Compare", });
     internal_static_ui_Layout_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_ui_Layout_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Layout_descriptor,
         new java.lang.String[] { "Flow", "MainPlace", "CrossPlace", "TrackPlace", });
     internal_static_ui_StyleGroup_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_ui_StyleGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleGroup_descriptor,
         new java.lang.String[] { "StateSelector", "Variants", });
     internal_static_ui_StyleVariant_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_ui_StyleVariant_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleVariant_descriptor,
         new java.lang.String[] { "VariantIndex", "Properties", });
     internal_static_ui_StyleProperty_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_ui_StyleProperty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleProperty_descriptor,
         new java.lang.String[] { "Type", "UintValue", "IntValue", "ColorValue", "StringValue", "ShadowValue", "Value", });
     internal_static_ui_Color_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_ui_Color_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Color_descriptor,
         new java.lang.String[] { "R", "G", "B", });
     internal_static_ui_ShadowBundle_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_ui_ShadowBundle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ShadowBundle_descriptor,

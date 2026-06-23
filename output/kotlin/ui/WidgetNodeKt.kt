@@ -1560,6 +1560,134 @@ public object WidgetNodeKt {
     public fun clearUid() {
       _builder.clearUid()
     }
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class GesturesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     */
+     public val gestures: com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.gesturesList
+      )
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     * @param value The gestures to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addGestures")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.add(value: ui.UiAst.GestureSpec) {
+      _builder.addGestures(value)
+    }
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     * @param value The gestures to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignGestures")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.plusAssign(value: ui.UiAst.GestureSpec) {
+      add(value)
+    }
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     * @param values The gestures to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllGestures")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.GestureSpec>) {
+      _builder.addAllGestures(values)
+    }
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     * @param values The gestures to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllGestures")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.GestureSpec>) {
+      addAll(values)
+    }
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     * @param index The index to set the value at.
+     * @param value The gestures to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setGestures")
+    public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.set(index: kotlin.Int, value: ui.UiAst.GestureSpec) {
+      _builder.setGestures(index, value)
+    }
+    /**
+     * ```
+     * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
+     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
+     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
+     * analogue so it is never emitted here. The host recognizer matches a
+     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * ```
+     *
+     * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearGestures")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.GestureSpec, GesturesProxy>.clear() {
+      _builder.clearGestures()
+    }
+
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()

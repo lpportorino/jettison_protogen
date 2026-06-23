@@ -9,9 +9,6 @@
 PB_BIND(ui_PointerEvent, ui_PointerEvent, AUTO)
 
 
-PB_BIND(ui_GestureCommand, ui_GestureCommand, AUTO)
-
-
 PB_BIND(ui_Lifecycle, ui_Lifecycle, AUTO)
 
 
@@ -25,8 +22,6 @@ PB_BIND(ui_CursorRequest, ui_CursorRequest, AUTO)
 
 
 PB_BIND(ui_WasmToHost, ui_WasmToHost, AUTO)
-
-
 
 
 

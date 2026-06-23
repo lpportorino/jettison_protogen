@@ -111,6 +111,15 @@ PB_BIND(ui_Point, ui_Point, AUTO)
 PB_BIND(ui_EventBinding, ui_EventBinding, AUTO)
 
 
+PB_BIND(ui_FieldPatch, ui_FieldPatch, AUTO)
+
+
+PB_BIND(ui_CmdSpec, ui_CmdSpec, AUTO)
+
+
+PB_BIND(ui_GestureSpec, ui_GestureSpec, AUTO)
+
+
 PB_BIND(ui_VisibilityBinding, ui_VisibilityBinding, AUTO)
 
 
@@ -130,6 +139,10 @@ PB_BIND(ui_Color, ui_Color, AUTO)
 
 
 PB_BIND(ui_ShadowBundle, ui_ShadowBundle, AUTO)
+
+
+
+
 
 
 

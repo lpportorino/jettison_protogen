@@ -11,7 +11,9 @@ public inline fun lifecycle(block: ui.LifecycleKt.Dsl.() -> kotlin.Unit): ui.UiI
   ui.LifecycleKt.Dsl._create(ui.UiInput.Lifecycle.newBuilder()).apply { block() }._build()
 /**
  * ```
- * OS lifecycle the host pushes for WASM restyle / pause.
+ * OS lifecycle the host pushes for WASM restyle / pause. focused/visible = false
+ * also doubles as the whole-surface FSM flush (recovers from blur/tab-switch
+ * pointer loss that a per-pointer CANCEL cannot cover).
  * ```
  *
  * Protobuf type `ui.Lifecycle`

@@ -57,6 +57,23 @@ class EventTrigger(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     TRIGGER_VALUE_CHANGED: _ClassVar[EventTrigger]
     TRIGGER_LONG_PRESSED: _ClassVar[EventTrigger]
 
+class PatchKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    PATCH_KIND_UNSPECIFIED: _ClassVar[PatchKind]
+    PATCH_KIND_NDC_X: _ClassVar[PatchKind]
+    PATCH_KIND_NDC_Y: _ClassVar[PatchKind]
+    PATCH_KIND_DELTA: _ClassVar[PatchKind]
+    PATCH_KIND_WIDGET_VALUE: _ClassVar[PatchKind]
+
+class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    GESTURE_KIND_PAN_MOVE: _ClassVar[GestureKind]
+    GESTURE_KIND_PAN_END: _ClassVar[GestureKind]
+    GESTURE_KIND_TAP: _ClassVar[GestureKind]
+    GESTURE_KIND_TRACK: _ClassVar[GestureKind]
+    GESTURE_KIND_PINCH: _ClassVar[GestureKind]
+    GESTURE_KIND_WHEEL: _ClassVar[GestureKind]
+
 class CompareOp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     COMPARE_EQ: _ClassVar[CompareOp]
@@ -376,6 +393,17 @@ PROXY_MODE_ALIGNABLE: ProxyMode
 TRIGGER_CLICKED: EventTrigger
 TRIGGER_VALUE_CHANGED: EventTrigger
 TRIGGER_LONG_PRESSED: EventTrigger
+PATCH_KIND_UNSPECIFIED: PatchKind
+PATCH_KIND_NDC_X: PatchKind
+PATCH_KIND_NDC_Y: PatchKind
+PATCH_KIND_DELTA: PatchKind
+PATCH_KIND_WIDGET_VALUE: PatchKind
+GESTURE_KIND_PAN_MOVE: GestureKind
+GESTURE_KIND_PAN_END: GestureKind
+GESTURE_KIND_TAP: GestureKind
+GESTURE_KIND_TRACK: GestureKind
+GESTURE_KIND_PINCH: GestureKind
+GESTURE_KIND_WHEEL: GestureKind
 COMPARE_EQ: CompareOp
 COMPARE_NOT_EQ: CompareOp
 COMPARE_GT: CompareOp
@@ -638,7 +666,7 @@ class Screen(_message.Message):
     def __init__(self, root: _Optional[_Union[WidgetNode, _Mapping]] = ..., subjects: _Optional[_Iterable[_Union[SubjectDeclaration, _Mapping]]] = ...) -> None: ...
 
 class WidgetNode(_message.Message):
-    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "tabview_props", "chart_props", "host_proxy_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare", "in_tab_bar", "checked_when", "uid")
+    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "tabview_props", "chart_props", "host_proxy_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare", "in_tab_bar", "checked_when", "uid", "gestures")
     class BindingsEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -696,6 +724,7 @@ class WidgetNode(_message.Message):
     IN_TAB_BAR_FIELD_NUMBER: _ClassVar[int]
     CHECKED_WHEN_FIELD_NUMBER: _ClassVar[int]
     UID_FIELD_NUMBER: _ClassVar[int]
+    GESTURES_FIELD_NUMBER: _ClassVar[int]
     type: WidgetType
     x: int
     y: int
@@ -739,7 +768,8 @@ class WidgetNode(_message.Message):
     in_tab_bar: bool
     checked_when: VisibilityBinding
     uid: int
-    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., tabview_props: _Optional[_Union[TabviewProps, _Mapping]] = ..., chart_props: _Optional[_Union[ChartProps, _Mapping]] = ..., host_proxy_props: _Optional[_Union[HostProxyProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ..., in_tab_bar: bool = ..., checked_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., uid: _Optional[int] = ...) -> None: ...
+    gestures: _containers.RepeatedCompositeFieldContainer[GestureSpec]
+    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., tabview_props: _Optional[_Union[TabviewProps, _Mapping]] = ..., chart_props: _Optional[_Union[ChartProps, _Mapping]] = ..., host_proxy_props: _Optional[_Union[HostProxyProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ..., in_tab_bar: bool = ..., checked_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., uid: _Optional[int] = ..., gestures: _Optional[_Iterable[_Union[GestureSpec, _Mapping]]] = ...) -> None: ...
 
 class TreePatchOp(_message.Message):
     __slots__ = ("kind", "target_uid", "parent_uid", "index", "node")
@@ -1056,7 +1086,7 @@ class Point(_message.Message):
     def __init__(self, x: _Optional[int] = ..., y: _Optional[int] = ...) -> None: ...
 
 class EventBinding(_message.Message):
-    __slots__ = ("name", "trigger", "int_value", "include_widget_value", "set_subject", "set_value", "toggle", "notify_host")
+    __slots__ = ("name", "trigger", "int_value", "include_widget_value", "set_subject", "set_value", "toggle", "notify_host", "cmd")
     NAME_FIELD_NUMBER: _ClassVar[int]
     TRIGGER_FIELD_NUMBER: _ClassVar[int]
     INT_VALUE_FIELD_NUMBER: _ClassVar[int]
@@ -1065,6 +1095,7 @@ class EventBinding(_message.Message):
     SET_VALUE_FIELD_NUMBER: _ClassVar[int]
     TOGGLE_FIELD_NUMBER: _ClassVar[int]
     NOTIFY_HOST_FIELD_NUMBER: _ClassVar[int]
+    CMD_FIELD_NUMBER: _ClassVar[int]
     name: str
     trigger: EventTrigger
     int_value: int
@@ -1073,7 +1104,38 @@ class EventBinding(_message.Message):
     set_value: int
     toggle: bool
     notify_host: bool
-    def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ...) -> None: ...
+    cmd: CmdSpec
+    def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ...) -> None: ...
+
+class FieldPatch(_message.Message):
+    __slots__ = ("byte_offset", "byte_width", "kind", "wire_scale")
+    BYTE_OFFSET_FIELD_NUMBER: _ClassVar[int]
+    BYTE_WIDTH_FIELD_NUMBER: _ClassVar[int]
+    KIND_FIELD_NUMBER: _ClassVar[int]
+    WIRE_SCALE_FIELD_NUMBER: _ClassVar[int]
+    byte_offset: int
+    byte_width: int
+    kind: PatchKind
+    wire_scale: int
+    def __init__(self, byte_offset: _Optional[int] = ..., byte_width: _Optional[int] = ..., kind: _Optional[_Union[PatchKind, str]] = ..., wire_scale: _Optional[int] = ...) -> None: ...
+
+class CmdSpec(_message.Message):
+    __slots__ = ("command_id", "root_template", "patches")
+    COMMAND_ID_FIELD_NUMBER: _ClassVar[int]
+    ROOT_TEMPLATE_FIELD_NUMBER: _ClassVar[int]
+    PATCHES_FIELD_NUMBER: _ClassVar[int]
+    command_id: str
+    root_template: bytes
+    patches: _containers.RepeatedCompositeFieldContainer[FieldPatch]
+    def __init__(self, command_id: _Optional[str] = ..., root_template: _Optional[bytes] = ..., patches: _Optional[_Iterable[_Union[FieldPatch, _Mapping]]] = ...) -> None: ...
+
+class GestureSpec(_message.Message):
+    __slots__ = ("kind", "cmd")
+    KIND_FIELD_NUMBER: _ClassVar[int]
+    CMD_FIELD_NUMBER: _ClassVar[int]
+    kind: GestureKind
+    cmd: CmdSpec
+    def __init__(self, kind: _Optional[_Union[GestureKind, str]] = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ...) -> None: ...
 
 class VisibilityBinding(_message.Message):
     __slots__ = ("subject", "ref_value", "compare")
