@@ -68,36 +68,44 @@
 ;; Constraint → Malli Schema Conversion
 ;; ============================================================================
 
-;; Bound the open end of an unconstrained-upper integer range so malli's
-;; generator stays finite (proto int32/uint32 max).
+;; Proto fixed-width integer ceilings. Every integer field is finite-bounded to
+;; its TYPE range so malli's generator stays finite AND never over-generates a
+;; value that overflows the wire (e.g. a Long past UINT32_MAX into a uint32
+;; field). uint64-max exceeds Long/MAX_VALUE, so uint64 is a BigInt with its own
+;; custom schema (malli :int is Long-backed — it cannot hold the upper half).
+(def ^:private int32-min -2147483648)
 (def ^:private int32-max 2147483647)
+(def ^:private uint32-max 4294967295)
+(def ^:private int64-min -9223372036854775808)
+(def ^:private int64-max 9223372036854775807)
+(def ^:private uint64-max 18446744073709551615N)
+
+;; IEEE-754 single-precision maximum (3.4028235e38). A float field whose value
+;; exceeds this saturates to ±Inf on the 32-bit wire, so :float ranges are
+;; clamped here.
+(def ^:private float-max (double Float/MAX_VALUE))
 
 (defn- int-range
   "Build the {:min .. :max ..} props map for an integer field from its
-   buf.validate constraints. dec/inc is CORRECT for integers (the bound is a
-   whole number, so the exclusive `gt a` is exactly `min (inc a)` and `lt b`
-   is exactly `max (dec b)`).
+   buf.validate constraints, clamped to the type's representable range
+   [floor, ceil]. dec/inc is CORRECT for integers (the bound is a whole number,
+   so exclusive `gt a` is exactly `min (inc a)` and `lt b` is exactly
+   `max (dec b)`); inc'/dec' auto-promote so a bound at the type edge cannot
+   overflow Long. An UNCONSTRAINED end defaults to the type bound, so every
+   integer field is finite AND in-type (an unconstrained uint32 is
+   [:int {:min 0 :max 4294967295}], not an open [:int {:min 0}]).
 
-   `floor` seeds the lower bound (0 for uint, nil for signed int) so an
-   unsigned field with no lower constraint still gets :min 0. When an explicit
-   lower CONSTRAINT (gte/gt) opens the range with no upper bound, cap the upper
-   end at int32-max so the generator stays finite. The type floor alone does
-   NOT trigger the cap — an unconstrained uint stays [:int {:min 0}]."
-  [constraints floor]
+   Fails loud on an empty range — an exclusive `gt` at the type maximum (or `lt`
+   at the minimum) is unsatisfiable; emitting a clamped schema there would
+   silently ACCEPT a value the constraint forbids, so we throw instead."
+  [constraints floor ceil]
   (let [{:keys [gte gt lte lt]} constraints
-        lo-constraint (cond gte gte
-                            gt (inc gt)
-                            :else nil)
-        lo (or lo-constraint floor)
-        hi (cond lte lte
-                 lt (dec lt)
-                 ;; explicit lower constraint with open upper end → cap so the
-                 ;; generator is finite (type floor alone does not cap)
-                 (some? lo-constraint) int32-max
-                 :else nil)]
-    (cond-> {}
-      (some? lo) (assoc :min lo)
-      (some? hi) (assoc :max hi))))
+        lo (cond gte gte gt (inc' gt) :else floor)
+        hi (cond lte lte lt (dec' lt) :else ceil)]
+    (when (or (> lo hi) (> lo ceil) (< hi floor))
+      (throw (ex-info "integer constraint yields an empty value range (e.g. gt at the type maximum)"
+                      {:constraints constraints :type-range [floor ceil] :lo lo :hi hi})))
+    {:min (max lo floor) :max (min hi ceil)}))
 
 (defn- no-default?
   "Does this constraint set encode the proto3 \"reject the zero default\"
@@ -124,15 +132,49 @@
     :else schema))
 
 (defn- int-schema
-  "Malli schema for an integer field. `floor` is the implicit lower bound for
-   the type (0 for unsigned, nil for signed). Surfaces a :no-default marker for
-   the proto3 zero-reject patterns (gte:1 / gt:0)."
-  [constraints floor]
-  (let [props (int-range constraints floor)
-        base (if (seq props) [:int props] :int)]
+  "Malli schema for a Long-representable integer field (int32/uint32/int64),
+   finite-bounded to [floor, ceil] (the proto type range). Surfaces a
+   :no-default marker for the proto3 zero-reject patterns (gte:1 / gt:0)."
+  [constraints floor ceil]
+  (let [base [:int (int-range constraints floor ceil)]]
     (if (and constraints (no-default? constraints))
       (with-no-default base)
       base)))
+
+(defn- uint64-schema
+  "Malli schema for a uint64 field — a custom [:uint64 {:min .. :max ..}] marker
+   carrying a BigInt value space. malli :int is Long-backed and CANNOT represent
+   the uint64 upper half [2^63, 2^64-1] (m/validate :int 2^64-1 ⇒ false), so a
+   uint64 needs a BigInteger-backed schema. manifest.clj emits only the DATA
+   marker (so the doc-gen path needs no generator); the gencorpus layer supplies
+   the validation pred + a BigInteger generator for [:uint64 ...]. The implicit
+   floor is 0 (unsigned); gte/gt/lte/lt are honored and clamped to [0, 2^64-1].
+   Bounds are BigInt (the N literals round-trip through EDN; a BigInteger would
+   print as a bare Long and mis-read)."
+  [constraints]
+  (let [{:keys [gte gt lte lt]} constraints
+        lo (cond gte (bigint gte) gt (inc (bigint gt)) :else 0N)
+        hi (cond lte (bigint lte) lt (dec (bigint lt)) :else uint64-max)
+        lo (max 0N lo)
+        hi (min uint64-max hi)]
+    (when (> lo hi)
+      (throw (ex-info "uint64 constraint yields an empty value range"
+                      {:constraints constraints :lo lo :hi hi})))
+    [:uint64 {:min lo :max hi}]))
+
+(defn- bytes-schema
+  "Malli schema for a proto bytes field — a custom [:bytes {:min .. :max ..}]
+   marker (min/max are OCTET-count bounds from min_len/max_len). The gencorpus
+   layer generates a vector of octets (0-255) and sets it as a ByteString on the
+   DynamicMessage; base64 is never involved. The old :bytes→bare-:string mapping
+   either base64-MISENCODED (a generated string was base64-DECODED to different
+   bytes) or hard-CRASHED the serializer on a non-base64 charset."
+  [constraints]
+  (let [{:keys [min-len max-len]} constraints
+        props (cond-> {}
+                (some? min-len) (assoc :min min-len)
+                (some? max-len) (assoc :max max-len))]
+    (if (seq props) [:bytes props] :bytes)))
 
 (defn- double-schema
   "Malli schema for a double/float field. Inclusive bounds (gte/lte) map
@@ -140,37 +182,55 @@
    double {lt 360} would still accept 359.9999): the bound stays inclusive in
    the props and an :fn guard excludes exactly the open boundary. A
    pure-inclusive range needs no :fn. Surfaces a :no-default marker for the
-   proto3 zero-reject patterns (gte:1 / gt:0)."
+   proto3 zero-reject patterns (gte:1 / gt:0).
+
+   FLOAT FINITE-BOUNDING: a :float field is clamped to [-FLT_MAX, FLT_MAX] —
+   including the UNCONSTRAINED and open-ended cases — because malli's :float is a
+   Double generator with no 32-bit ceiling, and a value past FLT_MAX saturates to
+   ±Inf on the fixed32 wire. :double keeps malli's default (already finite — no
+   NaN/Inf in its draw); NaN/±Inf are a deliberate violating-corpus injection,
+   not a positive-corpus value. Float32 QUANTIZATION (so EDN == wire) is the
+   gencorpus generator's job, not the validation schema's."
   [base-tag constraints]
-  (if-not constraints
-    base-tag
-    (let [{:keys [gte gt lte lt]} constraints
-          lo (or gte gt)
-          hi (or lte lt)
-          excl-lo? (some? gt)
-          excl-hi? (some? lt)
-          props (cond-> {}
-                  (some? lo) (assoc :min lo)
-                  (some? hi) (assoc :max hi))
-          base (if (seq props) [base-tag props] base-tag)
-          schema (if (or excl-lo? excl-hi?)
-                   [:and base
-                    [:fn (fn [x]
-                           (and (or (not excl-lo?) (> x lo))
-                                (or (not excl-hi?) (< x hi))))]]
-                   base)]
-      (if (no-default? constraints)
-        (with-no-default schema)
-        schema))))
+  (let [flt? (= :float base-tag)
+        {:keys [gte gt lte lt]} constraints
+        excl-lo? (some? gt)
+        excl-hi? (some? lt)
+        lo0 (or gte gt (when flt? (- float-max)))
+        hi0 (or lte lt (when flt? float-max))
+        lo (when (some? lo0) (if flt? (max lo0 (- float-max)) lo0))
+        hi (when (some? hi0) (if flt? (min hi0 float-max) hi0))
+        props (cond-> {}
+                (some? lo) (assoc :min lo)
+                (some? hi) (assoc :max hi))
+        base (if (seq props) [base-tag props] base-tag)
+        schema (if (or excl-lo? excl-hi?)
+                 [:and base
+                  [:fn (fn [x]
+                         (and (or (not excl-lo?) (> x lo))
+                              (or (not excl-hi?) (< x hi))))]]
+                 base)]
+    (if (and constraints (no-default? constraints))
+      (with-no-default schema)
+      schema)))
 
 (defn- string-schema
-  "Malli schema for a string field from min-len/max-len constraints."
+  "Malli schema for a string field. A :pattern emits [:re pattern] (the regex
+   subsumes any length bound — e.g. the UUID fields); a non-empty :in set emits
+   [:enum allowed...]; otherwise min-len/max-len map onto [:string {:min :max}].
+   NOTE: buf.validate min_len/max_len are UTF-8 BYTE counts while malli :string
+   bounds are CHAR counts. They agree for the single-byte ASCII the default
+   :string generator produces, so length-constrained fields stay ASCII; widening
+   the charset (non-ASCII coverage) must first re-derive the byte budget."
   [constraints]
-  (let [{:keys [min-len max-len]} constraints
-        props (cond-> {}
-                (some? min-len) (assoc :min min-len)
-                (some? max-len) (assoc :max max-len))]
-    (if (seq props) [:string props] :string)))
+  (let [{:keys [min-len max-len pattern in]} constraints]
+    (cond
+      (seq in) (into [:enum] in)
+      pattern  [:re pattern]
+      :else (let [props (cond-> {}
+                          (some? min-len) (assoc :min min-len)
+                          (some? max-len) (assoc :max max-len))]
+              (if (seq props) [:string props] :string)))))
 
 (defn- enum-schema
   "Malli schema for an enum field: the EXPLICIT allowed subset
@@ -197,12 +257,16 @@
    string.
 
    Encoding highlights:
-   - integers use dec/inc for exclusive bounds (correct: bounds are whole);
-     a lower-bounded-but-open-upper int is capped at int32-max so the
-     generator is finite; uint with no constraints → [:int {:min 0}].
+   - every integer is finite-bounded to its proto TYPE range (int32/uint32/
+     int64), honoring gte/gt/lte/lt (dec/inc is correct: bounds are whole);
+     an empty range (gt at the type max) fails loud. uint64 needs a custom
+     [:uint64 ...] BigInt schema — malli :int cannot hold its upper half.
    - doubles keep exclusive bounds inclusive in props and add an :fn guard
-     that excludes exactly the open boundary (dec/inc is WRONG for doubles).
+     that excludes exactly the open boundary (dec/inc is WRONG for doubles);
+     :float is finite-bounded to ±FLT_MAX (a wider value overflows the wire).
    - enums emit the explicit allowed subset with :not-in sentinels removed.
+   - strings honor :pattern ([:re]) and :in ([:enum]); bytes are a custom
+     [:bytes ...] octet schema (NOT a string — base64 would misencode).
    - the proto3 zero-reject patterns (enum not_in:[0], scalar gte:1 / gt:0)
      carry a :no-default marker in the schema's malli properties map."
   [{:keys [type constraints type-ref]} enums-map]
@@ -210,13 +274,14 @@
     :double (double-schema :double constraints)
     ;; :float kept distinct from :double so the field type survives.
     :float (double-schema :float constraints)
-    :int32 (int-schema constraints nil)
-    :uint32 (int-schema constraints 0)
-    (:int64 :uint64) :int
+    :int32 (int-schema constraints int32-min int32-max)
+    :uint32 (int-schema constraints 0 uint32-max)
+    :int64 (int-schema constraints int64-min int64-max)
+    :uint64 (uint64-schema constraints)
     :bool :boolean
     :string (string-schema constraints)
     :enum (enum-schema constraints type-ref enums-map)
-    :bytes :string
+    :bytes (bytes-schema constraints)
     :message :map
     :any))
 

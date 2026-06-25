@@ -188,15 +188,79 @@
       (is (= [:int {:min 0 :max 100}] s))
       (is (edn-roundtrips? s))))
 
-  (testing "uint32 without constraints → [:int {:min 0}] (no upper cap)"
+  (testing "uint32 without constraints → finite-bounded at UINT32_MAX"
     (let [s (manifest/constraints->malli {:type :uint32} {})]
-      (is (= [:int {:min 0}] s))
-      (is (edn-roundtrips? s))))
+      (is (= [:int {:min 0 :max 4294967295}] s))
+      (is (edn-roundtrips? s))
+      (is (m/validate s 4294967295))
+      (is (not (m/validate s 4294967296)))))
 
   (testing "bool"
     (let [s (manifest/constraints->malli {:type :bool} {})]
       (is (= :boolean s))
       (is (edn-roundtrips? s))))
+
+  (testing "int64 → bounded :int honoring constraints (NOT bare :int)"
+    (let [s (manifest/constraints->malli
+              {:type :int64 :constraints {:gte 0}} {})]
+      (is (= [:int {:min 0 :max 9223372036854775807}] s))
+      (is (edn-roundtrips? s))
+      (is (not (m/validate s -1)))
+      (is (m/validate s 9223372036854775807))))
+
+  (testing "int64 unconstrained → full signed-64 range"
+    (let [s (manifest/constraints->malli {:type :int64} {})]
+      (is (= [:int {:min -9223372036854775808 :max 9223372036854775807}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "uint64 → custom [:uint64 ...] BigInt marker (malli :int can't hold the upper half)"
+    (let [s (manifest/constraints->malli {:type :uint64} {})]
+      (is (= [:uint64 {:min 0N :max 18446744073709551615N}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "uint64 with the unsigned floor — no negatives, upper half reachable"
+    (let [s (manifest/constraints->malli
+              {:type :uint64 :constraints {:gte 0 :lte 1000}} {})]
+      (is (= [:uint64 {:min 0N :max 1000N}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing ":bytes → custom [:bytes ...] octet marker (NOT a string)"
+    (let [s (manifest/constraints->malli {:type :bytes} {})]
+      (is (= :bytes s))
+      (is (edn-roundtrips? s)))
+    (let [s (manifest/constraints->malli
+              {:type :bytes :constraints {:max-len 64}} {})]
+      (is (= [:bytes {:max 64}] s))
+      (is (edn-roundtrips? s))))
+
+  (testing "string :pattern → [:re pattern] (regex subsumes length)"
+    (let [uuid-re "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          s (manifest/constraints->malli
+              {:type :string :constraints {:pattern uuid-re :min-len 36 :max-len 36}} {})]
+      (is (= [:re uuid-re] s))
+      (is (edn-roundtrips? s))
+      (is (m/validate s "12345678-1234-1234-1234-123456789abc"))
+      (is (not (m/validate s "not-a-uuid")))))
+
+  (testing "string :in → [:enum allowed...]"
+    (let [s (manifest/constraints->malli
+              {:type :string :constraints {:in ["error" "warn" "info"]}} {})]
+      (is (= [:enum "error" "warn" "info"] s))
+      (is (edn-roundtrips? s))
+      (is (m/validate s "warn"))
+      (is (not (m/validate s "trace")))))
+
+  (testing "unconstrained :float is finite-bounded at ±FLT_MAX (wire would saturate to Inf)"
+    (let [s (manifest/constraints->malli {:type :float} {})]
+      (is (= [:float {:min (- (double Float/MAX_VALUE))
+                      :max (double Float/MAX_VALUE)}]
+             s))
+      (is (edn-roundtrips? s))))
+
+  (testing "int gt at the type maximum is an empty range → fail loud (not a silent accept)"
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (manifest/constraints->malli
+                   {:type :int32 :constraints {:gt 2147483647}} {}))))
 
   (testing "string with min length"
     (let [s (manifest/constraints->malli
@@ -213,7 +277,7 @@
   (testing ":no-default marker — scalar gte:1 (proto3 zero-reject)"
     (let [s (manifest/constraints->malli
               {:type :uint32 :constraints {:gte 1}} {})]
-      (is (= [:int {:min 1 :max 2147483647 :no-default true}] s))
+      (is (= [:int {:min 1 :max 4294967295 :no-default true}] s))
       (is (edn-roundtrips? s))
       ;; the marker is a real malli property — schema still validates/excludes 0
       (is (not (m/validate s 0)))
