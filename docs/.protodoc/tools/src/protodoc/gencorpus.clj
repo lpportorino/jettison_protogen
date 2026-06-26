@@ -280,7 +280,7 @@
         (println (format "gen-corpus %s: %d positive, %d violating, %d boundary-failures, %d proto-db-drift, %d silent-drops%s"
                          (:message r) (:positive r) (:violating r)
                          (:boundary-failures r) (:violating-drift r) (:silent-drops r)
-                         (if (:output r) (str " → " (:output r)) "")))
+                         (if (:output r) (str " -> " (:output r)) "")))
         (when (:empty-positive? r)
           (println "WARNING: zero positive corpus entries — the message may carry"
                    "a message-level CEL rule the field-wise generator cannot satisfy,"
