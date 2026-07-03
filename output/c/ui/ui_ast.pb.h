@@ -499,6 +499,12 @@ typedef struct _ui_DropdownProps {
     pb_callback_t options;
     uint32_t selected;
     ui_Dir direction;
+    /* Per-option device enum VALUES, in the SAME order as the `options` label list.
+ A value-driven state bind index-selects the option whose value == the subject
+ int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+ when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+ enum). Empty when the dropdown carries no enum-value bind. */
+    pb_callback_t option_values;
 } ui_DropdownProps;
 
 typedef struct _ui_RollerProps {
@@ -1112,7 +1118,7 @@ extern "C" {
 #define ui_BarProps_init_default                 {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_default              {0}
 #define ui_CheckboxProps_init_default            {0}
-#define ui_DropdownProps_init_default            {{{NULL}, NULL}, 0, _ui_Dir_MIN}
+#define ui_DropdownProps_init_default            {{{NULL}, NULL}, 0, _ui_Dir_MIN, {{NULL}, NULL}}
 #define ui_RollerProps_init_default              {{{NULL}, NULL}, 0, 0, _ui_RollerMode_MIN}
 #define ui_TextareaProps_init_default            {{{NULL}, NULL}, 0, 0, 0}
 #define ui_SpinboxProps_init_default             {0, 0, 0, 0, 0, 0}
@@ -1157,7 +1163,7 @@ extern "C" {
 #define ui_BarProps_init_zero                    {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_zero                 {0}
 #define ui_CheckboxProps_init_zero               {0}
-#define ui_DropdownProps_init_zero               {{{NULL}, NULL}, 0, _ui_Dir_MIN}
+#define ui_DropdownProps_init_zero               {{{NULL}, NULL}, 0, _ui_Dir_MIN, {{NULL}, NULL}}
 #define ui_RollerProps_init_zero                 {{{NULL}, NULL}, 0, 0, _ui_RollerMode_MIN}
 #define ui_TextareaProps_init_zero               {{{NULL}, NULL}, 0, 0, 0}
 #define ui_SpinboxProps_init_zero                {0, 0, 0, 0, 0, 0}
@@ -1230,6 +1236,7 @@ extern "C" {
 #define ui_DropdownProps_options_tag             1
 #define ui_DropdownProps_selected_tag            2
 #define ui_DropdownProps_direction_tag           3
+#define ui_DropdownProps_option_values_tag       4
 #define ui_RollerProps_options_tag               1
 #define ui_RollerProps_selected_tag              2
 #define ui_RollerProps_visible_row_count_tag     3
@@ -1598,7 +1605,8 @@ X(a, STATIC,   SINGULAR, BOOL,     checked,           1)
 #define ui_DropdownProps_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   options,           1) \
 X(a, STATIC,   SINGULAR, UINT32,   selected,          2) \
-X(a, STATIC,   SINGULAR, UENUM,    direction,         3)
+X(a, STATIC,   SINGULAR, UENUM,    direction,         3) \
+X(a, CALLBACK, REPEATED, INT32,    option_values,     4)
 #define ui_DropdownProps_CALLBACK pb_default_field_callback
 #define ui_DropdownProps_DEFAULT NULL
 

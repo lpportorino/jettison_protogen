@@ -5775,10 +5775,29 @@ class DropdownProps final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kOptionValuesFieldNumber = 4,
     kOptionsFieldNumber = 1,
     kSelectedFieldNumber = 2,
     kDirectionFieldNumber = 3,
   };
+  // repeated int32 option_values = 4 [(.buf.validate.field) = {
+  int option_values_size() const;
+  private:
+  int _internal_option_values_size() const;
+
+  public:
+  void clear_option_values() ;
+  ::int32_t option_values(int index) const;
+  void set_option_values(int index, ::int32_t value);
+  void add_option_values(::int32_t value);
+  const ::google::protobuf::RepeatedField<::int32_t>& option_values() const;
+  ::google::protobuf::RepeatedField<::int32_t>* mutable_option_values();
+
+  private:
+  const ::google::protobuf::RepeatedField<::int32_t>& _internal_option_values() const;
+  ::google::protobuf::RepeatedField<::int32_t>* _internal_mutable_option_values();
+
+  public:
   // string options = 1 [(.buf.validate.field) = {
   void clear_options() ;
   const std::string& options() const;
@@ -5820,7 +5839,7 @@ class DropdownProps final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 0,
+      2, 4, 0,
       32, 2>
       _table_;
 
@@ -5838,6 +5857,8 @@ class DropdownProps final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const DropdownProps& from_msg);
+    ::google::protobuf::RepeatedField<::int32_t> option_values_;
+    ::google::protobuf::internal::CachedSize _option_values_cached_byte_size_;
     ::google::protobuf::internal::ArenaStringPtr options_;
     ::uint32_t selected_;
     int direction_;
@@ -16335,6 +16356,51 @@ inline ::ui::Dir DropdownProps::_internal_direction() const {
 inline void DropdownProps::_internal_set_direction(::ui::Dir value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.direction_ = value;
+}
+
+// repeated int32 option_values = 4 [(.buf.validate.field) = {
+inline int DropdownProps::_internal_option_values_size() const {
+  return _internal_option_values().size();
+}
+inline int DropdownProps::option_values_size() const {
+  return _internal_option_values_size();
+}
+inline void DropdownProps::clear_option_values() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.option_values_.Clear();
+}
+inline ::int32_t DropdownProps::option_values(int index) const {
+  // @@protoc_insertion_point(field_get:ui.DropdownProps.option_values)
+  return _internal_option_values().Get(index);
+}
+inline void DropdownProps::set_option_values(int index, ::int32_t value) {
+  _internal_mutable_option_values()->Set(index, value);
+  // @@protoc_insertion_point(field_set:ui.DropdownProps.option_values)
+}
+inline void DropdownProps::add_option_values(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_option_values()->Add(value);
+  // @@protoc_insertion_point(field_add:ui.DropdownProps.option_values)
+}
+inline const ::google::protobuf::RepeatedField<::int32_t>& DropdownProps::option_values() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ui.DropdownProps.option_values)
+  return _internal_option_values();
+}
+inline ::google::protobuf::RepeatedField<::int32_t>* DropdownProps::mutable_option_values()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ui.DropdownProps.option_values)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_option_values();
+}
+inline const ::google::protobuf::RepeatedField<::int32_t>&
+DropdownProps::_internal_option_values() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.option_values_;
+}
+inline ::google::protobuf::RepeatedField<::int32_t>* DropdownProps::_internal_mutable_option_values() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.option_values_;
 }
 
 // -------------------------------------------------------------------

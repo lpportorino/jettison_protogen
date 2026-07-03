@@ -3532,10 +3532,16 @@ func (x *CheckboxProps) GetChecked() bool {
 }
 
 type DropdownProps struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Options       string                 `protobuf:"bytes,1,opt,name=options,proto3" json:"options,omitempty"`
-	Selected      uint32                 `protobuf:"varint,2,opt,name=selected,proto3" json:"selected,omitempty"`
-	Direction     Dir                    `protobuf:"varint,3,opt,name=direction,proto3,enum=ui.Dir" json:"direction,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Options   string                 `protobuf:"bytes,1,opt,name=options,proto3" json:"options,omitempty"`
+	Selected  uint32                 `protobuf:"varint,2,opt,name=selected,proto3" json:"selected,omitempty"`
+	Direction Dir                    `protobuf:"varint,3,opt,name=direction,proto3,enum=ui.Dir" json:"direction,omitempty"`
+	// Per-option device enum VALUES, in the SAME order as the `options` label list.
+	// A value-driven state bind index-selects the option whose value == the subject
+	// int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+	// when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+	// enum). Empty when the dropdown carries no enum-value bind.
+	OptionValues  []int32 `protobuf:"varint,4,rep,packed,name=option_values,json=optionValues,proto3" json:"option_values,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3589,6 +3595,13 @@ func (x *DropdownProps) GetDirection() Dir {
 		return x.Direction
 	}
 	return Dir_DIR_NONE
+}
+
+func (x *DropdownProps) GetOptionValues() []int32 {
+	if x != nil {
+		return x.OptionValues
+	}
+	return nil
 }
 
 type RollerProps struct {
@@ -5702,11 +5715,12 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\vSwitchProps\x12\x18\n" +
 	"\achecked\x18\x01 \x01(\bR\achecked\")\n" +
 	"\rCheckboxProps\x12\x18\n" +
-	"\achecked\x18\x01 \x01(\bR\achecked\"\x80\x01\n" +
+	"\achecked\x18\x01 \x01(\bR\achecked\"\xaf\x01\n" +
 	"\rDropdownProps\x12\"\n" +
 	"\aoptions\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\aR\aoptions\x12\x1a\n" +
 	"\bselected\x18\x02 \x01(\rR\bselected\x12/\n" +
-	"\tdirection\x18\x03 \x01(\x0e2\a.ui.DirB\b\xbaH\x05\x82\x01\x02\x10\x01R\tdirection\"\xa7\x01\n" +
+	"\tdirection\x18\x03 \x01(\x0e2\a.ui.DirB\b\xbaH\x05\x82\x01\x02\x10\x01R\tdirection\x12-\n" +
+	"\roption_values\x18\x04 \x03(\x05B\b\xbaH\x05\x92\x01\x02\x10\x10R\foptionValues\"\xa7\x01\n" +
 	"\vRollerProps\x12\"\n" +
 	"\aoptions\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x03R\aoptions\x12\x1a\n" +
 	"\bselected\x18\x02 \x01(\rR\bselected\x12*\n" +

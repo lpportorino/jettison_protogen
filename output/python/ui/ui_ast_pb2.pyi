@@ -884,14 +884,16 @@ class CheckboxProps(_message.Message):
     def __init__(self, checked: bool = ...) -> None: ...
 
 class DropdownProps(_message.Message):
-    __slots__ = ("options", "selected", "direction")
+    __slots__ = ("options", "selected", "direction", "option_values")
     OPTIONS_FIELD_NUMBER: _ClassVar[int]
     SELECTED_FIELD_NUMBER: _ClassVar[int]
     DIRECTION_FIELD_NUMBER: _ClassVar[int]
+    OPTION_VALUES_FIELD_NUMBER: _ClassVar[int]
     options: str
     selected: int
     direction: Dir
-    def __init__(self, options: _Optional[str] = ..., selected: _Optional[int] = ..., direction: _Optional[_Union[Dir, str]] = ...) -> None: ...
+    option_values: _containers.RepeatedScalarFieldContainer[int]
+    def __init__(self, options: _Optional[str] = ..., selected: _Optional[int] = ..., direction: _Optional[_Union[Dir, str]] = ..., option_values: _Optional[_Iterable[int]] = ...) -> None: ...
 
 class RollerProps(_message.Message):
     __slots__ = ("options", "selected", "visible_row_count", "mode")

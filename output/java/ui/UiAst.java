@@ -27199,6 +27199,47 @@ java.lang.String defaultValue) {
      * @return The direction.
      */
     ui.UiAst.Dir getDirection();
+
+    /**
+     * <pre>
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * </pre>
+     *
+     * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+     * @return A list containing the optionValues.
+     */
+    java.util.List<java.lang.Integer> getOptionValuesList();
+    /**
+     * <pre>
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * </pre>
+     *
+     * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The count of optionValues.
+     */
+    int getOptionValuesCount();
+    /**
+     * <pre>
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * </pre>
+     *
+     * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+     * @param index The index of the element to return.
+     * @return The optionValues at the given index.
+     */
+    int getOptionValues(int index);
   }
   /**
    * Protobuf type {@code ui.DropdownProps}
@@ -27224,6 +27265,7 @@ java.lang.String defaultValue) {
     private DropdownProps() {
       options_ = "";
       direction_ = 0;
+      optionValues_ = emptyIntList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -27307,6 +27349,60 @@ java.lang.String defaultValue) {
       return result == null ? ui.UiAst.Dir.UNRECOGNIZED : result;
     }
 
+    public static final int OPTION_VALUES_FIELD_NUMBER = 4;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.Internal.IntList optionValues_ =
+        emptyIntList();
+    /**
+     * <pre>
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * </pre>
+     *
+     * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+     * @return A list containing the optionValues.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.Integer>
+        getOptionValuesList() {
+      return optionValues_;
+    }
+    /**
+     * <pre>
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * </pre>
+     *
+     * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The count of optionValues.
+     */
+    public int getOptionValuesCount() {
+      return optionValues_.size();
+    }
+    /**
+     * <pre>
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * </pre>
+     *
+     * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+     * @param index The index of the element to return.
+     * @return The optionValues at the given index.
+     */
+    public int getOptionValues(int index) {
+      return optionValues_.getInt(index);
+    }
+    private int optionValuesMemoizedSerializedSize = -1;
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -27321,6 +27417,7 @@ java.lang.String defaultValue) {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(options_)) {
         com.google.protobuf.GeneratedMessage.writeString(output, 1, options_);
       }
@@ -27329,6 +27426,13 @@ java.lang.String defaultValue) {
       }
       if (direction_ != ui.UiAst.Dir.DIR_NONE.getNumber()) {
         output.writeEnum(3, direction_);
+      }
+      if (getOptionValuesList().size() > 0) {
+        output.writeUInt32NoTag(34);
+        output.writeUInt32NoTag(optionValuesMemoizedSerializedSize);
+      }
+      for (int i = 0; i < optionValues_.size(); i++) {
+        output.writeInt32NoTag(optionValues_.getInt(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -27350,6 +27454,20 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, direction_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < optionValues_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(optionValues_.getInt(i));
+        }
+        size += dataSize;
+        if (!getOptionValuesList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        optionValuesMemoizedSerializedSize = dataSize;
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -27370,6 +27488,8 @@ java.lang.String defaultValue) {
       if (getSelected()
           != other.getSelected()) return false;
       if (direction_ != other.direction_) return false;
+      if (!getOptionValuesList()
+          .equals(other.getOptionValuesList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -27387,6 +27507,10 @@ java.lang.String defaultValue) {
       hash = (53 * hash) + getSelected();
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
+      if (getOptionValuesCount() > 0) {
+        hash = (37 * hash) + OPTION_VALUES_FIELD_NUMBER;
+        hash = (53 * hash) + getOptionValuesList().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -27521,6 +27645,7 @@ java.lang.String defaultValue) {
         options_ = "";
         selected_ = 0;
         direction_ = 0;
+        optionValues_ = emptyIntList();
         return this;
       }
 
@@ -27563,6 +27688,10 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.direction_ = direction_;
         }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          optionValues_.makeImmutable();
+          result.optionValues_ = optionValues_;
+        }
       }
 
       @java.lang.Override
@@ -27587,6 +27716,17 @@ java.lang.String defaultValue) {
         }
         if (other.direction_ != 0) {
           setDirectionValue(other.getDirectionValue());
+        }
+        if (!other.optionValues_.isEmpty()) {
+          if (optionValues_.isEmpty()) {
+            optionValues_ = other.optionValues_;
+            optionValues_.makeImmutable();
+            bitField0_ |= 0x00000008;
+          } else {
+            ensureOptionValuesIsMutable();
+            optionValues_.addAll(other.optionValues_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -27629,6 +27769,22 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 24
+              case 32: {
+                int v = input.readInt32();
+                ensureOptionValuesIsMutable();
+                optionValues_.addInt(v);
+                break;
+              } // case 32
+              case 34: {
+                int length = input.readRawVarint32();
+                int limit = input.pushLimit(length);
+                ensureOptionValuesIsMutable();
+                while (input.getBytesUntilLimit() > 0) {
+                  optionValues_.addInt(input.readInt32());
+                }
+                input.popLimit(limit);
+                break;
+              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -27799,6 +27955,146 @@ java.lang.String defaultValue) {
       public Builder clearDirection() {
         bitField0_ = (bitField0_ & ~0x00000004);
         direction_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.Internal.IntList optionValues_ = emptyIntList();
+      private void ensureOptionValuesIsMutable() {
+        if (!optionValues_.isModifiable()) {
+          optionValues_ = makeMutableCopy(optionValues_);
+        }
+        bitField0_ |= 0x00000008;
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @return A list containing the optionValues.
+       */
+      public java.util.List<java.lang.Integer>
+          getOptionValuesList() {
+        optionValues_.makeImmutable();
+        return optionValues_;
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The count of optionValues.
+       */
+      public int getOptionValuesCount() {
+        return optionValues_.size();
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @param index The index of the element to return.
+       * @return The optionValues at the given index.
+       */
+      public int getOptionValues(int index) {
+        return optionValues_.getInt(index);
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @param index The index to set the value at.
+       * @param value The optionValues to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOptionValues(
+          int index, int value) {
+
+        ensureOptionValuesIsMutable();
+        optionValues_.setInt(index, value);
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The optionValues to add.
+       * @return This builder for chaining.
+       */
+      public Builder addOptionValues(int value) {
+
+        ensureOptionValuesIsMutable();
+        optionValues_.addInt(value);
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @param values The optionValues to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllOptionValues(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureOptionValuesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, optionValues_);
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-option device enum VALUES, in the SAME order as the `options` label list.
+       * A value-driven state bind index-selects the option whose value == the subject
+       * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+       * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+       * enum). Empty when the dropdown carries no enum-value bind.
+       * </pre>
+       *
+       * <code>repeated int32 option_values = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOptionValues() {
+        optionValues_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -52784,255 +53080,256 @@ java.lang.String defaultValue) {
       "\n\005value\030\003 \001(\005\022\023\n\013start_value\030\004 \001(\005\022#\n\004mo" +
       "de\030\005 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013Switc" +
       "hProps\022\017\n\007checked\030\001 \001(\010\" \n\rCheckboxProps" +
-      "\022\017\n\007checked\030\001 \001(\010\"b\n\rDropdownProps\022\031\n\007op" +
-      "tions\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022" +
-      "$\n\tdirection\030\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\"}\n" +
-      "\013RollerProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\003\022" +
-      "\020\n\010selected\030\002 \001(\r\022\031\n\021visible_row_count\030\003" +
-      " \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui.RollerModeB\010\272H\005\202" +
-      "\001\002\020\001\"k\n\rTextareaProps\022\035\n\013placeholder\030\001 \001" +
-      "(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022\020\n\010one_" +
-      "line\030\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010\"\202\001\n\014Sp" +
-      "inboxProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_val" +
-      "ue\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004 \001(\005\022\023\n" +
-      "\013digit_count\030\005 \001(\r\022\032\n\022separator_position" +
-      "\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspin_time\030\001 \001(" +
-      "\r\022\022\n\narc_length\030\002 \001(\r\"B\n\010LedProps\022\030\n\005col" +
-      "or\030\001 \001(\0132\t.ui.Color\022\034\n\nbrightness\030\002 \001(\rB" +
-      "\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031\n\006points\030\001 \003(\0132\t" +
-      ".ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nScalePro" +
-      "ps\022%\n\004mode\030\001 \001(\0162\r.ui.ScaleModeB\010\272H\005\202\001\002\020" +
-      "\001\022\030\n\020total_tick_count\030\002 \001(\r\022\030\n\020major_tic" +
-      "k_every\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010\022\021\n\tmin" +
-      "_value\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020\n\010rotat" +
-      "ion\030\007 \001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272H\005*\003\030\350\002" +
-      "\022\032\n\010text_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tpost_dra" +
-      "w\030\n \001(\010\022,\n\010sections\030\013 \003(\0132\020.ui.ScaleSect" +
-      "ionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n\trange_" +
-      "min\030\001 \001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005color\030\003 " +
-      "\001(\0132\t.ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\nmain_co" +
-      "lor\030\005 \001(\0132\t.ui.Color\022\022\n\nmain_width\030\006 \001(\r" +
-      "\"A\n\021ButtonMatrixProps\022\031\n\007map_str\030\001 \001(\tB\010" +
-      "\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTableProp" +
-      "s\022\021\n\trow_count\030\001 \001(\r\022\024\n\014column_count\030\002 \001" +
-      "(\r\"\244\001\n\014TabviewProps\022!\n\ttab_names\030\001 \003(\tB\016" +
-      "\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 \001(\005\022\024\n\014" +
-      "active_index\030\003 \001(\r\022+\n\020tab_bar_position\030\004" +
-      " \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_bar_pad_l" +
-      "eft\030\005 \001(\005\"h\n\013ChartSeries\022\030\n\005color\030\001 \001(\0132" +
-      "\t.ui.Color\022%\n\004axis\030\002 \001(\0162\r.ui.ChartAxisB" +
-      "\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\n" +
-      "ChartProps\022%\n\004type\030\001 \001(\0162\r.ui.ChartTypeB" +
-      "\010\272H\005\202\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n\rhas_di" +
-      "v_lines\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\rB\010\272H\005*\003" +
-      "\030\377\001\022\034\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006ser" +
-      "ies\030\006 \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001\002\020\010\022\021\n\t" +
-      "fade_area\030\007 \001(\010\"\260\001\n\016HostProxyProps\022\033\n\010pr" +
-      "oxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r." +
-      "ui.ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n" +
-      "\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001" +
-      "(\005\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Po" +
-      "int\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventBindi" +
-      "ng\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022+\n\007trigger\030\002" +
-      " \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tint_" +
-      "value\030\003 \001(\005\022\034\n\024include_widget_value\030\004 \001(" +
-      "\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset_v" +
-      "alue\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_hos" +
-      "t\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n\014cmd" +
-      "_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002\020\020\"p" +
-      "\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\nbyt" +
-      "e_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.PatchKi" +
-      "ndB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"h\n\007CmdS" +
-      "pec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot" +
-      "_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fi" +
-      "eldPatchB\010\272H\005\222\001\002\020\002\"P\n\013GestureSpec\022\'\n\004kin" +
-      "d\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cm" +
-      "d\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBindin" +
-      "g\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_val" +
-      "ue\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOp" +
-      "B\010\272H\005\202\001\002\020\001\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui" +
-      ".FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162" +
-      "\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030" +
-      "\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_" +
-      "place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\n" +
-      "StyleGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010va" +
-      "riants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001" +
-      "\020\010\"U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(" +
-      "\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.Styl" +
-      "eProperty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(" +
-      "\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nui" +
-      "nt_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n" +
-      "\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014strin" +
-      "g_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value" +
-      "\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005C" +
-      "olor\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H" +
-      "\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBun" +
-      "dle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010" +
-      "offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 " +
-      "\001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_" +
-      "INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKin" +
-      "d\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP" +
-      "_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020" +
-      "\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_" +
-      "MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ" +
-      "\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022" +
-      "\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\n" +
-      "WIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_S" +
-      "WITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_D" +
-      "ROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_T" +
-      "EXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_" +
-      "SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE" +
-      "\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMAT" +
-      "RIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIE" +
-      "W\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PRO" +
-      "XY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000" +
-      "\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE" +
-      "_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X" +
-      "\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025T" +
-      "RIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_P" +
-      "RESSED\020\002*\206\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNS" +
-      "PECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATC" +
-      "H_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027" +
-      "PATCH_KIND_WIDGET_VALUE\020\004*\240\001\n\013GestureKin" +
-      "d\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTURE_" +
-      "KIND_PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022" +
-      "GESTURE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_PIN" +
-      "CH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005*q\n\tCompareO" +
-      "p\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n" +
-      "\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPAR" +
-      "E_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016" +
-      "FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020F" +
-      "LEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020" +
-      "\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLO" +
-      "W_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN" +
-      "_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n" +
-      "\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFle" +
-      "xAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALI" +
-      "GN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_" +
-      "ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE" +
-      "_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*" +
-      "\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021G" +
-      "RID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026" +
-      "\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPA" +
-      "CE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005" +
-      "\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAl" +
-      "ign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_L" +
-      "EFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALI" +
-      "GN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NO" +
-      "NE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_D" +
-      "ECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BL" +
-      "END_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE" +
-      "\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_" +
-      "MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE" +
-      "\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_" +
-      "DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR" +
-      "_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDi" +
-      "r\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020" +
-      "\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n" +
-      "\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005" +
-      "*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tD" +
-      "IR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022" +
-      "\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210" +
-      "\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP" +
-      "_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_" +
-      "RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_" +
-      "BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016" +
-      "ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n" +
-      "\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022" +
-      "\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_" +
-      "RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024AL" +
-      "IGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM" +
-      "_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIG" +
-      "N_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTO" +
-      "M\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OU" +
-      "T_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020" +
-      "\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026" +
-      "\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TO" +
-      "P\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE" +
-      "_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER" +
-      "_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LA" +
-      "BEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_" +
-      "DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LA" +
-      "BEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL" +
-      "_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE" +
-      "_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016B" +
-      "AR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_N" +
-      "ORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC" +
-      "_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_" +
-      "MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*" +
-      "\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_T" +
-      "OP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034" +
-      "\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MO" +
-      "DE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_" +
-      "INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\t" +
-      "ChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_" +
-      "TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHA" +
-      "RT_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n" +
-      "\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CH" +
-      "ART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECON" +
-      "DARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CH" +
-      "ART_AXIS_SECONDARY_X\020\004*\273\022\n\021StyleProperty" +
-      "Type\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001" +
-      "\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020" +
-      "\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_" +
-      "WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL" +
-      "\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013" +
-      "PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_P" +
-      "AD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGI" +
-      "N_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN" +
-      "_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN" +
-      "_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_L" +
-      "ENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_" +
-      "ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PRO" +
-      "P_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X" +
-      "\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X" +
-      "\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022" +
-      "\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013P" +
-      "ROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PA" +
-      "D_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD" +
-      "_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_" +
-      "ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGI" +
-      "N_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_" +
-      "MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022" +
-      "PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR" +
-      "\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRA" +
-      "D_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_B" +
-      "G_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021P" +
-      "ROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECO" +
-      "LOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023" +
-      "PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SID" +
-      "E\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLIN" +
-      "E_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PRO" +
-      "P_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n" +
-      "\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFS" +
-      "ET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP" +
-      "_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022" +
-      "\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D" +
-      "\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_R" +
-      "ECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PRO" +
-      "P_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GA" +
-      "P\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_" +
-      "COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_W" +
-      "IDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC" +
-      "_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_" +
-      "OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PRO" +
-      "P_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T" +
-      "\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNE" +
-      "R\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022" +
-      "\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_" +
-      "DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_" +
-      "BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022" +
-      "\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PL" +
-      "ACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP" +
-      "_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022" +
-      "\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID" +
-      "_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_PO" +
-      "S\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_" +
-      "GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CEL" +
-      "L_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022" +
-      "\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/uib\006proto3"
+      "\022\017\n\007checked\030\001 \001(\010\"\203\001\n\rDropdownProps\022\031\n\007o" +
+      "ptions\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r" +
+      "\022$\n\tdirection\030\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037" +
+      "\n\roption_values\030\004 \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013Rolle" +
+      "rProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010sel" +
+      "ected\030\002 \001(\r\022\031\n\021visible_row_count\030\003 \001(\r\022&" +
+      "\n\004mode\030\004 \001(\0162\016.ui.RollerModeB\010\272H\005\202\001\002\020\001\"k" +
+      "\n\rTextareaProps\022\035\n\013placeholder\030\001 \001(\tB\010\272H" +
+      "\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022\020\n\010one_line\030\003" +
+      " \001(\010\022\025\n\rpassword_mode\030\004 \001(\010\"\202\001\n\014SpinboxP" +
+      "rops\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001" +
+      "(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digit" +
+      "_count\030\005 \001(\r\022\032\n\022separator_position\030\006 \001(\r" +
+      "\"5\n\014SpinnerProps\022\021\n\tspin_time\030\001 \001(\r\022\022\n\na" +
+      "rc_length\030\002 \001(\r\"B\n\010LedProps\022\030\n\005color\030\001 \001" +
+      "(\0132\t.ui.Color\022\034\n\nbrightness\030\002 \001(\rB\010\272H\005*\003" +
+      "\030\377\001\"8\n\tLineProps\022\031\n\006points\030\001 \003(\0132\t.ui.Po" +
+      "int\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n\004" +
+      "mode\030\001 \001(\0162\r.ui.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020t" +
+      "otal_tick_count\030\002 \001(\r\022\030\n\020major_tick_ever" +
+      "y\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010\022\021\n\tmin_value" +
+      "\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020\n\010rotation\030\007 " +
+      "\001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010te" +
+      "xt_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001(" +
+      "\010\022,\n\010sections\030\013 \003(\0132\020.ui.ScaleSectionB\010\272" +
+      "H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n\trange_min\030\001 " +
+      "\001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t." +
+      "ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\nmain_color\030\005 " +
+      "\001(\0132\t.ui.Color\022\022\n\nmain_width\030\006 \001(\r\"A\n\021Bu" +
+      "ttonMatrixProps\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030" +
+      "\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTableProps\022\021\n\tr" +
+      "ow_count\030\001 \001(\r\022\024\n\014column_count\030\002 \001(\r\"\244\001\n" +
+      "\014TabviewProps\022!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001\010" +
+      "\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 \001(\005\022\024\n\014active" +
+      "_index\030\003 \001(\r\022+\n\020tab_bar_position\030\004 \001(\0162\007" +
+      ".ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_bar_pad_left\030\005 " +
+      "\001(\005\"h\n\013ChartSeries\022\030\n\005color\030\001 \001(\0132\t.ui.C" +
+      "olor\022%\n\004axis\030\002 \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001" +
+      "\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartP" +
+      "rops\022%\n\004type\030\001 \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001" +
+      "\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n\rhas_div_line" +
+      "s\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n" +
+      "\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 " +
+      "\003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_a" +
+      "rea\030\007 \001(\010\"\260\001\n\016HostProxyProps\022\033\n\010proxy_id" +
+      "\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui.Pro" +
+      "xyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h" +
+      "\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013" +
+      "handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n" +
+      "\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventBinding\022\027\n\004" +
+      "name\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022+\n\007trigger\030\002 \001(\0162\020" +
+      ".ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030" +
+      "\003 \001(\005\022\034\n\024include_widget_value\030\004 \001(\010\022\034\n\013s" +
+      "et_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset_value\030\006" +
+      " \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_host\030\010 \001(" +
+      "\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n\014cmd_by_va" +
+      "lue\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002\020\020\"p\n\nFiel" +
+      "dPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\nbyte_widt" +
+      "h\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.PatchKindB\010\272H" +
+      "\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"h\n\007CmdSpec\022\033\n" +
+      "\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_templ" +
+      "ate\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.FieldPat" +
+      "chB\010\272H\005\222\001\002\020\002\"P\n\013GestureSpec\022\'\n\004kind\030\001 \001(" +
+      "\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001(" +
+      "\0132\013.ui.CmdSpec\"l\n\021VisibilityBinding\022\032\n\007s" +
+      "ubject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_value\030\002 \001" +
+      "(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOpB\010\272H\005\202" +
+      "\001\002\020\001\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui.FlexF" +
+      "lowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162\r.ui.F" +
+      "lexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001(\0162" +
+      "\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_place\030" +
+      "\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\nStyleG" +
+      "roup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010variants" +
+      "\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014" +
+      "StyleVariant\022\036\n\rvariant_index\030\001 \001(\rB\007\272H\004" +
+      "*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.StylePrope" +
+      "rty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(\0162\025.ui" +
+      ".StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_val" +
+      "ue\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013color" +
+      "_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014string_valu" +
+      "e\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value\030\006 \001(\013" +
+      "2\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005Color\022\023" +
+      "\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001" +
+      "\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle\022\r\n" +
+      "\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010offset" +
+      "_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272" +
+      "H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_INT\020\000\022" +
+      "\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKind\022\031\n\025P" +
+      "ATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP_REPLA" +
+      "CE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020\002\022\030\n\024P" +
+      "ATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_MOVE_N" +
+      "ODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\r" +
+      "WIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWID" +
+      "GET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET" +
+      "_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWITCH\020" +
+      "\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROPDOW" +
+      "N\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXTARE" +
+      "A\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPINNE" +
+      "R\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014" +
+      "WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX\020\021\022" +
+      "\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n" +
+      "\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PROXY\020\025*p" +
+      "\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024PR" +
+      "OXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE_RESIZ" +
+      "ABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X\n\014Even" +
+      "tTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIGGER" +
+      "_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_PRESSED" +
+      "\020\002*\206\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNSPECIFI" +
+      "ED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATCH_KIND" +
+      "_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PATCH_" +
+      "KIND_WIDGET_VALUE\020\004*\240\001\n\013GestureKind\022\031\n\025G" +
+      "ESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTURE_KIND_P" +
+      "AN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022GESTUR" +
+      "E_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_PINCH\020\004\022\026" +
+      "\n\022GESTURE_KIND_WHEEL\020\005*q\n\tCompareOp\022\016\n\nC" +
+      "OMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPA" +
+      "RE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004" +
+      "\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_F" +
+      "LOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FL" +
+      "OW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025F" +
+      "LEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_" +
+      "WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020" +
+      "\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_" +
+      "FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign" +
+      "\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END" +
+      "\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_" +
+      "SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUN" +
+      "D\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGr" +
+      "idAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_AL" +
+      "IGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID" +
+      "_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVE" +
+      "NLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GR" +
+      "ID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n" +
+      "\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022" +
+      "\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIG" +
+      "HT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030" +
+      "\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_S" +
+      "TRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MO" +
+      "DE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026" +
+      "BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_M" +
+      "ULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007" +
+      "BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RT" +
+      "L\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTR" +
+      "AL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rG" +
+      "RAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD" +
+      "_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_" +
+      "DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Di" +
+      "r\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIG" +
+      "HT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR" +
+      "_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Ali" +
+      "gn\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020" +
+      "\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020" +
+      "\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM" +
+      "_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_" +
+      "LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN" +
+      "_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALI" +
+      "GN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020" +
+      "\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OU" +
+      "T_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT" +
+      "\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_" +
+      "LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n" +
+      "\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGH" +
+      "T_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\n" +
+      "BorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORD" +
+      "ER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n" +
+      "\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT" +
+      "\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_" +
+      "INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LO" +
+      "NG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001" +
+      "\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LO" +
+      "NG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_" +
+      "MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMA" +
+      "L\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MOD" +
+      "E_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020" +
+      "\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_" +
+      "REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_N" +
+      "ORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tSc" +
+      "aleMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 " +
+      "\n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCAL" +
+      "E_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VER" +
+      "TICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020" +
+      "\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChartT" +
+      "ype\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_L" +
+      "INE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYP" +
+      "E_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART" +
+      "_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AX" +
+      "IS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y" +
+      "\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AX" +
+      "IS_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022\021" +
+      "\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PR" +
+      "OP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021P" +
+      "ROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020" +
+      "\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014" +
+      "PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_H" +
+      "EIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR" +
+      "\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020" +
+      "\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH" +
+      "\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGH" +
+      "T\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020" +
+      "\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020" +
+      "\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRAN" +
+      "SFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020" +
+      "PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014" +
+      "PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PRO" +
+      "P_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SK" +
+      "EW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020" +
+      "#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020" +
+      "%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022" +
+      "\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020" +
+      ")\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN" +
+      "_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_B" +
+      "G_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021" +
+      "PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP" +
+      "\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD" +
+      "_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG" +
+      "_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022" +
+      "\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_B" +
+      "G_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n" +
+      "\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WIDT" +
+      "H\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTL" +
+      "INE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_" +
+      "SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?" +
+      "\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADO" +
+      "W_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PRO" +
+      "P_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PR" +
+      "OP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR" +
+      "_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE" +
+      "_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n" +
+      "\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020" +
+      "K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M" +
+      "\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR" +
+      "\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022" +
+      "\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT" +
+      "_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PR" +
+      "OP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n" +
+      "\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PRO" +
+      "P_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATI" +
+      "ON\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_D" +
+      "IR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PRO" +
+      "P_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022" +
+      "\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_" +
+      "TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PRO" +
+      "P_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_A" +
+      "LIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n" +
+      "\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_C" +
+      "ELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_" +
+      "POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PRO" +
+      "P_GRID_CELL_ROW_SPAN\020jBEZCgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -53152,7 +53449,7 @@ java.lang.String defaultValue) {
     internal_static_ui_DropdownProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_DropdownProps_descriptor,
-        new java.lang.String[] { "Options", "Selected", "Direction", });
+        new java.lang.String[] { "Options", "Selected", "Direction", "OptionValues", });
     internal_static_ui_RollerProps_descriptor =
       getDescriptor().getMessageTypes().get(17);
     internal_static_ui_RollerProps_fieldAccessorTable = new

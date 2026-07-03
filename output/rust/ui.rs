@@ -327,6 +327,13 @@ pub struct DropdownProps {
     pub selected: u32,
     #[prost(enumeration = "Dir", tag = "3")]
     pub direction: i32,
+    /// Per-option device enum VALUES, in the SAME order as the `options` label list.
+    /// A value-driven state bind index-selects the option whose value == the subject
+    /// int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+    /// when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+    /// enum). Empty when the dropdown carries no enum-value bind.
+    #[prost(int32, repeated, tag = "4")]
+    pub option_values: ::prost::alloc::vec::Vec<i32>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RollerProps {

@@ -85,7 +85,128 @@ public object DropdownPropsKt {
     public fun clearDirection() {
       _builder.clearDirection()
     }
-  }
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class OptionValuesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     */
+     public val optionValues: com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.optionValuesList
+      )
+    /**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     * @param value The optionValues to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addOptionValues")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.add(value: kotlin.Int) {
+      _builder.addOptionValues(value)
+    }/**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     * @param value The optionValues to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignOptionValues")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.plusAssign(value: kotlin.Int) {
+      add(value)
+    }/**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     * @param values The optionValues to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllOptionValues")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
+      _builder.addAllOptionValues(values)
+    }/**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     * @param values The optionValues to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllOptionValues")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
+      addAll(values)
+    }/**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     * @param index The index to set the value at.
+     * @param value The optionValues to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setOptionValues")
+    public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.set(index: kotlin.Int, value: kotlin.Int) {
+      _builder.setOptionValues(index, value)
+    }/**
+     * ```
+     * Per-option device enum VALUES, in the SAME order as the `options` label list.
+     * A value-driven state bind index-selects the option whose value == the subject
+     * int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+     * when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+     * enum). Empty when the dropdown carries no enum-value bind.
+     * ```
+     *
+     * `repeated int32 option_values = 4 [(.buf.validate.field) = { ... }`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearOptionValues")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, OptionValuesProxy>.clear() {
+      _builder.clearOptionValues()
+    }}
 }
 @kotlin.jvm.JvmSynthetic
 public inline fun ui.UiAst.DropdownProps.copy(block: `ui`.DropdownPropsKt.Dsl.() -> kotlin.Unit): ui.UiAst.DropdownProps =

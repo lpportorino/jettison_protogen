@@ -280,6 +280,12 @@ message DropdownProps {
   string options = 1 [(buf.validate.field).string = {max_len: 1023}];
   uint32 selected = 2;
   Dir direction = 3 [(buf.validate.field).enum = {defined_only: true}];
+  // Per-option device enum VALUES, in the SAME order as the `options` label list.
+  // A value-driven state bind index-selects the option whose value == the subject
+  // int (the renderer scans this array), fixing the enum-number-as-index off-by-one
+  // when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
+  // enum). Empty when the dropdown carries no enum-value bind.
+  repeated int32 option_values = 4 [(buf.validate.field).repeated = {max_items: 16}];
 }
 
 message RollerProps {

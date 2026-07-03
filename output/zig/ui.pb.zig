@@ -1894,11 +1894,13 @@ pub const DropdownProps = struct {
     options: []const u8 = &.{},
     selected: u32 = 0,
     direction: Dir = @enumFromInt(0),
+    option_values: std.ArrayListUnmanaged(i32) = .empty,
 
     pub const _desc_table = .{
         .options = fd(1, .{ .scalar = .string }),
         .selected = fd(2, .{ .scalar = .uint32 }),
         .direction = fd(3, .@"enum"),
+        .option_values = fd(4, .{ .packed_repeated = .{ .scalar = .int32 }}),
     };
 
     /// Encodes the message to the writer

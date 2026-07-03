@@ -29,6 +29,7 @@ ui.EventBinding.cmd_by_value        type:FT_POINTER
 ui.WidgetNode.bindings          type:FT_CALLBACK
 ui.ImageProps.src               max_size:256
 ui.DropdownProps.options         max_size:1024
+ui.DropdownProps.option_values   max_count:16
 ui.RollerProps.options           max_size:512
 ui.TextareaProps.placeholder     max_size:256
 ui.ButtonMatrixProps.map_str     max_size:1024
