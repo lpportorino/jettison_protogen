@@ -37,23 +37,39 @@
       (is (pos? (:positive summary)) "produced a positive corpus")
       (is (vector? manifest))
       (is (seq manifest))
-      (testing "every entry carries the contract keys (violating entries may add
-                :field/:bad-value debug metadata — harmless extras the consumer ignores)"
+      (testing "every entry carries the contract keys (violating/clamp entries may add
+                :field/:bad-value/:clamp-value debug metadata — harmless extras the consumer ignores)"
         (is (every? #(set/subset? contract-keys (set (keys %))) manifest)
             (str "entries MISSING contract keys: "
                  (pr-str (remove #(set/subset? contract-keys (set (keys %))) manifest))))
-        (is (every? #(set/subset? (set (keys %)) (into contract-keys [:field :bad-value])) manifest)
-            "no surprise keys beyond the contract + documented violating extras"))
+        (is (every? #(set/subset? (set (keys %)) (into contract-keys [:field :bad-value :clamp-value])) manifest)
+            "no surprise keys beyond the contract + documented violating/clamp extras"))
       (testing "every entry is internally consistent"
         (doseq [e manifest]
           (is (= "ser.JonGuiDataGps" (:msg-name e)))
-          (is (contains? #{:random :boundary :violating} (:kind e)))
+          (is (contains? #{:random :boundary :violating :clamp} (:kind e)))
           (is (map? (:edn-value e)))
           (let [f (io/file dir (:file e))]
             (is (.exists f) (str "missing .bin: " (:file e)))
             (is (= (:byte-count e) (.length f)) ":byte-count matches the .bin size")
             ;; the .bin must reparse against the live descriptor (it is real wire)
             (is (pool/reparse d (.readAllBytes (io/input-stream f))))))))))
+
+(deftest clamp-tier-injects-beyond-range
+  (testing "gen-corpus writes a :clamp beyond-range tier over numeric fields — the
+            Oracle-1 CLAMP+LOG sub-corpus (constrained: one step past the bound;
+            unconstrained: representation extremes), each a real reparseable .bin"
+    (let [dir      (temp-dir)
+          summary  (gc/run {:descriptor binpb :db-path db-path
+                            :message "ser.JonGuiDataGps" :count 4 :seed 1 :output dir})
+          manifest (edn/read-string (slurp (io/file dir "manifest.edn")))
+          clamps   (filterv #(= :clamp (:kind %)) manifest)]
+      (is (pos? (:clamp summary)) "run summary counts the clamp tier")
+      (is (seq clamps) "manifest carries :clamp entries (GPS has numeric fields)")
+      (is (every? #(contains? % :clamp-value) clamps)
+          "each clamp entry records the injected :clamp-value")
+      (is (every? #(map? (:edn-value %)) clamps))
+      (is (every? #(pos? (:byte-count %)) clamps) "each clamp entry is real wire"))))
 
 (deftest manifest-verdict-partitions-positive-vs-violating
   (testing "manifest verdicts honestly partition: random/boundary entries are

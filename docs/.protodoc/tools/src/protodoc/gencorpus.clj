@@ -162,6 +162,68 @@
       (assoc (entry pool full-name (assoc base fname bad) :violating base-seed)
              :field fname :bad-value bad))))
 
+;; ── CLAMP+LOG beyond-range sub-corpus (Oracle-1: unilateral clamp check) ──────
+
+(def ^:private numeric-types
+  "Proto numeric scalar kinds a CLAMP+LOG port may saturate on an int-cast
+   overflow (`(int32_t)(x·scale)`)."
+  #{:double :float :int32 :uint32 :int64 :uint64})
+
+(defn- unconstrained-extremes
+  "Representation-boundary values for an UNCONSTRAINED numeric field of `type-kw`
+   — beyond ANY reasonable DECLARED semantic range, so a CLAMP+LOG port must
+   saturate + log them. (There is no declared bound to step `±1` past, and a
+   `type-min − 1` / `type-max + 1` would under/overflow the representation, so we
+   inject the type's representable extremes.) Kept Long/double-safe so the proto
+   encoder never needs bigint (`uint64` uses `Long/MAX_VALUE`, a large unsigned,
+   rather than the full 2^64−1)."
+  [type-kw]
+  (case type-kw
+    :int32           [(long Integer/MIN_VALUE) (long Integer/MAX_VALUE)]
+    :uint32          [0 0xFFFFFFFF]
+    :int64           [Long/MIN_VALUE Long/MAX_VALUE]
+    :uint64          [0 Long/MAX_VALUE]
+    (:double :float) [-1.0e15 1.0e15]
+    nil))
+
+(defn- constrained-extremes
+  "Both beyond-bound values for a CONSTRAINED numeric field — one step below the
+   lower bound (`:gte/:gt`) AND one step above the upper bound (`:lte/:lt`),
+   whichever are declared. Each is the SAME wire value `violating-entries` emits
+   for that side (same bytes, two oracles: protovalidate-reject + Oracle-1 clamp)."
+  [type-kw c]
+  (filter some?
+          [(when (or (:gte c) (:gt c)) (bad-numeric type-kw (select-keys c [:gte :gt])))
+           (when (or (:lte c) (:lt c)) (bad-numeric type-kw (select-keys c [:lte :lt])))]))
+
+(defn clamp-entries
+  "Per-field CLAMP+LOG beyond-range injection over EVERY numeric field — the
+   `:clamp` tier feeding Oracle-1 (the UNILATERAL port clamp-property check
+   `port_field == clamp(computed, semantic_range)` + a log line, routed AWAY from
+   the byte-equal/tolerance differential). A CONSTRAINED field injects one step
+   past each declared buf.validate bound (`constrained-extremes` — same wire as
+   `:violating`); an UNCONSTRAINED numeric field (no declared bound — the most
+   dangerous latent overflow class) injects the type's representation extremes.
+   Each entry is built on a valid base and tagged `:clamp`. The port's SEMANTIC
+   clamp target lives port-side (Oracle-1's registry), NOT here — gencorpus only
+   supplies values guaranteed to exceed any reasonable semantic range."
+  [pool db full-name base-seed]
+  (let [^Descriptors$Descriptor d (get pool full-name)
+        constraints (assemble/db-field-constraints db full-name)
+        base (assemble/generate pool db full-name base-seed)]
+    (for [^Descriptors$FieldDescriptor f (Descriptors$Descriptor/.getFields d)
+          :let [fname (Descriptors$FieldDescriptor/.getName f)
+                type-kw (assemble/descriptor-type->kw f)
+                c (constraints fname)]
+          :when (and (contains? numeric-types type-kw)
+                     (not (Descriptors$FieldDescriptor/.isRepeated f)))
+          bad (if (or (:gte c) (:gt c) (:lte c) (:lt c))
+                (constrained-extremes type-kw c)
+                (unconstrained-extremes type-kw))
+          :when (some? bad)]
+      (assoc (entry pool full-name (assoc base fname bad) :clamp base-seed)
+             :field fname :clamp-value bad))))
+
 ;; ── orchestration ─────────────────────────────────────────────────────
 
 (defn gen-corpus
@@ -181,6 +243,7 @@
         randoms (random-entries pool db message seed count)
         bounds (boundary-entries pool db message seed)
         candidates (violating-entries pool db message seed)
+        clamp      (clamp-entries pool db message seed)
         valid? #(= :valid (:verdict %))
         positive (filter valid? (concat randoms bounds))
         ;; a boundary value should be VALID — a rejected one ON A VALID BASE is a
@@ -201,6 +264,7 @@
      :boundary-failures (vec boundary-failures)
      :violating (vec violating)
      :violating-drift (vec violating-drift)
+     :clamp (vec clamp)
      :silent-drops (vec silent-drops)}))
 
 ;; ── output (.bin files + manifest.edn) ────────────────────────────────
@@ -244,10 +308,10 @@
         ;; `pins` scopes the whole recursive generator's oneof selection (bound
         ;; once — the generator tree builds eagerly under this binding, so every
         ;; nested oneof is filtered). nil ⇒ unconstrained.
-        {:keys [positive violating boundary-failures violating-drift silent-drops]}
+        {:keys [positive violating boundary-failures violating-drift clamp silent-drops]}
         (binding [assemble/*pins* pins]
           (gen-corpus {:pool pool :db db :message message :seed seed :count count}))
-        all (concat positive violating)]
+        all (concat positive violating clamp)]
     (when output
       (write-corpus! output all))
     {:message message
@@ -255,6 +319,7 @@
      :violating (clojure.core/count violating)
      :boundary-failures (clojure.core/count boundary-failures)
      :violating-drift (clojure.core/count violating-drift)
+     :clamp (clojure.core/count clamp)
      :silent-drops (clojure.core/count silent-drops)
      :empty-positive? (empty? positive)
      :output output}))
@@ -301,8 +366,8 @@
       (do (println "Usage: gen-corpus --message <full.Name> [--descriptor PATH] [--db-path PATH] [--count N] [--seed S] [--output DIR] [--pin '{\"oneof\" #{\"branch\"}}']")
           (System/exit 1))
       (let [r (run opts)]
-        (println (format "gen-corpus %s: %d positive, %d violating, %d boundary-failures, %d proto-db-drift, %d silent-drops%s"
-                         (:message r) (:positive r) (:violating r)
+        (println (format "gen-corpus %s: %d positive, %d violating, %d clamp, %d boundary-failures, %d proto-db-drift, %d silent-drops%s"
+                         (:message r) (:positive r) (:violating r) (:clamp r)
                          (:boundary-failures r) (:violating-drift r) (:silent-drops r)
                          (if (:output r) (str " -> " (:output r)) "")))
         (when (:empty-positive? r)
