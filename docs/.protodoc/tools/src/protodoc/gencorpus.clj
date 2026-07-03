@@ -17,7 +17,8 @@
    CLI: gen-corpus --descriptor <binpb> --db-path <proto-db.edn>
         --message <full.Name> --count N --seed S --output <dir>
         --leaf-only true|false --self-test true|false"
-  (:require [clojure.java.io :as io]
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
             [clojure.pprint :as pprint]
             [clojure.string :as str]
             [protodoc.gencorpus.assemble :as assemble]
@@ -230,7 +231,7 @@
 (defn run
   "Programmatic entry: build the pool + db, generate the corpora, optionally
    write them. opts: :descriptor :db-path :message :count :seed :output."
-  [{:keys [descriptor db-path message count seed output]
+  [{:keys [descriptor db-path message count seed output pins]
     :or {descriptor "../../../output/json-descriptors/descriptor-set.binpb"
          db-path "../proto-db.edn"
          count 16 seed 1}}]
@@ -240,8 +241,12 @@
         ;; constraints from the LIVE descriptor (drift-immune), not the drifting
         ;; proto-db — only :example domain seeds come from proto-db.
         db (constraints/effective-db pool descriptor db-path)
+        ;; `pins` scopes the whole recursive generator's oneof selection (bound
+        ;; once — the generator tree builds eagerly under this binding, so every
+        ;; nested oneof is filtered). nil ⇒ unconstrained.
         {:keys [positive violating boundary-failures violating-drift silent-drops]}
-        (gen-corpus {:pool pool :db db :message message :seed seed :count count})
+        (binding [assemble/*pins* pins]
+          (gen-corpus {:pool pool :db db :message message :seed seed :count count}))
         all (concat positive violating)]
     (when output
       (write-corpus! output all))
@@ -266,15 +271,34 @@
   (or (parse-long v)
       (throw (ex-info (str flag " must be an integer") {:flag flag :value v}))))
 
+(defn- parse-pins
+  "Parse the `--pin` EDN argument into an `assemble/*pins*` map
+   `{oneof-name #{field ...}}` — each branch collection coerced to a set. Fails
+   loud on a non-map, or a non-string oneof name / branch. Example EDN:
+   `{\"payload\" #{\"heat_camera\"} \"cmd\" #{\"set_dde_level\" \"enable_dde\"}}`."
+  [s]
+  (let [m (edn/read-string s)]
+    (when-not (map? m)
+      (throw (ex-info "--pin must be an EDN map {oneof-name #{field ...}}" {:value s})))
+    (reduce-kv (fn [acc k v]
+                 (when-not (string? k)
+                   (throw (ex-info "--pin oneof name must be a string" {:key k})))
+                 (assoc acc k (into #{} (map (fn [b]
+                                               (if (string? b) b
+                                                   (throw (ex-info "--pin branch must be a string"
+                                                                   {:branch b}))))) v)))
+               {} m)))
+
 (defn -main
   "CLI: gen-corpus options (see ns docstring)."
   [& args]
-  (let [{:keys [count seed] :as opts} (parse-args args)
+  (let [{:keys [count seed pin] :as opts} (parse-args args)
         opts (cond-> opts
                count (assoc :count (parse-pos-int "--count" count))
-               seed (assoc :seed (parse-pos-int "--seed" seed)))]
+               seed (assoc :seed (parse-pos-int "--seed" seed))
+               pin (assoc :pins (parse-pins pin)))]
     (if-not (:message opts)
-      (do (println "Usage: gen-corpus --message <full.Name> [--descriptor PATH] [--db-path PATH] [--count N] [--seed S] [--output DIR]")
+      (do (println "Usage: gen-corpus --message <full.Name> [--descriptor PATH] [--db-path PATH] [--count N] [--seed S] [--output DIR] [--pin '{\"oneof\" #{\"branch\"}}']")
           (System/exit 1))
       (let [r (run opts)]
         (println (format "gen-corpus %s: %d positive, %d violating, %d boundary-failures, %d proto-db-drift, %d silent-drops%s"

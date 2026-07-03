@@ -40,6 +40,23 @@
 
 (set! *warn-on-reflection* true)
 
+(def ^:dynamic *pins*
+  "Oneof-branch PINS for constrained corpus generation: a map
+   `{oneof-name #{allowed-field-name ...}}`. When `message-gen` builds a oneof
+   group whose descriptor name is a key here, it restricts the generated branch
+   to the allowed field set (instead of the default: any branch). Applied across
+   the whole recursive generator tree, so nested oneofs are pinned together
+   (e.g. `{\"payload\" #{\"heat_camera\"} \"cmd\" #{\"set_dde_level\"}}` pins BOTH
+   `cmd.Root`'s payload AND the nested `cmd.HeatCamera.Root`'s cmd). Bound once at
+   the `gen-corpus` entry (via `--pin`). nil ⇒ unconstrained (the default).
+
+   This is how a sensor-class differential constrains `cmd.Root` to a module's
+   handled command subset — a generic corpus would (a) mostly select payloads the
+   module routes to a no-op and (b) hit the dispatch's `exit()` landmines on
+   unmapped sub-commands. Pinning keeps the boundary-injected generation but scopes
+   the oneof selection to the mapped set."
+  nil)
+
 (def ^:private float-max (double Float/MAX_VALUE))
 
 ;; Cap the random corpus's repeated count / byte length so a max_items 256 or a
@@ -268,10 +285,27 @@
                 g)]
         (gen/fmap (fn [v] {fname v}) g)))))
 
+(defn- pin-filter
+  "Restrict oneof group `grp` (field descriptors sharing oneof `oneof-name`) to
+   the branches `*pins*` allows; identity when the oneof is unpinned. Fail-loud
+   when a pin names this oneof but selects NO available branch (a typo guard — a
+   silently-empty group would drop the required oneof and emit an unset payload)."
+  [oneof-name grp]
+  (if-let [allowed (get *pins* oneof-name)]
+    (let [kept (filterv #(contains? allowed (Descriptors$FieldDescriptor/.getName %)) grp)]
+      (when (empty? kept)
+        (throw (ex-info "gen-corpus --pin selects no available oneof branch"
+                        {:oneof oneof-name
+                         :allowed allowed
+                         :available (mapv #(Descriptors$FieldDescriptor/.getName %) grp)})))
+      kept)
+    grp))
+
 (defn message-gen
   "test.check generator of an EDN value map for `full-name`. Non-oneof fields are
-   always present; each real oneof contributes EXACTLY ONE branch (gen/one-of).
-   `seen` guards message recursion."
+   always present; each real oneof contributes EXACTLY ONE branch (gen/one-of),
+   restricted by `*pins*` when the oneof is pinned. `seen` guards message
+   recursion."
   [pool db full-name seen]
   (let [^Descriptors$Descriptor d (get pool full-name)]
     (when-not d
@@ -283,15 +317,15 @@
           oneof? (fn [^Descriptors$FieldDescriptor f]
                    (some? (Descriptors$FieldDescriptor/.getRealContainingOneof f)))
           plain (remove oneof? fields)
-          oneof-groups (vals (group-by #(Descriptors$OneofDescriptor/.getName
-                                         (Descriptors$FieldDescriptor/.getRealContainingOneof %))
-                                       (filter oneof? fields)))
+          oneof-groups (group-by #(Descriptors$OneofDescriptor/.getName
+                                    (Descriptors$FieldDescriptor/.getRealContainingOneof %))
+                                  (filter oneof? fields))
           plain-gens (map #(field-entry-gen pool db % (constraints (Descriptors$FieldDescriptor/.getName %)) enums seen')
                           plain)
-          oneof-gens (map (fn [grp]
+          oneof-gens (map (fn [[oneof-name grp]]
                             (gen/one-of
                              (mapv #(field-entry-gen pool db % (constraints (Descriptors$FieldDescriptor/.getName %)) enums seen')
-                                   grp)))
+                                   (pin-filter oneof-name grp))))
                           oneof-groups)
           all (concat plain-gens oneof-gens)]
       (if (seq all)
