@@ -9652,6 +9652,7 @@ class EventBinding final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kCmdByValueFieldNumber = 10,
     kNameFieldNumber = 1,
     kSetSubjectFieldNumber = 5,
     kCmdFieldNumber = 9,
@@ -9662,6 +9663,23 @@ class EventBinding final : public ::google::protobuf::Message
     kToggleFieldNumber = 7,
     kNotifyHostFieldNumber = 8,
   };
+  // repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = {
+  int cmd_by_value_size() const;
+  private:
+  int _internal_cmd_by_value_size() const;
+
+  public:
+  void clear_cmd_by_value() ;
+  ::ui::CmdSpec* mutable_cmd_by_value(int index);
+  ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>* mutable_cmd_by_value();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>& _internal_cmd_by_value() const;
+  ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>* _internal_mutable_cmd_by_value();
+  public:
+  const ::ui::CmdSpec& cmd_by_value(int index) const;
+  ::ui::CmdSpec* add_cmd_by_value();
+  const ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>& cmd_by_value() const;
   // string name = 1 [(.buf.validate.field) = {
   void clear_name() ;
   const std::string& name() const;
@@ -9774,7 +9792,7 @@ class EventBinding final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 9, 1,
+      4, 10, 2,
       47, 2>
       _table_;
 
@@ -9794,6 +9812,7 @@ class EventBinding final : public ::google::protobuf::Message
                           const EventBinding& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::ui::CmdSpec > cmd_by_value_;
     ::google::protobuf::internal::ArenaStringPtr name_;
     ::google::protobuf::internal::ArenaStringPtr set_subject_;
     ::ui::CmdSpec* cmd_;
@@ -18728,6 +18747,55 @@ inline void EventBinding::set_allocated_cmd(::ui::CmdSpec* value) {
 
   _impl_.cmd_ = reinterpret_cast<::ui::CmdSpec*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.EventBinding.cmd)
+}
+
+// repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = {
+inline int EventBinding::_internal_cmd_by_value_size() const {
+  return _internal_cmd_by_value().size();
+}
+inline int EventBinding::cmd_by_value_size() const {
+  return _internal_cmd_by_value_size();
+}
+inline void EventBinding::clear_cmd_by_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.cmd_by_value_.Clear();
+}
+inline ::ui::CmdSpec* EventBinding::mutable_cmd_by_value(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:ui.EventBinding.cmd_by_value)
+  return _internal_mutable_cmd_by_value()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>* EventBinding::mutable_cmd_by_value()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ui.EventBinding.cmd_by_value)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_cmd_by_value();
+}
+inline const ::ui::CmdSpec& EventBinding::cmd_by_value(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.EventBinding.cmd_by_value)
+  return _internal_cmd_by_value().Get(index);
+}
+inline ::ui::CmdSpec* EventBinding::add_cmd_by_value() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ui::CmdSpec* _add = _internal_mutable_cmd_by_value()->Add();
+  // @@protoc_insertion_point(field_add:ui.EventBinding.cmd_by_value)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>& EventBinding::cmd_by_value() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ui.EventBinding.cmd_by_value)
+  return _internal_cmd_by_value();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>&
+EventBinding::_internal_cmd_by_value() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.cmd_by_value_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::CmdSpec>*
+EventBinding::_internal_mutable_cmd_by_value() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.cmd_by_value_;
 }
 
 // -------------------------------------------------------------------

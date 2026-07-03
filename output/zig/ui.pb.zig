@@ -3142,6 +3142,7 @@ pub const EventBinding = struct {
     toggle: bool = false,
     notify_host: bool = false,
     cmd: ?CmdSpec = null,
+    cmd_by_value: std.ArrayListUnmanaged(CmdSpec) = .empty,
 
     pub const _desc_table = .{
         .name = fd(1, .{ .scalar = .string }),
@@ -3153,6 +3154,7 @@ pub const EventBinding = struct {
         .toggle = fd(7, .{ .scalar = .bool }),
         .notify_host = fd(8, .{ .scalar = .bool }),
         .cmd = fd(9, .submessage),
+        .cmd_by_value = fd(10, .{ .repeated = .submessage}),
     };
 
     /// Encodes the message to the writer

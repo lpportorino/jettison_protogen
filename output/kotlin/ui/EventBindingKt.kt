@@ -285,6 +285,155 @@ public object EventBindingKt {
 
     public val EventBindingKt.Dsl.cmdOrNull: ui.UiAst.CmdSpec?
       get() = _builder.cmdOrNull
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class CmdByValueProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     */
+     public val cmdByValue: com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.cmdByValueList
+      )
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     * @param value The cmdByValue to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addCmdByValue")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.add(value: ui.UiAst.CmdSpec) {
+      _builder.addCmdByValue(value)
+    }
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     * @param value The cmdByValue to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignCmdByValue")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.plusAssign(value: ui.UiAst.CmdSpec) {
+      add(value)
+    }
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     * @param values The cmdByValue to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllCmdByValue")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.CmdSpec>) {
+      _builder.addAllCmdByValue(values)
+    }
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     * @param values The cmdByValue to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllCmdByValue")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.CmdSpec>) {
+      addAll(values)
+    }
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     * @param index The index to set the value at.
+     * @param value The cmdByValue to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setCmdByValue")
+    public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.set(index: kotlin.Int, value: ui.UiAst.CmdSpec) {
+      _builder.setCmdByValue(index, value)
+    }
+    /**
+     * ```
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * ```
+     *
+     * `repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearCmdByValue")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.CmdSpec, CmdByValueProxy>.clear() {
+      _builder.clearCmdByValue()
+    }
+
   }
 }
 @kotlin.jvm.JvmSynthetic

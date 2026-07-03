@@ -4729,7 +4729,16 @@ type EventBinding struct {
 	// memcpy'ing root_template and overwriting the patch slot(s) with the
 	// widget value, then relays the result as OPAQUE bytes via host_command —
 	// controls.wasm no longer round-trips through the server /node-cmd shim.
-	Cmd           *CmdSpec `protobuf:"bytes,9,opt,name=cmd,proto3" json:"cmd,omitempty"`
+	Cmd *CmdSpec `protobuf:"bytes,9,opt,name=cmd,proto3" json:"cmd,omitempty"`
+	// Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+	// among (R5a). When present, the widget's current int value (0/1 for a
+	// switch, a dropdown/slider index, any bounded int) selects which entry to
+	// emit; each entry is a FIXED template (patch_count 0, no runtime slot
+	// rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+	// [off,on]) and :enum (N entries in dropdown-option order). Mutually
+	// exclusive with `cmd` (a widget's value either patches ONE template or
+	// index-selects among fixed ones); an out-of-range index emits nothing.
+	CmdByValue    []*CmdSpec `protobuf:"bytes,10,rep,name=cmd_by_value,json=cmdByValue,proto3" json:"cmd_by_value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4823,6 +4832,13 @@ func (x *EventBinding) GetNotifyHost() bool {
 func (x *EventBinding) GetCmd() *CmdSpec {
 	if x != nil {
 		return x.Cmd
+	}
+	return nil
+}
+
+func (x *EventBinding) GetCmdByValue() []*CmdSpec {
+	if x != nil {
+		return x.CmdByValue
 	}
 	return nil
 }
@@ -5789,7 +5805,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x01z\x18\b \x01(\x05R\x01z\"#\n" +
 	"\x05Point\x12\f\n" +
 	"\x01x\x18\x01 \x01(\x05R\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\x05R\x01y\"\xd1\x02\n" +
+	"\x01y\x18\x02 \x01(\x05R\x01y\"\x8a\x03\n" +
 	"\fEventBinding\x12\x1d\n" +
 	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\x04name\x124\n" +
 	"\atrigger\x18\x02 \x01(\x0e2\x10.ui.EventTriggerB\b\xbaH\x05\x82\x01\x02\x10\x01R\atrigger\x12\x1b\n" +
@@ -5801,7 +5817,10 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06toggle\x18\a \x01(\bR\x06toggle\x12\x1f\n" +
 	"\vnotify_host\x18\b \x01(\bR\n" +
 	"notifyHost\x12\x1d\n" +
-	"\x03cmd\x18\t \x01(\v2\v.ui.CmdSpecR\x03cmd\"\x98\x01\n" +
+	"\x03cmd\x18\t \x01(\v2\v.ui.CmdSpecR\x03cmd\x127\n" +
+	"\fcmd_by_value\x18\n" +
+	" \x03(\v2\v.ui.CmdSpecB\b\xbaH\x05\x92\x01\x02\x10\x10R\n" +
+	"cmdByValue\"\x98\x01\n" +
 	"\n" +
 	"FieldPatch\x12\x1f\n" +
 	"\vbyte_offset\x18\x01 \x01(\rR\n" +
@@ -6328,25 +6347,26 @@ var file_ui_ui_ast_proto_depIdxs = []int32{
 	3,  // 56: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
 	4,  // 57: ui.EventBinding.trigger:type_name -> ui.EventTrigger
 	61, // 58: ui.EventBinding.cmd:type_name -> ui.CmdSpec
-	5,  // 59: ui.FieldPatch.kind:type_name -> ui.PatchKind
-	60, // 60: ui.CmdSpec.patches:type_name -> ui.FieldPatch
-	6,  // 61: ui.GestureSpec.kind:type_name -> ui.GestureKind
-	61, // 62: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
-	7,  // 63: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
-	8,  // 64: ui.Layout.flow:type_name -> ui.FlexFlow
-	9,  // 65: ui.Layout.main_place:type_name -> ui.FlexAlign
-	9,  // 66: ui.Layout.cross_place:type_name -> ui.FlexAlign
-	9,  // 67: ui.Layout.track_place:type_name -> ui.FlexAlign
-	66, // 68: ui.StyleGroup.variants:type_name -> ui.StyleVariant
-	67, // 69: ui.StyleVariant.properties:type_name -> ui.StyleProperty
-	26, // 70: ui.StyleProperty.type:type_name -> ui.StylePropertyType
-	68, // 71: ui.StyleProperty.color_value:type_name -> ui.Color
-	69, // 72: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
-	73, // [73:73] is the sub-list for method output_type
-	73, // [73:73] is the sub-list for method input_type
-	73, // [73:73] is the sub-list for extension type_name
-	73, // [73:73] is the sub-list for extension extendee
-	0,  // [0:73] is the sub-list for field type_name
+	61, // 59: ui.EventBinding.cmd_by_value:type_name -> ui.CmdSpec
+	5,  // 60: ui.FieldPatch.kind:type_name -> ui.PatchKind
+	60, // 61: ui.CmdSpec.patches:type_name -> ui.FieldPatch
+	6,  // 62: ui.GestureSpec.kind:type_name -> ui.GestureKind
+	61, // 63: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
+	7,  // 64: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
+	8,  // 65: ui.Layout.flow:type_name -> ui.FlexFlow
+	9,  // 66: ui.Layout.main_place:type_name -> ui.FlexAlign
+	9,  // 67: ui.Layout.cross_place:type_name -> ui.FlexAlign
+	9,  // 68: ui.Layout.track_place:type_name -> ui.FlexAlign
+	66, // 69: ui.StyleGroup.variants:type_name -> ui.StyleVariant
+	67, // 70: ui.StyleVariant.properties:type_name -> ui.StyleProperty
+	26, // 71: ui.StyleProperty.type:type_name -> ui.StylePropertyType
+	68, // 72: ui.StyleProperty.color_value:type_name -> ui.Color
+	69, // 73: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
+	74, // [74:74] is the sub-list for method output_type
+	74, // [74:74] is the sub-list for method input_type
+	74, // [74:74] is the sub-list for extension type_name
+	74, // [74:74] is the sub-list for extension extendee
+	0,  // [0:74] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_ast_proto_init() }

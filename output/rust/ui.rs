@@ -590,6 +590,16 @@ pub struct EventBinding {
     /// controls.wasm no longer round-trips through the server /node-cmd shim.
     #[prost(message, optional, tag = "9")]
     pub cmd: ::core::option::Option<CmdSpec>,
+    /// Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+    /// among (R5a). When present, the widget's current int value (0/1 for a
+    /// switch, a dropdown/slider index, any bounded int) selects which entry to
+    /// emit; each entry is a FIXED template (patch_count 0, no runtime slot
+    /// rewrite). Serves :bool-set (2 entries ), :on-off (2 entries
+    /// ) and :enum (N entries in dropdown-option order). Mutually
+    /// exclusive with `cmd` (a widget's value either patches ONE template or
+    /// index-selects among fixed ones); an out-of-range index emits nothing.
+    #[prost(message, repeated, tag = "10")]
+    pub cmd_by_value: ::prost::alloc::vec::Vec<CmdSpec>,
 }
 /// One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

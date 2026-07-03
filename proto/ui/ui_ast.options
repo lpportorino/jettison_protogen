@@ -14,16 +14,18 @@ ui.EventBinding.set_subject         max_size:64
 # uint64 frame/state times) — 128 is generous headroom. command_id is a
 # dotted cmd-id (<=~30 chars). patches is a small bounded INLINE array (an
 # NDC x/y pair → 2). The HEAVY optional submessages — WidgetNode.gestures (up
-# to 5 GestureSpecs) and EventBinding.cmd (one CmdSpec) — are FT_POINTER
+# to 5 GestureSpecs), EventBinding.cmd (one CmdSpec) and EventBinding.cmd_by_value
+# (up to 16 fixed CmdSpec templates a widget value index-selects) — are FT_POINTER
 # (malloc'd only when present), NOT inline: every WidgetNode is stack-decoded
 # recursively per tree level (renderer.c children_decode_cb), so an inline
-# gestures[5]/cmd (~1.8 KB) would overflow the WASM C stack on deep trees.
-# buf.validate max_items:5 still bounds gestures at validate time.
+# gestures[5]/cmd/cmd_by_value[16] (~1.8 KB+) would overflow the WASM C stack on
+# deep trees. buf.validate max_items still bounds each at validate time (5 / 16).
 ui.CmdSpec.command_id               max_size:128
 ui.CmdSpec.root_template            max_size:128
 ui.CmdSpec.patches                  max_count:2
 ui.WidgetNode.gestures              type:FT_POINTER
 ui.EventBinding.cmd                 type:FT_POINTER
+ui.EventBinding.cmd_by_value        type:FT_POINTER
 ui.WidgetNode.bindings          type:FT_CALLBACK
 ui.ImageProps.src               max_size:256
 ui.DropdownProps.options         max_size:1024

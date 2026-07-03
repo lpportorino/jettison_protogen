@@ -670,6 +670,15 @@ typedef struct _ui_EventBinding {
  controls.wasm no longer round-trips through the server /node-cmd shim. */
     bool has_cmd;
     ui_CmdSpec cmd;
+    /* Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+ among (R5a). When present, the widget's current int value (0/1 for a
+ switch, a dropdown/slider index, any bounded int) selects which entry to
+ emit; each entry is a FIXED template (patch_count 0, no runtime slot
+ rewrite). Serves :bool-set (2 entries ), :on-off (2 entries
+ ) and :enum (N entries in dropdown-option order). Mutually
+ exclusive with `cmd` (a widget's value either patches ONE template or
+ index-selects among fixed ones); an out-of-range index emits nothing. */
+    pb_callback_t cmd_by_value;
 } ui_EventBinding;
 
 /* One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
@@ -1119,7 +1128,7 @@ extern "C" {
 #define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_HostProxyProps_init_default           {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_default                    {0, 0}
-#define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_default}
+#define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_default, {{NULL}, NULL}}
 #define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0}
 #define ui_CmdSpec_init_default                  {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default}
@@ -1164,7 +1173,7 @@ extern "C" {
 #define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_HostProxyProps_init_zero              {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_zero                       {0, 0}
-#define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_zero}
+#define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_zero, {{NULL}, NULL}}
 #define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0}
 #define ui_CmdSpec_init_zero                     {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero}
@@ -1292,6 +1301,7 @@ extern "C" {
 #define ui_EventBinding_toggle_tag               7
 #define ui_EventBinding_notify_host_tag          8
 #define ui_EventBinding_cmd_tag                  9
+#define ui_EventBinding_cmd_by_value_tag         10
 #define ui_GestureSpec_kind_tag                  1
 #define ui_GestureSpec_cmd_tag                   2
 #define ui_VisibilityBinding_subject_tag         1
@@ -1734,10 +1744,12 @@ X(a, CALLBACK, SINGULAR, STRING,   set_subject,       5) \
 X(a, STATIC,   SINGULAR, INT32,    set_value,         6) \
 X(a, STATIC,   SINGULAR, BOOL,     toggle,            7) \
 X(a, STATIC,   SINGULAR, BOOL,     notify_host,       8) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               9)
+X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               9) \
+X(a, CALLBACK, REPEATED, MESSAGE,  cmd_by_value,     10)
 #define ui_EventBinding_CALLBACK pb_default_field_callback
 #define ui_EventBinding_DEFAULT NULL
 #define ui_EventBinding_cmd_MSGTYPE ui_CmdSpec
+#define ui_EventBinding_cmd_by_value_MSGTYPE ui_CmdSpec
 
 #define ui_FieldPatch_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   byte_offset,       1) \

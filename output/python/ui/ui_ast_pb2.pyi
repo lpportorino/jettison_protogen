@@ -1086,7 +1086,7 @@ class Point(_message.Message):
     def __init__(self, x: _Optional[int] = ..., y: _Optional[int] = ...) -> None: ...
 
 class EventBinding(_message.Message):
-    __slots__ = ("name", "trigger", "int_value", "include_widget_value", "set_subject", "set_value", "toggle", "notify_host", "cmd")
+    __slots__ = ("name", "trigger", "int_value", "include_widget_value", "set_subject", "set_value", "toggle", "notify_host", "cmd", "cmd_by_value")
     NAME_FIELD_NUMBER: _ClassVar[int]
     TRIGGER_FIELD_NUMBER: _ClassVar[int]
     INT_VALUE_FIELD_NUMBER: _ClassVar[int]
@@ -1096,6 +1096,7 @@ class EventBinding(_message.Message):
     TOGGLE_FIELD_NUMBER: _ClassVar[int]
     NOTIFY_HOST_FIELD_NUMBER: _ClassVar[int]
     CMD_FIELD_NUMBER: _ClassVar[int]
+    CMD_BY_VALUE_FIELD_NUMBER: _ClassVar[int]
     name: str
     trigger: EventTrigger
     int_value: int
@@ -1105,7 +1106,8 @@ class EventBinding(_message.Message):
     toggle: bool
     notify_host: bool
     cmd: CmdSpec
-    def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ...) -> None: ...
+    cmd_by_value: _containers.RepeatedCompositeFieldContainer[CmdSpec]
+    def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ..., cmd_by_value: _Optional[_Iterable[_Union[CmdSpec, _Mapping]]] = ...) -> None: ...
 
 class FieldPatch(_message.Message):
     __slots__ = ("byte_offset", "byte_width", "kind", "wire_scale")

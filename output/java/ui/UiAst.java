@@ -41588,6 +41588,85 @@ java.lang.String defaultValue) {
      * <code>.ui.CmdSpec cmd = 9;</code>
      */
     ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder();
+
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<ui.UiAst.CmdSpec> 
+        getCmdByValueList();
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.CmdSpec getCmdByValue(int index);
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    int getCmdByValueCount();
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<? extends ui.UiAst.CmdSpecOrBuilder> 
+        getCmdByValueOrBuilderList();
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.CmdSpecOrBuilder getCmdByValueOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code ui.EventBinding}
@@ -41614,6 +41693,7 @@ java.lang.String defaultValue) {
       name_ = "";
       trigger_ = 0;
       setSubject_ = "";
+      cmdByValue_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -41875,6 +41955,102 @@ java.lang.String defaultValue) {
       return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
     }
 
+    public static final int CMD_BY_VALUE_FIELD_NUMBER = 10;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiAst.CmdSpec> cmdByValue_;
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiAst.CmdSpec> getCmdByValueList() {
+      return cmdByValue_;
+    }
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiAst.CmdSpecOrBuilder> 
+        getCmdByValueOrBuilderList() {
+      return cmdByValue_;
+    }
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public int getCmdByValueCount() {
+      return cmdByValue_.size();
+    }
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.CmdSpec getCmdByValue(int index) {
+      return cmdByValue_.get(index);
+    }
+    /**
+     * <pre>
+     * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+     * among (R5a). When present, the widget's current int value (0/1 for a
+     * switch, a dropdown/slider index, any bounded int) selects which entry to
+     * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+     * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+     * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+     * exclusive with `cmd` (a widget's value either patches ONE template or
+     * index-selects among fixed ones); an out-of-range index emits nothing.
+     * </pre>
+     *
+     * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.CmdSpecOrBuilder getCmdByValueOrBuilder(
+        int index) {
+      return cmdByValue_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -41915,6 +42091,9 @@ java.lang.String defaultValue) {
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(9, getCmd());
+      }
+      for (int i = 0; i < cmdByValue_.size(); i++) {
+        output.writeMessage(10, cmdByValue_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -41959,6 +42138,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, getCmd());
       }
+      for (int i = 0; i < cmdByValue_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, cmdByValue_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -41994,6 +42177,8 @@ java.lang.String defaultValue) {
         if (!getCmd()
             .equals(other.getCmd())) return false;
       }
+      if (!getCmdByValueList()
+          .equals(other.getCmdByValueList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -42027,6 +42212,10 @@ java.lang.String defaultValue) {
       if (hasCmd()) {
         hash = (37 * hash) + CMD_FIELD_NUMBER;
         hash = (53 * hash) + getCmd().hashCode();
+      }
+      if (getCmdByValueCount() > 0) {
+        hash = (37 * hash) + CMD_BY_VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getCmdByValueList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -42159,6 +42348,7 @@ java.lang.String defaultValue) {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getCmdFieldBuilder();
+          getCmdByValueFieldBuilder();
         }
       }
       @java.lang.Override
@@ -42178,6 +42368,13 @@ java.lang.String defaultValue) {
           cmdBuilder_.dispose();
           cmdBuilder_ = null;
         }
+        if (cmdByValueBuilder_ == null) {
+          cmdByValue_ = java.util.Collections.emptyList();
+        } else {
+          cmdByValue_ = null;
+          cmdByValueBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -42204,9 +42401,22 @@ java.lang.String defaultValue) {
       @java.lang.Override
       public ui.UiAst.EventBinding buildPartial() {
         ui.UiAst.EventBinding result = new ui.UiAst.EventBinding(this);
+        buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartialRepeatedFields(ui.UiAst.EventBinding result) {
+        if (cmdByValueBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) != 0)) {
+            cmdByValue_ = java.util.Collections.unmodifiableList(cmdByValue_);
+            bitField0_ = (bitField0_ & ~0x00000200);
+          }
+          result.cmdByValue_ = cmdByValue_;
+        } else {
+          result.cmdByValue_ = cmdByValueBuilder_.build();
+        }
       }
 
       private void buildPartial0(ui.UiAst.EventBinding result) {
@@ -42288,6 +42498,32 @@ java.lang.String defaultValue) {
         if (other.hasCmd()) {
           mergeCmd(other.getCmd());
         }
+        if (cmdByValueBuilder_ == null) {
+          if (!other.cmdByValue_.isEmpty()) {
+            if (cmdByValue_.isEmpty()) {
+              cmdByValue_ = other.cmdByValue_;
+              bitField0_ = (bitField0_ & ~0x00000200);
+            } else {
+              ensureCmdByValueIsMutable();
+              cmdByValue_.addAll(other.cmdByValue_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.cmdByValue_.isEmpty()) {
+            if (cmdByValueBuilder_.isEmpty()) {
+              cmdByValueBuilder_.dispose();
+              cmdByValueBuilder_ = null;
+              cmdByValue_ = other.cmdByValue_;
+              bitField0_ = (bitField0_ & ~0x00000200);
+              cmdByValueBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCmdByValueFieldBuilder() : null;
+            } else {
+              cmdByValueBuilder_.addAllMessages(other.cmdByValue_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -42361,6 +42597,19 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00000100;
                 break;
               } // case 74
+              case 82: {
+                ui.UiAst.CmdSpec m =
+                    input.readMessage(
+                        ui.UiAst.CmdSpec.parser(),
+                        extensionRegistry);
+                if (cmdByValueBuilder_ == null) {
+                  ensureCmdByValueIsMutable();
+                  cmdByValue_.add(m);
+                } else {
+                  cmdByValueBuilder_.addMessage(m);
+                }
+                break;
+              } // case 82
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -43046,6 +43295,444 @@ java.lang.String defaultValue) {
           cmd_ = null;
         }
         return cmdBuilder_;
+      }
+
+      private java.util.List<ui.UiAst.CmdSpec> cmdByValue_ =
+        java.util.Collections.emptyList();
+      private void ensureCmdByValueIsMutable() {
+        if (!((bitField0_ & 0x00000200) != 0)) {
+          cmdByValue_ = new java.util.ArrayList<ui.UiAst.CmdSpec>(cmdByValue_);
+          bitField0_ |= 0x00000200;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder> cmdByValueBuilder_;
+
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.CmdSpec> getCmdByValueList() {
+        if (cmdByValueBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(cmdByValue_);
+        } else {
+          return cmdByValueBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public int getCmdByValueCount() {
+        if (cmdByValueBuilder_ == null) {
+          return cmdByValue_.size();
+        } else {
+          return cmdByValueBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.CmdSpec getCmdByValue(int index) {
+        if (cmdByValueBuilder_ == null) {
+          return cmdByValue_.get(index);
+        } else {
+          return cmdByValueBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setCmdByValue(
+          int index, ui.UiAst.CmdSpec value) {
+        if (cmdByValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCmdByValueIsMutable();
+          cmdByValue_.set(index, value);
+          onChanged();
+        } else {
+          cmdByValueBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setCmdByValue(
+          int index, ui.UiAst.CmdSpec.Builder builderForValue) {
+        if (cmdByValueBuilder_ == null) {
+          ensureCmdByValueIsMutable();
+          cmdByValue_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          cmdByValueBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addCmdByValue(ui.UiAst.CmdSpec value) {
+        if (cmdByValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCmdByValueIsMutable();
+          cmdByValue_.add(value);
+          onChanged();
+        } else {
+          cmdByValueBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addCmdByValue(
+          int index, ui.UiAst.CmdSpec value) {
+        if (cmdByValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCmdByValueIsMutable();
+          cmdByValue_.add(index, value);
+          onChanged();
+        } else {
+          cmdByValueBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addCmdByValue(
+          ui.UiAst.CmdSpec.Builder builderForValue) {
+        if (cmdByValueBuilder_ == null) {
+          ensureCmdByValueIsMutable();
+          cmdByValue_.add(builderForValue.build());
+          onChanged();
+        } else {
+          cmdByValueBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addCmdByValue(
+          int index, ui.UiAst.CmdSpec.Builder builderForValue) {
+        if (cmdByValueBuilder_ == null) {
+          ensureCmdByValueIsMutable();
+          cmdByValue_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          cmdByValueBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addAllCmdByValue(
+          java.lang.Iterable<? extends ui.UiAst.CmdSpec> values) {
+        if (cmdByValueBuilder_ == null) {
+          ensureCmdByValueIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, cmdByValue_);
+          onChanged();
+        } else {
+          cmdByValueBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearCmdByValue() {
+        if (cmdByValueBuilder_ == null) {
+          cmdByValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000200);
+          onChanged();
+        } else {
+          cmdByValueBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder removeCmdByValue(int index) {
+        if (cmdByValueBuilder_ == null) {
+          ensureCmdByValueIsMutable();
+          cmdByValue_.remove(index);
+          onChanged();
+        } else {
+          cmdByValueBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.CmdSpec.Builder getCmdByValueBuilder(
+          int index) {
+        return getCmdByValueFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.CmdSpecOrBuilder getCmdByValueOrBuilder(
+          int index) {
+        if (cmdByValueBuilder_ == null) {
+          return cmdByValue_.get(index);  } else {
+          return cmdByValueBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<? extends ui.UiAst.CmdSpecOrBuilder> 
+           getCmdByValueOrBuilderList() {
+        if (cmdByValueBuilder_ != null) {
+          return cmdByValueBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(cmdByValue_);
+        }
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.CmdSpec.Builder addCmdByValueBuilder() {
+        return getCmdByValueFieldBuilder().addBuilder(
+            ui.UiAst.CmdSpec.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.CmdSpec.Builder addCmdByValueBuilder(
+          int index) {
+        return getCmdByValueFieldBuilder().addBuilder(
+            index, ui.UiAst.CmdSpec.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+       * among (R5a). When present, the widget's current int value (0/1 for a
+       * switch, a dropdown/slider index, any bounded int) selects which entry to
+       * emit; each entry is a FIXED template (patch_count 0, no runtime slot
+       * rewrite). Serves :bool-set (2 entries [false,true]), :on-off (2 entries
+       * [off,on]) and :enum (N entries in dropdown-option order). Mutually
+       * exclusive with `cmd` (a widget's value either patches ONE template or
+       * index-selects among fixed ones); an out-of-range index emits nothing.
+       * </pre>
+       *
+       * <code>repeated .ui.CmdSpec cmd_by_value = 10 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.CmdSpec.Builder> 
+           getCmdByValueBuilderList() {
+        return getCmdByValueFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder> 
+          getCmdByValueFieldBuilder() {
+        if (cmdByValueBuilder_ == null) {
+          cmdByValueBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiAst.CmdSpec, ui.UiAst.CmdSpec.Builder, ui.UiAst.CmdSpecOrBuilder>(
+                  cmdByValue_,
+                  ((bitField0_ & 0x00000200) != 0),
+                  getParentForChildren(),
+                  isClean());
+          cmdByValue_ = null;
+        }
+        return cmdByValueBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.EventBinding)
@@ -52145,206 +52832,207 @@ java.lang.String defaultValue) {
       "ui.ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n" +
       "\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001" +
       "(\005\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Po" +
-      "int\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\365\001\n\014EventBindi" +
+      "int\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventBindi" +
       "ng\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022+\n\007trigger\030\002" +
       " \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tint_" +
       "value\030\003 \001(\005\022\034\n\024include_widget_value\030\004 \001(" +
       "\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset_v" +
       "alue\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_hos" +
-      "t\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\"p\n\nFie" +
-      "ldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\nbyte_wid" +
-      "th\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.PatchKindB\010\272" +
-      "H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"h\n\007CmdSpec\022\033" +
-      "\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_temp" +
-      "late\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.FieldPa" +
-      "tchB\010\272H\005\222\001\002\020\002\"P\n\013GestureSpec\022\'\n\004kind\030\001 \001" +
-      "(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001" +
-      "(\0132\013.ui.CmdSpec\"l\n\021VisibilityBinding\022\032\n\007" +
-      "subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_value\030\002 " +
-      "\001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOpB\010\272H\005" +
-      "\202\001\002\020\001\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui.Flex" +
-      "FlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162\r.ui." +
-      "FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001(\016" +
-      "2\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_place" +
-      "\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\nStyle" +
-      "Group\022\026\n\016state_selector\030\001 \001(\r\022.\n\010variant" +
-      "s\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n" +
-      "\014StyleVariant\022\036\n\rvariant_index\030\001 \001(\rB\007\272H" +
-      "\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.StyleProp" +
-      "erty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(\0162\025.u" +
-      "i.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_va" +
-      "lue\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013colo" +
-      "r_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014string_val" +
-      "ue\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value\030\006 \001(" +
-      "\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005Color\022" +
-      "\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377" +
-      "\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle\022\r" +
-      "\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010offse" +
-      "t_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010" +
-      "\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_INT\020\000" +
-      "\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKind\022\031\n\025" +
-      "PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP_REPL" +
-      "ACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020\002\022\030\n\024" +
-      "PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_MOVE_" +
-      "NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022\021\n" +
-      "\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWI" +
-      "DGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWIDGE" +
-      "T_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWITCH" +
-      "\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROPDO" +
-      "WN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXTAR" +
-      "EA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPINN" +
-      "ER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n" +
-      "\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX\020\021" +
-      "\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020" +
-      "\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PROXY\020\025*" +
-      "p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024P" +
-      "ROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE_RESI" +
-      "ZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X\n\014Eve" +
-      "ntTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIGGE" +
-      "R_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_PRESSE" +
-      "D\020\002*\206\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNSPECIF" +
-      "IED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATCH_KIN" +
-      "D_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PATCH" +
-      "_KIND_WIDGET_VALUE\020\004*\240\001\n\013GestureKind\022\031\n\025" +
-      "GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTURE_KIND_" +
-      "PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022GESTU" +
-      "RE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_PINCH\020\004\022" +
-      "\026\n\022GESTURE_KIND_WHEEL\020\005*q\n\tCompareOp\022\016\n\n" +
-      "COMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMP" +
-      "ARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020" +
-      "\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_" +
-      "FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_F" +
-      "LOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025" +
-      "FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW" +
-      "_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP" +
-      "\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX" +
-      "_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlig" +
-      "n\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_EN" +
-      "D\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN" +
-      "_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROU" +
-      "ND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tG" +
-      "ridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_A" +
-      "LIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRI" +
-      "D_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EV" +
-      "ENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030G" +
-      "RID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023" +
-      "\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001" +
-      "\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RI" +
-      "GHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022" +
-      "\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_" +
-      "STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_M" +
-      "ODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n" +
-      "\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_" +
-      "MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n" +
-      "\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_R" +
-      "TL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUT" +
-      "RAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\r" +
-      "GRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRA" +
-      "D_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD" +
-      "_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003D" +
-      "ir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RI" +
-      "GHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DI" +
-      "R_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Al" +
-      "ign\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT" +
-      "\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT" +
-      "\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTO" +
-      "M_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN" +
-      "_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIG" +
-      "N_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021AL" +
-      "IGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT" +
-      "\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_O" +
-      "UT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGH" +
-      "T\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT" +
-      "_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027" +
-      "\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIG" +
-      "HT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n" +
-      "\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BOR" +
-      "DER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024" +
-      "\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGH" +
-      "T\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE" +
-      "_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_L" +
-      "ONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020" +
-      "\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_L" +
-      "ONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG" +
-      "_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORM" +
-      "AL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MO" +
-      "DE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL" +
-      "\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE" +
-      "_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_" +
-      "NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tS" +
-      "caleMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022" +
-      " \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCA" +
-      "LE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VE" +
-      "RTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER" +
-      "\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChart" +
-      "Type\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_" +
-      "LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TY" +
-      "PE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHAR" +
-      "T_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_A" +
-      "XIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_" +
-      "Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_A" +
-      "XIS_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022" +
-      "\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017P" +
-      "ROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021" +
-      "PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH" +
-      "\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n" +
-      "\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_" +
-      "HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HO" +
-      "R\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL" +
-      "\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDT" +
-      "H\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIG" +
-      "HT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH" +
-      "\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN" +
-      "\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRA" +
-      "NSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n" +
-      "\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n" +
-      "\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PR" +
-      "OP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_S" +
-      "KEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP" +
-      "\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT" +
-      "\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'" +
-      "\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP" +
-      "\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGI" +
-      "N_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_" +
-      "BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n" +
-      "\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STO" +
-      "P\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRA" +
-      "D_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_B" +
-      "G_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205" +
-      "\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_" +
-      "BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024" +
-      "\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WID" +
-      "TH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUT" +
-      "LINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP" +
-      "_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020" +
-      "?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHAD" +
-      "OW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PR" +
-      "OP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022P" +
-      "ROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLO" +
-      "R_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LIN" +
-      "E_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025" +
-      "\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR" +
-      "\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020" +
-      "M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLO" +
-      "R\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q" +
-      "\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEX" +
-      "T_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017P" +
-      "ROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014" +
-      "\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PR" +
-      "OP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURAT" +
-      "ION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_" +
-      "DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PR" +
-      "OP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_" +
-      "\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX" +
-      "_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PR" +
-      "OP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_" +
-      "ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032" +
-      "\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_" +
-      "CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW" +
-      "_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PR" +
-      "OP_GRID_CELL_ROW_SPAN\020jBEZCgit-codecommi" +
-      "t.eu-central-1.amazonaws.com/v1/repos/je" +
-      "ttison/jonp/uib\006proto3"
+      "t\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n\014cmd" +
+      "_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002\020\020\"p" +
+      "\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\nbyt" +
+      "e_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.PatchKi" +
+      "ndB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"h\n\007CmdS" +
+      "pec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot" +
+      "_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fi" +
+      "eldPatchB\010\272H\005\222\001\002\020\002\"P\n\013GestureSpec\022\'\n\004kin" +
+      "d\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cm" +
+      "d\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBindin" +
+      "g\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_val" +
+      "ue\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOp" +
+      "B\010\272H\005\202\001\002\020\001\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui" +
+      ".FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162" +
+      "\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030" +
+      "\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_" +
+      "place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\n" +
+      "StyleGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010va" +
+      "riants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001" +
+      "\020\010\"U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(" +
+      "\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.Styl" +
+      "eProperty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(" +
+      "\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nui" +
+      "nt_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n" +
+      "\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014strin" +
+      "g_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value" +
+      "\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005C" +
+      "olor\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H" +
+      "\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBun" +
+      "dle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010" +
+      "offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 " +
+      "\001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_" +
+      "INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKin" +
+      "d\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP" +
+      "_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020" +
+      "\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_" +
+      "MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ" +
+      "\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022" +
+      "\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\n" +
+      "WIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_S" +
+      "WITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_D" +
+      "ROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_T" +
+      "EXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_" +
+      "SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE" +
+      "\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMAT" +
+      "RIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIE" +
+      "W\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PRO" +
+      "XY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000" +
+      "\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE" +
+      "_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X" +
+      "\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025T" +
+      "RIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_P" +
+      "RESSED\020\002*\206\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNS" +
+      "PECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATC" +
+      "H_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027" +
+      "PATCH_KIND_WIDGET_VALUE\020\004*\240\001\n\013GestureKin" +
+      "d\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTURE_" +
+      "KIND_PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022" +
+      "GESTURE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_PIN" +
+      "CH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005*q\n\tCompareO" +
+      "p\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n" +
+      "\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPAR" +
+      "E_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016" +
+      "FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020F" +
+      "LEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020" +
+      "\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLO" +
+      "W_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN" +
+      "_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n" +
+      "\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFle" +
+      "xAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALI" +
+      "GN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_" +
+      "ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE" +
+      "_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*" +
+      "\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021G" +
+      "RID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026" +
+      "\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPA" +
+      "CE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005" +
+      "\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAl" +
+      "ign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_L" +
+      "EFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALI" +
+      "GN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NO" +
+      "NE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_D" +
+      "ECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BL" +
+      "END_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE" +
+      "\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_" +
+      "MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE" +
+      "\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_" +
+      "DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR" +
+      "_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDi" +
+      "r\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020" +
+      "\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n" +
+      "\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005" +
+      "*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tD" +
+      "IR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022" +
+      "\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210" +
+      "\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP" +
+      "_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_" +
+      "RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_" +
+      "BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016" +
+      "ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n" +
+      "\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022" +
+      "\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_" +
+      "RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024AL" +
+      "IGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM" +
+      "_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIG" +
+      "N_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTO" +
+      "M\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OU" +
+      "T_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020" +
+      "\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026" +
+      "\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TO" +
+      "P\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE" +
+      "_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER" +
+      "_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LA" +
+      "BEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_" +
+      "DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LA" +
+      "BEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL" +
+      "_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE" +
+      "_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016B" +
+      "AR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_N" +
+      "ORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC" +
+      "_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_" +
+      "MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*" +
+      "\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_T" +
+      "OP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034" +
+      "\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MO" +
+      "DE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_" +
+      "INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\t" +
+      "ChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_" +
+      "TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHA" +
+      "RT_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n" +
+      "\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CH" +
+      "ART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECON" +
+      "DARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CH" +
+      "ART_AXIS_SECONDARY_X\020\004*\273\022\n\021StyleProperty" +
+      "Type\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001" +
+      "\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020" +
+      "\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_" +
+      "WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL" +
+      "\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013" +
+      "PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_P" +
+      "AD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGI" +
+      "N_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN" +
+      "_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN" +
+      "_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_L" +
+      "ENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_" +
+      "ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PRO" +
+      "P_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X" +
+      "\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X" +
+      "\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022" +
+      "\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013P" +
+      "ROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PA" +
+      "D_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD" +
+      "_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_" +
+      "ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGI" +
+      "N_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_" +
+      "MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022" +
+      "PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR" +
+      "\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRA" +
+      "D_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_B" +
+      "G_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021P" +
+      "ROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECO" +
+      "LOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023" +
+      "PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SID" +
+      "E\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLIN" +
+      "E_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PRO" +
+      "P_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n" +
+      "\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFS" +
+      "ET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP" +
+      "_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022" +
+      "\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D" +
+      "\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_R" +
+      "ECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PRO" +
+      "P_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GA" +
+      "P\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_" +
+      "COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_W" +
+      "IDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC" +
+      "_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_" +
+      "OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PRO" +
+      "P_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T" +
+      "\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNE" +
+      "R\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022" +
+      "\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_" +
+      "DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_" +
+      "BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022" +
+      "\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PL" +
+      "ACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP" +
+      "_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022" +
+      "\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID" +
+      "_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_PO" +
+      "S\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_" +
+      "GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CEL" +
+      "L_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022" +
+      "\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-code" +
+      "commit.eu-central-1.amazonaws.com/v1/rep" +
+      "os/jettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -52560,7 +53248,7 @@ java.lang.String defaultValue) {
     internal_static_ui_EventBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_EventBinding_descriptor,
-        new java.lang.String[] { "Name", "Trigger", "IntValue", "IncludeWidgetValue", "SetSubject", "SetValue", "Toggle", "NotifyHost", "Cmd", });
+        new java.lang.String[] { "Name", "Trigger", "IntValue", "IncludeWidgetValue", "SetSubject", "SetValue", "Toggle", "NotifyHost", "Cmd", "CmdByValue", });
     internal_static_ui_FieldPatch_descriptor =
       getDescriptor().getMessageTypes().get(33);
     internal_static_ui_FieldPatch_fieldAccessorTable = new
