@@ -2,6 +2,32 @@
 
 This file provides guidance to Claude Code when working with the Protogen module.
 
+## Branching policy (MANDATORY — trunk-only, always track head)
+
+**This repo is TRUNK-ONLY. All work lands on `master` (head). NEVER create a
+feature branch for protogen.** Protogen is the single upstream for 10+
+binding/consumer repos that pin it as a git submodule and rebuild from the pin;
+the `build-and-release` GitHub Actions workflow distributes generated bindings to
+the language-specific repos. A **feature-branch pin fragments that fleet** — each
+consumer ends up pinned to a different, non-`master` commit that can be rebased,
+force-updated, or deleted out from under it (this is exactly the divergence that
+forced a full cross-repo re-sync).
+
+Rules:
+- **Commit directly to `master`.** No `feat-*` / `wip-*` branches — branch
+  creation is forbidden. A change lands on `master` or it doesn't land.
+- **Consumers ALWAYS pin/track `master` head**, never a feature branch. When a
+  consumer needs a new proto field it lands on `master` FIRST, then the consumer
+  bumps its pin to the new `master` tip; the consumer's `.gitmodules` tracks the
+  `master` branch so `git submodule update --remote` follows head.
+- **Additive-first, POC-regenerable.** New fields append a free field number
+  (additive, backward-compatible). Full regeneration incl. renumbering is allowed
+  ONLY when every consumer rebuilds in lockstep (nothing ships outside rebuild
+  reach) — the numbering registry is for determinism, not compatibility.
+- **A proto change is ONE coordinated event:** edit → `make generate` → commit to
+  `master` → push (CI fans out) → every active consumer bumps its pin + regenerates
+  + gates, in lockstep. Never leave the fleet pinned across divergent commits.
+
 ## Module Overview
 
 Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go, Kotlin, and Java) using buf.validate annotations.
