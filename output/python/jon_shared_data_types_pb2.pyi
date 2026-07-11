@@ -87,6 +87,12 @@ class JonGuiDatatLrfLaserPointerModes(int, metaclass=_enum_type_wrapper.EnumType
     JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1: _ClassVar[JonGuiDatatLrfLaserPointerModes]
     JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2: _ClassVar[JonGuiDatatLrfLaserPointerModes]
 
+class JonGuiDataTargetType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED: _ClassVar[JonGuiDataTargetType]
+    JON_GUI_DATA_TARGET_TYPE_TARGET: _ClassVar[JonGuiDataTargetType]
+    JON_GUI_DATA_TARGET_TYPE_PHOTO: _ClassVar[JonGuiDataTargetType]
+
 class JonGuiDataCompassCalibrateStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED: _ClassVar[JonGuiDataCompassCalibrateStatus]
@@ -229,6 +235,9 @@ JON_GUI_DATA_LRF_LASER_POINTER_MODE_UNSPECIFIED: JonGuiDatatLrfLaserPointerModes
 JON_GUI_DATA_LRF_LASER_POINTER_MODE_OFF: JonGuiDatatLrfLaserPointerModes
 JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1: JonGuiDatatLrfLaserPointerModes
 JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2: JonGuiDatatLrfLaserPointerModes
+JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED: JonGuiDataTargetType
+JON_GUI_DATA_TARGET_TYPE_TARGET: JonGuiDataTargetType
+JON_GUI_DATA_TARGET_TYPE_PHOTO: JonGuiDataTargetType
 JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED: JonGuiDataCompassCalibrateStatus
 JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING: JonGuiDataCompassCalibrateStatus
 JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_CALIBRATING_SHORT: JonGuiDataCompassCalibrateStatus

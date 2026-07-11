@@ -73,13 +73,24 @@ message JonGuiDataTarget {
   int32 session_id = 14 [(buf.validate.field).int32.gte = 0];
   int32 target_id = 15 [(buf.validate.field).int32.gte = 0];
   RgbColor target_color = 16;
-  uint32 type = 17;
+
+  // Field 17 ("type", uint32) was never written or read by any consumer;
+  // retired in favor of the typed capture_type below.
+  reserved 17;
+  reserved "type";
 
   // UUID as four fixed32 values (128 bits total)
   int32 uuid_part1 = 18;
   int32 uuid_part2 = 19;
   int32 uuid_part3 = 20;
   int32 uuid_part4 = 21;
+
+  // What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+  // command, or an LRF measure with no valid range). UNSPECIFIED only in
+  // records predating the discriminator.
+  JonGuiDataTargetType capture_type = 23 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
 }
 
 message RgbColor {

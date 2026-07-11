@@ -72,12 +72,12 @@ inline constexpr JonGuiDataTarget::Impl_::Impl_(
         observer_fix_type_{static_cast< ::ser::JonGuiDataGpsFixType >(0)},
         session_id_{0},
         target_id_{0},
-        type_{0u},
         uuid_part1_{0},
         uuid_part2_{0},
         uuid_part3_{0},
+        distance_c_{0},
         uuid_part4_{0},
-        distance_c_{0} {}
+        capture_type_{static_cast< ::ser::JonGuiDataTargetType >(0)} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataTarget::JonGuiDataTarget(::_pbi::ConstantInitialized)
@@ -196,11 +196,11 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.session_id_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.target_id_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.target_color_),
-        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.type_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.uuid_part1_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.uuid_part2_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.uuid_part3_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.uuid_part4_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_.capture_type_),
         ~0u,
         ~0u,
         ~0u,
@@ -260,7 +260,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto[] ABSL_AT
     "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin"
     "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\022#\n\005meteo\030\n \001"
     "(\0132\024.ser.JonGuiDataMeteo\022\021\n\tscan_mode\030\013 "
-    "\001(\005\"\317\006\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 "
+    "\001(\005\"\210\007\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 "
     "\001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001(\001B\027"
     "\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_latitu"
     "de\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017tar"
@@ -279,13 +279,15 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto[] ABSL_AT
     "ataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030"
     "\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002"
     "(\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbColor\022"
-    "\014\n\004type\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuui"
-    "d_part2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuui"
-    "d_part4\030\025 \001(\005\"X\n\010RgbColor\022\027\n\003red\030\001 \001(\rB\n"
-    "\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n"
-    "\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000BKZIgit-codecommi"
-    "t.eu-central-1.amazonaws.com/v1/repos/je"
-    "ttison/jonp/data/lrfb\006proto3"
+    "\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022"
+    "\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\022"
+    "9\n\014capture_type\030\027 \001(\0162\031.ser.JonGuiDataTa"
+    "rgetTypeB\010\272H\005\202\001\002\020\001J\004\010\021\020\022R\004type\"X\n\010RgbCol"
+    "or\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001"
+    "(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000"
+    "BKZIgit-codecommit.eu-central-1.amazonaw"
+    "s.com/v1/repos/jettison/jonp/data/lrfb\006p"
+    "roto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_deps[2] =
     {
@@ -296,7 +298,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5flrf_2eproto = {
     false,
     false,
-    1468,
+    1525,
     descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto,
     "jon_shared_data_lrf.proto",
     &descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_once,
@@ -862,9 +864,9 @@ JonGuiDataTarget::JonGuiDataTarget(
                offsetof(Impl_, timestamp_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, timestamp_),
-           offsetof(Impl_, distance_c_) -
+           offsetof(Impl_, capture_type_) -
                offsetof(Impl_, timestamp_) +
-               sizeof(Impl_::distance_c_));
+               sizeof(Impl_::capture_type_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataTarget)
 }
@@ -878,9 +880,9 @@ inline void JonGuiDataTarget::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, target_color_),
            0,
-           offsetof(Impl_, distance_c_) -
+           offsetof(Impl_, capture_type_) -
                offsetof(Impl_, target_color_) +
-               sizeof(Impl_::distance_c_));
+               sizeof(Impl_::capture_type_));
 }
 JonGuiDataTarget::~JonGuiDataTarget() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataTarget)
@@ -934,9 +936,9 @@ const ::_pbi::TcParseTable<5, 22, 1, 0, 2> JonGuiDataTarget::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_._has_bits_),
     0, // no _extensions_
-    22, 248,  // max_field_number, fast_idx_mask
+    23, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4290772992,  // skipmap
+    4286644224,  // skipmap
     offsetof(decltype(_table_), field_entries),
     22,  // num_field_entries
     1,  // num_aux_entries
@@ -997,9 +999,7 @@ const ::_pbi::TcParseTable<5, 22, 1, 0, 2> JonGuiDataTarget::_table_ = {
     // .ser.RgbColor target_color = 16;
     {::_pbi::TcParser::FastMtS2,
      {386, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_color_)}},
-    // uint32 type = 17;
-    {::_pbi::TcParser::FastV32S2,
-     {392, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.type_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // int32 uuid_part1 = 18;
     {::_pbi::TcParser::FastV32S2,
      {400, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.uuid_part1_)}},
@@ -1015,7 +1015,9 @@ const ::_pbi::TcParseTable<5, 22, 1, 0, 2> JonGuiDataTarget::_table_ = {
     // double distance_c = 22 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
      {433, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_c_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastV32S2,
+     {440, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.capture_type_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -1075,9 +1077,6 @@ const ::_pbi::TcParseTable<5, 22, 1, 0, 2> JonGuiDataTarget::_table_ = {
     // .ser.RgbColor target_color = 16;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_color_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // uint32 type = 17;
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.type_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
     // int32 uuid_part1 = 18;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.uuid_part1_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
@@ -1093,6 +1092,9 @@ const ::_pbi::TcParseTable<5, 22, 1, 0, 2> JonGuiDataTarget::_table_ = {
     // double distance_c = 22 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_c_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // .ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.capture_type_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::RgbColor>()},
   }}, {{
@@ -1112,8 +1114,8 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
     _impl_.target_color_->Clear();
   }
   ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.distance_c_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.distance_c_));
+      reinterpret_cast<char*>(&_impl_.capture_type_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.capture_type_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -1246,13 +1248,6 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
                 stream);
           }
 
-          // uint32 type = 17;
-          if (this_._internal_type() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-                17, this_._internal_type(), target);
-          }
-
           // int32 uuid_part1 = 18;
           if (this_._internal_uuid_part1() != 0) {
             target = stream->EnsureSpace(target);
@@ -1286,6 +1281,13 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 22, this_._internal_distance_c(), target);
+          }
+
+          // .ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = {
+          if (this_._internal_capture_type() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                23, this_._internal_capture_type(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -1385,11 +1387,6 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_target_id());
             }
-            // uint32 type = 17;
-            if (this_._internal_type() != 0) {
-              total_size += 2 + ::_pbi::WireFormatLite::UInt32Size(
-                                              this_._internal_type());
-            }
             // int32 uuid_part1 = 18;
             if (this_._internal_uuid_part1() != 0) {
               total_size += 2 + ::_pbi::WireFormatLite::Int32Size(
@@ -1405,14 +1402,19 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
               total_size += 2 + ::_pbi::WireFormatLite::Int32Size(
                                               this_._internal_uuid_part3());
             }
+            // double distance_c = 22 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint64_t>(this_._internal_distance_c()) != 0) {
+              total_size += 10;
+            }
             // int32 uuid_part4 = 21;
             if (this_._internal_uuid_part4() != 0) {
               total_size += 2 + ::_pbi::WireFormatLite::Int32Size(
                                               this_._internal_uuid_part4());
             }
-            // double distance_c = 22 [(.buf.validate.field) = {
-            if (::absl::bit_cast<::uint64_t>(this_._internal_distance_c()) != 0) {
-              total_size += 10;
+            // .ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = {
+            if (this_._internal_capture_type() != 0) {
+              total_size += 2 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_capture_type());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1483,9 +1485,6 @@ void JonGuiDataTarget::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   if (from._internal_target_id() != 0) {
     _this->_impl_.target_id_ = from._impl_.target_id_;
   }
-  if (from._internal_type() != 0) {
-    _this->_impl_.type_ = from._impl_.type_;
-  }
   if (from._internal_uuid_part1() != 0) {
     _this->_impl_.uuid_part1_ = from._impl_.uuid_part1_;
   }
@@ -1495,11 +1494,14 @@ void JonGuiDataTarget::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   if (from._internal_uuid_part3() != 0) {
     _this->_impl_.uuid_part3_ = from._impl_.uuid_part3_;
   }
+  if (::absl::bit_cast<::uint64_t>(from._internal_distance_c()) != 0) {
+    _this->_impl_.distance_c_ = from._impl_.distance_c_;
+  }
   if (from._internal_uuid_part4() != 0) {
     _this->_impl_.uuid_part4_ = from._impl_.uuid_part4_;
   }
-  if (::absl::bit_cast<::uint64_t>(from._internal_distance_c()) != 0) {
-    _this->_impl_.distance_c_ = from._impl_.distance_c_;
+  if (from._internal_capture_type() != 0) {
+    _this->_impl_.capture_type_ = from._impl_.capture_type_;
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -1518,8 +1520,8 @@ void JonGuiDataTarget::InternalSwap(JonGuiDataTarget* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_c_)
-      + sizeof(JonGuiDataTarget::_impl_.distance_c_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.capture_type_)
+      + sizeof(JonGuiDataTarget::_impl_.capture_type_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_color_)>(
           reinterpret_cast<char*>(&_impl_.target_color_),
           reinterpret_cast<char*>(&other->_impl_.target_color_));

@@ -19,10 +19,10 @@ Represents the complete GPS positioning state of the system, including both auto
 |---|-------|------|-------------|
 | 1 | longitude | double | >= -180, <= 180 |
 | 2 | latitude | double | >= -90, <= 90 |
-| 3 | altitude | double | >= -430, <= 100000 |
+| 3 | altitude | double | - |
 | 4 | manual_longitude | double | >= -180, <= 180 |
 | 5 | manual_latitude | double | >= -90, <= 90 |
-| 6 | manual_altitude | double | >= -430, <= 100000 |
+| 6 | manual_altitude | double | - |
 | 7 | fix_type | [[proto/ser.JonGuiDataGpsFixType]] | defined enum value only, not in: 0 |
 | 8 | use_manual | bool | - |
 | 9 | timestamp | int64 | - |

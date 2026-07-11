@@ -530,6 +530,51 @@ export function jonGuiDatatLrfLaserPointerModesToJSON(object: JonGuiDatatLrfLase
   }
 }
 
+/**
+ * Discriminates what a capture event (target_id increment) IS: a ranged
+ * TARGET (LRF returned a valid range) or a PHOTO (operator Photo command,
+ * or an LRF measure that missed — no valid range). UNSPECIFIED appears only
+ * in records that predate the discriminator.
+ */
+export enum JonGuiDataTargetType {
+  JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED = 0,
+  JON_GUI_DATA_TARGET_TYPE_TARGET = 1,
+  JON_GUI_DATA_TARGET_TYPE_PHOTO = 2,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataTargetTypeFromJSON(object: any): JonGuiDataTargetType {
+  switch (object) {
+    case 0:
+    case "JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED":
+      return JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED;
+    case 1:
+    case "JON_GUI_DATA_TARGET_TYPE_TARGET":
+      return JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_TARGET;
+    case 2:
+    case "JON_GUI_DATA_TARGET_TYPE_PHOTO":
+      return JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_PHOTO;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataTargetType.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataTargetTypeToJSON(object: JonGuiDataTargetType): string {
+  switch (object) {
+    case JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED:
+      return "JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED";
+    case JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_TARGET:
+      return "JON_GUI_DATA_TARGET_TYPE_TARGET";
+    case JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_PHOTO:
+      return "JON_GUI_DATA_TARGET_TYPE_PHOTO";
+    case JonGuiDataTargetType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export enum JonGuiDataCompassCalibrateStatus {
   JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED = 0,
   JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING = 1,

@@ -23,7 +23,7 @@ Per-channel CUDA IPC metadata carrying frame timing, a multi-level sharpness pyr
 | 4 | sharpness_level0 | float | >= 0, <= 1 |
 | 5 | sharpness_level1 | repeated float | min-items: 4, max-items: 4 |
 | 6 | sharpness_level2 | repeated float | min-items: 16, max-items: 16 |
-| 7 | sharpness_level3 | repeated float | min-items: 64, max-items: 64 |
+| 7 | sharpness_level3 | repeated float | min-items: 160, max-items: 160 |
 | 8 | sharpness_compute_ns | uint64 | >= 0 |
 | 9 | sharpness_total_ns | uint64 | >= 0 |
 | 10 | sharpness_valid | bool | - |

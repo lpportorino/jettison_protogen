@@ -578,6 +578,59 @@ func (JonGuiDatatLrfLaserPointerModes) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{9}
 }
 
+// Discriminates what a capture event (target_id increment) IS: a ranged
+// TARGET (LRF returned a valid range) or a PHOTO (operator Photo command,
+// or an LRF measure that missed — no valid range). UNSPECIFIED appears only
+// in records that predate the discriminator.
+type JonGuiDataTargetType int32
+
+const (
+	JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED JonGuiDataTargetType = 0
+	JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_TARGET      JonGuiDataTargetType = 1
+	JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_PHOTO       JonGuiDataTargetType = 2
+)
+
+// Enum value maps for JonGuiDataTargetType.
+var (
+	JonGuiDataTargetType_name = map[int32]string{
+		0: "JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED",
+		1: "JON_GUI_DATA_TARGET_TYPE_TARGET",
+		2: "JON_GUI_DATA_TARGET_TYPE_PHOTO",
+	}
+	JonGuiDataTargetType_value = map[string]int32{
+		"JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED": 0,
+		"JON_GUI_DATA_TARGET_TYPE_TARGET":      1,
+		"JON_GUI_DATA_TARGET_TYPE_PHOTO":       2,
+	}
+)
+
+func (x JonGuiDataTargetType) Enum() *JonGuiDataTargetType {
+	p := new(JonGuiDataTargetType)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataTargetType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataTargetType) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[10].Descriptor()
+}
+
+func (JonGuiDataTargetType) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[10]
+}
+
+func (x JonGuiDataTargetType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataTargetType.Descriptor instead.
+func (JonGuiDataTargetType) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{10}
+}
+
 type JonGuiDataCompassCalibrateStatus int32
 
 const (
@@ -620,11 +673,11 @@ func (x JonGuiDataCompassCalibrateStatus) String() string {
 }
 
 func (JonGuiDataCompassCalibrateStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[10].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[11].Descriptor()
 }
 
 func (JonGuiDataCompassCalibrateStatus) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[10]
+	return &file_jon_shared_data_types_proto_enumTypes[11]
 }
 
 func (x JonGuiDataCompassCalibrateStatus) Number() protoreflect.EnumNumber {
@@ -633,7 +686,7 @@ func (x JonGuiDataCompassCalibrateStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataCompassCalibrateStatus.Descriptor instead.
 func (JonGuiDataCompassCalibrateStatus) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{10}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{11}
 }
 
 type JonGuiDataRotaryMode int32
@@ -681,11 +734,11 @@ func (x JonGuiDataRotaryMode) String() string {
 }
 
 func (JonGuiDataRotaryMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[11].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[12].Descriptor()
 }
 
 func (JonGuiDataRotaryMode) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[11]
+	return &file_jon_shared_data_types_proto_enumTypes[12]
 }
 
 func (x JonGuiDataRotaryMode) Number() protoreflect.EnumNumber {
@@ -694,7 +747,7 @@ func (x JonGuiDataRotaryMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataRotaryMode.Descriptor instead.
 func (JonGuiDataRotaryMode) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{11}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{12}
 }
 
 type JonGuiDataVideoChannel int32
@@ -730,11 +783,11 @@ func (x JonGuiDataVideoChannel) String() string {
 }
 
 func (JonGuiDataVideoChannel) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[12].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[13].Descriptor()
 }
 
 func (JonGuiDataVideoChannel) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[12]
+	return &file_jon_shared_data_types_proto_enumTypes[13]
 }
 
 func (x JonGuiDataVideoChannel) Number() protoreflect.EnumNumber {
@@ -743,7 +796,7 @@ func (x JonGuiDataVideoChannel) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataVideoChannel.Descriptor instead.
 func (JonGuiDataVideoChannel) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{12}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{13}
 }
 
 type JonGuiDataRecOsdScreen int32
@@ -785,11 +838,11 @@ func (x JonGuiDataRecOsdScreen) String() string {
 }
 
 func (JonGuiDataRecOsdScreen) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[13].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[14].Descriptor()
 }
 
 func (JonGuiDataRecOsdScreen) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[13]
+	return &file_jon_shared_data_types_proto_enumTypes[14]
 }
 
 func (x JonGuiDataRecOsdScreen) Number() protoreflect.EnumNumber {
@@ -798,7 +851,7 @@ func (x JonGuiDataRecOsdScreen) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataRecOsdScreen.Descriptor instead.
 func (JonGuiDataRecOsdScreen) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{13}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{14}
 }
 
 type JonGuiDataFxModeDay int32
@@ -846,11 +899,11 @@ func (x JonGuiDataFxModeDay) String() string {
 }
 
 func (JonGuiDataFxModeDay) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[14].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[15].Descriptor()
 }
 
 func (JonGuiDataFxModeDay) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[14]
+	return &file_jon_shared_data_types_proto_enumTypes[15]
 }
 
 func (x JonGuiDataFxModeDay) Number() protoreflect.EnumNumber {
@@ -859,7 +912,7 @@ func (x JonGuiDataFxModeDay) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataFxModeDay.Descriptor instead.
 func (JonGuiDataFxModeDay) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{14}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{15}
 }
 
 type JonGuiDataFxModeHeat int32
@@ -907,11 +960,11 @@ func (x JonGuiDataFxModeHeat) String() string {
 }
 
 func (JonGuiDataFxModeHeat) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[15].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[16].Descriptor()
 }
 
 func (JonGuiDataFxModeHeat) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[15]
+	return &file_jon_shared_data_types_proto_enumTypes[16]
 }
 
 func (x JonGuiDataFxModeHeat) Number() protoreflect.EnumNumber {
@@ -920,7 +973,7 @@ func (x JonGuiDataFxModeHeat) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataFxModeHeat.Descriptor instead.
 func (JonGuiDataFxModeHeat) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{15}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{16}
 }
 
 type JonGuiDataSystemLocalizations int32
@@ -962,11 +1015,11 @@ func (x JonGuiDataSystemLocalizations) String() string {
 }
 
 func (JonGuiDataSystemLocalizations) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[16].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[17].Descriptor()
 }
 
 func (JonGuiDataSystemLocalizations) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[16]
+	return &file_jon_shared_data_types_proto_enumTypes[17]
 }
 
 func (x JonGuiDataSystemLocalizations) Number() protoreflect.EnumNumber {
@@ -975,7 +1028,7 @@ func (x JonGuiDataSystemLocalizations) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataSystemLocalizations.Descriptor instead.
 func (JonGuiDataSystemLocalizations) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{16}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{17}
 }
 
 type JonGuiDataClientType int32
@@ -1017,11 +1070,11 @@ func (x JonGuiDataClientType) String() string {
 }
 
 func (JonGuiDataClientType) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[17].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[18].Descriptor()
 }
 
 func (JonGuiDataClientType) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[17]
+	return &file_jon_shared_data_types_proto_enumTypes[18]
 }
 
 func (x JonGuiDataClientType) Number() protoreflect.EnumNumber {
@@ -1030,7 +1083,7 @@ func (x JonGuiDataClientType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataClientType.Descriptor instead.
 func (JonGuiDataClientType) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{17}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{18}
 }
 
 type JonGuiDataClientApp int32
@@ -1072,11 +1125,11 @@ func (x JonGuiDataClientApp) String() string {
 }
 
 func (JonGuiDataClientApp) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[18].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[19].Descriptor()
 }
 
 func (JonGuiDataClientApp) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[18]
+	return &file_jon_shared_data_types_proto_enumTypes[19]
 }
 
 func (x JonGuiDataClientApp) Number() protoreflect.EnumNumber {
@@ -1085,7 +1138,7 @@ func (x JonGuiDataClientApp) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataClientApp.Descriptor instead.
 func (JonGuiDataClientApp) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{18}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{19}
 }
 
 type JonGuiDataExtBatStatus int32
@@ -1124,11 +1177,11 @@ func (x JonGuiDataExtBatStatus) String() string {
 }
 
 func (JonGuiDataExtBatStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[19].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[20].Descriptor()
 }
 
 func (JonGuiDataExtBatStatus) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[19]
+	return &file_jon_shared_data_types_proto_enumTypes[20]
 }
 
 func (x JonGuiDataExtBatStatus) Number() protoreflect.EnumNumber {
@@ -1137,7 +1190,7 @@ func (x JonGuiDataExtBatStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataExtBatStatus.Descriptor instead.
 func (JonGuiDataExtBatStatus) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{19}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{20}
 }
 
 type JonGuiDataStateSource int32
@@ -1176,11 +1229,11 @@ func (x JonGuiDataStateSource) String() string {
 }
 
 func (JonGuiDataStateSource) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[20].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[21].Descriptor()
 }
 
 func (JonGuiDataStateSource) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[20]
+	return &file_jon_shared_data_types_proto_enumTypes[21]
 }
 
 func (x JonGuiDataStateSource) Number() protoreflect.EnumNumber {
@@ -1189,7 +1242,7 @@ func (x JonGuiDataStateSource) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataStateSource.Descriptor instead.
 func (JonGuiDataStateSource) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{20}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{21}
 }
 
 // Tracking state
@@ -1232,11 +1285,11 @@ func (x JonGuiDataTrackedObject_TrackingState) String() string {
 }
 
 func (JonGuiDataTrackedObject_TrackingState) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[21].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[22].Descriptor()
 }
 
 func (JonGuiDataTrackedObject_TrackingState) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[21]
+	return &file_jon_shared_data_types_proto_enumTypes[22]
 }
 
 func (x JonGuiDataTrackedObject_TrackingState) Number() protoreflect.EnumNumber {
@@ -1959,7 +2012,11 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"/JON_GUI_DATA_LRF_LASER_POINTER_MODE_UNSPECIFIED\x10\x00\x12+\n" +
 	"'JON_GUI_DATA_LRF_LASER_POINTER_MODE_OFF\x10\x01\x12,\n" +
 	"(JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1\x10\x02\x12,\n" +
-	"(JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2\x10\x03*\xf2\x02\n" +
+	"(JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2\x10\x03*\x89\x01\n" +
+	"\x14JonGuiDataTargetType\x12(\n" +
+	"$JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED\x10\x00\x12#\n" +
+	"\x1fJON_GUI_DATA_TARGET_TYPE_TARGET\x10\x01\x12\"\n" +
+	"\x1eJON_GUI_DATA_TARGET_TYPE_PHOTO\x10\x02*\xf2\x02\n" +
 	" JonGuiDataCompassCalibrateStatus\x125\n" +
 	"1JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED\x10\x00\x129\n" +
 	"5JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING\x10\x01\x12;\n" +
@@ -2043,7 +2100,7 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_types_proto_rawDescData
 }
 
-var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 22)
+var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 23)
 var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataVideoChannelHeatFilters)(0),     // 0: ser.JonGuiDataVideoChannelHeatFilters
@@ -2056,37 +2113,38 @@ var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataRotaryDirection)(0),             // 7: ser.JonGuiDataRotaryDirection
 	(JonGuiDataLrfScanModes)(0),                // 8: ser.JonGuiDataLrfScanModes
 	(JonGuiDatatLrfLaserPointerModes)(0),       // 9: ser.JonGuiDatatLrfLaserPointerModes
-	(JonGuiDataCompassCalibrateStatus)(0),      // 10: ser.JonGuiDataCompassCalibrateStatus
-	(JonGuiDataRotaryMode)(0),                  // 11: ser.JonGuiDataRotaryMode
-	(JonGuiDataVideoChannel)(0),                // 12: ser.JonGuiDataVideoChannel
-	(JonGuiDataRecOsdScreen)(0),                // 13: ser.JonGuiDataRecOsdScreen
-	(JonGuiDataFxModeDay)(0),                   // 14: ser.JonGuiDataFxModeDay
-	(JonGuiDataFxModeHeat)(0),                  // 15: ser.JonGuiDataFxModeHeat
-	(JonGuiDataSystemLocalizations)(0),         // 16: ser.JonGuiDataSystemLocalizations
-	(JonGuiDataClientType)(0),                  // 17: ser.JonGuiDataClientType
-	(JonGuiDataClientApp)(0),                   // 18: ser.JonGuiDataClientApp
-	(JonGuiDataExtBatStatus)(0),                // 19: ser.JonGuiDataExtBatStatus
-	(JonGuiDataStateSource)(0),                 // 20: ser.JonGuiDataStateSource
-	(JonGuiDataTrackedObject_TrackingState)(0), // 21: ser.JonGuiDataTrackedObject.TrackingState
-	(*JonGuiDataMeteo)(nil),                    // 22: ser.JonGuiDataMeteo
-	(*JonOpaquePayloadVersion)(nil),            // 23: ser.JonOpaquePayloadVersion
-	(*JonOpaquePayload)(nil),                   // 24: ser.JonOpaquePayload
-	(*JonGuiDataROI)(nil),                      // 25: ser.JonGuiDataROI
-	(*JonGuiDataSharpness)(nil),                // 26: ser.JonGuiDataSharpness
-	(*JonGuiDataVector3)(nil),                  // 27: ser.JonGuiDataVector3
-	(*JonGuiDataQuaternion)(nil),               // 28: ser.JonGuiDataQuaternion
-	(*JonGuiDataTransform3D)(nil),              // 29: ser.JonGuiDataTransform3D
-	(*JonGuiDataTrackedObject)(nil),            // 30: ser.JonGuiDataTrackedObject
+	(JonGuiDataTargetType)(0),                  // 10: ser.JonGuiDataTargetType
+	(JonGuiDataCompassCalibrateStatus)(0),      // 11: ser.JonGuiDataCompassCalibrateStatus
+	(JonGuiDataRotaryMode)(0),                  // 12: ser.JonGuiDataRotaryMode
+	(JonGuiDataVideoChannel)(0),                // 13: ser.JonGuiDataVideoChannel
+	(JonGuiDataRecOsdScreen)(0),                // 14: ser.JonGuiDataRecOsdScreen
+	(JonGuiDataFxModeDay)(0),                   // 15: ser.JonGuiDataFxModeDay
+	(JonGuiDataFxModeHeat)(0),                  // 16: ser.JonGuiDataFxModeHeat
+	(JonGuiDataSystemLocalizations)(0),         // 17: ser.JonGuiDataSystemLocalizations
+	(JonGuiDataClientType)(0),                  // 18: ser.JonGuiDataClientType
+	(JonGuiDataClientApp)(0),                   // 19: ser.JonGuiDataClientApp
+	(JonGuiDataExtBatStatus)(0),                // 20: ser.JonGuiDataExtBatStatus
+	(JonGuiDataStateSource)(0),                 // 21: ser.JonGuiDataStateSource
+	(JonGuiDataTrackedObject_TrackingState)(0), // 22: ser.JonGuiDataTrackedObject.TrackingState
+	(*JonGuiDataMeteo)(nil),                    // 23: ser.JonGuiDataMeteo
+	(*JonOpaquePayloadVersion)(nil),            // 24: ser.JonOpaquePayloadVersion
+	(*JonOpaquePayload)(nil),                   // 25: ser.JonOpaquePayload
+	(*JonGuiDataROI)(nil),                      // 26: ser.JonGuiDataROI
+	(*JonGuiDataSharpness)(nil),                // 27: ser.JonGuiDataSharpness
+	(*JonGuiDataVector3)(nil),                  // 28: ser.JonGuiDataVector3
+	(*JonGuiDataQuaternion)(nil),               // 29: ser.JonGuiDataQuaternion
+	(*JonGuiDataTransform3D)(nil),              // 30: ser.JonGuiDataTransform3D
+	(*JonGuiDataTrackedObject)(nil),            // 31: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
-	23, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
-	27, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
-	28, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
-	27, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
-	27, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
-	29, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
-	25, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
-	21, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
+	24, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
+	28, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
+	29, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
+	28, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
+	28, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
+	30, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
+	26, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
+	22, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -2104,7 +2162,7 @@ func file_jon_shared_data_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
-			NumEnums:      22,
+			NumEnums:      23,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,

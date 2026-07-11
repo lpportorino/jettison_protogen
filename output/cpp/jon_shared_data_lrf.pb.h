@@ -452,12 +452,12 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
     kObserverFixTypeFieldNumber = 13,
     kSessionIdFieldNumber = 14,
     kTargetIdFieldNumber = 15,
-    kTypeFieldNumber = 17,
     kUuidPart1FieldNumber = 18,
     kUuidPart2FieldNumber = 19,
     kUuidPart3FieldNumber = 20,
-    kUuidPart4FieldNumber = 21,
     kDistanceCFieldNumber = 22,
+    kUuidPart4FieldNumber = 21,
+    kCaptureTypeFieldNumber = 23,
   };
   // .ser.RgbColor target_color = 16;
   bool has_target_color() const;
@@ -624,16 +624,6 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_target_id(::int32_t value);
 
   public:
-  // uint32 type = 17;
-  void clear_type() ;
-  ::uint32_t type() const;
-  void set_type(::uint32_t value);
-
-  private:
-  ::uint32_t _internal_type() const;
-  void _internal_set_type(::uint32_t value);
-
-  public:
   // int32 uuid_part1 = 18;
   void clear_uuid_part1() ;
   ::int32_t uuid_part1() const;
@@ -664,6 +654,16 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_uuid_part3(::int32_t value);
 
   public:
+  // double distance_c = 22 [(.buf.validate.field) = {
+  void clear_distance_c() ;
+  double distance_c() const;
+  void set_distance_c(double value);
+
+  private:
+  double _internal_distance_c() const;
+  void _internal_set_distance_c(double value);
+
+  public:
   // int32 uuid_part4 = 21;
   void clear_uuid_part4() ;
   ::int32_t uuid_part4() const;
@@ -674,14 +674,14 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_uuid_part4(::int32_t value);
 
   public:
-  // double distance_c = 22 [(.buf.validate.field) = {
-  void clear_distance_c() ;
-  double distance_c() const;
-  void set_distance_c(double value);
+  // .ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = {
+  void clear_capture_type() ;
+  ::ser::JonGuiDataTargetType capture_type() const;
+  void set_capture_type(::ser::JonGuiDataTargetType value);
 
   private:
-  double _internal_distance_c() const;
-  void _internal_set_distance_c(double value);
+  ::ser::JonGuiDataTargetType _internal_capture_type() const;
+  void _internal_set_capture_type(::ser::JonGuiDataTargetType value);
 
   public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataTarget)
@@ -725,12 +725,12 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
     int observer_fix_type_;
     ::int32_t session_id_;
     ::int32_t target_id_;
-    ::uint32_t type_;
     ::int32_t uuid_part1_;
     ::int32_t uuid_part2_;
     ::int32_t uuid_part3_;
-    ::int32_t uuid_part4_;
     double distance_c_;
+    ::int32_t uuid_part4_;
+    int capture_type_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1911,28 +1911,6 @@ inline void JonGuiDataTarget::set_allocated_target_color(::ser::RgbColor* value)
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTarget.target_color)
 }
 
-// uint32 type = 17;
-inline void JonGuiDataTarget::clear_type() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.type_ = 0u;
-}
-inline ::uint32_t JonGuiDataTarget::type() const {
-  // @@protoc_insertion_point(field_get:ser.JonGuiDataTarget.type)
-  return _internal_type();
-}
-inline void JonGuiDataTarget::set_type(::uint32_t value) {
-  _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:ser.JonGuiDataTarget.type)
-}
-inline ::uint32_t JonGuiDataTarget::_internal_type() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.type_;
-}
-inline void JonGuiDataTarget::_internal_set_type(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.type_ = value;
-}
-
 // int32 uuid_part1 = 18;
 inline void JonGuiDataTarget::clear_uuid_part1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
@@ -2019,6 +1997,28 @@ inline ::int32_t JonGuiDataTarget::_internal_uuid_part4() const {
 inline void JonGuiDataTarget::_internal_set_uuid_part4(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.uuid_part4_ = value;
+}
+
+// .ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = {
+inline void JonGuiDataTarget::clear_capture_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_type_ = 0;
+}
+inline ::ser::JonGuiDataTargetType JonGuiDataTarget::capture_type() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTarget.capture_type)
+  return _internal_capture_type();
+}
+inline void JonGuiDataTarget::set_capture_type(::ser::JonGuiDataTargetType value) {
+  _internal_set_capture_type(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataTarget.capture_type)
+}
+inline ::ser::JonGuiDataTargetType JonGuiDataTarget::_internal_capture_type() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataTargetType>(_impl_.capture_type_);
+}
+inline void JonGuiDataTarget::_internal_set_capture_type(::ser::JonGuiDataTargetType value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_type_ = value;
 }
 
 // -------------------------------------------------------------------

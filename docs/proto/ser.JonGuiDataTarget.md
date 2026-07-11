@@ -34,11 +34,11 @@ Encodes a single laser rangefinder (LRF) measurement with the geographic coordin
 | 14 | session_id | int32 | >= 0 |
 | 15 | target_id | int32 | >= 0 |
 | 16 | target_color | [[proto/ser.RgbColor]] | - |
-| 17 | type | uint32 | - |
 | 18 | uuid_part1 | int32 | - |
 | 19 | uuid_part2 | int32 | - |
 | 20 | uuid_part3 | int32 | - |
 | 21 | uuid_part4 | int32 | - |
+| 23 | capture_type | [[proto/ser.JonGuiDataTargetType]] | defined enum value only |
 
 
 

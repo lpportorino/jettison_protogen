@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 282 messages, 24 enums, 841 fields
+**Statistics:** 282 messages, 25 enums, 842 fields
 
 ## Messages by Package
 
@@ -374,10 +374,10 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 UUID: `019c40f6-825d-7e0e-9893-87c7b167a751`
 - [[proto/ser.OsdClientMetadata|OsdClientMetadata]] — Client-side canvas and rendering metadata for resolution-aware OSD overlay compositing. Injected by the frontend into `JonGUIState.opaque_payloads` so that the server-side OSD renderer (WASM or native) can correctly map its fixed-resolution framebuffer onto the client&#39;s variable-size display canvas. Carries the physical canvas dimensions, device pixel ratio, the NDC bounding box of the video proxy quad, the computed scale factor between OSD buffer pixels and physical display pixels, and the current UI theme parameters (OKLCH color space and sharp/smooth mode).
 - [[proto/ser.RgbColor|RgbColor]] — Represents an RGB color value with red, green, and blue components each constrained to 0-255, used in the UI to specify and display target marker colors for laser rangefinder measurements and on-screen display (OSD) configuration.
-- [[proto/ser.SamTrackingDay|SamTrackingDay]]
-- [[proto/ser.SamTrackingFrameMeta|SamTrackingFrameMeta]]
-- [[proto/ser.SamTrackingHeat|SamTrackingHeat]]
-- [[proto/ser.SamTrackingKalmanState|SamTrackingKalmanState]]
+- [[proto/ser.SamTrackingDay|SamTrackingDay]] — *No description yet.*
+- [[proto/ser.SamTrackingFrameMeta|SamTrackingFrameMeta]] — *No description yet.*
+- [[proto/ser.SamTrackingHeat|SamTrackingHeat]] — *No description yet.*
+- [[proto/ser.SamTrackingKalmanState|SamTrackingKalmanState]] — *No description yet.*
 - [[proto/ser.ScanNode|ScanNode]] — Represents a single waypoint within a rotary platform scanning pattern, containing positional data (azimuth and elevation angles), camera zoom table positions for both day and thermal cameras, and transition parameters (linger time at the waypoint and speed to the next node). Used across frontend scanning pattern editors, backend scan APIs, and embedded device controllers to define and execute multi-point scanning sequences.
 
 
@@ -401,11 +401,12 @@ UUID: `019c40f6-825d-7e0e-9893-87c7b167a751`
 - [[proto/ser.JonGuiDataRotaryMode|JonGuiDataRotaryMode]] — Represents the operational modes of a rotary gimbal platform: initialization (system setup), speed (direct velocity control), position (absolute pointing), stabilization (steady tracking), targeting (guided engagement), and video tracker (automated object tracking using computer vision).
 - [[proto/ser.JonGuiDataStateSource|JonGuiDataStateSource]] — Indicates the origin of GUI state data in the system: DAY_PIPELINE (day imaging pipeline), HEAT_PIPELINE (thermal imaging pipeline), or SYSTEM (centralized system components). Used to track which subsystem originated a state update.
 - [[proto/ser.JonGuiDataSystemLocalizations|JonGuiDataSystemLocalizations]] — Specifies the UI language setting for the system, supporting four languages: English (EN), Ukrainian (UA), Arabic (AR), and Czech (CS). Users can switch the interface language via the Language control palette, which updates both the UI and device state.
+- [[proto/ser.JonGuiDataTargetType|JonGuiDataTargetType]] — Discriminates what a capture event (a `target_id` increment in `ser.JonGuiDataTarget`) is: a ranged TARGET or a PHOTO. Published by manifold from the internal `has_range` flag; consumed by media_meta_pub to set the media_items `kind`, which drives the photo/target split in the media API and gallery.
 - [[proto/ser.JonGuiDataTimeFormats|JonGuiDataTimeFormats]] — Defines time display format options for the GUI system: H_M_S displays time as Hours:Minutes:Seconds, while Y_m_D_H_M_S displays full date and time as Year-Month-Day Hours:Minutes:Seconds. Used to configure how timestamps are rendered in the UI.
 - [[proto/ser.JonGuiDataVideoChannel|JonGuiDataVideoChannel]] — Specifies the active video source with two primary channels: thermal imaging (HEAT) and visible light (DAY). Used throughout command messages and UI components to route camera control operations and render channel-specific overlays to their respective video pipelines.
 - [[proto/ser.JonGuiDataVideoChannelHeatAGCModes|JonGuiDataVideoChannelHeatAGCModes]] — Defines three Automatic Gain Control (AGC) modes for thermal camera operation: Mode 1 (mixed AGC), Mode 2 (auto AGC 1), and Mode 3 (auto AGC 2) that adjust image brightness and contrast for optimal thermal imaging visibility. Used throughout the system to configure thermal camera settings via the HeatCamera.SetAGC command.
 - [[proto/ser.JonGuiDataVideoChannelHeatFilters|JonGuiDataVideoChannelHeatFilters]] — Specifies thermal camera display color schemes with four filter modes: Hot White (hottest objects rendered in white), Hot Black (hottest objects rendered in black), Sepia (warm tone colorization), and Sepia Inverse (inverted warm tone colorization). Applied via HeatCamera.SetFilters to control how thermal image data is visualized in real-time.
 - [[proto/ser.JonGuiDatatLrfLaserPointerModes|JonGuiDatatLrfLaserPointerModes]] — Controls the laser rangefinder&#39;s target designator pointer, supporting three operational states: disabled (OFF), and two active modes (ON_1 and ON_2) for different targeting scenarios. The pointer_mode field in JonGuiDataLrf tracks the current state of the LRF laser designator output.
-- [[proto/ser.SamTrackingState|SamTrackingState]]
-- [[proto/ser.SamTrackingStatus|SamTrackingStatus]]
+- [[proto/ser.SamTrackingState|SamTrackingState]] — *No description yet.*
+- [[proto/ser.SamTrackingStatus|SamTrackingStatus]] — *No description yet.*
 

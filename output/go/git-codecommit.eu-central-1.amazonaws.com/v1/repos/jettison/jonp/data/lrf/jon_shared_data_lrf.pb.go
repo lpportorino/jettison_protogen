@@ -166,12 +166,15 @@ type JonGuiDataTarget struct {
 	SessionId         int32                      `protobuf:"varint,14,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	TargetId          int32                      `protobuf:"varint,15,opt,name=target_id,json=targetId,proto3" json:"target_id,omitempty"`
 	TargetColor       *RgbColor                  `protobuf:"bytes,16,opt,name=target_color,json=targetColor,proto3" json:"target_color,omitempty"`
-	Type              uint32                     `protobuf:"varint,17,opt,name=type,proto3" json:"type,omitempty"`
 	// UUID as four fixed32 values (128 bits total)
-	UuidPart1     int32 `protobuf:"varint,18,opt,name=uuid_part1,json=uuidPart1,proto3" json:"uuid_part1,omitempty"`
-	UuidPart2     int32 `protobuf:"varint,19,opt,name=uuid_part2,json=uuidPart2,proto3" json:"uuid_part2,omitempty"`
-	UuidPart3     int32 `protobuf:"varint,20,opt,name=uuid_part3,json=uuidPart3,proto3" json:"uuid_part3,omitempty"`
-	UuidPart4     int32 `protobuf:"varint,21,opt,name=uuid_part4,json=uuidPart4,proto3" json:"uuid_part4,omitempty"`
+	UuidPart1 int32 `protobuf:"varint,18,opt,name=uuid_part1,json=uuidPart1,proto3" json:"uuid_part1,omitempty"`
+	UuidPart2 int32 `protobuf:"varint,19,opt,name=uuid_part2,json=uuidPart2,proto3" json:"uuid_part2,omitempty"`
+	UuidPart3 int32 `protobuf:"varint,20,opt,name=uuid_part3,json=uuidPart3,proto3" json:"uuid_part3,omitempty"`
+	UuidPart4 int32 `protobuf:"varint,21,opt,name=uuid_part4,json=uuidPart4,proto3" json:"uuid_part4,omitempty"`
+	// What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+	// command, or an LRF measure with no valid range). UNSPECIFIED only in
+	// records predating the discriminator.
+	CaptureType   types.JonGuiDataTargetType `protobuf:"varint,23,opt,name=capture_type,json=captureType,proto3,enum=ser.JonGuiDataTargetType" json:"capture_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -325,13 +328,6 @@ func (x *JonGuiDataTarget) GetTargetColor() *RgbColor {
 	return nil
 }
 
-func (x *JonGuiDataTarget) GetType() uint32 {
-	if x != nil {
-		return x.Type
-	}
-	return 0
-}
-
 func (x *JonGuiDataTarget) GetUuidPart1() int32 {
 	if x != nil {
 		return x.UuidPart1
@@ -358,6 +354,13 @@ func (x *JonGuiDataTarget) GetUuidPart4() int32 {
 		return x.UuidPart4
 	}
 	return 0
+}
+
+func (x *JonGuiDataTarget) GetCaptureType() types.JonGuiDataTargetType {
+	if x != nil {
+		return x.CaptureType
+	}
+	return types.JonGuiDataTargetType(0)
 }
 
 type RgbColor struct {
@@ -441,7 +444,7 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"is_started\x18\t \x01(\bR\tisStarted\x12*\n" +
 	"\x05meteo\x18\n" +
 	" \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x12\x1b\n" +
-	"\tscan_mode\x18\v \x01(\x05R\bscanMode\"\xfc\b\n" +
+	"\tscan_mode\x18\v \x01(\x05R\bscanMode\"\xbc\t\n" +
 	"\x10JonGuiDataTarget\x12%\n" +
 	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12B\n" +
 	"\x10target_longitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x0ftargetLongitude\x12@\n" +
@@ -465,8 +468,7 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
 	"session_id\x18\x0e \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\tsessionId\x12$\n" +
 	"\ttarget_id\x18\x0f \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\btargetId\x120\n" +
-	"\ftarget_color\x18\x10 \x01(\v2\r.ser.RgbColorR\vtargetColor\x12\x12\n" +
-	"\x04type\x18\x11 \x01(\rR\x04type\x12\x1d\n" +
+	"\ftarget_color\x18\x10 \x01(\v2\r.ser.RgbColorR\vtargetColor\x12\x1d\n" +
 	"\n" +
 	"uuid_part1\x18\x12 \x01(\x05R\tuuidPart1\x12\x1d\n" +
 	"\n" +
@@ -474,7 +476,8 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
 	"uuid_part3\x18\x14 \x01(\x05R\tuuidPart3\x12\x1d\n" +
 	"\n" +
-	"uuid_part4\x18\x15 \x01(\x05R\tuuidPart4\"j\n" +
+	"uuid_part4\x18\x15 \x01(\x05R\tuuidPart4\x12F\n" +
+	"\fcapture_type\x18\x17 \x01(\x0e2\x19.ser.JonGuiDataTargetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\vcaptureTypeJ\x04\b\x11\x10\x12R\x04type\"j\n" +
 	"\bRgbColor\x12\x1c\n" +
 	"\x03red\x18\x01 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\xff\x01(\x00R\x03red\x12 \n" +
@@ -504,6 +507,7 @@ var file_jon_shared_data_lrf_proto_goTypes = []any{
 	(types.JonGuiDatatLrfLaserPointerModes)(0), // 3: ser.JonGuiDatatLrfLaserPointerModes
 	(*types.JonGuiDataMeteo)(nil),              // 4: ser.JonGuiDataMeteo
 	(types.JonGuiDataGpsFixType)(0),            // 5: ser.JonGuiDataGpsFixType
+	(types.JonGuiDataTargetType)(0),            // 6: ser.JonGuiDataTargetType
 }
 var file_jon_shared_data_lrf_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataLrf.target:type_name -> ser.JonGuiDataTarget
@@ -511,11 +515,12 @@ var file_jon_shared_data_lrf_proto_depIdxs = []int32{
 	4, // 2: ser.JonGuiDataLrf.meteo:type_name -> ser.JonGuiDataMeteo
 	5, // 3: ser.JonGuiDataTarget.observer_fix_type:type_name -> ser.JonGuiDataGpsFixType
 	2, // 4: ser.JonGuiDataTarget.target_color:type_name -> ser.RgbColor
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	6, // 5: ser.JonGuiDataTarget.capture_type:type_name -> ser.JonGuiDataTargetType
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_lrf_proto_init() }

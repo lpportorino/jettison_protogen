@@ -86,6 +86,16 @@ enum JonGuiDatatLrfLaserPointerModes {
   JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2 = 3;
 }
 
+// Discriminates what a capture event (target_id increment) IS: a ranged
+// TARGET (LRF returned a valid range) or a PHOTO (operator Photo command,
+// or an LRF measure that missed — no valid range). UNSPECIFIED appears only
+// in records that predate the discriminator.
+enum JonGuiDataTargetType {
+  JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED = 0;
+  JON_GUI_DATA_TARGET_TYPE_TARGET = 1;
+  JON_GUI_DATA_TARGET_TYPE_PHOTO = 2;
+}
+
 enum JonGuiDataCompassCalibrateStatus {
   JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED = 0;
   JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING = 1;

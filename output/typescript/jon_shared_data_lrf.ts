@@ -12,6 +12,9 @@ import {
   jonGuiDataGpsFixTypeFromJSON,
   jonGuiDataGpsFixTypeToJSON,
   JonGuiDataMeteo,
+  JonGuiDataTargetType,
+  jonGuiDataTargetTypeFromJSON,
+  jonGuiDataTargetTypeToJSON,
   JonGuiDatatLrfLaserPointerModes,
   jonGuiDatatLrfLaserPointerModesFromJSON,
   jonGuiDatatLrfLaserPointerModesToJSON,
@@ -51,13 +54,20 @@ export interface JonGuiDataTarget {
   observerFixType: JonGuiDataGpsFixType;
   sessionId: number;
   targetId: number;
-  targetColor: RgbColor | undefined;
-  type: number;
+  targetColor:
+    | RgbColor
+    | undefined;
   /** UUID as four fixed32 values (128 bits total) */
   uuidPart1: number;
   uuidPart2: number;
   uuidPart3: number;
   uuidPart4: number;
+  /**
+   * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+   * command, or an LRF measure with no valid range). UNSPECIFIED only in
+   * records predating the discriminator.
+   */
+  captureType: JonGuiDataTargetType;
 }
 
 export interface RgbColor {
@@ -353,11 +363,11 @@ function createBaseJonGuiDataTarget(): JonGuiDataTarget {
     sessionId: 0,
     targetId: 0,
     targetColor: undefined,
-    type: 0,
     uuidPart1: 0,
     uuidPart2: 0,
     uuidPart3: 0,
     uuidPart4: 0,
+    captureType: 0,
   };
 }
 
@@ -414,9 +424,6 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     if (message.targetColor !== undefined) {
       RgbColor.encode(message.targetColor, writer.uint32(130).fork()).join();
     }
-    if (message.type !== 0) {
-      writer.uint32(136).uint32(message.type);
-    }
     if (message.uuidPart1 !== 0) {
       writer.uint32(144).int32(message.uuidPart1);
     }
@@ -428,6 +435,9 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     }
     if (message.uuidPart4 !== 0) {
       writer.uint32(168).int32(message.uuidPart4);
+    }
+    if (message.captureType !== 0) {
+      writer.uint32(184).int32(message.captureType);
     }
     return writer;
   },
@@ -575,14 +585,6 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
           message.targetColor = RgbColor.decode(reader, reader.uint32());
           continue;
         }
-        case 17: {
-          if (tag !== 136) {
-            break;
-          }
-
-          message.type = reader.uint32();
-          continue;
-        }
         case 18: {
           if (tag !== 144) {
             break;
@@ -613,6 +615,14 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
           }
 
           message.uuidPart4 = reader.int32();
+          continue;
+        }
+        case 23: {
+          if (tag !== 184) {
+            break;
+          }
+
+          message.captureType = reader.int32() as any;
           continue;
         }
       }
@@ -707,7 +717,6 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
         : isSet(object.target_color)
         ? RgbColor.fromJSON(object.target_color)
         : undefined,
-      type: isSet(object.type) ? globalThis.Number(object.type) : 0,
       uuidPart1: isSet(object.uuidPart1)
         ? globalThis.Number(object.uuidPart1)
         : isSet(object.uuid_part1)
@@ -727,6 +736,11 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
         ? globalThis.Number(object.uuidPart4)
         : isSet(object.uuid_part4)
         ? globalThis.Number(object.uuid_part4)
+        : 0,
+      captureType: isSet(object.captureType)
+        ? jonGuiDataTargetTypeFromJSON(object.captureType)
+        : isSet(object.capture_type)
+        ? jonGuiDataTargetTypeFromJSON(object.capture_type)
         : 0,
     };
   },
@@ -784,9 +798,6 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     if (message.targetColor !== undefined) {
       obj.targetColor = RgbColor.toJSON(message.targetColor);
     }
-    if (message.type !== 0) {
-      obj.type = Math.round(message.type);
-    }
     if (message.uuidPart1 !== 0) {
       obj.uuidPart1 = Math.round(message.uuidPart1);
     }
@@ -798,6 +809,9 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     }
     if (message.uuidPart4 !== 0) {
       obj.uuidPart4 = Math.round(message.uuidPart4);
+    }
+    if (message.captureType !== 0) {
+      obj.captureType = jonGuiDataTargetTypeToJSON(message.captureType);
     }
     return obj;
   },
@@ -828,11 +842,11 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     message.targetColor = (object.targetColor !== undefined && object.targetColor !== null)
       ? RgbColor.fromPartial(object.targetColor)
       : undefined;
-    message.type = object.type ?? 0;
     message.uuidPart1 = object.uuidPart1 ?? 0;
     message.uuidPart2 = object.uuidPart2 ?? 0;
     message.uuidPart3 = object.uuidPart3 ?? 0;
     message.uuidPart4 = object.uuidPart4 ?? 0;
+    message.captureType = object.captureType ?? 0;
     return message;
   },
 };

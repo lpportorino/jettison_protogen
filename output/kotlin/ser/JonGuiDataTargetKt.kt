@@ -335,23 +335,6 @@ public object JonGuiDataTargetKt {
       get() = _builder.targetColorOrNull
 
     /**
-     * `uint32 type = 17;`
-     */
-    public var type: kotlin.Int
-      @JvmName("getType")
-      get() = _builder.type
-      @JvmName("setType")
-      set(value) {
-        _builder.type = value
-      }
-    /**
-     * `uint32 type = 17;`
-     */
-    public fun clearType() {
-      _builder.clearType()
-    }
-
-    /**
      * ```
      * UUID as four fixed32 values (128 bits total)
      * ```
@@ -425,6 +408,42 @@ public object JonGuiDataTargetKt {
      */
     public fun clearUuidPart4() {
       _builder.clearUuidPart4()
+    }
+
+    /**
+     * ```
+     * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+     * command, or an LRF measure with no valid range). UNSPECIFIED only in
+     * records predating the discriminator.
+     * ```
+     *
+     * `.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }`
+     */
+    public var captureType: ser.JonSharedDataTypes.JonGuiDataTargetType
+      @JvmName("getCaptureType")
+      get() = _builder.captureType
+      @JvmName("setCaptureType")
+      set(value) {
+        _builder.captureType = value
+      }
+    public var captureTypeValue: kotlin.Int
+      @JvmName("getCaptureTypeValue")
+      get() = _builder.captureTypeValue
+      @JvmName("setCaptureTypeValue")
+      set(value) {
+        _builder.captureTypeValue = value
+      }
+    /**
+     * ```
+     * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+     * command, or an LRF measure with no valid range). UNSPECIFIED only in
+     * records predating the discriminator.
+     * ```
+     *
+     * `.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearCaptureType() {
+      _builder.clearCaptureType()
     }
   }
 }

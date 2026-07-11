@@ -23,6 +23,7 @@ Represents the current state and progress of a compass calibration process, trac
 | 4 | target_elevation | double | >= -90, <= 90 |
 | 5 | target_bank | double | >= -180, < 180 |
 | 6 | status | [[proto/ser.JonGuiDataCompassCalibrateStatus]] | defined enum value only, not in: 0 |
+| 7 | figure_of_merit_raw | uint32 | <= 65535 |
 
 
 

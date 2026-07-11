@@ -22,7 +22,7 @@ Encapsulates real-time spatial position and temporal information of the system, 
 | 3 | bank | double | >= -180, < 180 |
 | 4 | latitude | double | >= -90, <= 90 |
 | 5 | longitude | double | >= -180, < 180 |
-| 6 | altitude | double | >= -430, <= 100000 |
+| 6 | altitude | double | - |
 | 7 | timestamp | int64 | >= 0 |
 
 

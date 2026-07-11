@@ -1623,12 +1623,6 @@ public final class JonSharedDataLrf {
     ser.JonSharedDataLrf.RgbColorOrBuilder getTargetColorOrBuilder();
 
     /**
-     * <code>uint32 type = 17;</code>
-     * @return The type.
-     */
-    int getType();
-
-    /**
      * <pre>
      * UUID as four fixed32 values (128 bits total)
      * </pre>
@@ -1655,6 +1649,29 @@ public final class JonSharedDataLrf {
      * @return The uuidPart4.
      */
     int getUuidPart4();
+
+    /**
+     * <pre>
+     * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+     * command, or an LRF measure with no valid range). UNSPECIFIED only in
+     * records predating the discriminator.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for captureType.
+     */
+    int getCaptureTypeValue();
+    /**
+     * <pre>
+     * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+     * command, or an LRF measure with no valid range). UNSPECIFIED only in
+     * records predating the discriminator.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+     * @return The captureType.
+     */
+    ser.JonSharedDataTypes.JonGuiDataTargetType getCaptureType();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataTarget}
@@ -1679,6 +1696,7 @@ public final class JonSharedDataLrf {
     }
     private JonGuiDataTarget() {
       observerFixType_ = 0;
+      captureType_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1904,17 +1922,6 @@ public final class JonSharedDataLrf {
       return targetColor_ == null ? ser.JonSharedDataLrf.RgbColor.getDefaultInstance() : targetColor_;
     }
 
-    public static final int TYPE_FIELD_NUMBER = 17;
-    private int type_ = 0;
-    /**
-     * <code>uint32 type = 17;</code>
-     * @return The type.
-     */
-    @java.lang.Override
-    public int getType() {
-      return type_;
-    }
-
     public static final int UUID_PART1_FIELD_NUMBER = 18;
     private int uuidPart1_ = 0;
     /**
@@ -1961,6 +1968,36 @@ public final class JonSharedDataLrf {
     @java.lang.Override
     public int getUuidPart4() {
       return uuidPart4_;
+    }
+
+    public static final int CAPTURE_TYPE_FIELD_NUMBER = 23;
+    private int captureType_ = 0;
+    /**
+     * <pre>
+     * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+     * command, or an LRF measure with no valid range). UNSPECIFIED only in
+     * records predating the discriminator.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for captureType.
+     */
+    @java.lang.Override public int getCaptureTypeValue() {
+      return captureType_;
+    }
+    /**
+     * <pre>
+     * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+     * command, or an LRF measure with no valid range). UNSPECIFIED only in
+     * records predating the discriminator.
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+     * @return The captureType.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataTargetType getCaptureType() {
+      ser.JonSharedDataTypes.JonGuiDataTargetType result = ser.JonSharedDataTypes.JonGuiDataTargetType.forNumber(captureType_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataTargetType.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2025,9 +2062,6 @@ public final class JonSharedDataLrf {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(16, getTargetColor());
       }
-      if (type_ != 0) {
-        output.writeUInt32(17, type_);
-      }
       if (uuidPart1_ != 0) {
         output.writeInt32(18, uuidPart1_);
       }
@@ -2042,6 +2076,9 @@ public final class JonSharedDataLrf {
       }
       if (java.lang.Double.doubleToRawLongBits(distanceC_) != 0) {
         output.writeDouble(22, distanceC_);
+      }
+      if (captureType_ != ser.JonSharedDataTypes.JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(23, captureType_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2116,10 +2153,6 @@ public final class JonSharedDataLrf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(16, getTargetColor());
       }
-      if (type_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(17, type_);
-      }
       if (uuidPart1_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(18, uuidPart1_);
@@ -2139,6 +2172,10 @@ public final class JonSharedDataLrf {
       if (java.lang.Double.doubleToRawLongBits(distanceC_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(22, distanceC_);
+      }
+      if (captureType_ != ser.JonSharedDataTypes.JonGuiDataTargetType.JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(23, captureType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -2203,8 +2240,6 @@ public final class JonSharedDataLrf {
         if (!getTargetColor()
             .equals(other.getTargetColor())) return false;
       }
-      if (getType()
-          != other.getType()) return false;
       if (getUuidPart1()
           != other.getUuidPart1()) return false;
       if (getUuidPart2()
@@ -2213,6 +2248,7 @@ public final class JonSharedDataLrf {
           != other.getUuidPart3()) return false;
       if (getUuidPart4()
           != other.getUuidPart4()) return false;
+      if (captureType_ != other.captureType_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2273,8 +2309,6 @@ public final class JonSharedDataLrf {
         hash = (37 * hash) + TARGET_COLOR_FIELD_NUMBER;
         hash = (53 * hash) + getTargetColor().hashCode();
       }
-      hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getType();
       hash = (37 * hash) + UUID_PART1_FIELD_NUMBER;
       hash = (53 * hash) + getUuidPart1();
       hash = (37 * hash) + UUID_PART2_FIELD_NUMBER;
@@ -2283,6 +2317,8 @@ public final class JonSharedDataLrf {
       hash = (53 * hash) + getUuidPart3();
       hash = (37 * hash) + UUID_PART4_FIELD_NUMBER;
       hash = (53 * hash) + getUuidPart4();
+      hash = (37 * hash) + CAPTURE_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + captureType_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2441,11 +2477,11 @@ public final class JonSharedDataLrf {
           targetColorBuilder_.dispose();
           targetColorBuilder_ = null;
         }
-        type_ = 0;
         uuidPart1_ = 0;
         uuidPart2_ = 0;
         uuidPart3_ = 0;
         uuidPart4_ = 0;
+        captureType_ = 0;
         return this;
       }
 
@@ -2535,19 +2571,19 @@ public final class JonSharedDataLrf {
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00020000) != 0)) {
-          result.type_ = type_;
-        }
-        if (((from_bitField0_ & 0x00040000) != 0)) {
           result.uuidPart1_ = uuidPart1_;
         }
-        if (((from_bitField0_ & 0x00080000) != 0)) {
+        if (((from_bitField0_ & 0x00040000) != 0)) {
           result.uuidPart2_ = uuidPart2_;
         }
-        if (((from_bitField0_ & 0x00100000) != 0)) {
+        if (((from_bitField0_ & 0x00080000) != 0)) {
           result.uuidPart3_ = uuidPart3_;
         }
-        if (((from_bitField0_ & 0x00200000) != 0)) {
+        if (((from_bitField0_ & 0x00100000) != 0)) {
           result.uuidPart4_ = uuidPart4_;
+        }
+        if (((from_bitField0_ & 0x00200000) != 0)) {
+          result.captureType_ = captureType_;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -2615,9 +2651,6 @@ public final class JonSharedDataLrf {
         if (other.hasTargetColor()) {
           mergeTargetColor(other.getTargetColor());
         }
-        if (other.getType() != 0) {
-          setType(other.getType());
-        }
         if (other.getUuidPart1() != 0) {
           setUuidPart1(other.getUuidPart1());
         }
@@ -2629,6 +2662,9 @@ public final class JonSharedDataLrf {
         }
         if (other.getUuidPart4() != 0) {
           setUuidPart4(other.getUuidPart4());
+        }
+        if (other.captureType_ != 0) {
+          setCaptureTypeValue(other.getCaptureTypeValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2738,29 +2774,24 @@ public final class JonSharedDataLrf {
                 bitField0_ |= 0x00010000;
                 break;
               } // case 130
-              case 136: {
-                type_ = input.readUInt32();
-                bitField0_ |= 0x00020000;
-                break;
-              } // case 136
               case 144: {
                 uuidPart1_ = input.readInt32();
-                bitField0_ |= 0x00040000;
+                bitField0_ |= 0x00020000;
                 break;
               } // case 144
               case 152: {
                 uuidPart2_ = input.readInt32();
-                bitField0_ |= 0x00080000;
+                bitField0_ |= 0x00040000;
                 break;
               } // case 152
               case 160: {
                 uuidPart3_ = input.readInt32();
-                bitField0_ |= 0x00100000;
+                bitField0_ |= 0x00080000;
                 break;
               } // case 160
               case 168: {
                 uuidPart4_ = input.readInt32();
-                bitField0_ |= 0x00200000;
+                bitField0_ |= 0x00100000;
                 break;
               } // case 168
               case 177: {
@@ -2768,6 +2799,11 @@ public final class JonSharedDataLrf {
                 bitField0_ |= 0x00001000;
                 break;
               } // case 177
+              case 184: {
+                captureType_ = input.readEnum();
+                bitField0_ |= 0x00200000;
+                break;
+              } // case 184
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3439,38 +3475,6 @@ public final class JonSharedDataLrf {
         return targetColorBuilder_;
       }
 
-      private int type_ ;
-      /**
-       * <code>uint32 type = 17;</code>
-       * @return The type.
-       */
-      @java.lang.Override
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>uint32 type = 17;</code>
-       * @param value The type to set.
-       * @return This builder for chaining.
-       */
-      public Builder setType(int value) {
-
-        type_ = value;
-        bitField0_ |= 0x00020000;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint32 type = 17;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00020000);
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
       private int uuidPart1_ ;
       /**
        * <pre>
@@ -3496,7 +3500,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart1(int value) {
 
         uuidPart1_ = value;
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00020000;
         onChanged();
         return this;
       }
@@ -3509,7 +3513,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart1() {
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         uuidPart1_ = 0;
         onChanged();
         return this;
@@ -3532,7 +3536,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart2(int value) {
 
         uuidPart2_ = value;
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00040000;
         onChanged();
         return this;
       }
@@ -3541,7 +3545,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart2() {
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         uuidPart2_ = 0;
         onChanged();
         return this;
@@ -3564,7 +3568,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart3(int value) {
 
         uuidPart3_ = value;
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00080000;
         onChanged();
         return this;
       }
@@ -3573,7 +3577,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart3() {
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         uuidPart3_ = 0;
         onChanged();
         return this;
@@ -3596,7 +3600,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart4(int value) {
 
         uuidPart4_ = value;
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00100000;
         onChanged();
         return this;
       }
@@ -3605,8 +3609,91 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart4() {
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         uuidPart4_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int captureType_ = 0;
+      /**
+       * <pre>
+       * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+       * command, or an LRF measure with no valid range). UNSPECIFIED only in
+       * records predating the discriminator.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for captureType.
+       */
+      @java.lang.Override public int getCaptureTypeValue() {
+        return captureType_;
+      }
+      /**
+       * <pre>
+       * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+       * command, or an LRF measure with no valid range). UNSPECIFIED only in
+       * records predating the discriminator.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for captureType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCaptureTypeValue(int value) {
+        captureType_ = value;
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+       * command, or an LRF measure with no valid range). UNSPECIFIED only in
+       * records predating the discriminator.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+       * @return The captureType.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTargetType getCaptureType() {
+        ser.JonSharedDataTypes.JonGuiDataTargetType result = ser.JonSharedDataTypes.JonGuiDataTargetType.forNumber(captureType_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataTargetType.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+       * command, or an LRF measure with no valid range). UNSPECIFIED only in
+       * records predating the discriminator.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+       * @param value The captureType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCaptureType(ser.JonSharedDataTypes.JonGuiDataTargetType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00200000;
+        captureType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * What this capture event IS: a ranged TARGET or a PHOTO (operator Photo
+       * command, or an LRF measure with no valid range). UNSPECIFIED only in
+       * records predating the discriminator.
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTargetType capture_type = 23 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCaptureType() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        captureType_ = 0;
         onChanged();
         return this;
       }
@@ -4275,7 +4362,7 @@ public final class JonSharedDataLrf {
       "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin" +
       "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\022#\n\005meteo\030\n \001" +
       "(\0132\024.ser.JonGuiDataMeteo\022\021\n\tscan_mode\030\013 " +
-      "\001(\005\"\317\006\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 " +
+      "\001(\005\"\210\007\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 " +
       "\001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001(\001B\027" +
       "\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_latitu" +
       "de\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017tar" +
@@ -4294,13 +4381,15 @@ public final class JonSharedDataLrf {
       "ataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030" +
       "\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002" +
       "(\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbColor\022" +
-      "\014\n\004type\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuui" +
-      "d_part2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuui" +
-      "d_part4\030\025 \001(\005\"X\n\010RgbColor\022\027\n\003red\030\001 \001(\rB\n" +
-      "\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n" +
-      "\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000BKZIgit-codecommi" +
-      "t.eu-central-1.amazonaws.com/v1/repos/je" +
-      "ttison/jonp/data/lrfb\006proto3"
+      "\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022" +
+      "\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\022" +
+      "9\n\014capture_type\030\027 \001(\0162\031.ser.JonGuiDataTa" +
+      "rgetTypeB\010\272H\005\202\001\002\020\001J\004\010\021\020\022R\004type\"X\n\010RgbCol" +
+      "or\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001" +
+      "(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000" +
+      "BKZIgit-codecommit.eu-central-1.amazonaw" +
+      "s.com/v1/repos/jettison/jonp/data/lrfb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4319,7 +4408,7 @@ public final class JonSharedDataLrf {
     internal_static_ser_JonGuiDataTarget_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataTarget_descriptor,
-        new java.lang.String[] { "Timestamp", "TargetLongitude", "TargetLatitude", "TargetAltitude", "ObserverLongitude", "ObserverLatitude", "ObserverAltitude", "ObserverAzimuth", "ObserverElevation", "ObserverBank", "Distance2D", "Distance3B", "DistanceC", "ObserverFixType", "SessionId", "TargetId", "TargetColor", "Type", "UuidPart1", "UuidPart2", "UuidPart3", "UuidPart4", });
+        new java.lang.String[] { "Timestamp", "TargetLongitude", "TargetLatitude", "TargetAltitude", "ObserverLongitude", "ObserverLatitude", "ObserverAltitude", "ObserverAzimuth", "ObserverElevation", "ObserverBank", "Distance2D", "Distance3B", "DistanceC", "ObserverFixType", "SessionId", "TargetId", "TargetColor", "UuidPart1", "UuidPart2", "UuidPart3", "UuidPart4", "CaptureType", });
     internal_static_ser_RgbColor_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_ser_RgbColor_fieldAccessorTable = new

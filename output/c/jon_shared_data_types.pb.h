@@ -92,6 +92,16 @@ typedef enum _ser_JonGuiDatatLrfLaserPointerModes {
     ser_JonGuiDatatLrfLaserPointerModes_JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2 = 3
 } ser_JonGuiDatatLrfLaserPointerModes;
 
+/* Discriminates what a capture event (target_id increment) IS: a ranged
+ TARGET (LRF returned a valid range) or a PHOTO (operator Photo command,
+ or an LRF measure that missed — no valid range). UNSPECIFIED appears only
+ in records that predate the discriminator. */
+typedef enum _ser_JonGuiDataTargetType {
+    ser_JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED = 0,
+    ser_JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_TARGET = 1,
+    ser_JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_PHOTO = 2
+} ser_JonGuiDataTargetType;
+
 typedef enum _ser_JonGuiDataCompassCalibrateStatus {
     ser_JonGuiDataCompassCalibrateStatus_JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED = 0,
     ser_JonGuiDataCompassCalibrateStatus_JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING = 1,
@@ -328,6 +338,10 @@ extern "C" {
 #define _ser_JonGuiDatatLrfLaserPointerModes_MIN ser_JonGuiDatatLrfLaserPointerModes_JON_GUI_DATA_LRF_LASER_POINTER_MODE_UNSPECIFIED
 #define _ser_JonGuiDatatLrfLaserPointerModes_MAX ser_JonGuiDatatLrfLaserPointerModes_JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2
 #define _ser_JonGuiDatatLrfLaserPointerModes_ARRAYSIZE ((ser_JonGuiDatatLrfLaserPointerModes)(ser_JonGuiDatatLrfLaserPointerModes_JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2+1))
+
+#define _ser_JonGuiDataTargetType_MIN ser_JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED
+#define _ser_JonGuiDataTargetType_MAX ser_JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_PHOTO
+#define _ser_JonGuiDataTargetType_ARRAYSIZE ((ser_JonGuiDataTargetType)(ser_JonGuiDataTargetType_JON_GUI_DATA_TARGET_TYPE_PHOTO+1))
 
 #define _ser_JonGuiDataCompassCalibrateStatus_MIN ser_JonGuiDataCompassCalibrateStatus_JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED
 #define _ser_JonGuiDataCompassCalibrateStatus_MAX ser_JonGuiDataCompassCalibrateStatus_JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_ERROR

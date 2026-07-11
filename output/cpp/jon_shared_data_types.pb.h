@@ -486,6 +486,40 @@ inline bool JonGuiDatatLrfLaserPointerModes_Parse(absl::string_view name, JonGui
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDatatLrfLaserPointerModes>(
       JonGuiDatatLrfLaserPointerModes_descriptor(), name, value);
 }
+enum JonGuiDataTargetType : int {
+  JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED = 0,
+  JON_GUI_DATA_TARGET_TYPE_TARGET = 1,
+  JON_GUI_DATA_TARGET_TYPE_PHOTO = 2,
+  JonGuiDataTargetType_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataTargetType_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataTargetType_IsValid(int value);
+extern const uint32_t JonGuiDataTargetType_internal_data_[];
+constexpr JonGuiDataTargetType JonGuiDataTargetType_MIN = static_cast<JonGuiDataTargetType>(0);
+constexpr JonGuiDataTargetType JonGuiDataTargetType_MAX = static_cast<JonGuiDataTargetType>(2);
+constexpr int JonGuiDataTargetType_ARRAYSIZE = 2 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataTargetType_descriptor();
+template <typename T>
+const std::string& JonGuiDataTargetType_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataTargetType>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataTargetType_Name().");
+  return JonGuiDataTargetType_Name(static_cast<JonGuiDataTargetType>(value));
+}
+template <>
+inline const std::string& JonGuiDataTargetType_Name(JonGuiDataTargetType value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataTargetType_descriptor,
+                                                 0, 2>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataTargetType_Parse(absl::string_view name, JonGuiDataTargetType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataTargetType>(
+      JonGuiDataTargetType_descriptor(), name, value);
+}
 enum JonGuiDataCompassCalibrateStatus : int {
   JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED = 0,
   JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING = 1,
@@ -4344,6 +4378,12 @@ struct is_proto_enum<::ser::JonGuiDatatLrfLaserPointerModes> : std::true_type {}
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDatatLrfLaserPointerModes>() {
   return ::ser::JonGuiDatatLrfLaserPointerModes_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataTargetType> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataTargetType>() {
+  return ::ser::JonGuiDataTargetType_descriptor();
 }
 template <>
 struct is_proto_enum<::ser::JonGuiDataCompassCalibrateStatus> : std::true_type {};

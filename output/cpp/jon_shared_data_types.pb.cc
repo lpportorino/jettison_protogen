@@ -279,7 +279,7 @@ struct JonGuiDataTrackedObjectDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataTrackedObjectDefaultTypeInternal _JonGuiDataTrackedObject_default_instance_;
 }  // namespace ser
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[22];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[23];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fshared_5fdata_5ftypes_2eproto = nullptr;
 const ::uint32_t
@@ -533,77 +533,80 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "_DATA_LRF_LASER_POINTER_MODE_OFF\020\001\022,\n(JO"
     "N_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1\020\002"
     "\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_"
-    "ON_2\020\003*\362\002\n JonGuiDataCompassCalibrateSta"
-    "tus\0225\n1JON_GUI_DATA_COMPASS_CALIBRATE_ST"
-    "ATUS_UNSPECIFIED\020\000\0229\n5JON_GUI_DATA_COMPA"
-    "SS_CALIBRATE_STATUS_NOT_CALIBRATING\020\001\022;\n"
-    "7JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_C"
-    "ALIBRATING_SHORT\020\002\022:\n6JON_GUI_DATA_COMPA"
-    "SS_CALIBRATE_STATUS_CALIBRATING_LONG\020\003\0222"
-    "\n.JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_"
-    "FINISHED\020\004\022/\n+JON_GUI_DATA_COMPASS_CALIB"
-    "RATE_STATUS_ERROR\020\005*\270\002\n\024JonGuiDataRotary"
-    "Mode\022(\n$JON_GUI_DATA_ROTARY_MODE_UNSPECI"
-    "FIED\020\000\022+\n\'JON_GUI_DATA_ROTARY_MODE_INITI"
-    "ALIZATION\020\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_"
-    "SPEED\020\002\022%\n!JON_GUI_DATA_ROTARY_MODE_POSI"
-    "TION\020\003\022*\n&JON_GUI_DATA_ROTARY_MODE_STABI"
-    "LIZATION\020\004\022&\n\"JON_GUI_DATA_ROTARY_MODE_T"
-    "ARGETING\020\005\022*\n&JON_GUI_DATA_ROTARY_MODE_V"
-    "IDEO_TRACKER\020\006*\215\001\n\026JonGuiDataVideoChanne"
-    "l\022*\n&JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIF"
-    "IED\020\000\022#\n\037JON_GUI_DATA_VIDEO_CHANNEL_HEAT"
-    "\020\001\022\"\n\036JON_GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373"
-    "\001\n\026JonGuiDataRecOsdScreen\022+\n\'JON_GUI_DAT"
-    "A_REC_OSD_SCREEN_UNSPECIFIED\020\000\022$\n JON_GU"
-    "I_DATA_REC_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_"
-    "DATA_REC_OSD_SCREEN_LRF_MEASURE\020\002\022*\n&JON"
-    "_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n"
-    "1JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT_"
-    "SIMPLIFIED\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n "
-    "JON_GUI_DATA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JO"
-    "N_GUI_DATA_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DA"
-    "TA_FX_MODE_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MO"
-    "DE_DAY_C\020\003\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D"
-    "\020\004\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JO"
-    "N_GUI_DATA_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDat"
-    "aFxModeHeat\022%\n!JON_GUI_DATA_FX_MODE_HEAT"
-    "_DEFAULT\020\000\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_"
-    "A\020\001\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033"
-    "JON_GUI_DATA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI"
-    "_DATA_FX_MODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_F"
-    "X_MODE_HEAT_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_"
-    "HEAT_F\020\006*\365\001\n\035JonGuiDataSystemLocalizatio"
-    "ns\0220\n,JON_GUI_DATA_SYSTEM_LOCALIZATION_U"
-    "NSPECIFIED\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCA"
-    "LIZATION_EN\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOC"
-    "ALIZATION_UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LO"
-    "CALIZATION_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_L"
-    "OCALIZATION_CS\020\004*\355\001\n\024JonGuiDataClientTyp"
-    "e\022(\n$JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIE"
-    "D\020\000\022(\n$JON_GUI_DATA_CLIENT_TYPE_INTERNAL"
-    "_CV\020\001\022*\n&JON_GUI_DATA_CLIENT_TYPE_LOCAL_"
-    "NETWORK\020\002\0222\n.JON_GUI_DATA_CLIENT_TYPE_CE"
-    "RTIFICATE_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CL"
-    "IENT_TYPE_LIRA\020\004*\346\001\n\023JonGuiDataClientApp"
-    "\022\'\n#JON_GUI_DATA_CLIENT_APP_UNSPECIFIED\020"
-    "\000\022&\n\"JON_GUI_DATA_CLIENT_APP_BROWSER_UI\020"
-    "\001\022\'\n#JON_GUI_DATA_CLIENT_APP_BROWSER_MAP"
-    "\020\002\022*\n&JON_GUI_DATA_CLIENT_APP_DESKTOP_NA"
-    "TIVE\020\003\022)\n%JON_GUI_DATA_CLIENT_APP_MOBILE"
-    "_NATIVE\020\004*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'"
-    "JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED\020"
-    "\000\022(\n$JON_GUI_DATA_EXT_BAT_STATUS_CHARGIN"
-    "G\020\001\022+\n\'JON_GUI_DATA_EXT_BAT_STATUS_DISCH"
-    "ARGING\020\002\022)\n%JON_GUI_DATA_EXT_BAT_STATUS_"
-    "BALANCING\020\003*\301\001\n\025JonGuiDataStateSource\022)\n"
-    "%JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED\020\000"
-    "\022*\n&JON_GUI_DATA_STATE_SOURCE_DAY_PIPELI"
-    "NE\020\001\022+\n\'JON_GUI_DATA_STATE_SOURCE_HEAT_P"
-    "IPELINE\020\002\022$\n JON_GUI_DATA_STATE_SOURCE_S"
-    "YSTEM\020\003BHZFgit-codecommit.eu-central-1.a"
-    "mazonaws.com/v1/repos/jettison/jonp/type"
-    "sb\006proto3"
+    "ON_2\020\003*\211\001\n\024JonGuiDataTargetType\022(\n$JON_G"
+    "UI_DATA_TARGET_TYPE_UNSPECIFIED\020\000\022#\n\037JON"
+    "_GUI_DATA_TARGET_TYPE_TARGET\020\001\022\"\n\036JON_GU"
+    "I_DATA_TARGET_TYPE_PHOTO\020\002*\362\002\n JonGuiDat"
+    "aCompassCalibrateStatus\0225\n1JON_GUI_DATA_"
+    "COMPASS_CALIBRATE_STATUS_UNSPECIFIED\020\000\0229"
+    "\n5JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_"
+    "NOT_CALIBRATING\020\001\022;\n7JON_GUI_DATA_COMPAS"
+    "S_CALIBRATE_STATUS_CALIBRATING_SHORT\020\002\022:"
+    "\n6JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_"
+    "CALIBRATING_LONG\020\003\0222\n.JON_GUI_DATA_COMPA"
+    "SS_CALIBRATE_STATUS_FINISHED\020\004\022/\n+JON_GU"
+    "I_DATA_COMPASS_CALIBRATE_STATUS_ERROR\020\005*"
+    "\270\002\n\024JonGuiDataRotaryMode\022(\n$JON_GUI_DATA"
+    "_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DA"
+    "TA_ROTARY_MODE_INITIALIZATION\020\001\022\"\n\036JON_G"
+    "UI_DATA_ROTARY_MODE_SPEED\020\002\022%\n!JON_GUI_D"
+    "ATA_ROTARY_MODE_POSITION\020\003\022*\n&JON_GUI_DA"
+    "TA_ROTARY_MODE_STABILIZATION\020\004\022&\n\"JON_GU"
+    "I_DATA_ROTARY_MODE_TARGETING\020\005\022*\n&JON_GU"
+    "I_DATA_ROTARY_MODE_VIDEO_TRACKER\020\006*\215\001\n\026J"
+    "onGuiDataVideoChannel\022*\n&JON_GUI_DATA_VI"
+    "DEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037JON_GUI_DAT"
+    "A_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_GUI_DATA_V"
+    "IDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiDataRecOsdS"
+    "creen\022+\n\'JON_GUI_DATA_REC_OSD_SCREEN_UNS"
+    "PECIFIED\020\000\022$\n JON_GUI_DATA_REC_OSD_SCREE"
+    "N_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_OSD_SCREEN_"
+    "LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_REC_OSD_SC"
+    "REEN_LRF_RESULT\020\003\0225\n1JON_GUI_DATA_REC_OS"
+    "D_SCREEN_LRF_RESULT_SIMPLIFIED\020\004*\373\001\n\023Jon"
+    "GuiDataFxModeDay\022$\n JON_GUI_DATA_FX_MODE"
+    "_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA_FX_MODE_D"
+    "AY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_B\020\002\022\036"
+    "\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003\022\036\n\032JON_GU"
+    "I_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_GUI_DATA_F"
+    "X_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA_FX_MODE_D"
+    "AY_F\020\006*\203\002\n\024JonGuiDataFxModeHeat\022%\n!JON_G"
+    "UI_DATA_FX_MODE_HEAT_DEFAULT\020\000\022\037\n\033JON_GU"
+    "I_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON_GUI_DATA_"
+    "FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DATA_FX_MODE"
+    "_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_D"
+    "\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_E\020\005\022\037\n\033J"
+    "ON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365\001\n\035JonGuiD"
+    "ataSystemLocalizations\0220\n,JON_GUI_DATA_S"
+    "YSTEM_LOCALIZATION_UNSPECIFIED\020\000\022\'\n#JON_"
+    "GUI_DATA_SYSTEM_LOCALIZATION_EN\020\001\022\'\n#JON"
+    "_GUI_DATA_SYSTEM_LOCALIZATION_UA\020\002\022\'\n#JO"
+    "N_GUI_DATA_SYSTEM_LOCALIZATION_AR\020\003\022\'\n#J"
+    "ON_GUI_DATA_SYSTEM_LOCALIZATION_CS\020\004*\355\001\n"
+    "\024JonGuiDataClientType\022(\n$JON_GUI_DATA_CL"
+    "IENT_TYPE_UNSPECIFIED\020\000\022(\n$JON_GUI_DATA_"
+    "CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&JON_GUI_DAT"
+    "A_CLIENT_TYPE_LOCAL_NETWORK\020\002\0222\n.JON_GUI"
+    "_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED\020"
+    "\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_LIRA\020\004*\346\001\n"
+    "\023JonGuiDataClientApp\022\'\n#JON_GUI_DATA_CLI"
+    "ENT_APP_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_CL"
+    "IENT_APP_BROWSER_UI\020\001\022\'\n#JON_GUI_DATA_CL"
+    "IENT_APP_BROWSER_MAP\020\002\022*\n&JON_GUI_DATA_C"
+    "LIENT_APP_DESKTOP_NATIVE\020\003\022)\n%JON_GUI_DA"
+    "TA_CLIENT_APP_MOBILE_NATIVE\020\004*\307\001\n\026JonGui"
+    "DataExtBatStatus\022+\n\'JON_GUI_DATA_EXT_BAT"
+    "_STATUS_UNSPECIFIED\020\000\022(\n$JON_GUI_DATA_EX"
+    "T_BAT_STATUS_CHARGING\020\001\022+\n\'JON_GUI_DATA_"
+    "EXT_BAT_STATUS_DISCHARGING\020\002\022)\n%JON_GUI_"
+    "DATA_EXT_BAT_STATUS_BALANCING\020\003*\301\001\n\025JonG"
+    "uiDataStateSource\022)\n%JON_GUI_DATA_STATE_"
+    "SOURCE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_STA"
+    "TE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JON_GUI_DATA"
+    "_STATE_SOURCE_HEAT_PIPELINE\020\002\022$\n JON_GUI"
+    "_DATA_STATE_SOURCE_SYSTEM\020\003BHZFgit-codec"
+    "ommit.eu-central-1.amazonaws.com/v1/repo"
+    "s/jettison/jonp/typesb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -613,7 +616,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    7089,
+    7229,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
@@ -740,9 +743,18 @@ PROTOBUF_CONSTINIT const uint32_t JonGuiDatatLrfLaserPointerModes_internal_data_
 bool JonGuiDatatLrfLaserPointerModes_IsValid(int value) {
   return 0 <= value && value <= 3;
 }
-const ::google::protobuf::EnumDescriptor* JonGuiDataCompassCalibrateStatus_descriptor() {
+const ::google::protobuf::EnumDescriptor* JonGuiDataTargetType_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
   return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[11];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataTargetType_internal_data_[] = {
+    196608u, 0u, };
+bool JonGuiDataTargetType_IsValid(int value) {
+  return 0 <= value && value <= 2;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataCompassCalibrateStatus_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[12];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataCompassCalibrateStatus_internal_data_[] = {
     393216u, 0u, };
@@ -751,7 +763,7 @@ bool JonGuiDataCompassCalibrateStatus_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataRotaryMode_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[12];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[13];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataRotaryMode_internal_data_[] = {
     458752u, 0u, };
@@ -760,7 +772,7 @@ bool JonGuiDataRotaryMode_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataVideoChannel_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[13];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[14];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataVideoChannel_internal_data_[] = {
     196608u, 0u, };
@@ -769,7 +781,7 @@ bool JonGuiDataVideoChannel_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataRecOsdScreen_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[14];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[15];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataRecOsdScreen_internal_data_[] = {
     327680u, 0u, };
@@ -778,7 +790,7 @@ bool JonGuiDataRecOsdScreen_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataFxModeDay_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[15];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[16];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataFxModeDay_internal_data_[] = {
     458752u, 0u, };
@@ -787,7 +799,7 @@ bool JonGuiDataFxModeDay_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataFxModeHeat_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[16];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[17];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataFxModeHeat_internal_data_[] = {
     458752u, 0u, };
@@ -796,7 +808,7 @@ bool JonGuiDataFxModeHeat_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataSystemLocalizations_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[17];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[18];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataSystemLocalizations_internal_data_[] = {
     327680u, 0u, };
@@ -805,7 +817,7 @@ bool JonGuiDataSystemLocalizations_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataClientType_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[18];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[19];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataClientType_internal_data_[] = {
     327680u, 0u, };
@@ -814,7 +826,7 @@ bool JonGuiDataClientType_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataClientApp_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[19];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[20];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataClientApp_internal_data_[] = {
     327680u, 0u, };
@@ -823,7 +835,7 @@ bool JonGuiDataClientApp_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataExtBatStatus_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[20];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[21];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataExtBatStatus_internal_data_[] = {
     262144u, 0u, };
@@ -832,7 +844,7 @@ bool JonGuiDataExtBatStatus_IsValid(int value) {
 }
 const ::google::protobuf::EnumDescriptor* JonGuiDataStateSource_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
-  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[21];
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[22];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataStateSource_internal_data_[] = {
     262144u, 0u, };
