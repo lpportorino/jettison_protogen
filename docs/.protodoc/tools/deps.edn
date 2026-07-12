@@ -33,5 +33,14 @@
                             com.gfredericks/test.chuck {:mvn/version "0.2.14"}}
                :main-opts ["-m" "protodoc.gencorpus"]}
 
+  ;; gen-stream CLI — the operator-session command-stream synthesizer. Same
+  ;; codec/oracle/generator deps as :gen-corpus; behind its own alias so the
+  ;; doc-gen :run path stays free of them.
+  :gen-stream {:extra-deps {com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}
+                            build.buf/protovalidate {:mvn/version "1.2.2"}
+                            org.clojure/test.check {:mvn/version "1.1.1"}
+                            com.gfredericks/test.chuck {:mvn/version "0.2.14"}}
+               :main-opts ["-m" "protodoc.gencorpus.stream"]}
+
   :build {:deps {io.github.clojure/tools.build {:mvn/version "0.10.10"}}
           :ns-default build}}}
