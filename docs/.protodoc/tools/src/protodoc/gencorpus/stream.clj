@@ -314,6 +314,26 @@
   []
   (vec (sort (keys profiles))))
 
+(defn covered-payload-branches
+  "The set of `cmd.Root` `payload` branch names exercised by ALL registered
+   profiles — derived from the `:pins` maps in each phase. `:ping` and `:pause`
+   phases emit `ping` and `noop` payloads respectively via explicit constant pins
+   in the synthesizer; those are included here so the set is the COMPLETE
+   exercised surface.
+
+   This is a pure function over the `profiles` registry (no pool / descriptor
+   access) and is used by `stream-coverage-test` to compute the complement
+   (the unexercised payload branches that require classification)."
+  []
+  (into #{"ping" "noop"}
+        (for [[_profile-name phases] profiles
+              phase phases
+              :when (:pins phase)
+              :let [payload-branches (get (:pins phase) "payload")]
+              :when payload-branches
+              branch payload-branches]
+          branch)))
+
 ;; ── output (.bin files + stream-manifest.edn) ─────────────────────────────
 
 (defn- safe-name [s] (str/replace s #"[^A-Za-z0-9._-]" "_"))
