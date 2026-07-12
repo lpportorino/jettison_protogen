@@ -287,30 +287,49 @@ stream (`[4B LE len][cmd.Root bytes]`).
 | Field | # | Proto type | Value for ping |
 |-------|---|-----------|----------------|
 | `protocol_version` | 1  | uint32 (`gt:0, lte:2147483647`) | `1` |
-| `client_type`      | 5  | `ser.JonGuiDataClientType` enum (`not_in:[0]`) | `5` |
-| `client_app`       | 10 | `ser.JonGuiDataClientApp` enum (`not_in:[0]`) | `10` |
+| `client_type`      | 5  | `ser.JonGuiDataClientType` enum (`defined_only`, `not_in:[0]`) | per client, below |
+| `client_app`       | 10 | `ser.JonGuiDataClientApp` enum (`defined_only`, `not_in:[0]`) | per client, below |
 | `ping`             | 28 | `cmd.Ping` (empty message) | `{}` |
 
 `cmd.Ping` is an empty message — its body length is 0.
 
-**The correct byte encoding** of this `cmd.Root` ping:
+**Identity values are per-client, and MUST name defined enum variants.** Both
+enum fields carry `defined_only` + `not_in:[0]` constraints, so an undefined
+number is a validation violation, not a tolerated unknown — a sender-side
+protovalidate gate refuses to emit it. (A value that happens to equal the
+field's own NUMBER is the classic hand-encoding confusion; this section's
+negative-vector discipline exists to keep exactly that class of defect out of
+the golden vectors.)
+
+| Client | `client_type` | `client_app` |
+|--------|---------------|--------------|
+| Native desktop (tauri) | `2` (`LOCAL_NETWORK`) | `3` (`DESKTOP_NATIVE`) |
+| Browser HUD (datasart controls) | `2` (`LOCAL_NETWORK`) | `1` (`BROWSER_UI`) |
+
+**G1 — the native-client ping encoding:**
 
 ```
-08 01 28 05 50 0a e2 01 00        (9 bytes)
+08 01 28 02 50 03 e2 01 00        (9 bytes)
 ```
 
 Byte by byte:
 - `08 01` — field 1 (`protocol_version`), varint, value `1`.
-- `28 05` — field 5 (`client_type`), varint, value `5`.
-- `50 0a` — field 10 (`client_app`), varint, value `10`.
+- `28 02` — field 5 (`client_type`), varint, value `2` (`LOCAL_NETWORK`).
+- `50 03` — field 10 (`client_app`), varint, value `3` (`DESKTOP_NATIVE`).
 - `e2 01 00` — field 28 (`ping`), wire type 2 (length-delimited). The tag for
   field 28 wire-type 2 is `(28<<3)|2 = 226 = 0xe2`, which needs a 2-byte varint
   `e2 01`; followed by length `00` (empty `Ping` body).
 
-Length-prefixed on the `CW` stream:
+**G1-B — the browser-HUD ping encoding** (differs only in `client_app`):
 
 ```
-09 00 00 00 08 01 28 05 50 0a e2 01 00
+08 01 28 02 50 01 e2 01 00        (9 bytes)
+```
+
+Length-prefixed on the `CW` stream (native shown; browser identical shape):
+
+```
+09 00 00 00 08 01 28 02 50 03 e2 01 00
 ```
 
 (`09 00 00 00` = LE uint32 length 9, then the 9 ping bytes.)
@@ -325,15 +344,20 @@ Length-prefixed on the `CW` stream:
 which decodes as: field 1 = `1` (correct), field 2 (`session_id`) = `2`, field
 3 (`important`) = `3`, field 8 (`state_time`) as wire-type-2-length-0 — the
 intended `client_type` (field 5), `client_app` (field 10), and `ping` (field 28)
-were NOT set. That form has been REPLACED by the correct
-`08 01 28 05 50 0a e2 01 00` (field-5/10/28); the broken bytes are retained ONLY
-as the non-vacuous negative vector asserted by `ts/controls/cmd-sender.test.ts`.
+were NOT set. That form has been REPLACED by the correct field-5/10/28 shape
+(now G1-B for this sender); the broken bytes are retained ONLY as the
+non-vacuous negative vector asserted by `ts/controls/cmd-sender.test.ts`. A
+second defect class this history teaches: the field-shape fix initially carried
+enum VALUES equal to the fields' own numbers (`client_type=5`, `client_app=10`)
+— undefined variants both, which `defined_only` validation rejects; the
+identity table above is the correction.
 
 Reference implementations:
-- proto (authoritative): `proto/jon_shared_cmd.proto` (`Root.protocol_version=1`,
-  `client_type=5`, `client_app=10`, `ping=28`; `message Ping {}` empty).
-- datasart: `ts/controls/cmd-sender.ts` `buildPingPayload()` — emits G1, asserted
-  byte-for-byte by `ts/controls/cmd-sender.test.ts`.
+- proto (authoritative): `proto/jon_shared_cmd.proto` (field numbers
+  `protocol_version=1`, `client_type=5`, `client_app=10`, `ping=28`;
+  `message Ping {}` empty; enum variants in `proto/jon_shared_data_types.proto`).
+- datasart: `ts/controls/cmd-sender.ts` `buildPingPayload()` — emits G1-B,
+  asserted byte-for-byte by `ts/controls/cmd-sender.test.ts`.
 - tauri: `tauri-app/src/proto.rs` `build_ping_command()` (prost `cmd::Root` → G1,
   asserted by `test_build_ping_command_matches_g1_golden_vector`);
   `jettison_wt_client/src/session/command.rs` (`send_persistent` `CW`-stream length
@@ -476,17 +500,25 @@ Canonical secret-free byte samples each repo's wire-parity test asserts its
 encoder reproduces. These are the minimum set; both stacks MUST round-trip them
 byte-for-byte.
 
-**G1 — `cmd.Root` keepalive ping** (§6). The encoder MUST produce exactly:
+**G1 — `cmd.Root` keepalive ping, native client** (§6). The encoder MUST
+produce exactly:
 
 ```
-cmd.Root{protocol_version=1, client_type=5, client_app=10, ping={}}
-= 08 01 28 05 50 0a e2 01 00          (9 bytes)
+cmd.Root{protocol_version=1, client_type=2, client_app=3, ping={}}
+= 08 01 28 02 50 03 e2 01 00          (9 bytes)
 ```
 
-Length-framed on the `CW` stream:
+**G1-B — the browser-HUD variant** (§6; `client_app=1 BROWSER_UI`):
 
 ```
-09 00 00 00 08 01 28 05 50 0a e2 01 00
+cmd.Root{protocol_version=1, client_type=2, client_app=1, ping={}}
+= 08 01 28 02 50 01 e2 01 00          (9 bytes)
+```
+
+Length-framed on the `CW` stream (native shown):
+
+```
+09 00 00 00 08 01 28 02 50 03 e2 01 00
 ```
 
 **G2 — 25-byte codec-frame header** (§2). For
