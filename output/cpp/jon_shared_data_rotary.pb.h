@@ -499,8 +499,9 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     kScanTargetMaxFieldNumber = 14,
     kSunAzimuthFieldNumber = 15,
     kSunElevationFieldNumber = 16,
-    kIsStartedFieldNumber = 18,
     kPanInitStatusFieldNumber = 20,
+    kIsStartedFieldNumber = 18,
+    kIsParkedFieldNumber = 23,
     kCaptureMonotonicUsFieldNumber = 22,
     kTiltInitStatusFieldNumber = 21,
   };
@@ -694,6 +695,16 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_sun_elevation(double value);
 
   public:
+  // int32 pan_init_status = 20 [(.buf.validate.field) = {
+  void clear_pan_init_status() ;
+  ::int32_t pan_init_status() const;
+  void set_pan_init_status(::int32_t value);
+
+  private:
+  ::int32_t _internal_pan_init_status() const;
+  void _internal_set_pan_init_status(::int32_t value);
+
+  public:
   // bool is_started = 18;
   void clear_is_started() ;
   bool is_started() const;
@@ -704,14 +715,14 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_is_started(bool value);
 
   public:
-  // int32 pan_init_status = 20 [(.buf.validate.field) = {
-  void clear_pan_init_status() ;
-  ::int32_t pan_init_status() const;
-  void set_pan_init_status(::int32_t value);
+  // bool is_parked = 23;
+  void clear_is_parked() ;
+  bool is_parked() const;
+  void set_is_parked(bool value);
 
   private:
-  ::int32_t _internal_pan_init_status() const;
-  void _internal_set_pan_init_status(::int32_t value);
+  bool _internal_is_parked() const;
+  void _internal_set_is_parked(bool value);
 
   public:
   // uint64 capture_monotonic_us = 22;
@@ -739,7 +750,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 22, 2,
+      5, 23, 2,
       0, 2>
       _table_;
 
@@ -777,8 +788,9 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     ::int32_t scan_target_max_;
     double sun_azimuth_;
     double sun_elevation_;
-    bool is_started_;
     ::int32_t pan_init_status_;
+    bool is_started_;
+    bool is_parked_;
     ::uint64_t capture_monotonic_us_;
     ::int32_t tilt_init_status_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -1428,6 +1440,28 @@ inline ::uint64_t JonGuiDataRotary::_internal_capture_monotonic_us() const {
 inline void JonGuiDataRotary::_internal_set_capture_monotonic_us(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.capture_monotonic_us_ = value;
+}
+
+// bool is_parked = 23;
+inline void JonGuiDataRotary::clear_is_parked() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_parked_ = false;
+}
+inline bool JonGuiDataRotary::is_parked() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.is_parked)
+  return _internal_is_parked();
+}
+inline void JonGuiDataRotary::set_is_parked(bool value) {
+  _internal_set_is_parked(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.is_parked)
+}
+inline bool JonGuiDataRotary::_internal_is_parked() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_parked_;
+}
+inline void JonGuiDataRotary::_internal_set_is_parked(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_parked_ = value;
 }
 
 // -------------------------------------------------------------------

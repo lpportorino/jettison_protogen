@@ -69,6 +69,9 @@ PB_BIND(cmd_RotaryPlatform_Stop, cmd_RotaryPlatform_Stop, AUTO)
 PB_BIND(cmd_RotaryPlatform_Halt, cmd_RotaryPlatform_Halt, AUTO)
 
 
+PB_BIND(cmd_RotaryPlatform_Unpark, cmd_RotaryPlatform_Unpark, AUTO)
+
+
 PB_BIND(cmd_RotaryPlatform_ScanStart, cmd_RotaryPlatform_ScanStart, AUTO)
 
 

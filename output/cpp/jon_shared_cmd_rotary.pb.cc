@@ -52,6 +52,24 @@ struct setUseRotaryAsCompassDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 setUseRotaryAsCompassDefaultTypeInternal _setUseRotaryAsCompass_default_instance_;
               template <typename>
+PROTOBUF_CONSTEXPR Unpark::Unpark(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct UnparkDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UnparkDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UnparkDefaultTypeInternal() {}
+  union {
+    Unpark _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UnparkDefaultTypeInternal _Unpark_default_instance_;
+              template <typename>
 PROTOBUF_CONSTEXPR Stop::Stop(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
@@ -1017,6 +1035,7 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::Root, _impl_.cmd_),
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::Axis, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::Axis, _internal_metadata_),
@@ -1209,6 +1228,14 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::Halt, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::Unpark, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
@@ -1412,45 +1439,46 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::RotaryPlatform::Root)},
-        {34, 44, -1, sizeof(::cmd::RotaryPlatform::Axis)},
-        {46, -1, -1, sizeof(::cmd::RotaryPlatform::SetMode)},
-        {55, -1, -1, sizeof(::cmd::RotaryPlatform::SetAzimuthValue)},
-        {65, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthTo)},
-        {76, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuth)},
-        {86, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevation)},
-        {96, -1, -1, sizeof(::cmd::RotaryPlatform::SetElevationValue)},
-        {105, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationTo)},
-        {115, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelative)},
-        {126, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelativeSet)},
-        {136, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelative)},
-        {147, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelativeSet)},
-        {157, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformAzimuth)},
-        {166, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformElevation)},
-        {175, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformBank)},
-        {184, -1, -1, sizeof(::cmd::RotaryPlatform::GetMeteo)},
-        {192, -1, -1, sizeof(::cmd::RotaryPlatform::Azimuth)},
-        {207, -1, -1, sizeof(::cmd::RotaryPlatform::Start)},
-        {215, -1, -1, sizeof(::cmd::RotaryPlatform::Stop)},
-        {223, -1, -1, sizeof(::cmd::RotaryPlatform::Halt)},
-        {231, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStart)},
-        {239, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStop)},
-        {247, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPause)},
-        {255, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUnpause)},
-        {263, -1, -1, sizeof(::cmd::RotaryPlatform::HaltAzimuth)},
-        {271, -1, -1, sizeof(::cmd::RotaryPlatform::HaltElevation)},
-        {279, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPrev)},
-        {287, -1, -1, sizeof(::cmd::RotaryPlatform::ScanNext)},
-        {295, -1, -1, sizeof(::cmd::RotaryPlatform::ScanRefreshNodeList)},
-        {303, -1, -1, sizeof(::cmd::RotaryPlatform::ScanSelectNode)},
-        {312, -1, -1, sizeof(::cmd::RotaryPlatform::ScanDeleteNode)},
-        {321, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUpdateNode)},
-        {336, -1, -1, sizeof(::cmd::RotaryPlatform::ScanAddNode)},
-        {351, -1, -1, sizeof(::cmd::RotaryPlatform::Elevation)},
-        {366, -1, -1, sizeof(::cmd::RotaryPlatform::setUseRotaryAsCompass)},
-        {375, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToGPS)},
-        {386, -1, -1, sizeof(::cmd::RotaryPlatform::SetOriginGPS)},
-        {397, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToNDC)},
-        {410, -1, -1, sizeof(::cmd::RotaryPlatform::HaltWithNDC)},
+        {35, 45, -1, sizeof(::cmd::RotaryPlatform::Axis)},
+        {47, -1, -1, sizeof(::cmd::RotaryPlatform::SetMode)},
+        {56, -1, -1, sizeof(::cmd::RotaryPlatform::SetAzimuthValue)},
+        {66, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthTo)},
+        {77, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuth)},
+        {87, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevation)},
+        {97, -1, -1, sizeof(::cmd::RotaryPlatform::SetElevationValue)},
+        {106, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationTo)},
+        {116, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelative)},
+        {127, -1, -1, sizeof(::cmd::RotaryPlatform::RotateElevationRelativeSet)},
+        {137, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelative)},
+        {148, -1, -1, sizeof(::cmd::RotaryPlatform::RotateAzimuthRelativeSet)},
+        {158, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformAzimuth)},
+        {167, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformElevation)},
+        {176, -1, -1, sizeof(::cmd::RotaryPlatform::SetPlatformBank)},
+        {185, -1, -1, sizeof(::cmd::RotaryPlatform::GetMeteo)},
+        {193, -1, -1, sizeof(::cmd::RotaryPlatform::Azimuth)},
+        {208, -1, -1, sizeof(::cmd::RotaryPlatform::Start)},
+        {216, -1, -1, sizeof(::cmd::RotaryPlatform::Stop)},
+        {224, -1, -1, sizeof(::cmd::RotaryPlatform::Halt)},
+        {232, -1, -1, sizeof(::cmd::RotaryPlatform::Unpark)},
+        {240, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStart)},
+        {248, -1, -1, sizeof(::cmd::RotaryPlatform::ScanStop)},
+        {256, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPause)},
+        {264, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUnpause)},
+        {272, -1, -1, sizeof(::cmd::RotaryPlatform::HaltAzimuth)},
+        {280, -1, -1, sizeof(::cmd::RotaryPlatform::HaltElevation)},
+        {288, -1, -1, sizeof(::cmd::RotaryPlatform::ScanPrev)},
+        {296, -1, -1, sizeof(::cmd::RotaryPlatform::ScanNext)},
+        {304, -1, -1, sizeof(::cmd::RotaryPlatform::ScanRefreshNodeList)},
+        {312, -1, -1, sizeof(::cmd::RotaryPlatform::ScanSelectNode)},
+        {321, -1, -1, sizeof(::cmd::RotaryPlatform::ScanDeleteNode)},
+        {330, -1, -1, sizeof(::cmd::RotaryPlatform::ScanUpdateNode)},
+        {345, -1, -1, sizeof(::cmd::RotaryPlatform::ScanAddNode)},
+        {360, -1, -1, sizeof(::cmd::RotaryPlatform::Elevation)},
+        {375, -1, -1, sizeof(::cmd::RotaryPlatform::setUseRotaryAsCompass)},
+        {384, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToGPS)},
+        {395, -1, -1, sizeof(::cmd::RotaryPlatform::SetOriginGPS)},
+        {406, -1, -1, sizeof(::cmd::RotaryPlatform::RotateToNDC)},
+        {419, -1, -1, sizeof(::cmd::RotaryPlatform::HaltWithNDC)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::RotaryPlatform::_Root_default_instance_._instance,
@@ -1474,6 +1502,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::RotaryPlatform::_Start_default_instance_._instance,
     &::cmd::RotaryPlatform::_Stop_default_instance_._instance,
     &::cmd::RotaryPlatform::_Halt_default_instance_._instance,
+    &::cmd::RotaryPlatform::_Unpark_default_instance_._instance,
     &::cmd::RotaryPlatform::_ScanStart_default_instance_._instance,
     &::cmd::RotaryPlatform::_ScanStop_default_instance_._instance,
     &::cmd::RotaryPlatform::_ScanPause_default_instance_._instance,
@@ -1498,7 +1527,7 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     protodesc_cold) = {
     "\n\033jon_shared_cmd_rotary.proto\022\022cmd.Rotar"
     "yPlatform\032\033buf/validate/validate.proto\032\033"
-    "jon_shared_data_types.proto\"\263\013\n\004Root\022*\n\005"
+    "jon_shared_data_types.proto\"\341\013\n\004Root\022*\n\005"
     "start\030\001 \001(\0132\031.cmd.RotaryPlatform.StartH\000"
     "\022(\n\004stop\030\002 \001(\0132\030.cmd.RotaryPlatform.Stop"
     "H\000\022(\n\004axis\030\003 \001(\0132\030.cmd.RotaryPlatform.Ax"
@@ -1534,108 +1563,110 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     "\0132\".cmd.RotaryPlatform.ScanUpdateNodeH\000\022"
     "8\n\rscan_add_node\030\030 \001(\0132\037.cmd.RotaryPlatf"
     "orm.ScanAddNodeH\000\0228\n\rhalt_with_ndc\030\031 \001(\013"
-    "2\037.cmd.RotaryPlatform.HaltWithNDCH\000B\014\n\003c"
-    "md\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\0132\033.cmd"
-    ".RotaryPlatform.Azimuth\0220\n\televation\030\002 \001"
-    "(\0132\035.cmd.RotaryPlatform.Elevation\">\n\007Set"
-    "Mode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDataRotar"
-    "yModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthValue\022&\n\005"
-    "value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022=\n\t"
-    "direction\030\002 \001(\0162\036.ser.JonGuiDataRotaryDi"
-    "rectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzimuthTo\022"
-    "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000"
-    "\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000"
-    "\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.JonGuiDa"
-    "taRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rRotateA"
-    "zimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000"
-    "\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDa"
-    "taRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017RotateE"
-    "levation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
-    "\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui"
-    "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n\021SetEl"
-    "evationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
-    "\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022-\n\014tar"
-    "get_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300"
-    "\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000"
-    "\"\250\001\n\027RotateElevationRelative\022&\n\005value\030\001 "
-    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 "
-    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirectio"
-    "n\030\003 \001(\0162\036.ser.JonGuiDataRotaryDirectionB"
-    "\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRelativeS"
-    "et\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200"
-    "V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo"
-    "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025RotateAzim"
-    "uthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200"
-    "f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
-    "\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jon"
-    "GuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\201\001\n\030R"
-    "otateAzimuthRelativeSet\022&\n\005value\030\001 \001(\001B\027"
-    "\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirection\030\002 \001"
-    "(\0162\036.ser.JonGuiDataRotaryDirectionB\n\272H\007\202"
-    "\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005value\030\001 "
-    "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024SetPlatf"
-    "ormElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
-    "\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n\005value"
-    "\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n\010GetMe"
-    "teo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\0132#.cmd"
-    ".RotaryPlatform.SetAzimuthValueH\000\0228\n\trot"
-    "ate_to\030\002 \001(\0132#.cmd.RotaryPlatform.Rotate"
-    "AzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd.Rotary"
-    "Platform.RotateAzimuthH\000\022=\n\010relative\030\004 \001"
-    "(\0132).cmd.RotaryPlatform.RotateAzimuthRel"
-    "ativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cmd.Rota"
-    "ryPlatform.RotateAzimuthRelativeSetH\000\022/\n"
-    "\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.HaltAzi"
-    "muthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\006\n"
-    "\004Halt\"\013\n\tScanStart\"\n\n\010ScanStop\"\013\n\tScanPa"
-    "use\"\r\n\013ScanUnpause\"\r\n\013HaltAzimuth\"\017\n\rHal"
-    "tElevation\"\n\n\010ScanPrev\"\n\n\010ScanNext\"\025\n\023Sc"
-    "anRefreshNodeList\"(\n\016ScanSelectNode\022\026\n\005i"
-    "ndex\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016ScanDeleteNode\022\026\n"
-    "\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002\n\016ScanUpdateNode"
-    "\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTable"
-    "Value\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVal"
-    "ue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022"
-    "\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B"
-    "\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000\000\360\?!\000\000\000\000\000\000\000\000\"\214\002\n\013ScanAddNode\022\026\n\005index"
-    "\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001"
-    "(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B"
-    "\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v"
-    "@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000"
-    "\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000"
-    "\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000"
-    "\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\tset_value\030\001 \001(\0132"
-    "%.cmd.RotaryPlatform.SetElevationValueH\000"
-    "\022:\n\trotate_to\030\002 \001(\0132%.cmd.RotaryPlatform"
-    ".RotateElevationToH\000\0225\n\006rotate\030\003 \001(\0132#.c"
-    "md.RotaryPlatform.RotateElevationH\000\022\?\n\010r"
-    "elative\030\004 \001(\0132+.cmd.RotaryPlatform.Rotat"
-    "eElevationRelativeH\000\022F\n\014relative_set\030\005 \001"
-    "(\0132..cmd.RotaryPlatform.RotateElevationR"
-    "elativeSetH\000\0221\n\004halt\030\006 \001(\0132!.cmd.RotaryP"
-    "latform.HaltElevationH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n"
-    "\025setUseRotaryAsCompass\022\014\n\004flag\030\001 \001(\010\"\217\001\n"
-    "\013RotateToGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022"
-    "\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272"
-    "H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220\001\n\014SetOriginGPS\022"
-    ")\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200"
-    "V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000"
-    "\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@"
-    ")\000\000\000\000\000\340z\300\"\267\001\n\013RotateToNDC\0228\n\007channel\030\001 \001"
-    "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020"
-    "\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022"
-    "\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nf"
-    "rame_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\267\001\n\013"
-    "HaltWithNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGu"
-    "iDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001"
-    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H"
-    "\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001("
-    "\004\022\022\n\nstate_time\030\005 \001(\004BMZKgit-codecommit."
-    "eu-central-1.amazonaws.com/v1/repos/jett"
-    "ison/jonp/cmd/rotaryb\006proto3"
+    "2\037.cmd.RotaryPlatform.HaltWithNDCH\000\022,\n\006u"
+    "npark\030\032 \001(\0132\032.cmd.RotaryPlatform.UnparkH"
+    "\000B\014\n\003cmd\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\013"
+    "2\033.cmd.RotaryPlatform.Azimuth\0220\n\televati"
+    "on\030\002 \001(\0132\035.cmd.RotaryPlatform.Elevation\""
+    ">\n\007SetMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDat"
+    "aRotaryModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthVal"
+    "ue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000"
+    "\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo"
+    "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzim"
+    "uthTo\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000"
+    "\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
+    "\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jo"
+    "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rR"
+    "otateAzimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
+    "\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.Jo"
+    "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017R"
+    "otateElevation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000"
+    "\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser."
+    "JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n"
+    "\021SetElevationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022"
+    "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000"
+    "\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000"
+    "\000\000\000\000\000\000\"\250\001\n\027RotateElevationRelative\022&\n\005va"
+    "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005sp"
+    "eed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdi"
+    "rection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDire"
+    "ctionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRel"
+    "ativeSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)"
+    "\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui"
+    "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025Rota"
+    "teAzimuthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021"
+    "\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031"
+    "\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.s"
+    "er.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000"
+    "\"\201\001\n\030RotateAzimuthRelativeSet\022&\n\005value\030\001"
+    " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirecti"
+    "on\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirection"
+    "B\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005va"
+    "lue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024Se"
+    "tPlatformElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n"
+    "\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n"
+    "\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\013"
+    "2#.cmd.RotaryPlatform.SetAzimuthValueH\000\022"
+    "8\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatform."
+    "RotateAzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd."
+    "RotaryPlatform.RotateAzimuthH\000\022=\n\010relati"
+    "ve\030\004 \001(\0132).cmd.RotaryPlatform.RotateAzim"
+    "uthRelativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cm"
+    "d.RotaryPlatform.RotateAzimuthRelativeSe"
+    "tH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.H"
+    "altAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004S"
+    "top\"\006\n\004Halt\"\010\n\006Unpark\"\013\n\tScanStart\"\n\n\010Sc"
+    "anStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013Ha"
+    "ltAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\"\n"
+    "\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sca"
+    "nSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016S"
+    "canDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002"
+    "\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000"
+    "\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022"
+    "HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azi"
+    "muth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\te"
+    "levation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022"
+    "\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed"
+    "\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000\"\214\002\n\013Scan"
+    "AddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo"
+    "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT"
+    "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001("
+    "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030"
+    "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger"
+    "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272"
+    "H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\t"
+    "set_value\030\001 \001(\0132%.cmd.RotaryPlatform.Set"
+    "ElevationValueH\000\022:\n\trotate_to\030\002 \001(\0132%.cm"
+    "d.RotaryPlatform.RotateElevationToH\000\0225\n\006"
+    "rotate\030\003 \001(\0132#.cmd.RotaryPlatform.Rotate"
+    "ElevationH\000\022\?\n\010relative\030\004 \001(\0132+.cmd.Rota"
+    "ryPlatform.RotateElevationRelativeH\000\022F\n\014"
+    "relative_set\030\005 \001(\0132..cmd.RotaryPlatform."
+    "RotateElevationRelativeSetH\000\0221\n\004halt\030\006 \001"
+    "(\0132!.cmd.RotaryPlatform.HaltElevationH\000B"
+    "\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCompass\022\014"
+    "\n\004flag\030\001 \001(\010\"\217\001\n\013RotateToGPS\022)\n\010latitude"
+    "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongi"
+    "tude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010a"
+    "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220"
+    "\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272"
+    "H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001"
+    "B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\267\001\n\013RotateToND"
+    "C\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo"
+    "ChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000"
+    "\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
+    "\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nstate"
+    "_time\030\005 \001(\004\"\267\001\n\013HaltWithNDC\0228\n\007channel\030\001"
+    " \001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001"
+    "\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360"
+    "\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n"
+    "\nframe_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004BMZ"
+    "Kgit-codecommit.eu-central-1.amazonaws.c"
+    "om/v1/repos/jettison/jonp/cmd/rotaryb\006pr"
+    "oto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_deps[2] =
     {
@@ -1646,13 +1677,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto = {
     false,
     false,
-    5588,
+    5644,
     descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto,
     "jon_shared_cmd_rotary.proto",
     &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_deps,
     2,
-    40,
+    41,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5frotary_2eproto::offsets,
@@ -1994,6 +2025,19 @@ void Root::set_allocated_halt_with_ndc(::cmd::RotaryPlatform::HaltWithNDC* halt_
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.halt_with_ndc)
 }
+void Root::set_allocated_unpark(::cmd::RotaryPlatform::Unpark* unpark) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (unpark) {
+    ::google::protobuf::Arena* submessage_arena = unpark->GetArena();
+    if (message_arena != submessage_arena) {
+      unpark = ::google::protobuf::internal::GetOwnedMessage(message_arena, unpark, submessage_arena);
+    }
+    set_has_unpark();
+    _impl_.cmd_.unpark_ = unpark;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.RotaryPlatform.Root.unpark)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -2100,6 +2144,9 @@ Root::Root(
         break;
       case kHaltWithNdc:
         _impl_.cmd_.halt_with_ndc_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::HaltWithNDC>(arena, *from._impl_.cmd_.halt_with_ndc_);
+        break;
+      case kUnpark:
+        _impl_.cmd_.unpark_ = ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::Unpark>(arena, *from._impl_.cmd_.unpark_);
         break;
   }
 
@@ -2333,6 +2380,14 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kUnpark: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.unpark_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.unpark_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -2377,16 +2432,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 25, 25, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 26, 26, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    25, 0,  // max_field_number, fast_idx_mask
+    26, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4261412864,  // skipmap
+    4227858432,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    25,  // num_field_entries
-    25,  // num_aux_entries
+    26,  // num_field_entries
+    26,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -2474,6 +2529,9 @@ const ::_pbi::TcParseTable<0, 25, 25, 0, 2> Root::_table_ = {
     // .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.halt_with_ndc_), _Internal::kOneofCaseOffset + 0, 24,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.RotaryPlatform.Unpark unpark = 26;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.unpark_), _Internal::kOneofCaseOffset + 0, 25,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::Start>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::Stop>()},
@@ -2500,6 +2558,7 @@ const ::_pbi::TcParseTable<0, 25, 25, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanUpdateNode>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::ScanAddNode>()},
     {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::HaltWithNDC>()},
+    {::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::Unpark>()},
   }}, {{
   }},
 };
@@ -2681,6 +2740,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kUnpark: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  26, *this_._impl_.cmd_.unpark_, this_._impl_.cmd_.unpark_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -2856,6 +2921,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kHaltWithNdc: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.halt_with_ndc_);
+              break;
+            }
+            // .cmd.RotaryPlatform.Unpark unpark = 26;
+            case kUnpark: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.unpark_);
               break;
             }
             case CMD_NOT_SET: {
@@ -3108,6 +3179,15 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::HaltWithNDC>(arena, *from._impl_.cmd_.halt_with_ndc_);
         } else {
           _this->_impl_.cmd_.halt_with_ndc_->MergeFrom(from._internal_halt_with_ndc());
+        }
+        break;
+      }
+      case kUnpark: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.unpark_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::RotaryPlatform::Unpark>(arena, *from._impl_.cmd_.unpark_);
+        } else {
+          _this->_impl_.cmd_.unpark_->MergeFrom(from._internal_unpark());
         }
         break;
       }
@@ -7644,6 +7724,109 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> Halt::_table_ = {
 
 
 ::google::protobuf::Metadata Halt::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class Unpark::_Internal {
+ public:
+};
+
+Unpark::Unpark(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.RotaryPlatform.Unpark)
+}
+Unpark::Unpark(
+    ::google::protobuf::Arena* arena,
+    const Unpark& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Unpark* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.RotaryPlatform.Unpark)
+}
+
+inline void* Unpark::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) Unpark(arena);
+}
+constexpr auto Unpark::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Unpark),
+                                            alignof(Unpark));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull Unpark::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_Unpark_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &Unpark::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<Unpark>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &Unpark::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<Unpark>(), &Unpark::ByteSizeLong,
+            &Unpark::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(Unpark, _impl_._cached_size_),
+        false,
+    },
+    &Unpark::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* Unpark::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> Unpark::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::Unpark>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata Unpark::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

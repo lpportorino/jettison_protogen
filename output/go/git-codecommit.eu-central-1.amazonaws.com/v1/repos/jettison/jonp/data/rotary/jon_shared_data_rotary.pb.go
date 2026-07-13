@@ -49,8 +49,12 @@ type JonGuiDataRotary struct {
 	TiltInitStatus int32 `protobuf:"varint,21,opt,name=tilt_init_status,json=tiltInitStatus,proto3" json:"tilt_init_status,omitempty"`
 	// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
 	CaptureMonotonicUs uint64 `protobuf:"varint,22,opt,name=capture_monotonic_us,json=captureMonotonicUs,proto3" json:"capture_monotonic_us,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+	// Start or Unpark clears it). While true, operator/tracker axis moves and
+	// rotate-to-GPS are dropped by the rotary interlock.
+	IsParked      bool `protobuf:"varint,23,opt,name=is_parked,json=isParked,proto3" json:"is_parked,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JonGuiDataRotary) Reset() {
@@ -237,6 +241,13 @@ func (x *JonGuiDataRotary) GetCaptureMonotonicUs() uint64 {
 	return 0
 }
 
+func (x *JonGuiDataRotary) GetIsParked() bool {
+	if x != nil {
+		return x.IsParked
+	}
+	return false
+}
+
 type ScanNode struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Index              int32                  `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
@@ -333,7 +344,7 @@ var File_jon_shared_data_rotary_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xda\v\n" +
+	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf7\v\n" +
 	"\x10JonGuiDataRotary\x12U\n" +
 	"\aazimuth\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\aazimuth\x12i\n" +
 	"\razimuth_speed\x18\x02 \x01(\x01BD\xbaHA\x12?I\x00\x00\x00\x00\x00\x00\xf0\xbfI\x00\x00\x00\x00\x00\x00\xe0\xbfI\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\xe0?I\x00\x00\x00\x00\x00\x00\xf0?\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\fazimuthSpeed\x12P\n" +
@@ -364,7 +375,8 @@ const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\x05meteo\x18\x13 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x121\n" +
 	"\x0fpan_init_status\x18\x14 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x0e(\x00R\rpanInitStatus\x123\n" +
 	"\x10tilt_init_status\x18\x15 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\x0e(\x00R\x0etiltInitStatus\x120\n" +
-	"\x14capture_monotonic_us\x18\x16 \x01(\x04R\x12captureMonotonicUs\"\xda\x02\n" +
+	"\x14capture_monotonic_us\x18\x16 \x01(\x04R\x12captureMonotonicUs\x12\x1b\n" +
+	"\tis_parked\x18\x17 \x01(\bR\bisParked\"\xda\x02\n" +
 	"\bScanNode\x12\x1d\n" +
 	"\x05index\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x05index\x125\n" +
 	"\x11DayZoomTableValue\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11DayZoomTableValue\x127\n" +

@@ -41,6 +41,12 @@ export interface JonGuiDataRotary {
   tiltInitStatus: number;
   /** CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM */
   captureMonotonicUs: Long;
+  /**
+   * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+   * Start or Unpark clears it). While true, operator/tracker axis moves and
+   * rotate-to-GPS are dropped by the rotary interlock.
+   */
+  isParked: boolean;
 }
 
 export interface ScanNode {
@@ -77,6 +83,7 @@ function createBaseJonGuiDataRotary(): JonGuiDataRotary {
     panInitStatus: 0,
     tiltInitStatus: 0,
     captureMonotonicUs: Long.UZERO,
+    isParked: false,
   };
 }
 
@@ -147,6 +154,9 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     }
     if (!message.captureMonotonicUs.equals(Long.UZERO)) {
       writer.uint32(176).uint64(message.captureMonotonicUs.toString());
+    }
+    if (message.isParked !== false) {
+      writer.uint32(184).bool(message.isParked);
     }
     return writer;
   },
@@ -334,6 +344,14 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
           message.captureMonotonicUs = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
+        case 23: {
+          if (tag !== 184) {
+            break;
+          }
+
+          message.isParked = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -439,6 +457,11 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
         : isSet(object.capture_monotonic_us)
         ? Long.fromValue(object.capture_monotonic_us)
         : Long.UZERO,
+      isParked: isSet(object.isParked)
+        ? globalThis.Boolean(object.isParked)
+        : isSet(object.is_parked)
+        ? globalThis.Boolean(object.is_parked)
+        : false,
     };
   },
 
@@ -510,6 +533,9 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     if (!message.captureMonotonicUs.equals(Long.UZERO)) {
       obj.captureMonotonicUs = (message.captureMonotonicUs || Long.UZERO).toString();
     }
+    if (message.isParked !== false) {
+      obj.isParked = message.isParked;
+    }
     return obj;
   },
 
@@ -546,6 +572,7 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     message.captureMonotonicUs = (object.captureMonotonicUs !== undefined && object.captureMonotonicUs !== null)
       ? Long.fromValue(object.captureMonotonicUs)
       : Long.UZERO;
+    message.isParked = object.isParked ?? false;
     return message;
   },
 };

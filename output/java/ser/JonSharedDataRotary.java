@@ -191,6 +191,18 @@ public final class JonSharedDataRotary {
      * @return The captureMonotonicUs.
      */
     long getCaptureMonotonicUs();
+
+    /**
+     * <pre>
+     * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+     * Start or Unpark clears it). While true, operator/tracker axis moves and
+     * rotate-to-GPS are dropped by the rotary interlock.
+     * </pre>
+     *
+     * <code>bool is_parked = 23;</code>
+     * @return The isParked.
+     */
+    boolean getIsParked();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataRotary}
@@ -518,6 +530,23 @@ public final class JonSharedDataRotary {
       return captureMonotonicUs_;
     }
 
+    public static final int IS_PARKED_FIELD_NUMBER = 23;
+    private boolean isParked_ = false;
+    /**
+     * <pre>
+     * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+     * Start or Unpark clears it). While true, operator/tracker axis moves and
+     * rotate-to-GPS are dropped by the rotary interlock.
+     * </pre>
+     *
+     * <code>bool is_parked = 23;</code>
+     * @return The isParked.
+     */
+    @java.lang.Override
+    public boolean getIsParked() {
+      return isParked_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -597,6 +626,9 @@ public final class JonSharedDataRotary {
       }
       if (captureMonotonicUs_ != 0L) {
         output.writeUInt64(22, captureMonotonicUs_);
+      }
+      if (isParked_ != false) {
+        output.writeBool(23, isParked_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -695,6 +727,10 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(22, captureMonotonicUs_);
       }
+      if (isParked_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(23, isParked_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -768,6 +804,8 @@ public final class JonSharedDataRotary {
           != other.getTiltInitStatus()) return false;
       if (getCaptureMonotonicUs()
           != other.getCaptureMonotonicUs()) return false;
+      if (getIsParked()
+          != other.getIsParked()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -842,6 +880,9 @@ public final class JonSharedDataRotary {
       hash = (37 * hash) + CAPTURE_MONOTONIC_US_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCaptureMonotonicUs());
+      hash = (37 * hash) + IS_PARKED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsParked());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1010,6 +1051,7 @@ public final class JonSharedDataRotary {
         panInitStatus_ = 0;
         tiltInitStatus_ = 0;
         captureMonotonicUs_ = 0L;
+        isParked_ = false;
         return this;
       }
 
@@ -1116,6 +1158,9 @@ public final class JonSharedDataRotary {
         if (((from_bitField0_ & 0x00200000) != 0)) {
           result.captureMonotonicUs_ = captureMonotonicUs_;
         }
+        if (((from_bitField0_ & 0x00400000) != 0)) {
+          result.isParked_ = isParked_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1196,6 +1241,9 @@ public final class JonSharedDataRotary {
         }
         if (other.getCaptureMonotonicUs() != 0L) {
           setCaptureMonotonicUs(other.getCaptureMonotonicUs());
+        }
+        if (other.getIsParked() != false) {
+          setIsParked(other.getIsParked());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1337,6 +1385,11 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00200000;
                 break;
               } // case 176
+              case 184: {
+                isParked_ = input.readBool();
+                bitField0_ |= 0x00400000;
+                break;
+              } // case 184
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2277,6 +2330,56 @@ public final class JonSharedDataRotary {
       public Builder clearCaptureMonotonicUs() {
         bitField0_ = (bitField0_ & ~0x00200000);
         captureMonotonicUs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private boolean isParked_ ;
+      /**
+       * <pre>
+       * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+       * Start or Unpark clears it). While true, operator/tracker axis moves and
+       * rotate-to-GPS are dropped by the rotary interlock.
+       * </pre>
+       *
+       * <code>bool is_parked = 23;</code>
+       * @return The isParked.
+       */
+      @java.lang.Override
+      public boolean getIsParked() {
+        return isParked_;
+      }
+      /**
+       * <pre>
+       * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+       * Start or Unpark clears it). While true, operator/tracker axis moves and
+       * rotate-to-GPS are dropped by the rotary interlock.
+       * </pre>
+       *
+       * <code>bool is_parked = 23;</code>
+       * @param value The isParked to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsParked(boolean value) {
+
+        isParked_ = value;
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+       * Start or Unpark clears it). While true, operator/tracker axis moves and
+       * rotate-to-GPS are dropped by the rotary interlock.
+       * </pre>
+       *
+       * <code>bool is_parked = 23;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsParked() {
+        bitField0_ = (bitField0_ & ~0x00400000);
+        isParked_ = false;
         onChanged();
         return this;
       }
@@ -3227,7 +3330,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\251\t\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\274\t\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -3257,16 +3360,16 @@ public final class JonSharedDataRotary {
       " \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pan_init_s" +
       "tatus\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_init_stat" +
       "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\022\034\n\024capture_monotonic" +
-      "_us\030\026 \001(\004\"\211\002\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272" +
-      "H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002" +
-      "(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022" +
-      "(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000" +
-      "\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000" +
-      "\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n" +
-      "\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZ" +
-      "Lgit-codecommit.eu-central-1.amazonaws.c" +
-      "om/v1/repos/jettison/jonp/data/rotaryb\006p" +
-      "roto3"
+      "_us\030\026 \001(\004\022\021\n\tis_parked\030\027 \001(\010\"\211\002\n\010ScanNod" +
+      "e\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTabl" +
+      "eValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVa" +
+      "lue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024" +
+      "\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001" +
+      "B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000" +
+      "\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit.eu-ce" +
+      "ntral-1.amazonaws.com/v1/repos/jettison/" +
+      "jonp/data/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3279,7 +3382,7 @@ public final class JonSharedDataRotary {
     internal_static_ser_JonGuiDataRotary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataRotary_descriptor,
-        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", "CaptureMonotonicUs", });
+        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", "CaptureMonotonicUs", "IsParked", });
     internal_static_ser_ScanNode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_ScanNode_fieldAccessorTable = new

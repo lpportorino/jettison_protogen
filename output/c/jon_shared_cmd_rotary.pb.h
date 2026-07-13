@@ -95,6 +95,13 @@ typedef struct _cmd_RotaryPlatform_Halt {
     char dummy_field;
 } cmd_RotaryPlatform_Halt;
 
+/* Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+ the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+ platform instead of requiring a shutdown/Start cycle. */
+typedef struct _cmd_RotaryPlatform_Unpark {
+    char dummy_field;
+} cmd_RotaryPlatform_Unpark;
+
 typedef struct _cmd_RotaryPlatform_ScanStart {
     char dummy_field;
 } cmd_RotaryPlatform_ScanStart;
@@ -250,6 +257,7 @@ typedef struct _cmd_RotaryPlatform_Root {
         cmd_RotaryPlatform_ScanUpdateNode scan_update_node;
         cmd_RotaryPlatform_ScanAddNode scan_add_node;
         cmd_RotaryPlatform_HaltWithNDC halt_with_ndc;
+        cmd_RotaryPlatform_Unpark unpark;
     } cmd;
 } cmd_RotaryPlatform_Root;
 
@@ -280,6 +288,7 @@ extern "C" {
 #define cmd_RotaryPlatform_Start_init_default    {0}
 #define cmd_RotaryPlatform_Stop_init_default     {0}
 #define cmd_RotaryPlatform_Halt_init_default     {0}
+#define cmd_RotaryPlatform_Unpark_init_default   {0}
 #define cmd_RotaryPlatform_ScanStart_init_default {0}
 #define cmd_RotaryPlatform_ScanStop_init_default {0}
 #define cmd_RotaryPlatform_ScanPause_init_default {0}
@@ -320,6 +329,7 @@ extern "C" {
 #define cmd_RotaryPlatform_Start_init_zero       {0}
 #define cmd_RotaryPlatform_Stop_init_zero        {0}
 #define cmd_RotaryPlatform_Halt_init_zero        {0}
+#define cmd_RotaryPlatform_Unpark_init_zero      {0}
 #define cmd_RotaryPlatform_ScanStart_init_zero   {0}
 #define cmd_RotaryPlatform_ScanStop_init_zero    {0}
 #define cmd_RotaryPlatform_ScanPause_init_zero   {0}
@@ -439,6 +449,7 @@ extern "C" {
 #define cmd_RotaryPlatform_Root_scan_update_node_tag 23
 #define cmd_RotaryPlatform_Root_scan_add_node_tag 24
 #define cmd_RotaryPlatform_Root_halt_with_ndc_tag 25
+#define cmd_RotaryPlatform_Root_unpark_tag       26
 
 /* Struct field encoding specification for nanopb */
 #define cmd_RotaryPlatform_Root_FIELDLIST(X, a) \
@@ -466,7 +477,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_select_node,cmd.scan_select_node), 
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_delete_node,cmd.scan_delete_node),  22) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_update_node,cmd.scan_update_node),  23) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_add_node,cmd.scan_add_node),  24) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt_with_ndc,cmd.halt_with_ndc),  25)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt_with_ndc,cmd.halt_with_ndc),  25) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,unpark,cmd.unpark),  26)
 #define cmd_RotaryPlatform_Root_CALLBACK NULL
 #define cmd_RotaryPlatform_Root_DEFAULT NULL
 #define cmd_RotaryPlatform_Root_cmd_start_MSGTYPE cmd_RotaryPlatform_Start
@@ -494,6 +506,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt_with_ndc,cmd.halt_with_ndc),  25)
 #define cmd_RotaryPlatform_Root_cmd_scan_update_node_MSGTYPE cmd_RotaryPlatform_ScanUpdateNode
 #define cmd_RotaryPlatform_Root_cmd_scan_add_node_MSGTYPE cmd_RotaryPlatform_ScanAddNode
 #define cmd_RotaryPlatform_Root_cmd_halt_with_ndc_MSGTYPE cmd_RotaryPlatform_HaltWithNDC
+#define cmd_RotaryPlatform_Root_cmd_unpark_MSGTYPE cmd_RotaryPlatform_Unpark
 
 #define cmd_RotaryPlatform_Axis_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  azimuth,           1) \
@@ -620,6 +633,11 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt,cmd.halt),   6)
 
 #define cmd_RotaryPlatform_Halt_CALLBACK NULL
 #define cmd_RotaryPlatform_Halt_DEFAULT NULL
+
+#define cmd_RotaryPlatform_Unpark_FIELDLIST(X, a) \
+
+#define cmd_RotaryPlatform_Unpark_CALLBACK NULL
+#define cmd_RotaryPlatform_Unpark_DEFAULT NULL
 
 #define cmd_RotaryPlatform_ScanStart_FIELDLIST(X, a) \
 
@@ -772,6 +790,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_Azimuth_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_Start_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_Stop_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_Halt_msg;
+extern const pb_msgdesc_t cmd_RotaryPlatform_Unpark_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_ScanStart_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_ScanStop_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_ScanPause_msg;
@@ -814,6 +833,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 #define cmd_RotaryPlatform_Start_fields &cmd_RotaryPlatform_Start_msg
 #define cmd_RotaryPlatform_Stop_fields &cmd_RotaryPlatform_Stop_msg
 #define cmd_RotaryPlatform_Halt_fields &cmd_RotaryPlatform_Halt_msg
+#define cmd_RotaryPlatform_Unpark_fields &cmd_RotaryPlatform_Unpark_msg
 #define cmd_RotaryPlatform_ScanStart_fields &cmd_RotaryPlatform_ScanStart_msg
 #define cmd_RotaryPlatform_ScanStop_fields &cmd_RotaryPlatform_ScanStop_msg
 #define cmd_RotaryPlatform_ScanPause_fields &cmd_RotaryPlatform_ScanPause_msg
@@ -875,6 +895,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 #define cmd_RotaryPlatform_SetPlatformElevation_size 9
 #define cmd_RotaryPlatform_Start_size            0
 #define cmd_RotaryPlatform_Stop_size             0
+#define cmd_RotaryPlatform_Unpark_size           0
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_size 2
 
 #ifdef __cplusplus

@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataRotary(_message.Message):
-    __slots__ = ("azimuth", "azimuth_speed", "elevation", "elevation_speed", "platform_azimuth", "platform_elevation", "platform_bank", "is_moving", "mode", "is_scanning", "is_scanning_paused", "use_rotary_as_compass", "scan_target", "scan_target_max", "sun_azimuth", "sun_elevation", "current_scan_node", "is_started", "meteo", "pan_init_status", "tilt_init_status", "capture_monotonic_us")
+    __slots__ = ("azimuth", "azimuth_speed", "elevation", "elevation_speed", "platform_azimuth", "platform_elevation", "platform_bank", "is_moving", "mode", "is_scanning", "is_scanning_paused", "use_rotary_as_compass", "scan_target", "scan_target_max", "sun_azimuth", "sun_elevation", "current_scan_node", "is_started", "meteo", "pan_init_status", "tilt_init_status", "capture_monotonic_us", "is_parked")
     AZIMUTH_FIELD_NUMBER: _ClassVar[int]
     AZIMUTH_SPEED_FIELD_NUMBER: _ClassVar[int]
     ELEVATION_FIELD_NUMBER: _ClassVar[int]
@@ -29,6 +29,7 @@ class JonGuiDataRotary(_message.Message):
     PAN_INIT_STATUS_FIELD_NUMBER: _ClassVar[int]
     TILT_INIT_STATUS_FIELD_NUMBER: _ClassVar[int]
     CAPTURE_MONOTONIC_US_FIELD_NUMBER: _ClassVar[int]
+    IS_PARKED_FIELD_NUMBER: _ClassVar[int]
     azimuth: float
     azimuth_speed: float
     elevation: float
@@ -51,7 +52,8 @@ class JonGuiDataRotary(_message.Message):
     pan_init_status: int
     tilt_init_status: int
     capture_monotonic_us: int
-    def __init__(self, azimuth: _Optional[float] = ..., azimuth_speed: _Optional[float] = ..., elevation: _Optional[float] = ..., elevation_speed: _Optional[float] = ..., platform_azimuth: _Optional[float] = ..., platform_elevation: _Optional[float] = ..., platform_bank: _Optional[float] = ..., is_moving: bool = ..., mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataRotaryMode, str]] = ..., is_scanning: bool = ..., is_scanning_paused: bool = ..., use_rotary_as_compass: bool = ..., scan_target: _Optional[int] = ..., scan_target_max: _Optional[int] = ..., sun_azimuth: _Optional[float] = ..., sun_elevation: _Optional[float] = ..., current_scan_node: _Optional[_Union[ScanNode, _Mapping]] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., pan_init_status: _Optional[int] = ..., tilt_init_status: _Optional[int] = ..., capture_monotonic_us: _Optional[int] = ...) -> None: ...
+    is_parked: bool
+    def __init__(self, azimuth: _Optional[float] = ..., azimuth_speed: _Optional[float] = ..., elevation: _Optional[float] = ..., elevation_speed: _Optional[float] = ..., platform_azimuth: _Optional[float] = ..., platform_elevation: _Optional[float] = ..., platform_bank: _Optional[float] = ..., is_moving: bool = ..., mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataRotaryMode, str]] = ..., is_scanning: bool = ..., is_scanning_paused: bool = ..., use_rotary_as_compass: bool = ..., scan_target: _Optional[int] = ..., scan_target_max: _Optional[int] = ..., sun_azimuth: _Optional[float] = ..., sun_elevation: _Optional[float] = ..., current_scan_node: _Optional[_Union[ScanNode, _Mapping]] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., pan_init_status: _Optional[int] = ..., tilt_init_status: _Optional[int] = ..., capture_monotonic_us: _Optional[int] = ..., is_parked: bool = ...) -> None: ...
 
 class ScanNode(_message.Message):
     __slots__ = ("index", "DayZoomTableValue", "HeatZoomTableValue", "azimuth", "elevation", "linger", "speed")

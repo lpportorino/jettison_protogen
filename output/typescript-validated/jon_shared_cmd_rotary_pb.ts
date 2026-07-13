@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_rotary.proto.
  */
 export const file_jon_shared_cmd_rotary: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2NtZF9yb3RhcnkucHJvdG8SEmNtZC5Sb3RhcnlQbGF0Zm9ybSKzCwoEUm9vdBIqCgVzdGFydBgBIAEoCzIZLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TdGFydEgAEigKBHN0b3AYAiABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uU3RvcEgAEigKBGF4aXMYAyABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uQXhpc0gAEkYKFHNldF9wbGF0Zm9ybV9hemltdXRoGAQgASgLMiYuY21kLlJvdGFyeVBsYXRmb3JtLlNldFBsYXRmb3JtQXppbXV0aEgAEkoKFnNldF9wbGF0Zm9ybV9lbGV2YXRpb24YBSABKAsyKC5jbWQuUm90YXJ5UGxhdGZvcm0uU2V0UGxhdGZvcm1FbGV2YXRpb25IABJAChFzZXRfcGxhdGZvcm1fYmFuaxgGIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRQbGF0Zm9ybUJhbmtIABIoCgRoYWx0GAcgASgLMhguY21kLlJvdGFyeVBsYXRmb3JtLkhhbHRIABJOChlzZXRfdXNlX3JvdGFyeV9hc19jb21wYXNzGAggASgLMikuY21kLlJvdGFyeVBsYXRmb3JtLnNldFVzZVJvdGFyeUFzQ29tcGFzc0gAEjgKDXJvdGF0ZV90b19ncHMYCSABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlVG9HUFNIABI6Cg5zZXRfb3JpZ2luX2dwcxgKIAEoCzIgLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRPcmlnaW5HUFNIABIvCghzZXRfbW9kZRgLIAEoCzIbLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRNb2RlSAASOAoNcm90YXRlX3RvX25kYxgMIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVUb05EQ0gAEjMKCnNjYW5fc3RhcnQYDSABKAsyHS5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblN0YXJ0SAASMQoJc2Nhbl9zdG9wGA4gASgLMhwuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TdG9wSAASMwoKc2Nhbl9wYXVzZRgPIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuUGF1c2VIABI3CgxzY2FuX3VucGF1c2UYECABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVucGF1c2VIABIxCglnZXRfbWV0ZW8YESABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uR2V0TWV0ZW9IABIxCglzY2FuX3ByZXYYEiABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblByZXZIABIxCglzY2FuX25leHQYEyABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2Nhbk5leHRIABJJChZzY2FuX3JlZnJlc2hfbm9kZV9saXN0GBQgASgLMicuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5SZWZyZXNoTm9kZUxpc3RIABI+ChBzY2FuX3NlbGVjdF9ub2RlGBUgASgLMiIuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TZWxlY3ROb2RlSAASPgoQc2Nhbl9kZWxldGVfbm9kZRgWIAEoCzIiLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuRGVsZXRlTm9kZUgAEj4KEHNjYW5fdXBkYXRlX25vZGUYFyABKAsyIi5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVwZGF0ZU5vZGVIABI4Cg1zY2FuX2FkZF9ub2RlGBggASgLMh8uY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5BZGROb2RlSAASOAoNaGFsdF93aXRoX25kYxgZIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0V2l0aE5EQ0gAQgwKA2NtZBIFukgCCAEiZgoEQXhpcxIsCgdhemltdXRoGAEgASgLMhsuY21kLlJvdGFyeVBsYXRmb3JtLkF6aW11dGgSMAoJZWxldmF0aW9uGAIgASgLMh0uY21kLlJvdGFyeVBsYXRmb3JtLkVsZXZhdGlvbiI+CgdTZXRNb2RlEjMKBG1vZGUYASABKA4yGS5zZXIuSm9uR3VpRGF0YVJvdGFyeU1vZGVCCrpIB4IBBBABIAAieAoPU2V0QXppbXV0aFZhbHVlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIB2QCkAAAAAAAAAABI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACKnAQoPUm90YXRlQXppbXV0aFRvEi0KDHRhcmdldF92YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAdkApAAAAAAAAAAASJgoFc3BlZWQYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgDIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAInYKDVJvdGF0ZUF6aW11dGgSJgoFc3BlZWQYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIngKD1JvdGF0ZUVsZXZhdGlvbhImCgVzcGVlZBgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASPQoJZGlyZWN0aW9uGAIgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAiOwoRU2V0RWxldmF0aW9uVmFsdWUSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAImoKEVJvdGF0ZUVsZXZhdGlvblRvEi0KDHRhcmdldF92YWx1ZRgBIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASJgoFc3BlZWQYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAIqgBChdSb3RhdGVFbGV2YXRpb25SZWxhdGl2ZRImCgV2YWx1ZRgBIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASJgoFc3BlZWQYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgDIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIoMBChpSb3RhdGVFbGV2YXRpb25SZWxhdGl2ZVNldBImCgV2YWx1ZRgBIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASPQoJZGlyZWN0aW9uGAIgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAipgEKFVJvdGF0ZUF6aW11dGhSZWxhdGl2ZRImCgV2YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsASJgoFc3BlZWQYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgDIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIoEBChhSb3RhdGVBemltdXRoUmVsYXRpdmVTZXQSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIjwKElNldFBsYXRmb3JtQXppbXV0aBImCgV2YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAdkAhAAAAAACAdsAiPgoUU2V0UGxhdGZvcm1FbGV2YXRpb24SJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAIjkKD1NldFBsYXRmb3JtQmFuaxImCgV2YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsAiCgoIR2V0TWV0ZW8i9gIKB0F6aW11dGgSOAoJc2V0X3ZhbHVlGAEgASgLMiMuY21kLlJvdGFyeVBsYXRmb3JtLlNldEF6aW11dGhWYWx1ZUgAEjgKCXJvdGF0ZV90bxgCIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVBemltdXRoVG9IABIzCgZyb3RhdGUYAyABKAsyIS5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlQXppbXV0aEgAEj0KCHJlbGF0aXZlGAQgASgLMikuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUF6aW11dGhSZWxhdGl2ZUgAEkQKDHJlbGF0aXZlX3NldBgFIAEoCzIsLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVBemltdXRoUmVsYXRpdmVTZXRIABIvCgRoYWx0GAYgASgLMh8uY21kLlJvdGFyeVBsYXRmb3JtLkhhbHRBemltdXRoSABCDAoDY21kEgW6SAIIASIHCgVTdGFydCIGCgRTdG9wIgYKBEhhbHQiCwoJU2NhblN0YXJ0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", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chtqb25fc2hhcmVkX2NtZF9yb3RhcnkucHJvdG8SEmNtZC5Sb3RhcnlQbGF0Zm9ybSLhCwoEUm9vdBIqCgVzdGFydBgBIAEoCzIZLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TdGFydEgAEigKBHN0b3AYAiABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uU3RvcEgAEigKBGF4aXMYAyABKAsyGC5jbWQuUm90YXJ5UGxhdGZvcm0uQXhpc0gAEkYKFHNldF9wbGF0Zm9ybV9hemltdXRoGAQgASgLMiYuY21kLlJvdGFyeVBsYXRmb3JtLlNldFBsYXRmb3JtQXppbXV0aEgAEkoKFnNldF9wbGF0Zm9ybV9lbGV2YXRpb24YBSABKAsyKC5jbWQuUm90YXJ5UGxhdGZvcm0uU2V0UGxhdGZvcm1FbGV2YXRpb25IABJAChFzZXRfcGxhdGZvcm1fYmFuaxgGIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRQbGF0Zm9ybUJhbmtIABIoCgRoYWx0GAcgASgLMhguY21kLlJvdGFyeVBsYXRmb3JtLkhhbHRIABJOChlzZXRfdXNlX3JvdGFyeV9hc19jb21wYXNzGAggASgLMikuY21kLlJvdGFyeVBsYXRmb3JtLnNldFVzZVJvdGFyeUFzQ29tcGFzc0gAEjgKDXJvdGF0ZV90b19ncHMYCSABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlVG9HUFNIABI6Cg5zZXRfb3JpZ2luX2dwcxgKIAEoCzIgLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRPcmlnaW5HUFNIABIvCghzZXRfbW9kZRgLIAEoCzIbLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRNb2RlSAASOAoNcm90YXRlX3RvX25kYxgMIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVUb05EQ0gAEjMKCnNjYW5fc3RhcnQYDSABKAsyHS5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblN0YXJ0SAASMQoJc2Nhbl9zdG9wGA4gASgLMhwuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TdG9wSAASMwoKc2Nhbl9wYXVzZRgPIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuUGF1c2VIABI3CgxzY2FuX3VucGF1c2UYECABKAsyHy5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVucGF1c2VIABIxCglnZXRfbWV0ZW8YESABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uR2V0TWV0ZW9IABIxCglzY2FuX3ByZXYYEiABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblByZXZIABIxCglzY2FuX25leHQYEyABKAsyHC5jbWQuUm90YXJ5UGxhdGZvcm0uU2Nhbk5leHRIABJJChZzY2FuX3JlZnJlc2hfbm9kZV9saXN0GBQgASgLMicuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5SZWZyZXNoTm9kZUxpc3RIABI+ChBzY2FuX3NlbGVjdF9ub2RlGBUgASgLMiIuY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5TZWxlY3ROb2RlSAASPgoQc2Nhbl9kZWxldGVfbm9kZRgWIAEoCzIiLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TY2FuRGVsZXRlTm9kZUgAEj4KEHNjYW5fdXBkYXRlX25vZGUYFyABKAsyIi5jbWQuUm90YXJ5UGxhdGZvcm0uU2NhblVwZGF0ZU5vZGVIABI4Cg1zY2FuX2FkZF9ub2RlGBggASgLMh8uY21kLlJvdGFyeVBsYXRmb3JtLlNjYW5BZGROb2RlSAASOAoNaGFsdF93aXRoX25kYxgZIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0V2l0aE5EQ0gAEiwKBnVucGFyaxgaIAEoCzIaLmNtZC5Sb3RhcnlQbGF0Zm9ybS5VbnBhcmtIAEIMCgNjbWQSBbpIAggBImYKBEF4aXMSLAoHYXppbXV0aBgBIAEoCzIbLmNtZC5Sb3RhcnlQbGF0Zm9ybS5BemltdXRoEjAKCWVsZXZhdGlvbhgCIAEoCzIdLmNtZC5Sb3RhcnlQbGF0Zm9ybS5FbGV2YXRpb24iPgoHU2V0TW9kZRIzCgRtb2RlGAEgASgOMhkuc2VyLkpvbkd1aURhdGFSb3RhcnlNb2RlQgq6SAeCAQQQASAAIngKD1NldEF6aW11dGhWYWx1ZRImCgV2YWx1ZRgBIAEoAUIXukgUEhIRAAAAAACAdkApAAAAAAAAAAASPQoJZGlyZWN0aW9uGAIgASgOMh4uc2VyLkpvbkd1aURhdGFSb3RhcnlEaXJlY3Rpb25CCrpIB4IBBBABIAAipwEKD1JvdGF0ZUF6aW11dGhUbxItCgx0YXJnZXRfdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAyABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACJ2Cg1Sb3RhdGVBemltdXRoEiYKBXNwZWVkGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACJ4Cg9Sb3RhdGVFbGV2YXRpb24SJgoFc3BlZWQYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIjsKEVNldEVsZXZhdGlvblZhbHVlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwCJqChFSb3RhdGVFbGV2YXRpb25UbxItCgx0YXJnZXRfdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAACKoAQoXUm90YXRlRWxldmF0aW9uUmVsYXRpdmUSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAyABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACKDAQoaUm90YXRlRWxldmF0aW9uUmVsYXRpdmVTZXQSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEj0KCWRpcmVjdGlvbhgCIAEoDjIeLnNlci5Kb25HdWlEYXRhUm90YXJ5RGlyZWN0aW9uQgq6SAeCAQQQASAAIqYBChVSb3RhdGVBemltdXRoUmVsYXRpdmUSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAEiYKBXNwZWVkGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABI9CglkaXJlY3Rpb24YAyABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACKBAQoYUm90YXRlQXppbXV0aFJlbGF0aXZlU2V0EiYKBXZhbHVlGAEgASgBQhe6SBQSEhEAAAAAAIBmQCkAAAAAAIBmwBI9CglkaXJlY3Rpb24YAiABKA4yHi5zZXIuSm9uR3VpRGF0YVJvdGFyeURpcmVjdGlvbkIKukgHggEEEAEgACI8ChJTZXRQbGF0Zm9ybUF6aW11dGgSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgHZAIQAAAAAAgHbAIj4KFFNldFBsYXRmb3JtRWxldmF0aW9uEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAIBWQCkAAAAAAIBWwCI5Cg9TZXRQbGF0Zm9ybUJhbmsSJgoFdmFsdWUYASABKAFCF7pIFBISEQAAAAAAgGZAKQAAAAAAgGbAIgoKCEdldE1ldGVvIvYCCgdBemltdXRoEjgKCXNldF92YWx1ZRgBIAEoCzIjLmNtZC5Sb3RhcnlQbGF0Zm9ybS5TZXRBemltdXRoVmFsdWVIABI4Cglyb3RhdGVfdG8YAiABKAsyIy5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlQXppbXV0aFRvSAASMwoGcm90YXRlGAMgASgLMiEuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUF6aW11dGhIABI9CghyZWxhdGl2ZRgEIAEoCzIpLmNtZC5Sb3RhcnlQbGF0Zm9ybS5Sb3RhdGVBemltdXRoUmVsYXRpdmVIABJECgxyZWxhdGl2ZV9zZXQYBSABKAsyLC5jbWQuUm90YXJ5UGxhdGZvcm0uUm90YXRlQXppbXV0aFJlbGF0aXZlU2V0SAASLwoEaGFsdBgGIAEoCzIfLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0QXppbXV0aEgAQgwKA2NtZBIFukgCCAEiBwoFU3RhcnQiBgoEU3RvcCIGCgRIYWx0IggKBlVucGFyayILCglTY2FuU3RhcnQiCgoIU2NhblN0b3AiCwoJU2NhblBhdXNlIg0KC1NjYW5VbnBhdXNlIg0KC0hhbHRBemltdXRoIg8KDUhhbHRFbGV2YXRpb24iCgoIU2NhblByZXYiCgoIU2Nhbk5leHQiFQoTU2NhblJlZnJlc2hOb2RlTGlzdCIoCg5TY2FuU2VsZWN0Tm9kZRIWCgVpbmRleBgBIAEoBUIHukgEGgIoACIoCg5TY2FuRGVsZXRlTm9kZRIWCgVpbmRleBgBIAEoBUIHukgEGgIoACKPAgoOU2NhblVwZGF0ZU5vZGUSFgoFaW5kZXgYASABKAVCB7pIBBoCKAASIgoRRGF5Wm9vbVRhYmxlVmFsdWUYAiABKAVCB7pIBBoCKAASIwoSSGVhdFpvb21UYWJsZVZhbHVlGAMgASgFQge6SAQaAigAEigKB2F6aW11dGgYBCABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEioKCWVsZXZhdGlvbhgFIAEoAUIXukgUEhIZAAAAAACAVkApAAAAAACAVsASHgoGbGluZ2VyGAYgASgBQg66SAsSCSkAAAAAAAAAABImCgVzcGVlZBgHIAEoAUIXukgUEhIZAAAAAAAA8D8hAAAAAAAAAAAijAIKC1NjYW5BZGROb2RlEhYKBWluZGV4GAEgASgFQge6SAQaAigAEiIKEURheVpvb21UYWJsZVZhbHVlGAIgASgFQge6SAQaAigAEiMKEkhlYXRab29tVGFibGVWYWx1ZRgDIAEoBUIHukgEGgIoABIoCgdhemltdXRoGAQgASgBQhe6SBQSEhEAAAAAAIB2QCkAAAAAAAAAABIqCgllbGV2YXRpb24YBSABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEh4KBmxpbmdlchgGIAEoAUIOukgLEgkpAAAAAAAAAAASJgoFc3BlZWQYByABKAFCF7pIFBISGQAAAAAAAPA/IQAAAAAAAAAAIoQDCglFbGV2YXRpb24SOgoJc2V0X3ZhbHVlGAEgASgLMiUuY21kLlJvdGFyeVBsYXRmb3JtLlNldEVsZXZhdGlvblZhbHVlSAASOgoJcm90YXRlX3RvGAIgASgLMiUuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvblRvSAASNQoGcm90YXRlGAMgASgLMiMuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvbkgAEj8KCHJlbGF0aXZlGAQgASgLMisuY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvblJlbGF0aXZlSAASRgoMcmVsYXRpdmVfc2V0GAUgASgLMi4uY21kLlJvdGFyeVBsYXRmb3JtLlJvdGF0ZUVsZXZhdGlvblJlbGF0aXZlU2V0SAASMQoEaGFsdBgGIAEoCzIhLmNtZC5Sb3RhcnlQbGF0Zm9ybS5IYWx0RWxldmF0aW9uSABCDAoDY21kEgW6SAIIASIlChVzZXRVc2VSb3RhcnlBc0NvbXBhc3MSDAoEZmxhZxgBIAEoCCKPAQoLUm90YXRlVG9HUFMSKQoIbGF0aXR1ZGUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEioKCWxvbmdpdHVkZRgCIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsASKQoIYWx0aXR1ZGUYAyABKAFCF7pIFBISGQAAAAAAavhAKQAAAAAA4HrAIpABCgxTZXRPcmlnaW5HUFMSKQoIbGF0aXR1ZGUYASABKAFCF7pIFBISGQAAAAAAgFZAKQAAAAAAgFbAEioKCWxvbmdpdHVkZRgCIAEoAUIXukgUEhIRAAAAAACAZkApAAAAAACAZsASKQoIYWx0aXR1ZGUYAyABKAFCF7pIFBISGQAAAAAAavhAKQAAAAAA4HrAIrcBCgtSb3RhdGVUb05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIrcBCgtIYWx0V2l0aE5EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEQk1aS2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY21kL3JvdGFyeWIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message cmd.RotaryPlatform.Root
@@ -172,6 +172,12 @@ export type Root = Message<"cmd.RotaryPlatform.Root"> & {
      */
     value: HaltWithNDC;
     case: "haltWithNdc";
+  } | {
+    /**
+     * @generated from field: cmd.RotaryPlatform.Unpark unpark = 26;
+     */
+    value: Unpark;
+    case: "unpark";
   } | { case: undefined; value?: undefined };
 };
 
@@ -608,6 +614,23 @@ export const HaltSchema: GenMessage<Halt> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_rotary, 20);
 
 /**
+ * Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+ * the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+ * platform instead of requiring a shutdown/Start cycle.
+ *
+ * @generated from message cmd.RotaryPlatform.Unpark
+ */
+export type Unpark = Message<"cmd.RotaryPlatform.Unpark"> & {
+};
+
+/**
+ * Describes the message cmd.RotaryPlatform.Unpark.
+ * Use `create(UnparkSchema)` to create a new message.
+ */
+export const UnparkSchema: GenMessage<Unpark> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_rotary, 21);
+
+/**
  * @generated from message cmd.RotaryPlatform.ScanStart
  */
 export type ScanStart = Message<"cmd.RotaryPlatform.ScanStart"> & {
@@ -618,7 +641,7 @@ export type ScanStart = Message<"cmd.RotaryPlatform.ScanStart"> & {
  * Use `create(ScanStartSchema)` to create a new message.
  */
 export const ScanStartSchema: GenMessage<ScanStart> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 21);
+  messageDesc(file_jon_shared_cmd_rotary, 22);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanStop
@@ -631,7 +654,7 @@ export type ScanStop = Message<"cmd.RotaryPlatform.ScanStop"> & {
  * Use `create(ScanStopSchema)` to create a new message.
  */
 export const ScanStopSchema: GenMessage<ScanStop> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 22);
+  messageDesc(file_jon_shared_cmd_rotary, 23);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanPause
@@ -644,7 +667,7 @@ export type ScanPause = Message<"cmd.RotaryPlatform.ScanPause"> & {
  * Use `create(ScanPauseSchema)` to create a new message.
  */
 export const ScanPauseSchema: GenMessage<ScanPause> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 23);
+  messageDesc(file_jon_shared_cmd_rotary, 24);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanUnpause
@@ -657,7 +680,7 @@ export type ScanUnpause = Message<"cmd.RotaryPlatform.ScanUnpause"> & {
  * Use `create(ScanUnpauseSchema)` to create a new message.
  */
 export const ScanUnpauseSchema: GenMessage<ScanUnpause> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 24);
+  messageDesc(file_jon_shared_cmd_rotary, 25);
 
 /**
  * @generated from message cmd.RotaryPlatform.HaltAzimuth
@@ -670,7 +693,7 @@ export type HaltAzimuth = Message<"cmd.RotaryPlatform.HaltAzimuth"> & {
  * Use `create(HaltAzimuthSchema)` to create a new message.
  */
 export const HaltAzimuthSchema: GenMessage<HaltAzimuth> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 25);
+  messageDesc(file_jon_shared_cmd_rotary, 26);
 
 /**
  * @generated from message cmd.RotaryPlatform.HaltElevation
@@ -683,7 +706,7 @@ export type HaltElevation = Message<"cmd.RotaryPlatform.HaltElevation"> & {
  * Use `create(HaltElevationSchema)` to create a new message.
  */
 export const HaltElevationSchema: GenMessage<HaltElevation> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 26);
+  messageDesc(file_jon_shared_cmd_rotary, 27);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanPrev
@@ -696,7 +719,7 @@ export type ScanPrev = Message<"cmd.RotaryPlatform.ScanPrev"> & {
  * Use `create(ScanPrevSchema)` to create a new message.
  */
 export const ScanPrevSchema: GenMessage<ScanPrev> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 27);
+  messageDesc(file_jon_shared_cmd_rotary, 28);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanNext
@@ -709,7 +732,7 @@ export type ScanNext = Message<"cmd.RotaryPlatform.ScanNext"> & {
  * Use `create(ScanNextSchema)` to create a new message.
  */
 export const ScanNextSchema: GenMessage<ScanNext> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 28);
+  messageDesc(file_jon_shared_cmd_rotary, 29);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanRefreshNodeList
@@ -722,7 +745,7 @@ export type ScanRefreshNodeList = Message<"cmd.RotaryPlatform.ScanRefreshNodeLis
  * Use `create(ScanRefreshNodeListSchema)` to create a new message.
  */
 export const ScanRefreshNodeListSchema: GenMessage<ScanRefreshNodeList> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 29);
+  messageDesc(file_jon_shared_cmd_rotary, 30);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanSelectNode
@@ -739,7 +762,7 @@ export type ScanSelectNode = Message<"cmd.RotaryPlatform.ScanSelectNode"> & {
  * Use `create(ScanSelectNodeSchema)` to create a new message.
  */
 export const ScanSelectNodeSchema: GenMessage<ScanSelectNode> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 30);
+  messageDesc(file_jon_shared_cmd_rotary, 31);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanDeleteNode
@@ -756,7 +779,7 @@ export type ScanDeleteNode = Message<"cmd.RotaryPlatform.ScanDeleteNode"> & {
  * Use `create(ScanDeleteNodeSchema)` to create a new message.
  */
 export const ScanDeleteNodeSchema: GenMessage<ScanDeleteNode> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 31);
+  messageDesc(file_jon_shared_cmd_rotary, 32);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanUpdateNode
@@ -803,7 +826,7 @@ export type ScanUpdateNode = Message<"cmd.RotaryPlatform.ScanUpdateNode"> & {
  * Use `create(ScanUpdateNodeSchema)` to create a new message.
  */
 export const ScanUpdateNodeSchema: GenMessage<ScanUpdateNode> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 32);
+  messageDesc(file_jon_shared_cmd_rotary, 33);
 
 /**
  * @generated from message cmd.RotaryPlatform.ScanAddNode
@@ -850,7 +873,7 @@ export type ScanAddNode = Message<"cmd.RotaryPlatform.ScanAddNode"> & {
  * Use `create(ScanAddNodeSchema)` to create a new message.
  */
 export const ScanAddNodeSchema: GenMessage<ScanAddNode> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 33);
+  messageDesc(file_jon_shared_cmd_rotary, 34);
 
 /**
  * @generated from message cmd.RotaryPlatform.Elevation
@@ -903,7 +926,7 @@ export type Elevation = Message<"cmd.RotaryPlatform.Elevation"> & {
  * Use `create(ElevationSchema)` to create a new message.
  */
 export const ElevationSchema: GenMessage<Elevation> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 34);
+  messageDesc(file_jon_shared_cmd_rotary, 35);
 
 /**
  * @generated from message cmd.RotaryPlatform.setUseRotaryAsCompass
@@ -920,7 +943,7 @@ export type setUseRotaryAsCompass = Message<"cmd.RotaryPlatform.setUseRotaryAsCo
  * Use `create(setUseRotaryAsCompassSchema)` to create a new message.
  */
 export const setUseRotaryAsCompassSchema: GenMessage<setUseRotaryAsCompass> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 35);
+  messageDesc(file_jon_shared_cmd_rotary, 36);
 
 /**
  * @generated from message cmd.RotaryPlatform.RotateToGPS
@@ -947,7 +970,7 @@ export type RotateToGPS = Message<"cmd.RotaryPlatform.RotateToGPS"> & {
  * Use `create(RotateToGPSSchema)` to create a new message.
  */
 export const RotateToGPSSchema: GenMessage<RotateToGPS> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 36);
+  messageDesc(file_jon_shared_cmd_rotary, 37);
 
 /**
  * @generated from message cmd.RotaryPlatform.SetOriginGPS
@@ -974,7 +997,7 @@ export type SetOriginGPS = Message<"cmd.RotaryPlatform.SetOriginGPS"> & {
  * Use `create(SetOriginGPSSchema)` to create a new message.
  */
 export const SetOriginGPSSchema: GenMessage<SetOriginGPS> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 37);
+  messageDesc(file_jon_shared_cmd_rotary, 38);
 
 /**
  * @generated from message cmd.RotaryPlatform.RotateToNDC
@@ -1015,7 +1038,7 @@ export type RotateToNDC = Message<"cmd.RotaryPlatform.RotateToNDC"> & {
  * Use `create(RotateToNDCSchema)` to create a new message.
  */
 export const RotateToNDCSchema: GenMessage<RotateToNDC> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 38);
+  messageDesc(file_jon_shared_cmd_rotary, 39);
 
 /**
  * @generated from message cmd.RotaryPlatform.HaltWithNDC
@@ -1056,5 +1079,5 @@ export type HaltWithNDC = Message<"cmd.RotaryPlatform.HaltWithNDC"> & {
  * Use `create(HaltWithNDCSchema)` to create a new message.
  */
 export const HaltWithNDCSchema: GenMessage<HaltWithNDC> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_rotary, 39);
+  messageDesc(file_jon_shared_cmd_rotary, 40);
 

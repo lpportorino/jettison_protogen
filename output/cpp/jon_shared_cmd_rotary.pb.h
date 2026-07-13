@@ -173,6 +173,9 @@ extern StartDefaultTypeInternal _Start_default_instance_;
 class Stop;
 struct StopDefaultTypeInternal;
 extern StopDefaultTypeInternal _Stop_default_instance_;
+class Unpark;
+struct UnparkDefaultTypeInternal;
+extern UnparkDefaultTypeInternal _Unpark_default_instance_;
 class setUseRotaryAsCompass;
 struct setUseRotaryAsCompassDefaultTypeInternal;
 extern setUseRotaryAsCompassDefaultTypeInternal _setUseRotaryAsCompass_default_instance_;
@@ -250,7 +253,7 @@ class setUseRotaryAsCompass final : public ::google::protobuf::Message
     return reinterpret_cast<const setUseRotaryAsCompass*>(
         &_setUseRotaryAsCompass_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 35;
+  static constexpr int kIndexInFileMessages = 36;
   friend void swap(setUseRotaryAsCompass& a, setUseRotaryAsCompass& b) { a.Swap(&b); }
   inline void Swap(setUseRotaryAsCompass* other) {
     if (other == this) return;
@@ -377,6 +380,151 @@ class setUseRotaryAsCompass final : public ::google::protobuf::Message
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Unpark final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.Unpark) */ {
+ public:
+  inline Unpark() : Unpark(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(Unpark* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Unpark));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Unpark(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Unpark(const Unpark& from) : Unpark(nullptr, from) {}
+  inline Unpark(Unpark&& from) noexcept
+      : Unpark(nullptr, std::move(from)) {}
+  inline Unpark& operator=(const Unpark& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Unpark& operator=(Unpark&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Unpark& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Unpark* internal_default_instance() {
+    return reinterpret_cast<const Unpark*>(
+        &_Unpark_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 21;
+  friend void swap(Unpark& a, Unpark& b) { a.Swap(&b); }
+  inline void Swap(Unpark* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Unpark* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Unpark* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<Unpark>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const Unpark& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const Unpark& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.Unpark"; }
+
+ protected:
+  explicit Unpark(::google::protobuf::Arena* arena);
+  Unpark(::google::protobuf::Arena* arena, const Unpark& from);
+  Unpark(::google::protobuf::Arena* arena, Unpark&& from) noexcept
+      : Unpark(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.Unpark)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Unpark& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1300,7 +1448,7 @@ class SetOriginGPS final : public ::google::protobuf::Message
     return reinterpret_cast<const SetOriginGPS*>(
         &_SetOriginGPS_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 37;
+  static constexpr int kIndexInFileMessages = 38;
   friend void swap(SetOriginGPS& a, SetOriginGPS& b) { a.Swap(&b); }
   inline void Swap(SetOriginGPS* other) {
     if (other == this) return;
@@ -2096,7 +2244,7 @@ class ScanUpdateNode final : public ::google::protobuf::Message
     return reinterpret_cast<const ScanUpdateNode*>(
         &_ScanUpdateNode_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 32;
+  static constexpr int kIndexInFileMessages = 33;
   friend void swap(ScanUpdateNode& a, ScanUpdateNode& b) { a.Swap(&b); }
   inline void Swap(ScanUpdateNode* other) {
     if (other == this) return;
@@ -2357,7 +2505,7 @@ class ScanUnpause final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ScanUnpause*>(
         &_ScanUnpause_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 25;
   friend void swap(ScanUnpause& a, ScanUnpause& b) { a.Swap(&b); }
   inline void Swap(ScanUnpause* other) {
     if (other == this) return;
@@ -2502,7 +2650,7 @@ class ScanStop final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ScanStop*>(
         &_ScanStop_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 22;
+  static constexpr int kIndexInFileMessages = 23;
   friend void swap(ScanStop& a, ScanStop& b) { a.Swap(&b); }
   inline void Swap(ScanStop* other) {
     if (other == this) return;
@@ -2647,7 +2795,7 @@ class ScanStart final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ScanStart*>(
         &_ScanStart_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 21;
+  static constexpr int kIndexInFileMessages = 22;
   friend void swap(ScanStart& a, ScanStart& b) { a.Swap(&b); }
   inline void Swap(ScanStart* other) {
     if (other == this) return;
@@ -2793,7 +2941,7 @@ class ScanSelectNode final : public ::google::protobuf::Message
     return reinterpret_cast<const ScanSelectNode*>(
         &_ScanSelectNode_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 30;
+  static constexpr int kIndexInFileMessages = 31;
   friend void swap(ScanSelectNode& a, ScanSelectNode& b) { a.Swap(&b); }
   inline void Swap(ScanSelectNode* other) {
     if (other == this) return;
@@ -2982,7 +3130,7 @@ class ScanRefreshNodeList final : public ::google::protobuf::internal::ZeroField
     return reinterpret_cast<const ScanRefreshNodeList*>(
         &_ScanRefreshNodeList_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 29;
+  static constexpr int kIndexInFileMessages = 30;
   friend void swap(ScanRefreshNodeList& a, ScanRefreshNodeList& b) { a.Swap(&b); }
   inline void Swap(ScanRefreshNodeList* other) {
     if (other == this) return;
@@ -3127,7 +3275,7 @@ class ScanPrev final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ScanPrev*>(
         &_ScanPrev_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 27;
+  static constexpr int kIndexInFileMessages = 28;
   friend void swap(ScanPrev& a, ScanPrev& b) { a.Swap(&b); }
   inline void Swap(ScanPrev* other) {
     if (other == this) return;
@@ -3272,7 +3420,7 @@ class ScanPause final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ScanPause*>(
         &_ScanPause_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 23;
+  static constexpr int kIndexInFileMessages = 24;
   friend void swap(ScanPause& a, ScanPause& b) { a.Swap(&b); }
   inline void Swap(ScanPause* other) {
     if (other == this) return;
@@ -3417,7 +3565,7 @@ class ScanNext final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ScanNext*>(
         &_ScanNext_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 28;
+  static constexpr int kIndexInFileMessages = 29;
   friend void swap(ScanNext& a, ScanNext& b) { a.Swap(&b); }
   inline void Swap(ScanNext* other) {
     if (other == this) return;
@@ -3563,7 +3711,7 @@ class ScanDeleteNode final : public ::google::protobuf::Message
     return reinterpret_cast<const ScanDeleteNode*>(
         &_ScanDeleteNode_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 31;
+  static constexpr int kIndexInFileMessages = 32;
   friend void swap(ScanDeleteNode& a, ScanDeleteNode& b) { a.Swap(&b); }
   inline void Swap(ScanDeleteNode* other) {
     if (other == this) return;
@@ -3753,7 +3901,7 @@ class ScanAddNode final : public ::google::protobuf::Message
     return reinterpret_cast<const ScanAddNode*>(
         &_ScanAddNode_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 33;
+  static constexpr int kIndexInFileMessages = 34;
   friend void swap(ScanAddNode& a, ScanAddNode& b) { a.Swap(&b); }
   inline void Swap(ScanAddNode* other) {
     if (other == this) return;
@@ -4015,7 +4163,7 @@ class RotateToNDC final : public ::google::protobuf::Message
     return reinterpret_cast<const RotateToNDC*>(
         &_RotateToNDC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 38;
+  static constexpr int kIndexInFileMessages = 39;
   friend void swap(RotateToNDC& a, RotateToNDC& b) { a.Swap(&b); }
   inline void Swap(RotateToNDC* other) {
     if (other == this) return;
@@ -4253,7 +4401,7 @@ class RotateToGPS final : public ::google::protobuf::Message
     return reinterpret_cast<const RotateToGPS*>(
         &_RotateToGPS_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 36;
+  static constexpr int kIndexInFileMessages = 37;
   friend void swap(RotateToGPS& a, RotateToGPS& b) { a.Swap(&b); }
   inline void Swap(RotateToGPS* other) {
     if (other == this) return;
@@ -6119,7 +6267,7 @@ class HaltWithNDC final : public ::google::protobuf::Message
     return reinterpret_cast<const HaltWithNDC*>(
         &_HaltWithNDC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 39;
+  static constexpr int kIndexInFileMessages = 40;
   friend void swap(HaltWithNDC& a, HaltWithNDC& b) { a.Swap(&b); }
   inline void Swap(HaltWithNDC* other) {
     if (other == this) return;
@@ -6356,7 +6504,7 @@ class HaltElevation final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const HaltElevation*>(
         &_HaltElevation_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 26;
+  static constexpr int kIndexInFileMessages = 27;
   friend void swap(HaltElevation& a, HaltElevation& b) { a.Swap(&b); }
   inline void Swap(HaltElevation* other) {
     if (other == this) return;
@@ -6501,7 +6649,7 @@ class HaltAzimuth final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const HaltAzimuth*>(
         &_HaltAzimuth_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(HaltAzimuth& a, HaltAzimuth& b) { a.Swap(&b); }
   inline void Swap(HaltAzimuth* other) {
     if (other == this) return;
@@ -6946,7 +7094,7 @@ class Elevation final : public ::google::protobuf::Message
     return reinterpret_cast<const Elevation*>(
         &_Elevation_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 34;
+  static constexpr int kIndexInFileMessages = 35;
   friend void swap(Elevation& a, Elevation& b) { a.Swap(&b); }
   inline void Swap(Elevation* other) {
     if (other == this) return;
@@ -7828,6 +7976,7 @@ class Root final : public ::google::protobuf::Message
     kScanUpdateNode = 23,
     kScanAddNode = 24,
     kHaltWithNdc = 25,
+    kUnpark = 26,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -7946,6 +8095,7 @@ class Root final : public ::google::protobuf::Message
     kScanUpdateNodeFieldNumber = 23,
     kScanAddNodeFieldNumber = 24,
     kHaltWithNdcFieldNumber = 25,
+    kUnparkFieldNumber = 26,
   };
   // .cmd.RotaryPlatform.Start start = 1;
   bool has_start() const;
@@ -8422,6 +8572,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::RotaryPlatform::HaltWithNDC* _internal_mutable_halt_with_ndc();
 
   public:
+  // .cmd.RotaryPlatform.Unpark unpark = 26;
+  bool has_unpark() const;
+  private:
+  bool _internal_has_unpark() const;
+
+  public:
+  void clear_unpark() ;
+  const ::cmd::RotaryPlatform::Unpark& unpark() const;
+  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::Unpark* release_unpark();
+  ::cmd::RotaryPlatform::Unpark* mutable_unpark();
+  void set_allocated_unpark(::cmd::RotaryPlatform::Unpark* value);
+  void unsafe_arena_set_allocated_unpark(::cmd::RotaryPlatform::Unpark* value);
+  ::cmd::RotaryPlatform::Unpark* unsafe_arena_release_unpark();
+
+  private:
+  const ::cmd::RotaryPlatform::Unpark& _internal_unpark() const;
+  ::cmd::RotaryPlatform::Unpark* _internal_mutable_unpark();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.Root)
@@ -8452,11 +8621,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_scan_update_node();
   void set_has_scan_add_node();
   void set_has_halt_with_ndc();
+  void set_has_unpark();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 25, 25,
+      0, 26, 26,
       0, 2>
       _table_;
 
@@ -8502,6 +8672,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::RotaryPlatform::ScanUpdateNode* scan_update_node_;
       ::cmd::RotaryPlatform::ScanAddNode* scan_add_node_;
       ::cmd::RotaryPlatform::HaltWithNDC* halt_with_ndc_;
+      ::cmd::RotaryPlatform::Unpark* unpark_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -10502,6 +10673,85 @@ inline ::cmd::RotaryPlatform::HaltWithNDC* Root::mutable_halt_with_ndc() ABSL_AT
   return _msg;
 }
 
+// .cmd.RotaryPlatform.Unpark unpark = 26;
+inline bool Root::has_unpark() const {
+  return cmd_case() == kUnpark;
+}
+inline bool Root::_internal_has_unpark() const {
+  return cmd_case() == kUnpark;
+}
+inline void Root::set_has_unpark() {
+  _impl_._oneof_case_[0] = kUnpark;
+}
+inline void Root::clear_unpark() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kUnpark) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.unpark_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.unpark_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::RotaryPlatform::Unpark* Root::release_unpark() {
+  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.unpark)
+  if (cmd_case() == kUnpark) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.unpark_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.unpark_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::RotaryPlatform::Unpark& Root::_internal_unpark() const {
+  return cmd_case() == kUnpark ? *_impl_.cmd_.unpark_ : reinterpret_cast<::cmd::RotaryPlatform::Unpark&>(::cmd::RotaryPlatform::_Unpark_default_instance_);
+}
+inline const ::cmd::RotaryPlatform::Unpark& Root::unpark() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.unpark)
+  return _internal_unpark();
+}
+inline ::cmd::RotaryPlatform::Unpark* Root::unsafe_arena_release_unpark() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.unpark)
+  if (cmd_case() == kUnpark) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.unpark_;
+    _impl_.cmd_.unpark_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_unpark(::cmd::RotaryPlatform::Unpark* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_unpark();
+    _impl_.cmd_.unpark_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.unpark)
+}
+inline ::cmd::RotaryPlatform::Unpark* Root::_internal_mutable_unpark() {
+  if (cmd_case() != kUnpark) {
+    clear_cmd();
+    set_has_unpark();
+    _impl_.cmd_.unpark_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::Unpark>(GetArena());
+  }
+  return _impl_.cmd_.unpark_;
+}
+inline ::cmd::RotaryPlatform::Unpark* Root::mutable_unpark() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::RotaryPlatform::Unpark* _msg = _internal_mutable_unpark();
+  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.unpark)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -11837,6 +12087,10 @@ inline Azimuth::CmdCase Azimuth::cmd_case() const {
 // -------------------------------------------------------------------
 
 // Halt
+
+// -------------------------------------------------------------------
+
+// Unpark
 
 // -------------------------------------------------------------------
 

@@ -404,6 +404,21 @@ public final class JonSharedCmdRotary {
      */
     cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder getHaltWithNdcOrBuilder();
 
+    /**
+     * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+     * @return Whether the unpark field is set.
+     */
+    boolean hasUnpark();
+    /**
+     * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+     * @return The unpark.
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.Unpark getUnpark();
+    /**
+     * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder getUnparkOrBuilder();
+
     cmd.RotaryPlatform.JonSharedCmdRotary.Root.CmdCase getCmdCase();
   }
   /**
@@ -474,6 +489,7 @@ public final class JonSharedCmdRotary {
       SCAN_UPDATE_NODE(23),
       SCAN_ADD_NODE(24),
       HALT_WITH_NDC(25),
+      UNPARK(26),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -516,6 +532,7 @@ public final class JonSharedCmdRotary {
           case 23: return SCAN_UPDATE_NODE;
           case 24: return SCAN_ADD_NODE;
           case 25: return HALT_WITH_NDC;
+          case 26: return UNPARK;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -1306,6 +1323,37 @@ public final class JonSharedCmdRotary {
       return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
     }
 
+    public static final int UNPARK_FIELD_NUMBER = 26;
+    /**
+     * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+     * @return Whether the unpark field is set.
+     */
+    @java.lang.Override
+    public boolean hasUnpark() {
+      return cmdCase_ == 26;
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+     * @return The unpark.
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark getUnpark() {
+      if (cmdCase_ == 26) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder getUnparkOrBuilder() {
+      if (cmdCase_ == 26) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1394,6 +1442,9 @@ public final class JonSharedCmdRotary {
       }
       if (cmdCase_ == 25) {
         output.writeMessage(25, (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_);
+      }
+      if (cmdCase_ == 26) {
+        output.writeMessage(26, (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1503,6 +1554,10 @@ public final class JonSharedCmdRotary {
       if (cmdCase_ == 25) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(25, (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_);
+      }
+      if (cmdCase_ == 26) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(26, (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1621,6 +1676,10 @@ public final class JonSharedCmdRotary {
           if (!getHaltWithNdc()
               .equals(other.getHaltWithNdc())) return false;
           break;
+        case 26:
+          if (!getUnpark()
+              .equals(other.getUnpark())) return false;
+          break;
         case 0:
         default:
       }
@@ -1735,6 +1794,10 @@ public final class JonSharedCmdRotary {
         case 25:
           hash = (37 * hash) + HALT_WITH_NDC_FIELD_NUMBER;
           hash = (53 * hash) + getHaltWithNdc().hashCode();
+          break;
+        case 26:
+          hash = (37 * hash) + UNPARK_FIELD_NUMBER;
+          hash = (53 * hash) + getUnpark().hashCode();
           break;
         case 0:
         default:
@@ -1945,6 +2008,9 @@ public final class JonSharedCmdRotary {
         if (haltWithNdcBuilder_ != null) {
           haltWithNdcBuilder_.clear();
         }
+        if (unparkBuilder_ != null) {
+          unparkBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -2086,6 +2152,10 @@ public final class JonSharedCmdRotary {
             haltWithNdcBuilder_ != null) {
           result.cmd_ = haltWithNdcBuilder_.build();
         }
+        if (cmdCase_ == 26 &&
+            unparkBuilder_ != null) {
+          result.cmd_ = unparkBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -2199,6 +2269,10 @@ public final class JonSharedCmdRotary {
           }
           case HALT_WITH_NDC: {
             mergeHaltWithNdc(other.getHaltWithNdc());
+            break;
+          }
+          case UNPARK: {
+            mergeUnpark(other.getUnpark());
             break;
           }
           case CMD_NOT_SET: {
@@ -2406,6 +2480,13 @@ public final class JonSharedCmdRotary {
                 cmdCase_ = 25;
                 break;
               } // case 202
+              case 210: {
+                input.readMessage(
+                    getUnparkFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 26;
+                break;
+              } // case 210
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5986,6 +6067,148 @@ public final class JonSharedCmdRotary {
         cmdCase_ = 25;
         onChanged();
         return haltWithNdcBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.Unpark, cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder> unparkBuilder_;
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       * @return Whether the unpark field is set.
+       */
+      @java.lang.Override
+      public boolean hasUnpark() {
+        return cmdCase_ == 26;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       * @return The unpark.
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark getUnpark() {
+        if (unparkBuilder_ == null) {
+          if (cmdCase_ == 26) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 26) {
+            return unparkBuilder_.getMessage();
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      public Builder setUnpark(cmd.RotaryPlatform.JonSharedCmdRotary.Unpark value) {
+        if (unparkBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          unparkBuilder_.setMessage(value);
+        }
+        cmdCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      public Builder setUnpark(
+          cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder builderForValue) {
+        if (unparkBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          unparkBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      public Builder mergeUnpark(cmd.RotaryPlatform.JonSharedCmdRotary.Unpark value) {
+        if (unparkBuilder_ == null) {
+          if (cmdCase_ == 26 &&
+              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance()) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 26) {
+            unparkBuilder_.mergeFrom(value);
+          } else {
+            unparkBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      public Builder clearUnpark() {
+        if (unparkBuilder_ == null) {
+          if (cmdCase_ == 26) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 26) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          unparkBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder getUnparkBuilder() {
+        return getUnparkFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder getUnparkOrBuilder() {
+        if ((cmdCase_ == 26) && (unparkBuilder_ != null)) {
+          return unparkBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 26) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.Unpark unpark = 26;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.Unpark, cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder> 
+          getUnparkFieldBuilder() {
+        if (unparkBuilder_ == null) {
+          if (!(cmdCase_ == 26)) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+          }
+          unparkBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.RotaryPlatform.JonSharedCmdRotary.Unpark, cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder>(
+                  (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 26;
+        onChanged();
+        return unparkBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.Root)
@@ -17277,6 +17500,373 @@ public final class JonSharedCmdRotary {
 
   }
 
+  public interface UnparkOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.Unpark)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * <pre>
+   * Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+   * the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+   * platform instead of requiring a shutdown/Start cycle.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.RotaryPlatform.Unpark}
+   */
+  public static final class Unpark extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.Unpark)
+      UnparkOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        Unpark.class.getName());
+    }
+    // Use Unpark.newBuilder() to construct.
+    private Unpark(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private Unpark() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_Unpark_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_Unpark_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.class, cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.Unpark)) {
+        return super.equals(obj);
+      }
+      cmd.RotaryPlatform.JonSharedCmdRotary.Unpark other = (cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.Unpark prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+     * the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+     * platform instead of requiring a shutdown/Start cycle.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.RotaryPlatform.Unpark}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.Unpark)
+        cmd.RotaryPlatform.JonSharedCmdRotary.UnparkOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_Unpark_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_Unpark_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.class, cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.Builder.class);
+      }
+
+      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_Unpark_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark getDefaultInstanceForType() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark build() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.Unpark result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark buildPartial() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.Unpark result = new cmd.RotaryPlatform.JonSharedCmdRotary.Unpark(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.Unpark) {
+          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.Unpark)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.Unpark other) {
+        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.Unpark.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.Unpark)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.Unpark)
+    private static final cmd.RotaryPlatform.JonSharedCmdRotary.Unpark DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.Unpark();
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.Unpark getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Unpark>
+        PARSER = new com.google.protobuf.AbstractParser<Unpark>() {
+      @java.lang.Override
+      public Unpark parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<Unpark> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Unpark> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.Unpark getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ScanStartOrBuilder extends
       // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.ScanStart)
       com.google.protobuf.MessageOrBuilder {
@@ -28176,6 +28766,11 @@ public final class JonSharedCmdRotary {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_RotaryPlatform_Halt_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_RotaryPlatform_Unpark_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_RotaryPlatform_Unpark_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_RotaryPlatform_ScanStart_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -28281,7 +28876,7 @@ public final class JonSharedCmdRotary {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_rotary.proto\022\022cmd.Rotar" +
       "yPlatform\032\033buf/validate/validate.proto\032\033" +
-      "jon_shared_data_types.proto\"\263\013\n\004Root\022*\n\005" +
+      "jon_shared_data_types.proto\"\341\013\n\004Root\022*\n\005" +
       "start\030\001 \001(\0132\031.cmd.RotaryPlatform.StartH\000" +
       "\022(\n\004stop\030\002 \001(\0132\030.cmd.RotaryPlatform.Stop" +
       "H\000\022(\n\004axis\030\003 \001(\0132\030.cmd.RotaryPlatform.Ax" +
@@ -28317,108 +28912,110 @@ public final class JonSharedCmdRotary {
       "\0132\".cmd.RotaryPlatform.ScanUpdateNodeH\000\022" +
       "8\n\rscan_add_node\030\030 \001(\0132\037.cmd.RotaryPlatf" +
       "orm.ScanAddNodeH\000\0228\n\rhalt_with_ndc\030\031 \001(\013" +
-      "2\037.cmd.RotaryPlatform.HaltWithNDCH\000B\014\n\003c" +
-      "md\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\0132\033.cmd" +
-      ".RotaryPlatform.Azimuth\0220\n\televation\030\002 \001" +
-      "(\0132\035.cmd.RotaryPlatform.Elevation\">\n\007Set" +
-      "Mode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDataRotar" +
-      "yModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthValue\022&\n\005" +
-      "value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022=\n\t" +
-      "direction\030\002 \001(\0162\036.ser.JonGuiDataRotaryDi" +
-      "rectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzimuthTo\022" +
-      "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000" +
-      "\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
-      "\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.JonGuiDa" +
-      "taRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rRotateA" +
-      "zimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
-      "\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDa" +
-      "taRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017RotateE" +
-      "levation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
-      "\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui" +
-      "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n\021SetEl" +
-      "evationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
-      "\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022-\n\014tar" +
-      "get_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300" +
-      "\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000" +
-      "\"\250\001\n\027RotateElevationRelative\022&\n\005value\030\001 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirectio" +
-      "n\030\003 \001(\0162\036.ser.JonGuiDataRotaryDirectionB" +
-      "\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRelativeS" +
-      "et\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200" +
-      "V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo" +
-      "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025RotateAzim" +
-      "uthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200" +
-      "f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
-      "\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jon" +
-      "GuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\201\001\n\030R" +
-      "otateAzimuthRelativeSet\022&\n\005value\030\001 \001(\001B\027" +
-      "\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirection\030\002 \001" +
-      "(\0162\036.ser.JonGuiDataRotaryDirectionB\n\272H\007\202" +
-      "\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005value\030\001 " +
-      "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024SetPlatf" +
-      "ormElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
-      "\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n\005value" +
-      "\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n\010GetMe" +
-      "teo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\0132#.cmd" +
-      ".RotaryPlatform.SetAzimuthValueH\000\0228\n\trot" +
-      "ate_to\030\002 \001(\0132#.cmd.RotaryPlatform.Rotate" +
-      "AzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd.Rotary" +
-      "Platform.RotateAzimuthH\000\022=\n\010relative\030\004 \001" +
-      "(\0132).cmd.RotaryPlatform.RotateAzimuthRel" +
-      "ativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cmd.Rota" +
-      "ryPlatform.RotateAzimuthRelativeSetH\000\022/\n" +
-      "\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.HaltAzi" +
-      "muthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\006\n" +
-      "\004Halt\"\013\n\tScanStart\"\n\n\010ScanStop\"\013\n\tScanPa" +
-      "use\"\r\n\013ScanUnpause\"\r\n\013HaltAzimuth\"\017\n\rHal" +
-      "tElevation\"\n\n\010ScanPrev\"\n\n\010ScanNext\"\025\n\023Sc" +
-      "anRefreshNodeList\"(\n\016ScanSelectNode\022\026\n\005i" +
-      "ndex\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016ScanDeleteNode\022\026\n" +
-      "\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002\n\016ScanUpdateNode" +
-      "\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTable" +
-      "Value\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVal" +
-      "ue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022" +
-      "\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B" +
-      "\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002\n\013ScanAddNode\022\026\n\005index" +
-      "\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001" +
-      "(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B" +
-      "\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v" +
-      "@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000" +
-      "\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000" +
-      "\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000" +
-      "\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\tset_value\030\001 \001(\0132" +
-      "%.cmd.RotaryPlatform.SetElevationValueH\000" +
-      "\022:\n\trotate_to\030\002 \001(\0132%.cmd.RotaryPlatform" +
-      ".RotateElevationToH\000\0225\n\006rotate\030\003 \001(\0132#.c" +
-      "md.RotaryPlatform.RotateElevationH\000\022?\n\010r" +
-      "elative\030\004 \001(\0132+.cmd.RotaryPlatform.Rotat" +
-      "eElevationRelativeH\000\022F\n\014relative_set\030\005 \001" +
-      "(\0132..cmd.RotaryPlatform.RotateElevationR" +
-      "elativeSetH\000\0221\n\004halt\030\006 \001(\0132!.cmd.RotaryP" +
-      "latform.HaltElevationH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n" +
-      "\025setUseRotaryAsCompass\022\014\n\004flag\030\001 \001(\010\"\217\001\n" +
-      "\013RotateToGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022" +
-      "\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220\001\n\014SetOriginGPS\022" +
-      ")\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200" +
-      "V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000" +
-      "\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@" +
-      ")\000\000\000\000\000\340z\300\"\267\001\n\013RotateToNDC\0228\n\007channel\030\001 \001" +
-      "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020" +
-      "\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022" +
-      "\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nf" +
-      "rame_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\267\001\n\013" +
-      "HaltWithNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGu" +
-      "iDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001" +
-      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H" +
-      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(" +
-      "\004\022\022\n\nstate_time\030\005 \001(\004BMZKgit-codecommit." +
-      "eu-central-1.amazonaws.com/v1/repos/jett" +
-      "ison/jonp/cmd/rotaryb\006proto3"
+      "2\037.cmd.RotaryPlatform.HaltWithNDCH\000\022,\n\006u" +
+      "npark\030\032 \001(\0132\032.cmd.RotaryPlatform.UnparkH" +
+      "\000B\014\n\003cmd\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\013" +
+      "2\033.cmd.RotaryPlatform.Azimuth\0220\n\televati" +
+      "on\030\002 \001(\0132\035.cmd.RotaryPlatform.Elevation\"" +
+      ">\n\007SetMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDat" +
+      "aRotaryModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthVal" +
+      "ue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000" +
+      "\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo" +
+      "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzim" +
+      "uthTo\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000" +
+      "\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
+      "\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jo" +
+      "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rR" +
+      "otateAzimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
+      "\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.Jo" +
+      "nGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017R" +
+      "otateElevation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000" +
+      "\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser." +
+      "JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n" +
+      "\021SetElevationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022" +
+      "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000" +
+      "\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
+      "\000\000\000\000\000\000\"\250\001\n\027RotateElevationRelative\022&\n\005va" +
+      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005sp" +
+      "eed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdi" +
+      "rection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDire" +
+      "ctionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRel" +
+      "ativeSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)" +
+      "\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui" +
+      "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025Rota" +
+      "teAzimuthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021" +
+      "\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031" +
+      "\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.s" +
+      "er.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000" +
+      "\"\201\001\n\030RotateAzimuthRelativeSet\022&\n\005value\030\001" +
+      " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirecti" +
+      "on\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirection" +
+      "B\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005va" +
+      "lue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024Se" +
+      "tPlatformElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n" +
+      "\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n" +
+      "\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\013" +
+      "2#.cmd.RotaryPlatform.SetAzimuthValueH\000\022" +
+      "8\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatform." +
+      "RotateAzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd." +
+      "RotaryPlatform.RotateAzimuthH\000\022=\n\010relati" +
+      "ve\030\004 \001(\0132).cmd.RotaryPlatform.RotateAzim" +
+      "uthRelativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cm" +
+      "d.RotaryPlatform.RotateAzimuthRelativeSe" +
+      "tH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.H" +
+      "altAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004S" +
+      "top\"\006\n\004Halt\"\010\n\006Unpark\"\013\n\tScanStart\"\n\n\010Sc" +
+      "anStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013Ha" +
+      "ltAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\"\n" +
+      "\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sca" +
+      "nSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016S" +
+      "canDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002" +
+      "\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000" +
+      "\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022" +
+      "HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azi" +
+      "muth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\te" +
+      "levation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022" +
+      "\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed" +
+      "\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002\n\013Scan" +
+      "AddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo" +
+      "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT" +
+      "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(" +
+      "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030" +
+      "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger" +
+      "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\t" +
+      "set_value\030\001 \001(\0132%.cmd.RotaryPlatform.Set" +
+      "ElevationValueH\000\022:\n\trotate_to\030\002 \001(\0132%.cm" +
+      "d.RotaryPlatform.RotateElevationToH\000\0225\n\006" +
+      "rotate\030\003 \001(\0132#.cmd.RotaryPlatform.Rotate" +
+      "ElevationH\000\022?\n\010relative\030\004 \001(\0132+.cmd.Rota" +
+      "ryPlatform.RotateElevationRelativeH\000\022F\n\014" +
+      "relative_set\030\005 \001(\0132..cmd.RotaryPlatform." +
+      "RotateElevationRelativeSetH\000\0221\n\004halt\030\006 \001" +
+      "(\0132!.cmd.RotaryPlatform.HaltElevationH\000B" +
+      "\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCompass\022\014" +
+      "\n\004flag\030\001 \001(\010\"\217\001\n\013RotateToGPS\022)\n\010latitude" +
+      "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongi" +
+      "tude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010a" +
+      "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220" +
+      "\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272" +
+      "H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001" +
+      "B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\267\001\n\013RotateToND" +
+      "C\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo" +
+      "ChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
+      "\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nstate" +
+      "_time\030\005 \001(\004\"\267\001\n\013HaltWithNDC\0228\n\007channel\030\001" +
+      " \001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001" +
+      "\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360" +
+      "\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n" +
+      "\nframe_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004BMZ" +
+      "Kgit-codecommit.eu-central-1.amazonaws.c" +
+      "om/v1/repos/jettison/jonp/cmd/rotaryb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -28431,7 +29028,7 @@ public final class JonSharedCmdRotary {
     internal_static_cmd_RotaryPlatform_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_Root_descriptor,
-        new java.lang.String[] { "Start", "Stop", "Axis", "SetPlatformAzimuth", "SetPlatformElevation", "SetPlatformBank", "Halt", "SetUseRotaryAsCompass", "RotateToGps", "SetOriginGps", "SetMode", "RotateToNdc", "ScanStart", "ScanStop", "ScanPause", "ScanUnpause", "GetMeteo", "ScanPrev", "ScanNext", "ScanRefreshNodeList", "ScanSelectNode", "ScanDeleteNode", "ScanUpdateNode", "ScanAddNode", "HaltWithNdc", "Cmd", });
+        new java.lang.String[] { "Start", "Stop", "Axis", "SetPlatformAzimuth", "SetPlatformElevation", "SetPlatformBank", "Halt", "SetUseRotaryAsCompass", "RotateToGps", "SetOriginGps", "SetMode", "RotateToNdc", "ScanStart", "ScanStop", "ScanPause", "ScanUnpause", "GetMeteo", "ScanPrev", "ScanNext", "ScanRefreshNodeList", "ScanSelectNode", "ScanDeleteNode", "ScanUpdateNode", "ScanAddNode", "HaltWithNdc", "Unpark", "Cmd", });
     internal_static_cmd_RotaryPlatform_Axis_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_RotaryPlatform_Axis_fieldAccessorTable = new
@@ -28552,116 +29149,122 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_Halt_descriptor,
         new java.lang.String[] { });
-    internal_static_cmd_RotaryPlatform_ScanStart_descriptor =
+    internal_static_cmd_RotaryPlatform_Unpark_descriptor =
       getDescriptor().getMessageTypes().get(21);
+    internal_static_cmd_RotaryPlatform_Unpark_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_RotaryPlatform_Unpark_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_RotaryPlatform_ScanStart_descriptor =
+      getDescriptor().getMessageTypes().get(22);
     internal_static_cmd_RotaryPlatform_ScanStart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanStart_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanStop_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_cmd_RotaryPlatform_ScanStop_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanStop_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanPause_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_cmd_RotaryPlatform_ScanPause_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanPause_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanUnpause_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_cmd_RotaryPlatform_ScanUnpause_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanUnpause_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_HaltAzimuth_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_cmd_RotaryPlatform_HaltAzimuth_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_HaltAzimuth_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_HaltElevation_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_cmd_RotaryPlatform_HaltElevation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_HaltElevation_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanPrev_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_cmd_RotaryPlatform_ScanPrev_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanPrev_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanNext_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_cmd_RotaryPlatform_ScanNext_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanNext_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanRefreshNodeList_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_cmd_RotaryPlatform_ScanRefreshNodeList_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanRefreshNodeList_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_RotaryPlatform_ScanSelectNode_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_cmd_RotaryPlatform_ScanSelectNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanSelectNode_descriptor,
         new java.lang.String[] { "Index", });
     internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_cmd_RotaryPlatform_ScanDeleteNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanDeleteNode_descriptor,
         new java.lang.String[] { "Index", });
     internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_cmd_RotaryPlatform_ScanUpdateNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanUpdateNode_descriptor,
         new java.lang.String[] { "Index", "DayZoomTableValue", "HeatZoomTableValue", "Azimuth", "Elevation", "Linger", "Speed", });
     internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_cmd_RotaryPlatform_ScanAddNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_ScanAddNode_descriptor,
         new java.lang.String[] { "Index", "DayZoomTableValue", "HeatZoomTableValue", "Azimuth", "Elevation", "Linger", "Speed", });
     internal_static_cmd_RotaryPlatform_Elevation_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_cmd_RotaryPlatform_Elevation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_Elevation_descriptor,
         new java.lang.String[] { "SetValue", "RotateTo", "Rotate", "Relative", "RelativeSet", "Halt", "Cmd", });
     internal_static_cmd_RotaryPlatform_setUseRotaryAsCompass_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_cmd_RotaryPlatform_setUseRotaryAsCompass_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_setUseRotaryAsCompass_descriptor,
         new java.lang.String[] { "Flag", });
     internal_static_cmd_RotaryPlatform_RotateToGPS_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_cmd_RotaryPlatform_RotateToGPS_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_RotateToGPS_descriptor,
         new java.lang.String[] { "Latitude", "Longitude", "Altitude", });
     internal_static_cmd_RotaryPlatform_SetOriginGPS_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_cmd_RotaryPlatform_SetOriginGPS_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_SetOriginGPS_descriptor,
         new java.lang.String[] { "Latitude", "Longitude", "Altitude", });
     internal_static_cmd_RotaryPlatform_RotateToNDC_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_cmd_RotaryPlatform_RotateToNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_RotateToNDC_descriptor,
         new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
     internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_cmd_RotaryPlatform_HaltWithNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor,

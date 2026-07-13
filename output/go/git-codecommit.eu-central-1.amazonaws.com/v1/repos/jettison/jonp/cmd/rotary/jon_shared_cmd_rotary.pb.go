@@ -52,6 +52,7 @@ type Root struct {
 	//	*Root_ScanUpdateNode
 	//	*Root_ScanAddNode
 	//	*Root_HaltWithNdc
+	//	*Root_Unpark
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -319,6 +320,15 @@ func (x *Root) GetHaltWithNdc() *HaltWithNDC {
 	return nil
 }
 
+func (x *Root) GetUnpark() *Unpark {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_Unpark); ok {
+			return x.Unpark
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -423,6 +433,10 @@ type Root_HaltWithNdc struct {
 	HaltWithNdc *HaltWithNDC `protobuf:"bytes,25,opt,name=halt_with_ndc,json=haltWithNdc,proto3,oneof"`
 }
 
+type Root_Unpark struct {
+	Unpark *Unpark `protobuf:"bytes,26,opt,name=unpark,proto3,oneof"`
+}
+
 func (*Root_Start) isRoot_Cmd() {}
 
 func (*Root_Stop) isRoot_Cmd() {}
@@ -472,6 +486,8 @@ func (*Root_ScanUpdateNode) isRoot_Cmd() {}
 func (*Root_ScanAddNode) isRoot_Cmd() {}
 
 func (*Root_HaltWithNdc) isRoot_Cmd() {}
+
+func (*Root_Unpark) isRoot_Cmd() {}
 
 type Axis struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1527,6 +1543,45 @@ func (*Halt) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{20}
 }
 
+// Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+// the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+// platform instead of requiring a shutdown/Start cycle.
+type Unpark struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Unpark) Reset() {
+	*x = Unpark{}
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Unpark) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Unpark) ProtoMessage() {}
+
+func (x *Unpark) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Unpark.ProtoReflect.Descriptor instead.
+func (*Unpark) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{21}
+}
+
 type ScanStart struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -1535,7 +1590,7 @@ type ScanStart struct {
 
 func (x *ScanStart) Reset() {
 	*x = ScanStart{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[21]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1547,7 +1602,7 @@ func (x *ScanStart) String() string {
 func (*ScanStart) ProtoMessage() {}
 
 func (x *ScanStart) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[21]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1560,7 +1615,7 @@ func (x *ScanStart) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanStart.ProtoReflect.Descriptor instead.
 func (*ScanStart) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{21}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{22}
 }
 
 type ScanStop struct {
@@ -1571,7 +1626,7 @@ type ScanStop struct {
 
 func (x *ScanStop) Reset() {
 	*x = ScanStop{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[22]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1583,7 +1638,7 @@ func (x *ScanStop) String() string {
 func (*ScanStop) ProtoMessage() {}
 
 func (x *ScanStop) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[22]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1596,7 +1651,7 @@ func (x *ScanStop) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanStop.ProtoReflect.Descriptor instead.
 func (*ScanStop) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{22}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{23}
 }
 
 type ScanPause struct {
@@ -1607,7 +1662,7 @@ type ScanPause struct {
 
 func (x *ScanPause) Reset() {
 	*x = ScanPause{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[23]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1619,7 +1674,7 @@ func (x *ScanPause) String() string {
 func (*ScanPause) ProtoMessage() {}
 
 func (x *ScanPause) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[23]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1632,7 +1687,7 @@ func (x *ScanPause) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanPause.ProtoReflect.Descriptor instead.
 func (*ScanPause) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{23}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{24}
 }
 
 type ScanUnpause struct {
@@ -1643,7 +1698,7 @@ type ScanUnpause struct {
 
 func (x *ScanUnpause) Reset() {
 	*x = ScanUnpause{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[24]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1655,7 +1710,7 @@ func (x *ScanUnpause) String() string {
 func (*ScanUnpause) ProtoMessage() {}
 
 func (x *ScanUnpause) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[24]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1668,7 +1723,7 @@ func (x *ScanUnpause) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanUnpause.ProtoReflect.Descriptor instead.
 func (*ScanUnpause) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{24}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{25}
 }
 
 type HaltAzimuth struct {
@@ -1679,7 +1734,7 @@ type HaltAzimuth struct {
 
 func (x *HaltAzimuth) Reset() {
 	*x = HaltAzimuth{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[25]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1691,7 +1746,7 @@ func (x *HaltAzimuth) String() string {
 func (*HaltAzimuth) ProtoMessage() {}
 
 func (x *HaltAzimuth) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[25]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1704,7 +1759,7 @@ func (x *HaltAzimuth) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HaltAzimuth.ProtoReflect.Descriptor instead.
 func (*HaltAzimuth) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{25}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{26}
 }
 
 type HaltElevation struct {
@@ -1715,7 +1770,7 @@ type HaltElevation struct {
 
 func (x *HaltElevation) Reset() {
 	*x = HaltElevation{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[26]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1727,7 +1782,7 @@ func (x *HaltElevation) String() string {
 func (*HaltElevation) ProtoMessage() {}
 
 func (x *HaltElevation) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[26]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1740,7 +1795,7 @@ func (x *HaltElevation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HaltElevation.ProtoReflect.Descriptor instead.
 func (*HaltElevation) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{26}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{27}
 }
 
 type ScanPrev struct {
@@ -1751,7 +1806,7 @@ type ScanPrev struct {
 
 func (x *ScanPrev) Reset() {
 	*x = ScanPrev{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[27]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1763,7 +1818,7 @@ func (x *ScanPrev) String() string {
 func (*ScanPrev) ProtoMessage() {}
 
 func (x *ScanPrev) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[27]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1776,7 +1831,7 @@ func (x *ScanPrev) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanPrev.ProtoReflect.Descriptor instead.
 func (*ScanPrev) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{27}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{28}
 }
 
 type ScanNext struct {
@@ -1787,7 +1842,7 @@ type ScanNext struct {
 
 func (x *ScanNext) Reset() {
 	*x = ScanNext{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[28]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1799,7 +1854,7 @@ func (x *ScanNext) String() string {
 func (*ScanNext) ProtoMessage() {}
 
 func (x *ScanNext) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[28]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1812,7 +1867,7 @@ func (x *ScanNext) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanNext.ProtoReflect.Descriptor instead.
 func (*ScanNext) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{28}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{29}
 }
 
 type ScanRefreshNodeList struct {
@@ -1823,7 +1878,7 @@ type ScanRefreshNodeList struct {
 
 func (x *ScanRefreshNodeList) Reset() {
 	*x = ScanRefreshNodeList{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[29]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1835,7 +1890,7 @@ func (x *ScanRefreshNodeList) String() string {
 func (*ScanRefreshNodeList) ProtoMessage() {}
 
 func (x *ScanRefreshNodeList) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[29]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1848,7 +1903,7 @@ func (x *ScanRefreshNodeList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanRefreshNodeList.ProtoReflect.Descriptor instead.
 func (*ScanRefreshNodeList) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{29}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{30}
 }
 
 type ScanSelectNode struct {
@@ -1860,7 +1915,7 @@ type ScanSelectNode struct {
 
 func (x *ScanSelectNode) Reset() {
 	*x = ScanSelectNode{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[30]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1872,7 +1927,7 @@ func (x *ScanSelectNode) String() string {
 func (*ScanSelectNode) ProtoMessage() {}
 
 func (x *ScanSelectNode) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[30]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1885,7 +1940,7 @@ func (x *ScanSelectNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanSelectNode.ProtoReflect.Descriptor instead.
 func (*ScanSelectNode) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{30}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ScanSelectNode) GetIndex() int32 {
@@ -1904,7 +1959,7 @@ type ScanDeleteNode struct {
 
 func (x *ScanDeleteNode) Reset() {
 	*x = ScanDeleteNode{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[31]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1916,7 +1971,7 @@ func (x *ScanDeleteNode) String() string {
 func (*ScanDeleteNode) ProtoMessage() {}
 
 func (x *ScanDeleteNode) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[31]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1929,7 +1984,7 @@ func (x *ScanDeleteNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanDeleteNode.ProtoReflect.Descriptor instead.
 func (*ScanDeleteNode) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{31}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ScanDeleteNode) GetIndex() int32 {
@@ -1954,7 +2009,7 @@ type ScanUpdateNode struct {
 
 func (x *ScanUpdateNode) Reset() {
 	*x = ScanUpdateNode{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[32]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1966,7 +2021,7 @@ func (x *ScanUpdateNode) String() string {
 func (*ScanUpdateNode) ProtoMessage() {}
 
 func (x *ScanUpdateNode) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[32]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1979,7 +2034,7 @@ func (x *ScanUpdateNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanUpdateNode.ProtoReflect.Descriptor instead.
 func (*ScanUpdateNode) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{32}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *ScanUpdateNode) GetIndex() int32 {
@@ -2046,7 +2101,7 @@ type ScanAddNode struct {
 
 func (x *ScanAddNode) Reset() {
 	*x = ScanAddNode{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[33]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2058,7 +2113,7 @@ func (x *ScanAddNode) String() string {
 func (*ScanAddNode) ProtoMessage() {}
 
 func (x *ScanAddNode) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[33]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2071,7 +2126,7 @@ func (x *ScanAddNode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScanAddNode.ProtoReflect.Descriptor instead.
 func (*ScanAddNode) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{33}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *ScanAddNode) GetIndex() int32 {
@@ -2140,7 +2195,7 @@ type Elevation struct {
 
 func (x *Elevation) Reset() {
 	*x = Elevation{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[34]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2152,7 +2207,7 @@ func (x *Elevation) String() string {
 func (*Elevation) ProtoMessage() {}
 
 func (x *Elevation) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[34]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2165,7 +2220,7 @@ func (x *Elevation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Elevation.ProtoReflect.Descriptor instead.
 func (*Elevation) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{34}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *Elevation) GetCmd() isElevation_Cmd {
@@ -2278,7 +2333,7 @@ type SetUseRotaryAsCompass struct {
 
 func (x *SetUseRotaryAsCompass) Reset() {
 	*x = SetUseRotaryAsCompass{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[35]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2290,7 +2345,7 @@ func (x *SetUseRotaryAsCompass) String() string {
 func (*SetUseRotaryAsCompass) ProtoMessage() {}
 
 func (x *SetUseRotaryAsCompass) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[35]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2303,7 +2358,7 @@ func (x *SetUseRotaryAsCompass) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetUseRotaryAsCompass.ProtoReflect.Descriptor instead.
 func (*SetUseRotaryAsCompass) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{35}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *SetUseRotaryAsCompass) GetFlag() bool {
@@ -2324,7 +2379,7 @@ type RotateToGPS struct {
 
 func (x *RotateToGPS) Reset() {
 	*x = RotateToGPS{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[36]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2336,7 +2391,7 @@ func (x *RotateToGPS) String() string {
 func (*RotateToGPS) ProtoMessage() {}
 
 func (x *RotateToGPS) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[36]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2349,7 +2404,7 @@ func (x *RotateToGPS) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RotateToGPS.ProtoReflect.Descriptor instead.
 func (*RotateToGPS) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{36}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *RotateToGPS) GetLatitude() float64 {
@@ -2384,7 +2439,7 @@ type SetOriginGPS struct {
 
 func (x *SetOriginGPS) Reset() {
 	*x = SetOriginGPS{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[37]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2396,7 +2451,7 @@ func (x *SetOriginGPS) String() string {
 func (*SetOriginGPS) ProtoMessage() {}
 
 func (x *SetOriginGPS) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[37]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2409,7 +2464,7 @@ func (x *SetOriginGPS) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetOriginGPS.ProtoReflect.Descriptor instead.
 func (*SetOriginGPS) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{37}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *SetOriginGPS) GetLatitude() float64 {
@@ -2446,7 +2501,7 @@ type RotateToNDC struct {
 
 func (x *RotateToNDC) Reset() {
 	*x = RotateToNDC{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[38]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2458,7 +2513,7 @@ func (x *RotateToNDC) String() string {
 func (*RotateToNDC) ProtoMessage() {}
 
 func (x *RotateToNDC) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[38]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2471,7 +2526,7 @@ func (x *RotateToNDC) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RotateToNDC.ProtoReflect.Descriptor instead.
 func (*RotateToNDC) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{38}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *RotateToNDC) GetChannel() types.JonGuiDataVideoChannel {
@@ -2522,7 +2577,7 @@ type HaltWithNDC struct {
 
 func (x *HaltWithNDC) Reset() {
 	*x = HaltWithNDC{}
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[39]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2534,7 +2589,7 @@ func (x *HaltWithNDC) String() string {
 func (*HaltWithNDC) ProtoMessage() {}
 
 func (x *HaltWithNDC) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[39]
+	mi := &file_jon_shared_cmd_rotary_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2547,7 +2602,7 @@ func (x *HaltWithNDC) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HaltWithNDC.ProtoReflect.Descriptor instead.
 func (*HaltWithNDC) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{39}
+	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *HaltWithNDC) GetChannel() types.JonGuiDataVideoChannel {
@@ -2589,7 +2644,7 @@ var File_jon_shared_cmd_rotary_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\n" +
-	"\x1bjon_shared_cmd_rotary.proto\x12\x12cmd.RotaryPlatform\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf9\r\n" +
+	"\x1bjon_shared_cmd_rotary.proto\x12\x12cmd.RotaryPlatform\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xaf\x0e\n" +
 	"\x04Root\x121\n" +
 	"\x05start\x18\x01 \x01(\v2\x19.cmd.RotaryPlatform.StartH\x00R\x05start\x12.\n" +
 	"\x04stop\x18\x02 \x01(\v2\x18.cmd.RotaryPlatform.StopH\x00R\x04stop\x12.\n" +
@@ -2618,7 +2673,8 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\x10scan_delete_node\x18\x16 \x01(\v2\".cmd.RotaryPlatform.ScanDeleteNodeH\x00R\x0escanDeleteNode\x12N\n" +
 	"\x10scan_update_node\x18\x17 \x01(\v2\".cmd.RotaryPlatform.ScanUpdateNodeH\x00R\x0escanUpdateNode\x12E\n" +
 	"\rscan_add_node\x18\x18 \x01(\v2\x1f.cmd.RotaryPlatform.ScanAddNodeH\x00R\vscanAddNode\x12E\n" +
-	"\rhalt_with_ndc\x18\x19 \x01(\v2\x1f.cmd.RotaryPlatform.HaltWithNDCH\x00R\vhaltWithNdcB\f\n" +
+	"\rhalt_with_ndc\x18\x19 \x01(\v2\x1f.cmd.RotaryPlatform.HaltWithNDCH\x00R\vhaltWithNdc\x124\n" +
+	"\x06unpark\x18\x1a \x01(\v2\x1a.cmd.RotaryPlatform.UnparkH\x00R\x06unparkB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"z\n" +
 	"\x04Axis\x125\n" +
 	"\aazimuth\x18\x01 \x01(\v2\x1b.cmd.RotaryPlatform.AzimuthR\aazimuth\x12;\n" +
@@ -2684,7 +2740,8 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
 	"\x05Start\"\x06\n" +
 	"\x04Stop\"\x06\n" +
-	"\x04Halt\"\v\n" +
+	"\x04Halt\"\b\n" +
+	"\x06Unpark\"\v\n" +
 	"\tScanStart\"\n" +
 	"\n" +
 	"\bScanStop\"\v\n" +
@@ -2767,7 +2824,7 @@ func file_jon_shared_cmd_rotary_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_rotary_proto_rawDescData
 }
 
-var file_jon_shared_cmd_rotary_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
+var file_jon_shared_cmd_rotary_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
 var file_jon_shared_cmd_rotary_proto_goTypes = []any{
 	(*Root)(nil),                         // 0: cmd.RotaryPlatform.Root
 	(*Axis)(nil),                         // 1: cmd.RotaryPlatform.Axis
@@ -2790,28 +2847,29 @@ var file_jon_shared_cmd_rotary_proto_goTypes = []any{
 	(*Start)(nil),                        // 18: cmd.RotaryPlatform.Start
 	(*Stop)(nil),                         // 19: cmd.RotaryPlatform.Stop
 	(*Halt)(nil),                         // 20: cmd.RotaryPlatform.Halt
-	(*ScanStart)(nil),                    // 21: cmd.RotaryPlatform.ScanStart
-	(*ScanStop)(nil),                     // 22: cmd.RotaryPlatform.ScanStop
-	(*ScanPause)(nil),                    // 23: cmd.RotaryPlatform.ScanPause
-	(*ScanUnpause)(nil),                  // 24: cmd.RotaryPlatform.ScanUnpause
-	(*HaltAzimuth)(nil),                  // 25: cmd.RotaryPlatform.HaltAzimuth
-	(*HaltElevation)(nil),                // 26: cmd.RotaryPlatform.HaltElevation
-	(*ScanPrev)(nil),                     // 27: cmd.RotaryPlatform.ScanPrev
-	(*ScanNext)(nil),                     // 28: cmd.RotaryPlatform.ScanNext
-	(*ScanRefreshNodeList)(nil),          // 29: cmd.RotaryPlatform.ScanRefreshNodeList
-	(*ScanSelectNode)(nil),               // 30: cmd.RotaryPlatform.ScanSelectNode
-	(*ScanDeleteNode)(nil),               // 31: cmd.RotaryPlatform.ScanDeleteNode
-	(*ScanUpdateNode)(nil),               // 32: cmd.RotaryPlatform.ScanUpdateNode
-	(*ScanAddNode)(nil),                  // 33: cmd.RotaryPlatform.ScanAddNode
-	(*Elevation)(nil),                    // 34: cmd.RotaryPlatform.Elevation
-	(*SetUseRotaryAsCompass)(nil),        // 35: cmd.RotaryPlatform.setUseRotaryAsCompass
-	(*RotateToGPS)(nil),                  // 36: cmd.RotaryPlatform.RotateToGPS
-	(*SetOriginGPS)(nil),                 // 37: cmd.RotaryPlatform.SetOriginGPS
-	(*RotateToNDC)(nil),                  // 38: cmd.RotaryPlatform.RotateToNDC
-	(*HaltWithNDC)(nil),                  // 39: cmd.RotaryPlatform.HaltWithNDC
-	(types.JonGuiDataRotaryMode)(0),      // 40: ser.JonGuiDataRotaryMode
-	(types.JonGuiDataRotaryDirection)(0), // 41: ser.JonGuiDataRotaryDirection
-	(types.JonGuiDataVideoChannel)(0),    // 42: ser.JonGuiDataVideoChannel
+	(*Unpark)(nil),                       // 21: cmd.RotaryPlatform.Unpark
+	(*ScanStart)(nil),                    // 22: cmd.RotaryPlatform.ScanStart
+	(*ScanStop)(nil),                     // 23: cmd.RotaryPlatform.ScanStop
+	(*ScanPause)(nil),                    // 24: cmd.RotaryPlatform.ScanPause
+	(*ScanUnpause)(nil),                  // 25: cmd.RotaryPlatform.ScanUnpause
+	(*HaltAzimuth)(nil),                  // 26: cmd.RotaryPlatform.HaltAzimuth
+	(*HaltElevation)(nil),                // 27: cmd.RotaryPlatform.HaltElevation
+	(*ScanPrev)(nil),                     // 28: cmd.RotaryPlatform.ScanPrev
+	(*ScanNext)(nil),                     // 29: cmd.RotaryPlatform.ScanNext
+	(*ScanRefreshNodeList)(nil),          // 30: cmd.RotaryPlatform.ScanRefreshNodeList
+	(*ScanSelectNode)(nil),               // 31: cmd.RotaryPlatform.ScanSelectNode
+	(*ScanDeleteNode)(nil),               // 32: cmd.RotaryPlatform.ScanDeleteNode
+	(*ScanUpdateNode)(nil),               // 33: cmd.RotaryPlatform.ScanUpdateNode
+	(*ScanAddNode)(nil),                  // 34: cmd.RotaryPlatform.ScanAddNode
+	(*Elevation)(nil),                    // 35: cmd.RotaryPlatform.Elevation
+	(*SetUseRotaryAsCompass)(nil),        // 36: cmd.RotaryPlatform.setUseRotaryAsCompass
+	(*RotateToGPS)(nil),                  // 37: cmd.RotaryPlatform.RotateToGPS
+	(*SetOriginGPS)(nil),                 // 38: cmd.RotaryPlatform.SetOriginGPS
+	(*RotateToNDC)(nil),                  // 39: cmd.RotaryPlatform.RotateToNDC
+	(*HaltWithNDC)(nil),                  // 40: cmd.RotaryPlatform.HaltWithNDC
+	(types.JonGuiDataRotaryMode)(0),      // 41: ser.JonGuiDataRotaryMode
+	(types.JonGuiDataRotaryDirection)(0), // 42: ser.JonGuiDataRotaryDirection
+	(types.JonGuiDataVideoChannel)(0),    // 43: ser.JonGuiDataVideoChannel
 }
 var file_jon_shared_cmd_rotary_proto_depIdxs = []int32{
 	18, // 0: cmd.RotaryPlatform.Root.start:type_name -> cmd.RotaryPlatform.Start
@@ -2821,54 +2879,55 @@ var file_jon_shared_cmd_rotary_proto_depIdxs = []int32{
 	14, // 4: cmd.RotaryPlatform.Root.set_platform_elevation:type_name -> cmd.RotaryPlatform.SetPlatformElevation
 	15, // 5: cmd.RotaryPlatform.Root.set_platform_bank:type_name -> cmd.RotaryPlatform.SetPlatformBank
 	20, // 6: cmd.RotaryPlatform.Root.halt:type_name -> cmd.RotaryPlatform.Halt
-	35, // 7: cmd.RotaryPlatform.Root.set_use_rotary_as_compass:type_name -> cmd.RotaryPlatform.setUseRotaryAsCompass
-	36, // 8: cmd.RotaryPlatform.Root.rotate_to_gps:type_name -> cmd.RotaryPlatform.RotateToGPS
-	37, // 9: cmd.RotaryPlatform.Root.set_origin_gps:type_name -> cmd.RotaryPlatform.SetOriginGPS
+	36, // 7: cmd.RotaryPlatform.Root.set_use_rotary_as_compass:type_name -> cmd.RotaryPlatform.setUseRotaryAsCompass
+	37, // 8: cmd.RotaryPlatform.Root.rotate_to_gps:type_name -> cmd.RotaryPlatform.RotateToGPS
+	38, // 9: cmd.RotaryPlatform.Root.set_origin_gps:type_name -> cmd.RotaryPlatform.SetOriginGPS
 	2,  // 10: cmd.RotaryPlatform.Root.set_mode:type_name -> cmd.RotaryPlatform.SetMode
-	38, // 11: cmd.RotaryPlatform.Root.rotate_to_ndc:type_name -> cmd.RotaryPlatform.RotateToNDC
-	21, // 12: cmd.RotaryPlatform.Root.scan_start:type_name -> cmd.RotaryPlatform.ScanStart
-	22, // 13: cmd.RotaryPlatform.Root.scan_stop:type_name -> cmd.RotaryPlatform.ScanStop
-	23, // 14: cmd.RotaryPlatform.Root.scan_pause:type_name -> cmd.RotaryPlatform.ScanPause
-	24, // 15: cmd.RotaryPlatform.Root.scan_unpause:type_name -> cmd.RotaryPlatform.ScanUnpause
+	39, // 11: cmd.RotaryPlatform.Root.rotate_to_ndc:type_name -> cmd.RotaryPlatform.RotateToNDC
+	22, // 12: cmd.RotaryPlatform.Root.scan_start:type_name -> cmd.RotaryPlatform.ScanStart
+	23, // 13: cmd.RotaryPlatform.Root.scan_stop:type_name -> cmd.RotaryPlatform.ScanStop
+	24, // 14: cmd.RotaryPlatform.Root.scan_pause:type_name -> cmd.RotaryPlatform.ScanPause
+	25, // 15: cmd.RotaryPlatform.Root.scan_unpause:type_name -> cmd.RotaryPlatform.ScanUnpause
 	16, // 16: cmd.RotaryPlatform.Root.get_meteo:type_name -> cmd.RotaryPlatform.GetMeteo
-	27, // 17: cmd.RotaryPlatform.Root.scan_prev:type_name -> cmd.RotaryPlatform.ScanPrev
-	28, // 18: cmd.RotaryPlatform.Root.scan_next:type_name -> cmd.RotaryPlatform.ScanNext
-	29, // 19: cmd.RotaryPlatform.Root.scan_refresh_node_list:type_name -> cmd.RotaryPlatform.ScanRefreshNodeList
-	30, // 20: cmd.RotaryPlatform.Root.scan_select_node:type_name -> cmd.RotaryPlatform.ScanSelectNode
-	31, // 21: cmd.RotaryPlatform.Root.scan_delete_node:type_name -> cmd.RotaryPlatform.ScanDeleteNode
-	32, // 22: cmd.RotaryPlatform.Root.scan_update_node:type_name -> cmd.RotaryPlatform.ScanUpdateNode
-	33, // 23: cmd.RotaryPlatform.Root.scan_add_node:type_name -> cmd.RotaryPlatform.ScanAddNode
-	39, // 24: cmd.RotaryPlatform.Root.halt_with_ndc:type_name -> cmd.RotaryPlatform.HaltWithNDC
-	17, // 25: cmd.RotaryPlatform.Axis.azimuth:type_name -> cmd.RotaryPlatform.Azimuth
-	34, // 26: cmd.RotaryPlatform.Axis.elevation:type_name -> cmd.RotaryPlatform.Elevation
-	40, // 27: cmd.RotaryPlatform.SetMode.mode:type_name -> ser.JonGuiDataRotaryMode
-	41, // 28: cmd.RotaryPlatform.SetAzimuthValue.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 29: cmd.RotaryPlatform.RotateAzimuthTo.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 30: cmd.RotaryPlatform.RotateAzimuth.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 31: cmd.RotaryPlatform.RotateElevation.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 32: cmd.RotaryPlatform.RotateElevationRelative.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 33: cmd.RotaryPlatform.RotateElevationRelativeSet.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 34: cmd.RotaryPlatform.RotateAzimuthRelative.direction:type_name -> ser.JonGuiDataRotaryDirection
-	41, // 35: cmd.RotaryPlatform.RotateAzimuthRelativeSet.direction:type_name -> ser.JonGuiDataRotaryDirection
-	3,  // 36: cmd.RotaryPlatform.Azimuth.set_value:type_name -> cmd.RotaryPlatform.SetAzimuthValue
-	4,  // 37: cmd.RotaryPlatform.Azimuth.rotate_to:type_name -> cmd.RotaryPlatform.RotateAzimuthTo
-	5,  // 38: cmd.RotaryPlatform.Azimuth.rotate:type_name -> cmd.RotaryPlatform.RotateAzimuth
-	11, // 39: cmd.RotaryPlatform.Azimuth.relative:type_name -> cmd.RotaryPlatform.RotateAzimuthRelative
-	12, // 40: cmd.RotaryPlatform.Azimuth.relative_set:type_name -> cmd.RotaryPlatform.RotateAzimuthRelativeSet
-	25, // 41: cmd.RotaryPlatform.Azimuth.halt:type_name -> cmd.RotaryPlatform.HaltAzimuth
-	7,  // 42: cmd.RotaryPlatform.Elevation.set_value:type_name -> cmd.RotaryPlatform.SetElevationValue
-	8,  // 43: cmd.RotaryPlatform.Elevation.rotate_to:type_name -> cmd.RotaryPlatform.RotateElevationTo
-	6,  // 44: cmd.RotaryPlatform.Elevation.rotate:type_name -> cmd.RotaryPlatform.RotateElevation
-	9,  // 45: cmd.RotaryPlatform.Elevation.relative:type_name -> cmd.RotaryPlatform.RotateElevationRelative
-	10, // 46: cmd.RotaryPlatform.Elevation.relative_set:type_name -> cmd.RotaryPlatform.RotateElevationRelativeSet
-	26, // 47: cmd.RotaryPlatform.Elevation.halt:type_name -> cmd.RotaryPlatform.HaltElevation
-	42, // 48: cmd.RotaryPlatform.RotateToNDC.channel:type_name -> ser.JonGuiDataVideoChannel
-	42, // 49: cmd.RotaryPlatform.HaltWithNDC.channel:type_name -> ser.JonGuiDataVideoChannel
-	50, // [50:50] is the sub-list for method output_type
-	50, // [50:50] is the sub-list for method input_type
-	50, // [50:50] is the sub-list for extension type_name
-	50, // [50:50] is the sub-list for extension extendee
-	0,  // [0:50] is the sub-list for field type_name
+	28, // 17: cmd.RotaryPlatform.Root.scan_prev:type_name -> cmd.RotaryPlatform.ScanPrev
+	29, // 18: cmd.RotaryPlatform.Root.scan_next:type_name -> cmd.RotaryPlatform.ScanNext
+	30, // 19: cmd.RotaryPlatform.Root.scan_refresh_node_list:type_name -> cmd.RotaryPlatform.ScanRefreshNodeList
+	31, // 20: cmd.RotaryPlatform.Root.scan_select_node:type_name -> cmd.RotaryPlatform.ScanSelectNode
+	32, // 21: cmd.RotaryPlatform.Root.scan_delete_node:type_name -> cmd.RotaryPlatform.ScanDeleteNode
+	33, // 22: cmd.RotaryPlatform.Root.scan_update_node:type_name -> cmd.RotaryPlatform.ScanUpdateNode
+	34, // 23: cmd.RotaryPlatform.Root.scan_add_node:type_name -> cmd.RotaryPlatform.ScanAddNode
+	40, // 24: cmd.RotaryPlatform.Root.halt_with_ndc:type_name -> cmd.RotaryPlatform.HaltWithNDC
+	21, // 25: cmd.RotaryPlatform.Root.unpark:type_name -> cmd.RotaryPlatform.Unpark
+	17, // 26: cmd.RotaryPlatform.Axis.azimuth:type_name -> cmd.RotaryPlatform.Azimuth
+	35, // 27: cmd.RotaryPlatform.Axis.elevation:type_name -> cmd.RotaryPlatform.Elevation
+	41, // 28: cmd.RotaryPlatform.SetMode.mode:type_name -> ser.JonGuiDataRotaryMode
+	42, // 29: cmd.RotaryPlatform.SetAzimuthValue.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 30: cmd.RotaryPlatform.RotateAzimuthTo.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 31: cmd.RotaryPlatform.RotateAzimuth.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 32: cmd.RotaryPlatform.RotateElevation.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 33: cmd.RotaryPlatform.RotateElevationRelative.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 34: cmd.RotaryPlatform.RotateElevationRelativeSet.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 35: cmd.RotaryPlatform.RotateAzimuthRelative.direction:type_name -> ser.JonGuiDataRotaryDirection
+	42, // 36: cmd.RotaryPlatform.RotateAzimuthRelativeSet.direction:type_name -> ser.JonGuiDataRotaryDirection
+	3,  // 37: cmd.RotaryPlatform.Azimuth.set_value:type_name -> cmd.RotaryPlatform.SetAzimuthValue
+	4,  // 38: cmd.RotaryPlatform.Azimuth.rotate_to:type_name -> cmd.RotaryPlatform.RotateAzimuthTo
+	5,  // 39: cmd.RotaryPlatform.Azimuth.rotate:type_name -> cmd.RotaryPlatform.RotateAzimuth
+	11, // 40: cmd.RotaryPlatform.Azimuth.relative:type_name -> cmd.RotaryPlatform.RotateAzimuthRelative
+	12, // 41: cmd.RotaryPlatform.Azimuth.relative_set:type_name -> cmd.RotaryPlatform.RotateAzimuthRelativeSet
+	26, // 42: cmd.RotaryPlatform.Azimuth.halt:type_name -> cmd.RotaryPlatform.HaltAzimuth
+	7,  // 43: cmd.RotaryPlatform.Elevation.set_value:type_name -> cmd.RotaryPlatform.SetElevationValue
+	8,  // 44: cmd.RotaryPlatform.Elevation.rotate_to:type_name -> cmd.RotaryPlatform.RotateElevationTo
+	6,  // 45: cmd.RotaryPlatform.Elevation.rotate:type_name -> cmd.RotaryPlatform.RotateElevation
+	9,  // 46: cmd.RotaryPlatform.Elevation.relative:type_name -> cmd.RotaryPlatform.RotateElevationRelative
+	10, // 47: cmd.RotaryPlatform.Elevation.relative_set:type_name -> cmd.RotaryPlatform.RotateElevationRelativeSet
+	27, // 48: cmd.RotaryPlatform.Elevation.halt:type_name -> cmd.RotaryPlatform.HaltElevation
+	43, // 49: cmd.RotaryPlatform.RotateToNDC.channel:type_name -> ser.JonGuiDataVideoChannel
+	43, // 50: cmd.RotaryPlatform.HaltWithNDC.channel:type_name -> ser.JonGuiDataVideoChannel
+	51, // [51:51] is the sub-list for method output_type
+	51, // [51:51] is the sub-list for method input_type
+	51, // [51:51] is the sub-list for extension type_name
+	51, // [51:51] is the sub-list for extension extendee
+	0,  // [0:51] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_rotary_proto_init() }
@@ -2902,6 +2961,7 @@ func file_jon_shared_cmd_rotary_proto_init() {
 		(*Root_ScanUpdateNode)(nil),
 		(*Root_ScanAddNode)(nil),
 		(*Root_HaltWithNdc)(nil),
+		(*Root_Unpark)(nil),
 	}
 	file_jon_shared_cmd_rotary_proto_msgTypes[17].OneofWrappers = []any{
 		(*Azimuth_SetValue)(nil),
@@ -2911,7 +2971,7 @@ func file_jon_shared_cmd_rotary_proto_init() {
 		(*Azimuth_RelativeSet)(nil),
 		(*Azimuth_Halt)(nil),
 	}
-	file_jon_shared_cmd_rotary_proto_msgTypes[34].OneofWrappers = []any{
+	file_jon_shared_cmd_rotary_proto_msgTypes[35].OneofWrappers = []any{
 		(*Elevation_SetValue)(nil),
 		(*Elevation_RotateTo)(nil),
 		(*Elevation_Rotate)(nil),
@@ -2925,7 +2985,7 @@ func file_jon_shared_cmd_rotary_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_rotary_proto_rawDesc), len(file_jon_shared_cmd_rotary_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   40,
+			NumMessages:   41,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

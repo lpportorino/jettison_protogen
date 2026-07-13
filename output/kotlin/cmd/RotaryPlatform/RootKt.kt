@@ -627,6 +627,30 @@ public object RootKt {
     public fun hasHaltWithNdc(): kotlin.Boolean {
       return _builder.hasHaltWithNdc()
     }
+
+    /**
+     * `.cmd.RotaryPlatform.Unpark unpark = 26;`
+     */
+    public var unpark: cmd.RotaryPlatform.JonSharedCmdRotary.Unpark
+      @JvmName("getUnpark")
+      get() = _builder.unpark
+      @JvmName("setUnpark")
+      set(value) {
+        _builder.unpark = value
+      }
+    /**
+     * `.cmd.RotaryPlatform.Unpark unpark = 26;`
+     */
+    public fun clearUnpark() {
+      _builder.clearUnpark()
+    }
+    /**
+     * `.cmd.RotaryPlatform.Unpark unpark = 26;`
+     * @return Whether the unpark field is set.
+     */
+    public fun hasUnpark(): kotlin.Boolean {
+      return _builder.hasUnpark()
+    }
     public val cmdCase: cmd.RotaryPlatform.JonSharedCmdRotary.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -714,4 +738,7 @@ public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.scanAddNodeOrNull
 
 public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.haltWithNdcOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC?
   get() = if (hasHaltWithNdc()) getHaltWithNdc() else null
+
+public val cmd.RotaryPlatform.JonSharedCmdRotary.RootOrBuilder.unparkOrNull: cmd.RotaryPlatform.JonSharedCmdRotary.Unpark?
+  get() = if (hasUnpark()) getUnpark() else null
 

@@ -1219,6 +1219,7 @@ pub const JonGuiDataRotary = struct {
     pan_init_status: i32 = 0,
     tilt_init_status: i32 = 0,
     capture_monotonic_us: u64 = 0,
+    is_parked: bool = false,
 
     pub const _desc_table = .{
         .azimuth = fd(1, .{ .scalar = .double }),
@@ -1243,6 +1244,7 @@ pub const JonGuiDataRotary = struct {
         .pan_init_status = fd(20, .{ .scalar = .int32 }),
         .tilt_init_status = fd(21, .{ .scalar = .int32 }),
         .capture_monotonic_us = fd(22, .{ .scalar = .uint64 }),
+        .is_parked = fd(23, .{ .scalar = .bool }),
     };
 
     /// Encodes the message to the writer

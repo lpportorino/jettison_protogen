@@ -444,6 +444,35 @@ public object JonGuiDataRotaryKt {
     public fun clearCaptureMonotonicUs() {
       _builder.clearCaptureMonotonicUs()
     }
+
+    /**
+     * ```
+     * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+     * Start or Unpark clears it). While true, operator/tracker axis moves and
+     * rotate-to-GPS are dropped by the rotary interlock.
+     * ```
+     *
+     * `bool is_parked = 23;`
+     */
+    public var isParked: kotlin.Boolean
+      @JvmName("getIsParked")
+      get() = _builder.isParked
+      @JvmName("setIsParked")
+      set(value) {
+        _builder.isParked = value
+      }
+    /**
+     * ```
+     * Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+     * Start or Unpark clears it). While true, operator/tracker axis moves and
+     * rotate-to-GPS are dropped by the rotary interlock.
+     * ```
+     *
+     * `bool is_parked = 23;`
+     */
+    public fun clearIsParked() {
+      _builder.clearIsParked()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

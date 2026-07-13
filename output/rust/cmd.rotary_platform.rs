@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -61,6 +61,8 @@ pub mod root {
         ScanAddNode(super::ScanAddNode),
         #[prost(message, tag = "25")]
         HaltWithNdc(super::HaltWithNdc),
+        #[prost(message, tag = "26")]
+        Unpark(super::Unpark),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -195,6 +197,11 @@ pub struct Start {}
 pub struct Stop {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Halt {}
+/// Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+/// the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+/// platform instead of requiring a shutdown/Start cycle.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct Unpark {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ScanStart {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

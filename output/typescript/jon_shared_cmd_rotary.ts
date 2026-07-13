@@ -45,6 +45,7 @@ export interface Root {
   scanUpdateNode?: ScanUpdateNode | undefined;
   scanAddNode?: ScanAddNode | undefined;
   haltWithNdc?: HaltWithNDC | undefined;
+  unpark?: Unpark | undefined;
 }
 
 export interface Axis {
@@ -139,6 +140,14 @@ export interface Stop {
 }
 
 export interface Halt {
+}
+
+/**
+ * Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+ * the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+ * platform instead of requiring a shutdown/Start cycle.
+ */
+export interface Unpark {
 }
 
 export interface ScanStart {
@@ -268,6 +277,7 @@ function createBaseRoot(): Root {
     scanUpdateNode: undefined,
     scanAddNode: undefined,
     haltWithNdc: undefined,
+    unpark: undefined,
   };
 }
 
@@ -347,6 +357,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.haltWithNdc !== undefined) {
       HaltWithNDC.encode(message.haltWithNdc, writer.uint32(202).fork()).join();
+    }
+    if (message.unpark !== undefined) {
+      Unpark.encode(message.unpark, writer.uint32(210).fork()).join();
     }
     return writer;
   },
@@ -558,6 +571,14 @@ export const Root: MessageFns<Root> = {
           message.haltWithNdc = HaltWithNDC.decode(reader, reader.uint32());
           continue;
         }
+        case 26: {
+          if (tag !== 210) {
+            break;
+          }
+
+          message.unpark = Unpark.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -678,6 +699,7 @@ export const Root: MessageFns<Root> = {
         : isSet(object.halt_with_ndc)
         ? HaltWithNDC.fromJSON(object.halt_with_ndc)
         : undefined,
+      unpark: isSet(object.unpark) ? Unpark.fromJSON(object.unpark) : undefined,
     };
   },
 
@@ -758,6 +780,9 @@ export const Root: MessageFns<Root> = {
     if (message.haltWithNdc !== undefined) {
       obj.haltWithNdc = HaltWithNDC.toJSON(message.haltWithNdc);
     }
+    if (message.unpark !== undefined) {
+      obj.unpark = Unpark.toJSON(message.unpark);
+    }
     return obj;
   },
 
@@ -833,6 +858,9 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.haltWithNdc = (object.haltWithNdc !== undefined && object.haltWithNdc !== null)
       ? HaltWithNDC.fromPartial(object.haltWithNdc)
+      : undefined;
+    message.unpark = (object.unpark !== undefined && object.unpark !== null)
+      ? Unpark.fromPartial(object.unpark)
       : undefined;
     return message;
   },
@@ -2287,6 +2315,49 @@ export const Halt: MessageFns<Halt> = {
   },
   fromPartial<I extends Exact<DeepPartial<Halt>, I>>(_: I): Halt {
     const message = createBaseHalt();
+    return message;
+  },
+};
+
+function createBaseUnpark(): Unpark {
+  return {};
+}
+
+export const Unpark: MessageFns<Unpark> = {
+  encode(_: Unpark, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Unpark {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseUnpark();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): Unpark {
+    return {};
+  },
+
+  toJSON(_: Unpark): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Unpark>, I>>(base?: I): Unpark {
+    return Unpark.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Unpark>, I>>(_: I): Unpark {
+    const message = createBaseUnpark();
     return message;
   },
 };

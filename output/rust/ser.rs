@@ -1453,6 +1453,11 @@ pub struct JonGuiDataRotary {
     /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
     #[prost(uint64, tag = "22")]
     pub capture_monotonic_us: u64,
+    /// Transport-park latch (cmd.System.enter_transport sets it; RotaryPlatform
+    /// Start or Unpark clears it). While true, operator/tracker axis moves and
+    /// rotate-to-GPS are dropped by the rotary interlock.
+    #[prost(bool, tag = "23")]
+    pub is_parked: bool,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ScanNode {
