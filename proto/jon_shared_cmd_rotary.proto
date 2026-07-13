@@ -34,6 +34,7 @@ message Root {
     ScanUpdateNode scan_update_node = 23;
     ScanAddNode scan_add_node = 24;
     HaltWithNDC halt_with_ndc = 25;
+    Unpark unpark = 26;
   }
 }
 
@@ -205,6 +206,10 @@ message Azimuth {
 message Start {}
 message Stop {}
 message Halt {}
+// Release the transport-park latch (set by cmd.System.enter_transport) WITHOUT
+// the full Start lifecycle re-arm — resumes operator/tracker motion on a parked
+// platform instead of requiring a shutdown/Start cycle.
+message Unpark {}
 message ScanStart {}
 message ScanStop {}
 message ScanPause {}
