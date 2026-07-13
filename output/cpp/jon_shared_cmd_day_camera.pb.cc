@@ -26,6 +26,42 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace cmd {
 namespace DayCamera {
+              template <typename>
+PROTOBUF_CONSTEXPR ZoomStepPlus::ZoomStepPlus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct ZoomStepPlusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ZoomStepPlusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ZoomStepPlusDefaultTypeInternal() {}
+  union {
+    ZoomStepPlus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ZoomStepPlusDefaultTypeInternal _ZoomStepPlus_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR ZoomStepMinus::ZoomStepMinus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct ZoomStepMinusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ZoomStepMinusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ZoomStepMinusDefaultTypeInternal() {}
+  union {
+    ZoomStepMinus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ZoomStepMinusDefaultTypeInternal _ZoomStepMinus_default_instance_;
 
 inline constexpr ZoomROI::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -705,6 +741,42 @@ struct FxROIDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 FxROIDefaultTypeInternal _FxROI_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR FocusStepPlus::FocusStepPlus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct FocusStepPlusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR FocusStepPlusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~FocusStepPlusDefaultTypeInternal() {}
+  union {
+    FocusStepPlus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 FocusStepPlusDefaultTypeInternal _FocusStepPlus_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR FocusStepMinus::FocusStepMinus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct FocusStepMinusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR FocusStepMinusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~FocusStepMinusDefaultTypeInternal() {}
+  union {
+    FocusStepMinus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 FocusStepMinusDefaultTypeInternal _FocusStepMinus_default_instance_;
 
 inline constexpr FocusROI::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -971,6 +1043,8 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::Focus, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::Zoom, _internal_metadata_),
@@ -980,6 +1054,8 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -1124,6 +1200,38 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::FocusStepPlus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::FocusStepMinus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::ZoomStepPlus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::ZoomStepMinus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::FocusROI, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
@@ -1197,27 +1305,31 @@ static const ::_pbi::MigrationSchema
         {117, -1, -1, sizeof(::cmd::DayCamera::SetFxMode)},
         {126, -1, -1, sizeof(::cmd::DayCamera::SetDigitalZoomLevel)},
         {135, -1, -1, sizeof(::cmd::DayCamera::Focus)},
-        {150, -1, -1, sizeof(::cmd::DayCamera::Zoom)},
-        {168, -1, -1, sizeof(::cmd::DayCamera::NextZoomTablePos)},
-        {176, -1, -1, sizeof(::cmd::DayCamera::PrevZoomTablePos)},
-        {184, -1, -1, sizeof(::cmd::DayCamera::SetIris)},
-        {193, -1, -1, sizeof(::cmd::DayCamera::SetInfraRedFilter)},
-        {202, -1, -1, sizeof(::cmd::DayCamera::SetAutoIris)},
-        {211, -1, -1, sizeof(::cmd::DayCamera::SetAutoGain)},
-        {220, -1, -1, sizeof(::cmd::DayCamera::SetZoomTableValue)},
-        {229, -1, -1, sizeof(::cmd::DayCamera::Stop)},
-        {237, -1, -1, sizeof(::cmd::DayCamera::Start)},
-        {245, -1, -1, sizeof(::cmd::DayCamera::Photo)},
-        {253, -1, -1, sizeof(::cmd::DayCamera::Halt)},
-        {261, -1, -1, sizeof(::cmd::DayCamera::GetMeteo)},
-        {269, -1, -1, sizeof(::cmd::DayCamera::ResetZoom)},
-        {277, -1, -1, sizeof(::cmd::DayCamera::ResetFocus)},
-        {285, -1, -1, sizeof(::cmd::DayCamera::SaveToTable)},
-        {293, -1, -1, sizeof(::cmd::DayCamera::SaveToTableFocus)},
-        {301, -1, -1, sizeof(::cmd::DayCamera::FocusROI)},
-        {315, -1, -1, sizeof(::cmd::DayCamera::TrackROI)},
-        {329, -1, -1, sizeof(::cmd::DayCamera::ZoomROI)},
-        {343, -1, -1, sizeof(::cmd::DayCamera::FxROI)},
+        {152, -1, -1, sizeof(::cmd::DayCamera::Zoom)},
+        {172, -1, -1, sizeof(::cmd::DayCamera::NextZoomTablePos)},
+        {180, -1, -1, sizeof(::cmd::DayCamera::PrevZoomTablePos)},
+        {188, -1, -1, sizeof(::cmd::DayCamera::SetIris)},
+        {197, -1, -1, sizeof(::cmd::DayCamera::SetInfraRedFilter)},
+        {206, -1, -1, sizeof(::cmd::DayCamera::SetAutoIris)},
+        {215, -1, -1, sizeof(::cmd::DayCamera::SetAutoGain)},
+        {224, -1, -1, sizeof(::cmd::DayCamera::SetZoomTableValue)},
+        {233, -1, -1, sizeof(::cmd::DayCamera::Stop)},
+        {241, -1, -1, sizeof(::cmd::DayCamera::Start)},
+        {249, -1, -1, sizeof(::cmd::DayCamera::Photo)},
+        {257, -1, -1, sizeof(::cmd::DayCamera::Halt)},
+        {265, -1, -1, sizeof(::cmd::DayCamera::GetMeteo)},
+        {273, -1, -1, sizeof(::cmd::DayCamera::ResetZoom)},
+        {281, -1, -1, sizeof(::cmd::DayCamera::ResetFocus)},
+        {289, -1, -1, sizeof(::cmd::DayCamera::SaveToTable)},
+        {297, -1, -1, sizeof(::cmd::DayCamera::SaveToTableFocus)},
+        {305, -1, -1, sizeof(::cmd::DayCamera::FocusStepPlus)},
+        {313, -1, -1, sizeof(::cmd::DayCamera::FocusStepMinus)},
+        {321, -1, -1, sizeof(::cmd::DayCamera::ZoomStepPlus)},
+        {329, -1, -1, sizeof(::cmd::DayCamera::ZoomStepMinus)},
+        {337, -1, -1, sizeof(::cmd::DayCamera::FocusROI)},
+        {351, -1, -1, sizeof(::cmd::DayCamera::TrackROI)},
+        {365, -1, -1, sizeof(::cmd::DayCamera::ZoomROI)},
+        {379, -1, -1, sizeof(::cmd::DayCamera::FxROI)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::DayCamera::_SetValue_default_instance_._instance,
@@ -1251,6 +1363,10 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::DayCamera::_ResetFocus_default_instance_._instance,
     &::cmd::DayCamera::_SaveToTable_default_instance_._instance,
     &::cmd::DayCamera::_SaveToTableFocus_default_instance_._instance,
+    &::cmd::DayCamera::_FocusStepPlus_default_instance_._instance,
+    &::cmd::DayCamera::_FocusStepMinus_default_instance_._instance,
+    &::cmd::DayCamera::_ZoomStepPlus_default_instance_._instance,
+    &::cmd::DayCamera::_ZoomStepMinus_default_instance_._instance,
     &::cmd::DayCamera::_FocusROI_default_instance_._instance,
     &::cmd::DayCamera::_TrackROI_default_instance_._instance,
     &::cmd::DayCamera::_ZoomROI_default_instance_._instance,
@@ -1300,57 +1416,65 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcamera_2eproto[]
     "RefreshFxMode\"\t\n\007HaltAll\"\?\n\tSetFxMode\0222\n"
     "\004mode\030\001 \001(\0162\030.ser.JonGuiDataFxModeDayB\n\272"
     "H\007\202\001\004\020\001 \000\"4\n\023SetDigitalZoomLevel\022\035\n\005valu"
-    "e\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360\?\"\250\002\n\005Focus\022,\n\tset"
+    "e\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360\?\"\234\003\n\005Focus\022,\n\tset"
     "_value\030\001 \001(\0132\027.cmd.DayCamera.SetValueH\000\022"
     "#\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH\000\022#\n\004"
     "halt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022\'\n\006off"
     "set\030\004 \001(\0132\025.cmd.DayCamera.OffsetH\000\0220\n\013re"
     "set_focus\030\005 \001(\0132\031.cmd.DayCamera.ResetFoc"
     "usH\000\022>\n\023save_to_table_focus\030\006 \001(\0132\037.cmd."
-    "DayCamera.SaveToTableFocusH\000B\014\n\003cmd\022\005\272H\002"
-    "\010\001\"\334\003\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.Day"
-    "Camera.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.Da"
-    "yCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCa"
-    "mera.HaltH\000\022@\n\024set_zoom_table_value\030\004 \001("
-    "\0132 .cmd.DayCamera.SetZoomTableValueH\000\022>\n"
-    "\023next_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCame"
-    "ra.NextZoomTablePosH\000\022>\n\023prev_zoom_table"
-    "_pos\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTable"
-    "PosH\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Of"
-    "fsetH\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCame"
-    "ra.ResetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032."
-    "cmd.DayCamera.SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010"
-    "\001\"\022\n\020NextZoomTablePos\"\022\n\020PrevZoomTablePo"
-    "s\"1\n\007SetIris\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
-    "\000\360\?)\000\000\000\000\000\000\000\000\"\"\n\021SetInfraRedFilter\022\r\n\005val"
-    "ue\030\001 \001(\010\"\034\n\013SetAutoIris\022\r\n\005value\030\001 \001(\010\"\034"
-    "\n\013SetAutoGain\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomT"
-    "ableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Sto"
-    "p\"\007\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\""
-    "\013\n\tResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTabl"
-    "e\"\022\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1"
-    "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 "
-    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001"
-    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272"
-    "H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001"
-    "(\004\022\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x"
-    "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002"
-    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001("
-    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 "
-    "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x"
-    "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002"
-    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001("
-    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 "
-    "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030"
-    "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001"
-    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B"
-    "\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H"
-    "\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001("
-    "\004\022\022\n\nstate_time\030\006 \001(\004BQZOgit-codecommit."
-    "eu-central-1.amazonaws.com/v1/repos/jett"
-    "ison/jonp/cmd/day_camerab\006proto3"
+    "DayCamera.SaveToTableFocusH\000\0227\n\017focus_st"
+    "ep_plus\030\007 \001(\0132\034.cmd.DayCamera.FocusStepP"
+    "lusH\000\0229\n\020focus_step_minus\030\010 \001(\0132\035.cmd.Da"
+    "yCamera.FocusStepMinusH\000B\014\n\003cmd\022\005\272H\002\010\001\"\314"
+    "\004\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.DayCame"
+    "ra.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.DayCam"
+    "era.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCamera"
+    ".HaltH\000\022@\n\024set_zoom_table_value\030\004 \001(\0132 ."
+    "cmd.DayCamera.SetZoomTableValueH\000\022>\n\023nex"
+    "t_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCamera.N"
+    "extZoomTablePosH\000\022>\n\023prev_zoom_table_pos"
+    "\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTablePosH"
+    "\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Offset"
+    "H\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCamera.R"
+    "esetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032.cmd."
+    "DayCamera.SaveToTableH\000\0225\n\016zoom_step_plu"
+    "s\030\n \001(\0132\033.cmd.DayCamera.ZoomStepPlusH\000\0227"
+    "\n\017zoom_step_minus\030\013 \001(\0132\034.cmd.DayCamera."
+    "ZoomStepMinusH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoo"
+    "mTablePos\"\022\n\020PrevZoomTablePos\"1\n\007SetIris"
+    "\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000"
+    "\"\"\n\021SetInfraRedFilter\022\r\n\005value\030\001 \001(\010\"\034\n\013"
+    "SetAutoIris\022\r\n\005value\030\001 \001(\010\"\034\n\013SetAutoGai"
+    "n\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomTableValue\022\026\n"
+    "\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007\n\005Start\"\007"
+    "\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\tResetZoom"
+    "\"\014\n\nResetFocus\"\r\n\013SaveToTable\"\022\n\020SaveToT"
+    "ableFocus\"\017\n\rFocusStepPlus\"\020\n\016FocusStepM"
+    "inus\"\016\n\014ZoomStepPlus\"\017\n\rZoomStepMinus\"\306\001"
+    "\n\010FocusROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000"
+    "\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000"
+    "\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360"
+    "\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022"
+    "\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\"\306"
+    "\001\n\010TrackROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
+    "\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000"
+    "\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000"
+    "\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022"
+    "\022\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\""
+    "\305\001\n\007ZoomROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
+    "\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000"
+    "\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000"
+    "\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022"
+    "\022\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\""
+    "\303\001\n\005FxROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000"
+    "\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000"
+    "\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
+    "\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n"
+    "\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004BQZ"
+    "Ogit-codecommit.eu-central-1.amazonaws.c"
+    "om/v1/repos/jettison/jonp/cmd/day_camera"
+    "b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto_deps[2] =
     {
@@ -1361,13 +1485,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2epr
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto = {
     false,
     false,
-    3712,
+    4008,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
     "jon_shared_cmd_day_camera.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto_deps,
     2,
-    35,
+    39,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto::offsets,
@@ -4781,6 +4905,32 @@ void Focus::set_allocated_save_to_table_focus(::cmd::DayCamera::SaveToTableFocus
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Focus.save_to_table_focus)
 }
+void Focus::set_allocated_focus_step_plus(::cmd::DayCamera::FocusStepPlus* focus_step_plus) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (focus_step_plus) {
+    ::google::protobuf::Arena* submessage_arena = focus_step_plus->GetArena();
+    if (message_arena != submessage_arena) {
+      focus_step_plus = ::google::protobuf::internal::GetOwnedMessage(message_arena, focus_step_plus, submessage_arena);
+    }
+    set_has_focus_step_plus();
+    _impl_.cmd_.focus_step_plus_ = focus_step_plus;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Focus.focus_step_plus)
+}
+void Focus::set_allocated_focus_step_minus(::cmd::DayCamera::FocusStepMinus* focus_step_minus) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (focus_step_minus) {
+    ::google::protobuf::Arena* submessage_arena = focus_step_minus->GetArena();
+    if (message_arena != submessage_arena) {
+      focus_step_minus = ::google::protobuf::internal::GetOwnedMessage(message_arena, focus_step_minus, submessage_arena);
+    }
+    set_has_focus_step_minus();
+    _impl_.cmd_.focus_step_minus_ = focus_step_minus;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Focus.focus_step_minus)
+}
 Focus::Focus(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -4830,6 +4980,12 @@ Focus::Focus(
         break;
       case kSaveToTableFocus:
         _impl_.cmd_.save_to_table_focus_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::SaveToTableFocus>(arena, *from._impl_.cmd_.save_to_table_focus_);
+        break;
+      case kFocusStepPlus:
+        _impl_.cmd_.focus_step_plus_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::FocusStepPlus>(arena, *from._impl_.cmd_.focus_step_plus_);
+        break;
+      case kFocusStepMinus:
+        _impl_.cmd_.focus_step_minus_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::FocusStepMinus>(arena, *from._impl_.cmd_.focus_step_minus_);
         break;
   }
 
@@ -4911,6 +5067,22 @@ void Focus::clear_cmd() {
       }
       break;
     }
+    case kFocusStepPlus: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.focus_step_plus_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_step_plus_);
+      }
+      break;
+    }
+    case kFocusStepMinus: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.focus_step_minus_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_step_minus_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -4955,16 +5127,16 @@ const ::google::protobuf::internal::ClassData* Focus::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Focus::_table_ = {
+const ::_pbi::TcParseTable<0, 8, 8, 0, 2> Focus::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    6, 0,  // max_field_number, fast_idx_mask
+    8, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294967040,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
-    6,  // num_aux_entries
+    8,  // num_field_entries
+    8,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -4995,6 +5167,12 @@ const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Focus::_table_ = {
     // .cmd.DayCamera.SaveToTableFocus save_to_table_focus = 6;
     {PROTOBUF_FIELD_OFFSET(Focus, _impl_.cmd_.save_to_table_focus_), _Internal::kOneofCaseOffset + 0, 5,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.DayCamera.FocusStepPlus focus_step_plus = 7;
+    {PROTOBUF_FIELD_OFFSET(Focus, _impl_.cmd_.focus_step_plus_), _Internal::kOneofCaseOffset + 0, 6,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.DayCamera.FocusStepMinus focus_step_minus = 8;
+    {PROTOBUF_FIELD_OFFSET(Focus, _impl_.cmd_.focus_step_minus_), _Internal::kOneofCaseOffset + 0, 7,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::SetValue>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::Move>()},
@@ -5002,6 +5180,8 @@ const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Focus::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::Offset>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::ResetFocus>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::SaveToTableFocus>()},
+    {::_pbi::TcParser::GetTable<::cmd::DayCamera::FocusStepPlus>()},
+    {::_pbi::TcParser::GetTable<::cmd::DayCamera::FocusStepMinus>()},
   }}, {{
   }},
 };
@@ -5069,6 +5249,18 @@ PROTOBUF_NOINLINE void Focus::Clear() {
                   stream);
               break;
             }
+            case kFocusStepPlus: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  7, *this_._impl_.cmd_.focus_step_plus_, this_._impl_.cmd_.focus_step_plus_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kFocusStepMinus: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  8, *this_._impl_.cmd_.focus_step_minus_, this_._impl_.cmd_.focus_step_minus_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -5130,6 +5322,18 @@ PROTOBUF_NOINLINE void Focus::Clear() {
             case kSaveToTableFocus: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.save_to_table_focus_);
+              break;
+            }
+            // .cmd.DayCamera.FocusStepPlus focus_step_plus = 7;
+            case kFocusStepPlus: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.focus_step_plus_);
+              break;
+            }
+            // .cmd.DayCamera.FocusStepMinus focus_step_minus = 8;
+            case kFocusStepMinus: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.focus_step_minus_);
               break;
             }
             case CMD_NOT_SET: {
@@ -5211,6 +5415,24 @@ void Focus::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::p
               ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::SaveToTableFocus>(arena, *from._impl_.cmd_.save_to_table_focus_);
         } else {
           _this->_impl_.cmd_.save_to_table_focus_->MergeFrom(from._internal_save_to_table_focus());
+        }
+        break;
+      }
+      case kFocusStepPlus: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.focus_step_plus_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::FocusStepPlus>(arena, *from._impl_.cmd_.focus_step_plus_);
+        } else {
+          _this->_impl_.cmd_.focus_step_plus_->MergeFrom(from._internal_focus_step_plus());
+        }
+        break;
+      }
+      case kFocusStepMinus: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.focus_step_minus_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::FocusStepMinus>(arena, *from._impl_.cmd_.focus_step_minus_);
+        } else {
+          _this->_impl_.cmd_.focus_step_minus_->MergeFrom(from._internal_focus_step_minus());
         }
         break;
       }
@@ -5364,6 +5586,32 @@ void Zoom::set_allocated_save_to_table(::cmd::DayCamera::SaveToTable* save_to_ta
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Zoom.save_to_table)
 }
+void Zoom::set_allocated_zoom_step_plus(::cmd::DayCamera::ZoomStepPlus* zoom_step_plus) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (zoom_step_plus) {
+    ::google::protobuf::Arena* submessage_arena = zoom_step_plus->GetArena();
+    if (message_arena != submessage_arena) {
+      zoom_step_plus = ::google::protobuf::internal::GetOwnedMessage(message_arena, zoom_step_plus, submessage_arena);
+    }
+    set_has_zoom_step_plus();
+    _impl_.cmd_.zoom_step_plus_ = zoom_step_plus;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Zoom.zoom_step_plus)
+}
+void Zoom::set_allocated_zoom_step_minus(::cmd::DayCamera::ZoomStepMinus* zoom_step_minus) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (zoom_step_minus) {
+    ::google::protobuf::Arena* submessage_arena = zoom_step_minus->GetArena();
+    if (message_arena != submessage_arena) {
+      zoom_step_minus = ::google::protobuf::internal::GetOwnedMessage(message_arena, zoom_step_minus, submessage_arena);
+    }
+    set_has_zoom_step_minus();
+    _impl_.cmd_.zoom_step_minus_ = zoom_step_minus;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Zoom.zoom_step_minus)
+}
 Zoom::Zoom(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -5422,6 +5670,12 @@ Zoom::Zoom(
         break;
       case kSaveToTable:
         _impl_.cmd_.save_to_table_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::SaveToTable>(arena, *from._impl_.cmd_.save_to_table_);
+        break;
+      case kZoomStepPlus:
+        _impl_.cmd_.zoom_step_plus_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::ZoomStepPlus>(arena, *from._impl_.cmd_.zoom_step_plus_);
+        break;
+      case kZoomStepMinus:
+        _impl_.cmd_.zoom_step_minus_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::ZoomStepMinus>(arena, *from._impl_.cmd_.zoom_step_minus_);
         break;
   }
 
@@ -5527,6 +5781,22 @@ void Zoom::clear_cmd() {
       }
       break;
     }
+    case kZoomStepPlus: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.zoom_step_plus_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.zoom_step_plus_);
+      }
+      break;
+    }
+    case kZoomStepMinus: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.zoom_step_minus_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.zoom_step_minus_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -5571,16 +5841,16 @@ const ::google::protobuf::internal::ClassData* Zoom::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 9, 9, 0, 2> Zoom::_table_ = {
+const ::_pbi::TcParseTable<0, 11, 11, 0, 2> Zoom::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    9, 0,  // max_field_number, fast_idx_mask
+    11, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966784,  // skipmap
+    4294965248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
-    9,  // num_aux_entries
+    11,  // num_field_entries
+    11,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -5620,6 +5890,12 @@ const ::_pbi::TcParseTable<0, 9, 9, 0, 2> Zoom::_table_ = {
     // .cmd.DayCamera.SaveToTable save_to_table = 9;
     {PROTOBUF_FIELD_OFFSET(Zoom, _impl_.cmd_.save_to_table_), _Internal::kOneofCaseOffset + 0, 8,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;
+    {PROTOBUF_FIELD_OFFSET(Zoom, _impl_.cmd_.zoom_step_plus_), _Internal::kOneofCaseOffset + 0, 9,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;
+    {PROTOBUF_FIELD_OFFSET(Zoom, _impl_.cmd_.zoom_step_minus_), _Internal::kOneofCaseOffset + 0, 10,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::SetValue>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::Move>()},
@@ -5630,6 +5906,8 @@ const ::_pbi::TcParseTable<0, 9, 9, 0, 2> Zoom::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::Offset>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::ResetZoom>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::SaveToTable>()},
+    {::_pbi::TcParser::GetTable<::cmd::DayCamera::ZoomStepPlus>()},
+    {::_pbi::TcParser::GetTable<::cmd::DayCamera::ZoomStepMinus>()},
   }}, {{
   }},
 };
@@ -5715,6 +5993,18 @@ PROTOBUF_NOINLINE void Zoom::Clear() {
                   stream);
               break;
             }
+            case kZoomStepPlus: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  10, *this_._impl_.cmd_.zoom_step_plus_, this_._impl_.cmd_.zoom_step_plus_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kZoomStepMinus: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  11, *this_._impl_.cmd_.zoom_step_minus_, this_._impl_.cmd_.zoom_step_minus_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -5794,6 +6084,18 @@ PROTOBUF_NOINLINE void Zoom::Clear() {
             case kSaveToTable: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.save_to_table_);
+              break;
+            }
+            // .cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;
+            case kZoomStepPlus: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.zoom_step_plus_);
+              break;
+            }
+            // .cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;
+            case kZoomStepMinus: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.zoom_step_minus_);
               break;
             }
             case CMD_NOT_SET: {
@@ -5902,6 +6204,24 @@ void Zoom::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::SaveToTable>(arena, *from._impl_.cmd_.save_to_table_);
         } else {
           _this->_impl_.cmd_.save_to_table_->MergeFrom(from._internal_save_to_table());
+        }
+        break;
+      }
+      case kZoomStepPlus: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.zoom_step_plus_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::ZoomStepPlus>(arena, *from._impl_.cmd_.zoom_step_plus_);
+        } else {
+          _this->_impl_.cmd_.zoom_step_plus_->MergeFrom(from._internal_zoom_step_plus());
+        }
+        break;
+      }
+      case kZoomStepMinus: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.zoom_step_minus_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::ZoomStepMinus>(arena, *from._impl_.cmd_.zoom_step_minus_);
+        } else {
+          _this->_impl_.cmd_.zoom_step_minus_->MergeFrom(from._internal_zoom_step_minus());
         }
         break;
       }
@@ -8092,6 +8412,418 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> SaveToTableFocus::_table_ = {
 
 
 ::google::protobuf::Metadata SaveToTableFocus::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class FocusStepPlus::_Internal {
+ public:
+};
+
+FocusStepPlus::FocusStepPlus(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.DayCamera.FocusStepPlus)
+}
+FocusStepPlus::FocusStepPlus(
+    ::google::protobuf::Arena* arena,
+    const FocusStepPlus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  FocusStepPlus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.DayCamera.FocusStepPlus)
+}
+
+inline void* FocusStepPlus::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) FocusStepPlus(arena);
+}
+constexpr auto FocusStepPlus::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(FocusStepPlus),
+                                            alignof(FocusStepPlus));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull FocusStepPlus::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_FocusStepPlus_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &FocusStepPlus::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<FocusStepPlus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &FocusStepPlus::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<FocusStepPlus>(), &FocusStepPlus::ByteSizeLong,
+            &FocusStepPlus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(FocusStepPlus, _impl_._cached_size_),
+        false,
+    },
+    &FocusStepPlus::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* FocusStepPlus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> FocusStepPlus::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::DayCamera::FocusStepPlus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata FocusStepPlus::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class FocusStepMinus::_Internal {
+ public:
+};
+
+FocusStepMinus::FocusStepMinus(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.DayCamera.FocusStepMinus)
+}
+FocusStepMinus::FocusStepMinus(
+    ::google::protobuf::Arena* arena,
+    const FocusStepMinus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  FocusStepMinus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.DayCamera.FocusStepMinus)
+}
+
+inline void* FocusStepMinus::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) FocusStepMinus(arena);
+}
+constexpr auto FocusStepMinus::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(FocusStepMinus),
+                                            alignof(FocusStepMinus));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull FocusStepMinus::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_FocusStepMinus_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &FocusStepMinus::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<FocusStepMinus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &FocusStepMinus::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<FocusStepMinus>(), &FocusStepMinus::ByteSizeLong,
+            &FocusStepMinus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(FocusStepMinus, _impl_._cached_size_),
+        false,
+    },
+    &FocusStepMinus::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* FocusStepMinus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> FocusStepMinus::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::DayCamera::FocusStepMinus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata FocusStepMinus::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ZoomStepPlus::_Internal {
+ public:
+};
+
+ZoomStepPlus::ZoomStepPlus(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.DayCamera.ZoomStepPlus)
+}
+ZoomStepPlus::ZoomStepPlus(
+    ::google::protobuf::Arena* arena,
+    const ZoomStepPlus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ZoomStepPlus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.DayCamera.ZoomStepPlus)
+}
+
+inline void* ZoomStepPlus::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ZoomStepPlus(arena);
+}
+constexpr auto ZoomStepPlus::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ZoomStepPlus),
+                                            alignof(ZoomStepPlus));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ZoomStepPlus::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ZoomStepPlus_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ZoomStepPlus::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ZoomStepPlus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ZoomStepPlus::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<ZoomStepPlus>(), &ZoomStepPlus::ByteSizeLong,
+            &ZoomStepPlus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ZoomStepPlus, _impl_._cached_size_),
+        false,
+    },
+    &ZoomStepPlus::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ZoomStepPlus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ZoomStepPlus::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::DayCamera::ZoomStepPlus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata ZoomStepPlus::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ZoomStepMinus::_Internal {
+ public:
+};
+
+ZoomStepMinus::ZoomStepMinus(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.DayCamera.ZoomStepMinus)
+}
+ZoomStepMinus::ZoomStepMinus(
+    ::google::protobuf::Arena* arena,
+    const ZoomStepMinus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ZoomStepMinus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.DayCamera.ZoomStepMinus)
+}
+
+inline void* ZoomStepMinus::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ZoomStepMinus(arena);
+}
+constexpr auto ZoomStepMinus::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ZoomStepMinus),
+                                            alignof(ZoomStepMinus));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ZoomStepMinus::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ZoomStepMinus_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ZoomStepMinus::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ZoomStepMinus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ZoomStepMinus::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<ZoomStepMinus>(), &ZoomStepMinus::ByteSizeLong,
+            &ZoomStepMinus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ZoomStepMinus, _impl_._cached_size_),
+        false,
+    },
+    &ZoomStepMinus::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ZoomStepMinus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ZoomStepMinus::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::DayCamera::ZoomStepMinus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata ZoomStepMinus::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

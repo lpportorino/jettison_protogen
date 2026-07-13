@@ -62,6 +62,12 @@ extern FocusDefaultTypeInternal _Focus_default_instance_;
 class FocusROI;
 struct FocusROIDefaultTypeInternal;
 extern FocusROIDefaultTypeInternal _FocusROI_default_instance_;
+class FocusStepMinus;
+struct FocusStepMinusDefaultTypeInternal;
+extern FocusStepMinusDefaultTypeInternal _FocusStepMinus_default_instance_;
+class FocusStepPlus;
+struct FocusStepPlusDefaultTypeInternal;
+extern FocusStepPlusDefaultTypeInternal _FocusStepPlus_default_instance_;
 class FxROI;
 struct FxROIDefaultTypeInternal;
 extern FxROIDefaultTypeInternal _FxROI_default_instance_;
@@ -161,6 +167,12 @@ extern ZoomDefaultTypeInternal _Zoom_default_instance_;
 class ZoomROI;
 struct ZoomROIDefaultTypeInternal;
 extern ZoomROIDefaultTypeInternal _ZoomROI_default_instance_;
+class ZoomStepMinus;
+struct ZoomStepMinusDefaultTypeInternal;
+extern ZoomStepMinusDefaultTypeInternal _ZoomStepMinus_default_instance_;
+class ZoomStepPlus;
+struct ZoomStepPlusDefaultTypeInternal;
+extern ZoomStepPlusDefaultTypeInternal _ZoomStepPlus_default_instance_;
 }  // namespace DayCamera
 }  // namespace cmd
 namespace google {
@@ -174,6 +186,296 @@ namespace DayCamera {
 // ===================================================================
 
 
+// -------------------------------------------------------------------
+
+class ZoomStepPlus final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.ZoomStepPlus) */ {
+ public:
+  inline ZoomStepPlus() : ZoomStepPlus(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ZoomStepPlus* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ZoomStepPlus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ZoomStepPlus(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ZoomStepPlus(const ZoomStepPlus& from) : ZoomStepPlus(nullptr, from) {}
+  inline ZoomStepPlus(ZoomStepPlus&& from) noexcept
+      : ZoomStepPlus(nullptr, std::move(from)) {}
+  inline ZoomStepPlus& operator=(const ZoomStepPlus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ZoomStepPlus& operator=(ZoomStepPlus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ZoomStepPlus& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ZoomStepPlus* internal_default_instance() {
+    return reinterpret_cast<const ZoomStepPlus*>(
+        &_ZoomStepPlus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 33;
+  friend void swap(ZoomStepPlus& a, ZoomStepPlus& b) { a.Swap(&b); }
+  inline void Swap(ZoomStepPlus* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ZoomStepPlus* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ZoomStepPlus* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<ZoomStepPlus>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const ZoomStepPlus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const ZoomStepPlus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.ZoomStepPlus"; }
+
+ protected:
+  explicit ZoomStepPlus(::google::protobuf::Arena* arena);
+  ZoomStepPlus(::google::protobuf::Arena* arena, const ZoomStepPlus& from);
+  ZoomStepPlus(::google::protobuf::Arena* arena, ZoomStepPlus&& from) noexcept
+      : ZoomStepPlus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.ZoomStepPlus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ZoomStepPlus& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ZoomStepMinus final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.ZoomStepMinus) */ {
+ public:
+  inline ZoomStepMinus() : ZoomStepMinus(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ZoomStepMinus* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ZoomStepMinus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ZoomStepMinus(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ZoomStepMinus(const ZoomStepMinus& from) : ZoomStepMinus(nullptr, from) {}
+  inline ZoomStepMinus(ZoomStepMinus&& from) noexcept
+      : ZoomStepMinus(nullptr, std::move(from)) {}
+  inline ZoomStepMinus& operator=(const ZoomStepMinus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ZoomStepMinus& operator=(ZoomStepMinus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ZoomStepMinus& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ZoomStepMinus* internal_default_instance() {
+    return reinterpret_cast<const ZoomStepMinus*>(
+        &_ZoomStepMinus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 34;
+  friend void swap(ZoomStepMinus& a, ZoomStepMinus& b) { a.Swap(&b); }
+  inline void Swap(ZoomStepMinus* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ZoomStepMinus* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ZoomStepMinus* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<ZoomStepMinus>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const ZoomStepMinus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const ZoomStepMinus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.ZoomStepMinus"; }
+
+ protected:
+  explicit ZoomStepMinus(::google::protobuf::Arena* arena);
+  ZoomStepMinus(::google::protobuf::Arena* arena, const ZoomStepMinus& from);
+  ZoomStepMinus(::google::protobuf::Arena* arena, ZoomStepMinus&& from) noexcept
+      : ZoomStepMinus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.ZoomStepMinus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ZoomStepMinus& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
 // -------------------------------------------------------------------
 
 class ZoomROI final : public ::google::protobuf::Message
@@ -235,7 +537,7 @@ class ZoomROI final : public ::google::protobuf::Message
     return reinterpret_cast<const ZoomROI*>(
         &_ZoomROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 33;
+  static constexpr int kIndexInFileMessages = 37;
   friend void swap(ZoomROI& a, ZoomROI& b) { a.Swap(&b); }
   inline void Swap(ZoomROI* other) {
     if (other == this) return;
@@ -485,7 +787,7 @@ class TrackROI final : public ::google::protobuf::Message
     return reinterpret_cast<const TrackROI*>(
         &_TrackROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 32;
+  static constexpr int kIndexInFileMessages = 36;
   friend void swap(TrackROI& a, TrackROI& b) { a.Swap(&b); }
   inline void Swap(TrackROI* other) {
     if (other == this) return;
@@ -5347,7 +5649,7 @@ class FxROI final : public ::google::protobuf::Message
     return reinterpret_cast<const FxROI*>(
         &_FxROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 34;
+  static constexpr int kIndexInFileMessages = 38;
   friend void swap(FxROI& a, FxROI& b) { a.Swap(&b); }
   inline void Swap(FxROI* other) {
     if (other == this) return;
@@ -5538,6 +5840,296 @@ class FxROI final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class FocusStepPlus final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.FocusStepPlus) */ {
+ public:
+  inline FocusStepPlus() : FocusStepPlus(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FocusStepPlus* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FocusStepPlus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FocusStepPlus(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline FocusStepPlus(const FocusStepPlus& from) : FocusStepPlus(nullptr, from) {}
+  inline FocusStepPlus(FocusStepPlus&& from) noexcept
+      : FocusStepPlus(nullptr, std::move(from)) {}
+  inline FocusStepPlus& operator=(const FocusStepPlus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FocusStepPlus& operator=(FocusStepPlus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FocusStepPlus& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FocusStepPlus* internal_default_instance() {
+    return reinterpret_cast<const FocusStepPlus*>(
+        &_FocusStepPlus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 31;
+  friend void swap(FocusStepPlus& a, FocusStepPlus& b) { a.Swap(&b); }
+  inline void Swap(FocusStepPlus* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FocusStepPlus* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FocusStepPlus* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<FocusStepPlus>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const FocusStepPlus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const FocusStepPlus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.FocusStepPlus"; }
+
+ protected:
+  explicit FocusStepPlus(::google::protobuf::Arena* arena);
+  FocusStepPlus(::google::protobuf::Arena* arena, const FocusStepPlus& from);
+  FocusStepPlus(::google::protobuf::Arena* arena, FocusStepPlus&& from) noexcept
+      : FocusStepPlus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.FocusStepPlus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const FocusStepPlus& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
+class FocusStepMinus final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.FocusStepMinus) */ {
+ public:
+  inline FocusStepMinus() : FocusStepMinus(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FocusStepMinus* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FocusStepMinus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FocusStepMinus(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline FocusStepMinus(const FocusStepMinus& from) : FocusStepMinus(nullptr, from) {}
+  inline FocusStepMinus(FocusStepMinus&& from) noexcept
+      : FocusStepMinus(nullptr, std::move(from)) {}
+  inline FocusStepMinus& operator=(const FocusStepMinus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FocusStepMinus& operator=(FocusStepMinus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FocusStepMinus& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FocusStepMinus* internal_default_instance() {
+    return reinterpret_cast<const FocusStepMinus*>(
+        &_FocusStepMinus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 32;
+  friend void swap(FocusStepMinus& a, FocusStepMinus& b) { a.Swap(&b); }
+  inline void Swap(FocusStepMinus* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FocusStepMinus* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FocusStepMinus* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<FocusStepMinus>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const FocusStepMinus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const FocusStepMinus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.FocusStepMinus"; }
+
+ protected:
+  explicit FocusStepMinus(::google::protobuf::Arena* arena);
+  FocusStepMinus(::google::protobuf::Arena* arena, const FocusStepMinus& from);
+  FocusStepMinus(::google::protobuf::Arena* arena, FocusStepMinus&& from) noexcept
+      : FocusStepMinus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.FocusStepMinus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const FocusStepMinus& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
 class FocusROI final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.DayCamera.FocusROI) */ {
  public:
@@ -5597,7 +6189,7 @@ class FocusROI final : public ::google::protobuf::Message
     return reinterpret_cast<const FocusROI*>(
         &_FocusROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 31;
+  static constexpr int kIndexInFileMessages = 35;
   friend void swap(FocusROI& a, FocusROI& b) { a.Swap(&b); }
   inline void Swap(FocusROI* other) {
     if (other == this) return;
@@ -5853,6 +6445,8 @@ class Zoom final : public ::google::protobuf::Message
     kOffset = 7,
     kResetZoom = 8,
     kSaveToTable = 9,
+    kZoomStepPlus = 10,
+    kZoomStepMinus = 11,
     CMD_NOT_SET = 0,
   };
   static inline const Zoom* internal_default_instance() {
@@ -5955,6 +6549,8 @@ class Zoom final : public ::google::protobuf::Message
     kOffsetFieldNumber = 7,
     kResetZoomFieldNumber = 8,
     kSaveToTableFieldNumber = 9,
+    kZoomStepPlusFieldNumber = 10,
+    kZoomStepMinusFieldNumber = 11,
   };
   // .cmd.DayCamera.SetValue set_value = 1;
   bool has_set_value() const;
@@ -6127,6 +6723,44 @@ class Zoom final : public ::google::protobuf::Message
   ::cmd::DayCamera::SaveToTable* _internal_mutable_save_to_table();
 
   public:
+  // .cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;
+  bool has_zoom_step_plus() const;
+  private:
+  bool _internal_has_zoom_step_plus() const;
+
+  public:
+  void clear_zoom_step_plus() ;
+  const ::cmd::DayCamera::ZoomStepPlus& zoom_step_plus() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::ZoomStepPlus* release_zoom_step_plus();
+  ::cmd::DayCamera::ZoomStepPlus* mutable_zoom_step_plus();
+  void set_allocated_zoom_step_plus(::cmd::DayCamera::ZoomStepPlus* value);
+  void unsafe_arena_set_allocated_zoom_step_plus(::cmd::DayCamera::ZoomStepPlus* value);
+  ::cmd::DayCamera::ZoomStepPlus* unsafe_arena_release_zoom_step_plus();
+
+  private:
+  const ::cmd::DayCamera::ZoomStepPlus& _internal_zoom_step_plus() const;
+  ::cmd::DayCamera::ZoomStepPlus* _internal_mutable_zoom_step_plus();
+
+  public:
+  // .cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;
+  bool has_zoom_step_minus() const;
+  private:
+  bool _internal_has_zoom_step_minus() const;
+
+  public:
+  void clear_zoom_step_minus() ;
+  const ::cmd::DayCamera::ZoomStepMinus& zoom_step_minus() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::ZoomStepMinus* release_zoom_step_minus();
+  ::cmd::DayCamera::ZoomStepMinus* mutable_zoom_step_minus();
+  void set_allocated_zoom_step_minus(::cmd::DayCamera::ZoomStepMinus* value);
+  void unsafe_arena_set_allocated_zoom_step_minus(::cmd::DayCamera::ZoomStepMinus* value);
+  ::cmd::DayCamera::ZoomStepMinus* unsafe_arena_release_zoom_step_minus();
+
+  private:
+  const ::cmd::DayCamera::ZoomStepMinus& _internal_zoom_step_minus() const;
+  ::cmd::DayCamera::ZoomStepMinus* _internal_mutable_zoom_step_minus();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Zoom)
@@ -6141,11 +6775,13 @@ class Zoom final : public ::google::protobuf::Message
   void set_has_offset();
   void set_has_reset_zoom();
   void set_has_save_to_table();
+  void set_has_zoom_step_plus();
+  void set_has_zoom_step_minus();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 9, 9,
+      0, 11, 11,
       0, 2>
       _table_;
 
@@ -6175,6 +6811,8 @@ class Zoom final : public ::google::protobuf::Message
       ::cmd::DayCamera::Offset* offset_;
       ::cmd::DayCamera::ResetZoom* reset_zoom_;
       ::cmd::DayCamera::SaveToTable* save_to_table_;
+      ::cmd::DayCamera::ZoomStepPlus* zoom_step_plus_;
+      ::cmd::DayCamera::ZoomStepMinus* zoom_step_minus_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -6247,6 +6885,8 @@ class Focus final : public ::google::protobuf::Message
     kOffset = 4,
     kResetFocus = 5,
     kSaveToTableFocus = 6,
+    kFocusStepPlus = 7,
+    kFocusStepMinus = 8,
     CMD_NOT_SET = 0,
   };
   static inline const Focus* internal_default_instance() {
@@ -6346,6 +6986,8 @@ class Focus final : public ::google::protobuf::Message
     kOffsetFieldNumber = 4,
     kResetFocusFieldNumber = 5,
     kSaveToTableFocusFieldNumber = 6,
+    kFocusStepPlusFieldNumber = 7,
+    kFocusStepMinusFieldNumber = 8,
   };
   // .cmd.DayCamera.SetValue set_value = 1;
   bool has_set_value() const;
@@ -6461,6 +7103,44 @@ class Focus final : public ::google::protobuf::Message
   ::cmd::DayCamera::SaveToTableFocus* _internal_mutable_save_to_table_focus();
 
   public:
+  // .cmd.DayCamera.FocusStepPlus focus_step_plus = 7;
+  bool has_focus_step_plus() const;
+  private:
+  bool _internal_has_focus_step_plus() const;
+
+  public:
+  void clear_focus_step_plus() ;
+  const ::cmd::DayCamera::FocusStepPlus& focus_step_plus() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::FocusStepPlus* release_focus_step_plus();
+  ::cmd::DayCamera::FocusStepPlus* mutable_focus_step_plus();
+  void set_allocated_focus_step_plus(::cmd::DayCamera::FocusStepPlus* value);
+  void unsafe_arena_set_allocated_focus_step_plus(::cmd::DayCamera::FocusStepPlus* value);
+  ::cmd::DayCamera::FocusStepPlus* unsafe_arena_release_focus_step_plus();
+
+  private:
+  const ::cmd::DayCamera::FocusStepPlus& _internal_focus_step_plus() const;
+  ::cmd::DayCamera::FocusStepPlus* _internal_mutable_focus_step_plus();
+
+  public:
+  // .cmd.DayCamera.FocusStepMinus focus_step_minus = 8;
+  bool has_focus_step_minus() const;
+  private:
+  bool _internal_has_focus_step_minus() const;
+
+  public:
+  void clear_focus_step_minus() ;
+  const ::cmd::DayCamera::FocusStepMinus& focus_step_minus() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::FocusStepMinus* release_focus_step_minus();
+  ::cmd::DayCamera::FocusStepMinus* mutable_focus_step_minus();
+  void set_allocated_focus_step_minus(::cmd::DayCamera::FocusStepMinus* value);
+  void unsafe_arena_set_allocated_focus_step_minus(::cmd::DayCamera::FocusStepMinus* value);
+  ::cmd::DayCamera::FocusStepMinus* unsafe_arena_release_focus_step_minus();
+
+  private:
+  const ::cmd::DayCamera::FocusStepMinus& _internal_focus_step_minus() const;
+  ::cmd::DayCamera::FocusStepMinus* _internal_mutable_focus_step_minus();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Focus)
@@ -6472,11 +7152,13 @@ class Focus final : public ::google::protobuf::Message
   void set_has_offset();
   void set_has_reset_focus();
   void set_has_save_to_table_focus();
+  void set_has_focus_step_plus();
+  void set_has_focus_step_minus();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 6, 6,
+      0, 8, 8,
       0, 2>
       _table_;
 
@@ -6503,6 +7185,8 @@ class Focus final : public ::google::protobuf::Message
       ::cmd::DayCamera::Offset* offset_;
       ::cmd::DayCamera::ResetFocus* reset_focus_;
       ::cmd::DayCamera::SaveToTableFocus* save_to_table_focus_;
+      ::cmd::DayCamera::FocusStepPlus* focus_step_plus_;
+      ::cmd::DayCamera::FocusStepMinus* focus_step_minus_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -9673,6 +10357,164 @@ inline ::cmd::DayCamera::SaveToTableFocus* Focus::mutable_save_to_table_focus() 
   return _msg;
 }
 
+// .cmd.DayCamera.FocusStepPlus focus_step_plus = 7;
+inline bool Focus::has_focus_step_plus() const {
+  return cmd_case() == kFocusStepPlus;
+}
+inline bool Focus::_internal_has_focus_step_plus() const {
+  return cmd_case() == kFocusStepPlus;
+}
+inline void Focus::set_has_focus_step_plus() {
+  _impl_._oneof_case_[0] = kFocusStepPlus;
+}
+inline void Focus::clear_focus_step_plus() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kFocusStepPlus) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.focus_step_plus_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_step_plus_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::FocusStepPlus* Focus::release_focus_step_plus() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Focus.focus_step_plus)
+  if (cmd_case() == kFocusStepPlus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.focus_step_plus_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.focus_step_plus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::FocusStepPlus& Focus::_internal_focus_step_plus() const {
+  return cmd_case() == kFocusStepPlus ? *_impl_.cmd_.focus_step_plus_ : reinterpret_cast<::cmd::DayCamera::FocusStepPlus&>(::cmd::DayCamera::_FocusStepPlus_default_instance_);
+}
+inline const ::cmd::DayCamera::FocusStepPlus& Focus::focus_step_plus() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Focus.focus_step_plus)
+  return _internal_focus_step_plus();
+}
+inline ::cmd::DayCamera::FocusStepPlus* Focus::unsafe_arena_release_focus_step_plus() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Focus.focus_step_plus)
+  if (cmd_case() == kFocusStepPlus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.focus_step_plus_;
+    _impl_.cmd_.focus_step_plus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Focus::unsafe_arena_set_allocated_focus_step_plus(::cmd::DayCamera::FocusStepPlus* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_focus_step_plus();
+    _impl_.cmd_.focus_step_plus_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Focus.focus_step_plus)
+}
+inline ::cmd::DayCamera::FocusStepPlus* Focus::_internal_mutable_focus_step_plus() {
+  if (cmd_case() != kFocusStepPlus) {
+    clear_cmd();
+    set_has_focus_step_plus();
+    _impl_.cmd_.focus_step_plus_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::FocusStepPlus>(GetArena());
+  }
+  return _impl_.cmd_.focus_step_plus_;
+}
+inline ::cmd::DayCamera::FocusStepPlus* Focus::mutable_focus_step_plus() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::FocusStepPlus* _msg = _internal_mutable_focus_step_plus();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Focus.focus_step_plus)
+  return _msg;
+}
+
+// .cmd.DayCamera.FocusStepMinus focus_step_minus = 8;
+inline bool Focus::has_focus_step_minus() const {
+  return cmd_case() == kFocusStepMinus;
+}
+inline bool Focus::_internal_has_focus_step_minus() const {
+  return cmd_case() == kFocusStepMinus;
+}
+inline void Focus::set_has_focus_step_minus() {
+  _impl_._oneof_case_[0] = kFocusStepMinus;
+}
+inline void Focus::clear_focus_step_minus() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kFocusStepMinus) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.focus_step_minus_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_step_minus_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::FocusStepMinus* Focus::release_focus_step_minus() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Focus.focus_step_minus)
+  if (cmd_case() == kFocusStepMinus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.focus_step_minus_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.focus_step_minus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::FocusStepMinus& Focus::_internal_focus_step_minus() const {
+  return cmd_case() == kFocusStepMinus ? *_impl_.cmd_.focus_step_minus_ : reinterpret_cast<::cmd::DayCamera::FocusStepMinus&>(::cmd::DayCamera::_FocusStepMinus_default_instance_);
+}
+inline const ::cmd::DayCamera::FocusStepMinus& Focus::focus_step_minus() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Focus.focus_step_minus)
+  return _internal_focus_step_minus();
+}
+inline ::cmd::DayCamera::FocusStepMinus* Focus::unsafe_arena_release_focus_step_minus() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Focus.focus_step_minus)
+  if (cmd_case() == kFocusStepMinus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.focus_step_minus_;
+    _impl_.cmd_.focus_step_minus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Focus::unsafe_arena_set_allocated_focus_step_minus(::cmd::DayCamera::FocusStepMinus* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_focus_step_minus();
+    _impl_.cmd_.focus_step_minus_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Focus.focus_step_minus)
+}
+inline ::cmd::DayCamera::FocusStepMinus* Focus::_internal_mutable_focus_step_minus() {
+  if (cmd_case() != kFocusStepMinus) {
+    clear_cmd();
+    set_has_focus_step_minus();
+    _impl_.cmd_.focus_step_minus_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::FocusStepMinus>(GetArena());
+  }
+  return _impl_.cmd_.focus_step_minus_;
+}
+inline ::cmd::DayCamera::FocusStepMinus* Focus::mutable_focus_step_minus() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::FocusStepMinus* _msg = _internal_mutable_focus_step_minus();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Focus.focus_step_minus)
+  return _msg;
+}
+
 inline bool Focus::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -10397,6 +11239,164 @@ inline ::cmd::DayCamera::SaveToTable* Zoom::mutable_save_to_table() ABSL_ATTRIBU
   return _msg;
 }
 
+// .cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;
+inline bool Zoom::has_zoom_step_plus() const {
+  return cmd_case() == kZoomStepPlus;
+}
+inline bool Zoom::_internal_has_zoom_step_plus() const {
+  return cmd_case() == kZoomStepPlus;
+}
+inline void Zoom::set_has_zoom_step_plus() {
+  _impl_._oneof_case_[0] = kZoomStepPlus;
+}
+inline void Zoom::clear_zoom_step_plus() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kZoomStepPlus) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.zoom_step_plus_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.zoom_step_plus_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::ZoomStepPlus* Zoom::release_zoom_step_plus() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Zoom.zoom_step_plus)
+  if (cmd_case() == kZoomStepPlus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.zoom_step_plus_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.zoom_step_plus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::ZoomStepPlus& Zoom::_internal_zoom_step_plus() const {
+  return cmd_case() == kZoomStepPlus ? *_impl_.cmd_.zoom_step_plus_ : reinterpret_cast<::cmd::DayCamera::ZoomStepPlus&>(::cmd::DayCamera::_ZoomStepPlus_default_instance_);
+}
+inline const ::cmd::DayCamera::ZoomStepPlus& Zoom::zoom_step_plus() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Zoom.zoom_step_plus)
+  return _internal_zoom_step_plus();
+}
+inline ::cmd::DayCamera::ZoomStepPlus* Zoom::unsafe_arena_release_zoom_step_plus() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Zoom.zoom_step_plus)
+  if (cmd_case() == kZoomStepPlus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.zoom_step_plus_;
+    _impl_.cmd_.zoom_step_plus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Zoom::unsafe_arena_set_allocated_zoom_step_plus(::cmd::DayCamera::ZoomStepPlus* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_zoom_step_plus();
+    _impl_.cmd_.zoom_step_plus_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Zoom.zoom_step_plus)
+}
+inline ::cmd::DayCamera::ZoomStepPlus* Zoom::_internal_mutable_zoom_step_plus() {
+  if (cmd_case() != kZoomStepPlus) {
+    clear_cmd();
+    set_has_zoom_step_plus();
+    _impl_.cmd_.zoom_step_plus_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::ZoomStepPlus>(GetArena());
+  }
+  return _impl_.cmd_.zoom_step_plus_;
+}
+inline ::cmd::DayCamera::ZoomStepPlus* Zoom::mutable_zoom_step_plus() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::ZoomStepPlus* _msg = _internal_mutable_zoom_step_plus();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Zoom.zoom_step_plus)
+  return _msg;
+}
+
+// .cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;
+inline bool Zoom::has_zoom_step_minus() const {
+  return cmd_case() == kZoomStepMinus;
+}
+inline bool Zoom::_internal_has_zoom_step_minus() const {
+  return cmd_case() == kZoomStepMinus;
+}
+inline void Zoom::set_has_zoom_step_minus() {
+  _impl_._oneof_case_[0] = kZoomStepMinus;
+}
+inline void Zoom::clear_zoom_step_minus() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kZoomStepMinus) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.zoom_step_minus_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.zoom_step_minus_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::ZoomStepMinus* Zoom::release_zoom_step_minus() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Zoom.zoom_step_minus)
+  if (cmd_case() == kZoomStepMinus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.zoom_step_minus_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.zoom_step_minus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::ZoomStepMinus& Zoom::_internal_zoom_step_minus() const {
+  return cmd_case() == kZoomStepMinus ? *_impl_.cmd_.zoom_step_minus_ : reinterpret_cast<::cmd::DayCamera::ZoomStepMinus&>(::cmd::DayCamera::_ZoomStepMinus_default_instance_);
+}
+inline const ::cmd::DayCamera::ZoomStepMinus& Zoom::zoom_step_minus() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Zoom.zoom_step_minus)
+  return _internal_zoom_step_minus();
+}
+inline ::cmd::DayCamera::ZoomStepMinus* Zoom::unsafe_arena_release_zoom_step_minus() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Zoom.zoom_step_minus)
+  if (cmd_case() == kZoomStepMinus) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.zoom_step_minus_;
+    _impl_.cmd_.zoom_step_minus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Zoom::unsafe_arena_set_allocated_zoom_step_minus(::cmd::DayCamera::ZoomStepMinus* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_zoom_step_minus();
+    _impl_.cmd_.zoom_step_minus_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Zoom.zoom_step_minus)
+}
+inline ::cmd::DayCamera::ZoomStepMinus* Zoom::_internal_mutable_zoom_step_minus() {
+  if (cmd_case() != kZoomStepMinus) {
+    clear_cmd();
+    set_has_zoom_step_minus();
+    _impl_.cmd_.zoom_step_minus_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::ZoomStepMinus>(GetArena());
+  }
+  return _impl_.cmd_.zoom_step_minus_;
+}
+inline ::cmd::DayCamera::ZoomStepMinus* Zoom::mutable_zoom_step_minus() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::ZoomStepMinus* _msg = _internal_mutable_zoom_step_minus();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Zoom.zoom_step_minus)
+  return _msg;
+}
+
 inline bool Zoom::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -10579,6 +11579,22 @@ inline void SetZoomTableValue::_internal_set_value(::int32_t value) {
 // -------------------------------------------------------------------
 
 // SaveToTableFocus
+
+// -------------------------------------------------------------------
+
+// FocusStepPlus
+
+// -------------------------------------------------------------------
+
+// FocusStepMinus
+
+// -------------------------------------------------------------------
+
+// ZoomStepPlus
+
+// -------------------------------------------------------------------
+
+// ZoomStepMinus
 
 // -------------------------------------------------------------------
 

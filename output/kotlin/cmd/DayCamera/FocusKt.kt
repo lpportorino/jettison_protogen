@@ -171,6 +171,54 @@ public object FocusKt {
     public fun hasSaveToTableFocus(): kotlin.Boolean {
       return _builder.hasSaveToTableFocus()
     }
+
+    /**
+     * `.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;`
+     */
+    public var focusStepPlus: cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus
+      @JvmName("getFocusStepPlus")
+      get() = _builder.focusStepPlus
+      @JvmName("setFocusStepPlus")
+      set(value) {
+        _builder.focusStepPlus = value
+      }
+    /**
+     * `.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;`
+     */
+    public fun clearFocusStepPlus() {
+      _builder.clearFocusStepPlus()
+    }
+    /**
+     * `.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;`
+     * @return Whether the focusStepPlus field is set.
+     */
+    public fun hasFocusStepPlus(): kotlin.Boolean {
+      return _builder.hasFocusStepPlus()
+    }
+
+    /**
+     * `.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;`
+     */
+    public var focusStepMinus: cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus
+      @JvmName("getFocusStepMinus")
+      get() = _builder.focusStepMinus
+      @JvmName("setFocusStepMinus")
+      set(value) {
+        _builder.focusStepMinus = value
+      }
+    /**
+     * `.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;`
+     */
+    public fun clearFocusStepMinus() {
+      _builder.clearFocusStepMinus()
+    }
+    /**
+     * `.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;`
+     * @return Whether the focusStepMinus field is set.
+     */
+    public fun hasFocusStepMinus(): kotlin.Boolean {
+      return _builder.hasFocusStepMinus()
+    }
     public val cmdCase: cmd.DayCamera.JonSharedCmdDayCamera.Focus.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -201,4 +249,10 @@ public val cmd.DayCamera.JonSharedCmdDayCamera.FocusOrBuilder.resetFocusOrNull: 
 
 public val cmd.DayCamera.JonSharedCmdDayCamera.FocusOrBuilder.saveToTableFocusOrNull: cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableFocus?
   get() = if (hasSaveToTableFocus()) getSaveToTableFocus() else null
+
+public val cmd.DayCamera.JonSharedCmdDayCamera.FocusOrBuilder.focusStepPlusOrNull: cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus?
+  get() = if (hasFocusStepPlus()) getFocusStepPlus() else null
+
+public val cmd.DayCamera.JonSharedCmdDayCamera.FocusOrBuilder.focusStepMinusOrNull: cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus?
+  get() = if (hasFocusStepMinus()) getFocusStepMinus() else null
 

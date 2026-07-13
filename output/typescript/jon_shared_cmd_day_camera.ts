@@ -85,6 +85,8 @@ export interface Focus {
   offset?: Offset | undefined;
   resetFocus?: ResetFocus | undefined;
   saveToTableFocus?: SaveToTableFocus | undefined;
+  focusStepPlus?: FocusStepPlus | undefined;
+  focusStepMinus?: FocusStepMinus | undefined;
 }
 
 export interface Zoom {
@@ -97,6 +99,8 @@ export interface Zoom {
   offset?: Offset | undefined;
   resetZoom?: ResetZoom | undefined;
   saveToTable?: SaveToTable | undefined;
+  zoomStepPlus?: ZoomStepPlus | undefined;
+  zoomStepMinus?: ZoomStepMinus | undefined;
 }
 
 export interface NextZoomTablePos {
@@ -150,6 +154,18 @@ export interface SaveToTable {
 }
 
 export interface SaveToTableFocus {
+}
+
+export interface FocusStepPlus {
+}
+
+export interface FocusStepMinus {
+}
+
+export interface ZoomStepPlus {
+}
+
+export interface ZoomStepMinus {
 }
 
 export interface FocusROI {
@@ -1372,6 +1388,8 @@ function createBaseFocus(): Focus {
     offset: undefined,
     resetFocus: undefined,
     saveToTableFocus: undefined,
+    focusStepPlus: undefined,
+    focusStepMinus: undefined,
   };
 }
 
@@ -1394,6 +1412,12 @@ export const Focus: MessageFns<Focus> = {
     }
     if (message.saveToTableFocus !== undefined) {
       SaveToTableFocus.encode(message.saveToTableFocus, writer.uint32(50).fork()).join();
+    }
+    if (message.focusStepPlus !== undefined) {
+      FocusStepPlus.encode(message.focusStepPlus, writer.uint32(58).fork()).join();
+    }
+    if (message.focusStepMinus !== undefined) {
+      FocusStepMinus.encode(message.focusStepMinus, writer.uint32(66).fork()).join();
     }
     return writer;
   },
@@ -1453,6 +1477,22 @@ export const Focus: MessageFns<Focus> = {
           message.saveToTableFocus = SaveToTableFocus.decode(reader, reader.uint32());
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.focusStepPlus = FocusStepPlus.decode(reader, reader.uint32());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.focusStepMinus = FocusStepMinus.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1482,6 +1522,16 @@ export const Focus: MessageFns<Focus> = {
         : isSet(object.save_to_table_focus)
         ? SaveToTableFocus.fromJSON(object.save_to_table_focus)
         : undefined,
+      focusStepPlus: isSet(object.focusStepPlus)
+        ? FocusStepPlus.fromJSON(object.focusStepPlus)
+        : isSet(object.focus_step_plus)
+        ? FocusStepPlus.fromJSON(object.focus_step_plus)
+        : undefined,
+      focusStepMinus: isSet(object.focusStepMinus)
+        ? FocusStepMinus.fromJSON(object.focusStepMinus)
+        : isSet(object.focus_step_minus)
+        ? FocusStepMinus.fromJSON(object.focus_step_minus)
+        : undefined,
     };
   },
 
@@ -1505,6 +1555,12 @@ export const Focus: MessageFns<Focus> = {
     if (message.saveToTableFocus !== undefined) {
       obj.saveToTableFocus = SaveToTableFocus.toJSON(message.saveToTableFocus);
     }
+    if (message.focusStepPlus !== undefined) {
+      obj.focusStepPlus = FocusStepPlus.toJSON(message.focusStepPlus);
+    }
+    if (message.focusStepMinus !== undefined) {
+      obj.focusStepMinus = FocusStepMinus.toJSON(message.focusStepMinus);
+    }
     return obj;
   },
 
@@ -1527,6 +1583,12 @@ export const Focus: MessageFns<Focus> = {
     message.saveToTableFocus = (object.saveToTableFocus !== undefined && object.saveToTableFocus !== null)
       ? SaveToTableFocus.fromPartial(object.saveToTableFocus)
       : undefined;
+    message.focusStepPlus = (object.focusStepPlus !== undefined && object.focusStepPlus !== null)
+      ? FocusStepPlus.fromPartial(object.focusStepPlus)
+      : undefined;
+    message.focusStepMinus = (object.focusStepMinus !== undefined && object.focusStepMinus !== null)
+      ? FocusStepMinus.fromPartial(object.focusStepMinus)
+      : undefined;
     return message;
   },
 };
@@ -1542,6 +1604,8 @@ function createBaseZoom(): Zoom {
     offset: undefined,
     resetZoom: undefined,
     saveToTable: undefined,
+    zoomStepPlus: undefined,
+    zoomStepMinus: undefined,
   };
 }
 
@@ -1573,6 +1637,12 @@ export const Zoom: MessageFns<Zoom> = {
     }
     if (message.saveToTable !== undefined) {
       SaveToTable.encode(message.saveToTable, writer.uint32(74).fork()).join();
+    }
+    if (message.zoomStepPlus !== undefined) {
+      ZoomStepPlus.encode(message.zoomStepPlus, writer.uint32(82).fork()).join();
+    }
+    if (message.zoomStepMinus !== undefined) {
+      ZoomStepMinus.encode(message.zoomStepMinus, writer.uint32(90).fork()).join();
     }
     return writer;
   },
@@ -1656,6 +1726,22 @@ export const Zoom: MessageFns<Zoom> = {
           message.saveToTable = SaveToTable.decode(reader, reader.uint32());
           continue;
         }
+        case 10: {
+          if (tag !== 82) {
+            break;
+          }
+
+          message.zoomStepPlus = ZoomStepPlus.decode(reader, reader.uint32());
+          continue;
+        }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.zoomStepMinus = ZoomStepMinus.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1700,6 +1786,16 @@ export const Zoom: MessageFns<Zoom> = {
         : isSet(object.save_to_table)
         ? SaveToTable.fromJSON(object.save_to_table)
         : undefined,
+      zoomStepPlus: isSet(object.zoomStepPlus)
+        ? ZoomStepPlus.fromJSON(object.zoomStepPlus)
+        : isSet(object.zoom_step_plus)
+        ? ZoomStepPlus.fromJSON(object.zoom_step_plus)
+        : undefined,
+      zoomStepMinus: isSet(object.zoomStepMinus)
+        ? ZoomStepMinus.fromJSON(object.zoomStepMinus)
+        : isSet(object.zoom_step_minus)
+        ? ZoomStepMinus.fromJSON(object.zoom_step_minus)
+        : undefined,
     };
   },
 
@@ -1732,6 +1828,12 @@ export const Zoom: MessageFns<Zoom> = {
     if (message.saveToTable !== undefined) {
       obj.saveToTable = SaveToTable.toJSON(message.saveToTable);
     }
+    if (message.zoomStepPlus !== undefined) {
+      obj.zoomStepPlus = ZoomStepPlus.toJSON(message.zoomStepPlus);
+    }
+    if (message.zoomStepMinus !== undefined) {
+      obj.zoomStepMinus = ZoomStepMinus.toJSON(message.zoomStepMinus);
+    }
     return obj;
   },
 
@@ -1762,6 +1864,12 @@ export const Zoom: MessageFns<Zoom> = {
       : undefined;
     message.saveToTable = (object.saveToTable !== undefined && object.saveToTable !== null)
       ? SaveToTable.fromPartial(object.saveToTable)
+      : undefined;
+    message.zoomStepPlus = (object.zoomStepPlus !== undefined && object.zoomStepPlus !== null)
+      ? ZoomStepPlus.fromPartial(object.zoomStepPlus)
+      : undefined;
+    message.zoomStepMinus = (object.zoomStepMinus !== undefined && object.zoomStepMinus !== null)
+      ? ZoomStepMinus.fromPartial(object.zoomStepMinus)
       : undefined;
     return message;
   },
@@ -2526,6 +2634,178 @@ export const SaveToTableFocus: MessageFns<SaveToTableFocus> = {
   },
   fromPartial<I extends Exact<DeepPartial<SaveToTableFocus>, I>>(_: I): SaveToTableFocus {
     const message = createBaseSaveToTableFocus();
+    return message;
+  },
+};
+
+function createBaseFocusStepPlus(): FocusStepPlus {
+  return {};
+}
+
+export const FocusStepPlus: MessageFns<FocusStepPlus> = {
+  encode(_: FocusStepPlus, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FocusStepPlus {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFocusStepPlus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): FocusStepPlus {
+    return {};
+  },
+
+  toJSON(_: FocusStepPlus): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<FocusStepPlus>, I>>(base?: I): FocusStepPlus {
+    return FocusStepPlus.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<FocusStepPlus>, I>>(_: I): FocusStepPlus {
+    const message = createBaseFocusStepPlus();
+    return message;
+  },
+};
+
+function createBaseFocusStepMinus(): FocusStepMinus {
+  return {};
+}
+
+export const FocusStepMinus: MessageFns<FocusStepMinus> = {
+  encode(_: FocusStepMinus, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FocusStepMinus {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFocusStepMinus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): FocusStepMinus {
+    return {};
+  },
+
+  toJSON(_: FocusStepMinus): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<FocusStepMinus>, I>>(base?: I): FocusStepMinus {
+    return FocusStepMinus.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<FocusStepMinus>, I>>(_: I): FocusStepMinus {
+    const message = createBaseFocusStepMinus();
+    return message;
+  },
+};
+
+function createBaseZoomStepPlus(): ZoomStepPlus {
+  return {};
+}
+
+export const ZoomStepPlus: MessageFns<ZoomStepPlus> = {
+  encode(_: ZoomStepPlus, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ZoomStepPlus {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseZoomStepPlus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): ZoomStepPlus {
+    return {};
+  },
+
+  toJSON(_: ZoomStepPlus): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ZoomStepPlus>, I>>(base?: I): ZoomStepPlus {
+    return ZoomStepPlus.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ZoomStepPlus>, I>>(_: I): ZoomStepPlus {
+    const message = createBaseZoomStepPlus();
+    return message;
+  },
+};
+
+function createBaseZoomStepMinus(): ZoomStepMinus {
+  return {};
+}
+
+export const ZoomStepMinus: MessageFns<ZoomStepMinus> = {
+  encode(_: ZoomStepMinus, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ZoomStepMinus {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseZoomStepMinus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): ZoomStepMinus {
+    return {};
+  },
+
+  toJSON(_: ZoomStepMinus): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ZoomStepMinus>, I>>(base?: I): ZoomStepMinus {
+    return ZoomStepMinus.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ZoomStepMinus>, I>>(_: I): ZoomStepMinus {
+    const message = createBaseZoomStepMinus();
     return message;
   },
 };

@@ -106,7 +106,7 @@ pub struct SetDigitalZoomLevel {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Focus {
-    #[prost(oneof = "focus::Cmd", tags = "1, 2, 3, 4, 5, 6")]
+    #[prost(oneof = "focus::Cmd", tags = "1, 2, 3, 4, 5, 6, 7, 8")]
     pub cmd: ::core::option::Option<focus::Cmd>,
 }
 /// Nested message and enum types in `Focus`.
@@ -125,11 +125,15 @@ pub mod focus {
         ResetFocus(super::ResetFocus),
         #[prost(message, tag = "6")]
         SaveToTableFocus(super::SaveToTableFocus),
+        #[prost(message, tag = "7")]
+        FocusStepPlus(super::FocusStepPlus),
+        #[prost(message, tag = "8")]
+        FocusStepMinus(super::FocusStepMinus),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Zoom {
-    #[prost(oneof = "zoom::Cmd", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9")]
+    #[prost(oneof = "zoom::Cmd", tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11")]
     pub cmd: ::core::option::Option<zoom::Cmd>,
 }
 /// Nested message and enum types in `Zoom`.
@@ -154,6 +158,10 @@ pub mod zoom {
         ResetZoom(super::ResetZoom),
         #[prost(message, tag = "9")]
         SaveToTable(super::SaveToTable),
+        #[prost(message, tag = "10")]
+        ZoomStepPlus(super::ZoomStepPlus),
+        #[prost(message, tag = "11")]
+        ZoomStepMinus(super::ZoomStepMinus),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -203,6 +211,14 @@ pub struct ResetFocus {}
 pub struct SaveToTable {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SaveToTableFocus {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct FocusStepPlus {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct FocusStepMinus {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct ZoomStepPlus {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct ZoomStepMinus {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct FocusRoi {
     #[prost(double, tag = "1")]

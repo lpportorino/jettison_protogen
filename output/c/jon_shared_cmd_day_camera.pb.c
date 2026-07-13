@@ -99,6 +99,18 @@ PB_BIND(cmd_DayCamera_SaveToTable, cmd_DayCamera_SaveToTable, AUTO)
 PB_BIND(cmd_DayCamera_SaveToTableFocus, cmd_DayCamera_SaveToTableFocus, AUTO)
 
 
+PB_BIND(cmd_DayCamera_FocusStepPlus, cmd_DayCamera_FocusStepPlus, AUTO)
+
+
+PB_BIND(cmd_DayCamera_FocusStepMinus, cmd_DayCamera_FocusStepMinus, AUTO)
+
+
+PB_BIND(cmd_DayCamera_ZoomStepPlus, cmd_DayCamera_ZoomStepPlus, AUTO)
+
+
+PB_BIND(cmd_DayCamera_ZoomStepMinus, cmd_DayCamera_ZoomStepMinus, AUTO)
+
+
 PB_BIND(cmd_DayCamera_FocusROI, cmd_DayCamera_FocusROI, AUTO)
 
 

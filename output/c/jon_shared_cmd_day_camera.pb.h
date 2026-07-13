@@ -120,6 +120,40 @@ typedef struct _cmd_DayCamera_SaveToTable {
     char dummy_field;
 } cmd_DayCamera_SaveToTable;
 
+typedef struct _cmd_DayCamera_SaveToTableFocus {
+    char dummy_field;
+} cmd_DayCamera_SaveToTableFocus;
+
+typedef struct _cmd_DayCamera_FocusStepPlus {
+    char dummy_field;
+} cmd_DayCamera_FocusStepPlus;
+
+typedef struct _cmd_DayCamera_FocusStepMinus {
+    char dummy_field;
+} cmd_DayCamera_FocusStepMinus;
+
+typedef struct _cmd_DayCamera_Focus {
+    pb_size_t which_cmd;
+    union {
+        cmd_DayCamera_SetValue set_value;
+        cmd_DayCamera_Move move;
+        cmd_DayCamera_Halt halt;
+        cmd_DayCamera_Offset offset;
+        cmd_DayCamera_ResetFocus reset_focus;
+        cmd_DayCamera_SaveToTableFocus save_to_table_focus;
+        cmd_DayCamera_FocusStepPlus focus_step_plus;
+        cmd_DayCamera_FocusStepMinus focus_step_minus;
+    } cmd;
+} cmd_DayCamera_Focus;
+
+typedef struct _cmd_DayCamera_ZoomStepPlus {
+    char dummy_field;
+} cmd_DayCamera_ZoomStepPlus;
+
+typedef struct _cmd_DayCamera_ZoomStepMinus {
+    char dummy_field;
+} cmd_DayCamera_ZoomStepMinus;
+
 typedef struct _cmd_DayCamera_Zoom {
     pb_size_t which_cmd;
     union {
@@ -132,24 +166,10 @@ typedef struct _cmd_DayCamera_Zoom {
         cmd_DayCamera_Offset offset;
         cmd_DayCamera_ResetZoom reset_zoom;
         cmd_DayCamera_SaveToTable save_to_table;
+        cmd_DayCamera_ZoomStepPlus zoom_step_plus;
+        cmd_DayCamera_ZoomStepMinus zoom_step_minus;
     } cmd;
 } cmd_DayCamera_Zoom;
-
-typedef struct _cmd_DayCamera_SaveToTableFocus {
-    char dummy_field;
-} cmd_DayCamera_SaveToTableFocus;
-
-typedef struct _cmd_DayCamera_Focus {
-    pb_size_t which_cmd;
-    union {
-        cmd_DayCamera_SetValue set_value;
-        cmd_DayCamera_Move move;
-        cmd_DayCamera_Halt halt;
-        cmd_DayCamera_Offset offset;
-        cmd_DayCamera_ResetFocus reset_focus;
-        cmd_DayCamera_SaveToTableFocus save_to_table_focus;
-    } cmd;
-} cmd_DayCamera_Focus;
 
 typedef struct _cmd_DayCamera_FocusROI {
     double x1;
@@ -256,6 +276,10 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_default    {0}
 #define cmd_DayCamera_SaveToTable_init_default   {0}
 #define cmd_DayCamera_SaveToTableFocus_init_default {0}
+#define cmd_DayCamera_FocusStepPlus_init_default {0}
+#define cmd_DayCamera_FocusStepMinus_init_default {0}
+#define cmd_DayCamera_ZoomStepPlus_init_default  {0}
+#define cmd_DayCamera_ZoomStepMinus_init_default {0}
 #define cmd_DayCamera_FocusROI_init_default      {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_TrackROI_init_default      {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_ZoomROI_init_default       {0, 0, 0, 0, 0, 0}
@@ -291,6 +315,10 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_zero       {0}
 #define cmd_DayCamera_SaveToTable_init_zero      {0}
 #define cmd_DayCamera_SaveToTableFocus_init_zero {0}
+#define cmd_DayCamera_FocusStepPlus_init_zero    {0}
+#define cmd_DayCamera_FocusStepMinus_init_zero   {0}
+#define cmd_DayCamera_ZoomStepPlus_init_zero     {0}
+#define cmd_DayCamera_ZoomStepMinus_init_zero    {0}
 #define cmd_DayCamera_FocusROI_init_zero         {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_TrackROI_init_zero         {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_ZoomROI_init_zero          {0, 0, 0, 0, 0, 0}
@@ -310,6 +338,14 @@ extern "C" {
 #define cmd_DayCamera_SetAutoIris_value_tag      1
 #define cmd_DayCamera_SetAutoGain_value_tag      1
 #define cmd_DayCamera_SetZoomTableValue_value_tag 1
+#define cmd_DayCamera_Focus_set_value_tag        1
+#define cmd_DayCamera_Focus_move_tag             2
+#define cmd_DayCamera_Focus_halt_tag             3
+#define cmd_DayCamera_Focus_offset_tag           4
+#define cmd_DayCamera_Focus_reset_focus_tag      5
+#define cmd_DayCamera_Focus_save_to_table_focus_tag 6
+#define cmd_DayCamera_Focus_focus_step_plus_tag  7
+#define cmd_DayCamera_Focus_focus_step_minus_tag 8
 #define cmd_DayCamera_Zoom_set_value_tag         1
 #define cmd_DayCamera_Zoom_move_tag              2
 #define cmd_DayCamera_Zoom_halt_tag              3
@@ -319,12 +355,8 @@ extern "C" {
 #define cmd_DayCamera_Zoom_offset_tag            7
 #define cmd_DayCamera_Zoom_reset_zoom_tag        8
 #define cmd_DayCamera_Zoom_save_to_table_tag     9
-#define cmd_DayCamera_Focus_set_value_tag        1
-#define cmd_DayCamera_Focus_move_tag             2
-#define cmd_DayCamera_Focus_halt_tag             3
-#define cmd_DayCamera_Focus_offset_tag           4
-#define cmd_DayCamera_Focus_reset_focus_tag      5
-#define cmd_DayCamera_Focus_save_to_table_focus_tag 6
+#define cmd_DayCamera_Zoom_zoom_step_plus_tag    10
+#define cmd_DayCamera_Zoom_zoom_step_minus_tag   11
 #define cmd_DayCamera_FocusROI_x1_tag            1
 #define cmd_DayCamera_FocusROI_y1_tag            2
 #define cmd_DayCamera_FocusROI_x2_tag            3
@@ -488,7 +520,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,move,cmd.move),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt,cmd.halt),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,offset,cmd.offset),   4) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,reset_focus,cmd.reset_focus),   5) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table_focus,cmd.save_to_table_focus),   6)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table_focus,cmd.save_to_table_focus),   6) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_step_plus,cmd.focus_step_plus),   7) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_step_minus,cmd.focus_step_minus),   8)
 #define cmd_DayCamera_Focus_CALLBACK NULL
 #define cmd_DayCamera_Focus_DEFAULT NULL
 #define cmd_DayCamera_Focus_cmd_set_value_MSGTYPE cmd_DayCamera_SetValue
@@ -497,6 +531,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table_focus,cmd.save_to_table_fo
 #define cmd_DayCamera_Focus_cmd_offset_MSGTYPE cmd_DayCamera_Offset
 #define cmd_DayCamera_Focus_cmd_reset_focus_MSGTYPE cmd_DayCamera_ResetFocus
 #define cmd_DayCamera_Focus_cmd_save_to_table_focus_MSGTYPE cmd_DayCamera_SaveToTableFocus
+#define cmd_DayCamera_Focus_cmd_focus_step_plus_MSGTYPE cmd_DayCamera_FocusStepPlus
+#define cmd_DayCamera_Focus_cmd_focus_step_minus_MSGTYPE cmd_DayCamera_FocusStepMinus
 
 #define cmd_DayCamera_Zoom_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_value,cmd.set_value),   1) \
@@ -507,7 +543,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,next_zoom_table_pos,cmd.next_zoom_table_
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,prev_zoom_table_pos,cmd.prev_zoom_table_pos),   6) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,offset,cmd.offset),   7) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,reset_zoom,cmd.reset_zoom),   8) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table,cmd.save_to_table),   9)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table,cmd.save_to_table),   9) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_step_plus,cmd.zoom_step_plus),  10) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_step_minus,cmd.zoom_step_minus),  11)
 #define cmd_DayCamera_Zoom_CALLBACK NULL
 #define cmd_DayCamera_Zoom_DEFAULT NULL
 #define cmd_DayCamera_Zoom_cmd_set_value_MSGTYPE cmd_DayCamera_SetValue
@@ -519,6 +557,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table,cmd.save_to_table),   9)
 #define cmd_DayCamera_Zoom_cmd_offset_MSGTYPE cmd_DayCamera_Offset
 #define cmd_DayCamera_Zoom_cmd_reset_zoom_MSGTYPE cmd_DayCamera_ResetZoom
 #define cmd_DayCamera_Zoom_cmd_save_to_table_MSGTYPE cmd_DayCamera_SaveToTable
+#define cmd_DayCamera_Zoom_cmd_zoom_step_plus_MSGTYPE cmd_DayCamera_ZoomStepPlus
+#define cmd_DayCamera_Zoom_cmd_zoom_step_minus_MSGTYPE cmd_DayCamera_ZoomStepMinus
 
 #define cmd_DayCamera_NextZoomTablePos_FIELDLIST(X, a) \
 
@@ -600,6 +640,26 @@ X(a, STATIC,   SINGULAR, INT32,    value,             1)
 #define cmd_DayCamera_SaveToTableFocus_CALLBACK NULL
 #define cmd_DayCamera_SaveToTableFocus_DEFAULT NULL
 
+#define cmd_DayCamera_FocusStepPlus_FIELDLIST(X, a) \
+
+#define cmd_DayCamera_FocusStepPlus_CALLBACK NULL
+#define cmd_DayCamera_FocusStepPlus_DEFAULT NULL
+
+#define cmd_DayCamera_FocusStepMinus_FIELDLIST(X, a) \
+
+#define cmd_DayCamera_FocusStepMinus_CALLBACK NULL
+#define cmd_DayCamera_FocusStepMinus_DEFAULT NULL
+
+#define cmd_DayCamera_ZoomStepPlus_FIELDLIST(X, a) \
+
+#define cmd_DayCamera_ZoomStepPlus_CALLBACK NULL
+#define cmd_DayCamera_ZoomStepPlus_DEFAULT NULL
+
+#define cmd_DayCamera_ZoomStepMinus_FIELDLIST(X, a) \
+
+#define cmd_DayCamera_ZoomStepMinus_CALLBACK NULL
+#define cmd_DayCamera_ZoomStepMinus_DEFAULT NULL
+
 #define cmd_DayCamera_FocusROI_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
@@ -671,6 +731,10 @@ extern const pb_msgdesc_t cmd_DayCamera_ResetZoom_msg;
 extern const pb_msgdesc_t cmd_DayCamera_ResetFocus_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SaveToTable_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SaveToTableFocus_msg;
+extern const pb_msgdesc_t cmd_DayCamera_FocusStepPlus_msg;
+extern const pb_msgdesc_t cmd_DayCamera_FocusStepMinus_msg;
+extern const pb_msgdesc_t cmd_DayCamera_ZoomStepPlus_msg;
+extern const pb_msgdesc_t cmd_DayCamera_ZoomStepMinus_msg;
 extern const pb_msgdesc_t cmd_DayCamera_FocusROI_msg;
 extern const pb_msgdesc_t cmd_DayCamera_TrackROI_msg;
 extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
@@ -708,6 +772,10 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 #define cmd_DayCamera_ResetFocus_fields &cmd_DayCamera_ResetFocus_msg
 #define cmd_DayCamera_SaveToTable_fields &cmd_DayCamera_SaveToTable_msg
 #define cmd_DayCamera_SaveToTableFocus_fields &cmd_DayCamera_SaveToTableFocus_msg
+#define cmd_DayCamera_FocusStepPlus_fields &cmd_DayCamera_FocusStepPlus_msg
+#define cmd_DayCamera_FocusStepMinus_fields &cmd_DayCamera_FocusStepMinus_msg
+#define cmd_DayCamera_ZoomStepPlus_fields &cmd_DayCamera_ZoomStepPlus_msg
+#define cmd_DayCamera_ZoomStepMinus_fields &cmd_DayCamera_ZoomStepMinus_msg
 #define cmd_DayCamera_FocusROI_fields &cmd_DayCamera_FocusROI_msg
 #define cmd_DayCamera_TrackROI_fields &cmd_DayCamera_TrackROI_msg
 #define cmd_DayCamera_ZoomROI_fields &cmd_DayCamera_ZoomROI_msg
@@ -716,6 +784,8 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 /* Maximum encoded size of messages (where known) */
 #define CMD_DAYCAMERA_JON_SHARED_CMD_DAY_CAMERA_PB_H_MAX_SIZE cmd_DayCamera_Root_size
 #define cmd_DayCamera_FocusROI_size              58
+#define cmd_DayCamera_FocusStepMinus_size        0
+#define cmd_DayCamera_FocusStepPlus_size         0
 #define cmd_DayCamera_Focus_size                 20
 #define cmd_DayCamera_FxROI_size                 58
 #define cmd_DayCamera_GetMeteo_size              0
@@ -749,6 +819,8 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 #define cmd_DayCamera_Stop_size                  0
 #define cmd_DayCamera_TrackROI_size              58
 #define cmd_DayCamera_ZoomROI_size               58
+#define cmd_DayCamera_ZoomStepMinus_size         0
+#define cmd_DayCamera_ZoomStepPlus_size          0
 #define cmd_DayCamera_Zoom_size                  20
 
 #ifdef __cplusplus

@@ -10396,6 +10396,36 @@ public final class JonSharedCmdDayCamera {
      */
     cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableFocusOrBuilder getSaveToTableFocusOrBuilder();
 
+    /**
+     * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+     * @return Whether the focusStepPlus field is set.
+     */
+    boolean hasFocusStepPlus();
+    /**
+     * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+     * @return The focusStepPlus.
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus getFocusStepPlus();
+    /**
+     * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder getFocusStepPlusOrBuilder();
+
+    /**
+     * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+     * @return Whether the focusStepMinus field is set.
+     */
+    boolean hasFocusStepMinus();
+    /**
+     * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+     * @return The focusStepMinus.
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus getFocusStepMinus();
+    /**
+     * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder getFocusStepMinusOrBuilder();
+
     cmd.DayCamera.JonSharedCmdDayCamera.Focus.CmdCase getCmdCase();
   }
   /**
@@ -10447,6 +10477,8 @@ public final class JonSharedCmdDayCamera {
       OFFSET(4),
       RESET_FOCUS(5),
       SAVE_TO_TABLE_FOCUS(6),
+      FOCUS_STEP_PLUS(7),
+      FOCUS_STEP_MINUS(8),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -10470,6 +10502,8 @@ public final class JonSharedCmdDayCamera {
           case 4: return OFFSET;
           case 5: return RESET_FOCUS;
           case 6: return SAVE_TO_TABLE_FOCUS;
+          case 7: return FOCUS_STEP_PLUS;
+          case 8: return FOCUS_STEP_MINUS;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -10671,6 +10705,68 @@ public final class JonSharedCmdDayCamera {
       return cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableFocus.getDefaultInstance();
     }
 
+    public static final int FOCUS_STEP_PLUS_FIELD_NUMBER = 7;
+    /**
+     * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+     * @return Whether the focusStepPlus field is set.
+     */
+    @java.lang.Override
+    public boolean hasFocusStepPlus() {
+      return cmdCase_ == 7;
+    }
+    /**
+     * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+     * @return The focusStepPlus.
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus getFocusStepPlus() {
+      if (cmdCase_ == 7) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder getFocusStepPlusOrBuilder() {
+      if (cmdCase_ == 7) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+    }
+
+    public static final int FOCUS_STEP_MINUS_FIELD_NUMBER = 8;
+    /**
+     * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+     * @return Whether the focusStepMinus field is set.
+     */
+    @java.lang.Override
+    public boolean hasFocusStepMinus() {
+      return cmdCase_ == 8;
+    }
+    /**
+     * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+     * @return The focusStepMinus.
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus getFocusStepMinus() {
+      if (cmdCase_ == 8) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder getFocusStepMinusOrBuilder() {
+      if (cmdCase_ == 8) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -10702,6 +10798,12 @@ public final class JonSharedCmdDayCamera {
       }
       if (cmdCase_ == 6) {
         output.writeMessage(6, (cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableFocus) cmd_);
+      }
+      if (cmdCase_ == 7) {
+        output.writeMessage(7, (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_);
+      }
+      if (cmdCase_ == 8) {
+        output.writeMessage(8, (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10735,6 +10837,14 @@ public final class JonSharedCmdDayCamera {
       if (cmdCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, (cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableFocus) cmd_);
+      }
+      if (cmdCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_);
+      }
+      if (cmdCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -10777,6 +10887,14 @@ public final class JonSharedCmdDayCamera {
           if (!getSaveToTableFocus()
               .equals(other.getSaveToTableFocus())) return false;
           break;
+        case 7:
+          if (!getFocusStepPlus()
+              .equals(other.getFocusStepPlus())) return false;
+          break;
+        case 8:
+          if (!getFocusStepMinus()
+              .equals(other.getFocusStepMinus())) return false;
+          break;
         case 0:
         default:
       }
@@ -10815,6 +10933,14 @@ public final class JonSharedCmdDayCamera {
         case 6:
           hash = (37 * hash) + SAVE_TO_TABLE_FOCUS_FIELD_NUMBER;
           hash = (53 * hash) + getSaveToTableFocus().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + FOCUS_STEP_PLUS_FIELD_NUMBER;
+          hash = (53 * hash) + getFocusStepPlus().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + FOCUS_STEP_MINUS_FIELD_NUMBER;
+          hash = (53 * hash) + getFocusStepMinus().hashCode();
           break;
         case 0:
         default:
@@ -10968,6 +11094,12 @@ public final class JonSharedCmdDayCamera {
         if (saveToTableFocusBuilder_ != null) {
           saveToTableFocusBuilder_.clear();
         }
+        if (focusStepPlusBuilder_ != null) {
+          focusStepPlusBuilder_.clear();
+        }
+        if (focusStepMinusBuilder_ != null) {
+          focusStepMinusBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -11033,6 +11165,14 @@ public final class JonSharedCmdDayCamera {
             saveToTableFocusBuilder_ != null) {
           result.cmd_ = saveToTableFocusBuilder_.build();
         }
+        if (cmdCase_ == 7 &&
+            focusStepPlusBuilder_ != null) {
+          result.cmd_ = focusStepPlusBuilder_.build();
+        }
+        if (cmdCase_ == 8 &&
+            focusStepMinusBuilder_ != null) {
+          result.cmd_ = focusStepMinusBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -11070,6 +11210,14 @@ public final class JonSharedCmdDayCamera {
           }
           case SAVE_TO_TABLE_FOCUS: {
             mergeSaveToTableFocus(other.getSaveToTableFocus());
+            break;
+          }
+          case FOCUS_STEP_PLUS: {
+            mergeFocusStepPlus(other.getFocusStepPlus());
+            break;
+          }
+          case FOCUS_STEP_MINUS: {
+            mergeFocusStepMinus(other.getFocusStepMinus());
             break;
           }
           case CMD_NOT_SET: {
@@ -11144,6 +11292,20 @@ public final class JonSharedCmdDayCamera {
                 cmdCase_ = 6;
                 break;
               } // case 50
+              case 58: {
+                input.readMessage(
+                    getFocusStepPlusFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 7;
+                break;
+              } // case 58
+              case 66: {
+                input.readMessage(
+                    getFocusStepMinusFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 8;
+                break;
+              } // case 66
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -12028,6 +12190,290 @@ public final class JonSharedCmdDayCamera {
         return saveToTableFocusBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder> focusStepPlusBuilder_;
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       * @return Whether the focusStepPlus field is set.
+       */
+      @java.lang.Override
+      public boolean hasFocusStepPlus() {
+        return cmdCase_ == 7;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       * @return The focusStepPlus.
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus getFocusStepPlus() {
+        if (focusStepPlusBuilder_ == null) {
+          if (cmdCase_ == 7) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 7) {
+            return focusStepPlusBuilder_.getMessage();
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      public Builder setFocusStepPlus(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus value) {
+        if (focusStepPlusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          focusStepPlusBuilder_.setMessage(value);
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      public Builder setFocusStepPlus(
+          cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder builderForValue) {
+        if (focusStepPlusBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          focusStepPlusBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      public Builder mergeFocusStepPlus(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus value) {
+        if (focusStepPlusBuilder_ == null) {
+          if (cmdCase_ == 7 &&
+              cmd_ != cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance()) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.newBuilder((cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 7) {
+            focusStepPlusBuilder_.mergeFrom(value);
+          } else {
+            focusStepPlusBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      public Builder clearFocusStepPlus() {
+        if (focusStepPlusBuilder_ == null) {
+          if (cmdCase_ == 7) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 7) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          focusStepPlusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder getFocusStepPlusBuilder() {
+        return getFocusStepPlusFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder getFocusStepPlusOrBuilder() {
+        if ((cmdCase_ == 7) && (focusStepPlusBuilder_ != null)) {
+          return focusStepPlusBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 7) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepPlus focus_step_plus = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder> 
+          getFocusStepPlusFieldBuilder() {
+        if (focusStepPlusBuilder_ == null) {
+          if (!(cmdCase_ == 7)) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+          }
+          focusStepPlusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder>(
+                  (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 7;
+        onChanged();
+        return focusStepPlusBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder> focusStepMinusBuilder_;
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       * @return Whether the focusStepMinus field is set.
+       */
+      @java.lang.Override
+      public boolean hasFocusStepMinus() {
+        return cmdCase_ == 8;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       * @return The focusStepMinus.
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus getFocusStepMinus() {
+        if (focusStepMinusBuilder_ == null) {
+          if (cmdCase_ == 8) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 8) {
+            return focusStepMinusBuilder_.getMessage();
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      public Builder setFocusStepMinus(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus value) {
+        if (focusStepMinusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          focusStepMinusBuilder_.setMessage(value);
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      public Builder setFocusStepMinus(
+          cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder builderForValue) {
+        if (focusStepMinusBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          focusStepMinusBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      public Builder mergeFocusStepMinus(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus value) {
+        if (focusStepMinusBuilder_ == null) {
+          if (cmdCase_ == 8 &&
+              cmd_ != cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance()) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.newBuilder((cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 8) {
+            focusStepMinusBuilder_.mergeFrom(value);
+          } else {
+            focusStepMinusBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      public Builder clearFocusStepMinus() {
+        if (focusStepMinusBuilder_ == null) {
+          if (cmdCase_ == 8) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 8) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          focusStepMinusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder getFocusStepMinusBuilder() {
+        return getFocusStepMinusFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder getFocusStepMinusOrBuilder() {
+        if ((cmdCase_ == 8) && (focusStepMinusBuilder_ != null)) {
+          return focusStepMinusBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 8) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.FocusStepMinus focus_step_minus = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder> 
+          getFocusStepMinusFieldBuilder() {
+        if (focusStepMinusBuilder_ == null) {
+          if (!(cmdCase_ == 8)) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+          }
+          focusStepMinusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder>(
+                  (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 8;
+        onChanged();
+        return focusStepMinusBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:cmd.DayCamera.Focus)
     }
 
@@ -12218,6 +12664,36 @@ public final class JonSharedCmdDayCamera {
      */
     cmd.DayCamera.JonSharedCmdDayCamera.SaveToTableOrBuilder getSaveToTableOrBuilder();
 
+    /**
+     * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+     * @return Whether the zoomStepPlus field is set.
+     */
+    boolean hasZoomStepPlus();
+    /**
+     * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+     * @return The zoomStepPlus.
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus getZoomStepPlus();
+    /**
+     * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder getZoomStepPlusOrBuilder();
+
+    /**
+     * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+     * @return Whether the zoomStepMinus field is set.
+     */
+    boolean hasZoomStepMinus();
+    /**
+     * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+     * @return The zoomStepMinus.
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus getZoomStepMinus();
+    /**
+     * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder getZoomStepMinusOrBuilder();
+
     cmd.DayCamera.JonSharedCmdDayCamera.Zoom.CmdCase getCmdCase();
   }
   /**
@@ -12272,6 +12748,8 @@ public final class JonSharedCmdDayCamera {
       OFFSET(7),
       RESET_ZOOM(8),
       SAVE_TO_TABLE(9),
+      ZOOM_STEP_PLUS(10),
+      ZOOM_STEP_MINUS(11),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -12298,6 +12776,8 @@ public final class JonSharedCmdDayCamera {
           case 7: return OFFSET;
           case 8: return RESET_ZOOM;
           case 9: return SAVE_TO_TABLE;
+          case 10: return ZOOM_STEP_PLUS;
+          case 11: return ZOOM_STEP_MINUS;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -12592,6 +13072,68 @@ public final class JonSharedCmdDayCamera {
       return cmd.DayCamera.JonSharedCmdDayCamera.SaveToTable.getDefaultInstance();
     }
 
+    public static final int ZOOM_STEP_PLUS_FIELD_NUMBER = 10;
+    /**
+     * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+     * @return Whether the zoomStepPlus field is set.
+     */
+    @java.lang.Override
+    public boolean hasZoomStepPlus() {
+      return cmdCase_ == 10;
+    }
+    /**
+     * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+     * @return The zoomStepPlus.
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus getZoomStepPlus() {
+      if (cmdCase_ == 10) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder getZoomStepPlusOrBuilder() {
+      if (cmdCase_ == 10) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+    }
+
+    public static final int ZOOM_STEP_MINUS_FIELD_NUMBER = 11;
+    /**
+     * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+     * @return Whether the zoomStepMinus field is set.
+     */
+    @java.lang.Override
+    public boolean hasZoomStepMinus() {
+      return cmdCase_ == 11;
+    }
+    /**
+     * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+     * @return The zoomStepMinus.
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus getZoomStepMinus() {
+      if (cmdCase_ == 11) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder getZoomStepMinusOrBuilder() {
+      if (cmdCase_ == 11) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -12632,6 +13174,12 @@ public final class JonSharedCmdDayCamera {
       }
       if (cmdCase_ == 9) {
         output.writeMessage(9, (cmd.DayCamera.JonSharedCmdDayCamera.SaveToTable) cmd_);
+      }
+      if (cmdCase_ == 10) {
+        output.writeMessage(10, (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_);
+      }
+      if (cmdCase_ == 11) {
+        output.writeMessage(11, (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12677,6 +13225,14 @@ public final class JonSharedCmdDayCamera {
       if (cmdCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (cmd.DayCamera.JonSharedCmdDayCamera.SaveToTable) cmd_);
+      }
+      if (cmdCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_);
+      }
+      if (cmdCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -12731,6 +13287,14 @@ public final class JonSharedCmdDayCamera {
           if (!getSaveToTable()
               .equals(other.getSaveToTable())) return false;
           break;
+        case 10:
+          if (!getZoomStepPlus()
+              .equals(other.getZoomStepPlus())) return false;
+          break;
+        case 11:
+          if (!getZoomStepMinus()
+              .equals(other.getZoomStepMinus())) return false;
+          break;
         case 0:
         default:
       }
@@ -12781,6 +13345,14 @@ public final class JonSharedCmdDayCamera {
         case 9:
           hash = (37 * hash) + SAVE_TO_TABLE_FIELD_NUMBER;
           hash = (53 * hash) + getSaveToTable().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + ZOOM_STEP_PLUS_FIELD_NUMBER;
+          hash = (53 * hash) + getZoomStepPlus().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + ZOOM_STEP_MINUS_FIELD_NUMBER;
+          hash = (53 * hash) + getZoomStepMinus().hashCode();
           break;
         case 0:
         default:
@@ -12943,6 +13515,12 @@ public final class JonSharedCmdDayCamera {
         if (saveToTableBuilder_ != null) {
           saveToTableBuilder_.clear();
         }
+        if (zoomStepPlusBuilder_ != null) {
+          zoomStepPlusBuilder_.clear();
+        }
+        if (zoomStepMinusBuilder_ != null) {
+          zoomStepMinusBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -13020,6 +13598,14 @@ public final class JonSharedCmdDayCamera {
             saveToTableBuilder_ != null) {
           result.cmd_ = saveToTableBuilder_.build();
         }
+        if (cmdCase_ == 10 &&
+            zoomStepPlusBuilder_ != null) {
+          result.cmd_ = zoomStepPlusBuilder_.build();
+        }
+        if (cmdCase_ == 11 &&
+            zoomStepMinusBuilder_ != null) {
+          result.cmd_ = zoomStepMinusBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -13069,6 +13655,14 @@ public final class JonSharedCmdDayCamera {
           }
           case SAVE_TO_TABLE: {
             mergeSaveToTable(other.getSaveToTable());
+            break;
+          }
+          case ZOOM_STEP_PLUS: {
+            mergeZoomStepPlus(other.getZoomStepPlus());
+            break;
+          }
+          case ZOOM_STEP_MINUS: {
+            mergeZoomStepMinus(other.getZoomStepMinus());
             break;
           }
           case CMD_NOT_SET: {
@@ -13164,6 +13758,20 @@ public final class JonSharedCmdDayCamera {
                 cmdCase_ = 9;
                 break;
               } // case 74
+              case 82: {
+                input.readMessage(
+                    getZoomStepPlusFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 10;
+                break;
+              } // case 82
+              case 90: {
+                input.readMessage(
+                    getZoomStepMinusFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 11;
+                break;
+              } // case 90
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -14472,6 +15080,290 @@ public final class JonSharedCmdDayCamera {
         cmdCase_ = 9;
         onChanged();
         return saveToTableBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder> zoomStepPlusBuilder_;
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       * @return Whether the zoomStepPlus field is set.
+       */
+      @java.lang.Override
+      public boolean hasZoomStepPlus() {
+        return cmdCase_ == 10;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       * @return The zoomStepPlus.
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus getZoomStepPlus() {
+        if (zoomStepPlusBuilder_ == null) {
+          if (cmdCase_ == 10) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 10) {
+            return zoomStepPlusBuilder_.getMessage();
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      public Builder setZoomStepPlus(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus value) {
+        if (zoomStepPlusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          zoomStepPlusBuilder_.setMessage(value);
+        }
+        cmdCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      public Builder setZoomStepPlus(
+          cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder builderForValue) {
+        if (zoomStepPlusBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          zoomStepPlusBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      public Builder mergeZoomStepPlus(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus value) {
+        if (zoomStepPlusBuilder_ == null) {
+          if (cmdCase_ == 10 &&
+              cmd_ != cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance()) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.newBuilder((cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 10) {
+            zoomStepPlusBuilder_.mergeFrom(value);
+          } else {
+            zoomStepPlusBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      public Builder clearZoomStepPlus() {
+        if (zoomStepPlusBuilder_ == null) {
+          if (cmdCase_ == 10) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 10) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          zoomStepPlusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder getZoomStepPlusBuilder() {
+        return getZoomStepPlusFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder getZoomStepPlusOrBuilder() {
+        if ((cmdCase_ == 10) && (zoomStepPlusBuilder_ != null)) {
+          return zoomStepPlusBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 10) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder> 
+          getZoomStepPlusFieldBuilder() {
+        if (zoomStepPlusBuilder_ == null) {
+          if (!(cmdCase_ == 10)) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+          }
+          zoomStepPlusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder>(
+                  (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 10;
+        onChanged();
+        return zoomStepPlusBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder> zoomStepMinusBuilder_;
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       * @return Whether the zoomStepMinus field is set.
+       */
+      @java.lang.Override
+      public boolean hasZoomStepMinus() {
+        return cmdCase_ == 11;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       * @return The zoomStepMinus.
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus getZoomStepMinus() {
+        if (zoomStepMinusBuilder_ == null) {
+          if (cmdCase_ == 11) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 11) {
+            return zoomStepMinusBuilder_.getMessage();
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      public Builder setZoomStepMinus(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus value) {
+        if (zoomStepMinusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          zoomStepMinusBuilder_.setMessage(value);
+        }
+        cmdCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      public Builder setZoomStepMinus(
+          cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder builderForValue) {
+        if (zoomStepMinusBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          zoomStepMinusBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      public Builder mergeZoomStepMinus(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus value) {
+        if (zoomStepMinusBuilder_ == null) {
+          if (cmdCase_ == 11 &&
+              cmd_ != cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance()) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.newBuilder((cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 11) {
+            zoomStepMinusBuilder_.mergeFrom(value);
+          } else {
+            zoomStepMinusBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      public Builder clearZoomStepMinus() {
+        if (zoomStepMinusBuilder_ == null) {
+          if (cmdCase_ == 11) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 11) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          zoomStepMinusBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder getZoomStepMinusBuilder() {
+        return getZoomStepMinusFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder getZoomStepMinusOrBuilder() {
+        if ((cmdCase_ == 11) && (zoomStepMinusBuilder_ != null)) {
+          return zoomStepMinusBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 11) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder> 
+          getZoomStepMinusFieldBuilder() {
+        if (zoomStepMinusBuilder_ == null) {
+          if (!(cmdCase_ == 11)) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+          }
+          zoomStepMinusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder>(
+                  (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 11;
+        onChanged();
+        return zoomStepMinusBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.DayCamera.Zoom)
@@ -20605,6 +21497,1426 @@ public final class JonSharedCmdDayCamera {
 
   }
 
+  public interface FocusStepPlusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.DayCamera.FocusStepPlus)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.DayCamera.FocusStepPlus}
+   */
+  public static final class FocusStepPlus extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.DayCamera.FocusStepPlus)
+      FocusStepPlusOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        FocusStepPlus.class.getName());
+    }
+    // Use FocusStepPlus.newBuilder() to construct.
+    private FocusStepPlus(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private FocusStepPlus() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepPlus_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepPlus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.class, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus)) {
+        return super.equals(obj);
+      }
+      cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus other = (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.DayCamera.FocusStepPlus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.DayCamera.FocusStepPlus)
+        cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepPlus_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepPlus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.class, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.Builder.class);
+      }
+
+      // Construct using cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepPlus_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus getDefaultInstanceForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus build() {
+        cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus buildPartial() {
+        cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus result = new cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus) {
+          return mergeFrom((cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus other) {
+        if (other == cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.DayCamera.FocusStepPlus)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.DayCamera.FocusStepPlus)
+    private static final cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus();
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FocusStepPlus>
+        PARSER = new com.google.protobuf.AbstractParser<FocusStepPlus>() {
+      @java.lang.Override
+      public FocusStepPlus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<FocusStepPlus> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FocusStepPlus> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepPlus getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FocusStepMinusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.DayCamera.FocusStepMinus)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.DayCamera.FocusStepMinus}
+   */
+  public static final class FocusStepMinus extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.DayCamera.FocusStepMinus)
+      FocusStepMinusOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        FocusStepMinus.class.getName());
+    }
+    // Use FocusStepMinus.newBuilder() to construct.
+    private FocusStepMinus(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private FocusStepMinus() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepMinus_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepMinus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.class, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus)) {
+        return super.equals(obj);
+      }
+      cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus other = (cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.DayCamera.FocusStepMinus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.DayCamera.FocusStepMinus)
+        cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepMinus_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepMinus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.class, cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.Builder.class);
+      }
+
+      // Construct using cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FocusStepMinus_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus getDefaultInstanceForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus build() {
+        cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus buildPartial() {
+        cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus result = new cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus) {
+          return mergeFrom((cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus other) {
+        if (other == cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.DayCamera.FocusStepMinus)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.DayCamera.FocusStepMinus)
+    private static final cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus();
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FocusStepMinus>
+        PARSER = new com.google.protobuf.AbstractParser<FocusStepMinus>() {
+      @java.lang.Override
+      public FocusStepMinus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<FocusStepMinus> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FocusStepMinus> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FocusStepMinus getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ZoomStepPlusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.DayCamera.ZoomStepPlus)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.DayCamera.ZoomStepPlus}
+   */
+  public static final class ZoomStepPlus extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.DayCamera.ZoomStepPlus)
+      ZoomStepPlusOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ZoomStepPlus.class.getName());
+    }
+    // Use ZoomStepPlus.newBuilder() to construct.
+    private ZoomStepPlus(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ZoomStepPlus() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepPlus_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepPlus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.class, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus)) {
+        return super.equals(obj);
+      }
+      cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus other = (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.DayCamera.ZoomStepPlus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.DayCamera.ZoomStepPlus)
+        cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepPlus_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepPlus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.class, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.Builder.class);
+      }
+
+      // Construct using cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepPlus_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus getDefaultInstanceForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus build() {
+        cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus buildPartial() {
+        cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus result = new cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus) {
+          return mergeFrom((cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus other) {
+        if (other == cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.DayCamera.ZoomStepPlus)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.DayCamera.ZoomStepPlus)
+    private static final cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus();
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ZoomStepPlus>
+        PARSER = new com.google.protobuf.AbstractParser<ZoomStepPlus>() {
+      @java.lang.Override
+      public ZoomStepPlus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ZoomStepPlus> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ZoomStepPlus> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ZoomStepMinusOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.DayCamera.ZoomStepMinus)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.DayCamera.ZoomStepMinus}
+   */
+  public static final class ZoomStepMinus extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.DayCamera.ZoomStepMinus)
+      ZoomStepMinusOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ZoomStepMinus.class.getName());
+    }
+    // Use ZoomStepMinus.newBuilder() to construct.
+    private ZoomStepMinus(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ZoomStepMinus() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepMinus_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepMinus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.class, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus)) {
+        return super.equals(obj);
+      }
+      cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus other = (cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.DayCamera.ZoomStepMinus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.DayCamera.ZoomStepMinus)
+        cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepMinus_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepMinus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.class, cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.Builder.class);
+      }
+
+      // Construct using cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_ZoomStepMinus_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus getDefaultInstanceForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus build() {
+        cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus buildPartial() {
+        cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus result = new cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus) {
+          return mergeFrom((cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus other) {
+        if (other == cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.DayCamera.ZoomStepMinus)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.DayCamera.ZoomStepMinus)
+    private static final cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus();
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ZoomStepMinus>
+        PARSER = new com.google.protobuf.AbstractParser<ZoomStepMinus>() {
+      @java.lang.Override
+      public ZoomStepMinus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ZoomStepMinus> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ZoomStepMinus> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface FocusROIOrBuilder extends
       // @@protoc_insertion_point(interface_extends:cmd.DayCamera.FocusROI)
       com.google.protobuf.MessageOrBuilder {
@@ -24137,6 +26449,26 @@ public final class JonSharedCmdDayCamera {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_DayCamera_SaveToTableFocus_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_DayCamera_FocusStepPlus_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_DayCamera_FocusStepPlus_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_DayCamera_FocusStepMinus_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_DayCamera_FocusStepMinus_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_DayCamera_ZoomStepPlus_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_DayCamera_ZoomStepPlus_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_DayCamera_ZoomStepMinus_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_DayCamera_ZoomStepMinus_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_DayCamera_FocusROI_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -24207,57 +26539,65 @@ public final class JonSharedCmdDayCamera {
       "RefreshFxMode\"\t\n\007HaltAll\"?\n\tSetFxMode\0222\n" +
       "\004mode\030\001 \001(\0162\030.ser.JonGuiDataFxModeDayB\n\272" +
       "H\007\202\001\004\020\001 \000\"4\n\023SetDigitalZoomLevel\022\035\n\005valu" +
-      "e\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\"\250\002\n\005Focus\022,\n\tset" +
+      "e\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\"\234\003\n\005Focus\022,\n\tset" +
       "_value\030\001 \001(\0132\027.cmd.DayCamera.SetValueH\000\022" +
       "#\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH\000\022#\n\004" +
       "halt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022\'\n\006off" +
       "set\030\004 \001(\0132\025.cmd.DayCamera.OffsetH\000\0220\n\013re" +
       "set_focus\030\005 \001(\0132\031.cmd.DayCamera.ResetFoc" +
       "usH\000\022>\n\023save_to_table_focus\030\006 \001(\0132\037.cmd." +
-      "DayCamera.SaveToTableFocusH\000B\014\n\003cmd\022\005\272H\002" +
-      "\010\001\"\334\003\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.Day" +
-      "Camera.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.Da" +
-      "yCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCa" +
-      "mera.HaltH\000\022@\n\024set_zoom_table_value\030\004 \001(" +
-      "\0132 .cmd.DayCamera.SetZoomTableValueH\000\022>\n" +
-      "\023next_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCame" +
-      "ra.NextZoomTablePosH\000\022>\n\023prev_zoom_table" +
-      "_pos\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTable" +
-      "PosH\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Of" +
-      "fsetH\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCame" +
-      "ra.ResetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032." +
-      "cmd.DayCamera.SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010" +
-      "\001\"\022\n\020NextZoomTablePos\"\022\n\020PrevZoomTablePo" +
-      "s\"1\n\007SetIris\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
-      "\000\360?)\000\000\000\000\000\000\000\000\"\"\n\021SetInfraRedFilter\022\r\n\005val" +
-      "ue\030\001 \001(\010\"\034\n\013SetAutoIris\022\r\n\005value\030\001 \001(\010\"\034" +
-      "\n\013SetAutoGain\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomT" +
-      "ableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Sto" +
-      "p\"\007\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"" +
-      "\013\n\tResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTabl" +
-      "e\"\022\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1" +
-      "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001" +
-      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001" +
-      "(\004\022\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x" +
-      "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 " +
-      "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x" +
-      "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 " +
-      "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030" +
-      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001" +
-      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H" +
-      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(" +
-      "\004\022\022\n\nstate_time\030\006 \001(\004BQZOgit-codecommit." +
-      "eu-central-1.amazonaws.com/v1/repos/jett" +
-      "ison/jonp/cmd/day_camerab\006proto3"
+      "DayCamera.SaveToTableFocusH\000\0227\n\017focus_st" +
+      "ep_plus\030\007 \001(\0132\034.cmd.DayCamera.FocusStepP" +
+      "lusH\000\0229\n\020focus_step_minus\030\010 \001(\0132\035.cmd.Da" +
+      "yCamera.FocusStepMinusH\000B\014\n\003cmd\022\005\272H\002\010\001\"\314" +
+      "\004\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.DayCame" +
+      "ra.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.DayCam" +
+      "era.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCamera" +
+      ".HaltH\000\022@\n\024set_zoom_table_value\030\004 \001(\0132 ." +
+      "cmd.DayCamera.SetZoomTableValueH\000\022>\n\023nex" +
+      "t_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCamera.N" +
+      "extZoomTablePosH\000\022>\n\023prev_zoom_table_pos" +
+      "\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTablePosH" +
+      "\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Offset" +
+      "H\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCamera.R" +
+      "esetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032.cmd." +
+      "DayCamera.SaveToTableH\000\0225\n\016zoom_step_plu" +
+      "s\030\n \001(\0132\033.cmd.DayCamera.ZoomStepPlusH\000\0227" +
+      "\n\017zoom_step_minus\030\013 \001(\0132\034.cmd.DayCamera." +
+      "ZoomStepMinusH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoo" +
+      "mTablePos\"\022\n\020PrevZoomTablePos\"1\n\007SetIris" +
+      "\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000" +
+      "\"\"\n\021SetInfraRedFilter\022\r\n\005value\030\001 \001(\010\"\034\n\013" +
+      "SetAutoIris\022\r\n\005value\030\001 \001(\010\"\034\n\013SetAutoGai" +
+      "n\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomTableValue\022\026\n" +
+      "\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007\n\005Start\"\007" +
+      "\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\tResetZoom" +
+      "\"\014\n\nResetFocus\"\r\n\013SaveToTable\"\022\n\020SaveToT" +
+      "ableFocus\"\017\n\rFocusStepPlus\"\020\n\016FocusStepM" +
+      "inus\"\016\n\014ZoomStepPlus\"\017\n\rZoomStepMinus\"\306\001" +
+      "\n\010FocusROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000" +
+      "\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000" +
+      "\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360" +
+      "\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022" +
+      "\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\"\306" +
+      "\001\n\010TrackROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
+      "\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000" +
+      "\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000" +
+      "\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022" +
+      "\022\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\"" +
+      "\305\001\n\007ZoomROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
+      "\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000" +
+      "\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000" +
+      "\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022" +
+      "\022\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\"" +
+      "\303\001\n\005FxROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
+      "\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000" +
+      "\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
+      "\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n" +
+      "\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004BQZ" +
+      "Ogit-codecommit.eu-central-1.amazonaws.c" +
+      "om/v1/repos/jettison/jonp/cmd/day_camera" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -24348,13 +26688,13 @@ public final class JonSharedCmdDayCamera {
     internal_static_cmd_DayCamera_Focus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Focus_descriptor,
-        new java.lang.String[] { "SetValue", "Move", "Halt", "Offset", "ResetFocus", "SaveToTableFocus", "Cmd", });
+        new java.lang.String[] { "SetValue", "Move", "Halt", "Offset", "ResetFocus", "SaveToTableFocus", "FocusStepPlus", "FocusStepMinus", "Cmd", });
     internal_static_cmd_DayCamera_Zoom_descriptor =
       getDescriptor().getMessageTypes().get(14);
     internal_static_cmd_DayCamera_Zoom_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Zoom_descriptor,
-        new java.lang.String[] { "SetValue", "Move", "Halt", "SetZoomTableValue", "NextZoomTablePos", "PrevZoomTablePos", "Offset", "ResetZoom", "SaveToTable", "Cmd", });
+        new java.lang.String[] { "SetValue", "Move", "Halt", "SetZoomTableValue", "NextZoomTablePos", "PrevZoomTablePos", "Offset", "ResetZoom", "SaveToTable", "ZoomStepPlus", "ZoomStepMinus", "Cmd", });
     internal_static_cmd_DayCamera_NextZoomTablePos_descriptor =
       getDescriptor().getMessageTypes().get(15);
     internal_static_cmd_DayCamera_NextZoomTablePos_fieldAccessorTable = new
@@ -24451,26 +26791,50 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_SaveToTableFocus_descriptor,
         new java.lang.String[] { });
-    internal_static_cmd_DayCamera_FocusROI_descriptor =
+    internal_static_cmd_DayCamera_FocusStepPlus_descriptor =
       getDescriptor().getMessageTypes().get(31);
+    internal_static_cmd_DayCamera_FocusStepPlus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_DayCamera_FocusStepPlus_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_DayCamera_FocusStepMinus_descriptor =
+      getDescriptor().getMessageTypes().get(32);
+    internal_static_cmd_DayCamera_FocusStepMinus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_DayCamera_FocusStepMinus_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_DayCamera_ZoomStepPlus_descriptor =
+      getDescriptor().getMessageTypes().get(33);
+    internal_static_cmd_DayCamera_ZoomStepPlus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_DayCamera_ZoomStepPlus_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_DayCamera_ZoomStepMinus_descriptor =
+      getDescriptor().getMessageTypes().get(34);
+    internal_static_cmd_DayCamera_ZoomStepMinus_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_DayCamera_ZoomStepMinus_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_DayCamera_FocusROI_descriptor =
+      getDescriptor().getMessageTypes().get(35);
     internal_static_cmd_DayCamera_FocusROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_FocusROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_TrackROI_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_cmd_DayCamera_TrackROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_TrackROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_ZoomROI_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_cmd_DayCamera_ZoomROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_ZoomROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_FxROI_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_cmd_DayCamera_FxROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_FxROI_descriptor,

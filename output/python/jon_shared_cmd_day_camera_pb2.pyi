@@ -118,23 +118,27 @@ class SetDigitalZoomLevel(_message.Message):
     def __init__(self, value: _Optional[float] = ...) -> None: ...
 
 class Focus(_message.Message):
-    __slots__ = ("set_value", "move", "halt", "offset", "reset_focus", "save_to_table_focus")
+    __slots__ = ("set_value", "move", "halt", "offset", "reset_focus", "save_to_table_focus", "focus_step_plus", "focus_step_minus")
     SET_VALUE_FIELD_NUMBER: _ClassVar[int]
     MOVE_FIELD_NUMBER: _ClassVar[int]
     HALT_FIELD_NUMBER: _ClassVar[int]
     OFFSET_FIELD_NUMBER: _ClassVar[int]
     RESET_FOCUS_FIELD_NUMBER: _ClassVar[int]
     SAVE_TO_TABLE_FOCUS_FIELD_NUMBER: _ClassVar[int]
+    FOCUS_STEP_PLUS_FIELD_NUMBER: _ClassVar[int]
+    FOCUS_STEP_MINUS_FIELD_NUMBER: _ClassVar[int]
     set_value: SetValue
     move: Move
     halt: Halt
     offset: Offset
     reset_focus: ResetFocus
     save_to_table_focus: SaveToTableFocus
-    def __init__(self, set_value: _Optional[_Union[SetValue, _Mapping]] = ..., move: _Optional[_Union[Move, _Mapping]] = ..., halt: _Optional[_Union[Halt, _Mapping]] = ..., offset: _Optional[_Union[Offset, _Mapping]] = ..., reset_focus: _Optional[_Union[ResetFocus, _Mapping]] = ..., save_to_table_focus: _Optional[_Union[SaveToTableFocus, _Mapping]] = ...) -> None: ...
+    focus_step_plus: FocusStepPlus
+    focus_step_minus: FocusStepMinus
+    def __init__(self, set_value: _Optional[_Union[SetValue, _Mapping]] = ..., move: _Optional[_Union[Move, _Mapping]] = ..., halt: _Optional[_Union[Halt, _Mapping]] = ..., offset: _Optional[_Union[Offset, _Mapping]] = ..., reset_focus: _Optional[_Union[ResetFocus, _Mapping]] = ..., save_to_table_focus: _Optional[_Union[SaveToTableFocus, _Mapping]] = ..., focus_step_plus: _Optional[_Union[FocusStepPlus, _Mapping]] = ..., focus_step_minus: _Optional[_Union[FocusStepMinus, _Mapping]] = ...) -> None: ...
 
 class Zoom(_message.Message):
-    __slots__ = ("set_value", "move", "halt", "set_zoom_table_value", "next_zoom_table_pos", "prev_zoom_table_pos", "offset", "reset_zoom", "save_to_table")
+    __slots__ = ("set_value", "move", "halt", "set_zoom_table_value", "next_zoom_table_pos", "prev_zoom_table_pos", "offset", "reset_zoom", "save_to_table", "zoom_step_plus", "zoom_step_minus")
     SET_VALUE_FIELD_NUMBER: _ClassVar[int]
     MOVE_FIELD_NUMBER: _ClassVar[int]
     HALT_FIELD_NUMBER: _ClassVar[int]
@@ -144,6 +148,8 @@ class Zoom(_message.Message):
     OFFSET_FIELD_NUMBER: _ClassVar[int]
     RESET_ZOOM_FIELD_NUMBER: _ClassVar[int]
     SAVE_TO_TABLE_FIELD_NUMBER: _ClassVar[int]
+    ZOOM_STEP_PLUS_FIELD_NUMBER: _ClassVar[int]
+    ZOOM_STEP_MINUS_FIELD_NUMBER: _ClassVar[int]
     set_value: SetValue
     move: Move
     halt: Halt
@@ -153,7 +159,9 @@ class Zoom(_message.Message):
     offset: Offset
     reset_zoom: ResetZoom
     save_to_table: SaveToTable
-    def __init__(self, set_value: _Optional[_Union[SetValue, _Mapping]] = ..., move: _Optional[_Union[Move, _Mapping]] = ..., halt: _Optional[_Union[Halt, _Mapping]] = ..., set_zoom_table_value: _Optional[_Union[SetZoomTableValue, _Mapping]] = ..., next_zoom_table_pos: _Optional[_Union[NextZoomTablePos, _Mapping]] = ..., prev_zoom_table_pos: _Optional[_Union[PrevZoomTablePos, _Mapping]] = ..., offset: _Optional[_Union[Offset, _Mapping]] = ..., reset_zoom: _Optional[_Union[ResetZoom, _Mapping]] = ..., save_to_table: _Optional[_Union[SaveToTable, _Mapping]] = ...) -> None: ...
+    zoom_step_plus: ZoomStepPlus
+    zoom_step_minus: ZoomStepMinus
+    def __init__(self, set_value: _Optional[_Union[SetValue, _Mapping]] = ..., move: _Optional[_Union[Move, _Mapping]] = ..., halt: _Optional[_Union[Halt, _Mapping]] = ..., set_zoom_table_value: _Optional[_Union[SetZoomTableValue, _Mapping]] = ..., next_zoom_table_pos: _Optional[_Union[NextZoomTablePos, _Mapping]] = ..., prev_zoom_table_pos: _Optional[_Union[PrevZoomTablePos, _Mapping]] = ..., offset: _Optional[_Union[Offset, _Mapping]] = ..., reset_zoom: _Optional[_Union[ResetZoom, _Mapping]] = ..., save_to_table: _Optional[_Union[SaveToTable, _Mapping]] = ..., zoom_step_plus: _Optional[_Union[ZoomStepPlus, _Mapping]] = ..., zoom_step_minus: _Optional[_Union[ZoomStepMinus, _Mapping]] = ...) -> None: ...
 
 class NextZoomTablePos(_message.Message):
     __slots__ = ()
@@ -226,6 +234,22 @@ class SaveToTable(_message.Message):
     def __init__(self) -> None: ...
 
 class SaveToTableFocus(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class FocusStepPlus(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class FocusStepMinus(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class ZoomStepPlus(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class ZoomStepMinus(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 

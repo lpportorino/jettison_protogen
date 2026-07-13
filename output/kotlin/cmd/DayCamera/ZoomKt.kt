@@ -243,6 +243,54 @@ public object ZoomKt {
     public fun hasSaveToTable(): kotlin.Boolean {
       return _builder.hasSaveToTable()
     }
+
+    /**
+     * `.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;`
+     */
+    public var zoomStepPlus: cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus
+      @JvmName("getZoomStepPlus")
+      get() = _builder.zoomStepPlus
+      @JvmName("setZoomStepPlus")
+      set(value) {
+        _builder.zoomStepPlus = value
+      }
+    /**
+     * `.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;`
+     */
+    public fun clearZoomStepPlus() {
+      _builder.clearZoomStepPlus()
+    }
+    /**
+     * `.cmd.DayCamera.ZoomStepPlus zoom_step_plus = 10;`
+     * @return Whether the zoomStepPlus field is set.
+     */
+    public fun hasZoomStepPlus(): kotlin.Boolean {
+      return _builder.hasZoomStepPlus()
+    }
+
+    /**
+     * `.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;`
+     */
+    public var zoomStepMinus: cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus
+      @JvmName("getZoomStepMinus")
+      get() = _builder.zoomStepMinus
+      @JvmName("setZoomStepMinus")
+      set(value) {
+        _builder.zoomStepMinus = value
+      }
+    /**
+     * `.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;`
+     */
+    public fun clearZoomStepMinus() {
+      _builder.clearZoomStepMinus()
+    }
+    /**
+     * `.cmd.DayCamera.ZoomStepMinus zoom_step_minus = 11;`
+     * @return Whether the zoomStepMinus field is set.
+     */
+    public fun hasZoomStepMinus(): kotlin.Boolean {
+      return _builder.hasZoomStepMinus()
+    }
     public val cmdCase: cmd.DayCamera.JonSharedCmdDayCamera.Zoom.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -282,4 +330,10 @@ public val cmd.DayCamera.JonSharedCmdDayCamera.ZoomOrBuilder.resetZoomOrNull: cm
 
 public val cmd.DayCamera.JonSharedCmdDayCamera.ZoomOrBuilder.saveToTableOrNull: cmd.DayCamera.JonSharedCmdDayCamera.SaveToTable?
   get() = if (hasSaveToTable()) getSaveToTable() else null
+
+public val cmd.DayCamera.JonSharedCmdDayCamera.ZoomOrBuilder.zoomStepPlusOrNull: cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepPlus?
+  get() = if (hasZoomStepPlus()) getZoomStepPlus() else null
+
+public val cmd.DayCamera.JonSharedCmdDayCamera.ZoomOrBuilder.zoomStepMinusOrNull: cmd.DayCamera.JonSharedCmdDayCamera.ZoomStepMinus?
+  get() = if (hasZoomStepMinus()) getZoomStepMinus() else null
 
