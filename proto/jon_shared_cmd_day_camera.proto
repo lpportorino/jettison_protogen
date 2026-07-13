@@ -106,6 +106,8 @@ message Focus {
     Offset offset = 4;
     ResetFocus reset_focus = 5;
     SaveToTableFocus save_to_table_focus = 6;
+    FocusStepPlus focus_step_plus = 7;
+    FocusStepMinus focus_step_minus = 8;
   }
 }
 
@@ -121,6 +123,8 @@ message Zoom {
     Offset offset = 7;
     ResetZoom reset_zoom = 8;
     SaveToTable save_to_table = 9;
+    ZoomStepPlus zoom_step_plus = 10;
+    ZoomStepMinus zoom_step_minus = 11;
   }
 }
 
@@ -170,6 +174,14 @@ message ResetFocus {}
 message SaveToTable {}
 
 message SaveToTableFocus {}
+
+message FocusStepPlus {}
+
+message FocusStepMinus {}
+
+message ZoomStepPlus {}
+
+message ZoomStepMinus {}
 
 message FocusROI {
   double x1 = 1 [(buf.validate.field).double = {
