@@ -65,8 +65,9 @@ export type CANFrame = Message<"jon.can.CANFrame"> & {
 
   /**
    * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
-   * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
-   * the scheduler latency in us. 0 = absent.
+   * timestamp_us (which is mono_ns/1000). The kernel stamps the frame BEFORE the
+   * userspace read, so timestamp_us - kernel_ns/1000 is the scheduler latency in
+   * us (physically-positive; matches lighthouse's mono_ns - kernel_ns). 0 = absent.
    *
    * @generated from field: uint64 kernel_ns = 7;
    */

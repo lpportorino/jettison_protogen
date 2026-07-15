@@ -95,8 +95,9 @@ type CANFrame struct {
 	// still read is_rx.
 	Dir CANDirection `protobuf:"varint,6,opt,name=dir,proto3,enum=jon.can.CANDirection" json:"dir,omitempty"`
 	// Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
-	// timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
-	// the scheduler latency in us. 0 = absent.
+	// timestamp_us (which is mono_ns/1000). The kernel stamps the frame BEFORE the
+	// userspace read, so timestamp_us - kernel_ns/1000 is the scheduler latency in
+	// us (physically-positive; matches lighthouse's mono_ns - kernel_ns). 0 = absent.
 	KernelNs uint64 `protobuf:"varint,7,opt,name=kernel_ns,json=kernelNs,proto3" json:"kernel_ns,omitempty"`
 	// Producer post-read monotonic record index. A gap between consecutive frames'
 	// seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
