@@ -17,6 +17,24 @@ pub struct CanFrame {
     /// Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
     #[prost(bytes = "vec", tag = "5")]
     pub data: ::prost::alloc::vec::Vec<u8>,
+    /// Authoritative producer direction. Supersedes is_rx (field 3, kept for
+    /// back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+    /// still read is_rx.
+    #[prost(enumeration = "CanDirection", tag = "6")]
+    pub dir: i32,
+    /// Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+    /// timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+    /// the scheduler latency in us. 0 = absent.
+    #[prost(uint64, tag = "7")]
+    pub kernel_ns: u64,
+    /// Producer post-read monotonic record index. A gap between consecutive frames'
+    /// seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+    #[prost(uint64, tag = "8")]
+    pub seq64: u64,
+    /// Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+    /// which seq64 structurally cannot see.
+    #[prost(uint64, tag = "9")]
+    pub drops: u64,
 }
 /// Batch of CAN frames for efficient streaming
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -30,4 +48,46 @@ pub struct CanStreamConnected {
     /// Discovered CAN stream IDs (e.g., "0x304", "0x510")
     #[prost(string, repeated, tag = "1")]
     pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// Authoritative CAN frame direction, set by the producer (lighthouse) from its
+/// CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
+/// fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
+/// producer that predates it); UNKNOWN = the producer classified the ID as
+/// unmapped (its "unk") — distinct from UNSPECIFIED so the unmapped case is not
+/// collapsed back into a bitmask guess.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum CanDirection {
+    /// field absent (pre-redeploy producer)
+    Unspecified = 0,
+    /// producer "tx" — sent to device (command)
+    Tx = 1,
+    /// producer "rx" — received from device (reply)
+    Rx = 2,
+    /// producer "unk" — unmapped ID, direction unknown
+    Unknown = 3,
+}
+impl CanDirection {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "CAN_DIRECTION_UNSPECIFIED",
+            Self::Tx => "CAN_DIRECTION_TX",
+            Self::Rx => "CAN_DIRECTION_RX",
+            Self::Unknown => "CAN_DIRECTION_UNKNOWN",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CAN_DIRECTION_UNSPECIFIED" => Some(Self::Unspecified),
+            "CAN_DIRECTION_TX" => Some(Self::Tx),
+            "CAN_DIRECTION_RX" => Some(Self::Rx),
+            "CAN_DIRECTION_UNKNOWN" => Some(Self::Unknown),
+            _ => None,
+        }
+    }
 }

@@ -9,6 +9,20 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
+/* Enum definitions */
+/* Authoritative CAN frame direction, set by the producer (lighthouse) from its
+ CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
+ fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
+ producer that predates it); UNKNOWN = the producer classified the ID as
+ unmapped (its "unk") — distinct from UNSPECIFIED so the unmapped case is not
+ collapsed back into a bitmask guess. */
+typedef enum _jon_can_CANDirection {
+    jon_can_CANDirection_CAN_DIRECTION_UNSPECIFIED = 0, /* field absent (pre-redeploy producer) */
+    jon_can_CANDirection_CAN_DIRECTION_TX = 1, /* producer "tx" — sent to device (command) */
+    jon_can_CANDirection_CAN_DIRECTION_RX = 2, /* producer "rx" — received from device (reply) */
+    jon_can_CANDirection_CAN_DIRECTION_UNKNOWN = 3 /* producer "unk" — unmapped ID, direction unknown */
+} jon_can_CANDirection;
+
 /* Struct definitions */
 /* Single CAN/CAN-FD frame */
 typedef struct _jon_can_CANFrame {
@@ -19,6 +33,20 @@ typedef struct _jon_can_CANFrame {
     bool is_fd; /* true=CAN-FD, false=classic CAN */
     /* Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD. */
     pb_callback_t data;
+    /* Authoritative producer direction. Supersedes is_rx (field 3, kept for
+ back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+ still read is_rx. */
+    jon_can_CANDirection dir;
+    /* Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+ timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+ the scheduler latency in us. 0 = absent. */
+    uint64_t kernel_ns;
+    /* Producer post-read monotonic record index. A gap between consecutive frames'
+ seq64 = frames lost AFTER the kernel read (channel / batcher / trim). */
+    uint64_t seq64;
+    /* Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+ which seq64 structurally cannot see. */
+    uint64_t drops;
 } jon_can_CANFrame;
 
 /* Batch of CAN frames for efficient streaming */
@@ -36,11 +64,21 @@ typedef struct _jon_can_CANStreamConnected {
 extern "C" {
 #endif
 
+/* Helper constants for enums */
+#define _jon_can_CANDirection_MIN jon_can_CANDirection_CAN_DIRECTION_UNSPECIFIED
+#define _jon_can_CANDirection_MAX jon_can_CANDirection_CAN_DIRECTION_UNKNOWN
+#define _jon_can_CANDirection_ARRAYSIZE ((jon_can_CANDirection)(jon_can_CANDirection_CAN_DIRECTION_UNKNOWN+1))
+
+#define jon_can_CANFrame_dir_ENUMTYPE jon_can_CANDirection
+
+
+
+
 /* Initializer values for message structs */
-#define jon_can_CANFrame_init_default            {0, 0, 0, 0, {{NULL}, NULL}}
+#define jon_can_CANFrame_init_default            {0, 0, 0, 0, {{NULL}, NULL}, _jon_can_CANDirection_MIN, 0, 0, 0}
 #define jon_can_CANFrameBatch_init_default       {{{NULL}, NULL}}
 #define jon_can_CANStreamConnected_init_default  {{{NULL}, NULL}}
-#define jon_can_CANFrame_init_zero               {0, 0, 0, 0, {{NULL}, NULL}}
+#define jon_can_CANFrame_init_zero               {0, 0, 0, 0, {{NULL}, NULL}, _jon_can_CANDirection_MIN, 0, 0, 0}
 #define jon_can_CANFrameBatch_init_zero          {{{NULL}, NULL}}
 #define jon_can_CANStreamConnected_init_zero     {{{NULL}, NULL}}
 
@@ -50,6 +88,10 @@ extern "C" {
 #define jon_can_CANFrame_is_rx_tag               3
 #define jon_can_CANFrame_is_fd_tag               4
 #define jon_can_CANFrame_data_tag                5
+#define jon_can_CANFrame_dir_tag                 6
+#define jon_can_CANFrame_kernel_ns_tag           7
+#define jon_can_CANFrame_seq64_tag               8
+#define jon_can_CANFrame_drops_tag               9
 #define jon_can_CANFrameBatch_frames_tag         1
 #define jon_can_CANStreamConnected_streams_tag   1
 
@@ -59,7 +101,11 @@ X(a, STATIC,   SINGULAR, UINT64,   timestamp_us,      1) \
 X(a, STATIC,   SINGULAR, UINT32,   can_id,            2) \
 X(a, STATIC,   SINGULAR, BOOL,     is_rx,             3) \
 X(a, STATIC,   SINGULAR, BOOL,     is_fd,             4) \
-X(a, CALLBACK, SINGULAR, BYTES,    data,              5)
+X(a, CALLBACK, SINGULAR, BYTES,    data,              5) \
+X(a, STATIC,   SINGULAR, UENUM,    dir,               6) \
+X(a, STATIC,   SINGULAR, UINT64,   kernel_ns,         7) \
+X(a, STATIC,   SINGULAR, UINT64,   seq64,             8) \
+X(a, STATIC,   SINGULAR, UINT64,   drops,             9)
 #define jon_can_CANFrame_CALLBACK pb_default_field_callback
 #define jon_can_CANFrame_DEFAULT NULL
 

@@ -61,6 +61,10 @@ inline constexpr CANFrame::Impl_::Impl_(
         can_id_{0u},
         is_rx_{false},
         is_fd_{false},
+        kernel_ns_{::uint64_t{0u}},
+        seq64_{::uint64_t{0u}},
+        drops_{::uint64_t{0u}},
+        dir_{static_cast< ::jon::can::CANDirection >(0)},
         _cached_size_{0} {}
 
 template <typename>
@@ -109,8 +113,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CANFrameBatchDefaultTypeInternal _CANFrameBatch_default_instance_;
 }  // namespace can
 }  // namespace jon
-static constexpr const ::_pb::EnumDescriptor**
-    file_level_enum_descriptors_jon_5fcan_5fstream_2eproto = nullptr;
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fcan_5fstream_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fcan_5fstream_2eproto = nullptr;
 const ::uint32_t
@@ -129,6 +132,10 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.is_rx_),
         PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.is_fd_),
         PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.data_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.dir_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.kernel_ns_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.seq64_),
+        PROTOBUF_FIELD_OFFSET(::jon::can::CANFrame, _impl_.drops_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::jon::can::CANFrameBatch, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -152,8 +159,8 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::jon::can::CANFrame)},
-        {13, -1, -1, sizeof(::jon::can::CANFrameBatch)},
-        {22, -1, -1, sizeof(::jon::can::CANStreamConnected)},
+        {17, -1, -1, sizeof(::jon::can::CANFrameBatch)},
+        {26, -1, -1, sizeof(::jon::can::CANStreamConnected)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::jon::can::_CANFrame_default_instance_._instance,
@@ -163,14 +170,19 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fcan_5fstream_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\024jon_can_stream.proto\022\007jon.can\032\033buf/val"
-    "idate/validate.proto\"o\n\010CANFrame\022\024\n\014time"
-    "stamp_us\030\001 \001(\004\022\030\n\006can_id\030\002 \001(\rB\010\272H\005*\003\030\377\017"
-    "\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\025\n\004data\030\005"
-    " \001(\014B\007\272H\004z\002\030@\"2\n\rCANFrameBatch\022!\n\006frames"
-    "\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANStreamCo"
-    "nnected\022\017\n\007streams\030\001 \003(\tBFZDgit-codecomm"
-    "it.eu-central-1.amazonaws.com/v1/repos/j"
-    "ettison/jonp/canb\006proto3"
+    "idate/validate.proto\"\304\001\n\010CANFrame\022\024\n\014tim"
+    "estamp_us\030\001 \001(\004\022\030\n\006can_id\030\002 \001(\rB\010\272H\005*\003\030\377"
+    "\017\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\025\n\004data\030"
+    "\005 \001(\014B\007\272H\004z\002\030@\022\"\n\003dir\030\006 \001(\0162\025.jon.can.CA"
+    "NDirection\022\021\n\tkernel_ns\030\007 \001(\004\022\r\n\005seq64\030\010"
+    " \001(\004\022\r\n\005drops\030\t \001(\004\"2\n\rCANFrameBatch\022!\n\006"
+    "frames\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANSt"
+    "reamConnected\022\017\n\007streams\030\001 \003(\t*t\n\014CANDir"
+    "ection\022\035\n\031CAN_DIRECTION_UNSPECIFIED\020\000\022\024\n"
+    "\020CAN_DIRECTION_TX\020\001\022\024\n\020CAN_DIRECTION_RX\020"
+    "\002\022\031\n\025CAN_DIRECTION_UNKNOWN\020\003BFZDgit-code"
+    "commit.eu-central-1.amazonaws.com/v1/rep"
+    "os/jettison/jonp/canb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fcan_5fstream_2eproto_deps[1] =
     {
@@ -180,7 +192,7 @@ static ::absl::once_flag descriptor_table_jon_5fcan_5fstream_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcan_5fstream_2eproto = {
     false,
     false,
-    344,
+    548,
     descriptor_table_protodef_jon_5fcan_5fstream_2eproto,
     "jon_can_stream.proto",
     &descriptor_table_jon_5fcan_5fstream_2eproto_once,
@@ -195,6 +207,15 @@ PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcan_5fst
 };
 namespace jon {
 namespace can {
+const ::google::protobuf::EnumDescriptor* CANDirection_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fcan_5fstream_2eproto);
+  return file_level_enum_descriptors_jon_5fcan_5fstream_2eproto[0];
+}
+PROTOBUF_CONSTINIT const uint32_t CANDirection_internal_data_[] = {
+    262144u, 0u, };
+bool CANDirection_IsValid(int value) {
+  return 0 <= value && value <= 3;
+}
 // ===================================================================
 
 class CANFrame::_Internal {
@@ -233,9 +254,9 @@ CANFrame::CANFrame(
                offsetof(Impl_, timestamp_us_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, timestamp_us_),
-           offsetof(Impl_, is_fd_) -
+           offsetof(Impl_, dir_) -
                offsetof(Impl_, timestamp_us_) +
-               sizeof(Impl_::is_fd_));
+               sizeof(Impl_::dir_));
 
   // @@protoc_insertion_point(copy_constructor:jon.can.CANFrame)
 }
@@ -250,9 +271,9 @@ inline void CANFrame::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, timestamp_us_),
            0,
-           offsetof(Impl_, is_fd_) -
+           offsetof(Impl_, dir_) -
                offsetof(Impl_, timestamp_us_) +
-               sizeof(Impl_::is_fd_));
+               sizeof(Impl_::dir_));
 }
 CANFrame::~CANFrame() {
   // @@protoc_insertion_point(destructor:jon.can.CANFrame)
@@ -302,15 +323,15 @@ const ::google::protobuf::internal::ClassData* CANFrame::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
+const ::_pbi::TcParseTable<4, 9, 0, 0, 2> CANFrame::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    5, 56,  // max_field_number, fast_idx_mask
+    9, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967264,  // skipmap
+    4294966784,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    5,  // num_field_entries
+    9,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -336,6 +357,22 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
     // bytes data = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastBS1,
      {42, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.data_)}},
+    // .jon.can.CANDirection dir = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CANFrame, _impl_.dir_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.dir_)}},
+    // uint64 kernel_ns = 7;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CANFrame, _impl_.kernel_ns_), 63>(),
+     {56, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.kernel_ns_)}},
+    // uint64 seq64 = 8;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CANFrame, _impl_.seq64_), 63>(),
+     {64, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.seq64_)}},
+    // uint64 drops = 9;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CANFrame, _impl_.drops_), 63>(),
+     {72, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.drops_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
@@ -356,6 +393,18 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
     // bytes data = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.data_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBytes | ::_fl::kRepAString)},
+    // .jon.can.CANDirection dir = 6;
+    {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.dir_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // uint64 kernel_ns = 7;
+    {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.kernel_ns_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 seq64 = 8;
+    {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.seq64_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 drops = 9;
+    {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.drops_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -371,8 +420,8 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
 
   _impl_.data_.ClearToEmpty();
   ::memset(&_impl_.timestamp_us_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.is_fd_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_us_)) + sizeof(_impl_.is_fd_));
+      reinterpret_cast<char*>(&_impl_.dir_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_us_)) + sizeof(_impl_.dir_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -425,6 +474,34 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
             target = stream->WriteBytesMaybeAliased(5, _s, target);
           }
 
+          // .jon.can.CANDirection dir = 6;
+          if (this_._internal_dir() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                6, this_._internal_dir(), target);
+          }
+
+          // uint64 kernel_ns = 7;
+          if (this_._internal_kernel_ns() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                7, this_._internal_kernel_ns(), target);
+          }
+
+          // uint64 seq64 = 8;
+          if (this_._internal_seq64() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                8, this_._internal_seq64(), target);
+          }
+
+          // uint64 drops = 9;
+          if (this_._internal_drops() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                9, this_._internal_drops(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -473,6 +550,26 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
             if (this_._internal_is_fd() != 0) {
               total_size += 2;
             }
+            // uint64 kernel_ns = 7;
+            if (this_._internal_kernel_ns() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_kernel_ns());
+            }
+            // uint64 seq64 = 8;
+            if (this_._internal_seq64() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_seq64());
+            }
+            // uint64 drops = 9;
+            if (this_._internal_drops() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_drops());
+            }
+            // .jon.can.CANDirection dir = 6;
+            if (this_._internal_dir() != 0) {
+              total_size += 1 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_dir());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -501,6 +598,18 @@ void CANFrame::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google
   if (from._internal_is_fd() != 0) {
     _this->_impl_.is_fd_ = from._impl_.is_fd_;
   }
+  if (from._internal_kernel_ns() != 0) {
+    _this->_impl_.kernel_ns_ = from._impl_.kernel_ns_;
+  }
+  if (from._internal_seq64() != 0) {
+    _this->_impl_.seq64_ = from._impl_.seq64_;
+  }
+  if (from._internal_drops() != 0) {
+    _this->_impl_.drops_ = from._impl_.drops_;
+  }
+  if (from._internal_dir() != 0) {
+    _this->_impl_.dir_ = from._impl_.dir_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -519,8 +628,8 @@ void CANFrame::InternalSwap(CANFrame* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.is_fd_)
-      + sizeof(CANFrame::_impl_.is_fd_)
+      PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.dir_)
+      + sizeof(CANFrame::_impl_.dir_)
       - PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.timestamp_us_)>(
           reinterpret_cast<char*>(&_impl_.timestamp_us_),
           reinterpret_cast<char*>(&other->_impl_.timestamp_us_));

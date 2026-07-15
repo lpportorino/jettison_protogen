@@ -5,12 +5,25 @@ const std = @import("std");
 const protobuf = @import("protobuf");
 const fd = protobuf.fd;
 
+pub const CANDirection = enum(i32) {
+   CAN_DIRECTION_UNSPECIFIED = 0,
+   CAN_DIRECTION_TX = 1,
+   CAN_DIRECTION_RX = 2,
+   CAN_DIRECTION_UNKNOWN = 3,
+    _,
+};
+
+
 pub const CANFrame = struct {
     timestamp_us: u64 = 0,
     can_id: u32 = 0,
     is_rx: bool = false,
     is_fd: bool = false,
     data: []const u8 = &.{},
+    dir: CANDirection = @enumFromInt(0),
+    kernel_ns: u64 = 0,
+    seq64: u64 = 0,
+    drops: u64 = 0,
 
     pub const _desc_table = .{
         .timestamp_us = fd(1, .{ .scalar = .uint64 }),
@@ -18,6 +31,10 @@ pub const CANFrame = struct {
         .is_rx = fd(3, .{ .scalar = .bool }),
         .is_fd = fd(4, .{ .scalar = .bool }),
         .data = fd(5, .{ .scalar = .bytes }),
+        .dir = fd(6, .@"enum"),
+        .kernel_ns = fd(7, .{ .scalar = .uint64 }),
+        .seq64 = fd(8, .{ .scalar = .uint64 }),
+        .drops = fd(9, .{ .scalar = .uint64 }),
     };
 
     /// Encodes the message to the writer

@@ -25,6 +25,182 @@ public final class JonCanStream {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * <pre>
+   * Authoritative CAN frame direction, set by the producer (lighthouse) from its
+   * CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
+   * fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
+   * producer that predates it); UNKNOWN = the producer classified the ID as
+   * unmapped (its "unk") — distinct from UNSPECIFIED so the unmapped case is not
+   * collapsed back into a bitmask guess.
+   * </pre>
+   *
+   * Protobuf enum {@code jon.can.CANDirection}
+   */
+  public enum CANDirection
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * field absent (pre-redeploy producer)
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_UNSPECIFIED = 0;</code>
+     */
+    CAN_DIRECTION_UNSPECIFIED(0),
+    /**
+     * <pre>
+     * producer "tx" — sent to device (command)
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_TX = 1;</code>
+     */
+    CAN_DIRECTION_TX(1),
+    /**
+     * <pre>
+     * producer "rx" — received from device (reply)
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_RX = 2;</code>
+     */
+    CAN_DIRECTION_RX(2),
+    /**
+     * <pre>
+     * producer "unk" — unmapped ID, direction unknown
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_UNKNOWN = 3;</code>
+     */
+    CAN_DIRECTION_UNKNOWN(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        CANDirection.class.getName());
+    }
+    /**
+     * <pre>
+     * field absent (pre-redeploy producer)
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_UNSPECIFIED = 0;</code>
+     */
+    public static final int CAN_DIRECTION_UNSPECIFIED_VALUE = 0;
+    /**
+     * <pre>
+     * producer "tx" — sent to device (command)
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_TX = 1;</code>
+     */
+    public static final int CAN_DIRECTION_TX_VALUE = 1;
+    /**
+     * <pre>
+     * producer "rx" — received from device (reply)
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_RX = 2;</code>
+     */
+    public static final int CAN_DIRECTION_RX_VALUE = 2;
+    /**
+     * <pre>
+     * producer "unk" — unmapped ID, direction unknown
+     * </pre>
+     *
+     * <code>CAN_DIRECTION_UNKNOWN = 3;</code>
+     */
+    public static final int CAN_DIRECTION_UNKNOWN_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static CANDirection valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static CANDirection forNumber(int value) {
+      switch (value) {
+        case 0: return CAN_DIRECTION_UNSPECIFIED;
+        case 1: return CAN_DIRECTION_TX;
+        case 2: return CAN_DIRECTION_RX;
+        case 3: return CAN_DIRECTION_UNKNOWN;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<CANDirection>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        CANDirection> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<CANDirection>() {
+            public CANDirection findValueByNumber(int number) {
+              return CANDirection.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final CANDirection[] VALUES = values();
+
+    public static CANDirection valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private CANDirection(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:jon.can.CANDirection)
+  }
+
   public interface CANFrameOrBuilder extends
       // @@protoc_insertion_point(interface_extends:jon.can.CANFrame)
       com.google.protobuf.MessageOrBuilder {
@@ -78,6 +254,63 @@ public final class JonCanStream {
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
+
+    /**
+     * <pre>
+     * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+     * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+     * still read is_rx.
+     * </pre>
+     *
+     * <code>.jon.can.CANDirection dir = 6;</code>
+     * @return The enum numeric value on the wire for dir.
+     */
+    int getDirValue();
+    /**
+     * <pre>
+     * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+     * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+     * still read is_rx.
+     * </pre>
+     *
+     * <code>.jon.can.CANDirection dir = 6;</code>
+     * @return The dir.
+     */
+    jon.can.JonCanStream.CANDirection getDir();
+
+    /**
+     * <pre>
+     * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+     * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+     * the scheduler latency in us. 0 = absent.
+     * </pre>
+     *
+     * <code>uint64 kernel_ns = 7;</code>
+     * @return The kernelNs.
+     */
+    long getKernelNs();
+
+    /**
+     * <pre>
+     * Producer post-read monotonic record index. A gap between consecutive frames'
+     * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+     * </pre>
+     *
+     * <code>uint64 seq64 = 8;</code>
+     * @return The seq64.
+     */
+    long getSeq64();
+
+    /**
+     * <pre>
+     * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+     * which seq64 structurally cannot see.
+     * </pre>
+     *
+     * <code>uint64 drops = 9;</code>
+     * @return The drops.
+     */
+    long getDrops();
   }
   /**
    * <pre>
@@ -106,6 +339,7 @@ public final class JonCanStream {
     }
     private CANFrame() {
       data_ = com.google.protobuf.ByteString.EMPTY;
+      dir_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -196,6 +430,85 @@ public final class JonCanStream {
       return data_;
     }
 
+    public static final int DIR_FIELD_NUMBER = 6;
+    private int dir_ = 0;
+    /**
+     * <pre>
+     * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+     * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+     * still read is_rx.
+     * </pre>
+     *
+     * <code>.jon.can.CANDirection dir = 6;</code>
+     * @return The enum numeric value on the wire for dir.
+     */
+    @java.lang.Override public int getDirValue() {
+      return dir_;
+    }
+    /**
+     * <pre>
+     * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+     * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+     * still read is_rx.
+     * </pre>
+     *
+     * <code>.jon.can.CANDirection dir = 6;</code>
+     * @return The dir.
+     */
+    @java.lang.Override public jon.can.JonCanStream.CANDirection getDir() {
+      jon.can.JonCanStream.CANDirection result = jon.can.JonCanStream.CANDirection.forNumber(dir_);
+      return result == null ? jon.can.JonCanStream.CANDirection.UNRECOGNIZED : result;
+    }
+
+    public static final int KERNEL_NS_FIELD_NUMBER = 7;
+    private long kernelNs_ = 0L;
+    /**
+     * <pre>
+     * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+     * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+     * the scheduler latency in us. 0 = absent.
+     * </pre>
+     *
+     * <code>uint64 kernel_ns = 7;</code>
+     * @return The kernelNs.
+     */
+    @java.lang.Override
+    public long getKernelNs() {
+      return kernelNs_;
+    }
+
+    public static final int SEQ64_FIELD_NUMBER = 8;
+    private long seq64_ = 0L;
+    /**
+     * <pre>
+     * Producer post-read monotonic record index. A gap between consecutive frames'
+     * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+     * </pre>
+     *
+     * <code>uint64 seq64 = 8;</code>
+     * @return The seq64.
+     */
+    @java.lang.Override
+    public long getSeq64() {
+      return seq64_;
+    }
+
+    public static final int DROPS_FIELD_NUMBER = 9;
+    private long drops_ = 0L;
+    /**
+     * <pre>
+     * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+     * which seq64 structurally cannot see.
+     * </pre>
+     *
+     * <code>uint64 drops = 9;</code>
+     * @return The drops.
+     */
+    @java.lang.Override
+    public long getDrops() {
+      return drops_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -224,6 +537,18 @@ public final class JonCanStream {
       }
       if (!data_.isEmpty()) {
         output.writeBytes(5, data_);
+      }
+      if (dir_ != jon.can.JonCanStream.CANDirection.CAN_DIRECTION_UNSPECIFIED.getNumber()) {
+        output.writeEnum(6, dir_);
+      }
+      if (kernelNs_ != 0L) {
+        output.writeUInt64(7, kernelNs_);
+      }
+      if (seq64_ != 0L) {
+        output.writeUInt64(8, seq64_);
+      }
+      if (drops_ != 0L) {
+        output.writeUInt64(9, drops_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -254,6 +579,22 @@ public final class JonCanStream {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, data_);
       }
+      if (dir_ != jon.can.JonCanStream.CANDirection.CAN_DIRECTION_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, dir_);
+      }
+      if (kernelNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, kernelNs_);
+      }
+      if (seq64_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(8, seq64_);
+      }
+      if (drops_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(9, drops_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -279,6 +620,13 @@ public final class JonCanStream {
           != other.getIsFd()) return false;
       if (!getData()
           .equals(other.getData())) return false;
+      if (dir_ != other.dir_) return false;
+      if (getKernelNs()
+          != other.getKernelNs()) return false;
+      if (getSeq64()
+          != other.getSeq64()) return false;
+      if (getDrops()
+          != other.getDrops()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -303,6 +651,17 @@ public final class JonCanStream {
           getIsFd());
       hash = (37 * hash) + DATA_FIELD_NUMBER;
       hash = (53 * hash) + getData().hashCode();
+      hash = (37 * hash) + DIR_FIELD_NUMBER;
+      hash = (53 * hash) + dir_;
+      hash = (37 * hash) + KERNEL_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getKernelNs());
+      hash = (37 * hash) + SEQ64_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSeq64());
+      hash = (37 * hash) + DROPS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getDrops());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -443,6 +802,10 @@ public final class JonCanStream {
         isRx_ = false;
         isFd_ = false;
         data_ = com.google.protobuf.ByteString.EMPTY;
+        dir_ = 0;
+        kernelNs_ = 0L;
+        seq64_ = 0L;
+        drops_ = 0L;
         return this;
       }
 
@@ -491,6 +854,18 @@ public final class JonCanStream {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.data_ = data_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.dir_ = dir_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.kernelNs_ = kernelNs_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.seq64_ = seq64_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.drops_ = drops_;
+        }
       }
 
       @java.lang.Override
@@ -519,6 +894,18 @@ public final class JonCanStream {
         }
         if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
           setData(other.getData());
+        }
+        if (other.dir_ != 0) {
+          setDirValue(other.getDirValue());
+        }
+        if (other.getKernelNs() != 0L) {
+          setKernelNs(other.getKernelNs());
+        }
+        if (other.getSeq64() != 0L) {
+          setSeq64(other.getSeq64());
+        }
+        if (other.getDrops() != 0L) {
+          setDrops(other.getDrops());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -571,6 +958,26 @@ public final class JonCanStream {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 42
+              case 48: {
+                dir_ = input.readEnum();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
+              case 56: {
+                kernelNs_ = input.readUInt64();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 64: {
+                seq64_ = input.readUInt64();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 64
+              case 72: {
+                drops_ = input.readUInt64();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -804,6 +1211,233 @@ public final class JonCanStream {
       public Builder clearData() {
         bitField0_ = (bitField0_ & ~0x00000010);
         data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+
+      private int dir_ = 0;
+      /**
+       * <pre>
+       * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+       * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+       * still read is_rx.
+       * </pre>
+       *
+       * <code>.jon.can.CANDirection dir = 6;</code>
+       * @return The enum numeric value on the wire for dir.
+       */
+      @java.lang.Override public int getDirValue() {
+        return dir_;
+      }
+      /**
+       * <pre>
+       * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+       * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+       * still read is_rx.
+       * </pre>
+       *
+       * <code>.jon.can.CANDirection dir = 6;</code>
+       * @param value The enum numeric value on the wire for dir to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDirValue(int value) {
+        dir_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+       * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+       * still read is_rx.
+       * </pre>
+       *
+       * <code>.jon.can.CANDirection dir = 6;</code>
+       * @return The dir.
+       */
+      @java.lang.Override
+      public jon.can.JonCanStream.CANDirection getDir() {
+        jon.can.JonCanStream.CANDirection result = jon.can.JonCanStream.CANDirection.forNumber(dir_);
+        return result == null ? jon.can.JonCanStream.CANDirection.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+       * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+       * still read is_rx.
+       * </pre>
+       *
+       * <code>.jon.can.CANDirection dir = 6;</code>
+       * @param value The dir to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDir(jon.can.JonCanStream.CANDirection value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000020;
+        dir_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+       * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+       * still read is_rx.
+       * </pre>
+       *
+       * <code>.jon.can.CANDirection dir = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDir() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        dir_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long kernelNs_ ;
+      /**
+       * <pre>
+       * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+       * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+       * the scheduler latency in us. 0 = absent.
+       * </pre>
+       *
+       * <code>uint64 kernel_ns = 7;</code>
+       * @return The kernelNs.
+       */
+      @java.lang.Override
+      public long getKernelNs() {
+        return kernelNs_;
+      }
+      /**
+       * <pre>
+       * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+       * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+       * the scheduler latency in us. 0 = absent.
+       * </pre>
+       *
+       * <code>uint64 kernel_ns = 7;</code>
+       * @param value The kernelNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKernelNs(long value) {
+
+        kernelNs_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+       * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+       * the scheduler latency in us. 0 = absent.
+       * </pre>
+       *
+       * <code>uint64 kernel_ns = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKernelNs() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        kernelNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long seq64_ ;
+      /**
+       * <pre>
+       * Producer post-read monotonic record index. A gap between consecutive frames'
+       * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+       * </pre>
+       *
+       * <code>uint64 seq64 = 8;</code>
+       * @return The seq64.
+       */
+      @java.lang.Override
+      public long getSeq64() {
+        return seq64_;
+      }
+      /**
+       * <pre>
+       * Producer post-read monotonic record index. A gap between consecutive frames'
+       * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+       * </pre>
+       *
+       * <code>uint64 seq64 = 8;</code>
+       * @param value The seq64 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSeq64(long value) {
+
+        seq64_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Producer post-read monotonic record index. A gap between consecutive frames'
+       * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+       * </pre>
+       *
+       * <code>uint64 seq64 = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSeq64() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        seq64_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long drops_ ;
+      /**
+       * <pre>
+       * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+       * which seq64 structurally cannot see.
+       * </pre>
+       *
+       * <code>uint64 drops = 9;</code>
+       * @return The drops.
+       */
+      @java.lang.Override
+      public long getDrops() {
+        return drops_;
+      }
+      /**
+       * <pre>
+       * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+       * which seq64 structurally cannot see.
+       * </pre>
+       *
+       * <code>uint64 drops = 9;</code>
+       * @param value The drops to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDrops(long value) {
+
+        drops_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+       * which seq64 structurally cannot see.
+       * </pre>
+       *
+       * <code>uint64 drops = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDrops() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        drops_ = 0L;
         onChanged();
         return this;
       }
@@ -2284,14 +2918,19 @@ public final class JonCanStream {
   static {
     java.lang.String[] descriptorData = {
       "\n\024jon_can_stream.proto\022\007jon.can\032\033buf/val" +
-      "idate/validate.proto\"o\n\010CANFrame\022\024\n\014time" +
-      "stamp_us\030\001 \001(\004\022\030\n\006can_id\030\002 \001(\rB\010\272H\005*\003\030\377\017" +
-      "\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\025\n\004data\030\005" +
-      " \001(\014B\007\272H\004z\002\030@\"2\n\rCANFrameBatch\022!\n\006frames" +
-      "\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANStreamCo" +
-      "nnected\022\017\n\007streams\030\001 \003(\tBFZDgit-codecomm" +
-      "it.eu-central-1.amazonaws.com/v1/repos/j" +
-      "ettison/jonp/canb\006proto3"
+      "idate/validate.proto\"\304\001\n\010CANFrame\022\024\n\014tim" +
+      "estamp_us\030\001 \001(\004\022\030\n\006can_id\030\002 \001(\rB\010\272H\005*\003\030\377" +
+      "\017\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\025\n\004data\030" +
+      "\005 \001(\014B\007\272H\004z\002\030@\022\"\n\003dir\030\006 \001(\0162\025.jon.can.CA" +
+      "NDirection\022\021\n\tkernel_ns\030\007 \001(\004\022\r\n\005seq64\030\010" +
+      " \001(\004\022\r\n\005drops\030\t \001(\004\"2\n\rCANFrameBatch\022!\n\006" +
+      "frames\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANSt" +
+      "reamConnected\022\017\n\007streams\030\001 \003(\t*t\n\014CANDir" +
+      "ection\022\035\n\031CAN_DIRECTION_UNSPECIFIED\020\000\022\024\n" +
+      "\020CAN_DIRECTION_TX\020\001\022\024\n\020CAN_DIRECTION_RX\020" +
+      "\002\022\031\n\025CAN_DIRECTION_UNKNOWN\020\003BFZDgit-code" +
+      "commit.eu-central-1.amazonaws.com/v1/rep" +
+      "os/jettison/jonp/canb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2303,7 +2942,7 @@ public final class JonCanStream {
     internal_static_jon_can_CANFrame_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_can_CANFrame_descriptor,
-        new java.lang.String[] { "TimestampUs", "CanId", "IsRx", "IsFd", "Data", });
+        new java.lang.String[] { "TimestampUs", "CanId", "IsRx", "IsFd", "Data", "Dir", "KernelNs", "Seq64", "Drops", });
     internal_static_jon_can_CANFrameBatch_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_jon_can_CANFrameBatch_fieldAccessorTable = new

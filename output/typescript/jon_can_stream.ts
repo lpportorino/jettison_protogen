@@ -8,6 +8,63 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 
+/**
+ * Authoritative CAN frame direction, set by the producer (lighthouse) from its
+ * CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
+ * fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
+ * producer that predates it); UNKNOWN = the producer classified the ID as
+ * unmapped (its "unk") — distinct from UNSPECIFIED so the unmapped case is not
+ * collapsed back into a bitmask guess.
+ */
+export enum CANDirection {
+  /** CAN_DIRECTION_UNSPECIFIED - field absent (pre-redeploy producer) */
+  CAN_DIRECTION_UNSPECIFIED = 0,
+  /** CAN_DIRECTION_TX - producer "tx" — sent to device (command) */
+  CAN_DIRECTION_TX = 1,
+  /** CAN_DIRECTION_RX - producer "rx" — received from device (reply) */
+  CAN_DIRECTION_RX = 2,
+  /** CAN_DIRECTION_UNKNOWN - producer "unk" — unmapped ID, direction unknown */
+  CAN_DIRECTION_UNKNOWN = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function cANDirectionFromJSON(object: any): CANDirection {
+  switch (object) {
+    case 0:
+    case "CAN_DIRECTION_UNSPECIFIED":
+      return CANDirection.CAN_DIRECTION_UNSPECIFIED;
+    case 1:
+    case "CAN_DIRECTION_TX":
+      return CANDirection.CAN_DIRECTION_TX;
+    case 2:
+    case "CAN_DIRECTION_RX":
+      return CANDirection.CAN_DIRECTION_RX;
+    case 3:
+    case "CAN_DIRECTION_UNKNOWN":
+      return CANDirection.CAN_DIRECTION_UNKNOWN;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return CANDirection.UNRECOGNIZED;
+  }
+}
+
+export function cANDirectionToJSON(object: CANDirection): string {
+  switch (object) {
+    case CANDirection.CAN_DIRECTION_UNSPECIFIED:
+      return "CAN_DIRECTION_UNSPECIFIED";
+    case CANDirection.CAN_DIRECTION_TX:
+      return "CAN_DIRECTION_TX";
+    case CANDirection.CAN_DIRECTION_RX:
+      return "CAN_DIRECTION_RX";
+    case CANDirection.CAN_DIRECTION_UNKNOWN:
+      return "CAN_DIRECTION_UNKNOWN";
+    case CANDirection.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 /** Single CAN/CAN-FD frame */
 export interface CANFrame {
   /** Timestamp in microseconds */
@@ -20,6 +77,28 @@ export interface CANFrame {
   isFd: boolean;
   /** Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD. */
   data: Uint8Array;
+  /**
+   * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+   * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+   * still read is_rx.
+   */
+  dir: CANDirection;
+  /**
+   * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+   * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+   * the scheduler latency in us. 0 = absent.
+   */
+  kernelNs: Long;
+  /**
+   * Producer post-read monotonic record index. A gap between consecutive frames'
+   * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+   */
+  seq64: Long;
+  /**
+   * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+   * which seq64 structurally cannot see.
+   */
+  drops: Long;
 }
 
 /** Batch of CAN frames for efficient streaming */
@@ -34,7 +113,17 @@ export interface CANStreamConnected {
 }
 
 function createBaseCANFrame(): CANFrame {
-  return { timestampUs: Long.UZERO, canId: 0, isRx: false, isFd: false, data: new Uint8Array(0) };
+  return {
+    timestampUs: Long.UZERO,
+    canId: 0,
+    isRx: false,
+    isFd: false,
+    data: new Uint8Array(0),
+    dir: 0,
+    kernelNs: Long.UZERO,
+    seq64: Long.UZERO,
+    drops: Long.UZERO,
+  };
 }
 
 export const CANFrame: MessageFns<CANFrame> = {
@@ -53,6 +142,18 @@ export const CANFrame: MessageFns<CANFrame> = {
     }
     if (message.data.length !== 0) {
       writer.uint32(42).bytes(message.data);
+    }
+    if (message.dir !== 0) {
+      writer.uint32(48).int32(message.dir);
+    }
+    if (!message.kernelNs.equals(Long.UZERO)) {
+      writer.uint32(56).uint64(message.kernelNs.toString());
+    }
+    if (!message.seq64.equals(Long.UZERO)) {
+      writer.uint32(64).uint64(message.seq64.toString());
+    }
+    if (!message.drops.equals(Long.UZERO)) {
+      writer.uint32(72).uint64(message.drops.toString());
     }
     return writer;
   },
@@ -104,6 +205,38 @@ export const CANFrame: MessageFns<CANFrame> = {
           message.data = reader.bytes();
           continue;
         }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.dir = reader.int32() as any;
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.kernelNs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.seq64 = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.drops = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -136,6 +269,14 @@ export const CANFrame: MessageFns<CANFrame> = {
         ? globalThis.Boolean(object.is_fd)
         : false,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
+      dir: isSet(object.dir) ? cANDirectionFromJSON(object.dir) : 0,
+      kernelNs: isSet(object.kernelNs)
+        ? Long.fromValue(object.kernelNs)
+        : isSet(object.kernel_ns)
+        ? Long.fromValue(object.kernel_ns)
+        : Long.UZERO,
+      seq64: isSet(object.seq64) ? Long.fromValue(object.seq64) : Long.UZERO,
+      drops: isSet(object.drops) ? Long.fromValue(object.drops) : Long.UZERO,
     };
   },
 
@@ -156,6 +297,18 @@ export const CANFrame: MessageFns<CANFrame> = {
     if (message.data.length !== 0) {
       obj.data = base64FromBytes(message.data);
     }
+    if (message.dir !== 0) {
+      obj.dir = cANDirectionToJSON(message.dir);
+    }
+    if (!message.kernelNs.equals(Long.UZERO)) {
+      obj.kernelNs = (message.kernelNs || Long.UZERO).toString();
+    }
+    if (!message.seq64.equals(Long.UZERO)) {
+      obj.seq64 = (message.seq64 || Long.UZERO).toString();
+    }
+    if (!message.drops.equals(Long.UZERO)) {
+      obj.drops = (message.drops || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -171,6 +324,12 @@ export const CANFrame: MessageFns<CANFrame> = {
     message.isRx = object.isRx ?? false;
     message.isFd = object.isFd ?? false;
     message.data = object.data ?? new Uint8Array(0);
+    message.dir = object.dir ?? 0;
+    message.kernelNs = (object.kernelNs !== undefined && object.kernelNs !== null)
+      ? Long.fromValue(object.kernelNs)
+      : Long.UZERO;
+    message.seq64 = (object.seq64 !== undefined && object.seq64 !== null) ? Long.fromValue(object.seq64) : Long.UZERO;
+    message.drops = (object.drops !== undefined && object.drops !== null) ? Long.fromValue(object.drops) : Long.UZERO;
     return message;
   },
 };

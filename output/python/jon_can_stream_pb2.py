@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_can_stream.proto\x12\x07jon.can\"\\\n\x08\x43\x41NFrame\x12\x14\n\x0ctimestamp_us\x18\x01 \x01(\x04\x12\x0e\n\x06\x63\x61n_id\x18\x02 \x01(\r\x12\r\n\x05is_rx\x18\x03 \x01(\x08\x12\r\n\x05is_fd\x18\x04 \x01(\x08\x12\x0c\n\x04\x64\x61ta\x18\x05 \x01(\x0c\"2\n\rCANFrameBatch\x12!\n\x06\x66rames\x18\x01 \x03(\x0b\x32\x11.jon.can.CANFrame\"%\n\x12\x43\x41NStreamConnected\x12\x0f\n\x07streams\x18\x01 \x03(\tBFZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/canb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_can_stream.proto\x12\x07jon.can\"\xb1\x01\n\x08\x43\x41NFrame\x12\x14\n\x0ctimestamp_us\x18\x01 \x01(\x04\x12\x0e\n\x06\x63\x61n_id\x18\x02 \x01(\r\x12\r\n\x05is_rx\x18\x03 \x01(\x08\x12\r\n\x05is_fd\x18\x04 \x01(\x08\x12\x0c\n\x04\x64\x61ta\x18\x05 \x01(\x0c\x12\"\n\x03\x64ir\x18\x06 \x01(\x0e\x32\x15.jon.can.CANDirection\x12\x11\n\tkernel_ns\x18\x07 \x01(\x04\x12\r\n\x05seq64\x18\x08 \x01(\x04\x12\r\n\x05\x64rops\x18\t \x01(\x04\"2\n\rCANFrameBatch\x12!\n\x06\x66rames\x18\x01 \x03(\x0b\x32\x11.jon.can.CANFrame\"%\n\x12\x43\x41NStreamConnected\x12\x0f\n\x07streams\x18\x01 \x03(\t*t\n\x0c\x43\x41NDirection\x12\x1d\n\x19\x43\x41N_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n\x10\x43\x41N_DIRECTION_TX\x10\x01\x12\x14\n\x10\x43\x41N_DIRECTION_RX\x10\x02\x12\x19\n\x15\x43\x41N_DIRECTION_UNKNOWN\x10\x03\x42\x46ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/canb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,10 +32,12 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'jon_can_stream_pb2', _globa
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/can'
-  _globals['_CANFRAME']._serialized_start=33
-  _globals['_CANFRAME']._serialized_end=125
-  _globals['_CANFRAMEBATCH']._serialized_start=127
-  _globals['_CANFRAMEBATCH']._serialized_end=177
-  _globals['_CANSTREAMCONNECTED']._serialized_start=179
-  _globals['_CANSTREAMCONNECTED']._serialized_end=216
+  _globals['_CANDIRECTION']._serialized_start=304
+  _globals['_CANDIRECTION']._serialized_end=420
+  _globals['_CANFRAME']._serialized_start=34
+  _globals['_CANFRAME']._serialized_end=211
+  _globals['_CANFRAMEBATCH']._serialized_start=213
+  _globals['_CANFRAMEBATCH']._serialized_end=263
+  _globals['_CANSTREAMCONNECTED']._serialized_start=265
+  _globals['_CANSTREAMCONNECTED']._serialized_end=302
 # @@protoc_insertion_point(module_scope)

@@ -156,6 +156,125 @@ public object CANFrameKt {
     public fun clearData() {
       _builder.clearData()
     }
+
+    /**
+     * ```
+     * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+     * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+     * still read is_rx.
+     * ```
+     *
+     * `.jon.can.CANDirection dir = 6;`
+     */
+    public var dir: jon.can.JonCanStream.CANDirection
+      @JvmName("getDir")
+      get() = _builder.dir
+      @JvmName("setDir")
+      set(value) {
+        _builder.dir = value
+      }
+    public var dirValue: kotlin.Int
+      @JvmName("getDirValue")
+      get() = _builder.dirValue
+      @JvmName("setDirValue")
+      set(value) {
+        _builder.dirValue = value
+      }
+    /**
+     * ```
+     * Authoritative producer direction. Supersedes is_rx (field 3, kept for
+     * back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+     * still read is_rx.
+     * ```
+     *
+     * `.jon.can.CANDirection dir = 6;`
+     */
+    public fun clearDir() {
+      _builder.clearDir()
+    }
+
+    /**
+     * ```
+     * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+     * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+     * the scheduler latency in us. 0 = absent.
+     * ```
+     *
+     * `uint64 kernel_ns = 7;`
+     */
+    public var kernelNs: kotlin.Long
+      @JvmName("getKernelNs")
+      get() = _builder.kernelNs
+      @JvmName("setKernelNs")
+      set(value) {
+        _builder.kernelNs = value
+      }
+    /**
+     * ```
+     * Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+     * timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+     * the scheduler latency in us. 0 = absent.
+     * ```
+     *
+     * `uint64 kernel_ns = 7;`
+     */
+    public fun clearKernelNs() {
+      _builder.clearKernelNs()
+    }
+
+    /**
+     * ```
+     * Producer post-read monotonic record index. A gap between consecutive frames'
+     * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+     * ```
+     *
+     * `uint64 seq64 = 8;`
+     */
+    public var seq64: kotlin.Long
+      @JvmName("getSeq64")
+      get() = _builder.seq64
+      @JvmName("setSeq64")
+      set(value) {
+        _builder.seq64 = value
+      }
+    /**
+     * ```
+     * Producer post-read monotonic record index. A gap between consecutive frames'
+     * seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+     * ```
+     *
+     * `uint64 seq64 = 8;`
+     */
+    public fun clearSeq64() {
+      _builder.clearSeq64()
+    }
+
+    /**
+     * ```
+     * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+     * which seq64 structurally cannot see.
+     * ```
+     *
+     * `uint64 drops = 9;`
+     */
+    public var drops: kotlin.Long
+      @JvmName("getDrops")
+      get() = _builder.drops
+      @JvmName("setDrops")
+      set(value) {
+        _builder.drops = value
+      }
+    /**
+     * ```
+     * Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+     * which seq64 structurally cannot see.
+     * ```
+     *
+     * `uint64 drops = 9;`
+     */
+    public fun clearDrops() {
+      _builder.clearDrops()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

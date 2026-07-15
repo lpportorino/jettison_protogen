@@ -22,6 +22,64 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Authoritative CAN frame direction, set by the producer (lighthouse) from its
+// CAN-ID map. Supersedes CANFrame.is_rx (which consumers re-derived from a
+// fragile ID bitmask). UNSPECIFIED = the field is absent (frame emitted by a
+// producer that predates it); UNKNOWN = the producer classified the ID as
+// unmapped (its "unk") — distinct from UNSPECIFIED so the unmapped case is not
+// collapsed back into a bitmask guess.
+type CANDirection int32
+
+const (
+	CANDirection_CAN_DIRECTION_UNSPECIFIED CANDirection = 0 // field absent (pre-redeploy producer)
+	CANDirection_CAN_DIRECTION_TX          CANDirection = 1 // producer "tx" — sent to device (command)
+	CANDirection_CAN_DIRECTION_RX          CANDirection = 2 // producer "rx" — received from device (reply)
+	CANDirection_CAN_DIRECTION_UNKNOWN     CANDirection = 3 // producer "unk" — unmapped ID, direction unknown
+)
+
+// Enum value maps for CANDirection.
+var (
+	CANDirection_name = map[int32]string{
+		0: "CAN_DIRECTION_UNSPECIFIED",
+		1: "CAN_DIRECTION_TX",
+		2: "CAN_DIRECTION_RX",
+		3: "CAN_DIRECTION_UNKNOWN",
+	}
+	CANDirection_value = map[string]int32{
+		"CAN_DIRECTION_UNSPECIFIED": 0,
+		"CAN_DIRECTION_TX":          1,
+		"CAN_DIRECTION_RX":          2,
+		"CAN_DIRECTION_UNKNOWN":     3,
+	}
+)
+
+func (x CANDirection) Enum() *CANDirection {
+	p := new(CANDirection)
+	*p = x
+	return p
+}
+
+func (x CANDirection) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CANDirection) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_can_stream_proto_enumTypes[0].Descriptor()
+}
+
+func (CANDirection) Type() protoreflect.EnumType {
+	return &file_jon_can_stream_proto_enumTypes[0]
+}
+
+func (x CANDirection) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CANDirection.Descriptor instead.
+func (CANDirection) EnumDescriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{0}
+}
+
 // Single CAN/CAN-FD frame
 type CANFrame struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
@@ -31,7 +89,21 @@ type CANFrame struct {
 	IsRx  bool   `protobuf:"varint,3,opt,name=is_rx,json=isRx,proto3" json:"is_rx,omitempty"` // true=received from device, false=sent to device
 	IsFd  bool   `protobuf:"varint,4,opt,name=is_fd,json=isFd,proto3" json:"is_fd,omitempty"` // true=CAN-FD, false=classic CAN
 	// Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
-	Data          []byte `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"`
+	Data []byte `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"`
+	// Authoritative producer direction. Supersedes is_rx (field 3, kept for
+	// back-compat). UNSPECIFIED when absent — old consumers ignore this field and
+	// still read is_rx.
+	Dir CANDirection `protobuf:"varint,6,opt,name=dir,proto3,enum=jon.can.CANDirection" json:"dir,omitempty"`
+	// Kernel softirq RX timestamp in CLOCK_BOOTTIME ns — the SAME clock domain as
+	// timestamp_us (which is mono_ns/1000), so kernel_ns/1000 - timestamp_us is
+	// the scheduler latency in us. 0 = absent.
+	KernelNs uint64 `protobuf:"varint,7,opt,name=kernel_ns,json=kernelNs,proto3" json:"kernel_ns,omitempty"`
+	// Producer post-read monotonic record index. A gap between consecutive frames'
+	// seq64 = frames lost AFTER the kernel read (channel / batcher / trim).
+	Seq64 uint64 `protobuf:"varint,8,opt,name=seq64,proto3" json:"seq64,omitempty"`
+	// Kernel SO_RXQ_OVFL cumulative drop count = frames lost BEFORE the read,
+	// which seq64 structurally cannot see.
+	Drops         uint64 `protobuf:"varint,9,opt,name=drops,proto3" json:"drops,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -99,6 +171,34 @@ func (x *CANFrame) GetData() []byte {
 		return x.Data
 	}
 	return nil
+}
+
+func (x *CANFrame) GetDir() CANDirection {
+	if x != nil {
+		return x.Dir
+	}
+	return CANDirection_CAN_DIRECTION_UNSPECIFIED
+}
+
+func (x *CANFrame) GetKernelNs() uint64 {
+	if x != nil {
+		return x.KernelNs
+	}
+	return 0
+}
+
+func (x *CANFrame) GetSeq64() uint64 {
+	if x != nil {
+		return x.Seq64
+	}
+	return 0
+}
+
+func (x *CANFrame) GetDrops() uint64 {
+	if x != nil {
+		return x.Drops
+	}
+	return 0
 }
 
 // Batch of CAN frames for efficient streaming
@@ -195,17 +295,26 @@ var File_jon_can_stream_proto protoreflect.FileDescriptor
 
 const file_jon_can_stream_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\x95\x01\n" +
+	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\x87\x02\n" +
 	"\bCANFrame\x12!\n" +
 	"\ftimestamp_us\x18\x01 \x01(\x04R\vtimestampUs\x12\x1f\n" +
 	"\x06can_id\x18\x02 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x0fR\x05canId\x12\x13\n" +
 	"\x05is_rx\x18\x03 \x01(\bR\x04isRx\x12\x13\n" +
 	"\x05is_fd\x18\x04 \x01(\bR\x04isFd\x12\x1b\n" +
-	"\x04data\x18\x05 \x01(\fB\a\xbaH\x04z\x02\x18@R\x04data\":\n" +
+	"\x04data\x18\x05 \x01(\fB\a\xbaH\x04z\x02\x18@R\x04data\x12'\n" +
+	"\x03dir\x18\x06 \x01(\x0e2\x15.jon.can.CANDirectionR\x03dir\x12\x1b\n" +
+	"\tkernel_ns\x18\a \x01(\x04R\bkernelNs\x12\x14\n" +
+	"\x05seq64\x18\b \x01(\x04R\x05seq64\x12\x14\n" +
+	"\x05drops\x18\t \x01(\x04R\x05drops\":\n" +
 	"\rCANFrameBatch\x12)\n" +
 	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\".\n" +
 	"\x12CANStreamConnected\x12\x18\n" +
-	"\astreams\x18\x01 \x03(\tR\astreamsB\xa3\x01\n" +
+	"\astreams\x18\x01 \x03(\tR\astreams*t\n" +
+	"\fCANDirection\x12\x1d\n" +
+	"\x19CAN_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10CAN_DIRECTION_TX\x10\x01\x12\x14\n" +
+	"\x10CAN_DIRECTION_RX\x10\x02\x12\x19\n" +
+	"\x15CAN_DIRECTION_UNKNOWN\x10\x03B\xa3\x01\n" +
 	"\vcom.jon.canB\x11JonCanStreamProtoP\x01ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/can\xa2\x02\x03JCX\xaa\x02\aJon.Can\xca\x02\aJon\\Can\xe2\x02\x13Jon\\Can\\GPBMetadata\xea\x02\bJon::Canb\x06proto3"
 
 var (
@@ -220,19 +329,22 @@ func file_jon_can_stream_proto_rawDescGZIP() []byte {
 	return file_jon_can_stream_proto_rawDescData
 }
 
+var file_jon_can_stream_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_jon_can_stream_proto_goTypes = []any{
-	(*CANFrame)(nil),           // 0: jon.can.CANFrame
-	(*CANFrameBatch)(nil),      // 1: jon.can.CANFrameBatch
-	(*CANStreamConnected)(nil), // 2: jon.can.CANStreamConnected
+	(CANDirection)(0),          // 0: jon.can.CANDirection
+	(*CANFrame)(nil),           // 1: jon.can.CANFrame
+	(*CANFrameBatch)(nil),      // 2: jon.can.CANFrameBatch
+	(*CANStreamConnected)(nil), // 3: jon.can.CANStreamConnected
 }
 var file_jon_can_stream_proto_depIdxs = []int32{
-	0, // 0: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: jon.can.CANFrame.dir:type_name -> jon.can.CANDirection
+	1, // 1: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_jon_can_stream_proto_init() }
@@ -245,13 +357,14 @@ func file_jon_can_stream_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_can_stream_proto_rawDesc), len(file_jon_can_stream_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_jon_can_stream_proto_goTypes,
 		DependencyIndexes: file_jon_can_stream_proto_depIdxs,
+		EnumInfos:         file_jon_can_stream_proto_enumTypes,
 		MessageInfos:      file_jon_can_stream_proto_msgTypes,
 	}.Build()
 	File_jon_can_stream_proto = out.File

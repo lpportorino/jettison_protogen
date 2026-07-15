@@ -28,6 +28,7 @@
 #include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
+#include "google/protobuf/generated_enum_reflection.h"
 #include "google/protobuf/unknown_field_set.h"
 #include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
@@ -72,6 +73,41 @@ namespace protobuf {
 
 namespace jon {
 namespace can {
+enum CANDirection : int {
+  CAN_DIRECTION_UNSPECIFIED = 0,
+  CAN_DIRECTION_TX = 1,
+  CAN_DIRECTION_RX = 2,
+  CAN_DIRECTION_UNKNOWN = 3,
+  CANDirection_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  CANDirection_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool CANDirection_IsValid(int value);
+extern const uint32_t CANDirection_internal_data_[];
+constexpr CANDirection CANDirection_MIN = static_cast<CANDirection>(0);
+constexpr CANDirection CANDirection_MAX = static_cast<CANDirection>(3);
+constexpr int CANDirection_ARRAYSIZE = 3 + 1;
+const ::google::protobuf::EnumDescriptor*
+CANDirection_descriptor();
+template <typename T>
+const std::string& CANDirection_Name(T value) {
+  static_assert(std::is_same<T, CANDirection>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to CANDirection_Name().");
+  return CANDirection_Name(static_cast<CANDirection>(value));
+}
+template <>
+inline const std::string& CANDirection_Name(CANDirection value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<CANDirection_descriptor,
+                                                 0, 3>(
+      static_cast<int>(value));
+}
+inline bool CANDirection_Parse(absl::string_view name, CANDirection* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<CANDirection>(
+      CANDirection_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -431,6 +467,10 @@ class CANFrame final : public ::google::protobuf::Message
     kCanIdFieldNumber = 2,
     kIsRxFieldNumber = 3,
     kIsFdFieldNumber = 4,
+    kKernelNsFieldNumber = 7,
+    kSeq64FieldNumber = 8,
+    kDropsFieldNumber = 9,
+    kDirFieldNumber = 6,
   };
   // bytes data = 5 [(.buf.validate.field) = {
   void clear_data() ;
@@ -488,12 +528,52 @@ class CANFrame final : public ::google::protobuf::Message
   void _internal_set_is_fd(bool value);
 
   public:
+  // uint64 kernel_ns = 7;
+  void clear_kernel_ns() ;
+  ::uint64_t kernel_ns() const;
+  void set_kernel_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_kernel_ns() const;
+  void _internal_set_kernel_ns(::uint64_t value);
+
+  public:
+  // uint64 seq64 = 8;
+  void clear_seq64() ;
+  ::uint64_t seq64() const;
+  void set_seq64(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_seq64() const;
+  void _internal_set_seq64(::uint64_t value);
+
+  public:
+  // uint64 drops = 9;
+  void clear_drops() ;
+  ::uint64_t drops() const;
+  void set_drops(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_drops() const;
+  void _internal_set_drops(::uint64_t value);
+
+  public:
+  // .jon.can.CANDirection dir = 6;
+  void clear_dir() ;
+  ::jon::can::CANDirection dir() const;
+  void set_dir(::jon::can::CANDirection value);
+
+  private:
+  ::jon::can::CANDirection _internal_dir() const;
+  void _internal_set_dir(::jon::can::CANDirection value);
+
+  public:
   // @@protoc_insertion_point(class_scope:jon.can.CANFrame)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 0,
+      4, 9, 0,
       0, 2>
       _table_;
 
@@ -516,6 +596,10 @@ class CANFrame final : public ::google::protobuf::Message
     ::uint32_t can_id_;
     bool is_rx_;
     bool is_fd_;
+    ::uint64_t kernel_ns_;
+    ::uint64_t seq64_;
+    ::uint64_t drops_;
+    int dir_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -872,6 +956,94 @@ inline void CANFrame::set_allocated_data(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:jon.can.CANFrame.data)
 }
 
+// .jon.can.CANDirection dir = 6;
+inline void CANFrame::clear_dir() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.dir_ = 0;
+}
+inline ::jon::can::CANDirection CANFrame::dir() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.dir)
+  return _internal_dir();
+}
+inline void CANFrame::set_dir(::jon::can::CANDirection value) {
+  _internal_set_dir(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.dir)
+}
+inline ::jon::can::CANDirection CANFrame::_internal_dir() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::jon::can::CANDirection>(_impl_.dir_);
+}
+inline void CANFrame::_internal_set_dir(::jon::can::CANDirection value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.dir_ = value;
+}
+
+// uint64 kernel_ns = 7;
+inline void CANFrame::clear_kernel_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kernel_ns_ = ::uint64_t{0u};
+}
+inline ::uint64_t CANFrame::kernel_ns() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.kernel_ns)
+  return _internal_kernel_ns();
+}
+inline void CANFrame::set_kernel_ns(::uint64_t value) {
+  _internal_set_kernel_ns(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.kernel_ns)
+}
+inline ::uint64_t CANFrame::_internal_kernel_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.kernel_ns_;
+}
+inline void CANFrame::_internal_set_kernel_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.kernel_ns_ = value;
+}
+
+// uint64 seq64 = 8;
+inline void CANFrame::clear_seq64() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.seq64_ = ::uint64_t{0u};
+}
+inline ::uint64_t CANFrame::seq64() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.seq64)
+  return _internal_seq64();
+}
+inline void CANFrame::set_seq64(::uint64_t value) {
+  _internal_set_seq64(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.seq64)
+}
+inline ::uint64_t CANFrame::_internal_seq64() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.seq64_;
+}
+inline void CANFrame::_internal_set_seq64(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.seq64_ = value;
+}
+
+// uint64 drops = 9;
+inline void CANFrame::clear_drops() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.drops_ = ::uint64_t{0u};
+}
+inline ::uint64_t CANFrame::drops() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.drops)
+  return _internal_drops();
+}
+inline void CANFrame::set_drops(::uint64_t value) {
+  _internal_set_drops(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.drops)
+}
+inline ::uint64_t CANFrame::_internal_drops() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.drops_;
+}
+inline void CANFrame::_internal_set_drops(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.drops_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // CANFrameBatch
@@ -1001,6 +1173,19 @@ CANStreamConnected::_internal_mutable_streams() {
 }  // namespace can
 }  // namespace jon
 
+
+namespace google {
+namespace protobuf {
+
+template <>
+struct is_proto_enum<::jon::can::CANDirection> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::jon::can::CANDirection>() {
+  return ::jon::can::CANDirection_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 
