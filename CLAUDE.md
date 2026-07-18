@@ -28,6 +28,51 @@ Rules:
   `master` → push (CI fans out) → every active consumer bumps its pin + regenerates
   + gates, in lockstep. Never leave the fleet pinned across divergent commits.
 
+## Fixing protogen from a consumer (MANDATORY — fix at the source, robustly)
+
+**A bug you hit in protogen while consuming it is fixed HERE, at the source, and
+never worked around in the consumer.** A defect one consumer trips over is live
+in every other consumer and has merely not surfaced yet, so a local workaround
+leaves it live for everyone else, forks behaviour between stacks required to
+agree byte-for-byte, and hides the signal so the next consumer rediscovers the
+same bug from scratch. The negative vector in `docs/INTERFACE-CONTRACTS.md` §6 —
+the former datasart `buildPingPayload()` bytes, kept only as a failing test case
+— is what that costs when it happens. This is the general form of that doc's
+§10.1 **"Generate, don't hand-roll"**: that rule forbids implementing the
+contract locally, this one forbids repairing it locally.
+
+The pin-bumping consumers — the app consumers and any monorepo that vendors this
+submodule — are therefore protogen's proving ground: a bug found downstream (a
+wire mismatch, a wrong constraint, a UI-AST node the renderer cannot express) is
+an opportunity to harden the contract, not an inconvenience to route around. And
+because a fix here reaches all of them at their next pin bump, it lands in front
+of maintainers who did not write it and cannot cheaply audit it — so a fix
+carries a **higher** bar than a local change, not a lower one.
+
+Rules:
+- **Fix the root cause in this repo**, not the symptom at the consumer's call
+  site. If the consumer can only paper over it, that is the signal that the
+  CONTRACT is wrong — fix the contract.
+- **Regenerate and revalidate before it lands.** `make generate` rebuilds the
+  bindings AND the descriptor set the docs are rendered from, so it runs first
+  and the docs leg of `## Common Operations` (`make docs-docker-generate` →
+  descriptions → `make docs-docker-lint`) runs after it, never instead of it —
+  linting docs rendered from the previous descriptor set proves nothing. A fix
+  that touches a wire surface must then still round-trip the
+  `docs/INTERFACE-CONTRACTS.md` §9 golden vectors byte-for-byte — asserted in the
+  consumers' own wire-parity tests, per §10.2, since nothing here runs them.
+- **Prove it against the consumer that surfaced it.** This repo's own tests did
+  not catch the bug — that is precisely what makes the report valuable — so the
+  proof is a pin bump in that consumer with its battery green, never this repo's
+  tests alone.
+- **Get an antagonistic review before pushing.** A hostile, non-self review of
+  both the diff AND the commit message is what confirms the fix is real and the
+  message honest. Nothing mechanical gates a push here — the review IS the gate.
+- **Say what each consumer must do.** The commit message carries a per-consumer
+  CONSEQUENCES beat — regenerate, rewire, or bump-only — because that beat is the
+  instruction every bump author executes verbatim. The generated binding repos
+  need no such instruction: CI overwrites them wholesale on the next proto push.
+
 ## Module Overview
 
 Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go, Kotlin, and Java) using buf.validate annotations.
