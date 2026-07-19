@@ -457,7 +457,9 @@ and the `malloc`/`free` buffer-transfer pair).
 
 ABI self-description getters (the host validates these at load/reload before
 reading the framebuffer at a stride): `controls_abi_version` (`CONTROLS_ABI_VERSION`
-is `1`), `controls_fb_format` (`1` = `RGBA8888`, memory byte order
+is `2`; `v2` added the `env.host_event` import to the REQUIRED import set —
+a WASM import is instantiation-MANDATORY, so hosts link it BEFORE a v2 module
+can load at all), `controls_fb_format` (`1` = `RGBA8888`, memory byte order
 `framebuffer[i*4+0]`=R), `controls_fb_width`/`controls_fb_height`,
 `controls_fb_bpp` (`4`). All are plain `u32` returns (no i64/BigInt).
 
@@ -468,6 +470,16 @@ is `1`), `controls_fb_format` (`1` = `RGBA8888`, memory byte order
   report (the host DECODES this — see §below).
 - `env.host_proxy_report(id, id_len, phase, mode, x, y, w, h, z, flags) -> i32`
   — the host-proxy positioning-geometry stream (rect in framebuffer px).
+- `env.host_event(ptr, len) -> i32` (ABI ≥ 2) — the named-event lane: one
+  UTF-8 JSON **UI Event Envelope v1** per fired `EventBinding` with a nonempty
+  `name` whose host-relay gate is open (no subject mutation, or `notify_host`).
+  ADDITIVE beside `host_command` (cmd bytes first, unchanged). The envelope is
+  the CLOSED map `{"v":1,"tag":<EventBinding.name>,"origin":<widget uid>,
+  "event":<trigger>,"seq":<per-instance monotonic>,"value":<int>}` — schema:
+  [`ui-event-envelope.schema.json`](../ui-event-envelope.schema.json) (repo
+  root, the language-neutral validator source); golden vectors: §9 G5. Hosts
+  validate at their membrane (unknown keys REJECT); consumers PARSE envelopes
+  as JSON — byte comparison is only for EMITTER parity tests (§9).
 
 The pointer/lifecycle channel into the WASM is `ui.HostToWasm` (the host encodes
 it and calls `controls_host_message`); the feedback channel out is
@@ -564,6 +576,35 @@ flattened (26 bytes):
 
 ```
 52 14
+```
+
+**G5 — UI Event Envelope v1** (§8 `env.host_event`; schema
+`ui-event-envelope.schema.json`). Envelope EMITTERS must reproduce these
+bytes exactly (field order + spelling pinned); envelope CONSUMERS parse as
+JSON and never byte-compare. All are single-line UTF-8, no trailing newline,
+`len` excludes any NUL.
+
+**G5-A — plain named click** (`EventBinding{name:"fireMission", int_value:7}`
+on the widget with uid 42; the instance's first envelope):
+
+```
+{"v":1,"tag":"fireMission","origin":42,"event":"clicked","seq":1,"value":7}
+```
+
+**G5-B — hostile-name escaping** (name bytes `ev"il\tag` + LF + 0x01 + `end`):
+quote → `\"`, backslash → `\\`, control chars → lowercase `\u00xx`, all as
+literal escape sequences in the envelope bytes:
+
+```
+{"v":1,"tag":"ev\"il\\tag\u000a\u0001end","origin":42,"event":"clicked","seq":1,"value":0}
+```
+
+**G5-C — the kebab-case trigger spelling pin** (a VALUE_CHANGED binding, the
+instance's second envelope; `value-changed`/`long-pressed` are kebab-case —
+never `value_changed`):
+
+```
+{"v":1,"tag":"volume.set","origin":7,"event":"value-changed","seq":2,"value":55}
 ```
 
 Reference implementations:

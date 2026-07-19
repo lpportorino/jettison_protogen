@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lpportorino/jettison_protogen/ui-event-envelope.schema.json",
+  "title": "UI Event Envelope v1",
+  "description": "The self-describing JSON envelope every named controls.wasm UI event rides over the env.host_event(ptr,len) import (controls_abi_version >= 2). RIGID GENERIC ENVELOPE with a DYNAMIC PAYLOAD: the map is CLOSED (unknown keys REJECT — additionalProperties:false is the no-freestyle enforcement); only value/extra stay open (the dynamic meaning). Deliberately NO timestamp/uuid on the wire: the wasm imports no clock (pixel-determinism doctrine) — seq is its identity; time enters at the HOST membrane as observation metadata, never wire content. See docs/INTERFACE-CONTRACTS.md §8 (the host_event import) and §9 G5 (the golden vectors emitters must reproduce).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "tag", "origin", "event", "seq"],
+  "properties": {
+    "v": {
+      "const": 1,
+      "description": "Envelope schema version. A breaking envelope change bumps this const in a NEW schema revision; consumers fail fast on an unknown v (no migration branch — the protogen evolution loop rebuilds consumers in lockstep)."
+    },
+    "tag": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 63,
+      "description": "EventBinding.name — the event keyword, which IS the command identifier the host maps on (e.g. 'dayCamera.setZoomTableValue'). The renderer caps names at 63 bytes (char[64] storage); an EMPTY name emits no envelope at all."
+    },
+    "origin": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295,
+      "description": "The firing widget's codegen-assigned uid (FNV-1a-32 of its identity path — the same uid controls_dump_tree reports and ScreenPatch ops address). 0 when the node carried no uid."
+    },
+    "event": {
+      "enum": ["clicked", "value-changed", "focused", "defocused", "long-pressed", "host"],
+      "description": "The trigger that fired, kebab-case. The v1 renderer emits 'clicked' (the EventBinding default), 'value-changed' and 'long-pressed'; the remaining values are RESERVED for host-membrane and future-trigger use so validators share ONE enum."
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4294967295,
+      "description": "Per-module-instance monotonic emission counter. The shipped renderer emits CONSECUTIVE values from 1 (never reset by screen load/destroy within an instance), so a host gap-check detects loss across the whole session."
+    },
+    "value": {
+      "description": "Dynamic payload (open type). The v1 renderer emits the binding's integer value — the SAME int the cmd.* template path patches (post widget-value injection / toggle)."
+    },
+    "extra": {
+      "type": "object",
+      "description": "Reserved open side-channel for structured payload extensions (dynamic meaning; the envelope stays rigid around it). The v1 renderer never emits it."
+    }
+  }
+}
