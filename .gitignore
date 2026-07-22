@@ -44,3 +44,6 @@ renderer/compile_commands.json
 
 # compiler depfiles (a stray -MMD invocation drops them anywhere)
 *.d
+
+# clang-tidy gate scratch output
+.tidy-*.txt

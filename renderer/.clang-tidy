@@ -1,0 +1,98 @@
+# clang-tidy for the renderer's HAND-AUTHORED C (renderer/src/*.c, *.h).
+#
+# The check set is adopted from ~/git/cc/jettison/.clang-tidy — the fleet's
+# proven, WarningsAsErrors:'*' posture, actually gating every native build over
+# there. Adopting it verbatim keeps the fleet's C analysis in step the same way
+# .clang-format now does; the deltas below are all repo-specific and each says
+# why.
+#
+# HOW IT IS DRIVEN. clang-tidy needs a real compile command per file, or it
+# reconstructs one badly and reports diagnostics the compiler never sees. The
+# database is emitted by `make -f wasm.mk compile-db` from the BUILD's own
+# flags (including -std=c23); the gate is `make -f lint.mk lint-c-tidy`, run in
+# the pinned WASI-SDK container. NEVER hand-assemble the flags — an earlier
+# attempt omitting -std=c23 invented three phantom parse errors on a
+# static_assert that compiles cleanly.
+#
+# DELTA 1 — HeaderFilterRegex. jettison has NONE (no vendored tree). We vendor
+# 1100+ LVGL headers and generate nanopb headers, so without a filter clang-tidy
+# would analyse all of them to lint 17 of our own. Scoped to renderer/src so a
+# diagnostic in our OWN headers still surfaces while lvgl/ and generated/ stay
+# silent. (renderer/lvgl/src does not match `renderer/src/`.)
+#
+# DELTA 2 — WHAT WE ADD to jettison's exclusion list, each proven noise on THIS
+# tree by the mining pass, not guessed:
+#   -misc-include-cleaner   fires on every libc symbol the WASI sysroot pulls in
+#                           transitively; 818 hits, all "no header directly
+#                           includes memcpy/setjmp/…", none a real defect.
+#   -performance-no-int-to-ptr  the uid-in-user_data idiom is a correct,
+#                           symmetric pack/unpack; uintptr_t is 32-bit on wasm32.
+#   -misc-use-internal-linkage  every hit is a function in wasm.mk's explicit
+#                           -Wl,--export list; making them static would break the
+#                           link. The wasm export surface, not an oversight.
+#   -readability-function-cognitive-complexity  a size metric; correctness here
+#                           is gated by the renderer proof battery, not a
+#                           statement count.
+#   -readability-math-missing-parentheses  the only real hits mirror LVGL's own
+#                           update_knob_pos verbatim (deliberate, commented); the
+#                           rest are inside vendored macro expansions.
+#   -bugprone-narrowing-conversions  this is the clang-tidy twin of -Wconversion,
+#                           which wasm.mk turns OFF for a stated reason: the
+#                           renderer is built on intentional proto-int <-> LVGL
+#                           numeric-type casts (coords, angles, indices, sizes —
+#                           all bounded), and value-correctness is guarded by the
+#                           parity gate, not by re-flagging every such cast. All
+#                           18 hits on this tree are that one documented class,
+#                           zero are defects. Keeping it would make the gate a
+#                           per-build re-litigation of a decision already made in
+#                           wasm.mk — the exact "gate people learn to ignore"
+#                           shape. And it would not even earn its keep: the one
+#                           real narrowing bug the mining pass found (gesture.c
+#                           t_ms) was an EXPLICIT cast, which this check does not
+#                           flag. Declined here to stay consistent with the build.
+# Genuine defects the mining pass found were fixed at the source or carry a
+# NOLINT(check) with a justification at the site — see .claude/rules/lint-gates.md.
+Checks: >
+  bugprone-*,
+  cert-*,
+  clang-analyzer-core.*,
+  clang-analyzer-unix.*,
+  clang-analyzer-security.*,
+  clang-analyzer-nullability.*,
+  performance-*,
+  concurrency-*,
+  misc-*,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
+  -clang-analyzer-valist.Uninitialized,
+  -clang-diagnostic-cast-function-type-strict,
+  -cert-env33-c,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-reserved-identifier,
+  -cert-dcl37-c,
+  -cert-dcl51-cpp,
+  -clang-diagnostic-newline-eof,
+  -bugprone-casting-through-void,
+  -concurrency-mt-unsafe,
+  -misc-include-cleaner,
+  -misc-use-internal-linkage,
+  -misc-no-recursion,
+  -performance-no-int-to-ptr,
+  -readability-function-cognitive-complexity,
+  -readability-math-missing-parentheses,
+  -readability-braces-around-statements,
+  -readability-identifier-length,
+  -readability-magic-numbers,
+  -readability-uppercase-literal-suffix,
+  -readability-implicit-bool-conversion,
+  -readability-isolate-declaration,
+  -bugprone-narrowing-conversions
+
+WarningsAsErrors: '*'
+
+HeaderFilterRegex: 'renderer/src/'
+
+FormatStyle: file
+
+CheckOptions:
+  bugprone-unsafe-functions.ReportMoreUnsafeFunctions: 'true'
+  bugprone-assert-side-effect.AssertMacros: 'assert'

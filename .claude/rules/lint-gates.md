@@ -29,8 +29,30 @@ Two guards you will meet:
 
 | lane | runs | why |
 |---|---|---|
-| `cljfmt`, `clj-kondo` | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt needs only the CLI |
-| `clang-format` | `renderer.yml`, inside the pinned image | the only PINNED clang-format is the WASI-SDK's; reproducing it elsewhere means a 15-min image build or an unpinned binary that disagrees with devs |
+| `cljfmt`, `clj-kondo`, `bash -n` | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt needs only the CLI |
+| `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags |
+
+## clang-tidy: driven by a REAL compile database, never hand-assembled flags
+
+`make -f lint.mk lint-c-tidy` (container-only) runs clang-tidy over the
+hand-authored C under `renderer/.clang-tidy` (WarningsAsErrors:'*', the fleet's
+jettison check set). It first emits `renderer/compile_commands.json` via
+`make -f wasm.mk compile-db`, which writes the build's OWN flags — including
+`-std=c23` from the single-sourced `APP_STD`. This is not optional polish: a
+hand-assembled flag list silently disagrees with the build and clang-tidy then
+reports diagnostics the compiler never sees. Measured: omitting `-std=c23` gave
+three phantom parse errors on a `static_assert` that compiles cleanly, and
+doubled a macro-parentheses count. If clang-tidy output looks like a parse
+error, suspect the flags before the code.
+
+The config DECLINES `bugprone-narrowing-conversions` on purpose, cross-
+referencing wasm.mk's `-Wconversion`-off decision: the renderer is built on
+intentional proto-int <-> LVGL numeric casts, so every hit is that one
+documented class and none is a defect. Declining it (vs 18 site NOLINTs) keeps
+the gate from re-litigating a made decision every build — and it would not earn
+its keep anyway, since the one real narrowing bug found this session was an
+EXPLICIT cast the check does not flag. The mine, not the gate, is where narrowing
+gets caught.
 
 clj-kondo is deliberately NOT in the uber image and does not need to be: a linter
 emits findings, never a committed artifact, so the uber-container rule does not

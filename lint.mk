@@ -174,6 +174,25 @@ fmt-c:
 		'$(CLANG_FORMAT) --style=file "$$1" | diff -u "$$1" - > /dev/null \
 		 || { echo "clang-format drift: $$1" >&2; exit 1; }' _ {}
 
+## lint-c-tidy: clang-tidy static analysis over hand-authored C
+# CONTAINER-ONLY (like fmt-c): needs the pinned WASI-SDK clang-tidy AND a
+# compile database. The DB is emitted by the build itself
+# (`make -f wasm.mk compile-db`) from the build's own flags, so clang-tidy sees
+# exactly what the compiler sees — a hand-assembled flag list silently diverges
+# and invents diagnostics (measured: three phantom parse errors from a missing
+# -std=c23). The config is renderer/.clang-tidy (WarningsAsErrors:'*'), adopted
+# from the fleet's jettison config; run-clang-tidy exits non-zero on any finding.
+#
+# NOT in the `lint` aggregate: `lint` is the fast host-runnable gate the
+# pre-push hook calls, and this needs docker. It runs in CI's renderer job,
+# which already has the toolchain image and builds the compile DB there.
+lint-c-tidy:
+	@command -v run-clang-tidy >/dev/null 2>&1 || { \
+		printf '\033[31m[lint-c-tidy]\033[0m run-clang-tidy not on PATH — run inside tools/uber.sh\n' >&2; exit 1; }
+	@printf '\033[32m[lint-c-tidy]\033[0m clang-tidy (%s cpus)\n' "$(NPROC)"
+	@[ -f renderer/compile_commands.json ] || $(MAKE) -C renderer -f wasm.mk compile-db
+	@cd renderer && run-clang-tidy -p . -quiet -j $(NPROC)
+
 ## fmt-fix: rewrite formatting in place (both languages)
 fmt-fix: fmt-clj-fix fmt-c-fix
 

@@ -101,6 +101,19 @@ jobs:
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f lint.mk fmt-c
+    - # clang-tidy static analysis over hand-authored C, HERE for the same
+      # reason as clang-format: the pinned clang-tidy is the WASI-SDK's, and the
+      # compile database it needs is emitted from THIS image's build flags
+      # (make -f lint.mk lint-c-tidy runs `wasm.mk compile-db` first). A
+      # hand-assembled flag list invents diagnostics the compiler never sees.
+      # Config is renderer/.clang-tidy (WarningsAsErrors:'*'); after clang-format
+      # (cheap) and before the wasm build (slow), so an analysis failure does not
+      # cost a multi-minute build first.
+      name: clang-tidy (static analysis, pinned WASI-SDK)
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          jettison-proto-generator-base:latest \
+          bash -lc 'export PATH=/opt/wasi-sdk/bin:$PATH && make -f lint.mk lint-c-tidy'
     - name: Build controls.wasm + reference.wasm (bit-identity artifact)
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
