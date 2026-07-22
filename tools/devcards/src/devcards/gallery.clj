@@ -53,7 +53,7 @@
             [clojure.string :as str]
             [devcards.host :as host]
             [devcards.jpeg :as jpeg])
-  (:import (java.awt Color Graphics2D)
+  (:import (java.awt Graphics2D)
            (java.awt.image BufferedImage)))
 
 (set! *warn-on-reflection* true)
