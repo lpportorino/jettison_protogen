@@ -149,6 +149,11 @@ cp /opt/nanopb/pb_encode.h /workspace/output/
 cp /opt/nanopb/pb_encode.c /workspace/output/
 cp /opt/nanopb/pb_decode.h /workspace/output/
 cp /opt/nanopb/pb_decode.c /workspace/output/
+# nanopb (zlib licence) is vendored, not authored here: carry its licence
+# alongside the runtime files on every regeneration so a standalone copy of
+# output/c/ (this is what ships to jettison_proto_c) always keeps the notice
+# the zlib licence requires it not be separated from.
+cp /opt/nanopb/LICENSE.txt /workspace/output/LICENSE.nanopb
 '
 
 # C++ generation script with buf.validate support
