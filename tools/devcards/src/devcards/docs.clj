@@ -456,16 +456,21 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
                             {:built (mapv :id built-sinks)
                              :spec (mapv :id (:kitchen-sinks spec))})))
         tag->enum (into {} (map (fn [{:keys [enum widget]}] [(:tag widget) enum])) registry)
-        widget-files (vec (mapcat (fn [{:keys [enum widget] :as entry}]
-                                    (let [entries (get atomic-by-widget (:tag widget))
-                                          dir (str out-dir "/" enum)]
-                                      (when (empty? entries)
-                                        (throw (ex-info "widget class has ZERO built cards"
-                                                        {:enum enum :tag (:tag widget)})))
-                                      (conj (sheet-files! paths canvas dir enum entries)
-                                            (write-text! (str dir "/README.md")
-                                                         (widget-page-md entry)))))
-                                  registry))
+        ;; Parallel over widgets: each render-cell! boots its OWN fresh
+        ;; GraalWasm context (hermetic — see gallery/render-cell!), so widget
+        ;; units render concurrently on the shared engine with no shared state;
+        ;; pmap preserves order, so widget-files stays deterministic.
+        widget-files (vec (mapcat identity
+                                  (pmap (fn [{:keys [enum widget] :as entry}]
+                                          (let [entries (get atomic-by-widget (:tag widget))
+                                                dir (str out-dir "/" enum)]
+                                            (when (empty? entries)
+                                              (throw (ex-info "widget class has ZERO built cards"
+                                                              {:enum enum :tag (:tag widget)})))
+                                            (conj (sheet-files! paths canvas dir enum entries)
+                                                  (write-text! (str dir "/README.md")
+                                                               (widget-page-md entry)))))
+                                        registry)))
         sink-dir (str out-dir "/kitchen-sinks")
         sink-files (conj (sheet-files! paths canvas sink-dir "kitchen-sinks" built-sinks)
                          (write-text! (str sink-dir "/README.md")
