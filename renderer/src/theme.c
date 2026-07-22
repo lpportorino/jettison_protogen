@@ -394,8 +394,23 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   if (lv_obj_check_type(obj, &lv_switch_class)) {
     lv_obj_add_style(obj, &t->styles.knob, LV_PART_KNOB);
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
-    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.light_track, LV_PART_MAIN);
+      /* Body radius must AGREE with the knob's. `knob` gives asgard a crisp
+       * THEME_RADIUS_CONTROL corner, but the switch MAIN was left to stock —
+       * whose radius is LV_RADIUS_CIRCLE — so the track stayed a full pill
+       * around a square knob. `knob` carries radius and nothing else, so
+       * re-using it here makes the two agree BY CONSTRUCTION rather than by a
+       * second constant that could drift. Asgard-only: vanilla keeps the stock
+       * circle on both parts, so vanilla-equals-stock stays true by scope. */
+      lv_obj_add_style(obj, &t->styles.knob, LV_PART_MAIN);
+      /* ...and the INDICATOR, which is what a checked switch actually shows.
+       * The filled blue body is not MAIN in a checked state — it is the
+       * indicator drawn over MAIN, carrying its own circle radius. Squaring
+       * MAIN alone therefore fixed every UNchecked state and left the checked
+       * one a pill, which is the half-fixed look this line completes. */
+      lv_obj_add_style(obj, &t->styles.knob, LV_PART_INDICATOR);
+    }
     add_interactive(t, obj);
     return;
   }

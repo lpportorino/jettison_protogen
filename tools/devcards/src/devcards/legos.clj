@@ -402,9 +402,14 @@
     event (assoc :event event)))
 
 (defn- badge-node
-  "The staged-count badge: a pill obj with the count label."
+  "The staged-count badge: a pill obj with the count label.
+
+   The label is CENTERED on both axes. Without a layout it lands at the content
+   box's top-left, which on a 34x26 pill with a 1px border and 2px pad puts the
+   digit hard against the border's inner curve — it reads as touching."
   [badge]
   {:type :WIDGET_OBJ
+   :layout {:flow :row :main-place :center :cross-place :center}
    :props {:w (:badge-w dock-chrome)
            :h (:badge-h dock-chrome)
            :radius 13
@@ -450,7 +455,11 @@
      :props {:w (:card-w dock-chrome)
              :h (if body? (:card-expanded-h dock-chrome) (:card-collapsed-h dock-chrome))
              :pad-all 4}
-     :layout {:flow :column}
+     ;; main-place CENTER: the card box is a fixed height from dock-chrome, so
+     ;; whatever it holds is shorter than the box — flex's default START pins
+     ;; that content to the top edge and pools all the slack underneath, which
+     ;; reads as "the entry is stuck to the top of its container".
+     :layout {:flow :column :main-place :center :cross-place :center}
      :flags-clear [:scrollable]
      :children (cond-> [(stage-caption stage idx)]
                  body? (conj {:type :WIDGET_OBJ

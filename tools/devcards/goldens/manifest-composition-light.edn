@@ -2,12 +2,12 @@
  :cards
  {"lego/dock-expanded"
   {:sha256
-   "7550ece0706b0afc7a65a108bbab51bc33efacf66b3d081ddedb0c15663acd87",
+   "75c53bc1d903f629a66192294407200b05a8a1d29274fed898c5a1d21cee7120",
    :w 800,
    :h 480},
   "lego/dock-folded"
   {:sha256
-   "9e3f53b934b700ffc230f898a9eb11278958323a273ef1392db0bacc6cabcdbc",
+   "ff7724f2c6d53f9bb12de2877a8043cd0d12bfd985e7ac143d6555f10ebcc697",
    :w 800,
    :h 480},
   "lego/scrubber"
