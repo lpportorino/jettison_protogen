@@ -474,6 +474,9 @@
    :caption-label-w 52
    :body-h 46
    :card-collapsed-h 64
+   ;; :card-expanded-h is the ONE-body-row height, kept as the pin the proof
+   ;; battery already knows. `card-h` below derives every other row count from
+   ;; it rather than adding a constant per shape.
    :card-expanded-h 118
    :icon-btn 30
    :rail-w 64
@@ -484,6 +487,23 @@
    :flex-gap 14
    :panel-pad 9
    :dropdown-h 50})
+
+(defn- card-h
+  "Height of a stage card holding `n` body rows.
+
+   ANCHORED on the two committed constants rather than rebuilt from parts:
+   n=0 is :card-collapsed-h and n=1 is :card-expanded-h exactly, so adding
+   multi-row support cannot perturb the single-row cards the goldens already
+   pin. Each row beyond the first costs :body-h PLUS :flex-gap, because the
+   theme owns the inter-child gap and a card sized to the bare content sum
+   overflows — measured: deriving the increment as (expanded - collapsed)
+   omitted that gap and tripped :overflow + :clipped on the two-row card."
+  [n]
+  (let [{:keys [card-collapsed-h card-expanded-h body-h flex-gap]} dock-chrome
+        n (long n)]
+    (if (zero? n)
+      card-collapsed-h
+      (+ card-expanded-h (* (dec n) (+ body-h flex-gap))))))
 
 (def ^:private dock-keys #{:folded? :badge :stages})
 
@@ -556,15 +576,44 @@
               (icon-button sym-down {:name (str id "-down") :int-value idx})
               (icon-button sym-close {:name (str id "-delete") :int-value idx})]})
 
+(defn- body-rows
+  "Normalise `:body-nodes` to a VECTOR OF ROWS. A flat vector of nodes is one
+   row (the original shape, still valid); a vector whose first element is
+   itself a vector is already a list of rows. Detecting on the first element
+   keeps both spellings working without a second option key."
+  [body-nodes]
+  (cond
+    (empty? body-nodes) []
+    (vector? (first body-nodes)) (mapv vec body-nodes)
+    :else [(vec body-nodes)]))
+
+(defn- body-row
+  "One body row inside a stage card."
+  [nodes]
+  {:type :WIDGET_OBJ
+   :props {:w (:row-w dock-chrome) :h (:body-h dock-chrome) :pad-all 2}
+   ;; :track-place centres the content BAND vertically (the knob :cross-place
+   ;; cannot reach — see `centering-note`); :main-place centres it
+   ;; horizontally, because a row narrower than its box otherwise pools every
+   ;; spare pixel on the right and reads as left-aligned in a centred card.
+   :layout {:flow :row :main-place :center
+            :cross-place :center :track-place :center}
+   :flags-clear [:scrollable]
+   :children nodes})
+
 (defn- stage-card
-  "One stage card: caption row (+ body row unless collapsed). `body-nodes`
-   are caller-supplied authored nodes laid out in a 272px row; a collapsed
-   stage keeps them in the caller's data but renders caption-only."
+  "One stage card: caption row, plus zero or more BODY ROWS unless collapsed.
+
+   `:body-nodes` is either a flat vector of nodes (one row) or a vector of
+   vectors (one row each) — see `body-rows`. The card's height is DERIVED from
+   the row count, so a two-row stage is not silently clipped by a fixed
+   `:card-expanded-h`; a collapsed stage keeps its nodes in the caller's data
+   and renders caption-only."
   [{:keys [collapsed? body-nodes] :as stage} idx]
-  (let [body? (and (not collapsed?) (seq body-nodes))]
+  (let [rows (if collapsed? [] (body-rows body-nodes))]
     {:type :WIDGET_OBJ
      :props {:w (:card-w dock-chrome)
-             :h (if body? (:card-expanded-h dock-chrome) (:card-collapsed-h dock-chrome))
+             :h (card-h (count rows))
              :pad-all 4}
      ;; main-place CENTER: the card box is a fixed height from dock-chrome, so
      ;; whatever it holds is shorter than the box — flex's default START pins
@@ -573,17 +622,7 @@
      :layout {:flow :column :main-place :center
               :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
-     :children (cond-> [(stage-caption stage idx)]
-                 body? (conj {:type :WIDGET_OBJ
-                              :props
-                              {:w (:row-w dock-chrome) :h (:body-h dock-chrome) :pad-all 2}
-                              ;; :track-place is the one that matters here —
-                              ;; the label+slider band is 25px inside a fixed
-                              ;; 46px row, and START pins it to the top edge.
-                              :layout {:flow :row :cross-place :center
-                                       :track-place :center}
-                              :flags-clear [:scrollable]
-                              :children (vec body-nodes)}))}))
+     :children (into [(stage-caption stage idx)] (map body-row) rows)}))
 
 (defn- dock-header
   "The panel header: fold toggle (`dock-fold`) + title + badge."
@@ -592,11 +631,15 @@
    :props {:w (:card-w dock-chrome) :h (:header-h dock-chrome) :pad-all 2}
    ;; a 30px icon, a text label and a 26px badge in a 46px row: :cross-place
    ;; evens the three heights against each other, :track-place drops the
-   ;; resulting band into the middle of the row.
-   :layout {:flow :row :cross-place :center :track-place :center}
+   ;; resulting band into the middle of the row, :main-place centres it
+   ;; horizontally. The title carries NO explicit width: its only purpose was
+   ;; to shove the badge toward the right edge, which centring makes moot —
+   ;; and a hardcoded 130 was dead space the moment the band was centred.
+   :layout {:flow :row :main-place :center
+            :cross-place :center :track-place :center}
    :flags-clear [:scrollable]
    :children [(icon-button sym-list {:name "dock-fold"})
-              {:type :WIDGET_LABEL :text "STAGES" :props {:w 130}} (badge-node badge)]})
+              {:type :WIDGET_LABEL :text "STAGES"} (badge-node badge)]})
 
 (defn- stack-h
   "Height of a column-flex stack: children + inter-child gaps + pads."

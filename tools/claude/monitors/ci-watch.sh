@@ -156,6 +156,7 @@ rate_remaining() {
 
 armed=0
 rr=0
+low_notified=0
 while :; do
   cur="$(snapshot)" || cur=""
 
@@ -207,6 +208,7 @@ while :; do
     # thing this monitor exists for.
     rem="$(rate_remaining)"
     if [ -z "$rem" ] || [ "$rem" -gt 12 ] 2>/dev/null; then
+      low_notified=0
       live="$(printf '%s\n' "$cur" | awk -F'\t' '
         $4 ~ /^(queued|in_progress|requested|waiting|pending)$/ { print $1 "\t" $2 "\t" $3 }')"
       n_live="$(printf '%s\n' "$live" | awk 'NF { c++ } END { print c + 0 }')"
@@ -228,8 +230,12 @@ while :; do
           fi
         fi
       fi
-    else
-      printf '[ci-watch] rate budget low (%s left this hour) — pausing step probes\n' "$rem"
+    elif [ "$low_notified" = 0 ]; then
+      # ONCE per low-budget episode, not once per cycle: a warning that repeats
+      # every poll is the same noise this monitor was just rewritten to stop
+      # emitting, and it would drown the run transitions it exists to deliver.
+      printf '[ci-watch] rate budget low (%s left this hour) — step probes paused until it recovers\n' "$rem"
+      low_notified=1
     fi
   fi
 

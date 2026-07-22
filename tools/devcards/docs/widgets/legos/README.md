@@ -9,7 +9,7 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
 
 # Composition legos
 
-The 8 authored-composition cards from `corpus/composition.edn` — the public `devcards.legos` builders compiled through the authored lane (`devcards.fixtures/build-authored-card`), the only corpus cells carrying events, absolute placement, and part-selector styling. Interaction contracts (press-seek, drag, the ext-click halo, dock event identities) are gate-held on BOTH engines; the sheets document the pixels. Cells are cropped to the lego's own box — the scrubber's includes its transparent hit-halo wrapper.
+The 9 authored-composition cards from `corpus/composition.edn` — the public `devcards.legos` builders compiled through the authored lane (`devcards.fixtures/build-authored-card`), the only corpus cells carrying events, absolute placement, and part-selector styling. Interaction contracts (press-seek, drag, the ext-click halo, dock event identities) are gate-held on BOTH engines; the sheets document the pixels. Cells are cropped to the lego's own box — the scrubber's includes its transparent hit-halo wrapper.
 
 ## Contact sheets
 
@@ -36,6 +36,7 @@ The 8 authored-composition cards from `corpus/composition.edn` — the public `d
 | `lego/scrubber-rich-paused` | `scrubber-rich` | The :playing? twin of lego/scrubber-rich-full — identical in every other option, so the ONLY difference between the two renders is the play/pause button's glyph. That is the whole claim of the single stateful transport control: one button, one event identity (tp-play-pause), two icons. |
 | `lego/scrubber-rich-ticks` | `scrubber-rich` | Ticks + labels only — no transport, no readout. The additive floor: the same lego with one optional key set is a timecode ruler and nothing more. |
 | `lego/dock-expanded` | `dock-panel` | The three-caption-state floor (enabled+expanded / enabled+collapsed / disabled+expanded). Interaction probes assert the event identities <stage-id>-up/-down/-delete/-toggle (int_value = stage index) and dock-fold. |
+| `lego/dock-multirow` | `dock-panel` | Multiple body ROWS per stage container. :body-nodes accepts a vector of vectors — one row each — and the card's height is DERIVED from the row count, so a two-row stage grows its container instead of being clipped by a fixed :card-expanded-h. Row content is centred on both axes, so a short row reads as centred in the card rather than pinned to the top-left. |
 | `lego/dock-folded` | `dock-panel` | The folded icon rail (fold toggle + per-stage letter buttons + badge); only dock-fold is a live identity — rail taps are consumer-side by the ratified shape. |
 
 ---

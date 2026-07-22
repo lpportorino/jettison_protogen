@@ -140,6 +140,31 @@
       :label "LUT"}]}
    :placement {:x 12 :y 3}}
   {:expect :composition
+   :id "lego/dock-multirow"
+   :lego :dock-panel
+   :notes
+   "Multiple body ROWS per stage container. :body-nodes accepts a vector of vectors — one row each — and the card's height is DERIVED from the row count, so a two-row stage grows its container instead of being clipped by a fixed :card-expanded-h. Row content is centred on both axes, so a short row reads as centred in the card rather than pinned to the top-left."
+   :opts
+   {:badge 2
+    :folded? false
+    :stages
+    [{:body-nodes [[{:props {:w 74} :text "amount" :type :WIDGET_LABEL}
+                    {:props {:slider_props {:max_value 100 :min_value 0 :value 60} :w 130}
+                     :type :WIDGET_SLIDER}]
+                   [{:props {:w 74} :text "radius" :type :WIDGET_LABEL}
+                    {:props {:slider_props {:max_value 100 :min_value 0 :value 25} :w 130}
+                     :type :WIDGET_SLIDER}]]
+      :enabled? true
+      :id "blur"
+      :label "Blur"}
+     {:body-nodes [{:props {:w 74} :text "amount" :type :WIDGET_LABEL}
+                   {:props {:slider_props {:max_value 100 :min_value 0 :value 35} :w 130}
+                    :type :WIDGET_SLIDER}]
+      :enabled? false
+      :id "lut"
+      :label "LUT"}]}
+   :placement {:x 12 :y 3}}
+  {:expect :composition
    :id "lego/dock-folded"
    :lego :dock-panel
    :notes
