@@ -316,6 +316,31 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
      "[protodoc index](../../index.md) &middot; "
      "[widget gallery index](../README.md)\n")))
 
+(defn legos-page-md
+  "The composition-legos gallery page: the 3 sheets over the
+   authored-composition corpus (corpus/composition.edn — the source of
+   this page, beside the atomic spec) + a table linking each card to its
+   `devcards.legos` maker and its contract notes."
+  ^String [cards]
+  (str do-not-edit-header
+       "# Composition legos\n\n"
+       "The "
+       (count cards)
+       " authored-composition cards from `corpus/composition.edn` — the "
+       "public `devcards.legos` builders compiled through the authored "
+       "lane (`devcards.fixtures/build-authored-card`), the only corpus "
+       "cells carrying events, absolute placement, and part-selector "
+       "styling. Interaction contracts (press-seek, drag, the ext-click "
+       "halo, dock event identities) are gate-held on BOTH engines; the "
+       "sheets document the pixels. Cells are cropped to the lego's own "
+       "box — the scrubber's includes its transparent hit-halo wrapper.\n\n"
+       "## Contact sheets\n\n" (sheets-md "legos")
+       "\n\n## The cards\n\n"
+       (md-table ["card" "lego" "what it proves"]
+                 (for [{:keys [id lego notes]} cards]
+                   [(str "`" id "`") (str "`" (name lego) "`") notes]))
+       "\n\n---\n" "Cross-links: [widget gallery index](../README.md)\n"))
+
 (defn sinks-page-md
   "The kitchen-sinks gallery page: the 3 sheets over all 6 authored
    compositions + a table linking each sink to its member widget pages.
@@ -368,6 +393,13 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
    "[kitchen sinks](./kitchen-sinks/README.md).\n\n"
    "[![kitchen sinks](./kitchen-sinks/kitchen-sinks-asgard-dark.jpg)]"
    "(./kitchen-sinks/README.md)\n\n"
+   "## Composition legos\n\n"
+   "The authored-composition corpus — the public `devcards.legos` "
+   "builders (media scrubber + foldable stage-manager dock) with their "
+   "gate-held interaction contracts — renders on its own page: "
+   "[composition legos](./legos/README.md).\n\n"
+   "[![composition legos](./legos/legos-asgard-dark.jpg)]"
+   "(./legos/README.md)\n\n"
    "## States legend\n\n"
    "Sheet-cell labels are card-id tails (`<state>/<size>[/<value>]`); the "
    "state vocabulary below is a generated projection of "
@@ -404,12 +436,15 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
 
 (defn generate!
   "The T2.7 build: for every WidgetType — 3 contact sheets + README.md
-   under docs/widgets/<ENUM>/ — plus docs/widgets/kitchen-sinks/ and the
-   index. `opts` = {:spec <parsed corpus spec> :built <build-all output>
-   :paths {:wasm :assets}}. Returns {:files [{:path :bytes}] :sheets n
-   :pages n :cells n} for the caller's report; every gap (a widget with
-   zero built cards, a sink absent from the build) throws."
-  [{:keys [spec built paths]}]
+   under docs/widgets/<ENUM>/ — plus docs/widgets/kitchen-sinks/,
+   docs/widgets/legos/ (the authored-composition corpus), and the index.
+   `opts` = {:spec <parsed corpus spec> :built <build-all output>
+   :composition {:cards <inventory cards> :built <composition build-all
+   output>} :paths {:wasm :assets}}. Returns {:files [{:path :bytes}]
+   :sheets n :pages n :cells n} for the caller's report; every gap (a
+   widget with zero built cards, a sink or composition card absent from
+   the build) throws."
+  [{:keys [spec built composition paths]}]
   (let [conv (conventions/load-conventions)
         descriptor (load-descriptor descriptor-path)
         registry (widget-registry descriptor spec (:widget-states conv))
@@ -435,14 +470,25 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
         sink-files (conj (sheet-files! paths canvas sink-dir "kitchen-sinks" built-sinks)
                          (write-text! (str sink-dir "/README.md")
                                       (sinks-page-md (:kitchen-sinks spec) tag->enum)))
+        comp-built (:built composition)
+        _ (when (not= (count comp-built) (count (:cards composition)))
+            (throw (ex-info "built composition cards disagree with the inventory"
+                            {:built (mapv :id comp-built)
+                             :inventory (mapv :id (:cards composition))})))
+        legos-dir (str out-dir "/legos")
+        legos-files (conj (sheet-files! paths canvas legos-dir "legos" comp-built)
+                          (write-text! (str legos-dir "/README.md")
+                                       (legos-page-md (:cards composition))))
         index-file (write-text! (str out-dir "/README.md")
                                 (index-page-md registry (:state-selectors conv)))
         files (-> widget-files
                   (into sink-files)
+                  (into legos-files)
                   (conj index-file))]
     {:files files
-     :sheets (* (inc (count registry)) (count gallery/family-renders))
-     :pages (+ (count registry) 2)
-     :cells (+ (* (count gallery/family-renders)
-                  (count (filter #(= :atomic (:kind %)) built)))
-               (* (count gallery/family-renders) (count built-sinks)))}))
+     :sheets (* (+ 2 (count registry)) (count gallery/family-renders))
+     :pages (+ (count registry) 3)
+     :cells (* (count gallery/family-renders)
+               (+ (count (filter #(= :atomic (:kind %)) built))
+                  (count built-sinks)
+                  (count comp-built)))}))

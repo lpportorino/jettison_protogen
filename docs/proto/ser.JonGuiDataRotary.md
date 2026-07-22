@@ -39,6 +39,7 @@ Represents the real-time operational state of a rotary platform, tracking curren
 | 20 | pan_init_status | int32 | >= 0, <= 14 |
 | 21 | tilt_init_status | int32 | >= 0, <= 14 |
 | 22 | capture_monotonic_us | uint64 | - |
+| 23 | is_parked | bool | - |
 
 
 

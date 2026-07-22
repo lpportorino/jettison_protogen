@@ -41,8 +41,8 @@ SHELL := bash
 R := renderer
 RGEN := tools/renderer-gen
 
-.PHONY: wasm reference proto-classes bindings fixtures harness oracles \
-	morph-parity matrix demo-parity check-renderer \
+.PHONY: wasm reference proto-classes bindings fixtures harness interaction \
+	oracles morph-parity matrix demo-parity check-renderer \
 	wasm-present fixtures-prebuilt gallery-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
@@ -107,6 +107,20 @@ harness: wasm proto-classes
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test visual_regression
 
+# ── Composition interaction suite (the wasmtime engine half) ────────────────
+# Re-renders the SAME card bytes the devcards runner built (the `fixtures`
+# lane persists them under tools/devcards/out/composition/), byte-compares
+# the raw framebuffers cross-engine, and replays the pointer contract
+# natively (press-seek / drag / ext-click envelope / dock fold). Runs AFTER
+# `fixtures`; the guard fails LOUD when the devcards output is absent — a
+# missing input is a sequencing bug, never a skip.
+interaction:
+	@test -d tools/devcards/out/composition/cards || { \
+		echo "FATAL: tools/devcards/out/composition missing — run 'make -f renderer.mk fixtures' first" >&2; \
+		exit 1; }
+	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
+		cargo test --test composition_interaction
+
 # ── Oracles (morph parity / coverage matrix / demo parity) ──────────────────
 oracles: morph-parity matrix demo-parity
 
@@ -130,5 +144,5 @@ demo-parity: proto-classes
 	cd $(R) && bash tools/demo-parity.sh
 
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: wasm reference fixtures harness oracles
-	@echo "renderer battery: GREEN (wasm + reference + fixtures + harness + oracles)"
+check-renderer: wasm reference fixtures harness interaction oracles
+	@echo "renderer battery: GREEN (wasm + reference + fixtures + harness + interaction + oracles)"

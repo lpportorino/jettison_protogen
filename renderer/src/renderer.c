@@ -15,6 +15,12 @@
 #include "host_imports.h"
 #include "log.h"
 #include "lvgl.h"
+/* Private slider struct — the press-seek callback mirrors lv_slider.c's
+ * update_knob_pos position→value math VERBATIM, which needs the RAW
+ * (possibly reversed) bar range and orientation the public getters
+ * normalize away (precedent: theme.c/main.c include LVGL private headers
+ * where exactness demands it). */
+#include "lvgl/src/widgets/slider/lv_slider_private.h"
 #include "renderer.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -1083,6 +1089,97 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
   }
   lv_chart_refresh(obj);
 }
+/* seek_on_press (SliderProps.seek_on_press): the scrubber behavior pair.
+ * The widened ext click area (LV_DPX(24); stock ctor sets LV_DPX(8)) rides
+ * the same prop — the wire carries no ext-click vocabulary, and a
+ * press-seek target that kept the stock 8 px halo would miss the taps the
+ * widening exists to catch. A slider without the prop keeps full stock
+ * behavior. */
+#define SLIDER_SEEK_EXT_CLICK_PX 24
+/* Map the pressed point to a value immediately at LV_EVENT_PRESSED. Stock
+ * LVGL seeks a stationary track tap only at RELEASE (update_knob_pos runs
+ * with check_drag=false from the RELEASED arm; ADV_HITTEST is never set on
+ * sliders, so the whole click area hit-tests). The position→value math
+ * MIRRORS update_knob_pos (lv_slider.c) VERBATIM — content-box-relative,
+ * MAIN pads subtracted, +indic/2 rounding, RAW (possibly reversed) bar
+ * range, RTL flip on horizontal only, the upstream vertical y2+bg_bottom
+ * sign quirk included — because the RELEASED arm runs the SAME map over the
+ * same point: an exact mirror makes the release a value-unchanged no-op (no
+ * duplicate VALUE_CHANGED) where an off-by-one re-derivation would
+ * double-fire. */
+static void slider_press_seek_cb(lv_event_t *e) {
+  lv_obj_t *obj = lv_event_get_current_target(e);
+  /* Range mode never press-seeks: WHICH knob a press adjusts is
+   * drag_start's proximity contract, and jumping a knob to the pressed
+   * point on DOWN would preempt it. Stock press/drag/release behavior
+   * stays untouched for range sliders. */
+  if (lv_slider_get_mode(obj) == LV_SLIDER_MODE_RANGE)
+    return;
+  lv_indev_t *indev = lv_indev_active();
+  if (indev == NULL || lv_indev_get_type(indev) != LV_INDEV_TYPE_POINTER)
+    return;
+  if (lv_indev_get_scroll_obj(indev) != NULL)
+    return;
+  lv_slider_t *slider = (lv_slider_t *)obj;
+  lv_point_t p;
+  lv_indev_get_point(indev, &p);
+  lv_obj_transform_point(obj, &p,
+                         LV_OBJ_POINT_TRANSFORM_FLAG_INVERSE_RECURSIVE);
+  lv_area_t coords;
+  lv_obj_get_coords(obj, &coords);
+  bool is_hor;
+  if (slider->bar.orientation == LV_BAR_ORIENTATION_AUTO)
+    is_hor = lv_obj_get_width(obj) >= lv_obj_get_height(obj);
+  else
+    is_hor = slider->bar.orientation == LV_BAR_ORIENTATION_HORIZONTAL;
+  const int32_t range = slider->bar.max_value - slider->bar.min_value;
+  const bool is_rtl =
+      LV_BASE_DIR_RTL == lv_obj_get_style_base_dir(obj, LV_PART_MAIN);
+  const bool is_reversed = slider->bar.val_reversed ^ (is_rtl && is_hor);
+  int32_t new_value = 0;
+  if (is_hor) {
+    const int32_t bg_left = lv_obj_get_style_pad_left(obj, LV_PART_MAIN);
+    const int32_t bg_right = lv_obj_get_style_pad_right(obj, LV_PART_MAIN);
+    const int32_t indic_w = lv_obj_get_width(obj) - bg_left - bg_right;
+    /* Degenerate geometry (pads >= width): decline — stock's own release
+     * map divides by the same zero/negative extent; nothing healthy to
+     * seek. */
+    if (indic_w <= 0)
+      return;
+    if (is_reversed)
+      new_value = (coords.x2 - bg_right) - p.x;
+    else
+      new_value = p.x - (coords.x1 + bg_left);
+    new_value = (new_value * range + indic_w / 2) / indic_w;
+    new_value += slider->bar.min_value;
+  } else {
+    const int32_t bg_top = lv_obj_get_style_pad_top(obj, LV_PART_MAIN);
+    const int32_t bg_bottom = lv_obj_get_style_pad_bottom(obj, LV_PART_MAIN);
+    const int32_t indic_h = lv_obj_get_height(obj) - bg_top - bg_bottom;
+    if (indic_h <= 0)
+      return;
+    if (is_reversed) {
+      new_value = p.y - (coords.y1 + bg_top);
+    } else {
+      /* Upstream measures from y2 + bg_bottom (not y2 - bg_bottom);
+       * mirrored verbatim — see the function comment. */
+      new_value = p.y - (coords.y2 + bg_bottom);
+      new_value = -new_value;
+    }
+    new_value = (new_value * range + indic_h / 2) / indic_h;
+    new_value += slider->bar.min_value;
+  }
+  /* Stock clamp for the cur-value knob (non-range): floored at
+   * start_value, exactly update_knob_pos's else-branch. */
+  new_value = LV_CLAMP(slider->bar.start_value, new_value,
+                       slider->bar.max_value);
+  if (new_value != slider->bar.cur_value) {
+    lv_slider_set_value(obj, new_value, LV_ANIM_OFF);
+    lv_result_t res = lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
+    if (res != LV_RESULT_OK)
+      return;
+  }
+}
 /* Apply widget-specific properties from the oneof widget_props */
 static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
   switch (node->which_widget_props) {
@@ -1096,6 +1193,16 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
     }
     if (p->mode != 0) {
       lv_slider_set_mode(obj, (lv_slider_mode_t)p->mode);
+    }
+    if (p->seek_on_press) {
+      /* Idempotent under an UPDATE_PROPS morph re-entry on the LIVE obj
+       * (the dropdown value-map precedent above): remove before add, so a
+       * hot-reload cannot stack duplicate press-seek callbacks. A false
+       * flag under morph means 'unchanged' (the differ strips defaults —
+       * the slider-value idiom above), so there is no un-set arm. */
+      lv_obj_remove_event_cb(obj, slider_press_seek_cb);
+      lv_obj_add_event_cb(obj, slider_press_seek_cb, LV_EVENT_PRESSED, NULL);
+      lv_obj_set_ext_click_area(obj, LV_DPX(SLIDER_SEEK_EXT_CLICK_PX));
     }
     break;
   }

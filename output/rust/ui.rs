@@ -259,6 +259,18 @@ pub struct SliderProps {
     pub value: i32,
     #[prost(enumeration = "BarMode", tag = "4")]
     pub mode: i32,
+    /// Scrubber contract — one prop, two coupled renderer behaviors. When set,
+    /// the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
+    /// pressed point to a value with the stock update_knob_pos math (stock LVGL
+    /// seeks a stationary track tap only at RELEASE), and (b) widens the ext
+    /// click area to LV_DPX(24) — the measured finger envelope; the stock ctor
+    /// sets LV_DPX(8). The widening rides this prop because the wire carries no
+    /// ext-click vocabulary; a slider without the prop keeps full stock
+    /// behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
+    /// press-seeks: which knob a press adjusts is the two-knob proximity
+    /// contract, and jumping a knob on DOWN would preempt it.
+    #[prost(bool, tag = "5")]
+    pub seek_on_press: bool,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ImageProps {

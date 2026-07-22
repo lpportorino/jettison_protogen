@@ -23,6 +23,8 @@ Composite command for controlling day camera focus operations, supporting direct
 | 4 | offset | [[proto/cmd.DayCamera.Offset]] | - |
 | 5 | reset_focus | [[proto/cmd.DayCamera.ResetFocus]] | - |
 | 6 | save_to_table_focus | [[proto/cmd.DayCamera.SaveToTableFocus]] | - |
+| 7 | focus_step_plus | [[proto/cmd.DayCamera.FocusStepPlus]] | - |
+| 8 | focus_step_minus | [[proto/cmd.DayCamera.FocusStepMinus]] | - |
 
 
 ## Oneofs
@@ -30,7 +32,7 @@ Composite command for controlling day camera focus operations, supporting direct
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6
+Fields: #1, #2, #3, #4, #5, #6, #7, #8
 
 
 

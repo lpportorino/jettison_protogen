@@ -1,0 +1,97 @@
+;; Composition-lane devcard inventory — the authored-lane companion to the
+;; atomic corpus/spec.edn.
+;;
+;; Cards are DATA: each names a devcards.legos maker + its options + an
+;; absolute placement; the runner materializes the node (lego fn -> node map,
+;; assoc :x/:y) and compiles it through devcards.fixtures/build-authored-card
+;; (the ONE gate into events / absolute position / part-selector styling).
+;; The atomic lane never admits these cards; the authored lane never admits
+;; an atomic card's implicit-theme claim — a composition card proves the
+;; PUBLIC LEGO contract (geometry, palette, event identities), not a theme
+;; surface.
+;;
+;; :expect legend (composition lane):
+;;   :composition — rendered + invariant-judged (zero findings, zero
+;;     render-time emissions) + golden-hashed per dark/light; interaction
+;;     probes assert the lego's host-event identities.
+;;   :inert-prop  — a prop-inertness pin: byte-identical raw FB to :base-card
+;;     (the named sibling); proves an interaction-only prop moves ZERO pixels.
+;;     Built by the declared :transform, never by a lego contract fork.
+;;
+;; :transform legend:
+;;   :strip-seek-on-press — dissoc :seek_on_press from the scrubber slider's
+;;     slider_props after the lego builds the node (the lego itself sets the
+;;     prop unconditionally — press-seek is the scrubber CONTRACT, so the
+;;     prop-absent shape exists only as this declared corpus surgery).
+;;
+;; Scrubber placement arithmetic: :placement positions the lego's HIT-HALO
+;; WRAPPER (devcards.legos/scrubber-halo = 24px per side); the TRACK rect
+;; lands at placement + halo. The three scrubber cards place at (76,176) so
+;; the track sits at (100,200) — the runner's coords check pins this.
+{:builder "devcards.fixtures/build-authored-card over devcards.legos makers"
+ :canvas {:h 480 :w 800}
+ :cards
+ [{:expect :composition
+   :id "lego/scrubber"
+   :lego :scrubber
+   :notes
+   "Buffered media scrubber: bar underlay (track + buffered band) beneath a transparent-MAIN slider overlay (played band + knob). seek_on_press rides the lego contract; interaction probes assert press-seek [value] with NO duplicate at release, drag prepends exactly one immediate value, and the 24px ext-click envelope (both engines)."
+   :opts
+   {:buffered 85 :height 20 :max 100 :min 0 :seek-event-name "seek" :value 40 :width 600}
+   :placement {:x 76 :y 176}}
+  {:expect :composition
+   :id "lego/scrubber-plain"
+   :lego :scrubber
+   :notes
+   "No :buffered — a single styled slider (MAIN is the track); no bar underlay in the DOM."
+   :opts {:height 20 :max 100 :min 0 :seek-event-name "seek" :value 40 :width 600}
+   :placement {:x 76 :y 176}}
+  {:base-card "lego/scrubber"
+   :expect :inert-prop
+   :id "lego/scrubber-noseek"
+   :lego :scrubber
+   :notes
+   "seek_on_press pixel-inertness pin: raw FB must equal lego/scrubber byte-for-byte in both dark and light — the corpus-level restatement of the prop-absent parity proof (the prop changes hit behavior only, never pixels), held per re-mint."
+   :opts
+   {:buffered 85 :height 20 :max 100 :min 0 :seek-event-name "seek" :value 40 :width 600}
+   :placement {:x 76 :y 176}
+   :transform :strip-seek-on-press}
+  {:expect :composition
+   :id "lego/dock-expanded"
+   :lego :dock-panel
+   :notes
+   "The three-caption-state floor (enabled+expanded / enabled+collapsed / disabled+expanded). Interaction probes assert the event identities <stage-id>-up/-down/-delete/-toggle (int_value = stage index) and dock-fold."
+   :opts
+   {:badge 3
+    :folded? false
+    :stages
+    [{:body-nodes [{:props {:w 74} :text "amount" :type :WIDGET_LABEL}
+                   {:props {:slider_props {:max_value 100 :min_value 0 :value 60} :w 150}
+                    :type :WIDGET_SLIDER}]
+      :enabled? true
+      :id "blur"
+      :label "Blur"}
+     {:body-nodes [{:props {:w 74} :text "amount" :type :WIDGET_LABEL}]
+      :collapsed? true
+      :enabled? true
+      :id "sharpen"
+      :label "Sharpen"}
+     {:body-nodes [{:props {:w 74} :text "amount" :type :WIDGET_LABEL}
+                   {:props {:slider_props {:max_value 100 :min_value 0 :value 35} :w 150}
+                    :type :WIDGET_SLIDER}]
+      :enabled? false
+      :id "lut"
+      :label "LUT"}]}
+   :placement {:x 12 :y 3}}
+  {:expect :composition
+   :id "lego/dock-folded"
+   :lego :dock-panel
+   :notes
+   "The folded icon rail (fold toggle + per-stage letter buttons + badge); only dock-fold is a live identity — rail taps are consumer-side by the ratified shape."
+   :opts {:badge 3
+          :folded? true
+          :stages [{:enabled? true :id "blur" :label "Blur"}
+                   {:enabled? true :id "sharpen" :label "Sharpen"}
+                   {:enabled? false :id "lut" :label "LUT"}]}
+   :placement {:x 12 :y 3}}]
+ :lane :authored-composition}

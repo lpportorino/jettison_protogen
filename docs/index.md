@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 282 messages, 25 enums, 842 fields
+**Statistics:** 287 messages, 25 enums, 848 fields
 
 ## Messages by Package
 
@@ -74,6 +74,8 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 - [[proto/cmd.DayCamera.Focus|Focus]] — Composite command for controlling day camera focus operations, supporting direct value setting, continuous movement, halting, offset adjustment, reset to table value, and saving current position to the focus table. Uses a required oneof with six sub-commands.
 - [[proto/cmd.DayCamera.FocusROI|FocusROI]] — Triggers auto-focus on a user-defined region of interest (ROI) in the day camera feed. The user draws a rectangle on the video display (or taps a point), and the camera adjusts focus to optimize sharpness within that region. Uses NDC coordinates (-1 to 1 range).
+- [[proto/cmd.DayCamera.FocusStepMinus|FocusStepMinus]]
+- [[proto/cmd.DayCamera.FocusStepPlus|FocusStepPlus]]
 - [[proto/cmd.DayCamera.FxROI|FxROI]] — Specifies a region of interest for the day camera&#39;s AGC/exposure optimization and post-processing effects. The system converts NDC coordinates to pixels and configures the sensor&#39;s auto-exposure metering region (fixed 272x272 pixel ROI centered on selection).
 - [[proto/cmd.DayCamera.GetMeteo|GetMeteo]] — Polling command that requests meteorological sensor data (temperature, humidity, pressure) from the day camera module. This is a parameterless fire-and-forget command that triggers an asynchronous response via state updates to JonGuiDataMeteo.
 - [[proto/cmd.DayCamera.GetPos|GetPos]] — Requests the current zoom and focus position values from the day camera, triggering a state update with the latest position data. Useful for synchronizing UI state or debugging position discrepancies. Response updates focus_pos, zoom_pos, iris_pos in JonGuiDataCameraDay.
@@ -107,6 +109,8 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 - [[proto/cmd.DayCamera.TrackROI|TrackROI]] — Initiates continuous video tracking on a specified rectangular region of interest (ROI) in the day camera feed. Uses normalized device coordinates (NDC, -1 to 1 range) with frame and system timestamps for synchronization with the camera stream.
 - [[proto/cmd.DayCamera.Zoom|Zoom]] — Composite command for controlling day camera optical zoom through multiple methods: absolute value setting, continuous movement with speed control, halt, table-based positioning, offset adjustment, reset to default, and saving current position. Uses a required oneof with nine sub-commands for flexible zoom control.
 - [[proto/cmd.DayCamera.ZoomROI|ZoomROI]] — Zooms the day camera to focus on a region of interest (ROI) marked by the user on the video display. Accepts normalized device coordinates (NDC, -1 to 1 range) with frame and state timestamps for accurate synchronization with the video stream.
+- [[proto/cmd.DayCamera.ZoomStepMinus|ZoomStepMinus]]
+- [[proto/cmd.DayCamera.ZoomStepPlus|ZoomStepPlus]]
 
 
 ### cmd.Gps
@@ -292,6 +296,7 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 - [[proto/cmd.RotaryPlatform.SetPlatformElevation|SetPlatformElevation]] — Calibrates the rotary platform&#39;s elevation reference baseline by setting an absolute calibration value. Unlike SetElevationValue which moves the elevation axis during normal operation, this command establishes the platform&#39;s elevation offset that persists as the reference baseline.
 - [[proto/cmd.RotaryPlatform.Start|Start]] — Initializes the rotary platform subsystem by triggering a PING command to test the connection and discover the hardware address. Once the PING ACK is received, the system begins querying the platform&#39;s current state and transitions from initialization mode to operational readiness.
 - [[proto/cmd.RotaryPlatform.Stop|Stop]] — Stops rotary platform motion and disables motor control, shutting down the rotary subsystem entirely. Unlike Halt which immediately freezes motion while keeping the system active and responsive, Stop is a lifecycle command that fully disables the rotary platform.
+- [[proto/cmd.RotaryPlatform.Unpark|Unpark]]
 - [[proto/cmd.RotaryPlatform.setUseRotaryAsCompass|setUseRotaryAsCompass]] — Toggles whether the rotary platform&#39;s position readings are used as the primary compass heading source. When enabled, the platform&#39;s orientation is stored in the `use_platform_positioning` state flag and used by the rotary subsystem to determine heading.
 
 

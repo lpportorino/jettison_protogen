@@ -810,16 +810,18 @@ class LabelProps(_message.Message):
     def __init__(self, long_mode: _Optional[_Union[LabelLongMode, str]] = ...) -> None: ...
 
 class SliderProps(_message.Message):
-    __slots__ = ("min_value", "max_value", "value", "mode")
+    __slots__ = ("min_value", "max_value", "value", "mode", "seek_on_press")
     MIN_VALUE_FIELD_NUMBER: _ClassVar[int]
     MAX_VALUE_FIELD_NUMBER: _ClassVar[int]
     VALUE_FIELD_NUMBER: _ClassVar[int]
     MODE_FIELD_NUMBER: _ClassVar[int]
+    SEEK_ON_PRESS_FIELD_NUMBER: _ClassVar[int]
     min_value: int
     max_value: int
     value: int
     mode: BarMode
-    def __init__(self, min_value: _Optional[int] = ..., max_value: _Optional[int] = ..., value: _Optional[int] = ..., mode: _Optional[_Union[BarMode, str]] = ...) -> None: ...
+    seek_on_press: bool
+    def __init__(self, min_value: _Optional[int] = ..., max_value: _Optional[int] = ..., value: _Optional[int] = ..., mode: _Optional[_Union[BarMode, str]] = ..., seek_on_press: bool = ...) -> None: ...
 
 class ImageProps(_message.Message):
     __slots__ = ("src", "has_pivot", "pivot_x", "pivot_y", "rotation")

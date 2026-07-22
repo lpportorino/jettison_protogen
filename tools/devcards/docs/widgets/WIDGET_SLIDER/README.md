@@ -44,6 +44,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 | max_value | 2 | int32 | — |
 | value | 3 | int32 | — |
 | mode | 4 | enum ui.BarMode | enum.definedOnly=true |
+| seek_on_press | 5 | bool | — |
 
 *Shape-only: the committed JSON descriptor carries no `SourceCodeInfo` comments and `docs/.protodoc/proto-db.edn` does not cover the `ui` package, so no per-field prose exists to include (protogen backlog).*
 

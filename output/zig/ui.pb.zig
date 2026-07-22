@@ -1431,12 +1431,14 @@ pub const SliderProps = struct {
     max_value: i32 = 0,
     value: i32 = 0,
     mode: BarMode = @enumFromInt(0),
+    seek_on_press: bool = false,
 
     pub const _desc_table = .{
         .min_value = fd(1, .{ .scalar = .int32 }),
         .max_value = fd(2, .{ .scalar = .int32 }),
         .value = fd(3, .{ .scalar = .int32 }),
         .mode = fd(4, .@"enum"),
+        .seek_on_press = fd(5, .{ .scalar = .bool }),
     };
 
     /// Encodes the message to the writer

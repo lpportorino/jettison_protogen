@@ -12,6 +12,12 @@
      vanilla arms carry dark-conditional stock colors — light must hold
      too).
    - the state-contract lanes (distinctness/inertness) over family-0 dark.
+   - the AUTHORED-COMPOSITION lane (corpus/composition.edn via
+     devcards.composition): the same family-0 invariants + goldens
+     (manifest-composition-{dark,light}.edn) + vanilla≡stock over the
+     public-lego cards, plus the :inert-prop pixel-inertness pin and the
+     GraalWasm interaction lane (devcards.interaction); every card's
+     bytes persist under out/composition/ for the wasmtime mirror suite.
    `verify` re-renders family-0 against the committed manifests.
 
    `gallery` is the T2.7 doc build (recorded call: a core mode, not a
@@ -26,11 +32,14 @@
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.pprint :as pp]
+            [clojure.string :as str]
+            [devcards.composition :as composition]
             [devcards.docs :as docs]
             [devcards.fixtures :as fixtures]
             [devcards.gates :as gates]
             [devcards.golden :as golden]
             [devcards.host :as host]
+            [devcards.interaction :as interaction]
             [devcards.invariants :as invariants])
   (:gen-class))
 
@@ -60,18 +69,23 @@
 (def ^:private assets-path
   (existing-path "../../renderer/assets"))
 
+(defn- boot-host!
+  "A fresh host over the pinned wasm/assets at the protocol canvas."
+  []
+  (host/start! {:wasm wasm-path
+                :assets assets-path
+                :w (get-in render-protocol [:canvas :w])
+                :h (get-in render-protocol [:canvas :h])}))
+
 (defn- render-one!
   "One hermetic render: fresh context, family+mode set, pb loaded. Returns
-   {:fb bytes :tree parsed-json-or-nil}."
+   {:fb bytes :tree parsed-json-or-nil :emissions captured-lanes}."
   [^bytes pb {:keys [family dark dump?]}]
-  (let [h (host/start! {:wasm wasm-path
-                        :assets assets-path
-                        :w (get-in render-protocol [:canvas :w])
-                        :h (get-in render-protocol [:canvas :h])})]
+  (let [h (boot-host!)]
     (try (when (pos? (long family)) (host/set-theme-family! h family))
          (let [fb (host/render-card! h {:pb pb :bp 0 :dark (if dark 1 0)})
                tree (when dump? (json/read-str (host/dump-tree! h) :key-fn keyword))]
-           {:fb fb :tree tree})
+           {:fb fb :tree tree :emissions @(:captured h)})
          (finally (host/close! h)))))
 
 (defn- invariant-findings-for
@@ -143,6 +157,107 @@
      :manifests {:dark (manifest-of (update-vals f0 :dark-hash))
                  :light (manifest-of (update-vals f0 :light-hash))}}))
 
+(defn- persist-bytes!
+  "Write `b` at `path` (parents created)."
+  [^String path ^bytes b]
+  (io/make-parents path)
+  (with-open [o (io/output-stream path)] (.write o b))
+  nil)
+
+(defn- comp-slug
+  "Composition card id -> flat artifact slug (ids contain '/')."
+  ^String [id]
+  (str/replace (str id) "/" "_"))
+
+(def composition-out-dir
+  "Where the composition lane persists each card's .pb + raw
+   framebuffers — the SAME bytes the wasmtime interaction suite
+   re-renders and byte-compares
+   (renderer/wasm_harness/tests/composition_interaction.rs reads this
+   tree repo-relatively)."
+  "out/composition")
+
+(defn run-composition
+  "The authored-composition lane over built composition entries
+   (devcards.composition/build-all output): family-0 renders (dark +
+   light) under the full invariant + render-time-emission lanes, the
+   vanilla≡stock family pin (both modes), the :inert-prop
+   pixel-inertness pin, the golden manifests, and the GraalWasm
+   interaction lane. Returns {:findings :counts :manifests
+   {:dark m :light m}}."
+  [inventory built]
+  (when (empty? built)
+    (throw (ex-info "empty composition corpus — refusing a vacuous run" {})))
+  (when-not (= (:canvas inventory) (get-in render-protocol [:canvas]))
+    (throw (ex-info "composition canvas != the pinned render protocol's"
+                    {:inventory (:canvas inventory)
+                     :protocol (get-in render-protocol [:canvas])})))
+  (let [t0 (System/nanoTime)
+        f0 (into {}
+                 (map (fn [{:keys [id ^bytes bytes]}]
+                        (let [dark (render-one! bytes {:family 0 :dark true :dump? true})
+                              light (render-one! bytes {:family 0 :dark false})]
+                          (persist-bytes! (str composition-out-dir "/cards/"
+                                               (comp-slug id)
+                                               ".pb")
+                                          bytes)
+                          (persist-bytes! (str composition-out-dir "/fb/"
+                                               (comp-slug id)
+                                               "_dark1.raw")
+                                          (:fb dark))
+                          (persist-bytes! (str composition-out-dir "/fb/"
+                                               (comp-slug id)
+                                               "_dark0.raw")
+                                          (:fb light))
+                          [(str id)
+                           {:dark-hash (golden/sha256-hex (:fb dark))
+                            :light-hash (golden/sha256-hex (:fb light))
+                            :inv (-> (invariants/tree-findings (str id)
+                                                               (:tree dark)
+                                                               {:vis-px? true})
+                                     (into (invariants/emission-findings
+                                            (str id)
+                                            (:emissions dark)
+                                            false))
+                                     (into (invariants/emission-findings
+                                            (str id)
+                                            (:emissions light)
+                                            false)))}])))
+                 built)
+        fam-hashes (fn [family dark]
+                     (into {}
+                           (map (fn [{:keys [id ^bytes bytes]}]
+                                  [(str id)
+                                   (golden/sha256-hex
+                                    (:fb (render-one! bytes
+                                                      {:family family :dark dark})))]))
+                           built))
+        f1d (fam-hashes 1 true)
+        f2d (fam-hashes 2 true)
+        f1l (fam-hashes 1 false)
+        f2l (fam-hashes 2 false)
+        inv-findings (vec (mapcat (comp :inv val) (sort-by key f0)))
+        vs (-> (vec (gates/vanilla-stock-findings f1d f2d))
+               (into (mapv #(assoc % :mode :light)
+                           (gates/vanilla-stock-findings f1l f2l))))
+        inert (-> (vec (gates/inert-prop-findings built (update-vals f0 :dark-hash)))
+                  (into (mapv #(assoc % :mode :light)
+                              (gates/inert-prop-findings built
+                                                         (update-vals f0
+                                                                      :light-hash)))))
+        interaction-findings (vec (interaction/run-lane boot-host! inventory built))
+        findings (-> inv-findings
+                     (into vs)
+                     (into inert)
+                     (into interaction-findings))]
+    {:findings findings
+     :counts {:composition-cards (count built)
+              :composition-renders (* (count built) 6)
+              :composition-findings (count findings)
+              :elapsed-s (/ (- (System/nanoTime) t0) 1e9)}
+     :manifests {:dark (manifest-of (update-vals f0 :dark-hash))
+                 :light (manifest-of (update-vals f0 :light-hash))}}))
+
 (defn -main
   "CLI: `generate` renders + judges + writes goldens/manifest-{dark,light}
    .edn; non-zero exit on any finding."
@@ -151,25 +266,43 @@
         built (fixtures/build-all spec)]
     (case (or mode "generate")
       "generate"
-      (let [{:keys [findings counts manifests]} (run-generate spec built)]
+      (let [{:keys [findings counts manifests]} (run-generate spec built)
+            inventory (composition/load-inventory)
+            comp-built (composition/build-all inventory)
+            comp (run-composition inventory comp-built)
+            all-findings (into (vec findings) (:findings comp))]
         (golden/write-manifest! (:dark manifests) "goldens/manifest-dark.edn")
         (golden/write-manifest! (:light manifests) "goldens/manifest-light.edn")
+        (golden/write-manifest! (:dark (:manifests comp))
+                                "goldens/manifest-composition-dark.edn")
+        (golden/write-manifest! (:light (:manifests comp))
+                                "goldens/manifest-composition-light.edn")
         ;; Persist the FULL findings vector every run (console truncates at
         ;; 40) — triage reads out/findings.edn, the exit code stays the gate.
         (io/make-parents "out/findings.edn")
-        (with-open [w (io/writer "out/findings.edn")] (pp/pprint (vec findings) w))
+        (with-open [w (io/writer "out/findings.edn")] (pp/pprint all-findings w))
         (println "renders:" (:renders counts)
                  " elapsed:" (format "%.1fs" (double (:elapsed-s counts))))
-        (println "findings:" (count findings)
-                 " by lane:" (frequencies (map #(or (:gate %) (:invariant %)) findings)))
-        (doseq [f (take 40 findings)] (prn f))
-        (when (> (count findings) 40) (println "…" (- (count findings) 40) "more"))
-        (System/exit (if (seq findings) 1 0)))
+        (println "composition renders:" (:composition-renders (:counts comp))
+                 " cards:" (:composition-cards (:counts comp))
+                 " elapsed:" (format "%.1fs" (double (:elapsed-s (:counts comp)))))
+        (println "findings:" (count all-findings)
+                 " by lane:"
+                 (frequencies (map #(or (:gate %) (:invariant %)) all-findings)))
+        (doseq [f (take 40 all-findings)] (prn f))
+        (when (> (count all-findings) 40)
+          (println "…" (- (count all-findings) 40) "more"))
+        (System/exit (if (seq all-findings) 1 0)))
       "gallery"
       (let [t0 (System/nanoTime)
+            inventory (composition/load-inventory)
+            comp-built (composition/build-all inventory)
             {:keys [files sheets pages cells]}
-            (docs/generate!
-             {:spec spec :built built :paths {:wasm wasm-path :assets assets-path}})
+            (docs/generate! {:spec spec
+                             :built built
+                             :composition {:cards (:cards inventory)
+                                           :built comp-built}
+                             :paths {:wasm wasm-path :assets assets-path}})
             total (reduce + (map :bytes files))]
         (doseq [{:keys [path bytes]} files]
           (println (format "  %-64s %8d bytes" path bytes)))

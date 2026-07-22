@@ -26,6 +26,8 @@ Composite command for controlling day camera optical zoom through multiple metho
 | 7 | offset | [[proto/cmd.DayCamera.Offset]] | - |
 | 8 | reset_zoom | [[proto/cmd.DayCamera.ResetZoom]] | - |
 | 9 | save_to_table | [[proto/cmd.DayCamera.SaveToTable]] | - |
+| 10 | zoom_step_plus | [[proto/cmd.DayCamera.ZoomStepPlus]] | - |
+| 11 | zoom_step_minus | [[proto/cmd.DayCamera.ZoomStepMinus]] | - |
 
 
 ## Oneofs
@@ -33,7 +35,7 @@ Composite command for controlling day camera optical zoom through multiple metho
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9
+Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 
 

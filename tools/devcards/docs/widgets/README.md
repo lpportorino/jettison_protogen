@@ -42,6 +42,12 @@ Six authored multi-widget compositions render on their own page: [kitchen sinks]
 
 [![kitchen sinks](./kitchen-sinks/kitchen-sinks-asgard-dark.jpg)](./kitchen-sinks/README.md)
 
+## Composition legos
+
+The authored-composition corpus — the public `devcards.legos` builders (media scrubber + foldable stage-manager dock) with their gate-held interaction contracts — renders on its own page: [composition legos](./legos/README.md).
+
+[![composition legos](./legos/legos-asgard-dark.jpg)](./legos/README.md)
+
 ## States legend
 
 Sheet-cell labels are card-id tails (`<state>/<size>[/<value>]`); the state vocabulary below is a generated projection of `ui-render-conventions.edn` `:state-selectors` (the manifest is the one home).

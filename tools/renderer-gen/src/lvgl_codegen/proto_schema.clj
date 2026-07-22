@@ -344,7 +344,8 @@
 (def slider-props
   "Slider widget properties."
   [:map [:min_value {:default 0} int32] [:max_value {:default 0} int32]
-   [:value {:default 0} int32] [:mode {:default :BAR_MODE_NORMAL} bar-mode]])
+   [:value {:default 0} int32] [:mode {:default :BAR_MODE_NORMAL} bar-mode]
+   [:seek_on_press {:optional true :default false} boolean?]])
 
 (def image-props
   "Image widget properties."

@@ -102,6 +102,49 @@ public object SliderPropsKt {
     public fun clearMode() {
       _builder.clearMode()
     }
+
+    /**
+     * ```
+     * Scrubber contract — one prop, two coupled renderer behaviors. When set,
+     * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
+     * pressed point to a value with the stock update_knob_pos math (stock LVGL
+     * seeks a stationary track tap only at RELEASE), and (b) widens the ext
+     * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
+     * sets LV_DPX(8). The widening rides this prop because the wire carries no
+     * ext-click vocabulary; a slider without the prop keeps full stock
+     * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
+     * press-seeks: which knob a press adjusts is the two-knob proximity
+     * contract, and jumping a knob on DOWN would preempt it.
+     * ```
+     *
+     * `bool seek_on_press = 5;`
+     */
+    public var seekOnPress: kotlin.Boolean
+      @JvmName("getSeekOnPress")
+      get() = _builder.seekOnPress
+      @JvmName("setSeekOnPress")
+      set(value) {
+        _builder.seekOnPress = value
+      }
+    /**
+     * ```
+     * Scrubber contract — one prop, two coupled renderer behaviors. When set,
+     * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
+     * pressed point to a value with the stock update_knob_pos math (stock LVGL
+     * seeks a stationary track tap only at RELEASE), and (b) widens the ext
+     * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
+     * sets LV_DPX(8). The widening rides this prop because the wire carries no
+     * ext-click vocabulary; a slider without the prop keeps full stock
+     * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
+     * press-seeks: which knob a press adjusts is the two-knob proximity
+     * contract, and jumping a knob on DOWN would preempt it.
+     * ```
+     *
+     * `bool seek_on_press = 5;`
+     */
+    public fun clearSeekOnPress() {
+      _builder.clearSeekOnPress()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

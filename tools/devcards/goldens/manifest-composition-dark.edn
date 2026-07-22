@@ -1,0 +1,27 @@
+{:protocol {:ticks 3, :tick-ms 16, :dpi 160, :canvas {:w 800, :h 480}},
+ :cards
+ {"lego/dock-expanded"
+  {:sha256
+   "1d83d0b96fa56561d15b932ec274a3fa9b0072eee5a34fd4eed3bbc48ecb9e4c",
+   :w 800,
+   :h 480},
+  "lego/dock-folded"
+  {:sha256
+   "61f9c53796a07e813b536046516bfe132813ea79d2b188a8882cde1f59d198a2",
+   :w 800,
+   :h 480},
+  "lego/scrubber"
+  {:sha256
+   "910bd814d40dc8533517398e699ffdf4269d636340263e41aeeacf03bd285f8f",
+   :w 800,
+   :h 480},
+  "lego/scrubber-noseek"
+  {:sha256
+   "910bd814d40dc8533517398e699ffdf4269d636340263e41aeeacf03bd285f8f",
+   :w 800,
+   :h 480},
+  "lego/scrubber-plain"
+  {:sha256
+   "f043bbb0ceebb5f7a406ef6639fee9920cce6a0591fa4b145ab1c640c5608de4",
+   :w 800,
+   :h 480}}}

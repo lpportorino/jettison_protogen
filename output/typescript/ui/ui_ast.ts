@@ -2468,6 +2468,19 @@ export interface SliderProps {
   maxValue: number;
   value: number;
   mode: BarMode;
+  /**
+   * Scrubber contract — one prop, two coupled renderer behaviors. When set,
+   * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
+   * pressed point to a value with the stock update_knob_pos math (stock LVGL
+   * seeks a stationary track tap only at RELEASE), and (b) widens the ext
+   * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
+   * sets LV_DPX(8). The widening rides this prop because the wire carries no
+   * ext-click vocabulary; a slider without the prop keeps full stock
+   * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
+   * press-seeks: which knob a press adjusts is the two-knob proximity
+   * contract, and jumping a knob on DOWN would preempt it.
+   */
+  seekOnPress: boolean;
 }
 
 export interface ImageProps {
@@ -4824,7 +4837,7 @@ export const LabelProps: MessageFns<LabelProps> = {
 };
 
 function createBaseSliderProps(): SliderProps {
-  return { minValue: 0, maxValue: 0, value: 0, mode: 0 };
+  return { minValue: 0, maxValue: 0, value: 0, mode: 0, seekOnPress: false };
 }
 
 export const SliderProps: MessageFns<SliderProps> = {
@@ -4840,6 +4853,9 @@ export const SliderProps: MessageFns<SliderProps> = {
     }
     if (message.mode !== 0) {
       writer.uint32(32).int32(message.mode);
+    }
+    if (message.seekOnPress !== false) {
+      writer.uint32(40).bool(message.seekOnPress);
     }
     return writer;
   },
@@ -4883,6 +4899,14 @@ export const SliderProps: MessageFns<SliderProps> = {
           message.mode = reader.int32() as any;
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.seekOnPress = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -4906,6 +4930,11 @@ export const SliderProps: MessageFns<SliderProps> = {
         : 0,
       value: isSet(object.value) ? globalThis.Number(object.value) : 0,
       mode: isSet(object.mode) ? barModeFromJSON(object.mode) : 0,
+      seekOnPress: isSet(object.seekOnPress)
+        ? globalThis.Boolean(object.seekOnPress)
+        : isSet(object.seek_on_press)
+        ? globalThis.Boolean(object.seek_on_press)
+        : false,
     };
   },
 
@@ -4923,6 +4952,9 @@ export const SliderProps: MessageFns<SliderProps> = {
     if (message.mode !== 0) {
       obj.mode = barModeToJSON(message.mode);
     }
+    if (message.seekOnPress !== false) {
+      obj.seekOnPress = message.seekOnPress;
+    }
     return obj;
   },
 
@@ -4935,6 +4967,7 @@ export const SliderProps: MessageFns<SliderProps> = {
     message.maxValue = object.maxValue ?? 0;
     message.value = object.value ?? 0;
     message.mode = object.mode ?? 0;
+    message.seekOnPress = object.seekOnPress ?? false;
     return message;
   },
 };

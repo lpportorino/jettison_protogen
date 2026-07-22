@@ -3114,11 +3114,22 @@ func (x *LabelProps) GetLongMode() LabelLongMode {
 }
 
 type SliderProps struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	MinValue      int32                  `protobuf:"varint,1,opt,name=min_value,json=minValue,proto3" json:"min_value,omitempty"`
-	MaxValue      int32                  `protobuf:"varint,2,opt,name=max_value,json=maxValue,proto3" json:"max_value,omitempty"`
-	Value         int32                  `protobuf:"varint,3,opt,name=value,proto3" json:"value,omitempty"`
-	Mode          BarMode                `protobuf:"varint,4,opt,name=mode,proto3,enum=ui.BarMode" json:"mode,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	MinValue int32                  `protobuf:"varint,1,opt,name=min_value,json=minValue,proto3" json:"min_value,omitempty"`
+	MaxValue int32                  `protobuf:"varint,2,opt,name=max_value,json=maxValue,proto3" json:"max_value,omitempty"`
+	Value    int32                  `protobuf:"varint,3,opt,name=value,proto3" json:"value,omitempty"`
+	Mode     BarMode                `protobuf:"varint,4,opt,name=mode,proto3,enum=ui.BarMode" json:"mode,omitempty"`
+	// Scrubber contract — one prop, two coupled renderer behaviors. When set,
+	// the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
+	// pressed point to a value with the stock update_knob_pos math (stock LVGL
+	// seeks a stationary track tap only at RELEASE), and (b) widens the ext
+	// click area to LV_DPX(24) — the measured finger envelope; the stock ctor
+	// sets LV_DPX(8). The widening rides this prop because the wire carries no
+	// ext-click vocabulary; a slider without the prop keeps full stock
+	// behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
+	// press-seeks: which knob a press adjusts is the two-knob proximity
+	// contract, and jumping a knob on DOWN would preempt it.
+	SeekOnPress   bool `protobuf:"varint,5,opt,name=seek_on_press,json=seekOnPress,proto3" json:"seek_on_press,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3179,6 +3190,13 @@ func (x *SliderProps) GetMode() BarMode {
 		return x.Mode
 	}
 	return BarMode_BAR_MODE_NORMAL
+}
+
+func (x *SliderProps) GetSeekOnPress() bool {
+	if x != nil {
+		return x.SeekOnPress
+	}
+	return false
 }
 
 type ImageProps struct {
@@ -5680,12 +5698,13 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\vButtonProps\"F\n" +
 	"\n" +
 	"LabelProps\x128\n" +
-	"\tlong_mode\x18\x01 \x01(\x0e2\x11.ui.LabelLongModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\blongMode\"\x88\x01\n" +
+	"\tlong_mode\x18\x01 \x01(\x0e2\x11.ui.LabelLongModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\blongMode\"\xac\x01\n" +
 	"\vSliderProps\x12\x1b\n" +
 	"\tmin_value\x18\x01 \x01(\x05R\bminValue\x12\x1b\n" +
 	"\tmax_value\x18\x02 \x01(\x05R\bmaxValue\x12\x14\n" +
 	"\x05value\x18\x03 \x01(\x05R\x05value\x12)\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\v.ui.BarModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\"\x93\x01\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\v.ui.BarModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\x12\"\n" +
+	"\rseek_on_press\x18\x05 \x01(\bR\vseekOnPress\"\x93\x01\n" +
 	"\n" +
 	"ImageProps\x12\x1a\n" +
 	"\x03src\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x03src\x12\x1b\n" +

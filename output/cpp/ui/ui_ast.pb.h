@@ -3570,6 +3570,7 @@ class SliderProps final : public ::google::protobuf::Message
     kMaxValueFieldNumber = 2,
     kValueFieldNumber = 3,
     kModeFieldNumber = 4,
+    kSeekOnPressFieldNumber = 5,
   };
   // int32 min_value = 1;
   void clear_min_value() ;
@@ -3611,12 +3612,22 @@ class SliderProps final : public ::google::protobuf::Message
   void _internal_set_mode(::ui::BarMode value);
 
   public:
+  // bool seek_on_press = 5;
+  void clear_seek_on_press() ;
+  bool seek_on_press() const;
+  void set_seek_on_press(bool value);
+
+  private:
+  bool _internal_seek_on_press() const;
+  void _internal_set_seek_on_press(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ui.SliderProps)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
+      3, 5, 0,
       0, 2>
       _table_;
 
@@ -3638,6 +3649,7 @@ class SliderProps final : public ::google::protobuf::Message
     ::int32_t max_value_;
     ::int32_t value_;
     int mode_;
+    bool seek_on_press_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -15752,6 +15764,28 @@ inline ::ui::BarMode SliderProps::_internal_mode() const {
 inline void SliderProps::_internal_set_mode(::ui::BarMode value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.mode_ = value;
+}
+
+// bool seek_on_press = 5;
+inline void SliderProps::clear_seek_on_press() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.seek_on_press_ = false;
+}
+inline bool SliderProps::seek_on_press() const {
+  // @@protoc_insertion_point(field_get:ui.SliderProps.seek_on_press)
+  return _internal_seek_on_press();
+}
+inline void SliderProps::set_seek_on_press(bool value) {
+  _internal_set_seek_on_press(value);
+  // @@protoc_insertion_point(field_set:ui.SliderProps.seek_on_press)
+}
+inline bool SliderProps::_internal_seek_on_press() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.seek_on_press_;
+}
+inline void SliderProps::_internal_set_seek_on_press(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.seek_on_press_ = value;
 }
 
 // -------------------------------------------------------------------

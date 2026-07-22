@@ -19,7 +19,10 @@
      :probe* cards are excluded from both directions — their semantics live
      in the invariants lane (devcards.invariants) and the pixel gallery.
    - VANILLA≡STOCK: per card, family-1 hash == family-2 hash (the theme's
-     idempotency contract at corpus scale)."
+     idempotency contract at corpus scale).
+   - INERT-PROP (composition lane): an :inert-prop card's hash == its
+     declared :base-card sibling's — an interaction-only prop (the
+     scrubber's seek_on_press) must move ZERO pixels."
   (:require [clojure.string :as str]))
 
 (set! *warn-on-reflection* true)
@@ -99,6 +102,36 @@
       :detail
       "family 1 (vanilla) != family 2 (stock) — a vanilla arm
                drifted from the stock formula it restates"})))
+
+(defn inert-prop-findings
+  "The composition lane's prop-inertness pin: an :inert-prop card must
+   hash IDENTICAL to its declared :base-card sibling (an interaction-only
+   prop moves zero pixels). `cards` = built composition entries
+   ({:id :expect :base-card}); `hashes` = {card-id → sha256-hex} for one
+   mode. A missing render is a finding — never a vacuous pass."
+  [cards hashes]
+  (vec
+   (for [{:keys [id expect base-card]} cards
+         :when (= :inert-prop expect)
+         :let [h (get hashes (str id))
+               bh (get hashes (str base-card))
+               finding (cond (nil? h) {:gate :inert-prop
+                                       :card (str id)
+                                       :detail "card never rendered"}
+                             (nil? bh) {:gate :inert-prop
+                                        :card (str id)
+                                        :detail (str "base card "
+                                                     base-card
+                                                     " never rendered")}
+                             (not= h bh) {:gate :inert-prop
+                                          :card (str id)
+                                          :detail (str "renders DIFFERENT from "
+                                                       base-card
+                                                       " — an interaction-only prop"
+                                                       " moved pixels")}
+                             :else nil)]
+         :when finding]
+     finding)))
 
 (defn run-gates
   "All lanes. `family-hashes` = {0 {id→hash} 1 {...} 2 {...}} (asgard /

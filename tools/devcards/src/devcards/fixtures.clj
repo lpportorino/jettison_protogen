@@ -40,6 +40,19 @@
    diagnostic payload naming the exact card. A spec card the builder cannot
    express must FAIL, never silently skip.
 
+   Two lanes share the one node builder:
+   - the ATOMIC lane (build-card / build-all) — the unstyled law above:
+     no events, no absolute position, no part-selector styling, no
+     opacity; everything unset falls through to the loaded wasm's theme.
+   - the AUTHORED-COMPOSITION lane (build-authored-card) — the EXPLICIT
+     opt-in for interaction/composition cards (the palette legos): node
+     x/y, an EventBinding (host-event identity fields only),
+     part-selector style groups, and background color/opacity. The
+     extension is gated by a dynamic flag bound ONLY by
+     build-authored-card, so an atomic card can never smuggle an
+     authored key — the unstyled law stays builder-held, not
+     discipline-held.
+
    Requires the `ui.UiAst` classes on the classpath: deps.edn `:bindings`
    (protogen's own output/java compiled by `tools/compile-bindings.sh`).
    `build.buf/protovalidate` is a class-init dependency:
@@ -49,14 +62,15 @@
             [clojure.java.io :as io])
   (:import [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
             UiAst$ChartAxis UiAst$ChartProps UiAst$ChartSeries UiAst$ChartType
-            UiAst$CheckboxProps UiAst$Color UiAst$DropdownProps UiAst$FlexFlow
-            UiAst$HostProxyProps UiAst$ImageProps UiAst$LabelLongMode UiAst$LabelProps
-            UiAst$Layout UiAst$LedProps UiAst$LineProps UiAst$Point UiAst$ProxyMode
-            UiAst$RollerProps UiAst$ScaleMode UiAst$ScaleProps UiAst$ScaleSection
-            UiAst$Screen UiAst$SliderProps UiAst$SpinboxProps UiAst$SpinnerProps
-            UiAst$StyleGroup UiAst$StyleProperty UiAst$StylePropertyType UiAst$StyleVariant
-            UiAst$SwitchProps UiAst$TableProps UiAst$TabviewProps UiAst$TextareaProps
-            UiAst$WidgetNode UiAst$WidgetNode$Builder UiAst$WidgetType]))
+            UiAst$CheckboxProps UiAst$Color UiAst$DropdownProps UiAst$EventBinding
+            UiAst$EventTrigger UiAst$FlexFlow UiAst$HostProxyProps UiAst$ImageProps
+            UiAst$LabelLongMode UiAst$LabelProps UiAst$Layout UiAst$LedProps UiAst$LineProps
+            UiAst$Point UiAst$ProxyMode UiAst$RollerProps UiAst$ScaleMode UiAst$ScaleProps
+            UiAst$ScaleSection UiAst$Screen UiAst$SliderProps UiAst$SpinboxProps
+            UiAst$SpinnerProps UiAst$StyleGroup UiAst$StyleProperty UiAst$StylePropertyType
+            UiAst$StyleVariant UiAst$SwitchProps UiAst$TableProps UiAst$TabviewProps
+            UiAst$TextareaProps UiAst$WidgetNode UiAst$WidgetNode$Builder
+            UiAst$WidgetType]))
 
 (set! *warn-on-reflection* true)
 
@@ -66,7 +80,8 @@
 
 (def pb-out-dir
   "Where `-main` writes the built .pb files (gitignored transient output;
-   the protogen home commits fixtures deliberately — that call is L-phase)."
+   committing built fixtures would be a deliberate contract change, not
+   this tool's default)."
   "out/pbs")
 
 ;; ── Closed-shape guards ─────────────────────────────────────────────────
@@ -146,6 +161,104 @@
         (.addVariants vb)
         .build)))
 
+;; ── The authored-composition lane (explicit opt-in) ─────────────────────
+;; The scoped extension the interaction/composition cards need beyond the
+;; unstyled law: node x/y, an EventBinding, part-selector style groups,
+;; background color/opacity. EXACTLY that surface — anything more (uids,
+;; subjects, visibility, cmd pre-encode) stays consumer-codegen territory.
+(def ^:private ^:dynamic *authored-lane*
+  "True only inside build-authored-card. Gates the authored node keys so
+   the atomic lane structurally cannot carry them (an authored key on an
+   atomic card is an unknown key and throws)."
+  false)
+
+(def ^:private event-triggers
+  "EventBinding `:trigger` keywords -> proto EventTrigger (closed)."
+  {:clicked UiAst$EventTrigger/TRIGGER_CLICKED
+   :value-changed UiAst$EventTrigger/TRIGGER_VALUE_CHANGED
+   :long-pressed UiAst$EventTrigger/TRIGGER_LONG_PRESSED})
+
+(def ^:private event-keys
+  "The authorable EventBinding surface: the host-event identity fields
+   only. Subject mutation (set_subject/set_value/toggle/notify_host) and
+   the cmd pre-encode arms are deliberately unauthorable here — they
+   belong to consumer codegen, not to public devcards."
+  #{:name :trigger :include-widget-value :int-value})
+
+(defn- event-binding
+  "A node `:event` map -> EventBinding. `:name` is required (it IS the
+   host-event identity); `:trigger` defaults to :clicked; `:int-value`
+   carries a static payload (e.g. an item index); `:include-widget-value`
+   injects the widget's current value instead."
+  ^UiAst$EventBinding [ctx m]
+  (assert-closed (str ctx " :event") event-keys m)
+  (when-not (and (string? (:name m)) (seq (:name m)))
+    (throw (ex-info (str ctx " :event requires a non-empty string :name")
+                    {:ctx ctx :event m})))
+  (let [b (-> (UiAst$EventBinding/newBuilder)
+              (.setName ^String (:name m))
+              (.setTrigger (enum-of event-triggers
+                                    (:trigger m :clicked)
+                                    (str ctx " :event :trigger"))))]
+    (when-some [v (:int-value m)] (.setIntValue b (int v)))
+    (when (:include-widget-value m) (.setIncludeWidgetValue b true))
+    (.build b)))
+
+(def ^:private part-selectors
+  "Authored style-group `:part` keywords -> LVGL part selector values
+   (state bits 0 — per-state appearance stays the theme's job even in the
+   authored lane). Closed: exactly the parts the composition legos target."
+  {:main 0x000000 :indicator 0x020000 :knob 0x030000})
+
+(def ^:private authored-style-slots
+  "The authored group's slot table: the shared unstyled slots plus the two
+   the composition lane adds — background color (a part group without one
+   cannot express an indicator/knob identity) and background opacity (the
+   transparent-overlay mechanism)."
+  (into style-slot-order
+        [[:bg-color "PROP_BG_COLOR" :color] [:bg-opa "PROP_BG_OPA" :uint]]))
+
+(def ^:private authored-slot-keys (into #{} (map first) authored-style-slots))
+
+(def ^:private authored-group-keys #{:part :props})
+
+(defn- authored-style-group
+  "One authored `:styles` entry {:part <kw> :props {...}} -> StyleGroup
+   (variant 0, state bits 0)."
+  ^UiAst$StyleGroup [ctx {:keys [part props] :as g}]
+  (assert-closed (str ctx " :styles group") authored-group-keys g)
+  (assert-closed (str ctx " :styles " part " :props") authored-slot-keys props)
+  (when-some [opa (:bg-opa props)]
+    (when-not (<= 0 (long opa) 255)
+      (throw (ex-info (str ctx ": :bg-opa outside LVGL opa range 0..255")
+                      {:ctx ctx :part part :bg-opa opa}))))
+  (let [vb (-> (UiAst$StyleVariant/newBuilder)
+               (.setVariantIndex 0))]
+    (doseq [[k slot flavor] authored-style-slots
+            :when (contains? props k)]
+      (.addProperties vb (style-prop slot flavor (get props k))))
+    (-> (UiAst$StyleGroup/newBuilder)
+        (.setStateSelector (int (enum-of part-selectors part (str ctx " :styles :part"))))
+        (.addVariants vb)
+        .build)))
+
+(defn- authored-style-groups!
+  "Validate + emit a node's authored `:styles` groups onto builder `b`.
+   Laws: non-empty, one group per part, and a :main group excludes `:props`
+   style slots on the same node (two selector-0 groups would race)."
+  [^UiAst$WidgetNode$Builder b ctx groups props-style]
+  (when (empty? groups)
+    (throw (ex-info (str ctx ": empty :styles — omit the key instead") {:ctx ctx})))
+  (let [parts (mapv :part groups)]
+    (when-not (= (count parts) (count (set parts)))
+      (throw (ex-info (str ctx ": duplicate :part in :styles") {:ctx ctx :parts parts})))
+    (when (and (seq props-style) (some #(= :main (:part %)) groups))
+      (throw (ex-info (str ctx
+                           ": a :main :styles group conflicts with :props"
+                           " style slots (two MAIN groups) — author one")
+                      {:ctx ctx :props (vec (keys props-style))}))))
+  (doseq [g groups] (.addStyleGroups b (authored-style-group ctx g))))
+
 ;; ── Enum tables (proto enum names, closed) ──────────────────────────────
 (def ^:private label-long-modes
   {:wrap UiAst$LabelLongMode/LABEL_LONG_MODE_WRAP
@@ -221,11 +334,16 @@
 
 (defn- slider-props
   ^UiAst$SliderProps [m]
-  (assert-closed "slider_props" #{:min_value :max_value :value} m)
+  (assert-closed "slider_props" #{:min_value :max_value :value :seek_on_press} m)
   (let [b (UiAst$SliderProps/newBuilder)]
     (when-some [v (:min_value m)] (.setMinValue b (int v)))
     (when-some [v (:max_value m)] (.setMaxValue b (int v)))
     (when-some [v (:value m)] (.setValue b (int v)))
+    ;; seek_on_press (field 5): press-seek + the renderer-coupled LV_DPX(24)
+    ;; ext-click widening ride this one bool; pixel-inert by contract (the
+    ;; corpus goldens must not move when it lands). False = omit (the differ
+    ;; strips defaults; the renderer treats absent as stock).
+    (when (:seek_on_press m) (.setSeekOnPress b true))
     (.build b)))
 
 (defn- image-props
@@ -507,6 +625,12 @@
 (def ^:private node-keys
   #{:type :props :text :children :bare :flags-clear :states-bits :layout})
 
+(def ^:private authored-node-keys
+  "The authored-lane node shape: the atomic keys plus absolute position,
+   an event binding, and explicit part-selector style groups. Admitted
+   ONLY under *authored-lane* (build-authored-card)."
+  (into node-keys #{:x :y :event :styles}))
+
 (def ^:private prop-keys
   "Every key a node `:props` map may carry."
   (into (conj widget-props-keys :flex-flow) (map first style-slot-order)))
@@ -544,9 +668,11 @@
             {:ctx ctx :node node}))))
 
 (defn- build-node
-  "One internal node map -> a built WidgetNode message (recursive)."
+  "One internal node map -> a built WidgetNode message (recursive). The
+   admitted key set is lane-dependent: atomic by default, extended with
+   the authored surface under *authored-lane*."
   ^UiAst$WidgetNode [ctx node]
-  (assert-closed (str ctx " node") node-keys node)
+  (assert-closed (str ctx " node") (if *authored-lane* authored-node-keys node-keys) node)
   (let [type-kw (:type node)
         _ (when-not (keyword? type-kw)
             (throw (ex-info (str ctx ": node :type missing") {:node node})))
@@ -569,6 +695,11 @@
                             {:ctx ctx :node node})))
         b (UiAst$WidgetNode/newBuilder)]
     (.setType b (UiAst$WidgetType/valueOf (name type-kw)))
+    ;; Authored-lane surface (the closed-key assert above already rejected
+    ;; these keys outside the lane): absolute position + the event binding.
+    (when-some [x (:x node)] (.setX b (int x)))
+    (when-some [y (:y node)] (.setY b (int y)))
+    (when-some [e (:event node)] (.setEvent b (event-binding ctx e)))
     (when-some [t (:text node)] (.setText b ^String t))
     (when flow
       (.setLayout b
@@ -576,6 +707,7 @@
                       (.setFlow (enum-of flex-flows flow (str ctx " :layout :flow")))
                       .build)))
     (when (seq style) (.addStyleGroups b (style-group style)))
+    (when-some [groups (:styles node)] (authored-style-groups! b ctx groups style))
     (when wkey (set-widget-props! b wkey wprops))
     (when (:bare node) (.setBare b true))
     (when-some [fc (:flags-clear node)]
@@ -617,7 +749,7 @@
   "Serialize a root-wrapped node tree to Screen protobuf bytes."
   ^bytes [canvas node]
   (-> (UiAst$Screen/newBuilder)
-      (.setRoot (build-node (str "screen") (root-wrap canvas node)))
+      (.setRoot (build-node "screen" (root-wrap canvas node)))
       .build
       .toByteArray))
 
@@ -641,6 +773,26 @@
                      (:flags-clear w) (assoc :flags-clear (:flags-clear w))))
                node)]
     (screen-bytes canvas node)))
+
+(def ^:private authored-card-keys #{:id :node :expect :notes})
+
+(defn build-authored-card
+  "Build ONE authored-composition card into Screen protobuf bytes — the
+   explicit interaction/composition lane. `card` is {:id <string> :node
+   <node-map>} (+ optional :expect/:notes card meta, carried by the corpus
+   not the bytes); the node map is the atomic internal shape EXTENDED with
+   the authored surface: absolute :x/:y, an :event binding, and
+   part-selector :styles groups (incl. background color/opacity). The
+   node gets the same harness root law as an atomic card. The atomic lane
+   (build-card / build-all) never admits the authored keys."
+  ^bytes [canvas card]
+  (assert-closed (str "authored card " (:id card)) authored-card-keys card)
+  (when-not (and (string? (:id card)) (seq ^String (:id card)))
+    (throw (ex-info "authored card requires a non-empty string :id" {:card card})))
+  (when-not (map? (:node card))
+    (throw (ex-info (str "authored card " (:id card) " requires a :node map")
+                    {:card card})))
+  (binding [*authored-lane* true] (screen-bytes canvas (:node card))))
 
 ;; ── Kitchen sinks (authored compositions) ───────────────────────────────
 ;; The spec declares the 6 sinks by id + widget list + prose description;
