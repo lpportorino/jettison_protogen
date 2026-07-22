@@ -5,7 +5,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Kotlin, Python, TypeScript, Rust, Zig, and Java
-- **Buf.validate support**: Go, Kotlin, Java, and TypeScript (validated) bindings include validation support
+- **Buf.validate support**: Go, C++, Kotlin, Java, and TypeScript (validated) bindings include validation support
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Sequential generation**: All languages generated in a single GitHub Actions job
 - **Automatic distribution**: Generated code pushed to language-specific repositories
@@ -17,7 +17,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 Beyond the language bindings, protogen owns the **`ui_ast` reference interpreter** — the C renderer under [`renderer/`](renderer/), compiled to the canonical `controls.wasm`, plus the devcard proof battery that gates it. The rendered documentation is browsable, not just the schema:
 
-- **[Widget gallery](tools/devcards/docs/widgets/README.md)** — one rendered doc page per `ui.WidgetType` (all 22), each with stock and themed dark/light contact sheets, generated from the same corpus the devcard gates verify.
+- **[Widget gallery](tools/devcards/docs/widgets/README.md)** — one rendered doc page per `ui.WidgetType`, each with stock and themed dark/light contact sheets, generated from the same corpus the devcard gates verify.
 - **[Devcards tool](tools/devcards/README.md)** — the corpus runner, golden manifests, invariants, and the gallery/doc generator.
 
 See [`CLAUDE.md`](CLAUDE.md) for the full renderer + devcards architecture.
@@ -107,7 +107,7 @@ output/
 └── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
 ```
 
-**Note**: Go, Kotlin, Java, and TypeScript-validated bindings include buf.validate support.
+**Note**: Go, C++, Kotlin, Java, and TypeScript-validated bindings include buf.validate support.
 
 
 ## Language-Specific Features
@@ -129,7 +129,7 @@ output/
 - Runtime validation requires protovalidate-java library
 
 ### Kotlin
-- Generated using buf with remote BSR plugin (buf.build/protocolbuffers/kotlin)
+- Generated using local `protoc --kotlin_out` (not buf/BSR — the proto package must match the Java output)
 - buf.validate annotations preserved for runtime validation
 - Generates Kotlin-specific protobuf classes with DSL builders
 - Runtime validation requires protovalidate-kotlin library
@@ -222,23 +222,28 @@ The base Docker image contains all necessary dependencies and tools. It will be 
 
 ### Docker Image Details
 
-The Docker image includes:
-- Ubuntu 24.04 base
-- Protocol Buffers compiler 25.1
-- Go 1.21.13
-- Rust 1.83.0
+The Docker image bundles every toolchain this repo uses — proto codegen plus the
+devcard/renderer proof battery. The exact pinned versions live in
+`Dockerfile.base`, the source of truth. It includes:
+- Ubuntu base
+- Protocol Buffers compiler
+- Go
+- Rust
+- Zig
 - Python 3 with protobuf tools
 - Node.js with TypeScript proto tools
-- Java 17 (OpenJDK)
+- GraalVM Community JDK — Ubuntu's apt JDK is too old for the devcard renderer (which needs JDK 21+); GraalVM CE also JIT-compiles the polyglot host (see `tools/devcards/README.md`)
+- Clojure CLI (the devcards corpus runner)
+- WASI-SDK (the renderer wasm cross-compiler)
 - nanopb for C generation
-- buf CLI for proper validation support
-- All necessary protoc plugins
+- buf CLI for validation support
+- The protoc plugins the generators use
 
 ## Examples
 
 ### Using C++ Validation
 
-C++ bindings now include buf.validate metadata when generated. To use validation at runtime:
+C++ bindings include buf.validate metadata when generated. To use validation at runtime:
 
 ```cpp
 #include <buf/validate/validator.h>
@@ -295,7 +300,7 @@ target_link_libraries(your_target
 
 ### Using Java Validation
 
-Java bindings now include buf.validate metadata when generated. To use validation at runtime:
+Java bindings include buf.validate metadata when generated. To use validation at runtime:
 
 ```java
 import build.buf.protovalidate.Validator;
@@ -359,11 +364,7 @@ Edit the language-specific script sections in `generate-protos.sh`.
 
 ### Updating Tool Versions
 
-Edit version variables in `Dockerfile.base`:
-- `PROTOC_VERSION`
-- `GO_VERSION`
-- `RUST_VERSION`
-- `ZIG_VERSION`
+Edit the pinned `*_VERSION` variables at the top of `Dockerfile.base`.
 
 Then rebuild:
 ```bash
@@ -431,14 +432,13 @@ Two slash commands are available for proto schema exploration:
 ### Output Structure
 
 ```
-docs/
-├── proto-db.edn    # EDN database (git committed)
-├── vault/          # Obsidian-compatible markdown
-│   ├── index.md
-│   ├── commands/   # cmd.* messages
-│   ├── state/      # ser.* messages
-│   └── enums/      # Enum definitions
-└── tools/          # Clojure tooling
+docs/                   # The Obsidian vault (generated markdown)
+├── index.md            # Generated schema index
+├── proto/              # Generated per-message + per-enum markdown (cmd.* + ser.*)
+└── .protodoc/          # Implementation (hidden)
+    ├── proto-db.edn    # EDN database (git committed)
+    ├── scripts/        # Babashka scripts (/proto-search, /doc-next, ...)
+    └── tools/          # Clojure tooling (src, test, resources)
 ```
 
 ## License

@@ -51,10 +51,9 @@ docs/                           # Obsidian vault (output)
 │       ├── test/protodoc/     # Tests
 │       ├── resources/         # Selmer templates
 │       └── deps.edn           # Dependencies
-├── proto/                      # Message documentation
+├── proto/                      # Message + enum documentation
 │   ├── cmd.*.md               # Command messages
-│   └── ser.*.md               # State/data messages
-├── enums/                      # Enum documentation
+│   └── ser.*.md               # State/data + enum messages
 └── index.md                    # Schema index
 ```
 

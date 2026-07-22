@@ -1,16 +1,17 @@
 # devcards — the public UI-contract proof venue
 
 The devcard corpus runner: `tools/devcards/` beside the `renderer/`
-interpreter tree, run by `renderer.mk fixtures` (locally and in CI). The
+interpreter tree, run by `make -f renderer.mk fixtures` locally (or
+`fixtures-prebuilt` in CI, which reuses the battery's already-built
+`controls.wasm`). The
 charter lives in the repo's `CLAUDE.md` § "The reference interpreter + the
 devcards proof".
 
 ## What this is
 
-protogen generates the language bindings of `ui_ast.proto` but, before this
-tool, proved the contract only at the wire level (§9 golden byte vectors).
-devcards completes the goldens concept at the render level — **proof from both
-ends**:
+protogen generates the language bindings of `ui_ast.proto` and proves the
+contract at the wire level (§9 golden byte vectors); devcards adds render-level
+proof — **proof from three ends**:
 
 1. **Schema end** — every fixture `.pb` validates against the schema.
 2. **Pixel end** — the renderer (the repo's OWN `controls.wasm`, built by
@@ -18,10 +19,9 @@ ends**:
    **hash** must match the committed golden manifest. Raw bytes, never
    encoded images — encoder-independent determinism: pinned wasm + pinned
    fixture + pinned tick count ⇒ bit-identical framebuffer.
-3. **DOM end** — `dump_tree` invariants per card: no `clipped` / `overflow` /
-   `text_clipped` / `text_truncated` / `offscreen` / `squished`; no zero-area
-   node; no zero-VISIBLE-area node (`vis_px`); no unexpected host_command/report
-   emissions.
+3. **DOM end** — `dump_tree` invariants per card: no layout defect flag (the
+   `defect-flags` set in `invariants.clj`); no zero-area node; no
+   zero-VISIBLE-area node (`vis_px`); no unexpected host_command/report emissions.
 
 ## Committed vs transient artifacts
 
@@ -29,7 +29,7 @@ ends**:
 |---------------------------------------------------------------------------------------|----------------------------------------------------|
 | fixture `.pb` + fixture source (EDN → public builder)                                 | committed                                          |
 | golden manifest (per-card raw-framebuffer sha256 + wasm sha + tick count)             | committed                                          |
-| **gallery JPEGs (high quality)** — 3 per widget: vanilla / asgard-dark / asgard-light | **committed** (online docs render from the repo)   |
+| **gallery JPEGs (high quality)** — one per committed theme family (`gallery.clj` `family-renders`) | **committed** (online docs render from the repo)   |
 | PNGs / raw dumps / diff overlays                                                      | transient (CI + local inspection only, gitignored) |
 
 ## The corpus (secret-free — §9's own rule, extended)

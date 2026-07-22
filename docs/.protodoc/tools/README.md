@@ -253,9 +253,7 @@ docs/                           # Obsidian vault (output)
 │           ├── render_test.clj    # Rendering tests
 │           ├── roundtrip_test.clj # E2E roundtrip tests
 │           └── core_test.clj      # CLI + integration tests
-├── cmd/                        # Command messages
-├── ser/                        # State messages
-├── enums/                      # Enum definitions
+├── proto/                      # Message + enum documentation (cmd.* / ser.*)
 └── index.md                    # Schema index
 ```
 

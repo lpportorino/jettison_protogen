@@ -89,9 +89,10 @@ repo root, inside the toolchain container built from `Dockerfile.base`
 generators live in `tools/renderer-gen/`).
 
 The interpreter is the same artifact class as the bindings: a generated
-projection of this repo's own sources. Render-time assets (generic,
-secret-free OFL fonts + icons) live under `renderer/assets/` with
-closed-shape `.ported-from.edn` pins to their upstreams. Fleet cost, stated
+projection of this repo's own sources. Render-time assets under `renderer/assets/` are generic and secret-free: the OFL font and
+the `images/demo/` twins of the vendored LVGL demo (source pinned via
+`renderer/lvgl/demos/.ported-from.edn`) carry provenance; the icons and `test_*`
+fixtures are self-authored placeholders. Fleet cost, stated
 plainly: each renderer release adds a rebuilt ~3.6 MB wasm plus a
 regenerated JPEG gallery to the history every consumer clones (bounded by
 the JPEG-only image policy; PNGs/raw dumps stay gitignored).
@@ -261,7 +262,7 @@ The documentation provides:
 - Use `/proto-search <query>` to find messages by name or field
 - Read `docs/proto/cmd.<Package>.<Message>.md` for command messages
 - Read `docs/proto/ser.<Package>.<Message>.md` for state/data messages
-- Check `docs/enums/` for enum definitions
+- Enum pages live under `docs/proto/` too (e.g. `docs/proto/ser.<EnumName>.md`)
 
 ### CI/CD Architecture
 
@@ -296,9 +297,7 @@ which protoc-gen-go
 
 ### Updating Dependencies
 ```bash
-# Edit version variables in Dockerfile.base
-PROTOC_VERSION=26.0
-GO_VERSION=1.22.0
+# Edit the version variables in Dockerfile.base — that file is the pin
 
 # Force rebuild using Make
 make rebuild-base
@@ -351,11 +350,10 @@ make versions
 - **Note:** Subject to BSR rate limits (see rate limits section below)
 
 **Kotlin**
-- Uses `buf generate` with remote BSR plugin (buf.build/protocolbuffers/kotlin:v33.5)
+- Uses local `protoc --kotlin_out` (not buf — so the proto package is respected without a prefix)
 - buf.validate annotations preserved for runtime validation
 - Generates Kotlin-specific protobuf classes with DSL builders
 - Runtime validation requires protovalidate Kotlin library
-- **Note:** Subject to BSR rate limits (see rate limits section below)
 
 **Java**
 - Standard protoc generation with buf.validate annotations preserved
@@ -408,7 +406,7 @@ Runtime validation requires the protovalidate libraries:
 **Important Notes**:
 - C++ generated code includes buf.validate header references, but applications must build and link against protovalidate-cc separately
 - The protovalidate-cc library is not included in the Docker image or generated output (it's only needed at runtime by applications)
-- We migrated from protoc-gen-validate (PGV) to buf protovalidate for better compatibility and modern validation approach
+- Validation uses buf.validate (protovalidate), not protoc-gen-validate (PGV)
 
 ### JSON Descriptor Generation
 
@@ -458,12 +456,12 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution
-6. Buf Schema Registry (BSR) rate limits apply to Go and Kotlin generation (see below)
+6. Buf Schema Registry (BSR) rate limits apply to Go generation (see below)
 7. Zig (zig-protobuf) does not support buf.validate annotations or proto2
 
 ## Buf Schema Registry (BSR) Rate Limits
 
-Go and Kotlin generation use `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
+Go generation uses `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
 
 ### Limits
 | Service | Unauthenticated | Authenticated |
@@ -484,7 +482,7 @@ Go and Kotlin generation use `buf generate` with remote plugins, which connects 
 3. **Local plugins**: Consider using local plugins instead of remote BSR plugins for high-frequency development
 
 ### Troubleshooting
-If Go or Kotlin generation fails with rate limit errors:
+If Go generation fails with rate limit errors:
 ```bash
 # Check if authenticated
 buf registry whoami
@@ -510,15 +508,13 @@ docs/                      # Obsidian vault (output)
 │   │   ├── proto-lint.clj
 │   │   └── patch-lint.clj
 │   └── tools/            # Clojure tooling
-│       ├── src/protodoc/ # Core modules (parse, extract, render, lint, schema)
-│       ├── test/protodoc/# Tests (83 tests, 335 assertions)
+│       ├── src/protodoc/ # Clojure source
+│       ├── test/protodoc/# Tests
 │       ├── resources/    # Selmer templates
 │       ├── Dockerfile    # temurin-25 based
 │       └── deps.edn      # Dependencies
-├── cmd/                   # cmd.* messages
-├── ser/                   # ser.* messages
-├── enums/                 # Enum definitions
-└── index.md               # Schema index
+├── proto/                 # Generated per-message + per-enum markdown (cmd.* + ser.*)
+└── index.md               # Generated schema index
 ```
 
 ### Database Schema
@@ -567,6 +563,8 @@ Messages and fields can have optional interaction metadata for platform-agnostic
 - Composite: `:slider-with-presets` `:directional-mover` `:tabbed-config` `:state-machine-menu`
 
 **Semantic Types:** `:normalized` `:angle` `:percentage` `:coordinate-geo` `:coordinate-viewport` `:temperature` `:voltage` `:current` `:power` `:distance` `:duration` `:speed` `:count` `:timestamp` `:cardinal` `:enum-label` `:toggle-state` `:identifier` `:raw`
+
+*Authoritative enums: `UIPattern` / `SemanticType` / `FeedbackType` in [`schema.clj`](docs/.protodoc/tools/src/protodoc/schema.clj) — the lists above are illustrative and can lag the schema.*
 
 Interaction metadata survives roundtrip regeneration and appears in the `## Interaction` section of generated markdown.
 
@@ -668,16 +666,9 @@ descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.cl
 
 ```bash
 cd docs/.protodoc/tools
-clojure -M:test  # 83 tests, 335 assertions
+clojure -M:test  # run the protodoc test suite
 
-# Test categories:
-# - schema_test.clj    - Malli validation, property-based
-# - parse_test.clj     - JSON parsing, constraints, error handling
-# - extract_test.clj   - Markdown extraction, frontmatter
-# - render_test.clj    - Template rendering, wikilinks
-# - roundtrip_test.clj - E2E preservation tests
-# - core_test.clj      - CLI, integration
-# - lint_test.clj      - Documentation quality rules
+# See docs/.protodoc/tools/test/protodoc/ for the current test namespaces.
 ```
 
 ## References
