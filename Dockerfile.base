@@ -227,6 +227,19 @@ RUN protoc --version \
     && which protoc-gen-go \
     && which protoc-gen-zig
 
+# AWT font stack for the devcards GALLERY leg. The gallery composes its contact
+# sheets with java.awt (text labels via Graphics2D.drawString), and GraalVM's
+# libfontmanager.so dlopens libfreetype.so.6 — absent it, `renderer.mk
+# gallery-prebuilt` dies with UnsatisfiedLinkError inside this image while CI's
+# plain-runner gallery job (which has the system font stack) passes. That split
+# is exactly what the "everything runs in the uber container" rule forbids.
+# Deliberately a LATE layer: the base apt block sits above the WASI-SDK/GraalVM/
+# protoc installs, so amending it would invalidate the entire toolchain cache.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libfreetype6 fontconfig \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>
 # directly (make, protoc, …) — that is exactly what the renderer battery and any
 # hand-rolled base run depend on. ubuntu:24.04's default CMD ["/bin/bash"] still
