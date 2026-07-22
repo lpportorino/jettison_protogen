@@ -72,9 +72,14 @@ jobs:
     - name: Set up Clojure CLI + clj-kondo
       uses: DeLaGuardo/setup-clojure@13.6.1
       with:
-        cli: "1.12.5.1590"
-        # Keep in step with devcards.yml's kondo job — two different clj-kondo
-        # versions gating the same tree would disagree sooner or later.
+        # Both pins are the ones devcards.yml already uses, deliberately: two
+        # different toolchain versions gating the same tree would disagree
+        # eventually, and these are known-good on a runner rather than merely
+        # plausible. The first draft of this file invented "1.12.5.1590" — it
+        # does not exist (brew-install has no such tag) and the job died at
+        # setup, before a single gate ran. Verify a pin against
+        # https://github.com/clojure/brew-install/releases before changing it.
+        cli: "1.12.5.1654"
         clj-kondo: "2026.05.25"
 
     - # cljfmt resolves from the ROOT deps.edn (:fmt alias). Cache on its hash
