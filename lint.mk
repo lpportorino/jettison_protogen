@@ -153,14 +153,26 @@ lint-sh:
 		"$(NPROC)" "$(words $(LINT_SH_FILES))"
 	@printf '%s\n' $(LINT_SH_FILES) | xargs -P $(NPROC) -n 1 bash -n
 
-## fmt-c: clang-format check over hand-authored C, one process per cpu
-# --dry-run --Werror is clang-format's own check mode: it reports would-be
-# edits and exits non-zero, without touching the tree.
+## fmt-c: clang-format DRIFT check over hand-authored C, one process per cpu
+# NOT `--dry-run --Werror`. That mode DISAGREES with `-i` under .clang-format's
+# MaxEmptyLinesToKeep:0 + SeparateDefinitionBlocks:Always pairing: after `-i`
+# has converged, --dry-run still reports edits it will never make (measured:
+# 130 on renderer.c, 18 on theme.c, unchanged across repeated -i passes). A
+# gate built on it fails forever on a correctly-formatted tree — which is
+# exactly what happened here, and was misdiagnosed as the CONFIG being
+# unsatisfiable before the two were told apart.
+#
+# Drift-compare instead: run the formatter to stdout and diff against the file.
+# It asks the question the gate actually cares about — "is the committed file
+# what the formatter produces?" — and it is the method sych gates C with, which
+# is why the two repos can share one config byte-for-byte.
 fmt-c:
-	@printf '\033[32m[fmt-c]\033[0m %s --dry-run (%s cpus, %s files)\n' \
+	@printf '\033[32m[fmt-c]\033[0m %s drift-compare (%s cpus, %s files)\n' \
 		"$(CLANG_FORMAT)" "$(NPROC)" "$(words $(FMT_C_FILES))"
 	@printf '%s\n' $(FMT_C_FILES) \
-		| xargs -P $(NPROC) -n 1 $(CLANG_FORMAT) --style=file --dry-run --Werror
+		| xargs -P $(NPROC) -I{} sh -c \
+		'$(CLANG_FORMAT) --style=file "$$1" | diff -u "$$1" - > /dev/null \
+		 || { echo "clang-format drift: $$1" >&2; exit 1; }' _ {}
 
 ## fmt-fix: rewrite formatting in place (both languages)
 fmt-fix: fmt-clj-fix fmt-c-fix

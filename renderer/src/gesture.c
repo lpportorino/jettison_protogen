@@ -8,16 +8,13 @@
 #include "gesture.h"
 #include "gesture_thresholds.h"
 #include <math.h>
-
 /* px -> NDC: 1 NDC unit = 100px. */
 static double px_to_ndc(double px) { return px / 100.0; }
-
 double gesture_ndc_dist(double ax, double ay, double bx, double by) {
   double dx = ax - bx;
   double dy = ay - by;
   return hypot(dx, dy);
 }
-
 void gesture_reset(gesture_recognizer_t *g) {
   g->phase = GESTURE_PHASE_IDLE;
   g->primary_id = 0;
@@ -32,7 +29,6 @@ void gesture_reset(gesture_recognizer_t *g) {
   g->last_tap_y = 0.0;
   g->last_tap_t = 0;
 }
-
 /* Find a live pointer slot by id; -1 if absent. */
 static int32_t pointer_index(const gesture_recognizer_t *g,
                              int32_t pointer_id) {
@@ -42,7 +38,6 @@ static int32_t pointer_index(const gesture_recognizer_t *g,
   }
   return -1;
 }
-
 /* Map.set: update in place if present, else append (insertion order). */
 static void pointers_set(gesture_recognizer_t *g, const gesture_sample_t *s) {
   int32_t idx = pointer_index(g, s->pointer_id);
@@ -55,7 +50,6 @@ static void pointers_set(gesture_recognizer_t *g, const gesture_sample_t *s) {
     g->count++;
   }
 }
-
 /* Map.delete: remove by id, preserving the order of the remaining entries. */
 static void pointers_delete(gesture_recognizer_t *g, int32_t pointer_id) {
   int32_t idx = pointer_index(g, pointer_id);
@@ -65,7 +59,6 @@ static void pointers_delete(gesture_recognizer_t *g, int32_t pointer_id) {
     g->pointers[i] = g->pointers[i + 1];
   g->count--;
 }
-
 /* Current NDC spread between the first two live pointers, or 0 if < 2. */
 static double spread(const gesture_recognizer_t *g) {
   if (g->count < 2)
@@ -73,7 +66,6 @@ static double spread(const gesture_recognizer_t *g) {
   return gesture_ndc_dist(g->pointers[0].x, g->pointers[0].y, g->pointers[1].x,
                           g->pointers[1].y);
 }
-
 /* Emit one {pinch, +/-1} per full pinchScale spread-ratio step crossed. */
 static int32_t ratchet(gesture_recognizer_t *g, gesture_decision_t *out) {
   int32_t n = 0;
@@ -102,7 +94,6 @@ static int32_t ratchet(gesture_recognizer_t *g, gesture_decision_t *out) {
   }
   return n;
 }
-
 int32_t gesture_on_down(gesture_recognizer_t *g, const gesture_sample_t *s,
                         gesture_decision_t *out) {
   (void)out;
@@ -124,7 +115,6 @@ int32_t gesture_on_down(gesture_recognizer_t *g, const gesture_sample_t *s,
   g->move_ndc = px_to_ndc((double)GESTURE_MOVE_PX);
   return 0;
 }
-
 int32_t gesture_on_move(gesture_recognizer_t *g, const gesture_sample_t *s,
                         gesture_decision_t *out) {
   if (g->phase == GESTURE_PHASE_PINCHING) {
@@ -152,7 +142,6 @@ int32_t gesture_on_move(gesture_recognizer_t *g, const gesture_sample_t *s,
   out[0].delta = 0;
   return 1;
 }
-
 /* classifyRelease: a release that never crossed movePx -> tap | track. */
 static int32_t classify_release(const gesture_recognizer_t *g,
                                 const gesture_sample_t *s,
@@ -170,7 +159,6 @@ static int32_t classify_release(const gesture_recognizer_t *g,
   out[0].delta = 0;
   return 1;
 }
-
 int32_t gesture_on_up(gesture_recognizer_t *g, const gesture_sample_t *s,
                       gesture_decision_t *out) {
   if (g->phase == GESTURE_PHASE_PINCHING) {
@@ -209,7 +197,6 @@ int32_t gesture_on_up(gesture_recognizer_t *g, const gesture_sample_t *s,
   }
   return n;
 }
-
 int32_t gesture_on_cancel(gesture_recognizer_t *g, const gesture_sample_t *s,
                           gesture_decision_t *out) {
   (void)out;
@@ -235,7 +222,6 @@ int32_t gesture_on_cancel(gesture_recognizer_t *g, const gesture_sample_t *s,
   }
   return 0;
 }
-
 int32_t gesture_on_wheel(gesture_recognizer_t *g, double delta_y,
                          gesture_decision_t *out) {
   (void)g;

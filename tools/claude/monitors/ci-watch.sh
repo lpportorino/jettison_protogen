@@ -138,11 +138,12 @@ try:
 except Exception:
     sys.exit(0)
 for j in d.get("jobs") or []:
-    steps = j.get("steps") or []
-    total = len(steps)
-    for s in steps:
+    # No "n of TOTAL": GitHub numbers the implicit post-steps ABOVE the visible
+    # count, so a job with 7 steps reports step 9 and the fraction reads as
+    # nonsense ("step 9/7", observed live). The step NAME is the useful part.
+    for s in j.get("steps") or []:
         if s.get("status") == "in_progress":
-            print("%s/%s %s" % (s.get("number", "?"), total, s.get("name", "?")))
+            print("%s (%s)" % (s.get("name", "?"), j.get("name", "?")))
             sys.exit(0)
 ' 2>/dev/null
 }

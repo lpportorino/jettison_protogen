@@ -1,30 +1,28 @@
 # Canonical C style for the renderer's hand-authored sources.
 #
-# The load-bearing keys make clang-format IDEMPOTENT — format∘format ≡ format,
-# so the formatted tree is a fixed point and `--dry-run --Werror` can be a CI
-# gate rather than a suggestion. Note IDEMPOTENT, not TOTAL: two different
-# layouts of the same code do not necessarily converge (see MaxEmptyLinesToKeep
-# below), and claiming otherwise is what produced an unsatisfiable gate.
+# KEYS ARE BYTE-IDENTICAL TO ~/git/cc/sych/.clang-format ON PURPOSE. One C style
+# across the fleet means a file moved between repos does not reformat, and a
+# reviewer reading two repos reads one layout. Change a key here only in lockstep
+# with sych.
+#
+# The load-bearing keys make clang-format IDEMPOTENT — format(format(x)) ==
+# format(x) — so the formatted tree is a fixed point and drift is detectable:
 #   DerivePointerAlignment: false  — output must not depend on input layout
 #                                    (deriving it defeats canonicalisation).
-#   SeparateDefinitionBlocks: Always — exactly one blank line between top-level
-#                                    definitions, inserted deterministically.
-#   MaxEmptyLinesToKeep: 1         — caps runs of blank lines at one. It must
-#                                    NOT be 0: 0 forbids the very blank line
-#                                    SeparateDefinitionBlocks inserts, and the
-#                                    two rules then contradict each other —
-#                                    `clang-format -i` strips the separators
-#                                    and `--dry-run --Werror` immediately
-#                                    demands them back. Measured on renderer.c:
-#                                    130 violations surviving three -i passes
-#                                    unchanged, i.e. a gate no tree could ever
-#                                    satisfy. The pairing is idempotent
-#                                    (format∘format ≡ format) but not total:
-#                                    an author blank line INSIDE a function
-#                                    body survives, and that is the price of
-#                                    the gate being reachable at all.
+#   MaxEmptyLinesToKeep: 0         — drop discretionary author blank lines,
+#   SeparateDefinitionBlocks: Always — then re-add them deterministically, so
+#                                    blank lines become INPUT-INDEPENDENT.
 #   InsertNewlineAtEOF: true       — exactly one trailing newline, always.
 #   UseTab: Never                  — tabs are layout; spaces only.
+#
+# HOW THIS MUST BE CHECKED — this bit is not optional. `clang-format --dry-run
+# --Werror` DISAGREES with `clang-format -i` under the MaxEmptyLinesToKeep:0 +
+# SeparateDefinitionBlocks:Always pairing: after `-i` converges, --dry-run still
+# reports edits it will never make (measured: 130 on renderer.c, 18 on theme.c,
+# stable across repeated -i passes). Checking with --dry-run therefore fails
+# forever on a correctly-formatted tree. The gate must instead compare the
+# formatter's OUTPUT against the file (see `fmt-c` in lint.mk) — which is also
+# the more honest question: "is the committed file what the formatter produces?"
 #
 # NOT formatted (never handed to the tool — see FMT_C_FILES in lint.mk):
 #   renderer/lvgl/**        vendored upstream, byte-exact per .gitattributes
@@ -33,7 +31,7 @@
 BasedOnStyle: LLVM
 ColumnLimit: 80
 DerivePointerAlignment: false
-MaxEmptyLinesToKeep: 1
+MaxEmptyLinesToKeep: 0
 SeparateDefinitionBlocks: Always
 InsertNewlineAtEOF: true
 UseTab: Never

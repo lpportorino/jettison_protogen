@@ -18,7 +18,6 @@
 #define DECODER_NAME "SVG"
 /* Maximum SVG file size we'll attempt to read (256 KB). */
 #define MAX_SVG_SIZE (256 * 1024)
-
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
@@ -62,7 +61,6 @@ static uint8_t *read_file_contents(const char *path, uint32_t *out_size) {
   *out_size = file_size;
   return buf;
 }
-
 /* ------------------------------------------------------------------ */
 /* Decoder callbacks                                                   */
 /* ------------------------------------------------------------------ */
@@ -118,7 +116,6 @@ static lv_result_t decoder_info(lv_image_decoder_t *decoder,
   header->h = (int32_t)h_f;
   return LV_RESULT_OK;
 }
-
 /**
  * Open and decode an SVG image to an RGBA draw buffer.
  *
@@ -229,7 +226,6 @@ static lv_result_t decoder_open(lv_image_decoder_t *decoder,
   }
   return LV_RESULT_OK;
 }
-
 /**
  * Close SVG decoder session and free resources.
  */
@@ -239,7 +235,6 @@ static void decoder_close(lv_image_decoder_t *decoder,
   if (dsc->args.no_cache || !lv_image_cache_is_enabled())
     lv_draw_buf_destroy((lv_draw_buf_t *)dsc->decoded);
 }
-
 /* ------------------------------------------------------------------ */
 /* Public API                                                          */
 /* ------------------------------------------------------------------ */
@@ -252,7 +247,6 @@ void svg_decoder_init(void) {
   lv_image_decoder_set_close_cb(dec, decoder_close);
   dec->name = DECODER_NAME;
 }
-
 void svg_decoder_deinit(void) {
   lv_image_decoder_t *dec = NULL;
   while ((dec = lv_image_decoder_get_next(dec)) != NULL) {

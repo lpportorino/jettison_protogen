@@ -20,7 +20,6 @@
 #include "theme.h"
 #include "lvgl/src/themes/lv_theme_private.h"
 #include "theme_tokens.h"
-
 /* ── Stock-formula mirrors (vanilla column) ────────────────────────────────
  * lv_theme_default.c is the source: dpx == LV_DPX_CALC, the size thresholds
  * are greater_res <=320 SMALL / <720 MEDIUM / else LARGE. */
@@ -29,7 +28,6 @@ typedef enum {
   SIZE_MEDIUM = 1,
   SIZE_LARGE = 2,
 } disp_size_t;
-
 typedef struct {
   lv_style_t panel;       /* obj card fallback: radius/pad/bg/border/text */
   lv_style_t control_rad; /* dropdown/textarea/spinbox MAIN radius        */
@@ -57,7 +55,6 @@ typedef struct {
                             * (asgard-only)                                */
   lv_style_t trans;       /* zero-time transitions (asgard-only)          */
 } asgard_styles_t;
-
 typedef struct {
   lv_theme_t base;
   asgard_styles_t styles;
@@ -67,7 +64,6 @@ typedef struct {
   int32_t dpi;
   disp_size_t size;
 } asgard_theme_t;
-
 static asgard_theme_t theme_inst;
 /* Zero-time transition: state changes render INSTANTLY under the asgard
  * family (deterministic state cards + tactical immediacy). Props mirror the
@@ -88,12 +84,10 @@ static const lv_style_prop_t zero_trans_props[] = {
     0,
 };
 static lv_style_transition_dsc_t zero_trans;
-
 static int32_t dpx(int32_t dpi, int32_t n) {
   /* LV_DPX_CALC mirror (lv_display.h): 0 stays 0; else max(dpi*n/160, 1). */
   return n == 0 ? 0 : LV_MAX((dpi * n + 80) / 160, 1);
 }
-
 static disp_size_t size_of(lv_display_t *disp) {
   int32_t greater = LV_MAX(lv_display_get_horizontal_resolution(disp),
                            lv_display_get_vertical_resolution(disp));
@@ -103,12 +97,10 @@ static disp_size_t size_of(lv_display_t *disp) {
     return SIZE_MEDIUM;
   return SIZE_LARGE;
 }
-
 /* Stock macro mirrors, parameterized on the captured dpi/size. */
 static int32_t stock_radius_default(const asgard_theme_t *t) {
   return dpx(t->dpi, t->size == SIZE_LARGE ? 12 : 8);
 }
-
 static int32_t stock_btn_radius(const asgard_theme_t *t) {
   if (t->size == SIZE_LARGE)
     return dpx(t->dpi, 16);
@@ -116,7 +108,6 @@ static int32_t stock_btn_radius(const asgard_theme_t *t) {
     return dpx(t->dpi, 12);
   return dpx(t->dpi, 8);
 }
-
 static int32_t stock_pad_def(const asgard_theme_t *t) {
   if (t->size == SIZE_LARGE)
     return dpx(t->dpi, 24);
@@ -124,7 +115,6 @@ static int32_t stock_pad_def(const asgard_theme_t *t) {
     return dpx(t->dpi, 20);
   return dpx(t->dpi, 16);
 }
-
 static int32_t stock_pad_small(const asgard_theme_t *t) {
   if (t->size == SIZE_LARGE)
     return dpx(t->dpi, 14);
@@ -132,14 +122,12 @@ static int32_t stock_pad_small(const asgard_theme_t *t) {
     return dpx(t->dpi, 12);
   return dpx(t->dpi, 10);
 }
-
 static void style_reset(lv_style_t *style, bool inited) {
   if (inited)
     lv_style_reset(style);
   else
     lv_style_init(style);
 }
-
 /* Vanilla/asgard (and dark/light) value selects. The gate's clang-tidy bans a
  * bool as a ternary condition in C (readability-implicit-bool-conversion —
  * the condition converts to int in C's AST), so the selects route through
@@ -149,20 +137,17 @@ static int32_t pick_i32(bool cond, int32_t when_true, int32_t when_false) {
     return when_true;
   return when_false;
 }
-
 static uint32_t pick_u32(bool cond, uint32_t when_true, uint32_t when_false) {
   if (cond)
     return when_true;
   return when_false;
 }
-
 static lv_color_t pick_color(bool cond, lv_color_t when_true,
                              lv_color_t when_false) {
   if (cond)
     return when_true;
   return when_false;
 }
-
 static void style_init(asgard_theme_t *t) {
   bool v = t->family == ASGARD_THEME_FAMILY_VANILLA;
   bool inited = t->inited;
@@ -341,7 +326,6 @@ static void style_init(asgard_theme_t *t) {
     lv_style_set_transition(&s->trans, &zero_trans);
   }
 }
-
 /* The interactive add-ons every pointer-driven class shares under the
  * asgard family: hover lighten + instant transitions. */
 static void add_interactive(asgard_theme_t *t, lv_obj_t *obj) {
@@ -350,7 +334,6 @@ static void add_interactive(asgard_theme_t *t, lv_obj_t *obj) {
   lv_obj_add_style(obj, &t->styles.hover, LV_STATE_HOVERED);
   lv_obj_add_style(obj, &t->styles.trans, 0);
 }
-
 static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   asgard_theme_t *t = (asgard_theme_t *)th;
   if (t->family == ASGARD_THEME_FAMILY_STOCK)
@@ -534,7 +517,6 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   /* Everything else (label, image, scale, spinner, line, chart, tabview,
    * dropdown list, ...) falls through to stock untouched. */
 }
-
 lv_theme_t *asgard_theme_init(lv_display_t *disp, bool dark,
                               asgard_theme_family_t family,
                               lv_theme_t *parent) {

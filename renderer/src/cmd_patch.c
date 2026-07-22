@@ -10,7 +10,6 @@
 #include "host_imports.h"
 #include "log.h"
 #include <string.h>
-
 /* Write the 8 little-endian wire bytes of `d` into out[0..8). WASM is
  * little-endian and the IEEE-754 layout matches the protobuf double wire
  * form, so the raw bit pattern copies straight through (verbatim, no recast —
@@ -21,7 +20,6 @@ static void double_le_bytes(uint8_t *out, double d) {
   for (int i = 0; i < 8; i++)
     out[i] = (uint8_t)((bits >> (8 * i)) & 0xff);
 }
-
 void cmd_patch_padded_varint(uint8_t *out, uint32_t width, int64_t value) {
   /* Mirror uigen.cmd-spec/padded-varint: r starts as value, each low group
    * carries 7 value bits with bit-7 set (continuation); the final byte clears
@@ -35,7 +33,6 @@ void cmd_patch_padded_varint(uint8_t *out, uint32_t width, int64_t value) {
     r >>= 7;
   }
 }
-
 int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
                        int32_t value_or_delta) {
   /* A widget/gesture with no pre-encoded template never reaches the host —

@@ -46,7 +46,6 @@
  * (unlike the flat single cmd) since 16 × sizeof(cmd_spec_t) is too large to
  * inline in event_cb_data_t. */
 #define CMD_PATCH_MAX_BY_VALUE 16
-
 /* One fixed-width slot the patcher overwrites — a flat copy of ui_FieldPatch.
  */
 typedef struct {
@@ -55,7 +54,6 @@ typedef struct {
   uint32_t kind;        /* CMD_PATCH_KIND_* */
   int32_t wire_scale; /* runtime value × scale = the wire int (1 = verbatim) */
 } cmd_patch_field_t;
-
 /* A persistent (malloc-free) copy of a CmdSpec: the pre-encoded cmd.Root
  * template + the slot descriptors. `present` distinguishes a populated spec
  * from a zeroed slot. */
@@ -66,18 +64,15 @@ typedef struct {
   uint32_t patch_count;
   cmd_patch_field_t patches[CMD_PATCH_MAX_PATCHES];
 } cmd_spec_t;
-
 /* The gesture-surface device gestures (PAN_END, TAP, TRACK, PINCH, …); a
  * spec set is at most one per GestureKind. */
 #define CMD_PATCH_MAX_GESTURES 5
-
 /* One gesture → its pre-encoded cmd template, the persistent copy of a
  * ui_GestureSpec. `kind` mirrors gesture_kind_t / ui_GestureKind. */
 typedef struct {
   uint32_t kind; /* gesture_kind_t value */
   cmd_spec_t cmd;
 } cmd_gesture_spec_t;
-
 /* Overflow-safe slot-bounds check: the slot [byte_offset,
  * byte_offset+byte_width) must lie fully inside a `template_len`-byte template,
  * computed WITHOUT the wrapping uint32 add — a crafted `.pb` could set
@@ -90,7 +85,6 @@ static inline bool cmd_patch_slot_in_bounds(uint32_t byte_offset,
                                             uint32_t template_len) {
   return byte_width <= template_len && byte_offset <= template_len - byte_width;
 }
-
 /* Write the NON-MINIMAL padded varint of `value` into `out[0..width)`,
  * mirroring uigen.cmd-spec/padded-varint EXACTLY: each of the low groups
  * carries (value & 0x7f) with bit-7 set; the final byte clears bit-7. The
