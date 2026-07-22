@@ -1,0 +1,48 @@
+;; Zero-warning floor: every linter at :error, no :warning tier.
+;; A rule worth having is worth blocking on; a finding is never "advisory,
+;; fix later". Gate invocations pass --fail-level warning so clj-kondo's
+;; exit-2 (warnings) is treated exactly like exit-3 (errors).
+;;
+;; SCOPE is a positive allowlist, not an ignore list: the gate passes explicit
+;; source dirs (see LINT_CLJ_PATHS in lint.mk) and never walks the tree, so
+;; generated output/, vendored renderer/lvgl/, and build targets are excluded
+;; by never being handed to the linter at all. There is no exclusion config to
+;; drift.
+{:linters
+ {;; Type safety — the rules that catch real bugs
+  :unresolved-symbol {:level :error}
+  :unresolved-namespace {:level :error}
+  :type-mismatch {:level :error}
+  :invalid-arity {:level :error}
+  :missing-map-value {:level :error}
+
+  ;; Dead code — the family most likely to catch drift in a codebase whose
+  ;; job is generating fixtures (a stale import, a helper nobody calls).
+  :unused-binding {:level :error}
+  :unused-namespace {:level :error}
+  :unused-referred-var {:level :error}
+  :unused-private-var {:level :error}
+  :unused-import {:level :error}
+
+  ;; Hygiene
+  :redundant-do {:level :error}
+  :redundant-let {:level :error}
+  :redundant-fn-wrapper {:level :error}
+  :missing-else-branch {:level :error}
+  :single-key-in {:level :error}
+  :shadowed-var {:level :error}
+  :misplaced-docstring {:level :error}
+  :duplicate-require {:level :error}}
+
+ ;; :lint-as maps a macro to the nearest clojure.core form clj-kondo already
+ ;; analyses — never to suppress a finding.
+ ;;   malli.core/=>          schema annotation, not a call — treat as a no-op.
+ ;;                          (With malli on the lint classpath, clj-kondo also
+ ;;                          auto-imports malli's exported type config, turning
+ ;;                          m/=> schemas into real :type-mismatch/:invalid-arity
+ ;;                          checking for free.)
+ ;;   pronto.core/defmapper  proto<->EDN mapper macro; establishes a var like def.
+ ;;   defspec                generative tests are shaped like deftest.
+ :lint-as {malli.core/=> clojure.core/comment
+           pronto.core/defmapper clojure.core/def
+           clojure.test.check.clojure-test/defspec clojure.test/deftest}}

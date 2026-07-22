@@ -79,6 +79,17 @@ git: in sync with origin/master (as of last fetch; arm git-behind for live detai
     fi
   fi
 
+  # Report the pre-push gate's state rather than arming it: core.hooksPath is a
+  # mutation of the operator's own git config, and silently arming a gate is the
+  # kind of surprise a session-start banner should surface, not perform.
+  if [ "$(git config --get core.hooksPath 2>/dev/null)" = ".githooks" ]; then
+    body="$body
+hooks: pre-push format/lint gate ARMED (.githooks)"
+  else
+    body="$body
+[INFO] hooks: pre-push format/lint gate NOT armed — \`make -f lint.mk install-hooks\`"
+  fi
+
   body="$body
 
 [INFO] ARM THE ALWAYS-ARM MONITORS NOW — turn one, every session:"

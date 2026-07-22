@@ -1,0 +1,17 @@
+;; Repo-root deps.edn — the ONE home for the Clojure quality-tool pins.
+;; It intentionally declares no :paths and no runtime deps: this project's
+;; actual Clojure lives in its own trees (tools/devcards, tools/renderer-gen,
+;; docs/.protodoc/tools), each with its own deps.edn. This file exists so the
+;; formatter/linter versions are pinned ONCE rather than drifting per tree —
+;; the surveyed sibling repos each carry 3-4 copies that have already drifted
+;; apart (cljfmt 0.16.3 vs 0.15.6, splint 1.24.0 vs 1.22.0).
+;;
+;; clj-kondo is deliberately NOT here: it runs as a native binary (fast, no JVM
+;; start) and CI pins its version in the workflow's setup step.
+{:aliases
+ {;; cljfmt — reads .cljfmt.edn at the repo root.
+  :fmt {:extra-deps {dev.weavejester/cljfmt {:mvn/version "0.16.4"}}
+        :main-opts ["-m" "cljfmt.main"]}
+  ;; splint — idiomatic-pattern linting, reads .splint.edn if present.
+  :splint {:extra-deps {io.github.noahtheduke/splint {:mvn/version "1.24.0"}}
+           :main-opts ["-m" "noahtheduke.splint"]}}}

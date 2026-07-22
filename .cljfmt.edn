@@ -1,0 +1,14 @@
+;; cljfmt — the canonical Clojure formatting rule set. Identical in both
+;; sibling repos surveyed, adopted verbatim rather than re-derived: formatting
+;; is a rule, not a preference, and a config nobody has to argue about is worth
+;; more than a bespoke one.
+;;
+;; Scope, as with clj-kondo, is a positive allowlist passed on the command line
+;; (LINT_CLJ_PATHS in lint.mk) — generated and vendored trees are never handed
+;; to the formatter, so there is no ignore list here to drift.
+{:indentation? true
+ :insert-missing-whitespace? true
+ :remove-consecutive-blank-lines? true
+ :remove-surrounding-whitespace? true
+ :remove-trailing-whitespace? true
+ :sort-ns-references? true}

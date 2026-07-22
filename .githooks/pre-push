@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# pre-push — the FAST local gate: formatting + lint over hand-authored code.
+#
+# Deliberately the fast subset. The full proof battery (wasm build, devcards
+# render, oracles) needs the pinned container and minutes of wall clock; that
+# stays in CI, which is the AUTHORITATIVE gate. This hook exists so the public
+# trunk does not go red for a stale import or an unformatted file — protogen is
+# pinned by a consumer fleet, and a red trunk is everyone's problem.
+#
+# It is NOT a substitute for CI: a client-side hook only protects whoever armed
+# it, and `--no-verify` bypasses it. CI protects the consumers regardless.
+#
+# Arm with:  make -f lint.mk install-hooks   (sets core.hooksPath)
+set -uo pipefail
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+cd "$root" || exit 0
+
+printf '\033[36m[pre-push]\033[0m format + lint gates\n'
+
+if ! make -f lint.mk lint; then
+  cat >&2 <<'EOF'
+
+[pre-push] BLOCKED — the format/lint gate is red.
+
+  fix formatting automatically :  make -f lint.mk fmt-fix
+  see the lint findings        :  make -f lint.mk lint-clj
+
+A gate failure is a thing to FIX, not to skip. `git push --no-verify` exists
+and is yours to use, but it pushes the failure onto the consumer fleet.
+EOF
+  exit 1
+fi
+
+printf '\033[32m[pre-push]\033[0m gates green\n'
+exit 0

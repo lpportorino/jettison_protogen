@@ -1,0 +1,26 @@
+# Canonical C style for the renderer's hand-authored sources.
+#
+# The load-bearing keys make clang-format a TOTAL canonical projection — two
+# different layouts of the same code format identically, and format∘format ≡
+# format. That fixed-point property is what lets this be a CI gate at all
+# rather than a suggestion:
+#   DerivePointerAlignment: false  — output must not depend on input layout
+#                                    (deriving it defeats canonicalisation).
+#   MaxEmptyLinesToKeep: 0         — drop discretionary author blank lines,
+#   SeparateDefinitionBlocks: Always — then re-add them deterministically, so
+#                                    blank lines become INPUT-INDEPENDENT.
+#   InsertNewlineAtEOF: true       — exactly one trailing newline, always.
+#   UseTab: Never                  — tabs are layout; spaces only.
+#
+# NOT formatted (never handed to the tool — see FMT_C_FILES in lint.mk):
+#   renderer/lvgl/**        vendored upstream, byte-exact per .gitattributes
+#   renderer/generated/**   nanopb + threshold projections
+#   renderer/src/font_*.c   generated LVGL font data
+BasedOnStyle: LLVM
+ColumnLimit: 80
+DerivePointerAlignment: false
+MaxEmptyLinesToKeep: 0
+SeparateDefinitionBlocks: Always
+InsertNewlineAtEOF: true
+UseTab: Never
+ReflowComments: false
