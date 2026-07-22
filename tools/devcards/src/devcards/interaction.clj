@@ -270,17 +270,17 @@
                     :event {:name long-command-id :trigger :clicked}
                     :children [{:type :WIDGET_LABEL :text "Go"}]}})]
     (with-host boot!
-               (fn [h]
-                 (render! h pb)
-                 (let [tree (json/read-str (host/dump-tree! h) :key-fn keyword)
-                       btn (first (find-type tree "lv_button"))
-                       _ (pointer/tap! h (center btn) 1000)
-                       tag (:tag (first (pointer/events h)))]
-                   (into [] (keep identity)
-                         [(finding "long-event-name" :event-tag-untruncated
-                                   long-command-id tag)
-                          (finding "long-event-name" :event-tag-length
-                                   (count long-command-id) (count (str tag)))]))))))
+      (fn [h]
+        (render! h pb)
+        (let [tree (json/read-str (host/dump-tree! h) :key-fn keyword)
+              btn (first (find-type tree "lv_button"))
+              _ (pointer/tap! h (center btn) 1000)
+              tag (:tag (first (pointer/events h)))]
+          (into [] (keep identity)
+                [(finding "long-event-name" :event-tag-untruncated
+                          long-command-id tag)
+                 (finding "long-event-name" :event-tag-length
+                          (count long-command-id) (count (str tag)))]))))))
 
 ;; ── entry ───────────────────────────────────────────────────────────────
 (defn run-lane

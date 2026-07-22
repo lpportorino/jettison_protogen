@@ -38,14 +38,13 @@
 
 (deftest unsigned-64-two-complement-round-trips
   (testing "a uint64/int64 LONG field carries a full-width value via two's-complement"
-    (let [gps (get @pool* "ser.JonGuiDataGps")
-          ;; find any LONG-typed field anywhere to exercise the .longValue path
+    (let [;; find any LONG-typed field anywhere to exercise the .longValue path
           [full-name f]
-          (first (for [[fn d] @pool*
+          (first (for [[mname d] @pool*
                        ^Descriptors$FieldDescriptor fld (Descriptors$Descriptor/.getFields d)
                        :when (= Descriptors$FieldDescriptor$JavaType/LONG
                                 (Descriptors$FieldDescriptor/.getJavaType fld))]
-                   [fn fld]))]
+                   [mname fld]))]
       (is (some? f) "schema has at least one 64-bit integer field")
       (let [d (get @pool* full-name)
             fname (Descriptors$FieldDescriptor/.getName f)
@@ -70,17 +69,17 @@
 (deftest enum-set-by-number
   (testing "an enum field set by NUMBER round-trips to that number (no name-drop)"
     (let [[full-name f]
-          (first (for [[fn d] @pool*
+          (first (for [[mname d] @pool*
                        ^Descriptors$FieldDescriptor fld (Descriptors$Descriptor/.getFields d)
                        :when (and (= Descriptors$FieldDescriptor$JavaType/ENUM
                                      (Descriptors$FieldDescriptor/.getJavaType fld))
                                   (not (Descriptors$FieldDescriptor/.isRepeated fld)))]
-                   [fn fld]))]
+                   [mname fld]))]
       (is (some? f) "schema has at least one singular enum field")
       (let [d (get @pool* full-name)
             fname (Descriptors$FieldDescriptor/.getName f)
-            num 1
-            wire (pool/->bin (pool/build-msg d {fname num}))
+            enum-num 1
+            wire (pool/->bin (pool/build-msg d {fname enum-num}))
             ^Descriptors$FieldDescriptor fld (Descriptors$Descriptor/.findFieldByName d fname)
             ^Descriptors$EnumValueDescriptor back (.getField (pool/reparse d wire) fld)]
-        (is (= num (Descriptors$EnumValueDescriptor/.getNumber back)))))))
+        (is (= enum-num (Descriptors$EnumValueDescriptor/.getNumber back)))))))

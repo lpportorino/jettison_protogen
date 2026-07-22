@@ -17,9 +17,7 @@
 
    Hermetic: reads only the committed descriptor-set.binpb + proto-db.edn."
   (:require [clojure.set :as set]
-            [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
-            [protodoc.gencorpus.constraints :as constraints]
             [protodoc.gencorpus.pool :as pool]
             [protodoc.gencorpus.stream :as stream])
   (:import [com.google.protobuf
@@ -30,9 +28,7 @@
 (set! *warn-on-reflection* true)
 
 (def ^:private binpb "../../../output/json-descriptors/descriptor-set.binpb")
-(def ^:private db-path "../proto-db.edn")
 (def ^:private pool* (delay (pool/load-pool binpb)))
-(def ^:private db* (delay (constraints/effective-db @pool* binpb db-path)))
 
 ;; ── live payload branch enumeration ──────────────────────────────────────────
 

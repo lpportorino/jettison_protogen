@@ -72,8 +72,8 @@
   "The field names in the named oneof of descriptor `d`."
   [^Descriptors$Descriptor d ^String oneof-name]
   (when-let [oo (some #(when (= oneof-name
-                               (Descriptors$OneofDescriptor/.getName ^Descriptors$OneofDescriptor %))
-                          %)
+                                (Descriptors$OneofDescriptor/.getName ^Descriptors$OneofDescriptor %))
+                         %)
                       (Descriptors$Descriptor/.getOneofs d))]
     (mapv #(Descriptors$FieldDescriptor/.getName ^Descriptors$FieldDescriptor %)
           (Descriptors$OneofDescriptor/.getFields ^Descriptors$OneofDescriptor oo))))
@@ -159,8 +159,8 @@
                     branches (when oo-name (oneof-branches d oo-name))]
               :when (seq branches)
               branch branches
-              :let [key [nm oo-name branch]
-                    allowlisted? (contains? no-valid-branch key)]
+              :let [branch-key [nm oo-name branch]
+                    allowlisted? (contains? no-valid-branch branch-key)]
               :when (not allowlisted?)
               :let [pins (branch-pins nm oo-name branch)
                     result (try
@@ -186,20 +186,20 @@
 
       ;; staleness check: every allowlisted entry should still actually fail;
       ;; a passing entry means the allowlist has drifted and should be trimmed.
-      (let [stale (for [[key _reason] no-valid-branch
-                        :let [[nm _oo-name branch] key
-                              oo-name (second key)
+      (let [stale (for [[branch-key _reason] no-valid-branch
+                        :let [[nm _oo-name branch] branch-key
+                              oo-name (second branch-key)
                               ^Descriptors$Descriptor d (get p nm)
                               pins (when d (branch-pins nm oo-name branch))
                               still-fails? (when d
                                              (try
                                                (not (oracle/valid?
                                                      (pool/build-message p nm
-                                                      (binding [assemble/*pins* pins]
-                                                        (assemble/generate p db nm 1)))))
+                                                                         (binding [assemble/*pins* pins]
+                                                                           (assemble/generate p db nm 1)))))
                                                (catch Throwable _ true)))]
                         :when (false? still-fails?)]
-                    key)]
+                    branch-key)]
         (is (empty? stale)
             (str "no-valid-branch contains stale entries whose branch NOW generates "
                  "a valid message — trim the allowlist: " (vec stale))))

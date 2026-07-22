@@ -14,9 +14,9 @@
 
    Hermetic: the pool/db are `delay`-shared and read from the committed
    descriptor-set + proto-db; wire bytes are compared IN MEMORY (no disk)."
-  (:require [clojure.set :as set]
+  (:require [clojure.java.io :as io]
+            [clojure.set :as set]
             [clojure.test :refer [deftest is testing]]
-            [protodoc.gencorpus.assemble :as assemble]
             [protodoc.gencorpus.constraints :as constraints]
             [protodoc.gencorpus.pool :as pool]
             [protodoc.gencorpus.stream :as stream]))
@@ -104,12 +104,12 @@
             sweeps (filter #(= :sweep (:kind %)) (get stream/profiles profile))]
         (doseq [{:keys [path field-msg field-name]} sweeps]
           (let [[lo hi] (stream/field-range @db* field-msg field-name)
-                vals (keep #(get-in (:edn-value %) path) steps)]
-            (is (seq vals)
+                swept-vals (keep #(get-in (:edn-value %) path) steps)]
+            (is (seq swept-vals)
                 (str profile ": sweep on " (pr-str path) " produced no values"))
-            (is (every? #(<= lo (double %) hi) vals)
+            (is (every? #(<= lo (double %) hi) swept-vals)
                 (str profile ": a swept value on " (pr-str path)
-                     " escaped the live bounds [" lo " " hi "]: " (pr-str (vec vals))))))))))
+                     " escaped the live bounds [" lo " " hi "]: " (pr-str (vec swept-vals))))))))))
 
 ;; ── 4. manifest contract ─────────────────────────────────────────────────────
 
@@ -147,10 +147,10 @@
           entries (map-indexed (fn [i s] (stream/entry @pool* :idle i s)) steps)
           manifest (stream/write-stream! dir :idle entries)]
       (is (= (count steps) (count manifest)))
-      (is (every? #(.exists (clojure.java.io/file dir (:file %))) manifest)
+      (is (every? #(.exists (io/file dir (:file %))) manifest)
           "every manifest .bin exists on disk")
       (is (every? #(= (:byte-count %)
-                      (.length (clojure.java.io/file dir (:file %))))
+                      (.length (io/file dir (:file %))))
                   manifest)
           ":byte-count matches the written .bin size")
       (is (not (some :bin manifest)) "the written manifest carries no :bin bytes"))))

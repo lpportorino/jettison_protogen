@@ -47,14 +47,14 @@
   [descriptor]
   (letfn [(collect [messages package prefix]
             (mapcat (fn [msg]
-                      (let [name (get msg "name")
+                      (let [nm (get msg "name")
                             fqn (if prefix
-                                  (str package "." prefix "." name)
-                                  (str package "." name))]
+                                  (str package "." prefix "." nm)
+                                  (str package "." nm))]
                         (cons [fqn msg]
                               (collect (get msg "nestedType" [])
                                        package
-                                       (if prefix (str prefix "." name) name)))))
+                                       (if prefix (str prefix "." nm) nm)))))
                     messages))]
     (into {}
           (mapcat (fn [file]
@@ -114,9 +114,9 @@
       (or (when (seq entries)
             (some (fn [field]
                     (when (= "TYPE_MESSAGE" (get field "type"))
-                      (let [ref   (normalize-type-ref (get field "typeName"))
-                            short (last (str/split ref #"\."))]
-                        (when (contains? entries short)
+                      (let [type-ref   (normalize-type-ref (get field "typeName"))
+                            short-name (last (str/split type-ref #"\."))]
+                        (when (contains? entries short-name)
                           [(get field "name")]))))
                   (get msg-desc "field" [])))
           ;; Walk all fields — fail-closed on anything we cannot classify
@@ -130,48 +130,48 @@
 
                       ;; Message type — resolve and recurse (must be in the index)
                       (= "TYPE_MESSAGE" field-type)
-                      (let [ref   (normalize-type-ref (get field "typeName"))
-                            short (last (str/split ref #"\."))]
-                        (if (contains? entries short)
+                      (let [type-ref   (normalize-type-ref (get field "typeName"))
+                            short-name (last (str/split type-ref #"\."))]
+                        (if (contains? entries short-name)
                           ;; Direct map field, already handled above
                           nil
-                          (if-let [resolved (get msg-index ref)]
-                            (when-let [path (has-map-field? msg-index ref resolved visited)]
+                          (if-let [resolved (get msg-index type-ref)]
+                            (when-let [path (has-map-field? msg-index type-ref resolved visited)]
                               (into [field-name] path))
                             (throw
-                              (ex-info
-                                (str "Binary dedup: unresolved type reference '" ref "'"
-                                     " on field '" field-name "' in '" fqn "'.\n"
-                                     "  The descriptor does not contain a definition for this type.\n"
-                                     "  Binary dedup cannot verify a subsystem whose structure is unknown.")
-                                {:type        :unresolved-type-reference
-                                 :type-name   ref
-                                 :field-name  field-name
-                                 :parent-fqn  fqn})))))
+                             (ex-info
+                              (str "Binary dedup: unresolved type reference '" type-ref "'"
+                                   " on field '" field-name "' in '" fqn "'.\n"
+                                   "  The descriptor does not contain a definition for this type.\n"
+                                   "  Binary dedup cannot verify a subsystem whose structure is unknown.")
+                              {:type        :unresolved-type-reference
+                               :type-name   type-ref
+                               :field-name  field-name
+                               :parent-fqn  fqn})))))
 
                       ;; Proto2 groups — not supported
                       (= "TYPE_GROUP" field-type)
                       (throw
-                        (ex-info
-                          (str "Binary dedup: TYPE_GROUP field '" field-name "' in '" fqn "'.\n"
-                               "  Proto2 groups have non-deterministic encoding and are not supported.")
-                          {:type         :unsupported-type-group
-                           :field-name   field-name
-                           :parent-fqn   fqn}))
+                       (ex-info
+                        (str "Binary dedup: TYPE_GROUP field '" field-name "' in '" fqn "'.\n"
+                             "  Proto2 groups have non-deterministic encoding and are not supported.")
+                        {:type         :unsupported-type-group
+                         :field-name   field-name
+                         :parent-fqn   fqn}))
 
                       ;; Anything else — unknown / future type
                       :else
                       (throw
-                        (ex-info
-                          (str "Binary dedup: unknown field type '" field-type "' on field '"
-                               field-name "' in '" fqn "'.\n"
-                               "  The validator whitelist does not include this type.\n"
-                               "  If this is a valid new proto type, add it to `safe-scalar-types`"
-                               " in binary_dedup.clj after confirming deterministic encoding.")
-                          {:type        :unknown-field-type
-                           :type-value  field-type
-                           :field-name  field-name
-                           :parent-fqn  fqn})))))
+                       (ex-info
+                        (str "Binary dedup: unknown field type '" field-type "' on field '"
+                             field-name "' in '" fqn "'.\n"
+                             "  The validator whitelist does not include this type.\n"
+                             "  If this is a valid new proto type, add it to `safe-scalar-types`"
+                             " in binary_dedup.clj after confirming deterministic encoding.")
+                        {:type        :unknown-field-type
+                         :type-value  field-type
+                         :field-name  field-name
+                         :parent-fqn  fqn})))))
                 (get msg-desc "field" []))))))
 
 ;; ============================================================================
@@ -196,13 +196,13 @@
         (cond
           (= "TYPE_GROUP" ft)
           (throw
-            (ex-info
-              (str "Binary dedup: TYPE_GROUP at JonGUIState subsystem field '"
-                   (get f "name") "' (number " (get f "number") ").\n"
-                   "  Proto2 groups are not supported.")
-              {:type         :unsupported-type-group
-               :field-name   (get f "name")
-               :field-number (get f "number")}))
+           (ex-info
+            (str "Binary dedup: TYPE_GROUP at JonGUIState subsystem field '"
+                 (get f "name") "' (number " (get f "number") ").\n"
+                 "  Proto2 groups are not supported.")
+            {:type         :unsupported-type-group
+             :field-name   (get f "name")
+             :field-number (get f "number")}))
 
           ;; TYPE_MESSAGE is handled below. Known scalars at a subsystem number
           ;; are just excluded from extraction (they can't be dedup subsystems).
@@ -212,13 +212,13 @@
 
           :else
           (throw
-            (ex-info
-              (str "Binary dedup: unknown field type '" ft "' at JonGUIState field '"
-                   (get f "name") "' (number " (get f "number") ").")
-              {:type         :unknown-field-type
-               :type-value   ft
-               :field-name   (get f "name")
-               :field-number (get f "number")}))))))
+           (ex-info
+            (str "Binary dedup: unknown field type '" ft "' at JonGUIState field '"
+                 (get f "name") "' (number " (get f "number") ").")
+            {:type         :unknown-field-type
+             :type-value   ft
+             :field-name   (get f "name")
+             :field-number (get f "number")}))))))
   (let [extracted (->> (get gui-state-msg "field" [])
                        (filter (fn [f]
                                  (and (= "TYPE_MESSAGE" (get f "type"))
@@ -239,13 +239,13 @@
     (when (seq dups)
       (let [[n vs] (first dups)]
         (throw
-          (ex-info
-            (str "Binary dedup: duplicate JonGUIState field number " n
-                 " used by: " (str/join ", " (map :name vs)) ".\n"
-                 "  The generated TypeScript map would silently overwrite one entry.")
-            {:type   :duplicate-field-number
-             :number n
-             :names  (mapv :name vs)}))))
+         (ex-info
+          (str "Binary dedup: duplicate JonGUIState field number " n
+               " used by: " (str/join ", " (map :name vs)) ".\n"
+               "  The generated TypeScript map would silently overwrite one entry.")
+          {:type   :duplicate-field-number
+           :number n
+           :names  (mapv :name vs)}))))
     extracted))
 
 ;; ============================================================================
@@ -257,22 +257,22 @@
    Throws ex-info with structured data if any map field is found, or if any
    of the fail-closed cases in `has-map-field?` trigger."
   [msg-index subsystem-fields]
-  (doseq [{:keys [name number type-name]} subsystem-fields]
+  (doseq [{nm :name, :keys [number type-name]} subsystem-fields]
     (when-let [resolved (get msg-index type-name)]
       (when-let [map-path (has-map-field? msg-index type-name resolved #{})]
-        (let [full-path (into [name] map-path)]
+        (let [full-path (into [nm] map-path)]
           (throw
-            (ex-info
-              (str "Binary dedup requires deterministic serialization.\n"
-                   "  Field path: ser.JonGUIState." (str/join " -> " full-path) "\n"
-                   "  Reason: map fields have non-deterministic key ordering.\n"
-                   "  Fix: Remove the map field or exclude this subsystem from binary dedup.\n"
-                   "  To add support: Add field number " number
-                   " to an exclusion set in binary_dedup.clj")
-              {:type         :non-deterministic-field
-               :path         full-path
-               :field-number number
-               :type-name    type-name})))))))
+           (ex-info
+            (str "Binary dedup requires deterministic serialization.\n"
+                 "  Field path: ser.JonGUIState." (str/join " -> " full-path) "\n"
+                 "  Reason: map fields have non-deterministic key ordering.\n"
+                 "  Fix: Remove the map field or exclude this subsystem from binary dedup.\n"
+                 "  To add support: Add field number " number
+                 " to an exclusion set in binary_dedup.clj")
+            {:type         :non-deterministic-field
+             :path         full-path
+             :field-number number
+             :type-name    type-name})))))))
 
 ;; ============================================================================
 ;; TypeScript Code Generation
@@ -281,8 +281,8 @@
 (defn generate-typescript
   "Generate TypeScript source for the binary dedup tag map constant."
   [subsystem-fields]
-  (let [entries (mapv (fn [{:keys [name number]}]
-                        (str "  " (manifest/snake->camel name) ": " number ","))
+  (let [entries (mapv (fn [{nm :name, :keys [number]}]
+                        (str "  " (manifest/snake->camel nm) ": " number ","))
                       subsystem-fields)]
     (str "// AUTO-GENERATED by protogen binary-dedup analyzer — DO NOT EDIT\n"
          "// Source: descriptor-set.json (ser.JonGUIState)\n"
@@ -312,11 +312,11 @@
                      (json/read-str (slurp (io/file descriptor-path)))
                      (catch Exception e
                        (throw (ex-info
-                                (str "Binary dedup: failed to read descriptor "
-                                     descriptor-path ": " (.getMessage e))
-                                {:type            :descriptor-parse-error
-                                 :descriptor-path descriptor-path}
-                                e))))
+                               (str "Binary dedup: failed to read descriptor "
+                                    descriptor-path ": " (.getMessage e))
+                               {:type            :descriptor-parse-error
+                                :descriptor-path descriptor-path}
+                               e))))
         msg-index  (build-message-index descriptor)
 
         ;; Find JonGUIState

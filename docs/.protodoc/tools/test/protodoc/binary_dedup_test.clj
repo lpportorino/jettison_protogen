@@ -1,8 +1,8 @@
 (ns protodoc.binary-dedup-test
-  (:require [clojure.test :refer [deftest testing is]]
-            [clojure.data.json :as json]
+  (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.string :as str]
+            [clojure.test :refer [deftest testing is]]
             [protodoc.binary-dedup :as bd]
             [protodoc.manifest :as manifest]))
 
@@ -44,13 +44,13 @@
       (let [fails (filter #(= :fail (:type %)) @captured)]
         (when-not (= 1 (count fails))
           (throw (ex-info
-                   (str "CANARY FAILURE: (is (= 1 2)) did not produce exactly 1 :fail "
-                        "report. Got " (count fails) " fails from " (count @captured)
-                        " total reports. clojure.test is silently broken — NO OTHER "
-                        "TEST RESULT CAN BE TRUSTED.")
-                   {:type :canary-failure
-                    :captured @captured
-                    :fail-count (count fails)})))))))
+                  (str "CANARY FAILURE: (is (= 1 2)) did not produce exactly 1 :fail "
+                       "report. Got " (count fails) " fails from " (count @captured)
+                       " total reports. clojure.test is silently broken — NO OTHER "
+                       "TEST RESULT CAN BE TRUSTED.")
+                  {:type :canary-failure
+                   :captured @captured
+                   :fail-count (count fails)})))))))
 
 (deftest CANARY-3-is-macro-reports-passes-test
   (testing "CANARY-3: (is true) reports :pass to clojure.test/report"
@@ -62,10 +62,10 @@
       (let [passes (filter #(= :pass (:type %)) @captured)]
         (when-not (= 1 (count passes))
           (throw (ex-info
-                   (str "CANARY FAILURE: (is true) did not produce exactly 1 :pass "
-                        "report. Got " (count passes) " passes.")
-                   {:type :canary-failure
-                    :pass-count (count passes)})))))))
+                  (str "CANARY FAILURE: (is true) did not produce exactly 1 :pass "
+                       "report. Got " (count passes) " passes.")
+                  {:type :canary-failure
+                   :pass-count (count passes)})))))))
 
 (deftest CANARY-4-thrown-with-msg-works-test
   (testing "CANARY-4: thrown-with-msg? matches exception patterns"
@@ -80,10 +80,10 @@
             fails (filter #(= :fail (:type %)) @captured)]
         (when-not (and (= 1 (count passes)) (zero? (count errors)) (zero? (count fails)))
           (throw (ex-info
-                   (str "CANARY FAILURE: thrown-with-msg? did not pass on a matching "
-                        "exception. passes=" (count passes) " errors=" (count errors)
-                        " fails=" (count fails))
-                   {:type :canary-failure})))))))
+                  (str "CANARY FAILURE: thrown-with-msg? did not pass on a matching "
+                       "exception. passes=" (count passes) " errors=" (count errors)
+                       " fails=" (count fails))
+                  {:type :canary-failure})))))))
 
 (deftest CANARY-5-sentinel-test-discovery-marker
   (testing "CANARY-5 sentinel: this test name appears in test output"
@@ -116,17 +116,17 @@
 
 (defn- make-field
   "Create a field descriptor for testing."
-  ([name number type]
-   {"name" name "number" number "type" type})
-  ([name number type type-name]
-   {"name" name "number" number "type" type "typeName" type-name})
-  ([name number type type-name label]
-   {"name" name "number" number "type" type "typeName" type-name "label" label}))
+  ([nm number ty]
+   {"name" nm "number" number "type" ty})
+  ([nm number ty type-name]
+   {"name" nm "number" number "type" ty "typeName" type-name})
+  ([nm number ty type-name label]
+   {"name" nm "number" number "type" ty "typeName" type-name "label" label}))
 
 (defn- make-message
   "Create a message descriptor for testing."
-  [name fields & {:keys [nested-types]}]
-  (cond-> {"name" name "field" fields}
+  [nm fields & {:keys [nested-types]}]
+  (cond-> {"name" nm "field" fields}
     nested-types (assoc "nestedType" nested-types)))
 
 (defn- make-descriptor
@@ -169,29 +169,29 @@
 (def ^:private minimal-gui-state
   "A minimal JonGUIState with two subsystem fields and root scalars."
   (make-file
-    "jon_shared_data.proto" "ser"
-    [(make-message "JonGUIState"
-                   [(make-field "protocol_version" 1 "TYPE_UINT32")
-                    (make-field "system_monotonic_time_us" 2 "TYPE_UINT64")
-                    (make-field "system" 13 "TYPE_MESSAGE" ".ser.JonGuiDataSystem")
-                    (make-field "gps" 17 "TYPE_MESSAGE" ".ser.JonGuiDataGps")])]))
+   "jon_shared_data.proto" "ser"
+   [(make-message "JonGUIState"
+                  [(make-field "protocol_version" 1 "TYPE_UINT32")
+                   (make-field "system_monotonic_time_us" 2 "TYPE_UINT64")
+                   (make-field "system" 13 "TYPE_MESSAGE" ".ser.JonGuiDataSystem")
+                   (make-field "gps" 17 "TYPE_MESSAGE" ".ser.JonGuiDataGps")])]))
 
 (def ^:private minimal-subsystems
   "Companion subsystem message definitions."
   (make-file
-    "jon_shared_data_system.proto" "ser"
-    [(make-message "JonGuiDataSystem"
-                   [(make-field "cpu_temperature" 1 "TYPE_DOUBLE")
-                    (make-field "gpu_temperature" 2 "TYPE_DOUBLE")
-                    (make-field "tracking" 18 "TYPE_BOOL")])]))
+   "jon_shared_data_system.proto" "ser"
+   [(make-message "JonGuiDataSystem"
+                  [(make-field "cpu_temperature" 1 "TYPE_DOUBLE")
+                   (make-field "gpu_temperature" 2 "TYPE_DOUBLE")
+                   (make-field "tracking" 18 "TYPE_BOOL")])]))
 
 (def ^:private minimal-gps
   (make-file
-    "jon_shared_data_gps.proto" "ser"
-    [(make-message "JonGuiDataGps"
-                   [(make-field "longitude" 1 "TYPE_DOUBLE")
-                    (make-field "latitude" 2 "TYPE_DOUBLE")
-                    (make-field "fix_type" 3 "TYPE_INT32")])]))
+   "jon_shared_data_gps.proto" "ser"
+   [(make-message "JonGuiDataGps"
+                  [(make-field "longitude" 1 "TYPE_DOUBLE")
+                   (make-field "latitude" 2 "TYPE_DOUBLE")
+                   (make-field "fix_type" 3 "TYPE_INT32")])]))
 
 ;; ============================================================================
 ;; snake->camel Tests
@@ -476,10 +476,10 @@
   (testing "Map field in subsystem fails with structured error"
     (let [map-entry (make-map-entry "CoordsEntry" "TYPE_STRING" "TYPE_DOUBLE")
           gps-with-map (make-file
-                         "jon_shared_data_gps.proto" "ser"
-                         [(make-message "JonGuiDataGps"
-                                        [(make-map-field "ser.JonGuiDataGps" "CoordsEntry" "coords" 10)]
-                                        :nested-types [map-entry])])
+                        "jon_shared_data_gps.proto" "ser"
+                        [(make-message "JonGuiDataGps"
+                                       [(make-map-field "ser.JonGuiDataGps" "CoordsEntry" "coords" 10)]
+                                       :nested-types [map-entry])])
           descriptor (make-descriptor minimal-gui-state minimal-subsystems gps-with-map)
           msg-index (#'bd/build-message-index descriptor)
           gui-state (get msg-index "ser.JonGUIState")
@@ -500,15 +500,15 @@
   (testing "Map field nested 2 levels deep fails with full path"
     (let [map-entry (make-map-entry "MetaEntry" "TYPE_STRING" "TYPE_STRING")
           meteo (make-file
-                  "jon_shared_data_types.proto" "ser"
-                  [(make-message "JonGuiDataMeteo"
-                                 [(make-map-field "ser.JonGuiDataMeteo" "MetaEntry" "meta" 10)]
-                                 :nested-types [map-entry])])
+                 "jon_shared_data_types.proto" "ser"
+                 [(make-message "JonGuiDataMeteo"
+                                [(make-map-field "ser.JonGuiDataMeteo" "MetaEntry" "meta" 10)]
+                                :nested-types [map-entry])])
           system-with-meteo (make-file
-                              "jon_shared_data_system.proto" "ser"
-                              [(make-message "JonGuiDataSystem"
-                                             [(make-field "meteo" 30 "TYPE_MESSAGE"
-                                                          ".ser.JonGuiDataMeteo")])])
+                             "jon_shared_data_system.proto" "ser"
+                             [(make-message "JonGuiDataSystem"
+                                            [(make-field "meteo" 30 "TYPE_MESSAGE"
+                                                         ".ser.JonGuiDataMeteo")])])
           descriptor (make-descriptor minimal-gui-state system-with-meteo meteo minimal-gps)
           msg-index (#'bd/build-message-index descriptor)
           gui-state (get msg-index "ser.JonGUIState")
@@ -529,21 +529,21 @@
     ;; Meteo has a map. Sort order puts system first → error points to system.
     (let [map-entry (make-map-entry "TagsEntry" "TYPE_STRING" "TYPE_STRING")
           meteo (make-file
-                  "jon_shared_data_meteo.proto" "ser"
-                  [(make-message "JonGuiDataMeteo"
-                                 [(make-map-field "ser.JonGuiDataMeteo" "TagsEntry" "tags" 1)]
-                                 :nested-types [map-entry])])
+                 "jon_shared_data_meteo.proto" "ser"
+                 [(make-message "JonGuiDataMeteo"
+                                [(make-map-field "ser.JonGuiDataMeteo" "TagsEntry" "tags" 1)]
+                                :nested-types [map-entry])])
           ;; system subsystem has ONE field: meteo → Meteo (with map)
           system-file (make-file
-                        "jon_shared_data_system.proto" "ser"
-                        [(make-message "JonGuiDataSystem"
-                                       [(make-field "meteo" 1 "TYPE_MESSAGE" ".ser.JonGuiDataMeteo")])])
+                       "jon_shared_data_system.proto" "ser"
+                       [(make-message "JonGuiDataSystem"
+                                      [(make-field "meteo" 1 "TYPE_MESSAGE" ".ser.JonGuiDataMeteo")])])
           ;; Root with two subsystems, both reaching the bad Meteo
           root (make-file
-                 "jon_shared_data.proto" "ser"
-                 [(make-message "JonGUIState"
-                                [(make-field "system" 13 "TYPE_MESSAGE" ".ser.JonGuiDataSystem")
-                                 (make-field "meteo_internal" 14 "TYPE_MESSAGE" ".ser.JonGuiDataMeteo")])])
+                "jon_shared_data.proto" "ser"
+                [(make-message "JonGUIState"
+                               [(make-field "system" 13 "TYPE_MESSAGE" ".ser.JonGuiDataSystem")
+                                (make-field "meteo_internal" 14 "TYPE_MESSAGE" ".ser.JonGuiDataMeteo")])])
           descriptor (make-descriptor root system-file meteo)
           msg-index (#'bd/build-message-index descriptor)
           gui-state (get msg-index "ser.JonGUIState")
@@ -837,10 +837,10 @@
 (deftest generate!-renumbered-fields-coherence-test
   (testing "Swapping subsystem numbers still produces coherent output"
     (let [swapped-root (make-file
-                         "jon_shared_data.proto" "ser"
-                         [(make-message "JonGUIState"
-                                        [(make-field "heater" 13 "TYPE_MESSAGE" ".ser.Heater")
-                                         (make-field "system" 31 "TYPE_MESSAGE" ".ser.System")])])
+                        "jon_shared_data.proto" "ser"
+                        [(make-message "JonGUIState"
+                                       [(make-field "heater" 13 "TYPE_MESSAGE" ".ser.Heater")
+                                        (make-field "system" 31 "TYPE_MESSAGE" ".ser.System")])])
           heater-file (make-file "heater.proto" "ser"
                                  [(make-message "Heater"
                                                 [(make-field "t" 1 "TYPE_FLOAT")])])
@@ -1046,12 +1046,12 @@
         (let [result (bd/generate! real-descriptor-path (.getPath out-file))
               ts (slurp out-file)
               parsed-map (into {} (parse-ts-entries ts))]
-          (doseq [{:keys [name number]} (:fields result)]
-            (let [camel (manifest/snake->camel name)]
+          (doseq [{nm :name, number :number} (:fields result)]
+            (let [camel (manifest/snake->camel nm)]
               (is (contains? parsed-map camel)
-                  (str "Subsystem '" name "' (camel: " camel ") missing from generated TS"))
+                  (str "Subsystem '" nm "' (camel: " camel ") missing from generated TS"))
               (is (= number (get parsed-map camel))
-                  (str "Subsystem '" name "' field number mismatch: descriptor="
+                  (str "Subsystem '" nm "' field number mismatch: descriptor="
                        number " ts=" (get parsed-map camel))))))))))
 
 (deftest coverage-all-subsystem-wire-tags-are-length-delimited-test
@@ -1060,18 +1060,18 @@
       (let [out-file (java.io.File/createTempFile "coverage" ".ts")]
         (.deleteOnExit out-file)
         (let [result (bd/generate! real-descriptor-path (.getPath out-file))]
-          (doseq [{:keys [name number]} (:fields result)]
+          (doseq [{nm :name, number :number} (:fields result)]
             (let [wire-tag (bit-or (bit-shift-left number 3) 2)]
               ;; Wire tag must be positive (no varint overflow)
               (is (pos? wire-tag)
-                  (str "Subsystem '" name "' wire tag overflowed: " wire-tag))
+                  (str "Subsystem '" nm "' wire tag overflowed: " wire-tag))
               ;; Wire type must be 2 (length-delimited)
               (is (= 2 (bit-and wire-tag 7))
-                  (str "Subsystem '" name "' wire type is not 2: " (bit-and wire-tag 7)))
+                  (str "Subsystem '" nm "' wire type is not 2: " (bit-and wire-tag 7)))
               ;; Field number must fit in a single-byte varint (shifted) for our schema —
               ;; sanity check that we're not using absurdly large field numbers
               (is (< number (bit-shift-left 1 14))
-                  (str "Subsystem '" name "' field number " number
+                  (str "Subsystem '" nm "' field number " number
                        " is unusually large; scanner varint handling should still be correct"
                        " but this warrants explicit review.")))))))))
 
@@ -1084,48 +1084,48 @@
            {:label "TYPE_GROUP at extraction"
             :expected :unsupported-type-group
             :fn #(bd/extract-subsystem-fields
-                   (make-message "JonGUIState"
-                                 [(make-field "g" 13 "TYPE_GROUP" ".ser.G")]))}
+                  (make-message "JonGUIState"
+                                [(make-field "g" 13 "TYPE_GROUP" ".ser.G")]))}
            ;; TYPE_GROUP at recursion (via has-map-field?)
            {:label "TYPE_GROUP at recursion"
             :expected :unsupported-type-group
             :fn #(let [m (make-message "M"
                                        [(make-field "g" 1 "TYPE_GROUP" ".ser.G")])]
-                    (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
+                   (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
            ;; Unresolved type reference
            {:label "Unresolved type reference"
             :expected :unresolved-type-reference
             :fn #(let [m (make-message "M"
                                        [(make-field "f" 1 "TYPE_MESSAGE" ".ser.Missing")])]
-                    (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
+                   (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
            ;; Null typeName
            {:label "Null typeName"
             :expected :null-type-name
             :fn #(let [m (make-message "M"
                                        [{"name" "f" "number" 1 "type" "TYPE_MESSAGE" "typeName" nil}])]
-                    (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
+                   (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
            ;; Unknown field type at extraction
            {:label "Unknown type at extraction"
             :expected :unknown-field-type
             :fn #(bd/extract-subsystem-fields
-                   (make-message "JonGUIState"
-                                 [(make-field "w" 13 "TYPE_WIBBLE")]))}
+                  (make-message "JonGUIState"
+                                [(make-field "w" 13 "TYPE_WIBBLE")]))}
            ;; Unknown field type at recursion
            {:label "Unknown type at recursion"
             :expected :unknown-field-type
             :fn #(let [m (make-message "M"
                                        [(make-field "w" 1 "TYPE_WIBBLE")])]
-                    (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
+                   (bd/has-map-field? {"ser.M" m} "ser.M" m #{}))}
            ;; Duplicate field numbers
            {:label "Duplicate field numbers"
             :expected :duplicate-field-number
             :fn #(bd/extract-subsystem-fields
-                   (make-message "JonGUIState"
-                                 [(make-field "a" 13 "TYPE_MESSAGE" ".ser.A")
-                                  (make-field "b" 13 "TYPE_MESSAGE" ".ser.B")]))}]]
-      (doseq [{:keys [label expected fn]} cases]
+                  (make-message "JonGUIState"
+                                [(make-field "a" 13 "TYPE_MESSAGE" ".ser.A")
+                                 (make-field "b" 13 "TYPE_MESSAGE" ".ser.B")]))}]]
+      (doseq [{:keys [label expected] case-fn :fn} cases]
         (try
-          (fn)
+          (case-fn)
           (is false (str "Case '" label "' should have thrown but didn't"))
           (catch clojure.lang.ExceptionInfo e
             (is (= expected (:type (ex-data e)))

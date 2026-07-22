@@ -152,9 +152,9 @@
   {:num-tests 150 :seed 4242}
   (prop/for-all [m message-gen
                  seed seed-gen]
-    (let [d (get @pool* m)
-          edn (assemble/generate @pool* @db* m seed)]
-      (:byte-identical? (gc/roundtrip d edn)))))
+                (let [d (get @pool* m)
+                      edn (assemble/generate @pool* @db* m seed)]
+                  (:byte-identical? (gc/roundtrip d edn)))))
 
 ;; ── 2. decoded == edn at wire width (the generative heart) ─────────────
 
@@ -162,10 +162,10 @@
   {:num-tests 150 :seed 808080}
   (prop/for-all [m message-gen
                  seed seed-gen]
-    (let [d (get @pool* m)
-          edn (assemble/generate @pool* @db* m seed)
-          {:keys [reparsed]} (gc/roundtrip d edn)]
-      (empty? (msg-mismatches d edn reparsed "")))))
+                (let [d (get @pool* m)
+                      edn (assemble/generate @pool* @db* m seed)
+                      {:keys [reparsed]} (gc/roundtrip d edn)]
+                  (empty? (msg-mismatches d edn reparsed "")))))
 
 (deftest decoded-equals-edn-grid
   (testing "decoded==edn over a fixed message×seed grid (readable diagnostics)"
@@ -187,9 +187,9 @@
   ;; EDN never carries a wider double than the 32-bit wire stores.
   (prop/for-all [m (gen/elements ["ser.ObjectDetection" "ser.CvChannelMeta"])
                  seed seed-gen]
-    (let [edn (assemble/generate @pool* @db* m seed)]
-      (every? (fn [^double x] (= x (double (float x))))
-              (filter #(instance? Double %) (doubles-in edn))))))
+                (let [edn (assemble/generate @pool* @db* m seed)]
+                  (every? (fn [^double x] (= x (double (float x))))
+                          (filter #(instance? Double %) (doubles-in edn))))))
 
 ;; ── 4. determinism: same seed ⇒ equal EDN ⇒ byte-identical wire ────────
 
@@ -197,13 +197,13 @@
   {:num-tests 100 :seed 99991}
   (prop/for-all [m message-gen
                  seed seed-gen]
-    (let [d (get @pool* m)
-          a (assemble/generate @pool* @db* m seed)
-          b (assemble/generate @pool* @db* m seed)]
-      (and (= a b)
-           (let [^bytes wa (pool/->bin (pool/build-msg d a))
-                 ^bytes wb (pool/->bin (pool/build-msg d b))]
-             (java.util.Arrays/equals wa wb))))))
+                (let [d (get @pool* m)
+                      a (assemble/generate @pool* @db* m seed)
+                      b (assemble/generate @pool* @db* m seed)]
+                  (and (= a b)
+                       (let [^bytes wa (pool/->bin (pool/build-msg d a))
+                             ^bytes wb (pool/->bin (pool/build-msg d b))]
+                         (java.util.Arrays/equals wa wb))))))
 
 ;; ── 5. positive corpus: valid + non-empty (independently re-validated) ─
 
@@ -242,13 +242,13 @@
   ;; the field bug #4 fixed: malli's bare-:double generator emits NaN/±Inf, the
   ;; finite ±FLT_MAX bounding does not. A revert would surface a NaN/Inf here.
   (prop/for-all [seed seed-gen]
-    (let [edn (assemble/generate @pool* @db* "ser.CvChannelMeta" seed)]
-      (every? (fn [^double x] (and (Double/isFinite x)
-                                   (<= (- flt-max) x flt-max)))
-              (filter #(instance? Double %)
-                      (concat (get edn "sharpness_level1")
-                              (get edn "sharpness_level2")
-                              (get edn "sharpness_level3")))))))
+                (let [edn (assemble/generate @pool* @db* "ser.CvChannelMeta" seed)]
+                  (every? (fn [^double x] (and (Double/isFinite x)
+                                               (<= (- flt-max) x flt-max)))
+                          (filter #(instance? Double %)
+                                  (concat (get edn "sharpness_level1")
+                                          (get edn "sharpness_level2")
+                                          (get edn "sharpness_level3")))))))
 
 ;; ── 7. uint64 never negative + 2^64-1 reachable + round-trips (BUG #1) ─
 

@@ -14,6 +14,19 @@
 #   renderer/src/font_*.c   generated LVGL font data
 #   docs/proto/**           generated markdown
 #
+# WHERE EACH LANE CAN RUN. Only the lanes that REWRITE committed source are
+# bound to the pinned container (see .claude/rules/uber-container.md):
+#   fmt-c / fmt-c-fix  container or host — the pinned clang-format lives in the
+#                      WASI-SDK, so `tools/uber.sh` is the correct entry point.
+#   fmt-clj*           container or host — cljfmt is a pinned dep in deps.edn.
+#   lint-clj           HOST or CI only — clj-kondo is NOT in the uber image, and
+#                      does not need to be: a linter emits findings, never a
+#                      committed artifact, so the uber-container rule does not
+#                      reach it. CI pins it via clj-kondo/setup-clj-kondo (the
+#                      devcards workflow already does). This is why
+#                      `tools/uber.sh 'make -f lint.mk lint'` fails on lint-clj
+#                      while each other lane runs there happily.
+#
 # PARALLELISM — every lane saturates the machine it runs on. NPROC is detected
 # at run time (Linux/macOS/POSIX fallback) rather than pinned, because dev
 # machines differ and CI runners differ again; a hardcoded -j would either

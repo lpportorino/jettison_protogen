@@ -27,8 +27,7 @@
             [protodoc.gencorpus.pool :as pool])
   (:import [com.google.protobuf
             Descriptors$Descriptor
-            Descriptors$FieldDescriptor
-            Descriptors$FieldDescriptor$JavaType])
+            Descriptors$FieldDescriptor])
   (:gen-class))
 
 (set! *warn-on-reflection* true)
@@ -91,9 +90,9 @@
      :bin wire}))
 
 (defn random-entries
-  "`count` seed-deterministic random entries for `full-name` (base seed `seed`)."
-  [pool db full-name seed count]
-  (for [i (range count)
+  "`n` seed-deterministic random entries for `full-name` (base seed `seed`)."
+  [pool db full-name seed n]
+  (for [i (range n)
         :let [s (+ seed i)]]
     (entry pool full-name (assemble/generate pool db full-name s) :random s)))
 
@@ -232,15 +231,16 @@
    {:positive [...] :boundary-failures [...] :violating [...]}. A boundary entry
    that fails the oracle is surfaced (a faithful boundary should be valid) — not
    silently dropped."
-  [{:keys [pool db message seed count]
-    :or {seed 1 count 16}}]
+  [{:keys [pool db message seed]
+    n :count
+    :or {seed 1, n 16}}]
   (let [^Descriptors$Descriptor d (get pool message)
         ;; the boundary base (same seed boundary-corpus uses) — if IT is already
         ;; oracle-invalid (proto-db drift in some OTHER field, e.g. CvChannelMeta's
         ;; stale min_items), a rejected boundary entry inherits that, NOT a bad
         ;; boundary value. boundary-failures are meaningful only on a valid base.
         base-valid? (oracle/valid? (pool/build-msg d (assemble/generate pool db message seed)))
-        randoms (random-entries pool db message seed count)
+        randoms (random-entries pool db message seed n)
         bounds (boundary-entries pool db message seed)
         candidates (violating-entries pool db message seed)
         clamp      (clamp-entries pool db message seed)
@@ -295,10 +295,11 @@
 (defn run
   "Programmatic entry: build the pool + db, generate the corpora, optionally
    write them. opts: :descriptor :db-path :message :count :seed :output."
-  [{:keys [descriptor db-path message count seed output pins]
+  [{:keys [descriptor db-path message seed output pins]
+    n :count
     :or {descriptor "../../../output/json-descriptors/descriptor-set.binpb"
          db-path "../proto-db.edn"
-         count 16 seed 1}}]
+         n 16, seed 1}}]
   (when-not message
     (throw (ex-info "gen-corpus requires --message <full.Name>" {})))
   (let [pool (pool/load-pool descriptor)
@@ -310,17 +311,17 @@
         ;; nested oneof is filtered). nil ⇒ unconstrained.
         {:keys [positive violating boundary-failures violating-drift clamp silent-drops]}
         (binding [assemble/*pins* pins]
-          (gen-corpus {:pool pool :db db :message message :seed seed :count count}))
+          (gen-corpus {:pool pool :db db :message message :seed seed :count n}))
         all (concat positive violating clamp)]
     (when output
       (write-corpus! output all))
     {:message message
-     :positive (clojure.core/count positive)
-     :violating (clojure.core/count violating)
-     :boundary-failures (clojure.core/count boundary-failures)
-     :violating-drift (clojure.core/count violating-drift)
-     :clamp (clojure.core/count clamp)
-     :silent-drops (clojure.core/count silent-drops)
+     :positive (count positive)
+     :violating (count violating)
+     :boundary-failures (count boundary-failures)
+     :violating-drift (count violating-drift)
+     :clamp (count clamp)
+     :silent-drops (count silent-drops)
      :empty-positive? (empty? positive)
      :output output}))
 
@@ -357,9 +358,9 @@
 (defn -main
   "CLI: gen-corpus options (see ns docstring)."
   [& args]
-  (let [{:keys [count seed pin] :as opts} (parse-args args)
+  (let [{n :count, :keys [seed pin] :as opts} (parse-args args)
         opts (cond-> opts
-               count (assoc :count (parse-pos-int "--count" count))
+               n (assoc :count (parse-pos-int "--count" n))
                seed (assoc :seed (parse-pos-int "--seed" seed))
                pin (assoc :pins (parse-pins pin)))]
     (if-not (:message opts)

@@ -49,8 +49,8 @@
   "Parse '- **Key:** value' format.
    Returns [key value] or nil."
   [line]
-  (when-let [[_ key value] (re-matches #"- \*\*([^:]+):\*\*\s*(.*)" line)]
-    [(-> key str/lower-case (str/replace " " "-") keyword)
+  (when-let [[_ k value] (re-matches #"- \*\*([^:]+):\*\*\s*(.*)" line)]
+    [(-> k str/lower-case (str/replace " " "-") keyword)
      (str/trim value)]))
 
 (defn- extract-wikilinks
@@ -160,14 +160,14 @@
           :unit (swap! result assoc :unit v)
           :precision (swap! result assoc :precision (parse-long v))
           :display-format (let [v (str/replace v #"`" "")]
-                           (swap! result assoc :display-format v))
+                            (swap! result assoc :display-format v))
           :presets (let [items (->> (str/split v #",\s*")
                                     (mapv (fn [s]
                                             (let [s (str/trim s)]
                                               (if-let [n (parse-double s)]
                                                 n
                                                 s)))))]
-                    (swap! result assoc :presets items))
+                     (swap! result assoc :presets items))
           nil)))
     @result))
 
@@ -175,8 +175,8 @@
   "Parse '### field_name (#number)' format.
    Returns [field-name field-number] or nil."
   [line]
-  (when-let [[_ name num] (re-matches #"### (\S+) \(#(\d+)\)" line)]
-    [name (parse-long num)]))
+  (when-let [[_ fname num-str] (re-matches #"### (\S+) \(#(\d+)\)" line)]
+    [fname (parse-long num-str)]))
 
 (defn- extract-sections
   "Extract sections from markdown lines.
@@ -241,8 +241,8 @@
               ;; Flush previous field note if any
               (flush-field!)
               ;; Start new field note
-              (if-let [[_ num] (parse-field-header line)]
-                (reset! current-field num)
+              (if-let [[_ fnum] (parse-field-header line)]
+                (reset! current-field fnum)
                 (reset! current-field nil)))
 
             ;; Field metadata header (#### Metadata)
@@ -262,7 +262,7 @@
               (swap! field-desc-buffer conj line)
 
               ;; In regular section
-              (or @current-section)
+              @current-section
               (swap! buffer conj line)))))
 
       ;; Flush remaining buffer
@@ -430,10 +430,10 @@
                                         (let [old-vals-by-num (into {}
                                                                     (map (juxt :number identity)
                                                                          (:values old-enum)))]
-                                          (mapv (fn [val]
-                                                  (if-let [old-desc (get-in old-vals-by-num [(:number val) :description])]
-                                                    (assoc val :description old-desc)
-                                                    val))
+                                          (mapv (fn [v]
+                                                  (if-let [old-desc (get-in old-vals-by-num [(:number v) :description])]
+                                                    (assoc v :description old-desc)
+                                                    v))
                                                 values))))))
                      (assoc e id enum)))
                  {}

@@ -60,9 +60,9 @@
         :let [values (:values enum)
               total (count values)
               undoc (count (filter (fn [v]
-                                    (let [d (:description v)]
-                                      (or (nil? d) (str/blank? d) (= d "-"))))
-                                  values))]
+                                     (let [d (:description v)]
+                                       (or (nil? d) (str/blank? d) (= d "-"))))
+                                   values))]
         :when (and (pos? total) (pos? undoc))]
     {:rule     :enum-values-undocumented
      :severity :warning

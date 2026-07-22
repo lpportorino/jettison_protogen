@@ -1,14 +1,12 @@
 (ns protodoc.roundtrip-test
   "End-to-end roundtrip tests: generate → edit → regenerate → verify preserved."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [clojure.string :as str]
+            [clojure.test :refer [deftest testing is]]
             [clojure.test.check :as tc]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
-            [malli.generator :as mg]
-            [protodoc.schema :as schema]
-            [protodoc.render :as render]
             [protodoc.extract :as extract]
-            [clojure.string :as str]))
+            [protodoc.render :as render]))
 
 (deftest roundtrip-description-test
   (testing "Message description survives roundtrip"
@@ -222,4 +220,4 @@
       ;; Field 1 interaction should be preserved
       (is (= :normalized (get-in (first (:fields msg)) [:interaction :semantic-type])))
       ;; New field 2 should have no interaction
-      (is (nil? (get-in (second (:fields msg)) [:interaction]))))))
+      (is (nil? (:interaction (second (:fields msg))))))))

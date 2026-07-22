@@ -1,8 +1,9 @@
 (ns protodoc.manifest-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.data.json :as json]
             [clojure.edn :as edn]
-            [clojure.data.json :as json]
             [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.test :refer [deftest is testing]]
             [malli.core :as m]
             [protodoc.manifest :as manifest]))
 
@@ -87,34 +88,34 @@
 (deftest group-message-test
   (testing "standard group with required cmd oneof"
     (is (manifest/group-message?
-          {:id "cmd.DayCamera.Focus"
-           :oneofs [{:name "cmd" :required true :fields [1 2 3]}]})))
+         {:id "cmd.DayCamera.Focus"
+          :oneofs [{:name "cmd" :required true :fields [1 2 3]}]})))
 
   (testing "Lrf_calib.Offsets (has cmd oneof)"
     (is (manifest/group-message?
-          {:id "cmd.Lrf_calib.Offsets"
-           :oneofs [{:name "cmd" :required true :fields [1 2 3 4]}]})))
+         {:id "cmd.Lrf_calib.Offsets"
+          :oneofs [{:name "cmd" :required true :fields [1 2 3 4]}]})))
 
   (testing "Root is NOT a group"
     (is (not (manifest/group-message?
-               {:id "cmd.Compass.Root"
-                :oneofs [{:name "cmd" :required true :fields [1 2]}]}))))
+              {:id "cmd.Compass.Root"
+               :oneofs [{:name "cmd" :required true :fields [1 2]}]}))))
 
   (testing "leaf command is NOT a group"
     (is (not (manifest/group-message?
-               {:id "cmd.DayCamera.SetIris"
-                :fields [{:number 1 :name "value" :type :double}]})))))
+              {:id "cmd.DayCamera.SetIris"
+               :fields [{:number 1 :name "value" :type :double}]})))))
 
 (deftest routing-container-test
   (is (manifest/routing-container?
-        {:id "cmd.Compass.Root"
-         :oneofs [{:name "cmd" :required true :fields [1]}]}))
+       {:id "cmd.Compass.Root"
+        :oneofs [{:name "cmd" :required true :fields [1]}]}))
   (is (manifest/routing-container?
-        {:id "cmd.DayCamera.Focus"
-         :oneofs [{:name "cmd" :required true :fields [1 2]}]}))
+       {:id "cmd.DayCamera.Focus"
+        :oneofs [{:name "cmd" :required true :fields [1 2]}]}))
   (is (not (manifest/routing-container?
-             {:id "cmd.DayCamera.SetIris"
-              :fields [{:number 1 :name "value" :type :double}]}))))
+            {:id "cmd.DayCamera.SetIris"
+             :fields [{:number 1 :name "value" :type :double}]}))))
 
 ;; ============================================================================
 ;; Constraints → Malli Tests
@@ -140,7 +141,7 @@
 (deftest constraints->malli-test
   (testing "double — inclusive range (gte/lte) needs NO :fn"
     (let [s (manifest/constraints->malli
-              {:type :double :constraints {:gte 0 :lte 1}} {})]
+             {:type :double :constraints {:gte 0 :lte 1}} {})]
       (is (= [:double {:min 0 :max 1}] s))
       (is (edn-roundtrips? s))))
 
@@ -151,19 +152,19 @@
 
   (testing "float kept DISTINCT from double"
     (let [s (manifest/constraints->malli
-              {:type :float :constraints {:gte 0 :lte 1}} {})]
+             {:type :float :constraints {:gte 0 :lte 1}} {})]
       (is (= [:float {:min 0 :max 1}] s))
       (is (edn-roundtrips? s))))
 
   (testing "int32 with inclusive range (gte/lte)"
     (let [s (manifest/constraints->malli
-              {:type :int32 :constraints {:gte 0 :lte 255}} {})]
+             {:type :int32 :constraints {:gte 0 :lte 255}} {})]
       (is (= [:int {:min 0 :max 255}] s))
       (is (edn-roundtrips? s))))
 
   (testing "int32 lt is exclusive — dec IS correct for ints (max = b-1)"
     (let [s (manifest/constraints->malli
-              {:type :int32 :constraints {:lt 595 :gte 0}} {})]
+             {:type :int32 :constraints {:lt 595 :gte 0}} {})]
       (is (= [:int {:min 0 :max 594}] s))
       (is (edn-roundtrips? s))
       (is (m/validate s 594))
@@ -171,20 +172,20 @@
 
   (testing "int32 gt is exclusive — inc IS correct for ints (min = a+1)"
     (let [s (manifest/constraints->malli
-              {:type :int32 :constraints {:gt 0}} {})]
+             {:type :int32 :constraints {:gt 0}} {})]
       ;; gt:0 → :no-default marker AND open upper end capped at int32-max
       (is (= [:int {:min 1 :max 2147483647 :no-default true}] s))
       (is (edn-roundtrips? s))))
 
   (testing "int gte-only caps the open upper end at int32-max (finite gen)"
     (let [s (manifest/constraints->malli
-              {:type :int32 :constraints {:gte 5}} {})]
+             {:type :int32 :constraints {:gte 5}} {})]
       (is (= [:int {:min 5 :max 2147483647}] s))
       (is (edn-roundtrips? s))))
 
   (testing "uint32 with range"
     (let [s (manifest/constraints->malli
-              {:type :uint32 :constraints {:gte 0 :lte 100}} {})]
+             {:type :uint32 :constraints {:gte 0 :lte 100}} {})]
       (is (= [:int {:min 0 :max 100}] s))
       (is (edn-roundtrips? s))))
 
@@ -202,7 +203,7 @@
 
   (testing "int64 → bounded :int honoring constraints (NOT bare :int)"
     (let [s (manifest/constraints->malli
-              {:type :int64 :constraints {:gte 0}} {})]
+             {:type :int64 :constraints {:gte 0}} {})]
       (is (= [:int {:min 0 :max 9223372036854775807}] s))
       (is (edn-roundtrips? s))
       (is (not (m/validate s -1)))
@@ -220,7 +221,7 @@
 
   (testing "uint64 with the unsigned floor — no negatives, upper half reachable"
     (let [s (manifest/constraints->malli
-              {:type :uint64 :constraints {:gte 0 :lte 1000}} {})]
+             {:type :uint64 :constraints {:gte 0 :lte 1000}} {})]
       (is (= [:uint64 {:min 0N :max 1000N}] s))
       (is (edn-roundtrips? s))))
 
@@ -229,14 +230,14 @@
       (is (= :bytes s))
       (is (edn-roundtrips? s)))
     (let [s (manifest/constraints->malli
-              {:type :bytes :constraints {:max-len 64}} {})]
+             {:type :bytes :constraints {:max-len 64}} {})]
       (is (= [:bytes {:max 64}] s))
       (is (edn-roundtrips? s))))
 
   (testing "string :pattern → [:re pattern] (regex subsumes length)"
     (let [uuid-re "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
           s (manifest/constraints->malli
-              {:type :string :constraints {:pattern uuid-re :min-len 36 :max-len 36}} {})]
+             {:type :string :constraints {:pattern uuid-re :min-len 36 :max-len 36}} {})]
       (is (= [:re uuid-re] s))
       (is (edn-roundtrips? s))
       (is (m/validate s "12345678-1234-1234-1234-123456789abc"))
@@ -244,7 +245,7 @@
 
   (testing "string :in → [:enum allowed...]"
     (let [s (manifest/constraints->malli
-              {:type :string :constraints {:in ["error" "warn" "info"]}} {})]
+             {:type :string :constraints {:in ["error" "warn" "info"]}} {})]
       (is (= [:enum "error" "warn" "info"] s))
       (is (edn-roundtrips? s))
       (is (m/validate s "warn"))
@@ -260,23 +261,23 @@
   (testing "int gt at the type maximum is an empty range → fail loud (not a silent accept)"
     (is (thrown? clojure.lang.ExceptionInfo
                  (manifest/constraints->malli
-                   {:type :int32 :constraints {:gt 2147483647}} {}))))
+                  {:type :int32 :constraints {:gt 2147483647}} {}))))
 
   (testing "string with min length"
     (let [s (manifest/constraints->malli
-              {:type :string :constraints {:min-len 1}} {})]
+             {:type :string :constraints {:min-len 1}} {})]
       (is (= [:string {:min 1}] s))
       (is (edn-roundtrips? s))))
 
   (testing "string with min AND max length"
     (let [s (manifest/constraints->malli
-              {:type :string :constraints {:min-len 36 :max-len 36}} {})]
+             {:type :string :constraints {:min-len 36 :max-len 36}} {})]
       (is (= [:string {:min 36 :max 36}] s))
       (is (edn-roundtrips? s))))
 
   (testing ":no-default marker — scalar gte:1 (proto3 zero-reject)"
     (let [s (manifest/constraints->malli
-              {:type :uint32 :constraints {:gte 1}} {})]
+             {:type :uint32 :constraints {:gte 1}} {})]
       (is (= [:int {:min 1 :max 4294967295 :no-default true}] s))
       (is (edn-roundtrips? s))
       ;; the marker is a real malli property — schema still validates/excludes 0
@@ -285,7 +286,7 @@
 
   (testing "double exclusive lt — NOT dec, boundary excluded via :fn guard"
     (let [s (manifest/constraints->malli
-              {:type :double :constraints {:lt 360 :gte 0}} {})]
+             {:type :double :constraints {:lt 360 :gte 0}} {})]
       ;; props keep the bound INCLUSIVE (360, not 359); the :fn excludes it.
       ;; A fn is not edn-readable, so assert via m/validate on boundaries.
       (is (= :and (first s)))
@@ -297,7 +298,7 @@
 
   (testing "double exclusive both ends (gt/lt) — both boundaries excluded"
     (let [s (manifest/constraints->malli
-              {:type :double :constraints {:lt 360 :gt -360}} {})]
+             {:type :double :constraints {:lt 360 :gt -360}} {})]
       (is (= [:double {:min -360 :max 360}] (second s)))
       (is (m/validate s 0.0))
       (is (m/validate s 359.9999))
@@ -306,10 +307,10 @@
 
   (testing "enum not_in:[0] — sentinel excluded + :no-default marker"
     (let [s (manifest/constraints->malli
-              {:type :enum
-               :type-ref "ser.JonGuiDataRotaryDirection"
-               :constraints {:defined-only true :not-in [0]}}
-              enums-fixture)]
+             {:type :enum
+              :type-ref "ser.JonGuiDataRotaryDirection"
+              :constraints {:defined-only true :not-in [0]}}
+             enums-fixture)]
       ;; UNSPECIFIED (:number 0) dropped; allowed subset is the explicit names
       (is (= [:enum {:no-default true}
               "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"
@@ -321,10 +322,10 @@
 
   (testing "enum defined_only WITHOUT not_in — full value set, no marker"
     (let [s (manifest/constraints->malli
-              {:type :enum
-               :type-ref "ser.JonGuiDataRotaryDirection"
-               :constraints {:defined-only true}}
-              enums-fixture)]
+             {:type :enum
+              :type-ref "ser.JonGuiDataRotaryDirection"
+              :constraints {:defined-only true}}
+             enums-fixture)]
       (is (= [:enum
               "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED"
               "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"
@@ -334,10 +335,10 @@
 
   (testing "enum general not_in:[2] is a LITERAL exclusion (no :no-default)"
     (let [s (manifest/constraints->malli
-              {:type :enum
-               :type-ref "ser.JonGuiDataRotaryDirection"
-               :constraints {:not-in [2]}}
-              enums-fixture)]
+             {:type :enum
+              :type-ref "ser.JonGuiDataRotaryDirection"
+              :constraints {:not-in [2]}}
+             enums-fixture)]
       (is (= [:enum
               "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED"
               "JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE"]
@@ -346,7 +347,7 @@
 
   (testing "enum not in enums-map falls back to :string"
     (let [s (manifest/constraints->malli
-              {:type :enum :type-ref "ser.Missing"} enums-fixture)]
+             {:type :enum :type-ref "ser.Missing"} enums-fixture)]
       (is (= :string s))
       (is (edn-roundtrips? s)))))
 
@@ -385,7 +386,7 @@
           (is (some #(= "cmd/compass/stop" (:path %)) compass-eps))))
 
       (testing "day-camera has nested focus/zoom endpoints"
-        (let [focus-eps (filter #(clojure.string/starts-with? (:path %) "cmd/day-camera/focus/")
+        (let [focus-eps (filter #(str/starts-with? (:path %) "cmd/day-camera/focus/")
                                 (:endpoints result))]
           (is (>= (count focus-eps) 4))
           (is (some #(= "cmd/day-camera/focus/set-value" (:path %)) focus-eps))))
@@ -397,7 +398,7 @@
           (is (some #(= "cmd/lrf-calib/heat/set" (:path %)) lrf-eps))))
 
       (testing "no Root or group messages appear as endpoints"
-        (is (not-any? #(clojure.string/ends-with? (:id %) ".Root")
+        (is (not-any? #(str/ends-with? (:id %) ".Root")
                       (:endpoints result)))
         ;; Check no group IDs appear
         (let [group-ids #{"cmd.DayCamera.Focus" "cmd.DayCamera.Zoom"
@@ -461,8 +462,7 @@
     (let [config (load-config)
           endpoints-data (manifest/extract-endpoints db config)
           signals-data (manifest/extract-signals db config)
-          sub-signals-data (manifest/extract-sub-signals db config)
-          result (manifest/build-reverse-index endpoints-data signals-data sub-signals-data)]
+          result (manifest/build-reverse-index endpoints-data signals-data)]
       (testing "has all three index types"
         (is (map? (:by-doc-file result)))
         (is (map? (:by-endpoint result)))
@@ -481,7 +481,7 @@
 (deftest full-manifest-generation-test
   (when-let [_db (load-db)]
     (let [tmp-dir (str (System/getProperty "java.io.tmpdir") "/manifest-test-" (System/nanoTime))
-          result (manifest/generate-manifests
+          _result (manifest/generate-manifests
                    {:db-path db-path
                     :config-path config-path
                     :output-dir tmp-dir

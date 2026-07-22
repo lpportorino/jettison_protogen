@@ -177,9 +177,9 @@
 (defn- ping-steps
   "Expand a `:ping` phase into `:count` keepalive steps at `:every-ms` cadence."
   [pool db phase phase-idx base-seed t0]
-  (let [{:keys [every-ms count]} phase]
+  (let [{:keys [every-ms], cnt :count} phase]
     (loop [i 0, t t0, acc []]
-      (if (= i count)
+      (if (= i cnt)
         {:steps acc :end-ms t}
         (let [seed (step-seed base-seed phase-idx i)
               edn (build-root pool db {"payload" #{"ping"}} nil nil t seed)]
@@ -400,13 +400,13 @@
         entries (map-indexed (fn [i s] (entry pool profile i s)) steps)
         entries (vec entries)
         total-ms (reduce + 0 (map :delay-ms entries))
-        bytes (reduce + 0 (map :byte-count entries))]
+        byte-total (reduce + 0 (map :byte-count entries))]
     (when output
       (write-stream! output profile entries))
     {:profile profile
      :count (count entries)
      :total-ms total-ms
-     :bytes bytes
+     :bytes byte-total
      :output output}))
 
 ;; ── CLI ────────────────────────────────────────────────────────────────────

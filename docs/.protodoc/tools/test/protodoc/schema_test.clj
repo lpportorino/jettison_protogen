@@ -2,9 +2,7 @@
   "Tests for Malli schema validation and generators."
   (:require [clojure.test :refer [deftest testing is]]
             [clojure.test.check :as tc]
-            [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
-            [malli.core :as m]
             [malli.generator :as mg]
             [protodoc.schema :as schema]))
 
@@ -104,7 +102,7 @@
     (let [result (tc/quick-check
                   100
                   (prop/for-all [field (mg/generator schema/Field-gen)]
-                    (schema/valid? schema/Field field)))]
+                                (schema/valid? schema/Field field)))]
       (is (:pass? result)
           (str "Failed: " (:shrunk result))))))
 
@@ -113,7 +111,7 @@
     (let [result (tc/quick-check
                   50
                   (prop/for-all [msg (mg/generator schema/Message-gen)]
-                    (schema/valid? schema/Message msg)))]
+                                (schema/valid? schema/Message msg)))]
       (is (:pass? result)
           (str "Failed: " (:shrunk result))))))
 
@@ -122,7 +120,7 @@
     (let [result (tc/quick-check
                   100
                   (prop/for-all [msg (mg/generator schema/Message-gen)]
-                    (every? pos? (map :number (:fields msg)))))]
+                                (every? pos? (map :number (:fields msg)))))]
       (is (:pass? result)
           (str "Failed: " (:shrunk result))))))
 
@@ -215,7 +213,7 @@
     (let [result (tc/quick-check
                   50
                   (prop/for-all [enum (mg/generator schema/ProtoEnum-gen)]
-                    (schema/valid? schema/ProtoEnum enum)))]
+                                (schema/valid? schema/ProtoEnum enum)))]
       (is (:pass? result)
           (str "Failed: " (:shrunk result))))))
 
@@ -224,7 +222,7 @@
     (let [result (tc/quick-check
                   100
                   (prop/for-all [constraints (mg/generator schema/Constraints)]
-                    (schema/valid? schema/Constraints constraints)))]
+                                (schema/valid? schema/Constraints constraints)))]
       (is (:pass? result)
           (str "Failed: " (:shrunk result))))))
 

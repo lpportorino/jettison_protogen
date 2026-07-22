@@ -31,7 +31,7 @@
 ;; proof-carrying debt, not a convenience.
 (def ^:private no-positive-allowlist {})
 
-(defn- map-entry? [^Descriptors$Descriptor d]
+(defn- synthetic-map-entry? [^Descriptors$Descriptor d]
   (-> d (.getOptions) (.getMapEntry)))
 
 (defn- sweepable
@@ -39,7 +39,7 @@
    independently buildable). Sorted for determinism."
   []
   (sort (for [[nm ^Descriptors$Descriptor d] @pool*
-              :when (not (map-entry? d))]
+              :when (not (synthetic-map-entry? d))]
           nm)))
 
 (deftest whole-pool-roundtrip-is-byte-identical

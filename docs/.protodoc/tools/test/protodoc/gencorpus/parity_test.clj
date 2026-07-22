@@ -115,25 +115,25 @@
 ;; ── malli verdict (the predicate side of the parity) ──────────────────
 
 (defn- enum-name-by-number
-  "The proto enum constant NAME for `num` on field `f`, or nil when `num` is not a
+  "The proto enum constant NAME for `n` on field `f`, or nil when `n` is not a
    defined value of the enum (the open-enum passthrough)."
-  [^Descriptors$FieldDescriptor f num]
+  [^Descriptors$FieldDescriptor f n]
   (let [^Descriptors$EnumDescriptor et (Descriptors$FieldDescriptor/.getEnumType f)]
     (when-let [^Descriptors$EnumValueDescriptor v
-               (Descriptors$EnumDescriptor/.findValueByNumber et (int num))]
+               (Descriptors$EnumDescriptor/.findValueByNumber et (int n))]
       (Descriptors$EnumValueDescriptor/.getName v))))
 
 (defn- field-malli-data
   "The malli schema DATA `manifest/constraints->malli` emits for this field — the
    transpiler output under test. Enums need the type-ref + the proto-db enums map."
-  [{:keys [type constraints ^Descriptors$FieldDescriptor field-desc]}]
-  (if (= :enum type)
+  [{ftype :type, :keys [constraints ^Descriptors$FieldDescriptor field-desc]}]
+  (if (= :enum ftype)
     (manifest/constraints->malli
      {:type :enum :constraints constraints
       :type-ref (Descriptors$EnumDescriptor/.getFullName
                  (Descriptors$FieldDescriptor/.getEnumType field-desc))}
      @enums*)
-    (manifest/constraints->malli {:type type :constraints constraints} @enums*)))
+    (manifest/constraints->malli {:type ftype :constraints constraints} @enums*)))
 
 (defn- enum-allowed-names
   "The allowed enum constant NAMES carried by an `[:enum ...]` / `[:enum {props}
@@ -145,8 +145,8 @@
   "Is this field inside the MODELLED constraint surface? Every type is, EXCEPT an
    enum whose type is absent from proto-db `:enums` (constraints->malli degrades to
    the documented `:string` fallback — there is no faithful enum schema to test)."
-  [{:keys [type] :as spec}]
-  (if (= :enum type)
+  [{ftype :type :as spec}]
+  (if (= :enum ftype)
     (let [md (field-malli-data spec)] (and (vector? md) (= :enum (first md))))
     true))
 
@@ -163,9 +163,9 @@
    pins separately. Normalizing to the wire value keeps this battery focused on
    constraint faithfulness; it does NOT mask a bound disagreement (float32
    quantization is far smaller than any modelled bound step)."
-  [{:keys [type ^Descriptors$FieldDescriptor field-desc] :as spec} v]
+  [{ftype :type :keys [^Descriptors$FieldDescriptor field-desc] :as spec} v]
   (let [md (field-malli-data spec)]
-    (case type
+    (case ftype
       :enum (let [nm (enum-name-by-number field-desc v)]
               (boolean (and nm (contains? (enum-allowed-names md) nm))))
       :uint64 (let [{mn :min mx :max} (second md)]
@@ -182,8 +182,8 @@
 
 (defn- value-gen
   "The field's VALID-value generator — reused verbatim from the tool."
-  [{:keys [type constraints ^Descriptors$FieldDescriptor field-desc]}]
-  (assemble/leaf-gen type constraints field-desc @enums*))
+  [{ftype :type, :keys [constraints ^Descriptors$FieldDescriptor field-desc]}]
+  (assemble/leaf-gen ftype constraints field-desc @enums*))
 
 ;; ── invalid-direction perturbation (one step past a modelled boundary) ──
 
@@ -197,11 +197,11 @@
    gte:0, or a presence-only `:required` scalar). The perturbed integer is kept
    REPRESENTABLE in its proto type so it serializes — a boundary AT the type edge
    cannot be stepped past and is left unperturbed (nil)."
-  [{:keys [type constraints ^Descriptors$FieldDescriptor field-desc] :as spec}]
+  [{ftype :type, :keys [constraints ^Descriptors$FieldDescriptor field-desc] :as spec}]
   (let [{:keys [gte gt lte lt min-len max-len pattern in defined-only not-in]} constraints]
-    (case type
+    (case ftype
       (:int32 :uint32 :int64)
-      (let [[tlo thi] (int-type-bounds type)]
+      (let [[tlo thi] (int-type-bounds ftype)]
         (cond lt (when (> lt tlo) lt)
               lte (when (< lte thi) (inc' lte))
               gt (when (< gt thi) gt)
@@ -278,7 +278,7 @@
 (def ^:private field-specs* (delay (:specs @corpus*)))
 (def ^:private perturbable-specs* (delay (vec (filter #(some? (perturb %)) @field-specs*))))
 
-(defn- spec-label [{:keys [msg field type]}] (str msg "/" field " (" (name type) ")"))
+(defn- spec-label [{ftype :type, :keys [msg field]}] (str msg "/" field " (" (name ftype) ")"))
 
 (defn- oracle-valid-with?
   "Build the message with field overridden to `v`, on the spec's valid base, and
@@ -321,11 +321,11 @@
 (defspec w3-valid-direction-passes-oracle
   {:num-tests 200 :seed 3735928559}
   (prop/for-all [pair (spec+value-gen)]
-    (let [[spec v] pair]
+                (let [[spec v] pair]
       ;; both directions of the valid claim: the transpiler schema accepts the
       ;; value AND the oracle accepts the built message.
-      (and (verdict spec v)
-           (oracle-valid-with? spec v)))))
+                  (and (verdict spec v)
+                       (oracle-valid-with? spec v)))))
 
 ;; ── W4 — invalid direction (complete sweep + faithfulness invariants) ──
 
@@ -369,13 +369,13 @@
 (defspec w4-invalid-direction-generative
   {:num-tests 200 :seed 195939070}
   (prop/for-all [spec (gen/elements @perturbable-specs*)]
-    (let [p (perturb spec)]
+                (let [p (perturb spec)]
       ;; the transpiler schema rejects the out-of-range value, and the oracle
       ;; agrees UNLESS this is the documented altitude over-model drift (oracle is
       ;; the live-truth arbiter there).
-      (and (not (verdict spec p))
-           (or (not (oracle-valid-with? spec p))
-               (contains? drift-field-names (:field spec)))))))
+                  (and (not (verdict spec p))
+                       (or (not (oracle-valid-with? spec p))
+                           (contains? drift-field-names (:field spec)))))))
 
 ;; ── focused regression pins for named fixes ────────────────────────────
 

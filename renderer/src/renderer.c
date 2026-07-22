@@ -33,15 +33,18 @@
 #endif
 /* Global subject reference — defined in main.c */
 extern lv_subject_t subj_composite;
+
 /* Read current composite index (bp * 2 + theme_dark, range 0-7) */
 static int get_composite_idx(void) {
   return lv_subject_get_int(&subj_composite);
 }
+
 /* ================================================================
  * Subject registry — reactive data binding via LVGL observers
  * ================================================================ */
 #define MAX_SUBJECTS 32
 #define SUBJECT_STRING_BUF_SIZE 256
+
 typedef struct {
   char name[64];
   lv_subject_t subject;
@@ -50,6 +53,7 @@ typedef struct {
   char str_buf[SUBJECT_STRING_BUF_SIZE];
   char str_prev_buf[SUBJECT_STRING_BUF_SIZE];
 } subject_entry_t;
+
 static subject_entry_t subject_registry[MAX_SUBJECTS];
 static int subject_count = 0;
 /* Set when a load's subject declarations overflow MAX_SUBJECTS — the extra
@@ -65,6 +69,7 @@ static bool subject_overflow = false;
  * signal so controls_load_ui returns -1 instead of a silently degraded screen
  * (state-honesty). Reset per load alongside the pool counts. */
 static bool load_resource_error = false;
+
 static void reset_subject_registry(void) {
   /* Deinit all subjects AFTER widgets are destroyed (lv_obj_clean) */
   for (int i = 0; i < subject_count; i++) {
@@ -73,6 +78,7 @@ static void reset_subject_registry(void) {
   subject_count = 0;
   subject_overflow = false;
 }
+
 static subject_entry_t *find_subject(const char *name) {
   for (int i = 0; i < subject_count; i++) {
     if (strcmp(subject_registry[i].name, name) == 0) {
@@ -81,10 +87,12 @@ static subject_entry_t *find_subject(const char *name) {
   }
   return NULL;
 }
+
 /* Style pool for dynamic allocation */
 #define MAX_STYLES 2048
 static lv_style_t style_pool[MAX_STYLES];
 static int style_pool_idx = 0;
+
 static lv_style_t *alloc_style(void) {
   if (style_pool_idx >= MAX_STYLES) {
     LOG_ERROR("style pool exhausted (%d max)", MAX_STYLES);
@@ -94,16 +102,19 @@ static lv_style_t *alloc_style(void) {
   lv_style_init(s);
   return s;
 }
+
 static void reset_style_pool(void) {
   for (int i = 0; i < style_pool_idx; i++) {
     lv_style_reset(&style_pool[i]);
   }
   style_pool_idx = 0;
 }
+
 /* Track dynamically loaded binary fonts for cleanup */
 #define MAX_BINFONTS 16
 static lv_font_t *loaded_binfonts[MAX_BINFONTS];
 static int loaded_binfont_count = 0;
+
 /* Resolve a font name string to an LVGL font pointer */
 static const lv_font_t *resolve_font(const char *name) {
   if (!name || name[0] == '\0')
@@ -172,6 +183,7 @@ static const lv_font_t *resolve_font(const char *name) {
             name);
   return &font_b612mono_bold_16;
 }
+
 /* Event callback data — stored per widget for event dispatch.
  * Strings + the cmd template are copied from the proto decode buffer (which is
  * freed by pb_release right after finalize_widget — R5a), so they must be owned
@@ -184,6 +196,7 @@ typedef struct {
                               * nanopb decode buffer, and the emit serializer's
                               * tag cap; NOT the old 63-char ceiling that silently
                               * truncated long composites at finalize→emit */
+  /* clang-format off */
   int32_t int_value;         /* static int payload */
   bool include_widget_value; /* inject widget value at fire time */
   char set_subject[64];      /* subject to mutate (empty = host event) — subject
@@ -193,6 +206,7 @@ typedef struct {
   bool toggle;               /* flip 0↔1 instead of set_value */
   bool notify_host;          /* also send to host on mutation */
   lv_event_code_t trigger; /* LV_EVENT_CLICKED / VALUE_CHANGED / LONG_PRESSED */
+  /* clang-format on */
   cmd_spec_t cmd; /* R5b: pre-encoded cmd.* template (.present gates) */
   /* R5b cmd-by-value: FIXED templates the widget's int value index-selects
    * among (bool-set/on-off/enum). malloc'd (NULL when absent), freed in
@@ -213,6 +227,7 @@ _Static_assert(sizeof(((event_cb_data_t *)0)->name) >=
                    sizeof(((ui_EventBinding *)0)->name),
                "event_cb_data_t.name (UI_EVENT_NAME_BUF) must hold the full "
                "ui_EventBinding.name");
+
 /* Get the current integer value from a widget (for include_widget_value).
  * Returns 0 for widget types that don't have a meaningful value. */
 static int32_t get_widget_int_value(lv_obj_t *obj) {
@@ -235,6 +250,7 @@ static int32_t get_widget_int_value(lv_obj_t *obj) {
     return (int32_t)lv_obj_has_state(obj, LV_STATE_CHECKED);
   return 0;
 }
+
 /* The envelope's `event` string for a binding's trigger — the inverse of the
  * decode-time EventTrigger→lv_event_code_t mapping below (default CLICKED),
  * so envelope and attachment can never disagree on what fired. Spelling is
@@ -250,6 +266,7 @@ static const char *event_trigger_name(lv_event_code_t trigger) {
     return "clicked";
   }
 }
+
 static void button_event_cb(lv_event_t *e) {
   event_cb_data_t *data = (event_cb_data_t *)lv_event_get_user_data(e);
   if (!data)
@@ -318,10 +335,12 @@ static void button_event_cb(lv_event_t *e) {
     }
   }
 }
+
 /* Cleanup callback: free a flat heap struct with no owned pointers (the
  * compare_cb_data_t visibility/checked_when observers). event_cb_data_t uses
  * cleanup_event_data_cb instead — it owns the malloc'd cmd_by_value array. */
 static void cleanup_event_cb(lv_event_t *e) { free(lv_event_get_user_data(e)); }
+
 /* Cleanup for an event_cb_data_t: free the owned cmd_by_value array (NULL when
  * absent — free(NULL) is a no-op) before the struct itself. Kept distinct from
  * the flat cleanup_event_cb so the compare-observer path never mis-frees a
@@ -342,23 +361,28 @@ static void cleanup_event_data_cb(lv_event_t *e) {
  * ================================================================ */
 /* Binding entry — decoded from map<string,string> bindings */
 #define MAX_BINDINGS_PER_WIDGET 4
+
 typedef struct {
   char key[64];   /* e.g. "text", "value", "checked" */
   char value[64]; /* subject name, e.g. "brightness" */
 } binding_entry_t;
+
 /* Bind format entry — decoded from map<string,string> bind_formats */
 typedef struct {
   char key[64];    /* e.g. "text" */
   char value[256]; /* e.g. "%d%%" */
 } bind_format_entry_t;
+
 /* Styles attached to one widget during decode — recorded so `bare`
  * (field 37, streaming AFTER style_groups) can strip the theme styles
  * and RE-apply exactly these. */
 #define MAX_STYLES_PER_WIDGET 16
+
 typedef struct {
   lv_style_t *style;
   uint32_t selector;
 } added_style_t;
+
 /* ================================================================
  * uid → lv_obj registry (tree patching)
  *
@@ -370,6 +394,7 @@ typedef struct {
  * lifecycle) — uids cover ALL nodes.
  * ================================================================ */
 #define MAX_UID_NODES 1024
+
 typedef struct {
   uint32_t uid;
   lv_obj_t *obj;
@@ -387,8 +412,10 @@ typedef struct {
   added_style_t styles[MAX_STYLES_PER_WIDGET];
   int style_count;
 } uid_entry_t;
+
 static uid_entry_t uid_registry[MAX_UID_NODES];
 static int uid_count;
+
 static lv_obj_t *find_uid_obj(uint32_t uid) {
   for (int i = 0; i < uid_count; i++) {
     if (uid_registry[i].uid == uid)
@@ -396,6 +423,7 @@ static lv_obj_t *find_uid_obj(uint32_t uid) {
   }
   return NULL;
 }
+
 /* Register a uid → obj pair; returns 0 ok, -1 on overflow/duplicate
  * (both are codegen/differ contract violations — fail loud). */
 static int register_uid(uint32_t uid, lv_obj_t *obj, int32_t widget_type) {
@@ -414,6 +442,7 @@ static int register_uid(uint32_t uid, lv_obj_t *obj, int32_t widget_type) {
   uid_count++;
   return 0;
 }
+
 static uid_entry_t *find_uid_entry(uint32_t uid) {
   for (int i = 0; i < uid_count; i++) {
     if (uid_registry[i].uid == uid)
@@ -421,6 +450,7 @@ static uid_entry_t *find_uid_entry(uint32_t uid) {
   }
   return NULL;
 }
+
 static void unregister_uid_obj(const lv_obj_t *obj) {
   for (int i = 0; i < uid_count; i++) {
     if (uid_registry[i].obj == obj) {
@@ -430,6 +460,7 @@ static void unregister_uid_obj(const lv_obj_t *obj) {
     }
   }
 }
+
 /* ================================================================
  * SYNC C1: per-dropdown enum value->index map.
  *
@@ -447,13 +478,16 @@ static void unregister_uid_obj(const lv_obj_t *obj) {
  * number-as-index, LOGGED — never a crash, but not silent.
  * ================================================================ */
 #define MAX_DROPDOWN_VALUE_MAPS 32
+
 typedef struct {
   const lv_obj_t *obj;
   int32_t values[16];
   pb_size_t count;
 } dropdown_value_map_t;
+
 static dropdown_value_map_t dropdown_value_maps[MAX_DROPDOWN_VALUE_MAPS];
 static int dropdown_value_map_count;
+
 static const dropdown_value_map_t *
 find_dropdown_value_map(const lv_obj_t *obj) {
   for (int i = 0; i < dropdown_value_map_count; i++) {
@@ -462,6 +496,7 @@ find_dropdown_value_map(const lv_obj_t *obj) {
   }
   return NULL;
 }
+
 static void register_dropdown_value_map(const lv_obj_t *obj,
                                         const int32_t *values,
                                         pb_size_t count) {
@@ -492,6 +527,7 @@ static void register_dropdown_value_map(const lv_obj_t *obj,
   m->count = count > 16 ? 16 : count;
   memcpy(m->values, values, m->count * sizeof(int32_t));
 }
+
 static void unregister_dropdown_value_map(const lv_obj_t *obj) {
   for (int i = 0; i < dropdown_value_map_count; i++) {
     if (dropdown_value_maps[i].obj == obj) {
@@ -502,6 +538,7 @@ static void unregister_dropdown_value_map(const lv_obj_t *obj) {
     }
   }
 }
+
 /* ================================================================
  * R5b cmd-out: copy a decoded CmdSpec into PERSISTENT storage.
  *
@@ -550,6 +587,7 @@ static int cmd_spec_copy_from_proto(cmd_spec_t *dst, const ui_CmdSpec *src) {
   dst->present = true;
   return 0;
 }
+
 /* Harness-only: run a crafted CmdSpec `.pb` through the untrusted decode
  * boundary (nanopb + cmd_spec_copy_from_proto) and report which layer
  * accepted/rejected it. See renderer.h for the return contract. ui_CmdSpec is
@@ -564,6 +602,7 @@ int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len) {
   cmd_spec_t dst;
   return (int32_t)cmd_spec_copy_from_proto(&dst, &spec);
 }
+
 /* Morph mode — set ONLY while an UPDATE_PROPS op re-applies props to a
  * live object. Gates the value-bearing setters (the form-state policy:
  * a wire default on a value-bearing field means 'authored value
@@ -585,6 +624,7 @@ static bool morph_in_progress;
  * are shallow (< 10) — the codegen mirror (lvgl-codegen.renderer-caps) fails
  * emit well before a legit screen could approach it. */
 #define MAX_DECODE_DEPTH 32
+
 /* Context for building a single widget node */
 typedef struct widget_ctx {
   lv_obj_t *parent;    /* LVGL parent to create widget under */
@@ -606,6 +646,7 @@ typedef struct widget_ctx {
   bool tab_in_bar[MAX_TABVIEW_CHILDREN];
   int tab_staged_count;
 } widget_ctx_t;
+
 /* Context for decoding sparse style-group variants. The wire ships the
  * base (variant_index 0, always first) plus ONLY the composite indices
  * whose complete prop set differs from the base; an absent index renders
@@ -618,6 +659,7 @@ typedef struct {
   lv_style_t *base_style; /* Decoded variant-0 style, pending attach */
   bool exact_match;       /* An entry for the active composite idx streamed */
 } style_group_ctx_t;
+
 /* ================================================================
  * Deferred binding/visibility attachment
  *
@@ -630,6 +672,7 @@ typedef struct {
 #define MAX_PENDING_VISIBILITY 32
 #define MAX_PENDING_CHECKED 32
 #define MAX_PENDING_EVENT_SUBJECT 32
+
 typedef struct {
   lv_obj_t *obj;
   ui_WidgetType wtype;
@@ -638,16 +681,19 @@ typedef struct {
   bind_format_entry_t bind_formats[MAX_BINDINGS_PER_WIDGET];
   int bind_format_count;
 } pending_bindings_t;
+
 typedef struct {
   lv_obj_t *obj;
   ui_VisibilityBinding vis;
 } pending_visibility_t;
+
 /* checked_when reuses the VisibilityBinding shape; like visibility it
  * attaches only after Screen.subjects (field 2) has streamed. */
 typedef struct {
   lv_obj_t *obj;
   ui_VisibilityBinding bind;
 } pending_checked_t;
+
 /* An EventBinding's set_subject resolves against the SAME registry, so it is
  * subject to the same ordering: the name a click will mutate cannot be looked
  * up while finalize_widget attaches the callback. Unlike the three queues
@@ -659,6 +705,7 @@ typedef struct {
   char subject[64];
   uint32_t uid;
 } pending_event_subject_t;
+
 /* Deferred tabview activation: a tabview finalizes while its ANCESTORS'
  * style groups are still undecoded (a parent's children stream before its
  * styles), so geometry at that point is not final — an early set_active
@@ -667,10 +714,12 @@ typedef struct {
  * flushed after pb_decode completes, when set_active's own
  * lv_obj_update_layout resolves the FINAL page geometry. */
 #define MAX_PENDING_TABVIEW 8
+
 typedef struct {
   lv_obj_t *tabview;
   uint32_t active_index;
 } pending_tabview_t;
+
 static pending_bindings_t pending_bindings[MAX_PENDING_BINDINGS];
 static int pending_bindings_count;
 static pending_visibility_t pending_visibility[MAX_PENDING_VISIBILITY];
@@ -681,6 +730,7 @@ static pending_event_subject_t pending_event_subject[MAX_PENDING_EVENT_SUBJECT];
 static int pending_event_subject_count;
 static pending_tabview_t pending_tabview[MAX_PENDING_TABVIEW];
 static int pending_tabview_count;
+
 /* Context for decoding one sparse StyleVariant's properties. variant_index
  * (field 1) streams before the properties callback fires — our emitters
  * serialize in field order — so each property can decide wanted-vs-drain
@@ -690,6 +740,7 @@ typedef struct {
   const ui_StyleVariant *entry; /* Variant being decoded (index in field 1) */
   lv_style_t *style;            /* Lazily allocated on first wanted prop */
 } style_variant_ctx_t;
+
 /* Apply the node's Layout message (flex flow + alignment). Called at
  * widget creation, and AGAIN after a `bare` strip: lv_obj_set_flex_flow
  * writes LOCAL styles that lv_obj_remove_style_all erases, and the
@@ -710,6 +761,7 @@ static void apply_node_layout(lv_obj_t *obj, const ui_WidgetNode *node) {
                           (lv_flex_align_t)node->layout.track_place);
   }
 }
+
 /* ================================================================
  * Lazy widget creation
  *
@@ -798,6 +850,7 @@ static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
   apply_node_layout(ctx->self, ctx->node);
   return ctx->self;
 }
+
 /* Apply widget-specific text based on widget type */
 static void apply_widget_text(lv_obj_t *obj, ui_WidgetType type,
                               const char *text) {
@@ -818,6 +871,7 @@ static void apply_widget_text(lv_obj_t *obj, ui_WidgetType type,
     break;
   }
 }
+
 /* Scale text_src: "\n"-joined labels -> persistent NULL-terminated
  * char* array (LVGL keeps the pointers). Bounded pools, reset per load.
  * Capacity covers the largest demo source (12 month labels). */
@@ -826,6 +880,7 @@ static void apply_widget_text(lv_obj_t *obj, ui_WidgetType type,
 static char scale_text_buf[MAX_SCALE_TEXT_POOL][256];
 static const char *scale_text_ptrs[MAX_SCALE_TEXT_POOL][MAX_SCALE_TEXTS + 1];
 static int scale_text_count;
+
 static void apply_scale_text_src(lv_obj_t *obj, const char *joined) {
   if (scale_text_count >= MAX_SCALE_TEXT_POOL) {
     /* B3/ITEM-8a: the 5th+ scale text source would render label-less. The
@@ -854,6 +909,7 @@ static void apply_scale_text_src(lv_obj_t *obj, const char *joined) {
   ptrs[n] = NULL;
   lv_scale_set_text_src(obj, ptrs);
 }
+
 /* ButtonMatrix map_str: "\n"-separated button labels -> the persistent
  * ""-terminated char* array LVGL keeps a POINTER to (lv_buttonmatrix_set_map
  * stores the array; it does not copy). Bounded pools, reset per load — the
@@ -882,6 +938,7 @@ static char btnmatrix_map_buf[MAX_BTNMATRIX_MAP_POOL][1024];
 static const char
     *btnmatrix_map_ptrs[MAX_BTNMATRIX_MAP_POOL][MAX_BTNMATRIX_BUTTONS + 1];
 static int btnmatrix_map_count;
+
 static void apply_buttonmatrix_map(lv_obj_t *obj, const char *joined) {
   if (btnmatrix_map_count >= MAX_BTNMATRIX_MAP_POOL) {
     /* The 5th+ map would render with LVGL's placeholder map. The codegen
@@ -923,6 +980,7 @@ static void apply_buttonmatrix_map(lv_obj_t *obj, const char *joined) {
   btnmatrix_map_count++;
   lv_buttonmatrix_set_map(obj, ptrs);
 }
+
 /* bg_image_src style strings: lv_style_set_bg_image_src stores the
  * POINTER (no copy), so the value must outlive the stack-local decode
  * context — a symbol glyph or path pointed at the decode buffer would
@@ -930,6 +988,7 @@ static void apply_buttonmatrix_map(lv_obj_t *obj, const char *joined) {
 #define MAX_BG_IMAGE_SRCS 8
 static char bg_image_src_pool[MAX_BG_IMAGE_SRCS][64];
 static int bg_image_src_count;
+
 static const char *persist_bg_image_src(const char *src) {
   if (bg_image_src_count >= MAX_BG_IMAGE_SRCS) {
     /* B4: the 9th+ bg-image src renders image-less. Codegen headroom
@@ -943,6 +1002,7 @@ static const char *persist_bg_image_src(const char *src) {
   (void)snprintf(dst, sizeof(bg_image_src_pool[0]), "%s", src);
   return dst;
 }
+
 /* Colored scale section (demo analytics scales). */
 static void apply_scale_section(lv_obj_t *obj, const ui_ScaleSection *sec) {
   lv_scale_section_t *section = lv_scale_add_section(obj);
@@ -984,6 +1044,7 @@ static void apply_scale_section(lv_obj_t *obj, const ui_ScaleSection *sec) {
     lv_scale_set_section_style_main(obj, section, main_style);
   }
 }
+
 /* Chart fader draw-event (ChartProps.fade_area) — replicates the demo's
  * chart_event_cb LV_EVENT_DRAW_TASK_ADDED body (lv_demo_widgets_analytics.c):
  * under every LINE-series segment, a vertical-gradient triangle (the area
@@ -1051,6 +1112,7 @@ static void chart_fade_draw_cb(lv_event_t *e) {
     lv_draw_rect(base_dsc->layer, &rect_dsc, &rect_area);
   }
 }
+
 /* ChartProps application — type/point_count/div lines (div presence rides
  * has_div_lines: 0 is a VALID explicit count), then add_series + per-index
  * value writes (lv_chart_set_series_value_by_id COPIES into the chart's
@@ -1109,6 +1171,7 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
   }
   lv_chart_refresh(obj);
 }
+
 /* seek_on_press (SliderProps.seek_on_press): the scrubber behavior pair.
  * The widened ext click area (LV_DPX(24); stock ctor sets LV_DPX(8)) rides
  * the same prop — the wire carries no ext-click vocabulary, and a
@@ -1116,6 +1179,7 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
  * widening exists to catch. A slider without the prop keeps full stock
  * behavior. */
 #define SLIDER_SEEK_EXT_CLICK_PX 24
+
 /* Map the pressed point to a value immediately at LV_EVENT_PRESSED. Stock
  * LVGL seeks a stationary track tap only at RELEASE (update_knob_pos runs
  * with check_drag=false from the RELEASED arm; ADV_HITTEST is never set on
@@ -1191,8 +1255,8 @@ static void slider_press_seek_cb(lv_event_t *e) {
   }
   /* Stock clamp for the cur-value knob (non-range): floored at
    * start_value, exactly update_knob_pos's else-branch. */
-  new_value = LV_CLAMP(slider->bar.start_value, new_value,
-                       slider->bar.max_value);
+  new_value =
+      LV_CLAMP(slider->bar.start_value, new_value, slider->bar.max_value);
   if (new_value != slider->bar.cur_value) {
     lv_slider_set_value(obj, new_value, LV_ANIM_OFF);
     lv_result_t res = lv_obj_send_event(obj, LV_EVENT_VALUE_CHANGED, NULL);
@@ -1200,6 +1264,7 @@ static void slider_press_seek_cb(lv_event_t *e) {
       return;
   }
 }
+
 /* Apply widget-specific properties from the oneof widget_props */
 static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
   switch (node->which_widget_props) {
@@ -1430,8 +1495,10 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
     break;
   }
 }
+
 /* Forward declarations */
 static void apply_bindings(const pending_bindings_t *p);
+
 /* ================================================================
  * Conditional visibility — show/hide via LVGL observer
  * ================================================================ */
@@ -1442,6 +1509,7 @@ typedef struct {
   int32_t ref_value;
   ui_CompareOp compare;
 } compare_cb_data_t;
+
 /* One comparison semantics for every VisibilityBinding consumer. */
 static bool compare_holds(ui_CompareOp compare, int32_t val,
                           int32_t ref_value) {
@@ -1460,6 +1528,7 @@ static bool compare_holds(ui_CompareOp compare, int32_t val,
     return val == ref_value;
   }
 }
+
 static void visibility_observer_cb(lv_observer_t *observer,
                                    lv_subject_t *subject) {
   lv_obj_t *obj = lv_observer_get_target_obj(observer);
@@ -1475,6 +1544,7 @@ static void visibility_observer_cb(lv_observer_t *observer,
     lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
   }
 }
+
 static void apply_visibility(lv_obj_t *obj, const ui_VisibilityBinding *vis) {
   subject_entry_t *entry = find_subject(vis->subject);
   if (!entry) {
@@ -1520,6 +1590,7 @@ static void apply_visibility(lv_obj_t *obj, const ui_VisibilityBinding *vis) {
   }
   }
 }
+
 /* ================================================================
  * Reactive checked-state binding (checked_when) — the widget carries
  * LV_STATE_CHECKED while the subject comparison holds, cleared
@@ -1541,6 +1612,7 @@ static void checked_observer_cb(lv_observer_t *observer,
     lv_obj_remove_state(obj, LV_STATE_CHECKED);
   }
 }
+
 static void apply_checked_when(lv_obj_t *obj,
                                const ui_VisibilityBinding *bind) {
   subject_entry_t *entry = find_subject(bind->subject);
@@ -1584,6 +1656,7 @@ static void apply_checked_when(lv_obj_t *obj,
   }
   }
 }
+
 /* An EventBinding.set_subject naming a NEVER-DECLARED subject is a dead
  * control, and a quieter one than the three siblings above: find_subject
  * misses at CLICK time, button_event_cb skips the mutation, and the relay
@@ -1606,6 +1679,7 @@ static void apply_event_subject(const pending_event_subject_t *p) {
              p->subject);
   }
 }
+
 /* ================================================================
  * Host proxy — a box that POSITIONS a host-composited element
  * (docs/lvgl-factory/08-HOST-PROXY-DESIGN.md). The renderer draws the
@@ -1623,6 +1697,7 @@ static void apply_event_subject(const pending_event_subject_t *p) {
 #define PROXY_PHASE_START 1
 #define PROXY_PHASE_MOVE 2
 #define PROXY_PHASE_END 3
+
 typedef struct {
   lv_obj_t *obj;                         /* the proxy box */
   lv_obj_t *glass;                       /* full-size gesture surface */
@@ -1641,6 +1716,7 @@ typedef struct {
   bool reported;       /* false until the first (SYNC) report */
   bool gesture_active; /* between START and END */
 } proxy_entry_t;
+
 static proxy_entry_t proxy_registry[MAX_PROXIES];
 static int proxy_count;
 /* Align-grid cell index (row-major) → the 9 anchor aligns (the proto
@@ -1651,6 +1727,7 @@ static const lv_align_t proxy_cell_aligns[PROXY_CELL_COUNT] = {
     LV_ALIGN_LEFT_MID,    LV_ALIGN_CENTER,     LV_ALIGN_RIGHT_MID,
     LV_ALIGN_BOTTOM_LEFT, LV_ALIGN_BOTTOM_MID, LV_ALIGN_BOTTOM_RIGHT,
 };
+
 static proxy_entry_t *find_proxy_by_obj(const lv_obj_t *obj) {
   for (int i = 0; i < proxy_count; i++) {
     if (proxy_registry[i].obj == obj)
@@ -1658,6 +1735,7 @@ static proxy_entry_t *find_proxy_by_obj(const lv_obj_t *obj) {
   }
   return NULL;
 }
+
 /* Proxy slots are TOMBSTONED (obj = NULL), never compacted: the mode
  * observer's user_data points at the registry slot, so moving entries
  * would dangle a live observer. The sweep already skips NULL slots;
@@ -1672,11 +1750,13 @@ static proxy_entry_t *alloc_proxy_entry(void) {
     return NULL;
   return &proxy_registry[proxy_count++];
 }
+
 static void remove_proxy_entry(const lv_obj_t *obj) {
   proxy_entry_t *e = find_proxy_by_obj(obj);
   if (e)
     memset(e, 0, sizeof(*e)); /* tombstone — slot address stays valid */
 }
+
 /* Resolved corner-handle edge: explicit props value, else DPI-derived. */
 static int32_t proxy_handle_px(const proxy_entry_t *e) {
   if (e->handle_size > 0)
@@ -1684,6 +1764,7 @@ static int32_t proxy_handle_px(const proxy_entry_t *e) {
   int32_t px = lv_display_get_dpi(lv_display_get_default()) / 10;
   return px < 12 ? 12 : px;
 }
+
 /* ONE emission site: read the post-layout rect + visibility, report,
  * cache as last-reported. Every phase funnels through here. */
 static void proxy_emit(proxy_entry_t *e, int32_t phase) {
@@ -1702,6 +1783,7 @@ static void proxy_emit(proxy_entry_t *e, int32_t phase) {
   e->last_visible = visible;
   e->reported = true;
 }
+
 static void proxy_set_shown(lv_obj_t *obj, bool shown) {
   if (shown) {
     lv_obj_remove_flag(obj, LV_OBJ_FLAG_HIDDEN);
@@ -1709,6 +1791,7 @@ static void proxy_set_shown(lv_obj_t *obj, bool shown) {
     lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
   }
 }
+
 /* Mode semantics (D3/D5): static clears CLICKABLE on the box itself so
  * events fall through to widgets beneath (the host element owns
  * interaction — pointer routing is the HOST's contract); interactive
@@ -1732,6 +1815,7 @@ static void proxy_apply_mode(proxy_entry_t *e, int32_t mode) {
   for (int i = 0; i < PROXY_CELL_COUNT; i++)
     proxy_set_shown(e->cells[i], alignable);
 }
+
 /* Re-anchor the proxy to TOP_LEFT at its current on-screen position so
  * gesture math (incremental vect deltas + parent-content clamps) is
  * uniform regardless of any prior align (an earlier 3x3 snap, an
@@ -1748,6 +1832,7 @@ static void proxy_normalize_pos(lv_obj_t *obj) {
   lv_obj_set_align(obj, LV_ALIGN_TOP_LEFT);
   lv_obj_set_pos(obj, coords.x1 - content.x1, coords.y1 - content.y1);
 }
+
 /* Body drag: incremental vect delta, clamped to the parent content area
  * (jettison clamps to the viewport — same semantics one level down). */
 static void proxy_drag_move(proxy_entry_t *e, const lv_point_t *vect) {
@@ -1767,6 +1852,7 @@ static void proxy_drag_move(proxy_entry_t *e, const lv_point_t *vect) {
   y = LV_CLAMP(0, y, span_y);
   lv_obj_set_pos(e->obj, x, y);
 }
+
 /* Corner resize, jettison quadrant semantics: the OPPOSITE corner stays
  * anchored; width/height clamp to min/max (min floors at 2x the handle
  * edge when unconstrained so handles stay usable). */
@@ -1808,6 +1894,7 @@ static void proxy_resize_move(proxy_entry_t *e, int corner,
   lv_obj_set_pos(e->obj, x, y);
   lv_obj_set_size(e->obj, new_w, new_h);
 }
+
 /* O4: PRESS_LOST = END (final rect = wherever the box is). */
 static void proxy_gesture_end(proxy_entry_t *e) {
   if (!e->gesture_active)
@@ -1815,6 +1902,7 @@ static void proxy_gesture_end(proxy_entry_t *e) {
   e->gesture_active = false;
   proxy_emit(e, PROXY_PHASE_END);
 }
+
 static lv_point_t proxy_active_vect(void) {
   lv_point_t vect = {0, 0};
   lv_indev_t *indev = lv_indev_active();
@@ -1822,6 +1910,7 @@ static lv_point_t proxy_active_vect(void) {
     lv_indev_get_vect(indev, &vect);
   return vect;
 }
+
 /* Glass overlay events — THE gesture surface in draggable/resizable
  * (the LVGL equivalent of jettison's pointer-events switching: without
  * it an interactive content child would eat the drag). MOVE reports are
@@ -1861,6 +1950,7 @@ static void proxy_glass_event_cb(lv_event_t *event) {
     break;
   }
 }
+
 static void proxy_handle_event_cb(lv_event_t *event) {
   proxy_entry_t *e = (proxy_entry_t *)lv_event_get_user_data(event);
   if (!e)
@@ -1900,6 +1990,7 @@ static void proxy_handle_event_cb(lv_event_t *event) {
     break;
   }
 }
+
 /* Align cells: RELEASED applies the snap so the END report (emitted
  * after) carries the post-align rect (LVGL sends RELEASED before
  * CLICKED, so CLICKED would order the report wrong); a press dragged
@@ -1940,6 +2031,7 @@ static void proxy_cell_event_cb(lv_event_t *event) {
     break;
   }
 }
+
 /* The "mode" binding observer: the INT subject is the mode's source of
  * truth (LVGL fires this once at attach, so the subject's initial value
  * wins over props.mode when bound). The sweep emits the SYNC carrying
@@ -1951,6 +2043,7 @@ static void proxy_mode_observer_cb(lv_observer_t *observer,
     return;
   proxy_apply_mode(e, lv_subject_get_int(subject));
 }
+
 static void proxy_setup_affordance(lv_obj_t *obj, proxy_entry_t *e,
                                    lv_event_cb_t cb) {
   lv_obj_remove_style_all(obj);
@@ -1969,6 +2062,7 @@ static void proxy_setup_affordance(lv_obj_t *obj, proxy_entry_t *e,
    * the proxy + re-emits SYNC, which is the host's converge signal. */
   lv_obj_add_event_cb(obj, cb, LV_EVENT_INDEV_RESET, e);
 }
+
 /* Host-proxy assembly — runs in finalize, AFTER host_proxy_props
  * (field 41) decoded; content children (field 8) parented normally
  * during decode, so no staging is needed (the tabview precedent's
@@ -2061,6 +2155,7 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
   }
   proxy_apply_mode(e, (int32_t)props->mode);
 }
+
 void proxy_report_sweep(void) {
   for (int i = 0; i < proxy_count; i++) {
     proxy_entry_t *e = &proxy_registry[i];
@@ -2080,6 +2175,7 @@ void proxy_report_sweep(void) {
     }
   }
 }
+
 /* Grid track templates must outlive decode (LVGL keeps the pointer):
  * bounded pool, reset per load. 13 = 12 tracks + LV_GRID_TEMPLATE_LAST. */
 /* Sized for the demo-parity screen: every grid container costs two
@@ -2088,6 +2184,7 @@ void proxy_report_sweep(void) {
 #define MAX_GRID_TEMPLATES 64
 static int32_t grid_template_pool[MAX_GRID_TEMPLATES][13];
 static int grid_template_count;
+
 static int32_t *alloc_grid_template(const int32_t *tracks, pb_size_t count) {
   if (grid_template_count >= MAX_GRID_TEMPLATES || count > 12) {
     LOG_ERROR("grid template pool exhausted or track list too long");
@@ -2099,6 +2196,7 @@ static int32_t *alloc_grid_template(const int32_t *tracks, pb_size_t count) {
   slot[count] = LV_GRID_TEMPLATE_LAST;
   return slot;
 }
+
 /* Tabview assembly — runs in finalize, AFTER tabview_props (field 38)
  * decoded and all children were staged (see the widget_ctx_t staging
  * note). Ordering inside follows lv_tabview.c constraints:
@@ -2188,6 +2286,7 @@ cleanup:
     ctx->tab_staging = NULL;
   }
 }
+
 /* Append the styles this decode attached (ctx->added_styles) to the
  * node's uid-registry record — the in-place style-morph bookkeeping. */
 static void record_added_styles(uint32_t uid, const widget_ctx_t *ctx) {
@@ -2202,6 +2301,7 @@ static void record_added_styles(uint32_t uid, const widget_ctx_t *ctx) {
     entry->styles[entry->style_count++] = ctx->added_styles[i];
   }
 }
+
 /* Finalize widget after all fields are decoded */
 static void finalize_widget(widget_ctx_t *ctx) {
   lv_obj_t *obj = ensure_widget(ctx);
@@ -2460,6 +2560,7 @@ static void finalize_widget(widget_ctx_t *ctx) {
   }
   record_added_styles(node->uid, ctx);
 }
+
 /* ================================================================
  * Subject declaration decode callback
  * ================================================================ */
@@ -2507,6 +2608,7 @@ static bool subjects_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   subject_count++;
   return true;
 }
+
 /* ================================================================
  * Binding + bind_formats map decode callbacks
  * ================================================================ */
@@ -2533,6 +2635,7 @@ static bool bindings_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   }
   return true;
 }
+
 static bool bind_formats_decode_cb(pb_istream_t *stream,
                                    const pb_field_t *field, void **arg) {
   (void)field;
@@ -2556,6 +2659,7 @@ static bool bind_formats_decode_cb(pb_istream_t *stream,
   }
   return true;
 }
+
 /* ================================================================
  * Apply bindings to widget after creation
  * ================================================================ */
@@ -2568,6 +2672,7 @@ static const char *find_bind_format(const bind_format_entry_t *formats,
   }
   return NULL;
 }
+
 /* Custom observer for bar value binding (lv_bar_bind_value does not exist) */
 static void bar_value_observer_cb(lv_observer_t *observer,
                                   lv_subject_t *subject) {
@@ -2576,6 +2681,7 @@ static void bar_value_observer_cb(lv_observer_t *observer,
     lv_bar_set_value(bar, lv_subject_get_int(subject), LV_ANIM_OFF);
   }
 }
+
 /* SYNC C1: value->index dropdown binding. The subject holds the device enum
  * NUMBER; the options are 1-based (enum-options drops _UNSPECIFIED / :not-in),
  * so lv_dropdown_bind_value's number-as-index is off-by-one. Scan the decoded
@@ -2599,6 +2705,7 @@ static void dropdown_value_observer_cb(lv_observer_t *observer,
   }
   /* value not among the options → leave the current selection unchanged */
 }
+
 static void apply_bindings(const pending_bindings_t *p) {
   lv_obj_t *obj = p->obj;
   if (!obj)
@@ -2682,6 +2789,7 @@ static void apply_bindings(const pending_bindings_t *p) {
     }
   }
 }
+
 /* ================================================================
  * Style property application
  * ================================================================ */
@@ -2697,6 +2805,7 @@ static bool slot_ok(const ui_StyleProperty *prop, pb_size_t want_tag) {
             (int)prop->type, (unsigned)prop->which_value, (unsigned)want_tag);
   return false;
 }
+
 static bool apply_style_property(const ui_StyleProperty *prop,
                                  lv_style_t *style, const char *string_buf) {
   switch (prop->type) {
@@ -3520,6 +3629,7 @@ static bool apply_style_property(const ui_StyleProperty *prop,
   }
   return true;
 }
+
 /* ================================================================
  * Nested decode callbacks (innermost → outermost)
  * ================================================================ */
@@ -3545,6 +3655,7 @@ static bool properties_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   }
   return apply_style_property(&prop, ctx->style, prop.value.string_value);
 }
+
 /* Attach a decoded group style to the widget under the group's state
  * selector and record it for the in-place style morph (tree patching). */
 static void attach_group_style(style_group_ctx_t *ctx, lv_style_t *style) {
@@ -3566,6 +3677,7 @@ static void attach_group_style(style_group_ctx_t *ctx, lv_style_t *style) {
     }
   }
 }
+
 /* Callback: decode one sparse StyleVariant within a StyleGroup.
  * An entry matching the active composite index attaches immediately
  * (exact match); the base entry (index 0) is parked on the group ctx
@@ -3594,6 +3706,7 @@ static bool variants_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   }
   return true;
 }
+
 /* Callback: decode one StyleGroup and bind its variants to the widget */
 static bool style_groups_decode_cb(pb_istream_t *stream,
                                    const pb_field_t *field, void **arg) {
@@ -3629,6 +3742,7 @@ static bool style_groups_decode_cb(pb_istream_t *stream,
   }
   return true;
 }
+
 /* Callback: decode one child WidgetNode and build it under the parent */
 static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
                                void **arg) {
@@ -3714,6 +3828,7 @@ static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   pb_release(ui_WidgetNode_fields, &child);
   return true;
 }
+
 /* ================================================================
  * Public API
  * ================================================================ */
@@ -3826,6 +3941,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
     return -1;
   return root_ctx.error;
 }
+
 /* ================================================================
  * Tree-patch reconciler (controls_apply_patch)
  *
@@ -3857,6 +3973,7 @@ static void unregister_subtree(lv_obj_t *obj) {
   for (uint32_t i = 0; i < n; i++)
     unregister_subtree(lv_obj_get_child(obj, i));
 }
+
 static void delete_patch_subtree(lv_obj_t *root) {
   /* Deleting the group-focused widget would unfreeze + auto-refocus a
    * sibling (lv_group_remove_obj) — the patch contract is 'leaves
@@ -3865,6 +3982,7 @@ static void delete_patch_subtree(lv_obj_t *root) {
   unregister_subtree(root);
   lv_obj_delete(root);
 }
+
 /* Every op that can change a container's content extent invalidates
  * the PARENT: LVGL invalidates the touched child's own area, but the
  * parent's AUTO scrollbar repaints only when the scrollbar's area is
@@ -3876,6 +3994,7 @@ static void invalidate_op_parent(lv_obj_t *parent) {
   if (parent)
     lv_obj_invalidate(parent);
 }
+
 /* Pool headroom guard: REPLACE/INSERT consume style/grid/string pool
  * slots reclaimed only by a full reload. Refuse the op LOUDLY before
  * exhaustion — the host's full reload resets the pools. */
@@ -3883,6 +4002,7 @@ static void invalidate_op_parent(lv_obj_t *parent) {
 #define PATCH_GRID_HEADROOM 8
 #define PATCH_UID_HEADROOM 32
 #define PATCH_BINFONT_HEADROOM 2
+
 static bool patch_pools_low(void) {
   bool low = false;
   if (style_pool_idx > MAX_STYLES - PATCH_STYLE_HEADROOM)
@@ -3902,6 +4022,7 @@ static bool patch_pools_low(void) {
     low = true;
   return low;
 }
+
 /* Pass-1 callback: count occurrences of a callback field and skip its
  * bytes (presence probe — no building). */
 static bool count_skip_cb(pb_istream_t *stream, const pb_field_t *field,
@@ -3916,6 +4037,7 @@ static bool count_skip_cb(pb_istream_t *stream, const pb_field_t *field,
   }
   return true;
 }
+
 /* Pass 2 for ops carrying a WidgetNode payload: decode the buffered op
  * again with the node's callbacks wired into the EXISTING streaming
  * builder. `morph_self` preset makes ensure_widget return the live
@@ -3975,6 +4097,7 @@ static int decode_op_node(const uint8_t *buf, uint32_t len, lv_obj_t *parent,
   pb_release(ui_TreePatchOp_fields, &op);
   return rc;
 }
+
 /* Apply ONE buffered TreePatchOp. Returns 0 ok / negative error code
  * (see renderer.h PATCH_ERR_*). */
 static int apply_one_op(const uint8_t *buf, uint32_t len) {
@@ -4143,6 +4266,7 @@ static int apply_one_op(const uint8_t *buf, uint32_t len) {
     return -5;
   }
 }
+
 typedef struct {
   const ui_ScreenPatch *patch; /* scalar fields decode before ops */
   uint32_t expected_base_hash;
@@ -4150,6 +4274,7 @@ typedef struct {
   int rc;
   int op_index;
 } patch_decode_ctx_t;
+
 static bool patch_ops_decode_cb(pb_istream_t *stream, const pb_field_t *field,
                                 void **arg) {
   (void)field;
@@ -4188,6 +4313,7 @@ static bool patch_ops_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   ctx->op_index++;
   return true;
 }
+
 int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
                                uint32_t expected_base_hash,
                                uint32_t *out_target_hash) {
@@ -4262,6 +4388,7 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
     *out_target_hash = patch.target_hash;
   return 0;
 }
+
 /* ================================================================
  * State update: decode StateUpdate and update subjects
  * ================================================================ */
@@ -4294,6 +4421,7 @@ static bool state_values_decode_cb(pb_istream_t *stream,
   }
   return true;
 }
+
 int update_state_from_proto(const uint8_t *data, uint32_t len) {
   ui_StateUpdate update = ui_StateUpdate_init_zero;
   update.values.funcs.decode = state_values_decode_cb;
@@ -4308,6 +4436,7 @@ int update_state_from_proto(const uint8_t *data, uint32_t len) {
 #else
 /* !HAS_NANOPB */
 void proxy_report_sweep(void) { /* No proto decode — no proxies can exist. */ }
+
 int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
                             lv_obj_t *parent) {
   reset_style_pool();
@@ -4318,11 +4447,13 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   lv_obj_set_style_text_color(label, lv_color_hex(0xFF0000), LV_PART_MAIN);
   return 0;
 }
+
 int update_state_from_proto(const uint8_t *data, uint32_t len) {
   (void)data;
   (void)len;
   return 0;
 }
+
 int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
                                uint32_t expected_base_hash,
                                uint32_t *out_target_hash) {

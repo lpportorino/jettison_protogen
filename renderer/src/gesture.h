@@ -32,6 +32,7 @@
  * overflows before the shell's own loud DOWN-drop (HOSTMSG_DROP_OVERFLOW); a
  * static_assert in main.c enforces that invariant at compile time. */
 #define GESTURE_MAX_POINTERS 10
+
 /** A recognized gesture kind; mirrors the TS GestureDecision union tag set. */
 typedef enum {
   GESTURE_KIND_PAN_MOVE = 0,
@@ -41,6 +42,7 @@ typedef enum {
   GESTURE_KIND_PINCH = 4,
   GESTURE_KIND_WHEEL = 5
 } gesture_kind_t;
+
 /** One pointer observation, already mapped to NDC space by the shell. */
 typedef struct {
   int32_t pointer_id;
@@ -48,6 +50,7 @@ typedef struct {
   double y;     /* NDC [-1,1], +y UP (Y-flipped from screen) */
   int32_t t_ms; /* event timestamp, ms */
 } gesture_sample_t;
+
 /**
  * A recognized gesture. For pan/tap/track x,y carry the NDC location; for
  * pinch/wheel delta is +/-1 and x,y are unused (0).
@@ -58,12 +61,14 @@ typedef struct {
   double y;
   int32_t delta; /* pinch/wheel: +1 or -1; else 0 */
 } gesture_decision_t;
+
 typedef enum {
   GESTURE_PHASE_IDLE = 0,
   GESTURE_PHASE_PRESS1 = 1,
   GESTURE_PHASE_PANNING = 2,
   GESTURE_PHASE_PINCHING = 3
 } gesture_phase_t;
+
 /**
  * The recognizer state. Fixed-capacity (no malloc): every live pointer is
  * tracked (up to GESTURE_MAX_POINTERS), insertion-ordered; the FSM's pinch view
@@ -89,6 +94,7 @@ typedef struct {
   double last_tap_y;
   int32_t last_tap_t;
 } gesture_recognizer_t;
+
 /** Euclidean distance between two NDC points. */
 double gesture_ndc_dist(double ax, double ay, double bx, double by);
 /** Reset the recognizer to its initial idle state (mirrors reset()). */

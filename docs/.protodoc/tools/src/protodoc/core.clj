@@ -1,15 +1,15 @@
 (ns protodoc.core
   "CLI entry point for protodoc tool."
-  (:require [protodoc.schema :as schema]
-            [protodoc.parse :as parse]
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [protodoc.binary-dedup :as binary-dedup]
             [protodoc.extract :as extract]
-            [protodoc.render :as render]
             [protodoc.lint :as lint]
             [protodoc.manifest :as manifest]
-            [protodoc.binary-dedup :as binary-dedup]
-            [clojure.edn :as edn]
-            [clojure.string :as str]
-            [clojure.java.io :as io]
+            [protodoc.parse :as parse]
+            [protodoc.render :as render]
+            [protodoc.schema :as schema]
             [taoensso.telemere :as t])
   (:gen-class))
 

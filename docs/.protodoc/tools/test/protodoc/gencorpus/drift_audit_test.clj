@@ -36,10 +36,10 @@
    width (float fields → float32, else double; counts → long); only a real VALUE
    drift then fails."
   [ftype c]
-  (let [num (if (= :float ftype) #(double (float %)) double)]
+  (let [numify (if (= :float ftype) #(double (float %)) double)]
     (reduce-kv (fn [m k v]
                  (assoc m k (cond
-                              (#{:gte :gt :lte :lt} k) (num v)
+                              (#{:gte :gt :lte :lt} k) (numify v)
                               (#{:min-len :max-len :min-items :max-items} k) (long v)
                               (vector? v) (vec v)
                               :else v)))

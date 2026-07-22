@@ -1,14 +1,28 @@
 # Canonical C style for the renderer's hand-authored sources.
 #
-# The load-bearing keys make clang-format a TOTAL canonical projection — two
-# different layouts of the same code format identically, and format∘format ≡
-# format. That fixed-point property is what lets this be a CI gate at all
-# rather than a suggestion:
+# The load-bearing keys make clang-format IDEMPOTENT — format∘format ≡ format,
+# so the formatted tree is a fixed point and `--dry-run --Werror` can be a CI
+# gate rather than a suggestion. Note IDEMPOTENT, not TOTAL: two different
+# layouts of the same code do not necessarily converge (see MaxEmptyLinesToKeep
+# below), and claiming otherwise is what produced an unsatisfiable gate.
 #   DerivePointerAlignment: false  — output must not depend on input layout
 #                                    (deriving it defeats canonicalisation).
-#   MaxEmptyLinesToKeep: 0         — drop discretionary author blank lines,
-#   SeparateDefinitionBlocks: Always — then re-add them deterministically, so
-#                                    blank lines become INPUT-INDEPENDENT.
+#   SeparateDefinitionBlocks: Always — exactly one blank line between top-level
+#                                    definitions, inserted deterministically.
+#   MaxEmptyLinesToKeep: 1         — caps runs of blank lines at one. It must
+#                                    NOT be 0: 0 forbids the very blank line
+#                                    SeparateDefinitionBlocks inserts, and the
+#                                    two rules then contradict each other —
+#                                    `clang-format -i` strips the separators
+#                                    and `--dry-run --Werror` immediately
+#                                    demands them back. Measured on renderer.c:
+#                                    130 violations surviving three -i passes
+#                                    unchanged, i.e. a gate no tree could ever
+#                                    satisfy. The pairing is idempotent
+#                                    (format∘format ≡ format) but not total:
+#                                    an author blank line INSIDE a function
+#                                    body survives, and that is the price of
+#                                    the gate being reachable at all.
 #   InsertNewlineAtEOF: true       — exactly one trailing newline, always.
 #   UseTab: Never                  — tabs are layout; spaces only.
 #
@@ -19,7 +33,7 @@
 BasedOnStyle: LLVM
 ColumnLimit: 80
 DerivePointerAlignment: false
-MaxEmptyLinesToKeep: 0
+MaxEmptyLinesToKeep: 1
 SeparateDefinitionBlocks: Always
 InsertNewlineAtEOF: true
 UseTab: Never

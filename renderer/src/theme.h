@@ -19,11 +19,13 @@
 #ifndef ASGARD_THEME_H
 #define ASGARD_THEME_H
 #include "lvgl.h"
+
 typedef enum {
   ASGARD_THEME_FAMILY_ASGARD = 0,
   ASGARD_THEME_FAMILY_VANILLA = 1,
   ASGARD_THEME_FAMILY_STOCK = 2,
 } asgard_theme_family_t;
+
 /* Init (or re-init — styles are reset in place, so live widgets restyle on
  * lv_obj_report_style_change) the child theme for `dark` + `family` and
  * return it. `parent` is the stock theme: the child chains to it

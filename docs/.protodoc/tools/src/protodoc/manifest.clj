@@ -269,8 +269,8 @@
      [:bytes ...] octet schema (NOT a string — base64 would misencode).
    - the proto3 zero-reject patterns (enum not_in:[0], scalar gte:1 / gt:0)
      carry a :no-default marker in the schema's malli properties map."
-  [{:keys [type constraints type-ref]} enums-map]
-  (case type
+  [{:keys [constraints type-ref], ftype :type} enums-map]
+  (case ftype
     :double (double-schema :double constraints)
     ;; :float kept distinct from :double so the field type survives.
     :float (double-schema :float constraints)
@@ -473,10 +473,10 @@
            (vec (for [leaf (:fields nested-msg)
                       :when (not= :message (:type leaf))]
                   {:signal-name (make-signal-name
-                                  (str sub-prefix
-                                       (str/upper-case (subs (snake->camel (:name nf)) 0 1))
-                                       (subs (snake->camel (:name nf)) 1))
-                                  (:name leaf))
+                                 (str sub-prefix
+                                      (str/upper-case (subs (snake->camel (:name nf)) 0 1))
+                                      (subs (snake->camel (:name nf)) 1))
+                                 (:name leaf))
                    :field-name (:name leaf)
                    :type (name (:type leaf))
                    :constraints (:constraints leaf)}))})]
@@ -488,7 +488,7 @@
 
 (defn build-reverse-index
   "Build reverse index linking doc files to endpoints and signals."
-  [endpoints-data signals-data sub-signals-data]
+  [endpoints-data signals-data]
   (let [;; By doc file
         ep-by-doc (group-by :doc-file (:endpoints endpoints-data))
         sig-by-doc (group-by :doc-file (:signals signals-data))
@@ -508,28 +508,28 @@
                       ;; Cross-link: endpoints → related signals via interaction.related-state
                       (seq (get ep-by-doc df))
                       (as-> m
-                        (let [related-state-docs
-                              (->> (get ep-by-doc df)
-                                   (mapcat #(get-in % [:interaction :related-state]))
-                                   (map #(str "proto/" % ".md"))
-                                   distinct)]
-                          (if (seq related-state-docs)
-                            (assoc m :related-signal-docs (vec related-state-docs))
-                            m)))
+                            (let [related-state-docs
+                                  (->> (get ep-by-doc df)
+                                       (mapcat #(get-in % [:interaction :related-state]))
+                                       (map #(str "proto/" % ".md"))
+                                       distinct)]
+                              (if (seq related-state-docs)
+                                (assoc m :related-signal-docs (vec related-state-docs))
+                                m)))
 
                       ;; Cross-link: signals → related endpoints via endpoint interaction.related-state
                       (seq (get sig-by-doc df))
                       (as-> m
-                        (let [related-eps
-                              (->> (:endpoints endpoints-data)
-                                   (filter #(some (fn [rs]
-                                                    (= df (str "proto/" rs ".md")))
-                                                  (get-in % [:interaction :related-state])))
-                                   (map :path)
-                                   distinct)]
-                          (if (seq related-eps)
-                            (assoc m :related-endpoints (vec related-eps))
-                            m))))]))
+                            (let [related-eps
+                                  (->> (:endpoints endpoints-data)
+                                       (filter #(some (fn [rs]
+                                                        (= df (str "proto/" rs ".md")))
+                                                      (get-in % [:interaction :related-state])))
+                                       (map :path)
+                                       distinct)]
+                              (if (seq related-eps)
+                                (assoc m :related-endpoints (vec related-eps))
+                                m))))]))
 
         ;; By endpoint
         by-endpoint
@@ -551,16 +551,16 @@
                    ;; Find endpoints whose related-state includes this signal's message
                    true
                    (as-> m
-                     (let [related-eps
-                           (->> (:endpoints endpoints-data)
-                                (filter #(some (fn [rs]
-                                                 (= (:proto-message sig) rs))
-                                               (get-in % [:interaction :related-state])))
-                                (map :doc-file)
-                                distinct)]
-                       (if (seq related-eps)
-                         (assoc m :related-cmd-docs (vec related-eps))
-                         m))))]))]
+                         (let [related-eps
+                               (->> (:endpoints endpoints-data)
+                                    (filter #(some (fn [rs]
+                                                     (= (:proto-message sig) rs))
+                                                   (get-in % [:interaction :related-state])))
+                                    (map :doc-file)
+                                    distinct)]
+                           (if (seq related-eps)
+                             (assoc m :related-cmd-docs (vec related-eps))
+                             m))))]))]
 
     {:by-doc-file by-doc-file
      :by-endpoint by-endpoint
@@ -600,7 +600,7 @@
         endpoints-data (extract-endpoints db config)
         signals-data (extract-signals db config)
         sub-signals-data (extract-sub-signals db config)
-        reverse-index-data (build-reverse-index endpoints-data signals-data sub-signals-data)
+        reverse-index-data (build-reverse-index endpoints-data signals-data)
 
         ;; Add metadata
         endpoints-manifest {:version "1.0.0"
@@ -630,16 +630,16 @@
     (.mkdirs out-dir)
 
     (doseq [[filename data] [["endpoints.json" endpoints-manifest]
-                              ["signals.json" signals-manifest]
-                              ["sub-signals.json" sub-signals-manifest]
-                              ["reverse-index.json" reverse-index-manifest]]]
+                             ["signals.json" signals-manifest]
+                             ["sub-signals.json" sub-signals-manifest]
+                             ["reverse-index.json" reverse-index-manifest]]]
       (let [f (io/file out-dir filename)]
         (spit f (json/write-str data :key-fn #(if (keyword? %)
-                                                 (cond-> (name %)
-                                                   (namespace %)
-                                                   (->> (str (namespace %) "/")))
-                                                 (str %))
-                                 :escape-slash false))
+                                                (cond-> (name %)
+                                                  (namespace %)
+                                                  (->> (str (namespace %) "/")))
+                                                (str %))
+                                :escape-slash false))
         (t/log! :info ["Wrote" (.getPath f)])))
 
     ;; Summary

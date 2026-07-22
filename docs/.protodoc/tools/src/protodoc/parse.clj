@@ -158,7 +158,7 @@
    Throws ex-info if an unknown constraint type is encountered."
   [options]
   (when-let [validate (get options "[buf.validate.field]")]
-    (let [constraints (transient {})]
+    (let [constraints (volatile! (transient {}))]
 
       ;; Process all type-level constraints (numeric, string, bytes, enum, repeated)
       (doseq [type-key (keys validate)
@@ -189,16 +189,16 @@
             ;; Parse using multimethod and merge result
             (let [result (parse-constraint type-key constraint-key value)]
               (doseq [[k v] result]
-                (assoc! constraints k v))))))
+                (vswap! constraints assoc! k v))))))
 
       ;; Handle 'required' constraint (top-level in validate object)
       (when (contains? validate "required")
         (let [result (parse-constraint "required" nil (get validate "required"))]
           (doseq [[k v] result]
-            (assoc! constraints k v))))
+            (vswap! constraints assoc! k v))))
 
       ;; Return persistent map if non-empty
-      (let [result (persistent! constraints)]
+      (let [result (persistent! @constraints)]
         (when (seq result)
           result)))))
 
@@ -239,24 +239,24 @@
 
 (defn- build-message-id
   "Build full message ID from package and nested path."
-  [package parent-path name]
+  [package parent-path nm]
   (let [path-parts (if parent-path
-                     [package parent-path name]
-                     [package name])]
+                     [package parent-path nm]
+                     [package nm])]
     (str/join "." (remove str/blank? path-parts))))
 
 (defn- parse-message
   "Parse a message descriptor recursively, handling nested types."
   [msg-desc package source parent-path]
-  (let [name (get msg-desc "name")
+  (let [nm (get msg-desc "name")
         current-path (if parent-path
-                       (str parent-path "." name)
-                       name)
-        id (build-message-id package parent-path name)
+                       (str parent-path "." nm)
+                       nm)
+        id (build-message-id package parent-path nm)
 
         ;; Parse this message
         message {:id id
-                 :name name
+                 :name nm
                  :package (if parent-path
                             (str package "." parent-path)
                             package)
@@ -271,7 +271,7 @@
         ;; Parse nested messages
         nested-msgs (for [nested (get msg-desc "nestedType" [])
                          ;; Skip map entry types
-                         :when (not (get-in nested ["options" "mapEntry"]))]
+                          :when (not (get-in nested ["options" "mapEntry"]))]
                       (parse-message nested package source current-path))]
 
     (cons message (mapcat identity nested-msgs))))
@@ -312,9 +312,9 @@
   "Filter to jon_shared_* and opaque/* proto files."
   [files]
   (filter (fn [file]
-            (let [name (get file "name" "")]
-              (or (str/starts-with? name "jon_shared_")
-                  (str/starts-with? name "opaque/"))))
+            (let [nm (get file "name" "")]
+              (or (str/starts-with? nm "jon_shared_")
+                  (str/starts-with? nm "opaque/"))))
           files))
 
 (defn parse-descriptor-file

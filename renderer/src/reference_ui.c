@@ -41,6 +41,7 @@ extern lv_obj_t *tv;
 #define REF_BOX_W 100
 #define REF_BOX_H 50
 #define REF_LABEL_W 80
+
 enum ref_prop {
   REF_PROP_ALIGN = 0,
   /* lv_obj box aligned data[1] on the parent */
@@ -103,6 +104,7 @@ enum ref_prop {
                                   loaded by BOTH wasm builds (PNG lodepng /
                                   SVG ThorVG decoder parity). */
 };
+
 /* The vendored demo's compiled-in image descriptors (lvgl/demos/widgets/
  * assets/img_*.c — linked into reference.wasm only). The P:images/demo/
  * PNG twins are extracted from these arrays by pocs/08-image-extract. */
@@ -130,6 +132,7 @@ static const void *const image_srcs[] = {
     /* 6 file SVG twin of 5, both sides */
     "P:icons/test_shapes.svg", /* 7 file SVG multi-shape, both sides */
 };
+
 /* One widget of WidgetType wire number `kind` (renderer.c's creation
  * switch, mirrored literally), with text applied exactly where the
  * renderer applies it. Returns NULL for kinds this family does not build
@@ -252,6 +255,7 @@ static lv_obj_t *make_widget(lv_obj_t *parent, uint8_t kind) {
   }
   return w;
 }
+
 /* Size a widget the way the PROTO path can: the renderer applies w/h via
  * lv_obj_add_style (style-group), which a widget's own LOCAL style outranks
  * — so a spinbox (one-line textarea, content-driven local height) cannot be
@@ -263,6 +267,7 @@ static void size_widget(lv_obj_t *w, uint8_t kind, int32_t width,
   else
     lv_obj_set_size(w, width, height);
 }
+
 /* Centered fixed-size box — the shared scaffold of every case. */
 static lv_obj_t *make_box(lv_obj_t *parent) {
   lv_obj_t *box = lv_obj_create(parent);
@@ -272,6 +277,7 @@ static lv_obj_t *make_box(lv_obj_t *parent) {
   lv_obj_align(box, LV_ALIGN_CENTER, 0, 0);
   return box;
 }
+
 /* Label child of `box` — the shared scaffold of the text-prop cases. */
 static lv_obj_t *make_label(lv_obj_t *box) {
   lv_obj_t *label = lv_label_create(box);
@@ -281,6 +287,7 @@ static lv_obj_t *make_label(lv_obj_t *box) {
   lv_obj_set_width(label, REF_LABEL_W);
   return label;
 }
+
 int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
                             lv_obj_t *parent) {
   /* The selector protocol is exactly two bytes — fail loud on anything
@@ -545,18 +552,22 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
     return -1;
   }
 }
+
 int update_state_from_proto(const uint8_t *data, uint32_t len) {
   /* The reference path has no reactive state — every case is static. */
   (void)data;
   (void)len;
   return 0;
 }
+
 void renderer_cleanup(void) {
   /* No subjects or style pool in the reference path — nothing to free. */
 }
+
 void proxy_report_sweep(void) {
   /* The reference path builds no host proxies — nothing to report. */
 }
+
 int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len) {
   /* The reference path decodes no proto — a crafted CmdSpec `.pb` never reaches
    * a decode boundary here. Report the nanopb-reject sentinel; the controls
@@ -566,6 +577,7 @@ int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len) {
   (void)len;
   return -2;
 }
+
 int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
                                uint32_t expected_base_hash,
                                uint32_t *out_target_hash) {

@@ -1,7 +1,7 @@
 (ns protodoc.render-test
   "Tests for markdown rendering."
-  (:require [clojure.test :refer [deftest testing is]]
-            [clojure.string :as str]
+  (:require [clojure.string :as str]
+            [clojure.test :refer [deftest testing is]]
             [protodoc.render :as render]))
 
 (def sample-message

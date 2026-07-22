@@ -1,6 +1,7 @@
 (ns protodoc.extract-test
   "Tests for markdown extraction (roundtrip preservation)."
-  (:require [clojure.test :refer [deftest testing is]]
+  (:require [clojure.string :as str]
+            [clojure.test :refer [deftest testing is]]
             [protodoc.extract :as extract]))
 
 (def sample-markdown
@@ -48,11 +49,11 @@ This is an unused field note.
         (let [result (extract/extract-from-file (.getPath temp-file))]
           (is (= "cmd.DayCamera.SetIris" (:id result)))
           (is (string? (:description result)))
-          (is (clojure.string/includes? (:description result) "Sets the day camera"))
-          (is (clojure.string/includes? (:description result) "[[JonGuiDataCameraDay]]"))
+          (is (str/includes? (:description result) "Sets the day camera"))
+          (is (str/includes? (:description result) "[[JonGuiDataCameraDay]]"))
           (is (map? (:field-notes result)))
           (is (contains? (:field-notes result) 1))
-          (is (clojure.string/includes? (get-in result [:field-notes 1 :description]) "normalized value")))
+          (is (str/includes? (get-in result [:field-notes 1 :description]) "normalized value")))
         (finally
           (.delete temp-file))))))
 
@@ -63,9 +64,9 @@ This is an unused field note.
         (spit temp-file sample-markdown)
         (let [result (extract/extract-from-file (.getPath temp-file))]
           ;; Wikilinks should be preserved
-          (is (clojure.string/includes? (:description result) "[[JonGuiDataCameraDay]]"))
+          (is (str/includes? (:description result) "[[JonGuiDataCameraDay]]"))
           ;; Bold markers should be preserved
-          (is (clojure.string/includes? (get-in result [:field-notes 1 :description]) "**UI:**")))
+          (is (str/includes? (get-in result [:field-notes 1 :description]) "**UI:**")))
         (finally
           (.delete temp-file))))))
 
@@ -220,12 +221,12 @@ Normalized iris position (0.0 = closed, 1.0 = fully open).
           (is (= :actuator (:category interaction)))
           (is (= :slider-with-presets (:ui-pattern interaction)))
           (is (= :pending-timeout (:feedback interaction)))
-          (is (clojure.string/includes? (:purpose interaction) "physical iris aperture"))
+          (is (str/includes? (:purpose interaction) "physical iris aperture"))
           (is (= ["ser.JonGuiDataCameraDay"] (:related-state interaction)))
           (is (= ["cmd.DayCamera.SetAutoIris"] (:related-commands interaction)))
           (is (= ["Camera must be started" "Auto-iris must be disabled"]
                  (:preconditions interaction)))
-          (is (clojure.string/includes? (:notes interaction) "500ms")))
+          (is (str/includes? (:notes interaction) "500ms")))
         (finally
           (.delete temp-file))))))
 
@@ -237,7 +238,7 @@ Normalized iris position (0.0 = closed, 1.0 = fully open).
         (let [result (extract/extract-from-file (.getPath temp-file))
               field-note (get-in result [:field-notes 1])]
           (is (some? field-note))
-          (is (clojure.string/includes? (:description field-note) "Normalized iris position"))
+          (is (str/includes? (:description field-note) "Normalized iris position"))
           (let [field-interaction (:interaction field-note)]
             (is (some? field-interaction))
             (is (= :normalized (:semantic-type field-interaction)))
@@ -340,4 +341,4 @@ type: message
       ;; Field 1 interaction should be preserved
       (is (= :normalized (get-in (first (:fields msg)) [:interaction :semantic-type])))
       ;; New field 2 should have no interaction
-      (is (nil? (get-in (second (:fields msg)) [:interaction]))))))
+      (is (nil? (:interaction (second (:fields msg))))))))

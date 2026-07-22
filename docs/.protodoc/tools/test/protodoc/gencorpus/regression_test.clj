@@ -93,10 +93,10 @@
       (is (not= :int (first s)))))
   (testing "big-uint-gen over the full uint64 range is NEVER negative (the bug generated negatives)"
     (let [g (assemble/big-uint-gen 0N uint64-max)
-          vals (mapv #(assemble/sample g %) (range 200))]
-      (is (every? #(instance? clojure.lang.BigInt %) vals) "values are BigInt")
-      (is (not-any? neg? vals) "no negative uint64 ever generated")
-      (is (every? #(<= 0N % uint64-max) vals) "all within [0, 2^64-1]")))
+          samples (mapv #(assemble/sample g %) (range 200))]
+      (is (every? #(instance? clojure.lang.BigInt %) samples) "values are BigInt")
+      (is (not-any? neg? samples) "no negative uint64 ever generated")
+      (is (every? #(<= 0N % uint64-max) samples) "all within [0, 2^64-1]")))
   (testing "2^64-1 is producible AND serializes byte-exact through a real uint64 field"
     (let [d (desc "ser.CvChannelMeta")
           f (fld "ser.CvChannelMeta" "pts_ns")
@@ -278,9 +278,9 @@
   (testing "cmd.Root sets AT MOST ONE payload-oneof branch (never MULTIPLE_PAYLOADS)"
     (let [d (desc "cmd.Root")
           oneof-names (->> (Descriptors$Descriptor/.getOneofs d)
-                          (mapcat #(Descriptors$OneofDescriptor/.getFields ^Descriptors$OneofDescriptor %))
-                          (map #(Descriptors$FieldDescriptor/.getName ^Descriptors$FieldDescriptor %))
-                          set)
+                           (mapcat #(Descriptors$OneofDescriptor/.getFields ^Descriptors$OneofDescriptor %))
+                           (map #(Descriptors$FieldDescriptor/.getName ^Descriptors$FieldDescriptor %))
+                           set)
           exactly-one (atom 0)]
       (is (seq oneof-names) "cmd.Root has a payload oneof")
       (doseq [seed (range 16)]

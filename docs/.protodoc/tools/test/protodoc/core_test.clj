@@ -1,10 +1,11 @@
 (ns protodoc.core-test
   "Tests for CLI and integration workflows."
-  (:require [clojure.test :refer [deftest testing is]]
-            [clojure.data.json :as json]
+  (:require [clojure.data.json :as json]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.test :refer [deftest testing is]]
             [protodoc.core :as core]
-            [protodoc.schema :as schema]
-            [clojure.java.io :as io]))
+            [protodoc.schema :as schema]))
 
 (deftest coverage-error-handling-test
   (testing "Throws when DB not found"
@@ -20,7 +21,7 @@
         ;; Should not throw - captures output (note: format uses %3d padding)
         (let [output (with-out-str
                        (core/coverage {:db-path (.getPath temp-file)}))]
-          (is (clojure.string/includes? output "  0 /   0")))
+          (is (str/includes? output "  0 /   0")))
         (finally
           (.delete temp-file))))))
 

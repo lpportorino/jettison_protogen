@@ -1,8 +1,8 @@
 (ns protodoc.render
   "Render proto-db to Obsidian-compatible markdown files."
-  (:require [selmer.parser :as selmer]
-            [clojure.java.io :as io]
+  (:require [clojure.java.io :as io]
             [clojure.string :as str]
+            [selmer.parser :as selmer]
             [taoensso.telemere :as t]))
 
 ;; Configure Selmer to use our templates directory
@@ -59,10 +59,10 @@
 
 (defn- format-type
   "Format field type with optional reference link."
-  [{:keys [type type-ref repeated]}]
+  [{:keys [type-ref repeated], ftype :type}]
   (let [base-type (if type-ref
                     (str "[[proto/" type-ref "]]")
-                    (name type))]
+                    (name ftype))]
     (if repeated
       (str "repeated " base-type)
       base-type)))
@@ -133,10 +133,10 @@
    :package (:package enum)
    :source (:source enum)
    :description (:description enum)
-   :values (for [val (:values enum)]
-             {:number (:number val)
-              :name (:name val)
-              :description (:description val)})})
+   :values (for [v (:values enum)]
+             {:number (:number v)
+              :name (:name v)
+              :description (:description v)})})
 
 (defn- output-path-for-message
   "Generate output file path for a message.

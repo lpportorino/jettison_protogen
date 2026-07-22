@@ -1,9 +1,9 @@
 (ns protodoc.schema
   "Malli schemas for proto documentation database."
-  (:require [malli.core :as m]
+  (:require [clojure.test.check.generators :as gen]
+            [malli.core :as m]
             [malli.error :as me]
-            [malli.generator :as mg]
-            [clojure.test.check.generators :as gen]))
+            [malli.generator :as mg]))
 
 ;; Custom generators for realistic test data
 (def proto-generators

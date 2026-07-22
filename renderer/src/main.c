@@ -144,6 +144,7 @@ static_assert(GESTURE_MAX_POINTERS >= GESTURE_MAX_POINTERS_TABLE,
 /* Buffered gesture decisions for R5 (the cmd-out wave). onMove during a pinch
  * can emit many ratchet steps, so this is a generous ring the host drains. */
 #define GESTURE_DECISION_BUFFER 64
+
 /* Per-pointer ownership, latched at DOWN and sticky for the pointer's life. */
 typedef enum {
   POINTER_OWNER_NONE = 0,
@@ -152,6 +153,7 @@ typedef enum {
   /* hit a clickable widget — drives indev globals */
   POINTER_OWNER_VIDEO = 2 /* video area — feeds gesture.c FSM */
 } pointer_owner_t;
+
 /* Fields ordered widest-first (the clang-tidy padding-optimal layout); the
  * semantic grouping is in the comments, not the declaration order. */
 typedef struct {
@@ -164,6 +166,7 @@ typedef struct {
   bool active;
   uint8_t owner; /* pointer_owner_t */
 } pointer_slot_t;
+
 static pointer_slot_t g_pointers[GESTURE_MAX_POINTERS_TABLE];
 /* The video-FSM recognizer fed by VIDEO-owned pointers only. */
 static gesture_recognizer_t g_gesture;
@@ -248,10 +251,12 @@ static void reset_hover_report(void);
  * lvgl/src/core/lv_group.h) or printable Unicode codepoints, which
  * lv_textarea's LV_EVENT_KEY handler inserts directly. */
 #define KEY_QUEUE_CAP 64u
+
 typedef struct {
   uint32_t key;
   uint32_t pressed;
 } key_event_t;
+
 static key_event_t key_queue[KEY_QUEUE_CAP];
 static uint32_t key_q_head, key_q_tail; /* head == tail -> empty */
 /* Group of focusable widgets. lv_group_set_default makes every widget whose
@@ -290,6 +295,7 @@ static int last_ui_stale = 0;
  * "Reconciler op-application contract" in
  * docs/lvgl-factory/10-TREE-PATCH-DESIGN.md). */
 static int tree_indeterminate = 0;
+
 static uint32_t fnv1a32(const uint8_t *data, uint32_t len) {
   uint32_t hash = 2166136261u;
   for (uint32_t i = 0; i < len; i++) {
@@ -298,8 +304,10 @@ static uint32_t fnv1a32(const uint8_t *data, uint32_t len) {
   }
   return hash;
 }
+
 /* Display handle — needed to re-init the default theme on theme switch */
 static lv_display_t *display = NULL;
+
 /* Empty + freeze the input group around tree teardown/build. Two LVGL
  * behaviors would otherwise add focus styling to a freshly built frame:
  * lv_group_remove_obj refocuses a sibling (and unfreezes) when the focused
@@ -313,11 +321,13 @@ static void input_group_begin_build(void) {
   lv_group_remove_all_objs(input_group);
   lv_group_focus_freeze(input_group, true);
 }
+
 static void input_group_end_build(void) {
   if (!input_group)
     return;
   lv_group_focus_freeze(input_group, false);
 }
+
 /* Patch-time defocus (see renderer.h): when the focused widget is
  * inside `subtree_root`, replicate lv_group_remove_all_objs' defocus
  * semantics for ONE object — DEFOCUSED event + obj_focus = NULL — so
@@ -338,6 +348,7 @@ void input_group_defocus_within(lv_obj_t *subtree_root) {
     }
   }
 }
+
 /* Rebuild the widget tree from the cached .pb. Returns 0, or the
  * build_ui_from_proto_raw failure (-1) so a composite-triggered rebuild that
  * itself fails surfaces instead of leaving a half-built tree green (D2). */
@@ -351,6 +362,7 @@ static int rebuild_ui(void) {
   input_group_end_build();
   return rc;
 }
+
 /* The default theme must track theme_dark: bare layout containers and
  * built-in widget chrome (slider tracks, switch knobs, dropdown lists)
  * take their colors from the active LVGL theme, not from token styles.
@@ -389,6 +401,7 @@ static void apply_default_theme(void) {
   lv_obj_set_style_bg_opa(lv_screen_active(), LV_OPA_TRANSP, LV_PART_MAIN);
   lv_obj_set_style_bg_opa(lv_layer_bottom(), LV_OPA_TRANSP, LV_PART_MAIN);
 }
+
 /* Returns 0, or CONTROLS_NEEDS_FULL_RELOAD when a rebuild was needed
  * but last_ui_data is STALE (patched tree) — rebuilding from the cache
  * would silently revert the patched UI (D6). */
@@ -431,12 +444,14 @@ static int32_t update_composite(void) {
   }
   return 0;
 }
+
 /* Set the dark/light theme and restyle. Shared by the controls_set_theme_dark
  * export and the ui.Lifecycle theme path (controls_host_message). */
 static int32_t set_theme_dark(int32_t dark) {
   current_theme_dark = (dark != 0) ? 1 : 0;
   return update_composite();
 }
+
 /**
  * LVGL display flush callback.
  * LVGL 9.x outputs ARGB8888 when color format is LV_COLOR_FORMAT_ARGB8888.
@@ -496,6 +511,7 @@ flush_cb(lv_display_t *disp, const lv_area_t *area,
   lv_display_flush_ready(disp);
   flush_happened = 1;
 }
+
 /**
  * LVGL 9.x display init.
  */
@@ -528,6 +544,7 @@ static lv_display_t *init_display(uint32_t width, uint32_t height) {
   lv_obj_remove_flag(lv_screen_active(), LV_OBJ_FLAG_CLICKABLE);
   return disp;
 }
+
 /* LVGL input read callback (polled each tick) */
 static void indev_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
   (void)indev;
@@ -536,6 +553,7 @@ static void indev_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
   data->state =
       pointer_pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
 }
+
 /* Keypad read callback: drain one queued key event per call;
  * continue_reading makes LVGL re-poll until the queue is empty, so every
  * press/release edge is observed even when several keys land in one tick. */
@@ -551,6 +569,7 @@ static void keypad_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
   data->state = ev.pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
   data->continue_reading = key_q_head != key_q_tail;
 }
+
 /*
  * === WASM Exports ===
  */
@@ -559,6 +578,7 @@ static void keypad_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
  * uncapped huge dim wrapped the uint32 size to a small value → calloc a tiny
  * buffer the renderer then wrote past (heap corruption). */
 #define CONTROLS_MAX_DIM 16384u
+
 int32_t controls_init(uint32_t width, uint32_t height) {
   if (width == 0 || height == 0 || width > CONTROLS_MAX_DIM ||
       height > CONTROLS_MAX_DIM)
@@ -607,6 +627,7 @@ int32_t controls_init(uint32_t width, uint32_t height) {
   /* No UI built here — wait for controls_load_ui() call */
   return 0;
 }
+
 int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
   /* A full load is the patch chain's reset point: the cache becomes
    * fresh again, the current-state hash is the loaded bytes', and an
@@ -658,9 +679,11 @@ int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
     last_ui_stale = 1;
   return status;
 }
+
 int32_t controls_update_state(uint32_t ptr, uint32_t len) {
   return update_state_from_proto((const uint8_t *)ptr, len);
 }
+
 /**
  * Apply a ScreenPatch (partial tree update) against the live widget
  * tree. Returns 0 on success or a negative PATCH_ERR_* code (see
@@ -703,6 +726,7 @@ int32_t controls_apply_patch(uint32_t ptr, uint32_t len) {
   }
   return rc;
 }
+
 /* ── Pointer pipeline (controls_host_message) ──────────────────────────────
  * The bounded table is scanned linearly (NEVER indexed by the raw 32-bit id);
  * DOWN allocates/re-seats, MOVE/UP/CANCEL route by the latched owner. */
@@ -714,6 +738,7 @@ static pointer_slot_t *pointer_find(uint32_t pointer_id) {
   }
   return NULL;
 }
+
 /* Claim a free slot, or NULL when the table is full (DOWN beyond MAX is
  * dropped — a live slot is NEVER evicted). */
 static pointer_slot_t *pointer_alloc(void) {
@@ -723,12 +748,14 @@ static pointer_slot_t *pointer_alloc(void) {
   }
   return NULL;
 }
+
 /* Map a clamped NDC coord to framebuffer px. NDC is +x right, +y UP, so the
  * Y axis flips: [-1,1] -> [0,height] with 1.0 (top) at row 0. */
 static void ndc_to_px(double ndc_x, double ndc_y, lv_point_t *out) {
   out->x = (int32_t)((ndc_x + 1.0) * 0.5 * (double)fb_width);
   out->y = (int32_t)((1.0 - ndc_y) * 0.5 * (double)fb_height);
 }
+
 /* Capture-on-claim hit-test (§4/§5): resolve the top clickable LVGL obj under
  * the NDC point. lv_indev_search_obj walks the active screen honoring HIDDEN +
  * LV_OBJ_FLAG_CLICKABLE (lv_obj_hit_test), exactly as the indev press path; a
@@ -741,6 +768,7 @@ static pointer_owner_t hit_test_owner(double ndc_x, double ndc_y) {
   lv_obj_t *hit = lv_indev_search_obj(lv_screen_active(), &p);
   return hit ? POINTER_OWNER_LVGL : POINTER_OWNER_VIDEO;
 }
+
 /* Clear the phantom hover a finished LVGL-owned press leaves behind.
  *
  * LVGL's press path sends LV_EVENT_HOVER_OVER to the widget it presses
@@ -780,6 +808,7 @@ static void clear_press_hover(double down_x, double down_y, double up_x,
   if (down_hit && down_hit != up_hit)
     lv_obj_remove_state(down_hit, LV_STATE_HOVERED);
 }
+
 /* Drive the indev globals from the primary (first) LVGL-owned slot, or release
  * the press when no LVGL-owned pointer is live. indev_read_cb polls these on
  * the next tick, so button_event_cb / slider / textarea fire unchanged. */
@@ -796,6 +825,7 @@ static void indev_sync_from_table(void) {
   }
   pointer_pressed = 0;
 }
+
 /* Append a decision to the R5 buffer; on overflow drop the OLDEST (loud) so the
  * FSM never blocks on a full ring. */
 static void buffer_decision(const gesture_decision_t *d) {
@@ -808,12 +838,14 @@ static void buffer_decision(const gesture_decision_t *d) {
   }
   g_decisions[g_decision_count++] = *d;
 }
+
 /* ── R5b cmd-out gesture-template registry (renderer.h drain seam) ──────────*/
 /* Clear the registered gesture→cmd templates (a full build starts empty). */
 void controls_gesture_specs_reset(void) {
   g_gesture_spec_count = 0;
   g_gesture_spec_owner_uid = 0;
 }
+
 /* Replace the registered set with `count` specs (renderer-owned static array,
  * copied by value), OWNED by `owner_uid` (the building node's uid). A second
  * gesture surface in one build overwrites the first — the app mounts a single
@@ -831,6 +863,7 @@ void controls_gesture_specs_set(const cmd_gesture_spec_t *specs, uint32_t count,
   g_gesture_spec_count = count;
   g_gesture_spec_owner_uid = owner_uid;
 }
+
 /* Clear the spec set iff `uid` owns it (ITEM 7). Called from unregister_subtree
  * when a REMOVE patch tears down a gesture surface — a no-op for any other uid,
  * exactly like remove_proxy_entry. Without this, a removed surface's templates
@@ -841,6 +874,7 @@ void controls_gesture_specs_clear_owner(uint32_t uid) {
     g_gesture_spec_owner_uid = 0;
   }
 }
+
 /* The GestureSpec whose kind matches `kind`, or NULL. The host recognizer
  * decides a gesture_kind_t; the drain resolves it to its pre-encoded
  * template. */
@@ -851,6 +885,7 @@ static const cmd_gesture_spec_t *find_gesture_spec(gesture_kind_t kind) {
   }
   return NULL;
 }
+
 /* Drain the buffered gesture decisions into cmd-out (R5b §8). Per decision,
  * find the GestureSpec whose kind matches and emit the patched cmd:
  *   - PAN_END / TAP / TRACK carry the NDC point (x/y written verbatim);
@@ -868,6 +903,7 @@ static void drain_gesture_decisions(void) {
   }
   g_decision_count = 0;
 }
+
 /* Feed a VIDEO-owned sample to the FSM and buffer every decision emitted. */
 static void feed_gesture(int op, uint32_t pointer_id, double x, double y,
                          uint64_t t_ms) {
@@ -891,6 +927,7 @@ static void feed_gesture(int op, uint32_t pointer_id, double x, double y,
   for (int32_t i = 0; i < n; i++)
     buffer_decision(&out[i]);
 }
+
 /* Release a slot through the CANCEL path: a VIDEO-owned pointer reaches the
  * FSM as a SILENT abort (gesture_on_cancel — no terminal, no last_tap seed,
  * the 2->1 pinch-drop generalized); an LVGL-owned pointer just drops out of
@@ -910,6 +947,7 @@ static void pointer_release_cancel(pointer_slot_t *slot) {
   }
   slot->active = false;
 }
+
 /* ── R5b HOST_REPORT: hover / cursor feedback (§3+§8) ───────────────────────
  * On a pointer MOVE the WASM resolves what is under the cursor and the cursor
  * the host should paint. The hit-test is the SAME capture-on-claim resolution
@@ -946,6 +984,7 @@ static void compute_hover(double ndc_x, double ndc_y, uint32_t *out_uid,
   else
     *out_cursor = ui_CursorType_CURSOR_TYPE_POINTER;
 }
+
 /* pb_encode a ui.WasmToHost and relay it to the host via host_report. The
  * envelope carries the version guard + the populated oneof arm. Returns the
  * host_report result, or -1 if the encode overflows the bounded buffer (never
@@ -959,6 +998,7 @@ static int32_t emit_wasm_to_host(const ui_WasmToHost *msg) {
   }
   return host_report((uint32_t)(uintptr_t)buf, (uint32_t)stream.bytes_written);
 }
+
 /* Emit the hover + cursor reports for the point, DEBOUNCED: a hover report
  * fires only when (uid, interactive) changes; a cursor report only when the
  * cursor changes. A steady hover over one widget therefore produces exactly one
@@ -988,6 +1028,7 @@ static void report_hover_cursor(double ndc_x, double ndc_y) {
     g_last_cursor = (uint32_t)cursor;
   }
 }
+
 /* Reset the hover/cursor debounce to the never-yet-reported sentinels — a fresh
  * build (uids change) and the whole-surface flush both invalidate the cache, so
  * the next MOVE re-reports from scratch. */
@@ -996,6 +1037,7 @@ static void reset_hover_report(void) {
   g_last_hover_interactive = false;
   g_last_cursor = 0;
 }
+
 /* The POINTER pipeline (steps 3-6): self-validate, table-maintain, route. */
 static int32_t handle_pointer(const ui_PointerEvent *pe) {
   /* Self-validate at the boundary — nanopb strips buf.validate (§7). */
@@ -1099,6 +1141,7 @@ static int32_t handle_pointer(const ui_PointerEvent *pe) {
     return HOSTMSG_ERR_PHASE;
   }
 }
+
 /* The LIFECYCLE pipeline (step 7): theme restyle + the whole-surface flush. */
 static int32_t handle_lifecycle(const ui_Lifecycle *lc) {
   if (lc->theme == ui_ThemeMode_THEME_MODE_UNSPECIFIED)
@@ -1126,6 +1169,7 @@ static int32_t handle_lifecycle(const ui_Lifecycle *lc) {
   }
   return set_theme_dark(lc->theme == ui_ThemeMode_THEME_MODE_DARK ? 1 : 0);
 }
+
 /**
  * Decode a ui.HostToWasm and dispatch to the pointer or lifecycle pipeline.
  * `ptr`/`len` reference WASM linear memory (copied to a heap buffer before
@@ -1162,6 +1206,7 @@ int32_t controls_host_message(uint32_t ptr, uint32_t len) {
     return HOSTMSG_ERR_NO_EVENT;
   }
 }
+
 /* Stale-pointer GC (§8): sweep slots whose last event_time is older than the
  * staleness window and force-release them through the CANCEL path — the only
  * recovery from a dropped UP/CANCEL. Called from controls_tick with the latest
@@ -1184,6 +1229,7 @@ static void pointer_gc_sweep(void) {
   if (swept)
     indev_sync_from_table();
 }
+
 /* ── Pointer-pipeline buffer readback (harness-only, additive) ──────────────
  * R5 will drain g_decisions into cmd-out; until then these exports let the
  * harness assert the ROUTING contract — that VIDEO-owned pointers reach the
@@ -1192,6 +1238,7 @@ static void pointer_gc_sweep(void) {
  * as the gesture_test ABI. */
 /* Count of buffered gesture decisions (the R5 drain queue depth). */
 uint32_t controls_pointer_decisions_count(void) { return g_decision_count; }
+
 /* Count of active pointer-table slots (the table-invariant oracle: overflow
  * drop, orphan no-op, idempotent re-seat, GC sweep, lifecycle flush). */
 uint32_t controls_pointer_active_count(void) {
@@ -1202,13 +1249,16 @@ uint32_t controls_pointer_active_count(void) {
   }
   return n;
 }
+
 /* Pointer to the buffered gesture_decision_t array (g_decision_count entries).
  */
 uint32_t controls_pointer_decisions_ptr(void) {
   return (uint32_t)(uintptr_t)g_decisions;
 }
+
 /* Clear the buffered decisions (a test reset between assertions). */
 void controls_pointer_decisions_clear(void) { g_decision_count = 0; }
+
 /* Harness-only: probe cmd_patch_emit's slot-bounds guard (R5b memory-safety
  * regression). Builds a one-patch cmd_spec_t with the caller's slot over a
  * `template_len`-byte zeroed template, then emits. Returns cmd_patch_emit's rc:
@@ -1232,6 +1282,7 @@ int32_t controls_cmd_patch_probe(uint32_t byte_offset, uint32_t byte_width,
   spec.patches[0].wire_scale = 1;
   return cmd_patch_emit(&spec, 0.5, 0.0, 0);
 }
+
 /* Harness-only: feed a CRAFTED CmdSpec `.pb` (linear-memory ptr+len) through
  * the untrusted decode boundary (nanopb + cmd_spec_copy_from_proto). The
  * crafted-.pb complement to controls_cmd_patch_probe above, which hand-builds
@@ -1244,6 +1295,7 @@ int32_t controls_cmd_patch_probe(uint32_t byte_offset, uint32_t byte_width,
 int32_t controls_cmd_spec_decode_probe(uint32_t ptr, uint32_t len) {
   return cmd_spec_decode_probe((const uint8_t *)(uintptr_t)ptr, len);
 }
+
 /* ── Keyboard / clipboard ABI (additive) ───────────────────────────────────
  * Consumed by the in-fleet native host and wasmtime harness. No
  * wire/proto change — keys ride lv_key_t values and Unicode codepoints. */
@@ -1264,10 +1316,12 @@ int32_t controls_key_event(uint32_t key, uint32_t pressed) {
   key_q_tail = next;
   return 0;
 }
+
 /* Paste cap: the bounded staging buffer for controls_text_input. 4 KB of
  * UTF-8 is far beyond any plausible form field; larger pastes are rejected
  * loudly rather than truncated silently. */
 #define TEXT_INPUT_CAP 4096u
+
 /* The group-focused widget when it is exactly a textarea, else NULL.
  * Exact class check on purpose: lv_spinbox derives from lv_textarea but
  * owns its text as a formatted digit buffer — free-text paste into it (or
@@ -1280,6 +1334,7 @@ static lv_obj_t *focused_textarea(void) {
     return NULL;
   return focused;
 }
+
 /**
  * Insert UTF-8 text into the group-focused textarea (the paste path).
  * `ptr`/`len` reference WASM linear memory; the text need not be
@@ -1305,6 +1360,7 @@ int32_t controls_text_input(uint32_t ptr, uint32_t len) {
   lv_textarea_add_text(ta, buf);
   return 0;
 }
+
 /**
  * NUL-terminated text of the group-focused textarea (the copy path), or 0
  * (NULL) when no textarea is focused. v1 copies the WHOLE field — LVGL's
@@ -1317,6 +1373,7 @@ uint32_t controls_get_focused_text(void) {
     return 0;
   return (uint32_t)(uintptr_t)lv_textarea_get_text(ta);
 }
+
 int32_t controls_tick(uint32_t elapsed_ms) {
   lv_tick_inc(elapsed_ms);
   flush_happened = 0;
@@ -1335,17 +1392,24 @@ int32_t controls_tick(uint32_t elapsed_ms) {
   drain_gesture_decisions();
   return flush_happened;
 }
+
 uint32_t controls_get_framebuffer(void) {
   return (uint32_t)(uintptr_t)framebuffer;
 }
+
 /* ── ABI self-description getters (see CONTROLS_ABI_VERSION) ────────────────
  * Read by the host at module load/reload to validate the framebuffer layout
  * contract before it reads pixels out of linear memory. */
 uint32_t controls_abi_version(void) { return CONTROLS_ABI_VERSION; }
+
 uint32_t controls_fb_format(void) { return CONTROLS_FB_FMT_RGBA8888; }
+
 uint32_t controls_fb_width(void) { return fb_width; }
+
 uint32_t controls_fb_height(void) { return fb_height; }
+
 uint32_t controls_fb_bpp(void) { return 4u; }
+
 /* ── Semantic tree dump (controls_dump_tree) ───────────────────────────────
  * Walks the active screen and emits a compact JSON tree (type + resolved
  * coords + label text + hidden/checked + layout-defect flags + children, plus
@@ -1359,6 +1423,7 @@ uint32_t controls_fb_bpp(void) { return 4u; }
  * phase. */
 #define TREE_BUF_SIZE 131072u
 static char tree_buf[TREE_BUF_SIZE];
+
 /* Bounded JSON output sink — the ONE appending/escaping machinery, shared by
  * the tree dump (tree_buf) and the host_event envelope emitter (its own small
  * buffer). `truncated` records that an append was DROPPED for space: the tree
@@ -1370,7 +1435,9 @@ typedef struct {
   uint32_t pos;
   bool truncated;
 } json_out_t;
+
 static json_out_t tree_out = {tree_buf, TREE_BUF_SIZE, 0, false};
+
 static void json_append(json_out_t *out, const char *s) {
   if (out->pos >= out->cap)
     return; /* already full — pos is invariant-bounded below */
@@ -1384,6 +1451,7 @@ static void json_append(json_out_t *out, const char *s) {
   out->pos += len;
   out->buf[out->pos] = '\0';
 }
+
 /* Append a JSON-escaped string value (no quotes added), capping the input at
  * `max_chars`. esc[] is sized for the LARGEST cap any caller uses
  * (UI_EVENT_NAME_BUF × the 6-byte \u00xx worst case + NUL), so escaping is TOTAL
@@ -1391,7 +1459,8 @@ static void json_append(json_out_t *out, const char *s) {
  * mid-name. The event tag passes UI_EVENT_NAME_BUF (the full dotted command-id,
  * one home shared with the decode + cache buffers, renderer.h); the trigger is a
  * short enum name; the tree dump keeps its compact 64-char cap. */
-static void json_append_str(json_out_t *out, const char *s, uint32_t max_chars) {
+static void json_append_str(json_out_t *out, const char *s,
+                            uint32_t max_chars) {
   char esc[UI_EVENT_NAME_BUF * 6u + 8u];
   uint32_t o = 0;
   for (uint32_t i = 0; s[i] != '\0' && i < max_chars && o + 8u < sizeof(esc);
@@ -1409,10 +1478,13 @@ static void json_append_str(json_out_t *out, const char *s, uint32_t max_chars) 
   esc[o] = '\0';
   json_append(out, esc);
 }
+
 static void tree_append(const char *s) { json_append(&tree_out, s); }
+
 static void tree_append_json_str(const char *s) {
   json_append_str(&tree_out, s, 64u); /* compact dump cap */
 }
+
 /* ── UI-event envelope (host_event — the named-event lane) ──────────────────
  * Build + relay the CLOSED envelope JSON for a fired EventBinding with a
  * nonempty name:
@@ -1429,6 +1501,7 @@ static void tree_append_json_str(const char *s) {
  * REFUSED (-1, nothing sent), never invalid JSON. */
 #define EVENT_ENVELOPE_BUF_SIZE 1024u
 static uint32_t host_event_seq;
+
 int32_t controls_emit_host_event(const char *tag, const char *trigger,
                                  uint32_t origin_uid, int32_t value) {
   if (!tag || tag[0] == '\0')
@@ -1437,7 +1510,8 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
   json_out_t out = {buf, sizeof(buf), 0, false};
   char num[48];
   json_append(&out, "{\"v\":1,\"tag\":\"");
-  json_append_str(&out, tag, UI_EVENT_NAME_BUF); /* the full dotted command-id */
+  json_append_str(&out, tag,
+                  UI_EVENT_NAME_BUF); /* the full dotted command-id */
   (void)snprintf(num, sizeof(num), "\",\"origin\":%u,\"event\":\"",
                  (unsigned)origin_uid);
   json_append(&out, num);
@@ -1454,6 +1528,7 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
   host_event_seq++;
   return host_event((uint32_t)(uintptr_t)buf, out.pos);
 }
+
 /* clipped: a child whose resolved box escapes the parent's content area is
  * clipped by it. Geometry only — fires even on scrollable parents, where
  * scrollable_overflow is the "fine, it scrolls" companion signal. */
@@ -1469,6 +1544,7 @@ static bool obj_clipped(const lv_obj_t *obj, const lv_area_t *coords) {
     return true;
   return false;
 }
+
 /* Content extends beyond the visible content box in some direction. Uses
  * LVGL's own scroll extent (the distance you would scroll to reveal the hidden
  * content) — already padding/border-aware, so it does not false-fire on a
@@ -1482,6 +1558,7 @@ static bool obj_content_overflows(const lv_obj_t *obj) {
     return true;
   return false;
 }
+
 /* text_clipped: a CLIP-long-mode label whose text does not fit its content
  * box. CLIP keeps the box size and clips the glyphs out of it (no ellipsis,
  * unlike DOTS — so dot_begin never fires), which is the silent-truncation
@@ -1517,6 +1594,7 @@ static bool label_text_clipped(const lv_obj_t *obj) {
     return true;
   return false;
 }
+
 /* A scroll container reveals offscreen children by scrolling, so an object
  * sitting outside the display because a scrollable ancestor has it scrolled
  * away (or scroll-snaps to it — tabview inactive pages) is DESIGNED, not a
@@ -1541,6 +1619,7 @@ static bool obj_in_scroll_region(const lv_obj_t *obj) {
   }
   return false;
 }
+
 /* offscreen: the resolved object box lies (partly or wholly) outside the
  * display rectangle. Geometry only — a defect when the layout pushes a widget
  * past the screen edge, EXCLUDING children a scroll container designs off the
@@ -1562,6 +1641,7 @@ static bool obj_offscreen(const lv_obj_t *obj, const lv_area_t *coords) {
     return false;
   return true;
 }
+
 /* squished: a flex/grid child collapsed below the size it asked for. Two
  * cases, both relative to the PARENT's layout (a min-size or grow request is
  * only meaningful when a layout resolves it): the resolved w/h fell under the
@@ -1590,6 +1670,7 @@ static bool obj_squished(const lv_obj_t *obj, const lv_area_t *coords) {
     return true;
   return false;
 }
+
 static void dump_obj(const lv_obj_t *obj, bool is_root) {
   lv_area_t a;
   lv_obj_get_coords(obj, &a);
@@ -1682,6 +1763,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
   }
   tree_append("]}");
 }
+
 /* Dump the active screen's widget tree as JSON; returns a pointer to a static
  * NUL-terminated buffer in linear memory (host reads until NUL). */
 uint32_t controls_dump_tree(void) {
@@ -1706,6 +1788,7 @@ uint32_t controls_dump_tree(void) {
   }
   return (uint32_t)(uintptr_t)tree_buf;
 }
+
 /**
  * Read and reset accumulated dirty rect.
  * Returns 1 if dirty (bounds written to dirty_rect_out), 0 if clean.
@@ -1720,9 +1803,11 @@ int32_t controls_get_dirty_rect(void) {
   dirty_valid = 0;
   return 1;
 }
+
 uint32_t controls_get_dirty_rect_ptr(void) {
   return (uint32_t)(uintptr_t)dirty_rect_out;
 }
+
 int32_t controls_set_breakpoint(int32_t bp) {
   if (bp < 0)
     current_bp = 0;
@@ -1732,7 +1817,9 @@ int32_t controls_set_breakpoint(int32_t bp) {
     current_bp = bp;
   return update_composite();
 }
+
 int32_t controls_set_theme_dark(int32_t dark) { return set_theme_dark(dark); }
+
 /* Select the theme family (0=asgard default / 1=vanilla / 2=stock). Theme
  * styles attach at widget-create time, so a change re-applies the theme and
  * rebuilds from the cached .pb — same contract as a composite change
@@ -1758,6 +1845,7 @@ int32_t controls_set_theme_family(int32_t family) {
   }
   return 0;
 }
+
 int32_t controls_set_dpi(int32_t dpi) {
   current_dpi = dpi;
   lv_display_t *disp = lv_display_get_default();
@@ -1766,6 +1854,7 @@ int32_t controls_set_dpi(int32_t dpi) {
   }
   return 0;
 }
+
 int32_t controls_resize(uint32_t width, uint32_t height) {
   if (width == fb_width && height == fb_height)
     return 0;
@@ -1804,6 +1893,7 @@ int32_t controls_resize(uint32_t width, uint32_t height) {
                          LV_DISPLAY_RENDER_MODE_PARTIAL);
   return 0;
 }
+
 /* ── Gesture FSM test ABI (harness-only, additive) ─────────────────────────
  * Thin wrappers driving the pure gesture.c FSM DIRECTLY (a SEPARATE recognizer
  * from g_gesture, the one the real controls_host_message pointer pipeline
@@ -1828,14 +1918,17 @@ typedef struct {
   int32_t t_ms;
   int32_t pad;
 } gesture_feed_event_t;
+
 static gesture_recognizer_t gesture_test_state;
 static gesture_decision_t gesture_test_decisions[GESTURE_MAX_DECISIONS];
 static int32_t gesture_test_decision_count;
+
 /* Reset the FSM and the captured-decision buffer to the initial state. */
 void gesture_test_reset(void) {
   gesture_reset(&gesture_test_state);
   gesture_test_decision_count = 0;
 }
+
 /**
  * Feed a pointer/wheel event sequence. `events_ptr` points to `count`
  * gesture_feed_event_t in linear memory; the decisions emitted by the LAST
@@ -1877,10 +1970,12 @@ int32_t gesture_test_feed(uint32_t events_ptr, uint32_t count) {
   }
   return gesture_test_decision_count;
 }
+
 /* Pointer to the captured gesture_decision_t array (last event's output). */
 uint32_t gesture_decisions_ptr(void) {
   return (uint32_t)(uintptr_t)gesture_test_decisions;
 }
+
 int32_t controls_destroy(void) {
   /* Idempotency guard: `display` is the init/destroy sentinel (NULL before
      controls_init, NULLed below). Without it a SECOND consecutive destroy

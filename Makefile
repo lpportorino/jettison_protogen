@@ -179,8 +179,17 @@ docs-docker-build: ## Build proto docs Docker image
 
 .PHONY: docs-docker-test
 docs-docker-test: ## Run proto docs tests in Docker
+# The REPO ROOT is mounted, not just the tools dir: the suite reaches out to
+# ../proto-db.edn and ../../../output/json-descriptors/descriptor-set.binpb (the
+# parity/roundtrip/manifest tests check the committed DB and generated bindings
+# against the LIVE descriptor). Without the mount those files do not exist, and
+# the run degraded to 756 assertions with 88 FileNotFoundException errors —
+# permanently red, and silently skipping the tests that matter. Mounted, the
+# same 226 tests carry 21561 assertions and pass.
 	@printf "$(GREEN)Running proto docs tests via Docker...$(NC)\n"
-	@docker run --rm --network=host protodoc:latest -M:test
+	@docker run --rm --network=host \
+		-v "$$(pwd)":/repo -w /repo/docs/.protodoc/tools \
+		protodoc:latest -M:test
 
 .PHONY: docs-docker-generate
 docs-docker-generate: ## Generate docs using Docker

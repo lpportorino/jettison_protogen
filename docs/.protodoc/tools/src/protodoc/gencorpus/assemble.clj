@@ -34,7 +34,6 @@
             Descriptors$EnumDescriptor
             Descriptors$EnumValueDescriptor
             Descriptors$FieldDescriptor
-            Descriptors$FieldDescriptor$JavaType
             Descriptors$FieldDescriptor$Type
             Descriptors$OneofDescriptor]))
 
@@ -118,8 +117,8 @@
   "[lo hi] BigInt for a uint64 field, reusing the transpiler's bound logic."
   [constraints]
   (let [s (manifest/constraints->malli {:type :uint64 :constraints constraints} {})
-        {:keys [min max]} (second s)]
-    [min max]))
+        {mn :min, mx :max} (second s)]
+    [mn mx]))
 
 (defn- float-bounds
   "[lo hi] as DOUBLES for a float field — the finite envelope, honoring
@@ -318,8 +317,8 @@
                    (some? (Descriptors$FieldDescriptor/.getRealContainingOneof f)))
           plain (remove oneof? fields)
           oneof-groups (group-by #(Descriptors$OneofDescriptor/.getName
-                                    (Descriptors$FieldDescriptor/.getRealContainingOneof %))
-                                  (filter oneof? fields))
+                                   (Descriptors$FieldDescriptor/.getRealContainingOneof %))
+                                 (filter oneof? fields))
           plain-gens (map #(field-entry-gen pool db % (constraints (Descriptors$FieldDescriptor/.getName %)) enums seen')
                           plain)
           oneof-gens (map (fn [[oneof-name grp]]
@@ -383,68 +382,68 @@
   [type-kw constraints ^Descriptors$FieldDescriptor f]
   (letfn [(in [lo hi vs] (->> vs distinct (filter #(and (some? %) (<= lo % hi))) vec))]
     (let [bs (case type-kw
-      (:int32 :uint32 :int64)
-      (let [[tlo thi] (int-type-bounds type-kw)
-            {:keys [gte gt lte lt]} constraints
-            lo (cond gte gte gt (inc' gt) :else tlo)
-            hi (cond lte lte lt (dec' lt) :else thi)
-            lo (max lo tlo) hi (min hi thi)]
-        (in lo hi (concat [tlo -1 0 1 thi lo hi 2147483647 2147483648] (examples constraints))))
+               (:int32 :uint32 :int64)
+               (let [[tlo thi] (int-type-bounds type-kw)
+                     {:keys [gte gt lte lt]} constraints
+                     lo (cond gte gte gt (inc' gt) :else tlo)
+                     hi (cond lte lte lt (dec' lt) :else thi)
+                     lo (max lo tlo) hi (min hi thi)]
+                 (in lo hi (concat [tlo -1 0 1 thi lo hi 2147483647 2147483648] (examples constraints))))
 
-      :uint64
-      (let [[lo hi] (uint64-bounds constraints)]
-        (in lo hi (concat [0N 1N 2147483647N 2147483648N 4294967295N 4294967296N
-                           9007199254740992N 9223372036854775807N 9223372036854775808N uint64-max
-                           lo hi]
-                          (map bigint (examples constraints)))))
+               :uint64
+               (let [[lo hi] (uint64-bounds constraints)]
+                 (in lo hi (concat [0N 1N 2147483647N 2147483648N 4294967295N 4294967296N
+                                    9007199254740992N 9223372036854775807N 9223372036854775808N uint64-max
+                                    lo hi]
+                                   (map bigint (examples constraints)))))
 
-      :float
+               :float
       ;; float32-quantize every candidate, then keep only those that satisfy the
       ;; ACTUAL constraint (so an exclusive bound never emits the bound itself).
-      (let [{:keys [gte gt lte lt]} constraints
-            q #(double (float %))
-            lo (if gte (double gte) (- float-max))
-            hi (if lte (double lte) float-max)
-            cands (map q (concat [0.0 -0.0 lo hi flt-subnormal (- flt-subnormal)]
-                                 (map double (examples constraints))))]
-        (->> cands distinct-doubles
-             (filter #(and (or (nil? gte) (>= % (double gte))) (or (nil? gt) (> % (double gt)))
-                           (or (nil? lte) (<= % (double lte))) (or (nil? lt) (< % (double lt)))
-                           (<= (- float-max) % float-max)))
-             vec))
+               (let [{:keys [gte gt lte lt]} constraints
+                     q #(double (float %))
+                     lo (if gte (double gte) (- float-max))
+                     hi (if lte (double lte) float-max)
+                     cands (map q (concat [0.0 -0.0 lo hi flt-subnormal (- flt-subnormal)]
+                                          (map double (examples constraints))))]
+                 (->> cands distinct-doubles
+                      (filter #(and (or (nil? gte) (>= % (double gte))) (or (nil? gt) (> % (double gt)))
+                                    (or (nil? lte) (<= % (double lte))) (or (nil? lt) (< % (double lt)))
+                                    (<= (- float-max) % float-max)))
+                      vec))
 
-      :double
+               :double
       ;; exclusive bounds: the in-range extreme is one ULP inside (nextUp/nextDown),
       ;; NOT the bound itself (which the oracle rejects). Filter by the real predicate.
-      (let [{:keys [gte gt lte lt]} constraints
-            lo (cond gte (double gte) gt (Math/nextUp (double gt)) :else nil)
-            hi (cond lte (double lte) lt (Math/nextDown (double lt)) :else nil)
-            vs (concat [0.0 -0.0] (keep identity [lo hi]) (map double (examples constraints)))]
-        (->> vs distinct-doubles
-             (filter #(and (some? %)
-                           (or (nil? gte) (>= % (double gte))) (or (nil? gt) (> % (double gt)))
-                           (or (nil? lte) (<= % (double lte))) (or (nil? lt) (< % (double lt)))))
-             vec))
+               (let [{:keys [gte gt lte lt]} constraints
+                     lo (cond gte (double gte) gt (Math/nextUp (double gt)) :else nil)
+                     hi (cond lte (double lte) lt (Math/nextDown (double lt)) :else nil)
+                     vs (concat [0.0 -0.0] (keep identity [lo hi]) (map double (examples constraints)))]
+                 (->> vs distinct-doubles
+                      (filter #(and (some? %)
+                                    (or (nil? gte) (>= % (double gte))) (or (nil? gt) (> % (double gt)))
+                                    (or (nil? lte) (<= % (double lte))) (or (nil? lt) (< % (double lt)))))
+                      vec))
 
-      :bool [true false]
-      :enum (enum-numbers f constraints)
-      :string (let [{:keys [min-len max-len pattern in]} constraints]
-                (cond
+               :bool [true false]
+               :enum (enum-numbers f constraints)
+               :string (let [{:keys [min-len max-len pattern in]} constraints]
+                         (cond
                   ;; the allowed set IS the boundary set (also covers bug #7 :in)
-                  (seq in) (vec in)
+                           (seq in) (vec in)
                   ;; a regex has no clean length endpoints; the :re generator (in
                   ;; the random corpus) covers it — emitting "" or padding fails it.
-                  pattern []
-                  :else (distinct (filter some?
-                                          [(when-not (and min-len (pos? min-len)) "")
-                                           (when min-len (apply str (repeat min-len "a")))
-                                           (when max-len (apply str (repeat max-len "a")))]))))
-      :bytes (let [{:keys [min-len max-len]} constraints]
-               (distinct (filter some?
-                                 [(when-not (and min-len (pos? min-len)) [])
-                                  (when min-len (vec (repeat min-len 0)))
-                                  (vec (repeat (or max-len min-len 1) 255))])))
-      nil)]
+                           pattern []
+                           :else (distinct (filter some?
+                                                   [(when-not (and min-len (pos? min-len)) "")
+                                                    (when min-len (apply str (repeat min-len "a")))
+                                                    (when max-len (apply str (repeat max-len "a")))]))))
+               :bytes (let [{:keys [min-len max-len]} constraints]
+                        (distinct (filter some?
+                                          [(when-not (and min-len (pos? min-len)) [])
+                                           (when min-len (vec (repeat min-len 0)))
+                                           (vec (repeat (or max-len min-len 1) 255))])))
+               nil)]
       ;; a required no-presence field's zero-default boundary serializes ABSENT
       ;; (→ oracle "required" reject); drop it from the POSITIVE boundary set.
       (if (and (:required constraints) f

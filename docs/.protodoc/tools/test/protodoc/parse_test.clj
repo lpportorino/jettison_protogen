@@ -1,9 +1,8 @@
 (ns protodoc.parse-test
   "Tests for JSON descriptor parsing."
-  (:require [clojure.test :refer [deftest testing is]]
-            [clojure.data.json :as json]
-            [protodoc.parse :as parse]
-            [protodoc.schema :as schema]))
+  (:require [clojure.data.json :as json]
+            [clojure.test :refer [deftest testing is]]
+            [protodoc.parse :as parse]))
 
 (def sample-descriptor
   {"file"

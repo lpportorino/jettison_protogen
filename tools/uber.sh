@@ -50,7 +50,19 @@ present || build
 # run by bash. The base image sets no ENTRYPOINT (it runs whatever argv you pass
 # directly), so without this override the leading `-lc` would be exec'd as a
 # binary and fail; a bare `docker run <img> make …` needs no override.
+#
+# OWNERSHIP: the image runs as root (its Maven/Clojure caches live under /root),
+# so every file the command WRITES into the bind mount lands root-owned on the
+# host — and any target that rewrites tracked files (`fmt-fix`, the gallery
+# re-mint) then leaves a tree the host user cannot edit without sudo. The
+# command is therefore wrapped so the workspace is chowned back to the invoking
+# uid/gid afterwards, on success or failure alike, and the command's own exit
+# status is what propagates.
 exec docker run --rm --platform "$PLATFORM" --entrypoint bash \
   -v "$ROOT:/workspace" -w /workspace \
   -e CARGO_HOME=/workspace/.cargo-home \
-  "$IMG" -lc "$*"
+  -e UBER_CMD="$*" -e UBER_UID="$(id -u)" -e UBER_GID="$(id -g)" \
+  "$IMG" -lc 'bash -lc "$UBER_CMD"; rc=$?
+              chown -R "$UBER_UID:$UBER_GID" /workspace 2>/dev/null || true
+              exit $rc'
+

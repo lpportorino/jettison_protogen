@@ -19,7 +19,7 @@
 (deftest string-in-becomes-enum
   (testing "bug #7 (:in half): a string :in set → [:enum allowed…] (synthetic — no live proto-db field uses :in)"
     (let [s (manifest/constraints->malli
-              {:type :string :constraints {:in ["recording_day" "recording_heat"]}} {})]
+             {:type :string :constraints {:in ["recording_day" "recording_heat"]}} {})]
       (is (= [:enum "recording_day" "recording_heat"] s))
       (is (m/validate s "recording_day"))
       (is (not (m/validate s "something_else"))))))
