@@ -450,16 +450,17 @@ semantics, error codes) lives at that home.
 `controls_text_input`, `controls_get_focused_text`, `controls_tick`,
 `controls_get_framebuffer`, `controls_abi_version`, `controls_fb_format`,
 `controls_fb_width`, `controls_fb_height`, `controls_fb_bpp`,
-`controls_set_breakpoint`, `controls_set_theme_dark`, `controls_set_dpi`,
+`controls_set_breakpoint`, `controls_set_theme_dark`, `controls_set_theme_family`, `controls_set_dpi`,
 `controls_resize`, `controls_get_dirty_rect`, `controls_get_dirty_rect_ptr`,
 `controls_dump_tree`, `controls_destroy` (plus the WASI reactor `_initialize`
 and the `malloc`/`free` buffer-transfer pair).
 
 ABI self-description getters (the host validates these at load/reload before
 reading the framebuffer at a stride): `controls_abi_version` (`CONTROLS_ABI_VERSION`
-is `2`; `v2` added the `env.host_event` import to the REQUIRED import set —
-a WASM import is instantiation-MANDATORY, so hosts link it BEFORE a v2 module
-can load at all), `controls_fb_format` (`1` = `RGBA8888`, memory byte order
+is `3`; `v2` added the `env.host_event` import to the REQUIRED import set —
+a WASM import is instantiation-MANDATORY, so hosts link it BEFORE the module
+can load at all; `v3` added the `controls_set_theme_family` export),
+`controls_fb_format` (`1` = `RGBA8888`, memory byte order
 `framebuffer[i*4+0]`=R), `controls_fb_width`/`controls_fb_height`,
 `controls_fb_bpp` (`4`). All are plain `u32` returns (no i64/BigInt).
 
