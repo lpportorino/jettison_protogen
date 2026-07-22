@@ -39,6 +39,23 @@
 # action_required, neutral, skipped, stale) — a filter matching only `failure`
 # would stay silent on a timeout, and silence must never look like green.
 #
+# REPORTS STEP PROGRESS WHILE A RUN IS IN FLIGHT. Transition-only reporting cut
+# the noise but overshot: across a 25-minute battery it emitted nothing at all
+# between "started" and "success", so a healthy run, a hung run and a DEAD
+# MONITOR were indistinguishable. The answer is not to reprint state on a timer
+# — that is the repetition this script was just fixed for — but to emit
+# information that is genuinely new each time: the step the run is currently
+# executing, one line per step CHANGE. A job has ~10-20 steps, so the lane is
+# self-limiting, and it is exactly the detail worth having (it names the step
+# that is slow, and the step that failed).
+#
+# RATE BUDGET, since this lane costs requests. Unauthenticated public reads are
+# 60/hour per IP. The runs poll at POLL_ACTIVE_S=180 is 20/hour; the jobs probe
+# is capped at ONE in-flight run per cycle (round-robin when several are live),
+# so another 20/hour — 40 of 60, leaving headroom for the idle cadence and for
+# anything else on this IP. The script also reads x-ratelimit-remaining and
+# backs off hard when the budget runs low, rather than hammering into 403s.
+#
 # Tunables (env): OWNER_REPO, BRANCH (default master),
 # POLL_ACTIVE_S (default 120), POLL_IDLE_S (default 300), GH_TOKEN (optional).
 set -uo pipefail
@@ -48,7 +65,7 @@ cd "$repo_root"
 
 OWNER_REPO="${OWNER_REPO:-lpportorino/jettison_protogen}"
 BRANCH="${BRANCH:-master}"
-POLL_ACTIVE_S="${POLL_ACTIVE_S:-120}"
+POLL_ACTIVE_S="${POLL_ACTIVE_S:-180}"
 POLL_IDLE_S="${POLL_IDLE_S:-300}"
 API="https://api.github.com/repos/${OWNER_REPO}/actions/runs?branch=${BRANCH}&per_page=20"
 
@@ -75,7 +92,8 @@ auth=()
 # "<run_id>\t<sha7>\t<name>\t<state>\t<url>" for EVERY run in the window.
 # `state` is the conclusion once finished, else the status.
 snapshot() {
-  curl -sS --max-time 25 "${auth[@]}" -H 'Accept: application/vnd.github+json' "$API" 2>/dev/null |
+  curl -sS --max-time 25 -D "$hdr_file" "${auth[@]}" \
+    -H 'Accept: application/vnd.github+json' "$API" 2>/dev/null |
     python3 -c '
 import json, sys
 try:
@@ -102,10 +120,41 @@ terminal() { # terminal <state> -> 0 when the run has finished
 }
 
 state_file="$(mktemp)"
-trap 'rm -f "$state_file"' EXIT
+step_file="$(mktemp)"
+hdr_file="$(mktemp)"
+trap 'rm -f "$state_file" "$step_file" "$hdr_file"' EXIT
 : >"$state_file"
+: >"$step_file"
+
+# The step a run is CURRENTLY executing: "<n>/<total> <step name>", or empty
+# when the API has nothing useful yet. One request.
+current_step() { # current_step <run_id>
+  curl -sS --max-time 25 "${auth[@]}" -H 'Accept: application/vnd.github+json' \
+    "https://api.github.com/repos/${OWNER_REPO}/actions/runs/$1/jobs" 2>/dev/null |
+    python3 -c '
+import json, sys
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    sys.exit(0)
+for j in d.get("jobs") or []:
+    steps = j.get("steps") or []
+    total = len(steps)
+    for s in steps:
+        if s.get("status") == "in_progress":
+            print("%s/%s %s" % (s.get("number", "?"), total, s.get("name", "?")))
+            sys.exit(0)
+' 2>/dev/null
+}
+
+# Remaining unauthenticated quota from the last runs poll (empty when unknown).
+rate_remaining() {
+  awk -F': *' 'tolower($1) == "x-ratelimit-remaining" { gsub(/\r/, "", $2); print $2; exit }' \
+    "$hdr_file" 2>/dev/null
+}
 
 armed=0
+rr=0
 while :; do
   cur="$(snapshot)" || cur=""
 
@@ -149,6 +198,38 @@ while :; do
 
     # Rewrite the id->state table from the current snapshot.
     printf '%s\n' "$cur" | awk -F'\t' 'NF >= 4 { print $1 "\t" $4 }' >"$state_file"
+
+    # STEP PROBE — one in-flight run per cycle, round-robin. `rr` advances every
+    # cycle so several concurrent runs each get sampled rather than the first
+    # one starving the rest. Skipped entirely when the rate budget is low: a
+    # progress nicety must never cost us the failure notification, which is the
+    # thing this monitor exists for.
+    rem="$(rate_remaining)"
+    if [ -z "$rem" ] || [ "$rem" -gt 12 ] 2>/dev/null; then
+      live="$(printf '%s\n' "$cur" | awk -F'\t' '
+        $4 ~ /^(queued|in_progress|requested|waiting|pending)$/ { print $1 "\t" $2 "\t" $3 }')"
+      n_live="$(printf '%s\n' "$live" | awk 'NF { c++ } END { print c + 0 }')"
+      if [ "$n_live" -gt 0 ]; then
+        pick=$(((rr % n_live) + 1))
+        rr=$((rr + 1))
+        row="$(printf '%s\n' "$live" | awk -v k="$pick" 'NF { c++; if (c == k) { print; exit } }')"
+        rid="$(printf '%s' "$row" | cut -f1)"
+        rsha="$(printf '%s' "$row" | cut -f2)"
+        rname="$(printf '%s' "$row" | cut -f3)"
+        if [ -n "$rid" ]; then
+          step="$(current_step "$rid")"
+          was_step="$(awk -F'\t' -v k="$rid" '$1 == k { sub(/^[^\t]*\t/, ""); print; exit }' "$step_file")"
+          if [ -n "$step" ] && [ "$step" != "$was_step" ]; then
+            printf '[ci-watch] %s (%s) — step %s\n' "$rname" "$rsha" "$step"
+            grep -v "^${rid}	" "$step_file" >"${step_file}.new" 2>/dev/null || : >"${step_file}.new"
+            printf '%s\t%s\n' "$rid" "$step" >>"${step_file}.new"
+            mv "${step_file}.new" "$step_file"
+          fi
+        fi
+      fi
+    else
+      printf '[ci-watch] rate budget low (%s left this hour) — pausing step probes\n' "$rem"
+    fi
   fi
 
   # Active while ANY run in the window is non-terminal, regardless of which
