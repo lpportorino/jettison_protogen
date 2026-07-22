@@ -2,10 +2,10 @@
  * gesture.h — the pure, LVGL-free, malloc-free pointer/wheel gesture FSM.
  *
  * A byte-for-byte C port of the web consumer's gesture-core recognizer (the
- * GestureRecognizer class). The web recognizer and this host recognizer are the two faces of one
- * cross-target state machine; both mirror GESTURE_THRESHOLDS and the NDC
- * convention verbatim (generated/gesture_thresholds.h is the C projection of
- * the one home, edn/gesture-thresholds.edn).
+ * GestureRecognizer class). The web recognizer and this host recognizer are the
+ * two faces of one cross-target state machine; both mirror GESTURE_THRESHOLDS
+ * and the NDC convention verbatim (generated/gesture_thresholds.h is the C
+ * projection of the one home, edn/gesture-thresholds.edn).
  *
  * Phases: idle -> press1 -> {panning | (via 2nd pointer) pinching}. A 1-pointer
  * drag crossing movePx commits to panning and can ONLY end as pan-end; a

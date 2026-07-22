@@ -74,10 +74,9 @@ const SIZE_TOLERANCE: u32 = 6;
 // Helpers
 // ═══════════════════════════════════════════════════════════════════
 
-/// Repo root (the harness crate lives at `pocs/02-wasm-fb-harness`).
+/// The `renderer/` tree root — the parent of this harness crate
+/// (`renderer/wasm_harness/`); fixture and golden paths resolve against it.
 fn repo_root() -> PathBuf {
-    // ARM divergence: the harness lives one level below the repo root
-    // (wasm_harness/), not two (upstream pocs/02-wasm-fb-harness/).
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()

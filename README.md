@@ -95,7 +95,7 @@ The `output/` directory in this repository contains the latest generated files:
 ```
 output/
 ├── c/                    # C bindings (nanopb)
-├── cpp/                  # C++ bindings
+├── cpp/                  # C++ bindings with buf.validate support
 ├── go/                   # Go bindings with buf.validate support
 ├── kotlin/               # Kotlin bindings with buf.validate support
 ├── python/               # Python bindings with type stubs

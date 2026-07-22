@@ -39,8 +39,7 @@ const HEIGHT: u32 = 540;
 const TICK_MS: u32 = lvgl_harness::TICK_MS;
 const RENDER_TICKS: u32 = lvgl_harness::RENDER_TICKS;
 fn repo_root() -> PathBuf {
-    // ARM divergence: the harness lives one level below the repo root
-    // (wasm_harness/), not two (upstream pocs/02-wasm-fb-harness/).
+    // The parent of this harness crate (renderer/wasm_harness/).
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()

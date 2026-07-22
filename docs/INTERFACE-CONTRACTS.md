@@ -152,7 +152,9 @@ the magic/decompression layer.
 
 Reference implementations:
 - The web consumer implements Profile A and the native consumer Profile B in
-  their own stacks; the two profiles above are the shared contract.
+  their own stacks; the two profiles above are the shared contract. Each caps a
+  single record for sanity — `MAX_MSG_SIZE = 16 MiB` (Profile A),
+  `MAX_STATE_FRAME = 4 MiB` (Profile B).
 
 ---
 
@@ -405,7 +407,8 @@ Reference implementations:
   OSD-variant outer tar → `manifest.jwt` + inner `*.tar.gz`) and polls the etag
   (200/304/503+Retry-After:5, a HEAD-floor debounce). The native consumer loads
   `controls.wasm` + a `ui.Screen` `.pb` from `controls.tar` and runs the
-  bare-etag poll (`/osd/{name}.tar/etag`, 5 s cadence) — each in its own stack.
+  bare-etag poll (`/osd/{name}.tar/etag`, 5 s poll floor + 1.5 s debounce) — each
+  in its own stack.
 
 ---
 
@@ -479,7 +482,7 @@ Reference implementations:
   + enum values above).
 - The native consumer links these `env.*` imports and calls the `controls_*`
   exports, and encodes `HostToWasm` / decodes `WasmToHost`, in its own stack; the
-  web consumer does the same in its.
+  web consumer does the same in its own stack.
 
 ---
 

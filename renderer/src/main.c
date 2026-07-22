@@ -33,6 +33,8 @@
  *   controls_fb_bpp() -> u32       — Framebuffer bytes per pixel (4)
  *   controls_set_breakpoint(bp)    — Set responsive breakpoint tier
  *   controls_set_theme_dark(dark)  — Set light/dark theme
+ *   controls_set_theme_family(f)   — Set theme family (0..2); may return
+ *                                    needs-full-reload (ABI v3)
  *   controls_set_dpi(dpi)          — Set display DPI
  *   controls_resize(w, h) -> i32  — Resize display + buffers
  *   controls_get_dirty_rect()     — Read+reset dirty rect (1=dirty, 0=clean)

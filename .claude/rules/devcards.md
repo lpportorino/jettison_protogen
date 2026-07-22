@@ -42,8 +42,12 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   the object under test. A red devcard gate after a SCHEMA change is the waist
   catching producer/interpreter drift: fix the contract, not the gate.
 
-## Secret-free by authoring discipline (no automated secret-scan today)
+## Secret-free — gate-enforced
 - Generic widgets, compositions, and generic meta-node examples only.
   Proprietary device meta-nodes (DDE, camera controls) NEVER land here; private
   consumers run THIS runner via their protogen pin against their own private
   corpora.
+- `corpus-secret-findings` (`gates.clj`) scans EVERY card population — prose
+  included, since the corpus file IS the public artifact — and rides the normal
+  verdict, so a hit exits non-zero. Widening its match classes is a deliberate
+  change that owes its own false-positive measurement.

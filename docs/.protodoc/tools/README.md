@@ -10,7 +10,7 @@ A Clojure-based tool for generating and maintaining documentation for Protocol B
 - **buf.validate support** - Extracts and displays validation constraints
 - **Pre-built search index** - Fast fuzzy search via Babashka scripts
 - **Property-based testing** - Malli schemas with test.check generators
-- **Dockerized** - Runs consistently in CI/CD with temurin-25
+- **Dockerized** - Runs consistently in CI/CD
 
 ## Quick Start
 
@@ -187,6 +187,9 @@ Messages and fields can have optional interaction metadata that describes how th
 | **Numeric** | `:normalized` (0-1) `:angle` (degrees) `:percentage` (0-100) `:coordinate-geo` `:coordinate-viewport` `:distance` `:temperature` `:speed` `:voltage` `:current` `:power` `:duration` `:count` `:timestamp` `:identifier` |
 | **Display** | `:cardinal` (compass) `:enum-label` `:toggle-state` `:raw` |
 
+*The `UIPattern` and `SemanticType` enums in `src/protodoc/schema.clj` are
+authoritative; the two tables above are illustrative and can lag the schema.*
+
 #### Interaction in Markdown
 
 ```markdown
@@ -202,7 +205,7 @@ Controls the physical iris aperture of the day camera.
 
 ### Related State
 
-- [[ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 ### Preconditions
 
@@ -219,10 +222,15 @@ Normalized iris position (0.0 = closed, 1.0 = fully open).
 
 - **Semantic Type:** :normalized
 - **Unit:** %
+- **Precision:** 0
+- **Display Format:** {value * 100}%
 - **Presets:** 0, 0.25, 0.5, 0.75, 1.0
 ```
 
 ## Project Structure
+
+The tree below is illustrative, not exhaustive — the directory listings are the
+authoritative set of files.
 
 ```
 docs/                           # Obsidian vault (output)
@@ -233,7 +241,7 @@ docs/                           # Obsidian vault (output)
 │   │   └── proto-coverage.clj # Coverage report
 │   └── tools/                 # This directory
 │       ├── deps.edn           # Dependencies (Malli, Selmer, etc.)
-│       ├── Dockerfile         # temurin-25 based image
+│       ├── Dockerfile         # temurin-based image
 │       ├── docker-compose.yml # Service definitions
 │       ├── build.clj          # tools.build config
 │       ├── src/protodoc/
@@ -258,6 +266,10 @@ docs/                           # Obsidian vault (output)
 ```
 
 ## CLI Commands
+
+`clojure -M:run` with no command prints the authoritative usage banner
+(`src/protodoc/core.clj`), the source of truth for the full subcommand + option
+set. The common ones:
 
 ### generate
 
@@ -296,6 +308,17 @@ Validate database integrity against Malli schema.
 ```bash
 clojure -M:run validate --db-path path/to/proto-db.edn
 ```
+
+### render · lint · manifest · binary-dedup
+
+- `render` — re-render markdown from the existing `proto-db.edn` (skips
+  parse/extract).
+- `lint` — lint documentation quality (`--rules` / `--exclude` / `--severity`;
+  exits nonzero on errors).
+- `manifest` — emit the machine-readable JSON manifests (`--config-path` /
+  `--git-sha` for metadata).
+- `binary-dedup` — emit the binary-dedup TypeScript tag map from a descriptor
+  (`--descriptor` / `--output`).
 
 ## Output Format
 
@@ -341,6 +364,8 @@ type: enum
 ---
 
 # JonGuiDataClientType
+
+**Source:** `jon_shared_data_types.proto`
 
 ## Description
 
@@ -401,6 +426,8 @@ From repository root:
 
 ```bash
 make docs-generate        # Generate docs locally
+make docs-render          # Re-render markdown from proto-db.edn (no parse)
+make docs-manifests       # Emit machine-readable JSON manifests
 make docs-coverage        # Show coverage locally
 make docs-test           # Run tests locally
 make docs-search Q="iris" # Search proto schema
@@ -408,13 +435,17 @@ make docs-search Q="iris" # Search proto schema
 make docs-docker-build    # Build Docker image
 make docs-docker-test     # Run tests in Docker
 make docs-docker-generate # Generate docs in Docker
+make docs-docker-render   # Re-render markdown in Docker
 make docs-docker-coverage # Show coverage in Docker
+make docs-docker-lint     # Lint documentation in Docker
 make docs-docker-all      # Build + test + generate
 ```
 
+The repo `Makefile` is the authoritative target list.
+
 ## Design Decisions
 
-1. **Plain EDN over database** - ~300 messages don't need Datomic/Datascript
+1. **Plain EDN over database** - the schema's messages don't need Datomic/Datascript
 2. **Field numbers as keys** - Stable across field renames
 3. **Raw markdown blobs** - No structured parsing of user content
 4. **Pre-computed search index** - Build at generate time for fast lookups
@@ -436,7 +467,7 @@ The generated vault is compatible with Obsidian:
 
 ### Tests timeout
 
-The test runner may hang if tests call `System/exit`. The `validate` function was refactored to return result maps instead of exiting.
+The test runner may hang if tests call `System/exit`. The `validate` function returns a result map; only its `validate-cli` wrapper calls `System/exit`.
 
 ### Docker build fails
 

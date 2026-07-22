@@ -100,8 +100,9 @@ the JPEG-only image policy; PNGs/raw dumps stay gitignored).
 The devcard gate (`tools/devcards/`) proves the schema and the renderer
 agree — schema-validate + framebuffer-hash + DOM invariants; a red devcard
 gate after a SCHEMA change is the waist catching producer/interpreter drift
-— fix the contract, not the gate. Fixtures are secret-free by authoring discipline (no
-automated secret-scan runs today): generic widgets and compositions only; proprietary
+— fix the contract, not the gate. Fixtures are secret-free, gate-enforced by the corpus
+secret-scan (`corpus-secret-findings` in `tools/devcards/src/devcards/gates.clj`,
+which fails the run on a hit): generic widgets and compositions only; proprietary
 device meta nodes stay in consumer repos, which reuse this runner via their
 protogen pin. Device-specific screen AUTHORING stays in the private
 consumers; this repo defines how interfaces work, not what any product's

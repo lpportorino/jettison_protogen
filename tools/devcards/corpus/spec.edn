@@ -100,7 +100,7 @@
   :dpi 160
   :render-ticks 3
   :theme-tier-note
-  "greater_res >= 720 is REQUIRED for DISP_LARGE (RADIUS_DEFAULT=12 / PAD_DEF=24 — the tier this whole mission targets). The theme tier is recomputed from the live display resolution at init; the F1 POC's 480x320 canvas and the wasm_harness 400x300 default both silently render DISP_MEDIUM. 800x480 pins DISP_LARGE and fits every card (largest cells: table 480x240, tabview 460x320, scale vertical 56x360)."
+  "greater_res >= 720 is REQUIRED for DISP_LARGE (RADIUS_DEFAULT=12 / PAD_DEF=24 — the tier this whole mission targets). The theme tier is recomputed from the live display resolution at init; a canvas below 720px on its greater axis silently renders DISP_MEDIUM. 800x480 pins DISP_LARGE and fits every card (largest cells: table 480x240, tabview 460x320, scale vertical 56x360)."
   :tick-ms 16}
  :source "theme-surface-survey.full.json.gz"
  :spec-version 2
@@ -1014,7 +1014,7 @@
      :value :mid}
     {:expect :distinct
      :id "lv_bar/edited/medium/mid"
-     :notes "Stock draws outline_secondary here; manifest commits inert — recorded tension."
+     :notes "Stock draws outline_secondary here; the manifest commits :edited as visually distinct."
      :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 16 :w 160}
      :size :medium
      :state :edited

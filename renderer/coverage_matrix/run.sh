@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Coverage dual-oracle matrix (Phase 7) — supersedes pocs/05-align-matrix.
+# Coverage dual-oracle matrix.
 #
 # For every covered (property, value) row, render the SAME fixed-geometry
 # scene on BOTH paths and assert tree + framebuffer identity:

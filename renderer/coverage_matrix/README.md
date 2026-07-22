@@ -48,8 +48,8 @@ would show them) — fixtures must set it explicitly.
 Rows 9–10: WIDGET SINGLES (every renderer-buildable WidgetType, wire order,
 inside the standard box; text on label/checkbox/textarea exactly as the
 renderer applies it) and COMBOS (mixed flex row, nested boxes, styled
-button+label, and the all-widgets kitchen-sink mega scene). A discovered
-semantic these families encode: a spinbox (a one-line textarea) sets a LOCAL
+button+label, and the all-widgets kitchen-sink mega scene). A behavior these
+families encode: a spinbox (a one-line textarea) sets a LOCAL
 content-driven height that outranks the renderer's style-group sizing — the
 proto cannot force a spinbox height (`size_widget` mirrors this).
 

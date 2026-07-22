@@ -37,7 +37,7 @@ proof — **proof from three ends**:
 Generic widgets × state × size, kitchen-sink composites, and GENERIC meta-node
 composition examples only. Device-specific meta nodes (DDE elements, camera
 controls — proprietary interfaces) NEVER land here; private consumers run THIS
-runner via their protogen submodule against their own private fixture corpora.
+runner via their protogen pin against their own private fixture corpora.
 
 ## Runner mechanism (`src/devcards/host.clj`)
 
