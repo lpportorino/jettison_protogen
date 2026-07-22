@@ -106,6 +106,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update C bindings from ${{ github.sha }}"
@@ -158,6 +159,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update C++ bindings from ${{ github.sha }}"
@@ -214,6 +216,7 @@ jobs:
           fi
           go mod tidy || echo "Warning: go mod tidy failed, continuing..."
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Go bindings from ${{ github.sha }}"
@@ -267,6 +270,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Python bindings from ${{ github.sha }}"
@@ -323,6 +327,7 @@ jobs:
             npm pkg set name="@lpportorico/jettison-proto-typescript"
           fi
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update TypeScript bindings from ${{ github.sha }}"
@@ -378,6 +383,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update TypeScript validated bindings from ${{ github.sha }}"
@@ -441,6 +447,7 @@ jobs:
         EOF
           fi
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Rust bindings from ${{ github.sha }}"
@@ -491,6 +498,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Java bindings from ${{ github.sha }}"
@@ -541,6 +549,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Kotlin bindings from ${{ github.sha }}"
@@ -591,6 +600,7 @@ jobs:
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
 
+          cp ../LICENSE .
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update JSON descriptors from ${{ github.sha }}"
