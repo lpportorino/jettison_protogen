@@ -5,18 +5,18 @@
 
 /* eslint-disable */
 
-export * as Gps from "./index.cmd.Gps";
-export * as Compass from "./index.cmd.Compass";
-export * as Lrf from "./index.cmd.Lrf";
-export * as DayCamera from "./index.cmd.DayCamera";
-export * as HeatCamera from "./index.cmd.HeatCamera";
-export * as RotaryPlatform from "./index.cmd.RotaryPlatform";
-export * as OSD from "./index.cmd.OSD";
-export * as Lrf_calib from "./index.cmd.Lrf_calib";
 export * as System from "./index.cmd.System";
-export * as CV from "./index.cmd.CV";
+export * as HeatCamera from "./index.cmd.HeatCamera";
+export * as Compass from "./index.cmd.Compass";
+export * as DayCamera from "./index.cmd.DayCamera";
 export * as Lira from "./index.cmd.Lira";
+export * as Lrf_calib from "./index.cmd.Lrf_calib";
+export * as Gps from "./index.cmd.Gps";
+export * as CV from "./index.cmd.CV";
+export * as OSD from "./index.cmd.OSD";
+export * as Heater from "./index.cmd.Heater";
+export * as Lrf from "./index.cmd.Lrf";
+export * as RotaryPlatform from "./index.cmd.RotaryPlatform";
 export * as Power from "./index.cmd.Power";
 export * as PMU from "./index.cmd.PMU";
-export * as Heater from "./index.cmd.Heater";
 export * from "./jon_shared_cmd";
