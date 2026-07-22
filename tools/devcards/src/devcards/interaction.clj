@@ -30,6 +30,7 @@
    renderer/wasm_harness/tests/composition_interaction.rs — the same
    card bytes and taps, plus the cross-engine framebuffer byte-compare."
   (:require [clojure.data.json :as json]
+            [devcards.fixtures :as fixtures]
             [devcards.host :as host]
             [devcards.legos :as legos]
             [devcards.pointer :as pointer]))
@@ -245,6 +246,42 @@
                                  #(nth (find-type % "lv_button") 0)
                                  {:tag "dock-fold" :value 0})))))
 
+;; ── long EventBinding.name (command-id truncation regression) ─────────────
+(def ^:private long-command-id
+  "A 73-char dotted command-id — longer than the retired char[64] ceiling on
+   the EventBinding.name chain. A real generated collect-event name
+   (cmd.Heater.SetAutomaticControlParams), the exact shape that overflowed the
+   old buffers. All chars are alnum/./_ so no JSON escaping alters it."
+  "cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature")
+
+(defn- long-event-name-findings
+  "End-to-end guard for the EventBinding.name chain (UI_EVENT_NAME_BUF): a
+   >64-char command-id must survive UNTRUNCATED from decode → the per-widget
+   cache → the host_event serializer to the emitted tag. Builds a one-button
+   authored screen whose event name is `long-command-id`, taps it, and asserts
+   the captured host_event :tag is the FULL id. RED when any buffer on the chain
+   clips it (a short serializer cap shortens the tag; a short decode/cache buffer
+   rejects the load) — the probe the three-buffer drift slipped through."
+  [boot! canvas]
+  (let [pb (fixtures/build-authored-card
+            canvas
+            {:id "long-event-name"
+             :node {:type :WIDGET_BUTTON :x 100 :y 100 :props {:w 240 :h 80}
+                    :event {:name long-command-id :trigger :clicked}
+                    :children [{:type :WIDGET_LABEL :text "Go"}]}})]
+    (with-host boot!
+               (fn [h]
+                 (render! h pb)
+                 (let [tree (json/read-str (host/dump-tree! h) :key-fn keyword)
+                       btn (first (find-type tree "lv_button"))
+                       _ (pointer/tap! h (center btn) 1000)
+                       tag (:tag (first (pointer/events h)))]
+                   (into [] (keep identity)
+                         [(finding "long-event-name" :event-tag-untruncated
+                                   long-command-id tag)
+                          (finding "long-event-name" :event-tag-length
+                                   (count long-command-id) (count (str tag)))]))))))
+
 ;; ── entry ───────────────────────────────────────────────────────────────
 (defn run-lane
   "Drive the whole interaction lane. `boot!` returns a fresh started
@@ -274,4 +311,5 @@
         (into (press-seek-findings boot! scrubber s-pb))
         (into (drag-findings boot! scrubber s-pb))
         (into (ext-click-findings boot! scrubber s-pb))
-        (into (dock-findings boot! dock d-pb)))))
+        (into (dock-findings boot! dock d-pb))
+        (into (long-event-name-findings boot! (:canvas inventory))))))

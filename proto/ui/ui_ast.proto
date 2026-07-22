@@ -489,16 +489,21 @@ enum EventTrigger {
 }
 
 message EventBinding {
-  // event keyword — IS the command identifier
+  // event keyword — IS the command identifier. Budget 127 for parity with
+  // CmdSpec.command_id: a composite command's collect events read
+  // cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+  // (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
   string name = 1 [(buf.validate.field).string = {
     min_len: 1
-    max_len: 63
+    max_len: 127
   }];
   // which LVGL event fires this (default: CLICKED)
   EventTrigger trigger = 2 [(buf.validate.field).enum = {defined_only: true}];
   int32 int_value = 3; // static int payload
   bool include_widget_value = 4; // inject widget's current value as int_value
-  // local subject to mutate (empty = host event)
+  // local subject to mutate (empty = host event). Bounded at 63: subject names
+  // are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+  // longer value could never resolve to a declarable subject.
   string set_subject = 5 [(buf.validate.field).string = {max_len: 63}];
   int32 set_value = 6; // value to set on subject
   bool toggle = 7; // flip 0↔1 instead of set_value

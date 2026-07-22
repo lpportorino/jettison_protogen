@@ -3,6 +3,16 @@
 #include "cmd_patch.h"
 #include "lvgl.h"
 #include <stdint.h>
+/* The buffer size that carries EventBinding.name end-to-end through the
+ * renderer: the persistent per-widget event cache (event_cb_data_t.name in
+ * renderer.c) AND the host_event envelope serializer (json_append_str's tag
+ * cap in main.c). It MUST be >= the nanopb decode buffer (ui_ast.options
+ * ui.EventBinding.name max_size, 128); a _Static_assert in renderer.c locks it
+ * to the generated ui_EventBinding struct so the whole chain moves together.
+ * This constant exists because three independent literal-64 buffers on this
+ * path (decode, cache, serializer) drifted apart and silently truncated a long
+ * command-id — one home now governs all of them. */
+#define UI_EVENT_NAME_BUF 128
 /* Build LVGL widget tree from raw protobuf UI AST bytes.
  * Returns 0 on success, -1 on error. */
 int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,

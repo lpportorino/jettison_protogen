@@ -178,10 +178,17 @@ static const lv_font_t *resolve_font(const char *name) {
  * here. The cmd_spec_t is the PERSISTENT copy of EventBinding.cmd: when present
  * the click relays a patched cmd.* via host_command (R5b cmd-out). */
 typedef struct {
-  char name[64];             /* event keyword name */
+  char name[UI_EVENT_NAME_BUF]; /* event keyword name — holds the full decoded
+                              * EventBinding.name (a dotted command-id). One home
+                              * (renderer.h UI_EVENT_NAME_BUF) governs this, the
+                              * nanopb decode buffer, and the emit serializer's
+                              * tag cap; NOT the old 63-char ceiling that silently
+                              * truncated long composites at finalize→emit */
   int32_t int_value;         /* static int payload */
   bool include_widget_value; /* inject widget value at fire time */
-  char set_subject[64];      /* subject to mutate (empty = host event) */
+  char set_subject[64];      /* subject to mutate (empty = host event) — subject
+                              * names are bounded at 64 everywhere (the registry,
+                              * SubjectDeclaration.name), so this stays 64 */
   int32_t set_value;         /* value for subject set */
   bool toggle;               /* flip 0↔1 instead of set_value */
   bool notify_host;          /* also send to host on mutation */
@@ -193,6 +200,19 @@ typedef struct {
   cmd_spec_t *cmd_by_value;
   uint32_t cmd_by_value_count;
 } event_cb_data_t;
+
+/* Lock the whole EventBinding.name chain to the nanopb decode buffer. The name
+ * flows decode(ui_EventBinding.name) → cache(event_cb_data_t.name, this buffer)
+ * → serialize(json_append_str's UI_EVENT_NAME_BUF tag cap in main.c); all three
+ * share renderer.h's UI_EVENT_NAME_BUF, and this assert ties that constant (via
+ * the cache) to the generated struct. If the nanopb budget grows past it, a long
+ * command-id truncates silently somewhere on the chain and the host receives a
+ * tag it cannot match — a wrong-command emission with no decode error. The assert
+ * makes that a BUILD failure instead. */
+_Static_assert(sizeof(((event_cb_data_t *)0)->name) >=
+                   sizeof(((ui_EventBinding *)0)->name),
+               "event_cb_data_t.name (UI_EVENT_NAME_BUF) must hold the full "
+               "ui_EventBinding.name");
 /* Get the current integer value from a widget (for include_widget_value).
  * Returns 0 for widget types that don't have a meaningful value. */
 static int32_t get_widget_int_value(lv_obj_t *obj) {

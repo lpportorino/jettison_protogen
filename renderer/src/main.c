@@ -1382,14 +1382,18 @@ static void json_append(json_out_t *out, const char *s) {
   out->pos += len;
   out->buf[out->pos] = '\0';
 }
-/* Append a JSON-escaped, length-bounded string value (no quotes added).
- * Input is capped at 64 chars; esc[] holds the worst case (64 × the 6-byte
- * \u00xx form + NUL), so escaping is TOTAL for every in-cap input — a
- * control-char-dense EventBinding.name escapes fully, never clips mid-name. */
-static void json_append_str(json_out_t *out, const char *s) {
-  char esc[400];
+/* Append a JSON-escaped string value (no quotes added), capping the input at
+ * `max_chars`. esc[] is sized for the LARGEST cap any caller uses
+ * (UI_EVENT_NAME_BUF × the 6-byte \u00xx worst case + NUL), so escaping is TOTAL
+ * for every in-cap input — a control-char-dense name escapes fully, never clips
+ * mid-name. The event tag passes UI_EVENT_NAME_BUF (the full dotted command-id,
+ * one home shared with the decode + cache buffers, renderer.h); the trigger is a
+ * short enum name; the tree dump keeps its compact 64-char cap. */
+static void json_append_str(json_out_t *out, const char *s, uint32_t max_chars) {
+  char esc[UI_EVENT_NAME_BUF * 6u + 8u];
   uint32_t o = 0;
-  for (uint32_t i = 0; s[i] != '\0' && i < 64u && o + 8u < sizeof(esc); i++) {
+  for (uint32_t i = 0; s[i] != '\0' && i < max_chars && o + 8u < sizeof(esc);
+       i++) {
     unsigned char c = (unsigned char)s[i];
     if (c == '"' || c == '\\') {
       esc[o++] = '\\';
@@ -1405,7 +1409,7 @@ static void json_append_str(json_out_t *out, const char *s) {
 }
 static void tree_append(const char *s) { json_append(&tree_out, s); }
 static void tree_append_json_str(const char *s) {
-  json_append_str(&tree_out, s);
+  json_append_str(&tree_out, s, 64u); /* compact dump cap */
 }
 /* ── UI-event envelope (host_event — the named-event lane) ──────────────────
  * Build + relay the CLOSED envelope JSON for a fired EventBinding with a
@@ -1416,10 +1420,11 @@ static void tree_append_json_str(const char *s) {
  * `seq` counts EMITTED envelopes: consecutive from 1 per module INSTANCE
  * (deliberately not reset by controls_load_ui/controls_destroy — a session's
  * envelope stream stays strictly monotonic across screen reloads, so a host
- * gap-check spans the whole session). The stack buffer provably fits the
- * worst case (two total-escape strings ≤ 399 bytes each per json_append_str's
- * bound + ~70 bytes of fixed syntax/numbers); `truncated` is the belt — a
- * clipped envelope is REFUSED (-1, nothing sent), never invalid JSON. */
+ * gap-check spans the whole session). The stack buffer provably fits the worst
+ * case: the tag escapes to at most UI_EVENT_NAME_BUF × 6 = 768 bytes, the
+ * trigger (a fixed enum name, cap 16) to ≤ 96, plus ~90 bytes of fixed
+ * syntax/numbers = ≤ 954 < 1024; `truncated` is the belt — a clipped envelope is
+ * REFUSED (-1, nothing sent), never invalid JSON. */
 #define EVENT_ENVELOPE_BUF_SIZE 1024u
 static uint32_t host_event_seq;
 int32_t controls_emit_host_event(const char *tag, const char *trigger,
@@ -1430,11 +1435,11 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
   json_out_t out = {buf, sizeof(buf), 0, false};
   char num[48];
   json_append(&out, "{\"v\":1,\"tag\":\"");
-  json_append_str(&out, tag);
+  json_append_str(&out, tag, UI_EVENT_NAME_BUF); /* the full dotted command-id */
   (void)snprintf(num, sizeof(num), "\",\"origin\":%u,\"event\":\"",
                  (unsigned)origin_uid);
   json_append(&out, num);
-  json_append_str(&out, trigger ? trigger : "");
+  json_append_str(&out, trigger ? trigger : "", 16u); /* short enum name */
   (void)snprintf(num, sizeof(num), "\",\"seq\":%u,\"value\":%d}",
                  (unsigned)(host_event_seq + 1u), (int)value);
   json_append(&out, num);
