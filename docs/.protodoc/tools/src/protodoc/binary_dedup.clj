@@ -258,7 +258,24 @@
    of the fail-closed cases in `has-map-field?` trigger."
   [msg-index subsystem-fields]
   (doseq [{nm :name, :keys [number type-name]} subsystem-fields]
-    (when-let [resolved (get msg-index type-name)]
+    ;; FAIL CLOSED on an unresolvable TOP-LEVEL subsystem type, exactly as
+    ;; has-map-field? already does for nested ones. This was a `when-let`,
+    ;; which skipped the field silently — so a subsystem whose type is absent
+    ;; from the descriptor PASSED determinism validation without ever being
+    ;; inspected, and the docstring's promise to throw "if any of the
+    ;; fail-closed cases in has-map-field? trigger" could not hold: those cases
+    ;; live inside a function this branch never called.
+    (let [resolved (or (get msg-index type-name)
+                       (throw
+                        (ex-info
+                         (str "Binary dedup: unresolved subsystem type '" type-name "'"
+                              " on field '" nm "' (number " number ").\n"
+                              "  The descriptor does not contain a definition for this type.\n"
+                              "  Binary dedup cannot verify a subsystem whose structure is unknown.")
+                         {:type       :unresolved-type-reference
+                          :type-name  type-name
+                          :field-name nm
+                          :number     number})))]
       (when-let [map-path (has-map-field? msg-index type-name resolved #{})]
         (let [full-path (into [nm] map-path)]
           (throw

@@ -146,8 +146,16 @@ int32_t gesture_on_move(gesture_recognizer_t *g, const gesture_sample_t *s,
 static int32_t classify_release(const gesture_recognizer_t *g,
                                 const gesture_sample_t *s,
                                 gesture_decision_t *out) {
+  /* UNSIGNED delta on purpose. t_ms carries the host's W3C event.timeStamp
+   * (ms since navigation start) narrowed to int32 by the shell, so it wraps
+   * after ~24.8 days of session uptime. Subtracting two int32 values that
+   * straddle that wrap is SIGNED OVERFLOW — undefined behaviour, which -O2 is
+   * entitled to assume cannot happen. Computed in uint32 the wraparound is
+   * well-defined and yields the correct elapsed ms for any gap under 2^31,
+   * which is every gap a double-tap window could care about. */
   if (g->has_last_tap &&
-      (double)(s->t_ms - g->last_tap_t) <= (double)GESTURE_DOUBLE_TAP_MS &&
+      (double)((uint32_t)s->t_ms - (uint32_t)g->last_tap_t) <=
+          (double)GESTURE_DOUBLE_TAP_MS &&
       gesture_ndc_dist(g->last_tap_x, g->last_tap_y, s->x, s->y) <=
           px_to_ndc((double)GESTURE_DOUBLE_TAP_PX)) {
     out[0].kind = GESTURE_KIND_TRACK;

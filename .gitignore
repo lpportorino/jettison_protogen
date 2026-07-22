@@ -36,3 +36,11 @@ tmp/
 
 # Clojure CLI classpath cache (tools.deps writes it wherever it is invoked)
 .cpcache/
+
+# clang-tidy mining corpus + compile database (transient analysis output)
+.mine/
+.mine-c*.txt
+renderer/compile_commands.json
+
+# compiler depfiles (a stray -MMD invocation drops them anywhere)
+*.d

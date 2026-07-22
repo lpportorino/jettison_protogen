@@ -157,6 +157,7 @@ rate_remaining() {
 armed=0
 rr=0
 low_notified=0
+starved_notified=0
 while :; do
   cur="$(snapshot)" || cur=""
 
@@ -238,6 +239,22 @@ while :; do
       low_notified=1
     fi
   fi
+
+  # BUDGET EXHAUSTION BACKS OFF THE MAIN POLL TOO, not just the step probe.
+  # Past the 60/hour unauthenticated ceiling every request 403s, so the monitor
+  # would keep polling, learn nothing, and report nothing — and silence here is
+  # indistinguishable from "everything is green", which is the one thing this
+  # monitor must never be. Waiting out the window is what keeps it honest.
+  rem="$(rate_remaining)"
+  if [ -n "$rem" ] && [ "$rem" -lt 4 ] 2>/dev/null; then
+    if [ "$starved_notified" = 0 ]; then
+      printf '[ci-watch] rate budget exhausted (%s left) — backing off ~15min; NOT a green signal\n' "$rem"
+      starved_notified=1
+    fi
+    sleep 900
+    continue
+  fi
+  starved_notified=0
 
   # Active while ANY run in the window is non-terminal, regardless of which
   # commit it belongs to — which is the whole point of the rewrite.

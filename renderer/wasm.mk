@@ -42,6 +42,14 @@ endif
 # the renderer is built on intentional proto-int -> LVGL-enum direct casts, so
 # they would be pure noise; value-correctness is guarded by the parity gate + the
 # planned tolerance-0 visual differential instead.
+# The application C standard, in ONE place. It is NOT part of $(CFLAGS)
+# because vendored LVGL/nanopb are not compiled under it — but anything that
+# reconstructs the app compile line (the compile-db target, hence clang-tidy)
+# MUST include it, or `static_assert` and friends fail to parse in a tree the
+# compiler accepts. Measured: omitting it produced three phantom parse errors
+# on main.c:138 that the real build never sees.
+APP_STD := -std=c23
+
 WARN_FLAGS := -Wall -Wextra -Werror \
               -Wshadow \
               -Wunused-function -Wunused-variable -Wunused-but-set-variable \
@@ -201,7 +209,7 @@ $(OBJ_DIR)/%.o: %.c lv_conf.h
 # at the toolchain default, so a newer standard never destabilizes upstream code.
 $(OBJ_DIR)/src/%.o: src/%.c lv_conf.h
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -std=c23 $(WARN_FLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(APP_STD) $(WARN_FLAGS) -c -o $@ $<
 
 # ThorVG C++ sources
 $(OBJ_DIR)/%.o: %.cpp lv_conf.h
@@ -224,5 +232,33 @@ output/reference.wasm: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(REFERENCE_O
 clean:
 	rm -f output/controls.wasm output/controls.dev.wasm output/reference.wasm
 	rm -rf build
+
+# ── compile database ────────────────────────────────────────────────────────
+# The HAND-AUTHORED translation units, for tooling that needs a real compile
+# command per file (clang-tidy). Deliberately NOT the vendored LVGL/nanopb/
+# ThorVG sets: those are excluded from every gate in this repo, and analysing
+# 1100 upstream files to lint 17 of our own is pure noise.
+TIDY_SRCS := $(COMMON_APP_SRCS) $(STUB_SRCS) src/renderer.c src/reference_ui.c
+TIDY_SRCS := $(filter-out $(FONT_SRCS),$(TIDY_SRCS))
+
+## compile-db: emit compile_commands.json for the hand-authored sources
+# Emitted from THIS makefile's own $(CFLAGS)/$(WARN_FLAGS), not reconstructed
+# by hand and not intercepted by `bear` (which is not in the image anyway).
+# That is the whole point: a hand-assembled flag list silently disagrees with
+# the build, and clang-tidy then reports diagnostics the compiler never sees —
+# measured here as three phantom "parse errors" on a static_assert that
+# compiles cleanly, which vanished the moment the real flags were used.
+.PHONY: compile-db
+compile-db:
+	@printf '[\n' > compile_commands.json
+	@first=1; for f in $(TIDY_SRCS); do \
+		if [ $$first -eq 0 ]; then printf ',\n' >> compile_commands.json; fi; \
+		first=0; \
+		printf '  {"directory": "%s", "file": "%s", "command": "%s %s -c %s"}' \
+			"$(CURDIR)" "$$f" "$(CC) $(CFLAGS) $(APP_STD)" "$(WARN_FLAGS)" "$$f" \
+			>> compile_commands.json; \
+	done
+	@printf '\n]\n' >> compile_commands.json
+	@printf '[compile-db] %s entries -> renderer/compile_commands.json\n' "$(words $(TIDY_SRCS))"
 
 .PHONY: all objects reference clean
