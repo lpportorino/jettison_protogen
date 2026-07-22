@@ -148,6 +148,13 @@
         vs-light (mapv #(assoc % :mode :light) (gates/vanilla-stock-findings f1l f2l))
         findings (-> (:findings gate-res)
                      (into vs-light)
+                     ;; the kitchen sinks' RENDERED trees are authored here in
+                     ;; Clojure (fixtures/kitchen-sink-trees), not in spec.edn —
+                     ;; the secret-scan must see them, or a landmark in a sink's
+                     ;; text ships unscanned
+                     (into (gates/corpus-secret-findings
+                            (map (fn [[id tree]] {:id id :node tree})
+                                 fixtures/kitchen-sink-trees)))
                      (into inv))]
     {:findings findings
      :counts (assoc (:counts gate-res)
@@ -249,6 +256,9 @@
         findings (-> inv-findings
                      (into vs)
                      (into inert)
+                     ;; the composition cards are a card population too — the
+                     ;; secret-scan must see them, not just the atomic corpus
+                     (into (gates/corpus-secret-findings (:cards inventory)))
                      (into interaction-findings))]
     {:findings findings
      :counts {:composition-cards (count built)

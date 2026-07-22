@@ -22,7 +22,12 @@
      idempotency contract at corpus scale).
    - INERT-PROP (composition lane): an :inert-prop card's hash == its
      declared :base-card sibling's — an interaction-only prop (the
-     scrubber's seek_on_press) must move ZERO pixels."
+     scrubber's seek_on_press) must move ZERO pixels.
+   - SECRET-SCAN: no card carries an absolute system/device path, a credential
+     assignment or token shape, or a non-placeholder proxy id. The corpus is
+     PUBLIC and its fixtures are gate-held secret-free; this is the lane CI
+     advertises. Runs over EVERY card population — atomic, kitchen-sink, and
+     composition."
   (:require [clojure.string :as str]))
 
 (set! *warn-on-reflection* true)
@@ -133,6 +138,73 @@
          :when finding]
      finding)))
 
+;; ── secret-scan ─────────────────────────────────────────────────────────
+;; The corpus is PUBLIC and its fixtures are GATE-HELD secret-free (CLAUDE.md:
+;; generic widgets only; proprietary device meta stays in the private
+;; consumers). This lane enforces the threat model the CI job advertises:
+;; absolute paths, credential-shaped tokens, non-placeholder proxy ids.
+(def ^:private abs-path-re
+  "A POSIX absolute path into a system/device/user dir, ANYWHERE in the string.
+   (?im) is load-bearing twice: paths appear mid-string (\"dump written to
+   /home/…\") and the corpus authors multi-line values (dropdown :options
+   \"Auto\\nManual\\nOff\"), so a start-of-STRING anchor would miss both. The
+   leading boundary keeps the corpus's LVGL drive-letter convention
+   (\"P:icons/x.svg\") out — it has no /systemdir/ segment at all."
+  #"(?im)(?:^|[^\w])/(home|users|root|etc|var|opt|mnt|srv|tmp|dev|proc|sys|media|run)/")
+
+(def ^:private credential-re
+  "A credential ASSIGNMENT (key: value / key=value) or a known token shape.
+   Deliberately NOT a bare keyword match: \"Password\" is legitimate widget text
+   (ui_ast carries a password_mode prop, so a textarea card will one day render
+   it) and flagging it would make the gate cry wolf — the disable-it-and-protect
+   -nothing failure this lane exists to avoid. The token shapes are the ones a
+   real leak looks like."
+  #"(?i)(\b(?:secret|password|passwd|api[-_]?key|access[-_]?token|bearer|credential)s?\s*[:=]\s*\S|\bghp_[A-Za-z0-9]{20,}|\bAKIA[0-9A-Z]{16}\b|\bxox[baprs]-[A-Za-z0-9-]{10,})")
+
+(def ^:private proxy-placeholder
+  "The ONE sanctioned host_proxy id: a placeholder, never a real device id."
+  "px")
+
+(defn- card-strings
+  "Every string reachable in `card`. Scans the WHOLE card, prose included: the
+   corpus file IS the public artifact, so a device landmark pasted into a card's
+   :notes ships just as surely as one in rendered content."
+  [card]
+  (->> card (tree-seq coll? seq) (filter string?)))
+
+(defn- proxy-ids
+  "Every :proxy_id value reachable in `card`."
+  [card]
+  (->> (tree-seq coll? seq card) (filter map?) (keep :proxy_id)))
+
+(defn corpus-secret-findings
+  "SECRET-SCAN over a seq of CARDS: none may carry an absolute system/device
+   path, a credential assignment or known token shape, or a proxy id that is not
+   the documented placeholder. Pure — cards in, findings out; empty = green.
+   Takes a card SEQ (not the spec) so every card population is scannable: the
+   atomic widget cards, the kitchen sinks, and the composition inventory."
+  [cards]
+  (vec
+   (for [c cards
+         :let [id (str (or (:id c) (:tag c) "?"))]
+         finding (concat
+                  (for [s (card-strings c)
+                        :let [detail (cond
+                                       (re-find abs-path-re s)
+                                       (str "absolute path: " (pr-str s))
+                                       (re-find credential-re s)
+                                       (str "credential assignment/token: " (pr-str s)))]
+                        :when detail]
+                    {:gate :secret-scan :card id :detail detail})
+                  (for [p (proxy-ids c)
+                        :when (not= proxy-placeholder p)]
+                    {:gate :secret-scan
+                     :card id
+                     :detail (str "non-placeholder proxy_id " (pr-str p)
+                                  " — the corpus uses the literal "
+                                  (pr-str proxy-placeholder))}))]
+     finding)))
+
 (defn run-gates
   "All lanes. `family-hashes` = {0 {id→hash} 1 {...} 2 {...}} (asgard /
    vanilla / stock). Returns {:findings [...] :counts {...}} — the caller
@@ -142,6 +214,9 @@
         findings (-> []
                      (into (coverage-findings spec asgard))
                      (into (state-contract-findings spec asgard))
+                     (into (corpus-secret-findings
+                            (concat (mapcat :cards (:widgets spec))
+                                    (:kitchen-sinks spec))))
                      (into (vanilla-stock-findings (get family-hashes 1)
                                                    (get family-hashes 2))))]
     {:findings findings
