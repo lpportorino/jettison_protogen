@@ -1,5 +1,5 @@
-# Format + lint gate for HAND-AUTHORED Clojure. The C lane is deliberately NOT
-# here — see "WHERE IS THE C LANE?" below.
+# Format + lint gate for HAND-AUTHORED Clojure and shell. The C lane is
+# deliberately NOT here — see "WHERE IS THE C LANE?" below.
 #
 # This is the AUTHORITATIVE half of the gate. `.githooks/pre-push` is the fast
 # local echo of it, but a client-side hook only protects whoever armed it and
@@ -29,6 +29,8 @@ on:
     - "**/*.clj"
     - "**/*.cljc"
     - "**/*.edn"
+    - "**/*.sh"
+    - ".githooks/**"
     - ".clj-kondo/**"
     - ".cljfmt.edn"
     - "lint.mk"
@@ -38,6 +40,8 @@ on:
     - "**/*.clj"
     - "**/*.cljc"
     - "**/*.edn"
+    - "**/*.sh"
+    - ".githooks/**"
     - ".clj-kondo/**"
     - ".cljfmt.edn"
     - "lint.mk"
@@ -53,11 +57,22 @@ concurrency:
 
 jobs:
   clj:
-    name: cljfmt + clj-kondo (hand-authored Clojure)
+    name: bash -n + cljfmt + clj-kondo (hand-authored Clojure + shell)
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v5
+
+    - # FIRST, and before any toolchain setup: it needs nothing but the bash
+      # already on the runner, and it is the gate with the best track record.
+      # generate-protos.sh builds its work as SINGLE-QUOTED `bash -c` payloads,
+      # where one bare apostrophe in a comment terminates the payload and the
+      # rest executes as shell — a typo that broke binding generation for four
+      # consecutive runs, and was reintroduced the same day in the same file.
+      # `bash -n` catches it in milliseconds. The path filter above includes
+      # **/*.sh precisely so THIS job fires on the commit that would break it.
+      name: bash -n (shell parse check)
+      run: make -f lint.mk lint-sh
 
     - # One setup-clojure invocation covers both tools. clj-kondo is a native
       # binary and needs no JVM, but cljfmt runs through the Clojure CLI, so

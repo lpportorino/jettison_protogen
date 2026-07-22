@@ -136,7 +136,7 @@ find proto -name "*.options" -type f -not -path "*/test/*" | while read -r opts;
     cp "$opts" "/tmp/cleaned_proto/$relpath"
 done
 
-find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
+find /tmp/cleaned_proto -name "*.proto" -print0 | sort -z | xargs -0 -P 8 -I{} \
     protoc --plugin=protoc-gen-nanopb=/opt/nanopb/generator/protoc-gen-nanopb \
     -I/tmp/cleaned_proto \
     --nanopb_out=/workspace/output \
@@ -174,7 +174,7 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/cpp_proto_val/
 
 # Generate C++ with validation annotations preserved
-CPP_PROTO_FILES=$(find /tmp/cpp_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
+CPP_PROTO_FILES=$(find /tmp/cpp_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*" | sort)
 protoc -I/tmp/cpp_proto_val \
     --cpp_out=/workspace/output \
     $CPP_PROTO_FILES
@@ -262,7 +262,7 @@ mkdir -p /workspace/output
 
 # Generate Kotlin using protoc (must match Java package structure)
 # Kotlin DSL wrappers require Java classes, so package must be identical
-PROTO_FILES=$(find /tmp/kotlin_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
+PROTO_FILES=$(find /tmp/kotlin_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*" | sort)
 protoc -I/tmp/kotlin_proto_val \
     --kotlin_out=/workspace/output \
     $PROTO_FILES
@@ -288,7 +288,7 @@ find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; 
     awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
-PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f | sort)
 protoc -I/tmp/cleaned_proto \
     --python_out=/workspace/output \
     --pyi_out=/workspace/output \
@@ -314,7 +314,7 @@ npm init -y
 npm install ts-proto
 
 # Find all proto files for protoc
-PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f | sort)
 protoc -I/tmp/cleaned_proto \
     --plugin=protoc-gen-ts_proto=/tmp/node_modules/.bin/protoc-gen-ts_proto \
     --ts_proto_opt=outputIndex=true \
@@ -404,8 +404,17 @@ fn main() -> Result<()> {
 /// Recursively find all `.proto` files under `dir` (subdirectories included).
 fn find_protos(dir: &Path) -> Result<Vec<PathBuf>> {
     let mut files = Vec::new();
-    for entry in std::fs::read_dir(dir)? {
-        let path = entry?.path();
+    // read_dir yields OS/filesystem order, not sorted order. prost emits its
+    // declarations in the order it receives the files, so an unsorted walk
+    // makes output/rust/ser.rs a function of the directory layout on whatever
+    // machine built it — hundreds of lines of pure reordering churn per run.
+    // (No apostrophe above on purpose: this is inside a single-quoted bash -c
+    // payload. See the note at the buf build step.)
+    let mut entries: Vec<PathBuf> = std::fs::read_dir(dir)?
+        .map(|e| e.map(|e| e.path()))
+        .collect::<std::result::Result<Vec<_>, _>>()?;
+    entries.sort();
+    for path in entries {
         if path.is_dir() {
             files.extend(find_protos(&path)?);
         } else if path.extension().is_some_and(|e| e == "proto") {
@@ -437,7 +446,7 @@ find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; 
 done
 
 # Generate Zig bindings using protoc-gen-zig
-PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f | sort)
 protoc --plugin=protoc-gen-zig=/opt/zig-protobuf/zig-out/bin/protoc-gen-zig \
     -I/tmp/cleaned_proto \
     --zig_out=/workspace/output \
@@ -469,7 +478,7 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/java_proto_buf/
 
 # Generate using standard protoc with the validate.proto available
-PROTO_FILES=$(find /tmp/java_proto_buf -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
+PROTO_FILES=$(find /tmp/java_proto_buf -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*" | sort)
 protoc -I/tmp/java_proto_buf \
     --java_out=/workspace/output \
     $PROTO_FILES
@@ -635,7 +644,7 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/ts_proto_val/
 
 # Generate TypeScript using @bufbuild/protoc-gen-es with validation
-TS_PROTO_FILES=$(find /tmp/ts_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
+TS_PROTO_FILES=$(find /tmp/ts_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*" | sort)
 protoc -I/tmp/ts_proto_val \
     --plugin=/usr/local/lib/node_modules/@bufbuild/protoc-gen-es/bin/protoc-gen-es \
     --es_out=/workspace/output \

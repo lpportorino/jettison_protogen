@@ -57,7 +57,12 @@ LINT_CLJ_PATHS := tools/devcards/src \
 FMT_C_FILES := $(shell find renderer/src -maxdepth 1 \
 	\( -name '*.c' -o -name '*.h' \) -not -name 'font_*.c' 2>/dev/null | sort)
 
-.PHONY: lint lint-clj fmt-clj splint-clj fmt-c fmt-fix fmt-clj-fix fmt-c-fix cpus \
+# Hand-authored shell, from git's own index so a new script is picked up the
+# moment it is tracked. renderer/lvgl/** is vendored and excluded.
+LINT_SH_FILES := $(shell git ls-files '*.sh' .githooks/pre-push 2>/dev/null \
+	| grep -v '^renderer/lvgl/' | sort)
+
+.PHONY: lint lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
 	install-hooks hooks-status
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
@@ -78,7 +83,9 @@ hooks-status:
 
 
 ## lint: every gate, check-only — the CI entry point
-lint: fmt-clj lint-clj fmt-c
+# lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
+# that has actually taken this repo down (see below).
+lint: lint-sh fmt-clj lint-clj fmt-c
 
 ## cpus: report the detected parallelism (debug aid across dev machines)
 cpus:
@@ -116,12 +123,35 @@ fmt-clj:
 #   namespace with no clojure.string require, which clj-kondo then rejected
 #   outright. So splint is never run in fix mode here, by the pre-push hook or
 #   anyone else.
-#   The remaining 26 are genuine but need judgement (namespace renames, alias
-#   conventions, catch-throwable), so splint stays a tool you RUN, not a gate
-#   that blocks — until those 26 are dispositioned one way or the other.
+#   The 55 that remain need JUDGEMENT, and some would be wrong to "fix":
+#   all 4 lint/catch-throwable sit in sweep/fuzz tests where catching Throwable
+#   is the point — narrowing to Exception lets a StackOverflowError from deep
+#   recursion escape the probe it exists to catch. Others are namespace renames
+#   (naming/single-segment-namespace, naming/lisp-case) that change a public
+#   surface to satisfy a style rule. So splint stays a tool you RUN, never a
+#   gate that blocks: it is a source of suggestions to weigh, and a gate whose
+#   findings you must sometimes ignore is a gate people learn to ignore.
 splint-clj:
 	@printf '\033[32m[splint-clj]\033[0m splint (report-only; not part of `lint`)\n'
 	@clojure -M:splint $(LINT_CLJ_PATHS)
+
+## lint-sh: `bash -n` parse check over every hand-authored shell script
+# THIS ONE HAS EARNED ITS PLACE. generate-protos.sh builds most of its work as
+# SINGLE-QUOTED `bash -c` payloads, so one bare apostrophe inside a comment
+# terminates the payload and the rest of the comment executes as shell. That
+# exact typo broke binding generation for four consecutive CI runs, and was
+# then reintroduced the SAME DAY, in the SAME FILE, by the person who had just
+# fixed it and written a warning comment about it — because a warning comment
+# is not a gate. `bash -n` catches it in milliseconds, needs no new dependency,
+# and would have caught both occurrences before the push.
+#
+# Parse-only, deliberately: shellcheck is not present on the host or in the
+# uber image, and adding a toolchain dependency to gate 15 scripts is a
+# separate decision. `bash -n` is the floor, not the ceiling.
+lint-sh:
+	@printf '\033[32m[lint-sh]\033[0m bash -n (%s cpus, %s scripts)\n' \
+		"$(NPROC)" "$(words $(LINT_SH_FILES))"
+	@printf '%s\n' $(LINT_SH_FILES) | xargs -P $(NPROC) -n 1 bash -n
 
 ## fmt-c: clang-format check over hand-authored C, one process per cpu
 # --dry-run --Werror is clang-format's own check mode: it reports would-be

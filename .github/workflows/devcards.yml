@@ -45,10 +45,16 @@
 #    command. Both are honored by splitting into exactly two jobs: `devcards`
 #    (build the corpus, then call that one bundled gate entry point — so
 #    build+verify+invariants+secret-scan share one job and one clear PASS/FAIL)
-#    and `kondo` (independent, no Java needed at all, genuinely a minimal
-#    clj quality bar — protogen has no battery; the
-#    charter's antagonistic review remains the MAIN gate, this is a floor
-#    under it, not a replacement for it).
+#    and — historically — `kondo`, a minimal clj floor over tools/devcards.
+#    That kondo job has since been REMOVED from this file: `lint.yml` now runs
+#    clj-kondo over ALL five hand-authored Clojure roots, tools/devcards
+#    included, against the same .clj-kondo/config.edn and the same pinned
+#    version. Keeping a strict subset of that here bought nothing and cost the
+#    usual price of duplicated gates — two jobs over one tree drift apart, and
+#    the narrower one silently defines a weaker floor than the config implies.
+#    The design's "kondo" concern is still honored, just by the workflow that
+#    owns linting. The charter's antagonistic review remains the MAIN gate;
+#    both are a floor under it, not a replacement for it.
 #
 # 4. CACHING: `actions/cache` keyed on tools/devcards/deps.edn's hash, over
 #    both `~/.m2` (Maven-resolved deps: clojure, polyglot, wasm, protobuf-java)
@@ -144,21 +150,3 @@ jobs:
         retention-days: 7
         if-no-files-found: warn
   
-  kondo:
-    name: kondo (minimal clj quality bar — protogen has no battery)
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v5
-    - # No Java step: clj-kondo is a native/self-hosted binary and does not
-      # need a JVM (DeLaGuardo/setup-clojure's own documented exception —
-      # verified against its README before drafting this).
-      name: Set up clj-kondo
-      uses: DeLaGuardo/setup-clojure@13.6.1
-      with:
-        # Verified current release (github.com/clj-kondo/clj-kondo/releases,
-        # tag v2026.05.25) at draft time — re-verify on bump;
-        # a stale-but-real pin ages better than an invented one.
-        clj-kondo: "2026.05.25"
-    - name: Lint tools/devcards
-      run: clj-kondo --lint tools/devcards/src tools/devcards/dev
