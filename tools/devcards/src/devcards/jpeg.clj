@@ -138,11 +138,38 @@
   ^Font []
   (let [[nm style size] label-font-spec] (Font. ^String nm (int style) (int size))))
 
+(def label-color
+  "The contact-sheet label colour. The gutter is a mid-gray checkerboard
+   (`checker-tile`, 0x99/0x66), against which plain white sat at low contrast
+   on the light squares and read as part of the background. A high-chroma
+   amber pops on both checker tones AND is distinct from the mostly-blue
+   widget content, so a label never reads as part of the card it names."
+  (Color. 0xFF 0xC4 0x00))
+
+(def ^:private label-halo
+  "Near-black halo drawn under the label. The checkerboard alternates tone
+   every `checker-cell` px, so a label wide enough to span several cells
+   crosses BOTH tones — no single flat colour is legible across all of it.
+   The 1px halo pins contrast regardless of which tone a glyph lands on."
+  (Color. 0x10 0x10 0x10))
+
+(defn- draw-label!
+  "Draw `label` at (lx, ly): halo first (8 single-px offsets), then the
+   colour on top. Pure raster work — deterministic for a given input."
+  [^java.awt.Graphics2D g ^String label ^long lx ^long ly]
+  (.setColor g label-halo)
+  (doseq [dx [-1 0 1]
+          dy [-1 0 1]
+          :when (not (and (zero? (long dx)) (zero? (long dy))))]
+    (.drawString g label (int (+ lx (long dx))) (int (+ ly (long dy)))))
+  (.setColor g label-color)
+  (.drawString g label (int lx) (int ly)))
+
 (defn contact-sheet
   "Compose a labeled N-up contact sheet from cells
    [{:image BufferedImage :label String} ...]: checkerboard background, uniform
-   gutters, a white label centered beneath each cell. Cells may differ in
-   size; rows are single (the caller chunks multi-row sheets)."
+   gutters, a haloed `label-color` label centered beneath each cell. Cells may
+   differ in size; rows are single (the caller chunks multi-row sheets)."
   ^BufferedImage [cells]
   (when (empty? cells) (throw (ex-info "contact sheet needs at least one cell" {})))
   (let [gutter sheet-gutter
@@ -167,11 +194,10 @@
           (let [{:keys [^BufferedImage image ^String label]} (first cells)
                 w (.getWidth image)]
             (.drawImage g image (int x) (int gutter) nil)
-            (.setColor g Color/WHITE)
-            (.drawString g
+            (draw-label! g
                          label
-                         (int (+ x (quot (- w (.stringWidth fm label)) 2)))
-                         (int (+ gutter max-h (.getAscent fm) 2)))
+                         (+ x (quot (- w (.stringWidth fm label)) 2))
+                         (+ gutter max-h (.getAscent fm) 2))
             (recur (+ x w gutter) (next cells))))))
     (.dispose g)
     img))

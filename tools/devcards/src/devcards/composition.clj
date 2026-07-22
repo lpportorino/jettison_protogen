@@ -38,7 +38,9 @@
 (def ^:private makers
   "Lego keyword -> maker fn. Closed: a new lego is a deliberate corpus +
    devcards.legos addition, never an open dispatch."
-  {:scrubber legos/scrubber :dock-panel legos/dock-panel})
+  {:scrubber legos/scrubber
+   :scrubber-rich legos/scrubber-rich
+   :dock-panel legos/dock-panel})
 
 (defn- strip-seek-on-press
   "The :strip-seek-on-press corpus transform — dissoc the prop wherever a

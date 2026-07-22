@@ -151,6 +151,188 @@
                [(scrubber-bar opts) (scrubber-slider opts true)]
                [(scrubber-slider opts false)])})
 
+;; ── scrubber-rich ───────────────────────────────────────────────────────
+;; The plain `scrubber` is the position bar and nothing else. A media player
+;; wants more around it, but WHICH more is product-specific — so this lego is
+;; strictly ADDITIVE and every part is opt-in: with no optional key it is the
+;; plain scrubber plus a wrapper, and with all of them it is the rich player.
+;; The base `scrubber` node is EMBEDDED unchanged, so its proven halo /
+;; press-seek / placement contract keeps holding here.
+
+;; LVGL FontAwesome transport glyphs (lv_symbol_def.h). Private-use codepoints
+;; carried by the theme font's merged symbol range — no image assets.
+(def ^:private sym-prev "")
+
+(def ^:private sym-play "")
+
+(def ^:private sym-pause "")
+
+(def ^:private sym-stop "")
+
+(def ^:private sym-next "")
+
+(def transport-glyphs
+  "Transport key → glyph. The key is also the host-event suffix, so a caller
+   reading `<transport-event-name>-play` needs no glyph knowledge."
+  {:prev sym-prev :play sym-play :pause sym-pause :stop sym-stop :next sym-next})
+
+(def scrubber-rich-chrome
+  "Chrome geometry for the optional parts, px at dpi 160. One documented home
+   so the derived wrapper height and the proof's expectations agree.
+
+   Each row's height budgets MORE than its nominal content, deliberately. A
+   box sized to exactly what it holds overflows, because the theme adds its
+   own padding inside the row and LVGL draws past the nominal extent — a
+   labelled scale renders its tick TEXT below the tick marks, and a button
+   sized to the row height has no room left once the row is padded. The
+   surplus here is what keeps the :clipped / :overflow invariants green."
+  {:btn-w 40 :btn-h 32 :transport-h 44 :tick-h 46 :readout-h 24})
+
+(def ^:private scrubber-rich-keys
+  #{:min :max :value :buffered :width :height :seek-event-name
+    :ticks :labels :readout :transport :transport-event-name})
+
+(defn- tick-scale
+  "The tick strip under the track: a horizontal-bottom scale spanning the same
+   value range as the bar, so a tick sits under the position it denotes.
+   `labels` (optional, \"\\n\"-joined into :text_src) supplies the MAJOR-tick
+   texts — that is how a timecode ruler is expressed without any new
+   vocabulary; without it the ticks are drawn unlabelled."
+  [{:keys [min max width ticks labels x y]}]
+  (let [{:keys [total major-every]} ticks]
+    {:type :WIDGET_SCALE
+     :props {:w width
+             :h (:tick-h scrubber-rich-chrome)
+             :x x
+             :y y
+             :scale_props
+             (cond-> {:mode :horizontal-bottom
+                      :min_value min
+                      :max_value max
+                      :total_tick_count total
+                      :major_tick_every major-every
+                      :label_show (boolean (seq labels))}
+               (seq labels) (assoc :text_src (str/join "\n" labels)))}}))
+
+(defn- transport-row
+  "The transport button group: one symbol button per requested key, in the
+   caller's order. Each emits `<transport-event-name>-<key>` so the group is
+   one event family the host can switch on."
+  [{:keys [transport transport-event-name width x y]}]
+  (let [{:keys [btn-w btn-h transport-h]} scrubber-rich-chrome]
+    {:type :WIDGET_OBJ
+     ;; Full TRACK width with main-place CENTER: the theme owns the inter-button
+     ;; gap and a lego cannot pin it, so instead of sizing to an exact sum (which
+     ;; clipped the buttons) the row is given abundant horizontal slack and the
+     ;; group is centered inside it. Overflow becomes structurally impossible.
+     ;; Transparent + borderless: a themed lv_obj would draw a panel box around
+     ;; the buttons, which reads as chrome the scrubber does not have.
+     :styles [{:part :main
+               :props {:w width :h transport-h :pad-all 0 :x x :y y
+                       :border-width 0 :bg-opa 0}}]
+     :layout {:flow :row :main-place :center :cross-place :center}
+     :flags-clear [:scrollable]
+     :children (mapv (fn [k]
+                       {:type :WIDGET_BUTTON
+                        :props {:w btn-w :h btn-h}
+                        :event {:name (str transport-event-name "-" (name k))
+                                :trigger :clicked}
+                        :children [{:type :WIDGET_LABEL :text (transport-glyphs k)}]})
+                     transport)}))
+
+(defn- readout-row
+  "Elapsed / total readout. Kept OFF the track deliberately: labels drawn on a
+   narrow track collide at small widths, while a readout beside it stays
+   legible at any width."
+  [{:keys [width readout x y]}]
+  (let [{:keys [elapsed total]} readout]
+    {:type :WIDGET_OBJ
+     ;; transparent + borderless for the same reason as the transport row
+     :styles [{:part :main
+               :props {:w width :h (:readout-h scrubber-rich-chrome)
+                       :pad-all 0 :x x :y y :border-width 0 :bg-opa 0}}]
+     :layout {:flow :row :main-place :space-between :cross-place :center}
+     :flags-clear [:scrollable]
+     :children [{:type :WIDGET_LABEL :text (str elapsed)}
+                {:type :WIDGET_LABEL :text (str total)}]}))
+
+(defn scrubber-rich
+  "A configurable media scrubber. Required keys are the plain `scrubber`'s;
+   every other key adds one part, so the same lego spans a bare position bar
+   and a full transport player:
+
+     :ticks    {:total N :major-every M}  — a tick ruler under the track
+     :labels   [\"0:00\" \"1:00\" …]          — MAJOR-tick texts (needs :ticks)
+     :readout  {:elapsed \"1:12\" :total \"3:40\"} — elapsed/total beside the bar
+     :transport [:prev :play :pause :stop :next] — a grouped button row
+     :transport-event-name \"tp\"           — required with :transport
+
+   Parts stack in a column: transport, track, ticks, readout. The embedded
+   `scrubber` keeps its own hit-halo, so the track's tap target is unchanged
+   by anything stacked around it."
+  [{:keys [width height ticks labels readout transport transport-event-name]
+    :as opts}]
+  (assert-closed "scrubber-rich" scrubber-rich-keys opts)
+  (when (and (seq labels) (not ticks))
+    (throw (ex-info "scrubber-rich: :labels needs :ticks" {:labels labels})))
+  (when ticks
+    (doseq [k [:total :major-every]]
+      (require-int! "scrubber-rich :ticks" k (get ticks k))))
+  (when transport
+    (when-not (and (vector? transport) (seq transport))
+      (throw (ex-info "scrubber-rich: :transport must be a non-empty vector"
+                      {:transport transport})))
+    (let [unknown (remove (set (keys transport-glyphs)) transport)]
+      (when (seq unknown)
+        (throw (ex-info "scrubber-rich: unknown :transport keys"
+                        {:unknown (vec unknown)
+                         :allowed (vec (sort (keys transport-glyphs)))}))))
+    (require-ne-string! "scrubber-rich" :transport-event-name transport-event-name))
+  (when readout
+    (doseq [k [:elapsed :total]]
+      (require-ne-string! "scrubber-rich :readout" k (str (get readout k)))))
+  (let [base (scrubber (select-keys opts scrubber-keys))
+        {:keys [tick-h readout-h transport-h]} scrubber-rich-chrome
+        halo (long scrubber-halo)
+        ;; the embedded scrubber carries its halo on BOTH sides, which also
+        ;; supplies the visual breathing room above/below the track — so the
+        ;; stacked parts butt directly against it with no extra gap.
+        base-h (+ (long height) (* 2 halo))
+        t-h (if transport (long transport-h) 0)
+        k-h (if ticks (long tick-h) 0)
+        r-h (if readout (long readout-h) 0)
+        y-base t-h
+        y-ticks (+ t-h base-h)
+        y-readout (+ t-h base-h k-h)
+        wrapper-w (+ (long width) (* 2 halo))]
+    ;; The vertical stack is positioned ABSOLUTELY, deliberately not with a
+    ;; column flex: flex's inter-child gap comes from the THEME and is not
+    ;; settable from the authored vocabulary (no pad-row), so any exact height
+    ;; a lego computes under-measures and trips the :overflow invariant. With
+    ;; explicit :y the arithmetic here IS the layout, in every theme family.
+    {:type :WIDGET_OBJ
+     ;; Same shape as the embedded scrubber's own wrapper, and for the same
+     ;; reason: an lv_obj left to the theme picks up a BORDER (and bg), and the
+     ;; border shrinks the content box the children are laid out in — enough to
+     ;; push the bottom-most part out of it and trip :overflow/:clipped. Zero
+     ;; border + transparent bg makes the box exactly the arithmetic above.
+     :styles [{:part :main
+               :props {:w wrapper-w
+                       :h (+ t-h base-h k-h r-h)
+                       :pad-all 0
+                       :border-width 0
+                       :bg-opa 0}}]
+     :flags-clear [:scrollable]
+     :children (cond-> []
+                 transport (conj (transport-row (assoc opts :x halo :y 0)))
+                 ;; position INTO the embedded scrubber's existing :main style
+                 ;; group — a node may carry a :main styles group OR :props
+                 ;; style slots, never both (they would emit two MAIN groups).
+                 :always (conj (update-in base [:styles 0 :props]
+                                          assoc :x 0 :y y-base))
+                 ticks (conj (tick-scale (assoc opts :x halo :y y-ticks)))
+                 readout (conj (readout-row (assoc opts :x halo :y y-readout))))}))
+
 ;; ── dock-panel ──────────────────────────────────────────────────────────
 ;; LVGL built-in FontAwesome symbol glyphs (lv_symbol_def.h) — plain UTF-8
 ;; text on the wire; the theme font carries the merged symbol range, so
@@ -172,6 +354,14 @@
    :row-w 272
    :header-h 46
    :caption-h 48
+   ;; The stage-name label's width inside the 272px caption row. The row is at
+   ;; capacity: the switch + 3 icon buttons + the THEME's flex gaps (not
+   ;; settable from here — no pad-column) consume the rest, and widening this
+   ;; overflows the row and CLIPS the delete button out of existence, taking
+   ;; its event with it. A long stage name therefore wraps by design; the
+   ;; caption row centers it on the cross axis so a wrapped label reads as
+   ;; centered rather than clipped.
+   :caption-label-w 52
    :body-h 46
    :card-collapsed-h 64
    :card-expanded-h 118
@@ -232,7 +422,10 @@
   [{:keys [id label enabled?]} idx]
   {:type :WIDGET_OBJ
    :props {:w (:row-w dock-chrome) :h (:caption-h dock-chrome) :pad-all 2}
-   :layout {:flow :row}
+   ;; cross-place CENTER: flex's cross axis defaults to START, which top-aligns
+   ;; every child against the row box — a taller-than-text switch then leaves
+   ;; the label riding the top edge and reading as clipped.
+   :layout {:flow :row :cross-place :center}
    :flags-clear [:scrollable]
    ;; WIDGET_SWITCH, not WIDGET_CHECKBOX: a checkbox with no authored text
    ;; renders the stock default "Check box" label (the renderer skips empty
@@ -240,7 +433,9 @@
    :children [{:type :WIDGET_SWITCH
                :props {:switch_props {:checked (boolean enabled?)}}
                :event {:name (str id "-toggle") :trigger :value-changed :int-value idx}}
-              {:type :WIDGET_LABEL :text label :props {:w 52}}
+              ;; :caption-label-w, not 52: at 52 a stage name as ordinary as
+              ;; "Sharpen" wraps to two lines and overflows :caption-h.
+              {:type :WIDGET_LABEL :text label :props {:w (:caption-label-w dock-chrome)}}
               (icon-button sym-up {:name (str id "-up") :int-value idx})
               (icon-button sym-down {:name (str id "-down") :int-value idx})
               (icon-button sym-close {:name (str id "-delete") :int-value idx})]})

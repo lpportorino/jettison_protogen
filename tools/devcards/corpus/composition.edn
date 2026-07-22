@@ -57,6 +57,41 @@
    :placement {:x 76 :y 176}
    :transform :strip-seek-on-press}
   {:expect :composition
+   :id "lego/scrubber-rich-full"
+   :lego :scrubber-rich
+   :notes
+   "Every optional part enabled: transport row, the plain scrubber embedded unchanged (halo + press-seek intact), a labelled tick ruler, and an elapsed/total readout. Major-tick texts ride ScaleProps.text_src, so the timecode ruler needs no vocabulary beyond WIDGET_SCALE."
+   :opts
+   {:buffered 85
+    :height 20
+    :labels ["0:00" "0:45" "1:30" "2:15" "3:00"]
+    :max 100
+    :min 0
+    :readout {:elapsed "1:12" :total "3:00"}
+    :seek-event-name "seek"
+    :ticks {:major-every 10 :total 41}
+    :transport [:prev :play :pause :stop :next]
+    :transport-event-name "tp"
+    :value 40
+    :width 600}
+   :placement {:x 76 :y 60}}
+  {:expect :composition
+   :id "lego/scrubber-rich-ticks"
+   :lego :scrubber-rich
+   :notes
+   "Ticks + labels only — no transport, no readout. The additive floor: the same lego with one optional key set is a timecode ruler and nothing more."
+   :opts
+   {:buffered 85
+    :height 20
+    :labels ["0:00" "1:30" "3:00"]
+    :max 100
+    :min 0
+    :seek-event-name "seek"
+    :ticks {:major-every 20 :total 41}
+    :value 40
+    :width 600}
+   :placement {:x 76 :y 300}}
+  {:expect :composition
    :id "lego/dock-expanded"
    :lego :dock-panel
    :notes
