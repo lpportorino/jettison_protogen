@@ -47,6 +47,35 @@
   (when-not (and (string? v) (seq v))
     (throw (ex-info (str ctx ": " k " must be a non-empty string") {:ctx ctx k v}))))
 
+(def centering-note
+  "WHY EVERY CENTERED CONTAINER HERE SETS BOTH :cross-place AND :track-place.
+
+   LVGL flex has TWO cross-axis knobs and they do different jobs. A flex
+   container lays its children into TRACKS (one track per line; every lego
+   here is single-track). Then:
+
+     :cross-place  places each ITEM inside its track
+     :track-place  places the TRACK inside the container
+
+   A track is only as thick as its tallest item. So in a box that is TALLER
+   than its content — every fixed-height row in this file — :cross-place
+   alone changes nothing about where the content block sits: the track stays
+   pinned at the container's start edge and the items merely centre against
+   each other inside it. Only :track-place moves the block.
+
+   Measured on the dock, which is how this was finally pinned down. The 48px
+   caption row holds a 37px switch and 30px buttons. With :cross-place :center
+   and no :track-place, the track sat at the row's top (y 80) and the buttons
+   centred within it at y 83.5 — the framebuffer showed 84. Correct centring
+   would have put them at 86. The 46px body row was worse: a 25px band pinned
+   to the top edge, ~10px high, which is what reads as \"the entries are stuck
+   to the top of their container\".
+
+   The same applies transposed on a COLUMN, where the cross axis is
+   horizontal: a 288px card stack inside a 320px panel needs :track-place to
+   sit centred, not merely :cross-place."
+  :see-the-docstring)
+
 ;; ── scrubber ────────────────────────────────────────────────────────────
 (def scrubber-palette
   "The scrubber's authored look. Authored style groups are
@@ -268,7 +297,8 @@
      :styles [{:part :main
                :props {:w width :h transport-h :pad-all 0
                        :border-width 0 :bg-opa 0}}]
-     :layout {:flow :row :main-place :center :cross-place :center}
+     :layout {:flow :row :main-place :center
+              :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
      :children (mapv (fn [k]
                        {:type :WIDGET_BUTTON
@@ -296,7 +326,8 @@
      :styles [{:part :main
                :props {:w width :h transport-h :pad-all 0 :x x :y y
                        :border-width 0 :bg-opa 0}}]
-     :layout {:flow :row :main-place :space-between :cross-place :center}
+     :layout {:flow :row :main-place :space-between
+              :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
      :children (if readout
                  [(readout-label elapsed :left)
@@ -316,7 +347,8 @@
      :styles [{:part :main
                :props {:w width :h (:readout-h scrubber-rich-chrome)
                        :pad-all 0 :x x :y y :border-width 0 :bg-opa 0}}]
-     :layout {:flow :row :main-place :space-between :cross-place :center}
+     :layout {:flow :row :main-place :space-between
+              :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
      :children [(readout-label elapsed :left)
                 (readout-label total :right)]}))
@@ -487,7 +519,8 @@
    digit hard against the border's inner curve — it reads as touching."
   [badge]
   {:type :WIDGET_OBJ
-   :layout {:flow :row :main-place :center :cross-place :center}
+   :layout {:flow :row :main-place :center
+            :cross-place :center :track-place :center}
    :props {:w (:badge-w dock-chrome)
            :h (:badge-h dock-chrome)
            :radius 13
@@ -505,10 +538,10 @@
   [{:keys [id label enabled?]} idx]
   {:type :WIDGET_OBJ
    :props {:w (:row-w dock-chrome) :h (:caption-h dock-chrome) :pad-all 2}
-   ;; cross-place CENTER: flex's cross axis defaults to START, which top-aligns
-   ;; every child against the row box — a taller-than-text switch then leaves
-   ;; the label riding the top edge and reading as clipped.
-   :layout {:flow :row :cross-place :center}
+   ;; BOTH cross knobs, and they are not the same knob (see `centering-note`):
+   ;; :cross-place centres the shorter children against the tall switch;
+   ;; :track-place is what centres that whole band inside the 48px row.
+   :layout {:flow :row :cross-place :center :track-place :center}
    :flags-clear [:scrollable]
    ;; WIDGET_SWITCH, not WIDGET_CHECKBOX: a checkbox with no authored text
    ;; renders the stock default "Check box" label (the renderer skips empty
@@ -537,13 +570,18 @@
      ;; whatever it holds is shorter than the box — flex's default START pins
      ;; that content to the top edge and pools all the slack underneath, which
      ;; reads as "the entry is stuck to the top of its container".
-     :layout {:flow :column :main-place :center :cross-place :center}
+     :layout {:flow :column :main-place :center
+              :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
      :children (cond-> [(stage-caption stage idx)]
                  body? (conj {:type :WIDGET_OBJ
                               :props
                               {:w (:row-w dock-chrome) :h (:body-h dock-chrome) :pad-all 2}
-                              :layout {:flow :row}
+                              ;; :track-place is the one that matters here —
+                              ;; the label+slider band is 25px inside a fixed
+                              ;; 46px row, and START pins it to the top edge.
+                              :layout {:flow :row :cross-place :center
+                                       :track-place :center}
                               :flags-clear [:scrollable]
                               :children (vec body-nodes)}))}))
 
@@ -552,7 +590,10 @@
   [badge]
   {:type :WIDGET_OBJ
    :props {:w (:card-w dock-chrome) :h (:header-h dock-chrome) :pad-all 2}
-   :layout {:flow :row}
+   ;; a 30px icon, a text label and a 26px badge in a 46px row: :cross-place
+   ;; evens the three heights against each other, :track-place drops the
+   ;; resulting band into the middle of the row.
+   :layout {:flow :row :cross-place :center :track-place :center}
    :flags-clear [:scrollable]
    :children [(icon-button sym-list {:name "dock-fold"})
               {:type :WIDGET_LABEL :text "STAGES" :props {:w 130}} (badge-node badge)]})
@@ -571,7 +612,14 @@
                             (:dropdown-h dock-chrome)))]
     {:type :WIDGET_OBJ
      :props {:w (:panel-w dock-chrome) :h (stack-h heights)}
-     :layout {:flow :column}
+     ;; A column's CROSS axis is horizontal, and it defaults to START: the
+     ;; 288px cards inside a 320px panel would sit hard against the left edge
+     ;; with every pixel of slack pooled on the right. main-place CENTER for
+     ;; the same reason vertically — `stack-h` assumes the theme's inter-child
+     ;; gap (:flex-gap), and any error in that estimate pools at the bottom
+     ;; under START instead of splitting evenly.
+     :layout {:flow :column :main-place :center
+              :cross-place :center :track-place :center}
      :children (-> [(dock-header badge)]
                    (into cards)
                    ;; The add control: fires `dock-add` with the selected
@@ -594,7 +642,11 @@
                             (:badge-h dock-chrome)))]
     {:type :WIDGET_OBJ
      :props {:w (:rail-w dock-chrome) :h (stack-h heights)}
-     :layout {:flow :column}
+     ;; same as the expanded panel: the rail mixes a 30px icon button, 36px
+     ;; letter buttons and a 34px badge, so cross-START would align their LEFT
+     ;; edges and let the differing widths ragged-edge on the right.
+     :layout {:flow :column :main-place :center
+              :cross-place :center :track-place :center}
      :children (-> [(icon-button sym-list {:name "dock-fold"})]
                    (into (for [s stages]
                            {:type :WIDGET_BUTTON
