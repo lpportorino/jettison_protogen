@@ -48,7 +48,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 ## Known limitations
 
-Declared as '9 cards in one composite gallery'; atomized here per T2.1 (one card per cell) — same 9 cells. TENSION RECORDED: the survey expects stock to draw outline_primary/secondary on focus-key/edited, but the conventions manifest commits WIDGET_BAR to [:default :disabled] only, making those two cells inertness probes under the asgard theme; T2.5 adjudicates.
+Declared as '9 cards in one composite gallery'; atomized here (one card per cell) — same 9 cells. Stock draws outline_primary/secondary on focus-key/edited, so the conventions manifest commits WIDGET_BAR to [:default :disabled :focus-key :edited] and those cells render visually distinct under the asgard theme.
 
 ---
 Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)

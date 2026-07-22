@@ -42,7 +42,7 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   the object under test. A red devcard gate after a SCHEMA change is the waist
   catching producer/interpreter drift: fix the contract, not the gate.
 
-## Secret-free, GATE-HELD (secret-scan in CI)
+## Secret-free by authoring discipline (no automated secret-scan today)
 - Generic widgets, compositions, and generic meta-node examples only.
   Proprietary device meta-nodes (DDE, camera controls) NEVER land here; private
   consumers run THIS runner via their protogen pin against their own private

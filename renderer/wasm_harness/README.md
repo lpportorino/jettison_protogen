@@ -5,8 +5,7 @@ interpreter headlessly: `EDN → proto (.pb) → controls.wasm → wasmtime →
 RGBA8888 framebuffer → PNG`, no GPU, no window. It is the wasmtime *verifier*
 half of the renderer battery — the engine the GraalWasm devcards runner
 (`tools/devcards/`) is cross-checked against: both hosts run the same pinned
-render protocol and byte-compare raw framebuffers. Port lineage is pinned in
-`.ported-from.edn`.
+render protocol and byte-compare raw framebuffers.
 
 ## Where it runs
 

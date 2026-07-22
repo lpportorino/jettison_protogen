@@ -3,7 +3,7 @@
 //! Loads a `controls.wasm` module, manages its lifecycle, and provides methods
 //! to push UI protobuf data, tick LVGL, and read the RGBA framebuffer.
 //!
-//! Modeled after `jettison_view/src/controls.rs` but simplified for standalone
+//! Modeled after the native consumer's controls host but simplified for standalone
 //! headless rendering (no command capture, no custom store data).
 use crate::HarnessError;
 use std::collections::HashMap;

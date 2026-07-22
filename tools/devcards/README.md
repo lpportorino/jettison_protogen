@@ -28,8 +28,8 @@ proof — **proof from three ends**:
 |                                       Artifact                                        |                       Status                       |
 |---------------------------------------------------------------------------------------|----------------------------------------------------|
 | fixture `.pb` + fixture source (EDN → public builder)                                 | committed                                          |
-| golden manifest (per-card raw-framebuffer sha256 + wasm sha + tick count)             | committed                                          |
-| **gallery JPEGs (high quality)** — one per committed theme family (`gallery.clj` `family-renders`) | **committed** (online docs render from the repo)   |
+| golden manifest (per-card raw-framebuffer sha256 + the render protocol it was minted under) | committed                                          |
+| **gallery JPEGs (high quality)** — the render set in `gallery.clj` `family-renders` (3 sheets: vanilla + asgard dark/light) | **committed** (online docs render from the repo)   |
 | PNGs / raw dumps / diff overlays                                                      | transient (CI + local inspection only, gitignored) |
 
 ## The corpus (secret-free — §9's own rule, extended)

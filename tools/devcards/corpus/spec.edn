@@ -1029,10 +1029,10 @@
      :state :disabled
      :states-bits 512
      :value :mid}]
-   :committed-states [:default :disabled]
+   :committed-states [:default :disabled :focus-key :edited]
    :declared-count 9
    :notes
-   "Declared as '9 cards in one composite gallery'; atomized here per T2.1 (one card per cell) — same 9 cells. TENSION RECORDED: the survey expects stock to draw outline_primary/secondary on focus-key/edited, but the conventions manifest commits WIDGET_BAR to [:default :disabled] only, making those two cells inertness probes under the asgard theme; T2.5 adjudicates."
+   "Declared as '9 cards in one composite gallery'; atomized here (one card per cell) — same 9 cells. Stock draws outline_primary/secondary on focus-key/edited, so the conventions manifest commits WIDGET_BAR to [:default :disabled :focus-key :edited] and those cells render visually distinct under the asgard theme."
    :sizes [{:h 8 :id :small :note "near the LV_RADIUS_CIRCLE clamp floor" :w 40}
            {:h 16 :id :medium :note "h=16 is lv_bar_class.height_def at dpi160" :w 160}
            {:h 24 :id :large :note "w=320 is lv_bar_class.width_def at dpi160" :w 320}]
@@ -2007,7 +2007,7 @@
      :value :mid}
     {:expect :distinct
      :id "lv_roller/edited/small/mid"
-     :notes "Manifest-uncommitted (see widget deviation note)."
+     :notes "Manifest-committed :edited cell (see widget deviation note)."
      :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
              :w 48}
      :size :small
@@ -2048,7 +2048,7 @@
      :value :mid}
     {:expect :distinct
      :id "lv_roller/edited/medium/mid"
-     :notes "Manifest-uncommitted (see widget deviation note)."
+     :notes "Manifest-committed :edited cell (see widget deviation note)."
      :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
              :w 120}
      :size :medium
@@ -2093,7 +2093,7 @@
      :value :mid}
     {:expect :distinct
      :id "lv_roller/edited/large/mid"
-     :notes "Manifest-uncommitted (see widget deviation note)."
+     :notes "Manifest-committed :edited cell (see widget deviation note)."
      :props {:roller_props {:options "Narrow\nStandard\nWide\nExtra Wide"
                             :selected 1
                             :visible_row_count 3}
@@ -2136,10 +2136,10 @@
      :state :default
      :states-bits 0
      :value :max}]
-   :committed-states [:default :hovered :pressed :disabled :focus-key]
+   :committed-states [:default :hovered :pressed :disabled :focus-key :edited]
    :declared-count 14
    :deviation
-   "+3 over declared 14: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium) per PLAN T2.1. TENSION RECORDED: the survey includes :edited cells (stock draws outline_secondary) but the manifest omits :edited from WIDGET_ROLLER's committed list — those three cells are inertness probes under the asgard theme; T2.5 adjudicates."
+   "+3 over declared 14: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium). The survey's :edited cells draw outline_secondary in stock, so the manifest commits :edited for WIDGET_ROLLER and those three cells render visually distinct under the asgard theme."
    :notes
    "pressed is confirmatory-only under stock (no pressed style in the stock roller arm) and sampled at small+medium only per survey; the manifest commits it distinct under the asgard theme."
    :sizes

@@ -56,7 +56,7 @@ proto cannot force a spinbox height (`size_widget` mirrors this).
 Row family 13 — IMAGE PIPELINE PARITY: `carray_*` rows compare the compiled
 LVGL demo C-array image against its byte-exact extracted PNG twin; `file_png_*`
 (lodepng) and `file_svg_*` (ThorVG) rows compare each decoder against its own
-reference render. `run.sh` drives all eight via `IMAGE_IDS`.
+reference render. `run.sh` drives every id in `IMAGE_IDS`.
 
 Every render of BOTH paths runs under `--assert-content` — the content-sanity
 oracle (opaque-pixel share + flat-frame detection): two identically-BLANK

@@ -14,9 +14,10 @@ Sources of truth, in priority order:
    dropdown/roller, states sampled at mid, plus pressed×min/max for the two KNOB
    widgets slider + arc), the UNSTYLED definition, and atomicity.
 2. `../conventions/ui-render-conventions.edn` — every widget's
-   `:committed-states` list is derived from `:widget-states` (the contract the
-   distinctness/inertness gate checks), with any divergence recorded via
-   `:deviation` (e.g. WIDGET_BAR, WIDGET_ROLLER); `:state-selectors` likewise. A
+   `:committed-states` list mirrors `:widget-states` (the states the asgard
+   theme renders distinct); the gate checks each card's `:expect`
+   (`:distinct` hash≠default / `:inert` hash==default), and a widget records any
+   survey-vs-manifest divergence via `:deviation`. `:state-selectors` likewise. A
    card whose state is not in its class's committed list carries `:expect :inert`
    (the manifest's inertness clause) or a probe marker.
 3. The per-widget theme-surface survey (a private authoring-side artifact) —

@@ -36,7 +36,7 @@ in every other consumer and has merely not surfaced yet, so a local workaround
 leaves it live for everyone else, forks behaviour between stacks required to
 agree byte-for-byte, and hides the signal so the next consumer rediscovers the
 same bug from scratch. The negative vector in `docs/INTERFACE-CONTRACTS.md` §6 —
-the former datasart `buildPingPayload()` bytes, kept only as a failing test case
+a former web-consumer `buildPingPayload()` hand-roll, kept only as a failing test case
 — is what that costs when it happens. This is the general form of that doc's
 §10.1 **"Generate, don't hand-roll"**: that rule forbids implementing the
 contract locally, this one forbids repairing it locally.
@@ -100,8 +100,8 @@ the JPEG-only image policy; PNGs/raw dumps stay gitignored).
 The devcard gate (`tools/devcards/`) proves the schema and the renderer
 agree — schema-validate + framebuffer-hash + DOM invariants; a red devcard
 gate after a SCHEMA change is the waist catching producer/interpreter drift
-— fix the contract, not the gate. Fixtures are secret-free and GATE-HELD so
-(secret-scan in CI): generic widgets and compositions only; proprietary
+— fix the contract, not the gate. Fixtures are secret-free by authoring discipline (no
+automated secret-scan runs today): generic widgets and compositions only; proprietary
 device meta nodes stay in consumer repos, which reuse this runner via their
 protogen pin. Device-specific screen AUTHORING stays in the private
 consumers; this repo defines how interfaces work, not what any product's

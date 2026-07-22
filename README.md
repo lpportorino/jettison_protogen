@@ -232,7 +232,7 @@ devcard/renderer proof battery. The exact pinned versions live in
 - Zig
 - Python 3 with protobuf tools
 - Node.js with TypeScript proto tools
-- GraalVM Community JDK — Ubuntu's apt JDK is too old for the devcard renderer (which needs JDK 21+); GraalVM CE also JIT-compiles the polyglot host (see `tools/devcards/README.md`)
+- GraalVM Community JDK — the devcard renderer runs on any JDK 21+ (stock JDKs interpret the polyglot host); GraalVM CE JIT-compiles it, and apt's OpenJDK 17 is below the 21+ floor (see `tools/devcards/README.md`)
 - Clojure CLI (the devcards corpus runner)
 - WASI-SDK (the renderer wasm cross-compiler)
 - nanopb for C generation
@@ -344,19 +344,8 @@ Check that your proto source directory exists and contains `.proto` files.
 
 ### Makefile Targets
 
-- `make help` - Show all available targets
-- `make build` - Build Docker image only
-- `make build-base` - Build the base Docker image with all dependencies
-- `make generate` - Build image and generate bindings
-- `make rebuild` - Force rebuild image and regenerate
-- `make rebuild-base` - Force rebuild base image
-- `make clean` - Remove generated files
-- `make clean-all` - Remove generated files and Docker images
-- `make clean-image` - Remove the main Docker image
-- `make clean-base` - Remove the base Docker image
-- `make test` - Run test generation with test proto
-- `make shell` - Open shell in Docker container
-- `make versions` - Show tool versions in Docker image
+Run `make help` for the full, current target list — it's generated from the
+Makefile's own `##` comments, so it never drifts.
 
 ### Adding Custom Protoc Options
 

@@ -9,8 +9,8 @@
 > relative path PATTERNS are protocol facts and ARE in scope.
 
 This is the canonical wire contract shared by the two co-equal render targets
-that consume `jettison_protogen` — the Clojure/TypeScript web stack (datasart)
-and the Rust/C native stack (tauri) — plus the shared `controls.wasm` LVGL
+that consume `jettison_protogen` — the web-consumer stack (Clojure/TypeScript)
+and the native-consumer stack (Rust/C) — plus the shared `controls.wasm` LVGL
 renderer both embed. Each section is a contract both ends MUST agree on
 byte-for-byte; each ends with a `Reference implementations:` line citing the
 producing/consuming source in BOTH repos so any drift is a two-sided bug.
@@ -58,14 +58,9 @@ Framing rules:
   header parse.
 
 Reference implementations:
-- datasart: `ts/video/ingress-protocol.ts` (`WB` magic + version + `PING`),
-  `ts/osd/state-worker.ts` (`WR` magic `0x57 0x52`, `[4B LE len]` framing),
-  `ts/controls/cmd-sender.ts` (`CW` magic `0x43 0x57` + `[4B LE len]`).
-- tauri: `jettison_wt_client/src/protocol/mod.rs` (`WB_MAGIC`/`WK_MAGIC`,
-  `PROTOCOL_VERSION = 5`, `PING`/`PONG`), `jettison_wt_client/src/session/command.rs`
-  (`CMD_STREAM_MAGIC = [0x43, 0x57]` + `[4B LE len]`),
-  `jettison_wt_client/src/session/arm_proxy.rs` (`SIGNAL_MAGIC = [0x43,0x53]` "CS",
-  `GENERAL_MAGIC = [0x43,0x47]` "CG").
+- The web consumer and the native consumer each implement this framing in their
+  own stack; the magic bytes, version, and `PING`/`PONG` above are the shared
+  contract.
 
 ---
 
@@ -119,13 +114,8 @@ the 25-byte one is LE and has no magic, the 26-byte one is BE and starts with
 `WB`.
 
 Reference implementations:
-- datasart: `ts/video/frame-protocol.ts` (`FRAME_HEADER_SIZE = 25`, `pts`@0,
-  `duration`@8, `systemTime`@16, `isKeyframe`@24, all `getBigUint64(..., true)`
-  = LE), `ts/video/ingress-protocol.ts` (`DATAGRAM_HEADER_SIZE = 26`, BE fields).
-- tauri: `jettison_view/src/decoder.rs` (`CAMERA_HEADER_LEN = 25`, stripped
-  before codec decode), `jettison_wt_client/src/protocol/wb.rs` (26-byte BE,
-  `payload_size` is 24-bit BE), `jettison_wt_client/src/protocol/wk.rs`
-  (15-byte BE).
+- The web consumer and the native consumer each parse these headers in their own
+  stack; the field offsets + endianness above are the shared contract.
 
 ---
 
@@ -161,12 +151,8 @@ equal `WR` (`0x57 0x52`) it is Profile A; otherwise the stream is a zstd member
 the magic/decompression layer.
 
 Reference implementations:
-- datasart: `ts/osd/state-worker.ts` (Profile A — `WR_MAGIC_0 = 0x57`,
-  `WR_MAGIC_1 = 0x52`, `[4B LE len]` via `getUint32(0, true)`,
-  `MAX_MSG_SIZE = 16 MiB` sanity cap).
-- tauri: `jettison_wt_client/src/session/state.rs` (Profile B — continuous
-  `ZstdDecoder`, `read_u32_le()` length prefix, `MAX_STATE_FRAME = 4 MiB`; the
-  initial rate datagram `connection.send_datagram([0x52, update_rate_hz])`).
+- The web consumer implements Profile A and the native consumer Profile B in
+  their own stacks; the two profiles above are the shared contract.
 
 ---
 
@@ -200,11 +186,9 @@ the device command — no fixed-point recast, no host-side conversion. This
 byte-identity is load-bearing for the golden-vector parity in §9.
 
 Reference implementations:
-- datasart: `ts/video/gesture-core.ts` (`PointerSample` `x`/`y` doc: "NDC
-  `[-1,1]`, +x right, +y UP (Y-flipped from screen)").
-- tauri: `jettison_view/src/ui_input.rs` (module header: "`x`/`y` are NDC in
-  `[-1, 1]`, +x right, +y UP (Y-flip from window px)"; the WASM-side clamp +
-  `ndc_to_px` flip live in datasart `src/main.c` `ndc_to_px`).
+- The web consumer and the native consumer both document this NDC convention
+  (`[-1,1]`, +x right, +y UP); the WASM-side clamp + `ndc_to_px` flip live in
+  `renderer/src/main.c` `ndc_to_px`.
 
 ---
 
@@ -265,13 +249,10 @@ only as an optimization that EXACTLY reproduces the generated wire bytes
 (field-number order, wire types, UUID); any divergence is a contract break.
 
 Reference implementations:
-- datasart: `ts/video/enrichment.ts` (`OSD_CLIENT_METADATA_UUID`,
-  `FIELD_OPAQUE_PAYLOADS = 8`, `FIELD_PAYLOAD_UUID = 1`, `FIELD_PAYLOAD_DATA = 3`,
-  per-field encoder — a hand-roll that mirrors the proto; the generated-proto
-  rule above applies).
-- tauri: `jettison_view/src/proto.rs` (`OSD_CLIENT_METADATA_UUID`, prost-generated
-  `OsdClientMetadata`/`JonOpaquePayload` from `jettison_protogen/output/rust/ser.rs`,
-  `state.opaque_payloads.push(...)` then `encode_to_vec()`).
+- The web consumer and the native consumer each encode this payload in their own
+  stack — one via a proto-mirroring hand-roll, the other via prost-generated
+  `OsdClientMetadata`/`JonOpaquePayload` from `output/rust/ser.rs`; the
+  generated-proto rule above applies to both.
 
 ---
 
@@ -303,8 +284,8 @@ the golden vectors.)
 
 | Client | `client_type` | `client_app` |
 |--------|---------------|--------------|
-| Native desktop (tauri) | `2` (`LOCAL_NETWORK`) | `3` (`DESKTOP_NATIVE`) |
-| Browser HUD (datasart controls) | `2` (`LOCAL_NETWORK`) | `1` (`BROWSER_UI`) |
+| Native desktop consumer | `2` (`LOCAL_NETWORK`) | `3` (`DESKTOP_NATIVE`) |
+| Browser HUD consumer | `2` (`LOCAL_NETWORK`) | `1` (`BROWSER_UI`) |
 
 **G1 — the native-client ping encoding:**
 
@@ -334,7 +315,7 @@ Length-prefixed on the `CW` stream (native shown; browser identical shape):
 
 (`09 00 00 00` = LE uint32 length 9, then the 9 ping bytes.)
 
-**Negative vector (the former datasart hand-roll bug).** `ts/controls/cmd-sender.ts`
+**Negative vector (a former web-consumer hand-roll bug).** A consumer's
 `buildPingPayload()` formerly emitted:
 
 ```
@@ -346,7 +327,7 @@ which decodes as: field 1 = `1` (correct), field 2 (`session_id`) = `2`, field
 intended `client_type` (field 5), `client_app` (field 10), and `ping` (field 28)
 were NOT set. That form has been REPLACED by the correct field-5/10/28 shape
 (now G1-B for this sender); the broken bytes are retained ONLY as the
-non-vacuous negative vector asserted by `ts/controls/cmd-sender.test.ts`. A
+non-vacuous negative vector asserted by the web consumer's wire-parity test. A
 second defect class this history teaches: the field-shape fix initially carried
 enum VALUES equal to the fields' own numbers (`client_type=5`, `client_app=10`)
 — undefined variants both, which `defined_only` validation rejects; the
@@ -356,12 +337,9 @@ Reference implementations:
 - proto (authoritative): `proto/jon_shared_cmd.proto` (field numbers
   `protocol_version=1`, `client_type=5`, `client_app=10`, `ping=28`;
   `message Ping {}` empty; enum variants in `proto/jon_shared_data_types.proto`).
-- datasart: `ts/controls/cmd-sender.ts` `buildPingPayload()` — emits G1-B,
-  asserted byte-for-byte by `ts/controls/cmd-sender.test.ts`.
-- tauri: `tauri-app/src/proto.rs` `build_ping_command()` (prost `cmd::Root` → G1,
-  asserted by `test_build_ping_command_matches_g1_golden_vector`);
-  `jettison_wt_client/src/session/command.rs` (`send_persistent` `CW`-stream length
-  framing; the ping payload is the app-supplied `cmd.Root`).
+- The web consumer and the native consumer each build the ping in their own stack
+  (G1-B and G1 respectively) and assert it byte-for-byte against the golden vector
+  in their wire-parity tests.
 
 ---
 
@@ -422,29 +400,25 @@ interval), debounced so a push and the next poll for the same change collapse
 into a single reload.
 
 Reference implementations:
-- datasart: `ts/controls/package.ts` (`extractControlsTar` — flat POSIX tar,
-  `controls.wasm` + `ui/{screen}.pb`, screen default `zoom_controls`, size@124
-  octal, 512-block alignment), `ts/osd/package.ts` (OSD-variant: outer tar →
-  `manifest.jwt` + inner `*.tar.gz` → wasm + config + resources),
-  `src/arm/osd.clj` (`handle-package` 200/304/503+Retry-After:5/404-off-whitelist,
-  `handle-package-etag` bare-body etag), `ts/osd/state-worker.ts` (5 s
-  `pollPackage` HEAD floor + 1.5 s debounce), `src/arm/codegen.clj`
-  (`repackage-controls!` assembles `controls.wasm` + `ui/` + `assets/`).
-- tauri: `jettison_view/src/controls.rs` (loads `controls.wasm` + a `ui.Screen`
-  `.pb` from `controls.tar`); the bare-etag poll (`/osd/{name}.tar/etag`) +
-  5 s cadence is the native OSD/controls reload poller (consuming-repo wiring).
+- The web consumer extracts + repackages this archive (flat POSIX tar,
+  `controls.wasm` + `ui/{screen}.pb`, screen default `zoom_controls`; the
+  OSD-variant outer tar → `manifest.jwt` + inner `*.tar.gz`) and polls the etag
+  (200/304/503+Retry-After:5, a HEAD-floor debounce). The native consumer loads
+  `controls.wasm` + a `ui.Screen` `.pb` from `controls.tar` and runs the
+  bare-etag poll (`/osd/{name}.tar/etag`, 5 s cadence) — each in its own stack.
 
 ---
 
 ## 8. `controls.wasm` ABI (reference, not redefined)
 
 The `controls.wasm` host↔guest ABI is NOT defined here. Its authoritative home
-is the datasart renderer source: `src/main.c` (the export bodies + the export
-list in the file header) and `src/host_imports.h` (the imports). This section
+is this repo's renderer source: `renderer/src/main.c` (the export bodies + the
+export list in the file header) and `renderer/src/host_imports.h` (the imports).
+This section
 only LISTS the names so a consumer knows what to link; the contract (arg/return
 semantics, error codes) lives at that home.
 
-**Guest exports** (`controls_*`, from `src/main.c`):
+**Guest exports** (`controls_*`, from `renderer/src/main.c`):
 `controls_init`, `controls_load_ui`, `controls_apply_patch`,
 `controls_update_state`, `controls_host_message`, `controls_key_event`,
 `controls_text_input`, `controls_get_focused_text`, `controls_tick`,
@@ -456,15 +430,16 @@ semantics, error codes) lives at that home.
 and the `malloc`/`free` buffer-transfer pair).
 
 ABI self-description getters (the host validates these at load/reload before
-reading the framebuffer at a stride): `controls_abi_version` (`CONTROLS_ABI_VERSION`
-is `3`; `v2` added the `env.host_event` import to the REQUIRED import set —
-a WASM import is instantiation-MANDATORY, so hosts link it BEFORE the module
-can load at all; `v3` added the `controls_set_theme_family` export),
+reading the framebuffer at a stride): `controls_abi_version` (returns
+`CONTROLS_ABI_VERSION`, defined in `renderer/src/main.c`; `v2` added the
+`env.host_event` import to the REQUIRED import set — a WASM import is
+instantiation-MANDATORY, so hosts link it BEFORE the module can load at all;
+`v3` added the `controls_set_theme_family` export),
 `controls_fb_format` (`1` = `RGBA8888`, memory byte order
 `framebuffer[i*4+0]`=R), `controls_fb_width`/`controls_fb_height`,
 `controls_fb_bpp` (`4`). All are plain `u32` returns (no i64/BigInt).
 
-**Host imports** (`env.*`, from `src/host_imports.h`):
+**Host imports** (`env.*`, from `renderer/src/host_imports.h`):
 - `env.host_command(ptr, len) -> i32` — relays OPAQUE `cmd.*` bytes to the host
   (the host forwards to the command plane WITHOUT decoding).
 - `env.host_report(ptr, len) -> i32` — relays a `ui.WasmToHost` hover/cursor
@@ -496,14 +471,15 @@ DEFAULT=1/POINTER=2/TEXT=3/GRAB=4/RESIZE=5/NOT_ALLOWED=6. The channel schema
 version is `1` and is fail-fast checked (no migration branch).
 
 Reference implementations:
-- datasart (authoritative ABI home): `src/main.c` (export bodies +
-  `CONTROLS_ABI_VERSION`/`CONTROLS_FB_FMT_RGBA8888`), `src/host_imports.h`
+- the renderer (authoritative ABI home, in this repo): `renderer/src/main.c`
+  (export bodies + `CONTROLS_ABI_VERSION`/`CONTROLS_FB_FMT_RGBA8888`),
+  `renderer/src/host_imports.h`
   (`host_command`/`host_report`/`host_proxy_report` `import_module("env")`).
 - proto: `proto/ui/ui_input.proto` (the `HostToWasm`/`WasmToHost` field numbers
   + enum values above).
-- tauri: `jettison_view/src/controls.rs` (links `env.host_command`/
-  `env.host_report`/`env.host_proxy_report`, calls the `controls_*` exports),
-  `jettison_view/src/ui_input.rs` (encodes `HostToWasm`, decodes `WasmToHost`).
+- The native consumer links these `env.*` imports and calls the `controls_*`
+  exports, and encodes `HostToWasm` / decodes `WasmToHost`, in its own stack; the
+  web consumer does the same in its.
 
 ---
 
@@ -609,15 +585,9 @@ never `value_changed`):
 ```
 
 Reference implementations:
-- datasart: `ts/controls/cmd-sender.ts` (G1, asserted by `cmd-sender.test.ts`),
-  `ts/video/frame-protocol.ts` (G2), `ts/video/ingress-protocol.ts` (G3),
-  `ts/osd/state-worker.ts` (G4 is the inbound rate the server honors).
-- tauri: `jettison_wt_client/src/protocol/wb.rs` test `make_wb_datagram`
-  (G3 — uses exactly `frame_seq=42, total_datagrams=3, payload_size=2922`),
-  `jettison_view/src/decoder.rs` (G2 — strips the 25-byte header),
-  `jettison_wt_client/src/session/state.rs` test asserts `[0x52, 20]` (G4),
-  the `cmd.Root` ping (G1) is the app-supplied `CW` payload, asserted by
-  `tauri-app/src/proto.rs` `test_build_ping_command_matches_g1_golden_vector`.
+- The web consumer and the native consumer each assert G1-G4 byte-for-byte in
+  their own wire-parity test suite (G3 uses exactly `frame_seq=42,
+  total_datagrams=3, payload_size=2922`).
 
 ---
 
@@ -634,16 +604,13 @@ two repos and must agree byte-for-byte. Two mechanisms keep them from drifting.
 2. **Each consumer asserts the §9 golden vectors in a wire-parity test** that
    decodes its own encoder output against the pinned generated proto and asserts
    the §9 bytes:
-   - datasart: `ts/controls/cmd-sender.test.ts` (G1 ping),
-     `ts/video/enrichment.test.ts` (§5 enrichment).
-   - tauri: `tauri-app/src/proto.rs::test_build_ping_command_matches_g1_golden_vector`
-     (G1), `jettison_view/src/proto.rs::test_enrichment_matches_section5_wire_contract`
-     (§5).
+   - Each consumer asserts G1 (ping) and §5 (enrichment) in its own wire-parity
+     test suite.
    Touch a wire encoder ⇒ the parity test guards it; this contract + the §9
    vectors are the source of truth.
 
 **The evolution loop** — when a proto change touches a surface named here: edit
 `proto/`, regenerate the bindings, update this doc to match, bump the
-`jettison_protogen` submodule pin in BOTH consumers (datasart + tauri) in
+`jettison_protogen` submodule pin in BOTH consumers (web + native) in
 lockstep, and rebuild. Renumbering is allowed (no compat shims — both consumers
 rebuild together); the §9 parity tests fail loudly on any divergence.

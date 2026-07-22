@@ -1,8 +1,6 @@
-# POC #2 — headless Rust+WASM framebuffer harness.
-#
-# Originally lifted from the jettison_poc_webgpu_wasmtime POC's lvgl_harness
-# (which already drove our exact controls_* ABI; pin in .ported-from.edn),
-# then extended in-repo: matrix runner, tree diff, dual-path image rows.
+# Headless Rust + wasmtime framebuffer harness — drives the controls_* ABI for
+# the renderer battery: matrix runner, RFC 6902 tree diff, framebuffer
+# bit-compare, dual-path image rows.
 #
 # Loads controls.wasm, drives controls_init/load_ui/tick/get_framebuffer, reads
 # the RGBA8888 framebuffer from linear memory, dumps PNG. Foundation for the
