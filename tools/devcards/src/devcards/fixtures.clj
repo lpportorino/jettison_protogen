@@ -63,7 +63,8 @@
   (:import [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
             UiAst$ChartAxis UiAst$ChartProps UiAst$ChartSeries UiAst$ChartType
             UiAst$CheckboxProps UiAst$Color UiAst$DropdownProps UiAst$EventBinding
-            UiAst$EventTrigger UiAst$FlexFlow UiAst$HostProxyProps UiAst$ImageProps
+            UiAst$EventTrigger UiAst$FlexAlign UiAst$FlexFlow UiAst$HostProxyProps
+            UiAst$ImageProps
             UiAst$LabelLongMode UiAst$LabelProps UiAst$Layout UiAst$LedProps UiAst$LineProps
             UiAst$Point UiAst$ProxyMode UiAst$RollerProps UiAst$ScaleMode UiAst$ScaleProps
             UiAst$ScaleSection UiAst$Screen UiAst$SliderProps UiAst$SpinboxProps
@@ -306,6 +307,25 @@
    :column UiAst$FlexFlow/FLEX_FLOW_COLUMN
    :row-wrap UiAst$FlexFlow/FLEX_FLOW_ROW_WRAP
    :column-wrap UiAst$FlexFlow/FLEX_FLOW_COLUMN_WRAP})
+
+(def ^:private flex-aligns
+  "Layout `:main-place` / `:cross-place` / `:track-place` keyword -> proto
+   FlexAlign. Flex's cross axis defaults to START, so a row of mixed-height
+   children top-aligns unless :cross-place says otherwise — without these the
+   Layout message could only ever carry a flow, and any alignment a card asked
+   for was silently dropped on the floor."
+  {:start UiAst$FlexAlign/FLEX_ALIGN_START
+   :end UiAst$FlexAlign/FLEX_ALIGN_END
+   :center UiAst$FlexAlign/FLEX_ALIGN_CENTER
+   :space-evenly UiAst$FlexAlign/FLEX_ALIGN_SPACE_EVENLY
+   :space-around UiAst$FlexAlign/FLEX_ALIGN_SPACE_AROUND
+   :space-between UiAst$FlexAlign/FLEX_ALIGN_SPACE_BETWEEN})
+
+(def ^:private layout-keys
+  "The closed `:layout` shape. Closed on purpose: an unsupported key here used
+   to be IGNORED rather than rejected, so a card asking for an alignment the
+   builder never emitted rendered wrong with no diagnostic at all."
+  #{:flow :main-place :cross-place :track-place})
 
 (def ^:private lvgl-flex-flow->kw
   "The spec's `:flex-flow` prop values are LVGL `lv_flex_flow_t` vocabulary
@@ -686,6 +706,8 @@
                    ": widget-props arm does not match node type"
                    " — a mismatched arm decodes as silence")
               {:ctx ctx :type type-kw :arm wkey :expected (type->props-key type-kw)})))
+        _ (when-some [lay (:layout node)]
+            (assert-closed (str ctx " :layout") layout-keys lay))
         flow (or flow (get-in node [:layout :flow]))
         _ (when (and (get-in node [:layout :flow])
                      (:flex-flow (:props node))
@@ -702,10 +724,16 @@
     (when-some [e (:event node)] (.setEvent b (event-binding ctx e)))
     (when-some [t (:text node)] (.setText b ^String t))
     (when flow
-      (.setLayout b
-                  (-> (UiAst$Layout/newBuilder)
-                      (.setFlow (enum-of flex-flows flow (str ctx " :layout :flow")))
-                      .build)))
+      (let [lay (:layout node)
+            lb (-> (UiAst$Layout/newBuilder)
+                   (.setFlow (enum-of flex-flows flow (str ctx " :layout :flow"))))]
+        (when-some [v (:main-place lay)]
+          (.setMainPlace lb (enum-of flex-aligns v (str ctx " :layout :main-place"))))
+        (when-some [v (:cross-place lay)]
+          (.setCrossPlace lb (enum-of flex-aligns v (str ctx " :layout :cross-place"))))
+        (when-some [v (:track-place lay)]
+          (.setTrackPlace lb (enum-of flex-aligns v (str ctx " :layout :track-place"))))
+        (.setLayout b (.build lb))))
     (when (seq style) (.addStyleGroups b (style-group style)))
     (when-some [groups (:styles node)] (authored-style-groups! b ctx groups style))
     (when wkey (set-widget-props! b wkey wprops))
