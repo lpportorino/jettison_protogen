@@ -1,11 +1,38 @@
 #!/usr/bin/env bash
 # pre-push — the FAST local gate: formatting + lint over hand-authored code.
 #
-# Deliberately the fast subset. The full proof battery (wasm build, devcards
-# render, oracles) needs the pinned container and minutes of wall clock; that
-# stays in CI, which is the AUTHORITATIVE gate. This hook exists so the public
-# trunk does not go red for a stale import or an unformatted file — protogen is
-# pinned by a consumer fleet, and a red trunk is everyone's problem.
+# BEST-EFFORT AUTO-FIX, then BLOCK. Formatting is mechanical and deterministic,
+# so making a human re-run `fmt-fix` after a red gate is pure friction: this
+# hook applies it for you. It then FAILS the push anyway, always, because a
+# pre-push hook cannot change what is being pushed — the commits already exist,
+# and rewriting files afterwards leaves the unformatted versions in the objects
+# git is about to send. So a rewrite MUST block; letting the push through would
+# ship exactly the code the gate rejected. Commit the rewrite and push again.
+#
+# WHAT IS AUTO-FIXED — the formatters only:
+#   cljfmt         yes, deterministic.
+#   clang-format   yes, but ONLY through the pinned WASI-SDK binary in the uber
+#                  container. Without docker the C lane drops to check-only:
+#                  formatting C with an unpinned clang-format would rewrite the
+#                  tree into something CI rejects, manufacturing the very drift
+#                  this gate exists to prevent.
+#
+# WHAT IS NOT — the linters report, they never rewrite:
+#   clj-kondo      has no autofix at all.
+#   splint         HAS `--autocorrect`, and it was measured on this tree and
+#                  rejected: it dropped a load-bearing comment, exploded
+#                  readable `str` calls to one argument per line, flattened
+#                  aligned map literals, and emitted a fully-qualified
+#                  `clojure.string/join` into a namespace that does not require
+#                  clojure.string — output our OWN clj-kondo gate then failed
+#                  on. An autofix whose output the next gate rejects is not a
+#                  time-saver. See lint.mk `splint-clj`.
+#
+# The full proof battery (wasm build, devcards render, oracles) needs the pinned
+# container and minutes of wall clock; that stays in CI, which is the
+# AUTHORITATIVE gate. This hook exists so the public trunk does not go red for a
+# stale import or an unformatted file — protogen is pinned by a consumer fleet,
+# and a red trunk is everyone's problem.
 #
 # It is NOT a substitute for CI: a client-side hook only protects whoever armed
 # it, and `--no-verify` bypasses it. CI protects the consumers regardless.
@@ -18,13 +45,51 @@ cd "$root" || exit 0
 
 printf '\033[36m[pre-push]\033[0m format + lint gates\n'
 
+# A DIRTY tree is not auto-fixed. `fmt-fix` walks whole paths, so it would
+# reformat unrelated work-in-progress and entangle it with the formatter's
+# output — and "read the diff and commit it" stops being a safe instruction the
+# moment half the diff is yours. Check-only is the honest fallback.
+if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+  printf '\033[33m[pre-push]\033[0m working tree dirty — checking only, not auto-fixing\n'
+  autofix=0
+else
+  autofix=1
+fi
+
+if [ "$autofix" = 1 ]; then
+  printf '\033[36m[pre-push]\033[0m applying formatters…\n'
+  make -f lint.mk fmt-clj-fix >/dev/null 2>&1 || true
+  if command -v docker >/dev/null 2>&1; then
+    tools/uber.sh 'make -f lint.mk fmt-c-fix' >/dev/null 2>&1 || true
+  else
+    printf '\033[33m[pre-push]\033[0m no docker — C left unformatted (pinned clang-format unavailable)\n'
+  fi
+
+  if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+    printf '\033[33m[pre-push]\033[0m BLOCKED — formatting was applied to:\n' >&2
+    git status --porcelain | sed 's/^/  /' >&2
+    cat >&2 <<'EOF'
+
+Those rewrites are NOT in the commits you are pushing — a hook cannot amend
+what git has already prepared for transfer. Read the diff, commit it, push
+again:
+
+    git diff            # what the formatter changed
+    git commit -am '…'  # or amend, if the pushed commit is yours and unshared
+    git push
+
+EOF
+    exit 1
+  fi
+fi
+
 if ! make -f lint.mk lint; then
   cat >&2 <<'EOF'
 
-[pre-push] BLOCKED — the format/lint gate is red.
+[pre-push] BLOCKED — the gate is red on something no formatter can fix.
 
-  fix formatting automatically :  make -f lint.mk fmt-fix
-  see the lint findings        :  make -f lint.mk lint-clj
+  see the lint findings   :  make -f lint.mk lint-clj
+  format C without docker :  install docker, or leave it to CI
 
 A gate failure is a thing to FIX, not to skip. `git push --no-verify` exists
 and is yours to use, but it pushes the failure onto the consumer fleet.

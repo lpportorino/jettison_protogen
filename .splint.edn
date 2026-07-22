@@ -1,0 +1,10 @@
+;; splint rule config. Positive, minimal: everything splint ships is ON except
+;; what is disabled here with a reason.
+{;; 467 of splint's 522 findings on this tree, and NOT actionable. The rule
+ ;; prefers Clojure 1.12's `(Class/.method obj)` over `(.method obj)`, but
+ ;; splint cannot infer the class, so every suggestion it prints is the literal
+ ;; placeholder `(CLASS/.method ...)` — there is nothing to autocorrect and
+ ;; nothing to copy. Adopting the form repo-wide is a house-style migration
+ ;; that also changes how each call site resolves, which is a deliberate
+ ;; decision to make on its own terms, not a lint finding to clear.
+ lint/prefer-method-values {:enabled false}}

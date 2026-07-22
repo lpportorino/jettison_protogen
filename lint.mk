@@ -101,9 +101,26 @@ fmt-clj:
 	@printf '\033[32m[fmt-clj]\033[0m cljfmt check\n'
 	@clojure -M:fmt check $(LINT_CLJ_PATHS)
 
-## splint-clj: idiomatic-pattern lint (not in `lint` until its debt is paid)
+## splint-clj: idiomatic-pattern lint — REPORT-ONLY, deliberately not in `lint`
+# Measured, so the exclusion is a decision rather than an omission:
+#   522 findings raw. 467 of them (89%) are lint/prefer-method-values, whose
+#   suggestion is the literal placeholder `(CLASS/.method …)` because splint
+#   cannot infer the class — nothing to copy, nothing to autocorrect, and
+#   adopting the 1.12 form repo-wide changes how each call site resolves. That
+#   is a house-style migration to decide on its own terms, so it is disabled in
+#   .splint.edn with that reasoning, leaving 55 real findings.
+#   `--autocorrect` clears 29 of the 55 — and its output does not survive our
+#   own gates. Measured on this tree it dropped a load-bearing comment, blew
+#   readable `str` calls out to one argument per line, flattened hand-aligned
+#   map literals, and inserted a fully-qualified `clojure.string/join` into a
+#   namespace with no clojure.string require, which clj-kondo then rejected
+#   outright. So splint is never run in fix mode here, by the pre-push hook or
+#   anyone else.
+#   The remaining 26 are genuine but need judgement (namespace renames, alias
+#   conventions, catch-throwable), so splint stays a tool you RUN, not a gate
+#   that blocks — until those 26 are dispositioned one way or the other.
 splint-clj:
-	@printf '\033[32m[splint-clj]\033[0m splint\n'
+	@printf '\033[32m[splint-clj]\033[0m splint (report-only; not part of `lint`)\n'
 	@clojure -M:splint $(LINT_CLJ_PATHS)
 
 ## fmt-c: clang-format check over hand-authored C, one process per cpu
