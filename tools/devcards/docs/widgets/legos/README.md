@@ -4,26 +4,26 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # Composition legos
 
-The 9 authored-composition cards from `corpus/composition.edn` — the public `devcards.legos` builders compiled through the authored lane (`devcards.fixtures/build-authored-card`), the only corpus cells carrying events, absolute placement, and part-selector styling. Interaction contracts (press-seek, drag, the ext-click halo, dock event identities) are gate-held on BOTH engines; the sheets document the pixels. Cells are cropped to the lego's own box — the scrubber's includes its transparent hit-halo wrapper.
+The 9 authored-composition cards from `corpus/composition.edn` — the public `devcards.legos` builders compiled through the authored lane (`devcards.fixtures/build-authored-card`), the only corpus cells carrying events, absolute placement, and part-selector styling. Interaction contracts (press-seek, drag, the ext-click halo, dock event identities) are gate-held on BOTH engines; the images document the pixels. Each is cropped to the lego's own box — the scrubber's includes its transparent hit-halo wrapper.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![legos vanilla](./legos-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![legos asgard-dark](./legos-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![legos asgard-light](./legos-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `scrubber` | ![scrubber vanilla](./legos-scrubber-vanilla.jpg) | ![scrubber asgard-dark](./legos-scrubber-asgard-dark.jpg) | ![scrubber asgard-light](./legos-scrubber-asgard-light.jpg) |
+| `scrubber-plain` | ![scrubber-plain vanilla](./legos-scrubber-plain-vanilla.jpg) | ![scrubber-plain asgard-dark](./legos-scrubber-plain-asgard-dark.jpg) | ![scrubber-plain asgard-light](./legos-scrubber-plain-asgard-light.jpg) |
+| `scrubber-noseek` | ![scrubber-noseek vanilla](./legos-scrubber-noseek-vanilla.jpg) | ![scrubber-noseek asgard-dark](./legos-scrubber-noseek-asgard-dark.jpg) | ![scrubber-noseek asgard-light](./legos-scrubber-noseek-asgard-light.jpg) |
+| `scrubber-rich-full` | ![scrubber-rich-full vanilla](./legos-scrubber-rich-full-vanilla.jpg) | ![scrubber-rich-full asgard-dark](./legos-scrubber-rich-full-asgard-dark.jpg) | ![scrubber-rich-full asgard-light](./legos-scrubber-rich-full-asgard-light.jpg) |
+| `scrubber-rich-paused` | ![scrubber-rich-paused vanilla](./legos-scrubber-rich-paused-vanilla.jpg) | ![scrubber-rich-paused asgard-dark](./legos-scrubber-rich-paused-asgard-dark.jpg) | ![scrubber-rich-paused asgard-light](./legos-scrubber-rich-paused-asgard-light.jpg) |
+| `scrubber-rich-ticks` | ![scrubber-rich-ticks vanilla](./legos-scrubber-rich-ticks-vanilla.jpg) | ![scrubber-rich-ticks asgard-dark](./legos-scrubber-rich-ticks-asgard-dark.jpg) | ![scrubber-rich-ticks asgard-light](./legos-scrubber-rich-ticks-asgard-light.jpg) |
+| `dock-expanded` | ![dock-expanded vanilla](./legos-dock-expanded-vanilla.jpg) | ![dock-expanded asgard-dark](./legos-dock-expanded-asgard-dark.jpg) | ![dock-expanded asgard-light](./legos-dock-expanded-asgard-light.jpg) |
+| `dock-multirow` | ![dock-multirow vanilla](./legos-dock-multirow-vanilla.jpg) | ![dock-multirow asgard-dark](./legos-dock-multirow-asgard-dark.jpg) | ![dock-multirow asgard-light](./legos-dock-multirow-asgard-light.jpg) |
+| `dock-folded` | ![dock-folded vanilla](./legos-dock-folded-vanilla.jpg) | ![dock-folded asgard-dark](./legos-dock-folded-asgard-dark.jpg) | ![dock-folded asgard-light](./legos-dock-folded-asgard-light.jpg) |
 
 ## The cards
 

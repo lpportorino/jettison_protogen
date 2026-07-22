@@ -4,53 +4,53 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # Widget gallery
 
-Per-widget rendered doc pages, generated from the same corpus the devcard gates verify — all 22 `ui.WidgetType` values, enum-derived (an undeclared WidgetType fails generation). Previews are the asgard-dark contact sheet; each page adds vanilla + asgard-light.
+Per-widget rendered doc pages, generated from the same corpus the devcard gates verify — all 22 `ui.WidgetType` values, enum-derived (an undeclared WidgetType fails generation). Previews are one asgard-dark card; each page adds vanilla + asgard-light per card.
 
 | widget | committed states | preview (asgard dark) |
 |---|---|---|
-| [`WIDGET_OBJ`](./WIDGET_OBJ/README.md) | `default` | [![WIDGET_OBJ](./WIDGET_OBJ/WIDGET_OBJ-asgard-dark.jpg)](./WIDGET_OBJ/README.md) |
-| [`WIDGET_BUTTON`](./WIDGET_BUTTON/README.md) | `default`, `hovered`, `pressed`, `checked`, `disabled`, `focus-key` | [![WIDGET_BUTTON](./WIDGET_BUTTON/WIDGET_BUTTON-asgard-dark.jpg)](./WIDGET_BUTTON/README.md) |
-| [`WIDGET_LABEL`](./WIDGET_LABEL/README.md) | `default` | [![WIDGET_LABEL](./WIDGET_LABEL/WIDGET_LABEL-asgard-dark.jpg)](./WIDGET_LABEL/README.md) |
-| [`WIDGET_SLIDER`](./WIDGET_SLIDER/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key`, `edited` | [![WIDGET_SLIDER](./WIDGET_SLIDER/WIDGET_SLIDER-asgard-dark.jpg)](./WIDGET_SLIDER/README.md) |
-| [`WIDGET_IMAGE`](./WIDGET_IMAGE/README.md) | `default` | [![WIDGET_IMAGE](./WIDGET_IMAGE/WIDGET_IMAGE-asgard-dark.jpg)](./WIDGET_IMAGE/README.md) |
-| [`WIDGET_ARC`](./WIDGET_ARC/README.md) | `default`, `hovered`, `pressed`, `disabled` | [![WIDGET_ARC](./WIDGET_ARC/WIDGET_ARC-asgard-dark.jpg)](./WIDGET_ARC/README.md) |
-| [`WIDGET_BAR`](./WIDGET_BAR/README.md) | `default`, `disabled`, `focus-key`, `edited` | [![WIDGET_BAR](./WIDGET_BAR/WIDGET_BAR-asgard-dark.jpg)](./WIDGET_BAR/README.md) |
-| [`WIDGET_SWITCH`](./WIDGET_SWITCH/README.md) | `default`, `hovered`, `checked`, `disabled`, `focus-key` | [![WIDGET_SWITCH](./WIDGET_SWITCH/WIDGET_SWITCH-asgard-dark.jpg)](./WIDGET_SWITCH/README.md) |
-| [`WIDGET_CHECKBOX`](./WIDGET_CHECKBOX/README.md) | `default`, `hovered`, `pressed`, `checked`, `disabled`, `focus-key` | [![WIDGET_CHECKBOX](./WIDGET_CHECKBOX/WIDGET_CHECKBOX-asgard-dark.jpg)](./WIDGET_CHECKBOX/README.md) |
-| [`WIDGET_DROPDOWN`](./WIDGET_DROPDOWN/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key` | [![WIDGET_DROPDOWN](./WIDGET_DROPDOWN/WIDGET_DROPDOWN-asgard-dark.jpg)](./WIDGET_DROPDOWN/README.md) |
-| [`WIDGET_ROLLER`](./WIDGET_ROLLER/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key`, `edited` | [![WIDGET_ROLLER](./WIDGET_ROLLER/WIDGET_ROLLER-asgard-dark.jpg)](./WIDGET_ROLLER/README.md) |
-| [`WIDGET_TEXTAREA`](./WIDGET_TEXTAREA/README.md) | `default`, `hovered`, `focused`, `focus-key`, `edited`, `disabled` | [![WIDGET_TEXTAREA](./WIDGET_TEXTAREA/WIDGET_TEXTAREA-asgard-dark.jpg)](./WIDGET_TEXTAREA/README.md) |
-| [`WIDGET_SPINBOX`](./WIDGET_SPINBOX/README.md) | `default`, `hovered`, `focus-key`, `edited`, `disabled` | [![WIDGET_SPINBOX](./WIDGET_SPINBOX/WIDGET_SPINBOX-asgard-dark.jpg)](./WIDGET_SPINBOX/README.md) |
-| [`WIDGET_SPINNER`](./WIDGET_SPINNER/README.md) | `default` | [![WIDGET_SPINNER](./WIDGET_SPINNER/WIDGET_SPINNER-asgard-dark.jpg)](./WIDGET_SPINNER/README.md) |
-| [`WIDGET_LED`](./WIDGET_LED/README.md) | `default` | [![WIDGET_LED](./WIDGET_LED/WIDGET_LED-asgard-dark.jpg)](./WIDGET_LED/README.md) |
-| [`WIDGET_LINE`](./WIDGET_LINE/README.md) | `default` | [![WIDGET_LINE](./WIDGET_LINE/WIDGET_LINE-asgard-dark.jpg)](./WIDGET_LINE/README.md) |
-| [`WIDGET_SCALE`](./WIDGET_SCALE/README.md) | `default` | [![WIDGET_SCALE](./WIDGET_SCALE/WIDGET_SCALE-asgard-dark.jpg)](./WIDGET_SCALE/README.md) |
-| [`WIDGET_BUTTONMATRIX`](./WIDGET_BUTTONMATRIX/README.md) | `default` | [![WIDGET_BUTTONMATRIX](./WIDGET_BUTTONMATRIX/WIDGET_BUTTONMATRIX-asgard-dark.jpg)](./WIDGET_BUTTONMATRIX/README.md) |
-| [`WIDGET_TABLE`](./WIDGET_TABLE/README.md) | `default` | [![WIDGET_TABLE](./WIDGET_TABLE/WIDGET_TABLE-asgard-dark.jpg)](./WIDGET_TABLE/README.md) |
-| [`WIDGET_TABVIEW`](./WIDGET_TABVIEW/README.md) | `default` | [![WIDGET_TABVIEW](./WIDGET_TABVIEW/WIDGET_TABVIEW-asgard-dark.jpg)](./WIDGET_TABVIEW/README.md) |
-| [`WIDGET_CHART`](./WIDGET_CHART/README.md) | `default` | [![WIDGET_CHART](./WIDGET_CHART/WIDGET_CHART-asgard-dark.jpg)](./WIDGET_CHART/README.md) |
-| [`WIDGET_HOST_PROXY`](./WIDGET_HOST_PROXY/README.md) | `default` | [![WIDGET_HOST_PROXY](./WIDGET_HOST_PROXY/WIDGET_HOST_PROXY-asgard-dark.jpg)](./WIDGET_HOST_PROXY/README.md) |
+| [`WIDGET_OBJ`](./WIDGET_OBJ/README.md) | `default` | [![WIDGET_OBJ](./WIDGET_OBJ/WIDGET_OBJ-default_small-asgard-dark.jpg)](./WIDGET_OBJ/README.md) |
+| [`WIDGET_BUTTON`](./WIDGET_BUTTON/README.md) | `default`, `hovered`, `pressed`, `checked`, `disabled`, `focus-key` | [![WIDGET_BUTTON](./WIDGET_BUTTON/WIDGET_BUTTON-default_small-asgard-dark.jpg)](./WIDGET_BUTTON/README.md) |
+| [`WIDGET_LABEL`](./WIDGET_LABEL/README.md) | `default` | [![WIDGET_LABEL](./WIDGET_LABEL/WIDGET_LABEL-default_small_wrap-asgard-dark.jpg)](./WIDGET_LABEL/README.md) |
+| [`WIDGET_SLIDER`](./WIDGET_SLIDER/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key`, `edited` | [![WIDGET_SLIDER](./WIDGET_SLIDER/WIDGET_SLIDER-default_small_mid-asgard-dark.jpg)](./WIDGET_SLIDER/README.md) |
+| [`WIDGET_IMAGE`](./WIDGET_IMAGE/README.md) | `default` | [![WIDGET_IMAGE](./WIDGET_IMAGE/WIDGET_IMAGE-default_small-asgard-dark.jpg)](./WIDGET_IMAGE/README.md) |
+| [`WIDGET_ARC`](./WIDGET_ARC/README.md) | `default`, `hovered`, `pressed`, `disabled` | [![WIDGET_ARC](./WIDGET_ARC/WIDGET_ARC-default_small_mid-asgard-dark.jpg)](./WIDGET_ARC/README.md) |
+| [`WIDGET_BAR`](./WIDGET_BAR/README.md) | `default`, `disabled`, `focus-key`, `edited` | [![WIDGET_BAR](./WIDGET_BAR/WIDGET_BAR-default_small_mid-asgard-dark.jpg)](./WIDGET_BAR/README.md) |
+| [`WIDGET_SWITCH`](./WIDGET_SWITCH/README.md) | `default`, `hovered`, `checked`, `disabled`, `focus-key` | [![WIDGET_SWITCH](./WIDGET_SWITCH/WIDGET_SWITCH-default_small-asgard-dark.jpg)](./WIDGET_SWITCH/README.md) |
+| [`WIDGET_CHECKBOX`](./WIDGET_CHECKBOX/README.md) | `default`, `hovered`, `pressed`, `checked`, `disabled`, `focus-key` | [![WIDGET_CHECKBOX](./WIDGET_CHECKBOX/WIDGET_CHECKBOX-default_short-asgard-dark.jpg)](./WIDGET_CHECKBOX/README.md) |
+| [`WIDGET_DROPDOWN`](./WIDGET_DROPDOWN/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key` | [![WIDGET_DROPDOWN](./WIDGET_DROPDOWN/WIDGET_DROPDOWN-default_small_mid-asgard-dark.jpg)](./WIDGET_DROPDOWN/README.md) |
+| [`WIDGET_ROLLER`](./WIDGET_ROLLER/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key`, `edited` | [![WIDGET_ROLLER](./WIDGET_ROLLER/WIDGET_ROLLER-default_small_mid-asgard-dark.jpg)](./WIDGET_ROLLER/README.md) |
+| [`WIDGET_TEXTAREA`](./WIDGET_TEXTAREA/README.md) | `default`, `hovered`, `focused`, `focus-key`, `edited`, `disabled` | [![WIDGET_TEXTAREA](./WIDGET_TEXTAREA/WIDGET_TEXTAREA-default_small-asgard-dark.jpg)](./WIDGET_TEXTAREA/README.md) |
+| [`WIDGET_SPINBOX`](./WIDGET_SPINBOX/README.md) | `default`, `hovered`, `focus-key`, `edited`, `disabled` | [![WIDGET_SPINBOX](./WIDGET_SPINBOX/WIDGET_SPINBOX-default_small-asgard-dark.jpg)](./WIDGET_SPINBOX/README.md) |
+| [`WIDGET_SPINNER`](./WIDGET_SPINNER/README.md) | `default` | [![WIDGET_SPINNER](./WIDGET_SPINNER/WIDGET_SPINNER-default_small-asgard-dark.jpg)](./WIDGET_SPINNER/README.md) |
+| [`WIDGET_LED`](./WIDGET_LED/README.md) | `default` | [![WIDGET_LED](./WIDGET_LED/WIDGET_LED-default_default-size_off-asgard-dark.jpg)](./WIDGET_LED/README.md) |
+| [`WIDGET_LINE`](./WIDGET_LINE/README.md) | `default` | [![WIDGET_LINE](./WIDGET_LINE/WIDGET_LINE-default_small-asgard-dark.jpg)](./WIDGET_LINE/README.md) |
+| [`WIDGET_SCALE`](./WIDGET_SCALE/README.md) | `default` | [![WIDGET_SCALE](./WIDGET_SCALE/WIDGET_SCALE-default_small_horizontal-asgard-dark.jpg)](./WIDGET_SCALE/README.md) |
+| [`WIDGET_BUTTONMATRIX`](./WIDGET_BUTTONMATRIX/README.md) | `default` | [![WIDGET_BUTTONMATRIX](./WIDGET_BUTTONMATRIX/WIDGET_BUTTONMATRIX-default_small-asgard-dark.jpg)](./WIDGET_BUTTONMATRIX/README.md) |
+| [`WIDGET_TABLE`](./WIDGET_TABLE/README.md) | `default` | [![WIDGET_TABLE](./WIDGET_TABLE/WIDGET_TABLE-default_small-asgard-dark.jpg)](./WIDGET_TABLE/README.md) |
+| [`WIDGET_TABVIEW`](./WIDGET_TABVIEW/README.md) | `default` | [![WIDGET_TABVIEW](./WIDGET_TABVIEW/WIDGET_TABVIEW-default_small-asgard-dark.jpg)](./WIDGET_TABVIEW/README.md) |
+| [`WIDGET_CHART`](./WIDGET_CHART/README.md) | `default` | [![WIDGET_CHART](./WIDGET_CHART/WIDGET_CHART-default_small_line-asgard-dark.jpg)](./WIDGET_CHART/README.md) |
+| [`WIDGET_HOST_PROXY`](./WIDGET_HOST_PROXY/README.md) | `default` | [![WIDGET_HOST_PROXY](./WIDGET_HOST_PROXY/WIDGET_HOST_PROXY-default_small_stock-asgard-dark.jpg)](./WIDGET_HOST_PROXY/README.md) |
 
 ## Kitchen sinks
 
 Six authored multi-widget compositions render on their own page: [kitchen sinks](./kitchen-sinks/README.md).
 
-[![kitchen sinks](./kitchen-sinks/kitchen-sinks-asgard-dark.jpg)](./kitchen-sinks/README.md)
+[![kitchen sinks](./kitchen-sinks/kitchen-sinks-form-row-asgard-dark.jpg)](./kitchen-sinks/README.md)
 
 ## Composition legos
 
 The authored-composition corpus — the public `devcards.legos` builders (media scrubber + foldable stage-manager dock) with their gate-held interaction contracts — renders on its own page: [composition legos](./legos/README.md).
 
-[![composition legos](./legos/legos-asgard-dark.jpg)](./legos/README.md)
+[![composition legos](./legos/legos-scrubber-asgard-dark.jpg)](./legos/README.md)
 
 ## States legend
 
-Sheet-cell labels are card-id tails (`<state>/<size>[/<value>]`); the state vocabulary below is a generated projection of `ui-render-conventions.edn` `:state-selectors` (the manifest is the one home).
+Card captions are card-id tails (`<state>/<size>[/<value>]`); the state vocabulary below is a generated projection of `ui-render-conventions.edn` `:state-selectors` (the manifest is the one home).
 
 | state | lv_state bit |
 |---|---|

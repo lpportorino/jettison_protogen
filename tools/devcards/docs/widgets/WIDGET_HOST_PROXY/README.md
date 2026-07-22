@@ -4,26 +4,24 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_HOST_PROXY
 
-`lv_host_proxy` — 7 atomic corpus cards (state × size[/value], ids `lv_host_proxy/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_host_proxy` — 7 atomic corpus cards (state × size[/value], ids `lv_host_proxy/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_HOST_PROXY vanilla](./WIDGET_HOST_PROXY-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_HOST_PROXY asgard-dark](./WIDGET_HOST_PROXY-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_HOST_PROXY asgard-light](./WIDGET_HOST_PROXY-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/small/stock` | ![default/small/stock vanilla](./WIDGET_HOST_PROXY-default_small_stock-vanilla.jpg) | ![default/small/stock asgard-dark](./WIDGET_HOST_PROXY-default_small_stock-asgard-dark.jpg) | ![default/small/stock asgard-light](./WIDGET_HOST_PROXY-default_small_stock-asgard-light.jpg) |
+| `default/medium/stock` | ![default/medium/stock vanilla](./WIDGET_HOST_PROXY-default_medium_stock-vanilla.jpg) | ![default/medium/stock asgard-dark](./WIDGET_HOST_PROXY-default_medium_stock-asgard-dark.jpg) | ![default/medium/stock asgard-light](./WIDGET_HOST_PROXY-default_medium_stock-asgard-light.jpg) |
+| `default/large/stock` | ![default/large/stock vanilla](./WIDGET_HOST_PROXY-default_large_stock-vanilla.jpg) | ![default/large/stock asgard-dark](./WIDGET_HOST_PROXY-default_large_stock-asgard-dark.jpg) | ![default/large/stock asgard-light](./WIDGET_HOST_PROXY-default_large_stock-asgard-light.jpg) |
+| `default/small/themed` | ![default/small/themed vanilla](./WIDGET_HOST_PROXY-default_small_themed-vanilla.jpg) | ![default/small/themed asgard-dark](./WIDGET_HOST_PROXY-default_small_themed-asgard-dark.jpg) | ![default/small/themed asgard-light](./WIDGET_HOST_PROXY-default_small_themed-asgard-light.jpg) |
+| `default/medium/themed` | ![default/medium/themed vanilla](./WIDGET_HOST_PROXY-default_medium_themed-vanilla.jpg) | ![default/medium/themed asgard-dark](./WIDGET_HOST_PROXY-default_medium_themed-asgard-dark.jpg) | ![default/medium/themed asgard-light](./WIDGET_HOST_PROXY-default_medium_themed-asgard-light.jpg) |
+| `default/large/themed` | ![default/large/themed vanilla](./WIDGET_HOST_PROXY-default_large_themed-vanilla.jpg) | ![default/large/themed asgard-dark](./WIDGET_HOST_PROXY-default_large_themed-asgard-dark.jpg) | ![default/large/themed asgard-light](./WIDGET_HOST_PROXY-default_large_themed-asgard-light.jpg) |
+| `default/edge/themed` | ![default/edge/themed vanilla](./WIDGET_HOST_PROXY-default_edge_themed-vanilla.jpg) | ![default/edge/themed asgard-dark](./WIDGET_HOST_PROXY-default_edge_themed-asgard-dark.jpg) | ![default/edge/themed asgard-light](./WIDGET_HOST_PROXY-default_edge_themed-asgard-light.jpg) |
 
 ## Committed states
 

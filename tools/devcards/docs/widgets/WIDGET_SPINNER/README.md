@@ -4,26 +4,24 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_SPINNER
 
-`lv_spinner` — 7 atomic corpus cards (state × size[/value], ids `lv_spinner/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_spinner` — 7 atomic corpus cards (state × size[/value], ids `lv_spinner/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_SPINNER vanilla](./WIDGET_SPINNER-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_SPINNER asgard-dark](./WIDGET_SPINNER-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_SPINNER asgard-light](./WIDGET_SPINNER-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/small` | ![default/small vanilla](./WIDGET_SPINNER-default_small-vanilla.jpg) | ![default/small asgard-dark](./WIDGET_SPINNER-default_small-asgard-dark.jpg) | ![default/small asgard-light](./WIDGET_SPINNER-default_small-asgard-light.jpg) |
+| `disabled/small` | ![disabled/small vanilla](./WIDGET_SPINNER-disabled_small-vanilla.jpg) | ![disabled/small asgard-dark](./WIDGET_SPINNER-disabled_small-asgard-dark.jpg) | ![disabled/small asgard-light](./WIDGET_SPINNER-disabled_small-asgard-light.jpg) |
+| `default/medium` | ![default/medium vanilla](./WIDGET_SPINNER-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_SPINNER-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_SPINNER-default_medium-asgard-light.jpg) |
+| `disabled/medium` | ![disabled/medium vanilla](./WIDGET_SPINNER-disabled_medium-vanilla.jpg) | ![disabled/medium asgard-dark](./WIDGET_SPINNER-disabled_medium-asgard-dark.jpg) | ![disabled/medium asgard-light](./WIDGET_SPINNER-disabled_medium-asgard-light.jpg) |
+| `default/large` | ![default/large vanilla](./WIDGET_SPINNER-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_SPINNER-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_SPINNER-default_large-asgard-light.jpg) |
+| `disabled/large` | ![disabled/large vanilla](./WIDGET_SPINNER-disabled_large-vanilla.jpg) | ![disabled/large asgard-dark](./WIDGET_SPINNER-disabled_large-asgard-dark.jpg) | ![disabled/large asgard-light](./WIDGET_SPINNER-disabled_large-asgard-light.jpg) |
+| `default/unsized-probe` | ![default/unsized-probe vanilla](./WIDGET_SPINNER-default_unsized-probe-vanilla.jpg) | ![default/unsized-probe asgard-dark](./WIDGET_SPINNER-default_unsized-probe-asgard-dark.jpg) | ![default/unsized-probe asgard-light](./WIDGET_SPINNER-default_unsized-probe-asgard-light.jpg) |
 
 ## Committed states
 

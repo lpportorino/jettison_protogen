@@ -4,26 +4,27 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_CHECKBOX
 
-`lv_checkbox` — 10 atomic corpus cards (state × size[/value], ids `lv_checkbox/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_checkbox` — 10 atomic corpus cards (state × size[/value], ids `lv_checkbox/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_CHECKBOX vanilla](./WIDGET_CHECKBOX-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_CHECKBOX asgard-dark](./WIDGET_CHECKBOX-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_CHECKBOX asgard-light](./WIDGET_CHECKBOX-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/short` | ![default/short vanilla](./WIDGET_CHECKBOX-default_short-vanilla.jpg) | ![default/short asgard-dark](./WIDGET_CHECKBOX-default_short-asgard-dark.jpg) | ![default/short asgard-light](./WIDGET_CHECKBOX-default_short-asgard-light.jpg) |
+| `default/medium` | ![default/medium vanilla](./WIDGET_CHECKBOX-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_CHECKBOX-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_CHECKBOX-default_medium-asgard-light.jpg) |
+| `checked/medium` | ![checked/medium vanilla](./WIDGET_CHECKBOX-checked_medium-vanilla.jpg) | ![checked/medium asgard-dark](./WIDGET_CHECKBOX-checked_medium-asgard-dark.jpg) | ![checked/medium asgard-light](./WIDGET_CHECKBOX-checked_medium-asgard-light.jpg) |
+| `pressed/medium` | ![pressed/medium vanilla](./WIDGET_CHECKBOX-pressed_medium-vanilla.jpg) | ![pressed/medium asgard-dark](./WIDGET_CHECKBOX-pressed_medium-asgard-dark.jpg) | ![pressed/medium asgard-light](./WIDGET_CHECKBOX-pressed_medium-asgard-light.jpg) |
+| `disabled/medium` | ![disabled/medium vanilla](./WIDGET_CHECKBOX-disabled_medium-vanilla.jpg) | ![disabled/medium asgard-dark](./WIDGET_CHECKBOX-disabled_medium-asgard-dark.jpg) | ![disabled/medium asgard-light](./WIDGET_CHECKBOX-disabled_medium-asgard-light.jpg) |
+| `checked-disabled/medium` | ![checked-disabled/medium vanilla](./WIDGET_CHECKBOX-checked-disabled_medium-vanilla.jpg) | ![checked-disabled/medium asgard-dark](./WIDGET_CHECKBOX-checked-disabled_medium-asgard-dark.jpg) | ![checked-disabled/medium asgard-light](./WIDGET_CHECKBOX-checked-disabled_medium-asgard-light.jpg) |
+| `focus-key/medium` | ![focus-key/medium vanilla](./WIDGET_CHECKBOX-focus-key_medium-vanilla.jpg) | ![focus-key/medium asgard-dark](./WIDGET_CHECKBOX-focus-key_medium-asgard-dark.jpg) | ![focus-key/medium asgard-light](./WIDGET_CHECKBOX-focus-key_medium-asgard-light.jpg) |
+| `hovered/medium` | ![hovered/medium vanilla](./WIDGET_CHECKBOX-hovered_medium-vanilla.jpg) | ![hovered/medium asgard-dark](./WIDGET_CHECKBOX-hovered_medium-asgard-dark.jpg) | ![hovered/medium asgard-light](./WIDGET_CHECKBOX-hovered_medium-asgard-light.jpg) |
+| `default/long-narrow` | ![default/long-narrow vanilla](./WIDGET_CHECKBOX-default_long-narrow-vanilla.jpg) | ![default/long-narrow asgard-dark](./WIDGET_CHECKBOX-default_long-narrow-asgard-dark.jpg) | ![default/long-narrow asgard-light](./WIDGET_CHECKBOX-default_long-narrow-asgard-light.jpg) |
+| `default/forced-narrow` | ![default/forced-narrow vanilla](./WIDGET_CHECKBOX-default_forced-narrow-vanilla.jpg) | ![default/forced-narrow asgard-dark](./WIDGET_CHECKBOX-default_forced-narrow-asgard-dark.jpg) | ![default/forced-narrow asgard-light](./WIDGET_CHECKBOX-default_forced-narrow-asgard-light.jpg) |
 
 ## Committed states
 

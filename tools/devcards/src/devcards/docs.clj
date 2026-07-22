@@ -2,7 +2,8 @@
   "Per-widget doc pages + the gallery index (T2.7) — the promoted F2-POC
    generator. For every ui.WidgetType value it emits
    docs/widgets/<WIDGET_ENUM_NAME>/README.md (GENERATED, DO-NOT-EDIT)
-   assembling: the 3 colocated contact-sheet JPEGs (devcards.gallery), the
+   assembling: the per-card JPEGs (one image per card x family, no baked
+   label — devcards.gallery), the
    conventions manifest's committed-states row, the props-message schema
    table from protogen's committed JSON FileDescriptorSet, protodoc
    cross-links, and the corpus spec widget's :notes as known limitations.
@@ -29,7 +30,7 @@
 
    Cross-link fact (documented not guessed): the ui_ast.proto and
    protodoc-index links are written for the protogen root layout
-   (docs/widgets/<WIDGET>/ sits 3 segments below the repo root). The sheet
+   (docs/widgets/<WIDGET>/ sits 3 segments below the repo root). The per-card
    images and inter-page links are colocated and resolve everywhere.
 
    Shapes are closed and hand-validated (no malli dependency); the
@@ -55,7 +56,8 @@
 
 (def out-dir
   "The generated doc tree root (tool-relative; the protogen-destined
-   layout — docs/widgets/<WIDGET>/ holds README.md + its 3 JPEGs)."
+   layout — docs/widgets/<WIDGET>/ holds README.md + one JPEG per card x
+   family)."
   "docs/widgets")
 
 ;; ── Descriptor reading (string-keyed JSON walking) ──────────────────────
@@ -209,7 +211,7 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->\n\n")
 
 (defn- esc-cell
@@ -252,34 +254,32 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
               (map (juxt :name :number :type :constraints) fields))))
 
 ;; ── Page templates ──────────────────────────────────────────────────────
-(defn- sheet-file-name
-  "The colocated sheet artifact name for a gallery slug + family entry."
-  ^String [^String slug fam]
-  (str slug "-" (:file-suffix fam) ".jpg"))
+(defn- card-file-name
+  "The colocated per-card artifact name: <slug>-<state>-<family>.jpg. One
+   JPEG per (card, family), no label baked in — the caption lives in the grid."
+  ^String [^String slug ^String state-slug fam]
+  (str slug "-" state-slug "-" (:file-suffix fam) ".jpg"))
 
-(defn- sheets-md
-  "The three contact-sheet sections (one per family-renders entry, each
-   image on its own line — sheets are wide; a 3-column table would render
-   them illegibly)."
-  ^String [^String slug]
-  (str/join "\n\n"
-            (for [fam gallery/family-renders]
-              (str "### "
-                   (:title fam)
-                   "\n\n"
-                   "!["
-                   slug
-                   " "
-                   (:file-suffix fam)
-                   "]"
-                   "(./"
-                   (sheet-file-name slug fam)
-                   ")"))))
+(defn- states-grid-md
+  "A state x family image grid: one ROW per card (its state caption in
+   column one, then the three family thumbnails). The caption is real
+   markdown text welded to its images by the table row, so it can never
+   float away from its card the way a baked-in sheet label did; the browser
+   packs the cells, so no in-repo packing can misplace them. `rows` are the
+   maps `card-files!` returns ({:label :imgs {suffix filename}})."
+  ^String [rows]
+  (md-table (into ["state"] (map :title) gallery/family-renders)
+            (for [{:keys [label imgs]} rows]
+              (into [(str "`" label "`")]
+                    (map (fn [fam]
+                           (let [f (get imgs (:file-suffix fam))]
+                             (str "![" label " " (:file-suffix fam) "](./" f ")")))
+                         gallery/family-renders)))))
 
 (defn widget-page-md
   "The full README.md body for one widget's doc page, from its registry
-   entry."
-  ^String [{:keys [enum message-name qualified-name fields widget states]}]
+   entry and the rendered per-card `rows` (card-files! output)."
+  ^String [{:keys [enum message-name qualified-name fields widget states]} rows]
   (let [tag (:tag widget)
         notes (:notes widget)]
     (str
@@ -295,9 +295,9 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
      "(state × size[/value], ids `" tag
      "/<state>/<size>[/<value>]`), "
      "rendered unstyled so everything unset falls through to the loaded "
-     "theme — the object under test. Cell labels are the card-id tails; "
-     "cells are cropped to the card's dump_tree content box.\n\n"
-     "## Contact sheets\n\n" (sheets-md enum)
+     "theme — the object under test. One image per card × family, cropped to "
+     "the card's dump_tree content box; the row caption is the card-id tail.\n\n"
+     "## States\n\n" (states-grid-md rows)
      "\n\n## Committed states\n\n"
      "The asgard theme commits to rendering each state below **visually "
      "distinct** from `default` (gate-held: distinctness). Any state *not* "
@@ -321,7 +321,7 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
    authored-composition corpus (corpus/composition.edn — the source of
    this page, beside the atomic spec) + a table linking each card to its
    `devcards.legos` maker and its contract notes."
-  ^String [cards]
+  ^String [cards rows]
   (str do-not-edit-header
        "# Composition legos\n\n"
        "The "
@@ -332,9 +332,9 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
        "cells carrying events, absolute placement, and part-selector "
        "styling. Interaction contracts (press-seek, drag, the ext-click "
        "halo, dock event identities) are gate-held on BOTH engines; the "
-       "sheets document the pixels. Cells are cropped to the lego's own "
+       "images document the pixels. Each is cropped to the lego's own "
        "box — the scrubber's includes its transparent hit-halo wrapper.\n\n"
-       "## Contact sheets\n\n" (sheets-md "legos")
+       "## States\n\n" (states-grid-md rows)
        "\n\n## The cards\n\n"
        (md-table ["card" "lego" "what it proves"]
                  (for [{:keys [id lego notes]} cards]
@@ -345,15 +345,16 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
   "The kitchen-sinks gallery page: the 3 sheets over all 6 authored
    compositions + a table linking each sink to its member widget pages.
    `tag->enum` resolves spec widget tags to page dirs."
-  ^String [sinks tag->enum]
+  ^String [sinks tag->enum rows]
   (str do-not-edit-header
        "# Kitchen sinks\n\n"
        "The "
        (count sinks)
        " authored multi-widget compositions from the same "
        "corpus the gates verify — the only cells where widgets render as "
-       "neighbors. Cells are cropped to the sink container.\n\n"
-       "## Contact sheets\n\n" (sheets-md "kitchen-sinks")
+       "neighbors. Each is a whole composite screen, cropped to the sink "
+       "container: one image per sink × family.\n\n"
+       "## Screens\n\n" (states-grid-md rows)
        "\n\n## The compositions\n\n"
        (md-table ["sink" "member widgets" "what it proves"]
                  (for [{:keys [id widgets description]} sinks]
@@ -372,7 +373,7 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
    states, asgard-dark preview), the kitchen-sink section, and the states
    legend (a generated projection of the conventions manifest's
    :state-selectors — the manifest stays the one home)."
-  ^String [registry state-selectors]
+  ^String [registry state-selectors previews]
   (str
    do-not-edit-header
    "# Widget gallery\n\n"
@@ -381,27 +382,30 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
    (count registry)
    " `ui.WidgetType` values, "
    "enum-derived (an undeclared WidgetType fails generation). Previews are "
-   "the asgard-dark contact sheet; each page adds vanilla + asgard-light.\n\n"
+   "one asgard-dark card; each page adds vanilla + asgard-light per card.\n\n"
    (md-table
     ["widget" "committed states" "preview (asgard dark)"]
     (for [{:keys [enum states]} registry]
       [(str "[`" enum "`](./" enum "/README.md)")
        (str/join ", " (map #(str "`" (name %) "`") states))
-       (str "[![" enum "](./" enum "/" enum "-asgard-dark.jpg)](./" enum "/README.md)")]))
+       (str "[![" enum "](./" enum "/"
+            (or (get previews enum)
+                (throw (ex-info "no preview image for widget index row" {:enum enum})))
+            ")](./" enum "/README.md)")]))
    "\n\n## Kitchen sinks\n\n"
    "Six authored multi-widget compositions render on their own page: "
    "[kitchen sinks](./kitchen-sinks/README.md).\n\n"
-   "[![kitchen sinks](./kitchen-sinks/kitchen-sinks-asgard-dark.jpg)]"
+   "[![kitchen sinks](./kitchen-sinks/" (get previews "kitchen-sinks") ")]"
    "(./kitchen-sinks/README.md)\n\n"
    "## Composition legos\n\n"
    "The authored-composition corpus — the public `devcards.legos` "
    "builders (media scrubber + foldable stage-manager dock) with their "
    "gate-held interaction contracts — renders on its own page: "
    "[composition legos](./legos/README.md).\n\n"
-   "[![composition legos](./legos/legos-asgard-dark.jpg)]"
+   "[![composition legos](./legos/" (get previews "legos") ")]"
    "(./legos/README.md)\n\n"
    "## States legend\n\n"
-   "Sheet-cell labels are card-id tails (`<state>/<size>[/<value>]`); the "
+   "Card captions are card-id tails (`<state>/<size>[/<value>]`); the "
    "state vocabulary below is a generated projection of "
    "`ui-render-conventions.edn` `:state-selectors` (the manifest is the one "
    "home).\n\n"
@@ -424,24 +428,49 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
   (spit path text)
   {:path path :bytes (.length (File. path))})
 
-(defn- sheet-files!
-  "Render + encode + write the 3 family sheets for one gallery unit
-   (`entries` = its built corpus entries, spec order). Returns the written
-   file maps."
+(defn- card-files!
+  "Render + encode + write ONE JPEG per (card, family) for a gallery unit
+   (`entries` = its built corpus entries, spec order). No label is baked into
+   the pixels. Returns {:files [{:path :bytes}...] :rows [{:label :imgs
+   {suffix filename}}...]} — :rows drives the README grid, :files the report.
+   A unit with zero entries is an ERROR: an empty page documents nothing."
   [paths canvas ^String dir ^String slug entries]
-  (vec (for [fam gallery/family-renders]
-         (write-bytes! (str dir "/" (sheet-file-name slug fam))
-                       (jpeg/encode (gallery/family-sheet! paths canvas entries fam)
-                                    jpeg/default-quality)))))
+  (when (empty? entries)
+    (throw (ex-info "gallery unit has ZERO renderable cards" {:slug slug})))
+  (let [per-card
+        (mapv
+         (fn [{:keys [id] ^bytes pb :bytes}]
+           (let [label (gallery/cell-label (str id))
+                 sslug (gallery/state-slug label)
+                 fams (mapv (fn [fam]
+                              (let [fname (card-file-name slug sslug fam)
+                                    img (gallery/render-cell! paths canvas pb fam (str id))]
+                                {:suffix (:file-suffix fam)
+                                 :fname fname
+                                 :file (write-bytes!
+                                        (str dir "/" fname)
+                                        (jpeg/encode img jpeg/default-quality))}))
+                            gallery/family-renders)]
+             {:label label
+              :imgs (into {} (map (juxt :suffix :fname)) fams)
+              :files (mapv :file fams)}))
+         entries)]
+    {:files (vec (mapcat :files per-card))
+     :rows (mapv #(select-keys % [:label :imgs]) per-card)}))
+
+(defn- unit-preview
+  "The index-preview filename for a unit: its first card's asgard-dark image."
+  ^String [rows]
+  (get-in (first rows) [:imgs "asgard-dark"]))
 
 (defn generate!
-  "The T2.7 build: for every WidgetType — 3 contact sheets + README.md
+  "The T2.7 build: for every WidgetType — one JPEG per card x family + README.md
    under docs/widgets/<ENUM>/ — plus docs/widgets/kitchen-sinks/,
    docs/widgets/legos/ (the authored-composition corpus), and the index.
    `opts` = {:spec <parsed corpus spec> :built <build-all output>
    :composition {:cards <inventory cards> :built <composition build-all
    output>} :paths {:wasm :assets}}. Returns {:files [{:path :bytes}]
-   :sheets n :pages n :cells n} for the caller's report; every gap (a
+   :images n :pages n :cells n} for the caller's report; every gap (a
    widget with zero built cards, a sink or composition card absent from
    the build) throws."
   [{:keys [spec built composition paths]}]
@@ -460,38 +489,50 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
         ;; GraalWasm context (hermetic — see gallery/render-cell!), so widget
         ;; units render concurrently on the shared engine with no shared state;
         ;; pmap preserves order, so widget-files stays deterministic.
-        widget-files (vec (mapcat identity
-                                  (pmap (fn [{:keys [enum widget] :as entry}]
-                                          (let [entries (get atomic-by-widget (:tag widget))
-                                                dir (str out-dir "/" enum)]
-                                            (when (empty? entries)
-                                              (throw (ex-info "widget class has ZERO built cards"
-                                                              {:enum enum :tag (:tag widget)})))
-                                            (conj (sheet-files! paths canvas dir enum entries)
-                                                  (write-text! (str dir "/README.md")
-                                                               (widget-page-md entry)))))
-                                        registry)))
+        ;; Parallel over widgets: each render boots its OWN fresh GraalWasm
+        ;; context (hermetic — see gallery/render-cell!), so widget units
+        ;; render concurrently with no shared state; pmap preserves order, so
+        ;; the output stays deterministic. Each element is [enum files preview].
+        widget-units (pmap (fn [{:keys [enum widget] :as entry}]
+                             (let [entries (get atomic-by-widget (:tag widget))
+                                   dir (str out-dir "/" enum)]
+                               (when (empty? entries)
+                                 (throw (ex-info "widget class has ZERO built cards"
+                                                 {:enum enum :tag (:tag widget)})))
+                               (let [{:keys [files rows]} (card-files! paths canvas dir enum entries)
+                                     readme (write-text! (str dir "/README.md")
+                                                         (widget-page-md entry rows))]
+                                 [enum (conj files readme) (unit-preview rows)])))
+                           registry)
+        widget-files (vec (mapcat second widget-units))
         sink-dir (str out-dir "/kitchen-sinks")
-        sink-files (conj (sheet-files! paths canvas sink-dir "kitchen-sinks" built-sinks)
+        {sink-imgs :files sink-rows :rows} (card-files! paths canvas sink-dir
+                                                        "kitchen-sinks" built-sinks)
+        sink-files (conj sink-imgs
                          (write-text! (str sink-dir "/README.md")
-                                      (sinks-page-md (:kitchen-sinks spec) tag->enum)))
+                                      (sinks-page-md (:kitchen-sinks spec) tag->enum sink-rows)))
         comp-built (:built composition)
         _ (when (not= (count comp-built) (count (:cards composition)))
             (throw (ex-info "built composition cards disagree with the inventory"
                             {:built (mapv :id comp-built)
                              :inventory (mapv :id (:cards composition))})))
         legos-dir (str out-dir "/legos")
-        legos-files (conj (sheet-files! paths canvas legos-dir "legos" comp-built)
+        {legos-imgs :files legos-rows :rows} (card-files! paths canvas legos-dir
+                                                          "legos" comp-built)
+        legos-files (conj legos-imgs
                           (write-text! (str legos-dir "/README.md")
-                                       (legos-page-md (:cards composition))))
+                                       (legos-page-md (:cards composition) legos-rows)))
+        previews (-> (into {} (map (fn [[enum _ preview]] [enum preview])) widget-units)
+                     (assoc "kitchen-sinks" (unit-preview sink-rows)
+                            "legos" (unit-preview legos-rows)))
         index-file (write-text! (str out-dir "/README.md")
-                                (index-page-md registry (:state-selectors conv)))
+                                (index-page-md registry (:state-selectors conv) previews))
         files (-> widget-files
                   (into sink-files)
                   (into legos-files)
                   (conj index-file))]
     {:files files
-     :sheets (* (+ 2 (count registry)) (count gallery/family-renders))
+     :images (count (filter #(str/ends-with? (:path %) ".jpg") files))
      :pages (+ (count registry) 3)
      :cells (* (count gallery/family-renders)
                (+ (count (filter #(= :atomic (:kind %)) built))

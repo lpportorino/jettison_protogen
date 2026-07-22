@@ -4,26 +4,34 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_ROLLER
 
-`lv_roller` — 17 atomic corpus cards (state × size[/value], ids `lv_roller/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_roller` — 17 atomic corpus cards (state × size[/value], ids `lv_roller/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_ROLLER vanilla](./WIDGET_ROLLER-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_ROLLER asgard-dark](./WIDGET_ROLLER-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_ROLLER asgard-light](./WIDGET_ROLLER-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/small/mid` | ![default/small/mid vanilla](./WIDGET_ROLLER-default_small_mid-vanilla.jpg) | ![default/small/mid asgard-dark](./WIDGET_ROLLER-default_small_mid-asgard-dark.jpg) | ![default/small/mid asgard-light](./WIDGET_ROLLER-default_small_mid-asgard-light.jpg) |
+| `focus-key/small/mid` | ![focus-key/small/mid vanilla](./WIDGET_ROLLER-focus-key_small_mid-vanilla.jpg) | ![focus-key/small/mid asgard-dark](./WIDGET_ROLLER-focus-key_small_mid-asgard-dark.jpg) | ![focus-key/small/mid asgard-light](./WIDGET_ROLLER-focus-key_small_mid-asgard-light.jpg) |
+| `edited/small/mid` | ![edited/small/mid vanilla](./WIDGET_ROLLER-edited_small_mid-vanilla.jpg) | ![edited/small/mid asgard-dark](./WIDGET_ROLLER-edited_small_mid-asgard-dark.jpg) | ![edited/small/mid asgard-light](./WIDGET_ROLLER-edited_small_mid-asgard-light.jpg) |
+| `disabled/small/mid` | ![disabled/small/mid vanilla](./WIDGET_ROLLER-disabled_small_mid-vanilla.jpg) | ![disabled/small/mid asgard-dark](./WIDGET_ROLLER-disabled_small_mid-asgard-dark.jpg) | ![disabled/small/mid asgard-light](./WIDGET_ROLLER-disabled_small_mid-asgard-light.jpg) |
+| `pressed/small/mid` | ![pressed/small/mid vanilla](./WIDGET_ROLLER-pressed_small_mid-vanilla.jpg) | ![pressed/small/mid asgard-dark](./WIDGET_ROLLER-pressed_small_mid-asgard-dark.jpg) | ![pressed/small/mid asgard-light](./WIDGET_ROLLER-pressed_small_mid-asgard-light.jpg) |
+| `default/medium/mid` | ![default/medium/mid vanilla](./WIDGET_ROLLER-default_medium_mid-vanilla.jpg) | ![default/medium/mid asgard-dark](./WIDGET_ROLLER-default_medium_mid-asgard-dark.jpg) | ![default/medium/mid asgard-light](./WIDGET_ROLLER-default_medium_mid-asgard-light.jpg) |
+| `focus-key/medium/mid` | ![focus-key/medium/mid vanilla](./WIDGET_ROLLER-focus-key_medium_mid-vanilla.jpg) | ![focus-key/medium/mid asgard-dark](./WIDGET_ROLLER-focus-key_medium_mid-asgard-dark.jpg) | ![focus-key/medium/mid asgard-light](./WIDGET_ROLLER-focus-key_medium_mid-asgard-light.jpg) |
+| `edited/medium/mid` | ![edited/medium/mid vanilla](./WIDGET_ROLLER-edited_medium_mid-vanilla.jpg) | ![edited/medium/mid asgard-dark](./WIDGET_ROLLER-edited_medium_mid-asgard-dark.jpg) | ![edited/medium/mid asgard-light](./WIDGET_ROLLER-edited_medium_mid-asgard-light.jpg) |
+| `disabled/medium/mid` | ![disabled/medium/mid vanilla](./WIDGET_ROLLER-disabled_medium_mid-vanilla.jpg) | ![disabled/medium/mid asgard-dark](./WIDGET_ROLLER-disabled_medium_mid-asgard-dark.jpg) | ![disabled/medium/mid asgard-light](./WIDGET_ROLLER-disabled_medium_mid-asgard-light.jpg) |
+| `pressed/medium/mid` | ![pressed/medium/mid vanilla](./WIDGET_ROLLER-pressed_medium_mid-vanilla.jpg) | ![pressed/medium/mid asgard-dark](./WIDGET_ROLLER-pressed_medium_mid-asgard-dark.jpg) | ![pressed/medium/mid asgard-light](./WIDGET_ROLLER-pressed_medium_mid-asgard-light.jpg) |
+| `default/large/mid` | ![default/large/mid vanilla](./WIDGET_ROLLER-default_large_mid-vanilla.jpg) | ![default/large/mid asgard-dark](./WIDGET_ROLLER-default_large_mid-asgard-dark.jpg) | ![default/large/mid asgard-light](./WIDGET_ROLLER-default_large_mid-asgard-light.jpg) |
+| `focus-key/large/mid` | ![focus-key/large/mid vanilla](./WIDGET_ROLLER-focus-key_large_mid-vanilla.jpg) | ![focus-key/large/mid asgard-dark](./WIDGET_ROLLER-focus-key_large_mid-asgard-dark.jpg) | ![focus-key/large/mid asgard-light](./WIDGET_ROLLER-focus-key_large_mid-asgard-light.jpg) |
+| `edited/large/mid` | ![edited/large/mid vanilla](./WIDGET_ROLLER-edited_large_mid-vanilla.jpg) | ![edited/large/mid asgard-dark](./WIDGET_ROLLER-edited_large_mid-asgard-dark.jpg) | ![edited/large/mid asgard-light](./WIDGET_ROLLER-edited_large_mid-asgard-light.jpg) |
+| `disabled/large/mid` | ![disabled/large/mid vanilla](./WIDGET_ROLLER-disabled_large_mid-vanilla.jpg) | ![disabled/large/mid asgard-dark](./WIDGET_ROLLER-disabled_large_mid-asgard-dark.jpg) | ![disabled/large/mid asgard-light](./WIDGET_ROLLER-disabled_large_mid-asgard-light.jpg) |
+| `hovered/medium/mid` | ![hovered/medium/mid vanilla](./WIDGET_ROLLER-hovered_medium_mid-vanilla.jpg) | ![hovered/medium/mid asgard-dark](./WIDGET_ROLLER-hovered_medium_mid-asgard-dark.jpg) | ![hovered/medium/mid asgard-light](./WIDGET_ROLLER-hovered_medium_mid-asgard-light.jpg) |
+| `default/medium/min` | ![default/medium/min vanilla](./WIDGET_ROLLER-default_medium_min-vanilla.jpg) | ![default/medium/min asgard-dark](./WIDGET_ROLLER-default_medium_min-asgard-dark.jpg) | ![default/medium/min asgard-light](./WIDGET_ROLLER-default_medium_min-asgard-light.jpg) |
+| `default/medium/max` | ![default/medium/max vanilla](./WIDGET_ROLLER-default_medium_max-vanilla.jpg) | ![default/medium/max asgard-dark](./WIDGET_ROLLER-default_medium_max-asgard-dark.jpg) | ![default/medium/max asgard-light](./WIDGET_ROLLER-default_medium_max-asgard-light.jpg) |
 
 ## Committed states
 

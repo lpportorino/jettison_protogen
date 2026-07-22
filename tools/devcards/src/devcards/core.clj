@@ -307,7 +307,7 @@
       (let [t0 (System/nanoTime)
             inventory (composition/load-inventory)
             comp-built (composition/build-all inventory)
-            {:keys [files sheets pages cells]}
+            {:keys [files images pages cells]}
             (docs/generate! {:spec spec
                              :built built
                              :composition {:cards (:cards inventory)
@@ -318,9 +318,9 @@
           (println (format "  %-64s %8d bytes" path n)))
         (println
          (format
-          "gallery: %d cell renders, %d sheets, %d pages, %d files, %d bytes total, %.1fs"
+          "gallery: %d cell renders, %d images, %d pages, %d files, %d bytes total, %.1fs"
           cells
-          sheets
+          images
           pages
           (count files)
           total

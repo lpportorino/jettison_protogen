@@ -4,26 +4,21 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_BUTTONMATRIX
 
-`lv_buttonmatrix` — 4 atomic corpus cards (state × size[/value], ids `lv_buttonmatrix/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_buttonmatrix` — 4 atomic corpus cards (state × size[/value], ids `lv_buttonmatrix/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_BUTTONMATRIX vanilla](./WIDGET_BUTTONMATRIX-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_BUTTONMATRIX asgard-dark](./WIDGET_BUTTONMATRIX-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_BUTTONMATRIX asgard-light](./WIDGET_BUTTONMATRIX-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/small` | ![default/small vanilla](./WIDGET_BUTTONMATRIX-default_small-vanilla.jpg) | ![default/small asgard-dark](./WIDGET_BUTTONMATRIX-default_small-asgard-dark.jpg) | ![default/small asgard-light](./WIDGET_BUTTONMATRIX-default_small-asgard-light.jpg) |
+| `default/medium` | ![default/medium vanilla](./WIDGET_BUTTONMATRIX-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_BUTTONMATRIX-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_BUTTONMATRIX-default_medium-asgard-light.jpg) |
+| `default/large` | ![default/large vanilla](./WIDGET_BUTTONMATRIX-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_BUTTONMATRIX-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_BUTTONMATRIX-default_large-asgard-light.jpg) |
+| `default/flex-fit` | ![default/flex-fit vanilla](./WIDGET_BUTTONMATRIX-default_flex-fit-vanilla.jpg) | ![default/flex-fit asgard-dark](./WIDGET_BUTTONMATRIX-default_flex-fit-asgard-dark.jpg) | ![default/flex-fit asgard-light](./WIDGET_BUTTONMATRIX-default_flex-fit-asgard-light.jpg) |
 
 ## Committed states
 

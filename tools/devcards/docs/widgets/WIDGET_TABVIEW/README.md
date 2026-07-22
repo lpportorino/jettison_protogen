@@ -4,26 +4,22 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_TABVIEW
 
-`lv_tabview` — 5 atomic corpus cards (state × size[/value], ids `lv_tabview/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_tabview` — 5 atomic corpus cards (state × size[/value], ids `lv_tabview/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_TABVIEW vanilla](./WIDGET_TABVIEW-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_TABVIEW asgard-dark](./WIDGET_TABVIEW-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_TABVIEW asgard-light](./WIDGET_TABVIEW-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/small` | ![default/small vanilla](./WIDGET_TABVIEW-default_small-vanilla.jpg) | ![default/small asgard-dark](./WIDGET_TABVIEW-default_small-asgard-dark.jpg) | ![default/small asgard-light](./WIDGET_TABVIEW-default_small-asgard-light.jpg) |
+| `default/medium` | ![default/medium vanilla](./WIDGET_TABVIEW-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_TABVIEW-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_TABVIEW-default_medium-asgard-light.jpg) |
+| `default/large` | ![default/large vanilla](./WIDGET_TABVIEW-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_TABVIEW-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_TABVIEW-default_large-asgard-light.jpg) |
+| `default/medium/active-last` | ![default/medium/active-last vanilla](./WIDGET_TABVIEW-default_medium_active-last-vanilla.jpg) | ![default/medium/active-last asgard-dark](./WIDGET_TABVIEW-default_medium_active-last-asgard-dark.jpg) | ![default/medium/active-last asgard-light](./WIDGET_TABVIEW-default_medium_active-last-asgard-light.jpg) |
+| `disabled/medium` | ![disabled/medium vanilla](./WIDGET_TABVIEW-disabled_medium-vanilla.jpg) | ![disabled/medium asgard-dark](./WIDGET_TABVIEW-disabled_medium-asgard-dark.jpg) | ![disabled/medium asgard-light](./WIDGET_TABVIEW-disabled_medium-asgard-light.jpg) |
 
 ## Committed states
 

@@ -1,17 +1,27 @@
 (ns devcards.gallery
-  "Per-widget contact sheets (T2.7) — composed from the SAME gated atomic
+  "Per-CARD gallery images (T2.7) — composed from the SAME gated atomic
    frames the corpus battery hashes, rendered through the same pipeline
    machinery (devcards.host, fresh context per card, the pinned protocol,
-   800x480 canvas). The sheet is the gallery unit: never a second fixture
+   800x480 canvas). One card is the gallery unit: never a second fixture
    set, never re-authored cards.
 
-   Three sheets per widget — the committed doc set:
+   ONE IMAGE PER (card, family), NO LABEL BAKED IN. The doc set was three
+   packed contact SHEETS per widget — many cells crammed into one JPEG with
+   a label drawn under each. That packing put a short cell's label under the
+   TALLEST cell in its row (labels floated far from their card), and left
+   large dead gutters under short cells. Both are gone by construction: each
+   card renders to its own tight crop, and the caption lives in the README
+   grid as real markdown text that cannot drift from its image. The browser
+   packs the grid; no packing algorithm here can get it wrong. Kitchen-sink
+   cards are whole-screen compositions, so their per-card image already IS a
+   composite screen — same rule, no special case.
+
+   Three families per card — the committed doc set:
    - vanilla        family 1, dark  (the stock-idempotent layer)
    - asgard-dark    family 0, dark  (the shipped look)
    - asgard-light   family 0, light
 
-   Cells are the widget's atomic cards in spec order (state x size[/value]),
-   each CROPPED TO CONTENT: the crop rect is the card's own dump_tree
+   Each card is CROPPED TO CONTENT: the crop rect is the card's own dump_tree
    coords — the harness root's FIRST child, which is the WRAPPER node where
    the spec wraps the widget (slider/checkbox-small/spinner-small/
    buttonmatrix-small bleed wrappers) and the subject widget itself
@@ -30,13 +40,6 @@
    job is bbox-external bleed on the open sides (measured worst case ~4px
    outline + AA — well inside jpeg/default-crop-margin).
 
-   Row chunking: a new row starts at max-cells-per-row cells or when the
-   row would exceed max-row-px, whichever comes first — 6-up stays the
-   ceiling for readability, and the width cap keeps wide-cell classes
-   (table/tabview large, the kitchen sinks) from composing into a
-   several-thousand-px strip. Narrow cells are padded up to their label
-   width first so labels never overlap adjacent cells.
-
    QUALITY VERDICT (the pinned 0.85-vs-0.90 conditional, measured on the
    text-heavy light-theme spot-check — the WIDGET_TEXTAREA asgard-light
    sheet, 12 text cells, 1352x238): q0.85 = 44,409 bytes, q0.90 = 50,664
@@ -53,8 +56,7 @@
             [clojure.string :as str]
             [devcards.host :as host]
             [devcards.jpeg :as jpeg])
-  (:import (java.awt Graphics2D)
-           (java.awt.image BufferedImage)))
+  (:import (java.awt.image BufferedImage)))
 
 (set! *warn-on-reflection* true)
 
@@ -77,15 +79,6 @@
     :family 0
     :dark 0
     :title "asgard light (family 0)"}])
-
-(def max-cells-per-row
-  "Row-chunking cell ceiling (readability — the operator's ~6-up call)."
-  6)
-
-(def max-row-px
-  "Row-chunking width cap, px. Keeps wide-cell classes (table/tabview
-   large, kitchen sinks) from composing into an unreadably wide strip."
-  2000)
 
 (defn- crop-node
   "The card's crop subject from its parsed dump tree: the harness root's
@@ -128,92 +121,9 @@
       (throw (ex-info "card id has no class/tail split" {:id card-id})))
     (str/join "/" (rest parts))))
 
-(defn- label-px-width
-  "Measured pixel width of `label` under the contact-sheet label font (one
-   font home: jpeg/label-font)."
-  ^long [^String label]
-  (let [img (BufferedImage. 1 1 BufferedImage/TYPE_INT_RGB)
-        g ^Graphics2D (.createGraphics img)]
-    (try (.setFont g (jpeg/label-font))
-         (long (.stringWidth (.getFontMetrics g) label))
-         (finally (.dispose g)))))
-
-(defn- pad-cell
-  "Widen a cell image to at least its label's width (centered on the checker
-   gutter) so a long label under a narrow crop never overlaps its neighbors. A
-   cell already wide enough passes through untouched."
-  [{:keys [^BufferedImage image ^String label] :as cell}]
-  (let [min-w (+ (label-px-width label) 4)
-        w (.getWidth image)]
-    (if (>= w min-w)
-      cell
-      (let [padded (BufferedImage. min-w (.getHeight image) BufferedImage/TYPE_INT_RGB)
-            g ^Graphics2D (.createGraphics padded)]
-        (.setPaint g (jpeg/checker-paint))
-        (.fillRect g 0 0 min-w (.getHeight image))
-        (.drawImage g image (int (quot (- min-w w) 2)) 0 nil)
-        (.dispose g)
-        (assoc cell :image padded)))))
-
-(defn chunk-cells
-  "Chunk cells into sheet rows: a row closes at max-cells-per-row cells or
-   when adding the next cell would push the row past max-row-px (a single
-   over-wide cell still gets its own row — never an empty one)."
-  [cells]
-  (let [row-w (fn [row]
-                (+ jpeg/sheet-gutter
-                   (reduce +
-                           (map (fn [{:keys [^BufferedImage image]}]
-                                  (+ (.getWidth image) jpeg/sheet-gutter))
-                                row))))]
-    (reduce (fn [rows cell]
-              (let [row (peek rows)]
-                (if (and row
-                         (< (count row) max-cells-per-row)
-                         (<= (+ (long (row-w row))
-                                (.getWidth ^BufferedImage (:image cell))
-                                jpeg/sheet-gutter)
-                             max-row-px))
-                  (conj (pop rows) (conj row cell))
-                  (conj rows [cell]))))
-            []
-            cells)))
-
-(defn- stack-rows
-  "Stack row images (each a jpeg/contact-sheet strip) vertically onto one
-   checker-gutter canvas, left-aligned — the multi-row sheet."
-  ^BufferedImage [rows]
-  (when (empty? rows) (throw (ex-info "sheet needs at least one row" {})))
-  (let [w (apply max (map (fn [^BufferedImage r] (.getWidth r)) rows))
-        h (reduce + (map (fn [^BufferedImage r] (.getHeight r)) rows))
-        out (BufferedImage. w h BufferedImage/TYPE_INT_RGB)
-        g ^Graphics2D (.createGraphics out)]
-    (.setPaint g (jpeg/checker-paint))
-    (.fillRect g 0 0 w h)
-    (reduce (fn [^long y ^BufferedImage row]
-              (.drawImage g row 0 (int y) nil)
-              (+ y (.getHeight row)))
-            0
-            rows)
-    (.dispose g)
-    out))
-
-(defn sheet
-  "Compose labeled cells [{:image :label} ...] into ONE multi-row contact
-   sheet (pad narrow cells, chunk rows, stack)."
-  ^BufferedImage [cells]
-  (when (empty? cells) (throw (ex-info "contact sheet over zero cells" {})))
-  (stack-rows (mapv jpeg/contact-sheet (chunk-cells (mapv pad-cell cells)))))
-
-(defn family-sheet!
-  "Render + compose ONE family's contact sheet over `entries` (built corpus
-   entries [{:id :bytes ...}], spec order). A class with zero renderable
-   entries is an ERROR — an empty sheet would document nothing and look
-   published."
-  ^BufferedImage [paths canvas entries fam]
-  (when (empty? entries)
-    (throw (ex-info "widget class has ZERO renderable cards" {:family (:key fam)})))
-  (sheet (mapv (fn [{:keys [id] ^bytes pb :bytes}]
-                 {:image (render-cell! paths canvas pb fam (str id))
-                  :label (cell-label (str id))})
-               entries)))
+(defn state-slug
+  "A filename-safe token for a card's state label (`cell-label` output): the
+   slashes separating state/size/value become underscores. Deterministic and
+   collision-free within a unit (card ids, hence their tails, are unique)."
+  ^String [^String label]
+  (str/replace label "/" "_"))

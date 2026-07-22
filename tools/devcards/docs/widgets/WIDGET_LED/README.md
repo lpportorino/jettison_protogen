@@ -4,26 +4,26 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # WIDGET_LED
 
-`lv_led` — 9 atomic corpus cards (state × size[/value], ids `lv_led/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. Cell labels are the card-id tails; cells are cropped to the card's dump_tree content box.
+`lv_led` — 9 atomic corpus cards (state × size[/value], ids `lv_led/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
-## Contact sheets
+## States
 
-### vanilla (family 1, dark)
-
-![WIDGET_LED vanilla](./WIDGET_LED-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![WIDGET_LED asgard-dark](./WIDGET_LED-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![WIDGET_LED asgard-light](./WIDGET_LED-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `default/default-size/off` | ![default/default-size/off vanilla](./WIDGET_LED-default_default-size_off-vanilla.jpg) | ![default/default-size/off asgard-dark](./WIDGET_LED-default_default-size_off-asgard-dark.jpg) | ![default/default-size/off asgard-light](./WIDGET_LED-default_default-size_off-asgard-light.jpg) |
+| `default/default-size/dim` | ![default/default-size/dim vanilla](./WIDGET_LED-default_default-size_dim-vanilla.jpg) | ![default/default-size/dim asgard-dark](./WIDGET_LED-default_default-size_dim-asgard-dark.jpg) | ![default/default-size/dim asgard-light](./WIDGET_LED-default_default-size_dim-asgard-light.jpg) |
+| `default/default-size/on` | ![default/default-size/on vanilla](./WIDGET_LED-default_default-size_on-vanilla.jpg) | ![default/default-size/on asgard-dark](./WIDGET_LED-default_default-size_on-asgard-dark.jpg) | ![default/default-size/on asgard-light](./WIDGET_LED-default_default-size_on-asgard-light.jpg) |
+| `disabled/default-size/on` | ![disabled/default-size/on vanilla](./WIDGET_LED-disabled_default-size_on-vanilla.jpg) | ![disabled/default-size/on asgard-dark](./WIDGET_LED-disabled_default-size_on-asgard-dark.jpg) | ![disabled/default-size/on asgard-light](./WIDGET_LED-disabled_default-size_on-asgard-light.jpg) |
+| `default/small/on` | ![default/small/on vanilla](./WIDGET_LED-default_small_on-vanilla.jpg) | ![default/small/on asgard-dark](./WIDGET_LED-default_small_on-asgard-dark.jpg) | ![default/small/on asgard-light](./WIDGET_LED-default_small_on-asgard-light.jpg) |
+| `default/medium/on` | ![default/medium/on vanilla](./WIDGET_LED-default_medium_on-vanilla.jpg) | ![default/medium/on asgard-dark](./WIDGET_LED-default_medium_on-asgard-dark.jpg) | ![default/medium/on asgard-light](./WIDGET_LED-default_medium_on-asgard-light.jpg) |
+| `default/large/on` | ![default/large/on vanilla](./WIDGET_LED-default_large_on-vanilla.jpg) | ![default/large/on asgard-dark](./WIDGET_LED-default_large_on-asgard-dark.jpg) | ![default/large/on asgard-light](./WIDGET_LED-default_large_on-asgard-light.jpg) |
+| `default/default-size/on-warning` | ![default/default-size/on-warning vanilla](./WIDGET_LED-default_default-size_on-warning-vanilla.jpg) | ![default/default-size/on-warning asgard-dark](./WIDGET_LED-default_default-size_on-warning-asgard-dark.jpg) | ![default/default-size/on-warning asgard-light](./WIDGET_LED-default_default-size_on-warning-asgard-light.jpg) |
+| `default/default-size/on-error` | ![default/default-size/on-error vanilla](./WIDGET_LED-default_default-size_on-error-vanilla.jpg) | ![default/default-size/on-error asgard-dark](./WIDGET_LED-default_default-size_on-error-asgard-dark.jpg) | ![default/default-size/on-error asgard-light](./WIDGET_LED-default_default-size_on-error-asgard-light.jpg) |
 
 ## Committed states
 

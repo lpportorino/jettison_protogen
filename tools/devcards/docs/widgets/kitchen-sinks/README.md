@@ -4,26 +4,23 @@ Regenerate: `clojure -M:bindings:run gallery` from the devcards tool root
 (tools/devcards/). Sources: corpus/spec.edn (cards + notes) +
 conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +
 output/json-descriptors/descriptor-set.json (props schema) + the colocated
-contact-sheet JPEGs rendered from the pinned controls.wasm.
+per-card JPEGs rendered from the pinned controls.wasm.
 -->
 
 # Kitchen sinks
 
-The 6 authored multi-widget compositions from the same corpus the gates verify — the only cells where widgets render as neighbors. Cells are cropped to the sink container.
+The 6 authored multi-widget compositions from the same corpus the gates verify — the only cells where widgets render as neighbors. Each is a whole composite screen, cropped to the sink container: one image per sink × family.
 
-## Contact sheets
+## Screens
 
-### vanilla (family 1, dark)
-
-![kitchen-sinks vanilla](./kitchen-sinks-vanilla.jpg)
-
-### asgard dark (family 0)
-
-![kitchen-sinks asgard-dark](./kitchen-sinks-asgard-dark.jpg)
-
-### asgard light (family 0)
-
-![kitchen-sinks asgard-light](./kitchen-sinks-asgard-light.jpg)
+| state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
+|---|---|---|---|
+| `form-row` | ![form-row vanilla](./kitchen-sinks-form-row-vanilla.jpg) | ![form-row asgard-dark](./kitchen-sinks-form-row-asgard-dark.jpg) | ![form-row asgard-light](./kitchen-sinks-form-row-asgard-light.jpg) |
+| `toolbar-strip` | ![toolbar-strip vanilla](./kitchen-sinks-toolbar-strip-vanilla.jpg) | ![toolbar-strip asgard-dark](./kitchen-sinks-toolbar-strip-asgard-dark.jpg) | ![toolbar-strip asgard-light](./kitchen-sinks-toolbar-strip-asgard-light.jpg) |
+| `gauge-cluster` | ![gauge-cluster vanilla](./kitchen-sinks-gauge-cluster-vanilla.jpg) | ![gauge-cluster asgard-dark](./kitchen-sinks-gauge-cluster-asgard-dark.jpg) | ![gauge-cluster asgard-light](./kitchen-sinks-gauge-cluster-asgard-light.jpg) |
+| `settings-panel` | ![settings-panel vanilla](./kitchen-sinks-settings-panel-vanilla.jpg) | ![settings-panel asgard-dark](./kitchen-sinks-settings-panel-asgard-dark.jpg) | ![settings-panel asgard-light](./kitchen-sinks-settings-panel-asgard-light.jpg) |
+| `hud-overlay` | ![hud-overlay vanilla](./kitchen-sinks-hud-overlay-vanilla.jpg) | ![hud-overlay asgard-dark](./kitchen-sinks-hud-overlay-asgard-dark.jpg) | ![hud-overlay asgard-light](./kitchen-sinks-hud-overlay-asgard-light.jpg) |
+| `tabview-with-content` | ![tabview-with-content vanilla](./kitchen-sinks-tabview-with-content-vanilla.jpg) | ![tabview-with-content asgard-dark](./kitchen-sinks-tabview-with-content-asgard-dark.jpg) | ![tabview-with-content asgard-light](./kitchen-sinks-tabview-with-content-asgard-light.jpg) |
 
 ## The compositions
 
