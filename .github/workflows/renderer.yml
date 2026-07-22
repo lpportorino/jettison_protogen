@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Build the pinned toolchain image
       run: docker build -t jettison-proto-generator-base:latest -f Dockerfile.base .
     - # Cargo caches keyed on the harness lockfile: the wasmtime host crates
@@ -76,7 +76,7 @@ jobs:
       # into seconds of cargo work. CARGO_HOME is redirected into the
       # workspace so the cache survives the container boundary.
       name: Cache cargo registry + harness target
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           .cargo-home/registry
@@ -98,9 +98,21 @@ jobs:
           -e CARGO_HOME=/workspace/.cargo-home \
           jettison-proto-generator-base:latest \
           make -f renderer.mk harness oracles
+    - # The wasm + harness steps run as ROOT inside the container (no --user),
+      # so every file cargo writes into the cached paths comes back root-owned.
+      # The post-job `actions/cache` save runs as the RUNNER user, cannot read
+      # them, and dies with `"/usr/bin/tar" failed with exit code 2` — the cache
+      # is then never written, so the next run pays the full cold cargo build
+      # that this cache exists to avoid. Hand the paths back before that save.
+      # `|| true`: this is a cache optimisation, never a reason to fail the job.
+      name: Return cargo cache ownership to the runner (pre cache-save)
+      if: always()
+      run: |
+        sudo chown -R "$(id -u):$(id -g)" \
+          .cargo-home renderer/wasm_harness/target 2>/dev/null || true
     - name: Upload wasm artifacts (for the fixtures job + debugging)
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: renderer-wasm
         path: |
@@ -120,9 +132,9 @@ jobs:
     needs: battery
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Download the built wasm
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v7
       with:
         name: renderer-wasm
         path: renderer/output/
@@ -137,7 +149,7 @@ jobs:
       with:
         cli: "1.12.5.1654"
     - name: Cache Maven-resolved deps
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           ~/.m2/repository

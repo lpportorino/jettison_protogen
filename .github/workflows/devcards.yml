@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - # protogen compiles its OWN proto bindings for the devcard runner:
       # this step compiles output/java/ui with the same GraalVM-provisioned
       # javac, before the runner needs the generated UiAst classes to build
@@ -105,7 +105,7 @@ jobs:
         # tools/devcards/deps.edn.
         cli: "1.12.5.1654"
     - name: Cache Maven-resolved deps (tools.deps ~/.m2, not Maven's own cache mode — no pom.xml here)
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           ~/.m2/repository
@@ -136,7 +136,7 @@ jobs:
       run: clojure -M:bindings:run generate
     - name: Upload gallery + golden manifest (debug artifact, not published)
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: devcards-gate-output
         path: |
@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - # No Java step: clj-kondo is a native/self-hosted binary and does not
       # need a JVM (DeLaGuardo/setup-clojure's own documented exception —
       # verified against its README before drafting this).
