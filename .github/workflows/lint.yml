@@ -1,0 +1,104 @@
+# Format + lint gate for HAND-AUTHORED Clojure. The C lane is deliberately NOT
+# here — see "WHERE IS THE C LANE?" below.
+#
+# This is the AUTHORITATIVE half of the gate. `.githooks/pre-push` is the fast
+# local echo of it, but a client-side hook only protects whoever armed it and
+# `--no-verify` bypasses it; protogen is pinned as a submodule by a consumer
+# fleet, so what actually protects them is this job.
+#
+# WHAT IS GATED — a positive allowlist, never an ignore list: lint.mk hands each
+# tool an explicit list of hand-authored paths and no tool ever walks the tree,
+# so generated bindings (output/**), vendored LVGL, nanopb projections and
+# generated fonts are excluded by never being passed in.
+#
+# WHERE IS THE C LANE? In `renderer.yml`, as a step in the job that already
+# builds the pinned toolchain image. clang-format REWRITES committed source, so
+# its version is part of the toolchain pin — and the only pinned copy lives in
+# the WASI-SDK the renderer is built with (/opt/wasi-sdk/bin/clang-format).
+# Reproducing it here would mean either a ~15-minute image build to run a
+# formatter, or an unpinned apt clang-format whose output differs from the one
+# devs use — which manufactures the exact drift the gate exists to catch. The
+# renderer workflow's path filter already fires on every renderer/** change, so
+# no C edit can reach master without passing it.
+name: Lint
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+    - "**/*.clj"
+    - "**/*.cljc"
+    - "**/*.edn"
+    - ".clj-kondo/**"
+    - ".cljfmt.edn"
+    - "lint.mk"
+    - ".github/workflows/lint.yml"
+  pull_request:
+    paths:
+    - "**/*.clj"
+    - "**/*.cljc"
+    - "**/*.edn"
+    - ".clj-kondo/**"
+    - ".cljfmt.edn"
+    - "lint.mk"
+    - ".github/workflows/lint.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clj:
+    name: cljfmt + clj-kondo (hand-authored Clojure)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - # One setup-clojure invocation covers both tools. clj-kondo is a native
+      # binary and needs no JVM, but cljfmt runs through the Clojure CLI, so
+      # this job DOES need Java — unlike devcards.yml's kondo-only job, which
+      # deliberately skips it.
+      name: Set up JDK 25 (LTS)
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: "25"
+
+    - name: Set up Clojure CLI + clj-kondo
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        cli: "1.12.5.1590"
+        # Keep in step with devcards.yml's kondo job — two different clj-kondo
+        # versions gating the same tree would disagree sooner or later.
+        clj-kondo: "2026.05.25"
+
+    - # cljfmt resolves from the ROOT deps.edn (:fmt alias). Cache on its hash
+      # so a warm run skips the Maven fetch entirely.
+      name: Cache Maven-resolved deps
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+        key: lint-m2-${{ hashFiles('deps.edn') }}
+        restore-keys: lint-m2-
+
+    - # Check mode, never fix mode: CI states whether the tree is canonical, it
+      # does not silently rewrite it. Fixing is the author's job (the pre-push
+      # hook applies the formatters locally and blocks so the result gets
+      # committed) — a CI-side rewrite would either be lost or need a bot push
+      # back to a trunk that a consumer fleet pins.
+      name: cljfmt (check)
+      run: make -f lint.mk fmt-clj
+
+    - # --fail-level warning: a warning must fail exactly like an error, or the
+      # zero-warning floor in .clj-kondo/config.edn means nothing.
+      # --cache false: the gate must be deterministic; a shared analysis-shaped
+      # cache entry makes the next lint emit phantom unresolved-symbol findings.
+      name: clj-kondo
+      run: make -f lint.mk lint-clj

@@ -85,6 +85,22 @@ jobs:
         key: renderer-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock') }}
         restore-keys: |
           renderer-cargo-
+    - # The C half of the format gate lives HERE, not in lint.yml, because the
+      # only PINNED clang-format is the one inside this image — the WASI-SDK the
+      # renderer is compiled with (/opt/wasi-sdk/bin/clang-format). A formatter
+      # rewrites committed source, so its version belongs to the toolchain pin;
+      # an unpinned apt clang-format in some other workflow would disagree with
+      # what devs run and manufacture the very drift this gate exists to catch.
+      # This workflow's path filter fires on every renderer/** change, so no C
+      # edit reaches master without passing through here.
+      #
+      # BEFORE the wasm build, deliberately: it is seconds of work, and a
+      # formatting failure should not cost a full multi-minute wasm build first.
+      name: clang-format (check, pinned WASI-SDK)
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          jettison-proto-generator-base:latest \
+          make -f lint.mk fmt-c
     - name: Build controls.wasm + reference.wasm (bit-identity artifact)
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
