@@ -1,0 +1,5 @@
+# Batch-tool build outputs (tools/compile-protos.sh javac output + the
+# Clojure CLI classpath cache) — regenerated from the checkout's own
+# output/java on every battery run.
+target/
+.cpcache/

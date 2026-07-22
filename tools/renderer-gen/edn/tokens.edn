@@ -1,0 +1,128 @@
+;; tokens.edn — LVGL design token system (military/tactical theme)
+;;
+;; Three-layer architecture: primitives → semantic → (class usage)
+;; Values are LVGL-native: integers for pixels, hex strings for colors,
+;; 0-255 for opacity. No CSS units.
+{;; ═══════════════════════════════════════════════════════════════════
+ ;; LAYER 1: PRIMITIVES — Raw values, no semantic meaning.
+ ;; ═══════════════════════════════════════════════════════════════════
+ :colors {;; Dark theme base (deep purple-black)
+          :base-black "#0A0A12"
+          :base-dark "#12121F"
+          :base-mid "#1E1E2E"
+          :base-light "#2A2A3E"
+          :base-lighter "#3A3A52"
+          ;; Light theme base (tactical olive)
+          :olive-0 "#F0F0E8"
+          :olive-50 "#E0E0D4"
+          :olive-100 "#D0D0C0"
+          :olive-200 "#C0C0A8"
+          :olive-300 "#8A8A70"
+          :olive-fg-0 "#1A1A28"
+          :olive-fg-1 "#404050"
+          ;; Accent palette
+          :violet-dim "#6B4FA0"
+          :violet "#8B5CF6"
+          :violet-bright "#A78BFA"
+          :violet-deep "#7C3AED"
+          :cyan "#22D3EE"
+          :cyan-dim "#0E7490"
+          :cyan-deep "#0891B2"
+          :amber "#F59E0B"
+          :amber-deep "#D97706"
+          :red "#EF4444"
+          :green "#10B981"
+          ;; Text colors
+          :fg-white "#E8E8F0"
+          :fg-muted "#9898B0"
+          :fg-dim "#606078"}
+ :fonts {:b612mono-bold-12 {:family "b612mono_bold" :size 12}
+         :b612mono-bold-14 {:family "b612mono_bold" :size 14}
+         :b612mono-bold-16 {:family "b612mono_bold" :size 16}
+         :b612mono-bold-18 {:family "b612mono_bold" :size 18}
+         :b612mono-bold-20 {:family "b612mono_bold" :size 20}
+         :b612mono-bold-26 {:family "b612mono_bold" :size 26}
+         :orbitron-bold-22 {:family "orbitron_bold" :size 22}
+         :orbitron-bold-28 {:family "orbitron_bold" :size 28}
+         :orbitron-bold-32 {:family "orbitron_bold" :size 32}}
+ :spacing {0 0 1 2 2 4 3 8 4 12 5 16 6 20 8 24 10 32 12 40}
+ ;; THE RADIUS RULE (theme + authoring): PANEL tier (cards, containers,
+ ;; host_proxy frames) rounds with :radius-card -> :lg = 4px; CONTROL tier
+ ;; (buttons, form controls: dropdown/textarea/spinbox, checkbox indicator)
+ ;; rounds with :radius-default / :radius-button -> :sm = 2px. Stock LVGL's
+ ;; RADIUS_DEFAULT=12px/btn 16px is what made small chips render as pills.
+ :radii {:full 9999 :lg 4 :md 2 :none 0 :sm 2 :xl 8}
+ :opacity {:full 255 :heavy 200 :light 100 :medium 128 :subtle 50 :transparent 0}
+ :shadows {:lg {:opa 0 :spread 0 :width 0}
+           :md {:opa 0 :spread 0 :width 0}
+           :none {:opa 0 :spread 0 :width 0}
+           :sm {:opa 0 :spread 0 :width 0}}
+ :border-widths {:medium 2 :none 0 :thick 3 :thin 1}
+ :breakpoints {:lg [1024 1280] :md [640 1024] :sm [0 640] :xl [1280 nil]}
+ ;; ═══════════════════════════════════════════════════════════════════
+ ;; LAYER 2: SEMANTIC TOKENS — Theme-aware, reference primitives.
+ ;; ═══════════════════════════════════════════════════════════════════
+ :semantic {;; ── Surface colors ──
+            :surface-0 {:dark :base-black :light :olive-0}
+            :surface-1 {:dark :base-dark :light :olive-50}
+            :surface-2 {:dark :base-mid :light :olive-100}
+            :surface-overlay {:dark :base-black :light :olive-200}
+            ;; ── Foreground / text colors ──
+            :fg-0 {:dark :fg-white :light :olive-fg-0}
+            :fg-1 {:dark :fg-muted :light :olive-fg-1}
+            :fg-2 {:dark :fg-dim :light :olive-300}
+            ;; ── Edge / border colors ──
+            :edge-0 {:dark :base-lighter :light :olive-300}
+            :edge-1 {:dark :violet-dim :light :olive-200}
+            ;; ── Interactive / accent ──
+            :accent-bg {:dark :violet :light :violet-deep}
+            :accent-text :fg-white
+            ;; ── Status ──
+            :status-success :green
+            :status-warning :amber
+            :status-error :red
+            ;; ── Typography ──
+            :font-caption :b612mono-bold-12
+            :font-body-sm :b612mono-bold-14
+            :font-body :b612mono-bold-16
+            :font-body-lg :b612mono-bold-18
+            :font-data :b612mono-bold-20
+            :font-ttf-probe :b612mono-bold-26
+            :font-heading :orbitron-bold-22
+            :font-heading-lg :orbitron-bold-28
+            :font-heading-xl :orbitron-bold-32
+            ;; ── Spacing ──
+            :spacing-xs 1
+            :spacing-sm 2
+            :spacing-md 3
+            :spacing-lg 5
+            :spacing-xl 8
+            ;; true zero — positioning frames (host_proxy), never padded cards
+            :spacing-none 0
+            ;; ── Radii ──
+            :radius-default :sm
+            :radius-button :sm
+            :radius-card :lg
+            ;; explicit square — flush/full-bleed surfaces that must OVERRIDE
+            ;; the theme's default tier rounding (video frames, edge-to-edge)
+            :radius-none :none
+            ;; ── Shadows (zeroed — sharp tactical aesthetic) ──
+            :drop-card :none
+            :drop-overlay :none
+            ;; ── Opacity ──
+            :overlay-opa {:dark :heavy :light :medium}
+            :disabled-opa :medium
+            :zero-opa :transparent
+            ;; ── Border widths ──
+            :border-width-default :thin
+            :border-width-focus :medium
+            ;; ── Interactive states ──
+            :pressed-surface {:dark :base-light :light :olive-200}
+            :pressed-accent {:dark :violet-dim :light :violet}
+            :focused-edge {:dark :cyan :light :cyan-deep}
+            :disabled-fg {:dark :fg-dim :light :olive-300}
+            ;; ── HUD overlay controls ──
+            :hud-border {:dark :violet :light :violet-deep}
+            :hud-scrim-opa {:dark :subtle :light :light}
+            :hud-pressed-opa {:dark :light :light :medium}
+            :border-width-bold :thick}}

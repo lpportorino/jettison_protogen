@@ -1,0 +1,161 @@
+;; kitchen_sink.edn — Widget gallery exercising all LVGL widget types
+;;
+;; Demonstrates: sliders, arcs, bars, switches, checkboxes, spinners, LEDs,
+;; scales, spinboxes, labels with long_mode, buttons with state styles.
+;; Uses @class-macros and :titled-card / :status-led components.
+;; Transparent screen — gaps between widgets reveal checkerboard background.
+{:events {}
+ :subjects {:bp {:type :int} :theme_dark {:type :int}}
+ :tree
+ {:children
+  [;; ── Header ──
+   {:children [{:class "@heading" :tag :lv_label :text "Widget Gallery"}]
+    :class "@card-row w-content h-content"
+    :tag :lv_obj}
+   ;; ── Row 1: Slider + Bar | Arc + Spinner ──
+   {:children
+    [;; Card: Slider + Bar
+     {:children [{:class "w-120 h-content"
+                  :slider_props {:max_value 100 :min_value 0 :value 65}
+                  :tag :lv_slider}
+                 {:bar_props {:max_value 100 :min_value 0 :mode :symmetrical :value 40}
+                  :class "w-120 h-content"
+                  :tag :lv_bar}]
+      :props {:title "Slider & Bar"}
+      :tag :titled-card}
+     ;; Card: Arc + Spinner
+     {:children
+      [{:children [{:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 75}
+                    :class "w-80 h-80
+                  sm:w-64 sm:h-64"
+                    :tag :lv_arc}
+                   {:class "w-48 h-48
+                  sm:w-36 sm:h-36"
+                    :spinner_props {:arc_length 60 :spin_time 1000}
+                    :tag :lv_spinner}]
+        :class "flex flex-row gap-spacing-md w-content h-content"
+        :tag :lv_obj}]
+      :props {:title "Arc & Spinner"}
+      :tag :titled-card}]
+    :class "flex flex-row gap-spacing-sm w-content h-content
+            sm:gap-spacing-xs"
+    :tag :lv_obj}
+   ;; ── Row 2: LEDs | Scale ──
+   {:children
+    [;; Card: LEDs (using status-led component)
+     {:children [{:children
+                  [{:props {:color {:b 0 :g 0 :r 255} :label "Error"} :tag :status-led}
+                   {:props {:color {:b 0 :g 200 :r 0} :label "OK"} :tag :status-led}
+                   {:props {:brightness 180 :color {:b 0 :g 180 :r 255} :label "Warn"}
+                    :tag :status-led}]
+                  :class "flex flex-row gap-spacing-md w-content h-content"
+                  :tag :lv_obj}]
+      :props {:title "Status LEDs"}
+      :tag :titled-card}
+     ;; Card: Scale
+     {:children [{:tag :lv_scale
+                  :scale_props {:label_show true
+                                :major_tick_every 5
+                                :max_value 100
+                                :min_value 0
+                                :mode :horizontal-top
+                                :total_tick_count 11}
+                  ;; Edge labels center on the first/last tick and draw inside the
+                  ;; widget bounds — horizontal padding keeps them from clipping.
+                  :class "w-140 h-48 px-spacing-xl"}]
+      :props {:title "Scale (0-100)"}
+      :tag :titled-card}]
+    :class "flex flex-row gap-spacing-sm w-content h-content
+            sm:gap-spacing-xs"
+    :tag :lv_obj}
+   ;; ── Row 3: Switches + Checkboxes | Spinbox ──
+   {:children
+    [;; Card: Switches + Checkboxes
+     {:children [{:children [{:switch_props {:checked true} :tag :lv_switch}
+                             {:switch_props {:checked false} :tag :lv_switch}
+                             {:checkbox_props {:checked true}
+                              :class "text-fg-0 @caption"
+                              :tag :lv_checkbox
+                              :text "On"}
+                             {:checkbox_props {:checked false}
+                              :class "text-fg-0 @caption"
+                              :tag :lv_checkbox
+                              :text "Off"}]
+                  :class "flex flex-row gap-spacing-md w-content h-content"
+                  :tag :lv_obj}]
+      :props {:title "Toggles"}
+      :tag :titled-card}
+     ;; Card: Spinbox
+     {:children [{:class "w-120 h-48
+                sm:w-96 sm:h-36"
+                  :id "spinbox"
+                  :spinbox_props
+                  {:digit_count 3 :max_value 999 :min_value 0 :step 5 :value 42}
+                  :tag :lv_spinbox}]
+      :id "spinbox-card"
+      :props {:title "Spinbox"}
+      :tag :titled-card}]
+    :class "flex flex-row gap-spacing-sm w-content h-content
+            sm:gap-spacing-xs"
+    :tag :lv_obj}
+   ;; ── Row 4: Buttons | Labels ──
+   {:children
+    [;; Card: Buttons
+     {:children
+      [{:children
+        [{:children [{:class "text-accent-text @caption" :tag :lv_label :text "Primary"}]
+          :class "@btn-primary"
+          :tag :lv_button}
+         {:children [{:class "text-fg-0 @caption" :tag :lv_label :text "Secondary"}]
+          :class "@btn-secondary"
+          :tag :lv_button}
+         {:children [{:class "text-fg-2 @caption" :tag :lv_label :text "Disabled"}]
+          :class
+          "w-content h-content p-spacing-sm
+                  bg-surface-2 rounded-radius-button opa-disabled-opa
+                  sm:p-spacing-xs"
+          :tag :lv_button}]
+        :class
+        "flex flex-row gap-spacing-sm w-content h-content
+                sm:gap-spacing-xs"
+        :tag :lv_obj}]
+      :props {:title "Buttons"}
+      :tag :titled-card}
+     ;; Card: Labels
+     {:children [{:class "@heading" :tag :lv_label :text "Heading Text"}
+                 {:class "@body"
+                  :label_props {:long_mode :wrap}
+                  :tag :lv_label
+                  :text "Body text for regular content."}
+                 {:class "@muted" :tag :lv_label :text "Caption / muted helper"}]
+      :props {:title "Typography"}
+      :tag :titled-card}
+     ;; Card: the remaining widget types (full renderer coverage)
+     {:children [{:class "w-120 h-content" :tag :lv_dropdown}
+                 {:class "w-120 h-content"
+                  :roller_props {:options "One\nTwo\nThree" :visible_row_count 2}
+                  :tag :lv_roller}
+                 {:class "w-120 h-content" :id "textarea" :tag :lv_textarea :text "Edit me"}
+                 {:class "w-content h-content" :tag :lv_led}
+                 {:class "w-content h-content"
+                  :line_props {:points [{:x 0 :y 20} {:x 40 :y 0} {:x 80 :y 20}]}
+                  :tag :lv_line} {:class "w-content h-content" :tag :lv_image}]
+      :id "more-widgets-card"
+      :props {:title "More Widgets"}
+      :tag :titled-card}]
+    :class "flex flex-row gap-spacing-sm w-content h-content
+            sm:gap-spacing-xs"
+    :tag :lv_obj}
+   ;; ── Footer ──
+   {:class "@muted" :tag :lv_label :text "Kitchen Sink v1"}]
+  :class
+  "flex flex-col gap-spacing-sm p-spacing-sm w-pct-100 h-pct-100
+          sm:gap-spacing-xs sm:p-spacing-xs"
+  :tag :lv_obj}
+ :type :screen}

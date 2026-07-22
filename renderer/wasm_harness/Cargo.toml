@@ -1,0 +1,41 @@
+# POC #2 — headless Rust+WASM framebuffer harness.
+#
+# Originally lifted from the jettison_poc_webgpu_wasmtime POC's lvgl_harness
+# (which already drove our exact controls_* ABI; pin in .ported-from.edn),
+# then extended in-repo: matrix runner, tree diff, dual-path image rows.
+#
+# Loads controls.wasm, drives controls_init/load_ui/tick/get_framebuffer, reads
+# the RGBA8888 framebuffer from linear memory, dumps PNG. Foundation for the
+# visual differential (run reference.wasm + controls.wasm, bit-compare frames).
+[package]
+name = "lvgl_harness"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.87.0"
+publish = false
+
+# Empty workspace table → standalone crate (ignore any parent workspace search).
+[workspace]
+
+[dependencies]
+wasmtime = "45"
+wasmtime-wasi = "45"
+thiserror = "2"
+tracing = "0.1"
+png = "0.17"
+clap = { version = "4.5", features = ["derive"] }
+notify = "8"
+notify-debouncer-mini = "0.7"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+serde_json = "1.0.150"
+json-patch = "4.2.0"
+
+# R5b cmd-out: decode the OPAQUE cmd.* bytes captured from host_command (the
+# generated prost bindings in protogen/output/rust/ are included by
+# wasm_harness/src/proto.rs and derive ::prost::Message). prost-types pulls the
+# well-known-type support those bindings reference.
+prost = "0.13"
+prost-types = "0.13"
+
+[dev-dependencies]
+serde_json = "1.0.150"

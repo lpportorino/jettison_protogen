@@ -1,0 +1,186 @@
+{
+  "type": "lv_obj",
+  "coords": [0, 0, 959, 539],
+  "children": [
+    {
+      "type": "lv_obj",
+      "coords": [0, 0, 959, 539],
+      "children": [
+        {
+          "type": "lv_obj",
+          "coords": [4, 4, 190, 33],
+          "children": [{ "type": "lv_label", "coords": [7, 7, 187, 30], "children": [] }]
+        },
+        {
+          "type": "lv_obj",
+          "coords": [4, 36, 349, 226],
+          "children": [
+            {
+              "type": "lv_obj",
+              "coords": [30, 62, 155, 86],
+              "children": [
+                { "type": "lv_label", "coords": [33, 65, 128, 79], "children": [] },
+                { "type": "lv_slider", "coords": [33, 82, 152, 81], "children": [] },
+                { "type": "lv_bar", "coords": [33, 84, 152, 83], "children": [] }
+              ]
+            },
+            {
+              "type": "lv_obj",
+              "coords": [158, 62, 323, 200],
+              "children": [
+                { "type": "lv_label", "coords": [161, 65, 264, 79], "children": [] },
+                {
+                  "type": "lv_obj",
+                  "coords": [161, 82, 320, 197],
+                  "children": [
+                    { "type": "lv_arc", "coords": [187, 108, 250, 171], "children": [] },
+                    { "type": "lv_spinner", "coords": [259, 108, 294, 143], "children": [] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "lv_obj",
+          "coords": [4, 229, 525, 460],
+          "children": [
+            {
+              "type": "lv_obj",
+              "coords": [30, 255, 371, 434],
+              "children": [
+                { "type": "lv_label", "coords": [33, 258, 120, 272], "children": [] },
+                {
+                  "type": "lv_obj",
+                  "coords": [33, 275, 368, 431],
+                  "children": [
+                    {
+                      "type": "lv_obj",
+                      "coords": [59, 301, 150, 405],
+                      "children": [
+                        { "type": "lv_led", "coords": [85, 327, 120, 362], "children": [] },
+                        { "type": "lv_label", "coords": [85, 365, 124, 379], "children": [] }
+                      ]
+                    },
+                    {
+                      "type": "lv_obj",
+                      "coords": [159, 301, 246, 405],
+                      "children": [
+                        { "type": "lv_led", "coords": [185, 327, 220, 362], "children": [] },
+                        { "type": "lv_label", "coords": [185, 365, 200, 379], "children": [] }
+                      ]
+                    },
+                    {
+                      "type": "lv_obj",
+                      "coords": [255, 301, 342, 405],
+                      "children": [
+                        { "type": "lv_led", "coords": [281, 327, 316, 362], "children": [] },
+                        { "type": "lv_label", "coords": [281, 365, 312, 379], "children": [] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "lv_obj",
+              "coords": [374, 255, 499, 325],
+              "children": [
+                { "type": "lv_label", "coords": [377, 258, 480, 272], "children": [] },
+                { "type": "lv_scale", "coords": [377, 275, 496, 322], "children": [] }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "lv_obj",
+          "coords": [4, 463, 471, 626],
+          "children": [
+            {
+              "type": "lv_obj",
+              "coords": [30, 489, 341, 600],
+              "children": [
+                { "type": "lv_label", "coords": [33, 492, 88, 506], "children": [] },
+                {
+                  "type": "lv_obj",
+                  "coords": [33, 509, 338, 597],
+                  "children": [
+                    { "type": "lv_switch", "coords": [59, 535, 122, 571], "children": [] },
+                    { "type": "lv_switch", "coords": [131, 535, 194, 571], "children": [] },
+                    { "type": "lv_checkbox", "coords": [203, 535, 249, 555], "children": [] },
+                    { "type": "lv_checkbox", "coords": [258, 535, 312, 555], "children": [] }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "lv_obj",
+              "coords": [344, 489, 445, 559],
+              "children": [
+                { "type": "lv_label", "coords": [347, 492, 402, 506], "children": [] },
+                {
+                  "type": "lv_spinbox",
+                  "coords": [347, 509, 442, 556],
+                  "children": [
+                    { "type": "lv_label", "coords": [363, 525, 426, 540], "children": [] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "lv_obj",
+          "coords": [4, 629, 631, 776],
+          "children": [
+            {
+              "type": "lv_obj",
+              "coords": [30, 655, 297, 750],
+              "children": [
+                { "type": "lv_label", "coords": [33, 658, 88, 672], "children": [] },
+                {
+                  "type": "lv_obj",
+                  "coords": [33, 675, 294, 747],
+                  "children": [
+                    {
+                      "type": "lv_button",
+                      "coords": [59, 701, 118, 719],
+                      "children": [
+                        { "type": "lv_label", "coords": [61, 703, 116, 717], "children": [] }
+                      ]
+                    },
+                    {
+                      "type": "lv_button",
+                      "coords": [121, 701, 198, 721],
+                      "children": [
+                        { "type": "lv_label", "coords": [124, 704, 195, 718], "children": [] }
+                      ]
+                    },
+                    {
+                      "type": "lv_button",
+                      "coords": [201, 701, 268, 719],
+                      "children": [
+                        { "type": "lv_label", "coords": [203, 703, 266, 717], "children": [] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "lv_obj",
+              "coords": [300, 655, 605, 738],
+              "children": [
+                { "type": "lv_label", "coords": [303, 658, 382, 672], "children": [] },
+                { "type": "lv_label", "coords": [303, 675, 465, 698], "children": [] },
+                { "type": "lv_label", "coords": [303, 701, 602, 718], "children": [] },
+                { "type": "lv_label", "coords": [303, 721, 478, 735], "children": [] }
+              ]
+            }
+          ]
+        },
+        { "type": "lv_label", "coords": [4, 779, 123, 793], "children": [] }
+      ]
+    }
+  ]
+}

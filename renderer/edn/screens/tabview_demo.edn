@@ -1,0 +1,41 @@
+;; tabview_demo.edn — Tabbed view with inline panel subtrees
+;;
+;; Uses the REAL :lv_tabview widget arm: tab_names zip per-index with the
+;; node's children (child i becomes tab i's page content). Tab switching
+;; is native LVGL (the tabview's internal event handling), and the default
+;; theme styles the bar/buttons/content via class dispatch — which a
+;; composite of plain buttons could never receive.
+{:events {}
+ :subjects {:bp {:type :int} :theme_dark {:type :int}}
+ :tree
+ {:children
+  [{:class "font-font-heading text-fg-0" :tag :lv_label :text "Tabview Demo"}
+   {:children
+    [{:children [{:class "font-font-body text-fg-0" :tag :lv_label :text "Brightness"}
+                 {:class "w-120"
+                  :slider_props {:max_value 100 :min_value 0 :value 80}
+                  :tag :lv_slider}
+                 {:class "font-font-body text-fg-0" :tag :lv_label :text "Volume"}
+                 {:class "w-120"
+                  :slider_props {:max_value 100 :min_value 0 :value 60}
+                  :tag :lv_slider}]
+      :class "flex flex-col gap-spacing-sm w-pct-100 h-content"
+      :tag :lv_obj}
+     {:children
+      [{:class "font-font-heading text-fg-0" :tag :lv_label :text "System Status"}
+       {:led_props {:brightness 255 :color {:b 0 :g 200 :r 0}} :tag :lv_led}
+       {:class "font-font-body text-fg-0" :tag :lv_label :text "All systems operational"}]
+      :class "flex flex-col gap-spacing-sm w-pct-100 h-content"
+      :tag :lv_obj}
+     {:children
+      [{:class "font-font-heading text-fg-0" :tag :lv_label :text "About"}
+       {:class "font-font-body text-fg-0" :tag :lv_label :text "LVGL Controls v1.0"}]
+      :class "flex flex-col gap-spacing-sm w-pct-100 h-content"
+      :tag :lv_obj}]
+    :class "w-pct-100"
+    :style {:flex-grow 1}
+    :tabview_props {:tab_bar_size 48 :tab_names ["Settings" "Status" "About"]}
+    :tag :lv_tabview}]
+  :class "flex flex-col gap-spacing-sm p-spacing-sm w-pct-100 h-pct-100"
+  :tag :lv_obj}
+ :type :screen}

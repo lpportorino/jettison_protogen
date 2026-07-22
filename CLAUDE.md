@@ -73,6 +73,39 @@ Rules:
   instruction every bump author executes verbatim. The generated binding repos
   need no such instruction: CI overwrites them wholesale on the next proto push.
 
+## The reference interpreter + the devcards proof
+
+protogen owns the ui_ast protocol end-to-end: the `.proto` vocabulary
+(generated in-place from the vendored LVGL tree + the numbering registry),
+every language binding, AND the ONE reference interpreter — the renderer C
+source under `renderer/`, its theme, its `wasm.mk` build producing
+`controls.wasm`, and the proof battery that gates it (the pixel oracles —
+the wasmtime harness's visual-regression suite, dual-oracle morph parity,
+the coverage matrix, and demo parity — plus the devcard corpus; the
+cross-engine determinism probe re-proves wasmtime ≡ GraalWasm on a new
+build). The battery entry is `make -f renderer.mk check-renderer` from the
+repo root, inside the toolchain container built from `Dockerfile.base`
+(`.github/workflows/renderer.yml` runs it in CI; the vocabulary/fixture
+generators live in `tools/renderer-gen/`).
+
+The interpreter is the same artifact class as the bindings: a generated
+projection of this repo's own sources. Render-time assets (generic,
+secret-free OFL fonts + icons) live under `renderer/assets/` with
+closed-shape `.ported-from.edn` pins to their upstreams. Fleet cost, stated
+plainly: each renderer release adds a rebuilt ~3.6 MB wasm plus a
+regenerated JPEG gallery to the history every consumer clones (bounded by
+the JPEG-only image policy; PNGs/raw dumps stay gitignored).
+
+The devcard gate (`tools/devcards/`) proves the schema and the renderer
+agree — schema-validate + framebuffer-hash + DOM invariants; a red devcard
+gate after a SCHEMA change is the waist catching producer/interpreter drift
+— fix the contract, not the gate. Fixtures are secret-free and GATE-HELD so
+(secret-scan in CI): generic widgets and compositions only; proprietary
+device meta nodes stay in consumer repos, which reuse this runner via their
+protogen pin. Device-specific screen AUTHORING stays in the private
+consumers; this repo defines how interfaces work, not what any product's
+screens contain.
+
 ## Module Overview
 
 Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go, Kotlin, and Java) using buf.validate annotations.
@@ -86,7 +119,8 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 - `Dockerfile.base` - Base image with all necessary tools and dependencies
 - `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
 - `.github/workflows/build-and-release.yml` - GitHub Actions workflow for automated distribution
-- `.gitattributes` - Empty file (previously used for Git LFS, now removed)
+- `.gitattributes` - Line-ending policy (`* text=auto eol=lf`; `renderer/lvgl/**`
+  is `-text` — byte-exact vendored upstream — plus explicit binary markers)
 
 ### Directories
 - `proto/` - Input directory containing .proto files to process (contains jon_shared_*.proto files)
@@ -95,6 +129,14 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 - `output/` - All generated bindings organized by language (created at runtime)
   - Preserves subdirectory structure (e.g., `output/typescript/opaque/`)
 - `scripts/` - Contains helper scripts like proto_cleanup.awk and add-validate-import.sh
+- `renderer/` - The ui_ast reference interpreter: C source + theme, `wasm.mk`
+  (builds `controls.wasm` / `reference.wasm`), the vendored LVGL tree, the
+  wasmtime proof harness, and the dual-oracle drivers (`renderer.mk` at the
+  repo root is the battery entry)
+- `tools/devcards/` - The devcard corpus runner (GraalWasm): fixtures,
+  golden manifests, invariants, the JPEG gallery + per-widget docs
+- `tools/renderer-gen/` - The renderer vocabulary/fixture codegen seam
+  (enum extraction, ui_ast assembly, token/caps manifest emitters)
 
 ### Generated Output Structure
 ```

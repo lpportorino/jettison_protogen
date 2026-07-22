@@ -1,0 +1,496 @@
+(ns lvgl-codegen.schema
+  "Malli schemas for design tokens and screen definitions."
+  (:require [clojure.string :as str]
+            [lvgl-codegen.generated.enums :as gen-enums]
+            [lvgl-codegen.registry :as registry]
+            [lvgl-codegen.style-props :as style-props]
+            [malli.core :as m]))
+
+(set! *warn-on-reflection* true)
+
+;; -- Authoring keyword enums DERIVED from the factory-generated bindings
+;; (`lvgl-codegen.generated.enums`, regenerated from LVGL's own headers via
+;; `make factory-bindings`) — one home per keyword set, never a hand-copy.
+(def ^:private obj-flag-enum
+  "LV_OBJ_FLAG_* authoring keywords (`:flags` / `:flags-clear` set members)."
+  (into [:enum] (sort (keys gen-enums/obj-flag-keyword->int))))
+
+(def ^:private state-enum
+  "LV_STATE_* authoring keywords (`:states` set members)."
+  (into [:enum] (sort (keys gen-enums/state-keyword->int))))
+
+(def ^:private scroll-dir-enum
+  "`:scroll-dir` authoring keywords — the dir keyword set minus `:none`:
+   the renderer skips `scroll_dir == 0`, so `:none` would be a silent no-op
+   (omit the key instead)."
+  (into [:enum] (sort (remove #{:none} (keys gen-enums/dir-keyword->int)))))
+
+(def ^:private cell-align-enum
+  "Grid CELL alignment keywords — the `lv_obj_set_grid_cell`-valid subset of
+   grid-align (START/CENTER/END/STRETCH per lv_grid.h; the spread aligns are
+   track-level only)."
+  (into [:enum]
+        (sort (filter #{:start :center :end :stretch}
+                      (keys gen-enums/grid-align-keyword->int)))))
+
+(def grid-track
+  "One authoring grid track: a px int, `:content` (size to children), or
+   `[:fr n]` (proportional free space). Encoded by emit-proto to the LVGL
+   coord ints from lv_grid.h; the px bound keeps plain tracks clear of the
+   special-coord range."
+  [:or [:int {:min 1 :max 10000}] [:= :content] [:tuple [:= :fr] [:int {:min 1 :max 16}]]])
+
+;; Whitelist of valid LVGL widget tags
+(def valid-widget-tags
+  #{:lv_obj :lv_label :lv_button :lv_image :lv_slider :lv_arc :lv_bar :lv_switch
+    :lv_checkbox :lv_spinner :lv_led :lv_scale :lv_spinbox :lv_dropdown :lv_roller
+    :lv_textarea :lv_line :lv_buttonmatrix :lv_table :lv_tabview :lv_chart :lv_host_proxy})
+
+(def stateful-widget-tags
+  "Widget tags carrying RUNTIME user state a tree patch must not churn
+   (typed text, spinbox value, host-proxy placement, chart frame). The
+   type#ordinal identity fallback breaks on sibling reorder and silently
+   loses that state, so a stateful node without an author :id is a HARD
+   codegen error (operator decision in
+   docs/lvgl-factory/10-TREE-PATCH-DESIGN.md)."
+  #{:lv_textarea :lv_spinbox :lv_host_proxy :lv_chart})
+
+(def author-id
+  "Author :id — sibling-scoped identity segment for tree patching."
+  [:string {:min 1 :max 63}])
+
+;; Primitive schemas
+(def hex-color ::registry/hex-color)
+
+(def themed-ref [:map [:dark keyword?] [:light keyword?]])
+
+(def semantic-value [:or themed-ref keyword? int?])
+
+(def font-def [:map [:family string?] [:size pos-int?]])
+
+(def shadow-def
+  [:map [:width nat-int?] [:opa [:int {:min 0 :max 255}]] [:offset-x {:optional true} int?]
+   [:offset-y {:optional true} int?] [:spread {:optional true} nat-int?]])
+
+(def breakpoint-def [:tuple nat-int? [:maybe nat-int?]])
+
+(def tokens-schema
+  [:map [:colors [:map-of keyword? hex-color]] [:fonts [:map-of keyword? font-def]]
+   [:spacing [:map-of [:or keyword? int?] nat-int?]] [:radii [:map-of keyword? nat-int?]]
+   [:opacity [:map-of keyword? [:int {:min 0 :max 255}]]]
+   [:shadows [:map-of keyword? shadow-def]] [:border-widths [:map-of keyword? nat-int?]]
+   [:breakpoints [:map-of keyword? breakpoint-def]]
+   [:semantic [:map-of keyword? semantic-value]]
+   [:class-defs {:optional true} [:map-of keyword? string?]]
+   [:components {:optional true} [:map-of keyword? [:map-of :keyword some?]]]])
+
+;; -- :style schema, DERIVED from the style-props registry (one home for
+;; the prop roster + value shapes; schema, emit, and the class DSL all
+;; read the same entries).
+(def ^:private style-prop-rows
+  "Closed [prop {:optional true} value-shape] rows, one per registry prop.
+   The literal shape follows the proto value slot; a keyword arm is added
+   only where the registry declares token resolution (:resolve) or an
+   emit-side translation (:xform, e.g. :align's keyword names)."
+  (mapv (fn [[prop {:keys [slot] resolve-kind :resolve xform :xform}]]
+          (let [base (case slot
+                       :color_value hex-color
+                       :string_value [:string {:min 1}]
+                       :uint_value nat-int?
+                       :int_value int?
+                       :shadow_value shadow-def)]
+            [prop {:optional true} (if (or resolve-kind xform) [:or base keyword?] base)]))
+        (sort-by key style-props/props)))
+
+(defn- closed-style-map
+  "A closed :style map schema over the registry prop rows plus the given
+   extra (nesting) rows."
+  [extra-rows]
+  (into [:map {:closed true}] (concat style-prop-rows extra-rows)))
+
+(def style-schema
+  "The :style authoring surface: registry props at the top level, plus one
+   nesting level per axis — a state key (:pressed/:focused/:disabled) or
+   breakpoint key (:sm/:md/:lg/:xl) scoping a nested prop map, combinable
+   once in either order (mirrors the class DSL's `md:`/`pressed:`
+   prefixes; desugared by expand/style-map->tokens into the same token
+   stream). A widget-part key (:indicator/:knob/:items/… — see
+   style-props/part-selector) scopes a LEAF prop map to that LVGL part
+   (top level only; parts don't combine with states/breakpoints)."
+  (let [state-keys (sort (keys style-props/state-selector))
+        bp-keys (sort (keys style-props/bp-min-index))
+        part-keys (sort (keys style-props/part-selector))
+        leaf (closed-style-map nil)]
+    (closed-style-map
+     (concat (for [s state-keys]
+               [s {:optional true}
+                (closed-style-map (for [b bp-keys] [b {:optional true} leaf]))])
+             (for [b bp-keys]
+               [b {:optional true}
+                (closed-style-map (for [s state-keys] [s {:optional true} leaf]))])
+             (for [p part-keys] [p {:optional true} leaf])))))
+
+(m/=> closed-style-map [:=> [:cat [:maybe [:sequential [:vector some?]]]] [:vector some?]])
+
+;; R5a cmd-out pre-encode (CmdSpec IR — uigen.cmd-spec). The deep WIRE shape
+;; (byte-offset/width/kind/wire-scale, the cmd.Root template bytes) is enforced
+;; at emit by the proto-IR backstop (proto-schema/cmd-spec); this authoring-EDN
+;; layer pins only the carried key set, like the *_props passthroughs.
+(def cmd-spec-edn
+  "An R5a CmdSpec IR map: a source command-id, the pre-encoded cmd.Root template
+   bytes, and the fixed-width slot patch descriptors."
+  [:map {:closed true} [:command-id [:string {:min 1}]] [:root-template bytes?]
+   [:patches [:vector [:map-of keyword? some?]]]])
+
+(def gesture-spec-edn
+  "An R5a GestureSpec IR map: a ui_ast GestureKind keyword + its CmdSpec."
+  [:map {:closed true} [:kind keyword?] [:cmd cmd-spec-edn]])
+
+;; Widget / screen schemas (recursive)
+(def event-def
+  "Event definition. All fields optional — a bare {} means 'send event name on click'.
+   :trigger — :value-changed or :long-press (default: clicked)
+   :int-value — static int payload
+   :include-value — inject widget value as int_value at fire time
+   :set/:to — mutate a local subject to a fixed value
+   :toggle — flip a subject 0↔1
+   :notify-host — also send to host when mutating subject
+   :cmd — R5a pre-encoded cmd.* template (uigen.cmd-spec) for a value command
+   :cmd-by-value — R5a pre-encoded FIXED cmd.* templates the widget's int value
+     index-selects among (bool-set/on-off/enum); mutually exclusive with :cmd"
+  [:and
+   [:map [:trigger {:optional true} [:enum :value-changed :long-press]]
+    [:int-value {:optional true} int?] [:include-value {:optional true} boolean?]
+    [:set {:optional true} keyword?] [:to {:optional true} int?]
+    [:toggle {:optional true} keyword?] [:notify-host {:optional true} boolean?]
+    [:cmd {:optional true} cmd-spec-edn]
+    [:cmd-by-value {:optional true} [:vector {:min 1 :max 16} cmd-spec-edn]]]
+   [:fn {:error/message ":set and :toggle are mutually exclusive — use one or the other"}
+    (fn [m] (not (and (contains? m :set) (contains? m :toggle))))]
+   [:fn
+    {:error/message
+     ":cmd and :cmd-by-value are mutually exclusive — a widget value either patches ONE template or index-selects among fixed ones"}
+    (fn [m] (not (and (contains? m :cmd) (contains? m :cmd-by-value))))]])
+
+(def widget-node
+  [:schema
+   {:registry
+    {::widget-node
+     [:map {:closed true}
+      [:tag
+       [:fn
+        {:error/message (str "Invalid widget tag — lv_* tags must be one of: "
+                             (str/join ", " (sort (map name valid-widget-tags)))
+                             ". Non-lv_ names are component references.")}
+        #(or (valid-widget-tags %) (not (str/starts-with? (name %) "lv_")))]]
+      ;; Sibling-scoped identity segment (tree patching):
+      ;; full identity is the root→node path of segments
+      ;; (:id when present, else type#ordinal). Duplicate
+      ;; :id among siblings is rejected by
+      ;; validate-screen-semantics.
+      [:id {:optional true} author-id]
+      ;; Class DSL: one string of tokens, or the vector
+      ;; form (one token-run per element) — joined into
+      ;; the canonical string at the pipeline boundary
+      ;; (core/join-class-vectors).
+      [:class {:optional true}
+       [:or [:string {:min 1}] [:vector {:min 1} [:string {:min 1}]]]]
+      [:children {:optional true} [:vector [:ref ::widget-node]]] [:x {:optional true} int?]
+      [:y {:optional true} int?] [:text {:optional true} string?]
+      [:bind {:optional true} [:map-of keyword? keyword?]]
+      [:bind-fmt {:optional true} [:map-of keyword? string?]]
+      [:event {:optional true} keyword?] [:style {:optional true} style-schema]
+      ;; LVGL flag/state keyword sets (OR'd to the
+      ;; LV_OBJ_FLAG_* / lv_state_t bitmasks at emit via the
+      ;; factory-generated maps) + scroll/grid/bare surface.
+      [:flags {:optional true} [:set {:min 1} obj-flag-enum]]
+      [:flags-clear {:optional true} [:set {:min 1} obj-flag-enum]]
+      [:states {:optional true} [:set {:min 1} state-enum]]
+      [:scroll-dir {:optional true} scroll-dir-enum]
+      [:grid-cols {:optional true} [:vector {:min 1 :max 12} grid-track]]
+      [:grid-rows {:optional true} [:vector {:min 1 :max 12} grid-track]]
+      ;; Grid placement sugar — desugared by expand into the
+      ;; grid-cell-* style props.
+      [:cell {:optional true}
+       [:map {:closed true} [:col [:int {:min 0 :max 11}]] [:row [:int {:min 0 :max 11}]]
+        [:col-span {:optional true} [:int {:min 1 :max 12}]]
+        [:row-span {:optional true} [:int {:min 1 :max 12}]]
+        [:x-align {:optional true} cell-align-enum]
+        [:y-align {:optional true} cell-align-enum]]] [:bare {:optional true} [:= true]]
+      ;; Tab-bar slot selector — valid only on a direct
+      ;; child of an :lv_tabview node (cross-checked by
+      ;; validate-screen-semantics).
+      [:in-tab-bar {:optional true} [:= true]]
+      ;; The parsed layout form (flow/placements) — the
+      ;; class DSL produces it, and generated fixtures
+      ;; (coverage matrix) author it directly.
+      [:layout {:optional true}
+       [:enum :flex-row :flex-col :flex-row-wrap :flex-row-reverse :flex-row-wrap-reverse
+        :flex-col-wrap :flex-col-reverse :flex-col-wrap-reverse]]
+      [:main-place {:optional true} keyword?] [:cross-place {:optional true} keyword?]
+      [:track-place {:optional true} keyword?]
+      ;; Component usage arguments (non-lv_ tags)
+      [:props {:optional true} [:map-of keyword? some?]]
+      ;; Widget-specific props. The *_props family is a
+      ;; deliberate proto-IR PASSTHROUGH: keys and values
+      ;; are the WIRE spellings (snake_case fields, with
+      ;; enum fields authored as keywords that emit
+      ;; translates) — unlike the kebab node-level keys
+      ;; above. The EDN layer keeps them open (map?); the
+      ;; per-key shapes are enforced AT EMIT by the
+      ;; proto-IR backstop (proto-ser/validate-ir!): a
+      ;; deep typo like :slider_props {:valeu 50} fails
+      ;; the codegen loudly with the humanized Malli
+      ;; explain path ({:root {:slider_props {:valeu
+      ;; ["disallowed key"]}}}), in WIRE spelling — not
+      ;; at this authoring schema.
+      [:obj_props {:optional true} map?] [:button_props {:optional true} map?]
+      [:label_props {:optional true} map?] [:slider_props {:optional true} map?]
+      [:image_props {:optional true} map?] [:arc_props {:optional true} map?]
+      [:bar_props {:optional true} map?] [:switch_props {:optional true} map?]
+      [:checkbox_props {:optional true} map?] [:dropdown_props {:optional true} map?]
+      [:roller_props {:optional true} map?] [:textarea_props {:optional true} map?]
+      [:spinbox_props {:optional true} map?] [:spinner_props {:optional true} map?]
+      [:led_props {:optional true} map?] [:line_props {:optional true} map?]
+      [:scale_props {:optional true} map?] [:buttonmatrix_props {:optional true} map?]
+      [:table_props {:optional true} map?] [:tabview_props {:optional true} map?]
+      [:chart_props {:optional true} map?] [:host_proxy_props {:optional true} map?]
+      ;; R5a: pre-encoded gesture→cmd templates on the
+      ;; gesture-surface host-proxy (one GestureSpec per
+      ;; device gesture with a fixed-width slot).
+      [:gestures {:optional true} [:vector gesture-spec-edn]]
+      ;; Reactive LV_STATE_CHECKED binding (EQ): checked
+      ;; while subject == :value, cleared otherwise. The
+      ;; reactive sibling of :states — authoring both
+      ;; CHECKED sources on one node is rejected by
+      ;; validate-screen-semantics.
+      [:checked-when {:optional true}
+       [:map {:closed true} [:subject keyword?] [:value int?]]]
+      [:show-when {:optional true}
+       [:and
+        [:map [:subject keyword?] [:eq {:optional true} int?] [:neq {:optional true} int?]
+         [:gt {:optional true} int?] [:gte {:optional true} int?]
+         [:lt {:optional true} int?] [:lte {:optional true} int?]]
+        [:fn
+         {:error/message
+          "show-when requires exactly one comparison operator (:eq, :neq, :gt, :gte, :lt, :lte)"}
+         (fn [m] (= 1 (count (select-keys m [:eq :neq :gt :gte :lt :lte]))))]]]]}}
+   ::widget-node])
+
+(def screen-schema
+  [:map [:type [:= :screen]]
+   [:subjects
+    [:map-of keyword?
+     [:and
+      [:map [:type [:enum :int :string]]
+       [:default {:optional true}
+        [:or
+         {:tight-schema/exempt
+          {:grounds :tag-discriminated
+           :rationale
+           "Arms are discriminated by the sibling :type enum (cross-checked by the :and :fn below); an empty string is a valid :string subject default, so the [:string {:min 1}] floor would reject legitimate authoring."
+           :proof-expires-when
+           "Subject defaults become tagged values, or empty-string defaults are banned."}}
+         int? string?]]]
+      [:fn
+       {:error/message
+        "subject :default must match :type (:int -> integer, :string -> string)"}
+       (fn [{subject-type :type subject-default :default}]
+         (or (nil? subject-default)
+             (case subject-type
+               :int (int? subject-default)
+               :string (string? subject-default))))]]]]
+   [:events [:map-of keyword? event-def]] [:tree widget-node]])
+
+;; -- Cross-field semantic validation --
+(defn- walk-widgets
+  "Walk a widget tree, calling f on each widget node."
+  [widget f]
+  (when (map? widget) (f widget) (doseq [child (:children widget)] (walk-widgets child f))))
+
+(defn- check-tabview-node!
+  "Tabview cross-field contract, collected into the errors atom:
+   tab_names must zip 1:1 with the content (non-:in-tab-bar) children, and
+   :in-tab-bar is only meaningful directly under an :lv_tabview node."
+  [widget errors]
+  (when (= :lv_tabview (:tag widget))
+    (let [tab-names (get-in widget [:tabview_props :tab_names])
+          content-count (count (remove :in-tab-bar (:children widget)))]
+      (when-not (vector? tab-names)
+        (swap! errors conj {:type :tabview-missing-tab-names :widget (:tag widget)}))
+      (when (and (vector? tab-names) (not= (count tab-names) content-count))
+        (swap! errors conj
+               {:type :tabview-tab-count-mismatch
+                :tab-names tab-names
+                :content-children content-count}))
+      (when-let [active (get-in widget [:tabview_props :active_index])]
+        (when (and (vector? tab-names) (>= active (count tab-names)))
+          (swap! errors conj
+                 {:type :tabview-active-index-out-of-range
+                  :active-index active
+                  :tab-names tab-names})))))
+  (doseq [child (:children widget)]
+    (when (and (:in-tab-bar child) (not= :lv_tabview (:tag widget)))
+      (swap! errors conj
+             {:type :in-tab-bar-outside-tabview :parent (:tag widget) :child (:tag child)}))))
+
+(defn- check-host-proxy-node!
+  "Host-proxy cross-field contract, collected into the errors atom:
+   an :lv_host_proxy node carries :host_proxy_props with a non-empty
+   :proxy_id (the stable host-side join key); :host_proxy_props on any
+   other tag is author error; a :checked-when paired with a :states set
+   containing :checked is two CHECKED sources on one node (the wire's
+   create-time states vs the reactive binding — reject the combination)."
+  [widget errors]
+  (let [proxy? (= :lv_host_proxy (:tag widget))
+        props (:host_proxy_props widget)]
+    (when (and proxy? (not (seq (:proxy_id props))))
+      (swap! errors conj {:type :host-proxy-missing-proxy-id :widget (:tag widget)}))
+    (when (and props (not proxy?))
+      (swap! errors conj
+             {:type :host-proxy-props-outside-host-proxy :widget (:tag widget)}))
+    (when (and (:checked-when widget) (contains? (:states widget) :checked))
+      (swap! errors conj {:type :checked-when-states-conflict :widget (:tag widget)}))))
+
+(defn- check-identity-node!
+  "Tree-patch identity contract, collected into the errors atom:
+   (a) a stateful widget (stateful-widget-tags) without an author :id is a
+   HARD error — its positional identity fallback breaks on sibling reorder
+   and silently loses user runtime state; (b) duplicate :id among one
+   node's children breaks sibling-scoped identity."
+  [widget errors]
+  (when (and (contains? stateful-widget-tags (:tag widget)) (not (:id widget)))
+    (swap! errors conj {:type :stateful-widget-missing-id :widget (:tag widget)}))
+  (let [dup-ids (->> (:children widget)
+                     (keep :id)
+                     frequencies
+                     (filter #(> (val %) 1))
+                     (mapv key))]
+    (when (seq dup-ids)
+      (swap! errors conj
+             {:type :duplicate-sibling-id :parent (:tag widget) :ids dup-ids}))))
+
+(defn- check-conditional-binding!
+  "Reference + subject-type checks for one :show-when/:checked-when map,
+   collected into the errors atom. The undeclared check mirrors :bind;
+   the type check exists because these bindings ride the wire as an int32
+   ref_value compared via lv_subject_get_int — against a :string subject
+   the comparison reads the wrong union member and NEVER matches,
+   silently. Only :int subjects are comparable."
+  [widget cond-bind subject-decls undeclared-type mismatch-type errors]
+  (when cond-bind
+    (let [sk (:subject cond-bind)
+          decl (get subject-decls sk)]
+      (cond (nil? decl) (swap! errors conj
+                               {:type undeclared-type :ref sk :widget (:tag widget)})
+            (not= :int (:type decl)) (swap! errors conj
+                                            {:type mismatch-type
+                                             :subject sk
+                                             :declared-type (:type decl)
+                                             :widget (:tag widget)})))))
+
+(defn- supported-bind-keys
+  "Binding keys the renderer dispatches for the given widget tag — :mode is
+   the host-proxy mode-subject binding, meaningless elsewhere."
+  [tag]
+  (if (= :lv_host_proxy tag) #{:text :value :checked :mode} #{:text :value :checked}))
+
+(defn validate-screen-semantics
+  "Cross-field validation: references must point to declared names.
+   Returns nil on success, vector of errors on failure."
+  [screen]
+  (let [subject-decls (:subjects screen)
+        subjects (set (keys subject-decls))
+        events (set (keys (:events screen)))
+        errors (atom [])]
+    ;; Screen-level: every event's :set/:toggle must name a declared
+    ;; subject — an undeclared one is a dead control on the device
+    ;; (find_subject returns NULL and the press does nothing).
+    (doseq [[evt-name evt] (:events screen)
+            :let [target (or (:set evt) (:toggle evt))]
+            :when (and target (not (contains? subjects target)))]
+      (swap! errors conj {:type :undeclared-event-subject :event evt-name :ref target}))
+    (walk-widgets
+     (:tree screen)
+     (fn [widget]
+       (check-tabview-node! widget errors)
+       (check-host-proxy-node! widget errors)
+       (check-identity-node! widget errors)
+       (doseq [[k v] (:bind widget)]
+         (when-not (contains? (supported-bind-keys (:tag widget)) k)
+           (swap! errors conj
+                  {:type :unsupported-bind-key
+                   :key k
+                   :widget (:tag widget)
+                   :supported (supported-bind-keys (:tag widget))}))
+         (when-not (contains? subjects v)
+           (swap! errors conj {:type :undeclared-subject :ref v :widget (:tag widget)})))
+       (doseq [[k _fmt] (:bind-fmt widget)]
+         (when-not (contains? (:bind widget) k)
+           (swap! errors conj {:type :orphan-bind-fmt :key k :widget (:tag widget)})))
+       (when-let [evt (:event widget)]
+         (when-not (contains? events evt)
+           (swap! errors conj {:type :undeclared-event :ref evt :widget (:tag widget)})))
+       (check-conditional-binding! widget
+                                   (:show-when widget)
+                                   subject-decls
+                                   :undeclared-show-when-subject
+                                   :show-when-subject-not-int
+                                   errors)
+       (check-conditional-binding! widget
+                                   (:checked-when widget)
+                                   subject-decls
+                                   :undeclared-checked-when-subject
+                                   :checked-when-subject-not-int
+                                   errors)))
+    (when (seq @errors) @errors)))
+
+(defn validate-tokens
+  "Validate tokens map against tokens-schema. Returns nil on success, explanation on failure."
+  [tokens]
+  (when-not (m/validate tokens-schema tokens) (m/explain tokens-schema tokens)))
+
+(def components-file-schema
+  "Shape of edn/components.edn — class macros + component definitions,
+   evicted from tokens.edn (tokens carry layer 1-2 design VALUES only)."
+  [:map {:closed true} [:class-defs {:optional true} [:map-of keyword? [:string {:min 1}]]]
+   [:components {:optional true}
+    [:map-of keyword? [:map [:tree [:map-of :keyword some?]]]]]])
+
+(defn validate-components-file
+  "Validate a components.edn map. Returns nil on success, explanation on
+   failure."
+  [comps]
+  (when-not (m/validate components-file-schema comps)
+    (m/explain components-file-schema comps)))
+
+(defn validate-screen
+  "Validate screen map against screen-schema. Returns nil on success, explanation on failure."
+  [screen]
+  (when-not (m/validate screen-schema screen) (m/explain screen-schema screen)))
+
+;; -- Function schema registrations --
+(m/=> walk-widgets [:=> [:cat map? ifn?] :any])
+
+(m/=> check-tabview-node! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+
+(m/=> check-host-proxy-node!
+      [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+
+(m/=> check-identity-node! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+
+(m/=> check-conditional-binding!
+      [:=>
+       [:cat [:map [:tag {:optional true} keyword?]] [:maybe [:map [:subject keyword?]]]
+        [:maybe [:map-of keyword? [:map [:type {:optional true} keyword?]]]] :keyword
+        :keyword some?] :any])
+
+(m/=> supported-bind-keys [:=> [:cat [:maybe :keyword]] [:set :keyword]])
+
+(m/=> validate-screen-semantics [:=> [:cat map?] [:maybe [:sequential :any]]])
+
+(m/=> validate-tokens [:=> [:cat map?] :any])
+
+(m/=> validate-screen [:=> [:cat map?] :any])
+
+(m/=> validate-components-file [:=> [:cat map?] :any])

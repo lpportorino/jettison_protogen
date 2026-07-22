@@ -1,2 +1,15 @@
 * text=auto eol=lf
 *.proto text eol=lf
+
+# Vendored LVGL is byte-exact upstream — the enum-extraction wire-contract
+# input (see renderer/lvgl/.ported-from.edn). NEVER normalize line endings.
+renderer/lvgl/** -text
+
+# Known-binary tracked files — never normalize.
+*.pb    binary
+*.wasm  binary
+*.ttf   binary
+*.woff2 binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary

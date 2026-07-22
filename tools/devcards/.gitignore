@@ -1,0 +1,15 @@
+# Transient render/spike outputs — the gate hashes raw framebuffers; only
+# hi-q gallery JPEGs are ever committed (under docs/, see below).
+out/
+*.png
+*.raw
+.cpcache/
+poc/
+# compile-bindings.sh output (regenerated from protogen/output/java)
+target/
+*.jpg
+*.jpeg
+# T2.7 EXCEPTION: the generated doc tree (per-widget contact-sheet JPEGs +
+# README.mds under docs/) is the operator-ratified COMMITTED artifact set —
+# hi-q JPEG-only in git; raw framebuffers/PNGs stay ignored above.
+!docs/**/*.jpg

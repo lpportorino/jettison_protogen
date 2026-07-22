@@ -1,0 +1,8 @@
+{:flavor :binary-vendor
+ :note
+ "B612 Mono Bold (OFL 1.1) — byte-identical to the public polarsys/b612
+  release TTF (sha256 b467b1d19fdabed42be51d87e38c86645ceeff2f828f294775188d00d1fd68ca);
+  rasterized at runtime by TinyTTF from P:fonts/."
+ :upstream :polarsys/b612
+ :upstream-path "fonts/ttf/B612Mono-Bold.ttf"
+ :upstream-sha "48ac6ba67ecab8123e8e36d6aa05367db0c7b638"}

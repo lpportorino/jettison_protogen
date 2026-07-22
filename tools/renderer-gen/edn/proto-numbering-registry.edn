@@ -1,0 +1,107 @@
+{"Align" {"ALIGN_BOTTOM_LEFT" 4
+          "ALIGN_BOTTOM_MID" 5
+          "ALIGN_BOTTOM_RIGHT" 6
+          "ALIGN_CENTER" 9
+          "ALIGN_DEFAULT" 0
+          "ALIGN_LEFT_MID" 7
+          "ALIGN_OUT_BOTTOM_LEFT" 13
+          "ALIGN_OUT_BOTTOM_MID" 14
+          "ALIGN_OUT_BOTTOM_RIGHT" 15
+          "ALIGN_OUT_LEFT_BOTTOM" 18
+          "ALIGN_OUT_LEFT_MID" 17
+          "ALIGN_OUT_LEFT_TOP" 16
+          "ALIGN_OUT_RIGHT_BOTTOM" 21
+          "ALIGN_OUT_RIGHT_MID" 20
+          "ALIGN_OUT_RIGHT_TOP" 19
+          "ALIGN_OUT_TOP_LEFT" 10
+          "ALIGN_OUT_TOP_MID" 11
+          "ALIGN_OUT_TOP_RIGHT" 12
+          "ALIGN_RIGHT_MID" 8
+          "ALIGN_TOP_LEFT" 1
+          "ALIGN_TOP_MID" 2
+          "ALIGN_TOP_RIGHT" 3}
+ "ArcMode" {"ARC_MODE_NORMAL" 0 "ARC_MODE_REVERSE" 2 "ARC_MODE_SYMMETRICAL" 1}
+ "BarMode" {"BAR_MODE_NORMAL" 0 "BAR_MODE_RANGE" 2 "BAR_MODE_SYMMETRICAL" 1}
+ "BaseDir" {"BASE_DIR_AUTO" 2
+            "BASE_DIR_LTR" 0
+            "BASE_DIR_NEUTRAL" 32
+            "BASE_DIR_RTL" 1
+            "BASE_DIR_WEAK" 33}
+ "BlendMode" {"BLEND_MODE_ADDITIVE" 1
+              "BLEND_MODE_DIFFERENCE" 4
+              "BLEND_MODE_MULTIPLY" 3
+              "BLEND_MODE_NORMAL" 0
+              "BLEND_MODE_SUBTRACTIVE" 2}
+ "BorderSide" {"BORDER_SIDE_BOTTOM" 1
+               "BORDER_SIDE_FULL" 15
+               "BORDER_SIDE_INTERNAL" 16
+               "BORDER_SIDE_LEFT" 4
+               "BORDER_SIDE_NONE" 0
+               "BORDER_SIDE_RIGHT" 8
+               "BORDER_SIDE_TOP" 2}
+ "ChartAxis" {"CHART_AXIS_PRIMARY_X" 2
+              "CHART_AXIS_PRIMARY_Y" 0
+              "CHART_AXIS_SECONDARY_X" 4
+              "CHART_AXIS_SECONDARY_Y" 1}
+ "ChartType" {"CHART_TYPE_BAR" 3
+              "CHART_TYPE_CURVE" 2
+              "CHART_TYPE_LINE" 1
+              "CHART_TYPE_NONE" 0
+              "CHART_TYPE_SCATTER" 5
+              "CHART_TYPE_STACKED" 4}
+ "Dir" {"DIR_ALL" 15
+        "DIR_BOTTOM" 8
+        "DIR_HOR" 3
+        "DIR_LEFT" 1
+        "DIR_NONE" 0
+        "DIR_RIGHT" 2
+        "DIR_TOP" 4
+        "DIR_VER" 12}
+ "FlexAlign" {"FLEX_ALIGN_CENTER" 2
+              "FLEX_ALIGN_END" 1
+              "FLEX_ALIGN_SPACE_AROUND" 4
+              "FLEX_ALIGN_SPACE_BETWEEN" 5
+              "FLEX_ALIGN_SPACE_EVENLY" 3
+              "FLEX_ALIGN_START" 0}
+ "FlexFlow" {"FLEX_FLOW_COLUMN" 2
+             "FLEX_FLOW_COLUMN_REVERSE" 7
+             "FLEX_FLOW_COLUMN_WRAP" 6
+             "FLEX_FLOW_COLUMN_WRAP_REVERSE" 8
+             "FLEX_FLOW_NONE" 0
+             "FLEX_FLOW_ROW" 1
+             "FLEX_FLOW_ROW_REVERSE" 4
+             "FLEX_FLOW_ROW_WRAP" 3
+             "FLEX_FLOW_ROW_WRAP_REVERSE" 5}
+ "GradDir" {"GRAD_DIR_CONICAL" 5
+            "GRAD_DIR_HOR" 2
+            "GRAD_DIR_LINEAR" 3
+            "GRAD_DIR_NONE" 0
+            "GRAD_DIR_RADIAL" 4
+            "GRAD_DIR_VER" 1}
+ "GridAlign" {"GRID_ALIGN_CENTER" 1
+              "GRID_ALIGN_END" 2
+              "GRID_ALIGN_SPACE_AROUND" 5
+              "GRID_ALIGN_SPACE_BETWEEN" 6
+              "GRID_ALIGN_SPACE_EVENLY" 4
+              "GRID_ALIGN_START" 0
+              "GRID_ALIGN_STRETCH" 3}
+ "LabelLongMode" {"LABEL_LONG_CLIP" 4
+                  "LABEL_LONG_DOT" 1
+                  "LABEL_LONG_MODE_CLIP" 4
+                  "LABEL_LONG_MODE_DOTS" 1
+                  "LABEL_LONG_MODE_SCROLL" 2
+                  "LABEL_LONG_MODE_SCROLL_CIRCULAR" 3
+                  "LABEL_LONG_MODE_WRAP" 0
+                  "LABEL_LONG_SCROLL" 2
+                  "LABEL_LONG_SCROLL_CIRCULAR" 3
+                  "LABEL_LONG_WRAP" 0}
+ "RollerMode" {"ROLLER_MODE_INFINITE" 1 "ROLLER_MODE_NORMAL" 0}
+ "ScaleMode" {"SCALE_MODE_HORIZONTAL_BOTTOM" 1
+              "SCALE_MODE_HORIZONTAL_TOP" 0
+              "SCALE_MODE_ROUND_INNER" 8
+              "SCALE_MODE_ROUND_OUTER" 16
+              "SCALE_MODE_VERTICAL_LEFT" 2
+              "SCALE_MODE_VERTICAL_RIGHT" 4}
+ "TextAlign"
+ {"TEXT_ALIGN_AUTO" 0 "TEXT_ALIGN_CENTER" 2 "TEXT_ALIGN_LEFT" 1 "TEXT_ALIGN_RIGHT" 3}
+ "TextDecor" {"TEXT_DECOR_NONE" 0 "TEXT_DECOR_STRIKETHROUGH" 2 "TEXT_DECOR_UNDERLINE" 1}}

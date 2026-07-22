@@ -1,0 +1,59 @@
+;; tools/renderer-gen — the relocated fixture/codegen seam's own project file.
+;;
+;; This mini-root carries the INTERIM fixture source for the renderer battery:
+;; the lvgl_codegen + uigen(cmd-spec/resolve/scales) +
+;; asgard(manifest/schema/proto*/api.backend/video-config) namespaces,
+;; relocated whole from the private source repo, that
+;; `renderer.mk harness / morph-parity / matrix / demo-parity` invoke via the
+;; :fixtures / :morph-fixtures / :codegen aliases. The ratified design
+;; still converges the fixture source onto tools/devcards' public UiAst
+;; builder; until that emitter lands, THIS classpath is what makes the battery
+;; self-sufficient in this tree (proven by the landing rehearsal).
+;;
+;; Pins MIRROR the private source repo's deps.edn (same artifacts, same
+;; versions — the relocated namespaces are byte-identical to their source
+;; homes, so the deps must be too). protovalidate is a CLASS-INIT dependency
+;; of the generated Java (ui_ast.proto imports buf/validate/validate.proto).
+;;
+;; Classpath roots:
+;;   src                  — the relocated namespaces
+;;   resources            — manifests/{endpoints,signals,sub-signals}.json +
+;;                          manifests/proto-db.edn, SYMLINKED to
+;;                          the checkout's own output/manifests/ +
+;;                          docs/.protodoc/ (asgard.manifest resolves them via
+;;                          io/resource — the classpath route; its file
+;;                          fallback is source-tree-relative and dead here)
+;;   target/proto-classes — javac output of tools/compile-protos.sh (ALL of
+;;                          output/java + pronto's Java helpers)
+;;   edn                  — tokens.edn + components.edn + screens/ (screens is
+;;                          a symlink to ../../renderer/edn/screens — one home)
+{:aliases {;; EDN screens → protobuf UI AST (.pb). CWD must be tools/renderer-gen:
+           ;; the pipeline reads edn/ + assets/ (symlink) CWD-relative.
+           :codegen {:extra-paths ["edn"]
+                     :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+                     :main-opts ["-m" "lvgl-codegen.core"]}
+           ;; Visual-regression / morph-parity fixture generators (wasm_harness input)
+           :fixtures {:extra-paths ["edn"]
+                      :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+                      :main-opts ["-m" "lvgl-codegen.fixtures"]}
+           :morph-fixtures {:extra-paths ["edn"]
+                            :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+                            :main-opts ["-m" "lvgl-codegen.morph-fixtures"]}}
+ :deps {org.clojure/clojure {:mvn/version "1.12.5"}
+        metosin/malli {:mvn/version "0.20.1"}
+        ;; Protobuf + Pronto (proto ↔ EDN); pronto's Java sources are compiled
+        ;; by tools/compile-protos.sh alongside the generated proto Java.
+        com.appsflyer/pronto {:git/sha "5444ae5ec3b567a5565e6c1e90ba0850960331b6"
+                              :git/url "https://github.com/JAremko/pronto"}
+        com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}
+        build.buf/protovalidate {:mvn/version "1.2.2"}
+        ;; lvgl-codegen internals
+        com.rpl/specter {:mvn/version "1.1.6"}
+        org.clojure/data.json {:mvn/version "2.5.1"}
+        ;; asgard.manifest (endpoints/signals JSON) + kebab→camel
+        metosin/jsonista {:mvn/version "1.0.0"}
+        camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
+        ;; asgard.api.backend logs through tools.logging (jul backend — this
+        ;; is a batch tool; no logging impl dependency on purpose)
+        org.clojure/tools.logging {:mvn/version "1.3.1"}}
+ :paths ["src" "resources" "target/proto-classes"]}

@@ -1,0 +1,81 @@
+{
+  "source": "renderer/src/renderer.c",
+  "caps": {
+    "bg-image-srcs": {
+      "define": "MAX_BG_IMAGE_SRCS",
+      "cap": 8
+    },
+    "binfonts": {
+      "define": "MAX_BINFONTS",
+      "cap": 16
+    },
+    "btnmatrix-map-entries": {
+      "define": "MAX_BTNMATRIX_BUTTONS",
+      "cap": 32
+    },
+    "btnmatrix-map-pool": {
+      "define": "MAX_BTNMATRIX_MAP_POOL",
+      "cap": 4
+    },
+    "decode-depth": {
+      "define": "MAX_DECODE_DEPTH",
+      "cap": 32
+    },
+    "grid-templates": {
+      "define": "MAX_GRID_TEMPLATES",
+      "cap": 64
+    },
+    "pending-bindings": {
+      "define": "MAX_PENDING_BINDINGS",
+      "cap": 64
+    },
+    "scale-text-pool": {
+      "define": "MAX_SCALE_TEXT_POOL",
+      "cap": 4
+    },
+    "scale-texts": {
+      "define": "MAX_SCALE_TEXTS",
+      "cap": 16
+    },
+    "styles": {
+      "define": "MAX_STYLES",
+      "cap": 2048
+    },
+    "subjects": {
+      "define": "MAX_SUBJECTS",
+      "cap": 32
+    },
+    "uid-nodes": {
+      "define": "MAX_UID_NODES",
+      "cap": 1024
+    }
+  },
+  "non-headroom-caps": {
+    "MAX_BINDINGS_PER_WIDGET": "per-NODE cap (a single widget's binding count), not a screen aggregate; the renderer fails loud on overflow, and pending-bindings counts the screen total.",
+    "MAX_DROPDOWN_VALUE_MAPS": "sparse registry of value-bound enum dropdowns' option->index maps (SYNC C1); a screen aggregate like host_proxy but tiny and uncontended \u2014 few enum dropdowns carry a value bind \u2014 reset on full load + swap-removed with its widget in unregister_subtree. Allowlisted pending a screen that approaches it, at which point it graduates to a counted cap (see MAX_PROXIES).",
+    "MAX_PENDING_CHECKED": "transient load-time deferral queue (checked bindings), drained during the build; see MAX_PENDING_VISIBILITY.",
+    "MAX_PENDING_EVENT_SUBJECT": "transient load-time deferral queue (an EventBinding's set_subject, resolved at the batch-end drain because Screen.subjects streams after the tree), drained during the build; see MAX_PENDING_VISIBILITY. Not a screen pool the codegen sums \u2014 and unreachable from authored EDN besides, since validate-screen-semantics rejects an undeclared :set/:toggle subject before emit (:undeclared-event-subject).",
+    "MAX_PENDING_TABVIEW": "transient load-time deferral queue (tabview attachment), drained during the build; see MAX_PENDING_VISIBILITY.",
+    "MAX_PENDING_VISIBILITY": "transient load-time deferral queue (show-when bindings), drained during the build \u2014 not a persistent pool; its binding class's counted representative is pending-bindings.",
+    "MAX_PROXIES": "host_proxy pool \u2014 a screen aggregate, but small and uncontended (the busiest live screen, host_proxy_demo, mounts 3 of a max 8); allowlisted pending a screen that approaches it, at which point it graduates to a counted cap.",
+    "MAX_STYLES_PER_WIDGET": "per-NODE cap (a single widget's attached-style count); the renderer's own guard fails loud on overflow (state-honesty), not a screen pool the codegen sums \u2014 styles counts the screen-wide slot total separately.",
+    "MAX_TABLE_COLS": "per-NODE ceiling on ONE table's declared column_count; see MAX_TABLE_ROWS.",
+    "MAX_TABLE_ROWS": "per-NODE ceiling on ONE table's declared row_count (it bounds that table's own allocation), not a screen pool the codegen sums; the renderer refuses an over-cap table loudly.",
+    "MAX_TABVIEW_CHILDREN": "per-NODE cap (one tabview's tab count), not a screen aggregate."
+  },
+  "compiled-in-fonts": [
+    "b612mono_bold_12",
+    "b612mono_bold_14",
+    "b612mono_bold_16",
+    "b612mono_bold_18",
+    "b612mono_bold_20",
+    "montserrat_14",
+    "montserrat_16",
+    "montserrat_18",
+    "montserrat_22",
+    "montserrat_24",
+    "orbitron_bold_22",
+    "orbitron_bold_28",
+    "orbitron_bold_32"
+  ]
+}

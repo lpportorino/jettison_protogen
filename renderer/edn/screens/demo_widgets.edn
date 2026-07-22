@@ -1,0 +1,698 @@
+;; demo_widgets.edn — 1:1 EDN recreation of LVGL v9.5.0 lv_demo_widgets at
+;; DISP_LARGE (960×540), the demo-parity capstone (05-DEMO-PARITY-PLAN.md
+;; D4; per-setter inventory in 06-DEMO-GAP-MATRIX.md).
+;;
+;; The reference oracle is reference.wasm REF prop 12 (the vendored demo,
+;; PRNG seeded to DEMO_RAND_SEED 0x5EED0001 in src/reference_ui.c). The
+;; chart series below are the xorshift32 stream from that seed, copied
+;; VERBATIM in lv_rand call order (chart1 ser1 ×12 of rand(10,80); chart2
+;; ser2/ser3 interleaved ×12 pairs of rand(10,80); chart3 ser4/ser5/ser6
+;; interleaved ×8 triples of rand(20,40)/rand(15,30)/rand(15,30) pushed
+;; into a 7-point SHIFT ring, so the first triple falls off and the
+;; DISPLAYED vectors carry pushes 2..8).
+;;
+;; Frozen-layout constants (gap-matrix workaround rows — values read from
+;; the reference tree dump): tab-bar logo/label offsets (align_to has no
+;; wire form), scale-box height 236 (the demo squares scales after
+;; lv_obj_update_layout), chart-cont height 300 (pct100 clamped by
+;; max_height 300), scale_hor pad_hor 14 (chart1, = the theme chart pad: pad_small)
+;; and 76 (chart2, = lv_chart_get_first_point_center_offset), page grid
+;; gaps 24 (theme page pad_row/column re-stated on the bare wrappers),
+;; needle/label offsets in the Network Speed box, and the anim-start
+;; values the harness tick budget lands on (arcs at 21, "Revenue: 21 %",
+;; needle at 10).
+{:events {}
+ :subjects {:bp {:type :int} :theme_dark {:type :int}}
+ :tree
+ {:tag :lv_obj
+  :bare true
+  :class "w-pct-100 h-pct-100"
+  ;; The demo sets the screen-level default font to montserrat_16
+  ;; (DISP_LARGE font_normal); inherited by every widget below.
+  :style {:text-font "montserrat_16"}
+  :children
+  [{:children
+    [;; ════════════════════ Tab bar decor (DISP_LARGE) ════════════════════
+     ;; The demo floats the logo + titles over the freed left half of the
+     ;; bar with IGNORE_LAYOUT + align_to; offsets here are the frozen
+     ;; absolutes from the reference dump (align_to has no wire form),
+     ;; MINUS the bar's pad_left 480 — align offsets are relative to the
+     ;; content area, which the padding shifts right.
+     {:flags #{:ignore-layout}
+      :image_props {:src "P:images/demo/lvgl_logo.png"}
+      :in-tab-bar true
+      :style {:align :left-mid :style-x -455 :style-y 0}
+      :tag :lv_image}
+     {:flags #{:ignore-layout}
+      :in-tab-bar true
+      :style {:align :top-left :style-x -403 :style-y 16 :text-font "montserrat_24"}
+      :tag :lv_label
+      :text "LVGL v9.5.0"}
+     {:flags #{:ignore-layout}
+      :in-tab-bar true
+      :style {:align :top-left :style-x -403 :style-y 40 :text-opa 127}
+      :tag :lv_label
+      :text "Widgets demo"}
+     ;; ════════════════════ Tab 0 — Profile ════════════════════
+     {:bare true
+      :children
+      [;; panel1 — avatar / name / contacts / buttons
+       {:cell {:col 0 :col-span 2 :row 0 :x-align :stretch :y-align :center}
+        :children [{:cell {:col 0 :row 0 :row-span 5 :x-align :center :y-align :center}
+                    :image_props {:src "P:images/demo/avatar.png"}
+                    :tag :lv_image}
+                   {:cell {:col 2 :col-span 2 :row 0 :x-align :start :y-align :center}
+                    :style {:text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text "Elena Smith"}
+                   {:cell {:col 2 :col-span 4 :row 1 :x-align :stretch :y-align :start}
+                    :label_props {:long_mode :wrap}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "This is a short description of me. Take a look at my profile!"}
+                   {:cell {:col 2 :row 3 :x-align :center :y-align :center}
+                    :style {:text-color "#2196F3" :text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text ""}
+                   {:cell {:col 3 :row 3 :x-align :start :y-align :center}
+                    :tag :lv_label
+                    :text "elena@smith.com"}
+                   {:cell {:col 2 :row 4 :x-align :center :y-align :center}
+                    :style {:text-color "#2196F3" :text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text ""}
+                   {:cell {:col 3 :row 4 :x-align :start :y-align :center}
+                    :tag :lv_label
+                    :text "+79 246 123 4567"}
+                   {:cell {:col 4 :row 3 :row-span 2 :x-align :stretch :y-align :center}
+                    :children [{:style {:align :center} :tag :lv_label :text "Log out"}]
+                    :class "h-content"
+                    :tag :lv_button}
+                   {:cell {:col 5 :row 3 :row-span 2 :x-align :stretch :y-align :center}
+                    :children [{:style {:align :center} :tag :lv_label :text "Invite"}]
+                    :class "h-content"
+                    :states #{:disabled}
+                    :tag :lv_button}]
+        :class "h-content"
+        :grid-cols [:content 5 :content [:fr 2] [:fr 1] [:fr 1]]
+        :grid-rows [:content :content 10 :content :content]
+        :tag :lv_obj}
+       ;; panel2 — "Your profile" form
+       {:cell {:col 0 :row 1 :x-align :stretch :y-align :start}
+        :children [{:cell {:col 0 :col-span 2 :row 0 :x-align :start :y-align :center}
+                    :style {:text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text "Your profile"}
+                   {:cell {:col 0 :row 2 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "User name"}
+                   {:cell {:col 0 :row 3 :x-align :stretch :y-align :center}
+                    :id "name"
+                    :tag :lv_textarea
+                    :textarea_props {:one_line true :placeholder "Your name"}}
+                   {:cell {:col 1 :row 2 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "Password"}
+                   {:cell {:col 1 :row 3 :x-align :stretch :y-align :center}
+                    :id "password"
+                    :tag :lv_textarea
+                    :textarea_props
+                    {:one_line true :password_mode true :placeholder "Min. 8 chars."}}
+                   {:cell {:col 0 :row 5 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "Gender"}
+                   {:cell {:col 0 :row 6 :x-align :stretch :y-align :center}
+                    :dropdown_props {:options "Male\nFemale\nOther"}
+                    :tag :lv_dropdown}
+                   {:cell {:col 1 :row 5 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "Birthday"}
+                   {:cell {:col 1 :row 6 :x-align :stretch :y-align :center}
+                    :id "birthday"
+                    :tag :lv_textarea
+                    :textarea_props {:one_line true}}]
+        :class "h-content"
+        :grid-cols [[:fr 1] [:fr 1]]
+        :grid-rows [:content 5 :content 30 5 :content 30]
+        :tag :lv_obj}
+       ;; panel3 — "Your skills"
+       {:cell {:col 1 :row 1 :x-align :stretch :y-align :stretch}
+        :children [{:cell {:col 0 :col-span 2 :row 0 :x-align :start :y-align :center}
+                    :style {:text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text "Your skills"}
+                   {:cell {:col 0 :row 2 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "Experience"}
+                   {:cell {:col 0 :col-span 2 :row 3 :x-align :center :y-align :center}
+                    :class "w-pct-95"
+                    :slider_props {:max_value 100 :min_value 0 :value 0}
+                    :tag :lv_slider}
+                   {:cell {:col 0 :row 5 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "Hard-working"}
+                   {:cell {:col 0 :row 6 :x-align :start :y-align :center} :tag :lv_switch}
+                   {:cell {:col 1 :row 5 :x-align :start :y-align :start}
+                    :style {:text-opa 127}
+                    :tag :lv_label
+                    :text "Team player"}
+                   {:cell {:col 1 :row 6 :x-align :start :y-align :center} :tag :lv_switch}]
+        :grid-cols [[:fr 1] [:fr 1]]
+        :grid-rows [:content 5 :content 30 5 :content 30]
+        :tag :lv_obj}]
+      :class "w-pct-100 h-content"
+      :grid-cols [[:fr 1] [:fr 1]]
+      :grid-rows [:content :content]
+      :style {:pad-column 24 :pad-row 24}
+      :tag :lv_obj}
+     ;; ════════════════════ Tab 1 — Analytics ════════════════════
+     {:bare true
+      :children
+      [;; chart1 — "Unique visitors" (LINE + fader)
+       {:children
+        [{:cell {:col 0 :row 0 :x-align :start :y-align :stretch}
+          :style {:text-font "montserrat_24"}
+          :tag :lv_label
+          :text "Unique visitors"}
+         {:cell {:col 0 :row 1 :x-align :end :y-align :stretch}
+          :scale_props {:label_show true
+                        :major_tick_every 2
+                        :max_value 100
+                        :min_value 0
+                        :mode :vertical-left
+                        :total_tick_count 11}
+          :style {:pad-ver 14}
+          :tag :lv_scale}
+         {:cell {:col 1 :row 1 :row-span 2 :x-align :stretch :y-align :stretch}
+          :children
+          [{:cell {:col 0 :row 0 :x-align :start :y-align :stretch}
+            :chart_props {:div_lines [0 12]
+                          :fade_area true
+                          :point_count 12
+                          :series [{:values [72 63 26 80 27 19 11 16 77 55 63 44]}]}
+            :class "w-pct-200"
+            :id "chart1"
+            :style {:border-width 0 :radius 0}
+            :tag :lv_chart}
+           {:cell {:col 0 :row 1 :x-align :start :y-align :start}
+            :class "w-pct-200"
+            :scale_props {:label_show true
+                          :major_tick_every 1
+                          :max_value 100
+                          :min_value 0
+                          :mode :horizontal-bottom
+                          :text_src
+                          "Jan\nFeb\nMarch\nApril\nMay\nJun\nJuly\nAug\nSept\nOct\nNov\nDec"
+                          :total_tick_count 12}
+            :style {:height 40 :pad-hor 14}
+            :tag :lv_scale}]
+          :grid-cols [:content]
+          :grid-rows [[:fr 1] 40]
+          :scroll-dir :hor
+          :style {:bg-opa 0 :border-width 0 :pad-all 0 :pad-column 0 :pad-row 0 :radius 0}
+          :tag :lv_obj}]
+        :grid-cols [40 [:fr 1]]
+        :grid-rows [:content [:fr 1] 40]
+        :style {:flex-grow 1 :height 300 :pad-column 0 :pad-row 0}
+        :tag :lv_obj}
+       ;; chart2 — "Monthly revenue" (BAR, grey + primary series)
+       {:children
+        [{:cell {:col 0 :row 0 :x-align :start :y-align :stretch}
+          :style {:text-font "montserrat_24"}
+          :tag :lv_label
+          :text "Monthly revenue"}
+         {:cell {:col 0 :row 1 :x-align :end :y-align :stretch}
+          :scale_props {:label_show true
+                        :major_tick_every 2
+                        :max_value 100
+                        :min_value 0
+                        :mode :vertical-left
+                        :total_tick_count 11}
+          :style {:pad-ver 14}
+          :tag :lv_scale}
+         {:cell {:col 1 :row 1 :row-span 2 :x-align :stretch :y-align :stretch}
+          :children
+          [{:cell {:col 0 :row 0 :x-align :start :y-align :stretch}
+            :chart_props {:div_lines [0 12]
+                          :point_count 12
+                          :series [{:color {:b 158 :g 158 :r 158}
+                                    :values [14 42 11 56 63 74 14 20 78 59 79 41]}
+                                   {:values [79 67 56 26 61 42 77 77 12 68 17 56]}]
+                          :type :bar}
+            :class "w-pct-200"
+            :id "chart2"
+            :style {:border-width 0 :radius 0}
+            :tag :lv_chart}
+           {:cell {:col 0 :row 1 :x-align :start :y-align :start}
+            :class "w-pct-200"
+            :scale_props {:label_show true
+                          :major_tick_every 1
+                          :max_value 100
+                          :min_value 0
+                          :mode :horizontal-bottom
+                          :text_src "I\nII\nIII\nIV\nV\nVI\nVII\nVIII\nIX\nX\nXI\nXII"
+                          :total_tick_count 12}
+            :style {:height 40 :pad-hor 76}
+            :tag :lv_scale}]
+          :grid-cols [:content]
+          :grid-rows [[:fr 1] 40]
+          :scroll-dir :hor
+          :style {:bg-opa 0 :border-width 0 :pad-all 0 :pad-column 0 :pad-row 0 :radius 0}
+          :tag :lv_obj}]
+        :flags #{:flex-in-new-track}
+        :grid-cols [40 [:fr 1]]
+        :grid-rows [:content [:fr 1] 40]
+        :style {:flex-grow 1 :height 300 :pad-column 0 :pad-row 0}
+        :tag :lv_obj}
+       ;; scale box 1 — "Monthly Target" (ROUND_OUTER + three value arcs)
+       {:children
+        [{:cell {:col 0 :col-span 2 :row 0 :x-align :start :y-align :start}
+          :style {:text-font "montserrat_24"}
+          :tag :lv_label
+          :text "Monthly Target"}
+         {:cell {:col 0 :col-span 2 :row 1 :x-align :start :y-align :start}
+          :children [{:arc_props {:bg_end_angle 45
+                                  :bg_start_angle 135
+                                  :end_angle 191
+                                  :max_value 100
+                                  :min_value 0
+                                  :start_angle 135
+                                  :value 21}
+                      :bare true
+                      :class "w-pct-100 h-pct-100"
+                      :flags-clear #{:clickable}
+                      :style {:arc-opa 0
+                              :indicator
+                              {:arc-color "#2196F3" :arc-rounded 1 :arc-width 15}}
+                      :tag :lv_arc}
+                     {:arc_props {:bg_end_angle 45
+                                  :bg_start_angle 135
+                                  :end_angle 191
+                                  :max_value 100
+                                  :min_value 0
+                                  :start_angle 135
+                                  :value 21}
+                      :bare true
+                      :class "w-pct-100 h-pct-100"
+                      :flags-clear #{:clickable}
+                      :style {:align :center
+                              :arc-opa 0
+                              :indicator {:arc-color "#F44336" :arc-rounded 1 :arc-width 15}
+                              :margin-all 20}
+                      :tag :lv_arc}
+                     {:arc_props {:bg_end_angle 45
+                                  :bg_start_angle 135
+                                  :end_angle 191
+                                  :max_value 100
+                                  :min_value 0
+                                  :start_angle 135
+                                  :value 21}
+                      :bare true
+                      :class "w-pct-100 h-pct-100"
+                      :flags-clear #{:clickable}
+                      :style {:align :center
+                              :arc-opa 0
+                              :indicator {:arc-color "#4CAF50" :arc-rounded 1 :arc-width 15}
+                              :margin-all 40}
+                      :tag :lv_arc}]
+          :class "w-pct-100"
+          :scale_props {:label_show true
+                        :major_tick_every 5
+                        :max_value 100
+                        :min_value 0
+                        :mode :round-outer
+                        :post_draw true
+                        :total_tick_count 11}
+          :style {:height 236 :pad-all 30}
+          :tag :lv_scale}
+         {:cell {:col 0 :row 2 :x-align :start :y-align :start}
+          :style {:bg-color "#F44336"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 2 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Revenue: 21 %"}
+         {:cell {:col 0 :row 3 :x-align :start :y-align :start}
+          :style {:bg-color "#2196F3"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 3 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Sales: -"}
+         {:cell {:col 0 :row 4 :x-align :start :y-align :start}
+          :style {:bg-color "#4CAF50"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 4 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Costs: -"}]
+        :class "h-content"
+        :flags #{:flex-in-new-track}
+        :grid-cols [:content [:fr 1]]
+        :grid-rows [:content :content :content :content :content]
+        :style {:flex-grow 1}
+        :tag :lv_obj}
+       ;; scale box 2 — "Sessions" (ROUND_INNER, 360°, three ring arcs)
+       {:children
+        [{:cell {:col 0 :col-span 2 :row 0 :x-align :start :y-align :start}
+          :style {:text-font "montserrat_24"}
+          :tag :lv_label
+          :text "Sessions"}
+         {:tag :lv_scale
+          :scale_props {:angle_range 360
+                        :label_show true
+                        :major_tick_every 1
+                        :max_value 100
+                        :min_value 0
+                        :mode :round-inner
+                        :post_draw true
+                        :text_src "0\n10\n20\n30\n40\n50\n60\n70\n80\n90"
+                        :total_tick_count 11}
+          :class "w-pct-100"
+          :style {:height 236 :indicator {:length 30}}
+          :cell {:col 0 :col-span 2 :row 1 :x-align :start :y-align :start}
+          ;; The demo leaves these arcs at the constructor's indicator
+          ;; (135..270); lv_arc_set_bg_angles re-derives the indicator
+          ;; from the VALUE, so the wire freezes the equivalent value 50
+          ;; (50% of the 270-degree background span = 135 degrees).
+          :children [{:arc_props {:bg_end_angle 45
+                                  :bg_start_angle 135
+                                  :end_angle 270
+                                  :max_value 100
+                                  :min_value 0
+                                  :start_angle 135
+                                  :value 50}
+                      :class "w-pct-100 h-pct-100"
+                      :flags-clear #{:clickable}
+                      :style {:align :center
+                              :arc-opa 0
+                              :indicator {:arc-color "#2196F3" :arc-rounded 0 :arc-width 10}
+                              :knob {:bg-opa 0}
+                              :margin-all 10}
+                      :tag :lv_arc}
+                     {:arc_props {:bg_end_angle 45
+                                  :bg_start_angle 135
+                                  :end_angle 270
+                                  :max_value 100
+                                  :min_value 0
+                                  :start_angle 135
+                                  :value 50}
+                      :class "w-pct-100 h-pct-100"
+                      :flags-clear #{:clickable}
+                      :style {:align :center
+                              :arc-opa 0
+                              :indicator {:arc-color "#F44336" :arc-rounded 0 :arc-width 20}
+                              :knob {:bg-opa 0}
+                              :margin-all 5}
+                      :tag :lv_arc}
+                     {:arc_props {:bg_end_angle 45
+                                  :bg_start_angle 135
+                                  :end_angle 270
+                                  :max_value 100
+                                  :min_value 0
+                                  :start_angle 135
+                                  :value 50}
+                      :class "w-pct-100 h-pct-100"
+                      :flags-clear #{:clickable}
+                      :style {:align :center
+                              :arc-opa 0
+                              :indicator {:arc-color "#4CAF50" :arc-rounded 0 :arc-width 30}
+                              :knob {:bg-opa 0}}
+                      :tag :lv_arc}]}
+         {:cell {:col 0 :row 2 :x-align :start :y-align :start}
+          :style {:bg-color "#F44336"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 2 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Desktop: -"}
+         {:cell {:col 0 :row 3 :x-align :start :y-align :start}
+          :style {:bg-color "#2196F3"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 3 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Tablet: -"}
+         {:cell {:col 0 :row 4 :x-align :start :y-align :start}
+          :style {:bg-color "#4CAF50"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 4 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Mobile: -"}]
+        :class "h-content"
+        :grid-cols [:content [:fr 1]]
+        :grid-rows [:content :content :content :content :content]
+        :style {:flex-grow 1}
+        :tag :lv_obj}
+       ;; scale box 3 — "Network Speed" (ROUND_INNER 225°, sections, needle)
+       {:children
+        [{:cell {:col 0 :col-span 2 :row 0 :x-align :start :y-align :start}
+          :style {:text-font "montserrat_24"}
+          :tag :lv_label
+          :text "Network Speed"}
+         {:cell {:col 0 :col-span 2 :row 1 :x-align :start :y-align :start}
+          :children
+          [;; Needle at value 10 (anim start): rotation = (135 + 0)·10,
+           ;; pivot 3,4; frozen position from scale3_size_changed_event_cb.
+           {:image_props {:has_pivot true
+                          :pivot_x 3
+                          :pivot_y 4
+                          :rotation 1350
+                          :src "P:images/demo/needle.png"}
+            :style {:align :top-left :style-x 115 :style-y 112}
+            :tag :lv_image}
+           {:style {:align :top-left :style-x 116 :style-y 129 :text-font "montserrat_24"}
+            :tag :lv_label
+            :text "10"}
+           {:style {:align :top-left :style-x 151 :style-y 138}
+            :tag :lv_label
+            :text "Mbps"}]
+          :class "w-pct-100"
+          :scale_props {:mode :round-inner
+                        :min_value 10
+                        :max_value 60
+                        :total_tick_count 21
+                        :major_tick_every 4
+                        :label_show true
+                        :post_draw true
+                        :angle_range 225
+                        :rotation 135
+                        ;; Demo sections: indicator/items line styles
+                        ;; darken(BLUE,2) / darken(GREEN,2) width 4, plus
+                        ;; the MAIN arc bands (arc_width 8, palette main).
+                        :sections [{:color {:b 210 :g 118 :r 25}
+                                    :main_color {:b 243 :g 150 :r 33}
+                                    :main_width 8
+                                    :range_max 20
+                                    :range_min 0
+                                    :width 4}
+                                   {:color {:b 60 :g 142 :r 56}
+                                    :main_color {:b 80 :g 175 :r 76}
+                                    :main_width 8
+                                    :range_max 60
+                                    :range_min 40
+                                    :width 4}]}
+          :style {:height 236 :indicator {:length 20} :items {:length 10}}
+          :tag :lv_scale}
+         {:cell {:col 0 :row 2 :x-align :start :y-align :start}
+          :style {:bg-color "#F44336"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 2 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Low speed"}
+         {:cell {:col 0 :row 3 :x-align :start :y-align :start}
+          :style {:bg-color "#2196F3"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 3 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "Normal Speed"}
+         {:cell {:col 0 :row 4 :x-align :start :y-align :start}
+          :style {:bg-color "#4CAF50"
+                  :border-width 0
+                  :height 13
+                  :radius 32767
+                  :scrollbar {:bg-opa 0}
+                  :width 13}
+          :tag :lv_obj}
+         {:cell {:col 1 :row 4 :x-align :stretch :y-align :start}
+          :tag :lv_label
+          :text "High Speed"}]
+        :class "h-content"
+        :grid-cols [:content [:fr 1]]
+        :grid-rows [:content :content :content :content :content]
+        :style {:flex-grow 1}
+        :tag :lv_obj}]
+      :class "flex flex-row w-pct-100 h-content"
+      :style {:pad-column 24 :pad-row 24}
+      :tag :lv_obj}
+     ;; ════════════════════ Tab 2 — Shop ════════════════════
+     {:bare true
+      :children
+      [;; Monthly Summary panel + stacked chart
+       {:children [{:cell {:col 0 :row 0 :x-align :start :y-align :start}
+                    :style {:text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text "Monthly Summary"}
+                   {:cell {:col 0 :row 1 :x-align :start :y-align :start}
+                    :style {:text-font "montserrat_24" :text-opa 127}
+                    :tag :lv_label
+                    :text "8-15 July, 2021"}
+                   {:cell {:col 0 :row 3 :x-align :start :y-align :start}
+                    :style {:text-font "montserrat_24"}
+                    :tag :lv_label
+                    :text "$27,123.25"}
+                   {:cell {:col 0 :row 4 :x-align :start :y-align :start}
+                    :style {:text-color "#4CAF50"}
+                    :tag :lv_label
+                    :text " 17% growth this week"}
+                   {:cell {:col 1 :row 0 :row-span 5 :x-align :stretch :y-align :stretch}
+                    :chart_props
+                    {:div_lines [6 0]
+                     :point_count 7
+                     :series [{:color {:b 80 :g 175 :r 76} :values [39 24 24 34 29 26 25]}
+                              {:color {:b 243 :g 150 :r 33} :values [15 23 21 15 28 30 23]}
+                              {:color {:b 54 :g 67 :r 244} :values [17 18 19 15 27 22 18]}]
+                     :type :stacked}
+                    :id "chart3"
+                    :style {:pad-column 30}
+                    :tag :lv_chart}]
+        :class "w-pct-100 h-content"
+        :grid-cols [[:fr 1] [:fr 1]]
+        :grid-rows [:content :content 20 :content :content]
+        :style {:pad-bottom 30}
+        :tag :lv_obj}
+       ;; Top products list
+       {:children [{:style {:text-font "montserrat_24"} :tag :lv_label :text "Top products"}
+                   {:props {:price "$722"} :tag :demo-shop-item}
+                   {:props {:price "$411"} :tag :demo-shop-item}
+                   {:props {:price "$917"} :tag :demo-shop-item}
+                   {:props {:price "$64"} :tag :demo-shop-item}
+                   {:props {:price "$805"} :tag :demo-shop-item}]
+        :class "flex flex-col"
+        :flags #{:flex-in-new-track}
+        :style {:flex-grow 1 :height 300}
+        :tag :lv_obj}
+       ;; Notifications
+       {:children
+        [{:style {:text-font "montserrat_24"} :tag :lv_label :text "Notification"}
+         {:tag :lv_checkbox :text "Item purchased"}
+         {:tag :lv_checkbox :text "New connection"}
+         {:checkbox_props {:checked true} :tag :lv_checkbox :text "New subscriber"}
+         {:states #{:disabled} :tag :lv_checkbox :text "New message"}
+         {:checkbox_props {:checked true}
+          :states #{:disabled}
+          :tag :lv_checkbox
+          :text "Milestone reached"} {:tag :lv_checkbox :text "Out of stock"}]
+        :class "flex flex-col"
+        :style {:flex-grow 1 :height 300}
+        :tag :lv_obj}]
+      :class "w-pct-100 h-content"
+      :layout :flex-row-wrap
+      :style {:pad-column 24 :pad-row 24}
+      :tag :lv_obj}]
+    :tabview_props {:tab_names ["Profile" "Analytics" "Shop"]
+                    :tab_bar_size 75
+                    :active_index 0
+                    ;; LV_HOR_RES/2 at 960x540 — the demo pushes the tab
+                    ;; buttons into the right half of the bar.
+                    :tab_bar_pad_left 480}
+    :tag :lv_tabview}
+   ;; ════════════════════ Color changer (floating overlay) ════════════════
+   ;; In the demo these are FLOATING children of the tabview; the tabview
+   ;; arm zips children to tabs, so they live on the (bare, full-screen)
+   ;; root instead — pixel-identical in the frozen frame, tree-diff
+   ;; divergence recorded for D5.
+   {:bare true
+    :children [{:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#2196F3" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}
+               {:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#4CAF50" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}
+               {:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#607D8B" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}
+               {:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#FF9800" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}
+               {:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#F44336" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}
+               {:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#9C27B0" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}
+               {:flags-clear #{:scroll-on-focus}
+                :style {:bg-color "#009688" :height 20 :opa 0 :radius 32767 :width 20}
+                :tag :lv_button}]
+    :class "flex flex-row"
+    :flags #{:floating}
+    :style {:align :bottom-right
+            :bg-color "#FFFFFF"
+            :bg-opa 255
+            :flex-cross-place 2
+            :flex-main-place 3
+            :flex-track-place 2
+            :height 60
+            :pad-right 55
+            :radius 32767
+            :style-x -10
+            :style-y -10
+            :width 60}
+    :tag :lv_obj}
+   ;; FAB — the color-changer toggle (tint glyph as bg image). The demo's
+   ;; LV_STATE_CHECKED white-bg style has no authoring surface (state axis
+   ;; carries pressed/focused/disabled only) — invisible in the frozen
+   ;; frame, recorded omission.
+   {:flags #{:clickable :floating}
+    :style {:align :bottom-right
+            :bg-image-src ""
+            :height 50
+            :pad-all 10
+            :radius 32767
+            :shadow-width 0
+            :style-x -15
+            :style-y -15
+            :width 50}
+    :tag :lv_button}]}
+ :type :screen}

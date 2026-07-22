@@ -1,0 +1,164 @@
+# protogen Actions workflow — the RENDERER battery. Deliberately a SEPARATE
+# workflow from devcards.yml, with the OPPOSITE container decision, for that
+# file's own stated reason:
+#
+# devcards.yml's header rejects a `container:` built from Dockerfile.base
+# because rebuilding the multi-toolchain base image (no layer cache, no
+# registry cache) is a bad tax on the HIGH-FREQUENCY devcards path
+# (tools/devcards/**, manifests, proto/ui/**), whose only real dependency is
+# a JDK. That argument does NOT transfer here: this workflow fires only on
+# renderer/** — the once-per-renderer-push battery — and its dependencies are
+# exactly what Dockerfile.base provides (the pinned WASI-SDK clang for
+# wasm.mk, Rust for the wasmtime harness). Paying one docker build per
+# renderer push buys toolchain parity with the local build, and parity is
+# load-bearing: the interpreter's relocation gate was a BIT-IDENTICAL
+# controls.wasm, and a runner-provisioned clang is precisely the drift that
+# gate exists to catch.
+#
+# Path-triggered on renderer/**, so the workflow could land before the
+# interpreter tree itself: until renderer/ exists the workflow structurally
+# cannot fire — stood up empty-green, with no vacuous green run pretending
+# coverage.
+#
+# ── Honesty ledger ─────────────────────────────────────────────────────────
+# The jobs below encode the FULL battery (build + fixtures + harness +
+# matrix/demo oracles — matrix/demo need reference.wasm, which IS a wasm.mk
+# target, so they are included, not deferred). One convergence residue is
+# open, and the affected steps FAIL LOUDLY at their input checks
+# (renderer.mk's honesty ledger names it — nothing is skipped silently,
+# nothing is continue-on-error): the harness/oracle FIXTURE source
+# (visual-regression scenes, morph triples, matrix/demo EDN→pb codegen)
+# still runs from the interim tools/renderer-gen closure; the ratified
+# design converges it onto tools/devcards' public UiAst builder — one
+# fixture source for oracles AND devcards.
+name: Renderer Battery
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+    - "renderer/**"
+    - "renderer.mk"
+    - "Dockerfile.base"
+    - "tools/renderer-gen/**"
+    - ".github/workflows/renderer.yml"
+  pull_request:
+    paths:
+    - "renderer/**"
+    - "renderer.mk"
+    - "Dockerfile.base"
+    - "tools/renderer-gen/**"
+    - ".github/workflows/renderer.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: renderer-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Build both wasm oracles in the pinned toolchain image, then run the
+  # wasmtime harness suite + the dual-oracle drivers in the same image (Rust
+  # lives there too). One job, one image build — the once-per-renderer-push
+  # cost the header argues for.
+  battery:
+    name: wasm + harness + oracles (Dockerfile.base container)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build the pinned toolchain image
+      run: docker build -t jettison-proto-generator-base:latest -f Dockerfile.base .
+    - # Cargo caches keyed on the harness lockfile: the wasmtime host crates
+      # are a multi-minute cold build; the cache turns a warm renderer push
+      # into seconds of cargo work. CARGO_HOME is redirected into the
+      # workspace so the cache survives the container boundary.
+      name: Cache cargo registry + harness target
+      uses: actions/cache@v4
+      with:
+        path: |
+          .cargo-home/registry
+          .cargo-home/git
+          renderer/wasm_harness/target
+        key: renderer-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock') }}
+        restore-keys: |
+          renderer-cargo-
+    - name: Build controls.wasm + reference.wasm (bit-identity artifact)
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          -e CARGO_HOME=/workspace/.cargo-home \
+          jettison-proto-generator-base:latest \
+          make -f renderer.mk wasm reference
+        sha256sum renderer/output/controls.wasm renderer/output/reference.wasm
+    - name: Harness suite + oracles (visual_regression + morph_parity + matrix + demo-parity)
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          -e CARGO_HOME=/workspace/.cargo-home \
+          jettison-proto-generator-base:latest \
+          make -f renderer.mk harness oracles
+    - name: Upload wasm artifacts (for the fixtures job + debugging)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: renderer-wasm
+        path: |
+          renderer/output/controls.wasm
+          renderer/output/reference.wasm
+        retention-days: 7
+        if-no-files-found: error
+  
+  # The devcards corpus regen against the freshly built wasm — the fixtures
+  # regen + golden freshness gate. Runner-provisioned JDK/Clojure (the
+  # devcards runner is pure JVM+GraalWasm — devcards.yml's own provisioning
+  # argument), consuming the wasm ARTIFACT from the battery job rather than
+  # rebuilding the toolchain image a second time.
+  fixtures:
+    name: devcards corpus regen + golden freshness
+    runs-on: ubuntu-latest
+    needs: battery
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Download the built wasm
+      uses: actions/download-artifact@v4
+      with:
+        name: renderer-wasm
+        path: renderer/output/
+    - name: Set up GraalVM CE for JDK 25 (LTS)
+      uses: graalvm/setup-graalvm@v1
+      with:
+        java-version: "25"
+        distribution: "graalvm-community"
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set up Clojure CLI
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        cli: "1.12.5.1654"
+    - name: Cache Maven-resolved deps
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+        key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
+        restore-keys: |
+          devcards-m2-
+    - name: Compile protogen's own output/java/ui bindings
+      working-directory: tools/devcards
+      run: javac -cp "$(clojure -Spath)" -d target/proto-classes $(find ../../output/java/ui -name '*.java')
+    - # fixtures-prebuilt consumes the wasm ARTIFACT downloaded above and
+      # FAILS LOUD if it is absent — this runner has no WASI toolchain, so
+      # the entry must never re-trigger the wasm build (the plain `fixtures`
+      # target depends on `wasm` and would).
+      name: Corpus build + judge (renderer.mk fixtures-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt
+    - name: Gallery + doc pages regen (renderer.mk gallery-prebuilt)
+      run: make -f renderer.mk gallery-prebuilt
+    - # A renderer change that shifts any pixel MUST re-mint the goldens AND
+      # the gallery/doc pages in the same change (the manifests pin per-card
+      # raw-FB sha256; the contact sheets are renders of the same corpus). A
+      # dirty goldens/ or docs/ here means the push forgot them.
+      name: Golden manifest + gallery freshness
+      run: git diff --exit-code tools/devcards/goldens tools/devcards/docs

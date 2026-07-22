@@ -1,0 +1,8 @@
+# Build transients — rebuilt by renderer.mk / wasm.mk. The release
+# controls.wasm is COMMITTED (the charter's per-release artifact; consumers
+# vendor it from this repo); every other build product stays out of history.
+build/
+output/*
+!output/controls.wasm
+wasm_harness/target/
+wasm_harness/output/

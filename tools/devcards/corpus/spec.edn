@@ -1,0 +1,2790 @@
+;; Devcard corpus spec — machine-readable card inventory for the public
+;; fixture builder. Mined from the per-widget theme-surface survey (a
+;; private authoring-side artifact); state axes bound to
+;; conventions/ui-render-conventions.edn.
+;; Generated data — edit deliberately; counts and ids are load-bearing.
+{:builder-laws
+ ["Root nodes MUST set explicit full-canvas w/h (an unstyled root defaults to 160x160 and clips almost anything)."
+  "The harness root also sets pad-all 0 AND border-width 0: the stock card style's PAD_DEF=24 on the root would clip full-bleed cells (tabview large 460x320, scale vertical-large 56x360, table large 480x240) and skew x/y probes, and the asgard panel border (1px/edge) shrinks the root content box to canvas-2 so an exactly-canvas-wide cell reads clipped with root scroll extent. Root pad/border-zeroing is harness geometry, never theme styling of the widget under test."
+  "Buttons need an explicit child WIDGET_LABEL (the renderer builds an empty lv_button; text is a separate child)."
+  "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
+  "Fresh renderer context per card (hash comparisons)."
+  "Widget slugs derive from the WidgetType enum."]
+ :card-count 227
+ :conventions "conventions/ui-render-conventions.edn"
+ :declared-counts {:kitchen-sinks 6
+                   :total 196
+                   "lv_arc" 9
+                   "lv_bar" 9
+                   "lv_button" 12
+                   "lv_buttonmatrix" 4
+                   "lv_chart" 5
+                   "lv_checkbox" 8
+                   "lv_dropdown" 12
+                   "lv_host_proxy" 7
+                   "lv_image" 6
+                   "lv_label" 14
+                   "lv_led" 3
+                   "lv_line" 4
+                   "lv_obj" 7
+                   "lv_roller" 14
+                   "lv_scale" 13
+                   "lv_slider" 13
+                   "lv_spinbox" 12
+                   "lv_spinner" 7
+                   "lv_switch" 15
+                   "lv_table" 6
+                   "lv_tabview" 5
+                   "lv_textarea" 11}
+ :expect-legend
+ {:baseline "the default-state cell — the reference hash for its class/size"
+  :distinct
+  "manifest-committed state: T2.5 DISTINCTNESS gate asserts hash != the class's default"
+  :inert
+  "state NOT in the manifest's committed list (or a survey parity pin): T2.5 INERTNESS gate asserts hash == default"
+  :probe "combination/coverage cell outside the single-state contract; judged by its :notes"
+  :probe-defect
+  "POSITIVE probe: the recorded defect flags are EXPECTED; excluded from zero-flag sweeps"
+  :probe-pixel-only
+  "dump_tree is structurally blind to this cell's failure mode; the PNG/raw-FB oracle is the assertion — keep out of DOM-flag sweeps"}
+ :id-scheme
+ "<tag>/<state>/<size>[/<value-or-variant>] — stable slugs; a gate failure names its exact cell"
+ :kitchen-sink-count 6
+ :kitchen-sinks
+ [{:description
+   "label + textarea + dropdown + button in one flex row at each form-control size — proves the radius fork (2px controls vs 4px panels) reads as one family and that adjacent focus-key rings don't overlap."
+   :id "kitchen-sink/form-row"
+   :kind :kitchen-sink
+   :widgets ["lv_label" "lv_textarea" "lv_dropdown" "lv_button"]}
+  {:description
+   "buttonmatrix + switch + dropdown + spinbox in a full-width row at zoom_controls.edn scale — the real production shape most likely to expose the buttonmatrix pad fix against tight siblings."
+   :id "kitchen-sink/toolbar-strip"
+   :kind :kitchen-sink
+   :widgets ["lv_buttonmatrix" "lv_switch" "lv_dropdown" "lv_spinbox"]}
+  {:description
+   "arc + scale(round-outer) + chart(line) + led stacked in one card — validates :accent-bg/:focused-edge/:edge-0 read coherently across four different LVGL draw primitives at once."
+   :id "kitchen-sink/gauge-cluster"
+   :kind :kitchen-sink
+   :widgets ["lv_arc" "lv_scale" "lv_chart" "lv_led"]}
+  {:description
+   "card containing checkbox + slider + spinbox + roller in a flex-col, mirroring kitchen_sink.edn's real shape — proves the 2px control radius nested inside the 4px card radius doesn't look mismatched."
+   :id "kitchen-sink/settings-panel"
+   :kind :kitchen-sink
+   :widgets ["lv_obj" "lv_checkbox" "lv_slider" "lv_spinbox" "lv_roller"]}
+  {:description
+   "host_proxy + label + led + button at host_proxy_demo.edn's pip-video size — the direct regression test for the lv_obj(8px default)/host_proxy(0px local override) fork resolution in one screen."
+   :id "kitchen-sink/hud-overlay"
+   :kind :kitchen-sink
+   :widgets ["lv_host_proxy" "lv_label" "lv_led" "lv_button"]}
+  {:description
+   "tabview wrapping a card+button+slider per page — proves the frozen pad_normal=24 page-grid constant survives untouched while the tab-bar's accent-bg/focused-edge overrides render correctly."
+   :id "kitchen-sink/tabview-with-content"
+   :kind :kitchen-sink
+   :widgets ["lv_tabview" "lv_obj" "lv_button" "lv_slider"]}]
+ :prop-vocabulary
+ {:border-color :PROP_BORDER_COLOR
+  :border-width :PROP_BORDER_WIDTH
+  :doc
+  "Card/child/wrapper :props keys. Style-slot keys map 1:1 onto conventions :style-prop-slots; :*_props keys are the WidgetNode widget-props oneof messages, field names verbatim from ui_ast.proto."
+  :flex-flow :PROP_FLEX_FLOW
+  :h :PROP_HEIGHT
+  :pad-all :PROP_PAD_ALL
+  :radius :PROP_RADIUS
+  :text-color :PROP_TEXT_COLOR
+  :text-font :PROP_TEXT_FONT
+  :w :PROP_WIDTH
+  :x :PROP_X
+  :y :PROP_Y}
+ :render
+ {:canvas {:h 480 :w 800}
+  :dpi 160
+  :render-ticks 3
+  :theme-tier-note
+  "greater_res >= 720 is REQUIRED for DISP_LARGE (RADIUS_DEFAULT=12 / PAD_DEF=24 — the tier this whole mission targets). The theme tier is recomputed from the live display resolution at init; the F1 POC's 480x320 canvas and the wasm_harness 400x300 default both silently render DISP_MEDIUM. 800x480 pins DISP_LARGE and fits every card (largest cells: table 480x240, tabview 460x320, scale vertical 56x360)."
+  :tick-ms 16}
+ :source "theme-surface-survey.full.json.gz"
+ :spec-version 2
+ :state-selectors {:alt 1
+                   :any 65535
+                   :checked 4
+                   :default 0
+                   :disabled 512
+                   :edited 32
+                   :focus-key 16
+                   :focused 8
+                   :hovered 64
+                   :pressed 128
+                   :scrolled 256
+                   :user-1 4096
+                   :user-2 8192
+                   :user-3 16384
+                   :user-4 32768}
+ :unstyled-law
+ "Card nodes carry raw renderer-public props only: explicit px sizes, raw style-prop slots, hex colors, and font-name strings are all renderer vocabulary. NEVER asgard authoring vocabulary (@-macros, token names, class-defs). Everything unset falls through to the loaded wasm's own theme — that fallthrough is the object under test."
+ :widgets
+ [{:authored-count 7
+   :cards
+   [{:children [{:props {:h 20 :w 20} :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_obj/default/small"
+     :notes
+     "Inner chip 20x20 — measured floor: a themed lv_obj needs >= 2*(pad 8 + border 1) = 18px or its content box inverts and LVGL reports phantom scroll extent on an EMPTY node (self_h minus a negative box > 0 => scrollable_overflow; lv_obj_scroll.c get_scroll_bottom). 16x16 flagged; 20x20 is clean with 2px slack inside the parent's 22px content box. The disabled twin mirrors this exactly (inertness pins compare content-identical fixtures)."
+     :props {:h 40 :w 40}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:children [{:props {:h 20 :w 20} :type :WIDGET_OBJ}]
+     :expect :inert
+     :id "lv_obj/disabled/small"
+     :props {:h 40 :w 40}
+     :size :small
+     :state :disabled
+     :states-bits 512}
+    {:children [{:text "Panel" :type :WIDGET_LABEL}]
+     :expect :baseline
+     :id "lv_obj/default/medium"
+     :props {:h 96 :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:children [{:text "Panel" :type :WIDGET_LABEL}]
+     :expect :inert
+     :id "lv_obj/disabled/medium"
+     :props {:h 96 :w 160}
+     :size :medium
+     :state :disabled
+     :states-bits 512}
+    {:children [{:text "Dashboard panel" :type :WIDGET_LABEL}]
+     :expect :baseline
+     :id "lv_obj/default/large"
+     :props {:h 200 :w 320}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:children [{:text "Dashboard panel" :type :WIDGET_LABEL}]
+     :expect :inert
+     :id "lv_obj/disabled/large"
+     :props {:h 200 :w 320}
+     :size :large
+     :state :disabled
+     :states-bits 512}
+    {:children [{:props {:h 220 :w 140} :type :WIDGET_OBJ}]
+     :expect :probe-pixel-only
+     :id "lv_obj/default/medium/scrollbar-exposed"
+     :notes
+     "Designed overflow: oversized child, SCROLLABLE left set — exercises PART_SCROLLBAR + PART_SCROLLBAR|STATE_SCROLLED. PNG-only; excluded from the zero-defect-flag assertion (mirrors asgard's vc_scroll designed-overflow exception)."
+     :props {:h 96 :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :scrollbar-exposed}]
+   :committed-states [:default]
+   :declared-count 7
+   :notes
+   "WIDGET_OBJ is the renderer's default/fallback create case; a standalone lv_obj takes exactly the stock card+scrollbar fallthrough arm. The disabled cells are inertness parity pins: stock adds NO state style for plain lv_obj, so they MUST hash equal to their default twins."
+   :sizes [{:h 40
+            :id :small
+            :note
+            "host_proxy handle/chip scale; the RADIUS_DEFAULT=12 + PAD_DEF=24 defect probe"
+            :w 40} {:h 96 :id :medium :note "typical panel/card" :w 160}
+           {:h 200 :id :large :note "dashboard-panel scale" :w 320}]
+   :tag "lv_obj"
+   :type :WIDGET_OBJ}
+  {:authored-count 14
+   :cards
+   [{:expect :baseline
+     :id "lv_label/default/small/wrap"
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_12" :w 64}
+     :size :small
+     :state :default
+     :states-bits 0
+     :text "Chip"
+     :variant :wrap}
+    {:expect :baseline
+     :id "lv_label/default/medium/wrap"
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_16" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Card body line that wraps across two lines"
+     :variant :wrap}
+    {:expect :baseline
+     :id "lv_label/default/large/wrap"
+     :props {:label_props {:long_mode :wrap} :text-font "orbitron_bold_22" :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :text "Full width heading block wraps cleanly"
+     :variant :wrap}
+    {:expect :baseline
+     :id "lv_label/default/small/dots"
+     :props {:h 24 :label_props {:long_mode :dots} :text-font "b612mono_bold_12" :w 64}
+     :size :small
+     :state :default
+     :states-bits 0
+     :text "OK"
+     :variant :dots}
+    {:expect :baseline
+     :id "lv_label/default/medium/dots"
+     :props {:h 24 :label_props {:long_mode :dots} :text-font "b612mono_bold_16" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Fits this line"
+     :variant :dots}
+    {:expect :baseline
+     :id "lv_label/default/large/dots"
+     :props {:h 32 :label_props {:long_mode :dots} :text-font "orbitron_bold_22" :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :text "Heading fits on one line"
+     :variant :dots}
+    {:expect :baseline
+     :id "lv_label/default/small/clip"
+     :props {:h 24 :label_props {:long_mode :clip} :text-font "b612mono_bold_12" :w 64}
+     :size :small
+     :state :default
+     :states-bits 0
+     :text "OK"
+     :variant :clip}
+    {:expect :baseline
+     :id "lv_label/default/medium/clip"
+     :props {:h 24 :label_props {:long_mode :clip} :text-font "b612mono_bold_16" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Fits this line"
+     :variant :clip}
+    {:expect :baseline
+     :id "lv_label/default/large/clip"
+     :props {:h 32 :label_props {:long_mode :clip} :text-font "orbitron_bold_22" :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :text "Heading fits on one line"
+     :variant :clip}
+    {:expect :baseline
+     :id "lv_label/default/medium/pairing-body"
+     :notes
+     "asgard class-def :body pairing = font-body; text color inherits the loaded theme (fg-0 is the theme's own per-mode resolution — never baked)"
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_16" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Body text"
+     :variant :pairing-body}
+    {:expect :baseline
+     :id "lv_label/default/medium/pairing-caption"
+     :notes
+     "asgard class-def :caption pairing = font-caption; text color inherits the loaded theme (fg-1 tone is the theme's own call — never baked)"
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_12" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Caption text"
+     :variant :pairing-caption}
+    {:expect :baseline
+     :id "lv_label/default/large/pairing-heading"
+     :notes
+     "asgard class-def :heading pairing = font-heading; text color inherits the loaded theme (fg-0 is the theme's own per-mode resolution — never baked)"
+     :props {:label_props {:long_mode :wrap} :text-font "orbitron_bold_22" :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :text "Heading text"
+     :variant :pairing-heading}
+    {:expect :baseline
+     :id "lv_label/default/medium/pairing-muted"
+     :notes
+     "asgard class-def :muted pairing = font-caption; text color inherits the loaded theme (fg-2 tone is the theme's own call — never baked)"
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_12" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Muted text"
+     :variant :pairing-muted}
+    {:expect :baseline
+     :id "lv_label/default/medium/pairing-data-value"
+     :notes
+     "asgard class-def :data-value pairing = font-data; text color inherits the loaded theme (fg-0 is the theme's own per-mode resolution — never baked)"
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_20" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "42.7"
+     :variant :pairing-data-value}]
+   :committed-states [:default]
+   :declared-count 14
+   :deviation
+   "Survey's 5 class-def pairing cells (body/caption/heading/muted/data-value) reference asgard authoring vocabulary, banned by T2.1 UNSTYLED. Kept at declared count by translating each pairing to the raw FONT-NAME it resolves to; the resolved text-color hex is deliberately NOT baked — a mode-blind hex freezes one mode's resolution (a dark-resolved fg is invisible on the light sheet) and text color is exactly the theme fallthrough under test. Count unchanged (14)."
+   :notes
+   "No LVGL state axis exists for lv_label (stock's only label arm fires for textarea-internal SELECTED, unreachable here) — the behavioral axis is label_props.long_mode x width. long_mode-tier fonts are set as raw font-name strings because the sample texts are calibrated to those metrics (wrap/fit is the assertion). WRAP cells omit :h (content height); DOTS/CLIP cells fix a 1-line height."
+   :sizes [{:id :small :note "HUD/chip-width label" :w 64}
+           {:id :medium :note "card body line" :w 160}
+           {:id :large :note "full-width heading/caption block" :w 320}]
+   :tag "lv_label"
+   :type :WIDGET_LABEL}
+  {:authored-count 14
+   :cards
+   [{:children [{:text "0" :type :WIDGET_LABEL}]
+     :expect :baseline
+     :id "lv_button/default/small"
+     :props {:h 36 :w 36}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:children [{:text "0" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/pressed/small"
+     :props {:h 36 :w 36}
+     :size :small
+     :state :pressed
+     :states-bits 128}
+    {:children [{:text "0" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/checked/small"
+     :props {:h 36 :w 36}
+     :size :small
+     :state :checked
+     :states-bits 4}
+    {:children [{:text "0" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/disabled/small"
+     :props {:h 36 :w 36}
+     :size :small
+     :state :disabled
+     :states-bits 512}
+    {:children [{:text "Save" :type :WIDGET_LABEL}]
+     :expect :baseline
+     :id "lv_button/default/medium"
+     :props {:h 36 :w 80}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:children [{:text "Save" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/pressed/medium"
+     :props {:h 36 :w 80}
+     :size :medium
+     :state :pressed
+     :states-bits 128}
+    {:children [{:text "Save" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/checked/medium"
+     :props {:h 36 :w 80}
+     :size :medium
+     :state :checked
+     :states-bits 4}
+    {:children [{:text "Save" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/disabled/medium"
+     :props {:h 36 :w 80}
+     :size :medium
+     :state :disabled
+     :states-bits 512}
+    {:children [{:text "Confirm Action" :type :WIDGET_LABEL}]
+     :expect :baseline
+     :id "lv_button/default/large"
+     :props {:h 48 :w 160}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:children [{:text "Confirm Action" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/pressed/large"
+     :props {:h 48 :w 160}
+     :size :large
+     :state :pressed
+     :states-bits 128}
+    {:children [{:text "Confirm Action" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/checked/large"
+     :props {:h 48 :w 160}
+     :size :large
+     :state :checked
+     :states-bits 4}
+    {:children [{:text "Confirm Action" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/disabled/large"
+     :props {:h 48 :w 160}
+     :size :large
+     :state :disabled
+     :states-bits 512}
+    {:children [{:text "Save" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/hovered/medium"
+     :notes
+     "Manifest-committed state absent from the survey grid; the T2.2 red-baseline measured button.hovered INDISTINCT under stock — exactly what the theme must flip."
+     :props {:h 36 :w 80}
+     :size :medium
+     :state :hovered
+     :states-bits 64}
+    {:children [{:text "Save" :type :WIDGET_LABEL}]
+     :expect :distinct
+     :id "lv_button/focus-key/medium"
+     :notes "Manifest-committed state absent from the survey grid."
+     :props {:h 36 :w 80}
+     :size :medium
+     :state :focus-key
+     :states-bits 16}]
+   :committed-states [:default :hovered :pressed :checked :disabled :focus-key]
+   :declared-count 12
+   :deviation
+   "+2 over declared 12: the conventions manifest commits :hovered and :focus-key for WIDGET_BUTTON but the survey's 4-state grid omits both; one cell each at medium so the T2.5 distinctness gate has its fixtures."
+   :notes
+   "Every button carries an explicit child WIDGET_LABEL (builder law: renderer builds an EMPTY lv_button; text is a separate child). Label text held constant per size so state is the single variable."
+   :sizes [{:h 36
+            :id :small
+            :note "the real 36x36 zoom_controls.edn digit-button case; single-glyph label"
+            :w 36}
+           {:h 36 :id :medium :note "vr_button fixture convention; short-word label" :w 80}
+           {:h 48
+            :id :large
+            :note "longer action-phrase label; proves padding stays proportionate"
+            :w 160}]
+   :tag "lv_button"
+   :type :WIDGET_BUTTON}
+  {:authored-count 6
+   :cards [{:expect :baseline
+            :id "lv_image/default/small"
+            :props {:h 48 :image_props {:src "P:icons/test_icon.svg"} :w 48}
+            :size :small
+            :state :default
+            :states-bits 0}
+           {:expect :inert
+            :id "lv_image/disabled/small"
+            :props {:h 48 :image_props {:src "P:icons/test_icon.svg"} :w 48}
+            :size :small
+            :state :disabled
+            :states-bits 512}
+           {:expect :baseline
+            :id "lv_image/default/medium"
+            :props {:h 64 :image_props {:src "P:images/test_square.png"} :w 64}
+            :size :medium
+            :state :default
+            :states-bits 0}
+           {:expect :inert
+            :id "lv_image/disabled/medium"
+            :props {:h 64 :image_props {:src "P:images/test_square.png"} :w 64}
+            :size :medium
+            :state :disabled
+            :states-bits 512}
+           {:expect :baseline
+            :id "lv_image/default/large"
+            :props {:h 120 :image_props {:src "P:icons/test_shapes.svg"} :w 160}
+            :size :large
+            :state :default
+            :states-bits 0}
+           {:expect :inert
+            :id "lv_image/disabled/large"
+            :props {:h 120 :image_props {:src "P:icons/test_shapes.svg"} :w 160}
+            :size :large
+            :state :disabled
+            :states-bits 512}]
+   :committed-states [:default]
+   :declared-count 6
+   :notes
+   "No stock theme arm exists for lv_image; pressed/checked are omitted per survey (CLICKABLE stripped at construction, and no style would change anyway). The disabled cells are inertness parity pins. Explicit w/h always set so the box never depends on decoded asset metadata."
+   :sizes
+   [{:h 48
+     :id :small
+     :note
+     "box matched to the icon's true raster size: test_icon.svg is 48x48, and lv_image draws its src 1:1 (no scaling), so a smaller box (the earlier 32x32) leaves the decoded bitmap as live scroll extent — measured scrollable_overflow on both small cells"
+     :src "P:icons/test_icon.svg"
+     :w 48} {:h 64 :id :medium :src "P:images/test_square.png" :w 64}
+    {:h 120 :id :large :src "P:icons/test_shapes.svg" :w 160}]
+   :tag "lv_image"
+   :type :WIDGET_IMAGE}
+  {:authored-count 18
+   :cards
+   [{:expect :baseline
+     :id "lv_slider/default/small/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 64}
+     :size :small
+     :state :default
+     :states-bits 0
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 112}}}
+    {:expect :baseline
+     :id "lv_slider/default/medium/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 128}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :baseline
+     :id "lv_slider/default/large/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 240}
+     :size :large
+     :state :default
+     :states-bits 0
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 288}}}
+    {:expect :distinct
+     :id "lv_slider/pressed/small/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 64}
+     :size :small
+     :state :pressed
+     :states-bits 128
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 112}}}
+    {:expect :distinct
+     :id "lv_slider/pressed/medium/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 128}
+     :size :medium
+     :state :pressed
+     :states-bits 128
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :distinct
+     :id "lv_slider/pressed/large/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 240}
+     :size :large
+     :state :pressed
+     :states-bits 128
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 288}}}
+    {:expect :distinct
+     :id "lv_slider/focus-key/small/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 64}
+     :size :small
+     :state :focus-key
+     :states-bits 16
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 112}}}
+    {:expect :distinct
+     :id "lv_slider/focus-key/medium/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 128}
+     :size :medium
+     :state :focus-key
+     :states-bits 16
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :distinct
+     :id "lv_slider/focus-key/large/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 240}
+     :size :large
+     :state :focus-key
+     :states-bits 16
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 288}}}
+    {:expect :distinct
+     :id "lv_slider/disabled/small/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 64}
+     :size :small
+     :state :disabled
+     :states-bits 512
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 112}}}
+    {:expect :distinct
+     :id "lv_slider/disabled/medium/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 128}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :distinct
+     :id "lv_slider/disabled/large/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 240}
+     :size :large
+     :state :disabled
+     :states-bits 512
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 288}}}
+    {:expect :distinct
+     :id "lv_slider/edited/medium/mid"
+     :notes "Encoder-only state, one size suffices (survey)."
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 128}
+     :size :medium
+     :state :edited
+     :states-bits 32
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :distinct
+     :id "lv_slider/hovered/medium/mid"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 50} :w 128}
+     :size :medium
+     :state :hovered
+     :states-bits 64
+     :value :mid
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :baseline
+     :id "lv_slider/default/medium/min"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 0} :w 128}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :min
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :baseline
+     :id "lv_slider/default/medium/max"
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 100} :w 128}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :max
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :distinct
+     :id "lv_slider/pressed/medium/min"
+     :notes "Knob cross-term: knob at track start under press grow."
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 0} :w 128}
+     :size :medium
+     :state :pressed
+     :states-bits 128
+     :value :min
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}
+    {:expect :distinct
+     :id "lv_slider/pressed/medium/max"
+     :notes "Knob cross-term: knob at track end under press grow."
+     :props {:h 16 :slider_props {:max_value 100 :min_value 0 :value 100} :w 128}
+     :size :medium
+     :state :pressed
+     :states-bits 128
+     :value :max
+     :wrapper
+     {:notes
+      "Bleed margin for the knob (6px pad_all => ~28px visual diameter on a 16px track) + focus outline (3px width + 3px pad): invisible to the DOM flag gate (PART draws, not child nodes) — the margin is for the PNG oracle. border-width 0 is harness geometry, measured load-bearing: the asgard panel border (1px/edge) shrinks the wrapper content box to w-2*pad-2 — 2px short of the slider on both axes (medium: slider [26..153] vs content [26..151]) — flagging every cell clipped + the wrapper with live scroll extent."
+      :props {:border-width 0 :h 64 :pad-all 24 :w 176}}}]
+   :committed-states [:default :hovered :pressed :disabled :focus-key :edited]
+   :declared-count 13
+   :deviation
+   "+5 over declared 13: +1 :hovered at medium (manifest-committed; survey grid omits it; T2.2 red-baseline measured slider.hovered INDISTINCT under stock); +4 value-axis cells per PLAN T2.1 (default x min/max + pressed x min/max at medium). Survey's representative value 35 normalized to the :mid sample (50)."
+   :notes
+   "checked is N/A (no CHECKED wiring for WIDGET_SLIDER in stock or renderer). edited is encoder-only (touch-unreachable) — collapsed to one size per survey. Every cell nests in a padded wrapper card for knob/outline bleed."
+   :sizes [{:h 16 :id :small :w 64} {:h 16 :id :medium :w 128} {:h 16 :id :large :w 240}]
+   :tag "lv_slider"
+   :type :WIDGET_SLIDER
+   :value-axis
+   {:cross-terms [[:pressed :min] [:pressed :max]]
+    :notes
+    "KNOB widget (track-edge knob-inflation defect risk named in the survey): pressed x min and pressed x max pin the knob at the track ends where inflation bites."
+    :props-path [:slider_props :value]
+    :range {:max 100 :mid 50 :min 0}
+    :samples [:min :mid :max]}}
+  {:authored-count 14
+   :cards [{:expect :baseline
+            :id "lv_arc/default/small/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 64
+                    :w 64}
+            :size :small
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :baseline
+            :id "lv_arc/default/medium/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :baseline
+            :id "lv_arc/default/large/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 160
+                    :w 160}
+            :size :large
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/pressed/small/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 64
+                    :w 64}
+            :size :small
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/pressed/medium/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/pressed/large/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 160
+                    :w 160}
+            :size :large
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/disabled/small/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 64
+                    :w 64}
+            :size :small
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/disabled/medium/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/disabled/large/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 160
+                    :w 160}
+            :size :large
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_arc/hovered/medium/mid"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 50}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :hovered
+            :states-bits 64
+            :value :mid}
+           {:expect :baseline
+            :id "lv_arc/default/medium/min"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 0}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :min}
+           {:expect :baseline
+            :id "lv_arc/default/medium/max"
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 100}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :max}
+           {:expect :distinct
+            :id "lv_arc/pressed/medium/min"
+            :notes "Knob cross-term at the track start."
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 0}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :pressed
+            :states-bits 128
+            :value :min}
+           {:expect :distinct
+            :id "lv_arc/pressed/medium/max"
+            :notes "Knob cross-term at the track end."
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 100}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :pressed
+            :states-bits 128
+            :value :max}]
+   :committed-states [:default :hovered :pressed :disabled]
+   :declared-count 9
+   :deviation
+   "+5 over declared 9: +1 :hovered at medium (manifest-committed, absent from survey grid); +4 value-axis cells per PLAN T2.1. Survey's vr_arc-parity value 75 normalized to the :mid sample (50); vr_arc remains asgard's own cross-check fixture."
+   :notes
+   "checked N/A (continuous-value drag input, no CHECKED selector in the stock arm). Stock adds no pressed style for arc — pressed cells pin geometry-survives-state; distinctness under the asgard theme is the manifest's commitment."
+   :sizes
+   [{:h 64
+     :id :small
+     :note
+     "smallest box where the ring READS as a ring under the inherited 15px stock arc_width (the theme sets no arc width): probed 40/44/48 = filled-disc blob, 56 = marginal (hole barely opens), 64 = legible donut — 64 is the measured floor"
+     :w 64} {:h 80 :id :medium :note "matches the vr_arc fixture box" :w 80}
+    {:h 160
+     :id :large
+     :note
+     "equals the unsized-arc class default (LV_DPI_DEF) — doubles as the default-size footgun pin"
+     :w 160}]
+   :tag "lv_arc"
+   :type :WIDGET_ARC
+   :value-axis
+   {:cross-terms [[:pressed :min] [:pressed :max]]
+    :notes
+    "KNOB widget (knob overflow at small box sizes is a named survey blind spot the DOM gate cannot see — PNG oracle covers the cross-terms)."
+    :props-path [:arc_props :value]
+    :range {:max 100 :mid 50 :min 0}
+    :samples [:min :mid :max]}}
+  {:authored-count 9
+   :cards
+   [{:expect :baseline
+     :id "lv_bar/default/small/mid"
+     :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 8 :w 40}
+     :size :small
+     :state :default
+     :states-bits 0
+     :value :mid}
+    {:expect :baseline
+     :id "lv_bar/default/medium/mid"
+     :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 16 :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :mid}
+    {:expect :baseline
+     :id "lv_bar/default/large/mid"
+     :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 24 :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :value :mid}
+    {:expect :baseline
+     :id "lv_bar/default/medium/min"
+     :notes "empty track"
+     :props {:bar_props {:max_value 100 :min_value 0 :value 0} :h 16 :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :min}
+    {:expect :baseline
+     :id "lv_bar/default/medium/max"
+     :notes "full indicator"
+     :props {:bar_props {:max_value 100 :min_value 0 :value 100} :h 16 :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :max}
+    {:expect :baseline
+     :id "lv_bar/default/medium/range"
+     :notes "range mode: indicator drawn as an offset span"
+     :props {:bar_props {:max_value 100 :min_value 0 :mode :range :start_value 30 :value 70}
+             :h 16
+             :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :range}
+    {:expect :distinct
+     :id "lv_bar/focus-key/medium/mid"
+     :notes
+     "ADJUDICATED: stock outline_primary IS visible state distinction — the manifest row was extended (focus-key committed); distinct by stock behavior."
+     :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 16 :w 160}
+     :size :medium
+     :state :focus-key
+     :states-bits 16
+     :value :mid}
+    {:expect :distinct
+     :id "lv_bar/edited/medium/mid"
+     :notes "Stock draws outline_secondary here; manifest commits inert — recorded tension."
+     :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 16 :w 160}
+     :size :medium
+     :state :edited
+     :states-bits 32
+     :value :mid}
+    {:expect :distinct
+     :id "lv_bar/disabled/medium/mid"
+     :notes
+     "Stock has no bar disabled arm (renders identical); the manifest COMMITS distinct — the asgard theme's gap-fill target."
+     :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 16 :w 160}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :value :mid}]
+   :committed-states [:default :disabled]
+   :declared-count 9
+   :notes
+   "Declared as '9 cards in one composite gallery'; atomized here per T2.1 (one card per cell) — same 9 cells. TENSION RECORDED: the survey expects stock to draw outline_primary/secondary on focus-key/edited, but the conventions manifest commits WIDGET_BAR to [:default :disabled] only, making those two cells inertness probes under the asgard theme; T2.5 adjudicates."
+   :sizes [{:h 8 :id :small :note "near the LV_RADIUS_CIRCLE clamp floor" :w 40}
+           {:h 16 :id :medium :note "h=16 is lv_bar_class.height_def at dpi160" :w 160}
+           {:h 24 :id :large :note "w=320 is lv_bar_class.width_def at dpi160" :w 320}]
+   :tag "lv_bar"
+   :type :WIDGET_BAR
+   :value-axis
+   {:notes
+    "The declared grid already covers the value axis: medium/min (empty), medium/max (full), mid everywhere else. No knob cross-terms (lv_bar has no knob)."
+    :props-path [:bar_props :value]
+    :range {:max 100 :mid 50 :min 0}
+    :samples [:min :mid :max]}}
+  {:authored-count 16
+   :cards [{:expect :baseline
+            :id "lv_switch/default/small"
+            :props {:h 24 :switch_props {:checked false} :w 44}
+            :size :small
+            :state :default
+            :states-bits 0}
+           {:expect :baseline
+            :id "lv_switch/default/medium"
+            :props {:switch_props {:checked false}}
+            :size :medium
+            :state :default
+            :states-bits 0}
+           {:expect :baseline
+            :id "lv_switch/default/large"
+            :props {:h 48 :switch_props {:checked false} :w 96}
+            :size :large
+            :state :default
+            :states-bits 0}
+           {:expect :distinct
+            :id "lv_switch/checked/small"
+            :props {:h 24 :switch_props {:checked true} :w 44}
+            :size :small
+            :state :checked
+            :states-bits 0}
+           {:expect :distinct
+            :id "lv_switch/checked/medium"
+            :props {:switch_props {:checked true}}
+            :size :medium
+            :state :checked
+            :states-bits 0}
+           {:expect :distinct
+            :id "lv_switch/checked/large"
+            :props {:h 48 :switch_props {:checked true} :w 96}
+            :size :large
+            :state :checked
+            :states-bits 0}
+           {:expect :distinct
+            :id "lv_switch/disabled/small"
+            :props {:h 24 :switch_props {:checked false} :w 44}
+            :size :small
+            :state :disabled
+            :states-bits 512}
+           {:expect :distinct
+            :id "lv_switch/disabled/medium"
+            :props {:switch_props {:checked false}}
+            :size :medium
+            :state :disabled
+            :states-bits 512}
+           {:expect :distinct
+            :id "lv_switch/disabled/large"
+            :props {:h 48 :switch_props {:checked false} :w 96}
+            :size :large
+            :state :disabled
+            :states-bits 512}
+           {:expect :probe
+            :id "lv_switch/disabled-checked/small"
+            :props {:h 24 :switch_props {:checked true} :w 44}
+            :size :small
+            :state :disabled-checked
+            :states-bits 512}
+           {:expect :probe
+            :id "lv_switch/disabled-checked/medium"
+            :props {:switch_props {:checked true}}
+            :size :medium
+            :state :disabled-checked
+            :states-bits 512}
+           {:expect :probe
+            :id "lv_switch/disabled-checked/large"
+            :props {:h 48 :switch_props {:checked true} :w 96}
+            :size :large
+            :state :disabled-checked
+            :states-bits 512}
+           {:expect :distinct
+            :id "lv_switch/focus-key/small"
+            :notes "outline ring extends 6px outside the box — edge-adjacency risk row"
+            :props {:h 24 :switch_props {:checked false} :w 44}
+            :size :small
+            :state :focus-key
+            :states-bits 16}
+           {:expect :distinct
+            :id "lv_switch/focus-key/medium"
+            :props {:switch_props {:checked false}}
+            :size :medium
+            :state :focus-key
+            :states-bits 16}
+           {:expect :distinct
+            :id "lv_switch/focus-key/large"
+            :props {:h 48 :switch_props {:checked false} :w 96}
+            :size :large
+            :state :focus-key
+            :states-bits 16}
+           {:expect :distinct
+            :id "lv_switch/hovered/medium"
+            :props {:switch_props {:checked false}}
+            :size :medium
+            :state :hovered
+            :states-bits 64}]
+   :committed-states [:default :hovered :checked :disabled :focus-key]
+   :declared-count 15
+   :deviation
+   "+1 over declared 15: :hovered at medium (manifest-committed; the survey grid has no hovered row). Survey's no-pressed-row call stands (stock adds zero press styling to this class; pressed is not manifest-committed either)."
+   :notes
+   "CHECKED arrives via switch_props {:checked true} (the production wire path), not node.states — those cards carry states-bits 0 (or 512 for the disabled combos). The medium tier deliberately carries no w/h props."
+   :sizes
+   [{:h 24 :id :small :note "compact/dense-row switch" :w 44}
+    {:id :medium
+     :note
+     "UNSIZED on purpose — the class default 64x37 at dpi160, the box every existing screen ships"}
+    {:h 48 :id :large :note "touch-friendly standalone toggle" :w 96}]
+   :tag "lv_switch"
+   :type :WIDGET_SWITCH}
+  {:authored-count 9
+   :cards
+   [{:expect :baseline
+     :id "lv_checkbox/default/short"
+     :props {:checkbox_props {:checked false}}
+     :size :short
+     :state :default
+     :states-bits 0
+     :text "OK"}
+    {:expect :baseline
+     :id "lv_checkbox/default/medium"
+     :notes
+     "Baseline for the medium-label state cells: distinctness/inertness compare same-label cells only — the short-label baseline cannot reference them (gate-sweep finding)."
+     :props {:checkbox_props {:checked false}}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "Enable telemetry"}
+    {:expect :distinct
+     :id "lv_checkbox/checked/medium"
+     :props {:checkbox_props {:checked true}}
+     :size :medium
+     :state :checked
+     :states-bits 0
+     :text "Enable telemetry"}
+    {:expect :distinct
+     :id "lv_checkbox/pressed/medium"
+     :props {:checkbox_props {:checked false}}
+     :size :medium
+     :state :pressed
+     :states-bits 128
+     :text "Enable telemetry"}
+    {:expect :distinct
+     :id "lv_checkbox/disabled/medium"
+     :props {:checkbox_props {:checked false}}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :text "Enable telemetry"}
+    {:expect :probe
+     :id "lv_checkbox/checked-disabled/medium"
+     :notes
+     "Combo cell: proves the disabled recolor legibly dims the CHECKED fill+glyph, not just the unchecked marker."
+     :props {:checkbox_props {:checked true}}
+     :size :medium
+     :state :checked-disabled
+     :states-bits 512
+     :text "Enable telemetry"}
+    {:expect :distinct
+     :id "lv_checkbox/focus-key/medium"
+     :props {:checkbox_props {:checked false}}
+     :size :medium
+     :state :focus-key
+     :states-bits 16
+     :text "Enable telemetry"}
+    {:expect :distinct
+     :id "lv_checkbox/hovered/medium"
+     :props {:checkbox_props {:checked false}}
+     :size :medium
+     :state :hovered
+     :states-bits 64
+     :text "Enable telemetry"}
+    {:expect :probe-defect
+     :id "lv_checkbox/default/long-narrow"
+     :notes
+     "EXPECTED clipped (checkbox) + overflow (wrapper) — vc_clip polarity, not a must-be-clean cell."
+     :props {:checkbox_props {:checked false}}
+     :size :long-narrow
+     :state :default
+     :states-bits 0
+     :text "Enable long-range telemetry uplink"
+     :wrapper {:flags-clear [:scrollable] :props {:border-width 0 :h 40 :pad-all 0 :w 160}}}
+    {:expect :probe-pixel-only
+     :id "lv_checkbox/default/forced-narrow"
+     :notes
+     "dump_tree structurally CANNOT see this failure (checkbox draws marker+text directly against its own coords; no label child, and label_text_clipped is lv_label-gated). Zero flags by construction — the PNG pixels are the assertion; keep OUT of the flag sweep."
+     :props {:checkbox_props {:checked false} :w 40}
+     :size :forced-narrow
+     :state :default
+     :states-bits 0
+     :text "Enable telemetry"}]
+   :committed-states [:default :hovered :pressed :checked :disabled :focus-key]
+   :declared-count 8
+   :deviation
+   "+2 over declared 8: :hovered at medium (manifest-committed, absent from survey cells) + default/medium baseline (same-label reference for the medium state cells — gate-sweep finding)."
+   :notes
+   "lv_checkbox self-sizes (width_def/height_def both LV_SIZE_CONTENT); its size axis is label length, not w/h. CHECKED arrives via checkbox_props. DISP_LARGE note: the theme tier is recomputed from the live display resolution — this corpus's 800x480 canvas keeps greater_res>=720 so RADIUS_DEFAULT=12/DISP_LARGE is what renders (the survey flagged the 400x300 harness default as silently validating the WRONG tier)."
+   :sizes
+   [{:id :short
+     :note
+     "2-char label; box is LV_SIZE_CONTENT — no free box-size axis exists for this class"
+     :text "OK"} {:id :medium :note "realistic settings-row label" :text "Enable telemetry"}
+    {:id :long-narrow
+     :note "boundary probe: self-sized box EXPECTED to overflow a 160px track"
+     :text "Enable long-range telemetry uplink"}
+    {:id :forced-narrow
+     :note "pixel-only blind-spot probe: explicit width below natural content"
+     :text "Enable telemetry"}]
+   :tag "lv_checkbox"
+   :type :WIDGET_CHECKBOX}
+  {:authored-count 7
+   :cards
+   [{:expect :baseline
+     :id "lv_spinner/default/small"
+     :props {:h 24 :spinner_props {:arc_length 60 :spin_time 1000} :w 24}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:expect :inert
+     :id "lv_spinner/disabled/small"
+     :props {:h 24 :spinner_props {:arc_length 60 :spin_time 1000} :w 24}
+     :size :small
+     :state :disabled
+     :states-bits 512}
+    {:expect :baseline
+     :id "lv_spinner/default/medium"
+     :props {:h 48 :spinner_props {:arc_length 60 :spin_time 1000} :w 48}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:expect :inert
+     :id "lv_spinner/disabled/medium"
+     :props {:h 48 :spinner_props {:arc_length 60 :spin_time 1000} :w 48}
+     :size :medium
+     :state :disabled
+     :states-bits 512}
+    {:expect :baseline
+     :id "lv_spinner/default/large"
+     :props {:h 96 :spinner_props {:arc_length 60 :spin_time 1000} :w 96}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:expect :inert
+     :id "lv_spinner/disabled/large"
+     :props {:h 96 :spinner_props {:arc_length 60 :spin_time 1000} :w 96}
+     :size :large
+     :state :disabled
+     :states-bits 512}
+    {:expect :probe-defect
+     :id "lv_spinner/default/unsized-probe"
+     :notes
+     "POSITIVE clipped regression probe: an unsized spinner claims the 160x160 lv_obj default and overruns the 80x80 non-scrollable card — pins the 'always size a spinner explicitly' rule."
+     :props {:spinner_props {:arc_length 60 :spin_time 1000}}
+     :size :unsized-probe
+     :state :default
+     :states-bits 0
+     :wrapper {:flags-clear [:scrollable] :props {:border-width 0 :h 80 :pad-all 0 :w 80}}}]
+   :committed-states [:default]
+   :declared-count 7
+   :notes
+   "pressed/checked unreachable (CLICKABLE removed at construction; no toggle semantics). Disabled cells are inertness parity pins (no stock disabled arm, and none proposed). Animation is deterministic under the pinned 3-tick render budget."
+   :sizes [{:h 24
+            :id :small
+            :note "chip-scale stress for the fixed 15px stock arc_width — PNG-diff only"
+            :w 24} {:h 48 :id :medium :note "matches the vr_spinner fixture" :w 48}
+           {:h 96 :id :large :w 96}
+           {:id :unsized-probe
+            :note "no w/h — falls to the 160x160 class default inside an 80x80 card"}]
+   :tag "lv_spinner"
+   :type :WIDGET_SPINNER}
+  {:authored-count 9
+   :cards
+   [{:expect :baseline
+     :id "lv_led/default/default-size/off"
+     :props {:led_props {:brightness 0 :color {:b 129 :g 185 :r 16}}}
+     :size :default-size
+     :state :default
+     :states-bits 0
+     :variant :off}
+    {:expect :baseline
+     :id "lv_led/default/default-size/dim"
+     :props {:led_props {:brightness 96 :color {:b 129 :g 185 :r 16}}}
+     :size :default-size
+     :state :default
+     :states-bits 0
+     :variant :dim}
+    {:expect :baseline
+     :id "lv_led/default/default-size/on"
+     :props {:led_props {:brightness 255 :color {:b 129 :g 185 :r 16}}}
+     :size :default-size
+     :state :default
+     :states-bits 0
+     :variant :on}
+    {:expect :inert
+     :id "lv_led/disabled/default-size/on"
+     :notes
+     "Parity pin: the stock led arm registers only MAIN|DEFAULT; must hash equal to the plain on cell."
+     :props {:led_props {:brightness 255 :color {:b 129 :g 185 :r 16}}}
+     :size :default-size
+     :state :disabled
+     :states-bits 512
+     :variant :on}
+    {:expect :baseline
+     :id "lv_led/default/small/on"
+     :props {:h 16 :led_props {:brightness 255 :color {:b 129 :g 185 :r 16}} :w 16}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :on}
+    {:expect :baseline
+     :id "lv_led/default/medium/on"
+     :props {:h 32 :led_props {:brightness 255 :color {:b 129 :g 185 :r 16}} :w 32}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :on}
+    {:expect :baseline
+     :id "lv_led/default/large/on"
+     :props {:h 64 :led_props {:brightness 255 :color {:b 129 :g 185 :r 16}} :w 64}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :on}
+    {:expect :baseline
+     :id "lv_led/default/default-size/on-warning"
+     :notes "status-warning hue"
+     :props {:led_props {:brightness 255 :color {:b 11 :g 158 :r 245}}}
+     :size :default-size
+     :state :default
+     :states-bits 0
+     :variant :on-warning}
+    {:expect :baseline
+     :id "lv_led/default/default-size/on-error"
+     :notes "status-error hue"
+     :props {:led_props {:brightness 255 :color {:b 68 :g 68 :r 239}}}
+     :size :default-size
+     :state :default
+     :states-bits 0
+     :variant :on-error}]
+   :committed-states [:default]
+   :declared-count 3
+   :deviation
+   "Declared as '3 composite screens (~10 LED instances)'; T2.1 atomicity splits them into 9 unique atomic cells: 4 brightness/state cells + 3 explicit sizes + 2 extra hues (the hue row's status-success cell is byte-identical to the 'on' cell and is not duplicated). Count 3 -> 9."
+   :notes
+   "off/dim/on are BRIGHTNESS variants (led_props.brightness), not LVGL states. All cells stay square (LV_RADIUS_CIRCLE clamps to min(w,h)/2 — an LED is meant to render as a dot). led_props.color is a per-node wire prop, not theme vocabulary."
+   :sizes
+   [{:id :default-size
+     :note
+     "unsized — lv_led class default 32x32 at dpi160 (width_def/height_def = LV_DPI_DEF/5)"}
+    {:h 16 :id :small :w 16}
+    {:h 32
+     :id :medium
+     :note
+     "explicit 32 — same geometry as default-size but different wire bytes (carries PROP_WIDTH/HEIGHT)"
+     :w 32} {:h 64 :id :large :w 64}]
+   :tag "lv_led"
+   :type :WIDGET_LED}
+  {:authored-count 13
+   :cards
+   [{:expect :baseline
+     :id "lv_scale/default/small/horizontal"
+     :props {:h 30
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :horizontal-bottom
+                           :total_tick_count 11}
+             :w 160}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :horizontal
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the <=12px end-label ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 62 :pad-all 16 :w 192}}}
+    {:expect :baseline
+     :id "lv_scale/default/medium/horizontal"
+     :props {:h 40
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :horizontal-bottom
+                           :total_tick_count 11}
+             :w 240}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :horizontal
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the <=12px end-label ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 72 :pad-all 16 :w 272}}}
+    {:expect :baseline
+     :id "lv_scale/default/large/horizontal"
+     :props {:h 56
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :horizontal-bottom
+                           :total_tick_count 11}
+             :w 360}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :horizontal
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the <=12px end-label ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 88 :pad-all 16 :w 392}}}
+    {:expect :baseline
+     :id "lv_scale/default/small/vertical"
+     :props {:h 160
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :vertical-left
+                           :total_tick_count 11}
+             :w 28}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :vertical
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the top '100' half-line-height ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 192 :pad-all 16 :w 60}}}
+    {:expect :baseline
+     :id "lv_scale/default/medium/vertical"
+     :props {:h 240
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :vertical-left
+                           :total_tick_count 11}
+             :w 40}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :vertical
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the top '100' half-line-height ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 272 :pad-all 16 :w 72}}}
+    {:expect :baseline
+     :id "lv_scale/default/large/vertical"
+     :props {:h 360
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :vertical-left
+                           :total_tick_count 11}
+             :w 56}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :vertical
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the top '100' half-line-height ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 392 :pad-all 16 :w 88}}}
+    {:expect :baseline
+     :id "lv_scale/default/small/round-outer"
+     :props {:h 96
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :round-outer
+                           :total_tick_count 11}
+             :w 96}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :round-outer}
+    {:expect :baseline
+     :id "lv_scale/default/medium/round-outer"
+     :props {:h 160
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :round-outer
+                           :total_tick_count 11}
+             :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :round-outer}
+    {:expect :baseline
+     :id "lv_scale/default/large/round-outer"
+     :props {:h 236
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :round-outer
+                           :total_tick_count 11}
+             :w 236}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :round-outer}
+    {:expect :baseline
+     :id "lv_scale/default/small/round-inner"
+     :props {:h 96
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :round-inner
+                           :total_tick_count 11}
+             :w 96}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :round-inner}
+    {:expect :baseline
+     :id "lv_scale/default/medium/round-inner"
+     :props {:h 160
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :round-inner
+                           :total_tick_count 11}
+             :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :round-inner}
+    {:expect :baseline
+     :id "lv_scale/default/large/round-inner"
+     :props {:h 236
+             :scale_props {:label_show true
+                           :major_tick_every 5
+                           :max_value 100
+                           :min_value 0
+                           :mode :round-inner
+                           :total_tick_count 11}
+             :w 236}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :round-inner}
+    {:expect :baseline
+     :id "lv_scale/default/medium/sections"
+     :notes "Exercises the LV_PART_INDICATOR/ITEMS section-style path + text_src."
+     :props {:h 40
+             :scale_props
+             {:label_show true
+              :major_tick_every 5
+              :max_value 100
+              :min_value 0
+              :mode :horizontal-bottom
+              :sections
+              [{:color {:b 0 :g 200 :r 0} :range_max 40 :range_min 0 :width 4}
+               {:color {:b 50 :g 50 :r 230} :range_max 100 :range_min 60 :width 4}]
+              :text_src "L\nM\nH"
+              :total_tick_count 11}
+             :w 240}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :sections
+     :wrapper
+     {:notes
+      "Edge-label standoff (widget :notes): 16px covers the left 'L' text_src label's ext-draw overhang the canvas edge was clipping."
+      :props {:border-width 0 :h 72 :pad-all 16 :w 272}}}]
+   :committed-states [:default]
+   :declared-count 13
+   :notes
+   "Non-interactive display widget: default state only (stock adds no state style for lv_scale; a disabled cell would be a duplicate — add one only when a theme styles it). The mode axis (horizontal/vertical/round-outer/round-inner) is the behavioral axis. Linear + sections cells nest in a padded wrapper (pad-all 16, border-width 0 — the slider-wrapper idiom): end-tick labels center on the edge ticks and draw OUTSIDE the widget box via ext-draw, so at the harness origin the leading '0' (horizontal/sections' left label) and the top '100' (vertical) clipped at the canvas edge; measured overhang <= 12px (half the widest end label), 16px pad covers it with AA headroom. round-inner deliberately carries NO :angle_range override: at 360 the min and max labels land on the SAME angle and overprint ('0' atop '100'); the LVGL default 270 keeps them apart (round-outer parity)."
+   :sizes
+   [{:id :small :note "worst-case squeeze: horiz 160x30 / vert 28x160 / round 96x96"}
+    {:id :medium
+     :note
+     "the REAL demo_widgets.edn chart-axis geometry: horiz 240x40 / vert 40x240 / round 160x160"}
+    {:id :large
+     :note
+     "horiz 360x56 / vert 56x360 / round 236x236 (236 = the demo's frozen gauge size)"}]
+   :tag "lv_scale"
+   :type :WIDGET_SCALE}
+  {:authored-count 15
+   :cards
+   [{:expect :baseline
+     :id "lv_spinbox/default/small"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 2 :max_value 99999 :min_value -99999 :step 1 :value 42}
+             :w 72}
+     :size :small
+     :state :default
+     :states-bits 0
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 88}}}
+    {:expect :distinct
+     :id "lv_spinbox/focus-key/small"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 2 :max_value 99999 :min_value -99999 :step 1 :value 42}
+             :w 72}
+     :size :small
+     :state :focus-key
+     :states-bits 16
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 88}}}
+    {:expect :distinct
+     :id "lv_spinbox/edited/small"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 2 :max_value 99999 :min_value -99999 :step 1 :value 42}
+             :w 72}
+     :size :small
+     :state :edited
+     :states-bits 32
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 88}}}
+    {:expect :distinct
+     :id "lv_spinbox/disabled/small"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 2 :max_value 99999 :min_value -99999 :step 1 :value 42}
+             :w 72}
+     :size :small
+     :state :disabled
+     :states-bits 512
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 88}}}
+    {:expect :baseline
+     :id "lv_spinbox/default/medium/mid"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 500}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :mid
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}
+    {:expect :distinct
+     :id "lv_spinbox/focus-key/medium/mid"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 500}
+             :w 120}
+     :size :medium
+     :state :focus-key
+     :states-bits 16
+     :value :mid
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}
+    {:expect :distinct
+     :id "lv_spinbox/edited/medium/mid"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 500}
+             :w 120}
+     :size :medium
+     :state :edited
+     :states-bits 32
+     :value :mid
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}
+    {:expect :distinct
+     :id "lv_spinbox/disabled/medium/mid"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 500}
+             :w 120}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :value :mid
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}
+    {:expect :baseline
+     :id "lv_spinbox/default/large"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 6 :max_value 99999 :min_value -99999 :step 1 :value -12345}
+             :w 200}
+     :size :large
+     :state :default
+     :states-bits 0
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 216}}}
+    {:expect :distinct
+     :id "lv_spinbox/focus-key/large"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 6 :max_value 99999 :min_value -99999 :step 1 :value -12345}
+             :w 200}
+     :size :large
+     :state :focus-key
+     :states-bits 16
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 216}}}
+    {:expect :distinct
+     :id "lv_spinbox/edited/large"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 6 :max_value 99999 :min_value -99999 :step 1 :value -12345}
+             :w 200}
+     :size :large
+     :state :edited
+     :states-bits 32
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 216}}}
+    {:expect :distinct
+     :id "lv_spinbox/disabled/large"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 6 :max_value 99999 :min_value -99999 :step 1 :value -12345}
+             :w 200}
+     :size :large
+     :state :disabled
+     :states-bits 512
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 216}}}
+    {:expect :distinct
+     :id "lv_spinbox/hovered/medium/mid"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 500}
+             :w 120}
+     :size :medium
+     :state :hovered
+     :states-bits 64
+     :value :mid
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}
+    {:expect :baseline
+     :id "lv_spinbox/default/medium/min"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 0}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :min
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}
+    {:expect :baseline
+     :id "lv_spinbox/default/medium/max"
+     :props {:h 64
+             :spinbox_props
+             {:digit_count 3 :max_value 99999 :min_value -99999 :step 1 :value 999}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :max
+     :wrapper
+     {:notes
+      "Outline standoff (widget :notes): the edited/focus-key ring draws ~4px outside the box and was clipped at the canvas origin; every cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline."
+      :props {:border-width 0 :h 80 :pad-all 8 :w 136}}}]
+   :committed-states [:default :hovered :focus-key :edited :disabled]
+   :declared-count 12
+   :deviation
+   "+3 over declared 12: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium) per PLAN T2.1. Survey's medium representative value 425 normalized to the :mid sample 500."
+   :notes
+   "Explicit h always set: an unstyled spinbox inherits textarea's 160px height_def — unrepresentative of any real screen. Every cell nests in a padded wrapper (pad-all 8, border-width 0 — the slider-wrapper idiom): the edited/focus-key outline ring draws OUTSIDE the widget box (measured 4px past the bbox) and at the harness origin its left+top halves clipped at the CANVAS edge — a gallery crop margin cannot restore never-rendered pixels, so the standoff is render-side. The wrapper is uniform across ALL cells (baseline included) so the distinctness/inertness hash comparisons stay content-identical."
+   :sizes [{:digit-count 2 :h 64 :id :small :value 42 :w 72}
+           {:digit-count 3 :h 64 :id :medium :value 500 :w 120}
+           {:digit-count 6
+            :h 64
+            :id :large
+            :note "negative 6-digit run — minus glyph + widest digit sweep"
+            :value -12345
+            :w 200}]
+   :tag "lv_spinbox"
+   :type :WIDGET_SPINBOX
+   :value-axis
+   {:notes
+    "Sampled at the medium (3-digit) tier; min/max span the 3-digit DISPLAY range, not the wire min/max. The small/large tiers' values (42/-12345) belong to the size axis (digit-width coverage), not the value axis."
+    :props-path [:spinbox_props :value]
+    :range {:max 999 :mid 500 :min 0}
+    :samples [:min :mid :max]}}
+  {:authored-count 15
+   :cards [{:expect :baseline
+            :id "lv_dropdown/default/small/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :size :small
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/pressed/small/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :size :small
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/disabled/small/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :size :small
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/focus-key/small/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
+            :size :small
+            :state :focus-key
+            :states-bits 16
+            :value :mid}
+           {:expect :baseline
+            :id "lv_dropdown/default/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/pressed/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :size :medium
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/disabled/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :size :medium
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/focus-key/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :size :medium
+            :state :focus-key
+            :states-bits 16
+            :value :mid}
+           {:expect :baseline
+            :id "lv_dropdown/default/large/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
+            :size :large
+            :state :default
+            :states-bits 0
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/pressed/large/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
+            :size :large
+            :state :pressed
+            :states-bits 128
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/disabled/large/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
+            :size :large
+            :state :disabled
+            :states-bits 512
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/focus-key/large/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
+            :size :large
+            :state :focus-key
+            :states-bits 16
+            :value :mid}
+           {:expect :distinct
+            :id "lv_dropdown/hovered/medium/mid"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :size :medium
+            :state :hovered
+            :states-bits 64
+            :value :mid}
+           {:expect :baseline
+            :id "lv_dropdown/default/medium/min"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 0} :w 120}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :min}
+           {:expect :baseline
+            :id "lv_dropdown/default/medium/max"
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 2} :w 120}
+            :size :medium
+            :state :default
+            :states-bits 0
+            :value :max}]
+   :committed-states [:default :hovered :pressed :disabled :focus-key]
+   :declared-count 12
+   :deviation
+   "+3 over declared 12: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium) per PLAN T2.1."
+   :notes
+   "Height left to content-fit sizing on purpose (an explicit h would hide a real text_clipped regression behind a generous box). The popup LIST is a separate LVGL class with no cell here — out of the survey's scope, recorded so it isn't silently dropped from a future gallery."
+   :sizes
+   [{:id :small
+     :note
+     "compact chip width — the narrowest box where the selected text and the arrow glyph coexist: probed 72/88/96 = 'Manual' collides with the chevron, 104 = kisses, 112 = clean gap in BOTH families (measured floor)"
+     :w 112} {:id :medium :note "matches the vr_dropdown fixture" :w 120}
+    {:id :large :w 200}]
+   :tag "lv_dropdown"
+   :type :WIDGET_DROPDOWN
+   :value-axis
+   {:notes
+    "Value = selected option index over the 3-option list. State cells sample :mid (selected 1, 'Manual') per T2.1; the survey's selected 0 was normalized accordingly."
+    :props-path [:dropdown_props :selected]
+    :range {:max 2 :mid 1 :min 0}
+    :samples [:min :mid :max]}}
+  {:authored-count 17
+   :cards
+   [{:expect :baseline
+     :id "lv_roller/default/small/mid"
+     :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
+             :w 48}
+     :size :small
+     :state :default
+     :states-bits 0
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/focus-key/small/mid"
+     :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
+             :w 48}
+     :size :small
+     :state :focus-key
+     :states-bits 16
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/edited/small/mid"
+     :notes "Manifest-uncommitted (see widget deviation note)."
+     :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
+             :w 48}
+     :size :small
+     :state :edited
+     :states-bits 32
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/disabled/small/mid"
+     :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
+             :w 48}
+     :size :small
+     :state :disabled
+     :states-bits 512
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/pressed/small/mid"
+     :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
+             :w 48}
+     :size :small
+     :state :pressed
+     :states-bits 128
+     :value :mid}
+    {:expect :baseline
+     :id "lv_roller/default/medium/mid"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/focus-key/medium/mid"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :focus-key
+     :states-bits 16
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/edited/medium/mid"
+     :notes "Manifest-uncommitted (see widget deviation note)."
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :edited
+     :states-bits 32
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/disabled/medium/mid"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/pressed/medium/mid"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :pressed
+     :states-bits 128
+     :value :mid}
+    {:expect :baseline
+     :id "lv_roller/default/large/mid"
+     :props {:roller_props {:options "Narrow\nStandard\nWide\nExtra Wide"
+                            :selected 1
+                            :visible_row_count 3}
+             :w 220}
+     :size :large
+     :state :default
+     :states-bits 0
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/focus-key/large/mid"
+     :props {:roller_props {:options "Narrow\nStandard\nWide\nExtra Wide"
+                            :selected 1
+                            :visible_row_count 3}
+             :w 220}
+     :size :large
+     :state :focus-key
+     :states-bits 16
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/edited/large/mid"
+     :notes "Manifest-uncommitted (see widget deviation note)."
+     :props {:roller_props {:options "Narrow\nStandard\nWide\nExtra Wide"
+                            :selected 1
+                            :visible_row_count 3}
+             :w 220}
+     :size :large
+     :state :edited
+     :states-bits 32
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/disabled/large/mid"
+     :props {:roller_props {:options "Narrow\nStandard\nWide\nExtra Wide"
+                            :selected 1
+                            :visible_row_count 3}
+             :w 220}
+     :size :large
+     :state :disabled
+     :states-bits 512
+     :value :mid}
+    {:expect :distinct
+     :id "lv_roller/hovered/medium/mid"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :hovered
+     :states-bits 64
+     :value :mid}
+    {:expect :baseline
+     :id "lv_roller/default/medium/min"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 0 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :min}
+    {:expect :baseline
+     :id "lv_roller/default/medium/max"
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 2 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :value :max}]
+   :committed-states [:default :hovered :pressed :disabled :focus-key]
+   :declared-count 14
+   :deviation
+   "+3 over declared 14: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium) per PLAN T2.1. TENSION RECORDED: the survey includes :edited cells (stock draws outline_secondary) but the manifest omits :edited from WIDGET_ROLLER's committed list — those three cells are inertness probes under the asgard theme; T2.5 adjudicates."
+   :notes
+   "pressed is confirmatory-only under stock (no pressed style in the stock roller arm) and sampled at small+medium only per survey; the manifest commits it distinct under the asgard theme."
+   :sizes
+   [{:id :small
+     :mid-selected 2
+     :note
+     "chip/narrow case with single-glyph options — isolates the theme's pad_hor from content-authoring failures; RED under stock PAD_DEF=24, green under the 8px override"
+     :options "1\n2\n3\n4\n5"
+     :visible-row-count 3
+     :w 48}
+    {:id :medium
+     :mid-selected 1
+     :note "the house w-120 convention (kitchen_sink.edn / vr_roller twin)"
+     :options "One\nTwo\nThree"
+     :visible-row-count 3
+     :w 120}
+    {:id :large
+     :mid-selected 1
+     :note
+     "visible-row-count MUST be odd: the roller centers the selected row, so an even count half-shifts every row (measured at 4: the bottom option clipped mid-glyph + roller :overflow / label :clipped dump flags); 3 shows whole rows only"
+     :options "Narrow\nStandard\nWide\nExtra Wide"
+     :visible-row-count 3
+     :w 220}]
+   :tag "lv_roller"
+   :type :WIDGET_ROLLER
+   :value-axis
+   {:notes
+    "Value = selected row at the medium tier (3 options). Per-size :mid-selected differs (small has 5 options -> mid 2); state cells sample each size's own mid row."
+    :props-path [:roller_props :selected]
+    :range {:max 2 :mid 1 :min 0}
+    :samples [:min :mid :max]}}
+  {:authored-count 12
+   :cards
+   [{:expect :baseline
+     :id "lv_textarea/default/small"
+     :props {:h 36 :textarea_props {:one_line true :placeholder "Go"} :w 80}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_textarea/default/small/value"
+     :props {:h 36 :textarea_props {:one_line true} :w 80}
+     :size :small
+     :state :default
+     :states-bits 0
+     :text "12.4V"
+     :variant :value}
+    {:expect :distinct
+     :id "lv_textarea/disabled/small"
+     :props {:h 36 :textarea_props {:one_line true :placeholder "Go"} :w 80}
+     :size :small
+     :state :disabled
+     :states-bits 512}
+    {:expect :baseline
+     :id "lv_textarea/default/medium"
+     :props {:textarea_props {:one_line true :placeholder "Search..."} :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:expect :distinct
+     :id "lv_textarea/focus-key/medium"
+     :props {:textarea_props {:one_line true :placeholder "Search..."} :w 160}
+     :size :medium
+     :state :focus-key
+     :states-bits 16}
+    {:expect :distinct
+     :id "lv_textarea/focused/medium"
+     :notes
+     "Touch/click focus: blinking PART_CURSOR caret, NO outline ring (outline_primary keys off FOCUS_KEY, not FOCUSED)."
+     :props {:textarea_props {:one_line true} :w 160}
+     :size :medium
+     :state :focused
+     :states-bits 8
+     :text "cam-04"}
+    {:expect :distinct
+     :id "lv_textarea/edited/medium"
+     :props {:textarea_props {:one_line true} :w 160}
+     :size :medium
+     :state :edited
+     :states-bits 32
+     :text "cam-04"}
+    {:expect :distinct
+     :id "lv_textarea/disabled/medium"
+     :props {:textarea_props {:one_line true} :w 160}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :text "cam-04"}
+    {:expect :distinct
+     :id "lv_textarea/hovered/medium"
+     :props {:textarea_props {:one_line true :placeholder "Search..."} :w 160}
+     :size :medium
+     :state :hovered
+     :states-bits 64}
+    {:expect :baseline
+     :id "lv_textarea/default/large"
+     :props {:h 100 :textarea_props {:placeholder "Notes"} :w 240}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_textarea/default/large/value"
+     :props {:h 100 :textarea_props {} :w 240}
+     :size :large
+     :state :default
+     :states-bits 0
+     :text "Zoom table recalibrated after the last lens swap."
+     :variant :value}
+    {:expect :distinct
+     :id "lv_textarea/disabled/large"
+     :props {:h 100 :textarea_props {} :w 240}
+     :size :large
+     :state :disabled
+     :states-bits 512
+     :text "Zoom table recalibrated after the last lens swap."}]
+   :committed-states [:default :hovered :focused :focus-key :edited :disabled]
+   :declared-count 11
+   :deviation
+   "+1 over declared 11: :hovered at medium (manifest-committed, absent from the survey cells)."
+   :notes
+   "The :value variant cells are default-state content variants (typed text present), not an LVGL state. Sample texts are calibrated to fit each tier's post-override content box so the zero-defect assertion tests the THEME, not adversarial text."
+   :sizes
+   [{:h 36
+     :id :small
+     :note
+     "compact chip-style field — the pad/radius stress cell (stock PAD_SMALL+BORDER leaves a near-zero content box at h36)"
+     :w 80} {:id :medium :note "one_line, content height; vr_textarea analog" :w 160}
+    {:h 100
+     :id :large
+     :note "genuine multi-line box; exercises PART_SCROLLBAR + wrap"
+     :w 240}]
+   :tag "lv_textarea"
+   :type :WIDGET_TEXTAREA}
+  {:authored-count 4
+   :cards
+   [{:expect :baseline
+     :id "lv_line/default/small"
+     :props {:h 24 :line_props {:points [{:x 0 :y 24} {:x 30 :y 0} {:x 60 :y 24}]} :w 60}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_line/default/medium"
+     :props {:h 48 :line_props {:points [{:x 0 :y 48} {:x 60 :y 0} {:x 120 :y 48}]} :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_line/default/large"
+     :props {:h 96 :line_props {:points [{:x 0 :y 96} {:x 120 :y 0} {:x 240 :y 96}]} :w 240}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:expect :inert
+     :id "lv_line/disabled/medium"
+     :props {:h 48 :line_props {:points [{:x 0 :y 48} {:x 60 :y 0} {:x 120 :y 48}]} :w 120}
+     :size :medium
+     :state :disabled
+     :states-bits 512}]
+   :committed-states [:default]
+   :declared-count 4
+   :notes
+   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): renderer.c never decodes ui_LineProps, the WIDGET_LINE case only creates the object, so NO LINE IS DRAWN — every cell in the gallery sheets shows an empty box, and that is the renderer gap, not a theme or fixture defect. The cards stay authored so the decode fix lands against ready fixtures (T2.3 carries the per-card proof-carrying exemption). Explicit finite w/h is MANDATORY for this class: with points undecoded, LV_SIZE_CONTENT collapses to a 0x0 vacuously-passing box. The disabled cell is an inertness parity pin (stock has no line state arm)."
+   :sizes [{:h 24 :id :small :w 60} {:h 48 :id :medium :w 120} {:h 96 :id :large :w 240}]
+   :tag "lv_line"
+   :type :WIDGET_LINE}
+  {:authored-count 4
+   :cards
+   [{:expect :probe-pixel-only
+     :id "lv_buttonmatrix/default/small"
+     :notes
+     "Stress cell: under stock padding every button rect inverts (x2<x1) with ZERO dump_tree flags; legible (~19px/button) under the asgard pad override. PNG oracle only."
+     :props {:buttonmatrix_props {:map_str "1\n2\n3\n"} :h 40 :w 70}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_buttonmatrix/default/medium"
+     :props {:buttonmatrix_props {:map_str "A\nB\nC\n"} :h 80 :w 200}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_buttonmatrix/default/large"
+     :props {:buttonmatrix_props {:map_str
+                                  "One\nTwo\nThree\nFour\n\nFive\nSix\nSeven\nEight\n"}
+             :h 100
+             :w 360}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_buttonmatrix/default/flex-fit"
+     :notes
+     "Negative container probe: zero clipped/overflow/squished expected. The positive oversized-in-track companion deliberately lives in asgard's vc_ suite, not here."
+     :props {:buttonmatrix_props {:map_str "A\nB\nC\n"} :h 60 :w 200}
+     :size :flex-fit
+     :state :default
+     :states-bits 0
+     :wrapper
+     {:flags-clear [:scrollable]
+      :notes
+      "flex-flow 0 = LV_FLEX_FLOW_ROW; the builder must ensure the wrapper resolves LV_LAYOUT_FLEX per the renderer's flex handling."
+      :props {:border-width 0 :flex-flow 0 :h 80 :pad-all 0 :w 800}}}]
+   :committed-states [:default]
+   :declared-count 4
+   :notes
+   "Default state only: per-item pressed/checked/disabled are NOT wire-reachable today (renderer decodes only map_str + one_check; no set_btn_ctrl / set_selected_button), and whole-widget :states produce zero stock delta. The small cell's per-button rect inversion is INVISIBLE to dump_tree (buttons are not child objects) — the PNG oracle is the only backstop; assertion note recorded per cell."
+   :sizes
+   [{:h 40
+     :id :small
+     :note
+     "deliberately pathological under stock: PAD_DEF*2 + PAD_SMALL*2 = 76px overhead on a 70px box inverts every per-button rect"
+     :w 70}
+    {:h 80
+     :id :medium
+     :note "the house vr_btnmatrix geometry; ~41px/button — the pill-on-a-chip case"
+     :w 200}
+    {:h 100
+     :id :large
+     :note
+     "two rows of four; proves the tight tokens read as deliberate design at generous size"
+     :w 360}
+    {:id :flex-fit
+     :note "container-level probe: matrix as a flex child sized to fit its row"}]
+   :tag "lv_buttonmatrix"
+   :type :WIDGET_BUTTONMATRIX}
+  {:authored-count 6
+   :cards [{:expect :baseline
+            :id "lv_table/default/small"
+            :props {:h 56 :table_props {:column_count 1 :row_count 1} :w 160}
+            :size :small
+            :state :default
+            :states-bits 0}
+           {:expect :inert
+            :id "lv_table/disabled/small"
+            :props {:h 56 :table_props {:column_count 1 :row_count 1} :w 160}
+            :size :small
+            :state :disabled
+            :states-bits 512}
+           {:expect :baseline
+            :id "lv_table/default/medium"
+            :props {:h 120 :table_props {:column_count 2 :row_count 2} :w 320}
+            :size :medium
+            :state :default
+            :states-bits 0}
+           {:expect :inert
+            :id "lv_table/disabled/medium"
+            :props {:h 120 :table_props {:column_count 2 :row_count 2} :w 320}
+            :size :medium
+            :state :disabled
+            :states-bits 512}
+           {:expect :baseline
+            :id "lv_table/default/large"
+            :props {:h 240 :table_props {:column_count 3 :row_count 3} :w 480}
+            :size :large
+            :state :default
+            :states-bits 0}
+           {:expect :inert
+            :id "lv_table/disabled/large"
+            :props {:h 240 :table_props {:column_count 3 :row_count 3} :w 480}
+            :size :large
+            :state :disabled
+            :states-bits 512}]
+   :committed-states [:default]
+   :declared-count 6
+   :notes
+   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. pressed/focus-key/edited omitted: cell highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. Disabled cells are inertness parity pins."
+   :sizes
+   [{:cols 1
+     :h 56
+     :id :small
+     :note
+     "one column exactly matches the 160px default column width — no accidental scroll noise"
+     :rows 1
+     :w 160} {:cols 2 :h 120 :id :medium :note "width-matched to 2x160" :rows 2 :w 320}
+    {:cols 3 :h 240 :id :large :note "width-matched to 3x160" :rows 3 :w 480}]
+   :tag "lv_table"
+   :type :WIDGET_TABLE}
+  {:authored-count 5
+   :cards
+   [{:children [{:text "ok" :type :WIDGET_LABEL} {:text "ok" :type :WIDGET_LABEL}
+                {:text "ok" :type :WIDGET_LABEL}]
+     :expect :baseline
+     :id "lv_tabview/default/small"
+     :props {:h 120
+             :tabview_props {:active_index 0 :tab_bar_size 32 :tab_names ["A" "B" "C"]}
+             :w 160}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:children [{:children [{:text "Alpha page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}
+                {:children [{:text "Beta page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}
+                {:children [{:text "Gamma page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_tabview/default/medium"
+     :props {:h 200
+             :tabview_props
+             {:active_index 0 :tab_bar_size 48 :tab_names ["Alpha" "Beta" "Gamma"]}
+             :w 280}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:children
+     [{:props {:h 160 :w 360} :type :WIDGET_OBJ} {:props {:h 160 :w 360} :type :WIDGET_OBJ}
+      {:props {:h 160 :w 360} :type :WIDGET_OBJ} {:props {:h 160 :w 360} :type :WIDGET_OBJ}
+      {:props {:h 160 :w 360} :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_tabview/default/large"
+     :props {:h 320
+             :tabview_props
+             {:active_index 0 :tab_bar_size 64 :tab_names ["One" "Two" "Six" "Ten" "Nav"]}
+             :w 460}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:children [{:children [{:text "Alpha page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}
+                {:children [{:text "Beta page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}
+                {:children [{:text "Gamma page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_tabview/default/medium/active-last"
+     :notes
+     "checked-alt cell: CHECKED styling on a non-first tab button + proves the page swap lands on the last page."
+     :props {:h 200
+             :tabview_props
+             {:active_index 2 :tab_bar_size 48 :tab_names ["Alpha" "Beta" "Gamma"]}
+             :w 280}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :active-last}
+    {:children [{:children [{:text "Alpha page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}
+                {:children [{:text "Beta page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}
+                {:children [{:text "Gamma page" :type :WIDGET_LABEL}]
+                 :props {:h 80 :w 200}
+                 :type :WIDGET_OBJ}]
+     :expect :inert
+     :id "lv_tabview/disabled/medium"
+     :notes
+     "Root-level disable is the only wire granularity; stock renders it identical to default — parity pin. Pages mirror lv_tabview/default/medium EXACTLY (labels included): an inertness pin is meaningful only over content-identical fixtures — the earlier label-less pages made the pair differ in content, so the hash diff said nothing about state styling."
+     :props {:h 200
+             :tabview_props
+             {:active_index 0 :tab_bar_size 48 :tab_names ["Alpha" "Beta" "Gamma"]}
+             :w 280}
+     :size :medium
+     :state :disabled
+     :states-bits 512}]
+   :committed-states [:default]
+   :declared-count 5
+   :notes
+   "Not a full size x state product (chrome location/color is size-independent): 3 size cells + 2 state cells at medium, per survey. pressed/focus-key on tab buttons are NOT wire-reachable (buttons are synthesized internally by lv_tabview_add_tab, never WidgetNodes) — omitted rather than faked. Page-content wrappers are fixed-px unstyled objs (the survey's pct-100 surface-1 cards translated: LV_PCT encoding is outside the raw-prop vocabulary, and surface tokens are banned). KNOWN WIRE GAP (recorded, not resolved here): PROP_WIDTH/PROP_HEIGHT on a WIDGET_TABVIEW are silently defeated — lv_tabview_constructor calls lv_obj_set_size(pct100,pct100), a LOCAL style that outranks the renderer's added style-group styles — so every cell below renders full-canvas regardless of its authored w/h (verified: wire bytes carry 280x200, dump shows 798x478). The authored sizes are kept as the intent; they start binding when the renderer's tabview arm routes w/h through lv_obj_set_size."
+   :sizes [{:h 120 :id :small :tab-bar-size 32 :w 160}
+           {:h 200
+            :id :medium
+            :note "matches the vr_tabview demo-parity bar size"
+            :tab-bar-size 48
+            :w 280} {:h 320 :id :large :tab-bar-size 64 :w 460}]
+   :tag "lv_tabview"
+   :type :WIDGET_TABVIEW}
+  {:authored-count 5
+   :cards
+   [{:expect :baseline
+     :id "lv_chart/default/small/line"
+     :notes
+     "point_count 4 at the small tier (the small/bar precedent): 8 points across 96px is a 13.7px marker pitch — the ~9px line markers of the two series overlap into a blob; 4 points (32px pitch) keeps the sparkline legible. The series values stay the shared 8-entry set; the chart shows the last point_count of them."
+     :props
+     {:chart_props
+      {:div_lines [0 12]
+       :point_count 4
+       :series
+       [{:axis :primary-y :color {:b 68 :g 68 :r 239} :values [10 25 18 40 32 48 27 35]}
+        {:axis :primary-y :color {:b 246 :g 130 :r 59} :values [45 12 30 8 38 22 41 15]}]
+       :type :line}
+      :h 64
+      :w 96}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :line}
+    {:expect :baseline
+     :id "lv_chart/default/medium/line"
+     :props
+     {:chart_props
+      {:div_lines [0 12]
+       :point_count 8
+       :series
+       [{:axis :primary-y :color {:b 68 :g 68 :r 239} :values [10 25 18 40 32 48 27 35]}
+        {:axis :primary-y :color {:b 246 :g 130 :r 59} :values [45 12 30 8 38 22 41 15]}]
+       :type :line}
+      :h 130
+      :w 200}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :line}
+    {:expect :baseline
+     :id "lv_chart/default/large/line"
+     :props
+     {:chart_props
+      {:div_lines [0 12]
+       :point_count 8
+       :series
+       [{:axis :primary-y :color {:b 68 :g 68 :r 239} :values [10 25 18 40 32 48 27 35]}
+        {:axis :primary-y :color {:b 246 :g 130 :r 59} :values [45 12 30 8 38 22 41 15]}]
+       :type :line}
+      :h 200
+      :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :line}
+    {:expect :probe-pixel-only
+     :id "lv_chart/default/small/bar"
+     :notes
+     "Reduced point_count keeps it a realistic tight sparkbar; legibility is provable only by the PNG oracle (no child object ever reports the gap-eaten width)."
+     :props
+     {:chart_props
+      {:div_lines [0 4]
+       :point_count 4
+       :series
+       [{:axis :primary-y :color {:b 68 :g 68 :r 239} :values [10 25 18 40 32 48 27 35]}
+        {:axis :primary-y :color {:b 246 :g 130 :r 59} :values [45 12 30 8 38 22 41 15]}]
+       :type :bar}
+      :h 64
+      :w 96}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :bar}
+    {:expect :baseline
+     :id "lv_chart/default/large/bar"
+     :props
+     {:chart_props
+      {:div_lines [0 12]
+       :point_count 8
+       :series
+       [{:axis :primary-y :color {:b 68 :g 68 :r 239} :values [10 25 18 40 32 48 27 35]}
+        {:axis :primary-y :color {:b 246 :g 130 :r 59} :values [45 12 30 8 38 22 41 15]}]
+       :type :bar}
+      :h 200
+      :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :bar}]
+   :committed-states [:default]
+   :declared-count 5
+   :notes
+   "Default state only (stock chart arm adds no state styles — a disabled cell would be a pixel-identical duplicate). BAR type at small tier is a PNG-only blind spot: block_gap(10px) x 7 groups can degenerate bar width toward 0 with zero DOM flags."
+   :sizes [{:h 64
+            :id :small
+            :note "chip/sparkline scale — the block_gap/ser_gap stress tier"
+            :w 96} {:h 130 :id :medium :w 200} {:h 200 :id :large :w 320}]
+   :tag "lv_chart"
+   :type :WIDGET_CHART}
+  {:authored-count 7
+   :cards
+   [{:children [{:bare true
+                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
+                 :props {:h 40 :w 80}
+                 :type :WIDGET_OBJ}]
+     :expect :probe-defect
+     :id "lv_host_proxy/default/small/stock"
+     :notes
+     "EXPECTED clipped (child) + overflow (parent): stock PAD_DEF=24 leaves a 48x6 content box against the fixed 80x40 chip. The red companion for the pad fix."
+     :props {:h 54
+             :host_proxy_props {:handle_size 16
+                                :max_h 54
+                                :max_w 96
+                                :min_h 54
+                                :min_w 96
+                                :mode :draggable
+                                :proxy_id "px"
+                                :z 1}
+             :w 96}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :stock}
+    {:children [{:bare true
+                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
+                 :props {:h 40 :w 80}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_host_proxy/default/medium/stock"
+     :notes
+     "Negative control: 192x72 content box comfortably holds the chip — zero flags expected."
+     :props {:h 120
+             :host_proxy_props {:handle_size 16
+                                :max_h 300
+                                :max_w 400
+                                :min_h 54
+                                :min_w 96
+                                :mode :draggable
+                                :proxy_id "px"
+                                :z 1}
+             :w 240}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :stock}
+    {:children [{:bare true
+                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
+                 :props {:h 40 :w 80}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_host_proxy/default/large/stock"
+     :notes "Negative control: zero flags expected."
+     :props {:h 180
+             :host_proxy_props {:handle_size 16
+                                :max_h 300
+                                :max_w 400
+                                :min_h 54
+                                :min_w 96
+                                :mode :draggable
+                                :proxy_id "px"
+                                :z 1}
+             :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :stock}
+    {:children [{:bare true
+                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
+                 :props {:h 40 :w 80}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_host_proxy/default/small/themed"
+     :notes "Must show ZERO flags — the green half of the red/green pad-fix pair."
+     :props {:border-color "#3A3A52"
+             :border-width 1
+             :h 54
+             :host_proxy_props {:handle_size 16
+                                :max_h 54
+                                :max_w 96
+                                :min_h 54
+                                :min_w 96
+                                :mode :draggable
+                                :proxy_id "px"
+                                :z 1}
+             :pad-all 0
+             :radius 4
+             :w 96}
+     :size :small
+     :state :default
+     :states-bits 0
+     :variant :themed}
+    {:children [{:bare true
+                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
+                 :props {:h 40 :w 80}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_host_proxy/default/medium/themed"
+     :props {:border-color "#3A3A52"
+             :border-width 1
+             :h 120
+             :host_proxy_props {:handle_size 16
+                                :max_h 300
+                                :max_w 400
+                                :min_h 54
+                                :min_w 96
+                                :mode :draggable
+                                :proxy_id "px"
+                                :z 1}
+             :pad-all 0
+             :radius 4
+             :w 240}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :themed}
+    {:children [{:bare true
+                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
+                 :props {:h 40 :w 80}
+                 :type :WIDGET_OBJ}]
+     :expect :baseline
+     :id "lv_host_proxy/default/large/themed"
+     :props {:border-color "#3A3A52"
+             :border-width 1
+             :h 180
+             :host_proxy_props {:handle_size 16
+                                :max_h 300
+                                :max_w 400
+                                :min_h 54
+                                :min_w 96
+                                :mode :draggable
+                                :proxy_id "px"
+                                :z 1}
+             :pad-all 0
+             :radius 4
+             :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :variant :themed}
+    {:expect :probe-pixel-only
+     :id "lv_host_proxy/default/edge/themed"
+     :notes
+     "Screen-edge probe: corner-handle ext-click-area extends handle_size/2 past the box — can go offscreen while the box stays onscreen; dump_tree is structurally blind to it."
+     :props {:border-color "#3A3A52"
+             :border-width 1
+             :h 54
+             :host_proxy_props {:handle_size 16
+                                :max_h 300
+                                :max_w 400
+                                :min_h 54
+                                :min_w 96
+                                :mode :resizable
+                                :proxy_id "px"
+                                :z 1}
+             :pad-all 0
+             :radius 4
+             :w 96
+             :x 704
+             :y 10}
+     :size :edge
+     :state :default
+     :states-bits 0
+     :variant :themed}]
+   :committed-states [:default]
+   :declared-count 7
+   :notes
+   "No LVGL state axis (falls through the generic lv_obj card arm; no state styles attach). The stock/themed variant pair IS this widget's axis: stock = the true unstyled fallthrough; themed = the survey's four proposed per-node raw props (radius 4 / border-width 1 / border-color #3A3A52 [edge-0, dark-resolved] / pad-all 0) standing in for the prospective C-side apply_host_proxy default. Affordance children (glass/handles/cells) are theme-immune by construction. proxy_id 'px' is a placeholder id per the corpus secret-scan."
+   :sizes
+   [{:h 54
+     :id :small
+     :note "host_proxy_demo.edn's pip-video min_w/min_h — the realistic resize floor"
+     :w 96} {:h 120 :id :medium :note "the html-note authored box" :w 240}
+    {:h 180 :id :large :note "the pip-video authored box (16:9)" :w 320}
+    {:h 54 :id :edge :note "flush against the canvas right edge (x = canvas-w - 96)" :w 96}]
+   :tag "lv_host_proxy"
+   :type :WIDGET_HOST_PROXY}]}

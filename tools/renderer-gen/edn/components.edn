@@ -1,0 +1,115 @@
+;; components.edn — class macros + reusable components (codegen-expanded).
+;;
+;; Evicted from tokens.edn: tokens carry LAYER 1-2 design VALUES only;
+;; class macros (@name expansions) and component definitions are
+;; composition, not design values. Loaded as the sibling of tokens.edn
+;; by the codegen entrypoints and merged for the pipeline.
+{;; ═══════════════════════════════════════════════════════════════════
+ ;; LAYER 3: CLASS MACROS — Reusable class string compositions.
+ ;; Referenced via @name in class strings. No nesting allowed.
+ ;; ═══════════════════════════════════════════════════════════════════
+ :class-defs
+ {:body "font-font-body text-fg-0"
+  :btn-primary
+  "w-content h-content p-spacing-sm bg-accent-bg rounded-radius-button
+                pressed:bg-pressed-accent focused:border-color-focused-edge
+                focused:border-w-border-width-focus sm:p-spacing-xs"
+  :btn-secondary
+  "w-content h-content p-spacing-sm bg-surface-2 rounded-radius-button
+                  border-edge-0 border-w-border-width-default pressed:bg-pressed-surface
+                  focused:border-color-focused-edge focused:border-w-border-width-focus
+                  sm:p-spacing-xs"
+  :caption "font-font-caption text-fg-1"
+  :card
+  "flex flex-col bg-surface-1 rounded-radius-card p-spacing-sm
+                border-edge-0 border-w-border-width-default sm:p-spacing-xs"
+  :card-row
+  "flex flex-row bg-surface-1 rounded-radius-card p-spacing-sm
+                border-edge-0 border-w-border-width-default sm:p-spacing-xs"
+  :data-value "text-fg-0 font-font-data"
+  :heading "font-font-heading text-fg-0"
+  :hud-btn
+  "w-52 h-52 p-spacing-xs
+                border-hud-border border-w-border-width-default
+                bg-status-error opa-overlay-opa
+                rounded-radius-button
+                pressed:bg-pressed-accent pressed:opa-hud-pressed-opa
+                focused:border-color-focused-edge focused:border-w-border-width-focus
+                disabled:opa-disabled-opa
+                md:w-72 md:h-72 md:border-w-border-width-focus md:bg-status-warning
+                lg:w-96 lg:h-96 lg:bg-status-success
+                xl:w-120 xl:h-120 xl:border-w-border-width-bold xl:p-spacing-md xl:bg-accent-bg"
+  :hud-label "text-accent-bg font-font-heading"
+  :muted "font-font-caption text-fg-2"
+  :tactical-btn
+  "bg-accent-bg text-accent-text rounded-radius-button p-spacing-sm
+                 font-font-body"
+  :tactical-panel
+  "bg-surface-1 border-edge-0 border-w-border-width-default
+                   rounded-radius-card p-spacing-md"}
+ ;; ═══════════════════════════════════════════════════════════════════
+ ;; LAYER 4: COMPONENTS — Reusable widget templates with typed params.
+ ;; Resolved at codegen time — renderer always gets flat LVGL widgets.
+ ;; ═══════════════════════════════════════════════════════════════════
+ :components
+ {:titled-card
+  {:params {:extra-class {:default "" :type :string} :title {:required true :type :string}}
+   :tree
+   {:children [{:class "@caption" :tag :lv_label :text "$title"} {:slot :default}]
+    :class
+    "@card gap-spacing-sm w-content h-content $extra-class
+                  sm:gap-spacing-xs"
+    :tag :lv_obj}}
+  :status-led {:params {:brightness {:default 255 :type :int}
+                        :color {:required true :type :map}
+                        :label {:required true :type :string}}
+               :tree {:children [{:class "w-36 h-36"
+                                  :led_props {:brightness :$brightness :color :$color}
+                                  :tag :lv_led}
+                                 {:class "@muted" :tag :lv_label :text "$label"}]
+                      :class "flex flex-col gap-spacing-xs h-content w-content"
+                      :tag :lv_obj}}
+  ;; Radio group — LVGL has no radio widget; the upstream idiom is
+  ;; circle-styled checkboxes with one-active logic. The SUBJECT is the
+  ;; group state: each option sets it via :event and mirrors it via
+  ;; :checked-when; :flags-clear #{:checkable} kills the widget's
+  ;; self-toggle so checked state is PURELY subject-driven (clicking the
+  ;; active option cannot un-check it into an inconsistent state).
+  :radio-group {:params {}
+                :tree {:children [{:slot :default}]
+                       :class "flex flex-col gap-spacing-xs w-content h-content"
+                       :tag :lv_obj}}
+  :radio-option {:params {:event {:required true :type :keyword}
+                          :label {:required true :type :string}
+                          :subject {:required true :type :keyword}
+                          :value {:required true :type :int}}
+                 :tree {:checked-when {:subject :$subject :value :$value}
+                        :event :$event
+                        :flags-clear #{:checkable}
+                        :style {:indicator {:radius 32767}}
+                        :tag :lv_checkbox
+                        :text "$label"}}
+  ;; lv_demo_widgets shop-tab list row (create_shop_item in
+  ;; lv_demo_widgets_shop.c): a bare grid cont — image spanning both
+  ;; rows, name / muted category stacked, price right-aligned. Only the
+  ;; price varies across the five instances.
+  :demo-shop-item
+  {:params {:price {:required true :type :string}}
+   :tree {:bare true
+          :children [{:cell {:col 0 :row 0 :row-span 2 :x-align :start :y-align :start}
+                      :image_props {:src "P:images/demo/clothes.png"}
+                      :tag :lv_image}
+                     {:cell {:col 2 :row 0 :x-align :start :y-align :end}
+                      :tag :lv_label
+                      :text "Blue T-shirt"}
+                     {:cell {:col 2 :row 1 :x-align :start :y-align :start}
+                      :style {:text-opa 127}
+                      :tag :lv_label
+                      :text "Clothes"}
+                     {:cell {:col 3 :row 0 :x-align :end :y-align :end}
+                      :tag :lv_label
+                      :text "$price"}]
+          :class "w-pct-100 h-content"
+          :grid-cols [:content 5 [:fr 1] [:fr 1]]
+          :grid-rows [[:fr 1] [:fr 1]]
+          :tag :lv_obj}}}}

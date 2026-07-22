@@ -1,0 +1,9 @@
+{:upstream :lvgl/lvgl
+ :upstream-sha "85aa60d18b3d5e5588d7b247abf90198f07c8a63"
+ :upstream-path :repo-root
+ :flavor :source-port
+ :note "LVGL 9.5.0, byte-identical vendored copy (v9.5.0 tag 85aa60d, the
+        same release as lvgl/demos; originally routed via a private tooling repo)
+        — the factory's wire contract depends on EXACT header bytes (enum
+        extraction feeds the proto numbering). Excluded from all quality gates
+        (vendored)."}

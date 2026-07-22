@@ -1,0 +1,31 @@
+;; protogen devcards runner.
+;; Public tooling: renders the canonical devcard corpus against the PINNED
+;; controls.wasm via GraalWasm and proves the two-ended goldens (schema-validate,
+;; raw-framebuffer hash, DOM invariants). Runs on any JDK 21+ (polyglot as plain
+;; Maven deps — interpreted on stock JDK, JIT on GraalVM CE; no JDK swap).
+{:aliases {;; The bindings path: protogen's own output/java compiled by
+           ;; tools/compile-bindings.sh.
+           :bindings {:extra-paths ["target/proto-classes"]}
+           :run {:main-opts ["-m" "devcards.core"]}
+           ;; T2.2 smoke: build all cards + schema-validate + render the
+           ;; representative slice (dev/t22_smoke.clj).
+           :t22-smoke {:extra-paths ["dev"] :main-opts ["-m" "t22-smoke"]}}
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+        ;; GraalWasm in-process (UPL-1.0 chain; the wasm meta-pom pulls
+        ;; truffle-runtime). Versions proven in-fleet.
+        org.graalvm.polyglot/polyglot {:mvn/version "25.0.2"}
+        org.graalvm.wasm/wasm {:extension "pom" :mvn/version "25.0.2"}
+        ;; ui.UiAst fixture construction — protogen's own generated Java
+        ;; bindings (compiled from output/java by tools/compile-bindings.sh
+        ;; into target/proto-classes, wired via :bindings).
+        com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}
+        ;; UiAst.java references build.buf.validate.ValidateProto at
+        ;; descriptor init (ui_ast.proto imports buf/validate/validate.proto)
+        ;; — a CLASS-INIT dependency even before any runtime validation; the
+        ;; smoke also runs the protovalidate Validator over every fixture
+        ;; (the schema end of the two-ended goldens). Same pin the in-fleet
+        ;; consumers carry.
+        build.buf/protovalidate {:mvn/version "1.2.2"}
+        ;; dump_tree DOM parsing + golden manifests
+        org.clojure/data.json {:mvn/version "2.5.1"}}
+ :paths ["src"]}

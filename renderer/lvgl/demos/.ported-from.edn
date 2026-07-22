@@ -1,0 +1,5 @@
+{:upstream :lvgl/lvgl
+ :upstream-sha "85aa60d18b3d5e5588d7b247abf90198f07c8a63"
+ :upstream-path "demos"
+ :flavor :source-port
+ :note "lv_demos.h/c + demos/widgets from the v9.5.0 tag — the vendored lvgl/ tree had demos/ stripped; restored verbatim (minus screenshots/.py) as the reference path's demo-parity oracle. 3rd-party: excluded from all gates."}

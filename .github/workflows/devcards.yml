@@ -1,0 +1,164 @@
+# protogen Actions workflow — the devcard corpus + gallery contract.
+# Separate from
+# build-and-release.yml on purpose: that workflow's trigger paths (proto/**,
+# Dockerfile*, generate-*.sh, scripts/**) are the binding-generation contract;
+# this one is the devcard corpus + gallery contract. They share nothing but a
+# repo and should not share a run, a runner, or a failure mode.
+#
+# ── Design decisions worth flagging to the operator (not silently assumed) ──
+#
+# 1. RUNNER: ubuntu-latest (GH-hosted, x86_64), NOT build-and-release.yml's
+#    ubuntu-22.04-arm. That ARM runner exists to match the Jetson BSP for the
+#    native-toolchain generation job; the devcard runner is pure JVM+GraalWasm
+#    with no Jetson dependency, so it gets the free, fast, standard runner.
+#
+# 2. JAVA PROVISIONING: this draft uses `graalvm/setup-graalvm@v1`
+#    (distribution: graalvm-community, java-version: '25') directly on the
+#    runner, NOT a `container:` built from protogen's own Dockerfile.base —
+#    a reasoned divergence from container parity. Reason, verified
+#    first-hand by a provisioning bench at drafting time:
+#      - build-and-release.yml's OWN base-image build
+#        (`docker build -t jettison-proto-generator-base:latest -f
+#        Dockerfile.base .`) has NO layer cache and NO registry cache wired —
+#        every run rebuilds protoc+go+rust+zig+node+nanopb from scratch. That
+#        cost is fine to pay once per proto push; it is a bad tax to add to
+#        EVERY devcards push (tools/devcards/**, output/manifests/**, the
+#        vendored wasm/assets, proto/ui/**), most of which touch nothing the
+#        big toolchain image provides.
+#      - The devcard runner's only real dependency is a JDK with JVMCI
+#        (org.graalvm.polyglot / org.graalvm.wasm as plain Maven deps — no
+#        native `gu install` component, confirmed at spike). setup-graalvm
+#        is the maintained, cached, purpose-built way to get exactly that on a
+#        stock runner in ~10s from its own tool-cache, vs. minutes rebuilding
+#        an unrelated 12-toolchain image.
+#    If the operator wants literal container parity with the rest of
+#    protogen's CI instead, the alternative is: push Dockerfile.base to GHCR
+#    from build-and-release.yml (it doesn't today), then `container: image:
+#    ghcr.io/.../jettison-proto-generator-base:latest` here — that is real,
+#    not-yet-designed extra work, not a drop-in swap, so it is named rather
+#    than silently assumed away.
+#
+# 3. GATE SHAPE: the ratified design lists four job concerns — "build corpus,
+#    verify goldens+invariants, secret-scan, kondo" — and separately a "Gate
+#    assembly (one entry point CI will call)" bundling schema + invariants +
+#    vanilla-equality + golden-verify + enum-coverage + secret-scan into ONE
+#    command. Both are honored by splitting into exactly two jobs: `devcards`
+#    (build the corpus, then call that one bundled gate entry point — so
+#    build+verify+invariants+secret-scan share one job and one clear PASS/FAIL)
+#    and `kondo` (independent, no Java needed at all, genuinely a minimal
+#    clj quality bar — protogen has no battery; the
+#    charter's antagonistic review remains the MAIN gate, this is a floor
+#    under it, not a replacement for it).
+#
+# 4. CACHING: `actions/cache` keyed on tools/devcards/deps.edn's hash, over
+#    both `~/.m2` (Maven-resolved deps: clojure, polyglot, wasm, protobuf-java)
+#    and `~/.gitlibs` (tools.deps git deps, if any land later). NOT
+#    setup-graalvm's own `cache: maven` mode — that mode keys on a `pom.xml`
+#    checksum, which this repo will never have (tools.deps, not Maven proper).
+name: Devcards Corpus + Gallery
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+    - "tools/devcards/**"
+    - "output/manifests/**"
+    - "proto/ui/**"
+    - ".github/workflows/devcards.yml"
+  pull_request:
+    paths:
+    - "tools/devcards/**"
+    - "output/manifests/**"
+    - "proto/ui/**"
+    - ".github/workflows/devcards.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: devcards-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  devcards:
+    name: build corpus + verify goldens/invariants/secret-scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - # protogen compiles its OWN proto bindings for the devcard runner:
+      # this step compiles output/java/ui with the same GraalVM-provisioned
+      # javac, before the runner needs the generated UiAst classes to build
+      # fixtures.
+      name: Set up GraalVM CE for JDK 25 (LTS)
+      uses: graalvm/setup-graalvm@v1
+      with:
+        java-version: "25"
+        distribution: "graalvm-community"
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Set up Clojure CLI
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        # Verified against https://github.com/clojure/brew-install/releases
+        # — pin, don't float; bump deliberately alongside
+        # tools/devcards/deps.edn.
+        cli: "1.12.5.1654"
+    - name: Cache Maven-resolved deps (tools.deps ~/.m2, not Maven's own cache mode — no pom.xml here)
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+        key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
+        restore-keys: |
+          devcards-m2-
+    - name: Compile protogen's own output/java/ui bindings
+      working-directory: tools/devcards
+      run: javac -cp "$(clojure -Spath)" -d target/proto-classes $(find ../../output/java/ui -name '*.java')
+    - # ONE bundled entry point: schema-validate + per-card
+      # invariants (defect flags / zero-area / zero-visible-area) +
+      # vanilla≡stock family-1-vs-2 equality + golden raw-FB sha256 verify +
+      # enum-derived WidgetType coverage + the corpus secret-scan (absolute
+      # paths, device tokens, non-placeholder proxy ids). A single red here
+      # names its exact failing card/check; there is no partial-credit path.
+      #
+      # The implemented CLI is devcards.core's `generate` mode (build the full
+      # corpus + judge invariants / vanilla≡stock / goldens in ONE run; the
+      # exit code is the verdict). protogen BUILDS controls.wasm
+      # (renderer/wasm.mk, exercised by workflows/renderer.yml). How this
+      # HIGH-FREQUENCY job obtains the built wasm (a content-keyed cache on
+      # renderer/** vs paying the container build this header rejects) is an
+      # OPEN provisioning question — named here rather than silently
+      # assumed; until it is answered this job needs the wasm present.
+      name: Render corpus + run the bundled gate
+      working-directory: tools/devcards
+      run: clojure -M:bindings:run generate
+    - name: Upload gallery + golden manifest (debug artifact, not published)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: devcards-gate-output
+        path: |
+          tools/devcards/out/**
+        retention-days: 7
+        if-no-files-found: warn
+  
+  kondo:
+    name: kondo (minimal clj quality bar — protogen has no battery)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - # No Java step: clj-kondo is a native/self-hosted binary and does not
+      # need a JVM (DeLaGuardo/setup-clojure's own documented exception —
+      # verified against its README before drafting this).
+      name: Set up clj-kondo
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        # Verified current release (github.com/clj-kondo/clj-kondo/releases,
+        # tag v2026.05.25) at draft time — re-verify on bump;
+        # a stale-but-real pin ages better than an invented one.
+        clj-kondo: "2026.05.25"
+    - name: Lint tools/devcards
+      run: clj-kondo --lint tools/devcards/src tools/devcards/dev

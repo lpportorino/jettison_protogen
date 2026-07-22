@@ -4,9 +4,13 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PROTOC_VERSION=29.2
 ENV GO_VERSION=1.23.4
-ENV RUST_VERSION=1.85.0
+ENV RUST_VERSION=1.97.0
 ENV ZIG_VERSION=0.15.2
 ENV ZIG_PROTOBUF_VERSION=v3.0.1
+ENV GRAALVM_VERSION=25.0.2
+ENV MAVEN_VERSION=3.9.16
+ENV CLOJURE_CLI_VERSION=1.12.5.1654
+ENV WASI_SDK_VERSION=33
 
 # Install base dependencies
 # Use retry logic to handle transient repository issues
@@ -22,8 +26,6 @@ RUN for i in 1 2 3; do \
         python3 \
         python3-pip \
         python3-venv \
-        openjdk-17-jdk \
-        maven \
         nodejs \
         npm \
         gawk \
@@ -34,6 +36,51 @@ RUN for i in 1 2 3; do \
         && rm -rf /var/lib/apt/lists/* \
         && break || sleep 5; \
     done
+
+# Install GraalVM CE for JDK 25 (LTS) for the correct architecture — replaces
+# apt's openjdk-17-jdk, which cannot run the polyglot/GraalWasm devcard runner
+# at all (polyglot 25.0.2 requires a JDK with JVMCI + the Graal compiler;
+# stock OpenJDK 17 has neither). Installed the same way this file already
+# installs Go/Rust/Zig: a versioned upstream tarball extracted to /opt, never
+# a base-image swap — protogen's other dozen toolchains (protoc/go/rust/zig/
+# node/python/buf) are Ubuntu-apt-based and stay that way; only the JDK moves.
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then \
+        GRAALVM_ARCH="aarch64"; \
+    else \
+        GRAALVM_ARCH="x64"; \
+    fi && \
+    wget -q https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-${GRAALVM_VERSION}/graalvm-community-jdk-${GRAALVM_VERSION}_linux-${GRAALVM_ARCH}_bin.tar.gz \
+    && tar -C /opt -xzf graalvm-community-jdk-${GRAALVM_VERSION}_linux-${GRAALVM_ARCH}_bin.tar.gz \
+    && rm graalvm-community-jdk-${GRAALVM_VERSION}_linux-${GRAALVM_ARCH}_bin.tar.gz
+ENV JAVA_HOME=/opt/graalvm-community-openjdk-${GRAALVM_VERSION}+10.1
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Install Maven as a standalone tarball rather than the apt `maven` package:
+# apt's `maven` depends on `default-jre-headless`, which pulls in a SECOND,
+# unused JDK (openjdk-21-jre-headless on ubuntu:24.04 — confirmed via
+# `apt-cache depends maven`) purely as image bloat, since JAVA_HOME/PATH above
+# already point every other consumer at GraalVM. The tarball install has no
+# such dependency and matches this file's existing Go/Zig download shape.
+# Pinned to archive.apache.org (not dlcdn.apache.org, which serves only the
+# CURRENT release and 404s the moment a version is superseded — the same
+# durability reasoning as every other pinned download in this file).
+RUN wget -q https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && tar -C /opt -xzf apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && rm apache-maven-${MAVEN_VERSION}-bin.tar.gz
+ENV PATH=/opt/apache-maven-${MAVEN_VERSION}/bin:$PATH
+
+# Install the Clojure CLI (tools.deps) — the renderer battery's devcards
+# corpus runner and the tools/renderer-gen fixture/codegen aliases are all
+# `clojure -M:...` invocations (renderer.mk fixtures/harness/oracles), so
+# the CLI is as load-bearing here as javac. Installed from the pinned
+# upstream release installer (the same versioned-download shape as
+# Go/Zig/GraalVM above); the pin matches the CI workflows'
+# DeLaGuardo/setup-clojure `cli:` pin — bump the two together.
+RUN wget -q https://github.com/clojure/brew-install/releases/download/${CLOJURE_CLI_VERSION}/linux-install.sh \
+    && chmod +x linux-install.sh \
+    && ./linux-install.sh \
+    && rm linux-install.sh
 
 # Detect architecture and install Protocol Buffers compiler
 RUN ARCH=$(uname -m) && \
@@ -141,6 +188,28 @@ ENV PATH=$PATH:/opt/nanopb/generator
 # by C++ applications that want to validate messages. The annotations are embedded
 # in the generated code as field options/extensions by regular protoc.
 
+# WASI-SDK — the wasm32-wasip1 cross-compiler for the renderer battery
+# (renderer/wasm.mk builds controls.wasm + reference.wasm) plus its
+# version-matched clang-tidy/clang-format (the C lint gate; an apt clang-tidy
+# lags the wasm compiler and misfires on C23). Installed the same way this
+# file installs Go/Zig/GraalVM: a versioned upstream tarball extracted to
+# /opt, arch-detected. Deliberately NOT on PATH — renderer/wasm.mk and the C
+# gates reference ${WASI_SDK_PATH}/bin explicitly (WASI_SDK ?= /opt/wasi-sdk),
+# so nothing apt-provided can ever shadow the pinned cross toolchain.
+ENV WASI_SDK_PATH=/opt/wasi-sdk
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then \
+        WASI_ARCH="arm64"; \
+    else \
+        WASI_ARCH="x86_64"; \
+    fi && \
+    wget -q https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${WASI_SDK_VERSION}/wasi-sdk-${WASI_SDK_VERSION}.0-${WASI_ARCH}-linux.tar.gz \
+    && mkdir -p ${WASI_SDK_PATH} \
+    && tar -C ${WASI_SDK_PATH} --strip-components=1 -xzf wasi-sdk-${WASI_SDK_VERSION}.0-${WASI_ARCH}-linux.tar.gz \
+    && rm wasi-sdk-${WASI_SDK_VERSION}.0-${WASI_ARCH}-linux.tar.gz \
+    && ${WASI_SDK_PATH}/bin/clang --version | head -1 \
+    && ${WASI_SDK_PATH}/bin/clang-tidy --version | head -2
+
 # Create workspace directory
 WORKDIR /workspace
 
@@ -151,6 +220,8 @@ RUN protoc --version \
     && python3 --version \
     && node --version \
     && java --version \
+    && mvn --version \
+    && clojure --version \
     && zig version \
     && protoc-gen-nanopb --version || echo "nanopb version check" \
     && which protoc-gen-go \

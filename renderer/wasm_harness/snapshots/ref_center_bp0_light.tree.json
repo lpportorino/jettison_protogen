@@ -1,0 +1,5 @@
+{
+  "type": "lv_obj",
+  "coords": [0, 0, 959, 539],
+  "children": [{ "type": "lv_obj", "coords": [430, 245, 529, 294], "children": [] }]
+}
