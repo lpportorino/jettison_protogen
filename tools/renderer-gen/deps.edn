@@ -8,11 +8,18 @@
 ;; :fixtures / :morph-fixtures / :codegen aliases. The ratified design
 ;; still converges the fixture source onto tools/devcards' public UiAst
 ;; builder; until that emitter lands, THIS classpath is what makes the battery
-;; self-sufficient in this tree (proven by the landing rehearsal).
+;; self-sufficient in this tree.
+;;
+;; The `asgard.*` namespace names are lineage artifacts of that shared closure —
+;; NOT a private backend leaked into this public repo. The code is generic
+;; proto↔EDN + manifest machinery over THIS repo's own PUBLIC schema
+;; (cmd.JonSharedCmd$Root, ser.JonGUIState, output/manifests + proto-db.edn).
+;; See .claude/rules/renderer-gen.md.
 ;;
 ;; Pins MIRROR the private source repo's deps.edn (same artifacts, same
-;; versions — the relocated namespaces are byte-identical to their source
-;; homes, so the deps must be too). protovalidate is a CLASS-INIT dependency
+;; versions — the relocated namespaces track their source homes, so the deps
+;; must too; private-infrastructure names in comments are genericized for this
+;; public tree). protovalidate is a CLASS-INIT dependency
 ;; of the generated Java (ui_ast.proto imports buf/validate/validate.proto).
 ;;
 ;; Classpath roots:

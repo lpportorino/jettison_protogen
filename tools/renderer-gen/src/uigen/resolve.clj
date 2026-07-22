@@ -12,7 +12,7 @@
      state-field → signal {:signal-name :constraints :type}
 
    The endpoint :path (e.g. \"cmd/day-camera/set-clahe-level\") is the route the
-   Asgard application layer exposes. The LVGL emitter pre-encodes cmd.* itself
+   application layer exposes. The LVGL emitter pre-encodes cmd.* itself
    (uigen.cmd-spec) and the renderer relays opaque bytes over host_command; the
    route also supplies the subsystem/command split for that pre-encode
    (subsystem + cmd-path split)."
@@ -93,8 +93,8 @@
         not-in (set (:not-in (:constraints f)))
         all-values (get-in (mf/proto-db) [:enums type-ref :values])
         ;; :match-key = the enum's prefix-stripped short name over ALL values —
-        ;; the SAME string asgard.signals/format-enum delivers on the live enum
-        ;; signal. The enum NUMBER (:value) can't match that display string; keeping
+        ;; the SAME string the live enum signal's display formatter delivers. The
+        ;; enum NUMBER (:value) can't match that display string; keeping
         ;; both representations lets native controls select the active option and
         ;; emit the numeric command value. ALL-values basis (not the
         ;; offered subset) so it equals the signal's basis regardless of :not-in.
@@ -176,7 +176,7 @@
 (defn signal-for
   "Resolve a state-field-path (\"camera_day.clahe_level\") to its signal
    {:signal-name :constraints :type}, or nil. `:signal-name` identifies the
-   Asgard/DataStar application value from which the separate protobuf controls
+   application value from which the separate protobuf controls
    projection can be populated; the path joins signals.json by
    (subsystem-field, field-name)."
   [state-field-path]

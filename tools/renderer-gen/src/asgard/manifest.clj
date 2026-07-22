@@ -51,7 +51,7 @@
 
 (defn subsystem-tags
   "Map of {kebab-keyword → proto field tag number} for the JonGUIState top-level
-   subsystem message fields — the wire-scan interest set (asgard.wirescan), the same
+   subsystem message fields — the wire-scan interest set, the same
    set protogen's binary-dedup analyzer emits to binary_dedup_tags.ts. Derived
    from proto-db: the root message's :message-typed fields with field number >= 13
    (below 13 is frame metadata like opaque_payloads, not a subsystem). This is

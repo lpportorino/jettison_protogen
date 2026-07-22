@@ -34,7 +34,7 @@
 
 ;; ── Per-subsystem partial decode (O7) ──────────────────────────────────
 ;;
-;; The wire-scan gate (asgard.wirescan) reports which subsystems CHANGED and their
+;; The wire-scan gate reports which subsystems CHANGED and their
 ;; byte slices; only those need decoding. Decoding just the changed subsystems
 ;; (~2 of 16 at rest) instead of the whole JonGUIState cuts the dominant residual
 ;; decode allocation. The decoded result is a PARTIAL state ({changed-kw → submap})

@@ -219,7 +219,7 @@
         base-arm-key (node-arm-key b)]
     (cond (contains? replace-always-types (:type t)) :replace-always-type
           (some replace-on-change-keys changed) :replace-on-change-key
-          ;; Asgard appeared/disappeared or switched — create-time structure.
+          ;; An arm appeared/disappeared or switched — create-time structure.
           (and (contains? changed (or base-arm-key (node-arm-key t)))
                (not= base-arm-key (node-arm-key t)))
           :props-arm-switched

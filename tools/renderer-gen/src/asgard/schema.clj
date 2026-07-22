@@ -3,8 +3,8 @@
 
    Named primitives are plain vars (pass-by-var) rather than a global
    registry: a `set-default-registry!` install mutates JVM-wide schema
-   resolution for every namespace, load-order dependent — Asgard references
-   schemas across namespaces by var instead, keeping resolution local
+   resolution for every namespace, load-order dependent — these namespaces
+   reference schemas across namespaces by var instead, keeping resolution local
    and explicit. Every
    primitive carries an `:error/fn` (value-bearing) or `:error/message`
    property so `malli.error/humanize` produces an actionable message —
@@ -77,18 +77,18 @@
   [:map [:source video-event-source] [:stream stream-name] [:timestamp ne-string]
    [:event video-event]])
 
-;; ── Log event schema (frontend/Tauri → backend log streaming) ──
+;; ── Log event schema (frontend → backend log streaming) ──
 (def log-source
-  [:enum {:error/fn (expected-fn "log source (tauri-main or tauri-video)")} "tauri-main"
-   "tauri-video"])
+  [:enum {:error/fn (expected-fn "log source (app-main or app-video)")} "app-main"
+   "app-video"])
 
 (def log-level
   [:enum {:error/fn (expected-fn "log level (error warn info debug)")} "error" "warn" "info"
    "debug"])
 
 (def log-event-envelope
-  "A Midgard log line forwarded to POST /events/log — re-emitted to Asgard's
-   stdout (joins the target wrapp→Redis→Timescale chain) and kept in the /debug
+  "A frontend log line forwarded to POST /events/log — re-emitted to the
+   backend's stdout (joins the downstream log-ingest chain) and kept in the /debug
    ring for local/dev."
   [:map [:source log-source] [:level log-level] [:logger ne-string] [:message ne-string]
    ;; full stack trace (uncaught error / unhandled rejection / Error arg) — a

@@ -60,4 +60,5 @@ language bindings, not a hand-maintained app.
   product's screens contain.
 
 The `CLAUDE.md` charter states the "why"; the `devcards` rule covers the
-goldens/gallery side.
+goldens/gallery side, and the `renderer-gen` rule covers the fixture/codegen
+seam under `tools/renderer-gen/`.

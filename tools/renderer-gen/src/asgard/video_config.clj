@@ -1,15 +1,16 @@
 (ns asgard.video-config
-  "The one Asgard-side home for the eight native stream names. The telemetry
-   boundary derives its closed stream enum from these keys; Bifrost and Midgard
-   carry their transport/channel contract independently in the shared Rust
-   wire crate.")
+  "The one home for the eight native stream names. The telemetry
+   boundary derives its closed stream enum from these keys; the video transport
+   and demux layers carry their transport/channel contract independently in the
+   shared Rust wire crate.")
 
 (set! *warn-on-reflection* true)
 
 (def streams
   "Video stream configs: codec, source identity, legacy producer port, and OSD variant.
-   The `:wt-port` key is retained as producer metadata only; Midgard receives
-   every channel over the single native Bifrost connection and never dials it.
+   The `:wt-port` key is retained as producer metadata only; the demux layer
+   receives every channel over the single native transport connection and never
+   dials it.
    H.264 streams use avc1 with profile/level matching actual SPS:
    - day_video:    Main Profile (0x4d), constraints 0x0c, Level 4.0 (0x29)
    - heat_video:   Main Profile (0x4d), constraints 0x0c, Level 3.1 (0x1f)
