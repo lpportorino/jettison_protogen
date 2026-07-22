@@ -76,9 +76,9 @@
    renderer couples the widened tap target (ext_click_area, LV_DPX(24)) to
    the same prop. The prop is pixel-inert — the scrubber's look never
    depends on it."
-  [{:keys [min max value width height seek-event-name]} buffered?]
+  [{mn :min mx :max :keys [value width height seek-event-name]} buffered?]
   {:type :WIDGET_SLIDER
-   :props {:slider_props {:min_value min :max_value max :value value :seek_on_press true}}
+   :props {:slider_props {:min_value mn :max_value mx :value value :seek_on_press true}}
    :event {:name seek-event-name :trigger :value-changed :include-widget-value true}
    :styles (into [(if buffered?
                     {:part :main :props {:w width :h height :bg-opa 0}}
@@ -91,9 +91,9 @@
 (defn- scrubber-bar
   "The underlay bar: MAIN = the unplayed track, INDICATOR = the buffered
    extent. Sits beneath the transparent-track slider overlay."
-  [{:keys [min max buffered width height]}]
+  [{mn :min mx :max :keys [buffered width height]}]
   {:type :WIDGET_BAR
-   :props {:bar_props {:min_value min :max_value max :value buffered}}
+   :props {:bar_props {:min_value mn :max_value mx :value buffered}}
    :styles [{:part :main
              :props {:w width :h height :bg-color (:track scrubber-palette) :radius 4}}
             {:part :indicator :props {:bg-color (:buffered scrubber-palette) :radius 4}}]})
@@ -124,18 +124,18 @@
    renderer applies node x/y before the bare strip, so a bare wrapper
    silently loses an authored position (lv_obj_set_pos writes local
    styles lv_obj_remove_style_all erases — measured)."
-  [{:keys [min max value buffered width height seek-event-name] :as opts}]
+  [{mn :min mx :max :keys [value buffered width height seek-event-name] :as opts}]
   (assert-closed "scrubber" scrubber-keys opts)
-  (doseq [[k v] {:min min :max max :value value :width width :height height}]
+  (doseq [[k v] {:min mn :max mx :value value :width width :height height}]
     (require-int! "scrubber" k v))
   (require-ne-string! "scrubber" :seek-event-name seek-event-name)
-  (when-not (< (long min) (long max))
-    (throw (ex-info "scrubber: :min must be < :max" {:min min :max max})))
+  (when-not (< (long mn) (long mx))
+    (throw (ex-info "scrubber: :min must be < :max" {:min mn :max mx})))
   (doseq [[k v] (cond-> {:value value} (some? buffered) (assoc :buffered buffered))]
     (require-int! "scrubber" k v)
-    (when-not (<= (long min) (long v) (long max))
+    (when-not (<= (long mn) (long v) (long mx))
       (throw (ex-info (str "scrubber: " k " outside [:min :max]")
-                      {k v :min min :max max}))))
+                      {k v :min mn :max mx}))))
   (when-not (and (pos? (long width)) (pos? (long height)))
     (throw (ex-info "scrubber: :width/:height must be positive"
                     {:width width :height height})))
@@ -172,9 +172,29 @@
 (def ^:private sym-next "")
 
 (def transport-glyphs
-  "Transport key → glyph. The key is also the host-event suffix, so a caller
-   reading `<transport-event-name>-play` needs no glyph knowledge."
+  "Transport key → glyph, for the keys whose glyph is FIXED. The key is also
+   the host-event suffix, so a caller reading `<transport-event-name>-prev`
+   needs no glyph knowledge.
+
+   `:play-pause` is deliberately NOT here: it is the one STATEFUL control, so
+   its glyph is not a function of the key alone (see `transport-glyph`)."
   {:prev sym-prev :play sym-play :pause sym-pause :stop sym-stop :next sym-next})
+
+(def transport-keys
+  "Every accepted `:transport` key — the fixed-glyph ones plus `:play-pause`."
+  (conj (set (keys transport-glyphs)) :play-pause))
+
+(defn- transport-glyph
+  "The glyph for one transport key. `:play-pause` is a single button carrying
+   TWO icons: a media player has one play/pause control whose glyph shows the
+   action available, so a playing transport offers ⏸ and a paused one ⏵. It
+   still emits ONE event identity (`…-play-pause`) in both states — the host
+   toggles its own state and re-renders with `:playing?` flipped, exactly as
+   it would for any other stateful widget."
+  [k playing?]
+  (if (= k :play-pause)
+    (if playing? sym-pause sym-play)
+    (get transport-glyphs k)))
 
 (def scrubber-rich-chrome
   "Chrome geometry for the optional parts, px at dpi 160. One documented home
@@ -185,12 +205,19 @@
    own padding inside the row and LVGL draws past the nominal extent — a
    labelled scale renders its tick TEXT below the tick marks, and a button
    sized to the row height has no room left once the row is padded. The
-   surplus here is what keeps the :clipped / :overflow invariants green."
-  {:btn-w 40 :btn-h 32 :transport-h 44 :tick-h 46 :readout-h 24})
+   surplus here is what keeps the :clipped / :overflow invariants green.
+
+   `:readout-w` is the width of EACH flanking readout box on the transport
+   row. Both flanks are given the SAME width on purpose: LVGL's
+   `space-between` splits the leftover evenly BETWEEN children, so a 3-child
+   row centers its middle child exactly when the two outer children are equal
+   width — and only then. Equal boxes make the button group's centering a
+   property of the layout rather than of how long the timecodes happen to be."
+  {:btn-w 40 :btn-h 32 :transport-h 44 :tick-h 46 :readout-h 24 :readout-w 64})
 
 (def ^:private scrubber-rich-keys
   #{:min :max :value :buffered :width :height :seek-event-name
-    :ticks :labels :readout :transport :transport-event-name})
+    :ticks :labels :readout :transport :transport-event-name :playing?})
 
 (defn- tick-scale
   "The tick strip under the track: a horizontal-bottom scale spanning the same
@@ -198,7 +225,7 @@
    `labels` (optional, \"\\n\"-joined into :text_src) supplies the MAJOR-tick
    texts — that is how a timecode ruler is expressed without any new
    vocabulary; without it the ticks are drawn unlabelled."
-  [{:keys [min max width ticks labels x y]}]
+  [{mn :min mx :max :keys [width ticks labels x y]}]
   (let [{:keys [total major-every]} ticks]
     {:type :WIDGET_SCALE
      :props {:w width
@@ -207,28 +234,39 @@
              :y y
              :scale_props
              (cond-> {:mode :horizontal-bottom
-                      :min_value min
-                      :max_value max
+                      :min_value mn
+                      :max_value mx
                       :total_tick_count total
                       :major_tick_every major-every
                       :label_show (boolean (seq labels))}
                (seq labels) (assoc :text_src (str/join "\n" labels)))}}))
 
-(defn- transport-row
-  "The transport button group: one symbol button per requested key, in the
+(defn- readout-label
+  "One flanking timecode. Fixed `:readout-w` box (see `scrubber-rich-chrome`)
+   with the text aligned to the edge it hugs, so the label reads as pinned to
+   the row's end no matter how long the timecode is."
+  [text align]
+  {:type :WIDGET_LABEL
+   :text (str text)
+   :styles [{:part :main
+             :props {:w (:readout-w scrubber-rich-chrome) :text-align align}}]})
+
+(defn- transport-group
+  "The buttons themselves: one symbol button per requested key, in the
    caller's order. Each emits `<transport-event-name>-<key>` so the group is
-   one event family the host can switch on."
-  [{:keys [transport transport-event-name width x y]}]
+   one event family the host can switch on — `:play-pause` included, which
+   keeps one identity across both of its glyphs."
+  [{:keys [transport transport-event-name playing?]} width]
   (let [{:keys [btn-w btn-h transport-h]} scrubber-rich-chrome]
     {:type :WIDGET_OBJ
-     ;; Full TRACK width with main-place CENTER: the theme owns the inter-button
+     ;; main-place CENTER over abundant width: the theme owns the inter-button
      ;; gap and a lego cannot pin it, so instead of sizing to an exact sum (which
-     ;; clipped the buttons) the row is given abundant horizontal slack and the
-     ;; group is centered inside it. Overflow becomes structurally impossible.
+     ;; clipped the buttons) the group is given horizontal slack and centered
+     ;; inside it. Overflow becomes structurally impossible.
      ;; Transparent + borderless: a themed lv_obj would draw a panel box around
      ;; the buttons, which reads as chrome the scrubber does not have.
      :styles [{:part :main
-               :props {:w width :h transport-h :pad-all 0 :x x :y y
+               :props {:w width :h transport-h :pad-all 0
                        :border-width 0 :bg-opa 0}}]
      :layout {:flow :row :main-place :center :cross-place :center}
      :flags-clear [:scrollable]
@@ -237,12 +275,39 @@
                         :props {:w btn-w :h btn-h}
                         :event {:name (str transport-event-name "-" (name k))
                                 :trigger :clicked}
-                        :children [{:type :WIDGET_LABEL :text (transport-glyphs k)}]})
+                        :children [{:type :WIDGET_LABEL
+                                    :text (transport-glyph k playing?)}]})
                      transport)}))
 
+(defn- transport-row
+  "The transport row: the button group, optionally FLANKED by the elapsed and
+   total timecodes. Putting the readout here rather than on its own strip is
+   what the row's own empty shoulders are for — the group only ever occupies
+   the middle, and a separate readout line buys a second row of height to say
+   two short words."
+  [{:keys [readout width x y] :as opts}]
+  (let [{:keys [elapsed total]} readout
+        {:keys [transport-h readout-w]} scrubber-rich-chrome
+        ;; equal flanks => `space-between` centers the group exactly; see the
+        ;; `:readout-w` note in scrubber-rich-chrome.
+        group-w (if readout (- (long width) (* 2 (long readout-w))) (long width))]
+    {:type :WIDGET_OBJ
+     ;; transparent + borderless for the same reason as the group itself
+     :styles [{:part :main
+               :props {:w width :h transport-h :pad-all 0 :x x :y y
+                       :border-width 0 :bg-opa 0}}]
+     :layout {:flow :row :main-place :space-between :cross-place :center}
+     :flags-clear [:scrollable]
+     :children (if readout
+                 [(readout-label elapsed :left)
+                  (transport-group opts group-w)
+                  (readout-label total :right)]
+                 [(transport-group opts group-w)])}))
+
 (defn- readout-row
-  "Elapsed / total readout. Kept OFF the track deliberately: labels drawn on a
-   narrow track collide at small widths, while a readout beside it stays
+  "Elapsed / total readout as its OWN strip — the shape used only when there
+   is no transport row to flank. Kept OFF the track deliberately: labels drawn
+   on a narrow track collide at small widths, while a readout beside it stays
    legible at any width."
   [{:keys [width readout x y]}]
   (let [{:keys [elapsed total]} readout]
@@ -253,8 +318,8 @@
                        :pad-all 0 :x x :y y :border-width 0 :bg-opa 0}}]
      :layout {:flow :row :main-place :space-between :cross-place :center}
      :flags-clear [:scrollable]
-     :children [{:type :WIDGET_LABEL :text (str elapsed)}
-                {:type :WIDGET_LABEL :text (str total)}]}))
+     :children [(readout-label elapsed :left)
+                (readout-label total :right)]}))
 
 (defn scrubber-rich
   "A configurable media scrubber. Required keys are the plain `scrubber`'s;
@@ -263,14 +328,19 @@
 
      :ticks    {:total N :major-every M}  — a tick ruler under the track
      :labels   [\"0:00\" \"1:00\" …]          — MAJOR-tick texts (needs :ticks)
-     :readout  {:elapsed \"1:12\" :total \"3:40\"} — elapsed/total beside the bar
-     :transport [:prev :play :pause :stop :next] — a grouped button row
+     :readout  {:elapsed \"1:12\" :total \"3:40\"} — elapsed/total timecodes
+     :transport [:prev :play-pause :stop :next] — a grouped button row
      :transport-event-name \"tp\"           — required with :transport
+     :playing? true|false                  — required with :play-pause
 
-   Parts stack in a column: transport, track, ticks, readout. The embedded
+   Parts stack in a column: transport, track, ticks, readout. WITH a transport
+   row the readout is not a row of its own — it FLANKS the buttons, which is
+   what that row's otherwise-empty shoulders are for; the standalone readout
+   strip is what a readout-without-transport falls back to. The embedded
    `scrubber` keeps its own hit-halo, so the track's tap target is unchanged
    by anything stacked around it."
-  [{:keys [width height ticks labels readout transport transport-event-name]
+  [{:keys [width height ticks labels readout transport transport-event-name
+           playing?]
     :as opts}]
   (assert-closed "scrubber-rich" scrubber-rich-keys opts)
   (when (and (seq labels) (not ticks))
@@ -282,11 +352,16 @@
     (when-not (and (vector? transport) (seq transport))
       (throw (ex-info "scrubber-rich: :transport must be a non-empty vector"
                       {:transport transport})))
-    (let [unknown (remove (set (keys transport-glyphs)) transport)]
+    (let [unknown (remove transport-keys transport)]
       (when (seq unknown)
         (throw (ex-info "scrubber-rich: unknown :transport keys"
                         {:unknown (vec unknown)
-                         :allowed (vec (sort (keys transport-glyphs)))}))))
+                         :allowed (vec (sort transport-keys))}))))
+    ;; :play-pause draws one of two glyphs, so leaving the state implicit would
+    ;; silently pick one. Demand it instead.
+    (when (and (some #{:play-pause} transport) (not (boolean? playing?)))
+      (throw (ex-info "scrubber-rich: :play-pause needs an explicit :playing? boolean"
+                      {:playing? playing?})))
     (require-ne-string! "scrubber-rich" :transport-event-name transport-event-name))
   (when readout
     (doseq [k [:elapsed :total]]
@@ -300,7 +375,9 @@
         base-h (+ (long height) (* 2 halo))
         t-h (if transport (long transport-h) 0)
         k-h (if ticks (long tick-h) 0)
-        r-h (if readout (long readout-h) 0)
+        ;; a flanked readout costs no vertical strip of its own
+        standalone-readout? (and readout (not transport))
+        r-h (if standalone-readout? (long readout-h) 0)
         y-base t-h
         y-ticks (+ t-h base-h)
         y-readout (+ t-h base-h k-h)
@@ -331,7 +408,8 @@
                  :always (conj (update-in base [:styles 0 :props]
                                           assoc :x 0 :y y-base))
                  ticks (conj (tick-scale (assoc opts :x halo :y y-ticks)))
-                 readout (conj (readout-row (assoc opts :x halo :y y-readout))))}))
+                 standalone-readout?
+                 (conj (readout-row (assoc opts :x halo :y y-readout))))}))
 
 ;; ── dock-panel ──────────────────────────────────────────────────────────
 ;; LVGL built-in FontAwesome symbol glyphs (lv_symbol_def.h) — plain UTF-8

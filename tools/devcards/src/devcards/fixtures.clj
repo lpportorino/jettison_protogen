@@ -131,7 +131,13 @@
   [[:w "PROP_WIDTH" :uint] [:h "PROP_HEIGHT" :uint] [:x "PROP_X" :int] [:y "PROP_Y" :int]
    [:pad-all "PROP_PAD_ALL" :uint] [:radius "PROP_RADIUS" :uint]
    [:border-width "PROP_BORDER_WIDTH" :uint] [:border-color "PROP_BORDER_COLOR" :color]
-   [:text-color "PROP_TEXT_COLOR" :color] [:text-font "PROP_TEXT_FONT" :string]])
+   [:text-color "PROP_TEXT_COLOR" :color] [:text-font "PROP_TEXT_FONT" :string]
+   [:text-align "PROP_TEXT_ALIGN" :text-align]])
+
+(def ^:private text-aligns
+  "`ui.TextAlign` numbers. The slot rides the uint value flavor (an enum on
+   the wire is a uint), so the keyword lane is what keeps a card readable."
+  {:auto 0 :left 1 :center 2 :right 3})
 
 (defn- style-prop
   "One StyleProperty with the slot's declared value flavor."
@@ -142,7 +148,8 @@
       :uint (.setUintValue b (int v))
       :int (.setIntValue b (int v))
       :string (.setStringValue b ^String v)
-      :color (.setColorValue b (->color v)))
+      :color (.setColorValue b (->color v))
+      :text-align (.setUintValue b (int (enum-of text-aligns v "text-align"))))
     (.build b)))
 
 (defn- style-group
@@ -1056,10 +1063,10 @@
   "Write built entries to `<dir>/<id>.pb` (ids contain '/': subdirs are
    created). Returns the file count."
   ^long [dir built]
-  (doseq [{:keys [id ^bytes bytes]} built
+  (doseq [{:keys [id] ^bytes pb :bytes} built
           :let [f (io/file dir (str id ".pb"))]]
     (io/make-parents f)
-    (with-open [out (io/output-stream f)] (.write out bytes)))
+    (with-open [out (io/output-stream f)] (.write out pb)))
   (count built))
 
 (defn -main

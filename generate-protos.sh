@@ -528,8 +528,11 @@ BUF_EOF
     buf build . -o /workspace/output/descriptor-set.json --exclude-source-info
 
     # Binary FileDescriptorSet (buf.validate options + imports retained) for
-    # prost-reflect / protovalidate consumers' test-time buf.validate checks
-    # (validate_state/validate_cmd). Lands beside
+    # prost-reflect / protovalidate consumers, for their test-time buf.validate
+    # checks (validate_state/validate_cmd). NOTE: this whole block is the body of
+    # a SINGLE-QUOTED bash -c payload, so a bare apostrophe here TERMINATES the
+    # payload and the rest of the comment executes as shell. Write '\''  or, as
+    # here, avoid the apostrophe. Lands beside
     # descriptor-set.json in output/json-descriptors/. --as-file-descriptor-set
     # emits a pure google.protobuf.FileDescriptorSet (not the buf Image
     # superset), which a prost-reflect DescriptorPool decodes.

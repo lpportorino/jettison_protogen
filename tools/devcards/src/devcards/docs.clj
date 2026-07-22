@@ -412,10 +412,10 @@ contact-sheet JPEGs rendered from the pinned controls.wasm.
 ;; ── Generation (renders + writes) ───────────────────────────────────────
 (defn- write-bytes!
   "Write `bytes` at `path` (parents created). Returns {:path :bytes}."
-  [^String path ^bytes bytes]
+  [^String path ^bytes content]
   (io/make-parents path)
-  (with-open [out (io/output-stream path)] (.write out bytes))
-  {:path path :bytes (alength bytes)})
+  (with-open [out (io/output-stream path)] (.write out content))
+  {:path path :bytes (alength content)})
 
 (defn- write-text!
   "Write text at `path` (parents created). Returns {:path :bytes}."

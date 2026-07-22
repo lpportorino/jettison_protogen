@@ -69,11 +69,11 @@
   (reduce
    (fn [acc entry]
      (let [r (try {:ok (fixtures/build-entry spec entry)} (catch Exception e {:error e}))]
-       (if-some [^bytes bytes (:ok r)]
+       (if-some [^bytes pb (:ok r)]
          (update acc
                  :built
                  conj
-                 (assoc (select-keys entry [:kind :id :widget :type :expect]) :bytes bytes))
+                 (assoc (select-keys entry [:kind :id :widget :type :expect]) :bytes pb))
          (update acc
                  :failures
                  conj
@@ -99,14 +99,14 @@
         failures (into
                   []
                   (keep
-                   (fn [{:keys [id ^bytes bytes]}]
-                     (try (let [screen (UiAst$Screen/parseFrom bytes)
+                   (fn [{:keys [id] ^bytes pb :bytes}]
+                     (try (let [screen (UiAst$Screen/parseFrom pb)
                                 result (.validate validator screen)]
                             (cond (not (.isSuccess result))
                                   {:id id
                                    :error "protovalidate violations"
                                    :data {:violations (mapv str (.getViolations result))}}
-                                  (not (Arrays/equals bytes (.toByteArray screen)))
+                                  (not (Arrays/equals pb (.toByteArray screen)))
                                   {:id id :error "parse -> re-serialize not byte-identical"}
                                   :else nil))
                           (catch Exception e
@@ -116,13 +116,13 @@
         spot-failures
         (into []
               (keep
-               (fn [{:keys [tag type cards]}]
+               (fn [{:keys [tag cards] wtype :type}]
                  (let [first-id (:id (first cards))
                        entry (get by-id first-id)]
                    (cond (nil? entry)
                          {:id first-id :widget tag :error "spot-check card was never built"}
                          :else (let [screen (UiAst$Screen/parseFrom ^bytes (:bytes entry))
-                                     wt (UiAst$WidgetType/valueOf (name type))]
+                                     wt (UiAst$WidgetType/valueOf (name wtype))]
                                  (when-not (tree-contains-type? (.getRoot screen) wt)
                                    {:id first-id
                                     :widget tag
@@ -152,11 +152,11 @@
   (let [{:keys [w h]} (get-in spec [:render :canvas])
         dpi (get-in spec [:render :dpi])]
     (reduce
-     (fn [acc {:keys [id ^bytes bytes]}]
+     (fn [acc {:keys [id] ^bytes pb :bytes}]
        (let [t0 (System/nanoTime)
              r (try (let [h* (host/start! {:wasm wasm-path :assets assets-path :w w :h h})]
                       (try
-                        (let [fb (host/render-card! h* {:pb bytes :bp 0 :dark 1 :dpi dpi})
+                        (let [fb (host/render-card! h* {:pb pb :bp 0 :dark 1 :dpi dpi})
                               opaque (opaque-count fb)]
                           (if (pos? opaque)
                             {:ok {:id id

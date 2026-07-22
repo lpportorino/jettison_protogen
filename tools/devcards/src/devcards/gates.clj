@@ -69,21 +69,21 @@
            :when (contains? #{:distinct :inert} expect)
            :let [base-id (baseline-id id)
                  base-hash (get hashes base-id)
-                 hash (get hashes id)
-                 finding (cond (nil? hash) nil ; coverage lane owns missing renders
+                 card-hash (get hashes id)
+                 finding (cond (nil? card-hash) nil ; coverage lane owns missing renders
                                (nil? base-hash)
                                {:gate :state-contract
                                 :card id
                                 :detail (str "baseline card "
                                              base-id
                                              " missing from spec/renders — spec defect")}
-                               (and (= expect :distinct) (= hash base-hash))
+                               (and (= expect :distinct) (= card-hash base-hash))
                                {:gate :distinctness
                                 :card id
                                 :detail (str "committed state renders IDENTICAL to "
                                              base-id
                                              " — the theme does not style it")}
-                               (and (= expect :inert) (not= hash base-hash))
+                               (and (= expect :inert) (not= card-hash base-hash))
                                {:gate :inertness
                                 :card id
                                 :detail (str "uncommitted state renders DIFFERENT from "

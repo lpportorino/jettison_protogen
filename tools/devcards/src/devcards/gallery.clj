@@ -213,7 +213,7 @@
   ^BufferedImage [paths canvas entries fam]
   (when (empty? entries)
     (throw (ex-info "widget class has ZERO renderable cards" {:family (:key fam)})))
-  (sheet (mapv (fn [{:keys [id ^bytes bytes]}]
-                 {:image (render-cell! paths canvas bytes fam (str id))
+  (sheet (mapv (fn [{:keys [id] ^bytes pb :bytes}]
+                 {:image (render-cell! paths canvas pb fam (str id))
                   :label (cell-label (str id))})
                entries)))

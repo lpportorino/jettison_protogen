@@ -16,16 +16,16 @@
         (host/start!
          {:wasm (str ws "/output/controls.wasm") :assets (str ws "/assets") :w 480 :h 320})]
     (io/make-parents "out/fb-probe/x")
-    (doseq [name spike-fixtures
+    (doseq [fixture spike-fixtures
             dark [0 1]]
       (let [pb (java.nio.file.Files/readAllBytes (java.nio.file.Path/of
-                                                  (str ws "/output/fixtures/" name ".pb")
+                                                  (str ws "/output/fixtures/" fixture ".pb")
                                                   (into-array String [])))
             t0 (System/nanoTime)
             fb (host/render-card! h {:pb pb :bp 0 :dark dark})
             ms (/ (- (System/nanoTime) t0) 1e6)]
-        (with-open [out (io/output-stream (str "out/fb-probe/" name "_dark" dark ".raw"))]
+        (with-open [out (io/output-stream (str "out/fb-probe/" fixture "_dark" dark ".raw"))]
           (.write out ^bytes fb))
-        (println (format "%s_dark%d: %d bytes, %.1f ms" name dark (count fb) ms))))
+        (println (format "%s_dark%d: %d bytes, %.1f ms" fixture dark (count fb) ms))))
     (host/close! h)
     (println "SPIKE DUMPS DONE")))

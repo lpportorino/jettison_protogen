@@ -120,9 +120,9 @@
   (when (empty? built) (throw (ex-info "empty corpus — refusing a vacuous run" {})))
   (let [t0 (System/nanoTime)
         f0 (into {}
-                 (map (fn [{:keys [id expect ^bytes bytes]}]
-                        (let [dark (render-one! bytes {:family 0 :dark true :dump? true})
-                              light (render-one! bytes {:family 0 :dark false})]
+                 (map (fn [{:keys [id expect] ^bytes pb :bytes}]
+                        (let [dark (render-one! pb {:family 0 :dark true :dump? true})
+                              light (render-one! pb {:family 0 :dark false})]
                           [(str id)
                            {:dark-hash (golden/sha256-hex (:fb dark))
                             :light-hash (golden/sha256-hex (:fb light))
@@ -132,10 +132,10 @@
         fam-hashes (fn [family dark]
                      (into {}
                            (map
-                            (fn [{:keys [id ^bytes bytes]}]
+                            (fn [{:keys [id] ^bytes pb :bytes}]
                               [(str id)
                                (golden/sha256-hex
-                                (:fb (render-one! bytes {:family family :dark dark})))]))
+                                (:fb (render-one! pb {:family family :dark dark})))]))
                            built))
         f1d (fam-hashes 1 true)
         f2d (fam-hashes 2 true)
@@ -195,19 +195,19 @@
   [inventory built]
   (when (empty? built)
     (throw (ex-info "empty composition corpus — refusing a vacuous run" {})))
-  (when-not (= (:canvas inventory) (get-in render-protocol [:canvas]))
+  (when-not (= (:canvas inventory) (:canvas render-protocol))
     (throw (ex-info "composition canvas != the pinned render protocol's"
                     {:inventory (:canvas inventory)
-                     :protocol (get-in render-protocol [:canvas])})))
+                     :protocol (:canvas render-protocol)})))
   (let [t0 (System/nanoTime)
         f0 (into {}
-                 (map (fn [{:keys [id ^bytes bytes]}]
-                        (let [dark (render-one! bytes {:family 0 :dark true :dump? true})
-                              light (render-one! bytes {:family 0 :dark false})]
+                 (map (fn [{:keys [id] ^bytes pb :bytes}]
+                        (let [dark (render-one! pb {:family 0 :dark true :dump? true})
+                              light (render-one! pb {:family 0 :dark false})]
                           (persist-bytes! (str composition-out-dir "/cards/"
                                                (comp-slug id)
                                                ".pb")
-                                          bytes)
+                                          pb)
                           (persist-bytes! (str composition-out-dir "/fb/"
                                                (comp-slug id)
                                                "_dark1.raw")
@@ -233,10 +233,10 @@
                  built)
         fam-hashes (fn [family dark]
                      (into {}
-                           (map (fn [{:keys [id ^bytes bytes]}]
+                           (map (fn [{:keys [id] ^bytes pb :bytes}]
                                   [(str id)
                                    (golden/sha256-hex
-                                    (:fb (render-one! bytes
+                                    (:fb (render-one! pb
                                                       {:family family :dark dark})))]))
                            built))
         f1d (fam-hashes 1 true)
@@ -279,13 +279,13 @@
       (let [{:keys [findings counts manifests]} (run-generate spec built)
             inventory (composition/load-inventory)
             comp-built (composition/build-all inventory)
-            comp (run-composition inventory comp-built)
-            all-findings (into (vec findings) (:findings comp))]
+            comp-run (run-composition inventory comp-built)
+            all-findings (into (vec findings) (:findings comp-run))]
         (golden/write-manifest! (:dark manifests) "goldens/manifest-dark.edn")
         (golden/write-manifest! (:light manifests) "goldens/manifest-light.edn")
-        (golden/write-manifest! (:dark (:manifests comp))
+        (golden/write-manifest! (:dark (:manifests comp-run))
                                 "goldens/manifest-composition-dark.edn")
-        (golden/write-manifest! (:light (:manifests comp))
+        (golden/write-manifest! (:light (:manifests comp-run))
                                 "goldens/manifest-composition-light.edn")
         ;; Persist the FULL findings vector every run (console truncates at
         ;; 40) — triage reads out/findings.edn, the exit code stays the gate.
@@ -293,9 +293,9 @@
         (with-open [w (io/writer "out/findings.edn")] (pp/pprint all-findings w))
         (println "renders:" (:renders counts)
                  " elapsed:" (format "%.1fs" (double (:elapsed-s counts))))
-        (println "composition renders:" (:composition-renders (:counts comp))
-                 " cards:" (:composition-cards (:counts comp))
-                 " elapsed:" (format "%.1fs" (double (:elapsed-s (:counts comp)))))
+        (println "composition renders:" (:composition-renders (:counts comp-run))
+                 " cards:" (:composition-cards (:counts comp-run))
+                 " elapsed:" (format "%.1fs" (double (:elapsed-s (:counts comp-run)))))
         (println "findings:" (count all-findings)
                  " by lane:"
                  (frequencies (map #(or (:gate %) (:invariant %)) all-findings)))
@@ -314,8 +314,8 @@
                                            :built comp-built}
                              :paths {:wasm wasm-path :assets assets-path}})
             total (reduce + (map :bytes files))]
-        (doseq [{:keys [path bytes]} files]
-          (println (format "  %-64s %8d bytes" path bytes)))
+        (doseq [{:keys [path] n :bytes} files]
+          (println (format "  %-64s %8d bytes" path n)))
         (println
          (format
           "gallery: %d cell renders, %d sheets, %d pages, %d files, %d bytes total, %.1fs"

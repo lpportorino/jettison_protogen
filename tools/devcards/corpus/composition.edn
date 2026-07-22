@@ -60,17 +60,38 @@
    :id "lego/scrubber-rich-full"
    :lego :scrubber-rich
    :notes
-   "Every optional part enabled: transport row, the plain scrubber embedded unchanged (halo + press-seek intact), a labelled tick ruler, and an elapsed/total readout. Major-tick texts ride ScaleProps.text_src, so the timecode ruler needs no vocabulary beyond WIDGET_SCALE."
+   "Every optional part enabled: transport row FLANKED by the elapsed/total readout, the plain scrubber embedded unchanged (halo + press-seek intact), and a labelled tick ruler. Major-tick texts ride ScaleProps.text_src, so the timecode ruler needs no vocabulary beyond WIDGET_SCALE. :playing? true, so the one play/pause button shows the PAUSE glyph."
    :opts
    {:buffered 85
     :height 20
     :labels ["0:00" "0:45" "1:30" "2:15" "3:00"]
     :max 100
     :min 0
+    :playing? true
     :readout {:elapsed "1:12" :total "3:00"}
     :seek-event-name "seek"
     :ticks {:major-every 10 :total 41}
-    :transport [:prev :play :pause :stop :next]
+    :transport [:prev :play-pause :stop :next]
+    :transport-event-name "tp"
+    :value 40
+    :width 600}
+   :placement {:x 76 :y 60}}
+  {:expect :composition
+   :id "lego/scrubber-rich-paused"
+   :lego :scrubber-rich
+   :notes
+   "The :playing? twin of lego/scrubber-rich-full — identical in every other option, so the ONLY difference between the two renders is the play/pause button's glyph. That is the whole claim of the single stateful transport control: one button, one event identity (tp-play-pause), two icons."
+   :opts
+   {:buffered 85
+    :height 20
+    :labels ["0:00" "0:45" "1:30" "2:15" "3:00"]
+    :max 100
+    :min 0
+    :playing? false
+    :readout {:elapsed "1:12" :total "3:00"}
+    :seek-event-name "seek"
+    :ticks {:major-every 10 :total 41}
+    :transport [:prev :play-pause :stop :next]
     :transport-event-name "tp"
     :value 40
     :width 600}

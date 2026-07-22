@@ -33,3 +33,6 @@ tmp/
 
 # Claude monitor state (flock locks) — see .claude/rules/monitor-discipline.md
 .protogen/
+
+# Clojure CLI classpath cache (tools.deps writes it wherever it is invoked)
+.cpcache/

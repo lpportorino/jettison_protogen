@@ -27,7 +27,12 @@
    :h 480},
   "lego/scrubber-rich-full"
   {:sha256
-   "137a668326dbc55ba3d188ad3b9772b4758007cf34b8baf011e254ed96bcefde",
+   "2f71db61c37077018c0f7089bb9c11ad97d30fe733027371403184d1f710b16b",
+   :w 800,
+   :h 480},
+  "lego/scrubber-rich-paused"
+  {:sha256
+   "1538044a6d989d7780091224d0aa5c123cb21caccfa21c1641a8377f59b29cf5",
    :w 800,
    :h 480},
   "lego/scrubber-rich-ticks"

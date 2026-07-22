@@ -24,6 +24,14 @@ NPROC := $(shell nproc 2>/dev/null \
 	|| getconf _NPROCESSORS_ONLN 2>/dev/null \
 	|| echo 4)
 
+# clang-format REWRITES COMMITTED SOURCE, so its version is part of the
+# toolchain pin, not a local detail — clang-format's output changes across
+# major versions, and a dev on a different one would fight CI forever. The
+# WASI-SDK the renderer is built with already ships one (it is just not on
+# PATH), so the uber container and CI resolve to that pinned binary; a bare
+# `clang-format` is the host fallback for a read-only check.
+CLANG_FORMAT := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-format) clang-format)
+
 # Hand-authored Clojure source roots (dirs, per tool convention).
 LINT_CLJ_PATHS := tools/devcards/src \
 	tools/devcards/dev \
@@ -89,10 +97,10 @@ splint-clj:
 # --dry-run --Werror is clang-format's own check mode: it reports would-be
 # edits and exits non-zero, without touching the tree.
 fmt-c:
-	@printf '\033[32m[fmt-c]\033[0m clang-format --dry-run (%s cpus, %s files)\n' \
-		"$(NPROC)" "$(words $(FMT_C_FILES))"
+	@printf '\033[32m[fmt-c]\033[0m %s --dry-run (%s cpus, %s files)\n' \
+		"$(CLANG_FORMAT)" "$(NPROC)" "$(words $(FMT_C_FILES))"
 	@printf '%s\n' $(FMT_C_FILES) \
-		| xargs -P $(NPROC) -n 1 clang-format --style=file --dry-run --Werror
+		| xargs -P $(NPROC) -n 1 $(CLANG_FORMAT) --style=file --dry-run --Werror
 
 ## fmt-fix: rewrite formatting in place (both languages)
 fmt-fix: fmt-clj-fix fmt-c-fix
@@ -102,6 +110,6 @@ fmt-clj-fix:
 	@clojure -M:fmt fix $(LINT_CLJ_PATHS)
 
 fmt-c-fix:
-	@printf '\033[32m[fmt-c-fix]\033[0m clang-format -i (%s cpus)\n' "$(NPROC)"
+	@printf '\033[32m[fmt-c-fix]\033[0m %s -i (%s cpus)\n' "$(CLANG_FORMAT)" "$(NPROC)"
 	@printf '%s\n' $(FMT_C_FILES) \
-		| xargs -P $(NPROC) -n 1 clang-format --style=file -i
+		| xargs -P $(NPROC) -n 1 $(CLANG_FORMAT) --style=file -i
