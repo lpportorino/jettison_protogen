@@ -13,7 +13,7 @@
    Headless is forced at ns-load so the encoder behaves identically under a
    display-less container. Encoded JPEGs are PRESENTATION artifacts only —
    goldens hash the RAW RGBA (encoder-independent), never these bytes."
-  (:import (java.awt Color Font RenderingHints)
+  (:import (java.awt Color Font Rectangle RenderingHints TexturePaint)
            (java.awt.image BufferedImage)
            (java.io ByteArrayOutputStream)
            (javax.imageio IIOImage ImageIO ImageWriteParam ImageWriter)
@@ -92,6 +92,36 @@
    bleed (focus outline width+pad ~12px) with headroom."
   16)
 
+(def ^:private checker-cell
+  "Contact-sheet gutter checkerboard cell size, px."
+  8)
+
+(def ^:private checker-tile
+  "The gutter checkerboard as a 2x2-cell tile, pre-generated ONCE and shared
+   (a thread-safe delay) so every parallel sheet-compose thread READS the same
+   bitmap instead of regenerating it. Two neutral grays bound both dark-theme
+   and light-theme card surfaces against the gutter."
+  (delay
+    (let [s checker-cell
+          n (* 2 s)
+          tile (BufferedImage. n n BufferedImage/TYPE_INT_RGB)
+          g (.createGraphics tile)]
+      (.setColor g (Color. 0x99 0x99 0x99))
+      (.fillRect g 0 0 n n)
+      (.setColor g (Color. 0x66 0x66 0x66))
+      (.fillRect g s 0 s s)
+      (.fillRect g 0 s s s)
+      (.dispose g)
+      tile)))
+
+(defn checker-paint
+  "A TexturePaint tiling the shared gutter checkerboard from the origin — the
+   contact-sheet / row-stack / cell-pad background fill, so each card's extent
+   is legible against the gutter instead of near-black (which a dark card
+   surface blends into)."
+  ^TexturePaint []
+  (TexturePaint. @checker-tile (Rectangle. 0 0 (* 2 checker-cell) (* 2 checker-cell))))
+
 (def sheet-gutter
   "Contact-sheet cell gutter, px. Public so sheet composers (the gallery's
    row chunker) can account for the exact spacing without re-typing it."
@@ -110,7 +140,7 @@
 
 (defn contact-sheet
   "Compose a labeled N-up contact sheet from cells
-   [{:image BufferedImage :label String} ...]: black background, uniform
+   [{:image BufferedImage :label String} ...]: checkerboard background, uniform
    gutters, a white label centered beneath each cell. Cells may differ in
    size; rows are single (the caller chunks multi-row sheets)."
   ^BufferedImage [cells]
@@ -127,7 +157,7 @@
     (.setRenderingHint g
                        RenderingHints/KEY_TEXT_ANTIALIASING
                        RenderingHints/VALUE_TEXT_ANTIALIAS_ON)
-    (.setColor g Color/BLACK)
+    (.setPaint g (checker-paint))
     (.fillRect g 0 0 sheet-w sheet-h)
     (.setFont g (label-font))
     (let [fm (.getFontMetrics g)]

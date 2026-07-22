@@ -139,9 +139,9 @@
          (finally (.dispose g)))))
 
 (defn- pad-cell
-  "Widen a cell image to at least its label's width (centered on black) so
-   a long label under a narrow crop never overlaps its neighbors. A cell
-   already wide enough passes through untouched."
+  "Widen a cell image to at least its label's width (centered on the checker
+   gutter) so a long label under a narrow crop never overlaps its neighbors. A
+   cell already wide enough passes through untouched."
   [{:keys [^BufferedImage image ^String label] :as cell}]
   (let [min-w (+ (label-px-width label) 4)
         w (.getWidth image)]
@@ -149,7 +149,7 @@
       cell
       (let [padded (BufferedImage. min-w (.getHeight image) BufferedImage/TYPE_INT_RGB)
             g ^Graphics2D (.createGraphics padded)]
-        (.setColor g Color/BLACK)
+        (.setPaint g (jpeg/checker-paint))
         (.fillRect g 0 0 min-w (.getHeight image))
         (.drawImage g image (int (quot (- min-w w) 2)) 0 nil)
         (.dispose g)
@@ -181,14 +181,14 @@
 
 (defn- stack-rows
   "Stack row images (each a jpeg/contact-sheet strip) vertically onto one
-   black canvas, left-aligned — the multi-row sheet."
+   checker-gutter canvas, left-aligned — the multi-row sheet."
   ^BufferedImage [rows]
   (when (empty? rows) (throw (ex-info "sheet needs at least one row" {})))
   (let [w (apply max (map (fn [^BufferedImage r] (.getWidth r)) rows))
         h (reduce + (map (fn [^BufferedImage r] (.getHeight r)) rows))
         out (BufferedImage. w h BufferedImage/TYPE_INT_RGB)
         g ^Graphics2D (.createGraphics out)]
-    (.setColor g Color/BLACK)
+    (.setPaint g (jpeg/checker-paint))
     (.fillRect g 0 0 w h)
     (reduce (fn [^long y ^BufferedImage row]
               (.drawImage g row 0 (int y) nil)
