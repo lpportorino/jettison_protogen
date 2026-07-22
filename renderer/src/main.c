@@ -8,7 +8,8 @@
  * WASM exports:
  *   _initialize()                  — WASI reactor init
  *   controls_init(w, h) -> i32     — Init LVGL display at w×h
- *   controls_load_ui(ptr, len)     — Push protobuf UI AST
+ *   controls_load_ui(ptr, len)     — Push protobuf UI AST (the tree is NOT laid
+ *                                    out until the next refresh — see below)
  *   controls_apply_patch(ptr,len)  — Apply a ScreenPatch (partial tree
  *                                    update); nonzero = host full-reloads
  *   controls_update_state(ptr,len) — Push protobuf state
@@ -607,6 +608,32 @@ int32_t controls_init(uint32_t width, uint32_t height) {
   /* No UI built here — wait for controls_load_ui() call */
   return 0;
 }
+/**
+ * Push a protobuf UI AST and rebuild the widget tree.
+ *
+ * TIMING CONTRACT — THE TREE HAS NO GEOMETRY UNTIL THE NEXT REFRESH.
+ * This call builds the widget tree but does NOT lay it out. Layout runs inside
+ * LVGL's display-refresh timer (lv_display_refr_timer -> lv_obj_update_layout,
+ * lv_refr.c), whose period is LV_DEF_REFR_PERIOD (33 ms by default), and
+ * controls_tick(ms) is the only clock a WASM host has. So between this call and
+ * the first refresh, EVERY object still sits at its parent's content origin with
+ * w = h = 0.
+ *
+ * The consequence a host must plan for: a pointer event delivered in that window
+ * hit-tests against zero-area objects and is DROPPED SILENTLY — no error, no
+ * return code, no event. A host that loads a screen and immediately synthesises a
+ * click sees the click simply not happen.
+ *
+ * So: after controls_load_ui, tick past one refresh period BEFORE delivering
+ * input. wasm_harness pins RENDER_TICKS * TICK_MS = 48 ms for exactly this
+ * reason; a host driving its own clock should either match that or poll the real
+ * post-condition (every node in controls_dump_tree has a non-degenerate rect),
+ * which does not rot if LV_DEF_REFR_PERIOD or the host's tick size changes.
+ *
+ * Documented 2026-07-22 after a downstream consumer spent a day misdiagnosing a
+ * silently-dropped click as a widget defect: the behaviour is correct, but the
+ * contract was written down nowhere.
+ */
 int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
   /* A full load is the patch chain's reset point: the cache becomes
    * fresh again, the current-state hash is the loaded bytes', and an
