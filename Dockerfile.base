@@ -227,4 +227,8 @@ RUN protoc --version \
     && which protoc-gen-go \
     && which protoc-gen-zig
 
-ENTRYPOINT ["/bin/bash"]
+# No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>
+# directly (make, protoc, …) — that is exactly what the renderer battery and any
+# hand-rolled base run depend on. ubuntu:24.04's default CMD ["/bin/bash"] still
+# gives an interactive shell for a bare `docker run <img>`. The MAIN image
+# (Dockerfile) sets its own bash ENTRYPOINT for generate-protos.sh's `-c` flow.

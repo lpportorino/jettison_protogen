@@ -26,3 +26,7 @@ Thumbs.db
 # Temporary directories
 tmp/
 /tmp/protogen*
+
+# tools/uber.sh mounts the repo root as /workspace and sets
+# CARGO_HOME=/workspace/.cargo-home, so cargo lanes leave a cache dir here
+.cargo-home/

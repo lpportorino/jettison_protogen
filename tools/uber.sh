@@ -3,7 +3,7 @@
 # robustly, on any host. See .claude/rules/uber-container.md for the why.
 #
 # The uber image (Dockerfile.base) carries every pinned toolchain — WASI-SDK
-# clang for the wasm build, GraalVM Community JDK 25 + Clojure for the devcards
+# clang for the wasm build, GraalVM Community JDK + Clojure for the devcards
 # render/gallery + docs, protoc + plugins for bindings — so locally you can run
 # ANYTHING in one container and match CI's per-tool versions.
 #
@@ -31,7 +31,7 @@ esac
 build()    { echo "uber.sh: building $IMG for $PLATFORM ..." >&2
              docker build --platform "$PLATFORM" -t "$IMG" -f "$ROOT/Dockerfile.base" "$ROOT"; }
 present()  { docker image inspect "$IMG" >/dev/null 2>&1; }
-runnable() { present && docker run --rm --platform "$PLATFORM" "$IMG" true >/dev/null 2>&1; }
+runnable() { present && docker run --rm --platform "$PLATFORM" --entrypoint bash "$IMG" -c 'exit 0' >/dev/null 2>&1; }
 
 case "${1:-}" in
   --build) build; exit 0 ;;
@@ -46,7 +46,11 @@ case "${1:-}" in
 esac
 
 present || build
-exec docker run --rm --platform "$PLATFORM" \
+# --entrypoint bash names the shell explicitly so the `-lc "$*"` script string is
+# run by bash. The base image sets no ENTRYPOINT (it runs whatever argv you pass
+# directly), so without this override the leading `-lc` would be exec'd as a
+# binary and fail; a bare `docker run <img> make …` needs no override.
+exec docker run --rm --platform "$PLATFORM" --entrypoint bash \
   -v "$ROOT:/workspace" -w /workspace \
   -e CARGO_HOME=/workspace/.cargo-home \
-  "$IMG" bash -lc "$*"
+  "$IMG" -lc "$*"
