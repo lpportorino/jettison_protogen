@@ -41877,7 +41877,10 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * event keyword — IS the command identifier
+     * event keyword — IS the command identifier. Budget 127 for parity with
+     * CmdSpec.command_id: a composite command's collect events read
+     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
      * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -41886,7 +41889,10 @@ java.lang.String defaultValue) {
     java.lang.String getName();
     /**
      * <pre>
-     * event keyword — IS the command identifier
+     * event keyword — IS the command identifier. Budget 127 for parity with
+     * CmdSpec.command_id: a composite command's collect events read
+     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
      * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -41936,7 +41942,9 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * local subject to mutate (empty = host event)
+     * local subject to mutate (empty = host event). Bounded at 63: subject names
+     * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+     * longer value could never resolve to a declarable subject.
      * </pre>
      *
      * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -41945,7 +41953,9 @@ java.lang.String defaultValue) {
     java.lang.String getSetSubject();
     /**
      * <pre>
-     * local subject to mutate (empty = host event)
+     * local subject to mutate (empty = host event). Bounded at 63: subject names
+     * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+     * longer value could never resolve to a declarable subject.
      * </pre>
      *
      * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -42149,7 +42159,10 @@ java.lang.String defaultValue) {
     private volatile java.lang.Object name_ = "";
     /**
      * <pre>
-     * event keyword — IS the command identifier
+     * event keyword — IS the command identifier. Budget 127 for parity with
+     * CmdSpec.command_id: a composite command's collect events read
+     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
      * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -42170,7 +42183,10 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * event keyword — IS the command identifier
+     * event keyword — IS the command identifier. Budget 127 for parity with
+     * CmdSpec.command_id: a composite command's collect events read
+     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
      * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -42252,7 +42268,9 @@ java.lang.String defaultValue) {
     private volatile java.lang.Object setSubject_ = "";
     /**
      * <pre>
-     * local subject to mutate (empty = host event)
+     * local subject to mutate (empty = host event). Bounded at 63: subject names
+     * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+     * longer value could never resolve to a declarable subject.
      * </pre>
      *
      * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -42273,7 +42291,9 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * local subject to mutate (empty = host event)
+     * local subject to mutate (empty = host event). Bounded at 63: subject names
+     * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+     * longer value could never resolve to a declarable subject.
      * </pre>
      *
      * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -43064,7 +43084,10 @@ java.lang.String defaultValue) {
       private java.lang.Object name_ = "";
       /**
        * <pre>
-       * event keyword — IS the command identifier
+       * event keyword — IS the command identifier. Budget 127 for parity with
+       * CmdSpec.command_id: a composite command's collect events read
+       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
        * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -43084,7 +43107,10 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * event keyword — IS the command identifier
+       * event keyword — IS the command identifier. Budget 127 for parity with
+       * CmdSpec.command_id: a composite command's collect events read
+       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
        * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -43105,7 +43131,10 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * event keyword — IS the command identifier
+       * event keyword — IS the command identifier. Budget 127 for parity with
+       * CmdSpec.command_id: a composite command's collect events read
+       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
        * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -43122,7 +43151,10 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * event keyword — IS the command identifier
+       * event keyword — IS the command identifier. Budget 127 for parity with
+       * CmdSpec.command_id: a composite command's collect events read
+       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
        * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -43136,7 +43168,10 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * event keyword — IS the command identifier
+       * event keyword — IS the command identifier. Budget 127 for parity with
+       * CmdSpec.command_id: a composite command's collect events read
+       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
        * <code>string name = 1 [(.buf.validate.field) = { ... }</code>
@@ -43317,7 +43352,9 @@ java.lang.String defaultValue) {
       private java.lang.Object setSubject_ = "";
       /**
        * <pre>
-       * local subject to mutate (empty = host event)
+       * local subject to mutate (empty = host event). Bounded at 63: subject names
+       * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+       * longer value could never resolve to a declarable subject.
        * </pre>
        *
        * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -43337,7 +43374,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * local subject to mutate (empty = host event)
+       * local subject to mutate (empty = host event). Bounded at 63: subject names
+       * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+       * longer value could never resolve to a declarable subject.
        * </pre>
        *
        * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -43358,7 +43397,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * local subject to mutate (empty = host event)
+       * local subject to mutate (empty = host event). Bounded at 63: subject names
+       * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+       * longer value could never resolve to a declarable subject.
        * </pre>
        *
        * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -43375,7 +43416,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * local subject to mutate (empty = host event)
+       * local subject to mutate (empty = host event). Bounded at 63: subject names
+       * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+       * longer value could never resolve to a declarable subject.
        * </pre>
        *
        * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -43389,7 +43432,9 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * local subject to mutate (empty = host event)
+       * local subject to mutate (empty = host event). Bounded at 63: subject names
+       * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+       * longer value could never resolve to a declarable subject.
        * </pre>
        *
        * <code>string set_subject = 5 [(.buf.validate.field) = { ... }</code>
@@ -53269,7 +53314,7 @@ java.lang.String defaultValue) {
       " \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size\030\007 \001(\r" +
       "\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001" +
       "(\005\"\242\002\n\014EventBinding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004" +
-      "\020\001\030?\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTriggerB" +
+      "\020\001\030\177\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTriggerB" +
       "\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030\003 \001(\005\022\034\n\024include_" +
       "widget_value\030\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB" +
       "\007\272H\004r\002\030?\022\021\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 " +

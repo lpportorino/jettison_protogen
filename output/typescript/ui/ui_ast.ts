@@ -2737,7 +2737,12 @@ export interface Point {
 }
 
 export interface EventBinding {
-  /** event keyword — IS the command identifier */
+  /**
+   * event keyword — IS the command identifier. Budget 127 for parity with
+   * CmdSpec.command_id: a composite command's collect events read
+   * cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+   * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
+   */
   name: string;
   /** which LVGL event fires this (default: CLICKED) */
   trigger: EventTrigger;
@@ -2745,7 +2750,11 @@ export interface EventBinding {
   intValue: number;
   /** inject widget's current value as int_value */
   includeWidgetValue: boolean;
-  /** local subject to mutate (empty = host event) */
+  /**
+   * local subject to mutate (empty = host event). Bounded at 63: subject names
+   * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+   * longer value could never resolve to a declarable subject.
+   */
   setSubject: string;
   /** value to set on subject */
   setValue: number;

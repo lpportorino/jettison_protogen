@@ -4744,13 +4744,18 @@ func (x *Point) GetY() int32 {
 
 type EventBinding struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// event keyword — IS the command identifier
+	// event keyword — IS the command identifier. Budget 127 for parity with
+	// CmdSpec.command_id: a composite command's collect events read
+	// cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+	// (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// which LVGL event fires this (default: CLICKED)
 	Trigger            EventTrigger `protobuf:"varint,2,opt,name=trigger,proto3,enum=ui.EventTrigger" json:"trigger,omitempty"`
 	IntValue           int32        `protobuf:"varint,3,opt,name=int_value,json=intValue,proto3" json:"int_value,omitempty"`                                 // static int payload
 	IncludeWidgetValue bool         `protobuf:"varint,4,opt,name=include_widget_value,json=includeWidgetValue,proto3" json:"include_widget_value,omitempty"` // inject widget's current value as int_value
-	// local subject to mutate (empty = host event)
+	// local subject to mutate (empty = host event). Bounded at 63: subject names
+	// are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+	// longer value could never resolve to a declarable subject.
 	SetSubject string `protobuf:"bytes,5,opt,name=set_subject,json=setSubject,proto3" json:"set_subject,omitempty"`
 	SetValue   int32  `protobuf:"varint,6,opt,name=set_value,json=setValue,proto3" json:"set_value,omitempty"`       // value to set on subject
 	Toggle     bool   `protobuf:"varint,7,opt,name=toggle,proto3" json:"toggle,omitempty"`                           // flip 0↔1 instead of set_value
@@ -5840,7 +5845,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x01x\x18\x01 \x01(\x05R\x01x\x12\f\n" +
 	"\x01y\x18\x02 \x01(\x05R\x01y\"\x8a\x03\n" +
 	"\fEventBinding\x12\x1d\n" +
-	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\x04name\x124\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18\x7fR\x04name\x124\n" +
 	"\atrigger\x18\x02 \x01(\x0e2\x10.ui.EventTriggerB\b\xbaH\x05\x82\x01\x02\x10\x01R\atrigger\x12\x1b\n" +
 	"\tint_value\x18\x03 \x01(\x05R\bintValue\x120\n" +
 	"\x14include_widget_value\x18\x04 \x01(\bR\x12includeWidgetValue\x12(\n" +

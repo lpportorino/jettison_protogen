@@ -578,7 +578,10 @@ pub struct Point {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventBinding {
-    /// event keyword — IS the command identifier
+    /// event keyword — IS the command identifier. Budget 127 for parity with
+    /// CmdSpec.command_id: a composite command's collect events read
+    /// cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+    /// (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
     /// which LVGL event fires this (default: CLICKED)
@@ -590,7 +593,9 @@ pub struct EventBinding {
     /// inject widget's current value as int_value
     #[prost(bool, tag = "4")]
     pub include_widget_value: bool,
-    /// local subject to mutate (empty = host event)
+    /// local subject to mutate (empty = host event). Bounded at 63: subject names
+    /// are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+    /// longer value could never resolve to a declarable subject.
     #[prost(string, tag = "5")]
     pub set_subject: ::prost::alloc::string::String,
     /// value to set on subject

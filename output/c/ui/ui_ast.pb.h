@@ -669,13 +669,18 @@ typedef struct _ui_CmdSpec {
 } ui_CmdSpec;
 
 typedef struct _ui_EventBinding {
-    /* event keyword — IS the command identifier */
+    /* event keyword — IS the command identifier. Budget 127 for parity with
+ CmdSpec.command_id: a composite command's collect events read
+ cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+ (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature). */
     pb_callback_t name;
     /* which LVGL event fires this (default: CLICKED) */
     ui_EventTrigger trigger;
     int32_t int_value; /* static int payload */
     bool include_widget_value; /* inject widget's current value as int_value */
-    /* local subject to mutate (empty = host event) */
+    /* local subject to mutate (empty = host event). Bounded at 63: subject names
+ are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+ longer value could never resolve to a declarable subject. */
     pb_callback_t set_subject;
     int32_t set_value; /* value to set on subject */
     bool toggle; /* flip 0↔1 instead of set_value */

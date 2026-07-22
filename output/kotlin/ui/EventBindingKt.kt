@@ -30,7 +30,10 @@ public object EventBindingKt {
 
     /**
      * ```
-     * event keyword — IS the command identifier
+     * event keyword — IS the command identifier. Budget 127 for parity with
+     * CmdSpec.command_id: a composite command's collect events read
+     * cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+     * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * ```
      *
      * `string name = 1 [(.buf.validate.field) = { ... }`
@@ -44,7 +47,10 @@ public object EventBindingKt {
       }
     /**
      * ```
-     * event keyword — IS the command identifier
+     * event keyword — IS the command identifier. Budget 127 for parity with
+     * CmdSpec.command_id: a composite command's collect events read
+     * cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+     * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * ```
      *
      * `string name = 1 [(.buf.validate.field) = { ... }`
@@ -137,7 +143,9 @@ public object EventBindingKt {
 
     /**
      * ```
-     * local subject to mutate (empty = host event)
+     * local subject to mutate (empty = host event). Bounded at 63: subject names
+     * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+     * longer value could never resolve to a declarable subject.
      * ```
      *
      * `string set_subject = 5 [(.buf.validate.field) = { ... }`
@@ -151,7 +159,9 @@ public object EventBindingKt {
       }
     /**
      * ```
-     * local subject to mutate (empty = host event)
+     * local subject to mutate (empty = host event). Bounded at 63: subject names
+     * are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+     * longer value could never resolve to a declarable subject.
      * ```
      *
      * `string set_subject = 5 [(.buf.validate.field) = { ... }`
