@@ -32,19 +32,29 @@ Concretely: the host JDK's `javax.imageio` encoder rewrites every committed
 gallery JPEG byte-for-byte. Pure host-side work (git, grep, reading files,
 editing source) produces no artifact and is fine.
 
-## What a local run reproduces (goldens + text, not JPEGs)
+## What a container run reproduces — everything, JPEGs included
 CI (`.github/workflows/renderer.yml`) splits for speed: the wasm build runs in
 the uber container (it needs the WASI-SDK); `fixtures-prebuilt` /
 `gallery-prebuilt` run on a plain runner with `setup-graalvm` consuming the
 prebuilt wasm. Both legs pin the same toolchain versions (the uber image bundles
-that same GraalVM), so a local run and CI produce identical goldens (raw
-framebuffer sha256) and identical generated doc TEXT.
+that same GraalVM), so a run IN THE CONTAINER reproduces CI byte-for-byte across
+all three artifact classes: goldens (raw framebuffer sha256), generated doc
+TEXT, **and the gallery JPEGs**.
 
-The gallery **JPEGs are NOT reproducible across machines** — `javax.imageio`'s
-encoder output depends on the OS's native libs, so the same fixture re-encodes to
-different bytes locally vs CI. A JPEG-changing gallery edit is therefore re-minted
-by CI, never committed from a local run; a text-only gallery edit commits just the
-`README.md`. Goldens and doc text are what a local run verifies.
+The battery's own freshness gate is the proof, not an assumption: it runs
+`git diff --exit-code tools/devcards/goldens tools/devcards/docs` against a
+fresh CI re-render, so a green battery IS the statement that the committed
+sheets are byte-identical to what CI mints. Measured: a full 72-sheet re-mint
+from this container passed that gate unchanged.
+
+So a pixel-shifting renderer or corpus change re-mints goldens AND the gallery
+locally in the pinned container, and commits both in the same change — the
+devcards rule's "re-mint both together" is a thing you can actually satisfy.
+
+The HOST is what diverges. Its JDK's `javax.imageio` encoder rewrites every
+gallery JPEG byte-for-byte, so a host-side gallery run produces 72 sheets CI
+will reject. That divergence is the reason for the container requirement above,
+and it is a property of the HOST toolchain — not of JPEG encoding as such.
 
 ## Running the base image directly
 `Dockerfile.base` sets no ENTRYPOINT: `docker run <base> <cmd>` runs `<cmd>`
