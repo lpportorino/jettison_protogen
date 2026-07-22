@@ -30,3 +30,6 @@ tmp/
 # tools/uber.sh mounts the repo root as /workspace and sets
 # CARGO_HOME=/workspace/.cargo-home, so cargo lanes leave a cache dir here
 .cargo-home/
+
+# Claude monitor state (flock locks) — see .claude/rules/monitor-discipline.md
+.protogen/
