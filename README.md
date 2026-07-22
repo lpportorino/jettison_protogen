@@ -13,6 +13,15 @@ A containerized environment for generating protocol buffer bindings for multiple
 - **CI/CD Integration**: Fully automated via GitHub Actions
 - **Cross-language wire contract**: [`docs/INTERFACE-CONTRACTS.md`](docs/INTERFACE-CONTRACTS.md) is the canonical byte-level wire contract (stream framing, codec/transport headers, the `cmd.*`/state/enrichment encoding, the `controls.tar`/`controls.wasm` ABI + golden vectors) the downstream ARM web + native clients implement — update it when a proto change touches those surfaces
 
+## Reference renderer & widget gallery
+
+Beyond the language bindings, protogen owns the **`ui_ast` reference interpreter** — the C renderer under [`renderer/`](renderer/), compiled to the canonical `controls.wasm`, plus the devcard proof battery that gates it. The rendered documentation is browsable, not just the schema:
+
+- **[Widget gallery](tools/devcards/docs/widgets/README.md)** — one rendered doc page per `ui.WidgetType` (all 22), each with stock and themed dark/light contact sheets, generated from the same corpus the devcard gates verify.
+- **[Devcards tool](tools/devcards/README.md)** — the corpus runner, golden manifests, invariants, and the gallery/doc generator.
+
+See [`CLAUDE.md`](CLAUDE.md) for the full renderer + devcards architecture.
+
 ## Prerequisites
 
 - Docker installed and running
