@@ -507,3 +507,34 @@
       (doseq [f (.listFiles (io/file tmp-dir))]
         (.delete f))
       (.delete (io/file tmp-dir)))))
+
+(deftest manifest-generation-is-deterministic
+  ;; Regression guard for the wall-clock idempotence defect: identical inputs
+  ;; (same proto-db, same git-sha) MUST produce byte-identical manifests. A
+  ;; wall-clock :generated-at stamp broke this — every regeneration differed, so
+  ;; a re-generated manifest could never byte-match the committed copy. Two full
+  ;; generations with the same git-sha are now byte-for-byte equal.
+  (when-let [_db (load-db)]
+    (let [gen! (fn []
+                 (let [dir (str (System/getProperty "java.io.tmpdir")
+                                "/manifest-det-" (System/nanoTime))]
+                   (manifest/generate-manifests
+                    {:db-path db-path :config-path config-path
+                     :output-dir dir :git-sha "detsha"})
+                   dir))
+          dir-a (gen!)
+          dir-b (gen!)
+          files ["endpoints.json" "signals.json"
+                 "sub-signals.json" "reverse-index.json"]]
+      ;; Non-vacuity guard: a pass over two EMPTY generations would be a false
+      ;; green (nothing-ran == passed), so assert real content exists first.
+      (testing "generation is non-vacuous"
+        (is (pos? (count (get (json/read-str (slurp (io/file dir-a "endpoints.json")))
+                              "endpoints")))))
+      (doseq [f files]
+        (testing (str f " is byte-identical across two generations")
+          (is (= (slurp (io/file dir-a f)) (slurp (io/file dir-b f))))))
+      ;; Cleanup
+      (doseq [d [dir-a dir-b]]
+        (doseq [ff (.listFiles (io/file d))] (.delete ff))
+        (.delete (io/file d))))))

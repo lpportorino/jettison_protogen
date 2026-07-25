@@ -587,14 +587,22 @@
    - :db-path     — path to proto-db.edn
    - :config-path — path to manifest-config.edn
    - :output-dir  — path to output manifests directory
-   - :git-sha     — optional git commit SHA for metadata"
+   - :git-sha     — optional protogen source commit SHA; stamped as the
+                    deterministic provenance of every manifest (:protogen-commit
+                    and :generated-at), defaulting to \"unknown\" when absent"
   [{:keys [db-path config-path output-dir git-sha]
     :or {db-path "docs/.protodoc/proto-db.edn"
          config-path "docs/.protodoc/manifest-config.edn"
          output-dir "output/manifests"}}]
   (let [db (edn/read-string (slurp db-path))
         config (load-config config-path)
-        now (str (java.time.Instant/now))
+        ;; Provenance stamp — the protogen source commit these manifests were
+        ;; generated from. Deliberately NOT a wall clock: a wall-clock stamp made
+        ;; every regeneration byte-different on identical input, so a re-generated
+        ;; manifest could never byte-match the committed copy (defeating any
+        ;; freshness diff). A commit SHA moves only when the source actually
+        ;; moves, so regeneration is idempotent for a fixed pin.
+        provenance (or git-sha "unknown")
 
         ;; Extract
         endpoints-data (extract-endpoints db config)
@@ -604,23 +612,23 @@
 
         ;; Add metadata
         endpoints-manifest {:version "1.0.0"
-                            :generated-at now
-                            :protogen-commit (or git-sha "unknown")
+                            :generated-at provenance
+                            :protogen-commit provenance
                             :endpoints (:endpoints endpoints-data)
                             :subsystems (:subsystems endpoints-data)}
 
         signals-manifest {:version "1.0.0"
-                          :generated-at now
+                          :generated-at provenance
                           :signals (:signals signals-data)
                           :subsystems (:subsystems signals-data)
                           :derived-signals (:derived-signals signals-data)}
 
         sub-signals-manifest {:version "1.0.0"
-                              :generated-at now
+                              :generated-at provenance
                               :nested-signals (:nested-signals sub-signals-data)}
 
         reverse-index-manifest {:version "1.0.0"
-                                :generated-at now
+                                :generated-at provenance
                                 :by-doc-file (:by-doc-file reverse-index-data)
                                 :by-endpoint (:by-endpoint reverse-index-data)
                                 :by-signal (:by-signal reverse-index-data)}
