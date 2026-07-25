@@ -9,7 +9,10 @@
            :run {:main-opts ["-m" "devcards.core"]}
            ;; T2.2 smoke: build all cards + schema-validate + render the
            ;; representative slice (dev/t22_smoke.clj).
-           :t22-smoke {:extra-paths ["dev"] :main-opts ["-m" "t22-smoke"]}}
+           :t22-smoke {:extra-paths ["dev"] :main-opts ["-m" "t22-smoke"]}
+           ;; Pure-Clojure shape regression for the dock-panel lego (no wasm):
+           ;; empty :stages is a valid identity pipeline; non-vector is rejected.
+           :legos-shape-test {:extra-paths ["dev"] :main-opts ["-m" "legos-shape-test"]}}
  :deps {org.clojure/clojure {:mvn/version "1.12.0"}
         ;; GraalWasm in-process (UPL-1.0 chain; the wasm meta-pom pulls
         ;; truffle-runtime). Versions proven in-fleet.

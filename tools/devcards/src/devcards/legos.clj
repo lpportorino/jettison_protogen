@@ -513,8 +513,8 @@
   [{:keys [badge stages] :as opts}]
   (assert-closed "dock-panel" dock-keys opts)
   (require-int! "dock-panel" :badge badge)
-  (when-not (and (vector? stages) (seq stages))
-    (throw (ex-info "dock-panel: :stages must be a non-empty vector" {:stages stages})))
+  (when-not (vector? stages)
+    (throw (ex-info "dock-panel: :stages must be a vector" {:stages stages})))
   (doseq [s stages]
     (assert-closed "dock-panel stage" stage-keys s)
     (require-ne-string! "dock-panel stage" :id (:id s))
