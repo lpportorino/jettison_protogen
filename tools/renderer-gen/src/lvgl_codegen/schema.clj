@@ -54,6 +54,31 @@
    docs/lvgl-factory/10-TREE-PATCH-DESIGN.md)."
   #{:lv_textarea :lv_spinbox :lv_host_proxy :lv_chart})
 
+(def ^:private content-sizeable-leaf-tags
+  "Childless widgets that COLLAPSE to ~0px when content-sized: none creates a
+   child lv_obj (the parts-widgets draw main/knob/indicator/ticks from style;
+   lv_buttonmatrix draws its buttons from a map; lv_chart draws series from data
+   linked-lists) AND none has an `LV_EVENT_GET_SELF_SIZE` handler, so
+   `w-content`/`h-content` installs LV_SIZE_CONTENT which resolves to 0 + padding
+   and the widget silently never renders. This is EVERY such leaf in
+   valid-widget-tags: lv_bar, lv_slider (a bar subclass), lv_led, lv_arc,
+   lv_switch, lv_spinner (an arc subclass), lv_scale, lv_buttonmatrix, lv_chart.
+   A non-content width_def default (lv_led's fixed px, lv_chart's LV_PCT(100))
+   does not save them — content-sizing overrides it. Content-sizing any of these
+   is a hard codegen error; give it an explicit size. (A parent grid `:stretch`
+   cell would override the collapse, but that is a separate mechanism.)
+
+   NOT guarded, in three classes: (a) SELF-SIZING leaves that answer
+   GET_SELF_SIZE from their own content — lv_image (source dims), lv_line (points
+   bbox), lv_label (text), lv_dropdown / lv_roller (option list), lv_table
+   (cells), lv_checkbox (text + box); (b) CONTAINER widgets that hold authored
+   child nodes and measure them — lv_obj, lv_button, lv_tabview, lv_textarea /
+   lv_spinbox (an internal label child); (c) lv_host_proxy (the video-proxy
+   node). (A sourceless image or pointless line collapses too, but that is a
+   missing-CONTENT fault, a different check.)"
+  #{:lv_bar :lv_slider :lv_led :lv_arc :lv_switch :lv_spinner :lv_scale
+    :lv_buttonmatrix :lv_chart})
+
 (def author-id
   "Author :id — sibling-scoped identity segment for tree patching."
   [:string {:min 1 :max 63}])
@@ -415,6 +440,30 @@
                                              :declared-type (:type decl)
                                              :widget (:tag widget)})))))
 
+(defn- content-sizing-dimensions
+  "The dimensions (:width/:height) a class string content-sizes, honoring bp/state
+   prefixes (a `md:w-content` still collapses a leaf at that breakpoint). Empty
+   when the class content-sizes nothing (or is nil)."
+  [class-str]
+  (into #{}
+        (keep (fn [tok]
+                (case (last (str/split tok #":"))
+                  "w-content" :width
+                  "h-content" :height
+                  nil)))
+        (when class-str (str/split (str/trim class-str) #"\s+"))))
+
+(defn- check-leaf-sizing!
+  "Leaf-widget sizing contract, collected into the errors atom: a childless leaf
+   (content-sizeable-leaf-tags) has nothing to measure, so `w-content`/`h-content`
+   collapses it to ~0px and it never renders (audit #12). Fail-fast at codegen —
+   an author must give the leaf an explicit size, never content-size it."
+  [widget errors]
+  (when (contains? content-sizeable-leaf-tags (:tag widget))
+    (doseq [dim (content-sizing-dimensions (:class widget))]
+      (swap! errors conj
+             {:type :leaf-content-sizing :widget (:tag widget) :dimension dim}))))
+
 (defn- supported-bind-keys
   "Binding keys the renderer dispatches for the given widget tag — :mode is
    the host-proxy mode-subject binding, meaningless elsewhere."
@@ -442,6 +491,7 @@
        (check-tabview-node! widget errors)
        (check-host-proxy-node! widget errors)
        (check-identity-node! widget errors)
+       (check-leaf-sizing! widget errors)
        (doseq [[k v] (:bind widget)]
          (when-not (contains? (supported-bind-keys (:tag widget)) k)
            (swap! errors conj
@@ -516,6 +566,10 @@
       [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
 
 (m/=> check-identity-node! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+
+(m/=> content-sizing-dimensions [:=> [:cat [:maybe string?]] [:set :keyword]])
+
+(m/=> check-leaf-sizing! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
 
 (m/=> check-conditional-binding!
       [:=>

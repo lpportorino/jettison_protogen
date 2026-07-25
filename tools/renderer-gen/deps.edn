@@ -45,7 +45,13 @@
                       :main-opts ["-m" "lvgl-codegen.fixtures"]}
            :morph-fixtures {:extra-paths ["edn"]
                             :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
-                            :main-opts ["-m" "lvgl-codegen.morph-fixtures"]}}
+                            :main-opts ["-m" "lvgl-codegen.morph-fixtures"]}
+           ;; Kaocha unit suite (test/) — the schema guard tests. Lib-minimal:
+           ;; the guard tests are plain clojure.test over schema/, so kaocha is
+           ;; the only added dep (no generators / test.check). Config: tests.edn.
+           :test {:extra-paths ["test"]
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
+                  :main-opts ["-m" "kaocha.runner"]}}
  :deps {org.clojure/clojure {:mvn/version "1.12.5"}
         metosin/malli {:mvn/version "0.20.1"}
         ;; Protobuf + Pronto (proto ↔ EDN); pronto's Java sources are compiled

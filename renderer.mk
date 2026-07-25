@@ -43,7 +43,7 @@ RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
 	oracles morph-parity matrix demo-parity manifests devcards-test reload \
-	check-renderer wasm-present fixtures-prebuilt gallery-prebuilt
+	clj-schema-test check-renderer wasm-present fixtures-prebuilt gallery-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -209,6 +209,15 @@ manifests:
 devcards-test:
 	cd tools/devcards && clojure -M:test
 
+# ── renderer-gen schema guard suite ─────────────────────────────────────────
+# The lvgl_codegen schema guard tests (tools/renderer-gen/test): pure in-memory
+# validate-screen-semantics checks — the leaf content-sizing guard that fails a
+# childless leaf (lv_bar/lv_slider/lv_led) content-sized to a ~0px collapse. No
+# wasm / proto-classes needed (schema/ loads only enums + style-props + malli),
+# so it runs early and fails cheap.
+clj-schema-test:
+	cd $(RGEN) && clojure -M:test
+
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: manifests devcards-test wasm reference fixtures harness interaction oracles reload
-	@echo "renderer battery: GREEN (manifests + devcards-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"
+check-renderer: manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload
+	@echo "renderer battery: GREEN (manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"

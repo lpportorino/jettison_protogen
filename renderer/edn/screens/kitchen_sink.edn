@@ -15,11 +15,14 @@
    ;; ── Row 1: Slider + Bar | Arc + Spinner ──
    {:children
     [;; Card: Slider + Bar
-     {:children [{:class "w-120 h-content"
+     {:children [;; a slider collapses to 120x0 under h-content (no child to
+                 ;; measure) — explicit width, intrinsic slider height
+                 {:class "w-120"
                   :slider_props {:max_value 100 :min_value 0 :value 65}
                   :tag :lv_slider}
+                 ;; explicit track height — a childless leaf collapses under h-content
                  {:bar_props {:max_value 100 :min_value 0 :mode :symmetrical :value 40}
-                  :class "w-120 h-content"
+                  :class "w-120 h-12"
                   :tag :lv_bar}]
       :props {:title "Slider & Bar"}
       :tag :titled-card}
@@ -142,10 +145,19 @@
                   :roller_props {:options "One\nTwo\nThree" :visible_row_count 2}
                   :tag :lv_roller}
                  {:class "w-120 h-content" :id "textarea" :tag :lv_textarea :text "Edit me"}
-                 {:class "w-content h-content" :tag :lv_led}
-                 {:class "w-content h-content"
+                 ;; led / line / image are childless leaves: w/h-content has
+                 ;; nothing to measure and collapses to ~0px — explicit sizes
+                 ;; (and a real src for the image) keep the coverage card honest.
+                 {:class "w-24 h-24" :tag :lv_led}
+                 ;; explicit stroke — an unstyled lv_line draws 0-width/invisible
+                 {:class "w-80 h-24"
                   :line_props {:points [{:x 0 :y 20} {:x 40 :y 0} {:x 80 :y 20}]}
-                  :tag :lv_line} {:class "w-content h-content" :tag :lv_image}]
+                  :style {:line-color :fg-0 :line-width 3}
+                  :tag :lv_line}
+                 ;; sized to the svg's native 32x32 — lv_image does not scale
+                 {:class "w-32 h-32"
+                  :image_props {:src "P:icons/zoom_in.svg"}
+                  :tag :lv_image}]
       :id "more-widgets-card"
       :props {:title "More Widgets"}
       :tag :titled-card}]
