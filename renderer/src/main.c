@@ -933,8 +933,26 @@ static void feed_gesture(int op, uint32_t pointer_id, double x, double y,
   default:
     break;
   }
-  for (int32_t i = 0; i < n; i++)
+  /* ROI rubber-band: a mode-gated REINTERPRETATION of the pan stream, NOT a new
+   * FSM phase. When an ROI-mode gesture surface is mounted (an ROI GestureSpec
+   * is registered — the cheapest signal), a completed drag's PAN_END becomes a
+   * 4-corner rect. gesture_on_up cleared has_start but left g_gesture.start
+   * intact, so BOTH corners are readable here in one synchronous call:
+   * g_gesture.start = the DOWN corner, out[i] = the UP corner. Emit the rect
+   * DIRECTLY (down→up order; min/max ordering deferred to the consumer) instead
+   * of buffering the single-point decision — a plain TAP in ROI-mode still
+   * falls through to its own point-select spec via the normal drain (mirroring
+   * jettison's tap→point-select vs drag→ROI-select split). GESTURE_KIND_ROI
+   * never appears as a decision kind on the wire; it is only this lookup key. */
+  const cmd_gesture_spec_t *roi_spec = find_gesture_spec(GESTURE_KIND_ROI);
+  for (int32_t i = 0; i < n; i++) {
+    if (roi_spec && out[i].kind == GESTURE_KIND_PAN_END) {
+      (void)cmd_patch_emit_rect(&roi_spec->cmd, g_gesture.start.x,
+                                g_gesture.start.y, out[i].x, out[i].y);
+      continue;
+    }
     buffer_decision(&out[i]);
+  }
 }
 /* Release a slot through the CANCEL path: a VIDEO-owned pointer reaches the
  * FSM as a SILENT abort (gesture_on_cancel — no terminal, no last_tap seed,

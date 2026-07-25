@@ -323,6 +323,19 @@ fn as_day_set_zoom_table_value(bytes: &[u8]) -> Option<i32> {
         _ => None,
     }
 }
+/// The `FocusRoi` leaf of a captured DAY-camera command, or `None`. Walks
+/// cmd.Root → DayCamera payload → FocusRoi. The R5b ROI rubber-band egress: a
+/// completed drag over an ROI-mode gesture surface relays this 4-NDC command
+/// (x1/y1 = down corner, x2/y2 = up corner), patched from a single PAN_END.
+fn as_day_focus_roi(bytes: &[u8]) -> Option<cmd::day_camera::FocusRoi> {
+    match decode_cmd(bytes).payload {
+        Some(cmd::root::Payload::DayCamera(d)) => match d.cmd {
+            Some(cmd::day_camera::root::Cmd::FocusRoi(r)) => Some(r),
+            _ => None,
+        },
+        _ => None,
+    }
+}
 /// The (channel, value) of a captured `cmd.CV.SetAutoFocus`, or `None` — the
 /// R5a :bool-set egress (a FIXED cmd_by_value template the switch state selects).
 fn as_cv_set_auto_focus(bytes: &[u8]) -> Option<(i32, bool)> {
@@ -4925,6 +4938,133 @@ mod pointer_routing {
     }
 }
 // ═══════════════════════════════════════════════════════════════════
+// R5b ROI rubber-band rectangle gesture (mode-gated PAN_END reinterpretation).
+//
+// The vr_roi_rect fixture is a STATIC full-screen host_proxy video-surface
+// carrying BOTH a TAP GestureSpec (point-select → RotateToNDC) and an ROI
+// GestureSpec (rubber-band rect → FocusROI, 4 NDC slots). ROI is NOT a new FSM
+// phase: a completed drag emits the ordinary PAN_END, and feed_gesture — seeing
+// an ROI-mode surface (find_gesture_spec(ROI) != NULL) — reinterprets that one
+// PAN_END as a 4-corner FocusROI carrying (g_gesture.start = the retained DOWN
+// corner, out[0] = the UP corner), emitted directly via cmd_patch_emit_rect
+// instead of the single-point drain. A plain TAP (no drag) still routes through
+// the drain to the point-select spec — the tap-vs-drag split jettison_frontend's
+// OverlayBase draws (handlePointSelection vs handleROISelection).
+// ═══════════════════════════════════════════════════════════════════
+mod roi_gesture {
+    use super::*;
+    use lvgl_harness::PointerEvent;
+    const RC_OK: i32 = 0;
+    fn settle(host: &mut ControlsHost) {
+        for _ in 0..10 {
+            let _ = host.tick(16).expect("tick");
+        }
+    }
+    /// Load the ROI fixture (a full-screen video gesture surface with TAP + ROI
+    /// specs) and settle.
+    fn boot(host: &mut ControlsHost) {
+        let _ = render(host, "vr_roi_rect");
+        settle(host);
+    }
+    /// A DOWN→MOVE→UP drag over the ROI surface relays ONE FocusROI carrying
+    /// BOTH corners: x1/y1 = the DOWN point, x2/y2 = the UP point, each verbatim
+    /// NDC (wire-scale 1). The down/up corners are chosen so DOWN is the MAX in
+    /// both axes — if the emit accidentally min/max-ordered the rect, x1/y1
+    /// would carry the UP point and the assertion would fail. It does not: the
+    /// corners are relayed in drag order.
+    #[test]
+    fn drag_over_roi_surface_relays_focus_roi_with_both_corners() {
+        let mut host = new_host();
+        boot(&mut host);
+        host.pointer_decisions_clear().expect("clear");
+        let _ = host.take_host_commands();
+        let (dx, dy) = px_to_ndc(300, 120); // DOWN corner (upper-right in NDC)
+        let (ux, uy) = px_to_ndc(100, 220); // UP corner (lower-left in NDC)
+        assert_eq!(
+            host.pointer(PointerEvent::down(1, dx, dy, 1000)).expect("down"),
+            RC_OK
+        );
+        settle(&mut host);
+        // MOVE past movePx commits the pan (PAN_MOVE, no template → no cmd).
+        assert_eq!(
+            host.pointer(PointerEvent::mv(1, ux, uy, 1050)).expect("move"),
+            RC_OK
+        );
+        settle(&mut host);
+        assert_eq!(
+            host.pointer(PointerEvent::up(1, ux, uy, 1100)).expect("up"),
+            RC_OK
+        );
+        settle(&mut host);
+        let commands = host.take_host_commands();
+        let roi = commands
+            .iter()
+            .find_map(|c| as_day_focus_roi(c))
+            .expect("a completed drag over an ROI surface must relay FocusROI");
+        assert!(
+            (roi.x1 - dx).abs() < 1e-9 && (roi.y1 - dy).abs() < 1e-9,
+            "FocusROI corner 1 (x1,y1) must be the DOWN point ({dx},{dy}), got ({},{})",
+            roi.x1,
+            roi.y1
+        );
+        assert!(
+            (roi.x2 - ux).abs() < 1e-9 && (roi.y2 - uy).abs() < 1e-9,
+            "FocusROI corner 2 (x2,y2) must be the UP point ({ux},{uy}), got ({},{})",
+            roi.x2,
+            roi.y2
+        );
+        // Exactly one command (the ROI emit); the PAN_END never double-drained.
+        assert_eq!(
+            commands.iter().filter(|c| as_day_focus_roi(c).is_some()).count(),
+            1,
+            "a single drag must relay exactly one FocusROI"
+        );
+        // frame_time/state_time are the named follow-on (not wired) → stay 0.
+        assert_eq!(
+            (roi.frame_time, roi.state_time),
+            (0, 0),
+            "frame/state timestamp is out of scope — the template bakes 0"
+        );
+    }
+    /// A TAP (no drag) over the SAME ROI surface routes to the point-select spec
+    /// (RotateToNDC), NOT the ROI rect — the tap-vs-drag disambiguator. The ROI
+    /// dispatch only fires on PAN_END, so a bare press/release never emits a
+    /// FocusROI.
+    #[test]
+    fn tap_over_roi_surface_is_point_select_not_roi() {
+        let mut host = new_host();
+        boot(&mut host);
+        host.pointer_decisions_clear().expect("clear");
+        let _ = host.take_host_commands();
+        let (nx, ny) = px_to_ndc(150, 150);
+        assert_eq!(
+            host.pointer(PointerEvent::down(1, nx, ny, 2000)).expect("down"),
+            RC_OK
+        );
+        settle(&mut host);
+        assert_eq!(
+            host.pointer(PointerEvent::up(1, nx, ny, 2050)).expect("up"),
+            RC_OK
+        );
+        settle(&mut host);
+        let commands = host.take_host_commands();
+        let rotate = commands
+            .iter()
+            .find_map(|c| as_rotate_to_ndc(c))
+            .expect("a TAP in ROI-mode must route to the point-select spec (RotateToNDC)");
+        assert!(
+            (rotate.x - nx).abs() < 1e-9 && (rotate.y - ny).abs() < 1e-9,
+            "RotateToNDC must carry the tap point ({nx},{ny}), got ({},{})",
+            rotate.x,
+            rotate.y
+        );
+        assert!(
+            commands.iter().all(|c| as_day_focus_roi(c).is_none()),
+            "a TAP (no drag) must NOT relay an ROI rect (FocusROI)"
+        );
+    }
+}
+// ═══════════════════════════════════════════════════════════════════
 // Crafted-`.pb` CmdSpec decode-boundary guards (§8, host-untrusted).
 //
 // The `.pb` arrives from an UNTRUSTED host, so the renderer validates every
@@ -5027,26 +5167,42 @@ mod cmd_spec_decode_guard {
             "a 129-byte template is past the PB_BYTES_ARRAY_T(128) cap — nanopb rejects"
         );
     }
-    /// The patch count cap is the nanopb `patches[2]` static array: two patches
-    /// decode (the max — an NDC x/y pair), a third is an "array overflow" nanopb
-    /// REJECT (-2). Proves the untrusted `.pb` cannot smuggle extra patches.
+    /// The patch count cap is the nanopb `patches[4]` static array: four patches
+    /// decode (the max — an NDC x/y pair plus an ROI rubber-band's x2/y2 pair), a
+    /// fifth is an "array overflow" nanopb REJECT (-2). Proves the untrusted
+    /// `.pb` cannot smuggle extra patches past the static cap (widened 2→4 for
+    /// the ROI rubber-band's four NDC slots).
     #[test]
-    fn rejects_more_than_two_patches_at_nanopb_cap() {
+    fn rejects_more_than_four_patches_at_nanopb_cap() {
         let mut host = new_host();
-        let two = cmd_spec(&[0u8; 16], &[(0, 8, NDC_X, 1), (8, 8, NDC_X, 1)]);
-        assert_eq!(
-            host.cmd_spec_decode_probe(&two).expect("probe"),
-            0,
-            "two in-bounds patches are the max — accepted"
-        );
-        let three = cmd_spec(
+        let four = cmd_spec(
             &[0u8; 16],
-            &[(0, 4, NDC_X, 1), (4, 4, NDC_X, 1), (8, 4, NDC_X, 1)],
+            &[
+                (0, 4, NDC_X, 1),
+                (4, 4, NDC_X, 1),
+                (8, 4, NDC_X, 1),
+                (12, 4, NDC_X, 1),
+            ],
         );
         assert_eq!(
-            host.cmd_spec_decode_probe(&three).expect("probe"),
+            host.cmd_spec_decode_probe(&four).expect("probe"),
+            0,
+            "four in-bounds patches are the max — accepted"
+        );
+        let five = cmd_spec(
+            &[0u8; 16],
+            &[
+                (0, 2, NDC_X, 1),
+                (2, 2, NDC_X, 1),
+                (4, 2, NDC_X, 1),
+                (6, 2, NDC_X, 1),
+                (8, 2, NDC_X, 1),
+            ],
+        );
+        assert_eq!(
+            host.cmd_spec_decode_probe(&five).expect("probe"),
             -2,
-            "a third patch overflows the static patches[2] array — nanopb rejects"
+            "a fifth patch overflows the static patches[4] array — nanopb rejects"
         );
     }
     /// A crafted byte_offset near UINT32_MAX: a NAIVE `byte_offset + byte_width >

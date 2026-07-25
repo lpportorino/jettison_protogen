@@ -34,12 +34,15 @@
 #define CMD_PATCH_KIND_NDC_Y 2
 #define CMD_PATCH_KIND_DELTA 3
 #define CMD_PATCH_KIND_WIDGET_VALUE 4
+#define CMD_PATCH_KIND_NDC_X2 5
+#define CMD_PATCH_KIND_NDC_Y2 6
 /* Caps mirror the proto: root_template is PB_BYTES_ARRAY_T(128); a CmdSpec
- * carries up to 2 patches (an NDC x/y pair). The persistent copy is a flat
- * fixed-size record (no malloc) so a stored CmdSpec outlives the nanopb
- * decode buffer it was copied from. */
+ * carries up to 4 patches (an NDC x/y pair, plus an ROI rubber-band's
+ * 2nd-corner x2/y2 pair). The persistent copy is a flat fixed-size record (no
+ * malloc) so a stored CmdSpec outlives the nanopb decode buffer it was copied
+ * from. */
 #define CMD_PATCH_TEMPLATE_CAP 128
-#define CMD_PATCH_MAX_PATCHES 2
+#define CMD_PATCH_MAX_PATCHES 4
 /* Max FIXED templates an EventBinding.cmd_by_value carries — a widget's int
  * value index-selects one to emit. Mirrors the proto buf.validate max_items:16
  * (the largest real enum is 6 options). The stored array is malloc'd per-widget
@@ -105,5 +108,16 @@ void cmd_patch_padded_varint(uint8_t *out, uint32_t width, int64_t value);
  */
 int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
                        int32_t value_or_delta);
+/* Emit an ROI rubber-band command patched with BOTH drag corners:
+ *   - NDC_X / NDC_Y slots   ← corner 1 (`x1`, `y1` — the drag DOWN point)
+ *   - NDC_X2 / NDC_Y2 slots ← corner 2 (`x2`, `y2` — the drag UP point)
+ * each written verbatim as 8 LE double bytes (wire-scale 1, no recast). The
+ * corners are relayed in drag order (down→up); min/max ordering is deferred to
+ * the consumer/device. Shares the slot-writer with cmd_patch_emit — a DELTA /
+ * WIDGET_VALUE slot in an ROI spec patches to 0 (an ROI CmdSpec carries only
+ * the 4 NDC slots). Returns the host_command result (0 ok, -1 error) or 0 for
+ * the no-op (NULL/absent/empty) case. */
+int32_t cmd_patch_emit_rect(const cmd_spec_t *spec, double x1, double y1,
+                            double x2, double y2);
 #endif
 /* CMD_PATCH_H */

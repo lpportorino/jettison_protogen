@@ -400,6 +400,8 @@ enum PatchKind : int {
   PATCH_KIND_NDC_Y = 2,
   PATCH_KIND_DELTA = 3,
   PATCH_KIND_WIDGET_VALUE = 4,
+  PATCH_KIND_NDC_X2 = 5,
+  PATCH_KIND_NDC_Y2 = 6,
   PatchKind_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   PatchKind_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -409,8 +411,8 @@ enum PatchKind : int {
 bool PatchKind_IsValid(int value);
 extern const uint32_t PatchKind_internal_data_[];
 constexpr PatchKind PatchKind_MIN = static_cast<PatchKind>(0);
-constexpr PatchKind PatchKind_MAX = static_cast<PatchKind>(4);
-constexpr int PatchKind_ARRAYSIZE = 4 + 1;
+constexpr PatchKind PatchKind_MAX = static_cast<PatchKind>(6);
+constexpr int PatchKind_ARRAYSIZE = 6 + 1;
 const ::google::protobuf::EnumDescriptor*
 PatchKind_descriptor();
 template <typename T>
@@ -423,7 +425,7 @@ const std::string& PatchKind_Name(T value) {
 template <>
 inline const std::string& PatchKind_Name(PatchKind value) {
   return ::google::protobuf::internal::NameOfDenseEnum<PatchKind_descriptor,
-                                                 0, 4>(
+                                                 0, 6>(
       static_cast<int>(value));
 }
 inline bool PatchKind_Parse(absl::string_view name, PatchKind* value) {
@@ -437,6 +439,7 @@ enum GestureKind : int {
   GESTURE_KIND_TRACK = 3,
   GESTURE_KIND_PINCH = 4,
   GESTURE_KIND_WHEEL = 5,
+  GESTURE_KIND_ROI = 6,
   GestureKind_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   GestureKind_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -446,8 +449,8 @@ enum GestureKind : int {
 bool GestureKind_IsValid(int value);
 extern const uint32_t GestureKind_internal_data_[];
 constexpr GestureKind GestureKind_MIN = static_cast<GestureKind>(0);
-constexpr GestureKind GestureKind_MAX = static_cast<GestureKind>(5);
-constexpr int GestureKind_ARRAYSIZE = 5 + 1;
+constexpr GestureKind GestureKind_MAX = static_cast<GestureKind>(6);
+constexpr int GestureKind_ARRAYSIZE = 6 + 1;
 const ::google::protobuf::EnumDescriptor*
 GestureKind_descriptor();
 template <typename T>
@@ -460,7 +463,7 @@ const std::string& GestureKind_Name(T value) {
 template <>
 inline const std::string& GestureKind_Name(GestureKind value) {
   return ::google::protobuf::internal::NameOfDenseEnum<GestureKind_descriptor,
-                                                 0, 5>(
+                                                 0, 6>(
       static_cast<int>(value));
 }
 inline bool GestureKind_Parse(absl::string_view name, GestureKind* value) {

@@ -670,7 +670,8 @@ pub struct CmdSpec {
     /// fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
     #[prost(bytes = "vec", tag = "2")]
     pub root_template: ::prost::alloc::vec::Vec<u8>,
-    /// the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+    /// the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+    /// ROI rubber-band's 2nd-corner x2/y2 pair).
     #[prost(message, repeated, tag = "3")]
     pub patches: ::prost::alloc::vec::Vec<FieldPatch>,
 }
@@ -1037,6 +1038,10 @@ pub enum PatchKind {
     Delta = 3,
     /// widget int value → a padded-varint int slot
     WidgetValue = 4,
+    /// ROI rubber-band 2nd-corner NDC x → a double slot (verbatim)
+    NdcX2 = 5,
+    /// ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
+    NdcY2 = 6,
 }
 impl PatchKind {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1050,6 +1055,8 @@ impl PatchKind {
             Self::NdcY => "PATCH_KIND_NDC_Y",
             Self::Delta => "PATCH_KIND_DELTA",
             Self::WidgetValue => "PATCH_KIND_WIDGET_VALUE",
+            Self::NdcX2 => "PATCH_KIND_NDC_X2",
+            Self::NdcY2 => "PATCH_KIND_NDC_Y2",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1060,6 +1067,8 @@ impl PatchKind {
             "PATCH_KIND_NDC_Y" => Some(Self::NdcY),
             "PATCH_KIND_DELTA" => Some(Self::Delta),
             "PATCH_KIND_WIDGET_VALUE" => Some(Self::WidgetValue),
+            "PATCH_KIND_NDC_X2" => Some(Self::NdcX2),
+            "PATCH_KIND_NDC_Y2" => Some(Self::NdcY2),
             _ => None,
         }
     }
@@ -1081,6 +1090,12 @@ pub enum GestureKind {
     Pinch = 4,
     /// web-only; no device analogue (no template)
     Wheel = 5,
+    /// ROI rubber-band rectangle: a mode-gated REINTERPRETATION of a completed
+    /// pan (PAN_END) whose down+up corners become one 4-NDC command
+    /// (cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI). This kind is a REGISTRY
+    /// LOOKUP KEY only — an ROI-mode GestureSpec registers under it; the FSM
+    /// never emits it as a gesture_decision_t.kind on the wire.
+    Roi = 6,
 }
 impl GestureKind {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1095,6 +1110,7 @@ impl GestureKind {
             Self::Track => "GESTURE_KIND_TRACK",
             Self::Pinch => "GESTURE_KIND_PINCH",
             Self::Wheel => "GESTURE_KIND_WHEEL",
+            Self::Roi => "GESTURE_KIND_ROI",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1106,6 +1122,7 @@ impl GestureKind {
             "GESTURE_KIND_TRACK" => Some(Self::Track),
             "GESTURE_KIND_PINCH" => Some(Self::Pinch),
             "GESTURE_KIND_WHEEL" => Some(Self::Wheel),
+            "GESTURE_KIND_ROI" => Some(Self::Roi),
             _ => None,
         }
     }

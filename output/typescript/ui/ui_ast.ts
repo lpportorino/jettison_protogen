@@ -361,6 +361,10 @@ export enum PatchKind {
   PATCH_KIND_DELTA = 3,
   /** PATCH_KIND_WIDGET_VALUE - widget int value → a padded-varint int slot */
   PATCH_KIND_WIDGET_VALUE = 4,
+  /** PATCH_KIND_NDC_X2 - ROI rubber-band 2nd-corner NDC x → a double slot (verbatim) */
+  PATCH_KIND_NDC_X2 = 5,
+  /** PATCH_KIND_NDC_Y2 - ROI rubber-band 2nd-corner NDC y → a double slot (verbatim) */
+  PATCH_KIND_NDC_Y2 = 6,
   UNRECOGNIZED = -1,
 }
 
@@ -381,6 +385,12 @@ export function patchKindFromJSON(object: any): PatchKind {
     case 4:
     case "PATCH_KIND_WIDGET_VALUE":
       return PatchKind.PATCH_KIND_WIDGET_VALUE;
+    case 5:
+    case "PATCH_KIND_NDC_X2":
+      return PatchKind.PATCH_KIND_NDC_X2;
+    case 6:
+    case "PATCH_KIND_NDC_Y2":
+      return PatchKind.PATCH_KIND_NDC_Y2;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -400,6 +410,10 @@ export function patchKindToJSON(object: PatchKind): string {
       return "PATCH_KIND_DELTA";
     case PatchKind.PATCH_KIND_WIDGET_VALUE:
       return "PATCH_KIND_WIDGET_VALUE";
+    case PatchKind.PATCH_KIND_NDC_X2:
+      return "PATCH_KIND_NDC_X2";
+    case PatchKind.PATCH_KIND_NDC_Y2:
+      return "PATCH_KIND_NDC_Y2";
     case PatchKind.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -423,6 +437,14 @@ export enum GestureKind {
   GESTURE_KIND_PINCH = 4,
   /** GESTURE_KIND_WHEEL - web-only; no device analogue (no template) */
   GESTURE_KIND_WHEEL = 5,
+  /**
+   * GESTURE_KIND_ROI - ROI rubber-band rectangle: a mode-gated REINTERPRETATION of a completed
+   * pan (PAN_END) whose down+up corners become one 4-NDC command
+   * (cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI). This kind is a REGISTRY
+   * LOOKUP KEY only — an ROI-mode GestureSpec registers under it; the FSM
+   * never emits it as a gesture_decision_t.kind on the wire.
+   */
+  GESTURE_KIND_ROI = 6,
   UNRECOGNIZED = -1,
 }
 
@@ -446,6 +468,9 @@ export function gestureKindFromJSON(object: any): GestureKind {
     case 5:
     case "GESTURE_KIND_WHEEL":
       return GestureKind.GESTURE_KIND_WHEEL;
+    case 6:
+    case "GESTURE_KIND_ROI":
+      return GestureKind.GESTURE_KIND_ROI;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -467,6 +492,8 @@ export function gestureKindToJSON(object: GestureKind): string {
       return "GESTURE_KIND_PINCH";
     case GestureKind.GESTURE_KIND_WHEEL:
       return "GESTURE_KIND_WHEEL";
+    case GestureKind.GESTURE_KIND_ROI:
+      return "GESTURE_KIND_ROI";
     case GestureKind.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -2835,7 +2862,10 @@ export interface CmdSpec {
    * fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
    */
   rootTemplate: Uint8Array;
-  /** the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair). */
+  /**
+   * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+   * ROI rubber-band's 2nd-corner x2/y2 pair).
+   */
   patches: FieldPatch[];
 }
 

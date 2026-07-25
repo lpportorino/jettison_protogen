@@ -39,7 +39,13 @@ typedef enum {
   GESTURE_KIND_TAP = 2,
   GESTURE_KIND_TRACK = 3,
   GESTURE_KIND_PINCH = 4,
-  GESTURE_KIND_WHEEL = 5
+  GESTURE_KIND_WHEEL = 5,
+  /* ROI rubber-band rectangle: a REGISTRY LOOKUP KEY only, never a value this
+   * FSM emits. No gesture_on_* handler returns it; a completed pan (PAN_END) is
+   * REINTERPRETED as an ROI rect by the caller when an ROI-mode GestureSpec is
+   * registered under this kind (main.c feed_gesture). Kept in this enum to
+   * mirror ui_GestureKind (ui_ast.proto) 1:1 — no decision struct carries it. */
+  GESTURE_KIND_ROI = 6
 } gesture_kind_t;
 /** One pointer observation, already mapped to NDC space by the shell. */
 typedef struct {

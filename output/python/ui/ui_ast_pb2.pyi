@@ -64,6 +64,8 @@ class PatchKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PATCH_KIND_NDC_Y: _ClassVar[PatchKind]
     PATCH_KIND_DELTA: _ClassVar[PatchKind]
     PATCH_KIND_WIDGET_VALUE: _ClassVar[PatchKind]
+    PATCH_KIND_NDC_X2: _ClassVar[PatchKind]
+    PATCH_KIND_NDC_Y2: _ClassVar[PatchKind]
 
 class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -73,6 +75,7 @@ class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     GESTURE_KIND_TRACK: _ClassVar[GestureKind]
     GESTURE_KIND_PINCH: _ClassVar[GestureKind]
     GESTURE_KIND_WHEEL: _ClassVar[GestureKind]
+    GESTURE_KIND_ROI: _ClassVar[GestureKind]
 
 class CompareOp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -398,12 +401,15 @@ PATCH_KIND_NDC_X: PatchKind
 PATCH_KIND_NDC_Y: PatchKind
 PATCH_KIND_DELTA: PatchKind
 PATCH_KIND_WIDGET_VALUE: PatchKind
+PATCH_KIND_NDC_X2: PatchKind
+PATCH_KIND_NDC_Y2: PatchKind
 GESTURE_KIND_PAN_MOVE: GestureKind
 GESTURE_KIND_PAN_END: GestureKind
 GESTURE_KIND_TAP: GestureKind
 GESTURE_KIND_TRACK: GestureKind
 GESTURE_KIND_PINCH: GestureKind
 GESTURE_KIND_WHEEL: GestureKind
+GESTURE_KIND_ROI: GestureKind
 COMPARE_EQ: CompareOp
 COMPARE_NOT_EQ: CompareOp
 COMPARE_GT: CompareOp

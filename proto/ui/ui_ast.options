@@ -21,7 +21,8 @@ ui.EventBinding.set_subject         max_size:64
 # largest measured device template is ~54 B (an NDC command with full-width
 # uint64 frame/state times) — 128 is generous headroom. command_id is a
 # dotted cmd-id (<=~30 chars). patches is a small bounded INLINE array (an
-# NDC x/y pair → 2). The HEAVY optional submessages — WidgetNode.gestures (up
+# NDC x/y pair → 2, or an ROI rubber-band's two corners x1/y1/x2/y2 → 4). The
+# HEAVY optional submessages — WidgetNode.gestures (up
 # to 5 GestureSpecs), EventBinding.cmd (one CmdSpec) and EventBinding.cmd_by_value
 # (up to 16 fixed CmdSpec templates a widget value index-selects) — are FT_POINTER
 # (malloc'd only when present), NOT inline: every WidgetNode is stack-decoded
@@ -30,7 +31,7 @@ ui.EventBinding.set_subject         max_size:64
 # deep trees. buf.validate max_items still bounds each at validate time (5 / 16).
 ui.CmdSpec.command_id               max_size:128
 ui.CmdSpec.root_template            max_size:128
-ui.CmdSpec.patches                  max_count:2
+ui.CmdSpec.patches                  max_count:4
 ui.WidgetNode.gestures              type:FT_POINTER
 ui.EventBinding.cmd                 type:FT_POINTER
 ui.EventBinding.cmd_by_value        type:FT_POINTER

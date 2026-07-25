@@ -94,7 +94,8 @@ public object CmdSpecKt {
     public class PatchesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -106,7 +107,8 @@ public object CmdSpecKt {
       )
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -119,7 +121,8 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -133,7 +136,8 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -146,7 +150,8 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -160,7 +165,8 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -174,7 +180,8 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+     * ROI rubber-band's 2nd-corner x2/y2 pair).
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`

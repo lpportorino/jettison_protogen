@@ -72,7 +72,9 @@ typedef enum _ui_PatchKind {
     ui_PatchKind_PATCH_KIND_NDC_X = 1, /* gesture NDC x → a double slot (verbatim, no recast) */
     ui_PatchKind_PATCH_KIND_NDC_Y = 2, /* gesture NDC y → a double slot (verbatim, no recast) */
     ui_PatchKind_PATCH_KIND_DELTA = 3, /* pinch/wheel ±1 step → a padded-varint int slot */
-    ui_PatchKind_PATCH_KIND_WIDGET_VALUE = 4 /* widget int value → a padded-varint int slot */
+    ui_PatchKind_PATCH_KIND_WIDGET_VALUE = 4, /* widget int value → a padded-varint int slot */
+    ui_PatchKind_PATCH_KIND_NDC_X2 = 5, /* ROI rubber-band 2nd-corner NDC x → a double slot (verbatim) */
+    ui_PatchKind_PATCH_KIND_NDC_Y2 = 6 /* ROI rubber-band 2nd-corner NDC y → a double slot (verbatim) */
 } ui_PatchKind;
 
 /* A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
@@ -83,7 +85,13 @@ typedef enum _ui_GestureKind {
     ui_GestureKind_GESTURE_KIND_TAP = 2, /* → cmd.RotaryPlatform.RotateToNDC */
     ui_GestureKind_GESTURE_KIND_TRACK = 3, /* → cmd.CV.StartTrackNDC */
     ui_GestureKind_GESTURE_KIND_PINCH = 4, /* → cmd.{Day,Heat}Camera.SetZoomTableValue */
-    ui_GestureKind_GESTURE_KIND_WHEEL = 5 /* web-only; no device analogue (no template) */
+    ui_GestureKind_GESTURE_KIND_WHEEL = 5, /* web-only; no device analogue (no template) */
+    /* ROI rubber-band rectangle: a mode-gated REINTERPRETATION of a completed
+ pan (PAN_END) whose down+up corners become one 4-NDC command
+ (cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI). This kind is a REGISTRY
+ LOOKUP KEY only — an ROI-mode GestureSpec registers under it; the FSM
+ never emits it as a gesture_decision_t.kind on the wire. */
+    ui_GestureKind_GESTURE_KIND_ROI = 6
 } ui_GestureKind;
 
 /* Comparison operator for conditional visibility bindings. */
@@ -664,7 +672,8 @@ typedef struct _ui_CmdSpec {
     /* the full deterministic cmd.Root protobuf (envelope + leaf in its
  fixed-width slot, leaf written at a SENTINEL the gen-time patch located). */
     pb_callback_t root_template;
-    /* the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair). */
+    /* the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+ ROI rubber-band's 2nd-corner x2/y2 pair). */
     pb_callback_t patches;
 } ui_CmdSpec;
 
@@ -992,12 +1001,12 @@ extern "C" {
 #define _ui_EventTrigger_ARRAYSIZE ((ui_EventTrigger)(ui_EventTrigger_TRIGGER_LONG_PRESSED+1))
 
 #define _ui_PatchKind_MIN ui_PatchKind_PATCH_KIND_UNSPECIFIED
-#define _ui_PatchKind_MAX ui_PatchKind_PATCH_KIND_WIDGET_VALUE
-#define _ui_PatchKind_ARRAYSIZE ((ui_PatchKind)(ui_PatchKind_PATCH_KIND_WIDGET_VALUE+1))
+#define _ui_PatchKind_MAX ui_PatchKind_PATCH_KIND_NDC_Y2
+#define _ui_PatchKind_ARRAYSIZE ((ui_PatchKind)(ui_PatchKind_PATCH_KIND_NDC_Y2+1))
 
 #define _ui_GestureKind_MIN ui_GestureKind_GESTURE_KIND_PAN_MOVE
-#define _ui_GestureKind_MAX ui_GestureKind_GESTURE_KIND_WHEEL
-#define _ui_GestureKind_ARRAYSIZE ((ui_GestureKind)(ui_GestureKind_GESTURE_KIND_WHEEL+1))
+#define _ui_GestureKind_MAX ui_GestureKind_GESTURE_KIND_ROI
+#define _ui_GestureKind_ARRAYSIZE ((ui_GestureKind)(ui_GestureKind_GESTURE_KIND_ROI+1))
 
 #define _ui_CompareOp_MIN ui_CompareOp_COMPARE_EQ
 #define _ui_CompareOp_MAX ui_CompareOp_COMPARE_LTE

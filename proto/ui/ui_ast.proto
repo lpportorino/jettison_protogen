@@ -559,6 +559,8 @@ enum PatchKind {
   PATCH_KIND_NDC_Y = 2; // gesture NDC y → a double slot (verbatim, no recast)
   PATCH_KIND_DELTA = 3; // pinch/wheel ±1 step → a padded-varint int slot
   PATCH_KIND_WIDGET_VALUE = 4; // widget int value → a padded-varint int slot
+  PATCH_KIND_NDC_X2 = 5; // ROI rubber-band 2nd-corner NDC x → a double slot (verbatim)
+  PATCH_KIND_NDC_Y2 = 6; // ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
 }
 
 // One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
@@ -579,8 +581,9 @@ message CmdSpec {
   // the full deterministic cmd.Root protobuf (envelope + leaf in its
   // fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
   bytes root_template = 2;
-  // the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
-  repeated FieldPatch patches = 3 [(buf.validate.field).repeated = {max_items: 2}];
+  // the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+  // ROI rubber-band's 2nd-corner x2/y2 pair).
+  repeated FieldPatch patches = 3 [(buf.validate.field).repeated = {max_items: 4}];
 }
 
 // A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
@@ -592,6 +595,12 @@ enum GestureKind {
   GESTURE_KIND_TRACK = 3; // → cmd.CV.StartTrackNDC
   GESTURE_KIND_PINCH = 4; // → cmd.{Day,Heat}Camera.SetZoomTableValue
   GESTURE_KIND_WHEEL = 5; // web-only; no device analogue (no template)
+  // ROI rubber-band rectangle: a mode-gated REINTERPRETATION of a completed
+  // pan (PAN_END) whose down+up corners become one 4-NDC command
+  // (cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI). This kind is a REGISTRY
+  // LOOKUP KEY only — an ROI-mode GestureSpec registers under it; the FSM
+  // never emits it as a gesture_decision_t.kind on the wire.
+  GESTURE_KIND_ROI = 6;
 }
 
 // One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides

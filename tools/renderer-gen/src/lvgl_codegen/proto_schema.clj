@@ -270,14 +270,16 @@
 
 ;; -- R5a cmd-out pre-encode (CmdSpec / FieldPatch / GestureSpec) --
 (def patch-kind
-  "Which gesture/value the patcher writes into a slot, and how to encode it."
+  "Which gesture/value the patcher writes into a slot, and how to encode it.
+   NDC_X2/NDC_Y2 carry an ROI rubber-band's 2nd corner (verbatim double slots)."
   [:enum :PATCH_KIND_UNSPECIFIED :PATCH_KIND_NDC_X :PATCH_KIND_NDC_Y :PATCH_KIND_DELTA
-   :PATCH_KIND_WIDGET_VALUE])
+   :PATCH_KIND_WIDGET_VALUE :PATCH_KIND_NDC_X2 :PATCH_KIND_NDC_Y2])
 
 (def gesture-kind
-  "Recognized gesture kind, mirroring gesture_kind_t (src/gesture.h)."
+  "Recognized gesture kind, mirroring gesture_kind_t (src/gesture.h). ROI is a
+   registry lookup key for a rubber-band rect surface, never an FSM decision."
   [:enum :GESTURE_KIND_PAN_MOVE :GESTURE_KIND_PAN_END :GESTURE_KIND_TAP :GESTURE_KIND_TRACK
-   :GESTURE_KIND_PINCH :GESTURE_KIND_WHEEL])
+   :GESTURE_KIND_PINCH :GESTURE_KIND_WHEEL :GESTURE_KIND_ROI])
 
 (def field-patch
   "One fixed-width slot in a CmdSpec.root_template the renderer overwrites:
@@ -299,9 +301,9 @@
 (def cmd-spec
   "A pre-encoded cmd.Root template + the slots the renderer overwrites: the
    source command-id, the deterministic cmd.Root bytes (ByteString), and up to
-   2 FieldPatch slots (an NDC x/y pair)."
+   4 FieldPatch slots (an NDC x/y pair, plus an ROI rubber-band's x2/y2 pair)."
   [:map [:command_id {:default ""} string?] [:root_template byte-string]
-   [:patches {:optional true :default []} [:vector {:max 2} field-patch]]])
+   [:patches {:optional true :default []} [:vector {:max 4} field-patch]]])
 
 (def gesture-spec
   "One gesture → its pre-encoded cmd template, keyed by GestureKind."

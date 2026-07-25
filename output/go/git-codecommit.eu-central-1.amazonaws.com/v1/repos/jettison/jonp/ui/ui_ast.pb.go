@@ -344,6 +344,8 @@ const (
 	PatchKind_PATCH_KIND_NDC_Y        PatchKind = 2 // gesture NDC y → a double slot (verbatim, no recast)
 	PatchKind_PATCH_KIND_DELTA        PatchKind = 3 // pinch/wheel ±1 step → a padded-varint int slot
 	PatchKind_PATCH_KIND_WIDGET_VALUE PatchKind = 4 // widget int value → a padded-varint int slot
+	PatchKind_PATCH_KIND_NDC_X2       PatchKind = 5 // ROI rubber-band 2nd-corner NDC x → a double slot (verbatim)
+	PatchKind_PATCH_KIND_NDC_Y2       PatchKind = 6 // ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
 )
 
 // Enum value maps for PatchKind.
@@ -354,6 +356,8 @@ var (
 		2: "PATCH_KIND_NDC_Y",
 		3: "PATCH_KIND_DELTA",
 		4: "PATCH_KIND_WIDGET_VALUE",
+		5: "PATCH_KIND_NDC_X2",
+		6: "PATCH_KIND_NDC_Y2",
 	}
 	PatchKind_value = map[string]int32{
 		"PATCH_KIND_UNSPECIFIED":  0,
@@ -361,6 +365,8 @@ var (
 		"PATCH_KIND_NDC_Y":        2,
 		"PATCH_KIND_DELTA":        3,
 		"PATCH_KIND_WIDGET_VALUE": 4,
+		"PATCH_KIND_NDC_X2":       5,
+		"PATCH_KIND_NDC_Y2":       6,
 	}
 )
 
@@ -402,6 +408,12 @@ const (
 	GestureKind_GESTURE_KIND_TRACK    GestureKind = 3 // → cmd.CV.StartTrackNDC
 	GestureKind_GESTURE_KIND_PINCH    GestureKind = 4 // → cmd.{Day,Heat}Camera.SetZoomTableValue
 	GestureKind_GESTURE_KIND_WHEEL    GestureKind = 5 // web-only; no device analogue (no template)
+	// ROI rubber-band rectangle: a mode-gated REINTERPRETATION of a completed
+	// pan (PAN_END) whose down+up corners become one 4-NDC command
+	// (cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI). This kind is a REGISTRY
+	// LOOKUP KEY only — an ROI-mode GestureSpec registers under it; the FSM
+	// never emits it as a gesture_decision_t.kind on the wire.
+	GestureKind_GESTURE_KIND_ROI GestureKind = 6
 )
 
 // Enum value maps for GestureKind.
@@ -413,6 +425,7 @@ var (
 		3: "GESTURE_KIND_TRACK",
 		4: "GESTURE_KIND_PINCH",
 		5: "GESTURE_KIND_WHEEL",
+		6: "GESTURE_KIND_ROI",
 	}
 	GestureKind_value = map[string]int32{
 		"GESTURE_KIND_PAN_MOVE": 0,
@@ -421,6 +434,7 @@ var (
 		"GESTURE_KIND_TRACK":    3,
 		"GESTURE_KIND_PINCH":    4,
 		"GESTURE_KIND_WHEEL":    5,
+		"GESTURE_KIND_ROI":      6,
 	}
 )
 
@@ -4989,7 +5003,8 @@ type CmdSpec struct {
 	// the full deterministic cmd.Root protobuf (envelope + leaf in its
 	// fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
 	RootTemplate []byte `protobuf:"bytes,2,opt,name=root_template,json=rootTemplate,proto3" json:"root_template,omitempty"`
-	// the slot(s) to overwrite at runtime (up to 2 — an NDC x/y pair).
+	// the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
+	// ROI rubber-band's 2nd-corner x2/y2 pair).
 	Patches       []*FieldPatch `protobuf:"bytes,3,rep,name=patches,proto3" json:"patches,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -5965,7 +5980,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\n" +
 	"command_id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18\x7fR\tcommandId\x12#\n" +
 	"\rroot_template\x18\x02 \x01(\fR\frootTemplate\x122\n" +
-	"\apatches\x18\x03 \x03(\v2\x0e.ui.FieldPatchB\b\xbaH\x05\x92\x01\x02\x10\x02R\apatches\"[\n" +
+	"\apatches\x18\x03 \x03(\v2\x0e.ui.FieldPatchB\b\xbaH\x05\x92\x01\x02\x10\x04R\apatches\"[\n" +
 	"\vGestureSpec\x12-\n" +
 	"\x04kind\x18\x01 \x01(\x0e2\x0f.ui.GestureKindB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04kind\x12\x1d\n" +
 	"\x03cmd\x18\x02 \x01(\v2\v.ui.CmdSpecR\x03cmd\"\x88\x01\n" +
@@ -6060,20 +6075,23 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fEventTrigger\x12\x13\n" +
 	"\x0fTRIGGER_CLICKED\x10\x00\x12\x19\n" +
 	"\x15TRIGGER_VALUE_CHANGED\x10\x01\x12\x18\n" +
-	"\x14TRIGGER_LONG_PRESSED\x10\x02*\x86\x01\n" +
+	"\x14TRIGGER_LONG_PRESSED\x10\x02*\xb4\x01\n" +
 	"\tPatchKind\x12\x1a\n" +
 	"\x16PATCH_KIND_UNSPECIFIED\x10\x00\x12\x14\n" +
 	"\x10PATCH_KIND_NDC_X\x10\x01\x12\x14\n" +
 	"\x10PATCH_KIND_NDC_Y\x10\x02\x12\x14\n" +
 	"\x10PATCH_KIND_DELTA\x10\x03\x12\x1b\n" +
-	"\x17PATCH_KIND_WIDGET_VALUE\x10\x04*\xa0\x01\n" +
+	"\x17PATCH_KIND_WIDGET_VALUE\x10\x04\x12\x15\n" +
+	"\x11PATCH_KIND_NDC_X2\x10\x05\x12\x15\n" +
+	"\x11PATCH_KIND_NDC_Y2\x10\x06*\xb6\x01\n" +
 	"\vGestureKind\x12\x19\n" +
 	"\x15GESTURE_KIND_PAN_MOVE\x10\x00\x12\x18\n" +
 	"\x14GESTURE_KIND_PAN_END\x10\x01\x12\x14\n" +
 	"\x10GESTURE_KIND_TAP\x10\x02\x12\x16\n" +
 	"\x12GESTURE_KIND_TRACK\x10\x03\x12\x16\n" +
 	"\x12GESTURE_KIND_PINCH\x10\x04\x12\x16\n" +
-	"\x12GESTURE_KIND_WHEEL\x10\x05*q\n" +
+	"\x12GESTURE_KIND_WHEEL\x10\x05\x12\x14\n" +
+	"\x10GESTURE_KIND_ROI\x10\x06*q\n" +
 	"\tCompareOp\x12\x0e\n" +
 	"\n" +
 	"COMPARE_EQ\x10\x00\x12\x12\n" +

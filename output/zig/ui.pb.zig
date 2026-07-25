@@ -72,6 +72,8 @@ pub const PatchKind = enum(i32) {
    PATCH_KIND_NDC_Y = 2,
    PATCH_KIND_DELTA = 3,
    PATCH_KIND_WIDGET_VALUE = 4,
+   PATCH_KIND_NDC_X2 = 5,
+   PATCH_KIND_NDC_Y2 = 6,
     _,
 };
 
@@ -83,6 +85,7 @@ pub const GestureKind = enum(i32) {
    GESTURE_KIND_TRACK = 3,
    GESTURE_KIND_PINCH = 4,
    GESTURE_KIND_WHEEL = 5,
+   GESTURE_KIND_ROI = 6,
     _,
 };
 

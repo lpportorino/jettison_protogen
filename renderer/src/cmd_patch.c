@@ -33,8 +33,27 @@ void cmd_patch_padded_varint(uint8_t *out, uint32_t width, int64_t value) {
     r >>= 7;
   }
 }
-int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
-                       int32_t value_or_delta) {
+/* Write the 8-byte double `d` into an NDC slot after asserting its width — the
+ * NDC_X/Y/X2/Y2 cases are otherwise identical. Returns false (fail-loud) on a
+ * non-8 width so the emit aborts. */
+static bool ndc_slot(uint8_t *buf, const cmd_patch_field_t *p, double d,
+                     const char *name) {
+  if (p->byte_width != 8) {
+    LOG_ERROR("cmd_patch: %s slot width %u != 8", name,
+              (unsigned)p->byte_width);
+    return false;
+  }
+  double_le_bytes(&buf[p->byte_offset], d);
+  return true;
+}
+/* Shared slot-writer for both the single-point and rubber-band-rect emits. The
+ * NDC leaves take (x1,y1) for the first corner and (x2,y2) for the ROI second
+ * corner; the varint leaf takes value_or_delta. cmd_patch_emit passes x2=y2=0
+ * (no 2nd-corner slot in a single-point spec); cmd_patch_emit_rect passes
+ * value_or_delta=0 (no varint slot in an ROI spec). */
+static int32_t cmd_patch_emit_impl(const cmd_spec_t *spec, double x1, double y1,
+                                   double x2, double y2,
+                                   int32_t value_or_delta) {
   /* A widget/gesture with no pre-encoded template never reaches the host —
    * there is nothing to send (no host_command, no legacy fallback). */
   if (!spec || !spec->present || spec->template_len == 0)
@@ -60,20 +79,20 @@ int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
     }
     switch (p->kind) {
     case CMD_PATCH_KIND_NDC_X:
-      if (p->byte_width != 8) {
-        LOG_ERROR("cmd_patch: NDC_X slot width %u != 8",
-                  (unsigned)p->byte_width);
+      if (!ndc_slot(buf, p, x1, "NDC_X"))
         return -1;
-      }
-      double_le_bytes(&buf[p->byte_offset], x);
       break;
     case CMD_PATCH_KIND_NDC_Y:
-      if (p->byte_width != 8) {
-        LOG_ERROR("cmd_patch: NDC_Y slot width %u != 8",
-                  (unsigned)p->byte_width);
+      if (!ndc_slot(buf, p, y1, "NDC_Y"))
         return -1;
-      }
-      double_le_bytes(&buf[p->byte_offset], y);
+      break;
+    case CMD_PATCH_KIND_NDC_X2:
+      if (!ndc_slot(buf, p, x2, "NDC_X2"))
+        return -1;
+      break;
+    case CMD_PATCH_KIND_NDC_Y2:
+      if (!ndc_slot(buf, p, y2, "NDC_Y2"))
+        return -1;
       break;
     case CMD_PATCH_KIND_DELTA:
     case CMD_PATCH_KIND_WIDGET_VALUE: {
@@ -90,4 +109,12 @@ int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
     }
   }
   return host_command((uint32_t)(uintptr_t)buf, spec->template_len);
+}
+int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
+                       int32_t value_or_delta) {
+  return cmd_patch_emit_impl(spec, x, y, 0.0, 0.0, value_or_delta);
+}
+int32_t cmd_patch_emit_rect(const cmd_spec_t *spec, double x1, double y1,
+                            double x2, double y2) {
+  return cmd_patch_emit_impl(spec, x1, y1, x2, y2, 0);
 }

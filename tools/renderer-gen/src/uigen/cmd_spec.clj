@@ -30,9 +30,9 @@
   (:require [asgard.api.backend :as backend]
             [asgard.proto.cmd :as pcmd]
             [asgard.schema :as s]
-            [camel-snake-kebab.core :as csk]
             [clojure.string :as str]
             [malli.core :as m]
+            [pronto.utils :as pronto-utils]
             [uigen.resolve :as res]
             [uigen.scales :as scales])
   (:import [java.nio ByteBuffer ByteOrder]))
@@ -108,11 +108,24 @@
 
 (def ^:private ndc-y-sentinel (Double/longBitsToDouble 0x7ff85a5a5a5a5a5a))
 
+;; ROI rubber-band 2nd-corner sentinels — distinct qNaN payloads so a FocusROI
+;; template's four NDC slots (x1/y1/x2/y2) each locate uniquely.
+(def ^:private ndc-x2-sentinel (Double/longBitsToDouble 0x7ff8c3c3c3c3c3c3))
+
+(def ^:private ndc-y2-sentinel (Double/longBitsToDouble 0x7ff83c3c3c3c3c3c))
+
 (def ^:private ndc-double-leaves
   "NDC double leaf field-name → its PatchKind + sentinel double. x/y are the
-   shared NDC convention (written verbatim, wire-scale 1)."
+   shared single-point NDC convention; x1/y1/x2/y2 are the ROI rubber-band's
+   two corners (x1/y1 = corner 1 → NDC_X/Y, x2/y2 = corner 2 → NDC_X2/Y2). All
+   written verbatim, wire-scale 1. A single command never carries both an x/y
+   and an x1/x2 leaf, so the shared corner-1 sentinels never collide in-template."
   {"x" {:kind :PATCH_KIND_NDC_X :sentinel ndc-x-sentinel}
-   "y" {:kind :PATCH_KIND_NDC_Y :sentinel ndc-y-sentinel}})
+   "y" {:kind :PATCH_KIND_NDC_Y :sentinel ndc-y-sentinel}
+   "x1" {:kind :PATCH_KIND_NDC_X :sentinel ndc-x-sentinel}
+   "y1" {:kind :PATCH_KIND_NDC_Y :sentinel ndc-y-sentinel}
+   "x2" {:kind :PATCH_KIND_NDC_X2 :sentinel ndc-x2-sentinel}
+   "y2" {:kind :PATCH_KIND_NDC_Y2 :sentinel ndc-y2-sentinel}})
 
 (def ^:private value-double-sentinel
   "Sentinel for a non-NDC `double value` slider leaf (a distinctive qNaN
@@ -184,6 +197,16 @@
 ;; Derived from the endpoint's fields so no command shape is hard-coded: a
 ;; double field named x/y → an NDC slot; the int32 `value` leaf → the
 ;; widget/delta varint slot.
+(defn- field-key
+  "The param-map key for a proto field NAME, matching cmd-mapper's
+   `:key-name-fn` (pronto.utils/->kebab-case) EXACTLY. Must be pronto's own
+   transform, not camel-snake-kebab: the two agree on letter-only names but
+   DIVERGE on a digit-suffixed field (\"x1\" → pronto \"x1\" but csk \":x-1\"),
+   so a rubber-band ROI leaf (x1/y1/x2/y2) would assoc a non-existent key."
+  [fname]
+  (keyword (pronto-utils/->kebab-case fname)))
+(m/=> field-key [:=> [:cat s/ne-string] :keyword])
+
 (defn- varint-wire-scale
   "Gen-time wire-scale for a varint leaf (uigen.scales). A numeric
    semantic-type uses its scale; SetZoomTableValue.value is nil-semantic
@@ -227,9 +250,9 @@
     (reduce
      (fn [{:keys [params patch-fields]} f]
        ;; pronto's cmd-mapper kebab-cases proto field names; the endpoint field
-       ;; :name is snake_case, so the params key must be its kebab keyword.
+       ;; :name is snake_case, so the params key must be its pronto kebab keyword.
        (let [fname (:name f)
-             fkw (csk/->kebab-case-keyword fname)
+             fkw (field-key fname)
              ftype (:type f)]
          (cond (and (= "double" ftype) (contains? ndc-double-leaves fname))
                {:params (assoc params fkw (:sentinel (ndc-double-leaves fname)))
@@ -380,7 +403,7 @@
     (let [params (reduce
                   (fn [p f]
                     (let [fname (:name f)
-                          fkw (csk/->kebab-case-keyword fname)
+                          fkw (field-key fname)
                           ftype (:type f)]
                       (cond (and field (= fname field)) (assoc p fkw raw-value)
                             (contains? fixed* fkw) (assoc p fkw (get fixed* fkw))

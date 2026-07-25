@@ -39,6 +39,15 @@
   "cmd.DayCamera.SetZoomTableValue patched by a pinch ±1 DELTA step."
   (cmd-spec/cmd-spec "cmd.DayCamera.SetZoomTableValue" :PATCH_KIND_DELTA))
 
+(def ^:private roi-focus-cmd
+  "cmd.DayCamera.FocusROI patched by an ROI rubber-band drag's TWO NDC corners:
+   x1/y1 (down corner) → the NDC_X/Y slots, x2/y2 (up corner) → the NDC_X2/Y2
+   slots, all verbatim. FocusROI has no value/channel leaf, so the varint-kind
+   arg is unused (as with tap-rotate-cmd). frame_time/state_time stay 0 — the
+   frame-timestamp stamping jettison applies is a named follow-on, not wired
+   here (the root_template bakes 0)."
+  (cmd-spec/cmd-spec "cmd.DayCamera.FocusROI" :PATCH_KIND_NDC_X))
+
 ;; R5a cmd-by-value: EventBinding.cmd_by_value carries a vector of FIXED
 ;; templates (patch_count 0) the widget's INT value index-selects among — the
 ;; :bool-set / :enum / :action egress shapes. The renderer memcpy-relays the
@@ -995,7 +1004,31 @@
                                                                  :handle_size 16
                                                                  :z 1}
                                               :gestures [{:kind :GESTURE_KIND_TAP
-                                                          :cmd tap-rotate-cmd}]}]}}})
+                                                          :cmd tap-rotate-cmd}]}]}}
+   ;; R5b ROI rubber-band: a STATIC full-screen host_proxy video-surface
+   ;; (CLICKABLE cleared, like vr_route → every point is VIDEO-owned → the FSM)
+   ;; carrying BOTH a TAP spec (point-select → RotateToNDC) and an ROI spec
+   ;; (rubber-band rect → FocusROI, 4 NDC slots). A completed drag (PAN_END) is
+   ;; mode-gated into a 4-corner FocusROI carrying (down.x,down.y,up.x,up.y); a
+   ;; plain TAP still routes to the point-select spec — mirroring jettison's
+   ;; tap→handlePointSelection vs pan→handleROISelection split. Consumed by the
+   ;; pointer_routing roi_gesture test.
+   "vr_roi_rect" {:type :screen
+                  :subjects {}
+                  :events {}
+                  :tree {:tag :lv_host_proxy
+                         :id "roi-surface"
+                         :class "w-pct-100 h-pct-100"
+                         :host_proxy_props {:proxy_id "roi-surface"
+                                            :mode :static
+                                            :min_w 40
+                                            :min_h 40
+                                            :max_w 400
+                                            :max_h 300
+                                            :handle_size 16
+                                            :z 1}
+                         :gestures [{:kind :GESTURE_KIND_TAP :cmd tap-rotate-cmd}
+                                    {:kind :GESTURE_KIND_ROI :cmd roi-focus-cmd}]}}})
 
 ;; ═══════════════════════════════════════════════════════════════════
 ;; V-C layout-defect fixtures — exercise the controls_dump_tree layout
