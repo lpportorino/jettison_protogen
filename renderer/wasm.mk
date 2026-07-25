@@ -84,6 +84,22 @@ CXXFLAGS_LINK := --target=$(TARGET) --sysroot=$(SYSROOT) \
             -fno-exceptions -fno-rtti \
             -I. -Ilvgl -Isrc -Igenerated \
             -std=c++17
+# The memory triple at the end of this list is a CONTRACT, not three tuning
+# knobs. `stack-size` in particular is load-bearing and must not be dropped:
+#
+#   children_decode_cb recurses once per widget-tree level, and each level costs
+#   a widget_ctx_t + a ui_WidgetNode + the nanopb/LVGL frames around them —
+#   ~4.8 KB measured. The WASI-SDK default stack is 64 KiB, which carries the
+#   decoder about 13 levels before it walks off the stack into a trap. That is
+#   FAR below renderer.c's own MAX_DECODE_DEPTH, so without this flag the depth
+#   guard is unreachable dead code and an over-deep tree crashes the guest
+#   instead of being refused with a diagnostic.
+#
+# 256 KiB carries the decoder well past MAX_DECODE_DEPTH with room to spare, so
+# the declared cap becomes the limit that actually fires. It costs 192 KiB of
+# the 8 MiB initial memory. Raising MAX_DECODE_DEPTH obliges re-checking this
+# number against the measured per-level cost; the decode_limits harness test
+# asserts a chain AT the cap still loads, so an under-sized stack fails loudly.
 LDFLAGS := -Wl,--export=malloc -Wl,--export=free \
            -Wl,--export=controls_init \
            -Wl,--export=controls_load_ui \
@@ -120,6 +136,7 @@ LDFLAGS := -Wl,--export=malloc -Wl,--export=free \
            -Wl,--export=gesture_decisions_ptr \
            -Wl,--initial-memory=8388608 \
            -Wl,--max-memory=268435456 \
+           -Wl,-z,stack-size=262144 \
            -mexec-model=reactor
 # Sorted: link order IS wasm byte layout — an unsorted find links in
 # filesystem readdir order, making the artifact differ per checkout while

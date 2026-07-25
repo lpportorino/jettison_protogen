@@ -125,6 +125,24 @@ public final class JonSharedDataRotary {
     double getSunAzimuth();
 
     /**
+     * <pre>
+     * Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+     * `elevation` field in this schema uses. That difference is deliberate, and
+     * it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+     * blocks are identical) — it is not:
+     *
+     * - This pair is not sensed, it is COMPUTED from GPS position + time, and
+     * both members are normalized the same way, which is why both read
+     * `lt: 360` (exclusive: 360 wraps to 0).
+     * - The sweep carries below-horizon positions rather than clipping them:
+     * 0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+     * -90..90 range would still express that, but this schema models it as
+     * one modulo'd circle so no consumer has to special-case night.
+     *
+     * Tightening this to -90..90 to "match the other elevation fields" would
+     * reject everything past zenith — most of the cycle.
+     * </pre>
+     *
      * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
      * @return The sunElevation.
      */
@@ -418,6 +436,24 @@ public final class JonSharedDataRotary {
     public static final int SUN_ELEVATION_FIELD_NUMBER = 16;
     private double sunElevation_ = 0D;
     /**
+     * <pre>
+     * Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+     * `elevation` field in this schema uses. That difference is deliberate, and
+     * it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+     * blocks are identical) — it is not:
+     *
+     * - This pair is not sensed, it is COMPUTED from GPS position + time, and
+     * both members are normalized the same way, which is why both read
+     * `lt: 360` (exclusive: 360 wraps to 0).
+     * - The sweep carries below-horizon positions rather than clipping them:
+     * 0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+     * -90..90 range would still express that, but this schema models it as
+     * one modulo'd circle so no consumer has to special-case night.
+     *
+     * Tightening this to -90..90 to "match the other elevation fields" would
+     * reject everything past zenith — most of the cycle.
+     * </pre>
+     *
      * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
      * @return The sunElevation.
      */
@@ -1910,6 +1946,24 @@ public final class JonSharedDataRotary {
 
       private double sunElevation_ ;
       /**
+       * <pre>
+       * Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+       * `elevation` field in this schema uses. That difference is deliberate, and
+       * it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+       * blocks are identical) — it is not:
+       *
+       * - This pair is not sensed, it is COMPUTED from GPS position + time, and
+       * both members are normalized the same way, which is why both read
+       * `lt: 360` (exclusive: 360 wraps to 0).
+       * - The sweep carries below-horizon positions rather than clipping them:
+       * 0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+       * -90..90 range would still express that, but this schema models it as
+       * one modulo'd circle so no consumer has to special-case night.
+       *
+       * Tightening this to -90..90 to "match the other elevation fields" would
+       * reject everything past zenith — most of the cycle.
+       * </pre>
+       *
        * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
        * @return The sunElevation.
        */
@@ -1918,6 +1972,24 @@ public final class JonSharedDataRotary {
         return sunElevation_;
       }
       /**
+       * <pre>
+       * Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+       * `elevation` field in this schema uses. That difference is deliberate, and
+       * it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+       * blocks are identical) — it is not:
+       *
+       * - This pair is not sensed, it is COMPUTED from GPS position + time, and
+       * both members are normalized the same way, which is why both read
+       * `lt: 360` (exclusive: 360 wraps to 0).
+       * - The sweep carries below-horizon positions rather than clipping them:
+       * 0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+       * -90..90 range would still express that, but this schema models it as
+       * one modulo'd circle so no consumer has to special-case night.
+       *
+       * Tightening this to -90..90 to "match the other elevation fields" would
+       * reject everything past zenith — most of the cycle.
+       * </pre>
+       *
        * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
        * @param value The sunElevation to set.
        * @return This builder for chaining.
@@ -1930,6 +2002,24 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
+       * <pre>
+       * Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+       * `elevation` field in this schema uses. That difference is deliberate, and
+       * it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+       * blocks are identical) — it is not:
+       *
+       * - This pair is not sensed, it is COMPUTED from GPS position + time, and
+       * both members are normalized the same way, which is why both read
+       * `lt: 360` (exclusive: 360 wraps to 0).
+       * - The sweep carries below-horizon positions rather than clipping them:
+       * 0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+       * -90..90 range would still express that, but this schema models it as
+       * one modulo'd circle so no consumer has to special-case night.
+       *
+       * Tightening this to -90..90 to "match the other elevation fields" would
+       * reject everything past zenith — most of the cycle.
+       * </pre>
+       *
        * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */

@@ -698,7 +698,20 @@ int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
   reset_hover_report();
   /* A FAILED build (overflow / decode error) leaves last_ui_data caching a
    * screen that won't render right — mark it stale so a later composite change
-   * asks the host to re-send rather than rebuilding the broken screen. */
+   * asks the host to re-send rather than rebuilding the broken screen.
+   *
+   * DELIBERATELY NOT torn down here. Tearing the screen down on any nonzero
+   * status was tried and reverted: a nonzero status is OVERLOADED. It covers
+   * both a hard refusal (nothing usable was built) and a CONTAINED defect —
+   * notably a duplicate codegen uid, where the collided node is left
+   * unidentified on purpose and the rest of the screen is correct and
+   * renderable. `wasm_harness/tests/reload_cycle.rs` pins that contract, and
+   * its non-vacuity guard catches exactly this: blanking the screen makes its
+   * uniqueness assertion pass over an empty tree, proving nothing.
+   *
+   * Distinguishing the two would need the decoder to report an error CLASS
+   * rather than a bare -1; until it does, the honest behavior is to keep
+   * rendering what was built and let last_ui_stale drive the re-send. */
   if (status != 0)
     last_ui_stale = 1;
   return status;

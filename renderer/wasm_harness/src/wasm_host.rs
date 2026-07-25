@@ -940,6 +940,44 @@ impl ControlsHost {
         let func = self.fn_load_ui.clone();
         self.call_with_buffer(data, &func, "controls_load_ui")
     }
+    /// Raw `controls_load_ui` returning the module's STATUS code without
+    /// erroring on a non-zero (rejection) status — the load-path twin of
+    /// `resize_raw`/`apply_patch`.
+    ///
+    /// Decode-limit contracts (nesting depth, sibling fan-out, total node
+    /// count) are REJECTIONS, not harness failures: the assertion under test is
+    /// the exact status AND that the guest is left in a defined state. The
+    /// typed `load_ui` collapses every non-zero status into one error string,
+    /// which cannot distinguish "refused cleanly at the cap" from "trapped".
+    ///
+    /// # Errors
+    ///
+    /// Returns an error only if allocation or the wasm call itself traps — a
+    /// trap being precisely the failure a decode-limit guard must prevent.
+    pub fn load_ui_raw(&mut self, data: &[u8]) -> Result<i32, HarnessError> {
+        let len = u32::try_from(data.len())
+            .map_err(|_err| HarnessError::Wasm("ui payload too large for WASM u32".into()))?;
+        let ptr = self
+            .fn_malloc
+            .call(&mut self.store, len)
+            .map_err(|err| HarnessError::Wasm(format!("malloc failed: {err}")))?;
+        #[expect(
+            clippy::as_conversions,
+            reason = "u32→usize is lossless on supported platforms"
+        )]
+        let ptr_usize = ptr as usize;
+        self.memory
+            .write(&mut self.store, ptr_usize, data)
+            .map_err(|err| HarnessError::Wasm(format!("memory write failed: {err}")))?;
+        let status = self
+            .fn_load_ui
+            .call(&mut self.store, (ptr, len))
+            .map_err(|err| HarnessError::Wasm(format!("controls_load_ui failed: {err}")))?;
+        self.fn_free
+            .call(&mut self.store, ptr)
+            .map_err(|err| HarnessError::Wasm(format!("free failed: {err}")))?;
+        Ok(status)
+    }
     /// Push a protobuf `StateUpdate` to the module — the controller-binding
     /// inbound channel (`controls_update_state`).
     ///

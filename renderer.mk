@@ -138,6 +138,21 @@ reload: wasm proto-classes
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test reload_cycle
 
+# ── Decode limits (hostile-payload contracts; NOT a pixel oracle) ───────────
+# Nesting depth, per-parent fan-out, aggregate node count, and abort-on-error —
+# the paths a crafted .pb reaches and an authored screen never does. Builds its
+# trees in-process, so it needs only the wasm: no fixtures, no codegen.
+#
+# These are the contracts nothing else in the battery can reach. The in-tree
+# fixtures top out at three nesting levels and the shipped corpus at six, so a
+# cap set anywhere above six is invisible to every other lane — which is exactly
+# how MAX_DECODE_DEPTH went unreachable without a single gate noticing. A NEW
+# cargo test binary is not auto-run by the named-test lanes, so it is wired here
+# explicitly.
+decode-limits: wasm
+	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
+		cargo test --test decode_limits
+
 # ── Oracles (morph parity / coverage matrix / demo parity) ──────────────────
 oracles: morph-parity matrix demo-parity
 
@@ -219,5 +234,5 @@ clj-schema-test:
 	cd $(RGEN) && clojure -M:test
 
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload
+check-renderer: manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN (manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"

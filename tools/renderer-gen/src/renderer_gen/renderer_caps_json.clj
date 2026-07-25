@@ -68,6 +68,14 @@
    ;; screen nested past 80% of the cap fails emit, so a legit screen can never
    ;; approach the renderer's crash-safety limit (a crafted .pb is the only way
    ;; to reach it, and the runtime cap rejects that loudly).
+   ;;
+   ;; That last clause is only true because the LINK reserves enough C stack to
+   ;; reach the cap. Each level costs ~4.8 KB, so the WASI-SDK's 64 KiB default
+   ;; would strand the decoder around a dozen levels — far under this number —
+   ;; turning the runtime guard into unreachable dead code and a rejection into
+   ;; a trap, while emit still permitted everything under 80% of 32. wasm.mk's
+   ;; -Wl,-z,stack-size is what closes that gap; raising this cap obliges
+   ;; raising that reservation in the same change.
    :decode-depth {:define "MAX_DECODE_DEPTH" :cap 32}})
 
 (def non-headroom-caps

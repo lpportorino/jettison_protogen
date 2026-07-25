@@ -1370,6 +1370,21 @@ pub struct JonGuiDataRotary {
     pub scan_target_max: i32,
     #[prost(double, tag = "15")]
     pub sun_azimuth: f64,
+    /// Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+    /// `elevation` field in this schema uses. That difference is deliberate, and
+    /// it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+    /// blocks are identical) — it is not:
+    ///
+    ///    - This pair is not sensed, it is COMPUTED from GPS position + time, and
+    ///      both members are normalized the same way, which is why both read
+    ///      `lt: 360` (exclusive: 360 wraps to 0).
+    ///    - The sweep carries below-horizon positions rather than clipping them:
+    ///      0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+    ///      -90..90 range would still express that, but this schema models it as
+    ///      one modulo'd circle so no consumer has to special-case night.
+    ///
+    /// Tightening this to -90..90 to "match the other elevation fields" would
+    /// reject everything past zenith — most of the cycle.
     #[prost(double, tag = "16")]
     pub sun_elevation: f64,
     #[prost(message, optional, tag = "17")]

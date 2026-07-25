@@ -40,10 +40,25 @@ type JonGuiDataRotary struct {
 	ScanTarget         int32                      `protobuf:"varint,13,opt,name=scan_target,json=scanTarget,proto3" json:"scan_target,omitempty"`
 	ScanTargetMax      int32                      `protobuf:"varint,14,opt,name=scan_target_max,json=scanTargetMax,proto3" json:"scan_target_max,omitempty"`
 	SunAzimuth         float64                    `protobuf:"fixed64,15,opt,name=sun_azimuth,json=sunAzimuth,proto3" json:"sun_azimuth,omitempty"`
-	SunElevation       float64                    `protobuf:"fixed64,16,opt,name=sun_elevation,json=sunElevation,proto3" json:"sun_elevation,omitempty"`
-	CurrentScanNode    *ScanNode                  `protobuf:"bytes,17,opt,name=current_scan_node,json=currentScanNode,proto3" json:"current_scan_node,omitempty"`
-	IsStarted          bool                       `protobuf:"varint,18,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
-	Meteo              *types.JonGuiDataMeteo     `protobuf:"bytes,19,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	// Solar elevation as a FULL 0..360 SWEEP, not the signed -90..90 every other
+	// `elevation` field in this schema uses. That difference is deliberate, and
+	// it has been mistaken for a copy-paste of sun_azimuth above (the constraint
+	// blocks are identical) — it is not:
+	//
+	//   - This pair is not sensed, it is COMPUTED from GPS position + time, and
+	//     both members are normalized the same way, which is why both read
+	//     `lt: 360` (exclusive: 360 wraps to 0).
+	//   - The sweep carries below-horizon positions rather than clipping them:
+	//     0 = horizon, 90 = zenith, 180 = horizon, 270 = nadir. A signed
+	//     -90..90 range would still express that, but this schema models it as
+	//     one modulo'd circle so no consumer has to special-case night.
+	//
+	// Tightening this to -90..90 to "match the other elevation fields" would
+	// reject everything past zenith — most of the cycle.
+	SunElevation    float64                `protobuf:"fixed64,16,opt,name=sun_elevation,json=sunElevation,proto3" json:"sun_elevation,omitempty"`
+	CurrentScanNode *ScanNode              `protobuf:"bytes,17,opt,name=current_scan_node,json=currentScanNode,proto3" json:"current_scan_node,omitempty"`
+	IsStarted       bool                   `protobuf:"varint,18,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo           *types.JonGuiDataMeteo `protobuf:"bytes,19,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	// Axis initialization status (0=not init, 14=fully init)
 	PanInitStatus  int32 `protobuf:"varint,20,opt,name=pan_init_status,json=panInitStatus,proto3" json:"pan_init_status,omitempty"`
 	TiltInitStatus int32 `protobuf:"varint,21,opt,name=tilt_init_status,json=tiltInitStatus,proto3" json:"tilt_init_status,omitempty"`
