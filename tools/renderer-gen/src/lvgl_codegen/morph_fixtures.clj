@@ -755,10 +755,17 @@
 
 (defn- emit-grid-pool-case!
   "Write the grid-pool fixtures: base.pb (replaceable target), exhaust.patch.pb
-   (an over-demand REPLACE that must refuse -4 before any mutation), and
-   ok.patch.pb (a within-pool REPLACE that succeeds). Base hash computed from the
-   real base bytes; target hash is the arbitrary degenerate constant (the tests
-   never chain past the single op)."
+   (an over-demand REPLACE that must refuse -4 before any mutation), ok.patch.pb
+   (a within-pool REPLACE that succeeds), and insert_over_demand.pb (the same
+   over-demand subtree arriving via INSERT). Base hash computed from the real
+   base bytes; target hash is the arbitrary degenerate constant (the tests never
+   chain past the single op).
+
+   INSERT carries the SAME demand-aware guard REPLACE does, placed before both
+   the parent lookup and the node decode. Existing INSERT fixtures already run
+   THROUGH that guard (duplicate_insert_uid depends on passing it), but none
+   had ever made it REFUSE — and a branch nobody has watched fire is
+   indistinguishable from an absent one."
   [tokens components ^String out-dir]
   (let [base-ir (screen->ir tokens components grid-pool-base)
         ^bytes base-bytes (proto-ser/ir->bytes base-ir)
@@ -767,10 +774,16 @@
         replace-op (fn [n] [{:kind :PATCH_OP_REPLACE_NODE
                              :target_uid target-uid
                              :node (grid-wall-node n)}])
+        insert-op (fn [n] [{:kind :PATCH_OP_INSERT_NODE
+                            :parent_uid (get-in base-ir [:root :uid])
+                            :index 0
+                            :node (grid-wall-node n)}])
         exhaust-wire (patch/patch-ir base-hash degenerate-target-hash
                                      (replace-op grid-pool-exhaust-cells))
         ok-wire (patch/patch-ir base-hash degenerate-target-hash
-                                (replace-op grid-pool-ok-cells))]
+                                (replace-op grid-pool-ok-cells))
+        insert-exhaust-wire (patch/patch-ir base-hash degenerate-target-hash
+                                            (insert-op grid-pool-exhaust-cells))]
     ;; Single-file names (NOT the `.base.pb`/`.target.pb`/`.patch.pb` triple
     ;; suffixes) — the morph-parity dual oracle scans every `*.base.pb` as a
     ;; full triple, so a lone base under that suffix would demand a phantom
@@ -780,8 +793,11 @@
                             (str out-dir "/grid_pool_over_demand.pb"))
     (proto-ser/write-bytes! (proto-ser/patch->bytes ok-wire)
                             (str out-dir "/grid_pool_within_pool.pb"))
+    (proto-ser/write-bytes! (proto-ser/patch->bytes insert-exhaust-wire)
+                            (str out-dir "/grid_pool_insert_over_demand.pb"))
     (println (str "  grid-pool/base + over_demand(" grid-pool-exhaust-cells
-                  " cells) + within_pool(" grid-pool-ok-cells " cells)"))))
+                  " cells) + within_pool(" grid-pool-ok-cells " cells)"
+                  " + insert_over_demand(" grid-pool-exhaust-cells " cells)"))))
 (m/=> emit-grid-pool-case!
       [:=>
        [:cat schema/tokens-schema [:map-of [:string {:min 1}] map?] [:string {:min 1}]]

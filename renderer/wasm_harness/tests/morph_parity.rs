@@ -628,6 +628,59 @@ fn grid_pool_within_pool_replace_succeeds() {
         "the target must be replaced by the grid subtree"
     );
 }
+
+/// An INSERT whose payload subtree's grid demand OUTRUNS the write-once
+/// template pool must refuse LOUDLY (-4) BEFORE building anything, so the
+/// pre-patch tree is unchanged.
+///
+/// INSERT carries the SAME `grid_demand_exceeds_pool` guard REPLACE does,
+/// placed before both `find_uid_obj(parent)` and `decode_op_node`. Existing
+/// INSERT fixtures already traverse that guard — `duplicate_insert_uid`
+/// reaches a uid-registration failure only by passing it — but none had ever
+/// driven it to REFUSE, and a branch nobody has watched fire is
+/// indistinguishable from an absent one.
+///
+/// Pre-guard (delete the INSERT-side `grid_demand_exceeds_pool` call) this
+/// test is RED: the base leaves the pool empty so patch_pools_low's FIXED
+/// margin passes, the streaming build then hits the pool wall, and the op
+/// returns -5 with the wall parented but degraded to non-grid (on exhaustion
+/// the col+row allocs fail together — see renderer.c's alloc_grid_template
+/// pairing note — so nothing is stranded half-built).
+#[test]
+fn grid_pool_over_demand_insert_refuses_before_building() {
+    const PATCH_ERR_POOL: i32 = -4;
+    let base = read_pb("grid_pool_base");
+    let exhaust = read_pb("grid_pool_insert_over_demand");
+    let mut host = new_host();
+    load(&mut host, &base);
+    let before = host.dump_tree().expect("dump before");
+    // Non-vacuity guard: the `before == after` check below is a ZERO-DELTA
+    // assertion, so its PASS value equals its nothing-ran value — it would hold
+    // trivially if dump_tree returned an empty (or identically-failing) string
+    // both times, proving nothing. Pin that the base tree really loaded first,
+    // so the equality can only pass by the refusal genuinely leaving it intact.
+    assert!(
+        before.contains("stays"),
+        "base tree must actually be loaded for the unchanged-tree assertion to mean anything"
+    );
+
+    let rc = host
+        .apply_patch(&exhaust)
+        .expect("apply insert exhaust patch");
+    assert_eq!(
+        rc, PATCH_ERR_POOL,
+        "over-demand grid INSERT must refuse with PATCH_ERR_POOL (-4), got {rc}"
+    );
+
+    // The refusal sits BEFORE the build: the live tree is byte-identical to
+    // pre-patch — nothing parented, nothing half-built.
+    let after = host.dump_tree().expect("dump after");
+    assert_eq!(
+        before, after,
+        "a refused INSERT must leave the tree UNCHANGED (nothing built)"
+    );
+    ticks(&mut host, RENDER_TICKS);
+}
 // ═══════════════════════════════════════════════════════════════════
 // Tier 3 — form-state survival under the combo classes that touch the
 // form's vicinity (sibling INSERT storm + container style morph; the
