@@ -35,8 +35,46 @@
 
 (set! *warn-on-reflection* true)
 
+(defn- assert-optimizing-runtime!
+  "Refuse to run without a Truffle optimizing runtime, returning the engine.
+
+   Polyglot DEGRADES SILENTLY: on a JDK without JVMCI + the Graal compiler it
+   builds a working engine that interprets every wasm instruction, prints a
+   WARNING nobody reads in a 25-minute log, and produces identical results —
+   only far slower. Measured on this corpus: 1404 renders took 407.9s
+   interpreted (~290ms each), which is ~27% of the whole renderer battery spent
+   on a misconfiguration rather than on work.
+
+   A warning is the wrong shape for that. It is a REQUIRED toolchain component
+   that is absent, so it hard-fails here rather than being absorbed — the same
+   posture the batteries take toward a missing gate tool. Note the failure is
+   also self-concealing in the worst way: the run still PASSES, so nothing
+   downstream ever reports it, and the only symptom is time.
+
+   The engine reports `Interpreted` in that state and the GraalVM runtime's own
+   name (e.g. `GraalVM CE`) otherwise — both verified on this toolchain, which
+   is what makes this check non-vacuous."
+  ^Engine [^Engine engine]
+  (let [impl (.getImplementationName engine)]
+    (when (= "Interpreted" impl)
+      (throw (ex-info
+              (str "GraalWasm has NO optimizing runtime — refusing to run.\n"
+                   "  engine implementation: " impl "\n"
+                   "  cause: this JDK lacks JVMCI + the Graal compiler.\n"
+                   "  fix:   run inside protogen's own toolchain image, which\n"
+                   "         installs GraalVM CE for exactly this reason:\n"
+                   "           ./tools/uber.sh 'make -f renderer.mk check-renderer'\n"
+                   "         A stock JDK (Temurin/OpenJDK) cannot run this lane;\n"
+                   "         see .claude/rules/uber-container.md.")
+              {:engine-implementation impl
+               :engine-version (.getVersion engine)
+               :java-vm (System/getProperty "java.vm.name")
+               :java-home (System/getProperty "java.home")})))
+    engine))
+
 (defonce ^:private shared-engine
-  (delay (.build (Engine/newBuilder (into-array String ["wasm"])))))
+  (delay (assert-optimizing-runtime!
+          (.build (Engine/newBuilder (into-array String ["wasm"]))))))
 
 (defn- sha256-file
   ^String [^String path]
