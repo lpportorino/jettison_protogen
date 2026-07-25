@@ -13,6 +13,11 @@
 #   renderer/generated/**   nanopb + threshold projections
 #   renderer/src/font_*.c   generated LVGL font data
 #   docs/proto/**           generated markdown
+# One HAND-AUTHORED tree is also held out, which the list above would not lead
+# you to expect — docs/.protodoc/scripts/. It is not generated or vendored, so
+# its exclusion is a debt with a written expiry rather than a scoping fact; the
+# rationale and the condition that retires it sit at the LINT_CLJ_PATHS
+# declaration, which is the one home for what is and is not gated.
 #
 # WHERE EACH LANE CAN RUN. Only the lanes that REWRITE committed source are
 # bound to the pinned container (see .claude/rules/uber-container.md):
@@ -45,13 +50,54 @@ NPROC := $(shell nproc 2>/dev/null \
 # `clang-format` is the host fallback for a read-only check.
 CLANG_FORMAT := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-format) clang-format)
 
-# Hand-authored Clojure source roots (dirs, per tool convention).
+# Hand-authored Clojure — the positive allowlist handed to cljfmt, clj-kondo and
+# splint alike. Mostly source ROOTS; a lone FILE is equally valid to every one of
+# those tools, and is the honest shape for build.clj: it is the only hand-authored
+# Clojure at its tools root, which otherwise holds config, a Dockerfile, generated
+# resources and a gitignored .cpcache. Naming the file says "this one file", which
+# is what is true; naming the directory would claim the whole tree is source.
+#
+# HOW THIS SET IS KEPT HONEST — a positive allowlist is only as good as the
+# audit that says nothing is missing from it, so derive the gap, do not eyeball
+# it: `make -f lint.mk audit-clj-paths` diffs every TRACKED hand-authored Clojure
+# file against what these paths expand to. Whatever it prints is UNGATED, and
+# belongs either in the list below or in the held-out block after it. A tracked
+# hand-authored file in NEITHER place is the hole that audit exists to close — a
+# test tree once sat outside both the formatter and the linter for exactly as
+# long as nobody ran that diff.
 LINT_CLJ_PATHS := tools/devcards/src \
 	tools/devcards/dev \
 	tools/devcards/test \
 	tools/renderer-gen/src \
+	tools/renderer-gen/test \
 	docs/.protodoc/tools/src \
-	docs/.protodoc/tools/test
+	docs/.protodoc/tools/test \
+	docs/.protodoc/tools/build.clj
+
+# THE ONE HELD-OUT TREE — on the record, never silently absent:
+#
+# docs/.protodoc/scripts/ — the `#!/usr/bin/env bb` slash-command backends
+# (proto-search, proto-coverage, doc-next, proto-lint, patch-lint). Hand-authored
+# and first-party, so they BELONG in the list above. They are held out because
+# none of them carries an `ns` form: clj-kondo then treats the whole directory as
+# one implicit `user` namespace, and CROSS-FILE collisions — Shadowed var,
+# duplicate require, redefined var — dominate what it reports. Lint one script on
+# its own and most of its findings vanish. Reproduce both halves:
+#
+#   clj-kondo --cache false --lint docs/.protodoc/scripts
+#   clj-kondo --cache false --lint docs/.protodoc/scripts/proto-search.clj
+#
+# A real residue survives that collapse (an unresolved clojure.java.io, locals
+# shadowing clojure.core, unused bindings, a redundant let), and some of the
+# scripts are cljfmt-dirty too. So clearing this is a deliberate SOURCE change —
+# give each script a real `ns`, then rename the shadowing locals — and that
+# rename is the sharp edge `.claude/rules/lint-gates.md` warns about: a reference
+# you miss silently resolves to the clojure.core var, stays green under the
+# linter, and dies at runtime. It has to be made against these scripts while
+# RUNNING them, never as a side effect of widening a path list.
+#
+# RETIRES WHEN: the scripts carry `ns` forms and lint clean — at which point this
+# block is deleted and `docs/.protodoc/scripts` joins LINT_CLJ_PATHS above.
 
 # Hand-authored C. `find` + explicit -not, so a NEW hand-written file is picked
 # up automatically while the generated font tables stay out.
@@ -70,7 +116,7 @@ LINT_SH_FILES := $(shell git ls-files '*.sh' .githooks/pre-push 2>/dev/null \
 LINT_SH_DISCOVERY_ERR := $(shell git ls-files '*.sh' .githooks/pre-push 2>&1 >/dev/null)
 
 .PHONY: lint lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
-	install-hooks hooks-status
+	install-hooks hooks-status audit-clj-paths
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -97,6 +143,45 @@ lint: lint-sh fmt-clj lint-clj fmt-c
 ## cpus: report the detected parallelism (debug aid across dev machines)
 cpus:
 	@echo "NPROC=$(NPROC)"
+
+## audit-clj-paths: report tracked hand-authored Clojure that NO lane gates
+# The audit a positive allowlist needs and does not otherwise get: the allowlist
+# says what IS gated and is silent about what it forgot, so the only way a
+# forgotten tree surfaces is by diffing it against git's own index.
+#
+# REPORT-ONLY, deliberately not part of `lint`. Gating on it would mean encoding
+# the held-out tree as a SECOND exclusion list right here — and a second list
+# that can drift out of step with the first is exactly what the positive-
+# allowlist design exists to avoid. Consequence, and it is intentional: the
+# held-out docs/.protodoc/scripts/ files appear in this report EVERY time, so the
+# debt stays visible until it is retired rather than fading into a silent
+# subtraction.
+#
+# NON-VACUITY GUARD, the same class lint-sh and fmt-c carry: this target's clean
+# value is "prints no files", which is also precisely what a broken `git ls-files`
+# prints. Both sides of the diff are asserted non-empty before an empty result is
+# allowed to read as clean.
+audit-clj-paths:
+	@t=$$(mktemp) && g=$$(mktemp) && \
+	git ls-files '*.clj' '*.cljc' '*.bb' | sort > "$$t"; \
+	for p in $(LINT_CLJ_PATHS); do git ls-files "$$p"; done \
+		| sed -n '/\.\(clj\|cljc\|bb\)$$/p' | sort > "$$g"; \
+	rc=0; \
+	if [ ! -s "$$t" ] || [ ! -s "$$g" ]; then \
+		printf '\033[31m[audit-clj-paths] FAIL\033[0m — a side of the diff is EMPTY\n' >&2; \
+		printf '  (tracked=%s gated=%s). This repo has both, so an empty set means\n' \
+			"$$(wc -l < "$$t")" "$$(wc -l < "$$g")" >&2; \
+		printf '  DISCOVERY broke — git cannot resolve this checkout — not that\n' >&2; \
+		printf '  there is nothing to audit.\n' >&2; \
+		rc=1; \
+	elif comm -23 "$$t" "$$g" | grep -q .; then \
+		printf '\033[33m[audit-clj-paths]\033[0m UNGATED — tracked and hand-authored, in no lane:\n'; \
+		comm -23 "$$t" "$$g" | sed 's/^/  /'; \
+		printf '  Add each to LINT_CLJ_PATHS, or hold it out ON THE RECORD beside it.\n'; \
+	else \
+		printf '\033[32m[audit-clj-paths]\033[0m every tracked Clojure file sits in a lane\n'; \
+	fi; \
+	rm -f "$$t" "$$g"; exit $$rc
 
 ## lint-clj: clj-kondo over hand-authored Clojure
 # --fail-level warning: a warning (exit 2) must fail exactly like an error
