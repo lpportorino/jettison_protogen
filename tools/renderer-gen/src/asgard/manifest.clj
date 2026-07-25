@@ -66,8 +66,12 @@
 
 ;; ── Enum Resolution ──────────────────────────────────────────────────
 (defn strip-common-prefix
-  "Strip the longest common prefix shared by all value names.
-   e.g., [\"FOO_BAR_A\" \"FOO_BAR_B\"] → [\"A\" \"B\"]"
+  "Strip the longest common prefix shared by all value names, backed off to an
+   underscore word boundary — and backed off FURTHER while any stripped residual
+   would carry no alphabetic character, so a numeric-tail member set keeps its
+   last shared word instead of degrading to bare digits.
+   e.g., [\"FOO_BAR_A\" \"FOO_BAR_B\"] → [\"A\" \"B\"]
+         [\"AGC_MODE_1\" \"AGC_MODE_2\"] → [\"MODE_1\" \"MODE_2\"] (not \"1\"/\"2\")"
   [names]
   (when (seq names)
     (let [prefix-len (loop [i 0]
@@ -78,10 +82,22 @@
                                           (rest names))))
                          (recur (inc i))
                          i))
-          ;; Walk back to last underscore for clean word boundary
-          prefix-end (let [s (subs (first names) 0 prefix-len)
-                           last-us (str/last-index-of s "_")]
-                       (if last-us (inc (long last-us)) 0))]
+          common (subs (first names) 0 prefix-len)
+          ;; Word-boundary candidates: every position just after an underscore in
+          ;; the common prefix, latest first, then 0 (strip nothing) as the floor.
+          candidates (conj (->> (map-indexed vector common)
+                                (filter #(= \_ (second %)))
+                                (map (comp inc long first))
+                                reverse
+                                vec)
+                           0)
+          has-letter? (fn [^String s] (boolean (re-find #"\p{Alpha}" s)))
+          prefix-end (long (or (some (fn [end]
+                                       (when (every? #(has-letter? (subs ^String % end))
+                                                     names)
+                                         end))
+                                     candidates)
+                               0))]
       (mapv #(subs ^String % prefix-end) names))))
 (m/=> strip-common-prefix
       [:=> [:cat [:maybe [:sequential s/ne-string]]] [:maybe [:sequential :string]]])

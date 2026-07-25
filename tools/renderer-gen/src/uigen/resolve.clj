@@ -23,9 +23,60 @@
 
 (set! *warn-on-reflection* true)
 
+(def ^:private !channel-split-ids
+  "The command-ids that are CHANNEL-SPLIT: they appear in endpoints.json MORE THAN
+   ONCE, under the SAME :id but a DISTINCT :oneof-field — the channel is the OUTER
+   oneof arm (cmd.Lrf_calib.{Set,Shift,Save,Reset}Offsets as day.set + heat.set,
+   …), a genuinely different device command per channel. This is DISTINCT from a
+   focus/zoom PATH-variant of ONE command (cmd.DayCamera.Halt via focus/ + zoom/),
+   whose duplicate entries share the SAME :oneof-field — those stay a single node
+   (uigen.derive/distinct-by-id). Delay-cached."
+  (delay (->> (:endpoints (mf/endpoints))
+              (group-by :id)
+              (keep (fn [[id group]]
+                      (when (> (count (distinct (map :oneof-field group))) 1) id)))
+              set)))
+
+(defn channel-split-id?
+  "True when `command-id` is channel-split (appears in >1 endpoint with distinct
+   :oneof-fields — the outer oneof channel, e.g. cmd.Lrf_calib.SetOffsets)."
+  [command-id]
+  (contains? @!channel-split-ids command-id))
+(m/=> channel-split-id? [:=> [:cat s/ne-string] :boolean])
+
+(defn endpoint-channel
+  "The outer-oneof CHANNEL of a channel-split endpoint `ep` — its :oneof-field's
+   first dotted segment (\"day.set\" → \"day\", \"heat.shift\" → \"heat\") — or nil
+   for a non-split endpoint. The channel that distinguishes one device command from
+   its sibling on the other optical channel."
+  [ep]
+  (when (channel-split-id? (:id ep))
+    (first (str/split (:oneof-field ep) #"\."))))
+(m/=> endpoint-channel [:=> [:cat [:map-of :keyword :any]] [:maybe s/ne-string]])
+
+(defn channel-qualified-id
+  "The command-id under which endpoint `ep` is indexed AND the id of its derived
+   per-channel node: `<id>.<channel>` for a channel-split endpoint
+   (cmd.Lrf_calib.SetOffsets.day / .heat — so each channel is its OWN screen with
+   its OWN route + pre-encode), or the plain :id for a non-split endpoint. The ONE
+   home for the qualification, shared by the endpoint index (below) and the node
+   derivation (uigen.derive) so their ids agree."
+  [ep]
+  (if-let [ch (endpoint-channel ep)] (str (:id ep) "." ch) (:id ep)))
+(m/=> channel-qualified-id [:=> [:cat [:map-of :keyword :any]] s/ne-string])
+
 (def ^:private !endpoint-index
-  "command-id → endpoints.json entry. Delay-cached on first access."
-  (delay (into {} (map (juxt :id identity)) (:endpoints (mf/endpoints)))))
+  "command-id → endpoints.json entry (delay-cached). A channel-split command
+   (channel-split-id?) is ADDITIONALLY keyed under its channel-qualified-id
+   (cmd.Lrf_calib.SetOffsets.day / .heat) so a per-channel node resolves its OWN
+   route/fields/pre-encode. The plain :id key stays (last-wins, unchanged) for any
+   residual lookup; a channel-split node addresses the qualified key exclusively."
+  (delay
+    (reduce (fn [acc ep]
+              (cond-> (assoc acc (:id ep) ep)
+                (channel-split-id? (:id ep)) (assoc (channel-qualified-id ep) ep)))
+            {}
+            (:endpoints (mf/endpoints)))))
 
 (def ^:private !signal-index
   "[subsystem-field field-name] → signals.json entry. Delay-cached."
@@ -78,20 +129,46 @@
        :display-format (:display-format i)})))
 (m/=> primary-field [:=> [:cat s/ne-string] [:maybe [:map-of :keyword :any]]])
 
+(defn- humanize-label
+  "Prefix-stripped enum short name → human dropdown label: underscores to
+   spaces + per-word title-case (\"MODE_1\" → \"Mode 1\", \"1_HZ_CONTINUOUS\" →
+   \"1 Hz Continuous\"). Display-side ONLY — the `:match-key`/`:value` carriers
+   keep the raw short name / number, so command output and live-signal matching
+   never depend on the display form."
+  [short-name]
+  (->> (str/split short-name #"_")
+       (map str/capitalize)
+       (str/join " ")))
+(m/=> humanize-label [:=> [:cat s/ne-string] s/ne-string])
+
 (defn enum-options
   "Offered enum options for command `cid`'s enum field `f` (a field map with
-   `:name` + `:constraints`): the enum's values as prefix-stripped labels paired
-   with their numbers, MINUS the `_UNSPECIFIED`-by-name value AND any value the
-   field's buf.validate `:not-in` forbids. (E.g. `SetFxMode.mode` is `not-in:[0]`,
-   so the DEFAULT=0 value — NOT named `_UNSPECIFIED`, so it survives the name
-   drop — must still be excluded, or the command would offer a value cmd_server
-   rejects.) Single source for both the standalone enum-picker (uigen.derive) and
-   the composite collecting-select (uigen.lower). Each option is
-   `{:label :value :match-key}` — see the `:match-key` note in the body."
+   `:name` + `:constraints`): the enum's values as prefix-stripped, HUMANIZED
+   labels (humanize-label) paired with their numbers, MINUS the
+   `_UNSPECIFIED`-by-name value AND any value the field's buf.validate `:not-in`
+   forbids. (E.g. `SetFxMode.mode` is `not-in:[0]`, so the DEFAULT=0 value — NOT
+   named `_UNSPECIFIED`, so it survives the name drop — must still be excluded,
+   or the command would offer a value cmd_server rejects.) The enum type resolves
+   from the FIELD's own `:type-ref` when the field map carries one (a proto-db
+   flattened field — a nested/oneof arm scalar, whose owning message is NOT
+   `cid`), else by field-name lookup on `cid` itself; an enum field that resolves
+   to NO values FAILS LOUD — an empty dropdown is a stub-options dead control,
+   never a silent degrade. Single source for both the standalone enum-picker
+   (uigen.derive) and the composite collecting-select (uigen.lower). Each option
+   is `{:label :value :match-key}` — see the `:match-key` note in the body."
   [cid f]
-  (let [type-ref (mf/field-enum-type-ref cid (:name f))
+  (let [type-ref (or (:type-ref f) (mf/field-enum-type-ref cid (:name f)))
         not-in (set (:not-in (:constraints f)))
         all-values (get-in (mf/proto-db) [:enums type-ref :values])
+        _ (when (empty? all-values)
+            (throw (ex-info (str "uigen.resolve/enum-options: enum field "
+                                 (pr-str (:name f))
+                                 " of "
+                                 cid
+                                 " resolves no enum values (type-ref "
+                                 (pr-str type-ref)
+                                 ") — an empty dropdown is a dead control")
+                            {:command-id cid :field (:name f) :type-ref type-ref})))
         ;; :match-key = the enum's prefix-stripped short name over ALL values —
         ;; the SAME string the live enum signal's display formatter delivers. The
         ;; enum NUMBER (:value) can't match that display string; keeping
@@ -103,7 +180,7 @@
         values (->> all-values
                     (remove #(str/ends-with? (:name %) "_UNSPECIFIED"))
                     (remove #(contains? not-in (:number %))))
-        labels (mf/strip-common-prefix (mapv :name values))]
+        labels (mapv humanize-label (mf/strip-common-prefix (mapv :name values)))]
     (mapv (fn [v lbl] {:label lbl :value (:number v) :match-key (num->key (:number v))})
           values
           labels)))
@@ -203,17 +280,21 @@
   "Normalize a proto-db message field to the resolve/all-fields shape: a STRING
    :type (proto-db carries a keyword, :float) + a flattened :interaction. lower +
    scales tolerate a keyword :semantic-type (scales keywordizes), but :type MUST be
-   a string (the type-set checks compare strings)."
+   a string (the type-set checks compare strings). The proto-db `:type-ref` rides
+   along when present: a nested/oneof arm scalar's owning message is NOT the outer
+   command id, so `enum-options` must resolve its enum type from the field itself
+   (the endpoints-view fields have no :type-ref and keep the by-name lookup)."
   [f]
   (let [i (:interaction f)]
-    {:name (:name f)
-     :type (name (:type f))
-     :constraints (:constraints f)
-     :semantic-type (:semantic-type i)
-     :presets (:presets i)
-     :unit (:unit i)
-     :precision (:precision i)
-     :display-format (:display-format i)}))
+    (cond-> {:name (:name f)
+             :type (name (:type f))
+             :constraints (:constraints f)
+             :semantic-type (:semantic-type i)
+             :presets (:presets i)
+             :unit (:unit i)
+             :precision (:precision i)
+             :display-format (:display-format i)}
+      (:type-ref f) (assoc :type-ref (:type-ref f)))))
 (m/=> flatten-proto-field [:=> [:cat [:map-of :keyword :any]] [:map-of :keyword :any]])
 
 (defn message-subforms
