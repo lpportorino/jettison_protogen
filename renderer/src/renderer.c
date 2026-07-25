@@ -22,6 +22,7 @@
  * where exactness demands it). */
 #include "lvgl/src/widgets/slider/lv_slider_private.h"
 #include "renderer.h"
+#include "theme_tokens.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -754,6 +755,33 @@ static void apply_node_layout(lv_obj_t *obj, const ui_WidgetNode *node) {
                           (lv_flex_align_t)node->layout.track_place);
   }
 }
+/* Host-proxy default look: the proxy root is a plain lv_obj, so the theme's
+ * heavyweight panel card (opaque fill, size-tier padding, card radius) lands
+ * on a widget whose job is to be a lean drag/resize frame over
+ * HOST-COMPOSITED content. Override the heavy parts — transparent fill,
+ * control-tier pad, panel-tier radius — and keep the BORDER themed (the
+ * theme's panel border already carries the edge tone per family/mode).
+ * A NORMAL style attached at CREATE time, deliberately NOT
+ * lv_obj_set_style_* locals: a local style outranks every added style,
+ * which would make wire-authored StyleProperties on the proxy root silently
+ * inert. Later-added styles insert ahead of earlier ones, so this default
+ * beats the theme (applied inside create) while the authored group styles
+ * (attached later during decode) beat the default — pad/bg/radius stay
+ * AUTHORABLE, pinned by the harness's host_proxy_authored oracle. Applied
+ * identically under every theme family, so family parity holds by
+ * construction. */
+static void proxy_apply_default_style(lv_obj_t *obj) {
+  static lv_style_t proxy_default_style;
+  static bool proxy_default_inited = false;
+  if (!proxy_default_inited) {
+    lv_style_init(&proxy_default_style);
+    lv_style_set_bg_opa(&proxy_default_style, LV_OPA_TRANSP);
+    lv_style_set_pad_all(&proxy_default_style, THEME_PAD_CONTROL);
+    lv_style_set_radius(&proxy_default_style, THEME_RADIUS_PANEL);
+    proxy_default_inited = true;
+  }
+  lv_obj_add_style(obj, &proxy_default_style, 0);
+}
 /* ================================================================
  * Lazy widget creation
  *
@@ -826,8 +854,13 @@ static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
     break;
   /* HOST_PROXY: a plain box — the proxy machinery (glass/handles/
      * grid/registry) assembles at finalize, after host_proxy_props
-     * decodes. */
+     * decodes. The default look attaches HERE, at create: wire-authored
+     * style groups attach later during decode and must outrank it. */
   case ui_WidgetType_WIDGET_HOST_PROXY:
+    ctx->self = lv_obj_create(ctx->parent);
+    if (ctx->self)
+      proxy_apply_default_style(ctx->self);
+    break;
   default:
     ctx->self = lv_obj_create(ctx->parent);
     break;
@@ -1323,7 +1356,11 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
     if (p->has_color) {
       lv_led_set_color(obj, lv_color_make(p->color.r, p->color.g, p->color.b));
     }
-    if (p->brightness != 0) {
+    /* Morph value guard — see the slider note. brightness 0 is a real value
+     * ("off"), not "unset": a full render always applies it, so an off LED
+     * renders off; under a morph a default 0 means the differ stripped an
+     * unchanged value (brightness carries no has_ presence flag). */
+    if (!morph_in_progress || p->brightness != 0) {
       lv_led_set_brightness(obj, p->brightness);
     }
     break;
@@ -2052,6 +2089,9 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
   /* Content overflow must never scroll the box out from under the host
    * element (D6 — clipping isolation is LVGL's default). */
   lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+  /* The default look is attached at CREATE time (proxy_apply_default_style)
+   * so wire-authored style groups — attached later during decode — outrank
+   * it; see that helper for the full precedence rationale. */
   /* Glass overlay — created after the content children (props stream
    * after children), so it sits above them; PRESS_LOCK + cleared
    * scroll-chain keep a scrollable ancestor from stealing the drag. */

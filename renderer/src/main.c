@@ -58,6 +58,7 @@
 #include "renderer.h"
 #include "svg_decoder.h"
 #include "theme.h"
+#include "theme_tokens.h"
 #include "ui_input.pb.h"
 /* ui_HostToWasm decode + ui_WasmToHost encode */
 #include <pb_decode.h>
@@ -368,9 +369,26 @@ static int rebuild_ui(void) {
 static void apply_default_theme(void) {
   if (!display)
     return;
+  /* The asgard family bakes the design-token accent into the stock parent's
+   * color_primary: stock's own widget chrome (button fill, checkbox
+   * indicator, slider fill, roller SELECTED, chart series) is painted from
+   * the palette passed HERE, not from any child-theme field, so this is the
+   * one lever that unifies widget chrome with the authored :accent-bg token.
+   * Stock + vanilla families keep LVGL's stock BLUE/RED — their parity
+   * lanes (vanilla-equals-stock, demo-parity) stay byte-identical. */
+  bool asgard_family =
+      (asgard_theme_family_t)current_theme_family == ASGARD_THEME_FAMILY_ASGARD;
+  /* The accent is deliberately mode-invariant (tokens.edn :accent-bg —
+   * white-on-accent clears the text floor in BOTH modes only for this hex),
+   * so there is no dark/light fork here; the assert turns a future token
+   * divergence into a build error at the one site that would silently
+   * ignore it. */
+  static_assert(THEME_ACCENT_DARK == THEME_ACCENT_LIGHT,
+                "accent tokens diverged — re-fork the mode select here");
+  lv_color_t primary = asgard_family ? lv_color_hex(THEME_ACCENT_DARK)
+                                     : lv_palette_main(LV_PALETTE_BLUE);
   lv_theme_t *stock =
-      lv_theme_default_init(display, lv_palette_main(LV_PALETTE_BLUE),
-                            lv_palette_main(LV_PALETTE_RED),
+      lv_theme_default_init(display, primary, lv_palette_main(LV_PALETTE_RED),
                             current_theme_dark != 0, &lv_font_montserrat_16);
   /* The asgard CHILD theme layers the good-looking defaults over stock
    * (parent applies first — lv_theme.c); family selects asgard tokens,

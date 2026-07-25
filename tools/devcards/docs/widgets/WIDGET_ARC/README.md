@@ -57,7 +57,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 ## Known limitations
 
-checked N/A (continuous-value drag input, no CHECKED selector in the stock arm). Stock adds no pressed style for arc — pressed cells pin geometry-survives-state; distinctness under the asgard theme is the manifest's commitment.
+checked N/A (continuous-value drag input, no CHECKED selector in the stock arm). Stock adds no pressed style for arc — pressed cells pin geometry-survives-state; distinctness under the asgard theme is the manifest's commitment. Every cell nests in the same 24px bleed wrapper (see any card's wrapper note): the stock knob overhangs the widget box and was flat-clipped at the canvas edge.
 
 ---
 Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)

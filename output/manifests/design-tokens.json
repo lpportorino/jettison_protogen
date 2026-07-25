@@ -3,7 +3,7 @@
   "tokens": {
     "accent-bg": {
       "kind": "color",
-      "dark": "#8B5CF6",
+      "dark": "#7C3AED",
       "light": "#7C3AED"
     },
     "accent-text": {
@@ -28,8 +28,8 @@
     },
     "disabled-fg": {
       "kind": "color",
-      "dark": "#606078",
-      "light": "#8A8A70"
+      "dark": "#8686A0",
+      "light": "#585846"
     },
     "disabled-opa": {
       "kind": "opacity",
@@ -64,8 +64,8 @@
     },
     "edge-0": {
       "kind": "color",
-      "dark": "#3A3A52",
-      "light": "#8A8A70"
+      "dark": "#6B6B8A",
+      "light": "#70705A"
     },
     "edge-1": {
       "kind": "color",
@@ -84,8 +84,8 @@
     },
     "fg-2": {
       "kind": "color",
-      "dark": "#606078",
-      "light": "#8A8A70"
+      "dark": "#8686A0",
+      "light": "#585846"
     },
     "focused-edge": {
       "kind": "color",

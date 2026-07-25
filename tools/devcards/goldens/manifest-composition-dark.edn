@@ -2,27 +2,27 @@
  :cards
  {"lego/dock-expanded"
   {:sha256
-   "5eee7227100c50374a5b63f8106fd8278edb8d7ce6c238a3714fb119e639d684",
+   "680abe8436ccb17526696c839c582cda60551705343873546da76684e938e443",
    :w 800,
    :h 480},
   "lego/dock-folded"
   {:sha256
-   "fa94f08663c2c93e3b96105765ac716288bdc0f201a5bd242c2dfb78b2bc85b7",
+   "b7544290f8afee923904970788fd11f94c7f28318bc4e53207971b94247eee12",
    :w 800,
    :h 480},
   "lego/dock-multirow"
   {:sha256
-   "746c64b90e8e461767c0ce83ce887bba8c2282ddc0f93ac997090755c692cae4",
+   "9c6501b59bfe10b0d96a4d5498d9f0a876dccd5a0dc384f14495f3364915ba81",
    :w 800,
    :h 480},
   "lego/scrubber"
   {:sha256
-   "910bd814d40dc8533517398e699ffdf4269d636340263e41aeeacf03bd285f8f",
+   "5d5cbc9dcafc663084bd7b1e9fcb4e7782ec7d810e38b456e925a6c62b6693b2",
    :w 800,
    :h 480},
   "lego/scrubber-noseek"
   {:sha256
-   "910bd814d40dc8533517398e699ffdf4269d636340263e41aeeacf03bd285f8f",
+   "5d5cbc9dcafc663084bd7b1e9fcb4e7782ec7d810e38b456e925a6c62b6693b2",
    :w 800,
    :h 480},
   "lego/scrubber-plain"
@@ -32,16 +32,16 @@
    :h 480},
   "lego/scrubber-rich-full"
   {:sha256
-   "a833f9120002883c736bdc6b7e011af6d58de80c3bbc6d1d9dd12be4be26156e",
+   "619aac7124beb99977d3df1d3dc9c76cc05799bc98b61a9f02b9a3a0365dfddc",
    :w 800,
    :h 480},
   "lego/scrubber-rich-paused"
   {:sha256
-   "c552e69429d856327a1f99017ef4f8f2d1838020632e6c3da8596e122e3c968a",
+   "4e8ca8cd09a94775db04d40225bb50de558c15f144a20ccc77fbeac715e02569",
    :w 800,
    :h 480},
   "lego/scrubber-rich-ticks"
   {:sha256
-   "cd959a448c6450fbf52673809884b4f45907bc0b489e0785edbd646c7a207992",
+   "d184586d6e79fa5923f9542535234fd9614f0c92cd5e168b7d5ee626d0edbca4",
    :w 800,
    :h 480}}}

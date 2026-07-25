@@ -434,7 +434,7 @@
 ;;   bp0/sm: red (status-error)
 ;;   bp1/md: amber (status-warning)
 ;;   bp2/lg: green (status-success)
-;;   bp3/xl: violet (accent-bg)
+;;   bp3/xl: violet-deep (accent-bg)
 ;; ═══════════════════════════════════════════════════════════════════
 ;; ═══════════════════════════════════════════════════════════════════
 ;; Tabview fixtures — the real lv_tabview arm: tab_names zip with the
@@ -801,6 +801,63 @@
    ;; oracle), a visibility subject (hidden-report oracle), and the mode
    ;; radio-group (one INT subject drives everything — the jettison
    ;; edit-mode-palette pattern).
+   ;; Authored-override oracle: wire-authored style props on a host_proxy
+   ;; ROOT must beat the renderer's C default look (pad/bg/radius are
+   ;; AUTHORABLE, not renderer-owned). Authored pad-all 0 + border-width 0
+   ;; place the content chip flush with the proxy origin — inexpressible if
+   ;; the defaults were LVGL local styles (local outranks every added
+   ;; style, so the authored pad would silently lose).
+   ;; Bare-root oracle: `bare` on a host_proxy ROOT strips the renderer's
+   ;; default look along with the theme (bare means bare — the same strip a
+   ;; bare obj applies to the panel card). The chip sits flush because NO
+   ;; pad applies at all, pinning "bare proxy = raw frame" as the contract.
+   "vr_proxy_bare"
+   {:type :screen
+    :subjects {}
+    :events {}
+    :tree
+    {:tag :lv_obj
+     :class "w-pct-100 h-pct-100 bg-surface-0"
+     :children
+     [{:tag :lv_host_proxy
+       :id "pb"
+       :bare true
+       :x 40
+       :y 260
+       :style {:width 152 :height 92}
+       :host_proxy_props {:proxy_id "pb"
+                          :mode :draggable
+                          :min_w 80
+                          :min_h 60
+                          :max_w 360
+                          :max_h 240
+                          :handle_size 16
+                          :z 7}
+       :children [{:tag :lv_obj
+                   :style {:width 60 :height 30 :border-width 0 :radius 0}}]}]}}
+   "vr_proxy_pad"
+   {:type :screen
+    :subjects {}
+    :events {}
+    :tree
+    {:tag :lv_obj
+     :class "w-pct-100 h-pct-100 bg-surface-0"
+     :children
+     [{:tag :lv_host_proxy
+       :id "pp"
+       :x 40
+       :y 40
+       :style {:width 160 :height 100 :pad-all 0 :border-width 0}
+       :host_proxy_props {:proxy_id "pp"
+                          :mode :draggable
+                          :min_w 80
+                          :min_h 60
+                          :max_w 360
+                          :max_h 240
+                          :handle_size 16
+                          :z 7}
+       :children [{:tag :lv_obj
+                   :style {:width 60 :height 30 :border-width 0 :radius 0}}]}]}}
    "vr_proxy"
    {:type :screen
     :subjects {:proxy-mode {:type :int :default 1} :proxy-show {:type :int :default 1}}

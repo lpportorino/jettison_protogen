@@ -11,13 +11,22 @@
           :base-dark "#12121F"
           :base-mid "#1E1E2E"
           :base-light "#2A2A3E"
-          :base-lighter "#3A3A52"
+          ;; Dark edge tone — light enough that a card border clears the 3:1
+          ;; non-text floor against surface-1 AND surface-2 (3.62:1 / 3.20:1);
+          ;; the retired "#3A3A52" edge measured 1.68:1.
+          :base-edge "#6B6B8A"
           ;; Light theme base (tactical olive)
           :olive-0 "#F0F0E8"
           :olive-50 "#E0E0D4"
           :olive-100 "#D0D0C0"
           :olive-200 "#C0C0A8"
-          :olive-300 "#8A8A70"
+          ;; :olive-400 = light EDGE tone (3.80:1 / 3.24:1 vs surface-1/2,
+          ;; non-text 3:1 floor); :olive-500 = light DIM TEXT tone (5.44:1 /
+          ;; 4.64:1, text 4.5:1 floor). Two tokens because border and muted
+          ;; text carry DIFFERENT contrast floors — the retired :olive-300
+          ;; ("#8A8A70") served both roles and could not clear either.
+          :olive-400 "#70705A"
+          :olive-500 "#585846"
           :olive-fg-0 "#1A1A28"
           :olive-fg-1 "#404050"
           ;; Accent palette
@@ -35,7 +44,10 @@
           ;; Text colors
           :fg-white "#E8E8F0"
           :fg-muted "#9898B0"
-          :fg-dim "#606078"}
+          ;; Dim-but-legible: muted/disabled text still clears the 4.5:1 text
+          ;; floor on surface-2 (4.63:1; the prior "#606078" measured 2.69:1)
+          ;; while staying visibly dimmer than :fg-muted.
+          :fg-dim "#8686A0"}
  :fonts {:b612mono-bold-12 {:family "b612mono_bold" :size 12}
          :b612mono-bold-14 {:family "b612mono_bold" :size 14}
          :b612mono-bold-16 {:family "b612mono_bold" :size 16}
@@ -70,12 +82,16 @@
             ;; ── Foreground / text colors ──
             :fg-0 {:dark :fg-white :light :olive-fg-0}
             :fg-1 {:dark :fg-muted :light :olive-fg-1}
-            :fg-2 {:dark :fg-dim :light :olive-300}
+            :fg-2 {:dark :fg-dim :light :olive-500}
             ;; ── Edge / border colors ──
-            :edge-0 {:dark :base-lighter :light :olive-300}
+            :edge-0 {:dark :base-edge :light :olive-400}
             :edge-1 {:dark :violet-dim :light :olive-200}
             ;; ── Interactive / accent ──
-            :accent-bg {:dark :violet :light :violet-deep}
+            ;; :violet-deep BOTH themes: white-on-accent clears the 4.5:1 text
+            ;; floor at 5.70:1 (dark :violet gave 3.47:1). The asgard theme
+            ;; family bakes this into the stock parent's color_primary, so
+            ;; widget chrome and authored accent-bg surfaces agree.
+            :accent-bg {:dark :violet-deep :light :violet-deep}
             :accent-text :fg-white
             ;; ── Status ──
             :status-success :green
@@ -120,7 +136,7 @@
             :pressed-surface {:dark :base-light :light :olive-200}
             :pressed-accent {:dark :violet-dim :light :violet}
             :focused-edge {:dark :cyan :light :cyan-deep}
-            :disabled-fg {:dark :fg-dim :light :olive-300}
+            :disabled-fg {:dark :fg-dim :light :olive-500}
             ;; ── HUD overlay controls ──
             :hud-border {:dark :violet :light :violet-deep}
             :hud-scrim-opa {:dark :subtle :light :light}

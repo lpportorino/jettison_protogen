@@ -145,35 +145,46 @@ demo-parity: proto-classes
 	cd $(R) && bash tools/demo-parity.sh
 
 # ── Manifest freshness ──────────────────────────────────────────────────────
-# The two ratified manifests protogen publishes as its design/caps contract are
-# emitted from tokens.edn and renderer.c's caps mirror — but nothing regenerated
-# or diffed them, so a WRONG manifest reddens the oracles while a STALE one (the
-# source moved, the manifest was not re-emitted) would pass green forever.
-# Regenerate both and fail if the committed copy is not byte-identical to a fresh
-# emit; a red run leaves the corrected manifests in the tree to commit (the same
-# regenerate-then-diff shape lint.mk uses). No wasm / proto-classes needed — the
-# emitters read tokens.edn and the renderer.c source directly.
+# The ratified projections protogen publishes from its design/caps sources —
+# the two manifests (tokens.edn / renderer.c's caps mirror) plus the native
+# theme's generated/theme_tokens.h (tokens.edn's C projection, src/theme.c's
+# input) — are emitted from their homes, but nothing regenerated or diffed
+# them, so a WRONG projection reddens the oracles while a STALE one (the
+# source moved, the projection was not re-emitted) would pass green forever.
+# Regenerate each and fail if the committed copy is not byte-identical to a
+# fresh emit; a red run leaves the corrected copies in the tree to commit (the
+# same regenerate-then-diff shape lint.mk uses). No wasm / proto-classes
+# needed — the emitters read tokens.edn and the renderer.c source directly.
 # Emit to a temp dir and cmp against the committed copies — NOT `git diff`: this
 # runs inside the Dockerfile.base container where protogen is a submodule and its
-# .git is not resolvable. A stale manifest is regenerated in place (review + commit).
+# .git is not resolvable. A stale projection is regenerated in place (review + commit).
 manifests:
 	@tmp="$$(mktemp -d)"; \
 	( cd $(RGEN) \
 	  && clojure -M -m renderer-gen.design-tokens-json \
 	       --tokens edn/tokens.edn --output "$$tmp/design-tokens.json" \
 	  && clojure -M -m renderer-gen.renderer-caps-json \
-	       --renderer "../../$(R)/src/renderer.c" --output "$$tmp/renderer-caps.json" ) \
+	       --renderer "../../$(R)/src/renderer.c" --output "$$tmp/renderer-caps.json" \
+	  && clojure -M -m lvgl-codegen.theme-tokens \
+	       --tokens edn/tokens.edn --output "$$tmp/theme_tokens.h" \
+	  && clojure -M -m lvgl-codegen.gesture-thresholds \
+	       --tokens edn/gesture-thresholds.edn --output "$$tmp/gesture_thresholds.h" ) \
 	  || { rm -rf "$$tmp"; echo "FATAL: manifest emit failed" >&2; exit 1; }; \
 	rc=0; \
-	for f in design-tokens.json renderer-caps.json; do \
-	  if ! cmp -s "output/manifests/$$f" "$$tmp/$$f"; then \
-	    cp "$$tmp/$$f" "output/manifests/$$f"; \
-	    echo "FATAL: output/manifests/$$f was STALE vs a fresh emit — regenerated in place; review and commit it." >&2; \
+	for pair in \
+	  "design-tokens.json:output/manifests" \
+	  "renderer-caps.json:output/manifests" \
+	  "theme_tokens.h:$(R)/generated" \
+	  "gesture_thresholds.h:$(R)/generated"; do \
+	  f="$${pair%%:*}"; d="$${pair##*:}"; \
+	  if ! cmp -s "$$d/$$f" "$$tmp/$$f"; then \
+	    cp "$$tmp/$$f" "$$d/$$f"; \
+	    echo "FATAL: $$d/$$f was STALE vs a fresh emit — regenerated in place; review and commit it." >&2; \
 	    rc=1; \
 	  fi; \
 	done; \
 	rm -rf "$$tmp"; \
-	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps)"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + theme-tokens.h + gesture-thresholds.h)"; \
 	exit "$$rc"
 
 # ── Devcards unit suite ─────────────────────────────────────────────────────

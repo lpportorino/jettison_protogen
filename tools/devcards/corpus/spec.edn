@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 227
+ :card-count 225
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -122,7 +122,7 @@
  :unstyled-law
  "Card nodes carry raw renderer-public props only: explicit px sizes, raw style-prop slots, hex colors, and font-name strings are all renderer vocabulary. NEVER asgard authoring vocabulary (@-macros, token names, class-defs). Everything unset falls through to the loaded wasm's own theme — that fallthrough is the object under test."
  :widgets
- [{:authored-count 7
+ [{:authored-count 5
    :cards
    [{:children [{:props {:h 20 :w 20} :type :WIDGET_OBJ}]
      :expect :baseline
@@ -168,11 +168,11 @@
      :size :large
      :state :disabled
      :states-bits 512}
-    {:children [{:props {:h 220 :w 140} :type :WIDGET_OBJ}]
+    {:children [{:props {:h 220 :w 180} :type :WIDGET_OBJ}]
      :expect :probe-pixel-only
      :id "lv_obj/default/medium/scrollbar-exposed"
      :notes
-     "Designed overflow: oversized child, SCROLLABLE left set — exercises PART_SCROLLBAR + PART_SCROLLBAR|STATE_SCROLLED. PNG-only; excluded from the zero-defect-flag assertion (mirrors asgard's vc_scroll designed-overflow exception)."
+     "Designed overflow ON BOTH AXES: oversized child, SCROLLABLE left set — exercises PART_SCROLLBAR + PART_SCROLLBAR|STATE_SCROLLED. The child must out-size EVERY family's content box or the probe silently retires an axis: asgard's flat 8px pad + 1px border leave a 142px-wide box (vanilla's PAD_DEF=24 + 2px leaves 108), and the previous 140px child stopped overflowing horizontally under asgard — half the probe gone with no red. 180 clears both floors. PNG-only; excluded from the zero-defect-flag assertion (mirrors asgard's vc_scroll designed-overflow exception)."
      :props {:h 96 :w 160}
      :size :medium
      :state :default
@@ -216,53 +216,53 @@
      :states-bits 0
      :text "Full width heading block wraps cleanly"
      :variant :wrap}
-    {:expect :baseline
+    {:expect :probe-defect
      :id "lv_label/default/small/dots"
      :props {:h 24 :label_props {:long_mode :dots} :text-font "b612mono_bold_12" :w 64}
      :size :small
      :state :default
      :states-bits 0
-     :text "OK"
+     :text "CALIBRATING"
      :variant :dots}
-    {:expect :baseline
+    {:expect :probe-defect
      :id "lv_label/default/medium/dots"
      :props {:h 24 :label_props {:long_mode :dots} :text-font "b612mono_bold_16" :w 160}
      :size :medium
      :state :default
      :states-bits 0
-     :text "Fits this line"
+     :text "Recalibrating rangefinder"
      :variant :dots}
-    {:expect :baseline
+    {:expect :probe-defect
      :id "lv_label/default/large/dots"
      :props {:h 32 :label_props {:long_mode :dots} :text-font "orbitron_bold_22" :w 320}
      :size :large
      :state :default
      :states-bits 0
-     :text "Heading fits on one line"
+     :text "System diagnostics and calibration"
      :variant :dots}
-    {:expect :baseline
+    {:expect :probe-defect
      :id "lv_label/default/small/clip"
      :props {:h 24 :label_props {:long_mode :clip} :text-font "b612mono_bold_12" :w 64}
      :size :small
      :state :default
      :states-bits 0
-     :text "OK"
+     :text "CALIBRATING"
      :variant :clip}
-    {:expect :baseline
+    {:expect :probe-defect
      :id "lv_label/default/medium/clip"
      :props {:h 24 :label_props {:long_mode :clip} :text-font "b612mono_bold_16" :w 160}
      :size :medium
      :state :default
      :states-bits 0
-     :text "Fits this line"
+     :text "Recalibrating rangefinder"
      :variant :clip}
-    {:expect :baseline
+    {:expect :probe-defect
      :id "lv_label/default/large/clip"
      :props {:h 32 :label_props {:long_mode :clip} :text-font "orbitron_bold_22" :w 320}
      :size :large
      :state :default
      :states-bits 0
-     :text "Heading fits on one line"
+     :text "System diagnostics and calibration"
      :variant :clip}
     {:expect :baseline
      :id "lv_label/default/medium/pairing-body"
@@ -427,7 +427,11 @@
      :props {:h 36 :w 80}
      :size :medium
      :state :focus-key
-     :states-bits 16}]
+     :states-bits 16
+     :wrapper
+     {:notes
+      "Focus-ring standoff (textarea/spinbox idiom): the outline draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom."
+      :props {:border-width 0 :h 52 :pad-all 8 :w 96}}}]
    :committed-states [:default :hovered :pressed :checked :disabled :focus-key]
    :declared-count 12
    :deviation
@@ -472,13 +476,15 @@
             :states-bits 512}
            {:expect :baseline
             :id "lv_image/default/large"
-            :props {:h 120 :image_props {:src "P:icons/test_shapes.svg"} :w 160}
+            :notes
+            "Box matches the asset's native 64x48 raster — lv_image draws 1:1 (no zoom prop); the old 160x120 box was ~68% dead space reading as a broken layout."
+            :props {:h 48 :image_props {:src "P:icons/test_shapes.svg"} :w 64}
             :size :large
             :state :default
             :states-bits 0}
            {:expect :inert
             :id "lv_image/disabled/large"
-            :props {:h 120 :image_props {:src "P:icons/test_shapes.svg"} :w 160}
+            :props {:h 48 :image_props {:src "P:icons/test_shapes.svg"} :w 64}
             :size :large
             :state :disabled
             :states-bits 512}]
@@ -730,7 +736,11 @@
             :size :small
             :state :default
             :states-bits 0
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 112 :pad-all 24 :w 112}}}
            {:expect :baseline
             :id "lv_arc/default/medium/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -745,7 +755,11 @@
             :size :medium
             :state :default
             :states-bits 0
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :baseline
             :id "lv_arc/default/large/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -760,7 +774,11 @@
             :size :large
             :state :default
             :states-bits 0
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 208 :pad-all 24 :w 208}}}
            {:expect :distinct
             :id "lv_arc/pressed/small/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -775,7 +793,11 @@
             :size :small
             :state :pressed
             :states-bits 128
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 112 :pad-all 24 :w 112}}}
            {:expect :distinct
             :id "lv_arc/pressed/medium/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -790,7 +812,11 @@
             :size :medium
             :state :pressed
             :states-bits 128
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :distinct
             :id "lv_arc/pressed/large/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -805,7 +831,11 @@
             :size :large
             :state :pressed
             :states-bits 128
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 208 :pad-all 24 :w 208}}}
            {:expect :distinct
             :id "lv_arc/disabled/small/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -820,7 +850,11 @@
             :size :small
             :state :disabled
             :states-bits 512
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 112 :pad-all 24 :w 112}}}
            {:expect :distinct
             :id "lv_arc/disabled/medium/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -835,7 +869,11 @@
             :size :medium
             :state :disabled
             :states-bits 512
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :distinct
             :id "lv_arc/disabled/large/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -850,7 +888,11 @@
             :size :large
             :state :disabled
             :states-bits 512
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 208 :pad-all 24 :w 208}}}
            {:expect :distinct
             :id "lv_arc/hovered/medium/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -865,7 +907,11 @@
             :size :medium
             :state :hovered
             :states-bits 64
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :baseline
             :id "lv_arc/default/medium/min"
             :props {:arc_props {:bg_end_angle 360
@@ -880,7 +926,11 @@
             :size :medium
             :state :default
             :states-bits 0
-            :value :min}
+            :value :min
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :baseline
             :id "lv_arc/default/medium/max"
             :props {:arc_props {:bg_end_angle 360
@@ -895,7 +945,11 @@
             :size :medium
             :state :default
             :states-bits 0
-            :value :max}
+            :value :max
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :distinct
             :id "lv_arc/pressed/medium/min"
             :notes "Knob cross-term at the track start."
@@ -911,7 +965,11 @@
             :size :medium
             :state :pressed
             :states-bits 128
-            :value :min}
+            :value :min
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :distinct
             :id "lv_arc/pressed/medium/max"
             :notes "Knob cross-term at the track end."
@@ -927,13 +985,17 @@
             :size :medium
             :state :pressed
             :states-bits 128
-            :value :max}]
+            :value :max
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}]
    :committed-states [:default :hovered :pressed :disabled]
    :declared-count 9
    :deviation
    "+5 over declared 9: +1 :hovered at medium (manifest-committed, absent from survey grid); +4 value-axis cells per PLAN T2.1. Survey's vr_arc-parity value 75 normalized to the :mid sample (50); vr_arc remains asgard's own cross-check fixture."
    :notes
-   "checked N/A (continuous-value drag input, no CHECKED selector in the stock arm). Stock adds no pressed style for arc — pressed cells pin geometry-survives-state; distinctness under the asgard theme is the manifest's commitment."
+   "checked N/A (continuous-value drag input, no CHECKED selector in the stock arm). Stock adds no pressed style for arc — pressed cells pin geometry-survives-state; distinctness under the asgard theme is the manifest's commitment. Every cell nests in the same 24px bleed wrapper (see any card's wrapper note): the stock knob overhangs the widget box and was flat-clipped at the canvas edge."
    :sizes
    [{:h 64
      :id :small
@@ -1011,7 +1073,11 @@
      :size :medium
      :state :focus-key
      :states-bits 16
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus-ring standoff: the outline rendered at origin was canvas-clipped to a half-ring; border-width 0 per the harness-geometry rule the slider wrappers document."
+      :props {:border-width 0 :h 32 :pad-all 8 :w 176}}}
     {:expect :distinct
      :id "lv_bar/edited/medium/mid"
      :notes "Stock draws outline_secondary here; the manifest commits :edited as visually distinct."
@@ -1019,7 +1085,11 @@
      :size :medium
      :state :edited
      :states-bits 32
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Edited-ring standoff — same canvas-origin clipping as the focus-key card."
+      :props {:border-width 0 :h 32 :pad-all 8 :w 176}}}
     {:expect :distinct
      :id "lv_bar/disabled/medium/mid"
      :notes
@@ -1119,23 +1189,36 @@
             :states-bits 512}
            {:expect :distinct
             :id "lv_switch/focus-key/small"
-            :notes "outline ring extends 6px outside the box — edge-adjacency risk row"
+            :notes
+            "outline ring extends 6px outside the box (vanilla 3px width + 3px pad) — the risk this row's wrapper answers"
             :props {:h 24 :switch_props {:checked false} :w 44}
             :size :small
             :state :focus-key
-            :states-bits 16}
+            :states-bits 16
+            :wrapper
+            {:notes
+             "Focus-ring standoff (textarea/spinbox idiom): at origin only the ring's right+bottom arcs survived the canvas clip while vanilla drew a complete oval on the same card; 8px covers the 6px vanilla overhang with AA headroom."
+             :props {:border-width 0 :h 40 :pad-all 8 :w 60}}}
            {:expect :distinct
             :id "lv_switch/focus-key/medium"
             :props {:switch_props {:checked false}}
             :size :medium
             :state :focus-key
-            :states-bits 16}
+            :states-bits 16
+            :wrapper
+            {:notes
+             "Focus-ring standoff — same as the small card; the medium tier is UNSIZED (class default 64x37 at dpi160), so the wrapper is that box + 2x8."
+             :props {:border-width 0 :h 53 :pad-all 8 :w 80}}}
            {:expect :distinct
             :id "lv_switch/focus-key/large"
             :props {:h 48 :switch_props {:checked false} :w 96}
             :size :large
             :state :focus-key
-            :states-bits 16}
+            :states-bits 16
+            :wrapper
+            {:notes
+             "Focus-ring standoff — same as the small card."
+             :props {:border-width 0 :h 64 :pad-all 8 :w 112}}}
            {:expect :distinct
             :id "lv_switch/hovered/medium"
             :props {:switch_props {:checked false}}
@@ -1339,10 +1422,10 @@
      :state :default
      :states-bits 0
      :variant :on}
-    {:expect :inert
+    {:expect :distinct
      :id "lv_led/disabled/default-size/on"
      :notes
-     "Parity pin: the stock led arm registers only MAIN|DEFAULT; must hash equal to the plain on cell."
+     "Asgard dims DISABLED (t->styles.disabled, opa 128) so this differs from the on baseline; stock/vanilla register only MAIN|DEFAULT, so vanilla≡stock holds by scope."
      :props {:led_props {:brightness 255 :color {:b 129 :g 185 :r 16}}}
      :size :default-size
      :state :disabled
@@ -1385,7 +1468,7 @@
      :state :default
      :states-bits 0
      :variant :on-error}]
-   :committed-states [:default]
+   :committed-states [:default :disabled]
    :declared-count 3
    :deviation
    "Declared as '3 composite screens (~10 LED instances)'; T2.1 atomicity splits them into 9 unique atomic cells: 4 brightness/state cells + 3 explicit sizes + 2 extra hues (the hue row's status-success cell is byte-identical to the 'on' cell and is not duplicated). Count 3 -> 9."
@@ -1522,11 +1605,16 @@
                            :min_value 0
                            :mode :round-outer
                            :total_tick_count 11}
-             :w 96}
+             :w 96
+             :y 16}
      :size :small
      :state :default
      :states-bits 0
-     :variant :round-outer}
+     :variant :round-outer
+     :wrapper
+     {:notes
+      "TOP-BIASED standoff: round-outer's mid-tick label ('50') centers ABOVE the dial at radius + major-tick + the 15px label gap + half a line — ~31px past the widget top, roughly double the <=16px side/bottom overhang of the end-tick labels ('0'/'100', bottom-left/right). The pad-all vocabulary cannot express an asymmetric pad, and extra wrapper :h alone pools at the BOTTOM (a no-layout wrapper renders its child at the content origin) — so the subject's own :y converts the extra height into top room: 16 pad + 16 y = 32px above, 16px on the other three sides."
+      :props {:border-width 0 :h 144 :pad-all 16 :w 128}}}
     {:expect :baseline
      :id "lv_scale/default/medium/round-outer"
      :props {:h 160
@@ -1536,11 +1624,16 @@
                            :min_value 0
                            :mode :round-outer
                            :total_tick_count 11}
-             :w 160}
+             :w 160
+             :y 16}
      :size :medium
      :state :default
      :states-bits 0
-     :variant :round-outer}
+     :variant :round-outer
+     :wrapper
+     {:notes
+      "TOP-BIASED standoff — same geometry as the small round-outer card (the tick/gap/label overhang is size-invariant: fixed font, fixed gap). Without any wrapper the mid-tick '50' was 100% off-canvas."
+      :props {:border-width 0 :h 208 :pad-all 16 :w 192}}}
     {:expect :baseline
      :id "lv_scale/default/large/round-outer"
      :props {:h 236
@@ -1550,11 +1643,16 @@
                            :min_value 0
                            :mode :round-outer
                            :total_tick_count 11}
-             :w 236}
+             :w 236
+             :y 16}
      :size :large
      :state :default
      :states-bits 0
-     :variant :round-outer}
+     :variant :round-outer
+     :wrapper
+     {:notes
+      "TOP-BIASED standoff — same geometry as the small round-outer card (the tick/gap/label overhang is size-invariant: fixed font, fixed gap). Without any wrapper the mid-tick '50' was 100% off-canvas."
+      :props {:border-width 0 :h 284 :pad-all 16 :w 268}}}
     {:expect :baseline
      :id "lv_scale/default/small/round-inner"
      :props {:h 96
@@ -1624,7 +1722,7 @@
    :committed-states [:default]
    :declared-count 13
    :notes
-   "Non-interactive display widget: default state only (stock adds no state style for lv_scale; a disabled cell would be a duplicate — add one only when a theme styles it). The mode axis (horizontal/vertical/round-outer/round-inner) is the behavioral axis. Linear + sections cells nest in a padded wrapper (pad-all 16, border-width 0 — the slider-wrapper idiom): end-tick labels center on the edge ticks and draw OUTSIDE the widget box via ext-draw, so at the harness origin the leading '0' (horizontal/sections' left label) and the top '100' (vertical) clipped at the canvas edge; measured overhang <= 12px (half the widest end label), 16px pad covers it with AA headroom. round-inner deliberately carries NO :angle_range override: at 360 the min and max labels land on the SAME angle and overprint ('0' atop '100'); the LVGL default 270 keeps them apart (round-outer parity)."
+   "Non-interactive display widget: default state only (stock adds no state style for lv_scale; a disabled cell would be a duplicate — add one only when a theme styles it). The mode axis (horizontal/vertical/round-outer/round-inner) is the behavioral axis. Linear + sections cells nest in a padded wrapper (pad-all 16, border-width 0 — the slider-wrapper idiom): end-tick labels center on the edge ticks and draw OUTSIDE the widget box via ext-draw, so at the harness origin the leading '0' (horizontal/sections' left label) and the top '100' (vertical) clipped at the canvas edge; measured overhang <= 12px (half the widest end label), 16px pad covers it with AA headroom. round-outer cells add a TOP-BIASED standoff on top of that pad (subject :y inside a taller wrapper) for the mid-tick label's ~31px top overhang — see the round-outer card notes. round-inner deliberately carries NO :angle_range override: at 360 the min and max labels land on the SAME angle and overprint ('0' atop '100'); the LVGL default 270 keeps them apart (round-outer parity)."
    :sizes
    [{:id :small :note "worst-case squeeze: horiz 160x30 / vert 28x160 / round 96x96"}
     {:id :medium
@@ -1889,7 +1987,11 @@
             :size :small
             :state :focus-key
             :states-bits 16
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 72 :pad-all 8 :w 128}}}
            {:expect :baseline
             :id "lv_dropdown/default/medium/mid"
             :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
@@ -1917,7 +2019,11 @@
             :size :medium
             :state :focus-key
             :states-bits 16
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 72 :pad-all 8 :w 136}}}
            {:expect :baseline
             :id "lv_dropdown/default/large/mid"
             :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
@@ -1945,7 +2051,11 @@
             :size :large
             :state :focus-key
             :states-bits 16
-            :value :mid}
+            :value :mid
+            :wrapper
+            {:notes
+             "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 72 :pad-all 8 :w 216}}}
            {:expect :distinct
             :id "lv_dropdown/hovered/medium/mid"
             :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
@@ -2004,7 +2114,11 @@
      :size :small
      :state :focus-key
      :states-bits 16
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff (textarea/spinbox idiom): the ring draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom. The h wraps the roller's intrinsic 3-visible-row box (118px measured from the committed sheets) + 2x8."
+      :props {:border-width 0 :h 134 :pad-all 8 :w 64}}}
     {:expect :distinct
      :id "lv_roller/edited/small/mid"
      :notes "Manifest-committed :edited cell (see widget deviation note)."
@@ -2013,7 +2127,11 @@
      :size :small
      :state :edited
      :states-bits 32
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff (textarea/spinbox idiom): the ring draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom. The h wraps the roller's intrinsic 3-visible-row box (118px measured from the committed sheets) + 2x8."
+      :props {:border-width 0 :h 134 :pad-all 8 :w 64}}}
     {:expect :distinct
      :id "lv_roller/disabled/small/mid"
      :props {:roller_props {:options "1\n2\n3\n4\n5" :selected 2 :visible_row_count 3}
@@ -2045,7 +2163,11 @@
      :size :medium
      :state :focus-key
      :states-bits 16
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff (textarea/spinbox idiom): the ring draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom. The h wraps the roller's intrinsic 3-visible-row box (118px measured from the committed sheets) + 2x8."
+      :props {:border-width 0 :h 134 :pad-all 8 :w 136}}}
     {:expect :distinct
      :id "lv_roller/edited/medium/mid"
      :notes "Manifest-committed :edited cell (see widget deviation note)."
@@ -2054,7 +2176,11 @@
      :size :medium
      :state :edited
      :states-bits 32
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff (textarea/spinbox idiom): the ring draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom. The h wraps the roller's intrinsic 3-visible-row box (118px measured from the committed sheets) + 2x8."
+      :props {:border-width 0 :h 134 :pad-all 8 :w 136}}}
     {:expect :distinct
      :id "lv_roller/disabled/medium/mid"
      :props {:roller_props {:options "One\nTwo\nThree" :selected 1 :visible_row_count 3}
@@ -2090,7 +2216,11 @@
      :size :large
      :state :focus-key
      :states-bits 16
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff (textarea/spinbox idiom): the ring draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom. The h wraps the roller's intrinsic 3-visible-row box (118px measured from the committed sheets) + 2x8."
+      :props {:border-width 0 :h 134 :pad-all 8 :w 236}}}
     {:expect :distinct
      :id "lv_roller/edited/large/mid"
      :notes "Manifest-committed :edited cell (see widget deviation note)."
@@ -2101,7 +2231,11 @@
      :size :large
      :state :edited
      :states-bits 32
-     :value :mid}
+     :value :mid
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff (textarea/spinbox idiom): the ring draws outside the box (vanilla 3px width + 3px pad is the wide case) and rendered at origin only its right+bottom arcs survived the canvas clip; 8px covers it with AA headroom. The h wraps the roller's intrinsic 3-visible-row box (118px measured from the committed sheets) + 2x8."
+      :props {:border-width 0 :h 134 :pad-all 8 :w 236}}}
     {:expect :distinct
      :id "lv_roller/disabled/large/mid"
      :props {:roller_props {:options "Narrow\nStandard\nWide\nExtra Wide"
@@ -2204,7 +2338,11 @@
      :props {:textarea_props {:one_line true :placeholder "Search..."} :w 160}
      :size :medium
      :state :focus-key
-     :states-bits 16}
+     :states-bits 16
+     :wrapper
+     {:notes
+      "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
+      :props {:border-width 0 :h 64 :pad-all 8 :w 176}}}
     {:expect :distinct
      :id "lv_textarea/focused/medium"
      :notes
@@ -2220,7 +2358,11 @@
      :size :medium
      :state :edited
      :states-bits 32
-     :text "cam-04"}
+     :text "cam-04"
+     :wrapper
+     {:notes
+      "Edited-ring standoff — same canvas-origin clipping as the focus-key card."
+      :props {:border-width 0 :h 64 :pad-all 8 :w 176}}}
     {:expect :distinct
      :id "lv_textarea/disabled/medium"
      :props {:textarea_props {:one_line true} :w 160}
@@ -2370,53 +2512,51 @@
   {:authored-count 6
    :cards [{:expect :baseline
             :id "lv_table/default/small"
-            :props {:h 56 :table_props {:column_count 1 :row_count 1} :w 160}
+            :props {:table_props {:column_count 1 :row_count 1}}
             :size :small
             :state :default
             :states-bits 0}
-           {:expect :inert
+           {:expect :distinct
             :id "lv_table/disabled/small"
-            :props {:h 56 :table_props {:column_count 1 :row_count 1} :w 160}
+            :props {:table_props {:column_count 1 :row_count 1}}
             :size :small
             :state :disabled
             :states-bits 512}
            {:expect :baseline
             :id "lv_table/default/medium"
-            :props {:h 120 :table_props {:column_count 2 :row_count 2} :w 320}
+            :props {:table_props {:column_count 2 :row_count 2}}
             :size :medium
             :state :default
             :states-bits 0}
-           {:expect :inert
+           {:expect :distinct
             :id "lv_table/disabled/medium"
-            :props {:h 120 :table_props {:column_count 2 :row_count 2} :w 320}
+            :props {:table_props {:column_count 2 :row_count 2}}
             :size :medium
             :state :disabled
             :states-bits 512}
            {:expect :baseline
             :id "lv_table/default/large"
-            :props {:h 240 :table_props {:column_count 3 :row_count 3} :w 480}
+            :props {:table_props {:column_count 3 :row_count 3}}
             :size :large
             :state :default
             :states-bits 0}
-           {:expect :inert
+           {:expect :distinct
             :id "lv_table/disabled/large"
-            :props {:h 240 :table_props {:column_count 3 :row_count 3} :w 480}
+            :props {:table_props {:column_count 3 :row_count 3}}
             :size :large
             :state :disabled
             :states-bits 512}]
-   :committed-states [:default]
+   :committed-states [:default :disabled]
    :declared-count 6
    :notes
-   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. pressed/focus-key/edited omitted: cell highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. Disabled cells are inertness parity pins."
+   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. Cards carry NO :w/:h on purpose: lv_table's class default is LV_SIZE_CONTENT on both axes, so the box hugs each family's OWN grid (asgard rows are ~33px under the flat 8px cell pad, vanilla's ~64px under PAD_DEF) — a fixed box either leaves one family a dead-space apron below the grid (asgard filled ~41% of the old large box) or clips the other. pressed/focus-key/edited omitted: cell highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. Disabled cells are dimmed under the asgard family (t->styles.disabled_flat, opa 128) and differ from default; vanilla/stock leave them unstyled, so vanilla≡stock holds by scope."
    :sizes
    [{:cols 1
-     :h 56
      :id :small
      :note
-     "one column exactly matches the 160px default column width — no accidental scroll noise"
-     :rows 1
-     :w 160} {:cols 2 :h 120 :id :medium :note "width-matched to 2x160" :rows 2 :w 320}
-    {:cols 3 :h 240 :id :large :note "width-matched to 3x160" :rows 3 :w 480}]
+     "one column at the 160px default column width; box is LV_SIZE_CONTENT (see widget :notes)"
+     :rows 1} {:cols 2 :id :medium :note "2x160 columns, content-sized box" :rows 2}
+    {:cols 3 :id :large :note "3x160 columns, content-sized box" :rows 3}]
    :tag "lv_table"
    :type :WIDGET_TABLE}
   {:authored-count 5
@@ -2492,10 +2632,10 @@
                 {:children [{:text "Gamma page" :type :WIDGET_LABEL}]
                  :props {:h 80 :w 200}
                  :type :WIDGET_OBJ}]
-     :expect :inert
+     :expect :distinct
      :id "lv_tabview/disabled/medium"
      :notes
-     "Root-level disable is the only wire granularity; stock renders it identical to default — parity pin. Pages mirror lv_tabview/default/medium EXACTLY (labels included): an inertness pin is meaningful only over content-identical fixtures — the earlier label-less pages made the pair differ in content, so the hash diff said nothing about state styling."
+     "Root-level disable is the only wire granularity; asgard dims the disabled tabview (t->styles.disabled, opa 128) so it differs from default, while stock/vanilla render it identical to default (vanilla≡stock holds by scope). Pages mirror lv_tabview/default/medium EXACTLY (labels included): a distinctness pin is meaningful only over content-identical fixtures — the earlier label-less pages made the pair differ in content, so the hash diff said nothing about state styling."
      :props {:h 200
              :tabview_props
              {:active_index 0 :tab_bar_size 48 :tab_names ["Alpha" "Beta" "Gamma"]}
@@ -2503,7 +2643,7 @@
      :size :medium
      :state :disabled
      :states-bits 512}]
-   :committed-states [:default]
+   :committed-states [:default :disabled]
    :declared-count 5
    :notes
    "Not a full size x state product (chrome location/color is size-independent): 3 size cells + 2 state cells at medium, per survey. pressed/focus-key on tab buttons are NOT wire-reachable (buttons are synthesized internally by lv_tabview_add_tab, never WidgetNodes) — omitted rather than faked. Page-content wrappers are fixed-px unstyled objs (the survey's pct-100 surface-1 cards translated: LV_PCT encoding is outside the raw-prop vocabulary, and surface tokens are banned). KNOWN WIRE GAP (recorded, not resolved here): PROP_WIDTH/PROP_HEIGHT on a WIDGET_TABVIEW are silently defeated — lv_tabview_constructor calls lv_obj_set_size(pct100,pct100), a LOCAL style that outranks the renderer's added style-group styles — so every cell below renders full-canvas regardless of its authored w/h (verified: wire bytes carry 280x200, dump shows 798x478). The authored sizes are kept as the intent; they start binding when the renderer's tabview arm routes w/h through lv_obj_set_size."
@@ -2617,10 +2757,10 @@
                  :children [{:text "LIVE" :type :WIDGET_LABEL}]
                  :props {:h 40 :w 80}
                  :type :WIDGET_OBJ}]
-     :expect :probe-defect
-     :id "lv_host_proxy/default/small/stock"
+     :expect :baseline
+     :id "lv_host_proxy/default/small"
      :notes
-     "EXPECTED clipped (child) + overflow (parent): stock PAD_DEF=24 leaves a 48x6 content box against the fixed 80x40 chip. The red companion for the pad fix."
+     "Negative control at the realistic floor: the C-side default's control-tier pad leaves the 80x40 chip fitting the 96x54 box — zero flags expected. (The former stock-pad red probe retired WITH its cause: the heavyweight panel default it exhibited no longer exists.)"
      :props {:h 54
              :host_proxy_props {:handle_size 16
                                 :max_h 54
@@ -2633,16 +2773,15 @@
              :w 96}
      :size :small
      :state :default
-     :states-bits 0
-     :variant :stock}
+     :states-bits 0}
     {:children [{:bare true
                  :children [{:text "LIVE" :type :WIDGET_LABEL}]
                  :props {:h 40 :w 80}
                  :type :WIDGET_OBJ}]
      :expect :baseline
-     :id "lv_host_proxy/default/medium/stock"
+     :id "lv_host_proxy/default/medium"
      :notes
-     "Negative control: 192x72 content box comfortably holds the chip — zero flags expected."
+     "Negative control: the content box comfortably holds the chip — zero flags expected."
      :props {:h 120
              :host_proxy_props {:handle_size 16
                                 :max_h 300
@@ -2655,14 +2794,13 @@
              :w 240}
      :size :medium
      :state :default
-     :states-bits 0
-     :variant :stock}
+     :states-bits 0}
     {:children [{:bare true
                  :children [{:text "LIVE" :type :WIDGET_LABEL}]
                  :props {:h 40 :w 80}
                  :type :WIDGET_OBJ}]
      :expect :baseline
-     :id "lv_host_proxy/default/large/stock"
+     :id "lv_host_proxy/default/large"
      :notes "Negative control: zero flags expected."
      :props {:h 180
              :host_proxy_props {:handle_size 16
@@ -2676,41 +2814,16 @@
              :w 320}
      :size :large
      :state :default
-     :states-bits 0
-     :variant :stock}
-    {:children [{:bare true
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_host_proxy/default/medium/authored"
+     :notes
+     "Authored-override proof (gallery twin of the harness host_proxy_authored oracle): wire-authored pad-all 0 + border-width 0 + radius 0 on the proxy ROOT must beat the renderer's C default (create-time normal style) — the chip sits flush at the proxy origin and the frame renders square/borderless. If authored props ever go inert again, this card renders identical to default/medium and the golden diff shows it."
+     :children [{:bare true
                  :children [{:text "LIVE" :type :WIDGET_LABEL}]
                  :props {:h 40 :w 80}
                  :type :WIDGET_OBJ}]
-     :expect :baseline
-     :id "lv_host_proxy/default/small/themed"
-     :notes "Must show ZERO flags — the green half of the red/green pad-fix pair."
-     :props {:border-color "#3A3A52"
-             :border-width 1
-             :h 54
-             :host_proxy_props {:handle_size 16
-                                :max_h 54
-                                :max_w 96
-                                :min_h 54
-                                :min_w 96
-                                :mode :draggable
-                                :proxy_id "px"
-                                :z 1}
-             :pad-all 0
-             :radius 4
-             :w 96}
-     :size :small
-     :state :default
-     :states-bits 0
-     :variant :themed}
-    {:children [{:bare true
-                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
-                 :props {:h 40 :w 80}
-                 :type :WIDGET_OBJ}]
-     :expect :baseline
-     :id "lv_host_proxy/default/medium/themed"
-     :props {:border-color "#3A3A52"
-             :border-width 1
+     :props {:border-width 0
              :h 120
              :host_proxy_props {:handle_size 16
                                 :max_h 300
@@ -2721,43 +2834,17 @@
                                 :proxy_id "px"
                                 :z 1}
              :pad-all 0
-             :radius 4
+             :radius 0
              :w 240}
      :size :medium
      :state :default
      :states-bits 0
-     :variant :themed}
-    {:children [{:bare true
-                 :children [{:text "LIVE" :type :WIDGET_LABEL}]
-                 :props {:h 40 :w 80}
-                 :type :WIDGET_OBJ}]
-     :expect :baseline
-     :id "lv_host_proxy/default/large/themed"
-     :props {:border-color "#3A3A52"
-             :border-width 1
-             :h 180
-             :host_proxy_props {:handle_size 16
-                                :max_h 300
-                                :max_w 400
-                                :min_h 54
-                                :min_w 96
-                                :mode :draggable
-                                :proxy_id "px"
-                                :z 1}
-             :pad-all 0
-             :radius 4
-             :w 320}
-     :size :large
-     :state :default
-     :states-bits 0
-     :variant :themed}
+     :variant :authored}
     {:expect :probe-pixel-only
-     :id "lv_host_proxy/default/edge/themed"
+     :id "lv_host_proxy/default/edge"
      :notes
-     "Screen-edge probe: corner-handle ext-click-area extends handle_size/2 past the box — can go offscreen while the box stays onscreen; dump_tree is structurally blind to it."
-     :props {:border-color "#3A3A52"
-             :border-width 1
-             :h 54
+     "Screen-edge probe: corner-handle ext-click-area extends handle_size/2 past the box — can go offscreen while the box stays onscreen; dump_tree is structurally blind to it, and lv_obj_set_ext_click_area is UNIFORM-only (no per-side clamp is expressible), so the offscreen half is a recorded limitation, not a fixable defect at this layer."
+     :props {:h 54
              :host_proxy_props {:handle_size 16
                                 :max_h 300
                                 :max_w 400
@@ -2766,19 +2853,16 @@
                                 :mode :resizable
                                 :proxy_id "px"
                                 :z 1}
-             :pad-all 0
-             :radius 4
              :w 96
              :x 704
              :y 10}
      :size :edge
      :state :default
-     :states-bits 0
-     :variant :themed}]
+     :states-bits 0}]
    :committed-states [:default]
-   :declared-count 7
+   :declared-count 5
    :notes
-   "No LVGL state axis (falls through the generic lv_obj card arm; no state styles attach). The stock/themed variant pair IS this widget's axis: stock = the true unstyled fallthrough; themed = the survey's four proposed per-node raw props (radius 4 / border-width 1 / border-color #3A3A52 [edge-0, dark-resolved] / pad-all 0) standing in for the prospective C-side apply_host_proxy default. Affordance children (glass/handles/cells) are theme-immune by construction. proxy_id 'px' is a placeholder id per the corpus secret-scan."
+   "No LVGL state axis (falls through the generic lv_obj card arm; no state styles attach). apply_host_proxy now OWNS the default look in C: transparent fill, control-tier pad, panel-tier radius, with the BORDER left to the active theme (edge tone per family/mode) — the former stock/themed preview axis retired with it (the previews stood in for this default in radius + edge border; the shipped pad is the control-tier 4, not the previews' 0). Affordance children (glass/handles/cells) are theme-immune by construction. proxy_id 'px' is a placeholder id per the corpus secret-scan."
    :sizes
    [{:h 54
      :id :small

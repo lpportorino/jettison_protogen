@@ -891,6 +891,13 @@
                                     :min_value 0
                                     :max_value 100
                                     :value 50}}}
+               ;; Spacer: clears the round-outer scale's middle major-tick
+               ;; label out of the arc drawn directly above it — without the
+               ;; standoff the label bleeds into the ring (near-unreadable
+               ;; ~1.6:1 in the dark families). A bare obj, not padding: the
+               ;; prop vocabulary is pad-all only, and uniform padding would
+               ;; shrink the scale's drawn dial instead of separating it.
+               {:bare true :type :WIDGET_OBJ :props {:w 96 :h 12}}
                {:type :WIDGET_SCALE
                 :props {:w 96
                         :h 96
@@ -962,8 +969,14 @@
             :tabview_props
             {:tab_names ["Alpha" "Beta" "Gamma"] :tab_bar_size 48 :active_index 0}}
     :children (vec (for [label ["Alpha" "Beta" "Gamma"]]
+                     ;; Near-fill the page: the old 360x160 card exposed a wide
+                     ;; ring of the frozen-geometry STOCK page surface around
+                     ;; the themed card — a near-white void against the warm
+                     ;; light card. Sizing toward the page's content box keeps
+                     ;; the exposure to a thin margin without risking overflow
+                     ;; into the frozen tabview geometry.
                      {:type :WIDGET_OBJ
-                      :props {:w 360 :h 160}
+                      :props {:w 400 :h 216}
                       :layout {:flow :row}
                       :children [{:type :WIDGET_BUTTON
                                   :props {:w 80 :h 36}

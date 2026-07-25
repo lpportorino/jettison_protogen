@@ -188,7 +188,8 @@ fn render_fixture_at_dpi(
     host.set_breakpoint(bp).expect("set_breakpoint failed");
     host.set_theme_dark(theme).expect("set_theme_dark failed");
     host.set_dpi(dpi).expect("set_dpi failed");
-    host.load_ui(&pb_data).expect("load_ui failed");
+    host.load_ui(&pb_data)
+        .unwrap_or_else(|err| panic!("load_ui failed for fixture '{name}': {err:?}"));
     // Exactly RENDER_TICKS ticks, matching the harness binary's pinned
     // budget (deterministic elapsed time; no adaptive settle).
     let mut flushed = false;
@@ -665,7 +666,7 @@ mod display_resize {
         tick_settle(&mut host);
         let fb = host.read_framebuffer().expect("framebuffer");
         assert!(
-            analysis::has_color(&fb, VIOLET, COLOR_TOLERANCE),
+            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
             "xl tier color renders after resize + bp switch"
         );
     }
@@ -770,6 +771,12 @@ mod theme_regression {
                         .into_owned()
                 })
             })
+            // Screens only: the fixture generator also leaves
+            // `<screen>.patch.pb` tree-patch artifacts beside the screens
+            // whenever a prior run's baseline exists and the IR moved. A
+            // patch is a DIFFERENT message type — loading one as a screen
+            // is a guaranteed decode failure, not a theme comparison.
+            .filter(|name: &String| !name.ends_with(".patch"))
             .collect();
         names.sort();
         // Vacuous-input guard: an empty enumeration must FAIL, not pass over
@@ -780,7 +787,7 @@ mod theme_regression {
             names.len()
         );
         for name in &names {
-            let mut render_family = |family: i32| {
+            let render_family = |family: i32| {
                 let mut host = new_host_with_wasi();
                 host.set_theme_family(family).expect("set_theme_family");
                 render(&mut host, name)
@@ -1541,7 +1548,7 @@ mod breakpoint_matrix {
             0 => (RED, 64),
             1 => (AMBER, 96),
             2 => (GREEN, 128),
-            3 => (VIOLET, 160),
+            3 => (VIOLET_DEEP, 160),
             _ => panic!("invalid bp {bp}"),
         }
     }
@@ -1812,7 +1819,7 @@ mod breakpoint_color {
             0 => (RED, "red"),
             1 => (AMBER, "amber"),
             2 => (GREEN, "green"),
-            3 => (VIOLET, "violet"),
+            3 => (VIOLET_DEEP, "violet-deep"),
             _ => panic!("invalid bp {bp}"),
         }
     }
@@ -1853,8 +1860,8 @@ mod breakpoint_color {
         let mut host = new_host();
         let fb = render_bp_color(&mut host, 3, DEFAULT_THEME);
         assert!(
-            analysis::has_color(&fb, VIOLET, COLOR_TOLERANCE),
-            "bp3 should have violet background"
+            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
+            "bp3 should have violet-deep background"
         );
     }
     // ── Each breakpoint's color is exclusive (not in other breakpoints) ──
@@ -1892,8 +1899,8 @@ mod breakpoint_color {
         host.set_breakpoint(3).expect("set_breakpoint failed");
         let fb = tick_until_settled(&mut host);
         assert!(
-            analysis::has_color(&fb, VIOLET, COLOR_TOLERANCE),
-            "after transition to bp3, should have violet"
+            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
+            "after transition to bp3, should have violet-deep"
         );
         assert!(
             !analysis::has_color(&fb, RED, COLOR_TOLERANCE),
@@ -5488,6 +5495,249 @@ mod dump_vis_px {
             hits.is_empty(),
             "vc_fits is fully visible — no node may carry vis_px; found {}",
             hits.len()
+        );
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// led_brightness — LedProps.brightness==0 is "off", not "unset" (T9)
+// ═══════════════════════════════════════════════════════════════════
+// Regression guard for the proto3 zero-default trap in renderer.c's
+// ui_WidgetNode_led_props_tag case: a `brightness != 0` guard skipped
+// lv_led_set_brightness for brightness 0, so the constructor default
+// (LV_LED_BRIGHT_MAX) stood and a device-reported "off" LED rendered fully
+// lit — pixel-identical to "on". The fix mirrors the slider/spinbox value
+// idiom (`!morph_in_progress || value != 0`): a full render always applies
+// brightness (0 = off), a morph's stripped-default 0 keeps the live value.
+mod led_brightness {
+    use super::*;
+    use lvgl_harness::proto::ui::style_property::Value;
+
+    /// Explicit W×H style group (px) for a prost-built widget.
+    fn size_group(w: u32, h: u32) -> ui::StyleGroup {
+        ui::StyleGroup {
+            variants: vec![ui::StyleVariant {
+                properties: vec![
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropWidth as i32,
+                        value: Some(Value::UintValue(w)),
+                    },
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropHeight as i32,
+                        value: Some(Value::UintValue(h)),
+                    },
+                ],
+                ..Default::default()
+            }],
+            ..Default::default()
+        }
+    }
+
+    /// A themed root (explicit W×H) wrapping one 64×64 green LED at the given
+    /// brightness. The tree is identical but for `brightness`, so any
+    /// framebuffer difference is attributable to that field alone.
+    fn led_screen(brightness: u32) -> Vec<u8> {
+        let led = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetLed as i32,
+            uid: 42,
+            widget_props: Some(ui::widget_node::WidgetProps::LedProps(ui::LedProps {
+                color: Some(ui::Color { r: 0, g: 200, b: 0 }),
+                brightness,
+            })),
+            style_groups: vec![size_group(64, 64)],
+            ..Default::default()
+        };
+        let root = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetObj as i32,
+            uid: 100,
+            children: vec![led],
+            style_groups: vec![size_group(WIDTH, HEIGHT)],
+            ..Default::default()
+        };
+        ui::Screen { root: Some(root), subjects: vec![] }.encode_to_vec()
+    }
+
+    /// Render raw `.pb` bytes at the pinned budget (dark theme — an "off" LED
+    /// sinks toward the dark surface, a lit one is vivid green).
+    fn render_pb(host: &mut ControlsHost, pb: &[u8]) -> Vec<u8> {
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint failed");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark failed");
+        host.set_dpi(DPI).expect("set_dpi failed");
+        host.load_ui(pb).expect("load_ui failed");
+        let mut flushed = false;
+        for _ in 0..RENDER_TICKS {
+            if host.tick(TICK_MS).expect("tick failed") {
+                flushed = true;
+            }
+        }
+        assert!(flushed, "no flush within the {RENDER_TICKS} pinned ticks");
+        host.read_framebuffer().expect("read_framebuffer failed")
+    }
+
+    /// A full-render LED at brightness 0 must render DARKER than the same LED
+    /// at full brightness. Red against the pre-fix renderer, where the `!= 0`
+    /// guard made "off" render at LV_LED_BRIGHT_MAX — pixel-identical to "on".
+    #[test]
+    fn brightness_zero_renders_off_not_full() {
+        let mut host = new_host();
+        let off = render_pb(&mut host, &led_screen(0));
+        let full = render_pb(&mut host, &led_screen(255));
+        assert_differ("LED brightness 0 (off) vs 255 (full)", &off, &full, MIN_DIFF_RATIO);
+    }
+}
+/// The pressed checkbox indicator must stay inside the checkbox's own box.
+///
+/// LVGL's default (stock) theme adds a +3px GROW transform to the checkbox
+/// `INDICATOR | PRESSED` selector (its `grow` style). Against asgard's crisp
+/// square indicator that renders as a SETTLED, oversized box that spills 3px
+/// outside the checkbox's own bounds — a broken pressed box (asgard's
+/// zero-time transition applies the grow instantly, so it is a settled-state
+/// render, not a capture-window artifact). The asgard theme cancels it with a
+/// style zeroing `transform_width`/`transform_height` on the same selector.
+///
+/// `controls_dump_tree` exposes only per-OBJECT coords — the indicator is a
+/// drawn PART, not a child node — so the indicator's footprint is measured
+/// from the pressed-vs-unpressed framebuffer DIFF (the set of pixels pressing
+/// changed) and asserted to lie within the checkbox's live dump_tree box.
+/// Wire-authored style props on a host_proxy ROOT must override the
+/// renderer's C default look — pad/bg/radius are AUTHORABLE, not
+/// renderer-owned. `vr_proxy_pad` authors `pad-all 0` + `border-width 0`
+/// on the proxy, so its content chip sits FLUSH at the proxy origin. If
+/// the defaults were LVGL local styles the authored pad would silently
+/// lose (a local style outranks every added style) and the chip would
+/// land at the default pad offset instead.
+mod host_proxy_authored {
+    use super::*;
+    #[test]
+    fn authored_pad_overrides_default() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_proxy_pad");
+        let root = tree(&mut host);
+        let proxy = find_sized(&root, 160, 100).expect("160x100 proxy in vr_proxy_pad");
+        assert_flush(proxy, "authored pad-all 0");
+    }
+    /// `bare` on a host_proxy ROOT strips the renderer's default look along
+    /// with the theme — bare means bare, the same strip a bare obj applies
+    /// to the panel card. The chip sits flush because NO pad applies at all;
+    /// this pins "bare proxy = raw frame" as the contract (the default is a
+    /// create-time normal style, deliberately on the strippable side).
+    #[test]
+    fn bare_root_strips_the_default() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_proxy_bare");
+        let root = tree(&mut host);
+        let proxy = find_sized(&root, 152, 92).expect("152x92 bare proxy in vr_proxy_bare");
+        assert_flush(proxy, "bare root (default stripped)");
+    }
+    /// Find by authored SIZE (unique per screen) — the proxy's absolute
+    /// position depends on the root's themed pad, so a coord match would
+    /// couple the finder to the theme.
+    fn find_sized(n: &serde_json::Value, w: i64, h: i64) -> Option<&serde_json::Value> {
+        let c = n["coords"].as_array()?;
+        if c[2].as_i64()? - c[0].as_i64()? + 1 == w
+            && c[3].as_i64()? - c[1].as_i64()? + 1 == h
+            && n["children"].as_array().is_some_and(|k| !k.is_empty())
+        {
+            return Some(n);
+        }
+        n["children"]
+            .as_array()?
+            .iter()
+            .find_map(|k| find_sized(k, w, h))
+    }
+    fn assert_flush(proxy: &serde_json::Value, why: &str) {
+        // Content children stream BEFORE the glass/handles/cells affordances,
+        // so the first child is the authored chip.
+        let chip = &proxy["children"].as_array().expect("proxy children")[0];
+        let pc = proxy["coords"].as_array().expect("proxy coords");
+        let cc = chip["coords"].as_array().expect("chip coords");
+        let p = (
+            pc[0].as_i64().expect("px"),
+            pc[1].as_i64().expect("py"),
+        );
+        let c = (
+            cc[0].as_i64().expect("cx"),
+            cc[1].as_i64().expect("cy"),
+        );
+        assert_eq!(
+            c, p,
+            "{why} must place the content chip flush with the proxy origin — \
+             a nonzero offset means the renderer's default pad applied where \
+             it must not"
+        );
+    }
+}
+mod checkbox_pressed_grow {
+    use super::*;
+    fn checkbox_box(host: &mut ControlsHost) -> (i32, i32, i32, i32) {
+        fn find(n: &serde_json::Value) -> Option<&serde_json::Value> {
+            if n["type"] == "lv_checkbox" {
+                return Some(n);
+            }
+            n["children"].as_array()?.iter().find_map(find)
+        }
+        let root = tree(host);
+        let node = find(&root).expect("no lv_checkbox in dump tree");
+        let c = node["coords"].as_array().expect("checkbox coords");
+        let v = |i: usize| c[i].as_i64().expect("coord") as i32;
+        (v(0), v(1), v(2), v(3))
+    }
+    #[test]
+    fn pressed_indicator_stays_within_its_box() {
+        // Anti-aliasing slack at the box edge; the defect is a 3px spill, so a
+        // 1px tolerance separates RED (grow) from GREEN (in-place recolor)
+        // unambiguously.
+        const TOL: i32 = 1;
+        // A changed channel-sum below this is noise, not a redraw.
+        const CHANGED: i32 = 24;
+        let mut host = new_host();
+        let unpressed = render_fixture(&mut host, "vr_checkbox", DEFAULT_BP, DEFAULT_THEME);
+        let (x1, y1, x2, y2) = checkbox_box(&mut host);
+        let (cx, cy) = widget_center(&mut host, "lv_checkbox");
+        // Fresh load, then hold the press so the SETTLED pressed state renders.
+        // A post-load pointer event needs more indev-read + redraw cycles than
+        // the 3-tick fresh-render budget (the non-vacuity guard below catches a
+        // too-short settle); 10 matches the breakpoint_state press pattern.
+        const SETTLE_TICKS: u32 = 10;
+        let _ = render_fixture(&mut host, "vr_checkbox", DEFAULT_BP, DEFAULT_THEME);
+        press_px(&mut host, cx, cy);
+        for _ in 0..SETTLE_TICKS {
+            let _ = host.tick(TICK_MS).expect("tick");
+        }
+        let pressed = host.read_framebuffer().expect("framebuffer");
+        release_px(&mut host, cx, cy);
+        let (mut changed, mut escaped, mut worst) = (0_i32, 0_i32, 0_i32);
+        for y in 0..HEIGHT as i32 {
+            for x in 0..WIDTH as i32 {
+                let i = ((y as u32 * WIDTH + x as u32) * 4) as usize;
+                let d = (i32::from(unpressed[i]) - i32::from(pressed[i])).abs()
+                    + (i32::from(unpressed[i + 1]) - i32::from(pressed[i + 1])).abs()
+                    + (i32::from(unpressed[i + 2]) - i32::from(pressed[i + 2])).abs()
+                    + (i32::from(unpressed[i + 3]) - i32::from(pressed[i + 3])).abs();
+                if d <= CHANGED {
+                    continue;
+                }
+                changed += 1;
+                // How far this changed pixel lies OUTSIDE the checkbox box (0 if inside).
+                let out = (x1 - x).max(x - x2).max(y1 - y).max(y - y2).max(0);
+                if out > TOL {
+                    escaped += 1;
+                    worst = worst.max(out);
+                }
+            }
+        }
+        // Non-vacuity: pressing MUST redraw the indicator, or "no escapes" would
+        // pass trivially against a dead press/render pipeline.
+        assert!(
+            changed > 100,
+            "press changed only {changed}px — the press→state→redraw pipeline is dead, \
+             so this assertion proves nothing"
+        );
+        assert_eq!(
+            escaped, 0,
+            "pressed checkbox indicator spills outside its box [{x1},{y1},{x2},{y2}]: \
+             {escaped} changed px up to {worst}px beyond the bounds — stock's +3px \
+             INDICATOR|PRESSED grow transform is not cancelled"
         );
     }
 }

@@ -9,19 +9,17 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_HOST_PROXY
 
-`lv_host_proxy` — 7 atomic corpus cards (state × size[/value], ids `lv_host_proxy/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_host_proxy` — 5 atomic corpus cards (state × size[/value], ids `lv_host_proxy/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
 | state | vanilla (family 1, dark) | asgard dark (family 0) | asgard light (family 0) |
 |---|---|---|---|
-| `default/small/stock` | ![default/small/stock vanilla](./WIDGET_HOST_PROXY-default_small_stock-vanilla.jpg) | ![default/small/stock asgard-dark](./WIDGET_HOST_PROXY-default_small_stock-asgard-dark.jpg) | ![default/small/stock asgard-light](./WIDGET_HOST_PROXY-default_small_stock-asgard-light.jpg) |
-| `default/medium/stock` | ![default/medium/stock vanilla](./WIDGET_HOST_PROXY-default_medium_stock-vanilla.jpg) | ![default/medium/stock asgard-dark](./WIDGET_HOST_PROXY-default_medium_stock-asgard-dark.jpg) | ![default/medium/stock asgard-light](./WIDGET_HOST_PROXY-default_medium_stock-asgard-light.jpg) |
-| `default/large/stock` | ![default/large/stock vanilla](./WIDGET_HOST_PROXY-default_large_stock-vanilla.jpg) | ![default/large/stock asgard-dark](./WIDGET_HOST_PROXY-default_large_stock-asgard-dark.jpg) | ![default/large/stock asgard-light](./WIDGET_HOST_PROXY-default_large_stock-asgard-light.jpg) |
-| `default/small/themed` | ![default/small/themed vanilla](./WIDGET_HOST_PROXY-default_small_themed-vanilla.jpg) | ![default/small/themed asgard-dark](./WIDGET_HOST_PROXY-default_small_themed-asgard-dark.jpg) | ![default/small/themed asgard-light](./WIDGET_HOST_PROXY-default_small_themed-asgard-light.jpg) |
-| `default/medium/themed` | ![default/medium/themed vanilla](./WIDGET_HOST_PROXY-default_medium_themed-vanilla.jpg) | ![default/medium/themed asgard-dark](./WIDGET_HOST_PROXY-default_medium_themed-asgard-dark.jpg) | ![default/medium/themed asgard-light](./WIDGET_HOST_PROXY-default_medium_themed-asgard-light.jpg) |
-| `default/large/themed` | ![default/large/themed vanilla](./WIDGET_HOST_PROXY-default_large_themed-vanilla.jpg) | ![default/large/themed asgard-dark](./WIDGET_HOST_PROXY-default_large_themed-asgard-dark.jpg) | ![default/large/themed asgard-light](./WIDGET_HOST_PROXY-default_large_themed-asgard-light.jpg) |
-| `default/edge/themed` | ![default/edge/themed vanilla](./WIDGET_HOST_PROXY-default_edge_themed-vanilla.jpg) | ![default/edge/themed asgard-dark](./WIDGET_HOST_PROXY-default_edge_themed-asgard-dark.jpg) | ![default/edge/themed asgard-light](./WIDGET_HOST_PROXY-default_edge_themed-asgard-light.jpg) |
+| `default/small` | ![default/small vanilla](./WIDGET_HOST_PROXY-default_small-vanilla.jpg) | ![default/small asgard-dark](./WIDGET_HOST_PROXY-default_small-asgard-dark.jpg) | ![default/small asgard-light](./WIDGET_HOST_PROXY-default_small-asgard-light.jpg) |
+| `default/medium` | ![default/medium vanilla](./WIDGET_HOST_PROXY-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_HOST_PROXY-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_HOST_PROXY-default_medium-asgard-light.jpg) |
+| `default/large` | ![default/large vanilla](./WIDGET_HOST_PROXY-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_HOST_PROXY-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_HOST_PROXY-default_large-asgard-light.jpg) |
+| `default/medium/authored` | ![default/medium/authored vanilla](./WIDGET_HOST_PROXY-default_medium_authored-vanilla.jpg) | ![default/medium/authored asgard-dark](./WIDGET_HOST_PROXY-default_medium_authored-asgard-dark.jpg) | ![default/medium/authored asgard-light](./WIDGET_HOST_PROXY-default_medium_authored-asgard-light.jpg) |
+| `default/edge` | ![default/edge vanilla](./WIDGET_HOST_PROXY-default_edge-vanilla.jpg) | ![default/edge asgard-dark](./WIDGET_HOST_PROXY-default_edge-asgard-dark.jpg) | ![default/edge asgard-light](./WIDGET_HOST_PROXY-default_edge-asgard-light.jpg) |
 
 ## Committed states
 
@@ -46,7 +44,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 ## Known limitations
 
-No LVGL state axis (falls through the generic lv_obj card arm; no state styles attach). The stock/themed variant pair IS this widget's axis: stock = the true unstyled fallthrough; themed = the survey's four proposed per-node raw props (radius 4 / border-width 1 / border-color #3A3A52 [edge-0, dark-resolved] / pad-all 0) standing in for the prospective C-side apply_host_proxy default. Affordance children (glass/handles/cells) are theme-immune by construction. proxy_id 'px' is a placeholder id per the corpus secret-scan.
+No LVGL state axis (falls through the generic lv_obj card arm; no state styles attach). apply_host_proxy now OWNS the default look in C: transparent fill, control-tier pad, panel-tier radius, with the BORDER left to the active theme (edge tone per family/mode) — the former stock/themed preview axis retired with it (the previews stood in for this default in radius + edge border; the shipped pad is the control-tier 4, not the previews' 0). Affordance children (glass/handles/cells) are theme-immune by construction. proxy_id 'px' is a placeholder id per the corpus secret-scan.
 
 ---
 Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)

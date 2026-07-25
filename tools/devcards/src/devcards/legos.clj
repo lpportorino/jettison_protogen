@@ -47,6 +47,11 @@
   (when-not (and (string? v) (seq v))
     (throw (ex-info (str ctx ": " k " must be a non-empty string") {:ctx ctx k v}))))
 
+(def ^:private lv-state-disabled
+  "Wire lv_state_t DISABLED bit — the node vocabulary's :states-bits carries
+   the mask verbatim (fixtures.clj node shape)."
+  512)
+
 (def centering-note
   "WHY EVERY CENTERED CONTAINER HERE SETS BOTH :cross-place AND :track-place.
 
@@ -464,14 +469,19 @@
    :row-w 272
    :header-h 46
    :caption-h 48
-   ;; The stage-name label's width inside the 272px caption row. The row is at
-   ;; capacity: the switch + 3 icon buttons + the THEME's flex gaps (not
-   ;; settable from here — no pad-column) consume the rest, and widening this
-   ;; overflows the row and CLIPS the delete button out of existence, taking
-   ;; its event with it. A long stage name therefore wraps by design; the
-   ;; caption row centers it on the cross axis so a wrapped label reads as
-   ;; centered rather than clipped.
+   ;; The stage-name label's width inside the 272px caption row. The row is
+   ;; AT capacity — MEASURED TWICE: 76 and 58 BOTH overflowed it, clipping
+   ;; the delete button (76 also lost its event; invariant + interaction
+   ;; lanes fired). At the 12px face's ~8px advance a 7-char name needs
+   ;; ~56px, which this row cannot give — so a long stage name WRAPS BY
+   ;; DESIGN, and the caption row centers it on the cross axis so it reads
+   ;; as centered, not clipped. Consumers with longer names size their own
+   ;; dock (the lego's chrome constants are theirs to override).
    :caption-label-w 52
+   ;; Small caption face: not a one-line guarantee (the column cannot fit
+   ;; one — see :caption-label-w) but it fits more characters before the
+   ;; wrap than the 16px default and reads cleaner wrapped.
+   :caption-font "b612mono_bold_12"
    :body-h 46
    :card-collapsed-h 64
    ;; :card-expanded-h is the ONE-body-row height, kept as the pin the proof
@@ -569,9 +579,10 @@
    :children [{:type :WIDGET_SWITCH
                :props {:switch_props {:checked (boolean enabled?)}}
                :event {:name (str id "-toggle") :trigger :value-changed :int-value idx}}
-              ;; :caption-label-w, not 52: at 52 a stage name as ordinary as
-              ;; "Sharpen" wraps to two lines and overflows :caption-h.
-              {:type :WIDGET_LABEL :text label :props {:w (:caption-label-w dock-chrome)}}
+              {:type :WIDGET_LABEL
+               :text label
+               :props {:text-font (:caption-font dock-chrome)
+                       :w (:caption-label-w dock-chrome)}}
               (icon-button sym-up {:name (str id "-up") :int-value idx})
               (icon-button sym-down {:name (str id "-down") :int-value idx})
               (icon-button sym-close {:name (str id "-delete") :int-value idx})]})
@@ -588,8 +599,12 @@
     :else [(vec body-nodes)]))
 
 (defn- body-row
-  "One body row inside a stage card."
-  [nodes]
+  "One body row inside a stage card. `disabled?` threads the stage's
+   `:enabled?` state onto every row node (states-bits DISABLED, OR-ed over
+   any authored bits), so a disabled stage's widgets render their theme
+   disabled arms — slider dim, and the label dim via the theme's
+   label-disabled arm."
+  [nodes disabled?]
   {:type :WIDGET_OBJ
    :props {:w (:row-w dock-chrome) :h (:body-h dock-chrome) :pad-all 2}
    ;; :track-place centres the content BAND vertically (the knob :cross-place
@@ -599,7 +614,9 @@
    :layout {:flow :row :main-place :center
             :cross-place :center :track-place :center}
    :flags-clear [:scrollable]
-   :children nodes})
+   :children (if disabled?
+               (mapv #(update % :states-bits (fnil bit-or 0) lv-state-disabled) nodes)
+               nodes)})
 
 (defn- stage-card
   "One stage card: caption row, plus zero or more BODY ROWS unless collapsed.
@@ -609,8 +626,9 @@
    the row count, so a two-row stage is not silently clipped by a fixed
    `:card-expanded-h`; a collapsed stage keeps its nodes in the caller's data
    and renders caption-only."
-  [{:keys [collapsed? body-nodes] :as stage} idx]
-  (let [rows (if collapsed? [] (body-rows body-nodes))]
+  [{:keys [collapsed? body-nodes enabled?] :as stage} idx]
+  (let [rows (if collapsed? [] (body-rows body-nodes))
+        disabled? (not enabled?)]
     {:type :WIDGET_OBJ
      :props {:w (:card-w dock-chrome)
              :h (card-h (count rows))
@@ -622,7 +640,9 @@
      :layout {:flow :column :main-place :center
               :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
-     :children (into [(stage-caption stage idx)] (map body-row) rows)}))
+     :children (into [(stage-caption stage idx)]
+                     (map #(body-row % disabled?))
+                     rows)}))
 
 (defn- dock-header
   "The panel header: fold toggle (`dock-fold`) + title + badge."
@@ -692,11 +712,17 @@
               :cross-place :center :track-place :center}
      :children (-> [(icon-button sym-list {:name "dock-fold"})]
                    (into (for [s stages]
-                           {:type :WIDGET_BUTTON
-                            :props {:w (:rail-btn-w dock-chrome)
-                                    :h (:rail-btn-h dock-chrome)}
-                            :children [{:type :WIDGET_LABEL
-                                        :text (str/upper-case (subs (:label s) 0 1))}]}))
+                           (cond-> {:type :WIDGET_BUTTON
+                                    :props {:w (:rail-btn-w dock-chrome)
+                                            :h (:rail-btn-h dock-chrome)}
+                                    :children [{:type :WIDGET_LABEL
+                                                :text (str/upper-case
+                                                       (subs (:label s) 0 1))}]}
+                             ;; A disabled stage's letter button dims like its
+                             ;; expanded rows — the rail has no switch, so the
+                             ;; dim is the ONLY disabled cue in the folded state.
+                             (not (:enabled? s))
+                             (assoc :states-bits lv-state-disabled))))
                    (conj (badge-node badge)))}))
 
 (defn dock-panel

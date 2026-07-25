@@ -34,7 +34,7 @@ Per-widget rendered doc pages, generated from the same corpus the devcard gates 
 | [`WIDGET_TABLE`](./WIDGET_TABLE/README.md) | `default` | [![WIDGET_TABLE](./WIDGET_TABLE/WIDGET_TABLE-default_small-asgard-dark.jpg)](./WIDGET_TABLE/README.md) |
 | [`WIDGET_TABVIEW`](./WIDGET_TABVIEW/README.md) | `default` | [![WIDGET_TABVIEW](./WIDGET_TABVIEW/WIDGET_TABVIEW-default_small-asgard-dark.jpg)](./WIDGET_TABVIEW/README.md) |
 | [`WIDGET_CHART`](./WIDGET_CHART/README.md) | `default` | [![WIDGET_CHART](./WIDGET_CHART/WIDGET_CHART-default_small_line-asgard-dark.jpg)](./WIDGET_CHART/README.md) |
-| [`WIDGET_HOST_PROXY`](./WIDGET_HOST_PROXY/README.md) | `default` | [![WIDGET_HOST_PROXY](./WIDGET_HOST_PROXY/WIDGET_HOST_PROXY-default_small_stock-asgard-dark.jpg)](./WIDGET_HOST_PROXY/README.md) |
+| [`WIDGET_HOST_PROXY`](./WIDGET_HOST_PROXY/README.md) | `default` | [![WIDGET_HOST_PROXY](./WIDGET_HOST_PROXY/WIDGET_HOST_PROXY-default_small-asgard-dark.jpg)](./WIDGET_HOST_PROXY/README.md) |
 
 ## Kitchen sinks
 

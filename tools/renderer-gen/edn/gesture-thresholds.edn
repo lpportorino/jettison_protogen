@@ -1,10 +1,10 @@
 ;; gesture-thresholds.edn — the ONE cross-target home for the pointer/wheel
 ;; gesture recognizer's tuning constants.
 ;;
-;; Home: this file. Projection that MUST agree with it (drift fails the
-;; lvgl-codegen.gesture-thresholds-test mirror gate on `make test`):
-;;   • generated/gesture_thresholds.h  — C #defines, emitted by
-;;     `make factory-bindings` (the lvgl T11 host recognizer includes it)
+;; Home: this file. Projection that MUST agree with it (drift FATALs the
+;; `manifests` freshness lane in renderer.mk, run on every battery):
+;;   • renderer/generated/gesture_thresholds.h — C #defines, re-emitted by
+;;     `make -f renderer.mk manifests` (the lvgl host recognizer includes it)
 ;;
 ;; px values are converted to NDC by each shell (1 NDC unit = 100px), ms are
 ;; wall-clock windows, pinch-scale is a unitless spread-ratio step. Tune here;
