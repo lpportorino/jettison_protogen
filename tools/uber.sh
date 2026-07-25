@@ -46,6 +46,42 @@ case "${1:-}" in
 esac
 
 present || build
+
+# GIT INSIDE THE CONTAINER. When `.git` is a FILE rather than a directory — the
+# gitfile family: a submodule (how the consumer fleet vendors this repo) or a
+# linked `git worktree` — it names a gitdir OUTSIDE this bind mount. Mount only
+# $ROOT and every in-container `git` call dies with "not a git repository", so
+# any target that discovers its inputs from git's index silently sees ZERO
+# files (lint.mk's LINT_SH_FILES is exactly that shape).
+#
+# Mount the real gitdir read-only and override GIT_DIR/GIT_WORK_TREE, because
+# the gitdir's own `core.worktree` is a HOST-relative path that cannot resolve
+# in here. `env -u` keeps a stray GIT_DIR in the caller's environment from
+# redirecting resolution at an unrelated repository.
+#
+# ONLY a SELF-CONTAINED gitdir is mounted. A linked worktree's private gitdir
+# holds no objects and no real refs (just HEAD/index/commondir), so mounting it
+# alone yields a git that fails on every command; its common dir is referenced
+# by a host path that would not resolve in-container either. Rather than
+# half-support that shape, leave git unavailable and let lint-sh's non-vacuity
+# guard report the true reason.
+#
+# Resolution failure is deliberately NOT fatal: git is a hard prerequisite of
+# the lint-sh GATE, not of uber.sh itself, and that gate now fails loudly on
+# its own. A checkout with a dangling gitlink must still be able to build the
+# wasm, render devcards, and generate docs — none of which need git.
+#
+# A standalone checkout (CI) has a real `.git` DIRECTORY inside $ROOT already
+# and needs none of this.
+GIT_MOUNT=()
+if [ -f "$ROOT/.git" ]; then
+  GITDIR="$(env -u GIT_DIR -u GIT_WORK_TREE git -C "$ROOT" rev-parse --absolute-git-dir 2>/dev/null || true)"
+  COMMONDIR="$(env -u GIT_DIR -u GIT_WORK_TREE git -C "$ROOT" rev-parse --git-common-dir 2>/dev/null || true)"
+  if [ -n "$GITDIR" ] && [ -d "$GITDIR" ] && [ "$GITDIR" = "$COMMONDIR" ]; then
+    GIT_MOUNT=(-v "$GITDIR:/gitdir:ro" -e GIT_DIR=/gitdir -e GIT_WORK_TREE=/workspace)
+  fi
+fi
+
 # --entrypoint bash names the shell explicitly so the `-lc "$*"` script string is
 # run by bash. The base image sets no ENTRYPOINT (it runs whatever argv you pass
 # directly), so without this override the leading `-lc` would be exec'd as a
@@ -60,6 +96,7 @@ present || build
 # status is what propagates.
 exec docker run --rm --platform "$PLATFORM" --entrypoint bash \
   -v "$ROOT:/workspace" -w /workspace \
+  ${GIT_MOUNT[@]+"${GIT_MOUNT[@]}"} \
   -e CARGO_HOME=/workspace/.cargo-home \
   -e UBER_CMD="$*" -e UBER_UID="$(id -u)" -e UBER_GID="$(id -g)" \
   "$IMG" -lc 'bash -lc "$UBER_CMD"; rc=$?

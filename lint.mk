@@ -60,8 +60,14 @@ FMT_C_FILES := $(shell find renderer/src -maxdepth 1 \
 
 # Hand-authored shell, from git's own index so a new script is picked up the
 # moment it is tracked. renderer/lvgl/** is vendored and excluded.
+#
+# git's stderr is CAPTURED rather than discarded: when discovery fails, the
+# reason ("not a git repository: …") is the whole diagnosis, and lint-sh's
+# guard prints it instead of guessing. Discarding it is what let a broken
+# discovery read as an empty-but-fine file list.
 LINT_SH_FILES := $(shell git ls-files '*.sh' .githooks/pre-push 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
+LINT_SH_DISCOVERY_ERR := $(shell git ls-files '*.sh' .githooks/pre-push 2>&1 >/dev/null)
 
 .PHONY: lint lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
 	install-hooks hooks-status
@@ -147,9 +153,28 @@ splint-clj:
 # and would have caught both occurrences before the push.
 #
 # Parse-only, deliberately: shellcheck is not present on the host or in the
-# uber image, and adding a toolchain dependency to gate 15 scripts is a
-# separate decision. `bash -n` is the floor, not the ceiling.
+# uber image, and adding a toolchain dependency for it is a separate decision.
+# `bash -n` is the floor, not the ceiling.
 lint-sh:
+# NON-VACUITY GUARD. This gate's PASS value equals its NOTHING-RAN value: with an
+# empty file list `xargs` runs nothing and exits 0, so a discovery failure reads
+# as a clean gate. That is not hypothetical — `git ls-files` returns nothing when
+# git cannot resolve the repo, which is the NORMAL state in a submodule checkout
+# whose gitlink points outside the container's bind mount. The gate then printed
+# "0 scripts" and passed, checking nothing at all. An empty input set is a green
+# tick over zero coverage, so it must FAIL LOUD instead.
+	@if [ -z "$(strip $(LINT_SH_FILES))" ]; then \
+		printf '\033[31m[lint-sh] FAIL\033[0m — discovered ZERO shell scripts.\n' >&2; \
+		printf '  This repo tracks shell scripts, so an empty set means DISCOVERY broke,\n' >&2; \
+		printf '  not that there is nothing to check.\n' >&2; \
+		if [ -n "$(strip $(LINT_SH_DISCOVERY_ERR))" ]; then \
+			printf '  git said: %s\n' '$(LINT_SH_DISCOVERY_ERR)' >&2; \
+		fi; \
+		printf '  git must be able to resolve this checkout. In a container, a gitfile\n' >&2; \
+		printf '  checkout (submodule or linked worktree) needs its real gitdir mounted;\n' >&2; \
+		printf '  tools/uber.sh does that for a self-contained gitdir.\n' >&2; \
+		exit 1; \
+	fi
 	@printf '\033[32m[lint-sh]\033[0m bash -n (%s cpus, %s scripts)\n' \
 		"$(NPROC)" "$(words $(LINT_SH_FILES))"
 	@printf '%s\n' $(LINT_SH_FILES) | xargs -P $(NPROC) -n 1 bash -n
@@ -168,6 +193,16 @@ lint-sh:
 # what the formatter produces?" — and it is the method sych gates C with, which
 # is why the two repos can share one config byte-for-byte.
 fmt-c:
+# NON-VACUITY GUARD, same class as lint-sh's: `find` yields the empty set if
+# renderer/src is ever moved or renamed, xargs then runs nothing, and the gate
+# reports a green zero-file line over no coverage at all.
+	@if [ -z "$(strip $(FMT_C_FILES))" ]; then \
+		printf '\033[31m[fmt-c] FAIL\033[0m — discovered ZERO C files under renderer/src.\n' >&2; \
+		printf '  Hand-authored C is tracked there, so an empty set means the search\n' >&2; \
+		printf '  path is wrong (moved or renamed tree), not that there is nothing to\n' >&2; \
+		printf '  format-check.\n' >&2; \
+		exit 1; \
+	fi
 	@printf '\033[32m[fmt-c]\033[0m %s drift-compare (%s cpus, %s files)\n' \
 		"$(CLANG_FORMAT)" "$(NPROC)" "$(words $(FMT_C_FILES))"
 	@printf '%s\n' $(FMT_C_FILES) \
