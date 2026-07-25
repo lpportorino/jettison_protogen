@@ -85,6 +85,9 @@ extern CmdSpecDefaultTypeInternal _CmdSpec_default_instance_;
 class Color;
 struct ColorDefaultTypeInternal;
 extern ColorDefaultTypeInternal _Color_default_instance_;
+class ColorBinding;
+struct ColorBindingDefaultTypeInternal;
+extern ColorBindingDefaultTypeInternal _ColorBinding_default_instance_;
 class DropdownProps;
 struct DropdownPropsDefaultTypeInternal;
 extern DropdownPropsDefaultTypeInternal _DropdownProps_default_instance_;
@@ -3717,7 +3720,7 @@ class ShadowBundle final : public ::google::protobuf::Message
     return reinterpret_cast<const ShadowBundle*>(
         &_ShadowBundle_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 44;
+  static constexpr int kIndexInFileMessages = 45;
   friend void swap(ShadowBundle& a, ShadowBundle& b) { a.Swap(&b); }
   inline void Swap(ShadowBundle* other) {
     if (other == this) return;
@@ -4534,7 +4537,7 @@ class Layout final : public ::google::protobuf::Message
     return reinterpret_cast<const Layout*>(
         &_Layout_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 39;
+  static constexpr int kIndexInFileMessages = 40;
   friend void swap(Layout& a, Layout& b) { a.Swap(&b); }
   inline void Swap(Layout* other) {
     if (other == this) return;
@@ -5941,7 +5944,7 @@ class Color final : public ::google::protobuf::Message
     return reinterpret_cast<const Color*>(
         &_Color_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 43;
+  static constexpr int kIndexInFileMessages = 44;
   friend void swap(Color& a, Color& b) { a.Swap(&b); }
   inline void Swap(Color* other) {
     if (other == this) return;
@@ -7230,7 +7233,7 @@ class StyleProperty final : public ::google::protobuf::Message
     return reinterpret_cast<const StyleProperty*>(
         &_StyleProperty_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 42;
+  static constexpr int kIndexInFileMessages = 43;
   friend void swap(StyleProperty& a, StyleProperty& b) { a.Swap(&b); }
   inline void Swap(StyleProperty* other) {
     if (other == this) return;
@@ -8337,6 +8340,219 @@ class LedProps final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class ColorBinding final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.ColorBinding) */ {
+ public:
+  inline ColorBinding() : ColorBinding(nullptr) {}
+  ~ColorBinding() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ColorBinding* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ColorBinding));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ColorBinding(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ColorBinding(const ColorBinding& from) : ColorBinding(nullptr, from) {}
+  inline ColorBinding(ColorBinding&& from) noexcept
+      : ColorBinding(nullptr, std::move(from)) {}
+  inline ColorBinding& operator=(const ColorBinding& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ColorBinding& operator=(ColorBinding&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ColorBinding& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ColorBinding* internal_default_instance() {
+    return reinterpret_cast<const ColorBinding*>(
+        &_ColorBinding_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 39;
+  friend void swap(ColorBinding& a, ColorBinding& b) { a.Swap(&b); }
+  inline void Swap(ColorBinding* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ColorBinding* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ColorBinding* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ColorBinding>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ColorBinding& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ColorBinding& from) { ColorBinding::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ColorBinding* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.ColorBinding"; }
+
+ protected:
+  explicit ColorBinding(::google::protobuf::Arena* arena);
+  ColorBinding(::google::protobuf::Arena* arena, const ColorBinding& from);
+  ColorBinding(::google::protobuf::Arena* arena, ColorBinding&& from) noexcept
+      : ColorBinding(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kWhenFieldNumber = 1,
+    kColorFieldNumber = 2,
+  };
+  // .ui.VisibilityBinding when = 1;
+  bool has_when() const;
+  void clear_when() ;
+  const ::ui::VisibilityBinding& when() const;
+  PROTOBUF_NODISCARD ::ui::VisibilityBinding* release_when();
+  ::ui::VisibilityBinding* mutable_when();
+  void set_allocated_when(::ui::VisibilityBinding* value);
+  void unsafe_arena_set_allocated_when(::ui::VisibilityBinding* value);
+  ::ui::VisibilityBinding* unsafe_arena_release_when();
+
+  private:
+  const ::ui::VisibilityBinding& _internal_when() const;
+  ::ui::VisibilityBinding* _internal_mutable_when();
+
+  public:
+  // .ui.Color color = 2;
+  bool has_color() const;
+  void clear_color() ;
+  const ::ui::Color& color() const;
+  PROTOBUF_NODISCARD ::ui::Color* release_color();
+  ::ui::Color* mutable_color();
+  void set_allocated_color(::ui::Color* value);
+  void unsafe_arena_set_allocated_color(::ui::Color* value);
+  ::ui::Color* unsafe_arena_release_color();
+
+  private:
+  const ::ui::Color& _internal_color() const;
+  ::ui::Color* _internal_mutable_color();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.ColorBinding)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 2,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ColorBinding& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ui::VisibilityBinding* when_;
+    ::ui::Color* color_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fast_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CmdSpec final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ui.CmdSpec) */ {
  public:
@@ -8858,7 +9074,7 @@ class StyleVariant final : public ::google::protobuf::Message
     return reinterpret_cast<const StyleVariant*>(
         &_StyleVariant_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 41;
+  static constexpr int kIndexInFileMessages = 42;
   friend void swap(StyleVariant& a, StyleVariant& b) { a.Swap(&b); }
   inline void Swap(StyleVariant* other) {
     if (other == this) return;
@@ -10190,7 +10406,7 @@ class StyleGroup final : public ::google::protobuf::Message
     return reinterpret_cast<const StyleGroup*>(
         &_StyleGroup_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 40;
+  static constexpr int kIndexInFileMessages = 41;
   friend void swap(StyleGroup& a, StyleGroup& b) { a.Swap(&b); }
   inline void Swap(StyleGroup* other) {
     if (other == this) return;
@@ -10523,6 +10739,8 @@ class WidgetNode final : public ::google::protobuf::Message
     kLayoutFieldNumber = 7,
     kVisibilityFieldNumber = 29,
     kCheckedWhenFieldNumber = 42,
+    kEnabledWhenFieldNumber = 45,
+    kColorWhenFieldNumber = 46,
     kTypeFieldNumber = 1,
     kXFieldNumber = 2,
     kYFieldNumber = 3,
@@ -10747,6 +10965,36 @@ class WidgetNode final : public ::google::protobuf::Message
   private:
   const ::ui::VisibilityBinding& _internal_checked_when() const;
   ::ui::VisibilityBinding* _internal_mutable_checked_when();
+
+  public:
+  // .ui.VisibilityBinding enabled_when = 45;
+  bool has_enabled_when() const;
+  void clear_enabled_when() ;
+  const ::ui::VisibilityBinding& enabled_when() const;
+  PROTOBUF_NODISCARD ::ui::VisibilityBinding* release_enabled_when();
+  ::ui::VisibilityBinding* mutable_enabled_when();
+  void set_allocated_enabled_when(::ui::VisibilityBinding* value);
+  void unsafe_arena_set_allocated_enabled_when(::ui::VisibilityBinding* value);
+  ::ui::VisibilityBinding* unsafe_arena_release_enabled_when();
+
+  private:
+  const ::ui::VisibilityBinding& _internal_enabled_when() const;
+  ::ui::VisibilityBinding* _internal_mutable_enabled_when();
+
+  public:
+  // .ui.ColorBinding color_when = 46;
+  bool has_color_when() const;
+  void clear_color_when() ;
+  const ::ui::ColorBinding& color_when() const;
+  PROTOBUF_NODISCARD ::ui::ColorBinding* release_color_when();
+  ::ui::ColorBinding* mutable_color_when();
+  void set_allocated_color_when(::ui::ColorBinding* value);
+  void unsafe_arena_set_allocated_color_when(::ui::ColorBinding* value);
+  ::ui::ColorBinding* unsafe_arena_release_color_when();
+
+  private:
+  const ::ui::ColorBinding& _internal_color_when() const;
+  ::ui::ColorBinding* _internal_mutable_color_when();
 
   public:
   // .ui.WidgetType type = 1 [(.buf.validate.field) = {
@@ -11298,7 +11546,7 @@ class WidgetNode final : public ::google::protobuf::Message
   inline void clear_has_widget_props();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 44, 31,
+      5, 46, 33,
       86, 7>
       _table_;
 
@@ -11338,6 +11586,8 @@ class WidgetNode final : public ::google::protobuf::Message
     ::ui::Layout* layout_;
     ::ui::VisibilityBinding* visibility_;
     ::ui::VisibilityBinding* checked_when_;
+    ::ui::VisibilityBinding* enabled_when_;
+    ::ui::ColorBinding* color_when_;
     int type_;
     ::int32_t x_;
     ::int32_t y_;
@@ -15273,6 +15523,198 @@ inline void WidgetNode::set_allocated_checked_when(::ui::VisibilityBinding* valu
 
   _impl_.checked_when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.checked_when)
+}
+
+// .ui.VisibilityBinding enabled_when = 45;
+inline bool WidgetNode::has_enabled_when() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.enabled_when_ != nullptr);
+  return value;
+}
+inline void WidgetNode::clear_enabled_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.enabled_when_ != nullptr) _impl_.enabled_when_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline const ::ui::VisibilityBinding& WidgetNode::_internal_enabled_when() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::VisibilityBinding* p = _impl_.enabled_when_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::VisibilityBinding&>(::ui::_VisibilityBinding_default_instance_);
+}
+inline const ::ui::VisibilityBinding& WidgetNode::enabled_when() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.WidgetNode.enabled_when)
+  return _internal_enabled_when();
+}
+inline void WidgetNode::unsafe_arena_set_allocated_enabled_when(::ui::VisibilityBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.enabled_when_);
+  }
+  _impl_.enabled_when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000010u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000010u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.WidgetNode.enabled_when)
+}
+inline ::ui::VisibilityBinding* WidgetNode::release_enabled_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000010u;
+  ::ui::VisibilityBinding* released = _impl_.enabled_when_;
+  _impl_.enabled_when_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::VisibilityBinding* WidgetNode::unsafe_arena_release_enabled_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.WidgetNode.enabled_when)
+
+  _impl_._has_bits_[0] &= ~0x00000010u;
+  ::ui::VisibilityBinding* temp = _impl_.enabled_when_;
+  _impl_.enabled_when_ = nullptr;
+  return temp;
+}
+inline ::ui::VisibilityBinding* WidgetNode::_internal_mutable_enabled_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.enabled_when_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::VisibilityBinding>(GetArena());
+    _impl_.enabled_when_ = reinterpret_cast<::ui::VisibilityBinding*>(p);
+  }
+  return _impl_.enabled_when_;
+}
+inline ::ui::VisibilityBinding* WidgetNode::mutable_enabled_when() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000010u;
+  ::ui::VisibilityBinding* _msg = _internal_mutable_enabled_when();
+  // @@protoc_insertion_point(field_mutable:ui.WidgetNode.enabled_when)
+  return _msg;
+}
+inline void WidgetNode::set_allocated_enabled_when(::ui::VisibilityBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.enabled_when_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000010u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000010u;
+  }
+
+  _impl_.enabled_when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.enabled_when)
+}
+
+// .ui.ColorBinding color_when = 46;
+inline bool WidgetNode::has_color_when() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.color_when_ != nullptr);
+  return value;
+}
+inline void WidgetNode::clear_color_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.color_when_ != nullptr) _impl_.color_when_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000020u;
+}
+inline const ::ui::ColorBinding& WidgetNode::_internal_color_when() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::ColorBinding* p = _impl_.color_when_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::ColorBinding&>(::ui::_ColorBinding_default_instance_);
+}
+inline const ::ui::ColorBinding& WidgetNode::color_when() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.WidgetNode.color_when)
+  return _internal_color_when();
+}
+inline void WidgetNode::unsafe_arena_set_allocated_color_when(::ui::ColorBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.color_when_);
+  }
+  _impl_.color_when_ = reinterpret_cast<::ui::ColorBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000020u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000020u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.WidgetNode.color_when)
+}
+inline ::ui::ColorBinding* WidgetNode::release_color_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000020u;
+  ::ui::ColorBinding* released = _impl_.color_when_;
+  _impl_.color_when_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::ColorBinding* WidgetNode::unsafe_arena_release_color_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.WidgetNode.color_when)
+
+  _impl_._has_bits_[0] &= ~0x00000020u;
+  ::ui::ColorBinding* temp = _impl_.color_when_;
+  _impl_.color_when_ = nullptr;
+  return temp;
+}
+inline ::ui::ColorBinding* WidgetNode::_internal_mutable_color_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.color_when_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::ColorBinding>(GetArena());
+    _impl_.color_when_ = reinterpret_cast<::ui::ColorBinding*>(p);
+  }
+  return _impl_.color_when_;
+}
+inline ::ui::ColorBinding* WidgetNode::mutable_color_when() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000020u;
+  ::ui::ColorBinding* _msg = _internal_mutable_color_when();
+  // @@protoc_insertion_point(field_mutable:ui.WidgetNode.color_when)
+  return _msg;
+}
+inline void WidgetNode::set_allocated_color_when(::ui::ColorBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.color_when_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000020u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000020u;
+  }
+
+  _impl_.color_when_ = reinterpret_cast<::ui::ColorBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.color_when)
 }
 
 // uint32 uid = 43;
@@ -19355,6 +19797,202 @@ inline ::ui::CompareOp VisibilityBinding::_internal_compare() const {
 inline void VisibilityBinding::_internal_set_compare(::ui::CompareOp value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.compare_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// ColorBinding
+
+// .ui.VisibilityBinding when = 1;
+inline bool ColorBinding::has_when() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.when_ != nullptr);
+  return value;
+}
+inline void ColorBinding::clear_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.when_ != nullptr) _impl_.when_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::VisibilityBinding& ColorBinding::_internal_when() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::VisibilityBinding* p = _impl_.when_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::VisibilityBinding&>(::ui::_VisibilityBinding_default_instance_);
+}
+inline const ::ui::VisibilityBinding& ColorBinding::when() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ColorBinding.when)
+  return _internal_when();
+}
+inline void ColorBinding::unsafe_arena_set_allocated_when(::ui::VisibilityBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.when_);
+  }
+  _impl_.when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ColorBinding.when)
+}
+inline ::ui::VisibilityBinding* ColorBinding::release_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::VisibilityBinding* released = _impl_.when_;
+  _impl_.when_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::VisibilityBinding* ColorBinding::unsafe_arena_release_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ColorBinding.when)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::VisibilityBinding* temp = _impl_.when_;
+  _impl_.when_ = nullptr;
+  return temp;
+}
+inline ::ui::VisibilityBinding* ColorBinding::_internal_mutable_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.when_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::VisibilityBinding>(GetArena());
+    _impl_.when_ = reinterpret_cast<::ui::VisibilityBinding*>(p);
+  }
+  return _impl_.when_;
+}
+inline ::ui::VisibilityBinding* ColorBinding::mutable_when() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::VisibilityBinding* _msg = _internal_mutable_when();
+  // @@protoc_insertion_point(field_mutable:ui.ColorBinding.when)
+  return _msg;
+}
+inline void ColorBinding::set_allocated_when(::ui::VisibilityBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.when_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ColorBinding.when)
+}
+
+// .ui.Color color = 2;
+inline bool ColorBinding::has_color() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.color_ != nullptr);
+  return value;
+}
+inline void ColorBinding::clear_color() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.color_ != nullptr) _impl_.color_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ui::Color& ColorBinding::_internal_color() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::Color* p = _impl_.color_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::Color&>(::ui::_Color_default_instance_);
+}
+inline const ::ui::Color& ColorBinding::color() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ColorBinding.color)
+  return _internal_color();
+}
+inline void ColorBinding::unsafe_arena_set_allocated_color(::ui::Color* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.color_);
+  }
+  _impl_.color_ = reinterpret_cast<::ui::Color*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ColorBinding.color)
+}
+inline ::ui::Color* ColorBinding::release_color() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::Color* released = _impl_.color_;
+  _impl_.color_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::Color* ColorBinding::unsafe_arena_release_color() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ColorBinding.color)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::Color* temp = _impl_.color_;
+  _impl_.color_ = nullptr;
+  return temp;
+}
+inline ::ui::Color* ColorBinding::_internal_mutable_color() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.color_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::Color>(GetArena());
+    _impl_.color_ = reinterpret_cast<::ui::Color*>(p);
+  }
+  return _impl_.color_;
+}
+inline ::ui::Color* ColorBinding::mutable_color() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ui::Color* _msg = _internal_mutable_color();
+  // @@protoc_insertion_point(field_mutable:ui.ColorBinding.color)
+  return _msg;
+}
+inline void ColorBinding::set_allocated_color(::ui::Color* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.color_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.color_ = reinterpret_cast<::ui::Color*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ColorBinding.color)
 }
 
 // -------------------------------------------------------------------

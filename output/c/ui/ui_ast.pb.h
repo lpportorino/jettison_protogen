@@ -762,6 +762,54 @@ typedef struct _ui_LedProps {
     uint32_t brightness;
 } ui_LedProps;
 
+typedef struct _ui_ScaleSection {
+    int32_t range_min;
+    int32_t range_max;
+    /* INDICATOR + ITEMS tick-line style for the section (line_color /
+ line_width — the demo styles both parts identically). */
+    bool has_color;
+    ui_Color color;
+    uint32_t width;
+    /* MAIN-part style for the section — the arc band on a round scale /
+ the main line on a linear one (arc_color+arc_width AND
+ line_color+line_width are both set from this pair; LVGL reads the
+ part that matches the scale mode). Absent color + zero width = no
+ MAIN section style. */
+    bool has_main_color;
+    ui_Color main_color;
+    uint32_t main_width;
+} ui_ScaleSection;
+
+/* One chart data series (lv_chart_add_series + per-index value writes). */
+typedef struct _ui_ChartSeries {
+    /* Series color; absent = the theme primary color (the demo's default
+ for its unstyled series). */
+    bool has_color;
+    ui_Color color;
+    /* Y axis the series attaches to — lv_chart_axis_t direct-cast
+ (parity-gated, sparse bitmask values); PRIMARY_Y (0) is the default. */
+    ui_ChartAxis axis;
+    /* Frozen-frame data points, written BY INDEX (point i = values via
+ lv_chart_set_series_value_by_id); points past the list keep
+ LV_CHART_POINT_NONE. */
+    pb_callback_t values;
+} ui_ChartSeries;
+
+/* Value-conditional text-color binding — the VisibilityBinding subject/range
+ shape PLUS the color applied while the condition holds
+ (WidgetNode.color_when). The one reactive binding LVGL cannot express with a
+ native bind helper (there is none for a style property), so the renderer
+ drives it with a custom observer for every compare op. */
+typedef struct _ui_ColorBinding {
+    /* subject + ref_value + compare — reuses the VisibilityBinding shape */
+    bool has_when;
+    ui_VisibilityBinding when;
+    /* text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+ default is restored when it does not */
+    bool has_color;
+    ui_Color color;
+} ui_ColorBinding;
+
 /* A node in the widget tree (recursive). */
 typedef struct _ui_WidgetNode {
     ui_WidgetType type;
@@ -854,6 +902,24 @@ typedef struct _ui_WidgetNode {
  analogue so it is never emitted here. The host recognizer matches a
  gesture_kind_t decision to its GestureSpec.kind and patches the slots. */
     pb_callback_t gestures;
+    /* Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+ inverted in polarity: the widget carries LV_STATE_DISABLED while the
+ comparison against the subject does NOT hold, and is cleared (enabled)
+ while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+ compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+ range ops a custom observer (the checked_when / visibility precedent).
+ Drives reactive precondition-disable — a control greyed until its
+ preconditions read satisfied. */
+    bool has_enabled_when;
+    ui_VisibilityBinding enabled_when;
+    /* Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+ to `color_when.color` while the comparison holds, and reverted to the
+ theme/authored default when it does not. Unlike the three state bindings
+ above, LVGL has no native bind helper for a style property, so ALL compare
+ ops use a custom observer. Drives reactive fault-coloring — a readout that
+ recolors while its value is out of range. */
+    bool has_color_when;
+    ui_ColorBinding color_when;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -876,39 +942,6 @@ typedef struct _ui_TreePatchOp {
     bool has_node;
     ui_WidgetNode node;
 } ui_TreePatchOp;
-
-typedef struct _ui_ScaleSection {
-    int32_t range_min;
-    int32_t range_max;
-    /* INDICATOR + ITEMS tick-line style for the section (line_color /
- line_width — the demo styles both parts identically). */
-    bool has_color;
-    ui_Color color;
-    uint32_t width;
-    /* MAIN-part style for the section — the arc band on a round scale /
- the main line on a linear one (arc_color+arc_width AND
- line_color+line_width are both set from this pair; LVGL reads the
- part that matches the scale mode). Absent color + zero width = no
- MAIN section style. */
-    bool has_main_color;
-    ui_Color main_color;
-    uint32_t main_width;
-} ui_ScaleSection;
-
-/* One chart data series (lv_chart_add_series + per-index value writes). */
-typedef struct _ui_ChartSeries {
-    /* Series color; absent = the theme primary color (the demo's default
- for its unstyled series). */
-    bool has_color;
-    ui_Color color;
-    /* Y axis the series attaches to — lv_chart_axis_t direct-cast
- (parity-gated, sparse bitmask values); PRIMARY_Y (0) is the default. */
-    ui_ChartAxis axis;
-    /* Frozen-frame data points, written BY INDEX (point i = values via
- lv_chart_set_series_value_by_id); points past the list keep
- LV_CHART_POINT_NONE. */
-    pb_callback_t values;
-} ui_ChartSeries;
 
 typedef struct _ui_ShadowBundle {
     uint32_t width;
@@ -1103,6 +1136,7 @@ extern "C" {
 
 #define ui_VisibilityBinding_compare_ENUMTYPE ui_CompareOp
 
+
 #define ui_Layout_flow_ENUMTYPE ui_FlexFlow
 #define ui_Layout_main_place_ENUMTYPE ui_FlexAlign
 #define ui_Layout_cross_place_ENUMTYPE ui_FlexAlign
@@ -1120,7 +1154,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default, 0, {{NULL}, NULL}}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default, 0, {{NULL}, NULL}, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default}
 #define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
@@ -1155,6 +1189,7 @@ extern "C" {
 #define ui_CmdSpec_init_default                  {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default}
 #define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
+#define ui_ColorBinding_init_default             {false, ui_VisibilityBinding_init_default, false, ui_Color_init_default}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_default               {0, {{NULL}, NULL}}
 #define ui_StyleVariant_init_default             {0, {{NULL}, NULL}}
@@ -1165,7 +1200,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, {{NULL}, NULL}}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, {{NULL}, NULL}, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero}
 #define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
@@ -1200,6 +1235,7 @@ extern "C" {
 #define ui_CmdSpec_init_zero                     {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero}
 #define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
+#define ui_ColorBinding_init_zero                {false, ui_VisibilityBinding_init_zero, false, ui_Color_init_zero}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_zero                  {0, {{NULL}, NULL}}
 #define ui_StyleVariant_init_zero                {0, {{NULL}, NULL}}
@@ -1344,6 +1380,17 @@ extern "C" {
 #define ui_Color_b_tag                           3
 #define ui_LedProps_color_tag                    1
 #define ui_LedProps_brightness_tag               2
+#define ui_ScaleSection_range_min_tag            1
+#define ui_ScaleSection_range_max_tag            2
+#define ui_ScaleSection_color_tag                3
+#define ui_ScaleSection_width_tag                4
+#define ui_ScaleSection_main_color_tag           5
+#define ui_ScaleSection_main_width_tag           6
+#define ui_ChartSeries_color_tag                 1
+#define ui_ChartSeries_axis_tag                  2
+#define ui_ChartSeries_values_tag                3
+#define ui_ColorBinding_when_tag                 1
+#define ui_ColorBinding_color_tag                2
 #define ui_WidgetNode_type_tag                   1
 #define ui_WidgetNode_x_tag                      2
 #define ui_WidgetNode_y_tag                      3
@@ -1388,6 +1435,8 @@ extern "C" {
 #define ui_WidgetNode_checked_when_tag           42
 #define ui_WidgetNode_uid_tag                    43
 #define ui_WidgetNode_gestures_tag               44
+#define ui_WidgetNode_enabled_when_tag           45
+#define ui_WidgetNode_color_when_tag             46
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_TreePatchOp_kind_tag                  1
@@ -1395,15 +1444,6 @@ extern "C" {
 #define ui_TreePatchOp_parent_uid_tag            3
 #define ui_TreePatchOp_index_tag                 4
 #define ui_TreePatchOp_node_tag                  5
-#define ui_ScaleSection_range_min_tag            1
-#define ui_ScaleSection_range_max_tag            2
-#define ui_ScaleSection_color_tag                3
-#define ui_ScaleSection_width_tag                4
-#define ui_ScaleSection_main_color_tag           5
-#define ui_ScaleSection_main_width_tag           6
-#define ui_ChartSeries_color_tag                 1
-#define ui_ChartSeries_axis_tag                  2
-#define ui_ChartSeries_values_tag                3
 #define ui_ShadowBundle_width_tag                1
 #define ui_ShadowBundle_offset_x_tag             2
 #define ui_ShadowBundle_offset_y_tag             3
@@ -1490,7 +1530,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,host_proxy_props,widget_props.host_proxy_props),  41) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42) \
 X(a, STATIC,   SINGULAR, UINT32,   uid,              43) \
-X(a, CALLBACK, REPEATED, MESSAGE,  gestures,         44)
+X(a, CALLBACK, REPEATED, MESSAGE,  gestures,         44) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  enabled_when,     45) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1524,6 +1566,8 @@ X(a, CALLBACK, REPEATED, MESSAGE,  gestures,         44)
 #define ui_WidgetNode_widget_props_host_proxy_props_MSGTYPE ui_HostProxyProps
 #define ui_WidgetNode_checked_when_MSGTYPE ui_VisibilityBinding
 #define ui_WidgetNode_gestures_MSGTYPE ui_GestureSpec
+#define ui_WidgetNode_enabled_when_MSGTYPE ui_VisibilityBinding
+#define ui_WidgetNode_color_when_MSGTYPE ui_ColorBinding
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
@@ -1807,6 +1851,14 @@ X(a, STATIC,   SINGULAR, UENUM,    compare,           3)
 #define ui_VisibilityBinding_CALLBACK pb_default_field_callback
 #define ui_VisibilityBinding_DEFAULT NULL
 
+#define ui_ColorBinding_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  when,              1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  color,             2)
+#define ui_ColorBinding_CALLBACK NULL
+#define ui_ColorBinding_DEFAULT NULL
+#define ui_ColorBinding_when_MSGTYPE ui_VisibilityBinding
+#define ui_ColorBinding_color_MSGTYPE ui_Color
+
 #define ui_Layout_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    flow,              1) \
 X(a, STATIC,   SINGULAR, UENUM,    main_place,        2) \
@@ -1896,6 +1948,7 @@ extern const pb_msgdesc_t ui_FieldPatch_msg;
 extern const pb_msgdesc_t ui_CmdSpec_msg;
 extern const pb_msgdesc_t ui_GestureSpec_msg;
 extern const pb_msgdesc_t ui_VisibilityBinding_msg;
+extern const pb_msgdesc_t ui_ColorBinding_msg;
 extern const pb_msgdesc_t ui_Layout_msg;
 extern const pb_msgdesc_t ui_StyleGroup_msg;
 extern const pb_msgdesc_t ui_StyleVariant_msg;
@@ -1943,6 +1996,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_CmdSpec_fields &ui_CmdSpec_msg
 #define ui_GestureSpec_fields &ui_GestureSpec_msg
 #define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
+#define ui_ColorBinding_fields &ui_ColorBinding_msg
 #define ui_Layout_fields &ui_Layout_msg
 #define ui_StyleGroup_fields &ui_StyleGroup_msg
 #define ui_StyleVariant_fields &ui_StyleVariant_msg
@@ -1975,6 +2029,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_CmdSpec_size depends on runtime parameters */
 /* ui_GestureSpec_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
+/* ui_ColorBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_StyleVariant_size depends on runtime parameters */
 /* ui_StyleProperty_size depends on runtime parameters */

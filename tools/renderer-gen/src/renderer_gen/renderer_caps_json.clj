@@ -99,6 +99,12 @@
    "MAX_PENDING_CHECKED"
    "transient load-time deferral queue (checked bindings), drained during the
     build; see MAX_PENDING_VISIBILITY."
+   "MAX_PENDING_ENABLED"
+   "transient load-time deferral queue (enabled_when bindings), drained during
+    the build; see MAX_PENDING_VISIBILITY."
+   "MAX_PENDING_COLOR"
+   "transient load-time deferral queue (color_when bindings), drained during the
+    build; see MAX_PENDING_VISIBILITY."
    "MAX_PENDING_TABVIEW"
    "transient load-time deferral queue (tabview attachment), drained during the
     build; see MAX_PENDING_VISIBILITY."

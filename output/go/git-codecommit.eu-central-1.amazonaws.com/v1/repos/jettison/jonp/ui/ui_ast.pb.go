@@ -2311,6 +2311,22 @@ type WidgetNode struct {
 	// rejected by codegen validation). Reuses the VisibilityBinding shape
 	// (subject + ref_value + compare).
 	CheckedWhen *VisibilityBinding `protobuf:"bytes,42,opt,name=checked_when,json=checkedWhen,proto3" json:"checked_when,omitempty"`
+	// Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+	// inverted in polarity: the widget carries LV_STATE_DISABLED while the
+	// comparison against the subject does NOT hold, and is cleared (enabled)
+	// while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+	// compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+	// range ops a custom observer (the checked_when / visibility precedent).
+	// Drives reactive precondition-disable — a control greyed until its
+	// preconditions read satisfied.
+	EnabledWhen *VisibilityBinding `protobuf:"bytes,45,opt,name=enabled_when,json=enabledWhen,proto3" json:"enabled_when,omitempty"`
+	// Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+	// to `color_when.color` while the comparison holds, and reverted to the
+	// theme/authored default when it does not. Unlike the three state bindings
+	// above, LVGL has no native bind helper for a style property, so ALL compare
+	// ops use a custom observer. Drives reactive fault-coloring — a readout that
+	// recolors while its value is out of range.
+	ColorWhen *ColorBinding `protobuf:"bytes,46,opt,name=color_when,json=colorWhen,proto3" json:"color_when,omitempty"`
 	// Stable node identity for tree patching: FNV-1a-32 of the node's
 	// root→node identity path (author :id segments, else type#ordinal among
 	// unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -2699,6 +2715,20 @@ func (x *WidgetNode) GetInTabBar() bool {
 func (x *WidgetNode) GetCheckedWhen() *VisibilityBinding {
 	if x != nil {
 		return x.CheckedWhen
+	}
+	return nil
+}
+
+func (x *WidgetNode) GetEnabledWhen() *VisibilityBinding {
+	if x != nil {
+		return x.EnabledWhen
+	}
+	return nil
+}
+
+func (x *WidgetNode) GetColorWhen() *ColorBinding {
+	if x != nil {
+		return x.ColorWhen
 	}
 	return nil
 }
@@ -5134,6 +5164,66 @@ func (x *VisibilityBinding) GetCompare() CompareOp {
 	return CompareOp_COMPARE_EQ
 }
 
+// Value-conditional text-color binding — the VisibilityBinding subject/range
+// shape PLUS the color applied while the condition holds
+// (WidgetNode.color_when). The one reactive binding LVGL cannot express with a
+// native bind helper (there is none for a style property), so the renderer
+// drives it with a custom observer for every compare op.
+type ColorBinding struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// subject + ref_value + compare — reuses the VisibilityBinding shape
+	When *VisibilityBinding `protobuf:"bytes,1,opt,name=when,proto3" json:"when,omitempty"`
+	// text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+	// default is restored when it does not
+	Color         *Color `protobuf:"bytes,2,opt,name=color,proto3" json:"color,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ColorBinding) Reset() {
+	*x = ColorBinding{}
+	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ColorBinding) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ColorBinding) ProtoMessage() {}
+
+func (x *ColorBinding) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ColorBinding.ProtoReflect.Descriptor instead.
+func (*ColorBinding) Descriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *ColorBinding) GetWhen() *VisibilityBinding {
+	if x != nil {
+		return x.When
+	}
+	return nil
+}
+
+func (x *ColorBinding) GetColor() *Color {
+	if x != nil {
+		return x.Color
+	}
+	return nil
+}
+
 type Layout struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Flow          FlexFlow               `protobuf:"varint,1,opt,name=flow,proto3,enum=ui.FlexFlow" json:"flow,omitempty"`
@@ -5146,7 +5236,7 @@ type Layout struct {
 
 func (x *Layout) Reset() {
 	*x = Layout{}
-	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	mi := &file_ui_ui_ast_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5158,7 +5248,7 @@ func (x *Layout) String() string {
 func (*Layout) ProtoMessage() {}
 
 func (x *Layout) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	mi := &file_ui_ui_ast_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5171,7 +5261,7 @@ func (x *Layout) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Layout.ProtoReflect.Descriptor instead.
 func (*Layout) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{37}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *Layout) GetFlow() FlexFlow {
@@ -5221,7 +5311,7 @@ type StyleGroup struct {
 
 func (x *StyleGroup) Reset() {
 	*x = StyleGroup{}
-	mi := &file_ui_ui_ast_proto_msgTypes[38]
+	mi := &file_ui_ui_ast_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5233,7 +5323,7 @@ func (x *StyleGroup) String() string {
 func (*StyleGroup) ProtoMessage() {}
 
 func (x *StyleGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[38]
+	mi := &file_ui_ui_ast_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5246,7 +5336,7 @@ func (x *StyleGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleGroup.ProtoReflect.Descriptor instead.
 func (*StyleGroup) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{38}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *StyleGroup) GetStateSelector() uint32 {
@@ -5276,7 +5366,7 @@ type StyleVariant struct {
 
 func (x *StyleVariant) Reset() {
 	*x = StyleVariant{}
-	mi := &file_ui_ui_ast_proto_msgTypes[39]
+	mi := &file_ui_ui_ast_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5288,7 +5378,7 @@ func (x *StyleVariant) String() string {
 func (*StyleVariant) ProtoMessage() {}
 
 func (x *StyleVariant) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[39]
+	mi := &file_ui_ui_ast_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5301,7 +5391,7 @@ func (x *StyleVariant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleVariant.ProtoReflect.Descriptor instead.
 func (*StyleVariant) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{39}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *StyleVariant) GetVariantIndex() uint32 {
@@ -5336,7 +5426,7 @@ type StyleProperty struct {
 
 func (x *StyleProperty) Reset() {
 	*x = StyleProperty{}
-	mi := &file_ui_ui_ast_proto_msgTypes[40]
+	mi := &file_ui_ui_ast_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5348,7 +5438,7 @@ func (x *StyleProperty) String() string {
 func (*StyleProperty) ProtoMessage() {}
 
 func (x *StyleProperty) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[40]
+	mi := &file_ui_ui_ast_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5361,7 +5451,7 @@ func (x *StyleProperty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleProperty.ProtoReflect.Descriptor instead.
 func (*StyleProperty) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{40}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *StyleProperty) GetType() StylePropertyType {
@@ -5469,7 +5559,7 @@ type Color struct {
 
 func (x *Color) Reset() {
 	*x = Color{}
-	mi := &file_ui_ui_ast_proto_msgTypes[41]
+	mi := &file_ui_ui_ast_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5481,7 +5571,7 @@ func (x *Color) String() string {
 func (*Color) ProtoMessage() {}
 
 func (x *Color) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[41]
+	mi := &file_ui_ui_ast_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5494,7 +5584,7 @@ func (x *Color) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Color.ProtoReflect.Descriptor instead.
 func (*Color) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{41}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *Color) GetR() uint32 {
@@ -5531,7 +5621,7 @@ type ShadowBundle struct {
 
 func (x *ShadowBundle) Reset() {
 	*x = ShadowBundle{}
-	mi := &file_ui_ui_ast_proto_msgTypes[42]
+	mi := &file_ui_ui_ast_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5543,7 +5633,7 @@ func (x *ShadowBundle) String() string {
 func (*ShadowBundle) ProtoMessage() {}
 
 func (x *ShadowBundle) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[42]
+	mi := &file_ui_ui_ast_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5556,7 +5646,7 @@ func (x *ShadowBundle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShadowBundle.ProtoReflect.Descriptor instead.
 func (*ShadowBundle) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{42}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *ShadowBundle) GetWidth() uint32 {
@@ -5616,7 +5706,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xf8\x10\n" +
+	"\x05_root\"\xe3\x11\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
@@ -5674,7 +5764,10 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x04bare\x18% \x01(\bR\x04bare\x12\x1c\n" +
 	"\n" +
 	"in_tab_bar\x18' \x01(\bR\binTabBar\x128\n" +
-	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x12\x10\n" +
+	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x128\n" +
+	"\fenabled_when\x18- \x01(\v2\x15.ui.VisibilityBindingR\venabledWhen\x12/\n" +
+	"\n" +
+	"color_when\x18. \x01(\v2\x10.ui.ColorBindingR\tcolorWhen\x12\x10\n" +
 	"\x03uid\x18+ \x01(\rR\x03uid\x125\n" +
 	"\bgestures\x18, \x03(\v2\x0f.ui.GestureSpecB\b\xbaH\x05\x92\x01\x02\x10\x05R\bgestures\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
@@ -5879,7 +5972,10 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x11VisibilityBinding\x12#\n" +
 	"\asubject\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\asubject\x12\x1b\n" +
 	"\tref_value\x18\x02 \x01(\x05R\brefValue\x121\n" +
-	"\acompare\x18\x03 \x01(\x0e2\r.ui.CompareOpB\b\xbaH\x05\x82\x01\x02\x10\x01R\acompare\"\xe0\x01\n" +
+	"\acompare\x18\x03 \x01(\x0e2\r.ui.CompareOpB\b\xbaH\x05\x82\x01\x02\x10\x01R\acompare\"Z\n" +
+	"\fColorBinding\x12)\n" +
+	"\x04when\x18\x01 \x01(\v2\x15.ui.VisibilityBindingR\x04when\x12\x1f\n" +
+	"\x05color\x18\x02 \x01(\v2\t.ui.ColorR\x05color\"\xe0\x01\n" +
 	"\x06Layout\x12*\n" +
 	"\x04flow\x18\x01 \x01(\x0e2\f.ui.FlexFlowB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04flow\x126\n" +
 	"\n" +
@@ -6250,7 +6346,7 @@ func file_ui_ui_ast_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_ast_proto_enumTypes = make([]protoimpl.EnumInfo, 27)
-var file_ui_ui_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 45)
+var file_ui_ui_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 46)
 var file_ui_ui_ast_proto_goTypes = []any{
 	(SubjectType)(0),           // 0: ui.SubjectType
 	(PatchOpKind)(0),           // 1: ui.PatchOpKind
@@ -6316,14 +6412,15 @@ var file_ui_ui_ast_proto_goTypes = []any{
 	(*CmdSpec)(nil),            // 61: ui.CmdSpec
 	(*GestureSpec)(nil),        // 62: ui.GestureSpec
 	(*VisibilityBinding)(nil),  // 63: ui.VisibilityBinding
-	(*Layout)(nil),             // 64: ui.Layout
-	(*StyleGroup)(nil),         // 65: ui.StyleGroup
-	(*StyleVariant)(nil),       // 66: ui.StyleVariant
-	(*StyleProperty)(nil),      // 67: ui.StyleProperty
-	(*Color)(nil),              // 68: ui.Color
-	(*ShadowBundle)(nil),       // 69: ui.ShadowBundle
-	nil,                        // 70: ui.WidgetNode.BindingsEntry
-	nil,                        // 71: ui.WidgetNode.BindFormatsEntry
+	(*ColorBinding)(nil),       // 64: ui.ColorBinding
+	(*Layout)(nil),             // 65: ui.Layout
+	(*StyleGroup)(nil),         // 66: ui.StyleGroup
+	(*StyleVariant)(nil),       // 67: ui.StyleVariant
+	(*StyleProperty)(nil),      // 68: ui.StyleProperty
+	(*Color)(nil),              // 69: ui.Color
+	(*ShadowBundle)(nil),       // 70: ui.ShadowBundle
+	nil,                        // 71: ui.WidgetNode.BindingsEntry
+	nil,                        // 72: ui.WidgetNode.BindFormatsEntry
 }
 var file_ui_ui_ast_proto_depIdxs = []int32{
 	0,  // 0: ui.SubjectDeclaration.type:type_name -> ui.SubjectType
@@ -6331,11 +6428,11 @@ var file_ui_ui_ast_proto_depIdxs = []int32{
 	31, // 2: ui.Screen.root:type_name -> ui.WidgetNode
 	27, // 3: ui.Screen.subjects:type_name -> ui.SubjectDeclaration
 	2,  // 4: ui.WidgetNode.type:type_name -> ui.WidgetType
-	70, // 5: ui.WidgetNode.bindings:type_name -> ui.WidgetNode.BindingsEntry
+	71, // 5: ui.WidgetNode.bindings:type_name -> ui.WidgetNode.BindingsEntry
 	59, // 6: ui.WidgetNode.event:type_name -> ui.EventBinding
-	64, // 7: ui.WidgetNode.layout:type_name -> ui.Layout
+	65, // 7: ui.WidgetNode.layout:type_name -> ui.Layout
 	31, // 8: ui.WidgetNode.children:type_name -> ui.WidgetNode
-	65, // 9: ui.WidgetNode.style_groups:type_name -> ui.StyleGroup
+	66, // 9: ui.WidgetNode.style_groups:type_name -> ui.StyleGroup
 	34, // 10: ui.WidgetNode.obj_props:type_name -> ui.ObjProps
 	35, // 11: ui.WidgetNode.button_props:type_name -> ui.ButtonProps
 	36, // 12: ui.WidgetNode.label_props:type_name -> ui.LabelProps
@@ -6359,52 +6456,56 @@ var file_ui_ui_ast_proto_depIdxs = []int32{
 	56, // 30: ui.WidgetNode.chart_props:type_name -> ui.ChartProps
 	57, // 31: ui.WidgetNode.host_proxy_props:type_name -> ui.HostProxyProps
 	63, // 32: ui.WidgetNode.visibility:type_name -> ui.VisibilityBinding
-	71, // 33: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
+	72, // 33: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
 	63, // 34: ui.WidgetNode.checked_when:type_name -> ui.VisibilityBinding
-	62, // 35: ui.WidgetNode.gestures:type_name -> ui.GestureSpec
-	1,  // 36: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
-	31, // 37: ui.TreePatchOp.node:type_name -> ui.WidgetNode
-	32, // 38: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
-	19, // 39: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
-	20, // 40: ui.SliderProps.mode:type_name -> ui.BarMode
-	21, // 41: ui.ArcProps.mode:type_name -> ui.ArcMode
-	20, // 42: ui.BarProps.mode:type_name -> ui.BarMode
-	16, // 43: ui.DropdownProps.direction:type_name -> ui.Dir
-	22, // 44: ui.RollerProps.mode:type_name -> ui.RollerMode
-	68, // 45: ui.LedProps.color:type_name -> ui.Color
-	58, // 46: ui.LineProps.points:type_name -> ui.Point
-	23, // 47: ui.ScaleProps.mode:type_name -> ui.ScaleMode
-	51, // 48: ui.ScaleProps.sections:type_name -> ui.ScaleSection
-	68, // 49: ui.ScaleSection.color:type_name -> ui.Color
-	68, // 50: ui.ScaleSection.main_color:type_name -> ui.Color
-	16, // 51: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
-	68, // 52: ui.ChartSeries.color:type_name -> ui.Color
-	25, // 53: ui.ChartSeries.axis:type_name -> ui.ChartAxis
-	24, // 54: ui.ChartProps.type:type_name -> ui.ChartType
-	55, // 55: ui.ChartProps.series:type_name -> ui.ChartSeries
-	3,  // 56: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
-	4,  // 57: ui.EventBinding.trigger:type_name -> ui.EventTrigger
-	61, // 58: ui.EventBinding.cmd:type_name -> ui.CmdSpec
-	61, // 59: ui.EventBinding.cmd_by_value:type_name -> ui.CmdSpec
-	5,  // 60: ui.FieldPatch.kind:type_name -> ui.PatchKind
-	60, // 61: ui.CmdSpec.patches:type_name -> ui.FieldPatch
-	6,  // 62: ui.GestureSpec.kind:type_name -> ui.GestureKind
-	61, // 63: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
-	7,  // 64: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
-	8,  // 65: ui.Layout.flow:type_name -> ui.FlexFlow
-	9,  // 66: ui.Layout.main_place:type_name -> ui.FlexAlign
-	9,  // 67: ui.Layout.cross_place:type_name -> ui.FlexAlign
-	9,  // 68: ui.Layout.track_place:type_name -> ui.FlexAlign
-	66, // 69: ui.StyleGroup.variants:type_name -> ui.StyleVariant
-	67, // 70: ui.StyleVariant.properties:type_name -> ui.StyleProperty
-	26, // 71: ui.StyleProperty.type:type_name -> ui.StylePropertyType
-	68, // 72: ui.StyleProperty.color_value:type_name -> ui.Color
-	69, // 73: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
-	74, // [74:74] is the sub-list for method output_type
-	74, // [74:74] is the sub-list for method input_type
-	74, // [74:74] is the sub-list for extension type_name
-	74, // [74:74] is the sub-list for extension extendee
-	0,  // [0:74] is the sub-list for field type_name
+	63, // 35: ui.WidgetNode.enabled_when:type_name -> ui.VisibilityBinding
+	64, // 36: ui.WidgetNode.color_when:type_name -> ui.ColorBinding
+	62, // 37: ui.WidgetNode.gestures:type_name -> ui.GestureSpec
+	1,  // 38: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
+	31, // 39: ui.TreePatchOp.node:type_name -> ui.WidgetNode
+	32, // 40: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
+	19, // 41: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
+	20, // 42: ui.SliderProps.mode:type_name -> ui.BarMode
+	21, // 43: ui.ArcProps.mode:type_name -> ui.ArcMode
+	20, // 44: ui.BarProps.mode:type_name -> ui.BarMode
+	16, // 45: ui.DropdownProps.direction:type_name -> ui.Dir
+	22, // 46: ui.RollerProps.mode:type_name -> ui.RollerMode
+	69, // 47: ui.LedProps.color:type_name -> ui.Color
+	58, // 48: ui.LineProps.points:type_name -> ui.Point
+	23, // 49: ui.ScaleProps.mode:type_name -> ui.ScaleMode
+	51, // 50: ui.ScaleProps.sections:type_name -> ui.ScaleSection
+	69, // 51: ui.ScaleSection.color:type_name -> ui.Color
+	69, // 52: ui.ScaleSection.main_color:type_name -> ui.Color
+	16, // 53: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
+	69, // 54: ui.ChartSeries.color:type_name -> ui.Color
+	25, // 55: ui.ChartSeries.axis:type_name -> ui.ChartAxis
+	24, // 56: ui.ChartProps.type:type_name -> ui.ChartType
+	55, // 57: ui.ChartProps.series:type_name -> ui.ChartSeries
+	3,  // 58: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
+	4,  // 59: ui.EventBinding.trigger:type_name -> ui.EventTrigger
+	61, // 60: ui.EventBinding.cmd:type_name -> ui.CmdSpec
+	61, // 61: ui.EventBinding.cmd_by_value:type_name -> ui.CmdSpec
+	5,  // 62: ui.FieldPatch.kind:type_name -> ui.PatchKind
+	60, // 63: ui.CmdSpec.patches:type_name -> ui.FieldPatch
+	6,  // 64: ui.GestureSpec.kind:type_name -> ui.GestureKind
+	61, // 65: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
+	7,  // 66: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
+	63, // 67: ui.ColorBinding.when:type_name -> ui.VisibilityBinding
+	69, // 68: ui.ColorBinding.color:type_name -> ui.Color
+	8,  // 69: ui.Layout.flow:type_name -> ui.FlexFlow
+	9,  // 70: ui.Layout.main_place:type_name -> ui.FlexAlign
+	9,  // 71: ui.Layout.cross_place:type_name -> ui.FlexAlign
+	9,  // 72: ui.Layout.track_place:type_name -> ui.FlexAlign
+	67, // 73: ui.StyleGroup.variants:type_name -> ui.StyleVariant
+	68, // 74: ui.StyleVariant.properties:type_name -> ui.StyleProperty
+	26, // 75: ui.StyleProperty.type:type_name -> ui.StylePropertyType
+	69, // 76: ui.StyleProperty.color_value:type_name -> ui.Color
+	70, // 77: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
+	78, // [78:78] is the sub-list for method output_type
+	78, // [78:78] is the sub-list for method input_type
+	78, // [78:78] is the sub-list for extension type_name
+	78, // [78:78] is the sub-list for extension extendee
+	0,  // [0:78] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_ast_proto_init() }
@@ -6446,7 +6547,7 @@ func file_ui_ui_ast_proto_init() {
 		(*WidgetNode_HostProxyProps)(nil),
 	}
 	file_ui_ui_ast_proto_msgTypes[5].OneofWrappers = []any{}
-	file_ui_ui_ast_proto_msgTypes[40].OneofWrappers = []any{
+	file_ui_ui_ast_proto_msgTypes[41].OneofWrappers = []any{
 		(*StyleProperty_UintValue)(nil),
 		(*StyleProperty_IntValue)(nil),
 		(*StyleProperty_ColorValue)(nil),
@@ -6459,7 +6560,7 @@ func file_ui_ui_ast_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_ast_proto_rawDesc), len(file_ui_ui_ast_proto_rawDesc)),
 			NumEnums:      27,
-			NumMessages:   45,
+			NumMessages:   46,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

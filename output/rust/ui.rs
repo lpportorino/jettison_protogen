@@ -134,6 +134,24 @@ pub struct WidgetNode {
     /// (subject + ref_value + compare).
     #[prost(message, optional, tag = "42")]
     pub checked_when: ::core::option::Option<VisibilityBinding>,
+    /// Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+    /// inverted in polarity: the widget carries LV_STATE_DISABLED while the
+    /// comparison against the subject does NOT hold, and is cleared (enabled)
+    /// while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+    /// compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+    /// range ops a custom observer (the checked_when / visibility precedent).
+    /// Drives reactive precondition-disable — a control greyed until its
+    /// preconditions read satisfied.
+    #[prost(message, optional, tag = "45")]
+    pub enabled_when: ::core::option::Option<VisibilityBinding>,
+    /// Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+    /// to `color_when.color` while the comparison holds, and reverted to the
+    /// theme/authored default when it does not. Unlike the three state bindings
+    /// above, LVGL has no native bind helper for a style property, so ALL compare
+    /// ops use a custom observer. Drives reactive fault-coloring — a readout that
+    /// recolors while its value is out of range.
+    #[prost(message, optional, tag = "46")]
+    pub color_when: ::core::option::Option<ColorBinding>,
     /// Stable node identity for tree patching: FNV-1a-32 of the node's
     /// root→node identity path (author :id segments, else type#ordinal among
     /// unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -678,6 +696,21 @@ pub struct VisibilityBinding {
     /// comparison operator (default: EQ)
     #[prost(enumeration = "CompareOp", tag = "3")]
     pub compare: i32,
+}
+/// Value-conditional text-color binding — the VisibilityBinding subject/range
+/// shape PLUS the color applied while the condition holds
+/// (WidgetNode.color_when). The one reactive binding LVGL cannot express with a
+/// native bind helper (there is none for a style property), so the renderer
+/// drives it with a custom observer for every compare op.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ColorBinding {
+    /// subject + ref_value + compare — reuses the VisibilityBinding shape
+    #[prost(message, optional, tag = "1")]
+    pub when: ::core::option::Option<VisibilityBinding>,
+    /// text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+    /// default is restored when it does not
+    #[prost(message, optional, tag = "2")]
+    pub color: ::core::option::Option<Color>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Layout {

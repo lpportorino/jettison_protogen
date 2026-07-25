@@ -10231,6 +10231,96 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+     * @return Whether the enabledWhen field is set.
+     */
+    boolean hasEnabledWhen();
+    /**
+     * <pre>
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+     * @return The enabledWhen.
+     */
+    ui.UiAst.VisibilityBinding getEnabledWhen();
+    /**
+     * <pre>
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+     */
+    ui.UiAst.VisibilityBindingOrBuilder getEnabledWhenOrBuilder();
+
+    /**
+     * <pre>
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * </pre>
+     *
+     * <code>.ui.ColorBinding color_when = 46;</code>
+     * @return Whether the colorWhen field is set.
+     */
+    boolean hasColorWhen();
+    /**
+     * <pre>
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * </pre>
+     *
+     * <code>.ui.ColorBinding color_when = 46;</code>
+     * @return The colorWhen.
+     */
+    ui.UiAst.ColorBinding getColorWhen();
+    /**
+     * <pre>
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * </pre>
+     *
+     * <code>.ui.ColorBinding color_when = 46;</code>
+     */
+    ui.UiAst.ColorBindingOrBuilder getColorWhenOrBuilder();
+
+    /**
+     * <pre>
      * Stable node identity for tree patching: FNV-1a-32 of the node's
      * root→node identity path (author :id segments, else type#ordinal among
      * unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -11881,6 +11971,118 @@ java.lang.String defaultValue) {
       return checkedWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : checkedWhen_;
     }
 
+    public static final int ENABLED_WHEN_FIELD_NUMBER = 45;
+    private ui.UiAst.VisibilityBinding enabledWhen_;
+    /**
+     * <pre>
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+     * @return Whether the enabledWhen field is set.
+     */
+    @java.lang.Override
+    public boolean hasEnabledWhen() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <pre>
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+     * @return The enabledWhen.
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBinding getEnabledWhen() {
+      return enabledWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : enabledWhen_;
+    }
+    /**
+     * <pre>
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBindingOrBuilder getEnabledWhenOrBuilder() {
+      return enabledWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : enabledWhen_;
+    }
+
+    public static final int COLOR_WHEN_FIELD_NUMBER = 46;
+    private ui.UiAst.ColorBinding colorWhen_;
+    /**
+     * <pre>
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * </pre>
+     *
+     * <code>.ui.ColorBinding color_when = 46;</code>
+     * @return Whether the colorWhen field is set.
+     */
+    @java.lang.Override
+    public boolean hasColorWhen() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <pre>
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * </pre>
+     *
+     * <code>.ui.ColorBinding color_when = 46;</code>
+     * @return The colorWhen.
+     */
+    @java.lang.Override
+    public ui.UiAst.ColorBinding getColorWhen() {
+      return colorWhen_ == null ? ui.UiAst.ColorBinding.getDefaultInstance() : colorWhen_;
+    }
+    /**
+     * <pre>
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * </pre>
+     *
+     * <code>.ui.ColorBinding color_when = 46;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.ColorBindingOrBuilder getColorWhenOrBuilder() {
+      return colorWhen_ == null ? ui.UiAst.ColorBinding.getDefaultInstance() : colorWhen_;
+    }
+
     public static final int UID_FIELD_NUMBER = 43;
     private int uid_ = 0;
     /**
@@ -12143,6 +12345,12 @@ java.lang.String defaultValue) {
       for (int i = 0; i < gestures_.size(); i++) {
         output.writeMessage(44, gestures_.get(i));
       }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeMessage(45, getEnabledWhen());
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        output.writeMessage(46, getColorWhen());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12359,6 +12567,14 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(44, gestures_.get(i));
       }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(45, getEnabledWhen());
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(46, getColorWhen());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12424,6 +12640,16 @@ java.lang.String defaultValue) {
       if (hasCheckedWhen()) {
         if (!getCheckedWhen()
             .equals(other.getCheckedWhen())) return false;
+      }
+      if (hasEnabledWhen() != other.hasEnabledWhen()) return false;
+      if (hasEnabledWhen()) {
+        if (!getEnabledWhen()
+            .equals(other.getEnabledWhen())) return false;
+      }
+      if (hasColorWhen() != other.hasColorWhen()) return false;
+      if (hasColorWhen()) {
+        if (!getColorWhen()
+            .equals(other.getColorWhen())) return false;
       }
       if (getUid()
           != other.getUid()) return false;
@@ -12594,6 +12820,14 @@ java.lang.String defaultValue) {
       if (hasCheckedWhen()) {
         hash = (37 * hash) + CHECKED_WHEN_FIELD_NUMBER;
         hash = (53 * hash) + getCheckedWhen().hashCode();
+      }
+      if (hasEnabledWhen()) {
+        hash = (37 * hash) + ENABLED_WHEN_FIELD_NUMBER;
+        hash = (53 * hash) + getEnabledWhen().hashCode();
+      }
+      if (hasColorWhen()) {
+        hash = (37 * hash) + COLOR_WHEN_FIELD_NUMBER;
+        hash = (53 * hash) + getColorWhen().hashCode();
       }
       hash = (37 * hash) + UID_FIELD_NUMBER;
       hash = (53 * hash) + getUid();
@@ -12859,6 +13093,8 @@ java.lang.String defaultValue) {
           getStyleGroupsFieldBuilder();
           getVisibilityFieldBuilder();
           getCheckedWhenFieldBuilder();
+          getEnabledWhenFieldBuilder();
+          getColorWhenFieldBuilder();
           getGesturesFieldBuilder();
         }
       }
@@ -12981,6 +13217,16 @@ java.lang.String defaultValue) {
           checkedWhenBuilder_.dispose();
           checkedWhenBuilder_ = null;
         }
+        enabledWhen_ = null;
+        if (enabledWhenBuilder_ != null) {
+          enabledWhenBuilder_.dispose();
+          enabledWhenBuilder_ = null;
+        }
+        colorWhen_ = null;
+        if (colorWhenBuilder_ != null) {
+          colorWhenBuilder_.dispose();
+          colorWhenBuilder_ = null;
+        }
         uid_ = 0;
         if (gesturesBuilder_ == null) {
           gestures_ = java.util.Collections.emptyList();
@@ -12988,7 +13234,7 @@ java.lang.String defaultValue) {
           gestures_ = null;
           gesturesBuilder_.clear();
         }
-        bitField1_ = (bitField1_ & ~0x00000800);
+        bitField1_ = (bitField1_ & ~0x00002000);
         widgetPropsCase_ = 0;
         widgetProps_ = null;
         return this;
@@ -13045,9 +13291,9 @@ java.lang.String defaultValue) {
           result.styleGroups_ = styleGroupsBuilder_.build();
         }
         if (gesturesBuilder_ == null) {
-          if (((bitField1_ & 0x00000800) != 0)) {
+          if (((bitField1_ & 0x00002000) != 0)) {
             gestures_ = java.util.Collections.unmodifiableList(gestures_);
-            bitField1_ = (bitField1_ & ~0x00000800);
+            bitField1_ = (bitField1_ & ~0x00002000);
           }
           result.gestures_ = gestures_;
         } else {
@@ -13135,6 +13381,18 @@ java.lang.String defaultValue) {
           to_bitField0_ |= 0x00000008;
         }
         if (((from_bitField1_ & 0x00000400) != 0)) {
+          result.enabledWhen_ = enabledWhenBuilder_ == null
+              ? enabledWhen_
+              : enabledWhenBuilder_.build();
+          to_bitField0_ |= 0x00000010;
+        }
+        if (((from_bitField1_ & 0x00000800) != 0)) {
+          result.colorWhen_ = colorWhenBuilder_ == null
+              ? colorWhen_
+              : colorWhenBuilder_.build();
+          to_bitField0_ |= 0x00000020;
+        }
+        if (((from_bitField1_ & 0x00001000) != 0)) {
           result.uid_ = uid_;
         }
         result.bitField0_ |= to_bitField0_;
@@ -13369,6 +13627,12 @@ java.lang.String defaultValue) {
         if (other.hasCheckedWhen()) {
           mergeCheckedWhen(other.getCheckedWhen());
         }
+        if (other.hasEnabledWhen()) {
+          mergeEnabledWhen(other.getEnabledWhen());
+        }
+        if (other.hasColorWhen()) {
+          mergeColorWhen(other.getColorWhen());
+        }
         if (other.getUid() != 0) {
           setUid(other.getUid());
         }
@@ -13376,7 +13640,7 @@ java.lang.String defaultValue) {
           if (!other.gestures_.isEmpty()) {
             if (gestures_.isEmpty()) {
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00000800);
+              bitField1_ = (bitField1_ & ~0x00002000);
             } else {
               ensureGesturesIsMutable();
               gestures_.addAll(other.gestures_);
@@ -13389,7 +13653,7 @@ java.lang.String defaultValue) {
               gesturesBuilder_.dispose();
               gesturesBuilder_ = null;
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00000800);
+              bitField1_ = (bitField1_ & ~0x00002000);
               gesturesBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getGesturesFieldBuilder() : null;
@@ -13827,7 +14091,7 @@ java.lang.String defaultValue) {
               } // case 338
               case 344: {
                 uid_ = input.readUInt32();
-                bitField1_ |= 0x00000400;
+                bitField1_ |= 0x00001000;
                 break;
               } // case 344
               case 354: {
@@ -13843,6 +14107,20 @@ java.lang.String defaultValue) {
                 }
                 break;
               } // case 354
+              case 362: {
+                input.readMessage(
+                    getEnabledWhenFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField1_ |= 0x00000400;
+                break;
+              } // case 362
+              case 370: {
+                input.readMessage(
+                    getColorWhenFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField1_ |= 0x00000800;
+                break;
+              } // case 370
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -19323,6 +19601,428 @@ java.lang.String defaultValue) {
         return checkedWhenBuilder_;
       }
 
+      private ui.UiAst.VisibilityBinding enabledWhen_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> enabledWhenBuilder_;
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       * @return Whether the enabledWhen field is set.
+       */
+      public boolean hasEnabledWhen() {
+        return ((bitField1_ & 0x00000400) != 0);
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       * @return The enabledWhen.
+       */
+      public ui.UiAst.VisibilityBinding getEnabledWhen() {
+        if (enabledWhenBuilder_ == null) {
+          return enabledWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : enabledWhen_;
+        } else {
+          return enabledWhenBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      public Builder setEnabledWhen(ui.UiAst.VisibilityBinding value) {
+        if (enabledWhenBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          enabledWhen_ = value;
+        } else {
+          enabledWhenBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      public Builder setEnabledWhen(
+          ui.UiAst.VisibilityBinding.Builder builderForValue) {
+        if (enabledWhenBuilder_ == null) {
+          enabledWhen_ = builderForValue.build();
+        } else {
+          enabledWhenBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      public Builder mergeEnabledWhen(ui.UiAst.VisibilityBinding value) {
+        if (enabledWhenBuilder_ == null) {
+          if (((bitField1_ & 0x00000400) != 0) &&
+            enabledWhen_ != null &&
+            enabledWhen_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
+            getEnabledWhenBuilder().mergeFrom(value);
+          } else {
+            enabledWhen_ = value;
+          }
+        } else {
+          enabledWhenBuilder_.mergeFrom(value);
+        }
+        if (enabledWhen_ != null) {
+          bitField1_ |= 0x00000400;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      public Builder clearEnabledWhen() {
+        bitField1_ = (bitField1_ & ~0x00000400);
+        enabledWhen_ = null;
+        if (enabledWhenBuilder_ != null) {
+          enabledWhenBuilder_.dispose();
+          enabledWhenBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      public ui.UiAst.VisibilityBinding.Builder getEnabledWhenBuilder() {
+        bitField1_ |= 0x00000400;
+        onChanged();
+        return getEnabledWhenFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      public ui.UiAst.VisibilityBindingOrBuilder getEnabledWhenOrBuilder() {
+        if (enabledWhenBuilder_ != null) {
+          return enabledWhenBuilder_.getMessageOrBuilder();
+        } else {
+          return enabledWhen_ == null ?
+              ui.UiAst.VisibilityBinding.getDefaultInstance() : enabledWhen_;
+        }
+      }
+      /**
+       * <pre>
+       * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+       * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+       * comparison against the subject does NOT hold, and is cleared (enabled)
+       * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+       * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+       * range ops a custom observer (the checked_when / visibility precedent).
+       * Drives reactive precondition-disable — a control greyed until its
+       * preconditions read satisfied.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding enabled_when = 45;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> 
+          getEnabledWhenFieldBuilder() {
+        if (enabledWhenBuilder_ == null) {
+          enabledWhenBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder>(
+                  getEnabledWhen(),
+                  getParentForChildren(),
+                  isClean());
+          enabledWhen_ = null;
+        }
+        return enabledWhenBuilder_;
+      }
+
+      private ui.UiAst.ColorBinding colorWhen_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.ColorBinding, ui.UiAst.ColorBinding.Builder, ui.UiAst.ColorBindingOrBuilder> colorWhenBuilder_;
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       * @return Whether the colorWhen field is set.
+       */
+      public boolean hasColorWhen() {
+        return ((bitField1_ & 0x00000800) != 0);
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       * @return The colorWhen.
+       */
+      public ui.UiAst.ColorBinding getColorWhen() {
+        if (colorWhenBuilder_ == null) {
+          return colorWhen_ == null ? ui.UiAst.ColorBinding.getDefaultInstance() : colorWhen_;
+        } else {
+          return colorWhenBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      public Builder setColorWhen(ui.UiAst.ColorBinding value) {
+        if (colorWhenBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          colorWhen_ = value;
+        } else {
+          colorWhenBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      public Builder setColorWhen(
+          ui.UiAst.ColorBinding.Builder builderForValue) {
+        if (colorWhenBuilder_ == null) {
+          colorWhen_ = builderForValue.build();
+        } else {
+          colorWhenBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      public Builder mergeColorWhen(ui.UiAst.ColorBinding value) {
+        if (colorWhenBuilder_ == null) {
+          if (((bitField1_ & 0x00000800) != 0) &&
+            colorWhen_ != null &&
+            colorWhen_ != ui.UiAst.ColorBinding.getDefaultInstance()) {
+            getColorWhenBuilder().mergeFrom(value);
+          } else {
+            colorWhen_ = value;
+          }
+        } else {
+          colorWhenBuilder_.mergeFrom(value);
+        }
+        if (colorWhen_ != null) {
+          bitField1_ |= 0x00000800;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      public Builder clearColorWhen() {
+        bitField1_ = (bitField1_ & ~0x00000800);
+        colorWhen_ = null;
+        if (colorWhenBuilder_ != null) {
+          colorWhenBuilder_.dispose();
+          colorWhenBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      public ui.UiAst.ColorBinding.Builder getColorWhenBuilder() {
+        bitField1_ |= 0x00000800;
+        onChanged();
+        return getColorWhenFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      public ui.UiAst.ColorBindingOrBuilder getColorWhenOrBuilder() {
+        if (colorWhenBuilder_ != null) {
+          return colorWhenBuilder_.getMessageOrBuilder();
+        } else {
+          return colorWhen_ == null ?
+              ui.UiAst.ColorBinding.getDefaultInstance() : colorWhen_;
+        }
+      }
+      /**
+       * <pre>
+       * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+       * to `color_when.color` while the comparison holds, and reverted to the
+       * theme/authored default when it does not. Unlike the three state bindings
+       * above, LVGL has no native bind helper for a style property, so ALL compare
+       * ops use a custom observer. Drives reactive fault-coloring — a readout that
+       * recolors while its value is out of range.
+       * </pre>
+       *
+       * <code>.ui.ColorBinding color_when = 46;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.ColorBinding, ui.UiAst.ColorBinding.Builder, ui.UiAst.ColorBindingOrBuilder> 
+          getColorWhenFieldBuilder() {
+        if (colorWhenBuilder_ == null) {
+          colorWhenBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.ColorBinding, ui.UiAst.ColorBinding.Builder, ui.UiAst.ColorBindingOrBuilder>(
+                  getColorWhen(),
+                  getParentForChildren(),
+                  isClean());
+          colorWhen_ = null;
+        }
+        return colorWhenBuilder_;
+      }
+
       private int uid_ ;
       /**
        * <pre>
@@ -19358,7 +20058,7 @@ java.lang.String defaultValue) {
       public Builder setUid(int value) {
 
         uid_ = value;
-        bitField1_ |= 0x00000400;
+        bitField1_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -19376,7 +20076,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearUid() {
-        bitField1_ = (bitField1_ & ~0x00000400);
+        bitField1_ = (bitField1_ & ~0x00001000);
         uid_ = 0;
         onChanged();
         return this;
@@ -19385,9 +20085,9 @@ java.lang.String defaultValue) {
       private java.util.List<ui.UiAst.GestureSpec> gestures_ =
         java.util.Collections.emptyList();
       private void ensureGesturesIsMutable() {
-        if (!((bitField1_ & 0x00000800) != 0)) {
+        if (!((bitField1_ & 0x00002000) != 0)) {
           gestures_ = new java.util.ArrayList<ui.UiAst.GestureSpec>(gestures_);
-          bitField1_ |= 0x00000800;
+          bitField1_ |= 0x00002000;
          }
       }
 
@@ -19625,7 +20325,7 @@ java.lang.String defaultValue) {
       public Builder clearGestures() {
         if (gesturesBuilder_ == null) {
           gestures_ = java.util.Collections.emptyList();
-          bitField1_ = (bitField1_ & ~0x00000800);
+          bitField1_ = (bitField1_ & ~0x00002000);
           onChanged();
         } else {
           gesturesBuilder_.clear();
@@ -19758,7 +20458,7 @@ java.lang.String defaultValue) {
           gesturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder>(
                   gestures_,
-                  ((bitField1_ & 0x00000800) != 0),
+                  ((bitField1_ & 0x00002000) != 0),
                   getParentForChildren(),
                   isClean());
           gestures_ = null;
@@ -47646,6 +48346,927 @@ java.lang.String defaultValue) {
 
   }
 
+  public interface ColorBindingOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.ColorBinding)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * subject + ref_value + compare — reuses the VisibilityBinding shape
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding when = 1;</code>
+     * @return Whether the when field is set.
+     */
+    boolean hasWhen();
+    /**
+     * <pre>
+     * subject + ref_value + compare — reuses the VisibilityBinding shape
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding when = 1;</code>
+     * @return The when.
+     */
+    ui.UiAst.VisibilityBinding getWhen();
+    /**
+     * <pre>
+     * subject + ref_value + compare — reuses the VisibilityBinding shape
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding when = 1;</code>
+     */
+    ui.UiAst.VisibilityBindingOrBuilder getWhenOrBuilder();
+
+    /**
+     * <pre>
+     * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+     * default is restored when it does not
+     * </pre>
+     *
+     * <code>.ui.Color color = 2;</code>
+     * @return Whether the color field is set.
+     */
+    boolean hasColor();
+    /**
+     * <pre>
+     * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+     * default is restored when it does not
+     * </pre>
+     *
+     * <code>.ui.Color color = 2;</code>
+     * @return The color.
+     */
+    ui.UiAst.Color getColor();
+    /**
+     * <pre>
+     * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+     * default is restored when it does not
+     * </pre>
+     *
+     * <code>.ui.Color color = 2;</code>
+     */
+    ui.UiAst.ColorOrBuilder getColorOrBuilder();
+  }
+  /**
+   * <pre>
+   * Value-conditional text-color binding — the VisibilityBinding subject/range
+   * shape PLUS the color applied while the condition holds
+   * (WidgetNode.color_when). The one reactive binding LVGL cannot express with a
+   * native bind helper (there is none for a style property), so the renderer
+   * drives it with a custom observer for every compare op.
+   * </pre>
+   *
+   * Protobuf type {@code ui.ColorBinding}
+   */
+  public static final class ColorBinding extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.ColorBinding)
+      ColorBindingOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ColorBinding.class.getName());
+    }
+    // Use ColorBinding.newBuilder() to construct.
+    private ColorBinding(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ColorBinding() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_ColorBinding_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_ColorBinding_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.ColorBinding.class, ui.UiAst.ColorBinding.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int WHEN_FIELD_NUMBER = 1;
+    private ui.UiAst.VisibilityBinding when_;
+    /**
+     * <pre>
+     * subject + ref_value + compare — reuses the VisibilityBinding shape
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding when = 1;</code>
+     * @return Whether the when field is set.
+     */
+    @java.lang.Override
+    public boolean hasWhen() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * subject + ref_value + compare — reuses the VisibilityBinding shape
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding when = 1;</code>
+     * @return The when.
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBinding getWhen() {
+      return when_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : when_;
+    }
+    /**
+     * <pre>
+     * subject + ref_value + compare — reuses the VisibilityBinding shape
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding when = 1;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBindingOrBuilder getWhenOrBuilder() {
+      return when_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : when_;
+    }
+
+    public static final int COLOR_FIELD_NUMBER = 2;
+    private ui.UiAst.Color color_;
+    /**
+     * <pre>
+     * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+     * default is restored when it does not
+     * </pre>
+     *
+     * <code>.ui.Color color = 2;</code>
+     * @return Whether the color field is set.
+     */
+    @java.lang.Override
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+     * default is restored when it does not
+     * </pre>
+     *
+     * <code>.ui.Color color = 2;</code>
+     * @return The color.
+     */
+    @java.lang.Override
+    public ui.UiAst.Color getColor() {
+      return color_ == null ? ui.UiAst.Color.getDefaultInstance() : color_;
+    }
+    /**
+     * <pre>
+     * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+     * default is restored when it does not
+     * </pre>
+     *
+     * <code>.ui.Color color = 2;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.ColorOrBuilder getColorOrBuilder() {
+      return color_ == null ? ui.UiAst.Color.getDefaultInstance() : color_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(1, getWhen());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(2, getColor());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getWhen());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getColor());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.ColorBinding)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.ColorBinding other = (ui.UiAst.ColorBinding) obj;
+
+      if (hasWhen() != other.hasWhen()) return false;
+      if (hasWhen()) {
+        if (!getWhen()
+            .equals(other.getWhen())) return false;
+      }
+      if (hasColor() != other.hasColor()) return false;
+      if (hasColor()) {
+        if (!getColor()
+            .equals(other.getColor())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasWhen()) {
+        hash = (37 * hash) + WHEN_FIELD_NUMBER;
+        hash = (53 * hash) + getWhen().hashCode();
+      }
+      if (hasColor()) {
+        hash = (37 * hash) + COLOR_FIELD_NUMBER;
+        hash = (53 * hash) + getColor().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.ColorBinding parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.ColorBinding parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.ColorBinding parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.ColorBinding parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.ColorBinding prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Value-conditional text-color binding — the VisibilityBinding subject/range
+     * shape PLUS the color applied while the condition holds
+     * (WidgetNode.color_when). The one reactive binding LVGL cannot express with a
+     * native bind helper (there is none for a style property), so the renderer
+     * drives it with a custom observer for every compare op.
+     * </pre>
+     *
+     * Protobuf type {@code ui.ColorBinding}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.ColorBinding)
+        ui.UiAst.ColorBindingOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_ColorBinding_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_ColorBinding_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.ColorBinding.class, ui.UiAst.ColorBinding.Builder.class);
+      }
+
+      // Construct using ui.UiAst.ColorBinding.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getWhenFieldBuilder();
+          getColorFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        when_ = null;
+        if (whenBuilder_ != null) {
+          whenBuilder_.dispose();
+          whenBuilder_ = null;
+        }
+        color_ = null;
+        if (colorBuilder_ != null) {
+          colorBuilder_.dispose();
+          colorBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_ColorBinding_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.ColorBinding getDefaultInstanceForType() {
+        return ui.UiAst.ColorBinding.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.ColorBinding build() {
+        ui.UiAst.ColorBinding result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.ColorBinding buildPartial() {
+        ui.UiAst.ColorBinding result = new ui.UiAst.ColorBinding(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.ColorBinding result) {
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.when_ = whenBuilder_ == null
+              ? when_
+              : whenBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.color_ = colorBuilder_ == null
+              ? color_
+              : colorBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.ColorBinding) {
+          return mergeFrom((ui.UiAst.ColorBinding)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.ColorBinding other) {
+        if (other == ui.UiAst.ColorBinding.getDefaultInstance()) return this;
+        if (other.hasWhen()) {
+          mergeWhen(other.getWhen());
+        }
+        if (other.hasColor()) {
+          mergeColor(other.getColor());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                input.readMessage(
+                    getWhenFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    getColorFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private ui.UiAst.VisibilityBinding when_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> whenBuilder_;
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       * @return Whether the when field is set.
+       */
+      public boolean hasWhen() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       * @return The when.
+       */
+      public ui.UiAst.VisibilityBinding getWhen() {
+        if (whenBuilder_ == null) {
+          return when_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : when_;
+        } else {
+          return whenBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      public Builder setWhen(ui.UiAst.VisibilityBinding value) {
+        if (whenBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          when_ = value;
+        } else {
+          whenBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      public Builder setWhen(
+          ui.UiAst.VisibilityBinding.Builder builderForValue) {
+        if (whenBuilder_ == null) {
+          when_ = builderForValue.build();
+        } else {
+          whenBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      public Builder mergeWhen(ui.UiAst.VisibilityBinding value) {
+        if (whenBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+            when_ != null &&
+            when_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
+            getWhenBuilder().mergeFrom(value);
+          } else {
+            when_ = value;
+          }
+        } else {
+          whenBuilder_.mergeFrom(value);
+        }
+        if (when_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      public Builder clearWhen() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        when_ = null;
+        if (whenBuilder_ != null) {
+          whenBuilder_.dispose();
+          whenBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      public ui.UiAst.VisibilityBinding.Builder getWhenBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getWhenFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      public ui.UiAst.VisibilityBindingOrBuilder getWhenOrBuilder() {
+        if (whenBuilder_ != null) {
+          return whenBuilder_.getMessageOrBuilder();
+        } else {
+          return when_ == null ?
+              ui.UiAst.VisibilityBinding.getDefaultInstance() : when_;
+        }
+      }
+      /**
+       * <pre>
+       * subject + ref_value + compare — reuses the VisibilityBinding shape
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding when = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> 
+          getWhenFieldBuilder() {
+        if (whenBuilder_ == null) {
+          whenBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder>(
+                  getWhen(),
+                  getParentForChildren(),
+                  isClean());
+          when_ = null;
+        }
+        return whenBuilder_;
+      }
+
+      private ui.UiAst.Color color_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.Color, ui.UiAst.Color.Builder, ui.UiAst.ColorOrBuilder> colorBuilder_;
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       * @return Whether the color field is set.
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       * @return The color.
+       */
+      public ui.UiAst.Color getColor() {
+        if (colorBuilder_ == null) {
+          return color_ == null ? ui.UiAst.Color.getDefaultInstance() : color_;
+        } else {
+          return colorBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      public Builder setColor(ui.UiAst.Color value) {
+        if (colorBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          color_ = value;
+        } else {
+          colorBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      public Builder setColor(
+          ui.UiAst.Color.Builder builderForValue) {
+        if (colorBuilder_ == null) {
+          color_ = builderForValue.build();
+        } else {
+          colorBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      public Builder mergeColor(ui.UiAst.Color value) {
+        if (colorBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            color_ != null &&
+            color_ != ui.UiAst.Color.getDefaultInstance()) {
+            getColorBuilder().mergeFrom(value);
+          } else {
+            color_ = value;
+          }
+        } else {
+          colorBuilder_.mergeFrom(value);
+        }
+        if (color_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      public Builder clearColor() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        color_ = null;
+        if (colorBuilder_ != null) {
+          colorBuilder_.dispose();
+          colorBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      public ui.UiAst.Color.Builder getColorBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getColorFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      public ui.UiAst.ColorOrBuilder getColorOrBuilder() {
+        if (colorBuilder_ != null) {
+          return colorBuilder_.getMessageOrBuilder();
+        } else {
+          return color_ == null ?
+              ui.UiAst.Color.getDefaultInstance() : color_;
+        }
+      }
+      /**
+       * <pre>
+       * text color applied to LV_PART_MAIN while `when` holds; the theme/authored
+       * default is restored when it does not
+       * </pre>
+       *
+       * <code>.ui.Color color = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.Color, ui.UiAst.Color.Builder, ui.UiAst.ColorOrBuilder> 
+          getColorFieldBuilder() {
+        if (colorBuilder_ == null) {
+          colorBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.Color, ui.UiAst.Color.Builder, ui.UiAst.ColorOrBuilder>(
+                  getColor(),
+                  getParentForChildren(),
+                  isClean());
+          color_ = null;
+        }
+        return colorBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.ColorBinding)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.ColorBinding)
+    private static final ui.UiAst.ColorBinding DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.ColorBinding();
+    }
+
+    public static ui.UiAst.ColorBinding getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ColorBinding>
+        PARSER = new com.google.protobuf.AbstractParser<ColorBinding>() {
+      @java.lang.Override
+      public ColorBinding parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ColorBinding> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ColorBinding> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.ColorBinding getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface LayoutOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ui.Layout)
       com.google.protobuf.MessageOrBuilder {
@@ -53148,6 +54769,11 @@ java.lang.String defaultValue) {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_VisibilityBinding_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_ColorBinding_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_ColorBinding_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_Layout_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -53197,7 +54823,7 @@ java.lang.String defaultValue) {
       "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va" +
       "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN" +
       "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD" +
-      "eclarationB\007\n\005_root\"\370\014\n\nWidgetNode\022&\n\004ty" +
+      "eclarationB\007\n\005_root\"\313\r\n\nWidgetNode\022&\n\004ty" +
       "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\t\n\001x\030" +
       "\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\026\n\004text\030\004 \001(\tB\010\272H\005r\003\030\377\001" +
       "\022.\n\010bindings\030\005 \003(\0132\034.ui.WidgetNode.Bindi" +
@@ -53234,286 +54860,290 @@ java.lang.String defaultValue) {
       "\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014grid_col_dsc\030# \003" +
       "(\005\022\024\n\014grid_row_dsc\030$ \003(\005\022\014\n\004bare\030% \001(\010\022\022" +
       "\n\nin_tab_bar\030\' \001(\010\022+\n\014checked_when\030* \001(\013" +
-      "2\025.ui.VisibilityBinding\022\013\n\003uid\030+ \001(\r\022+\n\010" +
-      "gestures\030, \003(\0132\017.ui.GestureSpecB\010\272H\005\222\001\002\020" +
-      "\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value" +
-      "\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 " +
-      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231" +
-      "\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchO" +
-      "pKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\np" +
-      "arent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005" +
-      " \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013Sc" +
-      "reenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_h" +
-      "ash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"" +
-      "\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelProps" +
-      "\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongModeB\010" +
-      "\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030\001 \001" +
-      "(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004" +
-      "mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rsee" +
-      "k_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 " +
-      "\001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivo" +
-      "t_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005" +
-      " \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001(\rB\010" +
-      "\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n" +
-      "\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_en" +
-      "d_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001(" +
-      "\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021" +
-      "\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005" +
-      "value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001" +
-      "(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013" +
-      "start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.Bar" +
-      "ModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked" +
-      "\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 \001(\010" +
-      "\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005" +
-      "r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030\003 \001" +
-      "(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004" +
-      " \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007options" +
-      "\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021vi" +
-      "sible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui" +
-      ".RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035" +
-      "\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_len" +
-      "gth\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_" +
-      "mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_value" +
-      "\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005" +
-      "\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022s" +
-      "eparator_position\030\006 \001(\r\"5\n\014SpinnerProps\022" +
-      "\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B" +
-      "\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\n" +
-      "brightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022" +
-      "\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002" +
-      " \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.ui.S" +
-      "caleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002" +
-      " \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\nlabel_" +
-      "show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_val" +
-      "ue\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_rang" +
-      "e\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005" +
-      "r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030\013 \003" +
-      "(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014Scale" +
-      "Section\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_max\030" +
-      "\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005width" +
-      "\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color\022\022\n" +
-      "\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031" +
-      "\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002" +
-      " \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r\022\024\n" +
-      "\014column_count\030\002 \001(\r\"\244\001\n\014TabviewProps\022!\n\t" +
-      "tab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_b" +
-      "ar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001(\r\022+\n\020t" +
-      "ab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001" +
-      "\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013ChartSerie" +
-      "s\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002 \001(" +
-      "\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003" +
-      "(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004type\030\001 \001(" +
-      "\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_coun" +
-      "t\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\nhdiv_c" +
-      "ount\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 \001(\r" +
-      "B\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.ChartSer" +
-      "iesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016Hos" +
-      "tProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?" +
-      "\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002\020\001\022" +
-      "\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005" +
-      " \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size\030\007 \001(\r" +
-      "\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001" +
-      "(\005\"\242\002\n\014EventBinding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004" +
-      "\020\001\030\177\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTriggerB" +
-      "\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030\003 \001(\005\022\034\n\024include_" +
-      "widget_value\030\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB" +
-      "\007\272H\004r\002\030?\022\021\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 " +
-      "\001(\010\022\023\n\013notify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013." +
-      "ui.CmdSpec\022+\n\014cmd_by_value\030\n \003(\0132\013.ui.Cm" +
-      "dSpecB\010\272H\005\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte_of" +
-      "fset\030\001 \001(\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003" +
-      " \001(\0162\r.ui.PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_sc" +
-      "ale\030\004 \001(\021\"h\n\007CmdSpec\022\033\n\ncommand_id\030\001 \001(\t" +
-      "B\007\272H\004r\002\030\177\022\025\n\rroot_template\030\002 \001(\014\022)\n\007patc" +
-      "hes\030\003 \003(\0132\016.ui.FieldPatchB\010\272H\005\222\001\002\020\002\"P\n\013G" +
-      "estureSpec\022\'\n\004kind\030\001 \001(\0162\017.ui.GestureKin" +
-      "dB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec\"l\n" +
-      "\021VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006" +
-      "r\004\020\001\030?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 \001" +
-      "(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"\267\001\n\006Layout\022$" +
-      "\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\n" +
-      "main_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020" +
-      "\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272" +
-      "H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAl" +
-      "ignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_sel" +
-      "ector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.Style" +
-      "VariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rv" +
-      "ariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\npropertie" +
-      "s\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStyleProp" +
-      "erty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyTyp" +
-      "eB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint" +
-      "_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui" +
-      ".ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H" +
-      "\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBundl" +
-      "eH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030" +
-      "\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*" +
-      "\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010o" +
-      "ffset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006sprea" +
-      "d\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013Subjec" +
-      "tType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING" +
-      "\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PR" +
-      "OPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATC" +
-      "H_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NO" +
-      "DE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\256\003\n\nWidgetT" +
-      "ype\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020" +
-      "\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014W" +
-      "IDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_" +
-      "BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECK" +
-      "BOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROL" +
-      "LER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPI" +
-      "NBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED" +
-      "\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n" +
-      "\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022" +
-      "\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025" +
-      "\n\021WIDGET_HOST_PROXY\020\025*p\n\tProxyMode\022\025\n\021PR" +
-      "OXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_DRAGGABL" +
-      "E\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024PROXY_M" +
-      "ODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023\n\017TRIGG" +
-      "ER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANGED\020\001\022" +
-      "\030\n\024TRIGGER_LONG_PRESSED\020\002*\206\001\n\tPatchKind\022" +
-      "\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PATCH_KIN" +
-      "D_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PATCH" +
-      "_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGET_VALUE" +
-      "\020\004*\240\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN_M" +
-      "OVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GESTU" +
-      "RE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n" +
-      "\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_WH" +
-      "EEL\020\005*q\n\tCompareOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016CO" +
-      "MPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017\n\013COMPAR" +
-      "E_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPARE_LTE\020\005" +
-      "*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020\000\022\021\n\rFLE" +
-      "X_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN\020\002\022\026\n\022FL" +
-      "EX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_ROW_REVE" +
-      "RSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVERSE\020\005\022\031\n" +
-      "\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX_FLOW_CO" +
-      "LUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLUMN_WRAP_" +
-      "REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_ALIGN_ST" +
-      "ART\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLEX_ALIGN_" +
-      "CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVENLY\020\003\022\033\n" +
-      "\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FLEX_ALIGN" +
-      "_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024\n\020GRID_A" +
-      "LIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTER\020\001\022\022\n\016G" +
-      "RID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_STRETCH\020\003\022" +
-      "\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027GRID_ALI" +
-      "GN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_SPACE_BE" +
-      "TWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALIGN_AUTO\020" +
-      "\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_ALIGN_CEN" +
-      "TER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tTextDecor" +
-      "\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DECOR_UNDE" +
-      "RLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHROUGH\020\002*\213\001" +
-      "\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL\020\000\022\027\n\023BL" +
-      "END_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MODE_SUBTRA" +
-      "CTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003\022\031\n\025BLEN" +
-      "D_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020\n\014BASE_D" +
-      "IR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBASE_DIR_A" +
-      "UTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rBASE_DIR_" +
-      "WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n" +
-      "\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRA" +
-      "D_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020G" +
-      "RAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014" +
-      "\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004" +
-      "\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER" +
-      "\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALIGN_DEFAU" +
-      "LT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIGN_TOP_MI" +
-      "D\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM" +
-      "_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n\022ALIGN_B" +
-      "OTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017ALI" +
-      "GN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022ALIG" +
-      "N_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022" +
-      "\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIGN_OUT_BO" +
-      "TTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_MID\020\016\022\032\n" +
-      "\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALIGN_OUT_L" +
-      "EFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020\021\022\031\n\025ALI" +
-      "GN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OUT_RIGHT_" +
-      "TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032\n\026ALIGN_" +
-      "OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSide\022\024\n\020BOR" +
-      "DER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_BOTTOM\020\001\022" +
-      "\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_SIDE_LEFT" +
-      "\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BORDER_SIDE" +
-      "_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020\020*\236\001\n\rLa" +
-      "belLongMode\022\030\n\024LABEL_LONG_MODE_WRAP\020\000\022\030\n" +
-      "\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL_LONG_MO" +
-      "DE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_SCROLL_CI" +
-      "RCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP\020\004*L\n\007Ba" +
-      "rMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BAR_MODE_S" +
-      "YMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n\007ArcM" +
-      "ode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_MODE_SYM" +
-      "METRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002*>\n\nRoll" +
-      "erMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030\n\024ROLLER" +
-      "_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035\n\031SCALE_" +
-      "MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_MODE_HORI" +
-      "ZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VERTICAL_L" +
-      "EFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIGHT\020\004\022\032\n\026" +
-      "SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCALE_MODE_R" +
-      "OUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CHART_TYPE" +
-      "_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020CHART_TY" +
-      "PE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026\n\022CHART_" +
-      "TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCATTER\020\005*w" +
-      "\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMARY_Y\020\000\022\032\n" +
-      "\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHART_AXIS_" +
-      "PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECONDARY_X\020\004*" +
-      "\273\022\n\021StylePropertyType\022\021\n\rPROP_BG_COLOR\020\000" +
-      "\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022" +
-      "\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDER_COLOR\020" +
-      "\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP_RADIUS\020" +
-      "\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n" +
-      "\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017\n\013PROP_S" +
-      "HADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PROP_PAD_VE" +
-      "R\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP_BORDER_" +
-      "OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PROP_MAX_WI" +
-      "DTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PROP_MAX_H" +
-      "EIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006" +
-      "PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP_TRANSFO" +
-      "RM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEIGHT\020\031\022\024\n" +
-      "\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRANSLATE_Y\020" +
-      "\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n" +
-      "\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PR" +
-      "OP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n\013PROP_SK" +
-      "EW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP_PAD_BOT" +
-      "TOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP_PAD_RIG" +
-      "HT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_PAD_COLUM" +
-      "N\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP_MARGIN_" +
-      "BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025\n\021PROP_M" +
-      "ARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_COLOR\020-\022\024\n" +
-      "\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_MAIN_STOP" +
-      "\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PROP_BG_MAI" +
-      "N_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n\021PROP_BG" +
-      "_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OPA\0204\022\031\n\025P" +
-      "ROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_BG_IMAGE_" +
-      "RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_TILED\0207\022\024" +
-      "\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BORDER_POST" +
-      "\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PROP_OUTLI" +
-      "NE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<\022\024\n\020PROP" +
-      "_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WIDTH\020>\022\030\n" +
-      "\024PROP_SHADOW_OFFSET_X\020?\022\030\n\024PROP_SHADOW_O" +
-      "FFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020A\022\025\n\021PRO" +
-      "P_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n" +
-      "\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_RECOLOR\020" +
-      "E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n\017PROP_LI" +
-      "NE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WIDTH\020H\022\026\n\022" +
-      "PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LINE_ROUNDE" +
-      "D\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP_LINE_OP" +
-      "A\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_ARC_ROUN" +
-      "DED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PROP_ARC_OP" +
-      "A\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_TEXT_LETT" +
-      "ER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPACE\020S\022\023\n\017" +
-      "PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024" +
-      "\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PR" +
-      "OP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_FILTER_OP" +
-      "A\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017PROP_BLEN" +
-      "D_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027PROP_ROTA" +
-      "RY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024" +
-      "PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_FLEX_CROS" +
-      "S_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLACE\020a\022\022\n\016" +
-      "PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_COLUMN_ALI" +
-      "GN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n\031PROP_GR" +
-      "ID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRID_CELL_X" +
-      "_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUMN_SPAN\020g" +
-      "\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026PROP_GRI" +
-      "D_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CELL_ROW_S" +
-      "PAN\020jBEZCgit-codecommit.eu-central-1.ama" +
-      "zonaws.com/v1/repos/jettison/jonp/uib\006pr" +
-      "oto3"
+      "2\025.ui.VisibilityBinding\022+\n\014enabled_when\030" +
+      "- \001(\0132\025.ui.VisibilityBinding\022$\n\ncolor_wh" +
+      "en\030. \001(\0132\020.ui.ColorBinding\022\013\n\003uid\030+ \001(\r\022" +
+      "+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272H\005\222" +
+      "\001\002\020\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va" +
+      "lue\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key" +
+      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_prop" +
+      "s\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.Pat" +
+      "chOpKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022" +
+      "\n\nparent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004nod" +
+      "e\030\005 \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n" +
+      "\013ScreenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013targe" +
+      "t_hash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatch" +
+      "Op\"\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelPr" +
+      "ops\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongMod" +
+      "eB\010\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030" +
+      "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022" +
+      "#\n\004mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\r" +
+      "seek_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src" +
+      "\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007p" +
+      "ivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotatio" +
+      "n\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001(" +
+      "\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002" +
+      "\022 \n\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg" +
+      "_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005" +
+      " \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020" +
+      "\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022" +
+      "\r\n\005value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030" +
+      "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022" +
+      "\023\n\013start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui." +
+      "BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007chec" +
+      "ked\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 " +
+      "\001(\010\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(\tB\010" +
+      "\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030" +
+      "\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_value" +
+      "s\030\004 \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007opti" +
+      "ons\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n" +
+      "\021visible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016" +
+      ".ui.RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProp" +
+      "s\022\035\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_" +
+      "length\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpasswo" +
+      "rd_mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_va" +
+      "lue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 " +
+      "\001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032" +
+      "\n\022separator_position\030\006 \001(\r\"5\n\014SpinnerPro" +
+      "ps\022\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(" +
+      "\r\"B\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022" +
+      "\034\n\nbrightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLinePro" +
+      "ps\022\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_inver" +
+      "t\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.u" +
+      "i.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_coun" +
+      "t\030\002 \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\nlab" +
+      "el_show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_" +
+      "value\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_r" +
+      "ange\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010" +
+      "\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030" +
+      "\013 \003(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014Sc" +
+      "aleSection\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_m" +
+      "ax\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005wi" +
+      "dth\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color" +
+      "\022\022\n\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixProp" +
+      "s\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_chec" +
+      "k\030\002 \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r" +
+      "\022\024\n\014column_count\030\002 \001(\r\"\244\001\n\014TabviewProps\022" +
+      "!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014ta" +
+      "b_bar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001(\r\022+" +
+      "\n\020tab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001" +
+      "\002\020\001\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013ChartSe" +
+      "ries\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002" +
+      " \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030" +
+      "\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004type\030\001" +
+      " \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_c" +
+      "ount\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\nhdi" +
+      "v_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 " +
+      "\001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.Chart" +
+      "SeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016" +
+      "HostProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020" +
+      "\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002" +
+      "\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_" +
+      "w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size\030\007 " +
+      "\001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030" +
+      "\002 \001(\005\"\242\002\n\014EventBinding\022\027\n\004name\030\001 \001(\tB\t\272H" +
+      "\006r\004\020\001\030\177\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTrigg" +
+      "erB\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030\003 \001(\005\022\034\n\024inclu" +
+      "de_widget_value\030\004 \001(\010\022\034\n\013set_subject\030\005 \001" +
+      "(\tB\007\272H\004r\002\030?\022\021\n\tset_value\030\006 \001(\005\022\016\n\006toggle" +
+      "\030\007 \001(\010\022\023\n\013notify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\013" +
+      "2\013.ui.CmdSpec\022+\n\014cmd_by_value\030\n \003(\0132\013.ui" +
+      ".CmdSpecB\010\272H\005\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte" +
+      "_offset\030\001 \001(\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kin" +
+      "d\030\003 \001(\0162\r.ui.PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire" +
+      "_scale\030\004 \001(\021\"h\n\007CmdSpec\022\033\n\ncommand_id\030\001 " +
+      "\001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_template\030\002 \001(\014\022)\n\007p" +
+      "atches\030\003 \003(\0132\016.ui.FieldPatchB\010\272H\005\222\001\002\020\002\"P" +
+      "\n\013GestureSpec\022\'\n\004kind\030\001 \001(\0162\017.ui.Gesture" +
+      "KindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec" +
+      "\"l\n\021VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t" +
+      "\272H\006r\004\020\001\030?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030" +
+      "\003 \001(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorB" +
+      "inding\022#\n\004when\030\001 \001(\0132\025.ui.VisibilityBind" +
+      "ing\022\030\n\005color\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout" +
+      "\022$\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+" +
+      "\n\nmain_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001" +
+      "\002\020\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB" +
+      "\010\272H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.Flex" +
+      "AlignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_s" +
+      "elector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.Sty" +
+      "leVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n" +
+      "\rvariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\npropert" +
+      "ies\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStylePr" +
+      "operty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyT" +
+      "ypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\ti" +
+      "nt_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t." +
+      "ui.ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030" +
+      "?H\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBun" +
+      "dleH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*" +
+      "\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H" +
+      "\005*\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n" +
+      "\010offset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spr" +
+      "ead\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013Subj" +
+      "ectType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRI" +
+      "NG\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_" +
+      "PROPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PA" +
+      "TCH_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_" +
+      "NODE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\256\003\n\nWidge" +
+      "tType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001" +
+      "\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n" +
+      "\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGE" +
+      "T_BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHE" +
+      "CKBOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_R" +
+      "OLLER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_S" +
+      "PINBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_L" +
+      "ED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022" +
+      "\027\n\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE" +
+      "\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024" +
+      "\022\025\n\021WIDGET_HOST_PROXY\020\025*p\n\tProxyMode\022\025\n\021" +
+      "PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_DRAGGA" +
+      "BLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024PROXY" +
+      "_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023\n\017TRI" +
+      "GGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANGED\020" +
+      "\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*\206\001\n\tPatchKin" +
+      "d\022\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PATCH_K" +
+      "IND_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PAT" +
+      "CH_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGET_VAL" +
+      "UE\020\004*\240\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN" +
+      "_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GES" +
+      "TURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022" +
+      "\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_" +
+      "WHEEL\020\005*q\n\tCompareOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016" +
+      "COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017\n\013COMP" +
+      "ARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPARE_LTE" +
+      "\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020\000\022\021\n\rF" +
+      "LEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN\020\002\022\026\n\022" +
+      "FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_ROW_RE" +
+      "VERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVERSE\020\005\022" +
+      "\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX_FLOW_" +
+      "COLUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLUMN_WRA" +
+      "P_REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_ALIGN_" +
+      "START\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLEX_ALIG" +
+      "N_CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVENLY\020\003\022" +
+      "\033\n\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FLEX_ALI" +
+      "GN_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024\n\020GRID" +
+      "_ALIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTER\020\001\022\022\n" +
+      "\016GRID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_STRETCH\020" +
+      "\003\022\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027GRID_A" +
+      "LIGN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_SPACE_" +
+      "BETWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALIGN_AUT" +
+      "O\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_ALIGN_C" +
+      "ENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tTextDec" +
+      "or\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DECOR_UN" +
+      "DERLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHROUGH\020\002*" +
+      "\213\001\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL\020\000\022\027\n\023" +
+      "BLEND_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MODE_SUBT" +
+      "RACTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003\022\031\n\025BL" +
+      "END_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020\n\014BASE" +
+      "_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBASE_DIR" +
+      "_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rBASE_DI" +
+      "R_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_NONE\020\000\022" +
+      "\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017G" +
+      "RAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n" +
+      "\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000" +
+      "\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP" +
+      "\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_V" +
+      "ER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALIGN_DEF" +
+      "AULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIGN_TOP_" +
+      "MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIGN_BOTT" +
+      "OM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n\022ALIGN" +
+      "_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017A" +
+      "LIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022AL" +
+      "IGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020" +
+      "\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIGN_OUT_" +
+      "BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_MID\020\016\022" +
+      "\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALIGN_OUT" +
+      "_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020\021\022\031\n\025A" +
+      "LIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OUT_RIGH" +
+      "T_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032\n\026ALIG" +
+      "N_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSide\022\024\n\020B" +
+      "ORDER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_BOTTOM\020" +
+      "\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_SIDE_LE" +
+      "FT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BORDER_SI" +
+      "DE_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020\020*\236\001\n\r" +
+      "LabelLongMode\022\030\n\024LABEL_LONG_MODE_WRAP\020\000\022" +
+      "\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL_LONG_" +
+      "MODE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_SCROLL_" +
+      "CIRCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP\020\004*L\n\007" +
+      "BarMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BAR_MODE" +
+      "_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n\007Ar" +
+      "cMode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_MODE_S" +
+      "YMMETRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002*>\n\nRo" +
+      "llerMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030\n\024ROLL" +
+      "ER_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035\n\031SCAL" +
+      "E_MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_MODE_HO" +
+      "RIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VERTICAL" +
+      "_LEFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIGHT\020\004\022\032" +
+      "\n\026SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCALE_MODE" +
+      "_ROUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CHART_TY" +
+      "PE_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020CHART_" +
+      "TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026\n\022CHAR" +
+      "T_TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCATTER\020\005" +
+      "*w\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMARY_Y\020\000\022" +
+      "\032\n\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHART_AXI" +
+      "S_PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECONDARY_X\020" +
+      "\004*\273\022\n\021StylePropertyType\022\021\n\rPROP_BG_COLOR" +
+      "\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_COLOR\020\002" +
+      "\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDER_COLO" +
+      "R\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP_RADIU" +
+      "S\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022" +
+      "\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017\n\013PROP" +
+      "_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PROP_PAD_" +
+      "VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP_BORDE" +
+      "R_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PROP_MAX_" +
+      "WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PROP_MAX" +
+      "_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n" +
+      "\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP_TRANS" +
+      "FORM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEIGHT\020\031\022" +
+      "\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRANSLATE_" +
+      "Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022" +
+      "\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014" +
+      "PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n\013PROP_" +
+      "SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP_PAD_B" +
+      "OTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP_PAD_R" +
+      "IGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_PAD_COL" +
+      "UMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP_MARGI" +
+      "N_BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025\n\021PROP" +
+      "_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_COLOR\020-\022" +
+      "\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_MAIN_ST" +
+      "OP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PROP_BG_M" +
+      "AIN_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n\021PROP_" +
+      "BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OPA\0204\022\031\n" +
+      "\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_BG_IMAG" +
+      "E_RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_TILED\0207" +
+      "\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BORDER_PO" +
+      "ST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PROP_OUT" +
+      "LINE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<\022\024\n\020PR" +
+      "OP_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WIDTH\020>\022" +
+      "\030\n\024PROP_SHADOW_OFFSET_X\020?\022\030\n\024PROP_SHADOW" +
+      "_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020A\022\025\n\021P" +
+      "ROP_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_OPA\020C\022" +
+      "\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_RECOLO" +
+      "R\020E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n\017PROP_" +
+      "LINE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WIDTH\020H\022\026" +
+      "\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LINE_ROUN" +
+      "DED\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP_LINE_" +
+      "OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_ARC_RO" +
+      "UNDED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PROP_ARC_" +
+      "OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_TEXT_LE" +
+      "TTER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPACE\020S\022\023" +
+      "\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_ALIGN\020U" +
+      "\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020" +
+      "PROP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_FILTER_" +
+      "OPA\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017PROP_BL" +
+      "END_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027PROP_RO" +
+      "TARY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FLOW\020^\022\030" +
+      "\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_FLEX_CR" +
+      "OSS_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLACE\020a\022\022" +
+      "\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_COLUMN_A" +
+      "LIGN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n\031PROP_" +
+      "GRID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRID_CELL" +
+      "_X_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUMN_SPAN" +
+      "\020g\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026PROP_G" +
+      "RID_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CELL_ROW" +
+      "_SPAN\020jBEZCgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/uib\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -53549,7 +55179,7 @@ java.lang.String defaultValue) {
     internal_static_ui_WidgetNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_descriptor,
-        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "Uid", "Gestures", "WidgetProps", });
+        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "ColorWhen", "Uid", "Gestures", "WidgetProps", });
     internal_static_ui_WidgetNode_BindingsEntry_descriptor =
       internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(0);
     internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable = new
@@ -53754,38 +55384,44 @@ java.lang.String defaultValue) {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_VisibilityBinding_descriptor,
         new java.lang.String[] { "Subject", "RefValue", "Compare", });
-    internal_static_ui_Layout_descriptor =
+    internal_static_ui_ColorBinding_descriptor =
       getDescriptor().getMessageTypes().get(37);
+    internal_static_ui_ColorBinding_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_ColorBinding_descriptor,
+        new java.lang.String[] { "When", "Color", });
+    internal_static_ui_Layout_descriptor =
+      getDescriptor().getMessageTypes().get(38);
     internal_static_ui_Layout_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Layout_descriptor,
         new java.lang.String[] { "Flow", "MainPlace", "CrossPlace", "TrackPlace", });
     internal_static_ui_StyleGroup_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_ui_StyleGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleGroup_descriptor,
         new java.lang.String[] { "StateSelector", "Variants", });
     internal_static_ui_StyleVariant_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_ui_StyleVariant_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleVariant_descriptor,
         new java.lang.String[] { "VariantIndex", "Properties", });
     internal_static_ui_StyleProperty_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_ui_StyleProperty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleProperty_descriptor,
         new java.lang.String[] { "Type", "UintValue", "IntValue", "ColorValue", "StringValue", "ShadowValue", "Value", });
     internal_static_ui_Color_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_ui_Color_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Color_descriptor,
         new java.lang.String[] { "R", "G", "B", });
     internal_static_ui_ShadowBundle_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_ui_ShadowBundle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ShadowBundle_descriptor,

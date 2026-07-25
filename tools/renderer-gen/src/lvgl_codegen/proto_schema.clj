@@ -96,6 +96,12 @@
   [:map [:subject {:default ""} string?] [:ref_value {:default 0} int32]
    [:compare {:default :COMPARE_EQ} compare-op]])
 
+(def color-binding
+  "Value-conditional text-color binding — the VisibilityBinding subject/range
+   (`when`) plus the color applied to LV_PART_MAIN while the comparison holds
+   (WidgetNode.color_when). Reverts to the theme/authored default otherwise."
+  [:map [:when visibility-binding] [:color color]])
+
 ;; -- Style property type enum --
 (def style-property-type
   "All 107 style property type enum values."
@@ -524,6 +530,13 @@
       ;; reused (subject + ref_value + compare); the reactive sibling of
       ;; the create-time `states` bitmask.
       [:checked_when {:optional true :default nil} [:maybe visibility-binding]]
+      ;; Reactive enabled-state binding — the VisibilityBinding shape reused with
+      ;; INVERTED polarity: LV_STATE_DISABLED while the comparison against the
+      ;; subject does NOT hold, cleared (enabled) while it holds.
+      [:enabled_when {:optional true :default nil} [:maybe visibility-binding]]
+      ;; Value-conditional text-color binding — LV_PART_MAIN text color is set to
+      ;; color_when.color while the comparison holds and reverted otherwise.
+      [:color_when {:optional true :default nil} [:maybe color-binding]]
       [:layout {:optional true :default nil} [:maybe layout]]
       [:children {:optional true :default []} [:vector {:gen/max 3} [:ref ::widget-node]]]
       [:style_groups {:optional true :default []} [:vector {:gen/max 4} style-group]]

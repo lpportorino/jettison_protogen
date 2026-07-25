@@ -1528,6 +1528,120 @@ public object WidgetNodeKt {
 
     /**
      * ```
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * ```
+     *
+     * `.ui.VisibilityBinding enabled_when = 45;`
+     */
+    public var enabledWhen: ui.UiAst.VisibilityBinding
+      @JvmName("getEnabledWhen")
+      get() = _builder.enabledWhen
+      @JvmName("setEnabledWhen")
+      set(value) {
+        _builder.enabledWhen = value
+      }
+    /**
+     * ```
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * ```
+     *
+     * `.ui.VisibilityBinding enabled_when = 45;`
+     */
+    public fun clearEnabledWhen() {
+      _builder.clearEnabledWhen()
+    }
+    /**
+     * ```
+     * Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
+     * inverted in polarity: the widget carries LV_STATE_DISABLED while the
+     * comparison against the subject does NOT hold, and is cleared (enabled)
+     * while it holds. Reuses the VisibilityBinding shape (subject + ref_value +
+     * compare); EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the
+     * range ops a custom observer (the checked_when / visibility precedent).
+     * Drives reactive precondition-disable — a control greyed until its
+     * preconditions read satisfied.
+     * ```
+     *
+     * `.ui.VisibilityBinding enabled_when = 45;`
+     * @return Whether the enabledWhen field is set.
+     */
+    public fun hasEnabledWhen(): kotlin.Boolean {
+      return _builder.hasEnabledWhen()
+    }
+
+    public val WidgetNodeKt.Dsl.enabledWhenOrNull: ui.UiAst.VisibilityBinding?
+      get() = _builder.enabledWhenOrNull
+
+    /**
+     * ```
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * ```
+     *
+     * `.ui.ColorBinding color_when = 46;`
+     */
+    public var colorWhen: ui.UiAst.ColorBinding
+      @JvmName("getColorWhen")
+      get() = _builder.colorWhen
+      @JvmName("setColorWhen")
+      set(value) {
+        _builder.colorWhen = value
+      }
+    /**
+     * ```
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * ```
+     *
+     * `.ui.ColorBinding color_when = 46;`
+     */
+    public fun clearColorWhen() {
+      _builder.clearColorWhen()
+    }
+    /**
+     * ```
+     * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
+     * to `color_when.color` while the comparison holds, and reverted to the
+     * theme/authored default when it does not. Unlike the three state bindings
+     * above, LVGL has no native bind helper for a style property, so ALL compare
+     * ops use a custom observer. Drives reactive fault-coloring — a readout that
+     * recolors while its value is out of range.
+     * ```
+     *
+     * `.ui.ColorBinding color_when = 46;`
+     * @return Whether the colorWhen field is set.
+     */
+    public fun hasColorWhen(): kotlin.Boolean {
+      return _builder.hasColorWhen()
+    }
+
+    public val WidgetNodeKt.Dsl.colorWhenOrNull: ui.UiAst.ColorBinding?
+      get() = _builder.colorWhenOrNull
+
+    /**
+     * ```
      * Stable node identity for tree patching: FNV-1a-32 of the node's
      * root→node identity path (author :id segments, else type#ordinal among
      * unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -1778,4 +1892,10 @@ public val ui.UiAst.WidgetNodeOrBuilder.visibilityOrNull: ui.UiAst.VisibilityBin
 
 public val ui.UiAst.WidgetNodeOrBuilder.checkedWhenOrNull: ui.UiAst.VisibilityBinding?
   get() = if (hasCheckedWhen()) getCheckedWhen() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.enabledWhenOrNull: ui.UiAst.VisibilityBinding?
+  get() = if (hasEnabledWhen()) getEnabledWhen() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.colorWhenOrNull: ui.UiAst.ColorBinding?
+  get() = if (hasColorWhen()) getColorWhen() else null
 

@@ -283,6 +283,15 @@
       ;; validate-screen-semantics.
       [:checked-when {:optional true}
        [:map {:closed true} [:subject keyword?] [:value int?]]]
+      ;; Reactive ENABLED binding (EQ): enabled while subject == :value,
+      ;; DISABLED otherwise (checked-when's inverted-polarity sibling).
+      [:enabled-when {:optional true}
+       [:map {:closed true} [:subject keyword?] [:value int?]]]
+      ;; Value-conditional text-color binding (EQ): LV_PART_MAIN text is
+      ;; recolored to the :color design token while subject == :value. The
+      ;; token bakes to one mode-invariant Color at expand.
+      [:color-when {:optional true}
+       [:map {:closed true} [:subject keyword?] [:value int?] [:color keyword?]]]
       [:show-when {:optional true}
        [:and
         [:map [:subject keyword?] [:eq {:optional true} int?] [:neq {:optional true} int?]
@@ -388,12 +397,12 @@
              {:type :duplicate-sibling-id :parent (:tag widget) :ids dup-ids}))))
 
 (defn- check-conditional-binding!
-  "Reference + subject-type checks for one :show-when/:checked-when map,
-   collected into the errors atom. The undeclared check mirrors :bind;
-   the type check exists because these bindings ride the wire as an int32
-   ref_value compared via lv_subject_get_int — against a :string subject
-   the comparison reads the wrong union member and NEVER matches,
-   silently. Only :int subjects are comparable."
+  "Reference + subject-type checks for one value-conditional binding map
+   (:show-when / :checked-when / :enabled-when / :color-when), collected into
+   the errors atom. The undeclared check mirrors :bind; the type check exists
+   because these bindings ride the wire as an int32 ref_value compared via
+   lv_subject_get_int — against a :string subject the comparison reads the wrong
+   union member and NEVER matches, silently. Only :int subjects are comparable."
   [widget cond-bind subject-decls undeclared-type mismatch-type errors]
   (when cond-bind
     (let [sk (:subject cond-bind)
@@ -459,6 +468,18 @@
                                    subject-decls
                                    :undeclared-checked-when-subject
                                    :checked-when-subject-not-int
+                                   errors)
+       (check-conditional-binding! widget
+                                   (:enabled-when widget)
+                                   subject-decls
+                                   :undeclared-enabled-when-subject
+                                   :enabled-when-subject-not-int
+                                   errors)
+       (check-conditional-binding! widget
+                                   (:color-when widget)
+                                   subject-decls
+                                   :undeclared-color-when-subject
+                                   :color-when-subject-not-int
                                    errors)))
     (when (seq @errors) @errors)))
 

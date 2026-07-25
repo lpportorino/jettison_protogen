@@ -449,6 +449,20 @@
     (:checked-when node) (assoc :checked_when
                                 {:subject (name (get-in node [:checked-when :subject]))
                                  :ref_value (get-in node [:checked-when :value])})
+    ;; Reactive ENABLED binding — the checked_when sibling with inverted polarity
+    ;; (DISABLED while the comparison does not hold). Same EQ-only authoring
+    ;; surface, same VisibilityBinding wire shape.
+    (:enabled-when node) (assoc :enabled_when
+                                {:subject (name (get-in node [:enabled-when :subject]))
+                                 :ref_value (get-in node [:enabled-when :value])})
+    ;; Value-conditional text-color binding — EQ-only authoring surface
+    ;; ({:subject :value :color}); the color is an already-resolved "#RRGGBB"
+    ;; (expand-screen baked the design token). The wire nests the comparison
+    ;; under `when` (VisibilityBinding) alongside the Color.
+    (:color-when node) (assoc :color_when
+                              {:when {:subject (name (get-in node [:color-when :subject]))
+                                      :ref_value (get-in node [:color-when :value])}
+                               :color (hex->color (get-in node [:color-when :color]))})
     (:show-when node)
     (assoc :visibility
            (let [sw (:show-when node)

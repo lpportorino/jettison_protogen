@@ -1721,6 +1721,10 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
   /* Emitted only when set: the checked_when / radio-group oracle. */
   if (lv_obj_has_state(obj, LV_STATE_CHECKED))
     tree_append(",\"checked\":true");
+  /* Emitted only when set: the enabled_when oracle (the reactive DISABLED
+   * sibling of the checked line above). */
+  if (lv_obj_has_state(obj, LV_STATE_DISABLED))
+    tree_append(",\"disabled\":true");
   tree_append(",\"children\":[");
   uint32_t n = lv_obj_get_child_count(obj);
   for (uint32_t i = 0; i < n; i++) {

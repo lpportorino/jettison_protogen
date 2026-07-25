@@ -674,6 +674,8 @@ typedef struct {
 #define MAX_PENDING_BINDINGS 64
 #define MAX_PENDING_VISIBILITY 32
 #define MAX_PENDING_CHECKED 32
+#define MAX_PENDING_ENABLED 32
+#define MAX_PENDING_COLOR 32
 #define MAX_PENDING_EVENT_SUBJECT 32
 typedef struct {
   lv_obj_t *obj;
@@ -693,6 +695,18 @@ typedef struct {
   lv_obj_t *obj;
   ui_VisibilityBinding bind;
 } pending_checked_t;
+/* enabled_when reuses the VisibilityBinding shape (inverted polarity — it
+ * toggles LV_STATE_DISABLED); same post-subjects deferred attach. */
+typedef struct {
+  lv_obj_t *obj;
+  ui_VisibilityBinding bind;
+} pending_enabled_t;
+/* color_when carries the ColorBinding (VisibilityBinding shape + target
+ * color); same post-subjects deferred attach. */
+typedef struct {
+  lv_obj_t *obj;
+  ui_ColorBinding bind;
+} pending_color_t;
 /* An EventBinding's set_subject resolves against the SAME registry, so it is
  * subject to the same ordering: the name a click will mutate cannot be looked
  * up while finalize_widget attaches the callback. Unlike the three queues
@@ -722,6 +736,10 @@ static pending_visibility_t pending_visibility[MAX_PENDING_VISIBILITY];
 static int pending_visibility_count;
 static pending_checked_t pending_checked[MAX_PENDING_CHECKED];
 static int pending_checked_count;
+static pending_enabled_t pending_enabled[MAX_PENDING_ENABLED];
+static int pending_enabled_count;
+static pending_color_t pending_color[MAX_PENDING_COLOR];
+static int pending_color_count;
 static pending_event_subject_t pending_event_subject[MAX_PENDING_EVENT_SUBJECT];
 static int pending_event_subject_count;
 static pending_tabview_t pending_tabview[MAX_PENDING_TABVIEW];
@@ -1665,6 +1683,128 @@ static void apply_checked_when(lv_obj_t *obj,
   }
   }
 }
+/* ================================================================
+ * Reactive enabled-state binding (enabled_when) — the reactive sibling of
+ * checked_when with INVERTED polarity: the widget carries LV_STATE_DISABLED
+ * while the subject comparison does NOT hold, and is cleared (enabled) while
+ * it holds. Drives reactive precondition-disable (a control greyed until its
+ * preconditions read satisfied).
+ * ================================================================ */
+static void enabled_observer_cb(lv_observer_t *observer,
+                                lv_subject_t *subject) {
+  lv_obj_t *obj = lv_observer_get_target_obj(observer);
+  compare_cb_data_t *data =
+      (compare_cb_data_t *)lv_observer_get_user_data(observer);
+  if (!obj || !data)
+    return;
+  if (compare_holds(data->compare, lv_subject_get_int(subject),
+                    data->ref_value)) {
+    lv_obj_remove_state(obj, LV_STATE_DISABLED);
+  } else {
+    lv_obj_add_state(obj, LV_STATE_DISABLED);
+  }
+}
+static void apply_enabled_when(lv_obj_t *obj,
+                               const ui_VisibilityBinding *bind) {
+  subject_entry_t *entry = find_subject(bind->subject);
+  if (!entry) {
+    /* B7/ITEM-8b: an enabled-when bound to a never-declared subject is a dead
+       * binding. Fail the load loud (see apply_visibility). */
+    LOG_ERROR("enabled_when references unknown subject '%s'", bind->subject);
+    load_resource_error = true;
+    return;
+  }
+  if (entry->type != 0) {
+    LOG_WARN("enabled_when only supports INT subjects (got '%s')",
+             bind->subject);
+    return;
+  }
+  switch (bind->compare) {
+  case ui_CompareOp_COMPARE_EQ:
+    /* Enabled when subject == ref → DISABLED when NOT equal */
+    lv_obj_bind_state_if_not_eq(obj, &entry->subject, LV_STATE_DISABLED,
+                                bind->ref_value);
+    break;
+  case ui_CompareOp_COMPARE_NOT_EQ:
+    /* Enabled when subject != ref → DISABLED when equal */
+    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_DISABLED,
+                            bind->ref_value);
+    break;
+  default: {
+    /* GT, GTE, LT, LTE — custom observer (the checked_when precedent) */
+    compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
+    if (!data) {
+      /* B5: OOM would leave the comparison binding unwired (a control
+             * that never reacts to its subject) with no signal. Fail loud. */
+      LOG_ERROR("compare observer alloc failed — binding would be inert");
+      load_resource_error = true;
+      return;
+    }
+    data->ref_value = bind->ref_value;
+    data->compare = bind->compare;
+    lv_subject_add_observer_obj(&entry->subject, enabled_observer_cb, obj,
+                                data);
+    lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
+    break;
+  }
+  }
+}
+/* ================================================================
+ * Reactive text-color binding (color_when) — the widget's LV_PART_MAIN text
+ * color is set to the bound color while the subject comparison holds, and the
+ * local override removed (reverting to the theme/authored default) when it
+ * does not. LVGL has no native bind helper for a style property, so EVERY
+ * compare op rides a custom observer (no EQ/NOT_EQ native-bind fast path).
+ * Drives reactive fault-coloring.
+ * ================================================================ */
+typedef struct {
+  int32_t ref_value;
+  ui_CompareOp compare;
+  lv_color_t color;
+} color_cb_data_t;
+static void color_observer_cb(lv_observer_t *observer, lv_subject_t *subject) {
+  lv_obj_t *obj = lv_observer_get_target_obj(observer);
+  color_cb_data_t *data =
+      (color_cb_data_t *)lv_observer_get_user_data(observer);
+  if (!obj || !data)
+    return;
+  if (compare_holds(data->compare, lv_subject_get_int(subject),
+                    data->ref_value)) {
+    lv_obj_set_style_text_color(obj, data->color, LV_PART_MAIN);
+  } else {
+    /* Revert to the theme/authored default (a no-op the first time, when no
+     * local override was ever set). */
+    lv_obj_remove_local_style_prop(obj, LV_STYLE_TEXT_COLOR, LV_PART_MAIN);
+  }
+}
+static void apply_color_when(lv_obj_t *obj, const ui_ColorBinding *cb) {
+  subject_entry_t *entry = find_subject(cb->when.subject);
+  if (!entry) {
+    /* B7/ITEM-8b: a color-when bound to a never-declared subject is a dead
+       * binding. Fail the load loud (see apply_visibility). */
+    LOG_ERROR("color_when references unknown subject '%s'", cb->when.subject);
+    load_resource_error = true;
+    return;
+  }
+  if (entry->type != 0) {
+    LOG_WARN("color_when only supports INT subjects (got '%s')",
+             cb->when.subject);
+    return;
+  }
+  color_cb_data_t *data = malloc(sizeof(color_cb_data_t));
+  if (!data) {
+    /* B5: OOM would leave the binding unwired (a readout that never recolors)
+     * with no signal. Fail loud. */
+    LOG_ERROR("color observer alloc failed — binding would be inert");
+    load_resource_error = true;
+    return;
+  }
+  data->ref_value = cb->when.ref_value;
+  data->compare = cb->when.compare;
+  data->color = lv_color_make(cb->color.r, cb->color.g, cb->color.b);
+  lv_subject_add_observer_obj(&entry->subject, color_observer_cb, obj, data);
+  lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
+}
 /* An EventBinding.set_subject naming a NEVER-DECLARED subject is a dead
  * control, and a quieter one than the three siblings above: find_subject
  * misses at CLICK time, button_event_cb skips the mutation, and the relay
@@ -2387,6 +2527,30 @@ static void finalize_widget(widget_ctx_t *ctx) {
       pending_checked_t *p = &pending_checked[pending_checked_count++];
       p->obj = obj;
       p->bind = node->checked_when;
+    }
+  }
+  /* Apply reactive enabled-state binding (enabled_when) */
+  if (node->has_enabled_when && node->enabled_when.subject[0] != '\0') {
+    if (pending_enabled_count >= MAX_PENDING_ENABLED) {
+      LOG_ERROR("pending enabled_when queue overflow (max %d)",
+                MAX_PENDING_ENABLED);
+      ctx->error = -1;
+    } else {
+      pending_enabled_t *p = &pending_enabled[pending_enabled_count++];
+      p->obj = obj;
+      p->bind = node->enabled_when;
+    }
+  }
+  /* Apply reactive text-color binding (color_when) */
+  if (node->has_color_when && node->color_when.when.subject[0] != '\0') {
+    if (pending_color_count >= MAX_PENDING_COLOR) {
+      LOG_ERROR("pending color_when queue overflow (max %d)",
+                MAX_PENDING_COLOR);
+      ctx->error = -1;
+    } else {
+      pending_color_t *p = &pending_color[pending_color_count++];
+      p->obj = obj;
+      p->bind = node->color_when;
     }
   }
   /* Belt to the UPDATE arm's has_event reject: attaching an event cb to an
@@ -3831,6 +3995,8 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_bindings_count = 0;
   pending_visibility_count = 0;
   pending_checked_count = 0;
+  pending_enabled_count = 0;
+  pending_color_count = 0;
   pending_event_subject_count = 0;
   pending_tabview_count = 0;
   grid_template_count = 0;
@@ -3897,12 +4063,20 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   for (int i = 0; i < pending_checked_count; i++) {
     apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
   }
+  for (int i = 0; i < pending_enabled_count; i++) {
+    apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
+  }
+  for (int i = 0; i < pending_color_count; i++) {
+    apply_color_when(pending_color[i].obj, &pending_color[i].bind);
+  }
   for (int i = 0; i < pending_event_subject_count; i++) {
     apply_event_subject(&pending_event_subject[i]);
   }
   pending_bindings_count = 0;
   pending_visibility_count = 0;
   pending_checked_count = 0;
+  pending_enabled_count = 0;
+  pending_color_count = 0;
   pending_event_subject_count = 0;
   /* Every node (root included) is finalized and every style group is
    * attached — activate tabs against FINAL geometry (set_active calls
@@ -4315,6 +4489,8 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_bindings_count = 0;
   pending_visibility_count = 0;
   pending_checked_count = 0;
+  pending_enabled_count = 0;
+  pending_color_count = 0;
   pending_event_subject_count = 0;
   pending_tabview_count = 0;
   pb_istream_t stream = pb_istream_from_buffer(data, len);
@@ -4338,11 +4514,17 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
     apply_visibility(pending_visibility[i].obj, &pending_visibility[i].vis);
   for (int i = 0; i < pending_checked_count; i++)
     apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
+  for (int i = 0; i < pending_enabled_count; i++)
+    apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
+  for (int i = 0; i < pending_color_count; i++)
+    apply_color_when(pending_color[i].obj, &pending_color[i].bind);
   for (int i = 0; i < pending_event_subject_count; i++)
     apply_event_subject(&pending_event_subject[i]);
   pending_bindings_count = 0;
   pending_visibility_count = 0;
   pending_checked_count = 0;
+  pending_enabled_count = 0;
+  pending_color_count = 0;
   pending_event_subject_count = 0;
   for (int i = 0; i < pending_tabview_count; i++) {
     lv_tabview_set_active(pending_tabview[i].tabview,

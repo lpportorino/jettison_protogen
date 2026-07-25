@@ -338,6 +338,22 @@
          [(style-entry->token k v bp state part)]))
      style))))
 
+(defn resolve-color-when
+  "Resolve a :color-when binding's :color design token to a single baked
+   \"#RRGGBB\". The renderer's ColorBinding carries ONE Color (no dark/light
+   variant) baked into the .pb, so the token MUST be mode-invariant (dark ==
+   light) — a mode-variant color cannot be represented and fails loud here. The
+   :subject/:value comparison keys pass through untouched."
+  [tokens color-when]
+  (let [ref-key (:color color-when)
+        {:keys [dark light]} (resolve-token-ref tokens :color-when :color ref-key)]
+    (when-not (= dark light)
+      (throw (ex-info (str ":color-when token " (name ref-key) " is mode-variant (dark "
+                           dark " != light " light ") — a color_when binding bakes ONE "
+                           "Color into the .pb and cannot theme; use a mode-invariant token")
+                      {:ref ref-key :dark dark :light light})))
+    (assoc color-when :color dark)))
+
 (defn expand-widget
   "Expand a single widget node: parse class string, desugar :cell/:style
    into the same token stream, resolve tokens, produce style groups.
@@ -375,6 +391,9 @@
       layout (assoc :layout layout)
       (seq style-groups) (assoc :style-groups style-groups)
       resolved-event (assoc :event resolved-event)
+      ;; Bake the :color-when design token to a concrete "#RRGGBB" (checked_when
+      ;; / enabled_when carry no token and pass through untouched above).
+      (:color-when widget) (assoc :color-when (resolve-color-when tokens (:color-when widget)))
       (seq children) (assoc :children children))))
 
 (defn expand-screen
@@ -423,6 +442,10 @@
        [:map [:dark some?] [:light some?]]])
 
 (m/=> resolve-prop-value [:=> [:cat schema/tokens-schema parsed-token] :any])
+
+(m/=> resolve-color-when
+      [:=> [:cat schema/tokens-schema [:map [:color :keyword]]]
+       [:map [:color [:string {:min 1}]]]])
 
 (m/=> expand->variants
       [:=> [:cat schema/tokens-schema [:sequential parsed-token]] [:sequential :map]])

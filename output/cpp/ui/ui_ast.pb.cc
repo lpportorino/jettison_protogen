@@ -919,6 +919,32 @@ struct LedPropsDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LedPropsDefaultTypeInternal _LedProps_default_instance_;
 
+inline constexpr ColorBinding::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        when_{nullptr},
+        color_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ColorBinding::ColorBinding(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ColorBindingDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ColorBindingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ColorBindingDefaultTypeInternal() {}
+  union {
+    ColorBinding _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ColorBindingDefaultTypeInternal _ColorBinding_default_instance_;
+
 inline constexpr CmdSpec::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : patches_{},
@@ -1181,6 +1207,8 @@ inline constexpr WidgetNode::Impl_::Impl_(
         layout_{nullptr},
         visibility_{nullptr},
         checked_when_{nullptr},
+        enabled_when_{nullptr},
+        color_when_{nullptr},
         type_{static_cast< ::ui::WidgetType >(0)},
         x_{0},
         y_{0},
@@ -1422,6 +1450,8 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.bare_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.in_tab_bar_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.checked_when_),
+        PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.enabled_when_),
+        PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.color_when_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.uid_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.gestures_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.widget_props_),
@@ -1467,6 +1497,8 @@ const ::uint32_t
         ~0u,
         ~0u,
         3,
+        4,
+        5,
         ~0u,
         ~0u,
         PROTOBUF_FIELD_OFFSET(::ui::TreePatchOp, _impl_._has_bits_),
@@ -1880,6 +1912,18 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ui::VisibilityBinding, _impl_.subject_),
         PROTOBUF_FIELD_OFFSET(::ui::VisibilityBinding, _impl_.ref_value_),
         PROTOBUF_FIELD_OFFSET(::ui::VisibilityBinding, _impl_.compare_),
+        PROTOBUF_FIELD_OFFSET(::ui::ColorBinding, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ui::ColorBinding, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ui::ColorBinding, _impl_.when_),
+        PROTOBUF_FIELD_OFFSET(::ui::ColorBinding, _impl_.color_),
+        0,
+        1,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ui::Layout, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1961,45 +2005,46 @@ static const ::_pbi::MigrationSchema
         {34, 44, -1, sizeof(::ui::Screen)},
         {46, 56, -1, sizeof(::ui::WidgetNode_BindingsEntry_DoNotUse)},
         {58, 68, -1, sizeof(::ui::WidgetNode_BindFormatsEntry_DoNotUse)},
-        {70, 123, -1, sizeof(::ui::WidgetNode)},
-        {167, 180, -1, sizeof(::ui::TreePatchOp)},
-        {185, -1, -1, sizeof(::ui::ScreenPatch)},
-        {196, -1, -1, sizeof(::ui::ObjProps)},
-        {204, -1, -1, sizeof(::ui::ButtonProps)},
-        {212, -1, -1, sizeof(::ui::LabelProps)},
-        {221, -1, -1, sizeof(::ui::SliderProps)},
-        {234, -1, -1, sizeof(::ui::ImageProps)},
-        {247, -1, -1, sizeof(::ui::ArcProps)},
-        {264, -1, -1, sizeof(::ui::BarProps)},
-        {277, -1, -1, sizeof(::ui::SwitchProps)},
-        {286, -1, -1, sizeof(::ui::CheckboxProps)},
-        {295, -1, -1, sizeof(::ui::DropdownProps)},
-        {307, -1, -1, sizeof(::ui::RollerProps)},
-        {319, -1, -1, sizeof(::ui::TextareaProps)},
-        {331, -1, -1, sizeof(::ui::SpinboxProps)},
-        {345, -1, -1, sizeof(::ui::SpinnerProps)},
-        {355, 365, -1, sizeof(::ui::LedProps)},
-        {367, -1, -1, sizeof(::ui::LineProps)},
-        {377, -1, -1, sizeof(::ui::ScaleProps)},
-        {396, 410, -1, sizeof(::ui::ScaleSection)},
-        {416, -1, -1, sizeof(::ui::ButtonMatrixProps)},
-        {426, -1, -1, sizeof(::ui::TableProps)},
-        {436, -1, -1, sizeof(::ui::TabviewProps)},
-        {449, 460, -1, sizeof(::ui::ChartSeries)},
-        {463, -1, -1, sizeof(::ui::ChartProps)},
-        {478, -1, -1, sizeof(::ui::HostProxyProps)},
-        {494, -1, -1, sizeof(::ui::Point)},
-        {504, 522, -1, sizeof(::ui::EventBinding)},
-        {532, -1, -1, sizeof(::ui::FieldPatch)},
-        {544, -1, -1, sizeof(::ui::CmdSpec)},
-        {555, 565, -1, sizeof(::ui::GestureSpec)},
-        {567, -1, -1, sizeof(::ui::VisibilityBinding)},
-        {578, -1, -1, sizeof(::ui::Layout)},
-        {590, -1, -1, sizeof(::ui::StyleGroup)},
-        {600, -1, -1, sizeof(::ui::StyleVariant)},
-        {610, -1, -1, sizeof(::ui::StyleProperty)},
-        {625, -1, -1, sizeof(::ui::Color)},
-        {636, -1, -1, sizeof(::ui::ShadowBundle)},
+        {70, 125, -1, sizeof(::ui::WidgetNode)},
+        {171, 184, -1, sizeof(::ui::TreePatchOp)},
+        {189, -1, -1, sizeof(::ui::ScreenPatch)},
+        {200, -1, -1, sizeof(::ui::ObjProps)},
+        {208, -1, -1, sizeof(::ui::ButtonProps)},
+        {216, -1, -1, sizeof(::ui::LabelProps)},
+        {225, -1, -1, sizeof(::ui::SliderProps)},
+        {238, -1, -1, sizeof(::ui::ImageProps)},
+        {251, -1, -1, sizeof(::ui::ArcProps)},
+        {268, -1, -1, sizeof(::ui::BarProps)},
+        {281, -1, -1, sizeof(::ui::SwitchProps)},
+        {290, -1, -1, sizeof(::ui::CheckboxProps)},
+        {299, -1, -1, sizeof(::ui::DropdownProps)},
+        {311, -1, -1, sizeof(::ui::RollerProps)},
+        {323, -1, -1, sizeof(::ui::TextareaProps)},
+        {335, -1, -1, sizeof(::ui::SpinboxProps)},
+        {349, -1, -1, sizeof(::ui::SpinnerProps)},
+        {359, 369, -1, sizeof(::ui::LedProps)},
+        {371, -1, -1, sizeof(::ui::LineProps)},
+        {381, -1, -1, sizeof(::ui::ScaleProps)},
+        {400, 414, -1, sizeof(::ui::ScaleSection)},
+        {420, -1, -1, sizeof(::ui::ButtonMatrixProps)},
+        {430, -1, -1, sizeof(::ui::TableProps)},
+        {440, -1, -1, sizeof(::ui::TabviewProps)},
+        {453, 464, -1, sizeof(::ui::ChartSeries)},
+        {467, -1, -1, sizeof(::ui::ChartProps)},
+        {482, -1, -1, sizeof(::ui::HostProxyProps)},
+        {498, -1, -1, sizeof(::ui::Point)},
+        {508, 526, -1, sizeof(::ui::EventBinding)},
+        {536, -1, -1, sizeof(::ui::FieldPatch)},
+        {548, -1, -1, sizeof(::ui::CmdSpec)},
+        {559, 569, -1, sizeof(::ui::GestureSpec)},
+        {571, -1, -1, sizeof(::ui::VisibilityBinding)},
+        {582, 592, -1, sizeof(::ui::ColorBinding)},
+        {594, -1, -1, sizeof(::ui::Layout)},
+        {606, -1, -1, sizeof(::ui::StyleGroup)},
+        {616, -1, -1, sizeof(::ui::StyleVariant)},
+        {626, -1, -1, sizeof(::ui::StyleProperty)},
+        {641, -1, -1, sizeof(::ui::Color)},
+        {652, -1, -1, sizeof(::ui::ShadowBundle)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_SubjectDeclaration_default_instance_._instance,
@@ -2041,6 +2086,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_CmdSpec_default_instance_._instance,
     &::ui::_GestureSpec_default_instance_._instance,
     &::ui::_VisibilityBinding_default_instance_._instance,
+    &::ui::_ColorBinding_default_instance_._instance,
     &::ui::_Layout_default_instance_._instance,
     &::ui::_StyleGroup_default_instance_._instance,
     &::ui::_StyleVariant_default_instance_._instance,
@@ -2061,7 +2107,7 @@ const char descriptor_table_protodef_ui_2fui_5fast_2eproto[] ABSL_ATTRIBUTE_SECT
     "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va"
     "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN"
     "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD"
-    "eclarationB\007\n\005_root\"\370\014\n\nWidgetNode\022&\n\004ty"
+    "eclarationB\007\n\005_root\"\313\r\n\nWidgetNode\022&\n\004ty"
     "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\t\n\001x\030"
     "\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\026\n\004text\030\004 \001(\tB\010\272H\005r\003\030\377\001"
     "\022.\n\010bindings\030\005 \003(\0132\034.ui.WidgetNode.Bindi"
@@ -2098,286 +2144,290 @@ const char descriptor_table_protodef_ui_2fui_5fast_2eproto[] ABSL_ATTRIBUTE_SECT
     "\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014grid_col_dsc\030# \003"
     "(\005\022\024\n\014grid_row_dsc\030$ \003(\005\022\014\n\004bare\030% \001(\010\022\022"
     "\n\nin_tab_bar\030\' \001(\010\022+\n\014checked_when\030* \001(\013"
-    "2\025.ui.VisibilityBinding\022\013\n\003uid\030+ \001(\r\022+\n\010"
-    "gestures\030, \003(\0132\017.ui.GestureSpecB\010\272H\005\222\001\002\020"
-    "\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value"
-    "\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 "
-    "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231"
-    "\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchO"
-    "pKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\np"
-    "arent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005"
-    " \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013Sc"
-    "reenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_h"
-    "ash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\""
-    "\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelProps"
-    "\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongModeB\010"
-    "\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030\001 \001"
-    "(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004"
-    "mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rsee"
-    "k_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 "
-    "\001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivo"
-    "t_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005"
-    " \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001(\rB\010"
-    "\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n"
-    "\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_en"
-    "d_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001("
-    "\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021"
-    "\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005"
-    "value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001"
-    "(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013"
-    "start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.Bar"
-    "ModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked"
-    "\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 \001(\010"
-    "\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005"
-    "r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030\003 \001"
-    "(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004"
-    " \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007options"
-    "\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021vi"
-    "sible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui"
-    ".RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035"
-    "\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_len"
-    "gth\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_"
-    "mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_value"
-    "\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005"
-    "\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022s"
-    "eparator_position\030\006 \001(\r\"5\n\014SpinnerProps\022"
-    "\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B"
-    "\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\n"
-    "brightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022"
-    "\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002"
-    " \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.ui.S"
-    "caleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002"
-    " \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\nlabel_"
-    "show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_val"
-    "ue\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_rang"
-    "e\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005"
-    "r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030\013 \003"
-    "(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014Scale"
-    "Section\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_max\030"
-    "\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005width"
-    "\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color\022\022\n"
-    "\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031"
-    "\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002"
-    " \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r\022\024\n"
-    "\014column_count\030\002 \001(\r\"\244\001\n\014TabviewProps\022!\n\t"
-    "tab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_b"
-    "ar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001(\r\022+\n\020t"
-    "ab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001"
-    "\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013ChartSerie"
-    "s\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002 \001("
-    "\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003"
-    "(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004type\030\001 \001("
-    "\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_coun"
-    "t\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\nhdiv_c"
-    "ount\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 \001(\r"
-    "B\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.ChartSer"
-    "iesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016Hos"
-    "tProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030\?"
-    "\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002\020\001\022"
-    "\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005"
-    " \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size\030\007 \001(\r"
-    "\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001"
-    "(\005\"\242\002\n\014EventBinding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004"
-    "\020\001\030\177\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTriggerB"
-    "\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030\003 \001(\005\022\034\n\024include_"
-    "widget_value\030\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB"
-    "\007\272H\004r\002\030\?\022\021\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 "
-    "\001(\010\022\023\n\013notify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013."
-    "ui.CmdSpec\022+\n\014cmd_by_value\030\n \003(\0132\013.ui.Cm"
-    "dSpecB\010\272H\005\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte_of"
-    "fset\030\001 \001(\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003"
-    " \001(\0162\r.ui.PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_sc"
-    "ale\030\004 \001(\021\"h\n\007CmdSpec\022\033\n\ncommand_id\030\001 \001(\t"
-    "B\007\272H\004r\002\030\177\022\025\n\rroot_template\030\002 \001(\014\022)\n\007patc"
-    "hes\030\003 \003(\0132\016.ui.FieldPatchB\010\272H\005\222\001\002\020\002\"P\n\013G"
-    "estureSpec\022\'\n\004kind\030\001 \001(\0162\017.ui.GestureKin"
-    "dB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec\"l\n"
-    "\021VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006"
-    "r\004\020\001\030\?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 \001"
-    "(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"\267\001\n\006Layout\022$"
-    "\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\n"
-    "main_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020"
-    "\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272"
-    "H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAl"
-    "ignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_sel"
-    "ector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.Style"
-    "VariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rv"
-    "ariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\npropertie"
-    "s\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStyleProp"
-    "erty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyTyp"
-    "eB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint"
-    "_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui"
-    ".ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030\?H"
-    "\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBundl"
-    "eH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030"
-    "\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*"
-    "\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010o"
-    "ffset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006sprea"
-    "d\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013Subjec"
-    "tType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING"
-    "\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PR"
-    "OPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATC"
-    "H_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NO"
-    "DE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\256\003\n\nWidgetT"
-    "ype\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020"
-    "\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014W"
-    "IDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_"
-    "BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECK"
-    "BOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROL"
-    "LER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPI"
-    "NBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED"
-    "\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n"
-    "\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022"
-    "\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025"
-    "\n\021WIDGET_HOST_PROXY\020\025*p\n\tProxyMode\022\025\n\021PR"
-    "OXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_DRAGGABL"
-    "E\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024PROXY_M"
-    "ODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023\n\017TRIGG"
-    "ER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANGED\020\001\022"
-    "\030\n\024TRIGGER_LONG_PRESSED\020\002*\206\001\n\tPatchKind\022"
-    "\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PATCH_KIN"
-    "D_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PATCH"
-    "_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGET_VALUE"
-    "\020\004*\240\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN_M"
-    "OVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GESTU"
-    "RE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n"
-    "\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_WH"
-    "EEL\020\005*q\n\tCompareOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016CO"
-    "MPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017\n\013COMPAR"
-    "E_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPARE_LTE\020\005"
-    "*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020\000\022\021\n\rFLE"
-    "X_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN\020\002\022\026\n\022FL"
-    "EX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_ROW_REVE"
-    "RSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVERSE\020\005\022\031\n"
-    "\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX_FLOW_CO"
-    "LUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLUMN_WRAP_"
-    "REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_ALIGN_ST"
-    "ART\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLEX_ALIGN_"
-    "CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVENLY\020\003\022\033\n"
-    "\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FLEX_ALIGN"
-    "_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024\n\020GRID_A"
-    "LIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTER\020\001\022\022\n\016G"
-    "RID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_STRETCH\020\003\022"
-    "\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027GRID_ALI"
-    "GN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_SPACE_BE"
-    "TWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALIGN_AUTO\020"
-    "\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_ALIGN_CEN"
-    "TER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tTextDecor"
-    "\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DECOR_UNDE"
-    "RLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHROUGH\020\002*\213\001"
-    "\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL\020\000\022\027\n\023BL"
-    "END_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MODE_SUBTRA"
-    "CTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003\022\031\n\025BLEN"
-    "D_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020\n\014BASE_D"
-    "IR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBASE_DIR_A"
-    "UTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rBASE_DIR_"
-    "WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n"
-    "\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRA"
-    "D_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020G"
-    "RAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014"
-    "\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004"
-    "\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER"
-    "\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALIGN_DEFAU"
-    "LT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIGN_TOP_MI"
-    "D\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM"
-    "_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n\022ALIGN_B"
-    "OTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017ALI"
-    "GN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022ALIG"
-    "N_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022"
-    "\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIGN_OUT_BO"
-    "TTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_MID\020\016\022\032\n"
-    "\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALIGN_OUT_L"
-    "EFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020\021\022\031\n\025ALI"
-    "GN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OUT_RIGHT_"
-    "TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032\n\026ALIGN_"
-    "OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSide\022\024\n\020BOR"
-    "DER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_BOTTOM\020\001\022"
-    "\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_SIDE_LEFT"
-    "\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BORDER_SIDE"
-    "_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020\020*\236\001\n\rLa"
-    "belLongMode\022\030\n\024LABEL_LONG_MODE_WRAP\020\000\022\030\n"
-    "\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL_LONG_MO"
-    "DE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_SCROLL_CI"
-    "RCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP\020\004*L\n\007Ba"
-    "rMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BAR_MODE_S"
-    "YMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n\007ArcM"
-    "ode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_MODE_SYM"
-    "METRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002*>\n\nRoll"
-    "erMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030\n\024ROLLER"
-    "_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035\n\031SCALE_"
-    "MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_MODE_HORI"
-    "ZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VERTICAL_L"
-    "EFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIGHT\020\004\022\032\n\026"
-    "SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCALE_MODE_R"
-    "OUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CHART_TYPE"
-    "_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020CHART_TY"
-    "PE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026\n\022CHART_"
-    "TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCATTER\020\005*w"
-    "\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMARY_Y\020\000\022\032\n"
-    "\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHART_AXIS_"
-    "PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECONDARY_X\020\004*"
-    "\273\022\n\021StylePropertyType\022\021\n\rPROP_BG_COLOR\020\000"
-    "\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022"
-    "\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDER_COLOR\020"
-    "\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP_RADIUS\020"
-    "\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n"
-    "\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017\n\013PROP_S"
-    "HADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PROP_PAD_VE"
-    "R\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP_BORDER_"
-    "OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PROP_MAX_WI"
-    "DTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PROP_MAX_H"
-    "EIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006"
-    "PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP_TRANSFO"
-    "RM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEIGHT\020\031\022\024\n"
-    "\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRANSLATE_Y\020"
-    "\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n"
-    "\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PR"
-    "OP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n\013PROP_SK"
-    "EW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP_PAD_BOT"
-    "TOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP_PAD_RIG"
-    "HT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_PAD_COLUM"
-    "N\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP_MARGIN_"
-    "BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025\n\021PROP_M"
-    "ARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_COLOR\020-\022\024\n"
-    "\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_MAIN_STOP"
-    "\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PROP_BG_MAI"
-    "N_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n\021PROP_BG"
-    "_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OPA\0204\022\031\n\025P"
-    "ROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_BG_IMAGE_"
-    "RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_TILED\0207\022\024"
-    "\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BORDER_POST"
-    "\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PROP_OUTLI"
-    "NE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<\022\024\n\020PROP"
-    "_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WIDTH\020>\022\030\n"
-    "\024PROP_SHADOW_OFFSET_X\020\?\022\030\n\024PROP_SHADOW_O"
-    "FFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020A\022\025\n\021PRO"
-    "P_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n"
-    "\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_RECOLOR\020"
-    "E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n\017PROP_LI"
-    "NE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WIDTH\020H\022\026\n\022"
-    "PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LINE_ROUNDE"
-    "D\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP_LINE_OP"
-    "A\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_ARC_ROUN"
-    "DED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PROP_ARC_OP"
-    "A\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_TEXT_LETT"
-    "ER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPACE\020S\022\023\n\017"
-    "PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024"
-    "\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PR"
-    "OP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_FILTER_OP"
-    "A\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017PROP_BLEN"
-    "D_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027PROP_ROTA"
-    "RY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024"
-    "PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_FLEX_CROS"
-    "S_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLACE\020a\022\022\n\016"
-    "PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_COLUMN_ALI"
-    "GN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n\031PROP_GR"
-    "ID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRID_CELL_X"
-    "_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUMN_SPAN\020g"
-    "\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026PROP_GRI"
-    "D_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CELL_ROW_S"
-    "PAN\020jBEZCgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/uib\006pr"
-    "oto3"
+    "2\025.ui.VisibilityBinding\022+\n\014enabled_when\030"
+    "- \001(\0132\025.ui.VisibilityBinding\022$\n\ncolor_wh"
+    "en\030. \001(\0132\020.ui.ColorBinding\022\013\n\003uid\030+ \001(\r\022"
+    "+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272H\005\222"
+    "\001\002\020\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va"
+    "lue\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key"
+    "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_prop"
+    "s\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.Pat"
+    "chOpKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022"
+    "\n\nparent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004nod"
+    "e\030\005 \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n"
+    "\013ScreenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013targe"
+    "t_hash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatch"
+    "Op\"\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelPr"
+    "ops\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongMod"
+    "eB\010\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030"
+    "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022"
+    "#\n\004mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\r"
+    "seek_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src"
+    "\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007p"
+    "ivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotatio"
+    "n\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001("
+    "\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002"
+    "\022 \n\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg"
+    "_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005"
+    " \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020"
+    "\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022"
+    "\r\n\005value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030"
+    "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022"
+    "\023\n\013start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui."
+    "BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007chec"
+    "ked\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 "
+    "\001(\010\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(\tB\010"
+    "\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030"
+    "\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_value"
+    "s\030\004 \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007opti"
+    "ons\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n"
+    "\021visible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016"
+    ".ui.RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProp"
+    "s\022\035\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_"
+    "length\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpasswo"
+    "rd_mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_va"
+    "lue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 "
+    "\001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032"
+    "\n\022separator_position\030\006 \001(\r\"5\n\014SpinnerPro"
+    "ps\022\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001("
+    "\r\"B\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022"
+    "\034\n\nbrightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLinePro"
+    "ps\022\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_inver"
+    "t\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.u"
+    "i.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_coun"
+    "t\030\002 \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\nlab"
+    "el_show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_"
+    "value\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_r"
+    "ange\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010"
+    "\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030"
+    "\013 \003(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014Sc"
+    "aleSection\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_m"
+    "ax\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005wi"
+    "dth\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color"
+    "\022\022\n\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixProp"
+    "s\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_chec"
+    "k\030\002 \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r"
+    "\022\024\n\014column_count\030\002 \001(\r\"\244\001\n\014TabviewProps\022"
+    "!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014ta"
+    "b_bar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001(\r\022+"
+    "\n\020tab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001"
+    "\002\020\001\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013ChartSe"
+    "ries\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002"
+    " \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030"
+    "\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004type\030\001"
+    " \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_c"
+    "ount\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\nhdi"
+    "v_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 "
+    "\001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.Chart"
+    "SeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016"
+    "HostProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020"
+    "\001\030\?\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002"
+    "\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_"
+    "w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size\030\007 "
+    "\001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030"
+    "\002 \001(\005\"\242\002\n\014EventBinding\022\027\n\004name\030\001 \001(\tB\t\272H"
+    "\006r\004\020\001\030\177\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTrigg"
+    "erB\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030\003 \001(\005\022\034\n\024inclu"
+    "de_widget_value\030\004 \001(\010\022\034\n\013set_subject\030\005 \001"
+    "(\tB\007\272H\004r\002\030\?\022\021\n\tset_value\030\006 \001(\005\022\016\n\006toggle"
+    "\030\007 \001(\010\022\023\n\013notify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\013"
+    "2\013.ui.CmdSpec\022+\n\014cmd_by_value\030\n \003(\0132\013.ui"
+    ".CmdSpecB\010\272H\005\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte"
+    "_offset\030\001 \001(\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kin"
+    "d\030\003 \001(\0162\r.ui.PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire"
+    "_scale\030\004 \001(\021\"h\n\007CmdSpec\022\033\n\ncommand_id\030\001 "
+    "\001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_template\030\002 \001(\014\022)\n\007p"
+    "atches\030\003 \003(\0132\016.ui.FieldPatchB\010\272H\005\222\001\002\020\002\"P"
+    "\n\013GestureSpec\022\'\n\004kind\030\001 \001(\0162\017.ui.Gesture"
+    "KindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec"
+    "\"l\n\021VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t"
+    "\272H\006r\004\020\001\030\?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030"
+    "\003 \001(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorB"
+    "inding\022#\n\004when\030\001 \001(\0132\025.ui.VisibilityBind"
+    "ing\022\030\n\005color\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout"
+    "\022$\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+"
+    "\n\nmain_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001"
+    "\002\020\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB"
+    "\010\272H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.Flex"
+    "AlignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_s"
+    "elector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.Sty"
+    "leVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n"
+    "\rvariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\npropert"
+    "ies\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStylePr"
+    "operty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyT"
+    "ypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\ti"
+    "nt_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t."
+    "ui.ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030"
+    "\?H\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBun"
+    "dleH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*"
+    "\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H"
+    "\005*\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n"
+    "\010offset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spr"
+    "ead\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013Subj"
+    "ectType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRI"
+    "NG\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_"
+    "PROPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PA"
+    "TCH_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_"
+    "NODE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\256\003\n\nWidge"
+    "tType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001"
+    "\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n"
+    "\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGE"
+    "T_BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHE"
+    "CKBOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_R"
+    "OLLER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_S"
+    "PINBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_L"
+    "ED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022"
+    "\027\n\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE"
+    "\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024"
+    "\022\025\n\021WIDGET_HOST_PROXY\020\025*p\n\tProxyMode\022\025\n\021"
+    "PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_DRAGGA"
+    "BLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024PROXY"
+    "_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023\n\017TRI"
+    "GGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANGED\020"
+    "\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*\206\001\n\tPatchKin"
+    "d\022\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PATCH_K"
+    "IND_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PAT"
+    "CH_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGET_VAL"
+    "UE\020\004*\240\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN"
+    "_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GES"
+    "TURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022"
+    "\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_"
+    "WHEEL\020\005*q\n\tCompareOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016"
+    "COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017\n\013COMP"
+    "ARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPARE_LTE"
+    "\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020\000\022\021\n\rF"
+    "LEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN\020\002\022\026\n\022"
+    "FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_ROW_RE"
+    "VERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVERSE\020\005\022"
+    "\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX_FLOW_"
+    "COLUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLUMN_WRA"
+    "P_REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_ALIGN_"
+    "START\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLEX_ALIG"
+    "N_CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVENLY\020\003\022"
+    "\033\n\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FLEX_ALI"
+    "GN_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024\n\020GRID"
+    "_ALIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTER\020\001\022\022\n"
+    "\016GRID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_STRETCH\020"
+    "\003\022\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027GRID_A"
+    "LIGN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_SPACE_"
+    "BETWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALIGN_AUT"
+    "O\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_ALIGN_C"
+    "ENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tTextDec"
+    "or\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DECOR_UN"
+    "DERLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHROUGH\020\002*"
+    "\213\001\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL\020\000\022\027\n\023"
+    "BLEND_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MODE_SUBT"
+    "RACTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003\022\031\n\025BL"
+    "END_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020\n\014BASE"
+    "_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBASE_DIR"
+    "_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rBASE_DI"
+    "R_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_NONE\020\000\022"
+    "\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017G"
+    "RAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n"
+    "\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000"
+    "\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP"
+    "\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_V"
+    "ER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALIGN_DEF"
+    "AULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIGN_TOP_"
+    "MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIGN_BOTT"
+    "OM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n\022ALIGN"
+    "_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017A"
+    "LIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022AL"
+    "IGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020"
+    "\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIGN_OUT_"
+    "BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_MID\020\016\022"
+    "\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALIGN_OUT"
+    "_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020\021\022\031\n\025A"
+    "LIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OUT_RIGH"
+    "T_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032\n\026ALIG"
+    "N_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSide\022\024\n\020B"
+    "ORDER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_BOTTOM\020"
+    "\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_SIDE_LE"
+    "FT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BORDER_SI"
+    "DE_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020\020*\236\001\n\r"
+    "LabelLongMode\022\030\n\024LABEL_LONG_MODE_WRAP\020\000\022"
+    "\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL_LONG_"
+    "MODE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_SCROLL_"
+    "CIRCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP\020\004*L\n\007"
+    "BarMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BAR_MODE"
+    "_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n\007Ar"
+    "cMode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_MODE_S"
+    "YMMETRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002*>\n\nRo"
+    "llerMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030\n\024ROLL"
+    "ER_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035\n\031SCAL"
+    "E_MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_MODE_HO"
+    "RIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VERTICAL"
+    "_LEFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIGHT\020\004\022\032"
+    "\n\026SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCALE_MODE"
+    "_ROUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CHART_TY"
+    "PE_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020CHART_"
+    "TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026\n\022CHAR"
+    "T_TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCATTER\020\005"
+    "*w\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMARY_Y\020\000\022"
+    "\032\n\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHART_AXI"
+    "S_PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECONDARY_X\020"
+    "\004*\273\022\n\021StylePropertyType\022\021\n\rPROP_BG_COLOR"
+    "\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_COLOR\020\002"
+    "\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDER_COLO"
+    "R\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP_RADIU"
+    "S\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022"
+    "\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017\n\013PROP"
+    "_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PROP_PAD_"
+    "VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP_BORDE"
+    "R_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PROP_MAX_"
+    "WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PROP_MAX"
+    "_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n"
+    "\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP_TRANS"
+    "FORM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEIGHT\020\031\022"
+    "\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRANSLATE_"
+    "Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022"
+    "\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014"
+    "PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n\013PROP_"
+    "SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP_PAD_B"
+    "OTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP_PAD_R"
+    "IGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_PAD_COL"
+    "UMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP_MARGI"
+    "N_BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025\n\021PROP"
+    "_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_COLOR\020-\022"
+    "\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_MAIN_ST"
+    "OP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PROP_BG_M"
+    "AIN_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n\021PROP_"
+    "BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OPA\0204\022\031\n"
+    "\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_BG_IMAG"
+    "E_RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_TILED\0207"
+    "\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BORDER_PO"
+    "ST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PROP_OUT"
+    "LINE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<\022\024\n\020PR"
+    "OP_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WIDTH\020>\022"
+    "\030\n\024PROP_SHADOW_OFFSET_X\020\?\022\030\n\024PROP_SHADOW"
+    "_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020A\022\025\n\021P"
+    "ROP_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_OPA\020C\022"
+    "\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_RECOLO"
+    "R\020E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n\017PROP_"
+    "LINE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WIDTH\020H\022\026"
+    "\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LINE_ROUN"
+    "DED\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP_LINE_"
+    "OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_ARC_RO"
+    "UNDED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PROP_ARC_"
+    "OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_TEXT_LE"
+    "TTER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPACE\020S\022\023"
+    "\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_ALIGN\020U"
+    "\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020"
+    "PROP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_FILTER_"
+    "OPA\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017PROP_BL"
+    "END_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027PROP_RO"
+    "TARY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FLOW\020^\022\030"
+    "\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_FLEX_CR"
+    "OSS_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLACE\020a\022\022"
+    "\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_COLUMN_A"
+    "LIGN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n\031PROP_"
+    "GRID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRID_CELL"
+    "_X_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUMN_SPAN"
+    "\020g\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026PROP_G"
+    "RID_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CELL_ROW"
+    "_SPAN\020jBEZCgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/uib\006"
+    "proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fast_2eproto_deps[1] =
     {
@@ -2387,13 +2437,13 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fast_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fast_2eproto = {
     false,
     false,
-    13084,
+    13246,
     descriptor_table_protodef_ui_2fui_5fast_2eproto,
     "ui/ui_ast.proto",
     &descriptor_table_ui_2fui_5fast_2eproto_once,
     descriptor_table_ui_2fui_5fast_2eproto_deps,
     1,
-    45,
+    46,
     schemas,
     file_default_instances,
     TableStruct_ui_2fui_5fast_2eproto::offsets,
@@ -4423,6 +4473,12 @@ WidgetNode::WidgetNode(
   _impl_.checked_when_ = (cached_has_bits & 0x00000008u) ? ::google::protobuf::Message::CopyConstruct<::ui::VisibilityBinding>(
                               arena, *from._impl_.checked_when_)
                         : nullptr;
+  _impl_.enabled_when_ = (cached_has_bits & 0x00000010u) ? ::google::protobuf::Message::CopyConstruct<::ui::VisibilityBinding>(
+                              arena, *from._impl_.enabled_when_)
+                        : nullptr;
+  _impl_.color_when_ = (cached_has_bits & 0x00000020u) ? ::google::protobuf::Message::CopyConstruct<::ui::ColorBinding>(
+                              arena, *from._impl_.color_when_)
+                        : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, type_),
            reinterpret_cast<const char *>(&from._impl_) +
@@ -4542,6 +4598,8 @@ inline void WidgetNode::SharedDtor(MessageLite& self) {
   delete this_._impl_.layout_;
   delete this_._impl_.visibility_;
   delete this_._impl_.checked_when_;
+  delete this_._impl_.enabled_when_;
+  delete this_._impl_.color_when_;
   if (this_.has_widget_props()) {
     this_.clear_widget_props();
   }
@@ -4816,16 +4874,16 @@ const ::google::protobuf::internal::ClassData* WidgetNode::GetClassData() const 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 44, 31, 86, 7> WidgetNode::_table_ = {
+const ::_pbi::TcParseTable<5, 46, 33, 86, 7> WidgetNode::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_._has_bits_),
     0, // no _extensions_
-    44, 248,  // max_field_number, fast_idx_mask
+    46, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     0,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    44,  // num_field_entries
-    31,  // num_aux_entries
+    46,  // num_field_entries
+    33,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -4902,13 +4960,15 @@ const ::_pbi::TcParseTable<5, 44, 31, 86, 7> WidgetNode::_table_ = {
     // .ui.VisibilityBinding visibility = 29;
     {::_pbi::TcParser::FastMtS2,
      {490, 2, 23, PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.visibility_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ui.ColorBinding color_when = 46;
+    {::_pbi::TcParser::FastMtS2,
+     {754, 5, 30, PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.color_when_)}},
     // uint32 obj_flags = 31;
     {::_pbi::TcParser::FastV32S2,
      {504, 63, 0, PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.obj_flags_)}},
   }}, {{
     33, 0, 1,
-    61440, 32,
+    49152, 32,
     65535, 65535
   }}, {{
     // .ui.WidgetType type = 1 [(.buf.validate.field) = {
@@ -4924,7 +4984,7 @@ const ::_pbi::TcParseTable<5, 44, 31, 86, 7> WidgetNode::_table_ = {
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.text_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // map<string, string> bindings = 5;
-    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bindings_), -1, 29,
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bindings_), -1, 31,
     (0 | ::_fl::kFcRepeated | ::_fl::kMap)},
     // .ui.EventBinding event = 6;
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.event_), _Internal::kHasBitsOffset + 0, 0,
@@ -4999,7 +5059,7 @@ const ::_pbi::TcParseTable<5, 44, 31, 86, 7> WidgetNode::_table_ = {
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.visibility_), _Internal::kHasBitsOffset + 2, 23,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // map<string, string> bind_formats = 30;
-    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bind_formats_), -1, 30,
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bind_formats_), -1, 32,
     (0 | ::_fl::kFcRepeated | ::_fl::kMap)},
     // uint32 obj_flags = 31;
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.obj_flags_), -1, 0,
@@ -5043,6 +5103,12 @@ const ::_pbi::TcParseTable<5, 44, 31, 86, 7> WidgetNode::_table_ = {
     // repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.gestures_), -1, 28,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ui.VisibilityBinding enabled_when = 45;
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.enabled_when_), _Internal::kHasBitsOffset + 4, 29,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ui.ColorBinding color_when = 46;
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.color_when_), _Internal::kHasBitsOffset + 5, 30,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ui::EventBinding>()},
     {::_pbi::TcParser::GetTable<::ui::Layout>()},
@@ -5073,6 +5139,8 @@ const ::_pbi::TcParseTable<5, 44, 31, 86, 7> WidgetNode::_table_ = {
     {::_pbi::TcParser::GetTable<::ui::HostProxyProps>()},
     {::_pbi::TcParser::GetTable<::ui::VisibilityBinding>()},
     {::_pbi::TcParser::GetTable<::ui::GestureSpec>()},
+    {::_pbi::TcParser::GetTable<::ui::VisibilityBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::ColorBinding>()},
     {::_pbi::TcParser::GetMapAuxInfo<
         decltype(WidgetNode()._impl_.bindings_)>(
         1, 0, 0, 9,
@@ -5106,7 +5174,7 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
   _impl_.gestures_.Clear();
   _impl_.text_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x0000003fu) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(_impl_.event_ != nullptr);
       _impl_.event_->Clear();
@@ -5122,6 +5190,14 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
     if (cached_has_bits & 0x00000008u) {
       ABSL_DCHECK(_impl_.checked_when_ != nullptr);
       _impl_.checked_when_->Clear();
+    }
+    if (cached_has_bits & 0x00000010u) {
+      ABSL_DCHECK(_impl_.enabled_when_ != nullptr);
+      _impl_.enabled_when_->Clear();
+    }
+    if (cached_has_bits & 0x00000020u) {
+      ABSL_DCHECK(_impl_.color_when_ != nullptr);
+      _impl_.color_when_->Clear();
     }
   }
   ::memset(&_impl_.type_, 0, static_cast<::size_t>(
@@ -5512,6 +5588,20 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
                     target, stream);
           }
 
+          // .ui.VisibilityBinding enabled_when = 45;
+          if (cached_has_bits & 0x00000010u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                45, *this_._impl_.enabled_when_, this_._impl_.enabled_when_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .ui.ColorBinding color_when = 46;
+          if (cached_has_bits & 0x00000020u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                46, *this_._impl_.color_when_, this_._impl_.color_when_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -5601,7 +5691,7 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
             }
           }
           cached_has_bits = this_._impl_._has_bits_[0];
-          if (cached_has_bits & 0x0000000fu) {
+          if (cached_has_bits & 0x0000003fu) {
             // .ui.EventBinding event = 6;
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
@@ -5621,6 +5711,16 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
             if (cached_has_bits & 0x00000008u) {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.checked_when_);
+            }
+            // .ui.VisibilityBinding enabled_when = 45;
+            if (cached_has_bits & 0x00000010u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.enabled_when_);
+            }
+            // .ui.ColorBinding color_when = 46;
+            if (cached_has_bits & 0x00000020u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.color_when_);
             }
           }
            {
@@ -5837,7 +5937,7 @@ void WidgetNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
     _this->_internal_set_text(from._internal_text());
   }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x0000003fu) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(from._impl_.event_ != nullptr);
       if (_this->_impl_.event_ == nullptr) {
@@ -5872,6 +5972,24 @@ void WidgetNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
             ::google::protobuf::Message::CopyConstruct<::ui::VisibilityBinding>(arena, *from._impl_.checked_when_);
       } else {
         _this->_impl_.checked_when_->MergeFrom(*from._impl_.checked_when_);
+      }
+    }
+    if (cached_has_bits & 0x00000010u) {
+      ABSL_DCHECK(from._impl_.enabled_when_ != nullptr);
+      if (_this->_impl_.enabled_when_ == nullptr) {
+        _this->_impl_.enabled_when_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::VisibilityBinding>(arena, *from._impl_.enabled_when_);
+      } else {
+        _this->_impl_.enabled_when_->MergeFrom(*from._impl_.enabled_when_);
+      }
+    }
+    if (cached_has_bits & 0x00000020u) {
+      ABSL_DCHECK(from._impl_.color_when_ != nullptr);
+      if (_this->_impl_.color_when_ == nullptr) {
+        _this->_impl_.color_when_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::ColorBinding>(arena, *from._impl_.color_when_);
+      } else {
+        _this->_impl_.color_when_->MergeFrom(*from._impl_.color_when_);
       }
     }
   }
@@ -15870,6 +15988,307 @@ void VisibilityBinding::InternalSwap(VisibilityBinding* PROTOBUF_RESTRICT other)
 }
 
 ::google::protobuf::Metadata VisibilityBinding::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ColorBinding::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<ColorBinding>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_._has_bits_);
+};
+
+ColorBinding::ColorBinding(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ui.ColorBinding)
+}
+inline PROTOBUF_NDEBUG_INLINE ColorBinding::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ui::ColorBinding& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+ColorBinding::ColorBinding(
+    ::google::protobuf::Arena* arena,
+    const ColorBinding& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ColorBinding* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.when_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ui::VisibilityBinding>(
+                              arena, *from._impl_.when_)
+                        : nullptr;
+  _impl_.color_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ui::Color>(
+                              arena, *from._impl_.color_)
+                        : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:ui.ColorBinding)
+}
+inline PROTOBUF_NDEBUG_INLINE ColorBinding::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void ColorBinding::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, when_),
+           0,
+           offsetof(Impl_, color_) -
+               offsetof(Impl_, when_) +
+               sizeof(Impl_::color_));
+}
+ColorBinding::~ColorBinding() {
+  // @@protoc_insertion_point(destructor:ui.ColorBinding)
+  SharedDtor(*this);
+}
+inline void ColorBinding::SharedDtor(MessageLite& self) {
+  ColorBinding& this_ = static_cast<ColorBinding&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.when_;
+  delete this_._impl_.color_;
+  this_._impl_.~Impl_();
+}
+
+inline void* ColorBinding::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ColorBinding(arena);
+}
+constexpr auto ColorBinding::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ColorBinding),
+                                            alignof(ColorBinding));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ColorBinding::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ColorBinding_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ColorBinding::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<ColorBinding>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ColorBinding::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<ColorBinding>(), &ColorBinding::ByteSizeLong,
+            &ColorBinding::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_._cached_size_),
+        false,
+    },
+    &ColorBinding::kDescriptorMethods,
+    &descriptor_table_ui_2fui_5fast_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ColorBinding::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 2, 0, 2> ColorBinding::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_._has_bits_),
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ui::ColorBinding>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .ui.Color color = 2;
+    {::_pbi::TcParser::FastMtS1,
+     {18, 1, 1, PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_.color_)}},
+    // .ui.VisibilityBinding when = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_.when_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .ui.VisibilityBinding when = 1;
+    {PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_.when_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ui.Color color = 2;
+    {PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_.color_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ui::VisibilityBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::Color>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void ColorBinding::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.ColorBinding)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.when_ != nullptr);
+      _impl_.when_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.color_ != nullptr);
+      _impl_.color_->Clear();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* ColorBinding::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const ColorBinding& this_ = static_cast<const ColorBinding&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* ColorBinding::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const ColorBinding& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ui.ColorBinding)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ui.VisibilityBinding when = 1;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                1, *this_._impl_.when_, this_._impl_.when_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .ui.Color color = 2;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                2, *this_._impl_.color_, this_._impl_.color_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ui.ColorBinding)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t ColorBinding::ByteSizeLong(const MessageLite& base) {
+          const ColorBinding& this_ = static_cast<const ColorBinding&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t ColorBinding::ByteSizeLong() const {
+          const ColorBinding& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ui.ColorBinding)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
+            // .ui.VisibilityBinding when = 1;
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.when_);
+            }
+            // .ui.Color color = 2;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.color_);
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void ColorBinding::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<ColorBinding*>(&to_msg);
+  auto& from = static_cast<const ColorBinding&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.ColorBinding)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.when_ != nullptr);
+      if (_this->_impl_.when_ == nullptr) {
+        _this->_impl_.when_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::VisibilityBinding>(arena, *from._impl_.when_);
+      } else {
+        _this->_impl_.when_->MergeFrom(*from._impl_.when_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.color_ != nullptr);
+      if (_this->_impl_.color_ == nullptr) {
+        _this->_impl_.color_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::Color>(arena, *from._impl_.color_);
+      } else {
+        _this->_impl_.color_->MergeFrom(*from._impl_.color_);
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ColorBinding::CopyFrom(const ColorBinding& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.ColorBinding)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void ColorBinding::InternalSwap(ColorBinding* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_.color_)
+      + sizeof(ColorBinding::_impl_.color_)
+      - PROTOBUF_FIELD_OFFSET(ColorBinding, _impl_.when_)>(
+          reinterpret_cast<char*>(&_impl_.when_),
+          reinterpret_cast<char*>(&other->_impl_.when_));
+}
+
+::google::protobuf::Metadata ColorBinding::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

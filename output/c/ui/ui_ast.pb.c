@@ -123,6 +123,9 @@ PB_BIND(ui_GestureSpec, ui_GestureSpec, AUTO)
 PB_BIND(ui_VisibilityBinding, ui_VisibilityBinding, AUTO)
 
 
+PB_BIND(ui_ColorBinding, ui_ColorBinding, AUTO)
+
+
 PB_BIND(ui_Layout, ui_Layout, AUTO)
 
 

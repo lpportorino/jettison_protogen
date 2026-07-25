@@ -5741,3 +5741,249 @@ mod checkbox_pressed_grow {
         );
     }
 }
+// ═══════════════════════════════════════════════════════════════════
+// Value-conditional STYLE bindings: enabled_when + color_when — the
+// reactive layer that toggles a widget's LV_STATE_DISABLED / text color
+// from a subject value comparison (the style siblings of the existing
+// visibility / checked_when bindings). Each screen is built directly via
+// prost, loaded, then driven purely through controls_update_state — so a
+// state change is attributable to the binding and nothing else.
+//
+// enabled_when is asserted via the controls_dump_tree "disabled" oracle
+// (the DISABLED sibling of the "checked" line the radio-group oracle
+// uses); color_when via a framebuffer color probe (dump_tree is blind to
+// resolved styles). Both are RED without the renderer's observer wiring:
+// the DISABLED state / RED text NEVER appears, so the "must be disabled"
+// and "must be RED" arms fail — the assertions cannot pass vacuously.
+// ═══════════════════════════════════════════════════════════════════
+
+mod value_conditional_style {
+    use super::*;
+
+    /// A style_groups entry pinning explicit W×H (unstyled nodes default to
+    /// 160×160 and clip) — the local twin the sibling prost modules carry.
+    fn size_group(w: u32, h: u32) -> ui::StyleGroup {
+        use lvgl_harness::proto::ui::style_property::Value;
+        ui::StyleGroup {
+            variants: vec![ui::StyleVariant {
+                properties: vec![
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropWidth as i32,
+                        value: Some(Value::UintValue(w)),
+                    },
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropHeight as i32,
+                        value: Some(Value::UintValue(h)),
+                    },
+                ],
+                ..Default::default()
+            }],
+            ..Default::default()
+        }
+    }
+
+    /// Declare one INT subject (initial 0 — proto3 default presence omitted).
+    fn int_subject(name: &str) -> ui::SubjectDeclaration {
+        ui::SubjectDeclaration {
+            name: name.into(),
+            r#type: ui::SubjectType::SubjectInt as i32,
+            initial: None,
+        }
+    }
+
+    /// Themed full-canvas root wrapping `child`, plus `subjects`.
+    fn screen(child: ui::WidgetNode, subjects: Vec<ui::SubjectDeclaration>) -> Vec<u8> {
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                uid: 100,
+                style_groups: vec![size_group(WIDTH, HEIGHT)],
+                children: vec![child],
+                ..Default::default()
+            }),
+            subjects,
+        }
+        .encode_to_vec()
+    }
+
+    fn settle(host: &mut ControlsHost) {
+        for _ in 0..10 {
+            let _ = host.tick(16).expect("tick");
+        }
+    }
+
+    /// Load raw Screen bytes under the default protocol + settle.
+    fn load(host: &mut ControlsHost, pb: &[u8]) {
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(pb).expect("load_ui");
+        settle(host);
+    }
+
+    /// Push one INT subject value through controls_update_state + settle.
+    fn push_int(host: &mut ControlsHost, name: &str, value: i32) {
+        let su = ui::StateUpdate {
+            values: vec![ui::SubjectValue {
+                name: name.into(),
+                value: Some(ui::subject_value::Value::IntValue(value)),
+            }],
+        }
+        .encode_to_vec();
+        host.update_state(&su).expect("update_state");
+        settle(host);
+    }
+
+    fn snapshot(host: &mut ControlsHost) -> Vec<u8> {
+        settle(host);
+        host.read_framebuffer().expect("framebuffer")
+    }
+
+    /// The single lv_button's `"disabled"` flag from the live dump tree
+    /// (absent = enabled, per the emit-only-when-set convention).
+    fn button_disabled(host: &mut ControlsHost) -> bool {
+        fn find<'a>(node: &'a serde_json::Value) -> Option<&'a serde_json::Value> {
+            if node["type"] == "lv_button" {
+                return Some(node);
+            }
+            node["children"]
+                .as_array()?
+                .iter()
+                .find_map(find)
+        }
+        let root = tree(host);
+        let btn = find(&root).expect("a lv_button in the tree");
+        btn["disabled"] == serde_json::Value::Bool(true)
+    }
+
+    /// A button whose ENABLED state tracks `armed == 1` (EQ → the native
+    /// lv_obj_bind_state_if_* fast path). DISABLED while the precondition is
+    /// unmet, cleared once satisfied — round-tripped both ways.
+    #[test]
+    fn enabled_when_eq_toggles_disabled_state() {
+        let button = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetButton as i32,
+            uid: 42,
+            x: 60,
+            y: 50,
+            enabled_when: Some(ui::VisibilityBinding {
+                subject: "armed".into(),
+                ref_value: 1,
+                compare: ui::CompareOp::CompareEq as i32,
+            }),
+            style_groups: vec![size_group(120, 48)],
+            children: vec![ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetLabel as i32,
+                uid: 43,
+                text: "Fire".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut host = new_host();
+        load(&mut host, &screen(button, vec![int_subject("armed")]));
+        assert!(
+            button_disabled(&mut host),
+            "armed=0: precondition unmet → button must carry LV_STATE_DISABLED"
+        );
+        push_int(&mut host, "armed", 1);
+        assert!(
+            !button_disabled(&mut host),
+            "armed=1: precondition met → button must be ENABLED (DISABLED cleared)"
+        );
+        push_int(&mut host, "armed", 0);
+        assert!(
+            button_disabled(&mut host),
+            "armed back to 0: button must return to DISABLED"
+        );
+    }
+
+    /// A button whose ENABLED state tracks `level >= 10` (GTE → the custom
+    /// range observer, not a native bind). Exercises the observer arm the
+    /// EQ test does not reach.
+    #[test]
+    fn enabled_when_gte_uses_range_observer() {
+        let button = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetButton as i32,
+            uid: 42,
+            x: 60,
+            y: 50,
+            enabled_when: Some(ui::VisibilityBinding {
+                subject: "level".into(),
+                ref_value: 10,
+                compare: ui::CompareOp::CompareGte as i32,
+            }),
+            style_groups: vec![size_group(120, 48)],
+            children: vec![ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetLabel as i32,
+                uid: 43,
+                text: "Go".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut host = new_host();
+        load(&mut host, &screen(button, vec![int_subject("level")]));
+        assert!(
+            button_disabled(&mut host),
+            "level=0 (< 10): button must be DISABLED"
+        );
+        push_int(&mut host, "level", 12);
+        assert!(
+            !button_disabled(&mut host),
+            "level=12 (>= 10): button must be ENABLED"
+        );
+        push_int(&mut host, "level", 3);
+        assert!(
+            button_disabled(&mut host),
+            "level=3 (< 10): button must be DISABLED again"
+        );
+    }
+
+    /// A label whose text color tracks `fault > 0` (color_when → always the
+    /// custom observer; LVGL has no native style-prop bind). Theme default
+    /// while nominal, RED while faulted, reverting cleanly when it clears
+    /// (the lv_obj_remove_local_style_prop path).
+    #[test]
+    fn color_when_recolors_label_text() {
+        let label = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetLabel as i32,
+            uid: 42,
+            x: 40,
+            y: 120,
+            text: "FAULT DETECTED".into(),
+            color_when: Some(ui::ColorBinding {
+                when: Some(ui::VisibilityBinding {
+                    subject: "fault".into(),
+                    ref_value: 0,
+                    compare: ui::CompareOp::CompareGt as i32,
+                }),
+                color: Some(ui::Color {
+                    r: u32::from(RED.0),
+                    g: u32::from(RED.1),
+                    b: u32::from(RED.2),
+                }),
+            }),
+            ..Default::default()
+        };
+        let mut host = new_host();
+        load(&mut host, &screen(label, vec![int_subject("fault")]));
+        let fb_nominal = snapshot(&mut host);
+        assert!(
+            !analysis::has_color(&fb_nominal, RED, COLOR_TOLERANCE),
+            "fault=0: label must render in the theme default color, not RED"
+        );
+        push_int(&mut host, "fault", 1);
+        let fb_faulted = snapshot(&mut host);
+        assert!(
+            analysis::has_color(&fb_faulted, RED, COLOR_TOLERANCE),
+            "fault>0: label text must recolor to the bound RED"
+        );
+        push_int(&mut host, "fault", 0);
+        let fb_cleared = snapshot(&mut host);
+        assert!(
+            !analysis::has_color(&fb_cleared, RED, COLOR_TOLERANCE),
+            "fault cleared: label must revert to the theme default (local override removed)"
+        );
+    }
+}
