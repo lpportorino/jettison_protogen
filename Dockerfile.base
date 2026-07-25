@@ -142,12 +142,19 @@ RUN pip3 install --break-system-packages \
     mypy-protobuf
 
 # Install TypeScript/Node dependencies globally
+# lv_font_conv is VERSION-PINNED: it rasterizes the committed renderer fonts
+# (renderer/src/font_*.c via tools/gen_fonts.sh), so its output must be
+# reproducible. 1.5.2 is the newest release whose rasterizer reproduces the
+# existing committed glyph bitmaps byte-for-byte; 1.5.3 changed the rasterizer
+# (12-30 bytes/font of anti-aliasing drift), which would re-mint every
+# font-bearing golden. Bump this pin only in lockstep with a font re-mint.
 RUN npm install -g \
     ts-proto \
     @bufbuild/protoc-gen-es \
     @bufbuild/protoc-gen-connect-es \
     @bufbuild/protobuf \
-    @bufbuild/protovalidate
+    @bufbuild/protovalidate \
+    lv_font_conv@1.5.2
 
 # Install Go protobuf plugins
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \

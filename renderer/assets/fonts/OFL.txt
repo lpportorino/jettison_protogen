@@ -1,8 +1,34 @@
 Copyright 2012 The B612 Project Authors (https://github.com/polarsys/b612)
+Copyright 2018 The Orbitron Project Authors (https://github.com/theleagueof/orbitron), with Reserved Font Name: "Orbitron".
 
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
-This license is copied below, and is also available with a FAQ at:
+Both fonts in this directory are licensed under the SIL Open Font License,
+Version 1.1. This license is copied below, and is also available with a FAQ at:
 http://scripts.sil.org/OFL
+
+-----------------------------------------------------------
+PROVENANCE (renderer/assets/fonts/)
+-----------------------------------------------------------
+b612mono_bold.ttf   — B612 Mono Bold, v1.008. Pinned in .ported-from.edn:
+                      byte-identical to the polarsys/b612 release TTF
+                      (sha256 b467b1d1…d1fd68ca).
+
+Orbitron-Bold.ttf   — Orbitron Bold, v2.001 (© 2018 The Orbitron Project
+                      Authors; upstream github.com/theleagueof/orbitron,
+                      distributed via Google Fonts). sha256
+                      8f0b6b2958d876a4aa0a1be9e6f12847d210bc40fe7ff070db3485d6a4037940.
+                      NO .ported-from.edn pin: these exact 16 KiB bytes are a
+                      Google-Fonts build-pipeline artifact (a static instance of
+                      the Orbitron variable font) and are NOT addressable to a
+                      verifiable upstream commit — theleagueof/orbitron master
+                      ships differently-named/older bytes, and none of the 11
+                      commits that ever touched google/fonts
+                      ofl/orbitron/Orbitron-Bold.ttf matches. Per
+                      .claude/rules/ported-provenance.md's sha-unaddressable
+                      exception, provenance is this prose rather than an invented
+                      (false) pin. RE-VENDOR: fonts.google.com/specimen/Orbitron
+                      (Bold weight), or copy the byte-identical co-vendored twin
+                      at jettison_midgard/osd_assets/resources/fonts/Orbitron-Bold.ttf.
+                      Consumed at BUILD time only, by tools/gen_fonts.sh.
 
 
 -----------------------------------------------------------

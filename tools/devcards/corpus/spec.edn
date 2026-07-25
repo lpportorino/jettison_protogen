@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 225
+ :card-count 228
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -190,7 +190,7 @@
            {:h 200 :id :large :note "dashboard-panel scale" :w 320}]
    :tag "lv_obj"
    :type :WIDGET_OBJ}
-  {:authored-count 14
+  {:authored-count 17
    :cards
    [{:expect :baseline
      :id "lv_label/default/small/wrap"
@@ -313,11 +313,41 @@
      :state :default
      :states-bits 0
      :text "42.7"
-     :variant :pairing-data-value}]
+     :variant :pairing-data-value}
+    {:expect :baseline
+     :id "lv_label/default/medium/symbols"
+     :notes
+     "Glyph-subset proof (T12): renders the non-ASCII glyphs added to the pinned fonts — U+00B0 DEGREE, U+00B1 PLUS-MINUS, U+2013 EN DASH, U+2014 EM DASH, U+2026 ELLIPSIS, U+2192 RIGHTWARDS ARROW. RED against the old ASCII-only font (tofu), GREEN after the gen_fonts.sh range extension. The corpus's only non-ASCII glyph coverage."
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_16" :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "5°C ± 2 — 0…9 – A→B"
+     :variant :symbols}
+    {:expect :baseline
+     :id "lv_label/default/small/symbols"
+     :notes
+     "Glyph-subset proof (T12) at chip size: U+00B0 DEGREE, U+2014 EM DASH, U+2192 RIGHTWARDS ARROW — the evidence-driven trio (degree in the :unit of ≥14 proto docs; em-dash + arrow corrupt in authored screens before this extension)."
+     :props {:label_props {:long_mode :wrap} :text-font "b612mono_bold_12" :w 64}
+     :size :small
+     :state :default
+     :states-bits 0
+     :text "9° — A→B"
+     :variant :symbols}
+    {:expect :baseline
+     :id "lv_label/default/large/symbols"
+     :notes
+     "Glyph-subset proof (T12) for the Orbitron heading face: U+00B0 DEGREE, U+2013 EN DASH, U+2014 EM DASH, U+2026 ELLIPSIS — the four non-ASCII glyphs Orbitron carries (the display face has NO ± or → glyph; those live only in B612Mono, so this text deliberately omits them). Headings render these on device; without an Orbitron-font card the four glyphs render into ZERO goldens and a rasterization drift would sail past the corpus."
+     :props {:label_props {:long_mode :wrap} :text-font "orbitron_bold_22" :w 320}
+     :size :large
+     :state :default
+     :states-bits 0
+     :text "90° — 5…9 – X"
+     :variant :symbols}]
    :committed-states [:default]
    :declared-count 14
    :deviation
-   "Survey's 5 class-def pairing cells (body/caption/heading/muted/data-value) reference asgard authoring vocabulary, banned by T2.1 UNSTYLED. Kept at declared count by translating each pairing to the raw FONT-NAME it resolves to; the resolved text-color hex is deliberately NOT baked — a mode-blind hex freezes one mode's resolution (a dark-resolved fg is invisible on the light sheet) and text color is exactly the theme fallthrough under test. Count unchanged (14)."
+   "Survey's 5 class-def pairing cells (body/caption/heading/muted/data-value) reference asgard authoring vocabulary, banned by T2.1 UNSTYLED. Kept at declared count by translating each pairing to the raw FONT-NAME it resolves to; the resolved text-color hex is deliberately NOT baked — a mode-blind hex freezes one mode's resolution (a dark-resolved fg is invisible on the light sheet) and text color is exactly the theme fallthrough under test. Beyond the 14 survey-derived cells sit 3 glyph-subset proof cards (medium+small on B612Mono, large on Orbitron) covering the non-ASCII glyphs the survey predates — authored 17, declared 14."
    :notes
    "No LVGL state axis exists for lv_label (stock's only label arm fires for textarea-internal SELECTED, unreachable here) — the behavioral axis is label_props.long_mode x width. long_mode-tier fonts are set as raw font-name strings because the sample texts are calibrated to those metrics (wrap/fit is the assertion). WRAP cells omit :h (content height); DOTS/CLIP cells fix a 1-line height."
    :sizes [{:id :small :note "HUD/chip-width label" :w 64}

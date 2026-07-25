@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_LABEL
 
-`lv_label` — 14 atomic corpus cards (state × size[/value], ids `lv_label/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_label` — 17 atomic corpus cards (state × size[/value], ids `lv_label/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -29,6 +29,9 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `default/large/pairing-heading` | ![default/large/pairing-heading vanilla](./WIDGET_LABEL-default_large_pairing-heading-vanilla.jpg) | ![default/large/pairing-heading asgard-dark](./WIDGET_LABEL-default_large_pairing-heading-asgard-dark.jpg) | ![default/large/pairing-heading asgard-light](./WIDGET_LABEL-default_large_pairing-heading-asgard-light.jpg) |
 | `default/medium/pairing-muted` | ![default/medium/pairing-muted vanilla](./WIDGET_LABEL-default_medium_pairing-muted-vanilla.jpg) | ![default/medium/pairing-muted asgard-dark](./WIDGET_LABEL-default_medium_pairing-muted-asgard-dark.jpg) | ![default/medium/pairing-muted asgard-light](./WIDGET_LABEL-default_medium_pairing-muted-asgard-light.jpg) |
 | `default/medium/pairing-data-value` | ![default/medium/pairing-data-value vanilla](./WIDGET_LABEL-default_medium_pairing-data-value-vanilla.jpg) | ![default/medium/pairing-data-value asgard-dark](./WIDGET_LABEL-default_medium_pairing-data-value-asgard-dark.jpg) | ![default/medium/pairing-data-value asgard-light](./WIDGET_LABEL-default_medium_pairing-data-value-asgard-light.jpg) |
+| `default/medium/symbols` | ![default/medium/symbols vanilla](./WIDGET_LABEL-default_medium_symbols-vanilla.jpg) | ![default/medium/symbols asgard-dark](./WIDGET_LABEL-default_medium_symbols-asgard-dark.jpg) | ![default/medium/symbols asgard-light](./WIDGET_LABEL-default_medium_symbols-asgard-light.jpg) |
+| `default/small/symbols` | ![default/small/symbols vanilla](./WIDGET_LABEL-default_small_symbols-vanilla.jpg) | ![default/small/symbols asgard-dark](./WIDGET_LABEL-default_small_symbols-asgard-dark.jpg) | ![default/small/symbols asgard-light](./WIDGET_LABEL-default_small_symbols-asgard-light.jpg) |
+| `default/large/symbols` | ![default/large/symbols vanilla](./WIDGET_LABEL-default_large_symbols-vanilla.jpg) | ![default/large/symbols asgard-dark](./WIDGET_LABEL-default_large_symbols-asgard-dark.jpg) | ![default/large/symbols asgard-light](./WIDGET_LABEL-default_large_symbols-asgard-light.jpg) |
 
 ## Committed states
 

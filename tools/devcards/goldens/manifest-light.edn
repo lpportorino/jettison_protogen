@@ -455,6 +455,11 @@
    "d45da3a02410d5b159e06c3aea9e7e036f3526579648c2c8a783d65bab11cfa5",
    :w 800,
    :h 480},
+  "lv_label/default/large/symbols"
+  {:sha256
+   "251e06e68547a55f0c07e622772bd16797f70027569623191ee647e651ac6e78",
+   :w 800,
+   :h 480},
   "lv_label/default/large/wrap"
   {:sha256
    "330d1c5f5a32efec6ae9268b139d3d4522f0737a7fbb72638d7b0b4884e7a7db",
@@ -490,6 +495,11 @@
    "cf9978b48a94180c5bcecc319a6dad2523b547ea7b78ebca8aab41b67c481150",
    :w 800,
    :h 480},
+  "lv_label/default/medium/symbols"
+  {:sha256
+   "376671aaa281ba89d026ca1bb100af008d395ae753cc677405404c7aec1de460",
+   :w 800,
+   :h 480},
   "lv_label/default/medium/wrap"
   {:sha256
    "2d44f5d7e24bdc49d9b11d9364bf2d7ae72bb9aa27f85d9d590837b45c1ab0eb",
@@ -503,6 +513,11 @@
   "lv_label/default/small/dots"
   {:sha256
    "47ee8c524bfd9b8678e519e40952ad47c231e71b515ca2e9dbf1128eda64fd04",
+   :w 800,
+   :h 480},
+  "lv_label/default/small/symbols"
+  {:sha256
+   "03fb42c97b9cc624a5350f23f0e1f6a0c777f1cf889accbdb31a01f87d44ae83",
    :w 800,
    :h 480},
   "lv_label/default/small/wrap"
