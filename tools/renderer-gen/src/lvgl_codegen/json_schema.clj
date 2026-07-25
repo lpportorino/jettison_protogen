@@ -10,7 +10,6 @@
    `UseProtoNames` + `EmitDefaultValues`), because `proto-schema/screen`
    itself is written in proto field names."
   (:require [clojure.data.json :as json]
-            [clojure.java.io :as io]
             [clojure.walk :as walk]
             [lvgl-codegen.proto-schema :as proto-schema]
             [malli.core :as m]
@@ -72,10 +71,6 @@
        "\n"))
 (m/=> screen-json-schema-str [:=> [:cat] [:string {:min 1}]])
 
-(defn export-json-schema!
-  "Write the committed JSON Schema export (staleness-gated by test)."
-  [out-path]
-  (io/make-parents out-path)
-  (spit out-path (screen-json-schema-str))
-  nil)
-(m/=> export-json-schema! [:=> [:cat [:string {:min 1}]] :nil])
+(comment
+  ;; Regenerate the committed export (staleness-gated by json-schema-test):
+  (spit schema-path (screen-json-schema-str)))
