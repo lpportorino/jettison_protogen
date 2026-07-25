@@ -51,7 +51,7 @@ for tab in 0 1 2; do
 done
 
 echo "── codegen demo_widgets per-tab fixtures ──"
-rgen clojure -M:codegen --tokens edn/tokens.edn --input "$ROOT/$OUT/fix" \
+rgen clojure -M:codegen --tokens ../../output/manifests/design-tokens.json --input "$ROOT/$OUT/fix" \
   --output "$ROOT/$OUT" >/dev/null
 
 fail=0

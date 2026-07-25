@@ -340,7 +340,7 @@ EDN
 
 # ── 2. Codegen every fixture to a .pb in one pass ────────────────────────────
 echo "── codegen $(ls "$ROOT/$FIX" | wc -l) matrix fixtures ──"
-rgen clojure -M:codegen --tokens edn/tokens.edn --input "$ROOT/$FIX" --output "$ROOT/$PB" \
+rgen clojure -M:codegen --tokens ../../output/manifests/design-tokens.json --input "$ROOT/$FIX" --output "$ROOT/$PB" \
   >/dev/null
 
 # ── 3. Render both paths per row; byte-compare trees + framebuffers ──────────

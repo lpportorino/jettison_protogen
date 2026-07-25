@@ -4,7 +4,6 @@
    into 8 composite variants per LVGL state selector."
   (:require [clojure.string :as str]
             [lvgl-codegen.generated.enums :as gen-enums]
-            [lvgl-codegen.resolve :as resolve]
             [lvgl-codegen.schema :as schema]
             [lvgl-codegen.style-props :as style-props]
             [malli.core :as m]))
@@ -158,23 +157,44 @@
     (let [tokens (str/split (str/trim class-str) #"\s+")]
       (condp some tokens #{"flex-col"} :flex-col #{"flex-row" "flex"} :flex-row nil))))
 
+(defn resolve-token-ref
+  "Resolve a token ref against the resolved token set (:tokens) — the pinned
+   design-tokens manifest with the private overlay merged over it: the entry
+   must exist AND its :kind must equal the prop's
+   registry :resolve kind — a color prop referencing a spacing token is an
+   authoring error, not a coercion. Returns {:dark v :light v} (both
+   concrete; equal when the token is mode-invariant)."
+  [tokens prop want ref-key]
+  (let [entry (get-in tokens [:tokens ref-key])]
+    (when-not entry
+      (throw (ex-info (str "Unknown design token: " (name ref-key)
+                           " — in neither the pinned design-tokens manifest nor"
+                           " the private overlay (edn/tokens_private.edn)")
+                      {:prop prop :ref ref-key})))
+    (when-not (= want (:kind entry))
+      (throw (ex-info (str "Token kind mismatch: " (name ref-key)
+                           " is a " (name (:kind entry))
+                           " token but " (name prop)
+                           " resolves " (name want))
+                      {:prop prop :ref ref-key :want want :actual (:kind entry)})))
+    (select-keys entry [:dark :light])))
+
 (defn resolve-prop-value
-  "Resolve a parsed token's ref to a concrete value using the token system
-   (resolution kind from the style-props registry; literal :value entries
-   pass through). Returns a themed map {:dark v :light v} or a bare value."
+  "Resolve a parsed token's ref to a concrete value (resolution kind from
+   the style-props registry; literal :value entries pass through). Token
+   refs resolve against the resolved token set (:tokens — the pinned
+   manifest, protogen's resolver emitting both modes concrete, with the
+   private overlay merged over it).
+   Returns a themed map {:dark v :light v} or a bare value."
   [tokens parsed]
   (let [resolved (if (contains? parsed :value)
                    (:value parsed)
                    (let [ref-key (:ref parsed)
-                         prop (:prop parsed)]
-                     (case (:resolve (get style-props/props prop))
-                       :color (resolve/resolve-color tokens ref-key)
-                       :font (resolve/resolve-font tokens ref-key)
-                       :spacing (resolve/resolve-spacing tokens ref-key)
-                       :radius (resolve/resolve-radius tokens ref-key)
-                       :shadow (resolve/resolve-shadow tokens ref-key)
-                       :opacity (resolve/resolve-opacity tokens ref-key)
-                       :border-width (resolve/resolve-border-width tokens ref-key)
+                         prop (:prop parsed)
+                         kind (:resolve (get style-props/props prop))]
+                     (case kind
+                       (:color :font :spacing :radius :shadow :opacity :border-width)
+                       (resolve-token-ref tokens prop kind ref-key)
                        :size (let [s (name ref-key)]
                                ;; Sizes are numeric literals (w-48); the :sizes
                                ;; token layer was deleted as a pure numeric mirror.
@@ -395,6 +415,12 @@
        [:=>
         [:cat [:map-of :keyword some?] [:maybe :keyword] [:maybe :keyword]
          [:maybe :keyword]] [:vector parsed-token]]])
+
+(m/=> resolve-token-ref
+      [:=>
+       [:cat schema/tokens-schema :keyword
+        [:enum :color :font :spacing :radius :shadow :opacity :border-width] :keyword]
+       [:map [:dark some?] [:light some?]]])
 
 (m/=> resolve-prop-value [:=> [:cat schema/tokens-schema parsed-token] :any])
 

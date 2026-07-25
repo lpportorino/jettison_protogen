@@ -2,7 +2,6 @@
   "Malli schemas for design tokens and screen definitions."
   (:require [clojure.string :as str]
             [lvgl-codegen.generated.enums :as gen-enums]
-            [lvgl-codegen.registry :as registry]
             [lvgl-codegen.style-props :as style-props]
             [malli.core :as m]))
 
@@ -10,7 +9,7 @@
 
 ;; -- Authoring keyword enums DERIVED from the factory-generated bindings
 ;; (`lvgl-codegen.generated.enums`, regenerated from LVGL's own headers via
-;; `make factory-bindings`) — one home per keyword set, never a hand-copy.
+;; protogen tools/renderer-gen) — one home per keyword set, never a hand-copy.
 (def ^:private obj-flag-enum
   "LV_OBJ_FLAG_* authoring keywords (`:flags` / `:flags-clear` set members)."
   (into [:enum] (sort (keys gen-enums/obj-flag-keyword->int))))
@@ -59,28 +58,46 @@
   "Author :id — sibling-scoped identity segment for tree patching."
   [:string {:min 1 :max 63}])
 
-;; Primitive schemas
-(def hex-color ::registry/hex-color)
+;; Primitive schemas — plain vars (no global Malli registry; named primitives
+;; are plain schemas referenced directly, the way uigen's schemas are).
+(def ne-string
+  "A non-empty string."
+  [:string {:min 1 :error/message "should be a non-empty string"}])
 
-(def themed-ref [:map [:dark keyword?] [:light keyword?]])
-
-(def semantic-value [:or themed-ref keyword? int?])
-
-(def font-def [:map [:family string?] [:size pos-int?]])
+(def hex-color
+  "A \"#RRGGBB\" hex colour."
+  [:re {:error/message "should be a \"#RRGGBB\" hex colour"} #"^#[0-9A-Fa-f]{6}$"])
 
 (def shadow-def
   [:map [:width nat-int?] [:opa [:int {:min 0 :max 255}]] [:offset-x {:optional true} int?]
    [:offset-y {:optional true} int?] [:spread {:optional true} nat-int?]])
 
-(def breakpoint-def [:tuple nat-int? [:maybe nat-int?]])
+(defn- resolved-token-entry
+  "One design-tokens manifest entry schema for a value-shape: closed
+   {:kind <kind> :dark <shape> :light <shape>} — both modes concrete
+   (protogen's resolver emits them; equal when mode-invariant)."
+  [kind value-shape]
+  [:map {:closed true} [:kind [:= kind]] [:dark value-shape] [:light value-shape]])
+(m/=> resolved-token-entry [:=> [:cat :keyword some?] [:vector some?]])
+
+(def resolved-token
+  "A pinned design-tokens manifest entry, dispatched on its :kind — the
+   closed kind set mirrors the style-props registry's :resolve kinds
+   (minus :size, which is literal-only and never a token)."
+  [:multi {:dispatch :kind} [:color (resolved-token-entry :color hex-color)]
+   [:font (resolved-token-entry :font [:string {:min 1}])]
+   [:spacing (resolved-token-entry :spacing nat-int?)]
+   [:radius (resolved-token-entry :radius nat-int?)]
+   [:opacity (resolved-token-entry :opacity [:int {:min 0 :max 255}])]
+   [:border-width (resolved-token-entry :border-width nat-int?)]
+   [:shadow (resolved-token-entry :shadow shadow-def)]])
 
 (def tokens-schema
-  [:map [:colors [:map-of keyword? hex-color]] [:fonts [:map-of keyword? font-def]]
-   [:spacing [:map-of [:or keyword? int?] nat-int?]] [:radii [:map-of keyword? nat-int?]]
-   [:opacity [:map-of keyword? [:int {:min 0 :max 255}]]]
-   [:shadows [:map-of keyword? shadow-def]] [:border-widths [:map-of keyword? nat-int?]]
-   [:breakpoints [:map-of keyword? breakpoint-def]]
-   [:semantic [:map-of keyword? semantic-value]]
+  "The pipeline's UI-definition map: the pinned design-tokens manifest
+   under :tokens (protogen owns tokens.edn + the resolver; this repo
+   consumes the resolved projection) merged with the authored
+   components.edn keys."
+  [:map [:tokens [:map-of keyword? resolved-token]]
    [:class-defs {:optional true} [:map-of keyword? string?]]
    [:components {:optional true} [:map-of keyword? [:map-of :keyword some?]]]])
 

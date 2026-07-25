@@ -116,6 +116,18 @@ jobs:
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
           bash -lc 'export PATH=/opt/wasi-sdk/bin:$PATH && make -f lint.mk lint-c-tidy'
+    - # A2: the published manifests must be byte-fresh vs a regen from their
+      # sources (tokens.edn + renderer.c). check-renderer runs `manifests` FIRST
+      # locally; renderer.yml DECOMPOSES check-renderer into individual targets,
+      # so without this step CI would never catch a manifest that drifted from
+      # its source (harness/oracles/goldens all render self-consistently against
+      # a stale manifest). Reads only tokens.edn + renderer.c — no wasm /
+      # proto-classes / cargo — so it runs cheaply and fails early.
+      name: Manifest freshness (A2 — design-tokens + renderer-caps)
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          jettison-proto-generator-base:latest \
+          make -f renderer.mk manifests
     - name: Build controls.wasm + reference.wasm (bit-identity artifact)
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \

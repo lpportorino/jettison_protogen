@@ -1,8 +1,9 @@
 (ns lvgl-codegen.core
-  "CLI entrypoint: EDN tokens + screens → protobuf UI AST (.pb files).
-   Pipeline: read EDN → validate (Malli) → resolve components
-   → semantic validate → expand → emit (.pb)."
-  (:require [clojure.edn :as edn]
+  "CLI entrypoint: pinned design-tokens manifest + EDN screens → protobuf
+   UI AST (.pb files). Pipeline: read manifest + EDN → validate (Malli)
+   → resolve components → semantic validate → expand → emit (.pb)."
+  (:require [clojure.data.json :as json]
+            [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.walk :as walk]
@@ -11,7 +12,6 @@
             [lvgl-codegen.expand :as expand]
             [lvgl-codegen.patch :as patch]
             [lvgl-codegen.proto-ser :as proto-ser]
-            [lvgl-codegen.registry :as registry]
             [lvgl-codegen.renderer-caps :as renderer-caps]
             [lvgl-codegen.schema :as schema]
             [malli.core :as m])
@@ -62,31 +62,103 @@
   [^String path]
   (with-open [rdr (java.io.PushbackReader. (io/reader path))] (edn/read rdr)))
 
+(def design-tokens-path
+  "The pinned design-tokens manifest — protogen owns `tokens.edn` and the
+   semantic→primitive resolver and emits this fully-resolved projection
+   (`output/manifests/design-tokens.json`); this repo is a pure consumer.
+   Repo-root relative like every default path here; overridable per call
+   (tests pass fixture manifests)."
+  "../../output/manifests/design-tokens.json")
+
+(def components-path
+  "The authored composition home (class macros + components) — stays in
+   THIS repo beside the screens it composes."
+  "edn/components.edn")
+
+(def ^:private resolved-token-map
+  "A design-token map — token keyword → resolved manifest entry
+   ({:kind k :dark v :light v}). The one shape BOTH the pinned public
+   manifest and the private overlay parse to, so the overlay is checkable
+   at its own boundary rather than three layers downstream."
+  [:map-of :keyword schema/resolved-token])
+
+(defn load-private-tokens
+  "Read the CALLER-SUPPLIED private design-token overlay at `path` into the
+   same shape the public manifest parses to — {token-kw {:kind kw :dark v
+   :light v}}. `path` may be nil (no overlay): a NIL or ABSENT path yields {},
+   the overlay being optional by contract. A PRESENT file is shape-validated
+   STRICTLY and throws when malformed — a private token that silently vanished
+   would fall back to the public design with nothing said, which is exactly the
+   failure this overlay exists to make impossible."
+  [^String path]
+  (if-not (and path (java.io.File/.isFile (io/file path)))
+    {}
+    (let [tokens (load-edn path)]
+      (when-let [errors (m/explain resolved-token-map tokens)]
+        (throw (ex-info (str "private design-token overlay is malformed: " path)
+                        {:path path :errors errors})))
+      tokens)))
+
+(defn merge-private-tokens
+  "Overlay `private` design tokens onto the `public` manifest tokens under a
+   DISJOINT-KEY contract, returning the merged token map. A private token
+   reusing a public name is a HARD error: the overlay adds proprietary
+   tokens the public manifest may not carry — it never re-defines a name
+   protogen already owns. Allowing the shadow would give one token name two
+   different definitions depending on which repo you read, with nothing
+   anywhere saying so."
+  [public private]
+  (let [colliding (vec (sort (filter (set (keys public)) (keys private))))]
+    (when (seq colliding)
+      (throw (ex-info (str "private design-token overlay shadows public token(s): "
+                           (str/join ", " (map name colliding))
+                           " — the overlay must be disjoint from the pinned"
+                           " manifest; rename the private token(s)")
+                      {:colliding-tokens colliding})))
+    (merge public private)))
+
+(defn load-design-tokens
+  "Parse a design-tokens manifest into {token-kw {:kind kw :dark v :light
+   v}}, then merge the CALLER-SUPPLIED private overlay (`private-overlay-path`,
+   or nil for none) over it. Values arrive concrete for BOTH modes (equal when
+   the token is mode-invariant): hex strings (color), font symbol strings
+   (font), ints (spacing/radius/opacity/border-width), keyword-keyed maps
+   (shadow). An empty PUBLIC token set is a hard error — a vacuous manifest
+   must never silently un-token the authoring surface (an empty private
+   overlay, by contrast, is the normal case)."
+  [^String manifest-path private-overlay-path]
+  (let [raw (with-open [rdr (io/reader manifest-path)] (json/read rdr :key-fn keyword))
+        tokens (into {} (map (fn [[k v]] [k (update v :kind keyword)])) (:tokens raw))]
+    (when (empty? tokens)
+      (throw (ex-info "design-tokens manifest carries no tokens" {:path manifest-path})))
+    (merge-private-tokens tokens (load-private-tokens private-overlay-path))))
+
 (defn load-ui-defs
-  "Load + assemble the UI definition map the pipeline consumes: the design
-   tokens file (layers 1-2 VALUES only) merged with its sibling
-   components.edn (:class-defs + :components — composition, not values).
-   Fails loud when tokens still carries evicted keys or the components
-   file is missing — never a silent fallback."
-  [^String tokens-path]
-  (let [tokens (load-edn tokens-path)
-        evicted (filterv #(contains? tokens %) [:class-defs :components])
-        _ (when (seq evicted)
-            (throw (ex-info (str "Tokens file carries evicted key(s) " evicted
-                                 " — class macros + components "
-                                 "live in the sibling components.edn")
-                            {:tokens-path tokens-path :evicted evicted})))
-        comp-file (io/file (java.io.File/.getParentFile (io/file tokens-path))
-                           "components.edn")
-        _ (when-not (java.io.File/.isFile comp-file)
-            (throw (ex-info (str "components.edn not found beside tokens: "
-                                 (java.io.File/.getPath comp-file))
-                            {:tokens-path tokens-path})))
-        comps (load-edn (java.io.File/.getPath comp-file))]
-    (when-let [errors (schema/validate-components-file comps)]
-      (throw (ex-info "components.edn validation failed"
-                      {:path (java.io.File/.getPath comp-file) :errors errors})))
-    (merge tokens comps)))
+  "Load + assemble the UI definition map the pipeline consumes: the pinned
+   design-tokens manifest under :tokens (concrete per-mode values) merged
+   with the authored components file (:class-defs + :components —
+   composition, not values). The private token overlay is CALLER-SUPPLIED
+   (`private-overlay-path`, or nil for none): protogen hosts the merge
+   mechanism but never names a consumer-private file — the consumer passes its
+   own overlay path. Fails loud when either public input is missing — never a
+   silent fallback."
+  ([^String tokens-manifest-path private-overlay-path]
+   (load-ui-defs tokens-manifest-path components-path private-overlay-path))
+  ([^String tokens-manifest-path ^String comps-path private-overlay-path]
+   (let [_ (when-not (java.io.File/.isFile (io/file tokens-manifest-path))
+             (throw (ex-info (str "design-tokens manifest not found: "
+                                  tokens-manifest-path
+                                  " — is the protogen submodule checked out?")
+                             {:tokens-manifest tokens-manifest-path})))
+         tokens {:tokens (load-design-tokens tokens-manifest-path private-overlay-path)}
+         _ (when-not (java.io.File/.isFile (io/file comps-path))
+             (throw (ex-info (str "components file not found: " comps-path)
+                             {:components-path comps-path})))
+         comps (load-edn comps-path)]
+     (when-let [errors (schema/validate-components-file comps)]
+       (throw (ex-info "components.edn validation failed"
+                       {:path comps-path :errors errors})))
+     (merge tokens comps))))
 
 (defn validate-class-defs!
   "Eagerly parse + expand every :class-defs macro at token-load: a broken
@@ -126,7 +198,7 @@
    (assets/fonts/<name>.bin), or a TinyTTF asset — '<family>_<size>'
    against assets/fonts/<family>.ttf (the renderer rasterizes at <size>)."
   [^String font-name]
-  (boolean (or (contains? renderer-caps/compiled-in-fonts font-name)
+  (boolean (or (contains? (renderer-caps/compiled-in-fonts) font-name)
                (java.io.File/.isFile (io/file "assets/fonts" (str font-name ".bin")))
                (let [idx (str/last-index-of font-name "_")]
                  (and idx
@@ -148,7 +220,7 @@
                            "compiled-in renderer font nor to an "
                            "assets/fonts/ .bin/.ttf asset: " missing)
                       {:missing missing
-                       :compiled-in (sort renderer-caps/compiled-in-fonts)
+                       :compiled-in (sort (renderer-caps/compiled-in-fonts))
                        :output output-path})))))
 
 (defn join-class-vectors
@@ -220,18 +292,23 @@
 
 (defn -main
   "Parse CLI args and run the codegen pipeline.
-   Usage: --tokens <path> --input <dir> --output <dir>"
+   Usage: --tokens <design-tokens.json> --input <dir> --output <dir>
+          [--private-tokens <overlay.edn>]
+   (--tokens names the pinned protogen design-tokens manifest; see
+   `design-tokens-path` for the default location. --private-tokens is the
+   OPTIONAL consumer overlay path — omitted means no overlay.)"
   [& args]
   (let [arg-map (apply hash-map args)
         tokens-path (get arg-map "--tokens")
+        private-tokens-path (get arg-map "--private-tokens")
         input-dir (get arg-map "--input")
         output-dir (get arg-map "--output")]
     (when-not (and tokens-path input-dir output-dir)
       (binding [*out* *err*]
-        (println "Usage: --tokens <path> --input <dir> --output <dir>"))
+        (println "Usage: --tokens <design-tokens.json> --input <dir> --output <dir> [--private-tokens <overlay.edn>]"))
       (System/exit 1))
     (java.io.File/.mkdirs (io/file output-dir))
-    (let [tokens (load-ui-defs tokens-path)]
+    (let [tokens (load-ui-defs tokens-path private-tokens-path)]
       (when-let [errors (schema/validate-tokens tokens)]
         (binding [*out* *err*]
           (println "Token validation failed:")
@@ -272,7 +349,7 @@
 ;; File-local arg schemas for arrow-spec tightening.
 (def ^:private file-path
   "Non-empty filesystem path string (for io/reader, File construction)."
-  ::registry/ne-string)
+  schema/ne-string)
 
 (def ^:private loaded-components
   "Result of load-components: component-name -> component definition map."
@@ -285,7 +362,18 @@
 
 (m/=> load-edn [:=> [:cat file-path] :map])
 
-(m/=> load-ui-defs [:=> [:cat file-path] :map])
+(m/=> load-private-tokens [:=> [:cat [:maybe file-path]] resolved-token-map])
+
+(m/=> merge-private-tokens
+      [:=> [:cat resolved-token-map resolved-token-map] resolved-token-map])
+
+(m/=> load-design-tokens
+      [:=> [:cat file-path [:maybe file-path]] [:map-of :keyword [:map [:kind :keyword]]]])
+
+(m/=> load-ui-defs
+      [:function
+       [:=> [:cat file-path [:maybe file-path]] :map]
+       [:=> [:cat file-path file-path [:maybe file-path]] :map]])
 
 (m/=> join-class-vectors [:=> [:cat resolvable-screen] :map])
 

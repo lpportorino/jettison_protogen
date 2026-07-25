@@ -544,7 +544,7 @@
                                            :min_value 0
                                            :max_value 100
                                            :value 75}
-                               :style {:arc-color :red :arc-width 6}})})
+                               :style {:arc-color :status-error :arc-width 6}})})
 
 (def ^:private breakpoint-color-fixtures
   {"vr_bp_color"
@@ -1134,7 +1134,7 @@
    Runs each through the full codegen pipeline."
   [tokens-path output-dir]
   (java.io.File/.mkdirs (io/file output-dir))
-  (let [tokens (core/load-ui-defs tokens-path)
+  (let [tokens (core/load-ui-defs tokens-path nil)
         components (component/load-components (:components tokens))
         sorted-names (sort (keys all-fixtures))]
     (doseq [fixture-name sorted-names]
