@@ -460,8 +460,12 @@ fn degenerate_dir() -> PathBuf {
 /// PATCH_ERR_POOL (-4) has NO degenerate fixture: triggering real pool
 /// exhaustion needs a pathological screen far beyond the corpus; the
 /// refusal sits before any mutation in its op and stays covered by code
-/// review + the documented contract (doc 10 § D6a). Add a stress fixture
-/// here if pool pressure ever becomes a deployment concern.
+/// review + the documented contract (doc 10 § D6a). Pool pressure DID
+/// become a deployment concern once — through a renderer LEAK, not a
+/// pathological screen: see
+/// `same_name_ttf_style_morphs_never_exhaust_binfont_registry`, which
+/// pins the resolve_font per-name cache that closed it (and doubles as
+/// the -4 refusal's live oracle when the cache regresses).
 fn degenerate_cases() -> Vec<String> {
     let mut cases: Vec<String> = std::fs::read_dir(degenerate_dir())
         .expect("degenerate fixtures missing — run `clojure -M:morph-fixtures`")
@@ -623,6 +627,42 @@ fn typed_text_survives_form_container_move() {
         find_node(&after, &|n| n["text"] == "moved!").is_some(),
         "the moved status sibling must show its updated text"
     );
+}
+/// Binfont-registry regression (the same-name font leak): resolve_font once
+/// registered a FRESH TinyTTF instance for EVERY style-carrying UPDATE that
+/// named an asset (non-compiled-in) font — MAX_BINFONTS(16) slots filled
+/// after ~14 morphs of a single label and patch_pools_low() then refused
+/// every later style morph (rc -4, "UPDATE style morph refused: pool
+/// headroom low") with NO recovery: the registry is reclaimed only at
+/// renderer_cleanup, never by a full reload, so the host's documented
+/// full-.pb recovery re-refused forever. Observed in a private consumer's
+/// live session: exactly 16 TTF instantiations, then permanent -4 on a
+/// scrub-readout label's style morphs and a b612mono fallback on the 17th+
+/// resolution. The fix keys the registry by font NAME (a cache): alternating
+/// fwd/rev style patches over ONE live instance must ALL apply — the
+/// registry stays at one entry per DISTINCT name, never one per morph.
+#[test]
+fn same_name_ttf_style_morphs_never_exhaust_binfont_registry() {
+    // MAX_BINFONTS is 16 (renderer.c); 20 alternated morphs overshoot it
+    // comfortably — pre-cache, morph #15 was already refused with rc -4.
+    const MORPHS: usize = 20;
+    let base = read_fixture("font_style_morph", "base");
+    let fwd = read_fixture("font_style_morph", "patch");
+    let rev = read_fixture("font_style_morph_rev", "patch");
+    let mut host = new_host();
+    load(&mut host, &base);
+    for i in 0..MORPHS {
+        let patch = if i % 2 == 0 { &fwd } else { &rev };
+        let rc = host.apply_patch(patch).expect("apply_patch call");
+        assert_eq!(
+            rc,
+            0,
+            "style morph #{} refused (rc {rc}) — the binfont registry leaked \
+             a slot per same-name morph (pool headroom guard tripped)",
+            i + 1
+        );
+        ticks(&mut host, 2);
+    }
 }
 #[test]
 fn composite_setters_signal_full_reload_after_patch() {

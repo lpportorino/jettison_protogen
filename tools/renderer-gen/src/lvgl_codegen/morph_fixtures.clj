@@ -182,6 +182,20 @@
                        :class "w-300 h-100"
                        :style {:bg-color c :pad-all 8}
                        :children [{:tag :lv_label :id "msg" :text "styled"}]}))
+        ;; A label whose style carries a TTF-resolved font (b612mono_bold_26
+        ;; is NOT in resolve_font's compiled-in ladder — it rasterizes from
+        ;; P:fonts/b612mono_bold.ttf) alongside the morph-axis color: the
+        ;; differ carries style_groups WHOLE, so every UPDATE re-carries the
+        ;; unchanged font name and re-resolves it on apply.
+        ttf-styled (fn [c]
+                     (scr {:tag :lv_obj
+                           :id "panel"
+                           :class "w-300 h-100"
+                           :children [{:tag :lv_label
+                                       :id "msg"
+                                       :text "ttf styled"
+                                       :style {:text-font "b612mono_bold_26"
+                                               :text-color c}}]}))
         slider (fn [mx v m]
                  (scr {:tag :lv_slider
                        :id "sl"
@@ -199,6 +213,13 @@
      ;; after a -2 refusal the loaded state is still patchable.
      "text_update_rev" [(lbl "World") (lbl "Hello")]
      "style_morph" [(styled "#FF0000") (styled "#00AA55")]
+     ;; fwd/rev pair (same trick as text_update/_rev: identical screen maps ⇒
+     ;; byte-identical .pb ⇒ chainable hashes) — the rs binfont-registry test
+     ;; alternates them >MAX_BINFONTS times over ONE live instance to pin the
+     ;; resolve_font per-name cache (pre-cache, each morph consumed a registry
+     ;; slot and patch_pools_low refused with rc -4 after ~14 morphs).
+     "font_style_morph" [(ttf-styled "#FF0000") (ttf-styled "#00AA55")]
+     "font_style_morph_rev" [(ttf-styled "#00AA55") (ttf-styled "#FF0000")]
      "slider_range" [(slider 100 30 nil) (slider 200 30 nil)]
      "slider_value" [(slider 100 30 nil) (slider 100 70 nil)]
      "replace_mode_door" [(slider 100 30 :symmetrical) (slider 100 30 :normal)]
@@ -591,7 +612,7 @@
       (binding [*out* *err*] (println "Usage: --tokens <path> --output <dir>"))
       (System/exit 1))
     (java.io.File/.mkdirs (io/file out-dir))
-    (let [tokens (core/load-ui-defs tokens-path)
+    (let [tokens (core/load-ui-defs tokens-path nil)
           components (component/load-components (:components tokens))
           cases (merge synthetic-cases combo-cases (real-corpus-cases))]
       (doseq [[nm pair] (sort-by key cases)] (emit-case! tokens components out-dir nm pair))

@@ -100,9 +100,23 @@ static void reset_style_pool(void) {
   }
   style_pool_idx = 0;
 }
-/* Track dynamically loaded binary fonts for cleanup */
+/* Track dynamically loaded binary/TTF fonts for cleanup — keyed by the
+ * REQUESTING font name so repeated resolutions of the same name reuse the
+ * instance (a per-name cache). Without the key, every style-carrying UPDATE
+ * morph naming an asset font instantiated a fresh rasterizer into a slot
+ * reclaimed only at renderer_cleanup: MAX_BINFONTS filled after ~14 morphs
+ * and patch_pools_low then refused every later style morph (rc -4) with no
+ * recovery — a full reload does not reset this registry (cached immutable
+ * fonts legitimately survive reloads). The name buffer matches the P:fonts
+ * path buffer in resolve_font (128, which the "P:fonts/" prefix + extension
+ * shrink further), so any name that actually resolved to a file-backed font
+ * always fits untruncated — a truncated key can never register. */
 #define MAX_BINFONTS 16
-static lv_font_t *loaded_binfonts[MAX_BINFONTS];
+typedef struct {
+  char name[128];
+  lv_font_t *font;
+} binfont_entry_t;
+static binfont_entry_t loaded_binfonts[MAX_BINFONTS];
 static int loaded_binfont_count = 0;
 /* Resolve a font name string to an LVGL font pointer */
 static const lv_font_t *resolve_font(const char *name) {
@@ -136,15 +150,26 @@ static const lv_font_t *resolve_font(const char *name) {
     return &lv_font_montserrat_22;
   if (strcmp(name, "montserrat_24") == 0)
     return &lv_font_montserrat_24;
+  /* Registry cache: a font already instantiated for this NAME is returned,
+   * never re-instantiated (the same-name-morph leak — see the registry
+   * comment above). */
+  for (int i = 0; i < loaded_binfont_count; i++) {
+    if (strcmp(loaded_binfonts[i].name, name) == 0)
+      return loaded_binfonts[i].font;
+  }
   /* Binary font fallback via WASI filesystem */
   if (loaded_binfont_count < MAX_BINFONTS) {
+    binfont_entry_t *slot = &loaded_binfonts[loaded_binfont_count];
     char path[128];
     /* truncation is benign: a too-long path simply fails lv_binfont_create
          below (handled by the NULL check), so the return is discarded. */
     (void)snprintf(path, sizeof(path), "P:fonts/%s.bin", name);
     lv_font_t *bf = lv_binfont_create(path);
     if (bf) {
-      loaded_binfonts[loaded_binfont_count++] = bf;
+      strncpy(slot->name, name, sizeof(slot->name) - 1);
+      slot->name[sizeof(slot->name) - 1] = '\0';
+      slot->font = bf;
+      loaded_binfont_count++;
       return bf;
     }
     /* TTF fallback: "<family>_<size>" → P:fonts/<family>.ttf rasterized
@@ -161,7 +186,10 @@ static const lv_font_t *resolve_font(const char *name) {
         (void)snprintf(path, sizeof(path), "P:fonts/%s.ttf", family);
         lv_font_t *tf = lv_tiny_ttf_create_file(path, size);
         if (tf) {
-          loaded_binfonts[loaded_binfont_count++] = tf;
+          strncpy(slot->name, name, sizeof(slot->name) - 1);
+          slot->name[sizeof(slot->name) - 1] = '\0';
+          slot->font = tf;
+          loaded_binfont_count++;
           return tf;
         }
       }
@@ -4370,8 +4398,9 @@ void renderer_cleanup(void) {
   reset_style_pool();
   /* Free dynamically loaded binary fonts */
   for (int i = 0; i < loaded_binfont_count; i++) {
-    lv_binfont_destroy(loaded_binfonts[i]);
-    loaded_binfonts[i] = NULL;
+    lv_binfont_destroy(loaded_binfonts[i].font);
+    loaded_binfonts[i].font = NULL;
+    loaded_binfonts[i].name[0] = '\0';
   }
   loaded_binfont_count = 0;
 }
