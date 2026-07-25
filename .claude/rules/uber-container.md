@@ -44,7 +44,7 @@ TEXT, **and the gallery JPEGs**.
 The battery's own freshness gate is the proof, not an assumption: it runs
 `git diff --exit-code tools/devcards/goldens tools/devcards/docs` against a
 fresh CI re-render, so a green battery IS the statement that the committed
-sheets are byte-identical to what CI mints. Measured: a full 72-sheet re-mint
+sheets are byte-identical to what CI mints. Measured: a full gallery re-mint
 from this container passed that gate unchanged.
 
 So a pixel-shifting renderer or corpus change re-mints goldens AND the gallery
@@ -52,9 +52,10 @@ locally in the pinned container, and commits both in the same change — the
 devcards rule's "re-mint both together" is a thing you can actually satisfy.
 
 The HOST is what diverges. Its JDK's `javax.imageio` encoder rewrites every
-gallery JPEG byte-for-byte, so a host-side gallery run produces 72 sheets CI
-will reject. That divergence is the reason for the container requirement above,
-and it is a property of the HOST toolchain — not of JPEG encoding as such.
+gallery JPEG byte-for-byte, so a host-side gallery run produces sheets CI will
+reject — every one of them. That divergence is the reason for the container
+requirement above, and it is a property of the HOST toolchain — not of JPEG
+encoding as such.
 
 ## Running the base image directly
 `Dockerfile.base` sets no ENTRYPOINT: `docker run <base> <cmd>` runs `<cmd>`

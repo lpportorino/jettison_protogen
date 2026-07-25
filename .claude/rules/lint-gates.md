@@ -70,16 +70,23 @@ for this repo, disable the RULE with its reasoning in the config (see
 
 ## splint is report-only, and that was measured
 
-`make -f lint.mk splint-clj` runs it; nothing blocks on it. 522 findings raw, 467
-of them one rule whose suggestion is the literal placeholder `(CLASS/.method …)`
-— disabled in `.splint.edn`, leaving 55. `--autocorrect` clears 29 of those and
-its output does not survive our own gates: measured on this tree it dropped a
-load-bearing comment, blew readable `str` calls out to one argument per line,
-flattened hand-aligned map literals, and emitted a fully-qualified
-`clojure.string/join` into a namespace with no such require, which clj-kondo then
-rejected. **Never run splint in fix mode here.** The remaining 26 need judgement
-(namespace renames, alias conventions, catch-throwable) and are why it is not yet
-a gate.
+`make -f lint.mk splint-clj` runs it; nothing blocks on it. The vast majority of
+raw findings are a single rule whose suggestion is the literal placeholder
+`(CLASS/.method …)` — disabled in `.splint.edn` — and `--autocorrect` clears a
+chunk of what remains. The measured counts behind both claims live at the
+`splint-clj` recipe in `lint.mk`, which is their one home: they are decision
+evidence (they are what makes the disable a measured choice rather than an
+omission), so read them there rather than trusting a copy here that cannot
+track the next splint run.
+
+What matters at this tier is the disposition, which does not rot:
+`--autocorrect`'s output does NOT survive our own gates — on this tree it
+dropped a load-bearing comment, blew readable `str` calls out to one argument
+per line, flattened hand-aligned map literals, and emitted a fully-qualified
+`clojure.string/join` into a namespace with no such require, which clj-kondo
+then rejected. **Never run splint in fix mode here.** The findings that survive
+the disable need judgement (namespace renames, alias conventions,
+catch-throwable), and that is why splint is not yet a gate.
 
 ## Renaming a binding that shadows clojure.core is the sharp edge
 
