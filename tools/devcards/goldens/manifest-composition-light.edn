@@ -17,31 +17,31 @@
    :h 480},
   "lego/scrubber"
   {:sha256
-   "63e484b23cfac94f9be9a0df179072bb748284a90152ff1a978c796424acb04f",
+   "e9386fe5c06642009e6ab17ba32ef57fd59fee7ed784ee923a4e3842120a1b6b",
    :w 800,
    :h 480},
   "lego/scrubber-noseek"
   {:sha256
-   "63e484b23cfac94f9be9a0df179072bb748284a90152ff1a978c796424acb04f",
+   "e9386fe5c06642009e6ab17ba32ef57fd59fee7ed784ee923a4e3842120a1b6b",
    :w 800,
    :h 480},
   "lego/scrubber-plain"
   {:sha256
-   "8cdb5d4caaa5111648b2298865a091287c16335a072b6bf826a3aa2f69e05176",
+   "38d12a6646a52721c122eadce24ccf76bd9fab8c8a8369f74220c7f7dce29239",
    :w 800,
    :h 480},
   "lego/scrubber-rich-full"
   {:sha256
-   "3671216d34ea6d4a3b5f970a3442ebcf878b0d2ec9b82c21ed77f907666df392",
+   "16ee12af9cd21c0a6df4041aff7b7b0e240eea3c762cac8079e1ece16a4eaa48",
    :w 800,
    :h 480},
   "lego/scrubber-rich-paused"
   {:sha256
-   "f81d1664d66294e5c9d1ca5c7bd00ccb80cce37c68b684082082566473101fe2",
+   "6834a30171b9e3d9d9c35e7bc00bd6143b5d2253c376c059574c2e8192b5ae25",
    :w 800,
    :h 480},
   "lego/scrubber-rich-ticks"
   {:sha256
-   "8045d6055f0fc0a64f8b2b91e3d0e7b8f6ea5e27dbeacef8b7eb9815f0647a63",
+   "f5ed78acf293586e6e78d06a8e5a059de0edb2992f74776fbf1b0bf5fa367732",
    :w 800,
    :h 480}}}

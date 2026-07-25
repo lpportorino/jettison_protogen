@@ -86,15 +86,18 @@
 (def scrubber-palette
   "The scrubber's authored look. Authored style groups are
    family-independent by construction — authored styling is not theme
-   styling, so a scrubber looks the same in every theme family. The played
-   position blue resolves from tokens.edn's :media-accent through
-   design-tokens.json (devcards.tokens) — one home for the media hue, promoted
-   from a former inline literal; the resolved value is bit-identical, so it
-   moves no golden pixel."
+   styling, so a scrubber looks the same in every theme family. Two entries
+   resolve their colour from tokens.edn through design-tokens.json
+   (devcards.tokens) — one home instead of an inline literal: :played from
+   :media-accent (the media hue; its value is bit-identical to the former
+   literal, so it moves no golden pixel), and :knob from :accent-text (the
+   canonical bright-neutral). The :knob promotion collapses a near-duplicate
+   off-white (#e6edf3, Δ 2/5/3 vs the token's #E8E8F0) onto the one home, so
+   it is a real — if tiny — pixel change and re-mints the scrubber goldens."
   {:track "#30363d"
    :buffered "#8a939b"
    :played (tokens/color :media-accent)
-   :knob "#e6edf3"})
+   :knob (tokens/color :accent-text)})
 
 (def scrubber-halo
   "The wrapper's transparent hit-halo band, px per side — equal to the
