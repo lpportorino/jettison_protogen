@@ -93,9 +93,11 @@ projection of this repo's own sources. Render-time assets under `renderer/assets
 the `images/demo/` twins of the vendored LVGL demo (source pinned via
 `renderer/lvgl/demos/.ported-from.edn`) carry provenance; the icons and `test_*`
 fixtures are self-authored placeholders. Fleet cost, stated
-plainly: each renderer release adds a rebuilt ~3.6 MB wasm plus a
-regenerated JPEG gallery to the history every consumer clones (bounded by
-the JPEG-only image policy; PNGs/raw dumps stay gitignored).
+plainly: each renderer release adds a regenerated JPEG gallery to the history
+every consumer clones (bounded by the JPEG-only image policy; PNGs/raw dumps
+stay gitignored). controls.wasm is a rebuildable build artifact, NOT committed
+(`renderer/.gitignore`) — CI and consumers build it from source with the
+WASI-SDK.
 
 The devcard gate (`tools/devcards/`) proves the schema and the renderer
 agree — schema-validate + framebuffer-hash + DOM invariants; a red devcard

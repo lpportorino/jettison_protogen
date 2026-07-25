@@ -1,0 +1,65 @@
+name: Build controls.wasm
+description: >
+  Build renderer/output/controls.wasm from source on a stock runner by
+  installing the pinned WASI-SDK and running renderer.mk's wasm target. Exists
+  so the high-frequency devcards job can obtain the wasm WITHOUT a committed
+  blob and WITHOUT the full Dockerfile.base toolchain image: the renderer needs
+  exactly ONE of that image's twelve toolchains (the WASI-SDK), as one pinned
+  upstream release tarball (~194 MB, ~1.5-2 min uncached vs the ~15 min image
+  build). It is the IDENTICAL upstream compiler at the IDENTICAL pin, not the
+  unpinned-apt-clang drift the renderer battery exists to catch.
+runs:
+  using: composite
+  steps:
+  - name: Derive the pinned WASI-SDK version from Dockerfile.base
+    id: wasi
+    shell: bash
+    run: |
+      set -euo pipefail
+      # ONE home for the pin: Dockerfile.base (ENV WASI_SDK_VERSION=NN). Never
+      # re-typed here — a drift between the two would BE the "runner clang !=
+      # the build's clang" hazard, so it is derived, not duplicated.
+      ver="$(grep -oP 'WASI_SDK_VERSION=\K[0-9]+' Dockerfile.base)"
+      [ -n "$ver" ] || { echo "FATAL: WASI_SDK_VERSION not found in Dockerfile.base" >&2; exit 1; }
+      echo "version=$ver" >> "$GITHUB_OUTPUT"
+  - name: Cache the WASI-SDK install
+    id: cache-wasi
+    uses: actions/cache@v5
+    with:
+      # A RUNNER-WRITABLE path (~ = the runner user's home), NOT /opt: an
+      # absolute root-owned system path would need sudo to install and could not
+      # be restored by actions/cache — which runs as the UNPRIVILEGED runner user
+      # — so a cache HIT on run #2+ would silently no-op (dead cache) or, worse,
+      # report a hit without repopulating the dir (then the guarded install is
+      # skipped and `make wasm` fails with clang absent). renderer.yml's own
+      # cache-ownership note is this same root-vs-runner hazard on the SAVE side;
+      # a home-dir path sidesteps both directions.
+      path: ~/wasi-sdk
+      # The key is a TOTAL FUNCTION of the pinned version — an immutable upstream
+      # release asset, so a cache HIT cannot be stale. NO restore-keys, ever: a
+      # prefix fallback would restore a DIFFERENT SDK version, the one
+      # unacceptable outcome (a wasm built with the wrong clang). x86_64-linux is
+      # explicit — this action runs on the stock x86_64 runner.
+      key: wasi-sdk-${{ steps.wasi.outputs.version }}-x86_64-linux
+  - name: Install the pinned WASI-SDK (cache miss)
+    if: steps.cache-wasi.outputs.cache-hit != 'true'
+    shell: bash
+    run: |
+      set -euo pipefail
+      ver="${{ steps.wasi.outputs.version }}"
+      url="https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-${ver}/wasi-sdk-${ver}.0-x86_64-linux.tar.gz"
+      mkdir -p "$HOME/wasi-sdk"
+      curl -fsSL "$url" | tar -C "$HOME/wasi-sdk" --strip-components=1 -xzf -
+      "$HOME/wasi-sdk/bin/clang" --version | head -1
+  - name: Build controls.wasm (renderer.mk wasm, pinned WASI-SDK)
+    shell: bash
+    run: |
+      set -euo pipefail
+      export WASI_SDK="$HOME/wasi-sdk"
+      make -f renderer.mk wasm
+      # A missing or trivially-small wasm is a build FAILURE, never a skip: the
+      # corpus + gallery steps depend on it and would fail confusingly later.
+      test -s renderer/output/controls.wasm || { echo "FATAL: controls.wasm not built" >&2; exit 1; }
+      sz="$(stat -c%s renderer/output/controls.wasm)"
+      [ "$sz" -gt 1000000 ] || { echo "FATAL: controls.wasm suspiciously small ($sz bytes)" >&2; exit 1; }
+      echo "controls.wasm built from source: $sz bytes"

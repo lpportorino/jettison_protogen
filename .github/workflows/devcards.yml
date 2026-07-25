@@ -71,12 +71,14 @@ on:
     - "output/manifests/**"
     - "proto/ui/**"
     - ".github/workflows/devcards.yml"
+    - ".github/actions/build-controls-wasm/**"
   pull_request:
     paths:
     - "tools/devcards/**"
     - "output/manifests/**"
     - "proto/ui/**"
     - ".github/workflows/devcards.yml"
+    - ".github/actions/build-controls-wasm/**"
   workflow_dispatch: {}
 
 permissions:
@@ -93,11 +95,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v5
-    - # protogen compiles its OWN proto bindings for the devcard runner:
-      # this step compiles output/java/ui with the same GraalVM-provisioned
-      # javac, before the runner needs the generated UiAst classes to build
-      # fixtures.
-      name: Set up GraalVM CE for JDK 25 (LTS)
+    - # B3: build controls.wasm FROM SOURCE (pinned WASI-SDK). This job used to
+      # depend on a committed wasm blob; that blob is retired (B2), so the wasm
+      # is now a function of the checkout — the composite action installs the ONE
+      # toolchain the renderer needs (the WASI-SDK, version single-sourced from
+      # Dockerfile.base) and builds it. This ANSWERS the former open
+      # provisioning question: build, don't vendor.
+      name: Build controls.wasm from source
+      uses: ./.github/actions/build-controls-wasm
+    - name: Set up GraalVM CE for JDK 25 (LTS)
       uses: graalvm/setup-graalvm@v1
       with:
         java-version: "25"
@@ -119,27 +125,31 @@ jobs:
         key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
         restore-keys: |
           devcards-m2-
-    - name: Compile protogen's own output/java/ui bindings
-      working-directory: tools/devcards
-      run: javac -cp "$(clojure -Spath)" -d target/proto-classes $(find ../../output/java/ui -name '*.java')
-    - # ONE bundled entry point: schema-validate + per-card
-      # invariants (defect flags / zero-area / zero-visible-area) +
-      # vanilla≡stock family-1-vs-2 equality + golden raw-FB sha256 verify +
-      # enum-derived WidgetType coverage + the corpus secret-scan (absolute
-      # paths, device tokens, non-placeholder proxy ids). A single red here
-      # names its exact failing card/check; there is no partial-credit path.
+    - # B3b: compile the ui bindings via the ONE script (compile-bindings.sh,
+      # invoked by renderer.mk's `bindings` prereq) — never a second inline
+      # javac. The inline form had no -sourcepath (UiNodes.java references
+      # cmd.Root) and no rm -rf (an orphan .class survived a rename); the script
+      # is the one home. fixtures-prebuilt + gallery-prebuilt share the `bindings`
+      # prereq, so one make invocation compiles them exactly once.
       #
-      # The implemented CLI is devcards.core's `generate` mode (build the full
-      # corpus + judge invariants / vanilla≡stock / goldens in ONE run; the
-      # exit code is the verdict). protogen BUILDS controls.wasm
-      # (renderer/wasm.mk, exercised by workflows/renderer.yml). How this
-      # HIGH-FREQUENCY job obtains the built wasm (a content-keyed cache on
-      # renderer/** vs paying the container build this header rejects) is an
-      # OPEN provisioning question — named here rather than silently
-      # assumed; until it is answered this job needs the wasm present.
-      name: Render corpus + run the bundled gate
-      working-directory: tools/devcards
-      run: clojure -M:bindings:run generate
+      # fixtures-prebuilt runs devcards.core's `generate` — the ONE bundled gate:
+      # schema-validate + per-card invariants (defect flags / zero-area /
+      # zero-visible-area) + vanilla≡stock family-1-vs-2 equality + golden raw-FB
+      # sha256 verify + enum-derived WidgetType coverage + the corpus secret-scan.
+      # gallery-prebuilt regenerates the JPEG gallery + doc pages. A single red
+      # names its exact failing card/check; there is no partial-credit path. Both
+      # consume the wasm the composite action built above (wasm-present guards it).
+      name: Corpus gate + gallery (renderer.mk fixtures-prebuilt + gallery-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt
+    - # B3a: a devcards-path change that shifts pixels re-mints the goldens AND
+      # the gallery/doc pages inside the runner; without this assertion it would
+      # exit green (the pass value == the nothing-ran value, fail-fast.md). The
+      # goldens pin per-card raw-FB sha256; the contact sheets are renders of the
+      # same corpus — a dirty goldens/ or docs/ means the push forgot them.
+      # renderer.yml's fixtures job already had this assertion; devcards.yml did
+      # NOT — that gap is what B3a closes.
+      name: Golden manifest + gallery freshness
+      run: git diff --exit-code tools/devcards/goldens tools/devcards/docs
     - name: Upload gallery + golden manifest (debug artifact, not published)
       if: always()
       uses: actions/upload-artifact@v6

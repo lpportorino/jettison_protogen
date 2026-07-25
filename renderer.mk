@@ -42,7 +42,7 @@ R := renderer
 RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
-	oracles morph-parity matrix demo-parity check-renderer \
+	oracles morph-parity matrix demo-parity manifests check-renderer \
 	wasm-present fixtures-prebuilt gallery-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
@@ -77,8 +77,9 @@ fixtures: wasm bindings
 
 # ── CI prebuilt-wasm entries (no WASI toolchain on the runner) ──────────────
 # The devcards corpus + gallery CI job consumes an ALREADY-BUILT
-# controls.wasm (the battery job's artifact / the committed release wasm) —
-# it must NEVER trigger the wasm build (the runner has no WASI-SDK). The
+# controls.wasm (renderer.yml's battery job uploads it; devcards.yml builds it
+# via the build-controls-wasm composite action) — this target must NEVER trigger
+# the wasm build itself (a prebuilt runner may have no WASI-SDK). The
 # guard fails LOUD when the artifact is absent: a missing wasm is a
 # sequencing bug, never a skip.
 wasm-present:
@@ -100,9 +101,9 @@ gallery-prebuilt: wasm-present bindings
 # routing screen renderer/output/ui/tabview_demo.pb — both generated fresh
 # here from tools/renderer-gen (regeneration every run, never staleness).
 harness: wasm proto-classes
-	cd $(RGEN) && clojure -M:fixtures --tokens edn/tokens.edn \
+	cd $(RGEN) && clojure -M:fixtures --tokens ../../output/manifests/design-tokens.json \
 		--output ../../$(R)/output/fixtures
-	cd $(RGEN) && clojure -M:codegen --tokens edn/tokens.edn \
+	cd $(RGEN) && clojure -M:codegen --tokens ../../output/manifests/design-tokens.json \
 		--input edn/screens --output ../../$(R)/output/ui
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test visual_regression
@@ -127,7 +128,7 @@ oracles: morph-parity matrix demo-parity
 # Dual-oracle morph parity: (base, target, patch) triples applied vs
 # full-reload, tree + framebuffer asserted tolerance-0.
 morph-parity: wasm proto-classes
-	cd $(RGEN) && clojure -M:morph-fixtures --tokens edn/tokens.edn \
+	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
 		--output ../../$(R)/output/morph-fixtures
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test morph_parity
@@ -143,6 +144,38 @@ matrix: proto-classes
 demo-parity: proto-classes
 	cd $(R) && bash tools/demo-parity.sh
 
+# ── Manifest freshness ──────────────────────────────────────────────────────
+# The two ratified manifests protogen publishes as its design/caps contract are
+# emitted from tokens.edn and renderer.c's caps mirror — but nothing regenerated
+# or diffed them, so a WRONG manifest reddens the oracles while a STALE one (the
+# source moved, the manifest was not re-emitted) would pass green forever.
+# Regenerate both and fail if the committed copy is not byte-identical to a fresh
+# emit; a red run leaves the corrected manifests in the tree to commit (the same
+# regenerate-then-diff shape lint.mk uses). No wasm / proto-classes needed — the
+# emitters read tokens.edn and the renderer.c source directly.
+# Emit to a temp dir and cmp against the committed copies — NOT `git diff`: this
+# runs inside the Dockerfile.base container where protogen is a submodule and its
+# .git is not resolvable. A stale manifest is regenerated in place (review + commit).
+manifests:
+	@tmp="$$(mktemp -d)"; \
+	( cd $(RGEN) \
+	  && clojure -M -m renderer-gen.design-tokens-json \
+	       --tokens edn/tokens.edn --output "$$tmp/design-tokens.json" \
+	  && clojure -M -m renderer-gen.renderer-caps-json \
+	       --renderer "../../$(R)/src/renderer.c" --output "$$tmp/renderer-caps.json" ) \
+	  || { rm -rf "$$tmp"; echo "FATAL: manifest emit failed" >&2; exit 1; }; \
+	rc=0; \
+	for f in design-tokens.json renderer-caps.json; do \
+	  if ! cmp -s "output/manifests/$$f" "$$tmp/$$f"; then \
+	    cp "$$tmp/$$f" "output/manifests/$$f"; \
+	    echo "FATAL: output/manifests/$$f was STALE vs a fresh emit — regenerated in place; review and commit it." >&2; \
+	    rc=1; \
+	  fi; \
+	done; \
+	rm -rf "$$tmp"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps)"; \
+	exit "$$rc"
+
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: wasm reference fixtures harness interaction oracles
-	@echo "renderer battery: GREEN (wasm + reference + fixtures + harness + interaction + oracles)"
+check-renderer: manifests wasm reference fixtures harness interaction oracles
+	@echo "renderer battery: GREEN (manifests + wasm + reference + fixtures + harness + interaction + oracles)"

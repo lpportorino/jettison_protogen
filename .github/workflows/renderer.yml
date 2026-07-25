@@ -41,6 +41,7 @@ on:
     - "renderer.mk"
     - "Dockerfile.base"
     - "tools/renderer-gen/**"
+    - "output/manifests/**"
     - ".github/workflows/renderer.yml"
   pull_request:
     paths:
@@ -48,6 +49,7 @@ on:
     - "renderer.mk"
     - "Dockerfile.base"
     - "tools/renderer-gen/**"
+    - "output/manifests/**"
     - ".github/workflows/renderer.yml"
   workflow_dispatch: {}
 
@@ -186,17 +188,18 @@ jobs:
         key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
         restore-keys: |
           devcards-m2-
-    - name: Compile protogen's own output/java/ui bindings
-      working-directory: tools/devcards
-      run: javac -cp "$(clojure -Spath)" -d target/proto-classes $(find ../../output/java/ui -name '*.java')
-    - # fixtures-prebuilt consumes the wasm ARTIFACT downloaded above and
-      # FAILS LOUD if it is absent — this runner has no WASI toolchain, so
-      # the entry must never re-trigger the wasm build (the plain `fixtures`
-      # target depends on `wasm` and would).
-      name: Corpus build + judge (renderer.mk fixtures-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt
-    - name: Gallery + doc pages regen (renderer.mk gallery-prebuilt)
-      run: make -f renderer.mk gallery-prebuilt
+    - # B3b: the ui bindings compile via renderer.mk's `bindings` prereq
+      # (compile-bindings.sh) — the ONE home. The inline javac that used to sit
+      # here had no -sourcepath (UiNodes.java references cmd.Root) and no rm -rf
+      # (an orphan .class survived a rename); dropping it and running BOTH
+      # prebuilt targets in ONE make invocation compiles the bindings exactly
+      # once (they share the prereq). fixtures-prebuilt consumes the wasm
+      # ARTIFACT downloaded above and FAILS LOUD if it is absent — this runner
+      # has no WASI toolchain, so it must never re-trigger the wasm build (the
+      # plain `fixtures` target depends on `wasm` and would). gallery-prebuilt
+      # regenerates the JPEG gallery + doc pages.
+      name: Corpus build + judge + gallery (renderer.mk fixtures-prebuilt + gallery-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt
     - # A renderer change that shifts any pixel MUST re-mint the goldens AND
       # the gallery/doc pages in the same change (the manifests pin per-card
       # raw-FB sha256; the contact sheets are renders of the same corpus). A
