@@ -55,7 +55,7 @@ Fields: {% for num in oneof.fields %}#{{num}}{% if not forloop.last %}, {% endif
 {% if interaction.preconditions %}
 ### Preconditions
 
-{% for cond in interaction.preconditions %}- {{cond}}
+{% for cond in interaction.preconditions %}- {{cond|safe}}
 {% endfor %}{% endif %}
 {% if interaction.notes %}
 ### Implementation Notes
@@ -75,10 +75,10 @@ Fields: {% for num in oneof.fields %}#{{num}}{% if not forloop.last %}, {% endif
 #### Metadata
 
 {% if field.interaction.semantic-type %}- **Semantic Type:** :{{field.interaction.semantic-type}}
-{% endif %}{% if field.interaction.unit %}- **Unit:** {{field.interaction.unit}}
+{% endif %}{% if field.interaction.unit %}- **Unit:** {{field.interaction.unit|safe}}
 {% endif %}{% if field.interaction.precision %}- **Precision:** {{field.interaction.precision}}
-{% endif %}{% if field.interaction.display-format %}- **Display Format:** `{{field.interaction.display-format}}`
-{% endif %}{% if field.interaction.presets %}- **Presets:** {{field.interaction.presets}}
+{% endif %}{% if field.interaction.display-format %}- **Display Format:** `{{field.interaction.display-format|safe}}`
+{% endif %}{% if field.interaction.presets %}- **Presets:** {{field.interaction.presets|safe}}
 {% endif %}
 {% endif %}{% endif %}{% endfor %}
 {% endif %}

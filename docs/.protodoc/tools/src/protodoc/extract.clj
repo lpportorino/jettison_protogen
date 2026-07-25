@@ -45,13 +45,55 @@
 ;; Interaction Metadata Parsing
 ;; ============================================================================
 
+(defn- html-unescape
+  "Reverse HTML entity escaping, tolerating layers COMPOUNDED across regeneration
+   cycles. When a writer escapes a value the reader does not unescape, each cycle
+   adds one layer: ' becomes &#39;, whose & becomes &amp;#39;, then &amp;amp;#39;
+   — monotonic, never returning. A single-pass decode would peel one layer and
+   freeze the rest, so the ampersand collapse runs to a FIXPOINT first.
+
+   The order is load-bearing. &amp;amp;#39; contains no &#39; substring, so
+   decoding entities first would match nothing and leave the value half-healed at
+   &#39;. Collapsing ampersands first reduces any layer count to one, after which
+   a single entity decode reaches the clean value — and, at zero layers, changes
+   nothing. That is what makes the read side idempotent independently of what the
+   template does.
+
+   The inverse ambiguity is inherent and accepted, and it covers ALL FIVE forms,
+   not just the ampersand: an authored literal '&amp;', '&#39;', '&quot;',
+   '&lt;' or '&gt;' is normalised to the character it denotes. For the sites the
+   template now renders |safe the write side is the identity, so this is a
+   ONE-TIME normalisation on first re-extract rather than a ratchet — the value
+   is a fixpoint from then on. That trade is deliberate: a bounded one-time
+   normalisation of a rare authored literal buys the end of an unbounded
+   per-cycle accretion.
+
+   Scope is what keeps it contained — this reverses only the escaping the writer
+   applies, i.e. the '- **Key:** value' metadata bullets (including the
+   ## Interaction ones, which are still writer-escaped) and the precondition
+   items. Prose fields (description, purpose, notes, wikilink refs) render
+   |safe, are never escaped, and are deliberately NOT passed through here;
+   unescaping them WOULD be an unbounded lossy transform on content that has
+   always round-tripped verbatim."
+  [s]
+  (when s
+    (-> (loop [prev s]
+          (let [collapsed (str/replace prev "&amp;" "&")]
+            (if (= collapsed prev)
+              prev
+              (recur collapsed))))
+        (str/replace "&#39;" "'")
+        (str/replace "&quot;" "\"")
+        (str/replace "&lt;" "<")
+        (str/replace "&gt;" ">"))))
+
 (defn- parse-metadata-bullet
   "Parse '- **Key:** value' format.
    Returns [key value] or nil."
   [line]
   (when-let [[_ k value] (re-matches #"- \*\*([^:]+):\*\*\s*(.*)" line)]
     [(-> k str/lower-case (str/replace " " "-") keyword)
-     (str/trim value)]))
+     (html-unescape (str/trim value))]))
 
 (defn- extract-wikilinks
   "Extract wikilinks from text, stripping proto/ prefix and handling display links.
@@ -79,6 +121,26 @@
       (keyword (subs s 1))
       (keyword s))))
 
+(defn- parse-preconditions
+  "Parse a '### Preconditions' body into its '- item' strings."
+  [content]
+  (->> (str/split-lines content)
+       (filter #(str/starts-with? % "- "))
+       (mapv #(html-unescape (subs % 2)))))
+
+(defn- flush-subsection!
+  "Fold one buffered '## Interaction' subsection into the result atom.
+   One home for the fold, so the mid-section and end-of-section flushes cannot
+   drift apart."
+  [result subsection content]
+  (case subsection
+    :purpose (swap! result assoc :purpose content)
+    :related-state (swap! result assoc :related-state (extract-wikilinks content))
+    :related-commands (swap! result assoc :related-commands (extract-wikilinks content))
+    :preconditions (swap! result assoc :preconditions (parse-preconditions content))
+    :implementation-notes (swap! result assoc :notes content)
+    nil))
+
 (defn- parse-interaction-meta
   "Parse interaction metadata from bullet list.
    Returns structured map."
@@ -94,17 +156,8 @@
         (do
           ;; Flush previous subsection
           (when (and @current-subsection (seq @buffer))
-            (let [content (str/trim (str/join "\n" @buffer))]
-              (case @current-subsection
-                :purpose (swap! result assoc :purpose content)
-                :related-state (swap! result assoc :related-state (extract-wikilinks content))
-                :related-commands (swap! result assoc :related-commands (extract-wikilinks content))
-                :preconditions (swap! result assoc :preconditions
-                                      (->> (str/split-lines content)
-                                           (filter #(str/starts-with? % "- "))
-                                           (mapv #(subs % 2))))
-                :implementation-notes (swap! result assoc :notes content)
-                nil)))
+            (flush-subsection! result @current-subsection
+                               (str/trim (str/join "\n" @buffer))))
           ;; Start new subsection
           (reset! buffer [])
           (let [header (str/lower-case (subs line 4))]
@@ -134,17 +187,8 @@
 
     ;; Flush remaining buffer
     (when (and @current-subsection (seq @buffer))
-      (let [content (str/trim (str/join "\n" @buffer))]
-        (case @current-subsection
-          :purpose (swap! result assoc :purpose content)
-          :related-state (swap! result assoc :related-state (extract-wikilinks content))
-          :related-commands (swap! result assoc :related-commands (extract-wikilinks content))
-          :preconditions (swap! result assoc :preconditions
-                                (->> (str/split-lines content)
-                                     (filter #(str/starts-with? % "- "))
-                                     (mapv #(subs % 2))))
-          :implementation-notes (swap! result assoc :notes content)
-          nil)))
+      (flush-subsection! result @current-subsection
+                         (str/trim (str/join "\n" @buffer))))
 
     @result))
 
