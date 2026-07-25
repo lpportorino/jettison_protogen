@@ -23,14 +23,17 @@ const (
 )
 
 type JonGuiDataActualSpaceTime struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Azimuth       float64                `protobuf:"fixed64,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
-	Elevation     float64                `protobuf:"fixed64,2,opt,name=elevation,proto3" json:"elevation,omitempty"`
-	Bank          float64                `protobuf:"fixed64,3,opt,name=bank,proto3" json:"bank,omitempty"`
-	Latitude      float64                `protobuf:"fixed64,4,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude     float64                `protobuf:"fixed64,5,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Altitude      float64                `protobuf:"fixed64,6,opt,name=altitude,proto3" json:"altitude,omitempty"`
-	Timestamp     int64                  `protobuf:"varint,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Azimuth   float64                `protobuf:"fixed64,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
+	Elevation float64                `protobuf:"fixed64,2,opt,name=elevation,proto3" json:"elevation,omitempty"`
+	Bank      float64                `protobuf:"fixed64,3,opt,name=bank,proto3" json:"bank,omitempty"`
+	Latitude  float64                `protobuf:"fixed64,4,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude float64                `protobuf:"fixed64,5,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	// Unbounded by design: a contested-GPS platform legitimately reports spoofed
+	// or out-of-range altitudes, so bounding STATE here yields only a validation
+	// firehose. Operator COMMAND altitudes keep their bounds.
+	Altitude      float64 `protobuf:"fixed64,6,opt,name=altitude,proto3" json:"altitude,omitempty"`
+	Timestamp     int64   `protobuf:"varint,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

@@ -41,9 +41,14 @@ export interface JonGuiDataTarget {
   timestamp: Long;
   targetLongitude: number;
   targetLatitude: number;
+  /**
+   * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+   * altitude inputs, never on state.
+   */
   targetAltitude: number;
   observerLongitude: number;
   observerLatitude: number;
+  /** Unbounded, as with `target_altitude` above. */
   observerAltitude: number;
   observerAzimuth: number;
   observerElevation: number;

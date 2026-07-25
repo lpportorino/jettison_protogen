@@ -1525,6 +1525,11 @@ public final class JonSharedDataLrf {
     double getTargetLatitude();
 
     /**
+     * <pre>
+     * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+     * altitude inputs, never on state.
+     * </pre>
+     *
      * <code>double target_altitude = 4;</code>
      * @return The targetAltitude.
      */
@@ -1543,6 +1548,10 @@ public final class JonSharedDataLrf {
     double getObserverLatitude();
 
     /**
+     * <pre>
+     * Unbounded, as with `target_altitude` above.
+     * </pre>
+     *
      * <code>double observer_altitude = 7;</code>
      * @return The observerAltitude.
      */
@@ -1749,6 +1758,11 @@ public final class JonSharedDataLrf {
     public static final int TARGET_ALTITUDE_FIELD_NUMBER = 4;
     private double targetAltitude_ = 0D;
     /**
+     * <pre>
+     * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+     * altitude inputs, never on state.
+     * </pre>
+     *
      * <code>double target_altitude = 4;</code>
      * @return The targetAltitude.
      */
@@ -1782,6 +1796,10 @@ public final class JonSharedDataLrf {
     public static final int OBSERVER_ALTITUDE_FIELD_NUMBER = 7;
     private double observerAltitude_ = 0D;
     /**
+     * <pre>
+     * Unbounded, as with `target_altitude` above.
+     * </pre>
+     *
      * <code>double observer_altitude = 7;</code>
      * @return The observerAltitude.
      */
@@ -2919,6 +2937,11 @@ public final class JonSharedDataLrf {
 
       private double targetAltitude_ ;
       /**
+       * <pre>
+       * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+       * altitude inputs, never on state.
+       * </pre>
+       *
        * <code>double target_altitude = 4;</code>
        * @return The targetAltitude.
        */
@@ -2927,6 +2950,11 @@ public final class JonSharedDataLrf {
         return targetAltitude_;
       }
       /**
+       * <pre>
+       * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+       * altitude inputs, never on state.
+       * </pre>
+       *
        * <code>double target_altitude = 4;</code>
        * @param value The targetAltitude to set.
        * @return This builder for chaining.
@@ -2939,6 +2967,11 @@ public final class JonSharedDataLrf {
         return this;
       }
       /**
+       * <pre>
+       * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+       * altitude inputs, never on state.
+       * </pre>
+       *
        * <code>double target_altitude = 4;</code>
        * @return This builder for chaining.
        */
@@ -3015,6 +3048,10 @@ public final class JonSharedDataLrf {
 
       private double observerAltitude_ ;
       /**
+       * <pre>
+       * Unbounded, as with `target_altitude` above.
+       * </pre>
+       *
        * <code>double observer_altitude = 7;</code>
        * @return The observerAltitude.
        */
@@ -3023,6 +3060,10 @@ public final class JonSharedDataLrf {
         return observerAltitude_;
       }
       /**
+       * <pre>
+       * Unbounded, as with `target_altitude` above.
+       * </pre>
+       *
        * <code>double observer_altitude = 7;</code>
        * @param value The observerAltitude to set.
        * @return This builder for chaining.
@@ -3035,6 +3076,10 @@ public final class JonSharedDataLrf {
         return this;
       }
       /**
+       * <pre>
+       * Unbounded, as with `target_altitude` above.
+       * </pre>
+       *
        * <code>double observer_altitude = 7;</code>
        * @return This builder for chaining.
        */

@@ -30,6 +30,10 @@ export type JonGuiDataGps = Message<"ser.JonGuiDataGps"> & {
   latitude: number;
 
   /**
+   * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+   * or out-of-range altitudes, so bounding STATE here yields only a validation
+   * firehose. Operator COMMAND altitudes keep their bounds.
+   *
    * @generated from field: double altitude = 3;
    */
   altitude: number;
@@ -45,6 +49,8 @@ export type JonGuiDataGps = Message<"ser.JonGuiDataGps"> & {
   manualLatitude: number;
 
   /**
+   * Unbounded by design, as with `altitude` above.
+   *
    * @generated from field: double manual_altitude = 6;
    */
   manualAltitude: number;

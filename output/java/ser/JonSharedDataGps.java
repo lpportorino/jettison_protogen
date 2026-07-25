@@ -42,6 +42,12 @@ public final class JonSharedDataGps {
     double getLatitude();
 
     /**
+     * <pre>
+     * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+     * or out-of-range altitudes, so bounding STATE here yields only a validation
+     * firehose. Operator COMMAND altitudes keep their bounds.
+     * </pre>
+     *
      * <code>double altitude = 3;</code>
      * @return The altitude.
      */
@@ -60,6 +66,10 @@ public final class JonSharedDataGps {
     double getManualLatitude();
 
     /**
+     * <pre>
+     * Unbounded by design, as with `altitude` above.
+     * </pre>
+     *
      * <code>double manual_altitude = 6;</code>
      * @return The manualAltitude.
      */
@@ -177,6 +187,12 @@ public final class JonSharedDataGps {
     public static final int ALTITUDE_FIELD_NUMBER = 3;
     private double altitude_ = 0D;
     /**
+     * <pre>
+     * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+     * or out-of-range altitudes, so bounding STATE here yields only a validation
+     * firehose. Operator COMMAND altitudes keep their bounds.
+     * </pre>
+     *
      * <code>double altitude = 3;</code>
      * @return The altitude.
      */
@@ -210,6 +226,10 @@ public final class JonSharedDataGps {
     public static final int MANUAL_ALTITUDE_FIELD_NUMBER = 6;
     private double manualAltitude_ = 0D;
     /**
+     * <pre>
+     * Unbounded by design, as with `altitude` above.
+     * </pre>
+     *
      * <code>double manual_altitude = 6;</code>
      * @return The manualAltitude.
      */
@@ -924,6 +944,12 @@ public final class JonSharedDataGps {
 
       private double altitude_ ;
       /**
+       * <pre>
+       * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+       * or out-of-range altitudes, so bounding STATE here yields only a validation
+       * firehose. Operator COMMAND altitudes keep their bounds.
+       * </pre>
+       *
        * <code>double altitude = 3;</code>
        * @return The altitude.
        */
@@ -932,6 +958,12 @@ public final class JonSharedDataGps {
         return altitude_;
       }
       /**
+       * <pre>
+       * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+       * or out-of-range altitudes, so bounding STATE here yields only a validation
+       * firehose. Operator COMMAND altitudes keep their bounds.
+       * </pre>
+       *
        * <code>double altitude = 3;</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
@@ -944,6 +976,12 @@ public final class JonSharedDataGps {
         return this;
       }
       /**
+       * <pre>
+       * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+       * or out-of-range altitudes, so bounding STATE here yields only a validation
+       * firehose. Operator COMMAND altitudes keep their bounds.
+       * </pre>
+       *
        * <code>double altitude = 3;</code>
        * @return This builder for chaining.
        */
@@ -1020,6 +1058,10 @@ public final class JonSharedDataGps {
 
       private double manualAltitude_ ;
       /**
+       * <pre>
+       * Unbounded by design, as with `altitude` above.
+       * </pre>
+       *
        * <code>double manual_altitude = 6;</code>
        * @return The manualAltitude.
        */
@@ -1028,6 +1070,10 @@ public final class JonSharedDataGps {
         return manualAltitude_;
       }
       /**
+       * <pre>
+       * Unbounded by design, as with `altitude` above.
+       * </pre>
+       *
        * <code>double manual_altitude = 6;</code>
        * @param value The manualAltitude to set.
        * @return This builder for chaining.
@@ -1040,6 +1086,10 @@ public final class JonSharedDataGps {
         return this;
       }
       /**
+       * <pre>
+       * Unbounded by design, as with `altitude` above.
+       * </pre>
+       *
        * <code>double manual_altitude = 6;</code>
        * @return This builder for chaining.
        */

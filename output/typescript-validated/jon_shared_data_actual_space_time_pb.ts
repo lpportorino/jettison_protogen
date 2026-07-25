@@ -43,6 +43,10 @@ export type JonGuiDataActualSpaceTime = Message<"ser.JonGuiDataActualSpaceTime">
   longitude: number;
 
   /**
+   * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+   * or out-of-range altitudes, so bounding STATE here yields only a validation
+   * firehose. Operator COMMAND altitudes keep their bounds.
+   *
    * @generated from field: double altitude = 6;
    */
   altitude: number;

@@ -21,9 +21,12 @@ typedef struct _ser_JonGuiDataTarget {
     int64_t timestamp;
     double target_longitude;
     double target_latitude;
+    /* Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+ altitude inputs, never on state. */
     double target_altitude;
     double observer_longitude;
     double observer_latitude;
+    /* Unbounded, as with `target_altitude` above. */
     double observer_altitude;
     double observer_azimuth;
     double observer_elevation;

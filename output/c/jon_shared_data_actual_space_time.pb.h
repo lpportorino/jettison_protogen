@@ -16,6 +16,9 @@ typedef struct _ser_JonGuiDataActualSpaceTime {
     double bank;
     double latitude;
     double longitude;
+    /* Unbounded by design: a contested-GPS platform legitimately reports spoofed
+ or out-of-range altitudes, so bounding STATE here yields only a validation
+ firehose. Operator COMMAND altitudes keep their bounds. */
     double altitude;
     int64_t timestamp;
 } ser_JonGuiDataActualSpaceTime;

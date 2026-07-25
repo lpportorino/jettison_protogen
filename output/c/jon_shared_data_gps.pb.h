@@ -14,9 +14,13 @@
 typedef struct _ser_JonGuiDataGps {
     double longitude;
     double latitude;
+    /* Unbounded by design: a contested-GPS platform legitimately reports spoofed
+ or out-of-range altitudes, so bounding STATE here yields only a validation
+ firehose. Operator COMMAND altitudes keep their bounds. */
     double altitude;
     double manual_longitude;
     double manual_latitude;
+    /* Unbounded by design, as with `altitude` above. */
     double manual_altitude;
     ser_JonGuiDataGpsFixType fix_type;
     bool use_manual;

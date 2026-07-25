@@ -60,6 +60,12 @@ public final class JonSharedDataActualSpaceTime {
     double getLongitude();
 
     /**
+     * <pre>
+     * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+     * or out-of-range altitudes, so bounding STATE here yields only a validation
+     * firehose. Operator COMMAND altitudes keep their bounds.
+     * </pre>
+     *
      * <code>double altitude = 6;</code>
      * @return The altitude.
      */
@@ -166,6 +172,12 @@ public final class JonSharedDataActualSpaceTime {
     public static final int ALTITUDE_FIELD_NUMBER = 6;
     private double altitude_ = 0D;
     /**
+     * <pre>
+     * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+     * or out-of-range altitudes, so bounding STATE here yields only a validation
+     * firehose. Operator COMMAND altitudes keep their bounds.
+     * </pre>
+     *
      * <code>double altitude = 6;</code>
      * @return The altitude.
      */
@@ -791,6 +803,12 @@ public final class JonSharedDataActualSpaceTime {
 
       private double altitude_ ;
       /**
+       * <pre>
+       * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+       * or out-of-range altitudes, so bounding STATE here yields only a validation
+       * firehose. Operator COMMAND altitudes keep their bounds.
+       * </pre>
+       *
        * <code>double altitude = 6;</code>
        * @return The altitude.
        */
@@ -799,6 +817,12 @@ public final class JonSharedDataActualSpaceTime {
         return altitude_;
       }
       /**
+       * <pre>
+       * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+       * or out-of-range altitudes, so bounding STATE here yields only a validation
+       * firehose. Operator COMMAND altitudes keep their bounds.
+       * </pre>
+       *
        * <code>double altitude = 6;</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
@@ -811,6 +835,12 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
+       * <pre>
+       * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+       * or out-of-range altitudes, so bounding STATE here yields only a validation
+       * firehose. Operator COMMAND altitudes keep their bounds.
+       * </pre>
+       *
        * <code>double altitude = 6;</code>
        * @return This builder for chaining.
        */

@@ -24,20 +24,24 @@ const (
 )
 
 type JonGuiDataGps struct {
-	state           protoimpl.MessageState     `protogen:"open.v1"`
-	Longitude       float64                    `protobuf:"fixed64,1,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Latitude        float64                    `protobuf:"fixed64,2,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Altitude        float64                    `protobuf:"fixed64,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
-	ManualLongitude float64                    `protobuf:"fixed64,4,opt,name=manual_longitude,json=manualLongitude,proto3" json:"manual_longitude,omitempty"`
-	ManualLatitude  float64                    `protobuf:"fixed64,5,opt,name=manual_latitude,json=manualLatitude,proto3" json:"manual_latitude,omitempty"`
-	ManualAltitude  float64                    `protobuf:"fixed64,6,opt,name=manual_altitude,json=manualAltitude,proto3" json:"manual_altitude,omitempty"`
-	FixType         types.JonGuiDataGpsFixType `protobuf:"varint,7,opt,name=fix_type,json=fixType,proto3,enum=ser.JonGuiDataGpsFixType" json:"fix_type,omitempty"`
-	UseManual       bool                       `protobuf:"varint,8,opt,name=use_manual,json=useManual,proto3" json:"use_manual,omitempty"`
-	Timestamp       int64                      `protobuf:"varint,9,opt,name=timestamp,proto3" json:"timestamp,omitempty"` // GPS timestamp from satellite (Unix time in seconds)
-	IsStarted       bool                       `protobuf:"varint,10,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
-	Meteo           *types.JonGuiDataMeteo     `protobuf:"bytes,11,opt,name=meteo,proto3" json:"meteo,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Longitude float64                `protobuf:"fixed64,1,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Latitude  float64                `protobuf:"fixed64,2,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	// Unbounded by design: a contested-GPS platform legitimately reports spoofed
+	// or out-of-range altitudes, so bounding STATE here yields only a validation
+	// firehose. Operator COMMAND altitudes keep their bounds.
+	Altitude        float64 `protobuf:"fixed64,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
+	ManualLongitude float64 `protobuf:"fixed64,4,opt,name=manual_longitude,json=manualLongitude,proto3" json:"manual_longitude,omitempty"`
+	ManualLatitude  float64 `protobuf:"fixed64,5,opt,name=manual_latitude,json=manualLatitude,proto3" json:"manual_latitude,omitempty"`
+	// Unbounded by design, as with `altitude` above.
+	ManualAltitude float64                    `protobuf:"fixed64,6,opt,name=manual_altitude,json=manualAltitude,proto3" json:"manual_altitude,omitempty"`
+	FixType        types.JonGuiDataGpsFixType `protobuf:"varint,7,opt,name=fix_type,json=fixType,proto3,enum=ser.JonGuiDataGpsFixType" json:"fix_type,omitempty"`
+	UseManual      bool                       `protobuf:"varint,8,opt,name=use_manual,json=useManual,proto3" json:"use_manual,omitempty"`
+	Timestamp      int64                      `protobuf:"varint,9,opt,name=timestamp,proto3" json:"timestamp,omitempty"` // GPS timestamp from satellite (Unix time in seconds)
+	IsStarted      bool                       `protobuf:"varint,10,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo          *types.JonGuiDataMeteo     `protobuf:"bytes,11,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *JonGuiDataGps) Reset() {

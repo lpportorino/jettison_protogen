@@ -17,9 +17,15 @@ import {
 export interface JonGuiDataGps {
   longitude: number;
   latitude: number;
+  /**
+   * Unbounded by design: a contested-GPS platform legitimately reports spoofed
+   * or out-of-range altitudes, so bounding STATE here yields only a validation
+   * firehose. Operator COMMAND altitudes keep their bounds.
+   */
   altitude: number;
   manualLongitude: number;
   manualLatitude: number;
+  /** Unbounded by design, as with `altitude` above. */
   manualAltitude: number;
   fixType: JonGuiDataGpsFixType;
   useManual: boolean;

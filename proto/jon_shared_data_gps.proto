@@ -15,6 +15,9 @@ message JonGuiDataGps {
     gte: -90.0,
     lte: 90.0
   }];
+  // Unbounded by design: a contested-GPS platform legitimately reports spoofed
+  // or out-of-range altitudes, so bounding STATE here yields only a validation
+  // firehose. Operator COMMAND altitudes keep their bounds.
   double altitude = 3;
   double manual_longitude = 4 [(buf.validate.field).double = {
     gte: -180.0,
@@ -24,6 +27,7 @@ message JonGuiDataGps {
     gte: -90.0,
     lte: 90.0
   }];
+  // Unbounded by design, as with `altitude` above.
   double manual_altitude = 6;
   JonGuiDataGpsFixType fix_type = 7 [(buf.validate.field).enum = {
     defined_only: true,

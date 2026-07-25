@@ -35,6 +35,9 @@ message JonGuiDataActualSpaceTime {
     example: [-90, 0, 90]
   }];
 
+  // Unbounded by design: a contested-GPS platform legitimately reports spoofed
+  // or out-of-range altitudes, so bounding STATE here yields only a validation
+  // firehose. Operator COMMAND altitudes keep their bounds.
   double altitude = 6;
 
   int64 timestamp = 7 [(buf.validate.field).int64 = {

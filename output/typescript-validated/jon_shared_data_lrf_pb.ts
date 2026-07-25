@@ -104,6 +104,9 @@ export type JonGuiDataTarget = Message<"ser.JonGuiDataTarget"> & {
   targetLatitude: number;
 
   /**
+   * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+   * altitude inputs, never on state.
+   *
    * @generated from field: double target_altitude = 4;
    */
   targetAltitude: number;
@@ -119,6 +122,8 @@ export type JonGuiDataTarget = Message<"ser.JonGuiDataTarget"> & {
   observerLatitude: number;
 
   /**
+   * Unbounded, as with `target_altitude` above.
+   *
    * @generated from field: double observer_altitude = 7;
    */
   observerAltitude: number;

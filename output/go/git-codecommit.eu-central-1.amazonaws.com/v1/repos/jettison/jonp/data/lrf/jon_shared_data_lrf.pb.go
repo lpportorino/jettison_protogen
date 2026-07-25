@@ -148,13 +148,16 @@ func (x *JonGuiDataLrf) GetScanMode() int32 {
 }
 
 type JonGuiDataTarget struct {
-	state             protoimpl.MessageState     `protogen:"open.v1"`
-	Timestamp         int64                      `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	TargetLongitude   float64                    `protobuf:"fixed64,2,opt,name=target_longitude,json=targetLongitude,proto3" json:"target_longitude,omitempty"`
-	TargetLatitude    float64                    `protobuf:"fixed64,3,opt,name=target_latitude,json=targetLatitude,proto3" json:"target_latitude,omitempty"`
-	TargetAltitude    float64                    `protobuf:"fixed64,4,opt,name=target_altitude,json=targetAltitude,proto3" json:"target_altitude,omitempty"`
-	ObserverLongitude float64                    `protobuf:"fixed64,5,opt,name=observer_longitude,json=observerLongitude,proto3" json:"observer_longitude,omitempty"`
-	ObserverLatitude  float64                    `protobuf:"fixed64,6,opt,name=observer_latitude,json=observerLatitude,proto3" json:"observer_latitude,omitempty"`
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Timestamp       int64                  `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	TargetLongitude float64                `protobuf:"fixed64,2,opt,name=target_longitude,json=targetLongitude,proto3" json:"target_longitude,omitempty"`
+	TargetLatitude  float64                `protobuf:"fixed64,3,opt,name=target_latitude,json=targetLatitude,proto3" json:"target_latitude,omitempty"`
+	// Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+	// altitude inputs, never on state.
+	TargetAltitude    float64 `protobuf:"fixed64,4,opt,name=target_altitude,json=targetAltitude,proto3" json:"target_altitude,omitempty"`
+	ObserverLongitude float64 `protobuf:"fixed64,5,opt,name=observer_longitude,json=observerLongitude,proto3" json:"observer_longitude,omitempty"`
+	ObserverLatitude  float64 `protobuf:"fixed64,6,opt,name=observer_latitude,json=observerLatitude,proto3" json:"observer_latitude,omitempty"`
+	// Unbounded, as with `target_altitude` above.
 	ObserverAltitude  float64                    `protobuf:"fixed64,7,opt,name=observer_altitude,json=observerAltitude,proto3" json:"observer_altitude,omitempty"`
 	ObserverAzimuth   float64                    `protobuf:"fixed64,8,opt,name=observer_azimuth,json=observerAzimuth,proto3" json:"observer_azimuth,omitempty"`
 	ObserverElevation float64                    `protobuf:"fixed64,9,opt,name=observer_elevation,json=observerElevation,proto3" json:"observer_elevation,omitempty"`

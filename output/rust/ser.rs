@@ -1208,12 +1208,15 @@ pub struct JonGuiDataTarget {
     pub target_longitude: f64,
     #[prost(double, tag = "3")]
     pub target_latitude: f64,
+    /// Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+    /// altitude inputs, never on state.
     #[prost(double, tag = "4")]
     pub target_altitude: f64,
     #[prost(double, tag = "5")]
     pub observer_longitude: f64,
     #[prost(double, tag = "6")]
     pub observer_latitude: f64,
+    /// Unbounded, as with `target_altitude` above.
     #[prost(double, tag = "7")]
     pub observer_altitude: f64,
     #[prost(double, tag = "8")]
@@ -1266,12 +1269,16 @@ pub struct JonGuiDataGps {
     pub longitude: f64,
     #[prost(double, tag = "2")]
     pub latitude: f64,
+    /// Unbounded by design: a contested-GPS platform legitimately reports spoofed
+    /// or out-of-range altitudes, so bounding STATE here yields only a validation
+    /// firehose. Operator COMMAND altitudes keep their bounds.
     #[prost(double, tag = "3")]
     pub altitude: f64,
     #[prost(double, tag = "4")]
     pub manual_longitude: f64,
     #[prost(double, tag = "5")]
     pub manual_latitude: f64,
+    /// Unbounded by design, as with `altitude` above.
     #[prost(double, tag = "6")]
     pub manual_altitude: f64,
     #[prost(enumeration = "JonGuiDataGpsFixType", tag = "7")]
@@ -1510,6 +1517,9 @@ pub struct JonGuiDataActualSpaceTime {
     pub latitude: f64,
     #[prost(double, tag = "5")]
     pub longitude: f64,
+    /// Unbounded by design: a contested-GPS platform legitimately reports spoofed
+    /// or out-of-range altitudes, so bounding STATE here yields only a validation
+    /// firehose. Operator COMMAND altitudes keep their bounds.
     #[prost(double, tag = "6")]
     pub altitude: f64,
     #[prost(int64, tag = "7")]

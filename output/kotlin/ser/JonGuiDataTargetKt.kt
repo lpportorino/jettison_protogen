@@ -80,6 +80,11 @@ public object JonGuiDataTargetKt {
     }
 
     /**
+     * ```
+     * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+     * altitude inputs, never on state.
+     * ```
+     *
      * `double target_altitude = 4;`
      */
     public var targetAltitude: kotlin.Double
@@ -90,6 +95,11 @@ public object JonGuiDataTargetKt {
         _builder.targetAltitude = value
       }
     /**
+     * ```
+     * Unbounded, as every state-side altitude is. Bounds live on operator COMMAND
+     * altitude inputs, never on state.
+     * ```
+     *
      * `double target_altitude = 4;`
      */
     public fun clearTargetAltitude() {
@@ -131,6 +141,10 @@ public object JonGuiDataTargetKt {
     }
 
     /**
+     * ```
+     * Unbounded, as with `target_altitude` above.
+     * ```
+     *
      * `double observer_altitude = 7;`
      */
     public var observerAltitude: kotlin.Double
@@ -141,6 +155,10 @@ public object JonGuiDataTargetKt {
         _builder.observerAltitude = value
       }
     /**
+     * ```
+     * Unbounded, as with `target_altitude` above.
+     * ```
+     *
      * `double observer_altitude = 7;`
      */
     public fun clearObserverAltitude() {
