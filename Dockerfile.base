@@ -247,6 +247,41 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# ── Pre-warm the Clojure dependency caches ────────────────────────────────────
+# WITHOUT THIS THE BATTERY IS NOT HERMETIC. tools/uber.sh runs `--rm` and the
+# Clojure caches live INSIDE the container (/root/.m2, /root/.gitlibs), so
+# nothing survives a run: every invocation re-resolved the whole Maven tree AND
+# re-cloned the `pronto` git dep from github.com. Measured on the shipped image:
+# `.m2/repository` and `.gitlibs/_repos` were both EMPTY, and a leg run with
+# `--network none` died with "Could not resolve host: github.com".
+#
+# That is three defects in one: the battery could not run offline, it took a
+# hard gate-time dependency on GitHub + Maven Central being up, and it paid a
+# full dependency download on every single run. A gate that reaches the network
+# is also a gate whose result depends on something outside the tree
+# (`hermetic-tests.md`).
+#
+# Only the deps.edn files are copied — neither declares a `:local/root`, so no
+# source is needed to resolve — which also keeps this layer cache-friendly: it
+# re-runs when a DEPENDENCY changes, not when code changes. `-P` prepares the
+# classpath (download + clone) without running anything.
+#
+# Adding an alias to either deps.edn obliges adding it here, or the battery
+# silently starts reaching for the network again at that alias.
+COPY tools/devcards/deps.edn /prefetch/devcards/deps.edn
+COPY tools/renderer-gen/deps.edn /prefetch/renderer-gen/deps.edn
+RUN cd /prefetch/devcards \
+    && clojure -P -M:bindings:run \
+    && clojure -P -M:test \
+    && cd /prefetch/renderer-gen \
+    && clojure -P -M:fixtures \
+    && clojure -P -M:codegen \
+    && clojure -P -M:morph-fixtures \
+    && clojure -P -M:test \
+    && rm -rf /prefetch \
+    && test -d /root/.gitlibs/_repos \
+    && test -n "$(ls -A /root/.m2/repository)"
+
 # No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>
 # directly (make, protoc, …) — that is exactly what the renderer battery and any
 # hand-rolled base run depend on. ubuntu:24.04's default CMD ["/bin/bash"] still
