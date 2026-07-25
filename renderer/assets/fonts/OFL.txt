@@ -26,8 +26,8 @@ Orbitron-Bold.ttf   — Orbitron Bold, v2.001 (© 2018 The Orbitron Project
                       .claude/rules/ported-provenance.md's sha-unaddressable
                       exception, provenance is this prose rather than an invented
                       (false) pin. RE-VENDOR: fonts.google.com/specimen/Orbitron
-                      (Bold weight), or copy the byte-identical co-vendored twin
-                      at jettison_midgard/osd_assets/resources/fonts/Orbitron-Bold.ttf.
+                      (Bold weight); a consumer that already vendors this same
+                      face may instead copy its byte-identical twin.
                       Consumed at BUILD time only, by tools/gen_fonts.sh.
 
 
