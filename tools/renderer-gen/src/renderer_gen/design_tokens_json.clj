@@ -55,12 +55,14 @@
    :edge-1 :color
    :accent-bg :color
    :accent-text :color
+   :media-accent :color
    :status-success :color
    :status-warning :color
    :status-error :color
    :pressed-surface :color
    :pressed-accent :color
    :focused-edge :color
+   :checked-accent :color
    :disabled-fg :color
    :hud-border :color
    ;; ── typography ──

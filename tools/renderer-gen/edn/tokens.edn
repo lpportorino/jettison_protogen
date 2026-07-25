@@ -41,6 +41,9 @@
           :amber-deep "#D97706"
           :red "#EF4444"
           :green "#10B981"
+          ;; Media scrubber "played" position blue (see :media-accent). A named
+          ;; palette primitive, promoted from a former inline devcards literal.
+          :media-blue "#2F81F7"
           ;; Text colors
           :fg-white "#E8E8F0"
           :fg-muted "#9898B0"
@@ -93,6 +96,13 @@
             ;; widget chrome and authored accent-bg surfaces agree.
             :accent-bg {:dark :violet-deep :light :violet-deep}
             :accent-text :fg-white
+            ;; ── Media ──
+            ;; The scrubber "played" position blue — an authored-composition
+            ;; colour (theme-family-independent by construction), mode-invariant.
+            ;; A named semantic token consumed by the devcards scrubber lego
+            ;; through design-tokens.json, promoted from a former inline literal
+            ;; so the media hue has one home like every other palette colour.
+            :media-accent {:dark :media-blue :light :media-blue}
             ;; ── Status ──
             :status-success :green
             :status-warning :amber
@@ -136,6 +146,20 @@
             :pressed-surface {:dark :base-light :light :olive-200}
             :pressed-accent {:dark :violet-dim :light :violet}
             :focused-edge {:dark :cyan :light :cyan-deep}
+            ;; The checked/edited affordance — the interactive-affordance lane's
+            ;; one hue, mode-invariant. Fills the checked state (checkbox/switch
+            ;; indicator, roller/dropdown selected band, buttonmatrix checked
+            ;; item) and rings the edited state (slider/bar/roller/spinbox/
+            ;; textarea). Distinct from brand-violet :accent-bg (value fills,
+            ;; pressed) and from the transient :focused-edge focus ring — it
+            ;; says "the operator acted on THIS control". :cyan-dim NOT
+            ;; :cyan-deep: cyan-deep (#0891B2) sits under floor on the light
+            ;; surface (fill 2.77:1 / white-on-fill 3.68:1 vs the 3:1 non-text /
+            ;; 4.5:1 text floors); :cyan-dim (#0E7490) clears both floors in
+            ;; both modes (fill 4.03:1 light / 3.46:1 dark, white-on-fill
+            ;; 5.36:1), and improves on the stock red edited ring it replaces
+            ;; (red measured 2.77:1 on the light surface).
+            :checked-accent {:dark :cyan-dim :light :cyan-dim}
             :disabled-fg {:dark :fg-dim :light :olive-500}
             ;; ── HUD overlay controls ──
             :hud-border {:dark :violet :light :violet-deep}

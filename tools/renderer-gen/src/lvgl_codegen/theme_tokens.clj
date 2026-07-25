@@ -48,6 +48,10 @@
     :c-macro "THEME_FOCUSED_EDGE"
     :kind :color
     :doc "FOCUS_KEY outline"}
+   {:sem-key :checked-accent
+    :c-macro "THEME_CHECKED"
+    :kind :color
+    :doc "checked-state fill + edited-state outline"}
    {:sem-key :disabled-fg
     :c-macro "THEME_DISABLED_FG"
     :kind :color

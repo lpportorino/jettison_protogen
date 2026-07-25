@@ -29,64 +29,71 @@ typedef enum {
   SIZE_LARGE = 2,
 } disp_size_t;
 typedef struct {
-  lv_style_t panel;         /* obj card fallback: radius/pad/bg/border/text */
-  lv_style_t control_rad;   /* control-tier MAIN radius + edge border
+  lv_style_t panel;          /* obj card fallback: radius/pad/bg/border/text */
+  lv_style_t control_rad;    /* control-tier MAIN radius + edge border
                            * (dropdown/list/roller/spinbox/textarea/
                            * buttonmatrix)                                */
-  lv_style_t btn;           /* button MAIN: radius + pads                   */
-  lv_style_t btn_shadow;    /* button/btnmatrix shadow (asgard: zeroed)     */
-  lv_style_t item_rad;      /* buttonmatrix ITEMS radius                    */
-  lv_style_t btnm_pads;     /* buttonmatrix MAIN pads + gaps                */
-  lv_style_t btnm_items;    /* buttonmatrix ITEMS fill (asgard-only)        */
-  lv_style_t roller_pad;    /* roller MAIN pad_hor                          */
-  lv_style_t ta_pad;        /* textarea MAIN pad_ver                        */
-  lv_style_t table_items;   /* table ITEMS pad                              */
-  lv_style_t table_grid;    /* table ITEMS full-side dividers (asgard-only) */
-  lv_style_t cb_ind;        /* checkbox INDICATOR radius                    */
-  lv_style_t cb_grow_off;   /* checkbox INDICATOR|PRESSED grow cancel
+  lv_style_t btn;            /* button MAIN: radius + pads                   */
+  lv_style_t btn_shadow;     /* button/btnmatrix shadow (asgard: zeroed)     */
+  lv_style_t item_rad;       /* buttonmatrix ITEMS radius                    */
+  lv_style_t btnm_pads;      /* buttonmatrix MAIN pads + gaps                */
+  lv_style_t btnm_items;     /* buttonmatrix ITEMS fill (asgard-only)        */
+  lv_style_t roller_pad;     /* roller MAIN pad_hor                          */
+  lv_style_t ta_pad;         /* textarea MAIN pad_ver                        */
+  lv_style_t table_items;    /* table ITEMS pad                              */
+  lv_style_t table_grid;     /* table ITEMS full-side dividers (asgard-only) */
+  lv_style_t cb_ind;         /* checkbox INDICATOR radius                    */
+  lv_style_t cb_grow_off;    /* checkbox INDICATOR|PRESSED grow cancel
                            * (asgard-only)                               */
-  lv_style_t led;           /* led shadow flattening                        */
-  lv_style_t knob;          /* slider/switch KNOB radius (crisp)            */
-  lv_style_t scrollbar;     /* SCROLLBAR crisp radius + edge tone
+  lv_style_t led;            /* led shadow flattening                        */
+  lv_style_t knob;           /* slider/switch KNOB radius (crisp)            */
+  lv_style_t scrollbar;      /* SCROLLBAR crisp radius + edge tone
                            * (asgard-only)                               */
-  lv_style_t field_bg;      /* closed-field surface fill — dropdown MAIN
+  lv_style_t field_bg;       /* closed-field surface fill — dropdown MAIN
                            * (asgard-only)                               */
-  lv_style_t focus;         /* FOCUS_KEY outline                            */
-  lv_style_t disabled;      /* DISABLED dim — filled value widgets
+  lv_style_t focus;          /* FOCUS_KEY outline                            */
+  lv_style_t checked_accent; /* CHECKED-state fill — cyan affordance over
+                            * stock's violet color_primary (checkbox/switch
+                            * indicator, roller/dropdown selected band,
+                            * buttonmatrix checked item) (asgard-only)     */
+  lv_style_t edited_edge;    /* EDITED-state outline — cyan ring over stock's
+                            * red color_secondary (slider/bar/roller/spinbox/
+                            * textarea) (asgard-only)                       */
+  lv_style_t disabled;       /* DISABLED dim — filled value widgets
                             * (asgard-only, empty in vanilla)              */
-  lv_style_t disabled_text; /* DISABLED for text-value widgets (spinbox/
+  lv_style_t disabled_text;  /* DISABLED for text-value widgets (spinbox/
                              * textarea/checkbox label): authored text
                              * tone + recolor, NO opa — a whole-widget
                              * opa halves text-vs-fill self-contrast
                              * (asgard-only)                              */
-  lv_style_t disabled_fill; /* DISABLED for accent-filled buttons:
+  lv_style_t disabled_fill;  /* DISABLED for accent-filled buttons:
                              * authored surface-2 fill + disabled text,
                              * stock recolor neutralized (asgard-only)    */
-  lv_style_t disabled_flat; /* DISABLED for no-fill line-art surfaces
+  lv_style_t disabled_flat;  /* DISABLED for no-fill line-art surfaces
                              * (table): opa fade toward the local bg +
                              * authored text, NO recolor — a fixed
                              * recolor target LIGHTENS dark cells
                              * (asgard-only)                              */
-  lv_style_t hover;         /* HOVERED lighten (asgard-only)                */
-  lv_style_t pressed;       /* PRESSED darken for classes stock leaves
+  lv_style_t hover;          /* HOVERED lighten (asgard-only)                */
+  lv_style_t pressed;        /* PRESSED darken for classes stock leaves
                             * unpressed — arc, roller, dropdown, checkbox
                             * indicator (asgard-only)                      */
-  lv_style_t track_tone;    /* resting ring tone (arc/spinner MAIN
+  lv_style_t track_tone;     /* resting ring tone (arc/spinner MAIN
                             * arc_color) — asgard-only, BOTH modes: the
                             * stock grey ring sinks into the light
                             * surface AND measures under the 3:1 floor
                             * on the dark canvas                           */
-  lv_style_t track_bg;      /* resting rect-track fill (bar/slider/switch
+  lv_style_t track_bg;       /* resting rect-track fill (bar/slider/switch
                             * MAIN): edge tone at FULL opa — stock's
                             * LV_OPA_20 muted track dilutes any authored
                             * color back toward the panel (asgard-only)    */
-  lv_style_t tab_txt;       /* selected tab-bar label text, DARK only: the
+  lv_style_t tab_txt;        /* selected tab-bar label text, DARK only: the
                             * stock-derived selected-label tint converges
                             * with the muted accent tab fill (asgard-only) */
-  lv_style_t cursor_off;    /* spinbox CURSOR hidden under DISABLED — a
+  lv_style_t cursor_off;     /* spinbox CURSOR hidden under DISABLED — a
                             * disabled control has no active edit cell
                             * (asgard-only)                                */
-  lv_style_t trans;         /* zero-time transitions (asgard-only)          */
+  lv_style_t trans;          /* zero-time transitions (asgard-only)          */
 } asgard_styles_t;
 typedef struct {
   lv_theme_t base;
@@ -397,6 +404,35 @@ static void style_init(asgard_theme_t *t) {
     lv_style_set_outline_pad(&s->focus, THEME_BORDER_W);
     lv_style_set_outline_opa(&s->focus, LV_OPA_COVER);
   }
+  /* checked-state fill — asgard-only NEW affordance colour. The interactive
+   * lane's :checked-accent (mode-invariant cyan) fills the checked state over
+   * stock's violet color_primary: the checkbox/switch indicator, the roller/
+   * dropdown selected band, the buttonmatrix checked item. bg only — stock's
+   * cover opa + white selected-text stand, so the checkmark/label rides
+   * white-on-cyan (the token proves >=4.5:1 both modes). Vanilla stays empty
+   * so vanilla-equals-stock holds by scope. */
+  style_reset(&s->checked_accent, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->checked_accent,
+                          lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
+                                                THEME_CHECKED_LIGHT)));
+    lv_style_set_bg_opa(&s->checked_accent, LV_OPA_COVER);
+  }
+  /* edited-state ring — asgard-only. The SAME cyan as an OUTLINE for the
+   * encoder-edit state (slider/bar/roller/spinbox/textarea), replacing stock's
+   * red color_secondary edited outline (red collides semantically with
+   * :status-error AND measured under the light-surface boundary floor). The
+   * ring geometry mirrors the focus ring so both crisp affordance rings agree.
+   * Vanilla stays empty so vanilla-equals-stock holds by scope. */
+  style_reset(&s->edited_edge, inited);
+  if (!v) {
+    lv_style_set_outline_color(
+        &s->edited_edge, lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
+                                               THEME_CHECKED_LIGHT)));
+    lv_style_set_outline_width(&s->edited_edge, THEME_OUTLINE_W);
+    lv_style_set_outline_pad(&s->edited_edge, THEME_BORDER_W);
+    lv_style_set_outline_opa(&s->edited_edge, LV_OPA_COVER);
+  }
   /* disabled dim — asgard-only NEW state coverage (stock has none for the
    * value widgets); vanilla stays empty so stock-parity holds. One formula
    * does NOT fit every content class, so the dim splits four ways:
@@ -631,6 +667,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* Track + fill agree with the crisp knob — the same by-construction
        * radius reuse the switch arm documents (stock leaves slider MAIN and
        * INDICATOR at LV_RADIUS_CIRCLE, so the track stayed a pill around a
@@ -653,6 +691,9 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.track_bg, LV_PART_MAIN);
+      /* Checked (ON) fill — cyan over stock's violet indicator. */
+      lv_obj_add_style(obj, &t->styles.checked_accent,
+                       LV_PART_INDICATOR | LV_STATE_CHECKED);
       /* DISABLED dim — the same object-level opa+recolor the slider arm
        * carries (the MAIN opa folds into layer->opa, so knob and indicator
        * fade with the track). Stock's grey recolor alone pulled the light
@@ -703,6 +744,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   if (lv_obj_check_type(obj, &lv_bar_class)) {
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* A bar IS a slider track (same pill stock geometry); squaring the
        * slider and not the bar would stack two track shapes side by side.
        * Same knob-radius reuse, same asgard-only scope. */
@@ -729,6 +772,10 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
                        LV_PART_INDICATOR | LV_STATE_PRESSED);
       lv_obj_add_style(obj, &t->styles.pressed,
                        LV_PART_INDICATOR | LV_STATE_PRESSED);
+      /* Checked fill — cyan over stock's violet indicator; stock's white
+       * checkmark rides on top (white-on-cyan token-proven >=4.5:1). */
+      lv_obj_add_style(obj, &t->styles.checked_accent,
+                       LV_PART_INDICATOR | LV_STATE_CHECKED);
       /* DISABLED — per part, per content class: the indicator (border +
        * fill geometry) takes the filled-widget dim; the label text rides
        * MAIN, where a whole-widget opa would halve glyph self-contrast, so
@@ -765,8 +812,16 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
    * in an otherwise crisp control. Asgard-only, same scope rule as the
    * other radius agreements. */
   if (lv_obj_check_type(obj, &lv_dropdownlist_class)) {
-    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.control_rad, 0);
+      /* Selected option — cyan over stock's violet SELECTED|CHECKED fill
+       * (stock's own selector; see lv_theme_default's dropdownlist arm). Not
+       * wire-reachable from a static fixture today — the renderer has no
+       * open-list decode path — so this is inert-but-correct affordance
+       * coverage for the day it lands. */
+      lv_obj_add_style(obj, &t->styles.checked_accent,
+                       LV_PART_SELECTED | LV_STATE_CHECKED);
+    }
     return;
   }
 #endif
@@ -777,6 +832,11 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
+      /* Selected band — cyan over stock's violet PART_SELECTED fill (the
+       * always-visible centred option); white option text rides on top. */
+      lv_obj_add_style(obj, &t->styles.checked_accent, LV_PART_SELECTED);
+      /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* Stock cards the roller MAIN (rounded) while its SELECTED band is a
        * square stripe — the same round-container/square-inner dissonance as
        * the dropdown list; crisp the container to agree. */
@@ -796,8 +856,11 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * replaces the fade; stock's own recolor-only dim stays underneath
      * for the field chrome but the recolor target is overridden so it
      * no-ops on the authored text. */
-    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.disabled_text, LV_STATE_DISABLED);
+      /* Edited (active-edit) ring — cyan over stock's red edited outline. */
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
+    }
     add_interactive(t, obj);
     return;
   }
@@ -814,6 +877,8 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       lv_obj_add_style(obj, &t->styles.disabled_text, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.cursor_off,
                        LV_PART_CURSOR | LV_STATE_DISABLED);
+      /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
     }
     add_interactive(t, obj);
     return;
@@ -828,6 +893,12 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * container (asgard-only) — see the btnm_items init comment. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.btnm_items, LV_PART_ITEMS);
+    /* Checked item — cyan over stock's violet ITEMS|CHECKED fill. Not
+     * wire-reachable today (the renderer decodes no set_btn_ctrl /
+     * set_selected_button), so inert-but-correct affordance coverage. */
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+      lv_obj_add_style(obj, &t->styles.checked_accent,
+                       LV_PART_ITEMS | LV_STATE_CHECKED);
     /* Square the MAIN container: stock cards the buttonmatrix (rounded) while
      * the items are already crisp chips (item_rad) — the same
      * round-container/crisp-inner dissonance the dropdown-list and roller arms

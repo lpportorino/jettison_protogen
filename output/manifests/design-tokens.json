@@ -26,6 +26,11 @@
       "dark": 2,
       "light": 2
     },
+    "checked-accent": {
+      "kind": "color",
+      "dark": "#0E7490",
+      "light": "#0E7490"
+    },
     "disabled-fg": {
       "kind": "color",
       "dark": "#8686A0",
@@ -151,6 +156,11 @@
       "kind": "opacity",
       "dark": 50,
       "light": 100
+    },
+    "media-accent": {
+      "kind": "color",
+      "dark": "#2F81F7",
+      "light": "#2F81F7"
     },
     "overlay-opa": {
       "kind": "opacity",

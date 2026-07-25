@@ -17,7 +17,7 @@
    :h 480},
   "kitchen-sink/settings-panel"
   {:sha256
-   "d16d14cf103f40951cdbac69c17b30dc7a9e78266e752d0984251c6603da8e4b",
+   "e7fa1ac2cb1e2601ed5cde64866bdb988a5adede53bbea9d54f37ab46bdd3ec2",
    :w 800,
    :h 480},
   "kitchen-sink/tabview-with-content"
@@ -27,7 +27,7 @@
    :h 480},
   "kitchen-sink/toolbar-strip"
   {:sha256
-   "17cc86e4c1e54af2ac65dfc1d65c8ddc255ce46b721cf91962878e010b338411",
+   "92f1dea7a3db92dfa880028e95ca1ce7bf85d1e8eaba850d5dfd5bdfe68463bb",
    :w 800,
    :h 480},
   "lv_arc/default/large/mid"
@@ -137,7 +137,7 @@
    :h 480},
   "lv_bar/edited/medium/mid"
   {:sha256
-   "9b971c370a1bf66544e241d4259767cdfe771008aff5160a5419d6220a691b0b",
+   "981de2726370b3e495cf2ecb7535009be6d3ce03bcb04218a3be4da3fa86ca95",
    :w 800,
    :h 480},
   "lv_bar/focus-key/medium/mid"
@@ -262,12 +262,12 @@
    :h 480},
   "lv_checkbox/checked-disabled/medium"
   {:sha256
-   "58c94029abafc32ccd9cec210eab878df645b609e9e09e39101e409aff28d795",
+   "a58f15ce7bf7877dbc14cb4fef2e7ac88910b65013db83f52e69a49f7f1def97",
    :w 800,
    :h 480},
   "lv_checkbox/checked/medium"
   {:sha256
-   "205b0e7deae585e358d7cc0879c76c45f6dace5cdebfc26e2e9ed7abc84a88b5",
+   "adbe5666028c9d8a6554b7eb2a95680e39e7973213ad86a4e35e382e96b92b7e",
    :w 800,
    :h 480},
   "lv_checkbox/default/forced-narrow"
@@ -612,87 +612,87 @@
    :h 480},
   "lv_roller/default/large/mid"
   {:sha256
-   "93577884059c91ece32201ffc94f69560bacd00321df1681f00783dd78812dc5",
+   "a172147d48e09e00fd2c58490c75df3825964742c88fb118353c9e836be67249",
    :w 800,
    :h 480},
   "lv_roller/default/medium/max"
   {:sha256
-   "ce5969d88a5b6d9d9041dfe9922b72e0764c3a20a3f57dc96e2caf78c9a9abf8",
+   "170125b1dc5065c93d4a3538f84f320267ec6bebebeb777f6f8a41d640a62a26",
    :w 800,
    :h 480},
   "lv_roller/default/medium/mid"
   {:sha256
-   "7923f2d79da4175959b78be1881b96c4e7c582288acc6c34e4304c82d117e8ce",
+   "f37d43b9650af1580320c7544eb5f3eb739dc86c45f38c8f17783baf7437cac5",
    :w 800,
    :h 480},
   "lv_roller/default/medium/min"
   {:sha256
-   "6d9199ccab807a67d2240ee92e79fe3b5f3042ee0b5325bd74df47f57a0a1724",
+   "8874d3bedf24bae3c1bd645f798250e38fa432cabfce66e203836c783bfdb2c8",
    :w 800,
    :h 480},
   "lv_roller/default/small/mid"
   {:sha256
-   "f5ba46e7b4ea6953ff1d88b87b611647105d92be3800edd97d02dc95b6577d16",
+   "ed4d49af21d13c5aa472bd94ce26da1811d818d7168724e8c500f2549b0e4ecf",
    :w 800,
    :h 480},
   "lv_roller/disabled/large/mid"
   {:sha256
-   "799a2995a072d904cb7716f37be26c87fc5d960d1d216c88fede6af2aeaf7d13",
+   "ea2181abf2b182b63d4ecf08a755a915317da34b100d94536b609e7725a51d1f",
    :w 800,
    :h 480},
   "lv_roller/disabled/medium/mid"
   {:sha256
-   "0311c79c49a9e82ead8c29ed67b399509012466aa78606cc19cec35f56dc227f",
+   "902776aeb8fdd397e5758dae6ba8123058cdd7c9624a5fc96b86bc75d4e8b781",
    :w 800,
    :h 480},
   "lv_roller/disabled/small/mid"
   {:sha256
-   "c647a699a4a96ba97b716a2df83fcdc05147090462aaf93248f735d18a9b77f1",
+   "654b139ff94355f0f75a5331d9450e1a1db715089393fa9f0f35f15e09bd65dd",
    :w 800,
    :h 480},
   "lv_roller/edited/large/mid"
   {:sha256
-   "0f27895080bd080873c6d67a1f30b2e66528b8fb9a11355444cc24973dda784b",
+   "61e5904228faf0f0c9f5cfe333f68b8092a804ec4ebf91f1925356c6adb444f6",
    :w 800,
    :h 480},
   "lv_roller/edited/medium/mid"
   {:sha256
-   "71aac025dc2b26b56b8e636d9539930e148e018987be9fb8c0f7670af792818c",
+   "02840cb75a6c0419b3ed54a660c01a654bd574ead8d5a83d740f3b404c48765c",
    :w 800,
    :h 480},
   "lv_roller/edited/small/mid"
   {:sha256
-   "3d7635944c93fd74b1d9569c72b7e7002df5f10c163b0e69a9b5c6b14010aaea",
+   "ccd8691d8b98cd937e7540312dc666c84effab6cac23a11614995bc14b59b1cb",
    :w 800,
    :h 480},
   "lv_roller/focus-key/large/mid"
   {:sha256
-   "2c9e76e9668655077829a321b554a5e65cbc3e1c40bc96bdf866f70e39940415",
+   "74874c53ae2d3a66bb9c7752862d962ab4498c130cce21b4c4e4d322261276d4",
    :w 800,
    :h 480},
   "lv_roller/focus-key/medium/mid"
   {:sha256
-   "fc0094eb15fa1d151dff7b3f8e2814ea0b40860fed7f20955a4386563c4c1f09",
+   "7d8051a1a1c0f76ff82e5775d6e5123dc0a4c0284c159c2bd0bd3f5dd767ea0b",
    :w 800,
    :h 480},
   "lv_roller/focus-key/small/mid"
   {:sha256
-   "d4e5c184907afdf94701a3f325139c90004481acd807616240576a0be027cfb4",
+   "d06498f8397b3ccb53036e7390f580a5ed8f41a12debda475834729fc532ba5a",
    :w 800,
    :h 480},
   "lv_roller/hovered/medium/mid"
   {:sha256
-   "b916638db1ee4145b156433efb032adb69690b7ee130d540a389aadba3af4f25",
+   "26c523494e6e28c5ee8ede8e0f99f0cf0ff71128894a8f7ecbdb4637fa86cca4",
    :w 800,
    :h 480},
   "lv_roller/pressed/medium/mid"
   {:sha256
-   "067ba0d8c5a0eec227462e40bbd414b1c431d42ef32fc5b0ccdc4b0cb9a69b1b",
+   "a300b527fdd65dc0d7c65a0b67da16a7f0c7770c54afd6537f2a622de2380128",
    :w 800,
    :h 480},
   "lv_roller/pressed/small/mid"
   {:sha256
-   "b8bdf04f169a0edf6fba7120a1d641ed1c89a2d9c93017f6e032c1c46ead8954",
+   "10dc2e1e14be7fb21a587f23821a39b40602e64f930405d32545c3d1674b2475",
    :w 800,
    :h 480},
   "lv_scale/default/large/horizontal"
@@ -802,7 +802,7 @@
    :h 480},
   "lv_slider/edited/medium/mid"
   {:sha256
-   "f9b6eccee6db73ba0f8dbecf2a9608f7c2344c0e108f56eb035d71ef474e9587",
+   "bf03727982af755d4fab357313987488e591c40ac77c0065e478f61e7b9067f2",
    :w 800,
    :h 480},
   "lv_slider/focus-key/large/mid"
@@ -892,17 +892,17 @@
    :h 480},
   "lv_spinbox/edited/large"
   {:sha256
-   "b1f74e4724892df124ad8c640b1b077288656d0bc8de8955e25346615d33928e",
+   "43cc6f2eb464b54fa1973821e464f319464af795902679c2561553af15bb7e59",
    :w 800,
    :h 480},
   "lv_spinbox/edited/medium/mid"
   {:sha256
-   "1a4e9bfdd8b4ebe1422af6075515e47b851afddd651ac70469c4ffb1ea73df08",
+   "f769004f53120508051fab358383ac50208c518fe35e51b46587cc69cc875bd1",
    :w 800,
    :h 480},
   "lv_spinbox/edited/small"
   {:sha256
-   "2dca25134c8e866d1fd7633e46bc5f404285b1ce06944b30616305c9c3c48b9f",
+   "8c4fa1431490485ee7fa183d4e6e74b8c351637b4e99a20463df7f27c433f615",
    :w 800,
    :h 480},
   "lv_spinbox/focus-key/large"
@@ -962,17 +962,17 @@
    :h 480},
   "lv_switch/checked/large"
   {:sha256
-   "874b36e5a648958f8f25ddc8449adce221411ea107cace9b9755d9f47207116b",
+   "f6aa0074775dc84135475c61cca44b93c04a98a4e3c83671454842b0ebea083e",
    :w 800,
    :h 480},
   "lv_switch/checked/medium"
   {:sha256
-   "91a5855cd32538bad2dae83772af21284af0241d938139181485bc3617cfa6ae",
+   "bf4a0a197e459238831a5f0b82a28422b10fe599af32b950c5fd9b38bed80769",
    :w 800,
    :h 480},
   "lv_switch/checked/small"
   {:sha256
-   "c838fa29482e64ca65dd053083e08976046209426bf3cac28046ab93fdf2dc76",
+   "35dcde3ce965210f412e0fa252802e283025aaf2f761cbe8c1b05ce840ced895",
    :w 800,
    :h 480},
   "lv_switch/default/large"
@@ -992,17 +992,17 @@
    :h 480},
   "lv_switch/disabled-checked/large"
   {:sha256
-   "9a995aeabe3aa3f54afd769000a100a379cd6460f0ebcd4c3c8e98e5df1abed2",
+   "d3421ba62b44c8aae0c76defc09786d071a963c62a097579a28815718d11494c",
    :w 800,
    :h 480},
   "lv_switch/disabled-checked/medium"
   {:sha256
-   "d2371c594fad1151031425797395446fc5ff72e2147690e2cdcba329245dc1b3",
+   "61445bcc013665b198f04b4e1e78d0d9499b144c7f0e3c2bf536ba5887dc2e56",
    :w 800,
    :h 480},
   "lv_switch/disabled-checked/small"
   {:sha256
-   "c8a919315e50103e9f9c6dfb66ee8556399967aa09787efa593d7bd12aac9c84",
+   "960a035fdc1744938ce9e44852d99450a8e0e6985370a0038770d1a71aed1705",
    :w 800,
    :h 480},
   "lv_switch/disabled/large"
@@ -1137,7 +1137,7 @@
    :h 480},
   "lv_textarea/edited/medium"
   {:sha256
-   "ed38dbfd8aa3269c740dc3ef4e842e6e25c0e957007445e114c0a3501791072b",
+   "29bb6485a1c57193ef85ac97868b4339f01404c7739ed2575ea49ca3e17428a3",
    :w 800,
    :h 480},
   "lv_textarea/focus-key/medium"

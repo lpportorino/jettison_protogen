@@ -21,7 +21,8 @@
      cards: per-stage enable / reorder-by-buttons / delete, an add
      dropdown, a staged-count badge. Stage BODIES are caller-supplied
      nodes; all stage semantics stay consumer-side."
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [devcards.tokens :as tokens]))
 
 (set! *warn-on-reflection* true)
 
@@ -85,8 +86,15 @@
 (def scrubber-palette
   "The scrubber's authored look. Authored style groups are
    family-independent by construction — authored styling is not theme
-   styling, so a scrubber looks the same in every theme family."
-  {:track "#30363d" :buffered "#8a939b" :played "#2f81f7" :knob "#e6edf3"})
+   styling, so a scrubber looks the same in every theme family. The played
+   position blue resolves from tokens.edn's :media-accent through
+   design-tokens.json (devcards.tokens) — one home for the media hue, promoted
+   from a former inline literal; the resolved value is bit-identical, so it
+   moves no golden pixel."
+  {:track "#30363d"
+   :buffered "#8a939b"
+   :played (tokens/color :media-accent)
+   :knob "#e6edf3"})
 
 (def scrubber-halo
   "The wrapper's transparent hit-halo band, px per side — equal to the
