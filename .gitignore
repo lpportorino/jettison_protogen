@@ -37,6 +37,14 @@ tmp/
 # Clojure CLI classpath cache (tools.deps writes it wherever it is invoked)
 .cpcache/
 
+# clj-kondo analysis cache — editors/LSP write it here; lint.mk deliberately
+# runs --cache false, so nothing in this repo reads it. Left untracked it makes
+# the worktree dirty, and a consumer vendoring this repo as a submodule folds
+# worktree bytes into its gate-cache hash: a dirty submodule is fail-closed
+# there, so every affected gate re-runs uncached until this is ignored.
+# (.clj-kondo/config.edn stays tracked — only the generated cache is ignored.)
+.clj-kondo/.cache/
+
 # clang-tidy mining corpus + compile database (transient analysis output)
 .mine/
 .mine-c*.txt
