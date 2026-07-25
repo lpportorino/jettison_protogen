@@ -182,10 +182,15 @@ docs-docker-test: ## Run proto docs tests in Docker
 # The REPO ROOT is mounted, not just the tools dir: the suite reaches out to
 # ../proto-db.edn and ../../../output/json-descriptors/descriptor-set.binpb (the
 # parity/roundtrip/manifest tests check the committed DB and generated bindings
-# against the LIVE descriptor). Without the mount those files do not exist, and
-# the run degraded to 756 assertions with 88 FileNotFoundException errors —
-# permanently red, and silently skipping the tests that matter. Mounted, the
-# same 226 tests carry 21561 assertions and pass.
+# against the LIVE descriptor). Without the mount those files do not exist, the
+# run fills with FileNotFoundException errors and goes permanently red — while
+# silently skipping the tests that matter.
+#
+# The sharp part: that degradation is INVISIBLE in the test count, which is the
+# same either way. Only the assertion count collapses. So judge a run by the
+# runner's own summary, never by a test tally — including one written down here,
+# which is why none is: it would rot on the next test added and then quietly
+# disagree with the suite it claims to describe.
 	@printf "$(GREEN)Running proto docs tests via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v "$$(pwd)":/repo -w /repo/docs/.protodoc/tools \
