@@ -26,7 +26,7 @@ Establishes the GPS reference/origin point for the rotary platform by specifying
 ## Interaction
 
 - **Category:** :settings
-- **UI Pattern:** :action-button
+- **UI Pattern:** :composite
 - **Feedback:** :fire-and-forget
 
 

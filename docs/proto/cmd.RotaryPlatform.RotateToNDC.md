@@ -28,7 +28,7 @@ Commands the rotary platform to rotate and point toward a specific normalized de
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :action-button
+- **UI Pattern:** :composite
 - **Feedback:** :poll-confirm
 
 

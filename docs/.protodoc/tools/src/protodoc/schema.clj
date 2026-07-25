@@ -63,6 +63,7 @@
    :stepper             ; ± discrete steps
    :indicator           ; Read-only display
    :enum-picker         ; Select from enum values
+   :number-input        ; Direct numeric entry for a single min-only/bounded value
    :roi-selection       ; Region of interest on video
 
    ;; Molecular patterns (2-3 controls)
@@ -70,6 +71,7 @@
    :press-accelerating      ; Hold with ramp-up (DDE)
 
    ;; Composite patterns (4+ controls)
+   :composite               ; Multi-field command form (per-field inputs + commit)
    :slider-with-presets     ; Slider + preset buttons + auto (Iris)
    :directional-mover       ; Step size + directional buttons (Zoom)
    :tabbed-config           ; Multiple tabs with controls (Alerts)

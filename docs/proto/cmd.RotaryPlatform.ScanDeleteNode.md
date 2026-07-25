@@ -24,7 +24,7 @@ Deletes a waypoint from the rotary scan pattern at the specified index, updating
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :action-button
+- **UI Pattern:** :number-input
 - **Feedback:** :pending-timeout
 
 

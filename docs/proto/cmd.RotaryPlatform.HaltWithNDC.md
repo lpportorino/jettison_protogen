@@ -28,7 +28,7 @@ Halts all rotary platform motion and records the final normalized device coordin
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :action-button
+- **UI Pattern:** :composite
 - **Feedback:** :fire-and-forget
 
 

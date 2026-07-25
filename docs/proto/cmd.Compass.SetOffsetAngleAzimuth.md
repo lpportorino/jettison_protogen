@@ -50,7 +50,7 @@ Sets compass azimuth angle offset for calibration correction
 
 ### Implementation Notes
 
-Used for manual calibration adjustments.
+Used for manual calibration adjustments. The `value` field is a bounded absolute angle (-180 to 180 degrees), so this command writes an absolute azimuth offset over its range rather than an incremental step. Although tagged `:stepper` for the fine-adjustment affordance, a bounded absolute `Set*` value of this shape is presented as a bounded absolute control (a `:slider` over its range), not a discrete stepper.
 
 
 

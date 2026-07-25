@@ -24,7 +24,7 @@ Commands the rotary platform to select a specific scan waypoint by its index. Wh
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :enum-picker
+- **UI Pattern:** :number-input
 - **Feedback:** :fire-and-forget
 
 

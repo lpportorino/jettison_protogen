@@ -30,7 +30,7 @@ Adds a waypoint node to the rotary platform scan path, specifying position (azim
 ## Interaction
 
 - **Category:** :settings
-- **UI Pattern:** :action-button
+- **UI Pattern:** :composite
 - **Feedback:** :fire-and-forget
 
 

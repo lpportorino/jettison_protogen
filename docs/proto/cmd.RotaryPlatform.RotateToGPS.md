@@ -26,7 +26,7 @@ Commands the rotary platform to rotate and point toward a specified GPS coordina
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :action-button
+- **UI Pattern:** :composite
 - **Feedback:** :fire-and-forget
 
 
