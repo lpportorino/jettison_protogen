@@ -48,6 +48,7 @@ CLANG_FORMAT := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-format) clang-for
 # Hand-authored Clojure source roots (dirs, per tool convention).
 LINT_CLJ_PATHS := tools/devcards/src \
 	tools/devcards/dev \
+	tools/devcards/test \
 	tools/renderer-gen/src \
 	docs/.protodoc/tools/src \
 	docs/.protodoc/tools/test

@@ -9,9 +9,13 @@
    The px→NDC mapping inverts the renderer's ndc_to_px (x = (ndc+1)/2*w,
    y = (1-ndc)/2*h — +y is UP in NDC, so the y axis flips). Ticks are the
    caller's job: LVGL's indev polls the synced pointer globals on the next
-   controls_tick, so every gesture step is followed by settle ticks."
-  (:require [clojure.data.json :as json]
-            [devcards.host :as host])
+   controls_tick, so every gesture step is followed by settle ticks.
+
+   This ns is the input-INJECTION half of the probe surface and needs the
+   compiled ui.UiInput bindings; the capture-READING half (events /
+   events-tagged / clear-events!) lives in `devcards.probe`, which stays
+   loadable without bindings."
+  (:require [devcards.host :as host])
   (:import [ui UiInput$HostToWasm UiInput$PointerEvent UiInput$PointerKind
             UiInput$PointerPhase]))
 
@@ -92,19 +96,3 @@
                      via)]
     (pointer! h :up (or (last via) from) (+ (long tend) 50))
     (settle! h 3 16)))
-
-(defn events
-  "Decode every captured host_event envelope
-   ({\"v\":1,\"tag\":...,\"origin\":...,\"event\":...,\"seq\":...,\"value\":...})."
-  [{:keys [captured] :as _host}]
-  (mapv #(json/read-str (String. ^bytes % "UTF-8") :key-fn keyword) (:events @captured)))
-
-(defn events-tagged
-  "The captured envelopes whose :tag equals `tag`, in emission order."
-  [h tag]
-  (filterv #(= tag (:tag %)) (events h)))
-
-(defn clear-events!
-  "Reset the captured host_event lane between probe assertions."
-  [{:keys [captured] :as _host}]
-  (swap! captured assoc :events []))

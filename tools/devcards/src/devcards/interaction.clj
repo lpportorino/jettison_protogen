@@ -29,44 +29,18 @@
    wasmtime engine mirror of this lane is
    renderer/wasm_harness/tests/composition_interaction.rs — the same
    card bytes and taps, plus the cross-engine framebuffer byte-compare."
-  (:require [clojure.data.json :as json]
-            [devcards.fixtures :as fixtures]
-            [devcards.host :as host]
+  (:require [devcards.fixtures :as fixtures]
             [devcards.legos :as legos]
-            [devcards.pointer :as pointer]))
+            [devcards.pointer :as pointer]
+            [devcards.probe :as probe]))
 
 (set! *warn-on-reflection* true)
 
-(defn- with-host
-  "Run `f` over a fresh booted host; always closes it."
-  [boot! f]
-  (let [h (boot!)] (try (f h) (finally (host/close! h)))))
-
 (defn- render!
-  "Render `pb` dark on host `h` and drain any render-time events, so the
-   probe reads interaction envelopes only. Returns the framebuffer."
+  "Render `pb` dark at bp 0 on host `h`, drained (probe/render-drained!) —
+   the lane's one render protocol, named once."
   ^bytes [h ^bytes pb]
-  (let [fb (host/render-card! h {:pb pb :bp 0 :dark 1})]
-    (pointer/clear-events! h)
-    fb))
-
-(defn- node-seq [tree] (tree-seq #(seq (:children %)) :children tree))
-
-(defn- find-type
-  "Depth-first preorder nodes of dump tree `tree` whose :type is `t`
-   (the same order the wasmtime mirror walks, so indices agree)."
-  [tree t]
-  (filterv #(= t (:type %)) (node-seq tree)))
-
-(defn- center
-  [{:keys [coords]}]
-  (let [[x1 y1 x2 y2] coords] [(quot (+ x1 x2) 2) (quot (+ y1 y2) 2)]))
-
-(defn- finding
-  "A finding map when `expected` != `actual`, else nil."
-  [card check expected actual]
-  (when (not= expected actual)
-    {:gate :interaction :card (str card) :check check :expected expected :actual actual}))
+  (probe/render-drained! h pb {:bp 0 :dark 1}))
 
 ;; ── scrubber ────────────────────────────────────────────────────────────
 (defn- scrubber-track
@@ -90,48 +64,37 @@
   (Math/round (+ (long (:min opts))
                  (* (double frac) (- (long (:max opts)) (long (:min opts)))))))
 
-(defn- hex-rgb
-  "\"#rrggbb\" -> [r g b]."
-  [^String hex]
-  (mapv (fn [^long i] (Integer/parseInt (subs hex i (+ i 2)) 16)) [1 3 5]))
-
-(defn- px-at
-  "[r g b] at canvas px [x y] in raw RGBA framebuffer bytes."
-  [^bytes fb ^long canvas-w [x y]]
-  (let [i (* (+ (* (long y) canvas-w) (long x)) 4)]
-    (mapv (fn [^long c] (bit-and (aget fb (+ i c)) 0xFF)) [0 1 2])))
-
 (defn- scrubber-geometry-findings
   "Track coords (the halo placement arithmetic), bar≡slider overlay, and
    the authored palette at the track's center row. The sample fractions
    pin THIS corpus card's bands (:value 40 → played sampled at 30%,
    :buffered 85 → buffered at 55%, unplayed at 95%)."
   [boot! card ^bytes pb canvas-w]
-  (with-host boot!
+  (probe/with-host boot!
     (fn [h]
-      (let [fb (host/render-card! h {:pb pb :bp 0 :dark 1})
-            tree (json/read-str (host/dump-tree! h) :key-fn keyword)
+      (let [fb (render! h pb)
+            tree (probe/dump-tree h)
             track (scrubber-track card)
-            slider (first (find-type tree "lv_slider"))
-            bar (first (find-type tree "lv_bar"))
+            slider (first (probe/find-type tree "lv_slider"))
+            bar (first (probe/find-type tree "lv_bar"))
             expect-coords [(:x track) (:y track) (+ (:x track) (:w track) -1)
                            (+ (:y track) (:h track) -1)]]
         (into []
               (keep identity)
-              [(finding (:id card) :track-coords expect-coords (:coords slider))
-               (finding (:id card) :bar-overlays-slider (:coords slider) (:coords bar))
-               (finding (:id card)
-                        :played-sample
-                        (hex-rgb (:played legos/scrubber-palette))
-                        (px-at fb canvas-w (track-px track 0.30 0)))
-               (finding (:id card)
-                        :buffered-sample
-                        (hex-rgb (:buffered legos/scrubber-palette))
-                        (px-at fb canvas-w (track-px track 0.55 0)))
-               (finding (:id card)
-                        :track-sample
-                        (hex-rgb (:track legos/scrubber-palette))
-                        (px-at fb canvas-w (track-px track 0.95 0)))])))))
+              [(probe/finding (:id card) :track-coords expect-coords (:coords slider))
+               (probe/finding (:id card) :bar-overlays-slider (:coords slider) (:coords bar))
+               (probe/finding (:id card)
+                              :played-sample
+                              (probe/hex-rgb (:played legos/scrubber-palette))
+                              (probe/px-at fb canvas-w (track-px track 0.30 0)))
+               (probe/finding (:id card)
+                              :buffered-sample
+                              (probe/hex-rgb (:buffered legos/scrubber-palette))
+                              (probe/px-at fb canvas-w (track-px track 0.55 0)))
+               (probe/finding (:id card)
+                              :track-sample
+                              (probe/hex-rgb (:track legos/scrubber-palette))
+                              (probe/px-at fb canvas-w (track-px track 0.95 0)))])))))
 
 (defn- press-seek-findings
   "Press-seek identity: tap-DOWN at 70% of the track seeks immediately to
@@ -141,21 +104,21 @@
         tag (get-in card [:opts :seek-event-name])
         v (seek-value card 0.70)
         pt (track-px track 0.70 0)]
-    (with-host boot!
+    (probe/with-host boot!
       (fn [h]
         (render! h pb)
         (pointer/pointer! h :down pt 1000)
         (pointer/settle! h 4 16)
-        (let [after-down (mapv :value (pointer/events-tagged h tag))]
+        (let [after-down (mapv :value (probe/events-tagged h tag))]
           (pointer/pointer! h :up pt 1080)
           (pointer/settle! h 4 16)
           (into []
                 (keep identity)
-                [(finding (:id card) :press-seek-immediate [v] after-down)
-                 (finding (:id card)
-                          :no-duplicate-at-release
-                          [v]
-                          (mapv :value (pointer/events-tagged h tag)))]))))))
+                [(probe/finding (:id card) :press-seek-immediate [v] after-down)
+                 (probe/finding (:id card)
+                                :no-duplicate-at-release
+                                [v]
+                                (mapv :value (probe/events-tagged h tag)))]))))))
 
 (defn- drag-findings
   "Drag stream: DOWN at 30% then MOVE through 45/55/70% — the press
@@ -163,7 +126,7 @@
   [boot! card ^bytes pb]
   (let [track (scrubber-track card)
         tag (get-in card [:opts :seek-event-name])]
-    (with-host boot!
+    (probe/with-host boot!
       (fn [h]
         (render! h pb)
         (pointer/drag! h
@@ -173,10 +136,10 @@
                        1000)
         (into []
               (keep identity)
-              [(finding (:id card)
-                        :drag-stream
-                        (mapv #(seek-value card %) [0.30 0.45 0.55 0.70])
-                        (mapv :value (pointer/events-tagged h tag)))])))))
+              [(probe/finding (:id card)
+                              :drag-stream
+                              (mapv #(seek-value card %) [0.30 0.45 0.55 0.70])
+                              (mapv :value (probe/events-tagged h tag)))])))))
 
 (defn- ext-click-findings
   "The ext-click envelope through the lego: HIT iff dy <=
@@ -191,12 +154,12 @@
      (for [dy [2 8 16 23 24 25 26 30]
            :let [expect-hit (<= (long dy) (long legos/scrubber-halo))
                  pt [(long (+ (:x track) (* 0.70 (:w track)))) (+ (long y2) (long dy))]
-                 hit (with-host boot!
+                 hit (probe/with-host boot!
                        (fn [h]
                          (render! h pb)
                          (pointer/tap! h pt 1000)
-                         (pos? (count (pointer/events-tagged h tag)))))
-                 f (finding (:id card) (keyword (str "ext-click-dy-" dy)) expect-hit hit)]
+                         (pos? (count (probe/events-tagged h tag)))))
+                 f (probe/finding (:id card) (keyword (str "ext-click-dy-" dy)) expect-hit hit)]
            :when f]
        f))))
 
@@ -205,15 +168,15 @@
   "Tap the node `pick`ed from the dock card's dump tree on a fresh host;
    the captured envelopes must be EXACTLY [expected]."
   [boot! card ^bytes pb check pick expected]
-  (with-host boot!
+  (probe/with-host boot!
     (fn [h]
       (render! h pb)
-      (let [tree (json/read-str (host/dump-tree! h) :key-fn keyword)]
-        (pointer/tap! h (center (pick tree)) 1000)
-        (if-let [f (finding (:id card)
-                            check
-                            [expected]
-                            (mapv #(select-keys % [:tag :value]) (pointer/events h)))]
+      (let [tree (probe/dump-tree h)]
+        (pointer/tap! h (probe/center (pick tree)) 1000)
+        (if-let [f (probe/finding (:id card)
+                                  check
+                                  [expected]
+                                  (mapv #(select-keys % [:tag :value]) (probe/events h)))]
           [f]
           [])))))
 
@@ -231,32 +194,36 @@
     (-> []
         (into (dock-tap-findings boot! card pb
                                  :stage-up-identity
-                                 #(nth (find-type % "lv_button") (+ 1 (* 3 last-i)))
+                                 #(nth (probe/find-type % "lv_button") (+ 1 (* 3 last-i)))
                                  {:tag (str last-id "-up") :value last-i}))
         (into (dock-tap-findings boot! card pb
                                  :stage-delete-identity
-                                 #(nth (find-type % "lv_button") (+ 3 (* 3 last-i)))
+                                 #(nth (probe/find-type % "lv_button") (+ 3 (* 3 last-i)))
                                  {:tag (str last-id "-delete") :value last-i}))
         (into (dock-tap-findings boot! card pb
                                  :stage-toggle-identity
-                                 #(nth (find-type % "lv_switch") 0)
+                                 #(nth (probe/find-type % "lv_switch") 0)
                                  {:tag (str first-id "-toggle") :value 0}))
         (into (dock-tap-findings boot! card pb
                                  :dock-fold-identity
-                                 #(nth (find-type % "lv_button") 0)
+                                 #(nth (probe/find-type % "lv_button") 0)
                                  {:tag "dock-fold" :value 0})))))
 
 ;; ── long EventBinding.name (command-id truncation regression) ─────────────
 (def ^:private long-command-id
-  "A 73-char dotted command-id — longer than the retired char[64] ceiling on
-   the EventBinding.name chain. A real generated collect-event name
-   (cmd.Heater.SetAutomaticControlParams), the exact shape that overflowed the
-   old buffers. All chars are alnum/./_ so no JSON escaping alters it."
-  "cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature")
+  "A 127-char dotted command-id — the MAXIMUM the EventBinding.name chain can
+   carry untruncated (UI_EVENT_NAME_BUF = 128, so 127 chars + the NUL). Widened
+   from the old 73-char probe (which only cleared the retired char[64] ceiling)
+   to the true buffer boundary, so a one-off narrowing of ANY buffer on the chain
+   below the full 128 — not merely below 64 — is caught. A real collect-event
+   PREFIX (cmd.Heater.SetAutomaticControlParams…) padded to the 127-char boundary;
+   all chars are alnum/./_ so no JSON escaping alters the emitted length."
+  "cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature_setpoint_high_alarm_hysteresis_band_millikelvin_calib")
 
 (defn- long-event-name-findings
   "End-to-end guard for the EventBinding.name chain (UI_EVENT_NAME_BUF): a
-   >64-char command-id must survive UNTRUNCATED from decode → the per-widget
+   127-char command-id (the buffer's max, 128 − NUL) must survive UNTRUNCATED
+   from decode → the per-widget
    cache → the host_event serializer to the emitted tag. Builds a one-button
    authored screen whose event name is `long-command-id`, taps it, and asserts
    the captured host_event :tag is the FULL id. RED when any buffer on the chain
@@ -269,18 +236,18 @@
              :node {:type :WIDGET_BUTTON :x 100 :y 100 :props {:w 240 :h 80}
                     :event {:name long-command-id :trigger :clicked}
                     :children [{:type :WIDGET_LABEL :text "Go"}]}})]
-    (with-host boot!
+    (probe/with-host boot!
       (fn [h]
         (render! h pb)
-        (let [tree (json/read-str (host/dump-tree! h) :key-fn keyword)
-              btn (first (find-type tree "lv_button"))
-              _ (pointer/tap! h (center btn) 1000)
-              tag (:tag (first (pointer/events h)))]
+        (let [tree (probe/dump-tree h)
+              btn (first (probe/find-type tree "lv_button"))
+              _ (pointer/tap! h (probe/center btn) 1000)
+              tag (:tag (first (probe/events h)))]
           (into [] (keep identity)
-                [(finding "long-event-name" :event-tag-untruncated
-                          long-command-id tag)
-                 (finding "long-event-name" :event-tag-length
-                          (count long-command-id) (count (str tag)))]))))))
+                [(probe/finding "long-event-name" :event-tag-untruncated
+                                long-command-id tag)
+                 (probe/finding "long-event-name" :event-tag-length
+                                (count long-command-id) (count (str tag)))]))))))
 
 ;; ── entry ───────────────────────────────────────────────────────────────
 (defn run-lane

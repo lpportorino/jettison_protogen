@@ -70,6 +70,7 @@ on:
     - "tools/devcards/**"
     - "output/manifests/**"
     - "proto/ui/**"
+    - "renderer.mk"
     - ".github/workflows/devcards.yml"
     - ".github/actions/build-controls-wasm/**"
   pull_request:
@@ -77,6 +78,7 @@ on:
     - "tools/devcards/**"
     - "output/manifests/**"
     - "proto/ui/**"
+    - "renderer.mk"
     - ".github/workflows/devcards.yml"
     - ".github/actions/build-controls-wasm/**"
   workflow_dispatch: {}
@@ -125,6 +127,12 @@ jobs:
         key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
         restore-keys: |
           devcards-m2-
+    - # The pure-helper unit suite (dump-tree reductions, image math): needs
+      # only the Clojure CLI set up above — no wasm, no bindings — so it runs
+      # BEFORE the corpus gate and fails cheap, mirroring devcards-test's
+      # early slot in check-renderer (CI ≡ local).
+      name: Devcards unit suite (pure helpers — cheap, fails before the corpus)
+      run: make -f renderer.mk devcards-test
     - # B3b: compile the ui bindings via the ONE script (compile-bindings.sh,
       # invoked by renderer.mk's `bindings` prereq) — never a second inline
       # javac. The inline form had no -sourcepath (UiNodes.java references

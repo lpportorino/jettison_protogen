@@ -200,6 +200,21 @@ jobs:
         key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
         restore-keys: |
           devcards-m2-
+    - # The interaction step below builds the wasmtime harness with cargo; cache
+      # its registry + target so a warm fixtures run does not pay a cold Rust
+      # build. Keyed on the harness lockfile — the same shape as the battery job's
+      # cargo cache (this job runs on the plain runner, so CARGO_HOME is ~/.cargo,
+      # not the container's redirected path).
+      name: Cache cargo registry + interaction-harness target
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          renderer/wasm_harness/target
+        key: fixtures-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock') }}
+        restore-keys: |
+          fixtures-cargo-
     - # B3b: the ui bindings compile via renderer.mk's `bindings` prereq
       # (compile-bindings.sh) — the ONE home. The inline javac that used to sit
       # here had no -sourcepath (UiNodes.java references cmd.Root) and no rm -rf
@@ -212,6 +227,18 @@ jobs:
       # regenerates the JPEG gallery + doc pages.
       name: Corpus build + judge + gallery (renderer.mk fixtures-prebuilt + gallery-prebuilt)
       run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt
+    - # The wasmtime cross-engine interaction suite (composition_interaction.rs):
+      # check-renderer runs it locally, but renderer.yml DECOMPOSES check-renderer
+      # and — like the A2 manifest gate before it — omitted this lane, so a
+      # pointer-contract or cross-engine (wasmtime vs GraalWasm) regression could
+      # not redden CI. It re-renders the composition cards fixtures-prebuilt just
+      # persisted (tools/devcards/out/composition) on the DOWNLOADED wasm and
+      # replays the pointer contract natively; the make target FAILS LOUD if that
+      # output is absent (a sequencing bug, never a skip). The runner's preinstalled
+      # cargo builds the harness (the target is cached above); no WASI toolchain is
+      # needed — wasmtime is pure Rust.
+      name: Composition interaction suite (wasmtime cross-engine)
+      run: make -f renderer.mk interaction
     - # A renderer change that shifts any pixel MUST re-mint the goldens AND
       # the gallery/doc pages in the same change (the manifests pin per-card
       # raw-FB sha256; the contact sheets are renders of the same corpus). A

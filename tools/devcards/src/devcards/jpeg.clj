@@ -90,3 +90,35 @@
   "Preview crop margin, px. Covers the measured worst-case out-of-bbox
    bleed (focus outline width+pad ~12px) with headroom."
   16)
+
+(defn content-bbox
+  "The tight content rect [x1 y1 x2 y2] (inclusive dump coords) of a parsed
+   dump tree: the union of every crop-informative non-root node's :coords.
+   Excluded from the union: the dumped root (the full-canvas screen);
+   :hidden nodes with their whole subtrees (the dump flags only the carrier,
+   never its descendants); fully ancestor-clipped nodes (:vis_px 0 — zero
+   drawn pixels; per-NODE, since each node's vis_px is independent and a
+   child can outdraw a clipped parent); inverted/empty rects; and any node
+   spanning EXACTLY the root rect — a screen-background container's
+   canvas-sized rect always says \"everything\", which crops nothing, so the
+   content on top of it decides. Returns nil when nothing qualifies (an
+   empty screen, or one whose only drawables span the canvas) — the caller
+   owns that policy, and a full-canvas fallback there renders the identical
+   image. The crop-rect strategy for whole-SCREEN consumers, where gallery's
+   first-child rule does not apply."
+  [tree]
+  (let [canvas (:coords tree)
+        drawable (fn drawable [node]
+                   (when-not (:hidden node)
+                     (cons node (mapcat drawable (:children node)))))
+        rects (into []
+                    (comp (mapcat drawable)
+                          (remove #(= 0 (:vis_px %)))
+                          (map :coords)
+                          (remove #(= canvas %))
+                          (filter (fn [[x1 y1 x2 y2]] (and (<= x1 x2) (<= y1 y2)))))
+                    (:children tree))]
+    (when (seq rects)
+      (reduce (fn [[ax1 ay1 ax2 ay2] [x1 y1 x2 y2]]
+                [(min ax1 x1) (min ay1 y1) (max ax2 x2) (max ay2 y2)])
+              rects))))

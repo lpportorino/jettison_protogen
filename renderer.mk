@@ -42,8 +42,8 @@ R := renderer
 RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
-	oracles morph-parity matrix demo-parity manifests check-renderer \
-	wasm-present fixtures-prebuilt gallery-prebuilt
+	oracles morph-parity matrix demo-parity manifests devcards-test \
+	check-renderer wasm-present fixtures-prebuilt gallery-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -176,6 +176,12 @@ manifests:
 	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps)"; \
 	exit "$$rc"
 
+# ── Devcards unit suite ─────────────────────────────────────────────────────
+# The pure-helper tests (tools/devcards/test — dump-tree reductions, image
+# math). No wasm / proto-classes needed, so it runs early and fails cheap.
+devcards-test:
+	cd tools/devcards && clojure -M:test
+
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: manifests wasm reference fixtures harness interaction oracles
-	@echo "renderer battery: GREEN (manifests + wasm + reference + fixtures + harness + interaction + oracles)"
+check-renderer: manifests devcards-test wasm reference fixtures harness interaction oracles
+	@echo "renderer battery: GREEN (manifests + devcards-test + wasm + reference + fixtures + harness + interaction + oracles)"
