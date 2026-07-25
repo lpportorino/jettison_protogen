@@ -42,7 +42,7 @@ R := renderer
 RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
-	oracles morph-parity matrix demo-parity manifests devcards-test \
+	oracles morph-parity matrix demo-parity manifests devcards-test reload \
 	check-renderer wasm-present fixtures-prebuilt gallery-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
@@ -122,6 +122,22 @@ interaction:
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test composition_interaction
 
+# ── Reload-cycle regression (full-load teardown; NOT a morph oracle) ────────
+# Repeated controls_load_ui sequences the morph oracles structurally cannot
+# reach — TTF/style-morph reload cycles, plus the adversarial DUPLICATE-uid
+# full-load case (the mirror of the degenerate `duplicate_insert_uid` PATCH
+# case on the load entry point). The renderer must refuse a colliding uid
+# CLEANLY: a collided node stays unidentified (no dup uid in dump_tree), so no
+# reconciler ever acts on a mis-targeted (obj, style) pair. Regenerates the
+# morph-fixtures it reads (never staleness), exactly like morph-parity. A NEW cargo test
+# binary is NOT auto-run by the named-test lanes above, so it is wired here
+# explicitly.
+reload: wasm proto-classes
+	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
+		--output ../../$(R)/output/morph-fixtures
+	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
+		cargo test --test reload_cycle
+
 # ── Oracles (morph parity / coverage matrix / demo parity) ──────────────────
 oracles: morph-parity matrix demo-parity
 
@@ -194,5 +210,5 @@ devcards-test:
 	cd tools/devcards && clojure -M:test
 
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: manifests devcards-test wasm reference fixtures harness interaction oracles
-	@echo "renderer battery: GREEN (manifests + devcards-test + wasm + reference + fixtures + harness + interaction + oracles)"
+check-renderer: manifests devcards-test wasm reference fixtures harness interaction oracles reload
+	@echo "renderer battery: GREEN (manifests + devcards-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"

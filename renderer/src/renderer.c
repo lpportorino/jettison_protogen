@@ -2434,13 +2434,28 @@ static void finalize_widget(widget_ctx_t *ctx) {
     return;
   }
   ui_WidgetNode *node = ctx->node;
-  /* Mirror the codegen-assigned identity into user_data + the uid
-   * registry (tree patching). A morph (preset self) keeps its existing
-   * registration. */
-  if (node->uid != 0 && lv_obj_get_user_data(obj) == NULL) {
-    lv_obj_set_user_data(obj, (void *)(uintptr_t)node->uid);
-    if (register_uid(node->uid, obj, (int32_t)node->type) != 0)
+  /* Mirror the codegen-assigned identity into user_data + the uid registry
+   * (tree patching). Registration is ATOMIC: register_uid is consulted FIRST,
+   * and only on SUCCESS does the identity propagate — user_data is set and
+   * `registered_uid` becomes the key every downstream uid-keyed call uses.
+   * A duplicate/overflow uid is a contract violation (the host is untrusted):
+   * register_uid refuses, and the node then behaves exactly like a
+   * legitimately-unidentified (uid==0) one — no stray user_data, no
+   * cross-attributed style/gesture ownership stolen from the real holder, and
+   * no second live object claiming one identity. ctx->error still propagates
+   * so controls_load_ui reports non-OK. A morph (preset self, user_data
+   * already set) keeps its existing registration. */
+  uint32_t registered_uid = 0;
+  if (node->uid != 0) {
+    if (lv_obj_get_user_data(obj) != NULL) {
+      /* Morph self: already registered by the original build. */
+      registered_uid = node->uid;
+    } else if (register_uid(node->uid, obj, (int32_t)node->type) == 0) {
+      lv_obj_set_user_data(obj, (void *)(uintptr_t)node->uid);
+      registered_uid = node->uid;
+    } else {
       ctx->error = -1;
+    }
   }
   if (node->x != 0 || node->y != 0) {
     lv_obj_set_pos(obj, node->x, node->y);
@@ -2466,6 +2481,17 @@ static void finalize_widget(widget_ctx_t *ctx) {
   if (node->scroll_dir != 0)
     lv_obj_set_scroll_dir(obj, (lv_dir_t)node->scroll_dir);
   if (node->grid_col_dsc_count > 0 && node->grid_row_dsc_count > 0) {
+    /* cols + rows are allocated as a consecutive PAIR (each grid container
+     * costs exactly two slots, and nanopb caps each track list at 12 so the
+     * "track list too long" arm never fires on a decoded node). So
+     * grid_template_count is EVEN at every container boundary, and the pool
+     * wall (grid_template_count >= MAX_GRID_TEMPLATES) always lands on the cols
+     * alloc — never between cols and rows. A partial "cols allocated, rows
+     * failed" split is therefore unreachable: on exhaustion BOTH allocs fail,
+     * nothing is stranded, and the node degrades to non-grid with ctx->error
+     * set (the load/patch then reports non-OK). The REPLACE/INSERT path is
+     * additionally refused up front by the demand-aware grid check
+     * (grid_demand_exceeds_pool) before it can reach this wall mid-subtree. */
     int32_t *cols =
         alloc_grid_template(node->grid_col_dsc, node->grid_col_dsc_count);
     int32_t *rows =
@@ -2702,11 +2728,12 @@ static void finalize_widget(widget_ctx_t *ctx) {
       }
       n++;
     }
-    /* Own the set by this node's uid so an incremental REMOVE of the
-       * gesture surface clears it (ITEM 7 — unregister_subtree). */
-    controls_gesture_specs_set(specs, n, node->uid);
+    /* Own the set by the REGISTERED uid so an incremental REMOVE of the
+       * gesture surface clears it (ITEM 7 — unregister_subtree). A collided
+       * node (registered_uid==0) never steals ownership from the real holder. */
+    controls_gesture_specs_set(specs, n, registered_uid);
   }
-  record_added_styles(node->uid, ctx);
+  record_added_styles(registered_uid, ctx);
 }
 /* ================================================================
  * Subject declaration decode callback
@@ -4189,6 +4216,80 @@ static bool count_skip_cb(pb_istream_t *stream, const pb_field_t *field,
   }
   return true;
 }
+/* Recursive pass-1 grid-demand probe: count grid containers (nodes carrying
+ * BOTH col+row track templates — each costs two grid-template pool slots) in a
+ * WidgetNode subtree. patch_pools_low's PATCH_GRID_HEADROOM is a FIXED margin
+ * checked once at the op top, BEFORE the (arbitrarily large) subtree is
+ * decoded, so a single REPLACE/INSERT whose subtree carries more grid
+ * containers than the margin can blow straight through it and strand a
+ * half-built subtree; this probe makes the check DEMAND-AWARE. Depth-guarded
+ * exactly like children_decode_cb — a crafted deeply-nested payload must not
+ * recurse the C stack to a crash. */
+typedef struct {
+  int grid_containers;
+  int depth;
+  bool bad; /* decode failure / depth cap → caller treats as "cannot verify" */
+} grid_demand_ctx_t;
+static bool grid_demand_cb(pb_istream_t *stream, const pb_field_t *field,
+                           void **arg) {
+  (void)field;
+  grid_demand_ctx_t *parent = (grid_demand_ctx_t *)*arg;
+  if (parent->depth >= MAX_DECODE_DEPTH) {
+    LOG_ERROR("patch subtree nesting exceeds MAX_DECODE_DEPTH (%d)",
+              MAX_DECODE_DEPTH);
+    parent->bad = true;
+    return false;
+  }
+  ui_WidgetNode node = ui_WidgetNode_init_zero;
+  grid_demand_ctx_t child = {0, parent->depth + 1, false};
+  node.children.funcs.decode = grid_demand_cb;
+  node.children.arg = &child;
+  /* style_groups/bindings/bind_formats stay unset — nanopb skips a callback
+   * field whose decode fn is NULL (pb_close_string_substream drains the
+   * bytes), and FT_POINTER submessages (event.cmd, gestures) are freed by the
+   * pb_release below. */
+  bool ok = pb_decode(stream, ui_WidgetNode_fields, &node);
+  if (ok && node.grid_col_dsc_count > 0 && node.grid_row_dsc_count > 0)
+    parent->grid_containers++;
+  parent->grid_containers += child.grid_containers;
+  if (!ok || child.bad)
+    parent->bad = true;
+  pb_release(ui_WidgetNode_fields, &node);
+  return ok;
+}
+/* Total grid-template demand of a buffered TreePatchOp's node subtree, in
+ * CONTAINERS (each = 2 pool slots). Returns -1 if the probe could not verify
+ * (decode failure / depth cap) so the caller refuses the op rather than
+ * decoding an unverifiable subtree. */
+static int count_grid_demand(const uint8_t *buf, uint32_t len) {
+  ui_TreePatchOp op = ui_TreePatchOp_init_zero;
+  grid_demand_ctx_t ctx = {0, 0, false};
+  op.node.children.funcs.decode = grid_demand_cb;
+  op.node.children.arg = &ctx;
+  pb_istream_t stream = pb_istream_from_buffer(buf, len);
+  bool ok = pb_decode(&stream, ui_TreePatchOp_fields, &op);
+  if (ok && op.has_node && op.node.grid_col_dsc_count > 0 &&
+      op.node.grid_row_dsc_count > 0)
+    ctx.grid_containers++;
+  bool bad = !ok || ctx.bad;
+  int total = ctx.grid_containers;
+  pb_release(ui_TreePatchOp_fields, &op);
+  return bad ? -1 : total;
+}
+/* Refuse a REPLACE/INSERT whose subtree's grid demand would outrun the pool,
+ * BEFORE any delete/build. Returns true (op refused) after logging; the caller
+ * returns PATCH_ERR_POOL (-4). */
+static bool grid_demand_exceeds_pool(const uint8_t *buf, uint32_t len,
+                                     const char *op_name) {
+  int gd = count_grid_demand(buf, len);
+  if (gd < 0 || grid_template_count + 2 * gd > MAX_GRID_TEMPLATES) {
+    LOG_ERROR("%s refused: grid demand %d container(s) (%d slots) exceeds pool "
+              "(count %d / max %d)",
+              op_name, gd, 2 * gd, grid_template_count, MAX_GRID_TEMPLATES);
+    return true;
+  }
+  return false;
+}
 /* Pass 2 for ops carrying a WidgetNode payload: decode the buffered op
  * again with the node's callbacks wired into the EXISTING streaming
  * builder. `morph_self` preset makes ensure_widget return the live
@@ -4314,6 +4415,11 @@ static int apply_one_op(const uint8_t *buf, uint32_t len) {
                 "resets the pools)");
       return -4; /* PATCH_ERR_POOL */
     }
+    /* Demand-aware grid check: patch_pools_low's PATCH_GRID_HEADROOM is a
+     * fixed margin, not this subtree's actual grid demand. Refuse before
+     * building if the incoming node's grid containers would outrun the pool. */
+    if (grid_demand_exceeds_pool(buf, len, "INSERT"))
+      return -4;
     lv_obj_t *parent = find_uid_obj(op.parent_uid);
     if (!parent) {
       LOG_ERROR("INSERT: unknown parent uid %u", (unsigned)op.parent_uid);
@@ -4337,6 +4443,13 @@ static int apply_one_op(const uint8_t *buf, uint32_t len) {
                 "resets the pools)");
       return -4;
     }
+    /* Demand-aware grid check BEFORE the delete: REPLACE tears the old subtree
+     * down first and unconditionally, so a grid-exhaustion mid-build would
+     * leave a half-built subtree with the old one already gone. Refuse here,
+     * pre-patch state UNCHANGED, if the incoming subtree's grid demand would
+     * outrun the pool. */
+    if (grid_demand_exceeds_pool(buf, len, "REPLACE"))
+      return -4;
     lv_obj_t *target = find_uid_obj(op.target_uid);
     if (!target) {
       LOG_ERROR("REPLACE: unknown uid %u", (unsigned)op.target_uid);
@@ -4372,6 +4485,18 @@ static int apply_one_op(const uint8_t *buf, uint32_t len) {
          * so one click emits two host_commands. Reject, don't re-attach. */
     if (op.node.has_event) {
       LOG_ERROR("UPDATE: event-carrying payload (uid %u) — replace-only",
+                (unsigned)op.target_uid);
+      return -5;
+    }
+    /* Grid track templates are write-once pool slots — a grid change forces
+     * REPLACE (the differ's replace-on-change-keys), never UPDATE. A payload
+     * carrying grid dsc on an UPDATE would re-key the pool against a live
+     * object; reject it (replace-only), mirroring the has_event guard above.
+     * Defense-in-depth against a generator bug or a crafted payload (the host
+     * is untrusted) — the renderer does not rely on generator discipline
+     * alone. */
+    if (op.node.grid_col_dsc_count > 0 || op.node.grid_row_dsc_count > 0) {
+      LOG_ERROR("UPDATE: grid-template payload (uid %u) — replace-only",
                 (unsigned)op.target_uid);
       return -5;
     }

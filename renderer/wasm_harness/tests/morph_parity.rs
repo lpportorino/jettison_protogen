@@ -60,6 +60,13 @@ fn read_fixture(name: &str, part: &str) -> Vec<u8> {
     let path = fixtures_dir().join(format!("{name}.{part}.pb"));
     std::fs::read(&path).unwrap_or_else(|err| panic!("read {}: {err}", path.display()))
 }
+/// Read a single-file fixture (`<name>.pb`) — for fixtures deliberately OUTSIDE
+/// the base/target/patch triple convention (the dual-oracle scans every
+/// `*.base.pb` as a full triple).
+fn read_pb(name: &str) -> Vec<u8> {
+    let path = fixtures_dir().join(format!("{name}.pb"));
+    std::fs::read(&path).unwrap_or_else(|err| panic!("read {}: {err}", path.display()))
+}
 fn ticks(host: &mut ControlsHost, n: u32) {
     for _ in 0..n {
         host.tick(TICK_MS).expect("tick failed");
@@ -457,15 +464,15 @@ fn click_after_style_morph_emits_exactly_one_host_command() {
 fn degenerate_dir() -> PathBuf {
     fixtures_dir().join("degenerate")
 }
-/// PATCH_ERR_POOL (-4) has NO degenerate fixture: triggering real pool
-/// exhaustion needs a pathological screen far beyond the corpus; the
-/// refusal sits before any mutation in its op and stays covered by code
-/// review + the documented contract (doc 10 § D6a). Pool pressure DID
-/// become a deployment concern once — through a renderer LEAK, not a
-/// pathological screen: see
-/// `same_name_ttf_style_morphs_never_exhaust_binfont_registry`, which
-/// pins the resolve_font per-name cache that closed it (and doubles as
-/// the -4 refusal's live oracle when the cache regresses).
+/// The GRID PATCH_ERR_POOL (-4) case now has a dedicated fixture + test
+/// (`grid_pool_over_demand_replace_refuses_before_deleting_target`): the
+/// demand-aware grid check makes a moderate pathological screen enough to
+/// trigger it, and the refusal is proven to sit BEFORE any mutation. Pool
+/// pressure DID become a deployment concern once — through a renderer LEAK,
+/// not a pathological screen: see
+/// `same_name_ttf_style_morphs_never_exhaust_binfont_registry`, which pins the
+/// resolve_font per-name cache that closed it (and doubles as the -4 refusal's
+/// live oracle when the cache regresses).
 fn degenerate_cases() -> Vec<String> {
     let mut cases: Vec<String> = std::fs::read_dir(degenerate_dir())
         .expect("degenerate fixtures missing — run `clojure -M:morph-fixtures`")
@@ -555,6 +562,71 @@ fn degenerate_raw_patches_abort_loudly_with_indeterminate_contract() {
         );
         ticks(&mut host, 2);
     }
+}
+// ═══════════════════════════════════════════════════════════════════
+// T18 / D-WB9 — grid-template pool: demand-aware REPLACE refusal
+// ═══════════════════════════════════════════════════════════════════
+
+/// A REPLACE whose new subtree's grid demand OUTRUNS the write-once template
+/// pool must refuse LOUDLY (-4) BEFORE any mutation, so the pre-patch tree is
+/// unchanged (the old target survives). The fixture is sized so
+/// patch_pools_low's FIXED PATCH_GRID_HEADROOM margin passes (the base leaves
+/// the pool empty) — only the DEMAND-AWARE check catches the 33-grid subtree.
+///
+/// Pre-fix (no demand-aware check) this test is RED both ways: the fixed margin
+/// passed, REPLACE deleted the old target FIRST, then the streaming build hit
+/// the pool wall mid-subtree — leaving a corrupted half-tree (old target gone)
+/// and returning -5, not -4.
+#[test]
+fn grid_pool_over_demand_replace_refuses_before_deleting_target() {
+    const PATCH_ERR_POOL: i32 = -4;
+    let base = read_pb("grid_pool_base");
+    let exhaust = read_pb("grid_pool_over_demand");
+    let mut host = new_host();
+    load(&mut host, &base);
+    let before = host.dump_tree().expect("dump before");
+    assert!(
+        before.contains("REPLACE ME"),
+        "target must be present in the base tree"
+    );
+
+    let rc = host.apply_patch(&exhaust).expect("apply exhaust patch");
+    assert_eq!(
+        rc, PATCH_ERR_POOL,
+        "over-demand grid REPLACE must refuse with PATCH_ERR_POOL (-4), got {rc}"
+    );
+
+    // The refusal sits BEFORE the delete: the live tree is byte-identical to
+    // pre-patch, the old target intact.
+    let after = host.dump_tree().expect("dump after");
+    assert_eq!(
+        before, after,
+        "a refused REPLACE must leave the tree UNCHANGED (old subtree intact)"
+    );
+    assert!(
+        after.contains("REPLACE ME"),
+        "the old target must survive a refused over-demand REPLACE"
+    );
+    ticks(&mut host, RENDER_TICKS);
+}
+
+/// A large-but-WITHIN-pool grid REPLACE succeeds and swaps the target for the
+/// grid subtree — the happy-path companion to the refusal above (the
+/// demand-aware check must not over-refuse a legitimate grid subtree).
+#[test]
+fn grid_pool_within_pool_replace_succeeds() {
+    let base = read_pb("grid_pool_base");
+    let ok = read_pb("grid_pool_within_pool");
+    let mut host = new_host();
+    load(&mut host, &base);
+    let rc = host.apply_patch(&ok).expect("apply ok patch");
+    assert_eq!(rc, 0, "within-pool grid REPLACE must succeed, got {rc}");
+    ticks(&mut host, RENDER_TICKS);
+    let after = host.dump_tree().expect("dump after");
+    assert!(
+        !after.contains("REPLACE ME"),
+        "the target must be replaced by the grid subtree"
+    );
 }
 // ═══════════════════════════════════════════════════════════════════
 // Tier 3 — form-state survival under the combo classes that touch the

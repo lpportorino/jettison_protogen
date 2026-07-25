@@ -484,6 +484,23 @@
                       :node {:type :WIDGET_LABEL
                              :text "ghost"
                              :event {:name "phantom" :notify_host true :int_value 1}}}])}
+     "update_grid_dsc"
+     ;; Grid track templates are write-once pool slots — the differ puts
+     ;; grid_col_dsc/grid_row_dsc in replace-on-change-keys (a grid change forces
+     ;; REPLACE) AND strips them from UPDATE payloads (morph-invariant). A crafted
+     ;; UPDATE carrying grid dsc would re-key the pool against a live object; the
+     ;; renderer rejects (-5), defense-in-depth mirroring the event guard, rather
+     ;; than relying on generator discipline. Without the guard the UPDATE decodes
+     ;; the grid dsc onto the live node (allocating pool slots) and returns 0.
+     {:base row
+      :valid row-valid
+      :expect -5
+      :ops (fn [ir] [{:kind :PATCH_OP_UPDATE_PROPS
+                      :target_uid (uid-of-text ir "a")
+                      :node {:type :WIDGET_LABEL
+                             :text "ghost"
+                             :grid_col_dsc [100 100]
+                             :grid_row_dsc [50 50]}}])}
      "update_replace_only_type"
      {:base (tabview-screen 0)
       :valid (tabview-screen 1)
@@ -602,6 +619,174 @@
         [:map [:base [:map [:tree map?]]] [:valid [:map [:tree map?]]] [:expect int?]
          [:ops ifn?]]] :nil])
 
+;; -- Full-load adversarial screens (controls_load_ui entry, NOT patch) --
+;; The mirror of the degenerate PATCH cases on the FULL-LOAD side. A screen
+;; carrying a DUPLICATE uid (a slider and an unrelated sibling button-label
+;; forced onto one uid): assign-uids structurally refuses to mint an in-tree
+;; collision, so it is stamped by hand — exactly the shape a future codegen
+;; regression, a fuzzed payload, or a non-Clojure producer of the public
+;; ui_ast contract could send. The renderer C must refuse a colliding uid
+;; CLEANLY (no cross-attributed uid/style bookkeeping, load returns non-OK):
+;; the collided node stays unidentified (no duplicate uid in dump_tree) rather
+;; than claiming another node's identity and mis-owning its style/gesture slot.
+(def ^:private dup-uid-screen
+  "Slider + a sibling button whose 'GO' child label carries a TTF-resolved
+   font (b612mono_bold_26) — the custom-font style group is what makes
+   record_added_styles cross-attribute the label's style onto the slider's
+   registry entry once their uids collide."
+  {:type :screen
+   :subjects {}
+   :events {}
+   :tree {:tag :lv_obj
+          :id "root"
+          :class "w-380 h-280"
+          :children [{:tag :lv_slider
+                      :id "scrub"
+                      :slider_props {:min_value 0 :max_value 100 :value 30}
+                      :class "w-320"}
+                     {:tag :lv_button
+                      :id "btn"
+                      :class "w-100 h-40"
+                      :children [{:tag :lv_label
+                                  :id "btnlbl"
+                                  :text "GO"
+                                  :style {:text-font "b612mono_bold_26"}}]}
+                     {:tag :lv_label :id "status" :text "ready"}]}})
+
+(def ^:private dup-uid-reload-target
+  "A clean screen to reload INTO — teardown of the dup tree happens inside
+   this load's lv_obj_clean; the reload path the colliding screen is exercised
+   against across repeated load cycles."
+  {:type :screen
+   :subjects {}
+   :events {}
+   :tree {:tag :lv_obj
+          :id "root2"
+          :class "w-380 h-280"
+          :children [{:tag :lv_label :id "only" :text "second screen"}]}})
+
+(defn- dup-uid-ir
+  "Build the duplicate-uid screen IR: the real pipeline emits a
+   collision-free IR, then the slider's minted uid is stamped onto the
+   unrelated 'GO' button-label — the in-tree duplicate assign-uids will not
+   mint on its own. Throws if no duplicate results (the collision is the
+   whole point of the fixture)."
+  [tokens components]
+  (let [ir (screen->ir tokens components dup-uid-screen)
+        slider-uid (find-uid ir #(= :WIDGET_SLIDER (:type %)))
+        dup-ir (update ir :root
+                       (fn [root]
+                         (walk/postwalk
+                          (fn [n]
+                            (if (and (map? n) (= "GO" (:text n)))
+                              (assoc n :uid slider-uid)
+                              n))
+                          root)))
+        uids (keep :uid (tree-seq map? :children (:root dup-ir)))
+        dups (for [[k v] (frequencies uids) :when (> v 1)] k)]
+    (when (empty? dups)
+      (throw (ex-info "dup-uid fixture produced no duplicate uid" {:uids uids})))
+    dup-ir))
+(m/=> dup-uid-ir
+      [:=> [:cat schema/tokens-schema [:map-of [:string {:min 1}] map?]]
+       [:map [:root map?]]])
+
+(defn- emit-full-load-case!
+  "Write the two full-load screens: dup_uid_screen.pb (the colliding screen)
+   and dup_uid_reload_target.pb (the clean reload target). Plain screen .pb
+   payloads (controls_load_ui consumes these), NOT patch triples."
+  [tokens components ^String out-dir]
+  (let [dup-ir (dup-uid-ir tokens components)
+        target-ir (screen->ir tokens components dup-uid-reload-target)
+        ^bytes dup-bytes (proto-ser/ir->bytes dup-ir)
+        ^bytes target-bytes (proto-ser/ir->bytes target-ir)]
+    (proto-ser/write-bytes! dup-bytes (str out-dir "/dup_uid_screen.pb"))
+    (proto-ser/write-bytes! target-bytes (str out-dir "/dup_uid_reload_target.pb"))
+    (println "  full-load/dup_uid_screen + dup_uid_reload_target")))
+(m/=> emit-full-load-case!
+      [:=>
+       [:cat schema/tokens-schema [:map-of [:string {:min 1}] map?] [:string {:min 1}]]
+       :nil])
+
+;; -- Grid-pool exhaustion (T18 / D-WB9): a REPLACE whose new subtree's grid
+;;    demand OUTRUNS the write-once template pool. patch_pools_low's fixed
+;;    PATCH_GRID_HEADROOM is a margin checked once at the op top, BEFORE the
+;;    (arbitrarily large) subtree decodes — so a single REPLACE with more grid
+;;    containers than the margin blows straight through it, deleting the old
+;;    subtree first and half-building the new one. The demand-aware check counts
+;;    the incoming subtree's grid containers and refuses (-4) BEFORE any delete,
+;;    leaving the pre-patch tree unchanged. Raw ops — the differ would never emit
+;;    a pathological screen.
+(def ^:private grid-pool-exhaust-cells
+  "Grid containers in the over-demand REPLACE subtree: 33 * 2 = 66 pool slots >
+   MAX_GRID_TEMPLATES (64), while the base leaves the pool empty so
+   patch_pools_low's fixed margin PASSES — only the demand-aware check catches
+   it (proving the check is demand-aware, not the fixed margin)."
+  33)
+
+(def ^:private grid-pool-ok-cells
+  "Grid containers in the within-pool REPLACE subtree (5 * 2 = 10 slots — well
+   under the pool)."
+  5)
+
+(def ^:private grid-pool-base
+  "Base screen with a replaceable target label + a sibling that must survive."
+  {:type :screen
+   :subjects {}
+   :events {}
+   :tree {:tag :lv_obj
+          :id "root"
+          :class "w-380 h-280"
+          :children [{:tag :lv_label :id "target" :text "REPLACE ME"}
+                     {:tag :lv_label :id "keep" :text "stays"}]}})
+
+(defn- grid-cell-node
+  "A raw IR grid-container node — BOTH col+row track templates, so it costs two
+   grid-template pool slots."
+  []
+  {:type :WIDGET_OBJ :grid_col_dsc [100 100] :grid_row_dsc [50 50]})
+(m/=> grid-cell-node [:=> [:cat] [:map [:type :keyword]]])
+
+(defn- grid-wall-node
+  "A non-grid container holding `n` grid-container children (demand = n)."
+  [n]
+  {:type :WIDGET_OBJ :children (vec (repeatedly n grid-cell-node))})
+(m/=> grid-wall-node [:=> [:cat nat-int?] [:map [:type :keyword]]])
+
+(defn- emit-grid-pool-case!
+  "Write the grid-pool fixtures: base.pb (replaceable target), exhaust.patch.pb
+   (an over-demand REPLACE that must refuse -4 before any mutation), and
+   ok.patch.pb (a within-pool REPLACE that succeeds). Base hash computed from the
+   real base bytes; target hash is the arbitrary degenerate constant (the tests
+   never chain past the single op)."
+  [tokens components ^String out-dir]
+  (let [base-ir (screen->ir tokens components grid-pool-base)
+        ^bytes base-bytes (proto-ser/ir->bytes base-ir)
+        base-hash (emit-proto/fnv1a-32-bytes base-bytes)
+        target-uid (find-uid base-ir #(= "REPLACE ME" (:text %)))
+        replace-op (fn [n] [{:kind :PATCH_OP_REPLACE_NODE
+                             :target_uid target-uid
+                             :node (grid-wall-node n)}])
+        exhaust-wire (patch/patch-ir base-hash degenerate-target-hash
+                                     (replace-op grid-pool-exhaust-cells))
+        ok-wire (patch/patch-ir base-hash degenerate-target-hash
+                                (replace-op grid-pool-ok-cells))]
+    ;; Single-file names (NOT the `.base.pb`/`.target.pb`/`.patch.pb` triple
+    ;; suffixes) — the morph-parity dual oracle scans every `*.base.pb` as a
+    ;; full triple, so a lone base under that suffix would demand a phantom
+    ;; `.target.pb`.
+    (proto-ser/write-bytes! base-bytes (str out-dir "/grid_pool_base.pb"))
+    (proto-ser/write-bytes! (proto-ser/patch->bytes exhaust-wire)
+                            (str out-dir "/grid_pool_over_demand.pb"))
+    (proto-ser/write-bytes! (proto-ser/patch->bytes ok-wire)
+                            (str out-dir "/grid_pool_within_pool.pb"))
+    (println (str "  grid-pool/base + over_demand(" grid-pool-exhaust-cells
+                  " cells) + within_pool(" grid-pool-ok-cells " cells)"))))
+(m/=> emit-grid-pool-case!
+      [:=>
+       [:cat schema/tokens-schema [:map-of [:string {:min 1}] map?] [:string {:min 1}]]
+       :nil])
+
 (defn -main
   "Generate every morph fixture triple into --output."
   [& args]
@@ -620,7 +805,10 @@
         (emit-raw-case! tokens components out-dir nm chain))
       (doseq [[nm spec] (sort-by key degenerate-cases)]
         (emit-degenerate-case! tokens components out-dir nm spec))
+      (emit-full-load-case! tokens components out-dir)
+      (emit-grid-pool-case! tokens components out-dir)
       (println (str "Done. " (+ (count cases) (count raw-chain-cases))
                     " morph fixture pair(s) + " (count degenerate-cases)
-                    " degenerate(s) → " out-dir)))))
+                    " degenerate(s) + full-load dup-uid + grid-pool screens → "
+                    out-dir)))))
 (m/=> -main [:=> [:cat [:* [:string {:min 1}]]] :any])
