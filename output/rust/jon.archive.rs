@@ -10,7 +10,7 @@ pub struct SychArchiveIndex {
     /// Unix timestamp when archive was created
     #[prost(uint64, tag = "2")]
     pub created_at: u64,
-    /// Origin URL for "go online" link (e.g., "<https://sych.local">)
+    /// Origin URL for "go online" link (e.g., "<https://device.local">)
     #[prost(string, tag = "3")]
     pub exported_from: ::prost::alloc::string::String,
     /// File index with byte offsets for direct seeking

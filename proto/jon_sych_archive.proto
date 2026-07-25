@@ -16,7 +16,7 @@ message SychArchiveIndex {
   // Unix timestamp when archive was created
   uint64 created_at = 2 [(buf.validate.field).uint64.gt = 0];
 
-  // Origin URL for "go online" link (e.g., "https://sych.local")
+  // Origin URL for "go online" link (e.g., "https://device.local")
   string exported_from = 3 [(buf.validate.field).string.min_len = 1];
 
   // File index with byte offsets for direct seeking

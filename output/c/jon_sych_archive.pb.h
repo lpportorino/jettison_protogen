@@ -69,7 +69,7 @@ typedef struct _jon_archive_SychArchiveIndex {
     uint32_t version;
     /* Unix timestamp when archive was created */
     uint64_t created_at;
-    /* Origin URL for "go online" link (e.g., "https://sych.local") */
+    /* Origin URL for "go online" link (e.g., "https://device.local") */
     pb_callback_t exported_from;
     /* File index with byte offsets for direct seeking */
     pb_callback_t files;

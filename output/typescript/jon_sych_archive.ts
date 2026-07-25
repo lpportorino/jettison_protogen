@@ -19,7 +19,7 @@ export interface SychArchiveIndex {
   version: number;
   /** Unix timestamp when archive was created */
   createdAt: Long;
-  /** Origin URL for "go online" link (e.g., "https://sych.local") */
+  /** Origin URL for "go online" link (e.g., "https://device.local") */
   exportedFrom: string;
   /** File index with byte offsets for direct seeking */
   files: ArchiveEntry[];

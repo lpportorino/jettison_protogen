@@ -38,7 +38,7 @@ export type SychArchiveIndex = Message<"jon.archive.SychArchiveIndex"> & {
   createdAt: bigint;
 
   /**
-   * Origin URL for "go online" link (e.g., "https://sych.local")
+   * Origin URL for "go online" link (e.g., "https://device.local")
    *
    * @generated from field: string exported_from = 3;
    */

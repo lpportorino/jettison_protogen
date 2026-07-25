@@ -32,7 +32,7 @@ type SychArchiveIndex struct {
 	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Unix timestamp when archive was created
 	CreatedAt uint64 `protobuf:"varint,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	// Origin URL for "go online" link (e.g., "https://sych.local")
+	// Origin URL for "go online" link (e.g., "https://device.local")
 	ExportedFrom string `protobuf:"bytes,3,opt,name=exported_from,json=exportedFrom,proto3" json:"exported_from,omitempty"`
 	// File index with byte offsets for direct seeking
 	Files []*ArchiveEntry `protobuf:"bytes,4,rep,name=files,proto3" json:"files,omitempty"`

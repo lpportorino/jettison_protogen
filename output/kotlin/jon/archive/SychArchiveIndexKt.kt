@@ -86,7 +86,7 @@ public object SychArchiveIndexKt {
 
     /**
      * ```
-     * Origin URL for "go online" link (e.g., "https://sych.local")
+     * Origin URL for "go online" link (e.g., "https://device.local")
      * ```
      *
      * `string exported_from = 3 [(.buf.validate.field) = { ... }`
@@ -100,7 +100,7 @@ public object SychArchiveIndexKt {
       }
     /**
      * ```
-     * Origin URL for "go online" link (e.g., "https://sych.local")
+     * Origin URL for "go online" link (e.g., "https://device.local")
      * ```
      *
      * `string exported_from = 3 [(.buf.validate.field) = { ... }`

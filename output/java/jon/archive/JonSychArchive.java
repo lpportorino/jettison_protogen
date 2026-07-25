@@ -51,7 +51,7 @@ public final class JonSychArchive {
 
     /**
      * <pre>
-     * Origin URL for "go online" link (e.g., "https://sych.local")
+     * Origin URL for "go online" link (e.g., "https://device.local")
      * </pre>
      *
      * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -60,7 +60,7 @@ public final class JonSychArchive {
     java.lang.String getExportedFrom();
     /**
      * <pre>
-     * Origin URL for "go online" link (e.g., "https://sych.local")
+     * Origin URL for "go online" link (e.g., "https://device.local")
      * </pre>
      *
      * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -248,7 +248,7 @@ public final class JonSychArchive {
     private volatile java.lang.Object exportedFrom_ = "";
     /**
      * <pre>
-     * Origin URL for "go online" link (e.g., "https://sych.local")
+     * Origin URL for "go online" link (e.g., "https://device.local")
      * </pre>
      *
      * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -269,7 +269,7 @@ public final class JonSychArchive {
     }
     /**
      * <pre>
-     * Origin URL for "go online" link (e.g., "https://sych.local")
+     * Origin URL for "go online" link (e.g., "https://device.local")
      * </pre>
      *
      * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -1021,7 +1021,7 @@ public final class JonSychArchive {
       private java.lang.Object exportedFrom_ = "";
       /**
        * <pre>
-       * Origin URL for "go online" link (e.g., "https://sych.local")
+       * Origin URL for "go online" link (e.g., "https://device.local")
        * </pre>
        *
        * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -1041,7 +1041,7 @@ public final class JonSychArchive {
       }
       /**
        * <pre>
-       * Origin URL for "go online" link (e.g., "https://sych.local")
+       * Origin URL for "go online" link (e.g., "https://device.local")
        * </pre>
        *
        * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -1062,7 +1062,7 @@ public final class JonSychArchive {
       }
       /**
        * <pre>
-       * Origin URL for "go online" link (e.g., "https://sych.local")
+       * Origin URL for "go online" link (e.g., "https://device.local")
        * </pre>
        *
        * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -1079,7 +1079,7 @@ public final class JonSychArchive {
       }
       /**
        * <pre>
-       * Origin URL for "go online" link (e.g., "https://sych.local")
+       * Origin URL for "go online" link (e.g., "https://device.local")
        * </pre>
        *
        * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
@@ -1093,7 +1093,7 @@ public final class JonSychArchive {
       }
       /**
        * <pre>
-       * Origin URL for "go online" link (e.g., "https://sych.local")
+       * Origin URL for "go online" link (e.g., "https://device.local")
        * </pre>
        *
        * <code>string exported_from = 3 [(.buf.validate.field) = { ... }</code>
