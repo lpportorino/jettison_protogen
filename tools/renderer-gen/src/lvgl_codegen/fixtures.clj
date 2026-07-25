@@ -615,6 +615,21 @@
                             :children [{:tag :lv_slider
                                         :bind {:value :volume}
                                         :style {:width 200 :height 20 :align :center}}]}}
+   ;; A value-bound spinbox: lv_spinbox has no lv_*_bind_value, so the subject
+   ;; must drive lv_spinbox_set_value through a custom observer (mirroring the
+   ;; bar arm). Regression fixture for that binding arm — the subject default
+   ;; (30) differs from the widget default (0), so a state update visibly moves
+   ;; the rendered digits only when the observer is actually wired.
+   "vr_bind_spinbox" {:type :screen
+                      :subjects {:volume {:type :int :default 30}}
+                      :events {}
+                      :tree {:tag :lv_obj
+                             :class "w-pct-100 h-pct-100 bg-surface-0"
+                             :children [{:tag :lv_spinbox
+                                         :id "spinbox"
+                                         :bind {:value :volume}
+                                         :spinbox_props {:min_value 0 :max_value 999 :digit_count 3}
+                                         :style {:width 200 :height 40 :align :center}}]}}
    "vr_bind_label_fmt" {:type :screen
                         :subjects {:volume {:type :int :default 30}}
                         :events {}

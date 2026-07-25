@@ -13,6 +13,16 @@
  * path (decode, cache, serializer) drifted apart and silently truncated a long
  * command-id — one home now governs all of them. */
 #define UI_EVENT_NAME_BUF 128
+/* The character cap the host_event envelope serializer applies to the trigger
+ * field (json_append_str in main.c). Unlike UI_EVENT_NAME_BUF this bounds no
+ * storage — the trigger is always one of a small closed set of enum names
+ * returned by event_trigger_name in renderer.c — so its only job is to be
+ * provably >= the longest of those names. A _Static_assert beside that function
+ * enforces exactly that, which is what makes this a constant rather than the
+ * bare literal it replaces: the same three-independent-literals drift that
+ * silently truncated a command-id on the name chain could otherwise recur here
+ * the first time a trigger name outgrows the cap. */
+#define UI_EVENT_TRIGGER_CHARS 16
 /* Build LVGL widget tree from raw protobuf UI AST bytes.
  * Returns 0 on success, -1 on error. */
 int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,

@@ -241,14 +241,29 @@ static int32_t get_widget_int_value(lv_obj_t *obj) {
  * so envelope and attachment can never disagree on what fired. Spelling is
  * the envelope-v1 trigger enum (kebab-case — the host-membrane validators
  * and the protogen JSON Schema pin the same strings). */
+/* The closed set of trigger names this renderer emits, named once so the assert
+ * below and the switch cannot disagree. Adding a case means adding a macro here
+ * and to the assert — which is the point: a name longer than
+ * UI_EVENT_TRIGGER_CHARS then fails the BUILD instead of clipping silently at
+ * the host membrane. */
+#define TRIGGER_NAME_VALUE_CHANGED "value-changed"
+#define TRIGGER_NAME_LONG_PRESSED "long-pressed"
+#define TRIGGER_NAME_CLICKED "clicked"
+_Static_assert(UI_EVENT_TRIGGER_CHARS >=
+                       sizeof(TRIGGER_NAME_VALUE_CHANGED) - 1u &&
+                   UI_EVENT_TRIGGER_CHARS >=
+                       sizeof(TRIGGER_NAME_LONG_PRESSED) - 1u &&
+                   UI_EVENT_TRIGGER_CHARS >= sizeof(TRIGGER_NAME_CLICKED) - 1u,
+               "UI_EVENT_TRIGGER_CHARS must hold every event_trigger_name() "
+               "return in full");
 static const char *event_trigger_name(lv_event_code_t trigger) {
   switch (trigger) {
   case LV_EVENT_VALUE_CHANGED:
-    return "value-changed";
+    return TRIGGER_NAME_VALUE_CHANGED;
   case LV_EVENT_LONG_PRESSED:
-    return "long-pressed";
+    return TRIGGER_NAME_LONG_PRESSED;
   default:
-    return "clicked";
+    return TRIGGER_NAME_CLICKED;
   }
 }
 static void button_event_cb(lv_event_t *e) {
@@ -2577,6 +2592,15 @@ static void bar_value_observer_cb(lv_observer_t *observer,
     lv_bar_set_value(bar, lv_subject_get_int(subject), LV_ANIM_OFF);
   }
 }
+/* Custom observer for spinbox value binding (lv_spinbox_bind_value does not
+ * exist) */
+static void spinbox_value_observer_cb(lv_observer_t *observer,
+                                      lv_subject_t *subject) {
+  lv_obj_t *sb = lv_observer_get_target_obj(observer);
+  if (sb) {
+    lv_spinbox_set_value(sb, lv_subject_get_int(subject));
+  }
+}
 /* SYNC C1: value->index dropdown binding. The subject holds the device enum
  * NUMBER; the options are 1-based (enum-options drops _UNSPECIFIED / :not-in),
  * so lv_dropdown_bind_value's number-as-index is off-by-one. Scan the decoded
@@ -2654,6 +2678,12 @@ static void apply_bindings(const pending_bindings_t *p) {
         lv_subject_add_observer_obj(&entry->subject, bar_value_observer_cb, obj,
                                     NULL);
         lv_bar_set_value(obj, lv_subject_get_int(&entry->subject), LV_ANIM_OFF);
+        break;
+      case ui_WidgetType_WIDGET_SPINBOX:
+        /* lv_spinbox_bind_value does NOT exist — custom observer */
+        lv_subject_add_observer_obj(&entry->subject, spinbox_value_observer_cb,
+                                    obj, NULL);
+        lv_spinbox_set_value(obj, lv_subject_get_int(&entry->subject));
         break;
       default:
         LOG_WARN("'value' binding not supported for widget type %d", p->wtype);

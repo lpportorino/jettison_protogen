@@ -1452,7 +1452,7 @@ static void tree_append_json_str(const char *s) {
  * envelope stream stays strictly monotonic across screen reloads, so a host
  * gap-check spans the whole session). The stack buffer provably fits the worst
  * case: the tag escapes to at most UI_EVENT_NAME_BUF × 6 = 768 bytes, the
- * trigger (a fixed enum name, cap 16) to ≤ 96, plus ~90 bytes of fixed
+ * trigger (a fixed enum name, cap UI_EVENT_TRIGGER_CHARS) to ≤ 96, plus ~90 bytes of fixed
  * syntax/numbers = ≤ 954 < 1024; `truncated` is the belt — a clipped envelope is
  * REFUSED (-1, nothing sent), never invalid JSON. */
 #define EVENT_ENVELOPE_BUF_SIZE 1024u
@@ -1470,7 +1470,8 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
   (void)snprintf(num, sizeof(num), "\",\"origin\":%u,\"event\":\"",
                  (unsigned)origin_uid);
   json_append(&out, num);
-  json_append_str(&out, trigger ? trigger : "", 16u); /* short enum name */
+  json_append_str(&out, trigger ? trigger : "",
+                  UI_EVENT_TRIGGER_CHARS); /* short enum name */
   (void)snprintf(num, sizeof(num), "\",\"seq\":%u,\"value\":%d}",
                  (unsigned)(host_event_seq + 1u), (int)value);
   json_append(&out, num);

@@ -2113,6 +2113,19 @@ mod controller_bindings {
         assert_differ("bound slider 30→70", &before, &after, MIN_DIFF_RATIO);
     }
     #[test]
+    fn test_state_update_moves_bound_spinbox() {
+        // lv_spinbox has no lv_*_bind_value, so a value binding must attach a
+        // custom observer driving lv_spinbox_set_value. Without it the update
+        // hits the LOG_WARN default arm and the digits never move.
+        let mut host = new_host();
+        let before = render(&mut host, "vr_bind_spinbox");
+        assert_not_empty("bind_spinbox before", &before);
+        let after = update(&mut host, "su_volume_70");
+        // "030" → "070" through the observer (small glyph delta, like the
+        // bound-label reformat test).
+        assert_differ("bound spinbox 30→70", &before, &after, 0.0001);
+    }
+    #[test]
     fn test_state_update_reformats_bound_label() {
         let mut host = new_host();
         let before = render(&mut host, "vr_bind_label_fmt");
