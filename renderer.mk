@@ -42,8 +42,9 @@ R := renderer
 RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
-	oracles morph-parity matrix demo-parity manifests devcards-test reload \
-	clj-schema-test check-renderer wasm-present fixtures-prebuilt gallery-prebuilt
+	oracles morph-parity morph-fixtures matrix demo-parity manifests \
+	devcards-test reload decode-limits clj-schema-test check-renderer \
+	wasm-present fixtures-prebuilt gallery-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -128,15 +129,23 @@ interaction:
 # full-load case (the mirror of the degenerate `duplicate_insert_uid` PATCH
 # case on the load entry point). The renderer must refuse a colliding uid
 # CLEANLY: a collided node stays unidentified (no dup uid in dump_tree), so no
-# reconciler ever acts on a mis-targeted (obj, style) pair. Regenerates the
-# morph-fixtures it reads (never staleness), exactly like morph-parity. A NEW cargo test
-# binary is NOT auto-run by the named-test lanes above, so it is wired here
-# explicitly.
-reload: wasm proto-classes
-	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
-		--output ../../$(R)/output/morph-fixtures
+# reconciler ever acts on a mis-targeted (obj, style) pair. Takes the shared
+# morph-fixtures prerequisite (below) so it can never read a stale fixture. A NEW
+# cargo test binary is NOT auto-run by the named-test lanes above, so it is wired
+# here explicitly.
+reload: wasm proto-classes morph-fixtures
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test reload_cycle
+
+# The (base, target, patch) triples BOTH morph lanes read. A shared phony
+# prerequisite rather than a step duplicated into each lane: make builds a phony
+# target once per invocation, so a full battery regenerates these ONCE while each
+# lane still cannot read a stale fixture — the never-staleness property the
+# duplicated form was there for, at a measured ~7s less per battery run (it was
+# ~8s + ~7s of identical work). Invoking either lane alone still regenerates.
+morph-fixtures:
+	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
+		--output ../../$(R)/output/morph-fixtures
 
 # ── Decode limits (hostile-payload contracts; NOT a pixel oracle) ───────────
 # Nesting depth, per-parent fan-out, aggregate node count, and abort-on-error —
@@ -158,9 +167,7 @@ oracles: morph-parity matrix demo-parity
 
 # Dual-oracle morph parity: (base, target, patch) triples applied vs
 # full-reload, tree + framebuffer asserted tolerance-0.
-morph-parity: wasm proto-classes
-	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
-		--output ../../$(R)/output/morph-fixtures
+morph-parity: wasm proto-classes morph-fixtures
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test morph_parity
 
