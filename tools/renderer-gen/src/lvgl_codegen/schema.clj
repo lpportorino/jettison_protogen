@@ -75,27 +75,9 @@
    child nodes and measure them — lv_obj, lv_button, lv_tabview, lv_textarea /
    lv_spinbox (an internal label child); (c) lv_host_proxy (the video-proxy
    node). (A sourceless image or pointless line collapses too, but that is a
-   missing-CONTENT fault, caught by `required-content-props` /
-   `check-required-content!` below.)"
+   missing-CONTENT fault, a different check.)"
   #{:lv_bar :lv_slider :lv_led :lv_arc :lv_switch :lv_spinner :lv_scale
     :lv_buttonmatrix :lv_chart})
-
-(def ^:private required-content-props
-  "Widget tag -> the get-in path to the ONE static authored prop that is its ONLY
-   content source. With that prop absent (or empty) the widget draws NOTHING: an
-   lv_image with no `src` has no image data, an lv_line with no `points` has an
-   empty polyline, so each creates a permanently invisible node — and, since both
-   DEFAULT to LV_SIZE_CONTENT, a 0px one. Nothing supplies the content later
-   either: the renderer dispatches only :text/:value/:checked bindings, none of
-   which reaches an image source or a point list. Absence at codegen time is
-   therefore permanent invisibility — a hard codegen error, not a warning.
-
-   NOT here, deliberately: lv_label, lv_dropdown, lv_roller, lv_buttonmatrix.
-   Their LVGL constructors install PLACEHOLDER content (a default label text, a
-   default option list, a default button map), so a contentless node renders
-   visibly WRONG rather than invisibly absent — a different fault class needing a
-   different check."
-  {:lv_image [:image_props :src] :lv_line [:line_props :points]})
 
 (def author-id
   "Author :id — sibling-scoped identity segment for tree patching."
@@ -482,29 +464,6 @@
       (swap! errors conj
              {:type :leaf-content-sizing :widget (:tag widget) :dimension dim}))))
 
-(defn- check-required-content!
-  "Required-content contract, collected into the errors atom: a widget listed in
-   `required-content-props` whose sole static content prop is missing or empty
-   emits a node that can never draw anything. Fail-fast at codegen — an author
-   must supply the prop; there is no binding that could fill it at runtime.
-
-   Absent covers FOUR input classes, not three: nil, an empty string, an empty
-   collection — and a SCALAR, which is unusable content rather than content of
-   the wrong size. The scalar arm is load-bearing, not defensive: the prop bags
-   are typed bare `map?` here on purpose (the proto-IR passthrough above), so
-   an authored `:src 42` clears `validate-screen` and reaches this guard, and
-   the tight `string?` shape that would reject it does not run until
-   `validate-ir!` several stages later. A bare `seq` throws `Don't know how to
-   create ISeq from: java.lang.Long` on that input — a stack trace carrying
-   neither the tag nor the prop path, which is precisely what this guard's
-   discriminating error map exists to replace."
-  [widget errors]
-  (when-let [prop-path (get required-content-props (:tag widget))]
-    (let [content (get-in widget prop-path)]
-      (when-not (and (or (coll? content) (string? content)) (seq content))
-        (swap! errors conj
-               {:type :missing-required-content :widget (:tag widget) :prop prop-path})))))
-
 (defn- supported-bind-keys
   "Binding keys the renderer dispatches for the given widget tag — :mode is
    the host-proxy mode-subject binding, meaningless elsewhere."
@@ -533,7 +492,6 @@
        (check-host-proxy-node! widget errors)
        (check-identity-node! widget errors)
        (check-leaf-sizing! widget errors)
-       (check-required-content! widget errors)
        (doseq [[k v] (:bind widget)]
          (when-not (contains? (supported-bind-keys (:tag widget)) k)
            (swap! errors conj
@@ -612,9 +570,6 @@
 (m/=> content-sizing-dimensions [:=> [:cat [:maybe string?]] [:set :keyword]])
 
 (m/=> check-leaf-sizing! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
-
-(m/=> check-required-content!
-      [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
 
 (m/=> check-conditional-binding!
       [:=>
