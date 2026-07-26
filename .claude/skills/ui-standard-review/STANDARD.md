@@ -440,10 +440,32 @@ interleave across the good/bad boundary rather than separating.
 
 **Provenance:** these four rows were measured in a CONSUMER's screen corpus, not
 in this repo — the uids are that consumer's, no protogen corpus or run produces
-them, and nothing here reproduces the table. They are recorded as the evidence
-the design rests on, and they are exactly as strong as an unreproducible
-measurement can be. protogen does not yet ship an occlusion lane; when it does,
-the table it uses owes a re-measurement here.
+them. They are recorded as the evidence the design rests on, and they are
+exactly as strong as an unreproducible measurement can be.
+
+**protogen's corpus cannot corroborate them, and this has now been measured
+rather than assumed.** Over all 244 cards, 169 nodes report a `vis_px` below
+their own area — and every one of them is a DELIBERATE mechanism, not damage:
+
+- 155 are fully occluded (ratio 0.0000), and they are hidden proxy affordances
+  (61), closed dropdown popup lists (30), and carousel pages the tabview has
+  snapped out of view (30), plus kitchen-sink and lego instances of the same.
+- The 14 partials are designed or probes: eleven are `lv_roller_label`, whose
+  vertical overflow IS the wheel illusion (§2.3's designed-geometry exclusion),
+  and three are probe cards exercising a known limit.
+
+So this corpus holds no occluded-and-DAMAGED element at all, which is the exact
+population §4's claim is about. Its per-role ratios do not interleave
+(`:structural` tops out at 0.332 while `:text` starts at 0.682) — and that is
+NOT evidence against the consumer's table. It is evidence that the corpus has
+no damaged cases to interleave, so a clean separation here means nothing about
+whether one exists on real screens.
+
+Do not re-run this expecting a different answer, and do not promote the
+separation above into a threshold: a number fitted to a corpus containing no
+defects would pass everything. protogen does not yet ship an occlusion lane;
+when it does, the table it uses still owes a measurement on a corpus that
+contains damage, which means a consumer's.
 
 | uid | kind | VISIBLE fraction | verdict |
 |---|---|---|---|
