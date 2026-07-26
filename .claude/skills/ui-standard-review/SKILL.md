@@ -246,7 +246,26 @@ deferral is literal.
 
 ## Disposition
 
-Every finding is FIXED or EXEMPTED before the push. There is no third state.
+Every finding is FIXED, EXEMPTED, or — for an UNCERTAIN finding only — DEFERRED
+TO THE INSTRUMENT that can settle it. Nothing is left un-dispositioned.
+
+**The uncertain case is not a loophole; it is forced.** `:vlm/illegible-contrast`
+is uncertain BY DEFAULT (the readability measurement's separating gap is
+narrower than its own seed-to-seed noise, §0), so "fix it" would round
+uncertainty up into a defect and "exempt it" would round it down into a
+settled judgement — and §0 forbids both. Exempting is the worse of the two: an
+exemption asserts *we looked and it is acceptable*, which is exactly the claim
+an eye cannot make where the instrument cannot.
+
+A DEFERRAL carries the same proof burden as an exemption — what would settle
+it, and where that is tracked — and it is only available to a finding reported
+UNCERTAIN. A deferral that never acquires its instrument is a finding about the
+standard, not a disposition.
+
+Note what a deferral is NOT: it is not an entry in the exemption list. The VLM
+lane is deliberately not wired into the verdict, so a `:vlm/` exemption would
+match no finding in any run that executes — a stale entry in a lane nothing
+reads. Record the deferral where the instrument's own work is tracked.
 
 **Fixed** at the source, in this repo, never worked around at a consumer's call
 site (`CLAUDE.md` §"Fixing protogen from a consumer"). A fix that shifts pixels
