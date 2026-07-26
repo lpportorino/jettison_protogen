@@ -222,7 +222,49 @@ manifests:
 	  fi; \
 	done; \
 	rm -rf "$$tmp"; \
-	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + theme-tokens.h + gesture-thresholds.h)"; \
+	$(MAKE) --no-print-directory -f renderer.mk manifests-proto-db || rc=1; \
+	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + theme-tokens.h + gesture-thresholds.h + proto-db trio)"; \
+	exit "$$rc"
+
+# The proto-db-derived trio (signals/sub-signals/endpoints.json) shares the
+# output/manifests/ directory with the pair above but NOT their producer: they
+# come from docs/.protodoc/tools reading proto-db.edn, via the Makefile's
+# `docs-manifests` target, and had no freshness comparison at all. That gap is
+# not hypothetical — signals.json kept publishing an altitude bound for ~150
+# commits after the proto dropped it, and was corrected only as an incidental
+# side effect of an unrelated docs regeneration.
+#
+# `make generate` does NOT cover this: it regenerates language bindings, not
+# these manifests. A green generate says nothing about their freshness.
+#
+# THE STAMP IS EXCLUDED FROM THE COMPARISON, and that is load-bearing rather
+# than a convenience. Every one of these files carries `generated-at` (and
+# endpoints.json a `protogen-commit`) holding the SHORT COMMIT SHA, injected at
+# generation time. A byte-comparison including it differs on EVERY commit, so
+# the gate would be permanently red — worse than absent, because a gate that is
+# always red is one everybody learns to skip. Both sides are normalised to a
+# sentinel so the comparison is about CONTENT.
+.PHONY: manifests-proto-db
+manifests-proto-db:
+	@tmp="$$(mktemp -d)"; \
+	( cd docs/.protodoc/tools \
+	  && clojure -M:run manifest --db-path ../proto-db.edn \
+	       --config-path ../manifest-config.edn --output-dir "$$tmp" \
+	       --git-sha SENTINEL ) >/dev/null \
+	  || { rm -rf "$$tmp"; echo "FATAL: proto-db manifest emit failed" >&2; exit 1; }; \
+	rc=0; \
+	for f in signals.json sub-signals.json endpoints.json; do \
+	  [ -f "$$tmp/$$f" ] || { echo "FATAL: emit produced no $$f" >&2; rc=1; continue; }; \
+	  sed -e 's/"generated-at":"[^"]*"/"generated-at":"SENTINEL"/' \
+	      -e 's/"protogen-commit":"[^"]*"/"protogen-commit":"SENTINEL"/' \
+	      "output/manifests/$$f" >"$$tmp/committed-$$f"; \
+	  if ! cmp -s "$$tmp/committed-$$f" "$$tmp/$$f"; then \
+	    echo "FATAL: output/manifests/$$f is STALE vs proto-db.edn — run 'make docs-manifests' and commit it." >&2; \
+	    rc=1; \
+	  fi; \
+	done; \
+	rm -rf "$$tmp"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: proto-db trio fresh (signals + sub-signals + endpoints)"; \
 	exit "$$rc"
 
 # ── Devcards unit suite ─────────────────────────────────────────────────────
