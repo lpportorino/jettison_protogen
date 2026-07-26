@@ -184,8 +184,28 @@
 (m/=> assemble-ui-ast-proto!
       [:=> [:cat lift/enum-edn-schema [:string {:min 1}] [:string {:min 1}]] :nil])
 
+(def lvgl-mirrored-constants
+  "Every constant `lvgl-codegen.style-props` hand-carries from the LVGL
+   headers, paired with the C constant it MUST equal.
+
+   Lives HERE rather than beside the constants because `style_props.clj` is
+   byte-mirrored into a consumer that has no `construct/` namespaces — a var
+   only that consumer cannot reach would read as dead code on its side. The
+   cost is that a newly added `lv-state-*`/`lv-part-*` does not pair itself;
+   `style_props.clj` carries a note at the definitions saying so."
+  {"LV_STATE_DEFAULT" style-props/lv-state-default
+   "LV_STATE_PRESSED" style-props/lv-state-pressed
+   "LV_STATE_FOCUSED" style-props/lv-state-focused
+   "LV_STATE_DISABLED" style-props/lv-state-disabled
+   "LV_PART_SCROLLBAR" style-props/lv-part-scrollbar
+   "LV_PART_INDICATOR" style-props/lv-part-indicator
+   "LV_PART_KNOB" style-props/lv-part-knob
+   "LV_PART_SELECTED" style-props/lv-part-selected
+   "LV_PART_ITEMS" style-props/lv-part-items
+   "LV_PART_CURSOR" style-props/lv-part-cursor})
+
 (defn hand-carried-mirror-violations
-  "Every `style-props/lvgl-mirrored-constants` pair whose hand-carried value
+  "Every `lvgl-mirrored-constants` pair whose hand-carried value
    disagrees with the extracted LVGL header value, as
    `{:constant .. :carried N :extracted M}` maps (empty when they all agree).
 
@@ -200,7 +220,7 @@
   (let [by-name (into {} (for [[_ members] enum-edn
                                {c-name :name c-value :value} members]
                            [c-name c-value]))]
-    (vec (for [[c-name carried] (sort style-props/lvgl-mirrored-constants)
+    (vec (for [[c-name carried] (sort lvgl-mirrored-constants)
                :let [extracted (get by-name c-name)]
                :when (not= carried extracted)]
            {:constant c-name :carried carried :extracted extracted}))))
