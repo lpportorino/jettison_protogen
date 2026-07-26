@@ -37,3 +37,27 @@ prost-types = "0.13"
 
 [dev-dependencies]
 serde_json = "1.0.150"
+
+# Optimise DEPENDENCIES ONLY. Every test here costs the same as nine, because
+# the fixed cost is per-PROCESS, not per-test: wasmtime cranelift-compiles the
+# ~3.6 MB controls.wasm once per process (src/wasm_host.rs MODULE_CACHE says so
+# in its own comment), and the battery runs five test binaries. Measured with
+# no [profile] section, i.e. Cranelift itself built at opt-level 0:
+#
+#   decode_limits, 0 tests selected   0.002s   <- process start is free
+#   decode_limits, 1 test             2.373s
+#   decode_limits, 9 tests            2.754s
+#
+# so ~2.4s wall / ~23s CPU per binary is that compile. Optimising the compiler
+# doing the work takes the five binaries from 21.39s to 8.17s wall and 123.24s
+# to 17.03s CPU, with all 269 tests passing identically either way.
+#
+# THE TEST CRATES ARE DELIBERATELY EXCLUDED (`package."*"` is dependencies only).
+# They keep opt-level 0, so debug_assert! and integer-overflow checks stay LIVE
+# in the oracles — a `--release` build is faster still (1.90s / 8.33s) and is NOT
+# used here precisely because it would disable those checks inside the gates.
+# Editing tests/*.rs therefore still recompiles fast.
+#
+# One-time cost: a full rebuild of the dependency graph, measured at 116s wall.
+[profile.dev.package."*"]
+opt-level = 2

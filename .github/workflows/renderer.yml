@@ -84,7 +84,13 @@ jobs:
           .cargo-home/registry
           .cargo-home/git
           renderer/wasm_harness/target
-        key: renderer-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock') }}
+        # BOTH files, not just the lock. The lock pins WHICH dependencies; Cargo.toml's
+        # [profile] section decides HOW they are compiled, and a profile change makes the
+        # cached artifacts invalid. Keying on the lock alone is an UNDERHASH: the key still
+        # hits exactly, so actions/cache restores a now-worthless tree AND — because an
+        # exact hit never triggers the post-job save — never replaces it. The rebuild would
+        # then be paid on every run instead of once. Overhash, never underhash.
+        key: renderer-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock', 'renderer/wasm_harness/Cargo.toml') }}
         restore-keys: |
           renderer-cargo-
     - # The C half of the format gate lives HERE, not in lint.yml, because the
@@ -212,7 +218,8 @@ jobs:
           ~/.cargo/registry
           ~/.cargo/git
           renderer/wasm_harness/target
-        key: fixtures-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock') }}
+        # Both files — see the renderer-cargo key above for why the lock alone underhashes.
+        key: fixtures-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock', 'renderer/wasm_harness/Cargo.toml') }}
         restore-keys: |
           fixtures-cargo-
     - # B3b: the ui bindings compile via renderer.mk's `bindings` prereq
