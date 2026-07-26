@@ -71,6 +71,12 @@ on:
     - "output/manifests/**"
     - "proto/ui/**"
     - "renderer.mk"
+    # Inputs of the GENERATED VLM briefing (the "UI-standard briefing
+    # freshness" step below). The contract doc matched no workflow at all,
+    # and the generated page itself none either, so the gate could never
+    # fire on a push that changed what it checks.
+    - "docs/UI-QUALITY-CONTRACTS.md"
+    - ".claude/skills/ui-standard-review/**"
     - ".github/workflows/devcards.yml"
     - ".github/actions/build-controls-wasm/**"
   pull_request:
@@ -79,6 +85,12 @@ on:
     - "output/manifests/**"
     - "proto/ui/**"
     - "renderer.mk"
+    # Inputs of the GENERATED VLM briefing (the "UI-standard briefing
+    # freshness" step below). The contract doc matched no workflow at all,
+    # and the generated page itself none either, so the gate could never
+    # fire on a push that changed what it checks.
+    - "docs/UI-QUALITY-CONTRACTS.md"
+    - ".claude/skills/ui-standard-review/**"
     - ".github/workflows/devcards.yml"
     - ".github/actions/build-controls-wasm/**"
   workflow_dispatch: {}
@@ -158,6 +170,24 @@ jobs:
       # NOT — that gap is what B3a closes.
       name: Golden manifest + gallery freshness
       run: git diff --exit-code tools/devcards/goldens tools/devcards/docs
+    - # The VLM review reads a GENERATED briefing
+      # (.claude/skills/ui-standard-review/STANDARD.md); a standard change that
+      # never reached the page leaves the agent judging against rules that
+      # moved. Armed HERE, not in renderer.yml, because a gate has to run on
+      # the pushes that can break it: the generator's declared inputs are
+      # docs/UI-QUALITY-CONTRACTS.md, devcards/lvgl_classes.clj and each
+      # producer's :thresholds, and renderer.yml's path filter matches NONE of
+      # them — it could only ever fire on pushes that structurally cannot
+      # drift the briefing. This workflow already triggers on
+      # tools/devcards/**, and its `on:` now also carries the contract doc and
+      # the generated page itself.
+      #
+      # A runner step rather than a check-renderer lane because it shells out
+      # to git, which cannot resolve the checkout from inside the toolchain
+      # container — the same reason the goldens freshness check above is a
+      # runner step.
+      name: UI-standard briefing freshness
+      run: make -f renderer.mk standard-brief
     - name: Upload gallery + golden manifest (debug artifact, not published)
       if: always()
       uses: actions/upload-artifact@v6

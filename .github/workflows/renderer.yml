@@ -277,12 +277,9 @@ jobs:
       name: Golden manifest + gallery freshness
       run: git diff --exit-code tools/devcards/goldens tools/devcards/docs
 
-    - # The review agent's briefing is GENERATED from the contract, the live
-      # classification table and the producers' declared thresholds, so a
-      # standard change that never reached the page would leave the agent
-      # judging against rules that moved. Armed HERE rather than as a
-      # check-renderer lane because it shells out to git, which cannot resolve
-      # the checkout from inside the toolchain container — the same reason the
-      # goldens freshness check above is a runner step.
-      name: UI-standard briefing freshness
-      run: make -f renderer.mk standard-brief
+    # The UI-standard briefing freshness gate lives in devcards.yml, NOT here.
+    # Its inputs are docs/UI-QUALITY-CONTRACTS.md, devcards/lvgl_classes.clj
+    # and each producer's :thresholds — none of which this workflow's `paths:`
+    # filter matches, so arming it here gave a gate that ran only on pushes
+    # that structurally could not drift the briefing, and never on the ones
+    # that could.
