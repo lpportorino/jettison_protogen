@@ -55,3 +55,7 @@ renderer/compile_commands.json
 
 # clang-tidy gate scratch output
 .tidy-*.txt
+
+# PDL-R measurement scratch (the reference + harness are committed; runs are not)
+tools/devcards/pdl-r-reference/__pycache__/
+tools/devcards/pdl-r-reference/frozen_corpus_result.json
