@@ -1,0 +1,29 @@
+PDL-R V6 reference implementation — the bake-off WINNER's measurement code.
+
+upstream: jettison_eudoxia
+sha:      2ec54f335ad98b9396797ce350399b78eb8ecd63  (tag camp/pdl-r-bakeoff-20260725)
+path:     .eudoxia/artifacts/worktree-pocs/wf_341ef87c-34e-11/{lib.py,run_experiment.py}
+flavor:   source-port (reference only — NOT wired into any gate)
+date:     2026-07-26
+
+WHY IT WAS COPIED HERE RATHER THAN CITED: eudoxia is executing a git orphan reset that
+collapses its history and destroys all 29 camp/* tags, this one included. A `git show
+camp/...` citation would have rotted. The full history survives as a bundle at
+~/eudoxia-preserve-7bf1a5d/full-history.bundle, but recovering from a bundle is a chore
+this copy avoids.
+
+WHAT IT IS: "Region Ink-edge Drift" — clamped edge-BITMAP drift, WORST-REGION over
+renderer-supplied glyph-ink masks, decoration suppressed AT THE RENDERER, absolute
+threshold in LINEAR LIGHT, fixed veil. It won a six-variant bake-off.
+
+READ BEFORE USING (the finding that matters more than the code): each of the six variants
+built its OWN corpus — same seed, different frame sizes / veil constants / k-sweeps — so
+every cross-variant number compares in SHAPE, not digit-for-digit. Re-measure on ONE
+FROZEN SHARED CORPUS before implementing anything. And the separating gap is 0.0053
+against a measured seed-to-seed noise floor of 0.0117: THE MARGIN IS NARROWER THAN THE
+NOISE, which is why the gate must be three-way (pass/fail/uncertain) rather than binary.
+
+DEAD ENDS, do not retry: literal edge-energy RATIO (0.50 +/- 0.004 across the whole
+21:1 -> 1.2:1 sweep — an affine veil through a linear operator self-normalises); SSIM
+(sign-INVERTS between light and dark themes); cumulative scoring (needs 53% of labels
+dead to notice what worst-region catches at one).
