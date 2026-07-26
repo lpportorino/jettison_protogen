@@ -47,9 +47,11 @@
 #    build+verify+invariants+secret-scan share one job and one clear PASS/FAIL)
 #    and — historically — `kondo`, a minimal clj floor over tools/devcards.
 #    That kondo job has since been REMOVED from this file: `lint.yml` now runs
-#    clj-kondo over ALL five hand-authored Clojure roots, tools/devcards
-#    included, against the same .clj-kondo/config.edn and the same pinned
-#    version. Keeping a strict subset of that here bought nothing and cost the
+#    clj-kondo over every hand-authored Clojure path in lint.mk's
+#    LINT_CLJ_PATHS — tools/devcards included — against the same
+#    .clj-kondo/config.edn and the same pinned version. That variable is the
+#    one home of what is gated; a count here would go short the next time a
+#    root is added. Keeping a strict subset of that here bought nothing and cost the
 #    usual price of duplicated gates — two jobs over one tree drift apart, and
 #    the narrower one silently defines a weaker floor than the config implies.
 #    The design's "kondo" concern is still honored, just by the workflow that

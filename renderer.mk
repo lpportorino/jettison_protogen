@@ -662,4 +662,4 @@ graal-check:
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
 check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures harness interaction oracles reload decode-limits
-	@echo "renderer battery: GREEN (generated-projection + construct-bindings + manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"
+	@echo "renderer battery: GREEN ($^)"

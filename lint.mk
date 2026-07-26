@@ -27,8 +27,9 @@
 #   lint-clj           HOST or CI only — clj-kondo is NOT in the uber image, and
 #                      does not need to be: a linter emits findings, never a
 #                      committed artifact, so the uber-container rule does not
-#                      reach it. CI pins it via clj-kondo/setup-clj-kondo (the
-#                      devcards workflow already does). This is why
+#                      reach it. CI pins it in .github/workflows/lint.yml,
+#                      alongside the Clojure CLI — see that file for the action
+#                      and versions rather than copying pins here. This is why
 #                      `tools/uber.sh 'make -f lint.mk lint'` fails on lint-clj
 #                      while each other lane runs there happily.
 #
@@ -213,21 +214,24 @@ fmt-clj:
 
 ## splint-clj: idiomatic-pattern lint — REPORT-ONLY, deliberately not in `lint`
 # Measured, so the exclusion is a decision rather than an omission:
-#   522 findings raw. 467 of them (89%) are lint/prefer-method-values, whose
-#   suggestion is the literal placeholder `(CLASS/.method …)` because splint
-#   cannot infer the class — nothing to copy, nothing to autocorrect, and
-#   adopting the 1.12 form repo-wide changes how each call site resolves. That
-#   is a house-style migration to decide on its own terms, so it is disabled in
-#   .splint.edn with that reasoning, leaving 55 real findings.
-#   `--autocorrect` clears 29 of the 55 — and its output does not survive our
-#   own gates. Measured on this tree it dropped a load-bearing comment, blew
+#   The overwhelming majority of raw findings are lint/prefer-method-values,
+#   whose suggestion is the literal placeholder `(CLASS/.method …)` because
+#   splint cannot infer the class — nothing to copy, nothing to autocorrect,
+#   and adopting the 1.12 form repo-wide changes how each call site resolves.
+#   That is a house-style migration to decide on its own terms, so it is
+#   disabled in .splint.edn with that reasoning. Reproduce the split with
+#   `clojure -M:splint $(LINT_CLJ_PATHS)` against .splint.edn with the rule
+#   re-enabled; the counts move with every Clojure edit, so run it rather than
+#   trusting a number here.
+#   `--autocorrect` clears a chunk of what remains — and its output does not
+#   survive our own gates. Measured on this tree it dropped a load-bearing comment, blew
 #   readable `str` calls out to one argument per line, flattened hand-aligned
 #   map literals, and inserted a fully-qualified `clojure.string/join` into a
 #   namespace with no clojure.string require, which clj-kondo then rejected
 #   outright. So splint is never run in fix mode here, by the pre-push hook or
 #   anyone else.
-#   The 55 that remain need JUDGEMENT, and some would be wrong to "fix":
-#   all 4 lint/catch-throwable sit in sweep/fuzz tests where catching Throwable
+#   What remains needs JUDGEMENT, and some of it would be wrong to "fix":
+#   the lint/catch-throwable hits sit in sweep/fuzz tests where catching Throwable
 #   is the point — narrowing to Exception lets a StackOverflowError from deep
 #   recursion escape the probe it exists to catch. Others are namespace renames
 #   (naming/single-segment-namespace, naming/lisp-case) that change a public
@@ -302,7 +306,7 @@ lint-sh:
 # The escape hatch when another repo genuinely must be addressed is to drop the
 # inherited environment explicitly: `env -u GIT_DIR -u GIT_WORK_TREE git -C …`
 # (uber.sh already defends its own host side that way).
-	@if bad=$$(grep -nE '(^|[^-])\bgit +-C\b' $(LINT_SH_FILES) renderer/wasm.mk lint.mk 2>/dev/null \
+	@if bad=$$(grep -nE '(^|[^-])\bgit +-C\b' $(LINT_SH_FILES) renderer/wasm.mk renderer.mk Makefile lint.mk 2>/dev/null \
 		| grep -v 'env -u GIT_DIR' \
 		| grep -vE ':[0-9]+:[[:space:]]*#' \
 		| grep -vE 'printf|echo '); then 		printf '\033[31m[lint-sh] FAIL\033[0m — bare `git -C` reachable from uber.sh:\n' >&2; 		printf '%s\n' "$$bad" >&2; 		printf '  GIT_DIR overrides -C in that container, so this answers about the\n' >&2; 		printf '  WRONG repo. Use: env -u GIT_DIR -u GIT_WORK_TREE git -C <repo> …\n' >&2; 		exit 1; 	fi
@@ -311,8 +315,10 @@ lint-sh:
 ## fmt-c: clang-format DRIFT check over hand-authored C, one process per cpu
 # NOT `--dry-run --Werror`. That mode DISAGREES with `-i` under .clang-format's
 # MaxEmptyLinesToKeep:0 + SeparateDefinitionBlocks:Always pairing: after `-i`
-# has converged, --dry-run still reports edits it will never make (measured:
-# 130 on renderer.c, 18 on theme.c, unchanged across repeated -i passes). A
+# has converged, --dry-run still reports edits it will never make, and the
+# count is stable across repeated -i passes (reproduce:
+# `clang-format --style=file --dry-run renderer/src/renderer.c` on a tree where
+# `make -f lint.mk fmt-c` is green). A
 # gate built on it fails forever on a correctly-formatted tree — which is
 # exactly what happened here, and was misdiagnosed as the CONFIG being
 # unsatisfiable before the two were told apart.

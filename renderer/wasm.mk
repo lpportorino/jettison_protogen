@@ -53,7 +53,7 @@ endif
 # reconstructs the app compile line (the compile-db target, hence clang-tidy)
 # MUST include it, or `static_assert` and friends fail to parse in a tree the
 # compiler accepts. Measured: omitting it produced three phantom parse errors
-# on main.c:138 that the real build never sees.
+# on a `static_assert` that the real build compiles cleanly.
 APP_STD := -std=c23
 
 WARN_FLAGS := -Wall -Wextra -Werror \
@@ -282,9 +282,10 @@ all: $(OUT) $(OUT).build-sha
 
 # Compile every TU, but do NOT link. For consumers that need the COMPILATION —
 # the flags, the diagnostics, the compile_commands entries — and never read the
-# linked module. tools/gates/atlas_cpp_dead.sh is the one: it runs `bear` over
-# this to capture the real compile commands, then re-runs clang per TU for an AST
-# dump. It never opens output/controls.wasm.
+# linked module — a downstream dead-export ratchet is the case: it captures the
+# real compile commands from this target, then re-runs clang per TU for an AST
+# dump. It never opens output/controls.wasm. Named by what it needs rather than
+# by a path, because the consumer lives in another repo.
 #
 # The saving is large and it is a property of -flto: with LTO on, compiling only
 # emits LLVM IR and ALL backend codegen is deferred to the link — confirmed

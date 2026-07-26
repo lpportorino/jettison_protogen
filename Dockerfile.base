@@ -72,8 +72,10 @@ RUN for i in 1 2 3; do \
 # at all (polyglot 25.0.2 requires a JDK with JVMCI + the Graal compiler;
 # stock OpenJDK 17 has neither). Installed the same way this file already
 # installs Go/Rust/Zig: a versioned upstream tarball extracted to /opt, never
-# a base-image swap — protogen's other dozen toolchains (protoc/go/rust/zig/
-# node/python/buf) are Ubuntu-apt-based and stay that way; only the JDK moves.
+# a base-image swap. The image stays FROM ubuntu:24.04, and every version-
+# sensitive toolchain here (protoc/go/rust/zig/buf/maven/clojure) is already
+# provisioned this same way — a pinned upstream download into /opt or
+# /usr/local. apt supplies only the distro-tracking pieces.
 RUN ARCH=$(uname -m) && \
     if [ "$ARCH" = "aarch64" ]; then \
         GRAALVM_ARCH="aarch64"; \

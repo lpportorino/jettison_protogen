@@ -84,8 +84,8 @@ jobs:
 
     - # One setup-clojure invocation covers both tools. clj-kondo is a native
       # binary and needs no JVM, but cljfmt runs through the Clojure CLI, so
-      # this job DOES need Java — unlike devcards.yml's kondo-only job, which
-      # deliberately skips it.
+      # this job DOES need Java. Linting is this workflow's alone — no other
+      # workflow runs clj-kondo, which is what keeps one config and one pin.
       name: Set up JDK 25 (LTS)
       uses: actions/setup-java@v5
       with:
