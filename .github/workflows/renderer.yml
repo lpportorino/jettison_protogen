@@ -138,11 +138,19 @@ jobs:
       # Config is renderer/.clang-tidy (WarningsAsErrors:'*'); after clang-format
       # (cheap) and before the wasm build (slow), so an analysis failure does not
       # cost a multi-minute build first.
+      #
+      # Invoked the same way as clang-format above, with no inline PATH export:
+      # lint.mk resolves the pinned run-clang-tidy/clang-tidy by explicit path,
+      # exactly as it already resolved clang-format. The export used to be the
+      # only reason this was green, which meant CI and `tools/uber.sh 'make -f
+      # lint.mk lint-c-tidy'` disagreed about how the gate finds its binary —
+      # and the local one failed with a message naming the very thing you were
+      # already doing.
       name: clang-tidy (static analysis, pinned WASI-SDK)
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
-          bash -lc 'export PATH=/opt/wasi-sdk/bin:$PATH && make -f lint.mk lint-c-tidy'
+          make -f lint.mk lint-c-tidy
     - # A2: the published manifests must be byte-fresh vs a regen from their
       # sources (tokens.edn + renderer.c). check-renderer runs `manifests` FIRST
       # locally; renderer.yml DECOMPOSES check-renderer into individual targets,

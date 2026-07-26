@@ -50,6 +50,17 @@ NPROC := $(shell nproc 2>/dev/null \
 # `clang-format` is the host fallback for a read-only check.
 CLANG_FORMAT := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-format) clang-format)
 
+# Same resolution, same reason, for clang-tidy's driver. The SDK is not on
+# PATH inside the container either, so a bare `run-clang-tidy` made
+# `tools/uber.sh 'make -f lint.mk lint-c-tidy'` fail with an error telling you
+# to run it inside tools/uber.sh — which is what you were doing. CI was green
+# only because renderer.yml exported the directory inline, i.e. the local entry
+# point and CI disagreed about how the gate finds its own binary.
+# `-clang-tidy-binary` is passed explicitly below for the same reason: the
+# driver resolves the analyser off PATH, where the pinned one also is not.
+RUN_CLANG_TIDY := $(firstword $(wildcard /opt/wasi-sdk/bin/run-clang-tidy) run-clang-tidy)
+CLANG_TIDY := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-tidy) clang-tidy)
+
 # Hand-authored Clojure — the positive allowlist handed to cljfmt, clj-kondo and
 # splint alike. Mostly source ROOTS; a lone FILE is equally valid to every one of
 # those tools, and is the honest shape for build.clj: it is the only hand-authored
@@ -341,11 +352,11 @@ fmt-c:
 # pre-push hook calls, and this needs docker. It runs in CI's renderer job,
 # which already has the toolchain image and builds the compile DB there.
 lint-c-tidy:
-	@command -v run-clang-tidy >/dev/null 2>&1 || { \
-		printf '\033[31m[lint-c-tidy]\033[0m run-clang-tidy not on PATH — run inside tools/uber.sh\n' >&2; exit 1; }
-	@printf '\033[32m[lint-c-tidy]\033[0m clang-tidy (%s cpus)\n' "$(NPROC)"
+	@command -v $(RUN_CLANG_TIDY) >/dev/null 2>&1 || { \
+		printf '\033[31m[lint-c-tidy]\033[0m no run-clang-tidy at %s nor on PATH — run inside tools/uber.sh\n' >&2 "$(RUN_CLANG_TIDY)"; exit 1; }
+	@printf '\033[32m[lint-c-tidy]\033[0m %s (%s cpus)\n' "$(RUN_CLANG_TIDY)" "$(NPROC)"
 	@[ -f renderer/compile_commands.json ] || $(MAKE) -C renderer -f wasm.mk compile-db
-	@cd renderer && run-clang-tidy -p . -quiet -j $(NPROC)
+	@cd renderer && $(RUN_CLANG_TIDY) -clang-tidy-binary $(CLANG_TIDY) -p . -quiet -j $(NPROC)
 
 ## fmt-fix: rewrite formatting in place (both languages)
 fmt-fix: fmt-clj-fix fmt-c-fix
