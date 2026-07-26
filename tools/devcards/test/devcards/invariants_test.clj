@@ -66,7 +66,7 @@
       (is (not-any? #(= "lv_obj#2" (:node %))
                     (filter #(= :zero-visible-area (:invariant %)) findings))))))
 
-(deftest hidden-node-offscreen-is-designed-geometry
+(deftest hidden-node-offscreen-still-fires
   (let [tree {:type "lv_obj"
               :uid 1
               :coords [0 0 99 99]
@@ -85,14 +85,22 @@
         offscreen-nodes (set (for [f findings
                                    :when (= :offscreen (:invariant f))]
                                (:node f)))]
-    (testing ":offscreen follows the same rule as :clipped for a hidden node"
-      (is (not (contains? offscreen-nodes "lv_obj#2"))))
+    (testing "a HIDDEN node's :offscreen is NOT exempt — obj_offscreen compares
+              the box against the DISPLAY rectangle, and its one ancestor test
+              (obj_in_scroll_region) keys on scroll/snap, never on the parent's
+              content-box sizing, so the hidden-node proof — which is entirely
+              about that sizing — does not reach it. A parent growing cannot
+              move a node back on-screen."
+      (is (contains? offscreen-nodes "lv_obj#2")))
     (testing "CONTROL: the visible sibling still fires"
       (is (contains? offscreen-nodes "lv_obj#3")))))
 
 (deftest descendant-of-hidden-node-is-designed-geometry
   (testing "a subtree under a hidden ancestor inherits meaningless geometry
-            — the ancestor is self-placed, so its children's boxes are too"
+            RELATIVE TO ITS PARENT — the ancestor is self-placed, so its
+            children's boxes are too, and :clipped is exempt. :offscreen is
+            not: it is measured against the display, which the ancestor's
+            self-placement says nothing about."
     (let [tree {:type "lv_obj"
                 :uid 1
                 :coords [0 0 99 99]
@@ -107,7 +115,7 @@
                                         :offscreen true
                                         :children []}]}]}
           findings (inv/tree-findings "hidden-under-card" tree caps)]
-      (is (empty? (flags-of findings))))))
+      (is (= #{:offscreen} (flags-of findings))))))
 
 ;; ── the exemption stays NARROW ──────────────────────────────────────────
 ;; Every guard below is a regression the hidden rule must not swallow.
@@ -132,8 +140,8 @@
       (is (= #{:clipped :squished :text_clipped :zero-area} (flags-of findings))))))
 
 (deftest hidden-does-not-exempt-non-geometry-flags
-  (testing "the exemption covers :clipped/:offscreen only — a hidden node
-            that still reports overflow/truncation is NOT silenced"
+  (testing "the exemption covers :clipped only — a hidden node that still
+            reports overflow/truncation is NOT silenced"
     (let [tree {:type "lv_obj"
                 :uid 1
                 :coords [0 0 99 99]
