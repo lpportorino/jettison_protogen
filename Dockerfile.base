@@ -29,6 +29,7 @@ RUN for i in 1 2 3; do \
         nodejs \
         npm \
         gawk \
+        jq \
         ninja-build \
         pkg-config \
         libssl-dev \

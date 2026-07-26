@@ -29,8 +29,15 @@
 (set! *warn-on-reflection* true)
 
 (def ^:private direct-cast-typedefs
-  "Enum typedefs `renderer.c` direct-casts (proto int == LVGL int) — kept in
-   lockstep with `lvgl-codegen.lvgl-parity-test`'s direct-cast set."
+  "Enum typedefs `renderer.c` direct-casts (proto int == LVGL int). This set is
+   the ONE home of that fact; `direct-cast-parity-violations` below is the
+   guard that holds it, and `lvgl-codegen.lvgl-parity-test` proves the guard
+   fires. Do not restate the set's SIZE anywhere — a copied count rots the next
+   time the set grows.
+
+   Stays private: the guard dispatches on each construct's `:cast-class`, which
+   is derived from this set at lift time, so nothing outside needs the set
+   itself."
   #{"lv_align_t" "lv_flex_align_t" "lv_grid_align_t" "lv_text_align_t" "lv_text_decor_t"
     "lv_border_side_t" "lv_dir_t" "lv_grad_dir_t" "lv_blend_mode_t" "lv_base_dir_t"
     "lv_label_long_mode_t" "lv_bar_mode_t" "lv_arc_mode_t" "lv_roller_mode_t"
@@ -48,9 +55,10 @@
   "Enum typedefs surfaced ONLY as authoring keyword→int bindings (raw LVGL
    header values, OR-able bitmasks): NO proto enum is emitted and NO registry
    numbering applies. The wire carries the OR'd uint32, which `renderer.c`
-   direct-casts (`lv_obj_add_flag` / `lv_obj_add_state`). The committed maps
-   are NOT pinned against a live extraction — an earlier claim here said they
-   were; no such gate exists (see `factory/generate-bindings!`)."
+   direct-casts (`lv_obj_add_flag` / `lv_obj_add_state`). These carry raw
+   `:resolved-int` values all the way to emission, which makes them the one
+   part of the committed bindings whose VALUES a live extraction genuinely
+   pins — `make -f renderer.mk construct-bindings` is that gate."
   #{"lv_obj_flag_t" "lv_state_t"})
 
 (def member-fact
@@ -191,3 +199,69 @@
                                 :style-prop? style-prop?})
                              setter-edn)))
 (m/=> setter-edn->constructs [:=> [:cat setter-edn-schema enum-edn-schema] schema/ir])
+
+(def required-typedefs
+  "Every LVGL typedef the factory must find in an extraction to emit a COMPLETE
+   projection: the proto-emitted set plus the authoring-only set.
+
+   Derived, never restated — a hand-listed copy would silently stop matching
+   the day either set grows, which is precisely the drift this guards."
+  (into proto-emitted-typedefs authoring-only-typedefs))
+
+(defn missing-required-typedefs
+  "The `required-typedefs` absent from `enum-edn`, sorted (empty when the
+   extraction is complete).
+
+   THE FAILURE THIS EXISTS FOR IS NOT AN EMPTY EXTRACTION, IT IS A PARTIAL ONE.
+   Emptiness is easy to picture and nearly impossible to hit: the extractor's
+   final awk closes its map unconditionally, so a zero-record run still emits
+   `}` — a well-formed, non-empty, entirely contentless table. A completeness
+   check over the typedefs we actually consume catches that case AND the one
+   that really happens: a `lv_conf.h` feature flag turned off, or an upstream
+   header move, dropping a few typedefs while the rest extract cleanly.
+
+   Without this, `emitted-enums`' filter silently yields a SHORTER enum set,
+   every emitter writes a truncated-but-valid projection, and a freshness gate
+   comparing it to the committed copy reports the FILE as stale — inverting the
+   diagnosis and overwriting good source with an incomplete regeneration."
+  [enum-edn]
+  (vec (sort (remove #(contains? enum-edn %) required-typedefs))))
+(m/=> missing-required-typedefs
+      [:=> [:cat enum-edn-schema] [:vector [:string {:min 1}]]])
+
+(defn direct-cast-parity-violations
+  "Every place a DIRECT-CAST enum's assigned proto number disagrees with the
+   LVGL header value it must equal, as
+   `{:typedef .. :member .. :proto-number N :resolved-int M}` maps (empty when
+   the contract holds).
+
+   THE CONTRACT. `renderer.c` casts a direct-cast enum's proto int STRAIGHT to
+   the LVGL type — no lookup table stands between them — so the two integers
+   are one integer wearing two names. A `:lut` enum is exempt because its
+   generated table is exactly the indirection that lets the numbers differ.
+
+   WHY THIS CANNOT BE LEFT TO THE COMPILER. Both sides are plain ints, so a
+   divergence is not a type error anywhere: the generated header IS the
+   declaration, and the wrong value simply becomes the enum's meaning. It
+   surfaces as a widget aligning or wrapping wrongly at runtime, arbitrarily
+   far from the pin bump that caused it.
+
+   Members with a nil `:resolved-int` are proto-only SYNTHETICS (no LVGL
+   constant behind them, e.g. `FLEX_FLOW_NONE`); they have nothing to agree
+   with and are skipped rather than reported."
+  [enums]
+  (vec (for [{:keys [typedef-name cast-class members]} enums
+             :when (= :direct cast-class)
+             {:keys [c-name resolved-int proto-number]} members
+             :when (and (some? resolved-int) (not= resolved-int proto-number))]
+         {:typedef typedef-name
+          :member c-name
+          :proto-number proto-number
+          :resolved-int resolved-int})))
+(m/=> direct-cast-parity-violations
+      [:=> [:cat [:vector schema/enum-construct]]
+       [:vector [:map {:closed true}
+                 [:typedef [:string {:min 1}]]
+                 [:member [:maybe [:string {:min 1}]]]
+                 [:proto-number :int]
+                 [:resolved-int :int]]]])

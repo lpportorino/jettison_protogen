@@ -9,13 +9,15 @@
    `apply-numbering` loudly. Growing the registry is a separate, deliberate
    act (`registry/reconcile` + `save-registry!` + a reviewed commit), never a
    side effect of generating."
-  (:require [clojure.java.io :as io]
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
             [clojure.java.shell :as sh]
             [clojure.string :as str]
             [lvgl-codegen.construct.emit :as emit]
             [lvgl-codegen.construct.lift :as lift]
             [lvgl-codegen.construct.registry :as registry]
             [lvgl-codegen.construct.schema :as schema]
+            [lvgl-codegen.style-props :as style-props]
             [malli.core :as m]))
 
 (set! *warn-on-reflection* true)
@@ -31,12 +33,31 @@
    `:proto-type` order (deterministic). The shared front half of every
    emitter (proto text, Clojure bindings, Malli specs)."
   [enum-edn reg]
-  (->> (lift/enum-edn->constructs enum-edn)
-       (filterv #(contains? lift/proto-emitted-typedefs (:typedef-name %)))
-       lift/inject-synthetics
-       (registry/apply-numbering reg)
-       (sort-by :proto-type)
-       vec))
+  ;; COMPLETENESS BEFORE ANYTHING ELSE. The filter below silently yields a
+  ;; shorter set when a typedef is absent, so an incomplete extraction would
+  ;; emit a truncated-but-valid projection and a freshness gate would then
+  ;; blame the committed FILE for being stale. Refuse here, where the shortfall
+  ;; is still visible as a shortfall.
+  (when-let [missing (seq (lift/missing-required-typedefs enum-edn))]
+    (throw (ex-info "Incomplete LVGL extraction: required enum typedefs absent"
+                    {:missing missing
+                     :extracted (count enum-edn)
+                     :required (count lift/required-typedefs)})))
+  (let [enums (->> (lift/enum-edn->constructs enum-edn)
+                   (filterv #(contains? lift/proto-emitted-typedefs (:typedef-name %)))
+                   lift/inject-synthetics
+                   (registry/apply-numbering reg)
+                   (sort-by :proto-type)
+                   vec)]
+    ;; The direct-cast parity contract, checked HERE because this is the shared
+    ;; front half of every emitter — so no emission path can skip it. It has to
+    ;; be a throw rather than a report: the emitters' next step is to write the
+    ;; number into a committed projection, and a wrong direct-cast number is
+    ;; invisible to the C compiler (the generated header IS the declaration).
+    (when-let [violations (seq (lift/direct-cast-parity-violations enums))]
+      (throw (ex-info "Direct-cast enum parity violated: proto number != LVGL header value"
+                      {:violations violations})))
+    enums))
 (m/=> emitted-enums
       [:=> [:cat lift/enum-edn-schema registry/registry-schema]
        [:vector schema/enum-construct]])
@@ -83,10 +104,11 @@
    (`src/lvgl_codegen/generated/enums.clj`) for `enum-edn`, numbered from the
    committed registry.
 
-   UNREACHABLE TODAY: nothing calls this, and nothing in this tree produces the
-   `enum-edn` it needs. The committed output is therefore a projection with no
-   producer and no freshness check — NOT, as an earlier docstring here claimed,
-   one pinned by a staleness test. There is no such test."
+   Reached via this ns's `-main`, which `renderer.mk`'s `construct-bindings`
+   drives: it extracts the enum EDN from the vendored LVGL headers, emits to a
+   temp dir, and byte-compares against the committed copy. So the output is a
+   projection WITH a producer and a freshness gate — the state an earlier
+   docstring here correctly reported as missing."
   [enum-edn out-path]
   (io/make-parents out-path)
   (spit out-path
@@ -100,10 +122,10 @@
   "Write the generated C LUT header (`generated/ui_luts.h`) for the `:lut`
    enums, numbered from the committed registry.
 
-   UNREACHABLE TODAY, and NOT staleness-gated — see `generate-bindings!`. The
-   header it would write is compiled into the renderer, so a drift here is a
-   silently mis-mapped enum the C compiler cannot catch: the header IS the
-   declaration."
+   Reached and staleness-gated the same way as `generate-bindings!` — which
+   matters more here: this header is COMPILED INTO the renderer, so a drift is
+   a silently mis-mapped enum the C compiler cannot catch (the header IS the
+   declaration). That is precisely why the gate emits both from one extraction."
   [enum-edn out-path]
   (io/make-parents out-path)
   (spit out-path
@@ -161,3 +183,76 @@
   nil)
 (m/=> assemble-ui-ast-proto!
       [:=> [:cat lift/enum-edn-schema [:string {:min 1}] [:string {:min 1}]] :nil])
+
+(defn hand-carried-mirror-violations
+  "Every `style-props/lvgl-mirrored-constants` pair whose hand-carried value
+   disagrees with the extracted LVGL header value, as
+   `{:constant .. :carried N :extracted M}` maps (empty when they all agree).
+
+   A constant named in that map but ABSENT from the extraction is itself a
+   violation (`:extracted nil`), not a skip: it means the header stopped
+   declaring it — a rename or removal across an LVGL major — which is exactly
+   the drift the pairing exists to catch. Skipping it would make the guard
+   quietest precisely when it should be loudest."
+  [enum-edn]
+  ;; Destructured to LOCALS that do not shadow clojure.core/name — the keyword
+  ;; keys stay `:name`/`:value` (they are the extractor's on-disk vocabulary).
+  (let [by-name (into {} (for [[_ members] enum-edn
+                               {c-name :name c-value :value} members]
+                           [c-name c-value]))]
+    (vec (for [[c-name carried] (sort style-props/lvgl-mirrored-constants)
+               :let [extracted (get by-name c-name)]
+               :when (not= carried extracted)]
+           {:constant c-name :carried carried :extracted extracted}))))
+(m/=> hand-carried-mirror-violations
+      [:=> [:cat lift/enum-edn-schema]
+       [:vector [:map {:closed true}
+                 [:constant [:string {:min 1}]]
+                 [:carried :int]
+                 [:extracted [:maybe :int]]]]])
+
+(defn- parse-args
+  "Closed --enums/--bindings-out/--luts-out flag pairs; unknown flags fail loud."
+  [args]
+  (reduce (fn [acc [flag value]]
+            (case flag
+              "--enums" (assoc acc :enums value)
+              "--bindings-out" (assoc acc :bindings-out value)
+              "--luts-out" (assoc acc :luts-out value)
+              (throw (ex-info (str "unknown flag: " flag)
+                              {:flag flag
+                               :expected #{"--enums" "--bindings-out" "--luts-out"}}))))
+          {}
+          (partition 2 args)))
+(m/=> parse-args [:=> [:cat [:sequential [:string {:min 1}]]] :map])
+
+(defn -main
+  "Emit BOTH committed projections from one extraction: the Clojure bindings ns
+   to `--bindings-out` and the C LUT header to `--luts-out`, reading the
+   extracted enum EDN named by `--enums`.
+
+   Both destinations are mandatory and never guessed — the caller
+   (`renderer.mk`'s `construct-bindings`) emits to a temp dir and byte-compares,
+   so a destination this tool invented would defeat the freshness check.
+
+   The two are emitted TOGETHER on purpose: they are the same extraction viewed
+   twice (Clojure maps and C tables), numbered from the same assign-once
+   registry, so emitting one without the other is how they drift apart."
+  [& args]
+  (let [{:keys [enums bindings-out luts-out]} (parse-args args)]
+    (doseq [[flag v] [["--enums" enums]
+                      ["--bindings-out" bindings-out]
+                      ["--luts-out" luts-out]]]
+      (when-not v
+        (throw (ex-info (str flag " is required") {:args (vec args)}))))
+    (let [edn (edn/read-string (slurp enums))]
+      (when-let [violations (seq (hand-carried-mirror-violations edn))]
+        (throw (ex-info "Hand-carried LVGL constant disagrees with the header"
+                        {:violations violations})))
+      (generate-bindings! edn bindings-out)
+      (generate-luts! edn luts-out)
+      (println (str "construct-factory: " (count lift/required-typedefs)
+                    " required typedefs emitted (of " (count edn)
+                    " extracted) -> " bindings-out " + " luts-out))))
+  nil)
+(m/=> -main [:=> [:cat [:* [:string {:min 1}]]] :nil])

@@ -2,13 +2,14 @@
  * Proto :lut enum -> LVGL value tables, indexed by proto wire number
  * (assign-once registry). Include AFTER lvgl.h.
  *
- * NO REGENERATION PATH EXISTS IN THIS TREE, and that is the honest
- * status rather than a missing command: factory/generate-luts! takes
- * extracted-enum EDN, and nothing here produces it. So this file is a
- * committed projection whose freshness nothing asserts. Restoring the
- * extractor is what would retire this note -- and it must land WITH a
- * byte-compare freshness lane (renderer.mk `manifests` is the shape:
- * emit to a temp dir, cmp, FATAL on drift). */
+ * Regenerate with `make -f renderer.mk construct-bindings`, which
+ * extracts the enum facts from the vendored LVGL headers, emits to a
+ * temp dir and byte-compares against this file -- so a stale copy is
+ * a RED gate, not a silent drift. The lane runs in check-renderer.
+ *
+ * This header is compiled into the renderer, so a wrong table is a
+ * mis-mapped enum the C compiler cannot catch: the header IS the
+ * declaration. That is why the gate exists. */
 #ifndef UI_LUTS_H
 #define UI_LUTS_H
 

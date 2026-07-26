@@ -43,7 +43,7 @@ RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
-	generated-projection \
+	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
 	wasm-present fixtures-prebuilt gallery-prebuilt interaction-prebuilt
 
@@ -355,8 +355,9 @@ manifests-proto-db:
 # covered here (44 regular + 2 symlinks) and 3 are deliberately not:
 #   theme_tokens.h, gesture_thresholds.h — emitted and cmp'd by `manifests`
 #     above. A second gate over them would be a second home for one fact.
-#   ui_luts.h — has NO source in this repo; its own header says so. It stays
-#     UNCOVERED, said out loud rather than papered over.
+#   ui_luts.h — emitted and cmp'd by `construct-bindings` below, from the
+#     vendored LVGL headers rather than from output/c. Same reason as the
+#     pair above: covered elsewhere, so not a second home here.
 #
 # FIVE WAYS THE OBVIOUS `cp -r output/c renderer/generated` IS WRONG, and where
 # each is handled below:
@@ -485,6 +486,70 @@ generated-projection:
 	[ "$$rc" -eq 0 ] && echo "generated-projection: fresh ($(words $(GENERATED_ROOT_FILES) $(GENERATED_CMD_FILES) $(GENERATED_UI_FILES)) files + $(words $(GENERATED_UI_LINKS)) flatten symlinks vs output/c)"; \
 	exit "$$rc"
 
+# ── The LVGL enum factory: the OTHER projection into renderer/generated ─────
+# `generated-projection` above covers what comes from output/c. These two come
+# from the VENDORED LVGL HEADERS instead, via the construct factory:
+#   src/lvgl_codegen/generated/enums.clj  — four namespaces require it
+#   renderer/generated/ui_luts.h          — COMPILED INTO the renderer
+#
+# WHY THIS LANE IS NOT OPTIONAL POLISH. A whole set of enum typedefs is
+# DIRECT-CAST (lvgl-codegen.construct.lift/direct-cast-typedefs is its home,
+# deliberately not restated as a count here):
+# renderer.c casts the proto int straight to the LVGL value, so the proto
+# number must EQUAL the header value. LVGL is a re-syncable vendored port
+# (renderer/lvgl/.ported-from.edn), and a bump that shifts one enumerator is a
+# silently mis-mapped enum — the C compiler cannot catch it, because the
+# generated header IS the declaration. Before this lane existed both files were
+# committed projections with no producer and nothing asserting their freshness.
+#
+# THE EXTRACTOR NEEDS THREE THINGS THE DEFAULTS GET WRONG in this tree, which
+# is why they are passed explicitly rather than left to the script:
+#   LVGL_DIR/CONF_DIR — its defaults point at $REPO/lvgl, but the tree is
+#     renderer/lvgl + renderer/lv_conf.h.
+#   CLANG — the container's clang is the WASI one and is NOT on PATH. It is
+#     used ONLY for the AST dump, which supplies enum GROUPING (typedef names);
+#     a wasm32 target is fine for that.
+#   CC=gcc — the VALUES come from a natively-compiled probe, and the C compiler
+#     is the only correct oracle for them (sequential enumerators, `A | B`
+#     bitmasks, macro-derived values). This must be the NATIVE compiler.
+# Both files are emitted from ONE extraction because they are the same facts
+# viewed twice; emitting either alone is how the two would drift apart.
+construct-bindings:
+	@tmp="$$(mktemp -d)"; \
+	LVGL_DIR="$(CURDIR)/$(R)/lvgl" CONF_DIR="$(CURDIR)/$(R)" \
+	CLANG="$${CLANG:-/opt/wasi-sdk/bin/clang}" CC="$${CC:-gcc}" \
+	OUT_DIR="$$tmp/extract" \
+	  $(RGEN)/tools/lvgl-extract/extract-lvgl-enums.sh >"$$tmp/lvgl-enums.edn" \
+	  || { rm -rf "$$tmp"; echo "FATAL: LVGL enum extraction failed" >&2; exit 1; }; \
+	: "COMPLETENESS is asserted in the factory, not here, and deliberately so."; \
+	: "A shell test for an EMPTY table cannot work: the extractor's final awk"; \
+	: "closes its map unconditionally, so a zero-record run still emits '}' —"; \
+	: "non-empty by every shell test, and contentless. And emptiness is the"; \
+	: "wrong question anyway; the failure that happens is a PARTIAL extraction"; \
+	: "(an lv_conf.h feature flag off, an upstream header move). Only the"; \
+	: "factory knows which typedefs it consumes, so lift/required-typedefs is"; \
+	: "the one home of that fact and emitted-enums refuses there — before any"; \
+	: "truncated projection can reach the cmp/cp below."; \
+	( cd $(RGEN) && clojure -M -m lvgl-codegen.construct.factory \
+	    --enums "$$tmp/lvgl-enums.edn" \
+	    --bindings-out "$$tmp/enums.clj" \
+	    --luts-out "$$tmp/ui_luts.h" ) \
+	  || { rm -rf "$$tmp"; echo "FATAL: factory emit failed" >&2; exit 1; }; \
+	rc=0; \
+	for pair in \
+	  "enums.clj:$(RGEN)/src/lvgl_codegen/generated/enums.clj" \
+	  "ui_luts.h:$(R)/generated/ui_luts.h"; do \
+	  f="$${pair%%:*}"; d="$${pair##*:}"; \
+	  if ! cmp -s "$$d" "$$tmp/$$f"; then \
+	    cp "$$tmp/$$f" "$$d"; \
+	    echo "FATAL: $$d was STALE vs a fresh extraction — regenerated in place; review and commit it." >&2; \
+	    rc=1; \
+	  fi; \
+	done; \
+	rm -rf "$$tmp"; \
+	[ "$$rc" -eq 0 ] && echo "construct-bindings: fresh (enums.clj + ui_luts.h vs a live LVGL extraction)"; \
+	exit "$$rc"
+
 # ── Devcards unit suite ─────────────────────────────────────────────────────
 # The pure-helper tests (tools/devcards/test — dump-tree reductions, image
 # math). No wasm / proto-classes needed, so it runs early and fails cheap.
@@ -528,5 +593,5 @@ graal-check:
 	  exit 1; }
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
-check-renderer: graal-check generated-projection manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
-	@echo "renderer battery: GREEN (generated-projection + manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"
+check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
+	@echo "renderer battery: GREEN (generated-projection + construct-bindings + manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"

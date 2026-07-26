@@ -17,7 +17,9 @@
 #
 # This is the foundation layer for:
 #   (a) the direct-cast PARITY GATE  — assert proto enum int == LVGL enum int
-#       for the ~16 enums renderer.c casts straight to LVGL types;
+#       for the enums renderer.c casts straight to LVGL types (the set is
+#       lvgl-codegen.construct.lift/direct-cast-typedefs — its one home; a
+#       count copied to here would rot the next time that set grows);
 #   (b) the COVERAGE MATRIX           — the full set of values visual tests cover;
 #   (c) CODEGEN                       — proto / clojure / malli emission.
 #

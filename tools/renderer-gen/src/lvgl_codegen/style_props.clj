@@ -27,9 +27,10 @@
 ;; -- LVGL state selectors + breakpoint tiers (the class-DSL prefix surface,
 ;; shared with the nested :style state/breakpoint maps) --
 ;; LVGL state selector constants (lv_state_t in lvgl/src/core/lv_obj_style.h).
-;; Guarded by the lv_state_t parity assertions in lvgl-parity-test: these
-;; renumbered across LVGL majors, and a stale value silently binds the
-;; style to the WRONG state.
+;; Guarded via `lvgl-mirrored-constants` below, which
+;; `make -f renderer.mk construct-bindings` checks against a live extraction of
+;; the vendored headers: these renumbered across LVGL majors, and a stale value
+;; silently binds the style to the WRONG state.
 (def ^:const lv-state-default 0x0000)
 
 (def ^:const lv-state-pressed 0x0080)
@@ -47,9 +48,9 @@
   {:pressed lv-state-pressed :focused lv-state-focused :disabled lv-state-disabled})
 
 ;; LVGL widget-part selectors (lv_part_t in lvgl/src/core/lv_obj_style.h).
-;; Hand-carried constants like the state selectors above, guarded by the
-;; lv_part_t parity assertions in lvgl-parity-test: a stale value would
-;; silently bind a style to the WRONG widget part. The wire's
+;; Hand-carried constants like the state selectors above, guarded the same way
+;; (`lvgl-mirrored-constants` below, checked by `construct-bindings`): a stale
+;; value would silently bind a style to the WRONG widget part. The wire's
 ;; StyleGroup.state_selector is a full lv_style_selector_t, so part bits
 ;; ride the existing field — no proto or renderer change.
 (def ^:const lv-part-scrollbar 0x010000)
@@ -63,6 +64,28 @@
 (def ^:const lv-part-items 0x050000)
 
 (def ^:const lv-part-cursor 0x060000)
+
+(def lvgl-mirrored-constants
+  "Every hand-carried constant above, paired with the LVGL C constant it MUST
+   equal. This map is the guard's input, and it sits here because the constants
+   are here: a new `lv-state-*`/`lv-part-*` added without a pair silently opts
+   out of the check, which is why the pairing lives beside the definitions
+   rather than in the checker.
+
+   Checked by `make -f renderer.mk construct-bindings`, which extracts the real
+   values from the vendored LVGL headers. These renumbered across LVGL majors,
+   and a stale value binds a style to the WRONG state or part — silently, since
+   both sides are plain ints."
+  {"LV_STATE_DEFAULT" lv-state-default
+   "LV_STATE_PRESSED" lv-state-pressed
+   "LV_STATE_FOCUSED" lv-state-focused
+   "LV_STATE_DISABLED" lv-state-disabled
+   "LV_PART_SCROLLBAR" lv-part-scrollbar
+   "LV_PART_INDICATOR" lv-part-indicator
+   "LV_PART_KNOB" lv-part-knob
+   "LV_PART_SELECTED" lv-part-selected
+   "LV_PART_ITEMS" lv-part-items
+   "LV_PART_CURSOR" lv-part-cursor})
 
 (def part-selector
   "Widget-part name → LVGL part selector, OR'd into the style selector by
