@@ -29,5 +29,5 @@ Show what proto documentation is missing and provide context for the next item t
 After reviewing the output, use the `doc-fill` skill to interactively document the message.
 
 ```bash
-bb /home/jare/git/jettison_protogen/docs/.protodoc/scripts/doc-next.clj /home/jare/git/jettison_protogen/docs/.protodoc/proto-db.edn
+bb ./docs/.protodoc/scripts/doc-next.clj ./docs/.protodoc/proto-db.edn
 ```

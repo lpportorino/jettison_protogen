@@ -17,5 +17,5 @@ Search the proto documentation database for messages, fields, or enums.
 - `[enum] ser.JonGuiDataClientType` - Enum
 
 ```bash
-bb /home/jare/git/jettison_protogen/docs/.protodoc/scripts/proto-search.clj "$ARGUMENTS" /home/jare/git/jettison_protogen/docs/.protodoc/proto-db.edn
+bb ./docs/.protodoc/scripts/proto-search.clj "$ARGUMENTS" ./docs/.protodoc/proto-db.edn
 ```

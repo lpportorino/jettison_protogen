@@ -21,5 +21,5 @@ Display documentation coverage statistics for the proto schema database.
 ```
 
 ```bash
-bb /home/jare/git/jettison_protogen/docs/.protodoc/scripts/proto-coverage.clj /home/jare/git/jettison_protogen/docs/.protodoc/proto-db.edn
+bb ./docs/.protodoc/scripts/proto-coverage.clj ./docs/.protodoc/proto-db.edn
 ```

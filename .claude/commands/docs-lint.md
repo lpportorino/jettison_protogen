@@ -25,5 +25,5 @@ incomplete interaction metadata, invalid cross-references, empty enum values, an
 ```
 
 ```bash
-bb /home/jare/git/jettison_protogen/docs/.protodoc/scripts/proto-lint.clj /home/jare/git/jettison_protogen/docs/.protodoc/proto-db.edn
+bb ./docs/.protodoc/scripts/proto-lint.clj ./docs/.protodoc/proto-db.edn
 ```
