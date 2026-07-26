@@ -8,9 +8,9 @@
    table from protogen's committed JSON FileDescriptorSet, protodoc
    cross-links, and the corpus spec widget's :notes as known limitations.
    Plus docs/widgets/README.md (all-widget index + kitchen-sink section +
-   states legend) and docs/widgets/kitchen-sinks/ (the 6 authored
+   states legend) and docs/widgets/kitchen-sinks/ (the authored
    compositions get their own gallery dir — recorded call: a sink is not a
-   WidgetType, so it must not masquerade as a widget page, and burying six
+   WidgetType, so it must not masquerade as a widget page, and burying the
    compositions in the index would hide the only multi-widget renders).
 
    The F2 gotchas this generator pins:
@@ -287,7 +287,8 @@
      "[widget gallery index](../README.md)\n")))
 
 (defn legos-page-md
-  "The composition-legos gallery page: the 3 sheets over the
+  "The composition-legos gallery page: a caption x family image grid (one
+   JPEG per card x family — devcards.gallery/family-renders) over the
    authored-composition corpus (corpus/composition.edn — the source of
    this page, beside the atomic spec) + a table linking each card to its
    `devcards.legos` maker and its contract notes."
@@ -312,7 +313,8 @@
        "\n\n---\n" "Cross-links: [widget gallery index](../README.md)\n"))
 
 (defn sinks-page-md
-  "The kitchen-sinks gallery page: the 3 sheets over all 6 authored
+  "The kitchen-sinks gallery page: a caption x family image grid (one JPEG
+   per card x family) over all the authored
    compositions + a table linking each sink to its member widget pages.
    `tag->enum` resolves spec widget tags to page dirs."
   ^String [sinks tag->enum rows]
@@ -343,7 +345,7 @@
    states, asgard-dark preview), the kitchen-sink section, and the states
    legend (a generated projection of the conventions manifest's
    :state-selectors — the manifest stays the one home)."
-  ^String [registry state-selectors previews]
+  ^String [registry state-selectors previews sink-count]
   (str
    do-not-edit-header
    "# Widget gallery\n\n"
@@ -363,7 +365,7 @@
                 (throw (ex-info "no preview image for widget index row" {:enum enum})))
             ")](./" enum "/README.md)")]))
    "\n\n## Kitchen sinks\n\n"
-   "Six authored multi-widget compositions render on their own page: "
+   sink-count " authored multi-widget compositions render on their own page: "
    "[kitchen sinks](./kitchen-sinks/README.md).\n\n"
    "[![kitchen sinks](./kitchen-sinks/" (get previews "kitchen-sinks") ")]"
    "(./kitchen-sinks/README.md)\n\n"
@@ -482,7 +484,8 @@
                      (assoc "kitchen-sinks" (unit-preview sink-rows)
                             "legos" (unit-preview legos-rows)))
         index-file (docgen/write-text! (str out-dir "/README.md")
-                                       (index-page-md registry (:state-selectors conv) previews))
+                                       (index-page-md registry (:state-selectors conv)
+                                                      previews (count sink-rows)))
         files (-> widget-files
                   (into sink-files)
                   (into legos-files)

@@ -237,7 +237,11 @@
   findings)
 
 (def builtin-producers
-  "The two lanes protogen's own corpus runs, expressed as producers.
+  "The registry's DEFAULT producer menu — the DOM and emission lanes in their
+   plain, single-mode form. NOT protogen's armed set: its gate names its own
+   producers in `devcards.lanes` (`tree-producer` for atomic cards, the
+   `:tree` builtin plus `emission-by-mode-producer` for compositions), so the
+   `:emission` entry below is run by nothing in this repo.
 
    Both declare EVERY input they read, and neither defaults a missing one.
    An earlier shape had `:tree` require only `:tree` and fall back to
@@ -311,8 +315,10 @@
 (defn card-findings
   "The full judgment for one rendered card: every registered producer,
    exemptions applied. Returns {:live [..] :exempted [..]
-   :stale-exemptions [..]}; the gate fails on any :live or
-   :stale-exemptions entry.
+   :stale-exemptions [..]}. A gate fails on any :live entry;
+   :stale-exemptions is COMPUTED here but the CALLER must fail on it itself —
+   protogen's own lanes take :live only and supply no exemptions, so nothing
+   in this repo arms that ratchet yet.
 
    Opts are the context inputs above plus :producers (default
    `builtin-producers`), :thresholds (consumer-supplied, namespaced by

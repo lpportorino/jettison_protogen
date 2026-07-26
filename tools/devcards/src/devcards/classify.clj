@@ -19,14 +19,14 @@
    up. It is a CLASS, not an instance: a per-instance fact such as `this
    button is disabled` is read off the node, never off this table.
 
-   What a per-instance fact CANNOT be read off, today: whether this
-   particular object still carries LV_OBJ_FLAG_CLICKABLE. The renderer
-   clears it at runtime on a STATIC host_proxy box so the pointer falls
-   through (renderer.c:1966), but dump_obj emits only hidden/checked/
-   disabled, so no rule can see it. A type-keyed :interactive? therefore
-   counts such an instance IN when the pointer path has already let it
-   out — an OVER-report direction, named here rather than left for a
-   consumer to discover from a finding it cannot explain.
+   A per-instance fact this table must be INTERSECTED with, rather than
+   trusted over: whether this particular object still carries
+   LV_OBJ_FLAG_CLICKABLE. The renderer clears it at runtime on a STATIC
+   host_proxy box so the pointer falls through (renderer.c:1966), and no
+   type-keyed :interactive? can express that. dump_obj emits a `clickable`
+   key set false when the flag is clear, and `devcards.overlap` consumes it
+   — so a rule that reads only this table still OVER-reports there, and the
+   fix is to read the node too, not to widen the table.
 
    THE POINT OF THE NS: an undeclared type is a FINDING, never a skip. A
    rule that silently passes over what it could not classify reports

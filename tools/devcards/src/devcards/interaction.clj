@@ -212,10 +212,10 @@
 ;; ── long EventBinding.name (command-id truncation regression) ─────────────
 (def ^:private long-command-id
   "A 127-char dotted command-id — the MAXIMUM the EventBinding.name chain can
-   carry untruncated (UI_EVENT_NAME_BUF = 128, so 127 chars + the NUL). Widened
-   from the old 73-char probe (which only cleared the retired char[64] ceiling)
-   to the true buffer boundary, so a one-off narrowing of ANY buffer on the chain
-   below the full 128 — not merely below 64 — is caught. A real collect-event
+   carry untruncated (UI_EVENT_NAME_BUF = 128, so 127 chars + the NUL). Sized to
+   the BUFFER boundary rather than to any one struct's field, so a one-off
+   narrowing of ANY buffer on the chain is caught, not merely a narrowing past
+   some smaller landmark. A real collect-event
    PREFIX (cmd.Heater.SetAutomaticControlParams…) padded to the 127-char boundary;
    all chars are alnum/./_ so no JSON escaping alters the emitted length."
   "cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature_setpoint_high_alarm_hysteresis_band_millikelvin_calib")

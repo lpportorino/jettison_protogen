@@ -11,7 +11,8 @@
    (proven geometry at dpi 160); everything semantic stays caller-side —
    a lego emits host-event IDENTITIES, never behavior.
 
-   The two legos:
+   The legos — the authoritative set is the closed `devcards.composition/makers`
+   map, and a new lego is a corpus + legos change that registers there:
    - `scrubber` — a media position bar: played + optional buffered bands,
      tap/drag seek via one host event. Anatomy: a bar underlay (track +
      buffered extent) beneath a transparent-track slider overlay (played

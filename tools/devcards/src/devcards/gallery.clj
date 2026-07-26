@@ -5,16 +5,16 @@
    800x480 canvas). One card is the gallery unit: never a second fixture
    set, never re-authored cards.
 
-   ONE IMAGE PER (card, family), NO LABEL BAKED IN. The doc set was three
-   packed contact SHEETS per widget — many cells crammed into one JPEG with
-   a label drawn under each. That packing put a short cell's label under the
-   TALLEST cell in its row (labels floated far from their card), and left
-   large dead gutters under short cells. Both are gone by construction: each
-   card renders to its own tight crop, and the caption lives in the README
-   grid as real markdown text that cannot drift from its image. The browser
-   packs the grid; no packing algorithm here can get it wrong. Kitchen-sink
-   cards are whole-screen compositions, so their per-card image already IS a
-   composite screen — same rule, no special case.
+   ONE IMAGE PER (card, family), NO LABEL BAKED IN — and both halves are
+   load-bearing. Each card renders to its own tight crop, and the caption
+   lives in the README grid as real markdown text that cannot drift from its
+   image. Do not go back to packing many cells into one JPEG with labels
+   drawn under them: a packer has to put a short cell's label somewhere, and
+   under the tallest cell in its row is where it lands, floating labels away
+   from their cards and leaving dead gutters. Leave the packing to the
+   browser, which cannot get it wrong. Kitchen-sink cards are whole-screen
+   compositions, so their per-card image already IS a composite screen — same
+   rule, no special case.
 
    Three families per card — the committed doc set:
    - vanilla        family 1, dark  (the stock-idempotent layer)
@@ -40,18 +40,16 @@
    job is bbox-external bleed on the open sides (measured worst case ~4px
    outline + AA — well inside jpeg/default-crop-margin).
 
-   QUALITY VERDICT (the pinned 0.85-vs-0.90 conditional, measured on the
-   text-heavy light-theme spot-check — the WIDGET_TEXTAREA asgard-light
-   sheet, 12 text cells, 1352x238): q0.85 = 44,409 bytes, q0.90 = 50,664
-   bytes (1.14x); decode-vs-original per-channel mean abs error 0.694
-   (q0.85) vs 0.497 (q0.90) on 0..255, max channel error 67 vs 64
-   (isolated glyph-edge ringing px — 0.90 does not eliminate it), pixels
-   with any channel delta > 10: 1.13% vs 0.58%, PSNR 41.0 dB vs 43.0 dB.
-   Both sit in the visually-transparent band (PSNR > 40 dB) and the error
-   concentrates on antialiased glyph edges, not flat light-theme fields
-   (banding would read as large flat-area MAE — absent at 0.7/255 mean).
-   VERDICT: KEEP jpeg/default-quality 0.85; the 0.90 fallback stays
-   unneeded."
+   QUALITY VERDICT: KEEP `jpeg/default-quality` at its pinned value; the
+   higher-quality fallback stays unneeded. The decision was measured on the
+   worst case for JPEG — a text-heavy light-theme render — where both
+   candidate qualities sat in the visually-transparent band (PSNR > 40 dB)
+   and the error concentrated on antialiased glyph edges rather than flat
+   fields, which is what banding would look like. The measured SUBJECT no
+   longer exists: it was a packed multi-cell contact sheet, and the doc set
+   is now one tight crop per (card, family). Re-measure on a current
+   text-heavy card before moving the pin, rather than trusting figures taken
+   against an artifact shape this namespace no longer produces."
   (:require [clojure.data.json :as json]
             [clojure.string :as str]
             [devcards.host :as host]
@@ -61,9 +59,11 @@
 (set! *warn-on-reflection* true)
 
 (def family-renders
-  "The three committed gallery render sets, in doc-page order. :file-suffix
-   names the artifact (<WIDGET>-<suffix>.jpg); :title heads the doc-page
-   section. Closed — a fourth set is a deliberate doc-contract change."
+  "The committed gallery render sets, in doc-page order. :file-suffix is the
+   FAMILY SEGMENT of the per-card artifact name — `devcards.docs/card-file-name`
+   assembles the whole thing and owns the format, so read it there rather than
+   spelling it here. :title heads the doc-page section. Closed — a further set
+   is a deliberate doc-contract change."
   [{:key :vanilla
     :file-suffix "vanilla"
     :family 1

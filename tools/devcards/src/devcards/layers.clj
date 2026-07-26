@@ -152,14 +152,13 @@
    index order, so the later node in a depth-first pre-order traversal
    paints later.
 
-   This used to call `(compare (:path a) (:path b))` and describe it as
-   lexicographic. Clojure's vector `compare` is COUNT-first — `(compare
-   [0 0] [1])` is 1, though [0 0] paints first — so it inverted the verdict
-   for every pair whose earlier node is DEEPER than its later one, which is
-   the ordinary shape of nested chrome. It was also redundant: the caller
-   already enumerates pairs in pre-order, so the comparison could only ever
-   disagree with the order it was being asked to reproduce. Returning `b`
-   is both the fix and the whole of it."
+   Do NOT reach for `(compare (:path a) (:path b))` here. Clojure's vector
+   comparator is COUNT-first, not lexicographic — `(compare [0 0] [1])` is
+   positive though [0 0] paints first — so it inverts the answer for every
+   pair whose earlier node is DEEPER, which is the ordinary shape of nested
+   chrome. It would also be redundant: the caller already enumerates pairs in
+   pre-order, so any comparison here could only disagree with the order it was
+   asked to reproduce. Returning `b` is the whole of it."
   [proxy-paths a b]
   (let [pa (proxy-surface? proxy-paths a)
         pb (proxy-surface? proxy-paths b)]

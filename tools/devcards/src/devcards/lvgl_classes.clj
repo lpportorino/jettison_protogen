@@ -46,8 +46,11 @@
    occlusion of them is damage. :structural is chrome whose partial
    covering is ordinary composition.
 
-   KNOWN TENSION, flagged rather than silently resolved: the closed role
-   set was fixed against a 7-class census and this renderer emits 23. The
+   KNOWN TENSION, flagged rather than silently resolved: the closed role set
+   was fixed against a far narrower census than the class set this renderer
+   actually emits — run the `class-census` probe for both live counts rather
+   than trusting a number copied here, which rots the next time a widget
+   lands. The
    name :text reads as 'glyphs', but the property that matters is 'a human
    reads this, so occlusion is damage' — which is equally true of a bar, a
    gauge, an LED and a table. They are :text here on the semantic, not the

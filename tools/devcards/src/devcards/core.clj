@@ -18,7 +18,9 @@
      public-lego cards, plus the :inert-prop pixel-inertness pin and the
      GraalWasm interaction lane (devcards.interaction); every card's
      bytes persist under out/composition/ for the wasmtime mirror suite.
-   `verify` re-renders family-0 against the committed manifests.
+   The CLI has exactly these two modes; anything else exits 2. `generate`
+   RE-MINTS the manifests rather than checking them, so drift against the
+   committed ones is caught by CI's freshness step, never by this run.
 
    `gallery` is the T2.7 doc build (recorded call: a core mode, not a
    dev/ script — the pipeline has ONE CLI and the gallery is a pipeline

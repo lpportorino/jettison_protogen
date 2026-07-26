@@ -38,7 +38,7 @@ Per-widget rendered doc pages, generated from the same corpus the devcard gates 
 
 ## Kitchen sinks
 
-Six authored multi-widget compositions render on their own page: [kitchen sinks](./kitchen-sinks/README.md).
+6 authored multi-widget compositions render on their own page: [kitchen sinks](./kitchen-sinks/README.md).
 
 [![kitchen sinks](./kitchen-sinks/kitchen-sinks-form-row-asgard-dark.jpg)](./kitchen-sinks/README.md)
 

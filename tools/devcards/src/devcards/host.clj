@@ -41,8 +41,8 @@
    Polyglot DEGRADES SILENTLY: on a JDK without JVMCI + the Graal compiler it
    builds a working engine that interprets every wasm instruction, prints a
    WARNING nobody reads in a 25-minute log, and produces identical results —
-   only far slower. Measured on this corpus: 1404 renders took 407.9s
-   interpreted (~290ms each) versus 19.2s with the optimizing runtime — the
+   only far slower. Measured on this corpus: ~290ms per render interpreted,
+   against roughly a twentieth of that with the optimizing runtime — the
    single largest leg of the renderer battery, spent on a misconfiguration
    rather than on work.
 
@@ -217,8 +217,10 @@
   (.asInt ^Value (call! "controls_set_dpi" dpi)))
 
 (defn set-theme-family!
-  "controls_set_theme_family: 0=asgard (default) / 1=vanilla (stock-identical
-   idempotency layer). ABI 3+ only — the runner checks :abi before calling."
+  "controls_set_theme_family: the family ids are `asgard_theme_family_t` in
+   renderer/src/theme.h (asgard is the default; the vanilla-vs-stock hash
+   equality is the idempotency gate — see gates/vanilla-stock-findings). ABI 3+
+   only — the runner checks :abi before calling."
   ^long [{:keys [call! abi]} ^long family]
   (when (< abi 3) (throw (ex-info "theme-family requires ABI >= 3" {:abi abi})))
   (.asInt ^Value (call! "controls_set_theme_family" family)))
