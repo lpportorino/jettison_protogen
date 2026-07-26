@@ -19,8 +19,9 @@ make -f renderer.mk $ARGUMENTS
 ```
 
 Any target in `renderer.mk`'s `.PHONY` list is a valid lane — see "What each
-lane proves" below for the battery phases; `fixtures-prebuilt` / `gallery-prebuilt`
-are the CI prebuilt-wasm variants.
+lane proves" below for the battery phases; `fixtures-prebuilt` /
+`gallery-prebuilt` / `interaction-prebuilt` are the CI prebuilt-wasm variants,
+for a host with no WASI toolchain.
 
 **Otherwise**, run the full battery:
 
@@ -36,7 +37,8 @@ make -f renderer.mk check-renderer
 - `harness` — wasmtime `visual_regression` over freshly regenerated fixtures.
 - `interaction` — cross-engine mirror: wasmtime re-renders the SAME bytes the
   GraalWasm devcards runner built, byte-compares the framebuffers, and replays
-  the pointer contract (needs `fixtures` to have run first).
+  the pointer contract (takes `fixtures` as a prerequisite and builds it;
+  `interaction-prebuilt` takes `fixtures-prebuilt` instead).
 - `oracles` — `morph-parity` (tree-patch vs full reload) + `matrix` (dual-oracle
   (property, value) rows) + `demo-parity` (`lv_demo_widgets` bit-equal per tab).
 

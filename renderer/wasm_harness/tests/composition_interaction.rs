@@ -10,12 +10,12 @@
 //! agreement of the two production-host engines on every pixel and every
 //! envelope is what this suite pins.
 //!
-//! Inputs are repo-relative, produced by the devcards runner
-//! (`make -f renderer.mk fixtures` persists them under
+//! Inputs are repo-relative, produced by the devcards runner (`fixtures`, or
+//! `fixtures-prebuilt` on a host with no WASI toolchain, persists them under
 //! tools/devcards/out/composition/): cards/<slug>.pb +
 //! fb/<slug>_dark<d>.raw, plus renderer/output/controls.wasm +
-//! renderer/assets. A missing input is a battery SEQUENCING bug (run
-//! `fixtures` first) — fail loud, never skip.
+//! renderer/assets. A missing input is a battery SEQUENCING bug (run the
+//! matching devcards lane first) — fail loud, never skip.
 #![allow(
     clippy::expect_used,
     clippy::unwrap_used,
@@ -64,8 +64,9 @@ fn devcards_input(rel: &str) -> PathBuf {
     let p = repo_root().join("tools/devcards/out/composition").join(rel);
     assert!(
         p.exists(),
-        "{} missing — run `make -f renderer.mk fixtures` first (the devcards runner \
-         persists the composition cards + framebuffers)",
+        "{} missing — run `make -f renderer.mk fixtures` first, or `fixtures-prebuilt` \
+         if this host has no WASI toolchain (the devcards runner persists the \
+         composition cards + framebuffers)",
         p.display()
     );
     p

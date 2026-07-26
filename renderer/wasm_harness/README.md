@@ -14,7 +14,7 @@ has no WASI-SDK):
 
 ```sh
 make -f renderer.mk harness         # regen fixtures (tools/renderer-gen) → cargo test --test visual_regression
-make -f renderer.mk interaction     # the cross-engine mirror suite (after `make -f renderer.mk fixtures`)
+make -f renderer.mk interaction     # the cross-engine mirror suite (builds the cards it needs)
 make -f renderer.mk morph-parity    # the tree-patch dual oracle
 make -f renderer.mk check-renderer  # the whole battery
 ```
@@ -69,7 +69,9 @@ Straight (non-premultiplied) alpha: consumers must composite (see
   card bytes the GraalWasm devcards runner persisted under
   `tools/devcards/out/composition/`, byte-compares the raw framebuffers, and
   replays the pointer contract (press-seek / drag / ext-click envelope /
-  dock-fold). `make -f renderer.mk interaction` (needs `fixtures` first).
+  dock-fold). `make -f renderer.mk interaction` builds those cards itself via
+  its `fixtures` prerequisite; `interaction-prebuilt` is the sibling for a host
+  with no WASI toolchain, taking `fixtures-prebuilt` against a downloaded wasm.
 - `morph_parity.rs` — dual-oracle tree-patch parity: `load_ui(base) +
   apply_patch` vs a fresh `load_ui(target)`, `dump_tree` byte-equal +
   framebuffer pixel-identical, plus state-preservation and failure contracts.

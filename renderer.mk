@@ -44,7 +44,7 @@ RGEN := tools/renderer-gen
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
-	wasm-present fixtures-prebuilt gallery-prebuilt
+	wasm-present fixtures-prebuilt gallery-prebuilt interaction-prebuilt
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -115,22 +115,51 @@ harness: wasm proto-classes
 # the raw framebuffers cross-engine, and replays the pointer contract
 # natively (press-seek / drag / ext-click envelope / dock fold).
 #
-# `fixtures` is a DECLARED prerequisite, not merely a documented one. The
+# The card source is a DECLARED prerequisite, not merely a documented one. The
 # ordering used to rest on check-renderer happening to list fixtures earlier —
 # which meant `make -f renderer.mk interaction` on its own hit the guard below
 # instead of building what it needs, and which a parallel build would discard
 # outright (make is free to start an unconstrained target at any time).
 #
-# The guard STAYS. It is not redundant with the edge: the edge makes make BUILD
-# the cards, the guard catches them being absent for any other reason, and it is
-# also the thing that would fire first if this dependency were ever removed
-# again. A missing input is a sequencing bug, never a skip.
+# That edge is exactly why this lane needs a PREBUILT sibling, and why it cannot
+# be one target: `fixtures` depends on `wasm`, so declaring it made the lane
+# unrunnable on a runner with no WASI toolchain — the CI fixtures job, which
+# consumes the battery job's uploaded wasm precisely so the corpus is judged
+# against the SAME bytes the bit-identity step hashed. Provisioning a second
+# clang there would rebuild the wasm OVER the downloaded artifact, which is the
+# drift the artifact handoff exists to prevent. So `interaction` joins the
+# established `*-prebuilt` family (fixtures/gallery) instead: same suite, same
+# guard, differing only in HOW the cards arrive.
+#
+# The two entry points share ONE recipe home. Splitting the guard + cargo run
+# into a third target they both depend on would be WRONG for the same reason the
+# missing edge was: sibling prerequisites carry no ordering, so a parallel build
+# could run the suite before the cards exist.
+#
+# The recipe takes the CARD SOURCE as $(1) purely so the guard can name the
+# target the CALLER can actually run. A fixed string would tell a WASI-less host
+# to run `fixtures` — the WASI-only target whose absence is the entire reason
+# interaction-prebuilt exists — sending the operator straight into the failure
+# this lane was split to avoid. A fail-loud message that misdirects is worse
+# than a terse one.
+#
+# The guard STAYS in both. It is not redundant with the edge: the edge makes make
+# BUILD the cards, the guard catches them being absent for any other reason, and
+# it is also the thing that would fire first if either dependency were ever
+# removed again. A missing input is a sequencing bug, never a skip.
+define interaction-suite
+@test -d tools/devcards/out/composition/cards || { \
+	echo "FATAL: tools/devcards/out/composition missing — run 'make -f renderer.mk $(1)' first" >&2; \
+	exit 1; }
+cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
+	cargo test --test composition_interaction
+endef
+
 interaction: fixtures
-	@test -d tools/devcards/out/composition/cards || { \
-		echo "FATAL: tools/devcards/out/composition missing — run 'make -f renderer.mk fixtures' first" >&2; \
-		exit 1; }
-	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
-		cargo test --test composition_interaction
+	$(call interaction-suite,fixtures)
+
+interaction-prebuilt: fixtures-prebuilt
+	$(call interaction-suite,fixtures-prebuilt)
 
 # ── Reload-cycle regression (full-load teardown; NOT a morph oracle) ────────
 # Repeated controls_load_ui sequences the morph oracles structurally cannot
