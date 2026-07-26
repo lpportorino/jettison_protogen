@@ -43,6 +43,7 @@ RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
+	generated-projection \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
 	wasm-present fixtures-prebuilt gallery-prebuilt interaction-prebuilt
 
@@ -318,6 +319,164 @@ manifests-proto-db:
 	[ "$$rc" -eq 0 ] && echo "manifests: proto-db trio fresh (signals + sub-signals + endpoints)"; \
 	exit "$$rc"
 
+# ── renderer/generated freshness (the nanopb projection) ────────────────────
+# renderer/generated/ is where wasm.mk's -Igenerated points, and everything the
+# interpreter compiles out of it is a PROJECTION of output/c — the nanopb
+# bindings generate-protos.sh emits from proto/, plus the nanopb runtime it
+# copies out of the pinned /opt/nanopb. Nothing produced that projection and
+# nothing compared it, so it was hand-maintained: a proto change refreshed
+# output/c while these files stayed put, and the reference interpreter went on
+# compiling against the OLD field tags with every gate green. The failure is
+# silent by construction — the wasm builds, the oracles agree with each other,
+# and the only thing that disagrees is the wire.
+#
+# So: project-then-diff, the same shape `manifests` above uses, and cmp rather
+# than `git diff` for the same reason it does — this runs inside the toolchain
+# container where protogen is a submodule and its .git is not resolvable. A
+# stale copy is rewritten IN PLACE and the gate reds; review it and commit.
+#
+# NO PREREQUISITES, deliberately: both sides are COMMITTED, so this is a
+# sub-second cmp loop over 44 files with nothing to build. That is why it runs
+# at the front of the battery — a stale binding makes every downstream result
+# meaningless, so it has to fail before anything is compiled. It sits SECOND
+# rather than first only because graal-check's primacy is itself documented and
+# load-bearing; both report in well under a second, so which of the two speaks
+# first is immaterial, and demoting a stated invariant to win a tie is not.
+#
+# WHAT IS AND IS NOT PROJECTED. renderer/generated tracks 49 files; 46 are
+# covered here (44 regular + 2 symlinks) and 3 are deliberately not:
+#   theme_tokens.h, gesture_thresholds.h — emitted and cmp'd by `manifests`
+#     above. A second gate over them would be a second home for one fact.
+#   ui_luts.h — has NO source in this repo; its own header says so. It stays
+#     UNCOVERED, said out loud rather than papered over.
+#
+# FIVE WAYS THE OBVIOUS `cp -r output/c renderer/generated` IS WRONG, and where
+# each is handled below:
+#   1. It DESTROYS the two mode-120000 symlinks under generated/ui/. Only FLAT
+#      regular files are copied here; the symlinks get their own loop, which
+#      asserts them and recreates one that drifted.
+#   2. The flattening is ASYMMETRIC: output/c/ui/ui_ast.pb.c must land at
+#      generated/ui_ast.pb.c, yet its own `#include "ui/ui_ast.pb.h"` still has
+#      to resolve. That is exactly what the generated/ui/ symlinks are for — a
+#      quoted include is searched from the includer's own directory first, so
+#      it finds generated/ui/ui_ast.pb.h and follows it back to ../ui_ast.pb.h.
+#      Losing one (hazard 1) breaks the build; asserting them is what makes the
+#      flattening sound, so the two hazards are one mechanism.
+#   3. It is a strict SUBSET — output/c tracks 102 files and only 44 of them
+#      are PROJECTED here, of which wasm.mk compiles the 21 .c (3 nanopb
+#      runtime + 15 cmd + jon_shared_data_types + the 2 ui bindings); the rest
+#      are the headers those include. A blanket copy would pour
+#      jon_shared_data_*, opaque/** and ui_nodes into the -Igenerated
+#      namespace. The three lists below ARE the projection; nothing crosses.
+#   4. There are NO --delete semantics. A mirroring copy would remove the two
+#      manifest-owned headers and ui_luts.h, none of which exist in output/c at
+#      all. The reverse direction is instead CHECKED and never acted on: an
+#      orphaned jon_shared_cmd* projection (its proto was deleted upstream)
+#      reds the gate naming the file to `git rm`, and nothing is deleted here.
+#   5. FILE MODES. renderer/generated is mixed (644/755/symlink) where output/c
+#      is uniformly 755, and cmp compares CONTENT — it cannot see a mode flip,
+#      so `cp -p` / `install` / `rsync -a` would silently rewrite 44 modes and
+#      stay green. Five in-scope destinations are tracked 644 against that 755
+#      source (LICENSE.nanopb and the four ui bindings). Plain `cp` preserves
+#      the destination inode's mode (measured in the pinned image: a 755 source
+#      over a 644 destination leaves 644), and the recipe captures and restores
+#      it anyway — but ONLY AN EXISTING DESTINATION HAS A MODE TO PRESERVE. A
+#      MISSING one would be created at the source's 755, and the operator told
+#      to commit a 644->755 flip. So absence is not treated as staleness at
+#      all: in the two FIXED lists it is a tracked-file DELETION and hard-fails
+#      untouched, and in the DERIVED cmd list it is a legitimately new binding,
+#      created at an EXPLICIT 755 — the mode all 30 tracked cmd projections
+#      already carry — rather than at whatever cp leaves after the umask.
+#
+# The cmd family is DERIVED from output/c rather than listed, matching wasm.mk's
+# own `$(wildcard generated/jon_shared_cmd*.pb.c)`, so a new cmd proto flows
+# through both without an edit here. Its non-vacuity is guarded: this repo has
+# fifteen cmd pairs, so an empty expansion means discovery broke, not that there
+# is nothing to project (an empty input set is a green tick over zero coverage).
+GENERATED_DIR := $(R)/generated
+
+# The nanopb RUNTIME (copied verbatim from /opt/nanopb by generate-protos.sh)
+# plus the shared scalar/enum types every cmd binding includes. All live at
+# output/c's root and keep their names.
+GENERATED_ROOT_FILES := LICENSE.nanopb pb.h \
+	pb_common.c pb_common.h pb_decode.c pb_decode.h pb_encode.c pb_encode.h \
+	jon_shared_data_types.pb.c jon_shared_data_types.pb.h
+
+# The two ui bindings the interpreter decodes: ui.Screen (the AST it renders)
+# and ui.HostToWasm (controls_host_message's input). FLATTENED out of
+# output/c/ui/ — see hazard 2.
+GENERATED_UI_FILES := ui_ast.pb.c ui_ast.pb.h ui_input.pb.c ui_input.pb.h
+
+# The flatten shims: generated/ui/<name> -> ../<name>. Two symlinks, tracked at
+# mode 120000, and the reason the flattened .pb.c files still compile.
+GENERATED_UI_LINKS := ui_ast.pb.h ui_input.pb.h
+
+GENERATED_CMD_FILES := $(notdir $(wildcard output/c/jon_shared_cmd*.pb.[ch]))
+
+generated-projection:
+	@if [ -z "$(strip $(GENERATED_CMD_FILES))" ]; then \
+	  echo "FATAL: discovered ZERO output/c/jon_shared_cmd*.pb.[ch] — this repo" >&2; \
+	  echo "  tracks fifteen cmd pairs, so an empty set means DISCOVERY broke," >&2; \
+	  echo "  not that there is nothing to project." >&2; \
+	  exit 1; \
+	fi
+	@rc=0; \
+	project() { \
+	  src="$$1"; dst="$$2"; newok="$$3"; \
+	  if [ ! -f "$$src" ]; then \
+	    echo "FATAL: $$src is missing — renderer/generated projects it, so the" >&2; \
+	    echo "  source of the projection is gone. Regenerate output/c." >&2; \
+	    return 1; \
+	  fi; \
+	  cmp -s "$$src" "$$dst" && return 0; \
+	  if [ ! -e "$$dst" ]; then \
+	    if [ "$$newok" != new ]; then \
+	      echo "FATAL: $$dst is MISSING, not stale — its name is in a FIXED projection" >&2; \
+	      echo "  list, so there is no mode to preserve and copying the 755 source in" >&2; \
+	      echo "  would silently rewrite the tracked mode, which cmp cannot see (hazard" >&2; \
+	      echo "  5). Restore a DELETED file with 'git checkout -- $$dst'; if you just" >&2; \
+	      echo "  added the name to the list, create it with the mode you intend." >&2; \
+	      return 1; \
+	    fi; \
+	    cp "$$src" "$$dst" && chmod 755 "$$dst" || return 1; \
+	    echo "FATAL: $$dst is a NEW projection of $$src — created at 755, the mode every" >&2; \
+	    echo "  tracked cmd projection carries; review and commit it." >&2; \
+	    return 1; \
+	  fi; \
+	  mode="$$(stat -c %a "$$dst")" || return 1; \
+	  cp "$$src" "$$dst" && chmod "$$mode" "$$dst" || return 1; \
+	  echo "FATAL: $$dst was STALE vs $$src — regenerated in place; review and commit it." >&2; \
+	  return 1; \
+	}; \
+	for f in $(GENERATED_ROOT_FILES); do \
+	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" fixed || rc=1; \
+	done; \
+	for f in $(GENERATED_CMD_FILES); do \
+	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" new || rc=1; \
+	done; \
+	for f in $(GENERATED_UI_FILES); do \
+	  project "output/c/ui/$$f" "$(GENERATED_DIR)/$$f" fixed || rc=1; \
+	done; \
+	for l in $(GENERATED_UI_LINKS); do \
+	  dst="$(GENERATED_DIR)/ui/$$l"; want="../$$l"; \
+	  if [ -L "$$dst" ] && [ "$$(readlink "$$dst")" = "$$want" ]; then continue; fi; \
+	  mkdir -p "$(GENERATED_DIR)/ui" && rm -f "$$dst" && ln -s "$$want" "$$dst" || rc=1; \
+	  echo "FATAL: $$dst was not the symlink -> $$want (a recursive copy flattens it" >&2; \
+	  echo "  into a regular file, and the flattened .pb.c then cannot resolve its own" >&2; \
+	  echo "  quoted include) — recreated; review and commit it." >&2; \
+	  rc=1; \
+	done; \
+	for f in $(GENERATED_DIR)/jon_shared_cmd*.pb.[ch]; do \
+	  [ -e "$$f" ] || continue; \
+	  b="$$(basename "$$f")"; \
+	  [ -f "output/c/$$b" ] && continue; \
+	  echo "FATAL: $$f is an ORPHAN — output/c has no $$b, so its proto is gone" >&2; \
+	  echo "  upstream while wasm.mk still compiles this copy. Delete it: git rm $$f" >&2; \
+	  rc=1; \
+	done; \
+	[ "$$rc" -eq 0 ] && echo "generated-projection: fresh ($(words $(GENERATED_ROOT_FILES) $(GENERATED_CMD_FILES) $(GENERATED_UI_FILES)) files + $(words $(GENERATED_UI_LINKS)) flatten symlinks vs output/c)"; \
+	exit "$$rc"
+
 # ── Devcards unit suite ─────────────────────────────────────────────────────
 # The pure-helper tests (tools/devcards/test — dump-tree reductions, image
 # math). No wasm / proto-classes needed, so it runs early and fails cheap.
@@ -361,5 +520,5 @@ graal-check:
 	  exit 1; }
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
-check-renderer: graal-check manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
-	@echo "renderer battery: GREEN (manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"
+check-renderer: graal-check generated-projection manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
+	@echo "renderer battery: GREEN (generated-projection + manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"

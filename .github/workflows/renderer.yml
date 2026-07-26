@@ -42,6 +42,11 @@ on:
     - "Dockerfile.base"
     - "tools/renderer-gen/**"
     - "output/manifests/**"
+    # renderer/generated/** is a PROJECTION of output/c (renderer.mk's
+    # generated-projection gate), so a binding regenerated there is a renderer
+    # input even though nothing under renderer/ moved. Without this entry the
+    # freshness gate could only ever fire on the side that was already correct.
+    - "output/c/**"
     - ".github/workflows/renderer.yml"
   pull_request:
     paths:
@@ -50,6 +55,7 @@ on:
     - "Dockerfile.base"
     - "tools/renderer-gen/**"
     - "output/manifests/**"
+    - "output/c/**"
     - ".github/workflows/renderer.yml"
   workflow_dispatch: {}
 
@@ -93,6 +99,21 @@ jobs:
         key: renderer-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock', 'renderer/wasm_harness/Cargo.toml') }}
         restore-keys: |
           renderer-cargo-
+    - # renderer/generated/** is a projection of output/c and had no producer and
+      # no comparison, so a proto change refreshed the bindings while the
+      # interpreter went on compiling the old ones — green everywhere, wrong on
+      # the wire. FIRST of the docker steps, and that is the whole point: it is a
+      # sub-second cmp loop over committed files on both sides, and if it reds
+      # then the wasm this job is about to build would be compiled against stale
+      # field tags, making every downstream step meaningless. Like the A2
+      # manifest step below, it exists here because renderer.yml DECOMPOSES
+      # check-renderer into individual targets — a target omitted here simply
+      # never runs in CI.
+      name: renderer/generated freshness (projection of output/c)
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          jettison-proto-generator-base:latest \
+          make -f renderer.mk generated-projection
     - # The C half of the format gate lives HERE, not in lint.yml, because the
       # only PINNED clang-format is the one inside this image — the WASI-SDK the
       # renderer is compiled with (/opt/wasi-sdk/bin/clang-format). A formatter
