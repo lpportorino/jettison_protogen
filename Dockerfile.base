@@ -14,6 +14,31 @@ ENV WASI_SDK_VERSION=33
 
 # Install base dependencies
 # Use retry logic to handle transient repository issues
+#
+# python3-numpy/scipy/pil + fonts-dejavu-core carry the PDL-R readability
+# measurement (tools/devcards/pdl-r-reference). They are apt packages, not pip
+# pins, for the same reason every other Ubuntu-sourced toolchain here is: one
+# provisioning mechanism, resolved from the distro the image is already built
+# on.
+#
+# What that DOES NOT give is a version pin, and the distinction matters for a
+# measurement lane. `FROM ubuntu:24.04` names the release pocket only, while
+# the image's sources also enable noble-updates and noble-security — measured,
+# python3-pil installs 10.2.0-1ubuntu1.2 from noble-updates/noble-security
+# where the release pocket carries 10.2.0-1build1. So these versions FLOAT
+# within the release, and a rebuild can move them.
+#
+# That is accepted deliberately rather than papered over: the frozen-corpus
+# harness stamps the interpreter and numpy versions into its own output, so a
+# figure always carries the stack that produced it, and the measurement has
+# been reproduced digit-for-digit across two numpy majors (1.26.4 in this
+# image, 2.5.1 on a host). A drift that changed a result would therefore show
+# up as a changed stamp on a changed number, not as a silent shift. If that
+# ever stops holding, the fix is a real pin here, not a stronger claim.
+#
+# fonts-dejavu-core rather than python3-matplotlib: the lifted reference needs
+# DejaVuSans{,-Bold}.ttf and nothing else matplotlib provides, and the font
+# package is a rounding error against matplotlib's dependency tree.
 RUN for i in 1 2 3; do \
         apt-get update && \
         apt-get install -y --no-install-recommends \
@@ -26,6 +51,10 @@ RUN for i in 1 2 3; do \
         python3 \
         python3-pip \
         python3-venv \
+        python3-numpy \
+        python3-scipy \
+        python3-pil \
+        fonts-dejavu-core \
         nodejs \
         npm \
         gawk \

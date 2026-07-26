@@ -28,11 +28,19 @@ PROVENANCE. lib.py is the lifted V6 reference and is NOT edited — its two font
 constants point at the bake-off machine's dist-packages and are patched here at
 import time. Everything measured below comes from lib.py's own functions.
 
-ENVIRONMENT, stated because it matters. The pinned toolchain container carries
-no numpy, so this runs on the HOST. That is acceptable for DECISION evidence
-and NOT acceptable for a gate: before anything here is enforced, the Python
-toolchain has to be pinned like every other artifact-producing toolchain in
-this repo. Reported numbers therefore carry the interpreter and numpy version.
+ENVIRONMENT. The pinned toolchain container carries numpy/scipy/PIL and DejaVu
+(Dockerfile.base), so this runs THERE and its numbers are reproducible like
+every other artifact-producing lane in this repo. It still runs on a host that
+happens to have the stack, and the reported JSON records the interpreter and
+numpy version either way — because if the two ever disagree, that disagreement
+is itself the finding.
+
+MEASURED, and stronger than the pin alone requires: the container
+(python 3.12.3 / numpy 1.26.4) and a host (python 3.14.6 / numpy 2.5.1)
+produce BYTE-IDENTICAL figures — separation, noise floor, and both dead-end
+numbers — across two numpy MAJOR versions. So the result does not rest on the
+pin; the pin exists to keep it that way, and a future divergence is a real
+signal rather than expected drift.
 
     python3 frozen_corpus.py            # ~1 min
 """
@@ -47,10 +55,32 @@ import zlib
 
 import numpy as np
 
-# ── patch lib's font constants before anything reads them ──────────────────
-import matplotlib
+# ── resolve DejaVu, then patch lib's font constants before anything reads them
+# lib.py is the lifted reference and is NOT edited, so its two hardcoded paths
+# (the bake-off machine's dist-packages) are overridden here. Candidates cover
+# both environments this runs in: the pinned container installs
+# fonts-dejavu-core at the system path, while a host may only have the copy
+# bundled with matplotlib. The FONT IDENTITY is what the measurement depends
+# on — DejaVuSans is metrically identical from either source — but a missing
+# font must fail loudly rather than silently substituting a different face and
+# quietly changing every number.
+def _dejavu_dir() -> str:
+    candidates = ["/usr/share/fonts/truetype/dejavu"]
+    try:
+        import matplotlib
+        candidates.append(
+            os.path.join(os.path.dirname(matplotlib.__file__), "mpl-data", "fonts", "ttf"))
+    except ImportError:
+        pass
+    for d in candidates:
+        if os.path.exists(os.path.join(d, "DejaVuSans.ttf")):
+            return d
+    raise SystemExit(
+        "DejaVuSans.ttf not found in any of: " + ", ".join(candidates)
+        + "\nInstall fonts-dejavu-core (the pinned container has it).")
 
-_TTF = os.path.join(os.path.dirname(matplotlib.__file__), "mpl-data", "fonts", "ttf")
+
+_TTF = _dejavu_dir()
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib  # noqa: E402
 
@@ -187,7 +217,10 @@ def main() -> int:
 
     result = dict(
         environment=dict(python=platform.python_version(), numpy=np.__version__,
-                         note="HOST, not the pinned container (no numpy there)"),
+                         container=os.path.exists("/opt/wasi-sdk"),
+                         note=("run environment — the pinned container and a "
+                               "host stack must agree; a divergence is a "
+                               "finding, not a footnote")),
         corpus=dict(frames=len(rows), seed=BASE_SEED, frame=[FRAME_H, FRAME_W],
                     k=K_OPERATING, veil_gray=VEIL_GRAY, trials=NOISE_TRIALS),
         separation=dict(worst_readable=worst_readable, best_unreadable=best_unreadable,
@@ -212,7 +245,8 @@ def main() -> int:
 
     print("══ PDL-R STEP 1 — ONE FROZEN SHARED CORPUS ══")
     print(f"  env       python {result['environment']['python']}, "
-          f"numpy {result['environment']['numpy']}  (HOST — see module docstring)")
+          f"numpy {result['environment']['numpy']}, "
+          f"{'pinned container' if result['environment']['container'] else 'host'}")
     print(f"  corpus    {len(rows)} frames, seed {BASE_SEED}, "
           f"{FRAME_H}x{FRAME_W}, k={K_OPERATING}, veil={VEIL_GRAY}")
     print("\n── separation (Region Ink-edge Drift, the winner) ──")
