@@ -39,6 +39,59 @@ composition examples only. Device-specific meta nodes (DDE elements, camera
 controls — proprietary interfaces) NEVER land here; private consumers run THIS
 runner via their protogen pin against their own private fixture corpora.
 
+## Adding a rule — the finding-producer registry
+
+A consumer that finds a new class of interface defect gates on it HERE, through
+the registry, rather than implementing the rule in its own repo (a quality rule
+living in one consumer is a defect live in all the others — see `CLAUDE.md`
+§"Consuming the UI standard").
+
+| namespace | what it owns |
+|---|---|
+| `devcards.findings` | the producer registry, the shared per-card context, exemption application |
+| `devcards.classify` | the consumer's widget table — `:interactive?` (mechanism) and `:role` (intent) |
+| `devcards.lvgl-classes` | the STARTER table for the classes this renderer emits, plus `merge-consumer` |
+| `devcards.geometry` | exact integer rect arithmetic on INCLUSIVE coords |
+| `devcards.overlap` | no two pointer-taking elements share a pixel (opt-in) |
+| `devcards.layers` | the layer contract — declared z vs observed stacking (opt-in) |
+
+A producer is `{:id :fn :requires :thresholds}` and its `:fn` takes ONE context
+map, never a bare tree — a rule such as the layer contract needs the tree, the
+consumer's z DECLARATION and the compositor's proxy rects together, plus
+ancestry. Read the `devcards.findings` docstring for the contract; it is the
+authority, and the fields above are a routing table, not a copy of it.
+
+Wiring a private corpus in:
+
+```clojure
+(findings/card-findings
+  {:card-id     id
+   :tree        tree
+   ;; every input a producer READS must be supplied — there are no
+   ;; defaults, because a defaulted input silently weakens the lane that
+   ;; reads it. `false` and `[]` are claims; omitting a key throws.
+   :emissions   emissions
+   :host-proxy? false
+   :caps        {:vis-px? true}
+   :classes     (lvgl-classes/merge-consumer {:types {"fx_dock" {...}}})
+   :declaration {:layers {12 {:z 10 :id "chrome"}}}   ; layers/producer only
+   :proxy-rects []                                    ; layers/producer only
+   :producers   (conj findings/builtin-producers
+                      overlap/producer
+                      layers/producer)
+   :thresholds  {:overlap/gap-px 1 :layers/gap-px 0}})
+```
+
+`devcards.corpus/render-corpus` drives the screens; neither takes anything
+protogen-specific, so nothing here needs patching to run a private corpus.
+
+### Read-only probe
+
+`clojure -M:bindings:class-census` (`dev/class_census.clj`) reports which LVGL
+classes the renderer actually emits and what the overlap rule says about the
+real corpus. It gates nothing — it exists so table and rule decisions are made
+on output rather than on argument.
+
 ## Runner mechanism (`src/devcards/host.clj`)
 
 GraalWasm, plain Maven deps — but GraalVM CE is REQUIRED, not merely preferred:
