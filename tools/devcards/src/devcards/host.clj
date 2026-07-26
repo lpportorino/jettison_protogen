@@ -142,7 +142,7 @@
   "controls.wasm ABI versions this runner speaks. Bump DELIBERATELY with the
    wasm pin (the ABI gate below fails loud on mismatch — never render against
    an unknown contract)."
-  #{2 3})
+  #{2 3 4})
 
 (defn start!
   "Boot a FRESH context over the shared engine and init the renderer.

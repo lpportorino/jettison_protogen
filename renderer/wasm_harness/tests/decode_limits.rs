@@ -140,6 +140,44 @@ fn flat_fanout(k: usize) -> Vec<u8> {
     .encode_to_vec()
 }
 
+/// Two sibling leaves claiming the SAME non-zero uid. The second `register_uid`
+/// is refused, so that node stays unidentified — but the decode runs to
+/// completion and the tree is whole. This is the canonical DEFECTIVE load.
+fn duplicate_uid_screen() -> Vec<u8> {
+    let dup = |uid: u32| ui::WidgetNode {
+        uid,
+        ..plain_node()
+    };
+    ui::Screen {
+        root: Some(ui::WidgetNode {
+            uid: ROOT_UID,
+            children: vec![dup(42), dup(42)],
+            ..plain_node()
+        }),
+        subjects: vec![],
+    }
+    .encode_to_vec()
+}
+
+/// Count nodes in a `controls_dump_tree` payload — the observable that
+/// distinguishes "screen torn down" from "screen still rendered".
+fn dumped_node_count(host: &mut ControlsHost) -> usize {
+    let dump = host.dump_tree().expect("dump_tree");
+    dump.matches("\"type\"").count()
+}
+
+/// Node count of a host that has loaded NOTHING — the true "empty screen"
+/// reading, measured rather than assumed.
+///
+/// This is not pedantry: `lv_obj_clean(lv_screen_active())` removes the
+/// screen's CHILDREN, not the screen object, so a torn-down screen still dumps
+/// one node. An assertion of `== 0` can never pass, and would have been mistaken
+/// for a broken teardown. Calibrating against a real empty host also keeps the
+/// test honest if the dump shape ever changes.
+fn empty_screen_node_count() -> usize {
+    dumped_node_count(&mut new_host())
+}
+
 /// `flat_fanout`, but the root carries `ROOT_UID` so a patch can target it.
 fn patchable_fanout(k: usize) -> Vec<u8> {
     ui::Screen {
@@ -332,4 +370,70 @@ fn many_sequential_patches_on_one_host_all_apply() {
         );
         current = next;
     }
+}
+
+// ── 4. TEARDOWN IS SCOPED TO THE CLASS ─────────────────────────────────────
+//
+// These two live together on purpose. The failure this suite exists to prevent
+// is CONFLATING them: teardown was once applied to any nonzero status, which is
+// right for the first case and destroys a working screen in the second. Keeping
+// the assertions adjacent means a future edit cannot satisfy one while
+// regressing the other without the diff showing it.
+
+/// LOAD_ERR_ABORTED: the decode stopped mid-stream, so whatever reached the
+/// screen is debris preceding the fault. It must not be left up — an operator
+/// otherwise stares at a truncated screen with nothing saying it is truncated.
+#[test]
+fn an_aborted_load_leaves_no_debris_on_screen() {
+    const LOAD_ERR_ABORTED: i32 = -1;
+    let mut host = new_host();
+
+    // Establish a real screen first, so an empty dump afterwards proves the
+    // teardown ran rather than that nothing was ever built (the pass value
+    // would otherwise equal the nothing-happened value).
+    let ok = host.load_ui_raw(&flat_fanout(4)).expect("baseline load trapped");
+    assert_eq!(ok, 0, "baseline screen must load; got {ok}");
+    let before = dumped_node_count(&mut host);
+    assert!(before > 0, "non-vacuity: baseline screen built no nodes to tear down");
+
+    let status = host
+        .load_ui_raw(&nested_chain(MAX_DECODE_DEPTH + 8))
+        .expect("load_ui trapped past the depth cap");
+    assert_eq!(
+        status, LOAD_ERR_ABORTED,
+        "a depth-capped load must report LOAD_ERR_ABORTED, got {status}"
+    );
+    let empty = empty_screen_node_count();
+    assert_eq!(
+        dumped_node_count(&mut host),
+        empty,
+        "an aborted load left debris on screen ({before} nodes before, {empty} \
+         is empty) — the decode stopped mid-stream, so what is up is truncated"
+    );
+}
+
+/// LOAD_ERR_DEFECTIVE: the decode completed, so the tree is whole and only a
+/// node is degraded. It must KEEP RENDERING. This is the direction that got
+/// broken before, and the one a naive "tear down on failure" reintroduces.
+#[test]
+fn a_defective_load_keeps_the_screen_rendered() {
+    const LOAD_ERR_DEFECTIVE: i32 = -2;
+    let mut host = new_host();
+
+    let status = host
+        .load_ui_raw(&duplicate_uid_screen())
+        .expect("load_ui trapped on a duplicate uid");
+    assert_eq!(
+        status, LOAD_ERR_DEFECTIVE,
+        "a duplicate uid is a CONTAINED defect — the tree decodes whole and one \
+         node stays unidentified; got {status}"
+    );
+    let empty = empty_screen_node_count();
+    let live = dumped_node_count(&mut host);
+    assert!(
+        live > empty,
+        "a defective load blanked the screen ({live} nodes, {empty} is empty) — \
+         the decode completed, so the tree was whole and renderable; only a node \
+         was degraded"
+    );
 }

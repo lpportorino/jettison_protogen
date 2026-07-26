@@ -4056,7 +4056,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   if (!data || len == 0 || !parent) {
     LOG_ERROR("invalid arguments: data=%p len=%u parent=%p", (const void *)data,
               (unsigned)len, (const void *)parent);
-    return -1;
+    return LOAD_ERR_ABORTED;
   }
   reset_style_pool();
   reset_subject_registry();
@@ -4109,8 +4109,13 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   screen.root.bind_formats.arg = &root_ctx;
   pb_istream_t stream = pb_istream_from_buffer(data, len);
   if (!pb_decode(&stream, ui_Screen_fields, &screen)) {
+    /* A callback returned false (depth cap, fan-out cap, ensure_widget
+     * failure) or the payload is malformed. Either way nanopb stopped
+     * mid-stream, so the tree is TRUNCATED at the fault — this is the one
+     * discriminator the caller needs, and it is free here: reaching any
+     * later return means the decode ran to completion. */
     LOG_ERROR("UI AST decode failed: %s", PB_GET_ERROR(&stream));
-    return -1;
+    return LOAD_ERR_ABORTED;
   }
   if (!screen.has_root) {
     pb_release(ui_Screen_fields, &screen);
@@ -4167,8 +4172,12 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
    * load_resource_error carries the same signal from the deep no-ctx sites
    * (pool exhaustion / observer malloc / unresolved binding subject). */
   if (root_ctx.error == 0 && (subject_overflow || load_resource_error))
-    return -1;
-  return root_ctx.error;
+    return LOAD_ERR_DEFECTIVE;
+  /* The decode completed (an abort would have returned above), so the tree is
+   * COMPLETE. A latched error means finalize_widget degraded one or more NODES
+   * — a duplicate uid, a proxy registry overflow, a malformed host_proxy — and
+   * the screen must keep rendering. */
+  return root_ctx.error == 0 ? 0 : LOAD_ERR_DEFECTIVE;
 }
 /* ================================================================
  * Tree-patch reconciler (controls_apply_patch)

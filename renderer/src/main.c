@@ -88,8 +88,19 @@ static volatile int flush_happened;
 /* v3: adds the controls_set_theme_family export (an optional capability
  * signal consumers may gate on — the framebuffer contract is unchanged;
  * the bump versions the EXPORT SURFACE so a host can require the
- * theme-family control without probing). */
-#define CONTROLS_ABI_VERSION 3u
+ * theme-family control without probing).
+ *
+ * v4: controls_load_ui's nonzero status became CLASSIFIED (LOAD_ERR_* in
+ * renderer.h) instead of a bare -1. No export changed and the framebuffer
+ * contract is untouched, but the RETURN CONTRACT did, in a way a host can
+ * act on: -1 now means specifically ABORTED (decode stopped, tree
+ * truncated, and the module has torn the screen down itself), while -2
+ * means DEFECTIVE (tree complete and still rendering, some node degraded).
+ * A host treating any nonzero as "failed" stays correct — which is why this
+ * is a version bump and not a break — but one that wants to distinguish
+ * "show the operator nothing" from "show it, flagged" now can, and gates on
+ * this version to know the distinction is real rather than assumed. */
+#define CONTROLS_ABI_VERSION 4u
 /* Framebuffer pixel format id — memory BYTE order (framebuffer[i*4+0] is the
  * first listed channel); 0 reserved invalid so an uninitialized module is
  * rejected. Stable integers (Vulkan/wgpu style). The renderer emits RGBA8888:
@@ -696,26 +707,29 @@ int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
   /* A fresh tree re-assigns uids, so any cached hover identity is stale —
    * invalidate the HOST_REPORT debounce so the next MOVE re-reports (§3). */
   reset_hover_report();
-  /* A FAILED build (overflow / decode error) leaves last_ui_data caching a
-   * screen that won't render right — mark it stale so a later composite change
-   * asks the host to re-send rather than rebuilding the broken screen.
-   *
-   * DELIBERATELY NOT torn down here. Tearing the screen down on any nonzero
-   * status was tried and reverted: a nonzero status is OVERLOADED. It covers
-   * both a hard refusal (nothing usable was built) and a CONTAINED defect —
-   * notably a duplicate codegen uid, where the collided node is left
-   * unidentified on purpose and the rest of the screen is correct and
-   * renderable. `wasm_harness/tests/reload_cycle.rs` catches the BLANKING —
-   * its non-vacuity guard fails when the screen is empty, because a uniqueness
-   * assertion over an empty tree proves nothing. Note what it does NOT check:
-   * it asserts uid uniqueness, never tree COMPLETENESS, so it cannot see a
-   * truncated build. That blind spot is real and unclosed.
-   *
-   * Distinguishing the two would need the decoder to report an error CLASS
-   * rather than a bare -1; until it does, the honest behavior is to keep
-   * rendering what was built and let last_ui_stale drive the re-send. */
+  /* A FAILED build leaves last_ui_data caching a screen that won't render
+   * right — mark it stale so a later composite change asks the host to re-send
+   * rather than rebuilding the broken screen. */
   if (status != 0)
     last_ui_stale = 1;
+  /* Teardown is scoped to LOAD_ERR_ABORTED, and the scoping is the whole
+   * point. The decode stopped mid-stream there, so what reached the screen is
+   * debris that happens to precede the fault; leaving it up shows the operator
+   * a truncated screen indefinitely, with no signal that it is truncated.
+   *
+   * LOAD_ERR_DEFECTIVE must NOT be torn down: the decode ran to completion, so
+   * the tree is whole and only individual nodes are degraded (canonically a
+   * duplicate codegen uid — the collided node is left unidentified on purpose
+   * and everything else is correct). Blanking it destroys a working screen.
+   *
+   * This exact teardown was once applied to ANY nonzero status and had to be
+   * reverted, because the status could not express which case had fired. It is
+   * reintroduced now only because it can. reload_cycle.rs's non-vacuity guard
+   * is what catches a regression to the blanking behaviour: a uid uniqueness
+   * assertion over an EMPTY tree proves nothing, so blanking makes that test
+   * fail rather than silently pass. */
+  if (status == LOAD_ERR_ABORTED)
+    lv_obj_clean(lv_screen_active());
   return status;
 }
 int32_t controls_update_state(uint32_t ptr, uint32_t len) {

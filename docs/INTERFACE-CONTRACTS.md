@@ -437,7 +437,15 @@ reading the framebuffer at a stride): `controls_abi_version` (returns
 `CONTROLS_ABI_VERSION`, defined in `renderer/src/main.c`; `v2` added the
 `env.host_event` import to the REQUIRED import set — a WASM import is
 instantiation-MANDATORY, so hosts link it BEFORE the module can load at all;
-`v3` added the `controls_set_theme_family` export),
+`v3` added the `controls_set_theme_family` export; `v4` CLASSIFIED
+`controls_load_ui`'s nonzero status — `-1` now means specifically ABORTED (the
+decode stopped mid-stream, the tree is truncated, and the module has torn the
+screen down itself) and `-2` means DEFECTIVE (the tree decoded whole and is
+still rendering; one or more nodes are degraded, canonically a duplicate uid).
+A host treating any nonzero as "failed" remains correct across this bump; a
+host that wants to distinguish "show the operator nothing" from "show it,
+flagged" gates on `>= 4` to know the distinction is real rather than assumed.
+The codes are `LOAD_ERR_*` in `renderer/src/renderer.h`),
 `controls_fb_format` (`1` = `RGBA8888`, memory byte order
 `framebuffer[i*4+0]`=R), `controls_fb_width`/`controls_fb_height`,
 `controls_fb_bpp` (`4`). All are plain `u32` returns (no i64/BigInt).

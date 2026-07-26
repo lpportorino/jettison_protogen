@@ -23,8 +23,34 @@
  * silently truncated a command-id on the name chain could otherwise recur here
  * the first time a trigger name outgrows the cap. */
 #define UI_EVENT_TRIGGER_CHARS 16
+/* ── Full loads (controls_load_ui) ─────────────────────────────────────
+ * A failed load has two SEMANTICALLY DIFFERENT outcomes, and a bare -1
+ * could not tell them apart. The distinction is not cosmetic: it decides
+ * whether the caller may leave the screen up.
+ *
+ * The split follows the decoder's own control flow, so it is mechanical
+ * rather than a per-site judgement:
+ *
+ *   ABORTED — a decode callback returned false, so nanopb stopped. The
+ *     tree is TRUNCATED at the fault; what is on screen is debris that
+ *     happens to precede it. Nothing usable was built.
+ *   DEFECTIVE — a build step latched an error and RETURNED (finalize_widget
+ *     is `void`; the decode ran to completion). The tree is COMPLETE and
+ *     renderable; one or more nodes are degraded — canonically a duplicate
+ *     codegen uid, where the collided node is deliberately left
+ *     unidentified and the rest of the screen is correct.
+ *
+ * Tearing the screen down is right for ABORTED and WRONG for DEFECTIVE.
+ * It was once done on any nonzero status and had to be reverted, because
+ * it blanked screens that were fine — caught only because
+ * wasm_harness/tests/reload_cycle.rs carries a non-vacuity guard (a uid
+ * uniqueness assertion over an EMPTY tree proves nothing). */
+#define LOAD_ERR_ABORTED -1
+/* decode/limit refusal — tree truncated, nothing usable */
+#define LOAD_ERR_DEFECTIVE -2
+/* tree complete and renderable; >=1 node degraded (e.g. duplicate uid) */
 /* Build LVGL widget tree from raw protobuf UI AST bytes.
- * Returns 0 on success, -1 on error. */
+ * Returns 0 on success, or a LOAD_ERR_* code. */
 int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
                             lv_obj_t *parent);
 /* Update reactive subjects from a protobuf StateUpdate message.
