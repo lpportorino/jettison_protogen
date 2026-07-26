@@ -227,3 +227,55 @@
             declared capability, not on the geometry"
     (let [findings (inv/tree-findings "occluded-card" occluded-tree {:vis-px? false})]
       (is (not (contains? (flags-of findings) :zero-visible-area))))))
+
+;; ── the snapped-page exemption's scope ──────────────────────────────────────
+;; The snapped-page exclusion is :clipped-only (plus :zero-visible-area on its
+;; own lane). :offscreen is NOT exempt: a page outside the carousel's content
+;; box has not thereby been shown to be off the DISPLAY, which is what
+;; obj_offscreen measures. The C side suppresses that case first anyway —
+;; obj_in_scroll_region returns true for a SNAPPABLE child under a snap
+;; container — so the lane never sees it in practice.
+(def ^:private snapped-page-tree
+  "An lv_tabview whose content (child index 1) holds TWO pages: one snapped
+   fully out of view — its box does not intersect the content box — and one
+   ACTIVE page that does intersect. Both carry the same flags. Neither is
+   hidden, so only the snapped-page rule can exempt anything here, and the
+   active page is what proves the rule stays narrow."
+  {:type "lv_tabview"
+   :uid 1
+   :coords [0 0 99 99]
+   :children [{:type "lv_obj" :uid 2 :coords [0 0 99 20] :children []}
+              {:type "lv_obj"
+               :uid 3
+               :coords [0 20 99 99]
+               :children [{:type "lv_obj"
+                           :uid 4
+                           :coords [-500 -500 -400 -400]
+                           :clipped true
+                           :offscreen true
+                           :children []}
+                          {:type "lv_obj"
+                           :uid 5
+                           :coords [0 20 99 99]
+                           :clipped true
+                           :offscreen true
+                           :children []}]}]})
+
+(defn- nodes-of
+  "Node labels of every finding carrying `flag`."
+  [findings flag]
+  (set (for [f findings :when (= flag (:invariant f))] (:node f))))
+
+(deftest snapped-page-clipped-is-designed-geometry
+  (let [findings (inv/tree-findings "snapped-card" snapped-page-tree caps)]
+    (testing "a snapped-away page's :clipped is exempt — the docstring's
+              sanctioned case"
+      (is (not (contains? (nodes-of findings :clipped) "lv_obj#4"))))
+    (testing "CONTROL: the ACTIVE page, which intersects the content box,
+              is NOT exempt and its identical :clipped still fires — the
+              exemption keys on being snapped away, not on being a page"
+      (is (contains? (nodes-of findings :clipped) "lv_obj#5")))
+    (testing "the snapped page's :offscreen is NOT exempt: obj_offscreen
+              measures against the DISPLAY, and leaving the carousel's content
+              box says nothing about that"
+      (is (contains? (nodes-of findings :offscreen) "lv_obj#4")))))

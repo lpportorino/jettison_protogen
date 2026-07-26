@@ -180,12 +180,20 @@
   [{:keys [node parent hidden-under? snapped-under? tabview-content?]} flag]
   (or (and (= flag :scrollable_overflow)
            (or (contains? designed-scroll-classes (:type node)) tabview-content?))
+      ;; BOTH flags — drum-label-escape? is the one term proven for :offscreen:
+      ;; its docstring covers a vertical translate past the box/DISPLAY edge,
+      ;; which is the measurement obj_offscreen actually makes.
       (and (contains? #{:clipped :offscreen} flag)
-           (or snapped-under? (drum-label-escape? node parent)))
-      ;; :clipped ONLY — the hidden-node proof is about the PARENT's content
-      ;; box, and obj_offscreen does not compare against the parent.
+           (drum-label-escape? node parent))
+      ;; :clipped ONLY. Every term here is a statement about the PARENT's box —
+      ;; a hidden child's self-derived geometry, and a page snapped out of the
+      ;; carousel's content box — and neither says anything about the DISPLAY
+      ;; rectangle, which is what obj_offscreen measures. The C side already
+      ;; suppresses the snapped case via obj_in_scroll_region, so exempting it
+      ;; here silenced nothing observable while resting on an argument that
+      ;; never reached it.
       (and (= flag :clipped)
-           (or (:hidden node) hidden-under?))
+           (or (:hidden node) hidden-under? snapped-under?))
       (and (= flag :overflow) (roller-drum-overflow? node))))
 
 (defn tree-findings
