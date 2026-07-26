@@ -141,8 +141,8 @@
        (= "lv_roller" (:type parent))
        (h-within? node parent)))
 
-(defn- annotate
-  "Depth-first vector of {:node :parent :hidden-under? :snapped-under?
+(defn annotate-tree
+  "Depth-first vector of {:node :parent :path :hidden-under? :snapped-under?
    :tabview-content?} for every node. :hidden-under? = some ancestor
    carries :hidden. :tabview-content? = the node is child index 1 of an
    lv_tabview (the scroll-snap page carousel; child 0 is the tab bar —
@@ -151,28 +151,59 @@
    under, a DIRECT child of that content whose box does not intersect the
    content box — a page the carousel has snapped fully out of view. The
    ACTIVE page intersects and stays fully judged, so a real clip or
-   occlusion inside visible page content still fails."
-  ([root] (annotate root nil {:hidden? false :snapped? false :content? false}))
-  ([node parent {:keys [hidden? snapped? content?]}]
+   occlusion inside visible page content still fails.
+
+   :path is the vector of child indices from the root ([] for the root
+   itself) — a STRUCTURAL node identity that makes ancestry a prefix test
+   (`related?`). Pairwise geometry rules need that: without it, a rule
+   flags every button against its own label, going red for nesting rather
+   than for the hazard it exists to catch. Identity cannot come from the
+   node maps themselves, since two sibling nodes with identical geometry
+   and no uid are equal as values.
+
+   Public because it is the ONE tree walk the whole finding-producer
+   registry shares: `devcards.findings` computes it once per card and
+   hands it to every producer, so a consumer's rule never re-walks and
+   never disagrees about what is hidden or snapped."
+  ([root] (annotate-tree root nil [] {:hidden? false :snapped? false :content? false}))
+  ([node parent path {:keys [hidden? snapped? content?]}]
    (let [child-hidden? (or hidden? (boolean (:hidden node)))
          tabview? (= "lv_tabview" (:type node))]
      (into [{:node node
              :parent parent
+             :path path
              :hidden-under? hidden?
              :snapped-under? snapped?
              :tabview-content? content?}]
            (comp (map-indexed (fn [i child]
-                                (annotate child
-                                          node
-                                          {:hidden? child-hidden?
-                                           :snapped? (or snapped?
-                                                         (and content?
-                                                              (not (boxes-intersect?
-                                                                    (:coords child)
-                                                                    (:coords node)))))
-                                           :content? (and tabview? (= 1 i))})))
+                                (annotate-tree child
+                                               node
+                                               (conj path i)
+                                               {:hidden? child-hidden?
+                                                :snapped? (or snapped?
+                                                              (and content?
+                                                                   (not (boxes-intersect?
+                                                                         (:coords child)
+                                                                         (:coords node)))))
+                                                :content? (and tabview? (= 1 i))})))
                  cat)
            (:children node)))))
+
+(defn related?
+  "Are two annotated entries the same node, or is one an ancestor of the
+   other? True iff one :path is a prefix of the other. Containment is how
+   composition WORKS — a label inside a button overlaps it by
+   construction — so pairwise geometry rules skip related pairs and judge
+   only independently-placed elements."
+  [a b]
+  (let [pa (:path a)
+        pb (:path b)]
+    (when-not (and (vector? pa) (vector? pb))
+      (throw (ex-info (str "related? needs annotated entries carrying :path "
+                           "— build them with annotate-tree, never by hand")
+                      {:a-path pa :b-path pb})))
+    (let [n (min (count pa) (count pb))]
+      (= (subvec pa 0 n) (subvec pb 0 n)))))
 
 (defn- designed-flag?
   "Is `flag` on this annotated node one of the designed-geometry cases the
@@ -199,48 +230,54 @@
 (defn tree-findings
   "DOM findings for one card's parsed dump tree. `caps` declares what the
    loaded module can express: {:vis-px? bool}. Returns finding maps
-   {:card :invariant :node :detail}."
-  [card-id root caps]
-  (when-not (map? root)
-    (throw (ex-info "dump tree root must be a parsed map"
-                    {:card card-id :got (type root)})))
-  (let [annotated (annotate root)]
-    (-> []
-        (into (when (:truncated root)
-                [{:card card-id
-                  :invariant :dump-truncated
-                  :node "(root)"
-                  :detail "dump_tree overflowed its buffer — card unjudgeable"}]))
-        (into (for [entry annotated
-                    flag defect-flags
-                    :when (and (get (:node entry) flag) (not (designed-flag? entry flag)))]
-                {:card card-id
-                 :invariant flag
-                 :node (node-label (:node entry))
-                 :detail (str "layout defect flag " (name flag))}))
-        (into (for [node (walk-nodes root)
-                    :let [[w h] (node-area node)]
-                    :when (and w (or (zero? w) (zero? h)) (not (:hidden node)))]
-                {:card card-id
-                 :invariant :zero-area
-                 :node (node-label node)
-                 :detail (str "collapsed to " w "x" h)}))
-        (into (when (:vis-px? caps)
+   {:card :invariant :node :detail}.
+
+   The 4-arity takes an ALREADY-ANNOTATED walk. The registry computes one
+   walk per card and shares it with every producer; without this arity the
+   built-in tree lane would re-walk internally, so 'computed once per card'
+   would be false the moment that lane is armed."
+  ([card-id root caps] (tree-findings card-id root caps nil))
+  ([card-id root caps annotated]
+   (when-not (map? root)
+     (throw (ex-info "dump tree root must be a parsed map"
+                     {:card card-id :got (type root)})))
+   (let [annotated (or annotated (annotate-tree root))]
+     (-> []
+         (into (when (:truncated root)
+                 [{:card card-id
+                   :invariant :dump-truncated
+                   :node "(root)"
+                   :detail "dump_tree overflowed its buffer — card unjudgeable"}]))
+         (into (for [entry annotated
+                     flag defect-flags
+                     :when (and (get (:node entry) flag) (not (designed-flag? entry flag)))]
+                 {:card card-id
+                  :invariant flag
+                  :node (node-label (:node entry))
+                  :detail (str "layout defect flag " (name flag))}))
+         (into (for [node (walk-nodes root)
+                     :let [[w h] (node-area node)]
+                     :when (and w (or (zero? w) (zero? h)) (not (:hidden node)))]
+                 {:card card-id
+                  :invariant :zero-area
+                  :node (node-label node)
+                  :detail (str "collapsed to " w "x" h)}))
+         (into (when (:vis-px? caps)
                 ;; a subtree under a :hidden ancestor is invisible by
                 ;; declaration (the dropdown's closed popup list), and a
                 ;; snapped-away carousel page is invisible by design —
                 ;; neither zero is occlusion. Everything else with vis_px 0
                 ;; is a genuinely occluded/clipped-away node.
-                (for [{:keys [node hidden-under? snapped-under?]} annotated
-                      :when (and (contains? node :vis_px)
-                                 (zero? (:vis_px node))
-                                 (not (:hidden node))
-                                 (not hidden-under?)
-                                 (not snapped-under?))]
-                  {:card card-id
-                   :invariant :zero-visible-area
-                   :node (node-label node)
-                   :detail "vis_px 0 — fully occluded or clipped away"}))))))
+                 (for [{:keys [node hidden-under? snapped-under?]} annotated
+                       :when (and (contains? node :vis_px)
+                                  (zero? (:vis_px node))
+                                  (not (:hidden node))
+                                  (not hidden-under?)
+                                  (not snapped-under?))]
+                   {:card card-id
+                    :invariant :zero-visible-area
+                    :node (node-label node)
+                    :detail "vis_px 0 — fully occluded or clipped away"})))))))
 
 (defn emission-findings
   "Emission findings for one card. `emissions` = {:commands [..] :reports
@@ -317,13 +354,3 @@
                                 :invariant-class :stale-exemption
                                 :detail "exemption matched no finding — remove it"})
                              stale)}))
-
-(defn card-findings
-  "The full judgment for one rendered card: DOM + emissions, exemptions
-   applied. Returns {:live [..] :exempted [..] :stale-exemptions [..]};
-   the gate fails on any :live or :stale-exemptions entry."
-  [{:keys [card-id tree emissions host-proxy? caps exemptions]
-    :or {emissions {} exemptions []}}]
-  (apply-exemptions (into (tree-findings card-id tree (or caps {:vis-px? false}))
-                          (emission-findings card-id emissions host-proxy?))
-                    exemptions))

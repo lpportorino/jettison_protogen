@@ -42,6 +42,42 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   the object under test. A red devcard gate after a SCHEMA change is the waist
   catching producer/interpreter drift: fix the contract, not the gate.
 
+## Adding a rule — through the registry, never by editing a lane
+- `devcards.findings` is the finding-producer registry: a producer is
+  `{:id :fn :requires :thresholds}` and `:fn` takes ONE context map, never a bare
+  tree. That signature is load-bearing — a rule like the layer contract needs the
+  tree, the consumer's DECLARATION and the compositor's proxy rects together
+  (host-proxy stacking happens after LVGL finishes, so it is not readable from
+  child order), plus ancestry, which the registry precomputes once via
+  `invariants/annotate-tree` and shares.
+- The registry refuses these silences, each because its output would otherwise
+  be byte-identical to a clean run: an empty producer set; a `:requires` key the
+  caller never SUPPLIED (supplied-but-empty is a claim, absent is an oversight,
+  and `nil` counts as absent while `false` stays a claim); a caller-supplied
+  `:nodes`, which is registry-DERIVED; an unknown threshold key; and two
+  producers colliding on one threshold key.
+- **Producers declare every input they READ**, with no defaults. A defaulted
+  input silently weakens the lane that reads it — `(or caps {:vis-px? false})`
+  once deleted the whole `:zero-visible-area` class without a word.
+- Classification (`devcards.classify`) is the consumer's table, and an
+  undeclared widget type is an `:unclassified-type` FINDING, not a skip.
+  `devcards.lvgl-classes/merge-consumer` is the starter table to build on.
+- New rules ship OPT-IN — neither `overlap/producer` nor `layers/producer` is in
+  `builtin-producers`. Arming one against protogen's own corpus is a separate
+  change owing its own evidence.
+- **A pairwise geometry rule must enumerate pairs in pre-order and never use
+  vector `compare` for paint order** — Clojure's vector comparator is
+  COUNT-first, so it inverts the verdict whenever the earlier node is deeper.
+  That shipped once and no test caught it, because the suite only had
+  equal-depth pairs.
+- **protogen's OWN gate is not yet routed through the registry.** `core.clj`
+  still composes `tree-findings` + `emission-findings` by hand, with `:expect`
+  routing and a doubled emission lane that `builtin-producers` does not express.
+  So the registry is available to consumers, and adding a producer does NOT by
+  itself make `make -f renderer.mk fixtures` run it — arming a rule against this
+  repo's corpus additionally means wiring `core.clj`. Membership in
+  `builtin-producers` is not the armed state either; nothing here reads it yet.
+
 ## Secret-free — gate-enforced
 - Generic widgets, compositions, and generic meta-node examples only.
   Proprietary device meta-nodes (DDE, camera controls) NEVER land here; private

@@ -73,6 +73,66 @@ Rules:
   instruction every bump author executes verbatim. The generated binding repos
   need no such instruction: CI overwrites them wholesale on the next proto push.
 
+## Consuming the UI standard (MANDATORY — arm the gates, never fork them)
+
+protogen defines HOW interfaces work: the ui_ast vocabulary, the ONE reference
+interpreter, and the INTERFACE-QUALITY STANDARD those imply. A consumer owns
+WHAT its screens contain; it does not own the standard, and it does not get to
+decide locally what "reachable" or "readable" means. A consumer that hand-rolls
+its own geometry or contrast check forks the standard silently — two stacks
+required to agree then disagree about whether the same screen is defective, and
+the defect one of them catches stays live in every other. This is the §"Fixing
+protogen from a consumer" rule applied to the gates themselves: **a quality rule
+that lives only in your repo is a bug in this one.**
+
+The standard has two ends and they are DELIBERATELY different shapes:
+- **Geometry** (occlusion, overlap, the layer contract) is exact integer
+  arithmetic on inclusive rects — `devcards.geometry`. It has no noise floor, so
+  it is strictly pass/fail. Importing an "uncertain" verdict here manufactures
+  doubt the arithmetic does not have.
+- **Readability** (contrast) is a measurement whose separating gap is narrower
+  than its own seed-to-seed noise, so it is THREE-way (pass/fail/uncertain), and
+  the uncertain band is the only place an adjudicator belongs — one validated as
+  a classifier on a held-out labelled set before it is wired in.
+Never import one lane's verdict shape into the other. A hardware-scoped claim
+(sunlight, darkness) belongs to a BENCH obligation; a gate that cannot see it
+must not imply it in a pass message.
+
+Rules:
+- **Integrate with the harnesses; do not re-implement them.** Add rules through
+  the finding-producer registry (`devcards.findings`) and drive your screens
+  through `devcards.corpus/render-corpus`. Both take consumer config, so nothing
+  here needs patching to run against a private corpus.
+- **Classification and thresholds are DATA you supply, not code you fork.**
+  Widget classification is `devcards.classify`; each producer declares its own
+  thresholds and the registry namespaces them by producer id. An unknown
+  threshold key throws rather than falling back — a typo must never quietly
+  relax the gate it names.
+- **Occlusion thresholds are PER-ROLE.** The split has to be what the element
+  IS, not a number: a covering ratio that condemns a damaged label also
+  condemns a benign container, because the observed ratios interleave across
+  the good/bad boundary rather than separating. The ratios behind that claim
+  were measured in a CONSUMER, not here — `docs/UI-QUALITY-CONTRACTS.md` §4
+  records them and says so; treat them as the consumer's evidence for the
+  design, not as a protogen measurement. Note this constrains the OCCLUSION
+  lane, which protogen does not yet ship; the overlap rule's `gap-px` is a
+  single geometric threshold and correctly has no role axis.
+- **An unjudged element is a FINDING, never a skip.** A rule that passes over
+  what it could not classify reports "clean" and "I could not look" as the same
+  empty vector. Every lane owes the third answer out loud.
+- **Every gate carries a canary that fails for ITS OWN reason.** A red run
+  proves nothing if the finding came from a different clause than the one under
+  test — a gate that goes red for parent/child nesting instead of the hazard is
+  a false gate that happens to be the right colour. Prove it by mutation: break
+  the clause, watch its canary and only its canary fail.
+- **Declare intent; never derive it from what renders.** Layer z, roles, and
+  proxy rects are DECLARATIONS. A checker that reads stacking off the current
+  paint order asserts that the system does what it does, and blesses the bug it
+  was built to catch.
+- **Your corpus stays yours; the runner stays ours.** Device-specific screens
+  never land here (the corpus secret-scan is gate-enforced). Private consumers
+  run THIS runner against their own private corpora via their protogen pin.
+
 ## The reference interpreter + the devcards proof
 
 protogen owns the ui_ast protocol end-to-end: the `.proto` vocabulary

@@ -14,6 +14,10 @@
            ;; Pure-Clojure shape regression for the dock-panel lego (no wasm):
            ;; empty :stages is a valid identity pipeline; non-vector is rejected.
            :legos-shape-test {:extra-paths ["dev"] :main-opts ["-m" "legos-shape-test"]}
+           ;; Read-only probe: which LVGL classes the renderer actually emits
+           ;; as dump `type` (the classification table's real key set), and
+           ;; what the overlap rule says about the real corpus. Gates nothing.
+           :class-census {:extra-paths ["dev"] :main-opts ["-m" "class-census"]}
            ;; Unit tests for the pure helpers (dump-tree reductions, image
            ;; math). Same pinned runner protodoc's suite uses.
            :test {:extra-paths ["test"]
