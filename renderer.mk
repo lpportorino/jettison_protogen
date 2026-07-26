@@ -283,5 +283,32 @@ clj-schema-test:
 	cd $(RGEN) && clojure -M:test
 
 # ── The battery ─────────────────────────────────────────────────────────────
-check-renderer: manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
+# graal-check FIRST, and it is deliberately not Clojure. Polyglot degrades to the
+# INTERPRETER on a JDK without JVMCI + the Graal compiler — same results, ~21x
+# slower, and the battery is 25 minutes instead of 2. devcards.host's
+# assert-optimizing-runtime! already hard-fails on that, but only once a leg
+# actually RENDERS, roughly a minute in past manifests/tests/wasm/reference/
+# fixtures. This reports in well under a second.
+#
+# `java -version` rather than a Clojure snippet BECAUSE the Clojure floor is
+# ~3.8s of load+compile (measured), so a Clojure precheck would tax every single
+# battery run by more than the misconfiguration it guards against costs to
+# discover late. A plain JVM has no such floor.
+#
+# NECESSARY, NOT SUFFICIENT — which is why the engine assertion STAYS as the
+# backstop rather than being replaced. This proves the JDK is JVMCI-capable; it
+# does NOT prove Truffle actually selected an optimizing runtime. Only
+# Engine.getImplementationName() answers that, and it is checked where the
+# engine is built.
+.PHONY: graal-check
+graal-check:
+	@java -version 2>&1 | grep -q jvmci || { \
+	  echo "FATAL: this JDK reports no jvmci — Truffle will INTERPRET the wasm" >&2; \
+	  echo "  (~21x slower; the battery becomes ~25min instead of ~2min)." >&2; \
+	  echo "  Run the battery in protogen's own image: tools/uber.sh 'make -f renderer.mk check-renderer'" >&2; \
+	  java -version 2>&1 | sed 's/^/  /' >&2; \
+	  exit 1; }
+	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
+
+check-renderer: graal-check manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN (manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"
