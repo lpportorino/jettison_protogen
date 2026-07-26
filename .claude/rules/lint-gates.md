@@ -29,7 +29,7 @@ Two guards you will meet:
 
 | lane | runs | why |
 |---|---|---|
-| `cljfmt`, `clj-kondo`, `bash -n` | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt needs only the CLI |
+| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes) | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt needs only the CLI |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags |
 
 ## clang-tidy: driven by a REAL compile database, never hand-assembled flags

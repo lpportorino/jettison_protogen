@@ -69,9 +69,17 @@ jobs:
       # where one bare apostrophe in a comment terminates the payload and the
       # rest executes as shell — a typo that broke binding generation for four
       # consecutive runs, and was reintroduced the same day in the same file.
-      # `bash -n` catches it in milliseconds. The path filter above includes
-      # **/*.sh precisely so THIS job fires on the commit that would break it.
-      name: bash -n (shell parse check)
+      #
+      # TWO checks, because `bash -n` alone is NOT sufficient and this comment
+      # used to claim it was. An ODD apostrophe count breaks the parse and
+      # `bash -n` catches it; an EVEN count REBALANCES the quoting, so the parse
+      # stays valid while the payload silently becomes EMPTY and every language
+      # leg dies at runtime. That is how the bug landed a third time. The second
+      # check (tools/payload_apostrophes.awk) is what covers the even case.
+      #
+      # The path filter above includes **/*.sh precisely so THIS job fires on
+      # the commit that would break it.
+      name: shell parse + payload-apostrophe check
       run: make -f lint.mk lint-sh
 
     - # One setup-clojure invocation covers both tools. clj-kondo is a native

@@ -227,7 +227,7 @@ splint-clj:
 	@printf '\033[32m[splint-clj]\033[0m splint (report-only; not part of `lint`)\n'
 	@clojure -M:splint $(LINT_CLJ_PATHS)
 
-## lint-sh: `bash -n` parse check over every hand-authored shell script
+## lint-sh: parse check + payload-apostrophe check over hand-authored shell
 # THIS ONE HAS EARNED ITS PLACE. generate-protos.sh builds most of its work as
 # SINGLE-QUOTED `bash -c` payloads, so one bare apostrophe inside a comment
 # terminates the payload and the rest of the comment executes as shell. That
@@ -263,6 +263,18 @@ lint-sh:
 	@printf '\033[32m[lint-sh]\033[0m bash -n (%s cpus, %s scripts)\n' \
 		"$(NPROC)" "$(words $(LINT_SH_FILES))"
 	@printf '%s\n' $(LINT_SH_FILES) | xargs -P $(NPROC) -n 1 bash -n
+# `bash -n` alone does NOT cover the bug the header above describes, and this
+# gate claimed it did. An EVEN number of apostrophes inside a single-quoted
+# payload rebalances the quoting: the parse stays valid, the check passes, and
+# the payload silently becomes EMPTY — every language leg then dies at runtime.
+# That is the THIRD occurrence of this bug in this file, and the first two were
+# odd-count, which is why `bash -n` looked sufficient. Parity is not the
+# invariant; absence is.
+	@printf '\033[32m[lint-sh]\033[0m no bare apostrophe in a single-quoted payload\n'
+# ONE awk call over ALL files, deliberately: the non-vacuity floor is GLOBAL.
+# Most shell scripts carry no payload block, so a per-file floor would be wrong,
+# but zero across the whole set means the opener stopped matching.
+	@awk -f tools/payload_apostrophes.awk $(LINT_SH_FILES)
 # `git -C` is a TRAP in anything reachable from tools/uber.sh. That script
 # exports GIT_DIR=/gitdir and GIT_WORK_TREE=/workspace so a BARE git resolves
 # this submodule checkout inside the container (the guard above depends on it),
