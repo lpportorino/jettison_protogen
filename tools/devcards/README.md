@@ -79,7 +79,11 @@ Wiring a private corpus in:
    :producers   (conj findings/builtin-producers
                       overlap/producer
                       layers/producer)
-   :thresholds  {:overlap/gap-px 1 :layers/gap-px 0}})
+   ;; gap-px 0 is strict overlap (a SHARED pixel). Raising it to 1 also fires
+   ;; on boxes that merely touch — measured on protogen's own corpus that goes
+   ;; from 17 findings to 97, of which 66 are lv_tabview pages touching by
+   ;; construction (UI-QUALITY-CONTRACTS §2.3). Start at 0.
+   :thresholds  {:overlap/gap-px 0 :layers/gap-px 0}})
 ```
 
 `devcards.corpus/render-corpus` drives the screens; neither takes anything

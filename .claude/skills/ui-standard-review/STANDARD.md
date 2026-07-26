@@ -318,9 +318,19 @@ stacking intent), not an exemption.
 - **`HIDDEN` nodes and their subtree** — `lv_indev_search_obj` returns `NULL`
   immediately, so they can neither take the pointer nor deny it.
 
-Snapped-away carousel pages are **not** exempted. Measured: zero overlap
-findings on any `lv_tabview` card across the whole corpus, even with every class
-forced interactive, so no exemption is owed.
+Snapped-away carousel pages are **not** exempted, and they do not need to be —
+but that result is THRESHOLD-DEPENDENT, so read the number with its condition.
+Measured over the whole corpus with every class forced interactive:
+
+| `:overlap/gap-px` | findings | of which `lv_tabview` |
+|---|---|---|
+| `0` (strict overlap — a shared pixel) | 17 | **0** |
+| `1` (touching also fires) | 97 | **66** |
+
+At the strict-overlap default no exemption is owed. At `gap-px 1` a carousel's
+stacked pages TOUCH by construction and the lane floods. That is the rule
+working, not a defect in it — but a consumer raising the threshold must expect
+it, and must not read the zero above as unconditional.
 
 ### 2.4 The box that is judged, and what it cannot see
 
