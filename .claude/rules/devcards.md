@@ -78,6 +78,39 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   repo's corpus additionally means wiring `core.clj`. Membership in
   `builtin-producers` is not the armed state either; nothing here reads it yet.
 
+## The VLM UI review — one batched agent, briefed once, never a gate
+
+Running it before a push that changes what a card renders is MANDATORY, in this
+repo and in every repo deriving from this UI (see `CLAUDE.md` §"Consuming the UI
+standard" for the obligation and the disposition rule). This section is how.
+
+- **Reuse the artifacts that exist; add no pipeline.** The inputs are the
+  committed gallery images under `docs/widgets/<WIDGET>/` (one per family — see
+  `gallery.clj` `family-renders`) and the per-card `dump_tree` the runner already
+  captures (`core.clj` `render-one!`). Anything the review WRITES goes through
+  `docgen.clj` (`do-not-edit-header`, `md-table`, `image-grid-md`,
+  `write-text!`), so it carries the DO-NOT-EDIT header like every other
+  generated doc.
+- **BATCHED — one agent over a large batch, explicitly not one agent per
+  check.** Loading the standard is the expensive part, so it is paid ONCE and
+  amortised across the batch; fanning out per element re-pays it every time and
+  leaves each agent judging a render in isolation, with no sight of the same
+  widget across families and states — which is exactly where the defects are
+  visible.
+- **The briefing is GENERATED from the canonical sources**, never hand-written
+  prose about them: the contract text, the live classification table
+  (`lvgl_classes.clj`), and each producer's declared `:thresholds`. Regenerate it
+  when any of those move — a stale briefing has the model gating on a number the
+  registry would reject as an unknown threshold key.
+- **Emit the producer shape** — `{:card :invariant :node :detail}`, `:invariant`
+  a keyword naming the clause, as in `devcards.findings`. That is what lets a
+  finding be exempted, or retired, by the machinery already here.
+- **Do not wire it into the verdict.** It does not join `:expect`, does not
+  contribute to the fixtures exit code, and does not gate CI: the lanes above are
+  reproducible and this one is not. A finding that recurs deterministically is a
+  SPEC for a producer — arm it through the registry per §"Adding a rule", and
+  the gate then belongs to the producer, not to the model.
+
 ## Secret-free — gate-enforced
 - Generic widgets, compositions, and generic meta-node examples only.
   Proprietary device meta-nodes (DDE, camera controls) NEVER land here; private

@@ -45,7 +45,8 @@ RGEN := tools/renderer-gen
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
-	wasm-present fixtures-prebuilt gallery-prebuilt interaction-prebuilt
+	wasm-present fixtures-prebuilt gallery-prebuilt interaction-prebuilt \
+	standard-brief standard-brief-generate
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -556,6 +557,73 @@ construct-bindings:
 devcards-test:
 	cd tools/devcards && clojure -M:test
 
+# ── UI-standard review briefing freshness ───────────────────────────────────
+# .claude/skills/ui-standard-review/STANDARD.md is GENERATED, by
+# tools/devcards/src/devcards/standard_brief.clj, from the standard's canonical
+# sources: docs/UI-QUALITY-CONTRACTS.md (embedded verbatim), the live
+# classification table (devcards.lvgl-classes), and each finding-producer's
+# declared :thresholds, read from code. It is what the batched screenshot-review
+# agent loads INSTEAD of re-deriving the standard per element — so a standard
+# change that does not reach it leaves that agent judging against a stale copy of
+# this repo's own rules, which is the drift a second prose copy always ends in.
+# The gate is what makes generating it worth more than writing it once.
+#
+# REGENERATE-THEN-DIFF, the same shape as the goldens/gallery freshness step
+# (.github/workflows/renderer.yml): the recipe rewrites the page in place, then
+# fails if the committed bytes moved, leaving the corrected file in the tree to
+# review and commit.
+#
+# `git diff`, NOT the cmp-against-a-tempdir shape `manifests` uses, because this
+# gate's home is the host/CI side where git resolves. That target's caveat is
+# real — inside the Dockerfile.base container a submodule checkout's .git is not
+# resolvable — but here it lands on the safe side: git then EXITS NON-ZERO and
+# this target reds. A gate that cannot look must never report green.
+#
+# THE TRACKED-FILE GUARD IS NOT CEREMONY. `git diff` is silent about an
+# UNTRACKED path, so without it the first run — the one where the page has been
+# generated and never added — would pass green over a file no consumer has ever
+# received: the precise silence where a broken run and a clean run print the
+# same nothing.
+#
+# HEAD is diffed rather than the index, because this runs BEFORE a push and a
+# staged-but-stale copy is exactly the state it exists to catch.
+#
+# DELIBERATELY NOT A check-renderer PREREQUISITE. renderer.yml `docker run`s the
+# battery in Dockerfile.base without mounting .git, so wiring it there would red
+# every containerised battery on a repo-shape problem rather than on a standard
+# problem. It belongs beside the goldens/gallery freshness step — likewise a
+# workflow step on the runner, not a battery lane.
+STANDARD_BRIEF := .claude/skills/ui-standard-review/STANDARD.md
+
+standard-brief-generate:
+	cd tools/devcards && clojure -M -m devcards.standard-brief
+
+# The FRESHNESS half is deliberately a SEPARATE target, and it is not a
+# check-renderer lane. It shells out to git, and git cannot resolve this
+# checkout from inside the toolchain container (`detected dubious ownership`),
+# so a git-based gate wired into the battery can never go green there — it
+# would fail every run while looking like a real finding. This mirrors how the
+# goldens/gallery freshness check is armed: generation runs in the container,
+# the git comparison runs on the runner afterwards
+# (.github/workflows/renderer.yml "Golden manifest + gallery freshness").
+standard-brief: standard-brief-generate
+	@git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { \
+		echo "FATAL: git cannot resolve this checkout, so freshness is UNKNOWN, not" >&2; \
+		echo "  fresh. Run this target on the host (or a CI runner), never inside" >&2; \
+		echo "  the toolchain container." >&2; \
+		exit 1; }
+	@git ls-files --error-unmatch $(STANDARD_BRIEF) >/dev/null 2>&1 || { \
+		echo "FATAL: $(STANDARD_BRIEF) is NOT TRACKED — git diff says nothing about an" >&2; \
+		echo "  untracked path, so the freshness check below would pass green over a" >&2; \
+		echo "  briefing nothing has ever received. Add it: git add $(STANDARD_BRIEF)" >&2; \
+		exit 1; }
+	@git diff --exit-code HEAD -- $(STANDARD_BRIEF) || { \
+		echo "FATAL: $(STANDARD_BRIEF) was STALE vs a fresh generation — regenerated in" >&2; \
+		echo "  place; review the diff above and commit it. The review agent loads this" >&2; \
+		echo "  page as the standard, so a stale one judges against rules that moved." >&2; \
+		exit 1; }
+	@echo "standard-brief: fresh ($(STANDARD_BRIEF) vs the contract + the live classification table + the declared thresholds)"
+
 # ── renderer-gen schema guard suite ─────────────────────────────────────────
 # The lvgl_codegen schema guard tests (tools/renderer-gen/test): pure in-memory
 # validate-screen-semantics checks — the leaf content-sizing guard that fails a
@@ -593,5 +661,5 @@ graal-check:
 	  exit 1; }
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
-check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test wasm reference fixtures harness interaction oracles reload decode-limits
+check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN (generated-projection + construct-bindings + manifests + devcards-test + clj-schema-test + wasm + reference + fixtures + harness + interaction + oracles + reload)"

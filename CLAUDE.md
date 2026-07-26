@@ -132,6 +132,28 @@ Rules:
 - **Your corpus stays yours; the runner stays ours.** Device-specific screens
   never land here (the corpus secret-scan is gate-enforced). Private consumers
   run THIS runner against their own private corpora via their protogen pin.
+- **The VLM UI review is MANDATORY before any push that changes what a card
+  renders** — a widget, a composition, the theme, the interpreter — here AND in
+  every repo deriving from this UI, each over its own renders. A vision model
+  reads the committed gallery images with their `dump_tree` values against a
+  briefing GENERATED from the canonical sources (`docs/UI-QUALITY-CONTRACTS.md`,
+  `devcards.lvgl-classes`, each producer's declared `:thresholds`); a hand-copied
+  briefing drifts the first time a threshold moves.
+  `.claude/rules/devcards.md` carries how to run it and why it is ONE batched
+  agent, never one per check.
+- **Its findings are DISPOSITIONED before the push — fixed, or exempted** with
+  the same proof-carrying `:rationale` + `:retires-when` every other exemption
+  owes (`devcards.invariants/validate-exemptions!`, where an exemption matching
+  no finding is itself a finding). They emit the producer shape
+  (`{:card :invariant :node :detail}`), so they ride the existing verdict and
+  exemption machinery rather than a parallel path — and a consumer extends the
+  review the way it extends every other lane: through the registry.
+- **A VLM finding is NOT a deterministic gate verdict.** Every other lane in
+  this standard is reproducible and a VLM is not, and
+  `docs/UI-QUALITY-CONTRACTS.md` §0 forbids a verdict implying more than its
+  measurement can see. Mandatory to RUN and mandatory to DISPOSITION is the
+  whole obligation; a finding earns pass/fail only by being reimplemented as a
+  deterministic producer.
 
 ## The reference interpreter + the devcards proof
 
