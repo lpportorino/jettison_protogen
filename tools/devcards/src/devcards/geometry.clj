@@ -58,6 +58,28 @@
   [a b]
   (neg? (separation a b)))
 
+(defn intersection
+  "The box of pixels `a` and `b` share, or **nil** when they share none.
+
+   nil is the explicit empty result, deliberately not a degenerate box: on
+   INCLUSIVE coords an empty region cannot be spelled as a rect at all
+   (x1 > x2 is not 'zero wide', it is inverted), and every function here
+   would happily do arithmetic on the inverted vector and return a
+   confident wrong number. Returning nil forces the caller to say what an
+   empty intersection MEANS in its rule rather than letting it flow on as
+   a box."
+  [a b]
+  (check-box! a "intersection/a")
+  (check-box! b "intersection/b")
+  (let [[ax1 ay1 ax2 ay2] a
+        [bx1 by1 bx2 by2] b
+        x1 (max ax1 bx1)
+        y1 (max ay1 by1)
+        x2 (min ax2 bx2)
+        y2 (min ay2 by2)]
+    (when (and (<= x1 x2) (<= y1 y2))
+      [x1 y1 x2 y2])))
+
 (defn too-close?
   "Are `a` and `b` closer than `gap-px` clear pixels? `gap-px` 0 is the
    strict-overlap rule (only a shared pixel fires); 1 additionally

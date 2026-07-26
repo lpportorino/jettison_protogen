@@ -44,26 +44,32 @@
      underneath is dead AND nothing anywhere reports a press. Exempting
      disabled overlaps would bless exactly that.
 
-   KNOWN INACCURACY IN BOTH DIRECTIONS, stated so neither a clean lane nor
-   a firing one is over-read.
+   KNOWN INACCURACY, stated so neither a clean lane nor a firing one is
+   over-read.
 
-   UNDER-reports: the rule measures `:coords`, while the pointer is tested
-   against `lv_obj_get_click_area` — coords GROWN by ext_click_area. Where
-   a widget sets an extended click area the true hazard boundary is larger
-   than the box judged here, so a clean overlap lane is NOT a claim that no
-   two click areas touch. Closing that needs the dump to emit the click
-   area.
+   OVER-reports, and this one is DESIGNED: a designed affordance stack
+   fires as a true collision. The renderer builds a resizable host_proxy as
+   a full-bleed glass plus four corner handles (renderer.c:2255-2288), all
+   CLICKABLE siblings, all shown together — genuinely competing for the
+   pointer, and genuinely intended. Ordering that by declaration is the
+   layer contract's job, not this rule's.
 
-   OVER-reports, two ways, both live in this renderer:
-   - a STATIC host_proxy box has LV_OBJ_FLAG_CLICKABLE cleared at runtime
-     (renderer.c:1966) so the pointer falls through it, but nothing in the
-     dump says so — a type-keyed :interactive? still counts it in;
-   - a DESIGNED affordance stack fires as a true collision. The renderer
-     builds a resizable host_proxy as a full-bleed glass plus four corner
-     handles (renderer.c:2255-2288), all CLICKABLE siblings, all shown
-     together — genuinely competing for the pointer, and genuinely
-     intended. Ordering that by declaration is the layer contract's job,
-     not this rule's."
+   TWO REACHABILITY FACTS THE DUMP CANNOT EXPRESS. Neither occurs in this
+   tree, which is why the rule assumes them away rather than guessing; both
+   are stated because a consumer's renderer is not bound by that.
+
+   - LV_OBJ_FLAG_OVERFLOW_VISIBLE widens the descent gate below by
+     `lv_obj_get_ext_draw_size` (lv_indev.c:632-635). Nothing sets that
+     flag anywhere — not renderer/src, not LVGL itself — so the gate is
+     exactly `:coords` and the clipping below is EXACT, not conservative.
+     Were a consumer to set it, this rule would clip too hard and UNDER-
+     report.
+   - LV_OBJ_FLAG_ADV_HITTEST lets a widget refuse a hit inside its own box
+     by answering LV_EVENT_HIT_TEST (lv_obj_pos.c). Only lv_image sets it
+     (lv_image.c:694) and lv_image clears CLICKABLE at construction, so no
+     node reaches the pairing with it set. A consumer that re-adds
+     CLICKABLE to an image would get an OVER-report, because the answer
+     lives in an event handler no dump can serialise."
   (:require [devcards.classify :as classify]
             [devcards.geometry :as geometry]
             [devcards.invariants :as invariants]))
@@ -87,14 +93,72 @@
        (not hidden-under?)
        (not (false? (:clickable node)))))
 
-(defn- hazard-box
-  "The box the POINTER is actually tested against. `lv_obj_hit_test` uses
-   `lv_obj_get_click_area` — coords GROWN by ext_click_pad — never coords,
-   so a widget that extends its touch target has a hazard boundary larger
-   than the box it draws. dump_obj emits `click_area` only when the two
-   differ, so falling back to `:coords` is exact rather than approximate."
+(defn- hit-box
+  "The box this node is HIT-TESTED against, before its ancestors get a say.
+   `lv_obj_hit_test` uses `lv_obj_get_click_area` — coords GROWN by
+   ext_click_pad — never coords, so a widget that extends its touch target
+   is tested against a larger box than it draws. dump_obj emits
+   `click_area` only when the two differ, so falling back to `:coords` is
+   exact rather than approximate.
+
+   This is only HALF the reachability question: passing the hit test does
+   not mean the pointer ever arrives. See `reachability`."
   [node]
   (or (:click_area node) (:coords node)))
+
+(defn- descend-gate
+  "The box an ancestor must contain the point within before
+   `lv_indev_search_obj` will look at its children at all
+   (lv_indev.c:631-646). It is the ancestor's `:coords` — NOT its click
+   area, which the descent gate never consults, and not its ext draw size,
+   which only applies under OVERFLOW_VISIBLE (see the ns docstring)."
+  [node]
+  (:coords node))
+
+(defn- ancestor-nodes
+  "The node maps of every STRICT ancestor of `path`, outermost first.
+
+   `annotate-tree` carries `:path` (the vector of child indices) and the
+   immediate `:parent`, but not the chain — and the descent gate is a
+   property of the WHOLE chain: a click area can survive its parent's box
+   and still be cut off by its grandparent's. Because `:path` is a vector
+   of indices, an ancestor is exactly a prefix, so one index over the
+   shared walk answers it without re-walking the tree."
+  [path->node path]
+  (map #(get path->node (subvec path 0 %)) (range (count path))))
+
+(defn- reachability
+  "Where this node can ACTUALLY take the pointer, as [status box]:
+
+     [:box b]           b is the reachable region
+     [:unreachable nil] no pixel of it is reachable — a determination, not
+                        a gap in knowledge, so it is not a finding
+     [:unmeasurable why] some box in the chain is missing, so the answer is
+                        unknown and the caller owes a finding
+
+   `lv_indev_search_obj` descends into a node's children only while the
+   point stays inside each ancestor's `:coords`, then hit-tests the node
+   against its own click area. So reachability is the click area
+   INTERSECTED with every ancestor's descent gate — a click area that
+   leaks outside its parent is dead pixels, and reporting them names a
+   hazard region no pointer can visit."
+  [path->node {:keys [node path]}]
+  (let [own (hit-box node)]
+    (if (nil? own)
+      [:unmeasurable "it has no :coords"]
+      (loop [box own
+             ancs (seq (ancestor-nodes path->node path))]
+        (if-not ancs
+          [:box box]
+          (let [anc (first ancs)
+                gate (descend-gate anc)]
+            (if (nil? gate)
+              [:unmeasurable (str "its ancestor " (pr-str (:type anc))
+                                  " has no :coords, so the descent gate "
+                                  "there is unknown")]
+              (if-let [clipped (geometry/intersection box gate)]
+                (recur clipped (next ancs))
+                [:unreachable nil]))))))))
 
 (defn- label-of
   [{:keys [node]}]
@@ -122,7 +186,12 @@
    :unclassified-type finding and is left OUT of the pairing: its
    interactivity is unknown, so including it would invent a hazard and
    excluding it silently would hide one. The finding is the third option —
-   the gate says out loud what it could not judge."
+   the gate says out loud what it could not judge.
+
+   Boxes are compared as REACHABLE regions, not as drawn or hit-test
+   boxes: a click area is clipped by every ancestor's descent gate before
+   any pair is measured, so both the verdict and the reported coordinates
+   name pixels a pointer can actually visit."
   [{:keys [card-id nodes classes thresholds]}]
   (classify/validate-table! classes)
   (let [gap-px (:gap-px thresholds 0)
@@ -131,26 +200,37 @@
                        (and (pointer-reachable? entry)
                             (:interactive?
                              (classify/classify classes (:type (:node entry))))))
-        ;; A node that WOULD be judged but carries no usable :coords is a
-        ;; finding, never a quiet drop. Skipping it silently is the exact
-        ;; shape geometry/check-box! exists to prevent — an unmeasurable
-        ;; node reading as "far apart" makes a broken run and a clean run
+        path->node (into {} (map (juxt :path :node)) nodes)
+        judged (into []
+                     (comp (filter interactive?)
+                           (map #(assoc % ::reach (reachability path->node %))))
+                     nodes)
+        ;; A node that WOULD be judged but cannot be measured is a finding,
+        ;; never a quiet drop. Skipping it silently is the exact shape
+        ;; geometry/check-box! exists to prevent — an unmeasurable node
+        ;; reading as "far apart" makes a broken run and a clean run
         ;; produce the same empty vector.
-        no-coords (for [e nodes
-                        :when (and (interactive? e) (nil? (hazard-box (:node e))))]
-                    {:card card-id
-                     :invariant :unmeasurable-node
-                     :node (label-of e)
-                     :detail (str "interactive node has no :coords, so overlap "
-                                  "could not judge it — it is NOT thereby "
-                                  "clear of everything else")})
-        candidates (into [] (filter #(and (interactive? %) (hazard-box (:node %)))) nodes)]
-    (into (into unclassified no-coords)
+        ;;
+        ;; :unreachable is deliberately NOT in here. That is a positive
+        ;; determination that the pointer can never arrive — the same class
+        ;; as a cleared CLICKABLE — not an admission of ignorance, and
+        ;; reporting it would turn "correctly excluded" into noise.
+        unmeasurable (for [e judged
+                           :let [[status why] (::reach e)]
+                           :when (= :unmeasurable status)]
+                       {:card card-id
+                        :invariant :unmeasurable-node
+                        :node (label-of e)
+                        :detail (str "interactive node could not be judged: "
+                                     why " — it is NOT thereby clear of "
+                                     "everything else")})
+        reach-of (fn [e] (second (::reach e)))
+        candidates (filterv #(= :box (first (::reach %))) judged)]
+    (into (into unclassified unmeasurable)
           (for [[i a] (map-indexed vector candidates)
                 b (subvec candidates (inc i))
                 :when (not (invariants/related? a b))
-                :let [sep (geometry/separation (hazard-box (:node a))
-                                               (hazard-box (:node b)))]
+                :let [sep (geometry/separation (reach-of a) (reach-of b))]
                 :when (< sep gap-px)]
             {:card card-id
              :invariant :overlap
@@ -160,20 +240,24 @@
                             (str "SHARE pixels (overlap depth " (- sep) "px)")
                             (str "sit " sep "px apart, under the " gap-px
                                  "px minimum"))
-                          " — " (geometry/describe (hazard-box (:node a)))
-                          " vs " (geometry/describe (hazard-box (:node b)))
+                          " — " (geometry/describe (reach-of a))
+                          " vs " (geometry/describe (reach-of b))
                           ". Exactly one can take the pointer there"
                           (state-note a b))}))))
 
 (def producer
   "The registry entry. NOT in `devcards.findings/builtin-producers`:
    arming it against protogen's own corpus is a separate change that owes
-   its own evidence — and the evidence, measured by the `class-census`
-   probe, is that it would fire. Under the starter table this corpus
-   reports lv_bar vs lv_slider on the scrubber legos and lv_obj vs lv_obj
-   on the host_proxy and hud-overlay cards. Those are TRUE pointer-path
-   collisions on DESIGNED stacks — benign by paint order, or by a runtime
-   CLICKABLE clear the type-keyed table cannot see. Arming this rule alone
+   its own evidence — and the evidence is that it would fire. Under the
+   starter table this corpus reports three pair classes: lv_obj vs lv_obj
+   (the host_proxy affordance stacks and hud-overlay), lv_bar vs lv_slider
+   (the scrubber legos), and lv_arc vs lv_obj (the gauge-cluster kitchen
+   sink). Re-measure rather than trusting that list — the `class-census`
+   probe walks every card and prints it, and a count copied into prose
+   goes stale the first time the corpus or the table moves.
+
+   Those are TRUE pointer-path collisions on DESIGNED stacks — benign by
+   paint order, not by any error in the geometry. Arming this rule alone
    would therefore turn correct cards red and the only fix available today
    would be per-card exemptions, which is the ratchet the devcards rules
    exist to avoid feeding. It is the layer contract that resolves 'benign

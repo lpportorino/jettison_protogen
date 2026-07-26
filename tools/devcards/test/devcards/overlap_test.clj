@@ -293,3 +293,109 @@
                 — a reader told to inspect coordinates that pass would be sent
                 to the wrong place"
         (is (re-find #"\[0,0,65,49\]" (:detail (first fs))))))))
+
+;; ── the DESCENT GATE: a click area is only as big as its ancestors allow ──
+;; lv_indev_search_obj descends into a node's children only while the point
+;; stays inside each ancestor's :coords (lv_indev.c:631-646); the click area
+;; is consulted afterwards, by lv_obj_hit_test alone. So click-area pixels
+;; outside an ancestor are dead, and naming them describes a hazard region no
+;; pointer can visit.
+
+(deftest a-click-area-is-clipped-by-its-PARENT-before-being-judged
+  (testing "a handle inside a panel extends its touch target past the panel
+            edge. Those pixels are unreachable: the pointer never enters the
+            panel there, so the child loop never runs and the handle is never
+            hit-tested."
+    (let [root {:type "lv_obj" :coords [0 0 199 199]
+                :children
+                [{:type "lv_obj" :uid 9 :coords [100 10 149 59]
+                  :children [{:type "lv_button" :uid 1 :coords [105 15 119 29]
+                              :click_area [90 5 134 44] :children []}]}
+                 ;; a sibling of the PANEL, outside it entirely (x2=99 < 100)
+                 {:type "lv_button" :uid 2 :coords [80 10 99 59] :children []}]}
+          fs (judge root)]
+      (testing "the raw click area overlaps the outside sibling by 10px"
+        (is (= -10 (geometry/separation [90 5 134 44] [80 10 99 59]))))
+      (testing "clipped to the panel it does not reach the sibling at all,
+                so the pair must NOT fire"
+        (is (= [100 10 134 44] (geometry/intersection [90 5 134 44] [100 10 149 59])))
+        (is (empty? fs))))))
+
+(deftest clipping-does-not-silence-a-collision-INSIDE-the-gate
+  (testing "CONTROL for the clause above — the clip must remove only
+            unreachable pixels. Two handles that still collide after being
+            cut to their parent have to keep firing, or the fix would buy its
+            precision by going quiet."
+    (let [root {:type "lv_obj" :coords [0 0 199 199]
+                :children
+                [{:type "lv_obj" :uid 9 :coords [100 10 149 59]
+                  :children [{:type "lv_button" :uid 1 :coords [105 15 119 29]
+                              :click_area [90 5 134 44] :children []}
+                             {:type "lv_button" :uid 2 :coords [125 15 139 29]
+                              :click_area [110 5 154 44] :children []}]}]}
+          fs (judge root)]
+      (is (= #{:overlap} (invariants-of fs)))
+      (is (= "lv_button#1 vs lv_button#2" (:node (first fs))))
+      (testing "and BOTH reported boxes are the clipped ones — the whole
+                point of the change is that the coordinates in a finding are
+                pixels a pointer can reach"
+        (is (re-find #"\[100,10,134,44\]" (:detail (first fs))))
+        (is (re-find #"\[110,10,149,44\]" (:detail (first fs))))))))
+
+(deftest the-gate-is-the-WHOLE-ancestor-chain-not-just-the-parent
+  (testing "a click area can survive its PARENT and still be cut off by its
+            GRANDPARENT, so clipping one level up leaves the defect live.
+            The inner panel deliberately overhangs the outer one to the
+            left: a child may be laid out past its parent's edge, and only
+            the outer box actually stops the pointer."
+    (let [root {:type "lv_obj" :coords [0 0 199 199]
+                :children
+                [{:type "lv_obj" :uid 8 :coords [100 10 149 59]
+                  :children [{:type "lv_obj" :uid 9 :coords [60 10 149 59]
+                              :children [{:type "lv_button" :uid 1
+                                          :coords [105 15 119 29]
+                                          :click_area [70 5 134 44]
+                                          :children []}]}]}
+                 {:type "lv_button" :uid 2 :coords [60 10 99 59] :children []}]}]
+      (testing "clipped to the PARENT alone the click area still reaches the
+                outside sibling, so a parent-only rule fires here"
+        (is (= [70 10 134 44] (geometry/intersection [70 5 134 44] [60 10 149 59])))
+        (is (neg? (geometry/separation [70 10 134 44] [60 10 99 59]))))
+      (testing "clipped to the whole chain it stops at the GRANDPARENT edge
+                and never reaches the sibling — so the rule must stay silent"
+        (is (= [100 10 134 44] (geometry/intersection [70 10 134 44] [100 10 149 59])))
+        (is (empty? (judge root)))))))
+
+(deftest a-node-clipped-to-nothing-is-excluded-but-NOT-reported
+  (testing "an empty intersection is a determination — the pointer can never
+            arrive — not an admission of ignorance. It belongs with a cleared
+            CLICKABLE, so it leaves the pairing silently; reporting it would
+            turn a correct exclusion into noise."
+    (let [root {:type "lv_obj" :coords [0 0 199 199]
+                :children
+                [{:type "lv_obj" :uid 9 :coords [0 0 49 49]
+                  ;; child placed entirely outside its own parent
+                  :children [{:type "lv_button" :uid 1 :coords [120 120 159 159]
+                              :children []}]}
+                 {:type "lv_button" :uid 2 :coords [120 120 159 159] :children []}]}
+          fs (judge root)]
+      (is (empty? fs)))))
+
+(deftest an-ancestor-with-no-coords-is-UNMEASURABLE-not-clean
+  (testing "if any box in the chain is missing, the descent gate there is
+            unknown and so is reachability. The gate owes the third answer
+            out loud — a silent pass would make a broken tree and a clean one
+            produce the same empty vector."
+    (let [root {:type "lv_obj" :coords [0 0 199 199]
+                :children
+                [{:type "lv_obj" :uid 9
+                  :children [{:type "lv_button" :uid 1 :coords [10 10 59 39]
+                              :children []}]}
+                 {:type "lv_button" :uid 2 :coords [40 10 89 39] :children []}]}
+          fs (judge root)]
+      (is (contains? (invariants-of fs) :unmeasurable-node))
+      (testing "and it names WHICH box was missing, so the reader is not sent
+                to search the whole tree"
+        (let [f (first (filter #(= :unmeasurable-node (:invariant %)) fs))]
+          (is (= "lv_button#1" (:node f)))
+          (is (re-find #"ancestor \"lv_obj\" has no :coords" (:detail f))))))))

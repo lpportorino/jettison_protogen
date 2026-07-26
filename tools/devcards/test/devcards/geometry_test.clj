@@ -63,3 +63,45 @@
 
 (deftest describe-reports-inclusive-dimensions
   (is (= "[0,0,9,9] 10x10" (geometry/describe [0 0 9 9]))))
+
+(deftest intersection-returns-the-shared-box
+  (testing "inclusive on both ends, so the shared box includes its own edges"
+    (is (= [5 5 9 9] (geometry/intersection [0 0 9 9] [5 5 14 14])))
+    (is (= [0 0 9 9] (geometry/intersection [0 0 9 9] [0 0 9 9])))
+    (testing "containment yields the inner box, not the outer"
+      (is (= [2 2 4 4] (geometry/intersection [0 0 9 9] [2 2 4 4]))))
+    (testing "one shared pixel is a real intersection"
+      (is (= [9 9 9 9] (geometry/intersection [0 0 9 9] [9 9 19 19]))))))
+
+(deftest intersection-is-nil-when-nothing-is-shared
+  (testing "nil is the empty result, never a degenerate box: on INCLUSIVE
+            coords an empty region cannot be spelled as a rect, and an
+            inverted vector would flow on into arithmetic that returns a
+            confident wrong number"
+    (is (nil? (geometry/intersection [0 0 9 9] [20 20 29 29])))
+    (testing "ABUTTING boxes share no pixel — the off-by-one this whole ns
+              is sensitive to. [0 0 9 9] and [10 0 19 9] touch with nothing
+              between, so their intersection is empty, not a zero-width box"
+      (is (nil? (geometry/intersection [0 0 9 9] [10 0 19 9])))
+      (is (= 0 (geometry/separation [0 0 9 9] [10 0 19 9]))))
+    (testing "and it is empty when only ONE axis misses"
+      (is (nil? (geometry/intersection [0 0 9 9] [0 20 9 29]))))))
+
+(deftest intersection-rejects-malformed-boxes
+  (testing "same contract as separation — an unmeasurable box must throw
+            rather than clip to something plausible"
+    (is (thrown? Exception (geometry/intersection nil [0 0 9 9])))
+    (is (thrown? Exception (geometry/intersection [0 0 9] [0 0 9 9])))))
+
+(deftest intersection-agrees-with-intersect?
+  (testing "two answers to the same question must never disagree — a box
+            that intersects has a non-nil intersection, and one that does
+            not has nil"
+    (doseq [[a b] [[[0 0 9 9] [5 5 14 14]]
+                   [[0 0 9 9] [10 0 19 9]]
+                   [[0 0 9 9] [9 9 19 19]]
+                   [[0 0 9 9] [20 20 29 29]]
+                   [[0 0 9 9] [2 2 4 4]]]]
+      (is (= (geometry/intersect? a b)
+             (some? (geometry/intersection a b)))
+          (str "disagreement on " a " vs " b)))))
