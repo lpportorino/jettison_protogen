@@ -113,10 +113,19 @@ harness: wasm proto-classes
 # Re-renders the SAME card bytes the devcards runner built (the `fixtures`
 # lane persists them under tools/devcards/out/composition/), byte-compares
 # the raw framebuffers cross-engine, and replays the pointer contract
-# natively (press-seek / drag / ext-click envelope / dock fold). Runs AFTER
-# `fixtures`; the guard fails LOUD when the devcards output is absent — a
-# missing input is a sequencing bug, never a skip.
-interaction:
+# natively (press-seek / drag / ext-click envelope / dock fold).
+#
+# `fixtures` is a DECLARED prerequisite, not merely a documented one. The
+# ordering used to rest on check-renderer happening to list fixtures earlier —
+# which meant `make -f renderer.mk interaction` on its own hit the guard below
+# instead of building what it needs, and which a parallel build would discard
+# outright (make is free to start an unconstrained target at any time).
+#
+# The guard STAYS. It is not redundant with the edge: the edge makes make BUILD
+# the cards, the guard catches them being absent for any other reason, and it is
+# also the thing that would fire first if this dependency were ever removed
+# again. A missing input is a sequencing bug, never a skip.
+interaction: fixtures
 	@test -d tools/devcards/out/composition/cards || { \
 		echo "FATAL: tools/devcards/out/composition missing — run 'make -f renderer.mk fixtures' first" >&2; \
 		exit 1; }
