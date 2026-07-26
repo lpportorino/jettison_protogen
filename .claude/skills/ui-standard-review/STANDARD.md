@@ -228,6 +228,42 @@ Plus **ancestry**, which `devcards.invariants/annotate-tree` precomputes as a
 `:path` on every node; `related?` is the prefix test. Without it the contract
 reports every button against its own label.
 
+### 1.5b A non-static host_proxy is the interaction target
+
+**Put only DECORATION inside a host_proxy that is draggable, resizable or
+alignable. An interactive control there is dead.**
+
+This is BY DESIGN. The proxy's glass overlay is full-bleed and carries
+`LV_OBJ_FLAG_PRESS_LOCK`, so it takes every press inside the proxy's box and a
+control underneath never receives one. A proxy in an interactive mode exists to
+be dragged, resized or aligned; routing some of its presses to a child would
+make the drag surface unpredictable exactly where the child sits.
+
+Measured, tapping node centres taken from `dump_tree`, with an identical button
+outside the proxy as a control:
+
+| mode | button INSIDE the proxy | control OUTSIDE |
+|---|---|---|
+| `static` | fires | fires |
+| `draggable` | **nothing** | fires |
+| `resizable` | **nothing** | fires |
+| `alignable` | **nothing** | fires |
+
+In `static` mode the proxy clears its own `CLICKABLE` so events fall through —
+that is the mode where content interactivity works.
+
+**Why this needs stating rather than leaving to discovery.** The failure is
+silent in both of a consumer's oracles: the framebuffer is identical whether the
+child was reachable or dead, and the symptom IS that no event fires, so an event
+log shows nothing either. A consumer that puts a button inside a draggable proxy
+has a dead button and no gate that can tell them. `devcards.interaction`'s
+`proxy-content-inert` canary pins the behaviour by INJECTING A POINTER, in both
+directions — a one-sided test would pass against a renderer that had stopped
+delivering events entirely.
+
+The overlap lane reports the glass-vs-content pair for this reason. That pair is
+a DESIGNED stack, and this section is what makes it one.
+
 ### 1.6 Determining OBSERVED stacking
 
 - **Within the widget tree:** LVGL paints a parent, then its children in index

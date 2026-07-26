@@ -249,6 +249,65 @@
                  (probe/finding "long-event-name" :event-tag-length
                                 (count long-command-id) (count (str tag)))]))))))
 
+(defn- proxy-content-inert-findings
+  "A NON-STATIC host_proxy is the interaction target and its content
+   children are INERT — pinned here because nothing else can see it. The
+   glass is full-bleed with LV_OBJ_FLAG_PRESS_LOCK, so it takes every
+   press inside the proxy and a control underneath never fires. No
+   framebuffer assertion can tell the two apart (identical pixels) and no
+   event-log assertion can either (the whole symptom is that no event
+   fires), so this canary INJECTS A POINTER.
+
+   Both directions are asserted, because only the pair is evidence: in
+   STATIC mode the proxy clears its own CLICKABLE and the content child
+   MUST fire, and in every interactive mode it must NOT. A one-sided test
+   would pass against a renderer that had simply stopped delivering events
+   at all — which is exactly the failure it exists to catch."
+  [boot! canvas]
+  (let [card (fn [mode]
+               {:id (str "proxy-content/" (name mode))
+                :node {:type :WIDGET_OBJ :props {:w 400 :h 200}
+                       :children
+                       [{:type :WIDGET_HOST_PROXY :x 10 :y 10
+                         :props {:w 200 :h 120
+                                 :host_proxy_props {:proxy_id "px" :mode mode
+                                                    :handle_size 16}}
+                         :children [{:type :WIDGET_BUTTON :x 40 :y 40
+                                     :props {:w 80 :h 30}
+                                     :event {:name "inside" :trigger :clicked}
+                                     :children [{:type :WIDGET_LABEL :text "IN"}]}]}
+                        {:type :WIDGET_BUTTON :x 250 :y 40
+                         :props {:w 80 :h 30}
+                         :event {:name "outside" :trigger :clicked}
+                         :children [{:type :WIDGET_LABEL :text "OUT"}]}]}})
+        tap-tags (fn [^bytes pb which]
+                   (probe/with-host boot!
+                     (fn [h]
+                       (render! h pb)
+                       ;; centres come from the DUMP, never from guessed screen
+                       ;; coordinates — a guessed point that misses reports the
+                       ;; same empty vector as the defect.
+                       (let [btns (vec (probe/find-type (probe/dump-tree h) "lv_button"))]
+                         (pointer/tap! h (probe/center (btns (case which :inside 0 :outside 1)))
+                                       1000)
+                         (mapv :tag (probe/events h))))))]
+    (into []
+          (keep identity)
+          (mapcat
+           (fn [mode]
+             (let [pb (fixtures/build-authored-card canvas (card mode))
+                   id (str "proxy-content/" (name mode))
+                   static? (= mode :static)]
+               [(probe/finding id
+                               (if static? :static-content-is-live
+                                   :non-static-content-is-inert)
+                               (if static? ["inside"] [])
+                               (tap-tags pb :inside))
+                ;; the control proves the harness delivers events at all
+                (probe/finding id :control-outside-always-fires
+                               ["outside"] (tap-tags pb :outside))]))
+           [:static :draggable :resizable :alignable]))))
+
 ;; ── entry ───────────────────────────────────────────────────────────────
 (defn run-lane
   "Drive the whole interaction lane. `boot!` returns a fresh started
@@ -279,4 +338,5 @@
         (into (drag-findings boot! scrubber s-pb))
         (into (ext-click-findings boot! scrubber s-pb))
         (into (dock-findings boot! dock d-pb))
-        (into (long-event-name-findings boot! (:canvas inventory))))))
+        (into (long-event-name-findings boot! (:canvas inventory)))
+        (into (proxy-content-inert-findings boot! (:canvas inventory))))))

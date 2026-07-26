@@ -1953,8 +1953,27 @@ static void proxy_set_shown(lv_obj_t *obj, bool shown) {
 /* Mode semantics (D3/D5): static clears CLICKABLE on the box itself so
  * events fall through to widgets beneath (the host element owns
  * interaction — pointer routing is the HOST's contract); interactive
- * modes show their affordance set. Content children keep their own
- * interactivity in every mode. */
+ * modes show their affordance set.
+ *
+ * A NON-STATIC PROXY IS THE INTERACTION TARGET, AND ITS CONTENT CHILDREN
+ * ARE INERT. This is BY DESIGN, not an accident of stacking: the glass is
+ * full-bleed and carries LV_OBJ_FLAG_PRESS_LOCK, so it takes every press
+ * inside the proxy and a control placed underneath never sees one. A
+ * proxy in draggable/resizable/alignable mode exists to be dragged,
+ * resized or aligned — routing some of its presses to a child would make
+ * the drag surface unpredictable exactly where the child sits.
+ *
+ * Measured, tapping node centres taken from dump_tree, with an identical
+ * button outside the proxy as a control: a button INSIDE fires only in
+ * static mode; in draggable, resizable and alignable it fires nothing
+ * while the outside control fires in all four. `interaction.clj`'s
+ * proxy-content-inert canary pins this — it injects a pointer, because no
+ * framebuffer or DOM assertion can see the difference.
+ *
+ * So: put only DECORATION inside a non-static proxy. An interactive
+ * control there is dead, silently — no pixel differs and no event fires.
+ * The overlap lane reports the glass-vs-content pair for this reason and
+ * it is a DESIGNED stack, not a defect. */
 static void proxy_apply_mode(proxy_entry_t *e, int32_t mode) {
   e->mode = mode;
   bool resizable = mode == (int32_t)ui_ProxyMode_PROXY_MODE_RESIZABLE;

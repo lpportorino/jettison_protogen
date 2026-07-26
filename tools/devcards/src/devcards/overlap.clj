@@ -265,18 +265,21 @@
    probe walks every card and prints it, and a count copied into prose
    goes stale the first time the corpus or the table moves.
 
-   Those are TRUE pointer-path collisions, and DO NOT read them as benign.
-   Measured since: most of the host_proxy ones are REAL defects the rule
-   detected correctly — a non-static proxy's glass swallows presses aimed at
-   its own content children (confirmed by pointer injection: a button inside
-   fires in :static and in no other mode, while an identical button outside
-   fires in all four), and on a short proxy two corner handles' grown click
-   areas collide because the size floor is half the clearance the growth
-   needs. Only the glass-vs-handle pairs match 'designed stack'.
+   Those are TRUE pointer-path collisions, and they split into two kinds —
+   do not treat them as one class.
 
-   So arming this rule is blocked on FIXING those, not on silencing them,
-   and a mechanism that resolved 'the affordance stack' wholesale would hide
-   two live defects to make a gate green.
+   DESIGNED: the glass-vs-content and glass-vs-handle pairs. A non-static
+   proxy IS the interaction target and its content is inert by design; the
+   glass is full-bleed with PRESS_LOCK and takes every press inside the box
+   (UI-QUALITY-CONTRACTS §1.5b, pinned by devcards.interaction's
+   proxy-content-inert canary). The rule is right that exactly one element
+   can take the pointer there, and the answer is the glass, deliberately.
+
+   A DEFECT: on a short proxy two corner handles' grown click areas
+   collide, because `ext_click_area` grows each handle by handle_px/2 — so
+   two per edge need 4*handle_px of clearance while the size floor is
+   2*handle_px, and an authored min_w/min_h bypasses the floor entirely.
+   That one is real and must stay red.
 
    Do not reach for the layer contract as the resolution either: it cannot
    name these nodes in ANY consumer. uid is emitted only when assigned and
