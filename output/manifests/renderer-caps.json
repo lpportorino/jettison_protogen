@@ -53,6 +53,7 @@
   "non-headroom-caps": {
     "MAX_BINDINGS_PER_WIDGET": "per-NODE cap (a single widget's binding count), not a screen aggregate; the renderer fails loud on overflow, and pending-bindings counts the screen total.",
     "MAX_DROPDOWN_VALUE_MAPS": "sparse registry of value-bound enum dropdowns' option->index maps (SYNC C1); a screen aggregate like host_proxy but tiny and uncontended \u2014 few enum dropdowns carry a value bind \u2014 reset on full load + swap-removed with its widget in unregister_subtree. Allowlisted pending a screen that approaches it, at which point it graduates to a counted cap (see MAX_PROXIES).",
+    "MAX_LIVE_CHILDREN": "per-PARENT bound on the LIVE child count (LVGL keeps it in a uint16_t, so the 65536th sibling wraps it to zero), not a screen aggregate the codegen sums. Deliberately uncountable at emit besides: the bound is on the live tree, and a parent also grows through controls_apply_patch INSERT ops the codegen never sees, so a static per-screen count could not be the enforcement point even in principle \u2014 the renderer refuses loudly at both decode entry points instead.",
     "MAX_PENDING_CHECKED": "transient load-time deferral queue (checked bindings), drained during the build; see MAX_PENDING_VISIBILITY.",
     "MAX_PENDING_COLOR": "transient load-time deferral queue (color_when bindings), drained during the build; see MAX_PENDING_VISIBILITY.",
     "MAX_PENDING_ENABLED": "transient load-time deferral queue (enabled_when bindings), drained during the build; see MAX_PENDING_VISIBILITY.",

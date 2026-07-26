@@ -634,6 +634,22 @@ static bool morph_in_progress;
  * costs ~4.8 KB of C stack, so the link must reserve room for all of them.
  * wasm.mk's -Wl,-z,stack-size carries that obligation and explains the sum. */
 #define MAX_DECODE_DEPTH 32
+/* Max children one live parent may hold. LVGL stores the count in a uint16_t
+ * (lv_obj_spec_attr_t::child_cnt), so the 65536th sibling wraps it to zero and
+ * silently orphans the whole child array — corruption, not a refusal.
+ *
+ * The bound is on the LIVE tree, not on one decode invocation, because the two
+ * ways to reach the wrap are different shapes: one .pb declaring 65536 siblings
+ * (load path), and 65536 INSERT ops each adding one child to the same parent
+ * (patch path). A per-decode counter catches only the first; a live check
+ * catches both and cannot wedge a long-lived module the way an accumulating
+ * counter does — nothing has to credit deletions back.
+ *
+ * 4096 sits above every legitimate fan-out with room to spare: the renderer's
+ * own widest fixture is vc_trunc at 780 siblings, and the shipped screen corpus
+ * peaks at 78 nodes per SCREEN. decode_limits.rs pins that 780 so this cap can
+ * never be lowered under a fixture the battery already depends on. */
+#define MAX_LIVE_CHILDREN 4096
 /* Context for building a single widget node */
 typedef struct widget_ctx {
   lv_obj_t *parent;    /* LVGL parent to create widget under */
@@ -3961,6 +3977,16 @@ static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
     }
     parent = parent_ctx->tab_staging;
   }
+  /* Fan-out guard: refuse before the child that would push this parent past
+   * the uint16_t child_cnt bound. Checked against the LIVE count, so it holds
+   * however the siblings arrived — one wide .pb, or a payload appending to a
+   * parent that patches already grew. */
+  if (lv_obj_get_child_count(parent) >= MAX_LIVE_CHILDREN) {
+    LOG_ERROR("parent already holds %u children (max %d)",
+              (unsigned)lv_obj_get_child_count(parent), MAX_LIVE_CHILDREN);
+    parent_ctx->error = -1;
+    return false;
+  }
   ui_WidgetNode child = ui_WidgetNode_init_zero;
   widget_ctx_t child_ctx;
   child_ctx.parent = parent;
@@ -4442,6 +4468,19 @@ static int apply_one_op(const uint8_t *buf, uint32_t len) {
     if (!parent) {
       LOG_ERROR("INSERT: unknown parent uid %u", (unsigned)op.parent_uid);
       return -3;
+    }
+    /* INSERT is the ONE op that grows a parent's child count (REPLACE deletes
+     * first, MOVE reorders, REMOVE shrinks, UPDATE forbids children), so it is
+     * the one that can walk a parent to the uint16_t child_cnt wrap across
+     * many patches. children_decode_cb bounds the node's own subtree; this
+     * bounds the node's ATTACHMENT. A uid-less leaf registers in no pool, so
+     * patch_pools_low cannot see this class at all. */
+    if (lv_obj_get_child_count(parent) >= MAX_LIVE_CHILDREN) {
+      LOG_ERROR("INSERT refused: parent uid %u already holds %u children "
+                "(max %d)",
+                (unsigned)op.parent_uid,
+                (unsigned)lv_obj_get_child_count(parent), MAX_LIVE_CHILDREN);
+      return -4; /* PATCH_ERR_POOL */
     }
     lv_obj_t *built = NULL;
     int rc = decode_op_node(buf, len, parent, NULL, &built);

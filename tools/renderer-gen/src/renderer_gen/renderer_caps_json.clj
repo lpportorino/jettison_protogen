@@ -94,6 +94,13 @@
     guard fails loud on overflow (state-honesty), not a screen pool the codegen
     sums — styles counts the screen-wide slot total separately."
    "MAX_TABVIEW_CHILDREN" "per-NODE cap (one tabview's tab count), not a screen aggregate."
+   "MAX_LIVE_CHILDREN"
+   "per-PARENT bound on the LIVE child count (LVGL keeps it in a uint16_t, so the
+    65536th sibling wraps it to zero), not a screen aggregate the codegen sums.
+    Deliberately uncountable at emit besides: the bound is on the live tree, and a
+    parent also grows through controls_apply_patch INSERT ops the codegen never
+    sees, so a static per-screen count could not be the enforcement point even in
+    principle — the renderer refuses loudly at both decode entry points instead."
    "MAX_TABLE_ROWS"
    "per-NODE ceiling on ONE table's declared row_count (it bounds that table's
     own allocation), not a screen pool the codegen sums; the renderer refuses an
