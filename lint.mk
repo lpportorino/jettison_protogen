@@ -263,6 +263,27 @@ lint-sh:
 	@printf '\033[32m[lint-sh]\033[0m bash -n (%s cpus, %s scripts)\n' \
 		"$(NPROC)" "$(words $(LINT_SH_FILES))"
 	@printf '%s\n' $(LINT_SH_FILES) | xargs -P $(NPROC) -n 1 bash -n
+# `git -C` is a TRAP in anything reachable from tools/uber.sh. That script
+# exports GIT_DIR=/gitdir and GIT_WORK_TREE=/workspace so a BARE git resolves
+# this submodule checkout inside the container (the guard above depends on it),
+# and GIT_DIR BEATS -C: `GIT_DIR=<A> git -C <B> rev-parse HEAD` answers about A,
+# exit 0, plausible sha, no error. Verified live.
+#
+# So inside that container a bare `git` is CORRECT and `git -C <other-repo>` is
+# silently WRONG — it reports the wrong repository while looking authoritative.
+# renderer/wasm.mk's provenance stamp is the live stake: it records the commit
+# controls.wasm was built from, and consumers compare that against their
+# gitlink. A `-C` there would stamp the wrong sha, and a wrong stamp is worse
+# than none — it reads as proof while being false.
+#
+# The escape hatch when another repo genuinely must be addressed is to drop the
+# inherited environment explicitly: `env -u GIT_DIR -u GIT_WORK_TREE git -C …`
+# (uber.sh already defends its own host side that way).
+	@if bad=$$(grep -nE '(^|[^-])\bgit +-C\b' $(LINT_SH_FILES) renderer/wasm.mk lint.mk 2>/dev/null \
+		| grep -v 'env -u GIT_DIR' \
+		| grep -vE ':[0-9]+:[[:space:]]*#' \
+		| grep -vE 'printf|echo '); then 		printf '\033[31m[lint-sh] FAIL\033[0m — bare `git -C` reachable from uber.sh:\n' >&2; 		printf '%s\n' "$$bad" >&2; 		printf '  GIT_DIR overrides -C in that container, so this answers about the\n' >&2; 		printf '  WRONG repo. Use: env -u GIT_DIR -u GIT_WORK_TREE git -C <repo> …\n' >&2; 		exit 1; 	fi
+	@printf '\033[32m[lint-sh]\033[0m no bare `git -C` (GIT_DIR would override it)\n'
 
 ## fmt-c: clang-format DRIFT check over hand-authored C, one process per cpu
 # NOT `--dry-run --Werror`. That mode DISAGREES with `-i` under .clang-format's
