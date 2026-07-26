@@ -267,9 +267,23 @@
    this registry keeps refusing elsewhere. A caller judging one mode uses
    the :emission builtin; a caller judging several declares that it has
    several. The mode is carried into the finding so a report can say WHICH
-   render emitted, which a merged lane cannot."
+   render emitted, which a merged lane cannot.
+
+   REFUSES AN EMPTY MAP, for the same reason `validate-producers!` refuses
+   an empty producer set: `(sort-by key {})` is empty, the mapcat yields
+   [], and `check-requires!` is satisfied because {} is `some?` — so a card
+   would pass having run not one contract, and with :host-proxy? true the
+   POSITIVE 'must emit exactly one proxy-report' arm would never fire. That
+   output is byte-identical to a clean judgement, which is the precise
+   silence this registry exists to refuse. Supplied-but-empty is a CLAIM
+   here as everywhere; the claim is just one no caller can truthfully make."
   {:id :emission-by-mode
    :fn (fn [{:keys [card-id emissions-by-mode host-proxy?]}]
+         (when (empty? emissions-by-mode)
+           (throw (ex-info (str "refusing an EMPTY :emissions-by-mode for card "
+                                (pr-str card-id) " — judging zero modes passes "
+                                "the card without running a single contract")
+                           {:producer :emission-by-mode :card card-id})))
          (into []
                (mapcat (fn [[mode emissions]]
                          (map #(assoc % :mode mode)

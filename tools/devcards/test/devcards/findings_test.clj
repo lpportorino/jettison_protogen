@@ -459,6 +459,53 @@
                            :host-proxy? true
                            :caps {:vis-px? true}})))))))
 
+;; ── the by-mode emission lane ────────────────────────────────────────────
+;; A card rendered in SEVERAL modes, every mode judged. It had no test at
+;; all, which is how the empty-map silence below survived registration.
+
+(defn- by-mode
+  [emissions-by-mode host-proxy?]
+  (:live (findings/card-findings
+          {:card-id "c"
+           :emissions-by-mode emissions-by-mode
+           :host-proxy? host-proxy?
+           :producers [findings/emission-by-mode-producer]})))
+
+(deftest an-empty-emissions-by-mode-map-throws
+  (testing "judging zero modes passes the card without running one contract,
+            and the output is byte-identical to a clean judgement — the
+            precise silence this registry refuses. (sort-by key {}) is empty,
+            the mapcat yields [], and check-requires! is satisfied because {}
+            is some?, so nothing upstream catches it."
+    (is (thrown? Exception (by-mode {} false))))
+  (testing "and the host_proxy case is the one that matters: with the POSITIVE
+            arm selected, an empty map means the 'must emit exactly one
+            proxy-report' contract never runs and the card passes CLEAN"
+    (is (thrown? Exception (by-mode {} true)))))
+
+(deftest a-non-empty-mode-map-is-still-judged
+  (testing "CONTROL for the refusal above — the throw must key on emptiness,
+            not on the shape. A single mode with nothing captured is a real
+            claim and passes."
+    (is (empty? (by-mode {:dark {:commands [] :reports [] :events []}} false))))
+  (testing "every mode is judged, not just the first"
+    (let [live (by-mode {:dark {:commands [] :reports [] :events []}
+                         :light {:commands [{:id "c1"}] :reports [] :events []}}
+                        false)]
+      (is (= [:unexpected-emission] (mapv :invariant live)))
+      (testing "and the finding names WHICH render emitted — a merged lane
+                cannot say that, which is why this is a separate producer"
+        (is (= :light (:mode (first live))))))))
+
+(deftest the-by-mode-lane-carries-the-host-proxy-arm
+  (testing "the POSITIVE contract must survive the by-mode wrapper: a
+            host_proxy card whose mode emitted no proxy-report fires"
+    (is (= [:proxy-report-contract]
+           (mapv :invariant (by-mode {:dark {:proxy-reports []}} true)))))
+  (testing "CONTROL: the same mode with its one report is clean, so the
+            assertion keys on the missing report and not on the flag"
+    (is (empty? (by-mode {:dark {:proxy-reports [{:id "px"}]}} true)))))
+
 (deftest a-threshold-default-must-satisfy-its-own-pred
   (testing "the default is what runs when the consumer supplies nothing, so it
             is the value MOST runs use — and it was the one value exempt from
