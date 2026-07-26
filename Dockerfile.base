@@ -266,10 +266,16 @@ RUN apt-get update \
 # re-runs when a DEPENDENCY changes, not when code changes. `-P` prepares the
 # classpath (download + clone) without running anything.
 #
-# Adding an alias to either deps.edn obliges adding it here, or the battery
-# silently starts reaching for the network again at that alias.
+# Adding an alias to ANY of these deps.edn files obliges adding it here — and so
+# does adding a battery lane that drives a TOOL not listed here at all. The
+# protodoc tools were the second case: `renderer.mk manifests-proto-db` gates the
+# proto-db-derived manifests by re-emitting them, which runs docs/.protodoc/tools,
+# whose deps were not prefetched. That lane downloaded from clojars on every cold
+# image — the exact defect this layer exists to prevent, reintroduced through a
+# tool rather than an alias.
 COPY tools/devcards/deps.edn /prefetch/devcards/deps.edn
 COPY tools/renderer-gen/deps.edn /prefetch/renderer-gen/deps.edn
+COPY docs/.protodoc/tools/deps.edn /prefetch/protodoc/deps.edn
 RUN cd /prefetch/devcards \
     && clojure -P -M:bindings:run \
     && clojure -P -M:test \
@@ -277,6 +283,9 @@ RUN cd /prefetch/devcards \
     && clojure -P -M:fixtures \
     && clojure -P -M:codegen \
     && clojure -P -M:morph-fixtures \
+    && clojure -P -M:test \
+    && cd /prefetch/protodoc \
+    && clojure -P -M:run \
     && clojure -P -M:test \
     && rm -rf /prefetch \
     && test -n "$(ls -A /root/.gitlibs/_repos)" \
