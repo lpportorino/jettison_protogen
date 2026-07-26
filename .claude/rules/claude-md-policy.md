@@ -22,6 +22,7 @@ must not be imported into these docs.
 | 2. **Rule (unscoped)** | `.claude/rules/*.md` without `paths:` | full content | every session |
 | 3. **Rule (path-scoped)** | `.claude/rules/*.md` with `paths:` | full content | only when a matching file is read/written |
 | 4. **Skill** | `.claude/skills/*/SKILL.md` | the `description:` line (in the skill listing) | description always; body on invoke/semantic match |
+| 5. **Agent** | `.claude/agents/*.md` | the `description:` line (in the agent-type listing) | description always; body becomes the SUBAGENT's system prompt |
 
 ## When to use which tier
 - **CLAUDE.md** — the project charter (what this repo is, the fleet/consumer
@@ -37,6 +38,13 @@ must not be imported into these docs.
   gates auto-activation but not the always-loaded description, and suppresses
   intent-triggered firing — so prefer a path-scoped rule for "only while editing
   these files" guidance, a skill for "when the user asks to do X".
+- **Agent** — a LAUNCHER for work that must run in its own context, with its own
+  model tier and tool set. Pair it with a skill rather than inlining the
+  playbook: the agent body says which model, what to load and what to return;
+  the skill stays the single copy of the content. `model:` belongs here (agent
+  and command frontmatter), never in a skill, which has no such key. Use the
+  stable ALIAS (`sonnet`, `opus`), never a pinned version string — a version is
+  the drift-prone form this file bans everywhere else.
 
 ## No drift-prone enumerations
 Anything a source of truth already advertises MUST NOT be re-stated in prose —

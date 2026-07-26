@@ -134,12 +134,11 @@ Rules:
   run THIS runner against their own private corpora via their protogen pin.
 - **The VLM UI review is MANDATORY before any push that changes what a card
   renders** — a widget, a composition, the theme, the interpreter — here AND in
-  every repo deriving from this UI, each over its own renders. A vision model
-  reads the committed gallery images together with their `dump_tree` values,
-  against a briefing GENERATED from this standard's own sources rather than
-  hand-copied from them. `.claude/rules/devcards.md` carries how to run it and
-  why it is ONE batched agent, never one per check; the
-  `ui-standard-review` skill is the playbook.
+  every repo deriving from this UI, each over its own renders. RUN IT by
+  launching the `ui-standard-review` AGENT (`.claude/agents/`), which pins the
+  model tier and loads the skill of the same name as its first act. The agent
+  is the launcher and the skill is the standard: one batched agent per push,
+  never one per check. `.claude/rules/devcards.md` carries the operational how.
 - **Its findings are DISPOSITIONED before the push — fixed, or exempted** with
   the same proof-carrying `:rationale` + `:retires-when` every other exemption
   owes (`devcards.invariants/validate-exemptions!`, where an exemption matching

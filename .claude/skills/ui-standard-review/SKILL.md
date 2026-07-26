@@ -19,7 +19,7 @@ other lane in this standard is reproducible; this one is not, and
 measurement can see. What this pass produces is *findings owed a disposition*,
 never a pass/fail verdict.
 
-## When it is owed
+## When it is owed, and what launches it
 
 Before any push that modifies elements — the renderer C source, the theme, the
 `ui_ast` vocabulary, the corpus, or the committed gallery — in this repo AND in
@@ -27,6 +27,13 @@ every consumer that pins it (`CLAUDE.md` §"Consuming the UI standard"). Nothing
 mechanical enforces this, the same way nothing mechanical enforces the
 antagonistic review in §"Fixing protogen from a consumer": running it is the
 obligation, and its findings must be dispositioned before the push, not after.
+
+The normal entry point is the **`ui-standard-review` agent**
+(`.claude/agents/ui-standard-review.md`), which pins the model tier and reads
+this file as its first act, so the review runs in its own context and the batch
+below is not competing with a session's other work. Invoking this skill
+directly is equivalent and is the right shape when you are already the only
+thing in the context. Either way it is ONE reviewer over a large batch.
 
 Consumers run this skill through their protogen pin against their OWN gallery.
 Their fixtures never land here — the corpus secret-scan (`gates.clj`) is what
