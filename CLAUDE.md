@@ -135,12 +135,11 @@ Rules:
 - **The VLM UI review is MANDATORY before any push that changes what a card
   renders** — a widget, a composition, the theme, the interpreter — here AND in
   every repo deriving from this UI, each over its own renders. A vision model
-  reads the committed gallery images with their `dump_tree` values against a
-  briefing GENERATED from the canonical sources (`docs/UI-QUALITY-CONTRACTS.md`,
-  `devcards.lvgl-classes`, each producer's declared `:thresholds`); a hand-copied
-  briefing drifts the first time a threshold moves.
-  `.claude/rules/devcards.md` carries how to run it and why it is ONE batched
-  agent, never one per check.
+  reads the committed gallery images together with their `dump_tree` values,
+  against a briefing GENERATED from this standard's own sources rather than
+  hand-copied from them. `.claude/rules/devcards.md` carries how to run it and
+  why it is ONE batched agent, never one per check; the
+  `ui-standard-review` skill is the playbook.
 - **Its findings are DISPOSITIONED before the push — fixed, or exempted** with
   the same proof-carrying `:rationale` + `:retires-when` every other exemption
   owes (`devcards.invariants/validate-exemptions!`, where an exemption matching

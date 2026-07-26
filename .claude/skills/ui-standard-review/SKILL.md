@@ -2,7 +2,7 @@
 name: ui-standard-review
 description: Batched visual review of committed devcard gallery renders plus their dump_tree DOM against this repo's UI standard. One agent loads the standard once and judges MANY elements, emitting findings in the registry's {:card :invariant :node :detail} shape. Owed before any push that modifies elements, here and in consumer repos.
 argument-hint: "[unit-dir]"
-allowed-tools: Read, Glob, Grep, Bash, Write
+allowed-tools: Read, Glob, Grep, Bash
 ---
 
 # UI standard review — one briefing, many elements
@@ -110,11 +110,12 @@ family looks like a correct render until its siblings are next to it.
 **The DOM.** `dump_tree`, produced in-process by `core/render-one!` with
 `:dump? true` (`tools/devcards/src/devcards/core.clj`) and consumed by the
 invariant lanes and the gallery cropper. Nothing commits it, so a batch obtains
-it from a run: the deterministic lanes' full output is written every `generate`
-run to `tools/devcards/out/findings.edn`, and
-`tools/devcards/dev/class_census.clj` is the existing read-only render+dump
-probe shape. Runs happen in the pinned toolchain
-container (`.claude/rules/uber-container.md`).
+it from a run of its own. `tools/devcards/dev/class_census.clj` is the shape to
+copy: a tracked, read-only probe that renders each card and parses its dump.
+(`tools/devcards/out/findings.edn` is NOT a source of trees — it holds the
+deterministic lanes' FINDINGS, and on a clean corpus it is the two-byte literal
+`[]`.) Runs happen in the pinned toolchain container
+(`.claude/rules/uber-container.md`).
 
 **Never infer a DOM value from pixels.** If a card's tree is not available for
 this pass, say so in the report and do not judge the DOM-dependent invariants
@@ -130,7 +131,7 @@ exemption machinery instead of a parallel path:
 ```clojure
 {:card "lv_slider/pressed/medium/max"   ; the card id, not the file name
  :invariant :vlm/dom-render-mismatch    ; from the closed set below
- :node "lv_slider #12"                  ; the element, as the DOM labels it
+ :node "lv_slider#12"                   ; type#uid, as the geometry rules label it
  :detail "…what was seen, and where…"}
 ```
 
@@ -146,7 +147,7 @@ other lane.
 
 | `:invariant` | means |
 |---|---|
-| `:vlm/clipped-content` | glyphs or a graphic cut off by their own box — truncation, an ellipsis with no cause, a cropped icon |
+| `:vlm/clipped-content` | glyphs or a graphic cut off by their own box, **where the renderer did not already say so** — see the caveat below |
 | `:vlm/dom-render-mismatch` | the image contradicts a value in `dump_tree` (a slider at `min` painted mid-track, a label whose glyphs are not its `text`) |
 | `:vlm/state-indistinguishable` | a state the unit README lists as committed-distinct is not distinguishable BY EYE from `default` |
 | `:vlm/theme-inconsistency` | a defect present in one family and absent in its siblings, same card |
@@ -154,6 +155,16 @@ other lane.
 | `:vlm/alignment-defect` | misalignment, uneven spacing, or off-centre content between elements that share no pixel, so no geometry lane sees it |
 | `:vlm/visual-artifact` | rendering garbage attributable to the renderer: stray pixels, seams, uncomposited alpha, torn edges |
 | `:vlm/illegible-contrast` | foreground not separable from background by eye — always subject to the honesty rule below |
+
+**`:vlm/clipped-content` has a deterministic owner and you are the fallback.**
+`invariants/defect-flags` — `:text_truncated`, `:text_clipped`, `:clipped`,
+`:overflow`, `:scrollable_overflow`, `:offscreen`, `:squished` — is reported by
+the DOM lane on every judged card in this repo, so clipping the RENDERER
+noticed is already a machine finding and re-reporting it is the duplication
+this section exists to prevent. Check the card's `dump_tree` first. Emit
+`:vlm/clipped-content` only for clipping the renderer did NOT flag — that is
+the real gap, and it is worth catching precisely because no flag fires there.
+Say in `:detail` that you checked and which flags were absent.
 
 The set is closed. A defect that fits none goes under the nearest keyword with
 the mismatch stated in `:detail`; inventing a keyword ad hoc breaks exemption
