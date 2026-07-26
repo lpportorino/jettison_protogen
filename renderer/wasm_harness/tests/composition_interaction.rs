@@ -42,13 +42,6 @@ const TRACK_H: i32 = 20;
 /// The renderer's seek_on_press ext-click widening in px at the pinned
 /// dpi (LV_DPX(24)) — the hit-halo boundary the envelope test walks.
 const EXT_CLICK_PX: i32 = 24;
-const CARD_SLUGS: &[&str] = &[
-    "lego_scrubber",
-    "lego_scrubber-plain",
-    "lego_scrubber-noseek",
-    "lego_dock-expanded",
-    "lego_dock-folded",
-];
 /// The protogen repo root (wasm_harness -> renderer -> root).
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -80,6 +73,34 @@ fn boot() -> ControlsHost {
 fn card_bytes(slug: &str) -> Vec<u8> {
     let path = devcards_input(&format!("cards/{slug}.pb"));
     std::fs::read(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()))
+}
+/// Every composition card the devcards runner persisted, DISCOVERED from the
+/// card dir it writes rather than hand-listed. A hand-maintained roster is a
+/// second copy of the corpus: it stops covering a card the moment the corpus
+/// gains one, and the comparison below still passes — silently narrower than
+/// its own name. Sorted for a stable report order; an empty set is a hard
+/// failure, because a comparison over zero cards passes while proving nothing.
+fn card_slugs() -> Vec<String> {
+    let dir = devcards_input("cards");
+    let mut slugs: Vec<String> = std::fs::read_dir(&dir)
+        .unwrap_or_else(|e| panic!("read_dir {}: {e}", dir.display()))
+        .map(|entry| entry.expect("card dir entry").path())
+        .filter(|p| p.extension().is_some_and(|ext| ext == "pb"))
+        .map(|p| {
+            p.file_stem()
+                .expect("a .pb path has a stem")
+                .to_string_lossy()
+                .into_owned()
+        })
+        .collect();
+    slugs.sort();
+    assert!(
+        !slugs.is_empty(),
+        "{} holds no .pb cards — the runner wrote none, and a cross-engine \
+         comparison over an empty card set would pass having compared nothing",
+        dir.display()
+    );
+    slugs
 }
 /// The pinned render protocol — call-for-call identical to
 /// devcards.host/render-card! (set_breakpoint → set_theme_dark → set_dpi →
@@ -180,12 +201,14 @@ fn find_type(node: &serde_json::Value, ty: &str, out: &mut Vec<[i64; 4]>) {
     }
 }
 /// Cross-engine raw-FB equality: every card × dark/light byte-identical to
-/// the GraalWasm dump of the same `.pb` on the same wasm.
+/// the GraalWasm dump of the same `.pb` on the same wasm. "Every" is held by
+/// `card_slugs` discovering the set, so a corpus addition joins this
+/// comparison by itself instead of waiting for someone to remember.
 #[test]
 fn composition_cross_engine_fb() {
     let mut host = boot();
-    for slug in CARD_SLUGS {
-        let pb = card_bytes(slug);
+    for slug in card_slugs() {
+        let pb = card_bytes(&slug);
         for dark in [1_i32, 0_i32] {
             let fb = render_card(&mut host, &pb, dark);
             let expected_path = devcards_input(&format!("fb/{slug}_dark{dark}.raw"));

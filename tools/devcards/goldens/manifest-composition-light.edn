@@ -10,6 +10,11 @@
    "c23ad2ce27bba12d0a19b0bd289ba8d7466617eaa1ef54e36d8e6f9652149bc8",
    :w 800,
    :h 480},
+  "lego/dock-hidden-child"
+  {:sha256
+   "23ccac8eed3f2597a35c0b2d68e988f02928980a80965dd82a4873bb3570ef27",
+   :w 800,
+   :h 480},
   "lego/dock-multirow"
   {:sha256
    "a68a04d1bcd8fc48b403a87c22b5874aa01a71276a4cbf50c19c5da911601313",

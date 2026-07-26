@@ -344,8 +344,15 @@
 (def ^:private obj-flags
   "LV_OBJ_FLAG_* authoring keywords -> LVGL header values (mirrors the
    codegen seam's `obj-flag-keyword->int`; only the flags the corpus uses).
-   `obj_flags_clear` is direct-cast by renderer.c (`lv_obj_remove_flag`)."
-  {:scrollable 16})
+   Both wire fields are direct-cast by renderer.c: `obj_flags` through
+   `lv_obj_add_flag`, `obj_flags_clear` through `lv_obj_remove_flag`."
+  {:hidden 1 :scrollable 16})
+
+(defn- obj-flag-bits
+  "OR a node's flag-keyword collection into an LVGL bitmask; an unknown
+   keyword throws naming the node context and the key that carried it."
+  ^long [ctx node-key ks]
+  (reduce (fn [acc k] (bit-or acc (long (enum-of obj-flags k (str ctx " " node-key))))) 0 ks))
 
 ;; ── Widget-props messages (closed per-message field sets) ───────────────
 ;; Each builder accepts exactly the fields the corpus spec uses — a spec
@@ -646,11 +653,12 @@
 ;;    :text "..."                ; node.text (labels/checkbox/textarea)
 ;;    :children [node ...]       ; recursive
 ;;    :bare true                 ; lv_obj_remove_style_all before styles
-;;    :flags-clear [:scrollable] ; obj_flags_clear bits
+;;    :flags [:hidden]           ; obj_flags bits (lv_obj_add_flag)
+;;    :flags-clear [:scrollable] ; obj_flags_clear bits (lv_obj_remove_flag)
 ;;    :states-bits 512           ; wire lv_state_t bitmask, verbatim
 ;;    :layout {:flow :row}}      ; the Layout message (kitchen sinks)
 (def ^:private node-keys
-  #{:type :props :text :children :bare :flags-clear :states-bits :layout})
+  #{:type :props :text :children :bare :flags :flags-clear :states-bits :layout})
 
 (def ^:private authored-node-keys
   "The authored-lane node shape: the atomic keys plus absolute position,
@@ -745,13 +753,9 @@
     (when-some [groups (:styles node)] (authored-style-groups! b ctx groups style))
     (when wkey (set-widget-props! b wkey wprops))
     (when (:bare node) (.setBare b true))
+    (when-some [f (:flags node)] (.setObjFlags b (int (obj-flag-bits ctx :flags f))))
     (when-some [fc (:flags-clear node)]
-      (.setObjFlagsClear
-       b
-       (int (reduce (fn [acc k]
-                      (bit-or acc (long (enum-of obj-flags k (str ctx " :flags-clear")))))
-                    0
-                    fc))))
+      (.setObjFlagsClear b (int (obj-flag-bits ctx :flags-clear fc))))
     (when-some [s (:states-bits node)]
       (when-not (<= 0 s 0xFFFF)
         (throw (ex-info (str ctx ": :states-bits outside lv_state_t range")

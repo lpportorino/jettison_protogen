@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # Composition legos
 
-The 9 authored-composition cards from `corpus/composition.edn` — the public `devcards.legos` builders compiled through the authored lane (`devcards.fixtures/build-authored-card`), the only corpus cells carrying events, absolute placement, and part-selector styling. Interaction contracts (press-seek, drag, the ext-click halo, dock event identities) are gate-held on BOTH engines; the images document the pixels. Each is cropped to the lego's own box — the scrubber's includes its transparent hit-halo wrapper.
+The 10 authored-composition cards from `corpus/composition.edn` — the public `devcards.legos` builders compiled through the authored lane (`devcards.fixtures/build-authored-card`), the only corpus cells carrying events, absolute placement, and part-selector styling. Interaction contracts (press-seek, drag, the ext-click halo, dock event identities) are gate-held on BOTH engines; the images document the pixels. Each is cropped to the lego's own box — the scrubber's includes its transparent hit-halo wrapper.
 
 ## States
 
@@ -24,6 +24,7 @@ The 9 authored-composition cards from `corpus/composition.edn` — the public `d
 | `dock-expanded` | ![dock-expanded vanilla](./legos-dock-expanded-vanilla.jpg) | ![dock-expanded asgard-dark](./legos-dock-expanded-asgard-dark.jpg) | ![dock-expanded asgard-light](./legos-dock-expanded-asgard-light.jpg) |
 | `dock-multirow` | ![dock-multirow vanilla](./legos-dock-multirow-vanilla.jpg) | ![dock-multirow asgard-dark](./legos-dock-multirow-asgard-dark.jpg) | ![dock-multirow asgard-light](./legos-dock-multirow-asgard-light.jpg) |
 | `dock-folded` | ![dock-folded vanilla](./legos-dock-folded-vanilla.jpg) | ![dock-folded asgard-dark](./legos-dock-folded-asgard-dark.jpg) | ![dock-folded asgard-light](./legos-dock-folded-asgard-light.jpg) |
+| `dock-hidden-child` | ![dock-hidden-child vanilla](./legos-dock-hidden-child-vanilla.jpg) | ![dock-hidden-child asgard-dark](./legos-dock-hidden-child-asgard-dark.jpg) | ![dock-hidden-child asgard-light](./legos-dock-hidden-child-asgard-light.jpg) |
 
 ## The cards
 
@@ -38,6 +39,7 @@ The 9 authored-composition cards from `corpus/composition.edn` — the public `d
 | `lego/dock-expanded` | `dock-panel` | The three-caption-state floor (enabled+expanded / enabled+collapsed / disabled+expanded). Interaction probes assert the event identities <stage-id>-up/-down/-delete/-toggle (int_value = stage index) and dock-fold. |
 | `lego/dock-multirow` | `dock-panel` | Multiple body ROWS per stage container. :body-nodes accepts a vector of vectors — one row each — and the card's height is DERIVED from the row count, so a two-row stage grows its container instead of being clipped by a fixed :card-expanded-h. Row content is centred on both axes, so a short row reads as centred in the card rather than pinned to the top-left. |
 | `lego/dock-folded` | `dock-panel` | The folded icon rail (fold toggle + per-stage letter buttons + badge); only dock-fold is a live identity — rail taps are consumer-side by the ratified shape. |
+| `lego/dock-hidden-child` | `dock-panel` | The corpus subject for the invariant lane's HIDDEN-node designed-geometry exemption. The stage body is ONE unsized WIDGET_LABEL (lv_label's class defaults are LV_SIZE_CONTENT on both axes) carrying a hidden 210x96 WIDGET_OBJ child. LVGL skips a hidden child in calc_content_width/height, so the label sizes to its text and never grows to fit it; the child is not layout-positioned either, so it self-places at the label's content origin at its own size and overhangs the content box obj_clipped measures against. The dump therefore carries :clipped (plus vis_px 0) on a node whose geometry LVGL declares meaningless — exactly the shape devcards.invariants/designed-flag? exempts, now proven end-to-end through a real render instead of unit tests alone. Sized to stay inside the 800x480 canvas because :offscreen is deliberately NOT exempt. |
 
 ---
 Cross-links: [widget gallery index](../README.md)

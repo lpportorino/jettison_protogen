@@ -174,5 +174,23 @@
           :stages [{:enabled? true :id "blur" :label "Blur"}
                    {:enabled? true :id "sharpen" :label "Sharpen"}
                    {:enabled? false :id "lut" :label "LUT"}]}
+   :placement {:x 12 :y 3}}
+  {:expect :composition
+   :id "lego/dock-hidden-child"
+   :lego :dock-panel
+   :notes
+   "The corpus subject for the invariant lane's HIDDEN-node designed-geometry exemption. The stage body is ONE unsized WIDGET_LABEL (lv_label's class defaults are LV_SIZE_CONTENT on both axes) carrying a hidden 210x96 WIDGET_OBJ child. LVGL skips a hidden child in calc_content_width/height, so the label sizes to its text and never grows to fit it; the child is not layout-positioned either, so it self-places at the label's content origin at its own size and overhangs the content box obj_clipped measures against. The dump therefore carries :clipped (plus vis_px 0) on a node whose geometry LVGL declares meaningless — exactly the shape devcards.invariants/designed-flag? exempts, now proven end-to-end through a real render instead of unit tests alone. Sized to stay inside the 800x480 canvas because :offscreen is deliberately NOT exempt."
+   :opts
+   {:badge 1
+    :folded? false
+    :stages
+    [{:body-nodes [{:children [{:flags [:hidden]
+                                :props {:h 96 :w 210}
+                                :type :WIDGET_OBJ}]
+                    :text "hidden"
+                    :type :WIDGET_LABEL}]
+      :enabled? true
+      :id "blur"
+      :label "Blur"}]}
    :placement {:x 12 :y 3}}]
  :lane :authored-composition}
