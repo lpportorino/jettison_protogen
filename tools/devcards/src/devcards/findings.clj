@@ -258,6 +258,22 @@
           (invariants/emission-findings card-id emissions host-proxy?))
     :requires #{:emissions :host-proxy?}}])
 
+(defn builtin-producer
+  "The builtin producer with `id`, or a throw naming what is available.
+
+   Exists so no caller selects one by POSITION. `(first
+   builtin-producers)` couples the caller to a vector order that nothing
+   declares and no test pins, so appending or reordering an entry
+   silently repoints that lane at a different rule — a lane still runs,
+   still returns findings, and is simply no longer the rule the caller
+   meant. A lookup cannot fail that way: an id that is not there throws
+   instead of resolving to whatever sits at that index."
+  [id]
+  (or (first (filter #(= id (:id %)) builtin-producers))
+      (throw (ex-info (str "no builtin producer " id " — have "
+                           (mapv :id builtin-producers))
+                      {:id id :available (mapv :id builtin-producers)}))))
+
 (def emission-by-mode-producer
   "The emission lane over a card rendered in SEVERAL modes:
    :emissions-by-mode is {mode -> captured-lanes} and every mode is judged.

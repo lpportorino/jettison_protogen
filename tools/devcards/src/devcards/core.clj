@@ -35,13 +35,13 @@
             [clojure.string :as str]
             [devcards.composition :as composition]
             [devcards.docs :as docs]
+            [devcards.expect :as expect]
             [devcards.findings :as findings]
             [devcards.fixtures :as fixtures]
             [devcards.gates :as gates]
             [devcards.golden :as golden]
             [devcards.host :as host]
-            [devcards.interaction :as interaction]
-            [devcards.invariants :as invariants])
+            [devcards.interaction :as interaction])
   (:gen-class))
 
 (set! *warn-on-reflection* true)
@@ -89,35 +89,6 @@
            {:fb fb :tree tree :emissions @(:captured h)})
          (finally (host/close! h)))))
 
-(def expect-aware-tree-producer
-  "The DOM lane, routed by what the card is FOR.
-
-   This routing is protogen's corpus policy, not a registry concern — the
-   `:expect` vocabulary is `corpus/spec.edn`'s — so the producer lives here
-   rather than among the builtins. It is a producer rather than a bare
-   function so protogen's own gate runs through the same registry every
-   consumer is told to extend: a rule added to `devcards.findings` that the
-   gate here could not express would make the instruction hollow.
-
-   `:probe-defect` is the inverted arm and the reason this cannot be the
-   plain tree lane: such a cell exists to EXHIBIT a defect flag, so its
-   ABSENCE is the finding."
-  {:id :tree-by-expect
-   :requires #{:tree :caps :expect}
-   :fn (fn [{:keys [card-id tree nodes caps expect]}]
-         (case expect
-           :probe-pixel-only []
-           :probe-defect (if (some (fn [node]
-                                     (some #(get node %) invariants/defect-flags))
-                                   (tree-seq #(seq (:children %)) :children tree))
-                           []
-                           [{:card card-id
-                             :invariant :probe-defect-absent
-                             :detail (str "cell exists to EXHIBIT a defect flag; "
-                                          "none present")}])
-           ;; nil expect (kitchen sinks) and every judged expect → full lane
-           (invariants/tree-findings card-id tree caps nodes)))})
-
 (defn- invariant-findings-for
   "Invariant findings for one card, THROUGH the registry. `:expect` is
    supplied even when nil (the kitchen-sink case) because the registry
@@ -128,7 +99,7 @@
                                   :tree tree
                                   :caps {:vis-px? true}
                                   :expect (or expect :judged)
-                                  :producers [expect-aware-tree-producer]})))
+                                  :producers [expect/tree-producer]})))
 
 (defn- manifest-of
   "Literal golden manifest from precomputed hashes ({id → sha})."
@@ -256,7 +227,7 @@
                                           {:dark (:emissions dark)
                                            :light (:emissions light)}
                                           :producers
-                                          [(first findings/builtin-producers)
+                                          [(findings/builtin-producer :tree)
                                            findings/emission-by-mode-producer]}))}])))
                  built)
         fam-hashes (fn [family dark]
