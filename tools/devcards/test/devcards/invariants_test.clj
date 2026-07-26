@@ -169,3 +169,61 @@
                             :children []}]}
           findings (inv/tree-findings "truncated-card" tree caps)]
       (is (contains? (flags-of findings) :dump-truncated)))))
+
+;; ── the :zero-visible-area lane is ALIVE, and DISCRIMINATES ────────────────
+;; Every other reference to this lane in this ns is an ABSENCE assertion — it
+;; checks that a hidden / snapped node is EXEMPT. An absence assertion cannot
+;; tell "the exemption works" from "the lane never emits at all": both produce
+;; an empty set. That is the pass-value-equals-nothing-ran-value shape, and the
+;; `caps` docstring above claims "the lane must not silently no-op" while
+;; nothing verified it.
+;;
+;; Firing is only half of it. A lane that emitted on EVERY node carrying vis_px
+;; would also satisfy a bare positive assertion — and that is the loud failure
+;; here, not a theoretical one: the renderer emits 0 < vis_px < total for every
+;; partially-clipped node, so a degraded discriminator turns the whole corpus
+;; into false findings. Hence the non-zero sibling below: the lane must fire on
+;; 0 and stay silent on 5.
+(def ^:private occluded-tree
+  "One genuinely occluded node (vis_px 0) and one merely PARTIALLY clipped
+   sibling (vis_px 5). Neither is hidden, under a hidden ancestor, or snapped
+   away, so nothing exempts either — only the zero discriminates. Shared by
+   both assertions below so 'the same tree' is structural, not clerical: a
+   hand-duplicated literal would let an edit to one copy silently retire the
+   control."
+  {:type "lv_obj"
+   :uid 1
+   :coords [0 0 99 99]
+   :children [{:type "lv_obj"
+               :uid 2
+               :coords [9 9 49 49]
+               :vis_px 0
+               :children []}
+              {:type "lv_obj"
+               :uid 3
+               :coords [9 9 49 49]
+               :vis_px 5
+               :children []}]})
+
+(deftest zero-visible-area-fires-on-an-occluded-node
+  (let [findings (inv/tree-findings "occluded-card" occluded-tree caps)
+        zva (set (for [f findings
+                       :when (= :zero-visible-area (:invariant f))]
+                   (:node f)))]
+    (testing "a node with vis_px 0 that nothing exempts IS a genuine occlusion
+              finding"
+      (is (contains? zva "lv_obj#2")))
+    (testing "DISCRIMINATOR: the sibling with vis_px 5 — partially clipped, the
+              renderer's normal case — must NOT fire. Without this the lane
+              could emit on every node carrying vis_px and still look correct."
+      (is (not (contains? zva "lv_obj#3"))))
+    (testing "and nothing else in this tree fires: the assertions above cannot
+              be satisfied by some other lane"
+      (is (= #{:zero-visible-area} (flags-of findings))))))
+
+(deftest zero-visible-area-is-capability-gated
+  (testing "CONTROL: the SAME tree judged by a module that cannot express
+            vis_px yields nothing — so the assertions above are keyed on the
+            declared capability, not on the geometry"
+    (let [findings (inv/tree-findings "occluded-card" occluded-tree {:vis-px? false})]
+      (is (not (contains? (flags-of findings) :zero-visible-area))))))
