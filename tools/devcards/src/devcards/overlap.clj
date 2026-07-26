@@ -265,12 +265,25 @@
    probe walks every card and prints it, and a count copied into prose
    goes stale the first time the corpus or the table moves.
 
-   Those are TRUE pointer-path collisions on DESIGNED stacks — benign by
-   paint order, not by any error in the geometry. Arming this rule alone
-   would therefore turn correct cards red and the only fix available today
-   would be per-card exemptions, which is the ratchet the devcards rules
-   exist to avoid feeding. It is the layer contract that resolves 'benign
-   because underneath' by declaration.
+   Those are TRUE pointer-path collisions, and DO NOT read them as benign.
+   Measured since: most of the host_proxy ones are REAL defects the rule
+   detected correctly — a non-static proxy's glass swallows presses aimed at
+   its own content children (confirmed by pointer injection: a button inside
+   fires in :static and in no other mode, while an identical button outside
+   fires in all four), and on a short proxy two corner handles' grown click
+   areas collide because the size floor is half the clearance the growth
+   needs. Only the glass-vs-handle pairs match 'designed stack'.
+
+   So arming this rule is blocked on FIXING those, not on silencing them,
+   and a mechanism that resolved 'the affordance stack' wholesale would hide
+   two live defects to make a gate green.
+
+   Do not reach for the layer contract as the resolution either: it cannot
+   name these nodes in ANY consumer. uid is emitted only when assigned and
+   renderer-internal objects never pass through finalize_widget, so the
+   glass, handles and cells are permanently uid-free — measured, the layers
+   producer returns byte-identical output with no declaration, with a
+   declared z, and with a declared z plus a proxy rect.
 
    A consumer arms it by appending this map to its producer vector and
    supplying :classes."
