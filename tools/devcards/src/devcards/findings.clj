@@ -56,8 +56,17 @@
 
 (def ^:private context-keys
   "Every ctx input a producer may declare in :requires. Closed, so a
-   typo'd requirement fails at registration rather than at judgment."
-  #{:tree :nodes :emissions :host-proxy? :caps :classes :declaration :proxy-rects})
+   typo'd requirement fails at registration rather than at judgment.
+
+   :expect and :emissions-by-mode exist because protogen's own gate needs
+   them, but neither is protogen-specific: a corpus that declares what a
+   card is FOR (a probe that must exhibit a defect judges inverted), and a
+   corpus rendered in several MODES whose emissions must each be judged,
+   are both ordinary shapes. Keeping them here rather than opening the set
+   to arbitrary keys preserves the property the set exists for — a typo'd
+   :requires fails at registration instead of silently never matching."
+  #{:tree :nodes :emissions :emissions-by-mode :host-proxy? :caps :classes
+    :declaration :proxy-rects :expect})
 
 (defn- producer-error
   [producer problem]
@@ -248,6 +257,26 @@
     :fn (fn [{:keys [card-id emissions host-proxy?]}]
           (invariants/emission-findings card-id emissions host-proxy?))
     :requires #{:emissions :host-proxy?}}])
+
+(def emission-by-mode-producer
+  "The emission lane over a card rendered in SEVERAL modes:
+   :emissions-by-mode is {mode -> captured-lanes} and every mode is judged.
+
+   A separate producer rather than a second shape for :emissions, because a
+   key that means two things depending on what it holds is the ambiguity
+   this registry keeps refusing elsewhere. A caller judging one mode uses
+   the :emission builtin; a caller judging several declares that it has
+   several. The mode is carried into the finding so a report can say WHICH
+   render emitted, which a merged lane cannot."
+  {:id :emission-by-mode
+   :fn (fn [{:keys [card-id emissions-by-mode host-proxy?]}]
+         (into []
+               (mapcat (fn [[mode emissions]]
+                         (map #(assoc % :mode mode)
+                              (invariants/emission-findings card-id emissions
+                                                            host-proxy?))))
+               (sort-by key emissions-by-mode)))
+   :requires #{:emissions-by-mode :host-proxy?}})
 
 (defn card-findings
   "The full judgment for one rendered card: every registered producer,
