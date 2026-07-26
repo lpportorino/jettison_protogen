@@ -10,9 +10,15 @@ TARGET := wasm32-wasip1
 
 # Build mode toggle — RELEASE is the default and the ONLY shipped artifact.
 #   BUILD=release (default): -O2 -flto -> output/controls.wasm. The four
-#     tolerance-0 gates (harness-test/morph-parity/matrix-gate/demo-parity) are
-#     gate-cached on wasm.mk and validate THIS exact artifact; its flags must
-#     stay byte-identical, so the release branch is unchanged.
+#     tolerance-0 gates (harness/morph-parity/matrix/demo-parity — renderer.mk
+#     records the source repo's differing names) validate THIS exact artifact;
+#     its flags must stay byte-identical, so the release branch is unchanged.
+#     They are NOT gate-cached — renderer.mk's header records the cache
+#     wrapping as deliberately stripped here — so every run re-judges the
+#     artifact rather than replaying a cached verdict. That is a separate
+#     question from whether the artifact is REBUILT: `wasm` shells this file
+#     and plain make freshness decides that, so an up-to-date artifact is
+#     re-judged without being relinked.
 #   BUILD=dev: -O0 -g -gdwarf-5, NO -flto -> output/controls.dev.wasm. With LTO
 #     off every build/*.o is real native wasm (not LLVM IR), so -O2 backend
 #     codegen does NOT re-run at link — the cached .o's relink in seconds. DWARF
@@ -187,8 +193,78 @@ DEP_OBJS := $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(RENDERER_OBJ) \
 -include $(DEP_OBJS:.o=.d)
 
 # $(OUT) is output/controls.wasm (release, default) or output/controls.dev.wasm
-# (BUILD=dev). TODO(perf): split the ~510 vendored TUs (LVGL+ThorVG+nanopb) into
-# a prebuilt static archive so even a release link skips re-archiving them.
+# (BUILD=dev).
+#
+# ── the release link is the wasm phase's largest serial cost. Read first ────
+# It runs TWICE per renderer battery ($(OUT) and reference.wasm), neither half
+# parallelises, and together they dominate that phase. (Only the wasm lanes
+# were timed; whether the link outweighs `fixtures` or `devcards-test` across
+# the whole battery is NOT established here.) This block records what that
+# time actually IS, and — more usefully — the fix that looks obvious, was
+# tried, and DOES NOT WORK. All of it measured on this toolchain at -j12;
+# absolute seconds are box- and load-dependent, so the ratios are what carry.
+#
+# WHERE THE TIME GOES: not in the linker. Linking the post-LTO native object
+# alone (-Wl,--save-temps drops it beside the output as $@.lto.o) completes in
+# under 0.1s, against ~18s for the identical link driven from the IR objects —
+# more than two orders of magnitude. -Wl,-mllvm,-time-passes attributes ~99% of
+# the link's wall time to LLVM passes — as an aggregate; the only per-pass
+# figure taken was WebAssembly instruction selection, the largest single one
+# at ~24%. Under -flto the "link" is not linking: it is
+# the backend codegen the compile step deferred (see `objects` below), and it
+# runs in ONE thread.
+#
+# A PREBUILT ARCHIVE OF THE VENDORED TUs DOES NOT BUY WHAT THE TODO PROMISED.
+# This sat here as a TODO; it is retired by measurement, not by opinion.
+# Collect the vendored objects (LVGL + ThorVG + nanopb + generated pb) with
+# llvm-ar and link the archive lazily — -Wl,--why-extract then shows only
+# about a THIRD of the members are extracted at all, yet THE CODEGEN WORK IS
+# UNCHANGED, which is where the link's time actually goes. Wall clock is a weak
+# witness on a shared box, so the decisive evidence is a count, taken from the
+# -Wl,--save-temps intermediates: the module handed to codegen shrinks by
+# ~0.3%, and the NUMBER OF FUNCTIONS code-generated is identical. The two
+# thirds of vendored TUs the archive drops cost nothing to begin with — dead
+# before codegen, the usual mechanism being internalize + GlobalDCE, though
+# only the CONSEQUENCE was measured here and not the pass that produced it —
+# and the cost is optimising and generating code for the LIVE program, which
+# an archive does not touch. (An identical function count rules out a CODEGEN
+# saving. It does NOT rule out the cost of READING the 344 dropped modules'
+# IR. Four interleaved baseline/archive wall pairs, measured but recorded only
+# in this commit's message, ran -0.24 / +0.82 / +0.85 / +2.15 seconds — three
+# favouring the archive, one against it. So that residual is bounded at
+# roughly a second or two, not at zero. A loaded box cannot resolve a gap that
+# size, and one pair going the other way is what a noise-dominated measurement
+# looks like, which is why this is stated as a bound and not as a win.) An archive under -flto holds LLVM IR,
+# so it MOVES no codegen; it changes the link's input order, and the output
+# differs by 34 bytes — a difference that was observed, not localized. Do not
+# re-litigate without new data.
+#
+# WHAT WOULD WORK — and why each is a CONTRACT CHANGE, not a perf tweak. The
+# four tolerance-0 gates validate THIS exact artifact, so anything shifting
+# its bytes is a deliberate re-mint with the oracles re-run:
+#   - Vendored TUs at -O2 WITHOUT -flto (real native wasm objects), -flto kept
+#     on src/ only. The link drops ~4.5x (~18s -> ~4s) while the compile side
+#     costs about a second more (10.33s -> 11.51s, +11%) at -j12, because the
+#     per-TU backend work it takes on is exactly what parallelises; total CPU
+#     is roughly conserved
+#     and the wasm phase drops ~45% cold. Needs -lsetjmp, as BUILD=dev
+#     already does and for the same reason. Output is ~220 KB SMALLER and
+#     byte-different: app<->LVGL cross-module inlining is gone.
+#   - ThinLTO everywhere (-flto=thin, compile and link). Link ~2.2x faster
+#     (~18s -> ~8s), compile ~1s more (+10%), wasm phase ~30% less cold.
+#     Output is ~18 KB larger and byte-different.
+# -Wl,--lto-partitions=N parallelises codegen but loses twice over: no
+# reliable wall win here, and the artifact grows up to ~75% as cross-partition
+# optimisation is lost.
+#
+# INCIDENTAL, and NOT a perf lever: ~47% of the RELEASE $(OUT) is DWARF
+# (.debug_*) despite no -g in the release flags (BUILD=dev does pass -g, and
+# is not what this paragraph is about). None of it comes from our sources — our
+# objects carry no debug sections and a trivial hello-world links to the same
+# shape —
+# it arrives with wasi-sdk's own sysroot libraries. -Wl,--strip-debug removes
+# it for a ~47% smaller artifact and saves NO link time (measured), so it is
+# purely an artifact-size question, and it too moves the bytes.
 all: $(OUT) $(OUT).build-sha
 
 # Compile every TU, but do NOT link. For consumers that need the COMPILATION —
@@ -198,9 +274,17 @@ all: $(OUT) $(OUT).build-sha
 # dump. It never opens output/controls.wasm.
 #
 # The saving is large and it is a property of -flto: with LTO on, compiling only
-# emits LLVM IR and ALL backend codegen is deferred to the link. Measured cold on
-# a quiet box — objects 3.3s, link 13.2s, full `all` 15.2s. So a consumer that
-# only needs compilation pays 3.3s instead of 15.2s.
+# emits LLVM IR and ALL backend codegen is deferred to the link — confirmed
+# directly by the phase split recorded above `all`. A consumer that only needs
+# compilation therefore pays a fraction of the full build. The MECHANISM above
+# is the claim; the numbers only illustrate it, and they are not stable enough
+# to be one. The one internally coherent cold observation at -j12 reads
+# objects 10.3s / link 17.7s / `all` 28.0s — a ~2.7x saving for a
+# compile-only consumer. An older triple (3.3 / 13.2 / 15.2, ~4.6x) is NOT
+# reproduced here because it does not add up: its parts exceed its total by
+# 1.3s, so at least one of the three is wrong and there is no way to tell
+# which. A number that contradicts itself is the defect this block exists to
+# retire, so it is dropped rather than carried forward with a caveat.
 #
 # The prerequisites are $(OUT)'s own, so the object list has ONE home (cohesion):
 # a new source group added to the link rule is picked up here for free. What the
