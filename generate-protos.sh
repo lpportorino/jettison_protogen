@@ -136,9 +136,26 @@ find proto -name "*.options" -type f -not -path "*/test/*" | while read -r opts;
     cp "$opts" "/tmp/cleaned_proto/$relpath"
 done
 
+# NO APOSTROPHES ANYWHERE IN THIS BLOCK. It lives inside a single-quoted
+# assignment, so one apostrophe closes the string — and an EVEN number is worse
+# than an odd one, because the quoting rebalances, bash -n passes, and the
+# payload silently becomes EMPTY. That is how this comment shipped broken once.
+#
+# --nanopb_opt=-I is NOT redundant with the protoc -I below it. The protoc
+# include path resolves proto IMPORTS; the nanopb PLUGIN searches its own,
+# separately, to find the sibling .options file carrying max_size/max_count.
+# Without it the plugin finds no options and every string falls back to a
+# pb_callback_t, so the bounds in proto/ui/ui_ast.options never apply.
+#
+# Measured on ui_ast.proto in this image: without the flag, 0 char[N] fields and
+# 42 callbacks; with it, 22 char[N] and 10 callbacks, and
+# SubjectDeclaration.name becomes char name[64] — matching what the renderer
+# compiles. The failure is silent both ways: protoc exits 0 and the generated C
+# is valid, merely unbounded.
 find /tmp/cleaned_proto -name "*.proto" -print0 | sort -z | xargs -0 -P 8 -I{} \
     protoc --plugin=protoc-gen-nanopb=/opt/nanopb/generator/protoc-gen-nanopb \
     -I/tmp/cleaned_proto \
+    --nanopb_opt=-I/tmp/cleaned_proto \
     --nanopb_out=/workspace/output \
     {}
 # Copy nanopb runtime files that are needed for compilation

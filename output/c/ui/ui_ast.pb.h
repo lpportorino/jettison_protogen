@@ -400,13 +400,13 @@ typedef enum _ui_StylePropertyType {
 /* Declaration of a reactive subject (lives in Screen, initialized at load time) */
 typedef struct _ui_SubjectDeclaration {
     /* unique identifier, e.g. "zoom_level" */
-    pb_callback_t name;
+    char name[64];
     ui_SubjectType type;
     pb_size_t which_initial;
     union {
         int32_t int_initial; /* default value for INT subjects */
         /* default value for STRING subjects */
-        pb_callback_t string_initial;
+        char string_initial[256];
     } initial;
 } ui_SubjectDeclaration;
 
@@ -417,22 +417,22 @@ typedef struct _ui_StateUpdate {
 
 /* A single subject value in a state update */
 typedef struct _ui_SubjectValue {
-    pb_callback_t name;
+    char name[64];
     pb_size_t which_value;
     union {
         int32_t int_value;
-        pb_callback_t string_value;
+        char string_value[256];
     } value;
 } ui_SubjectValue;
 
 typedef struct _ui_WidgetNode_BindingsEntry {
-    pb_callback_t key;
-    pb_callback_t value;
+    char key[64];
+    char value[64];
 } ui_WidgetNode_BindingsEntry;
 
 typedef struct _ui_WidgetNode_BindFormatsEntry {
-    pb_callback_t key;
-    pb_callback_t value;
+    char key[64];
+    char value[256];
 } ui_WidgetNode_BindFormatsEntry;
 
 /* Tree patch container — pushed via controls_apply_patch(ptr, len). */
@@ -477,7 +477,7 @@ typedef struct _ui_SliderProps {
 } ui_SliderProps;
 
 typedef struct _ui_ImageProps {
-    pb_callback_t src;
+    char src[256];
     /* Transform pivot (lv_image_set_pivot) — meaningful with rotation. */
     bool has_pivot;
     int32_t pivot_x;
@@ -515,7 +515,7 @@ typedef struct _ui_CheckboxProps {
 } ui_CheckboxProps;
 
 typedef struct _ui_DropdownProps {
-    pb_callback_t options;
+    char options[1024];
     uint32_t selected;
     ui_Dir direction;
     /* Per-option device enum VALUES, in the SAME order as the `options` label list.
@@ -523,18 +523,19 @@ typedef struct _ui_DropdownProps {
  int (the renderer scans this array), fixing the enum-number-as-index off-by-one
  when options drop _UNSPECIFIED / :not-in values (1-based options vs 0-based
  enum). Empty when the dropdown carries no enum-value bind. */
-    pb_callback_t option_values;
+    pb_size_t option_values_count;
+    int32_t option_values[16];
 } ui_DropdownProps;
 
 typedef struct _ui_RollerProps {
-    pb_callback_t options;
+    char options[512];
     uint32_t selected;
     uint32_t visible_row_count;
     ui_RollerMode mode;
 } ui_RollerProps;
 
 typedef struct _ui_TextareaProps {
-    pb_callback_t placeholder;
+    char placeholder[256];
     uint32_t max_length;
     bool one_line;
     bool password_mode;
@@ -559,26 +560,8 @@ typedef struct _ui_LineProps {
     bool y_invert;
 } ui_LineProps;
 
-typedef struct _ui_ScaleProps {
-    ui_ScaleMode mode;
-    uint32_t total_tick_count;
-    uint32_t major_tick_every;
-    bool label_show;
-    int32_t min_value;
-    int32_t max_value;
-    int32_t rotation;
-    uint32_t angle_range;
-    /* Demo-parity extensions (lv_demo_widgets analytics scales):
- major-tick label sources ("\n"-joined custom texts). */
-    pb_callback_t text_src;
-    /* Draw tick labels after the needle/indicator (lv_scale_set_post_draw). */
-    bool post_draw;
-    /* Colored value sections (lv_scale_section_*). */
-    pb_callback_t sections;
-} ui_ScaleProps;
-
 typedef struct _ui_ButtonMatrixProps {
-    pb_callback_t map_str;
+    char map_str[1024];
     bool one_check;
 } ui_ButtonMatrixProps;
 
@@ -591,7 +574,8 @@ typedef struct _ui_TabviewProps {
     /* Tab names, one per content child of the tabview node — child i of the
  node's regular children list becomes tab i's page content (children
  flagged in_tab_bar are excluded from the zip; they go to the tab bar). */
-    pb_callback_t tab_names;
+    pb_size_t tab_names_count;
+    char tab_names[8][32];
     /* Tab bar size in px (height for top/bottom bars, width for left/right);
  0 = keep the LVGL default (DPI-derived). */
     int32_t tab_bar_size;
@@ -606,24 +590,6 @@ typedef struct _ui_TabviewProps {
     int32_t tab_bar_pad_left;
 } ui_TabviewProps;
 
-typedef struct _ui_ChartProps {
-    /* lv_chart_type_t direct-cast (parity-gated); NONE (0) = keep the LVGL
- default (LINE). */
-    ui_ChartType type;
-    /* 0 = keep the LVGL default point count. */
-    uint32_t point_count;
-    /* Division lines: 0 is a VALID explicit count (the demo sets 0,12), so
- presence rides has_div_lines (the ImageProps.has_pivot pattern);
- false = keep the LVGL defaults (HDIV_DEF/VDIV_DEF). */
-    bool has_div_lines;
-    uint32_t hdiv_count;
-    uint32_t vdiv_count;
-    pb_callback_t series;
-    /* Replicate the demo's chart fader draw-event: a vertical-gradient area
- under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED). */
-    bool fade_area;
-} ui_ChartProps;
-
 /* Host-proxy widget: a box that POSITIONS a host-side element. The renderer
  draws the box + its interaction affordances and streams the box's rect +
  mode to the host via the host_proxy_report import; the host composites
@@ -631,7 +597,7 @@ typedef struct _ui_ChartProps {
 typedef struct _ui_HostProxyProps {
     /* Stable host-side join key (jettison keys proxies by name —
  proxySerializationUtils.ts). Survives tree rebuilds. */
-    pb_callback_t proxy_id;
+    char proxy_id[64];
     /* Initial mode. When a "mode" binding is present, the SUBJECT is the
  source of truth and this is ignored after attach. */
     ui_ProxyMode mode;
@@ -654,6 +620,41 @@ typedef struct _ui_Point {
     int32_t y;
 } ui_Point;
 
+typedef struct _ui_EventBinding {
+    /* event keyword — IS the command identifier. Budget 127 for parity with
+ CmdSpec.command_id: a composite command's collect events read
+ cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
+ (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature). */
+    char name[128];
+    /* which LVGL event fires this (default: CLICKED) */
+    ui_EventTrigger trigger;
+    int32_t int_value; /* static int payload */
+    bool include_widget_value; /* inject widget's current value as int_value */
+    /* local subject to mutate (empty = host event). Bounded at 63: subject names
+ are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
+ longer value could never resolve to a declarable subject. */
+    char set_subject[64];
+    int32_t set_value; /* value to set on subject */
+    bool toggle; /* flip 0↔1 instead of set_value */
+    bool notify_host; /* also send to host when mutating subject */
+    /* Pre-encoded cmd.* device-command template + slot patch descriptor
+ (R5a). When present the renderer (R5b) builds the full cmd.Root by
+ memcpy'ing root_template and overwriting the patch slot(s) with the
+ widget value, then relays the result as OPAQUE bytes via host_command —
+ controls.wasm no longer round-trips through the server /node-cmd shim. */
+    struct _ui_CmdSpec *cmd;
+    /* Pre-encoded cmd.* templates the widget's INTEGER value index-selects
+ among (R5a). When present, the widget's current int value (0/1 for a
+ switch, a dropdown/slider index, any bounded int) selects which entry to
+ emit; each entry is a FIXED template (patch_count 0, no runtime slot
+ rewrite). Serves :bool-set (2 entries ), :on-off (2 entries
+ ) and :enum (N entries in dropdown-option order). Mutually
+ exclusive with `cmd` (a widget's value either patches ONE template or
+ index-selects among fixed ones); an out-of-range index emits nothing. */
+    pb_size_t cmd_by_value_count;
+    struct _ui_CmdSpec *cmd_by_value;
+} ui_EventBinding;
+
 /* One fixed-width slot in a CmdSpec.root_template the renderer overwrites. */
 typedef struct _ui_FieldPatch {
     uint32_t byte_offset; /* start of the slot in root_template */
@@ -664,53 +665,20 @@ typedef struct _ui_FieldPatch {
     int32_t wire_scale;
 } ui_FieldPatch;
 
+typedef PB_BYTES_ARRAY_T(128) ui_CmdSpec_root_template_t;
 /* A pre-encoded cmd.Root template + the slots the renderer overwrites. */
 typedef struct _ui_CmdSpec {
     /* the source command-id (e.g. "cmd.RotaryPlatform.RotateToNDC") — the
  pre-encode provenance; the renderer never re-derives a route from it. */
-    pb_callback_t command_id;
+    char command_id[128];
     /* the full deterministic cmd.Root protobuf (envelope + leaf in its
  fixed-width slot, leaf written at a SENTINEL the gen-time patch located). */
-    pb_callback_t root_template;
+    ui_CmdSpec_root_template_t root_template;
     /* the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
  ROI rubber-band's 2nd-corner x2/y2 pair). */
-    pb_callback_t patches;
+    pb_size_t patches_count;
+    ui_FieldPatch patches[4];
 } ui_CmdSpec;
-
-typedef struct _ui_EventBinding {
-    /* event keyword — IS the command identifier. Budget 127 for parity with
- CmdSpec.command_id: a composite command's collect events read
- cmd.<Pkg>.<Command>.collect.<field>, which exceeds 63 for long composites
- (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature). */
-    pb_callback_t name;
-    /* which LVGL event fires this (default: CLICKED) */
-    ui_EventTrigger trigger;
-    int32_t int_value; /* static int payload */
-    bool include_widget_value; /* inject widget's current value as int_value */
-    /* local subject to mutate (empty = host event). Bounded at 63: subject names
- are 64-buffered everywhere (the registry, SubjectDeclaration.name), so a
- longer value could never resolve to a declarable subject. */
-    pb_callback_t set_subject;
-    int32_t set_value; /* value to set on subject */
-    bool toggle; /* flip 0↔1 instead of set_value */
-    bool notify_host; /* also send to host when mutating subject */
-    /* Pre-encoded cmd.* device-command template + slot patch descriptor
- (R5a). When present the renderer (R5b) builds the full cmd.Root by
- memcpy'ing root_template and overwriting the patch slot(s) with the
- widget value, then relays the result as OPAQUE bytes via host_command —
- controls.wasm no longer round-trips through the server /node-cmd shim. */
-    bool has_cmd;
-    ui_CmdSpec cmd;
-    /* Pre-encoded cmd.* templates the widget's INTEGER value index-selects
- among (R5a). When present, the widget's current int value (0/1 for a
- switch, a dropdown/slider index, any bounded int) selects which entry to
- emit; each entry is a FIXED template (patch_count 0, no runtime slot
- rewrite). Serves :bool-set (2 entries ), :on-off (2 entries
- ) and :enum (N entries in dropdown-option order). Mutually
- exclusive with `cmd` (a widget's value either patches ONE template or
- index-selects among fixed ones); an out-of-range index emits nothing. */
-    pb_callback_t cmd_by_value;
-} ui_EventBinding;
 
 /* One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
  the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
@@ -724,7 +692,7 @@ typedef struct _ui_GestureSpec {
 /* Conditional visibility — show/hide widget based on subject value comparison. */
 typedef struct _ui_VisibilityBinding {
     /* subject name to observe */
-    pb_callback_t subject;
+    char subject[64];
     int32_t ref_value; /* reference value for comparison */
     /* comparison operator (default: EQ) */
     ui_CompareOp compare;
@@ -789,6 +757,25 @@ typedef struct _ui_ScaleSection {
     uint32_t main_width;
 } ui_ScaleSection;
 
+typedef struct _ui_ScaleProps {
+    ui_ScaleMode mode;
+    uint32_t total_tick_count;
+    uint32_t major_tick_every;
+    bool label_show;
+    int32_t min_value;
+    int32_t max_value;
+    int32_t rotation;
+    uint32_t angle_range;
+    /* Demo-parity extensions (lv_demo_widgets analytics scales):
+ major-tick label sources ("\n"-joined custom texts). */
+    char text_src[256];
+    /* Draw tick labels after the needle/indicator (lv_scale_set_post_draw). */
+    bool post_draw;
+    /* Colored value sections (lv_scale_section_*). */
+    pb_size_t sections_count;
+    ui_ScaleSection sections[4];
+} ui_ScaleProps;
+
 /* One chart data series (lv_chart_add_series + per-index value writes). */
 typedef struct _ui_ChartSeries {
     /* Series color; absent = the theme primary color (the demo's default
@@ -801,8 +788,28 @@ typedef struct _ui_ChartSeries {
     /* Frozen-frame data points, written BY INDEX (point i = values via
  lv_chart_set_series_value_by_id); points past the list keep
  LV_CHART_POINT_NONE. */
-    pb_callback_t values;
+    pb_size_t values_count;
+    int32_t values[32];
 } ui_ChartSeries;
+
+typedef struct _ui_ChartProps {
+    /* lv_chart_type_t direct-cast (parity-gated); NONE (0) = keep the LVGL
+ default (LINE). */
+    ui_ChartType type;
+    /* 0 = keep the LVGL default point count. */
+    uint32_t point_count;
+    /* Division lines: 0 is a VALID explicit count (the demo sets 0,12), so
+ presence rides has_div_lines (the ImageProps.has_pivot pattern);
+ false = keep the LVGL defaults (HDIV_DEF/VDIV_DEF). */
+    bool has_div_lines;
+    uint32_t hdiv_count;
+    uint32_t vdiv_count;
+    pb_size_t series_count;
+    ui_ChartSeries series[8];
+    /* Replicate the demo's chart fader draw-event: a vertical-gradient area
+ under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED). */
+    bool fade_area;
+} ui_ChartProps;
 
 /* Value-conditional text-color binding — the VisibilityBinding subject/range
  shape PLUS the color applied while the condition holds
@@ -826,7 +833,7 @@ typedef struct _ui_WidgetNode {
     int32_t x;
     int32_t y;
     /* Static text (labels, checkbox, textarea, button) */
-    pb_callback_t text;
+    char text[256];
     /* Subject data bindings (key = LVGL property, value = subject name) */
     pb_callback_t bindings;
     /* Event binding (what command to emit on click) */
@@ -882,8 +889,10 @@ typedef struct _ui_WidgetNode {
     /* Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
  encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
  no grid layout. */
-    pb_callback_t grid_col_dsc;
-    pb_callback_t grid_row_dsc;
+    pb_size_t grid_col_dsc_count;
+    int32_t grid_col_dsc[12];
+    pb_size_t grid_row_dsc_count;
+    int32_t grid_row_dsc[12];
     /* Strip ALL theme/base styles before applying style_groups
  (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes. */
     bool bare;
@@ -910,7 +919,8 @@ typedef struct _ui_WidgetNode {
  PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
  analogue so it is never emitted here. The host recognizer matches a
  gesture_kind_t decision to its GestureSpec.kind and patches the slots. */
-    pb_callback_t gestures;
+    pb_size_t gestures_count;
+    struct _ui_GestureSpec *gestures;
     /* Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
  inverted in polarity: the widget carries LV_STATE_DISABLED while the
  comparison against the subject does NOT hold, and is cleared (enabled)
@@ -969,7 +979,7 @@ typedef struct _ui_StyleProperty {
         int32_t int_value; /* signed values (width, height, padding, coords) */
         ui_Color color_value; /* resolved RGB */
         /* font C symbol name, image source path */
-        pb_callback_t string_value;
+        char string_value[64];
         ui_ShadowBundle shadow_value;
     } value;
 } ui_StyleProperty;
@@ -1159,45 +1169,45 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ui_SubjectDeclaration_init_default       {{{NULL}, NULL}, _ui_SubjectType_MIN, 0, {0}}
+#define ui_SubjectDeclaration_init_default       {"", _ui_SubjectType_MIN, 0, {0}}
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
-#define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
+#define ui_SubjectValue_init_default             {"", 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default, 0, {{NULL}, NULL}, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default}
-#define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
-#define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default}
+#define ui_WidgetNode_BindingsEntry_init_default {"", ""}
+#define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
 #define ui_ScreenPatch_init_default              {0, 0, {{NULL}, NULL}}
 #define ui_ObjProps_init_default                 {0}
 #define ui_ButtonProps_init_default              {0}
 #define ui_LabelProps_init_default               {_ui_LabelLongMode_MIN}
 #define ui_SliderProps_init_default              {0, 0, 0, _ui_BarMode_MIN, 0}
-#define ui_ImageProps_init_default               {{{NULL}, NULL}, 0, 0, 0, 0}
+#define ui_ImageProps_init_default               {"", 0, 0, 0, 0}
 #define ui_ArcProps_init_default                 {0, 0, 0, 0, 0, _ui_ArcMode_MIN, 0, 0, 0}
 #define ui_BarProps_init_default                 {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_default              {0}
 #define ui_CheckboxProps_init_default            {0}
-#define ui_DropdownProps_init_default            {{{NULL}, NULL}, 0, _ui_Dir_MIN, {{NULL}, NULL}}
-#define ui_RollerProps_init_default              {{{NULL}, NULL}, 0, 0, _ui_RollerMode_MIN}
-#define ui_TextareaProps_init_default            {{{NULL}, NULL}, 0, 0, 0}
+#define ui_DropdownProps_init_default            {"", 0, _ui_Dir_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+#define ui_RollerProps_init_default              {"", 0, 0, _ui_RollerMode_MIN}
+#define ui_TextareaProps_init_default            {"", 0, 0, 0}
 #define ui_SpinboxProps_init_default             {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_default             {0, 0}
 #define ui_LedProps_init_default                 {false, ui_Color_init_default, 0}
 #define ui_LineProps_init_default                {{{NULL}, NULL}, 0}
-#define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}}
+#define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, {ui_ScaleSection_init_default, ui_ScaleSection_init_default, ui_ScaleSection_init_default, ui_ScaleSection_init_default}}
 #define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0, false, ui_Color_init_default, 0}
-#define ui_ButtonMatrixProps_init_default        {{{NULL}, NULL}, 0}
+#define ui_ButtonMatrixProps_init_default        {"", 0}
 #define ui_TableProps_init_default               {0, 0}
-#define ui_TabviewProps_init_default             {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN, 0}
-#define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, {{NULL}, NULL}}
-#define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
-#define ui_HostProxyProps_init_default           {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
+#define ui_TabviewProps_init_default             {0, {"", "", "", "", "", "", "", ""}, 0, 0, _ui_Dir_MIN, 0}
+#define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+#define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, 0, {ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default}, 0}
+#define ui_HostProxyProps_init_default           {"", _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_default                    {0, 0}
-#define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_default, {{NULL}, NULL}}
+#define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0}
-#define ui_CmdSpec_init_default                  {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_CmdSpec_init_default                  {"", {0, {0}}, 0, {ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default}}
 #define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default}
-#define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
+#define ui_VisibilityBinding_init_default        {"", 0, _ui_CompareOp_MIN}
 #define ui_ColorBinding_init_default             {false, ui_VisibilityBinding_init_default, false, ui_Color_init_default}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_default               {0, {{NULL}, NULL}}
@@ -1205,45 +1215,45 @@ extern "C" {
 #define ui_StyleProperty_init_default            {_ui_StylePropertyType_MIN, 0, {0}}
 #define ui_Color_init_default                    {0, 0, 0}
 #define ui_ShadowBundle_init_default             {0, 0, 0, 0, 0}
-#define ui_SubjectDeclaration_init_zero          {{{NULL}, NULL}, _ui_SubjectType_MIN, 0, {0}}
+#define ui_SubjectDeclaration_init_zero          {"", _ui_SubjectType_MIN, 0, {0}}
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
-#define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
+#define ui_SubjectValue_init_zero                {"", 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, {{NULL}, NULL}, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero}
-#define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
-#define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero}
+#define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
+#define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
 #define ui_ScreenPatch_init_zero                 {0, 0, {{NULL}, NULL}}
 #define ui_ObjProps_init_zero                    {0}
 #define ui_ButtonProps_init_zero                 {0}
 #define ui_LabelProps_init_zero                  {_ui_LabelLongMode_MIN}
 #define ui_SliderProps_init_zero                 {0, 0, 0, _ui_BarMode_MIN, 0}
-#define ui_ImageProps_init_zero                  {{{NULL}, NULL}, 0, 0, 0, 0}
+#define ui_ImageProps_init_zero                  {"", 0, 0, 0, 0}
 #define ui_ArcProps_init_zero                    {0, 0, 0, 0, 0, _ui_ArcMode_MIN, 0, 0, 0}
 #define ui_BarProps_init_zero                    {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_zero                 {0}
 #define ui_CheckboxProps_init_zero               {0}
-#define ui_DropdownProps_init_zero               {{{NULL}, NULL}, 0, _ui_Dir_MIN, {{NULL}, NULL}}
-#define ui_RollerProps_init_zero                 {{{NULL}, NULL}, 0, 0, _ui_RollerMode_MIN}
-#define ui_TextareaProps_init_zero               {{{NULL}, NULL}, 0, 0, 0}
+#define ui_DropdownProps_init_zero               {"", 0, _ui_Dir_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+#define ui_RollerProps_init_zero                 {"", 0, 0, _ui_RollerMode_MIN}
+#define ui_TextareaProps_init_zero               {"", 0, 0, 0}
 #define ui_SpinboxProps_init_zero                {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_zero                {0, 0}
 #define ui_LedProps_init_zero                    {false, ui_Color_init_zero, 0}
 #define ui_LineProps_init_zero                   {{{NULL}, NULL}, 0}
-#define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}}
+#define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, {ui_ScaleSection_init_zero, ui_ScaleSection_init_zero, ui_ScaleSection_init_zero, ui_ScaleSection_init_zero}}
 #define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0, false, ui_Color_init_zero, 0}
-#define ui_ButtonMatrixProps_init_zero           {{{NULL}, NULL}, 0}
+#define ui_ButtonMatrixProps_init_zero           {"", 0}
 #define ui_TableProps_init_zero                  {0, 0}
-#define ui_TabviewProps_init_zero                {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN, 0}
-#define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, {{NULL}, NULL}}
-#define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
-#define ui_HostProxyProps_init_zero              {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
+#define ui_TabviewProps_init_zero                {0, {"", "", "", "", "", "", "", ""}, 0, 0, _ui_Dir_MIN, 0}
+#define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+#define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, 0, {ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero}, 0}
+#define ui_HostProxyProps_init_zero              {"", _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_zero                       {0, 0}
-#define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0, false, ui_CmdSpec_init_zero, {{NULL}, NULL}}
+#define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0}
-#define ui_CmdSpec_init_zero                     {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_CmdSpec_init_zero                     {"", {0, {0}}, 0, {ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero}}
 #define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero}
-#define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
+#define ui_VisibilityBinding_init_zero           {"", 0, _ui_CompareOp_MIN}
 #define ui_ColorBinding_init_zero                {false, ui_VisibilityBinding_init_zero, false, ui_Color_init_zero}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_zero                  {0, {{NULL}, NULL}}
@@ -1317,17 +1327,6 @@ extern "C" {
 #define ui_SpinnerProps_arc_length_tag           2
 #define ui_LineProps_points_tag                  1
 #define ui_LineProps_y_invert_tag                2
-#define ui_ScaleProps_mode_tag                   1
-#define ui_ScaleProps_total_tick_count_tag       2
-#define ui_ScaleProps_major_tick_every_tag       3
-#define ui_ScaleProps_label_show_tag             4
-#define ui_ScaleProps_min_value_tag              5
-#define ui_ScaleProps_max_value_tag              6
-#define ui_ScaleProps_rotation_tag               7
-#define ui_ScaleProps_angle_range_tag            8
-#define ui_ScaleProps_text_src_tag               9
-#define ui_ScaleProps_post_draw_tag              10
-#define ui_ScaleProps_sections_tag               11
 #define ui_ButtonMatrixProps_map_str_tag         1
 #define ui_ButtonMatrixProps_one_check_tag       2
 #define ui_TableProps_row_count_tag              1
@@ -1337,13 +1336,6 @@ extern "C" {
 #define ui_TabviewProps_active_index_tag         3
 #define ui_TabviewProps_tab_bar_position_tag     4
 #define ui_TabviewProps_tab_bar_pad_left_tag     5
-#define ui_ChartProps_type_tag                   1
-#define ui_ChartProps_point_count_tag            2
-#define ui_ChartProps_has_div_lines_tag          3
-#define ui_ChartProps_hdiv_count_tag             4
-#define ui_ChartProps_vdiv_count_tag             5
-#define ui_ChartProps_series_tag                 6
-#define ui_ChartProps_fade_area_tag              7
 #define ui_HostProxyProps_proxy_id_tag           1
 #define ui_HostProxyProps_mode_tag               2
 #define ui_HostProxyProps_min_w_tag              3
@@ -1354,13 +1346,6 @@ extern "C" {
 #define ui_HostProxyProps_z_tag                  8
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
-#define ui_FieldPatch_byte_offset_tag            1
-#define ui_FieldPatch_byte_width_tag             2
-#define ui_FieldPatch_kind_tag                   3
-#define ui_FieldPatch_wire_scale_tag             4
-#define ui_CmdSpec_command_id_tag                1
-#define ui_CmdSpec_root_template_tag             2
-#define ui_CmdSpec_patches_tag                   3
 #define ui_EventBinding_name_tag                 1
 #define ui_EventBinding_trigger_tag              2
 #define ui_EventBinding_int_value_tag            3
@@ -1371,6 +1356,13 @@ extern "C" {
 #define ui_EventBinding_notify_host_tag          8
 #define ui_EventBinding_cmd_tag                  9
 #define ui_EventBinding_cmd_by_value_tag         10
+#define ui_FieldPatch_byte_offset_tag            1
+#define ui_FieldPatch_byte_width_tag             2
+#define ui_FieldPatch_kind_tag                   3
+#define ui_FieldPatch_wire_scale_tag             4
+#define ui_CmdSpec_command_id_tag                1
+#define ui_CmdSpec_root_template_tag             2
+#define ui_CmdSpec_patches_tag                   3
 #define ui_GestureSpec_kind_tag                  1
 #define ui_GestureSpec_cmd_tag                   2
 #define ui_VisibilityBinding_subject_tag         1
@@ -1395,9 +1387,27 @@ extern "C" {
 #define ui_ScaleSection_width_tag                4
 #define ui_ScaleSection_main_color_tag           5
 #define ui_ScaleSection_main_width_tag           6
+#define ui_ScaleProps_mode_tag                   1
+#define ui_ScaleProps_total_tick_count_tag       2
+#define ui_ScaleProps_major_tick_every_tag       3
+#define ui_ScaleProps_label_show_tag             4
+#define ui_ScaleProps_min_value_tag              5
+#define ui_ScaleProps_max_value_tag              6
+#define ui_ScaleProps_rotation_tag               7
+#define ui_ScaleProps_angle_range_tag            8
+#define ui_ScaleProps_text_src_tag               9
+#define ui_ScaleProps_post_draw_tag              10
+#define ui_ScaleProps_sections_tag               11
 #define ui_ChartSeries_color_tag                 1
 #define ui_ChartSeries_axis_tag                  2
 #define ui_ChartSeries_values_tag                3
+#define ui_ChartProps_type_tag                   1
+#define ui_ChartProps_point_count_tag            2
+#define ui_ChartProps_has_div_lines_tag          3
+#define ui_ChartProps_hdiv_count_tag             4
+#define ui_ChartProps_vdiv_count_tag             5
+#define ui_ChartProps_series_tag                 6
+#define ui_ChartProps_fade_area_tag              7
 #define ui_ColorBinding_when_tag                 1
 #define ui_ColorBinding_color_tag                2
 #define ui_WidgetNode_type_tag                   1
@@ -1467,11 +1477,11 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ui_SubjectDeclaration_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   name,              1) \
+X(a, STATIC,   SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              2) \
 X(a, STATIC,   ONEOF,    INT32,    (initial,int_initial,initial.int_initial),   3) \
-X(a, CALLBACK, ONEOF,    STRING,   (initial,string_initial,initial.string_initial),   4)
-#define ui_SubjectDeclaration_CALLBACK pb_default_field_callback
+X(a, STATIC,   ONEOF,    STRING,   (initial,string_initial,initial.string_initial),   4)
+#define ui_SubjectDeclaration_CALLBACK NULL
 #define ui_SubjectDeclaration_DEFAULT NULL
 
 #define ui_StateUpdate_FIELDLIST(X, a) \
@@ -1481,10 +1491,10 @@ X(a, CALLBACK, REPEATED, MESSAGE,  values,            1)
 #define ui_StateUpdate_values_MSGTYPE ui_SubjectValue
 
 #define ui_SubjectValue_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   name,              1) \
+X(a, STATIC,   SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   ONEOF,    INT32,    (value,int_value,value.int_value),   2) \
-X(a, CALLBACK, ONEOF,    STRING,   (value,string_value,value.string_value),   3)
-#define ui_SubjectValue_CALLBACK pb_default_field_callback
+X(a, STATIC,   ONEOF,    STRING,   (value,string_value,value.string_value),   3)
+#define ui_SubjectValue_CALLBACK NULL
 #define ui_SubjectValue_DEFAULT NULL
 
 #define ui_Screen_FIELDLIST(X, a) \
@@ -1499,7 +1509,7 @@ X(a, CALLBACK, REPEATED, MESSAGE,  subjects,          2)
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 2) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 3) \
-X(a, CALLBACK, SINGULAR, STRING,   text,              4) \
+X(a, STATIC,   SINGULAR, STRING,   text,              4) \
 X(a, CALLBACK, REPEATED, MESSAGE,  bindings,          5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  event,             6) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  layout,            7) \
@@ -1530,8 +1540,8 @@ X(a, STATIC,   SINGULAR, UINT32,   obj_flags,        31) \
 X(a, STATIC,   SINGULAR, UINT32,   obj_flags_clear,  32) \
 X(a, STATIC,   SINGULAR, UINT32,   states,           33) \
 X(a, STATIC,   SINGULAR, UINT32,   scroll_dir,       34) \
-X(a, CALLBACK, REPEATED, INT32,    grid_col_dsc,     35) \
-X(a, CALLBACK, REPEATED, INT32,    grid_row_dsc,     36) \
+X(a, STATIC,   REPEATED, INT32,    grid_col_dsc,     35) \
+X(a, STATIC,   REPEATED, INT32,    grid_row_dsc,     36) \
 X(a, STATIC,   SINGULAR, BOOL,     bare,             37) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,tabview_props,widget_props.tabview_props),  38) \
 X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39) \
@@ -1539,7 +1549,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,host_proxy_props,widget_props.host_proxy_props),  41) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42) \
 X(a, STATIC,   SINGULAR, UINT32,   uid,              43) \
-X(a, CALLBACK, REPEATED, MESSAGE,  gestures,         44) \
+X(a, POINTER,  REPEATED, MESSAGE,  gestures,         44) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  enabled_when,     45) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
@@ -1579,15 +1589,15 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46)
 #define ui_WidgetNode_color_when_MSGTYPE ui_ColorBinding
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
-X(a, CALLBACK, SINGULAR, STRING,   value,             2)
-#define ui_WidgetNode_BindingsEntry_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, STRING,   key,               1) \
+X(a, STATIC,   SINGULAR, STRING,   value,             2)
+#define ui_WidgetNode_BindingsEntry_CALLBACK NULL
 #define ui_WidgetNode_BindingsEntry_DEFAULT NULL
 
 #define ui_WidgetNode_BindFormatsEntry_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
-X(a, CALLBACK, SINGULAR, STRING,   value,             2)
-#define ui_WidgetNode_BindFormatsEntry_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, STRING,   key,               1) \
+X(a, STATIC,   SINGULAR, STRING,   value,             2)
+#define ui_WidgetNode_BindFormatsEntry_CALLBACK NULL
 #define ui_WidgetNode_BindFormatsEntry_DEFAULT NULL
 
 #define ui_TreePatchOp_FIELDLIST(X, a) \
@@ -1633,12 +1643,12 @@ X(a, STATIC,   SINGULAR, BOOL,     seek_on_press,     5)
 #define ui_SliderProps_DEFAULT NULL
 
 #define ui_ImageProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   src,               1) \
+X(a, STATIC,   SINGULAR, STRING,   src,               1) \
 X(a, STATIC,   SINGULAR, BOOL,     has_pivot,         2) \
 X(a, STATIC,   SINGULAR, INT32,    pivot_x,           3) \
 X(a, STATIC,   SINGULAR, INT32,    pivot_y,           4) \
 X(a, STATIC,   SINGULAR, INT32,    rotation,          5)
-#define ui_ImageProps_CALLBACK pb_default_field_callback
+#define ui_ImageProps_CALLBACK NULL
 #define ui_ImageProps_DEFAULT NULL
 
 #define ui_ArcProps_FIELDLIST(X, a) \
@@ -1674,27 +1684,27 @@ X(a, STATIC,   SINGULAR, BOOL,     checked,           1)
 #define ui_CheckboxProps_DEFAULT NULL
 
 #define ui_DropdownProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   options,           1) \
+X(a, STATIC,   SINGULAR, STRING,   options,           1) \
 X(a, STATIC,   SINGULAR, UINT32,   selected,          2) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         3) \
-X(a, CALLBACK, REPEATED, INT32,    option_values,     4)
-#define ui_DropdownProps_CALLBACK pb_default_field_callback
+X(a, STATIC,   REPEATED, INT32,    option_values,     4)
+#define ui_DropdownProps_CALLBACK NULL
 #define ui_DropdownProps_DEFAULT NULL
 
 #define ui_RollerProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   options,           1) \
+X(a, STATIC,   SINGULAR, STRING,   options,           1) \
 X(a, STATIC,   SINGULAR, UINT32,   selected,          2) \
 X(a, STATIC,   SINGULAR, UINT32,   visible_row_count,   3) \
 X(a, STATIC,   SINGULAR, UENUM,    mode,              4)
-#define ui_RollerProps_CALLBACK pb_default_field_callback
+#define ui_RollerProps_CALLBACK NULL
 #define ui_RollerProps_DEFAULT NULL
 
 #define ui_TextareaProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   placeholder,       1) \
+X(a, STATIC,   SINGULAR, STRING,   placeholder,       1) \
 X(a, STATIC,   SINGULAR, UINT32,   max_length,        2) \
 X(a, STATIC,   SINGULAR, BOOL,     one_line,          3) \
 X(a, STATIC,   SINGULAR, BOOL,     password_mode,     4)
-#define ui_TextareaProps_CALLBACK pb_default_field_callback
+#define ui_TextareaProps_CALLBACK NULL
 #define ui_TextareaProps_DEFAULT NULL
 
 #define ui_SpinboxProps_FIELDLIST(X, a) \
@@ -1736,10 +1746,10 @@ X(a, STATIC,   SINGULAR, INT32,    min_value,         5) \
 X(a, STATIC,   SINGULAR, INT32,    max_value,         6) \
 X(a, STATIC,   SINGULAR, INT32,    rotation,          7) \
 X(a, STATIC,   SINGULAR, UINT32,   angle_range,       8) \
-X(a, CALLBACK, SINGULAR, STRING,   text_src,          9) \
+X(a, STATIC,   SINGULAR, STRING,   text_src,          9) \
 X(a, STATIC,   SINGULAR, BOOL,     post_draw,        10) \
-X(a, CALLBACK, REPEATED, MESSAGE,  sections,         11)
-#define ui_ScaleProps_CALLBACK pb_default_field_callback
+X(a, STATIC,   REPEATED, MESSAGE,  sections,         11)
+#define ui_ScaleProps_CALLBACK NULL
 #define ui_ScaleProps_DEFAULT NULL
 #define ui_ScaleProps_sections_MSGTYPE ui_ScaleSection
 
@@ -1756,9 +1766,9 @@ X(a, STATIC,   SINGULAR, UINT32,   main_width,        6)
 #define ui_ScaleSection_main_color_MSGTYPE ui_Color
 
 #define ui_ButtonMatrixProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   map_str,           1) \
+X(a, STATIC,   SINGULAR, STRING,   map_str,           1) \
 X(a, STATIC,   SINGULAR, BOOL,     one_check,         2)
-#define ui_ButtonMatrixProps_CALLBACK pb_default_field_callback
+#define ui_ButtonMatrixProps_CALLBACK NULL
 #define ui_ButtonMatrixProps_DEFAULT NULL
 
 #define ui_TableProps_FIELDLIST(X, a) \
@@ -1768,19 +1778,19 @@ X(a, STATIC,   SINGULAR, UINT32,   column_count,      2)
 #define ui_TableProps_DEFAULT NULL
 
 #define ui_TabviewProps_FIELDLIST(X, a) \
-X(a, CALLBACK, REPEATED, STRING,   tab_names,         1) \
+X(a, STATIC,   REPEATED, STRING,   tab_names,         1) \
 X(a, STATIC,   SINGULAR, INT32,    tab_bar_size,      2) \
 X(a, STATIC,   SINGULAR, UINT32,   active_index,      3) \
 X(a, STATIC,   SINGULAR, UENUM,    tab_bar_position,   4) \
 X(a, STATIC,   SINGULAR, INT32,    tab_bar_pad_left,   5)
-#define ui_TabviewProps_CALLBACK pb_default_field_callback
+#define ui_TabviewProps_CALLBACK NULL
 #define ui_TabviewProps_DEFAULT NULL
 
 #define ui_ChartSeries_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  color,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    axis,              2) \
-X(a, CALLBACK, REPEATED, INT32,    values,            3)
-#define ui_ChartSeries_CALLBACK pb_default_field_callback
+X(a, STATIC,   REPEATED, INT32,    values,            3)
+#define ui_ChartSeries_CALLBACK NULL
 #define ui_ChartSeries_DEFAULT NULL
 #define ui_ChartSeries_color_MSGTYPE ui_Color
 
@@ -1790,14 +1800,14 @@ X(a, STATIC,   SINGULAR, UINT32,   point_count,       2) \
 X(a, STATIC,   SINGULAR, BOOL,     has_div_lines,     3) \
 X(a, STATIC,   SINGULAR, UINT32,   hdiv_count,        4) \
 X(a, STATIC,   SINGULAR, UINT32,   vdiv_count,        5) \
-X(a, CALLBACK, REPEATED, MESSAGE,  series,            6) \
+X(a, STATIC,   REPEATED, MESSAGE,  series,            6) \
 X(a, STATIC,   SINGULAR, BOOL,     fade_area,         7)
-#define ui_ChartProps_CALLBACK pb_default_field_callback
+#define ui_ChartProps_CALLBACK NULL
 #define ui_ChartProps_DEFAULT NULL
 #define ui_ChartProps_series_MSGTYPE ui_ChartSeries
 
 #define ui_HostProxyProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   proxy_id,          1) \
+X(a, STATIC,   SINGULAR, STRING,   proxy_id,          1) \
 X(a, STATIC,   SINGULAR, UENUM,    mode,              2) \
 X(a, STATIC,   SINGULAR, INT32,    min_w,             3) \
 X(a, STATIC,   SINGULAR, INT32,    min_h,             4) \
@@ -1805,7 +1815,7 @@ X(a, STATIC,   SINGULAR, INT32,    max_w,             5) \
 X(a, STATIC,   SINGULAR, INT32,    max_h,             6) \
 X(a, STATIC,   SINGULAR, UINT32,   handle_size,       7) \
 X(a, STATIC,   SINGULAR, INT32,    z,                 8)
-#define ui_HostProxyProps_CALLBACK pb_default_field_callback
+#define ui_HostProxyProps_CALLBACK NULL
 #define ui_HostProxyProps_DEFAULT NULL
 
 #define ui_Point_FIELDLIST(X, a) \
@@ -1815,17 +1825,17 @@ X(a, STATIC,   SINGULAR, INT32,    y,                 2)
 #define ui_Point_DEFAULT NULL
 
 #define ui_EventBinding_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   name,              1) \
+X(a, STATIC,   SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   SINGULAR, UENUM,    trigger,           2) \
 X(a, STATIC,   SINGULAR, INT32,    int_value,         3) \
 X(a, STATIC,   SINGULAR, BOOL,     include_widget_value,   4) \
-X(a, CALLBACK, SINGULAR, STRING,   set_subject,       5) \
+X(a, STATIC,   SINGULAR, STRING,   set_subject,       5) \
 X(a, STATIC,   SINGULAR, INT32,    set_value,         6) \
 X(a, STATIC,   SINGULAR, BOOL,     toggle,            7) \
 X(a, STATIC,   SINGULAR, BOOL,     notify_host,       8) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               9) \
-X(a, CALLBACK, REPEATED, MESSAGE,  cmd_by_value,     10)
-#define ui_EventBinding_CALLBACK pb_default_field_callback
+X(a, POINTER,  OPTIONAL, MESSAGE,  cmd,               9) \
+X(a, POINTER,  REPEATED, MESSAGE,  cmd_by_value,     10)
+#define ui_EventBinding_CALLBACK NULL
 #define ui_EventBinding_DEFAULT NULL
 #define ui_EventBinding_cmd_MSGTYPE ui_CmdSpec
 #define ui_EventBinding_cmd_by_value_MSGTYPE ui_CmdSpec
@@ -1839,10 +1849,10 @@ X(a, STATIC,   SINGULAR, SINT32,   wire_scale,        4)
 #define ui_FieldPatch_DEFAULT NULL
 
 #define ui_CmdSpec_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   command_id,        1) \
-X(a, CALLBACK, SINGULAR, BYTES,    root_template,     2) \
-X(a, CALLBACK, REPEATED, MESSAGE,  patches,           3)
-#define ui_CmdSpec_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, STRING,   command_id,        1) \
+X(a, STATIC,   SINGULAR, BYTES,    root_template,     2) \
+X(a, STATIC,   REPEATED, MESSAGE,  patches,           3)
+#define ui_CmdSpec_CALLBACK NULL
 #define ui_CmdSpec_DEFAULT NULL
 #define ui_CmdSpec_patches_MSGTYPE ui_FieldPatch
 
@@ -1854,10 +1864,10 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               2)
 #define ui_GestureSpec_cmd_MSGTYPE ui_CmdSpec
 
 #define ui_VisibilityBinding_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   subject,           1) \
+X(a, STATIC,   SINGULAR, STRING,   subject,           1) \
 X(a, STATIC,   SINGULAR, INT32,    ref_value,         2) \
 X(a, STATIC,   SINGULAR, UENUM,    compare,           3)
-#define ui_VisibilityBinding_CALLBACK pb_default_field_callback
+#define ui_VisibilityBinding_CALLBACK NULL
 #define ui_VisibilityBinding_DEFAULT NULL
 
 #define ui_ColorBinding_FIELDLIST(X, a) \
@@ -1895,9 +1905,9 @@ X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   ONEOF,    UINT32,   (value,uint_value,value.uint_value),   2) \
 X(a, STATIC,   ONEOF,    INT32,    (value,int_value,value.int_value),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (value,color_value,value.color_value),   4) \
-X(a, CALLBACK, ONEOF,    STRING,   (value,string_value,value.string_value),   5) \
+X(a, STATIC,   ONEOF,    STRING,   (value,string_value,value.string_value),   5) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (value,shadow_value,value.shadow_value),   6)
-#define ui_StyleProperty_CALLBACK pb_default_field_callback
+#define ui_StyleProperty_CALLBACK NULL
 #define ui_StyleProperty_DEFAULT NULL
 #define ui_StyleProperty_value_color_value_MSGTYPE ui_Color
 #define ui_StyleProperty_value_shadow_value_MSGTYPE ui_ShadowBundle
@@ -2014,53 +2024,53 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ShadowBundle_fields &ui_ShadowBundle_msg
 
 /* Maximum encoded size of messages (where known) */
-/* ui_SubjectDeclaration_size depends on runtime parameters */
 /* ui_StateUpdate_size depends on runtime parameters */
-/* ui_SubjectValue_size depends on runtime parameters */
 /* ui_Screen_size depends on runtime parameters */
 /* ui_WidgetNode_size depends on runtime parameters */
-/* ui_WidgetNode_BindingsEntry_size depends on runtime parameters */
-/* ui_WidgetNode_BindFormatsEntry_size depends on runtime parameters */
 /* ui_TreePatchOp_size depends on runtime parameters */
 /* ui_ScreenPatch_size depends on runtime parameters */
-/* ui_ImageProps_size depends on runtime parameters */
-/* ui_DropdownProps_size depends on runtime parameters */
-/* ui_RollerProps_size depends on runtime parameters */
-/* ui_TextareaProps_size depends on runtime parameters */
 /* ui_LineProps_size depends on runtime parameters */
-/* ui_ScaleProps_size depends on runtime parameters */
-/* ui_ButtonMatrixProps_size depends on runtime parameters */
-/* ui_TabviewProps_size depends on runtime parameters */
-/* ui_ChartSeries_size depends on runtime parameters */
-/* ui_ChartProps_size depends on runtime parameters */
-/* ui_HostProxyProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
-/* ui_CmdSpec_size depends on runtime parameters */
-/* ui_GestureSpec_size depends on runtime parameters */
-/* ui_VisibilityBinding_size depends on runtime parameters */
-/* ui_ColorBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_StyleVariant_size depends on runtime parameters */
-/* ui_StyleProperty_size depends on runtime parameters */
-#define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_ScaleSection_size
+#define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_ChartProps_size
 #define ui_ArcProps_size                         70
 #define ui_BarProps_size                         46
+#define ui_ButtonMatrixProps_size                1028
 #define ui_ButtonProps_size                      0
+#define ui_ChartProps_size                       3040
+#define ui_ChartSeries_size                      374
 #define ui_CheckboxProps_size                    2
+#define ui_CmdSpec_size                          349
+#define ui_ColorBinding_size                     100
 #define ui_Color_size                            18
+#define ui_DropdownProps_size                    1210
 #define ui_FieldPatch_size                       20
+#define ui_GestureSpec_size                      354
+#define ui_HostProxyProps_size                   128
+#define ui_ImageProps_size                       293
 #define ui_LabelProps_size                       2
 #define ui_Layout_size                           8
 #define ui_LedProps_size                         26
 #define ui_ObjProps_size                         0
 #define ui_Point_size                            22
+#define ui_RollerProps_size                      528
+#define ui_ScaleProps_size                       619
 #define ui_ScaleSection_size                     74
 #define ui_ShadowBundle_size                     40
 #define ui_SliderProps_size                      37
 #define ui_SpinboxProps_size                     56
 #define ui_SpinnerProps_size                     12
+#define ui_StyleProperty_size                    67
+#define ui_SubjectDeclaration_size               325
+#define ui_SubjectValue_size                     323
 #define ui_SwitchProps_size                      2
 #define ui_TableProps_size                       12
+#define ui_TabviewProps_size                     294
+#define ui_TextareaProps_size                    268
+#define ui_VisibilityBinding_size                78
+#define ui_WidgetNode_BindFormatsEntry_size      323
+#define ui_WidgetNode_BindingsEntry_size         130
 
 #ifdef __cplusplus
 } /* extern "C" */
