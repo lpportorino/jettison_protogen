@@ -49,7 +49,7 @@
 
 ;; LVGL-mirror enums — DERIVED from the factory-generated bindings
 ;; (`lvgl-codegen.generated.enums`, regenerated from LVGL's own headers via
-;; `make factory-bindings`). One home per enum fact; these defs are the
+;; the construct factory). One home per enum fact; these defs are the
 ;; proto-schema-facing names.
 (def flex-flow "Flex flow direction enum values." gen-enums/flex-flow-proto-enum)
 

@@ -81,8 +81,12 @@
 (defn generate-bindings!
   "Write the COMMITTED generated Clojure bindings ns
    (`src/lvgl_codegen/generated/enums.clj`) for `enum-edn`, numbered from the
-   committed registry. Run via `make factory-bindings`; the bindings staleness
-   test pins the committed file against the live extraction."
+   committed registry.
+
+   UNREACHABLE TODAY: nothing calls this, and nothing in this tree produces the
+   `enum-edn` it needs. The committed output is therefore a projection with no
+   producer and no freshness check — NOT, as an earlier docstring here claimed,
+   one pinned by a staleness test. There is no such test."
   [enum-edn out-path]
   (io/make-parents out-path)
   (spit out-path
@@ -94,8 +98,12 @@
 
 (defn generate-luts!
   "Write the generated C LUT header (`generated/ui_luts.h`) for the `:lut`
-   enums, numbered from the committed registry. Run via `make
-   factory-bindings`; staleness-gated like the Clojure bindings ns."
+   enums, numbered from the committed registry.
+
+   UNREACHABLE TODAY, and NOT staleness-gated — see `generate-bindings!`. The
+   header it would write is compiled into the renderer, so a drift here is a
+   silently mis-mapped enum the C compiler cannot catch: the header IS the
+   declaration."
   [enum-edn out-path]
   (io/make-parents out-path)
   (spit out-path

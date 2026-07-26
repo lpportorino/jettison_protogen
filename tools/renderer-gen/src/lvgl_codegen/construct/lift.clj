@@ -48,8 +48,9 @@
   "Enum typedefs surfaced ONLY as authoring keyword→int bindings (raw LVGL
    header values, OR-able bitmasks): NO proto enum is emitted and NO registry
    numbering applies. The wire carries the OR'd uint32, which `renderer.c`
-   direct-casts (`lv_obj_add_flag` / `lv_obj_add_state`); the bindings
-   staleness gate pins the committed maps against the live extraction."
+   direct-casts (`lv_obj_add_flag` / `lv_obj_add_state`). The committed maps
+   are NOT pinned against a live extraction — an earlier claim here said they
+   were; no such gate exists (see `factory/generate-bindings!`)."
   #{"lv_obj_flag_t" "lv_state_t"})
 
 (def member-fact
