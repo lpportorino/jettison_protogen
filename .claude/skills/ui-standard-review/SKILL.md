@@ -166,15 +166,16 @@ with findings that already have an owner, and it dresses an unreproducible
 observation in a reproducible lane's clothes.
 
 **One caveat you must hold while reading this list.** `devcards.overlap` and
-`devcards.layers` are OPT-IN producers, and protogen's own gate does not yet
-run them — `core.clj` still composes its lanes by hand, so on THIS repo's
-corpus those classes currently have no machine owner. Deferring to them is
-still right, because the answer is to arm the lane rather than to eyeball
-geometry that exact arithmetic already decides, and a model's guess at a rect
-comparison is worth less than the comparison. But do not report the class as
-"covered" — if you notice something in it, say so as an UNCERTAIN note naming
-the producer that should own it, so the gap is visible rather than silently
-absorbed. In a consumer repo that HAS armed them, the deferral is literal.
+`devcards.layers` are OPT-IN producers. protogen's gate runs through the
+finding-producer registry, but those two are not in the producer vector it
+passes, so on THIS repo's corpus their classes currently have no machine
+owner. Deferring to them is still right, because the answer is to arm the lane
+rather than to eyeball geometry that exact arithmetic already decides, and a
+model's guess at a rect comparison is worth less than the comparison. But do
+not report the class as "covered" — if you notice something in it, say so as an
+UNCERTAIN note naming the producer that should own it, so the gap is visible
+rather than silently absorbed. In a consumer repo that HAS armed them, the
+deferral is literal.
 
 - **Exact overlap** — two pointer-path elements sharing a pixel is
   `devcards.overlap`, measured on inclusive rects. Do not eyeball it. Note the

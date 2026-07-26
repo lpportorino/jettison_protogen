@@ -70,13 +70,19 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   COUNT-first, so it inverts the verdict whenever the earlier node is deeper.
   That shipped once and no test caught it, because the suite only had
   equal-depth pairs.
-- **protogen's OWN gate is not yet routed through the registry.** `core.clj`
-  still composes `tree-findings` + `emission-findings` by hand, with `:expect`
-  routing and a doubled emission lane that `builtin-producers` does not express.
-  So the registry is available to consumers, and adding a producer does NOT by
-  itself make `make -f renderer.mk fixtures` run it — arming a rule against this
-  repo's corpus additionally means wiring `core.clj`. Membership in
-  `builtin-producers` is not the armed state either; nothing here reads it yet.
+- **protogen's own gate runs THROUGH the registry**, so the instruction above
+  is not advice this repo exempts itself from: `core.clj` judges every card via
+  `findings/card-findings`. The DOM lane is `devcards.expect/tree-producer`
+  (the `:expect` routing, including the INVERTED `:probe-defect` arm) and the
+  composition lane pairs the `:tree` builtin with
+  `findings/emission-by-mode-producer`. Select a builtin with
+  `findings/builtin-producer`, never by position — `(first builtin-producers)`
+  silently repoints the lane when the vector is reordered.
+- Being routed through the registry is still NOT the same as being armed:
+  membership in `builtin-producers` is what `core.clj` reads, so adding a
+  producer to `devcards.findings` does not by itself make
+  `make -f renderer.mk fixtures` run it. Arming a rule against this repo's
+  corpus means adding it to the producer vector the gate passes.
 
 ## The VLM UI review — one batched agent, briefed once, never a gate
 

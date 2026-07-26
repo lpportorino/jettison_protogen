@@ -40,7 +40,7 @@ You hold both halves of the same card — the rendered pixels AND the `dump_tree
 What you cannot see, stated plainly so a clean review is not over-read:
 
 - **Pointer reachability.** The framebuffer is identical whether an occluded control was reachable or dead (§2.1). A stack that looks fine can still eat every press.
-- **Extended click areas.** The rules measure `:coords`; the pointer is tested against a grown box (§2.4), so the true hazard boundary can be larger than anything visible.
+- **Where the hazard boundary actually is.** The rules judge the REACHABLE box — the click area, grown by `ext_click_pad`, clipped to every ancestor's descent gate (§2.4). It can be larger than anything drawn, and it can be smaller than the click area itself. Neither boundary is visible in a render.
 - **`layer_top` / `layer_sys`.** Out of scope for the dump entirely (§1.6).
 - **Transforms, opacity, partial transparency.** The contract does not model them (§1.4), and neither should your findings.
 - **Any hardware condition.** Legibility under sunlight, darkness or a specific panel revision is a bench obligation scoped to a hardware revision, never a gate result (§0, PDL-HW). You are looking at a gallery render, not a panel.
@@ -306,13 +306,31 @@ Snapped-away carousel pages are **not** exempted. Measured: zero overlap
 findings on any `lv_tabview` card across the whole corpus, even with every class
 forced interactive, so no exemption is owed.
 
-### 2.4 Stated conservatism
+### 2.4 The box that is judged, and what it cannot see
 
-The rule measures `:coords`; the pointer is tested against
-`lv_obj_get_click_area` — coords grown by `ext_click_area`. Where a widget
-extends its click area the true hazard boundary is larger than the box judged,
-so the rule UNDER-reports. A clean overlap lane is not a claim that no two click
-areas touch.
+The rule judges the REACHABLE box: a node's click area
+(`lv_obj_get_click_area` — coords grown by `ext_click_pad`, which is what
+`lv_obj_hit_test` tests), intersected with every ancestor's descent gate.
+Both halves are needed, and each alone is wrong in the opposite direction.
+Judging `:coords` under-reports wherever a widget extends its touch target;
+judging the raw click area over-reports, because `lv_indev_search_obj`
+descends into a node's children only while the point stays inside each
+ancestor's `coords` — click-area pixels outside an ancestor are dead to the
+pointer, and naming them describes a hazard region no pointer can visit.
+
+Two facts remain unseeable, and neither occurs in this tree — they are stated
+because a consumer's renderer is not bound by that:
+
+- `LV_OBJ_FLAG_OVERFLOW_VISIBLE` widens the descent gate by the node's ext
+  draw size. Nothing sets it — not the renderer, not LVGL — so the gate is
+  exactly `:coords` and the intersection above is EXACT rather than merely
+  conservative. A consumer that sets it would see this rule clip too hard and
+  UNDER-report.
+- `LV_OBJ_FLAG_ADV_HITTEST` lets a widget refuse a hit inside its own box by
+  answering `LV_EVENT_HIT_TEST`. Only `lv_image` sets it, and `lv_image` clears
+  CLICKABLE at construction, so no node reaches the pairing with it set. A
+  consumer that re-adds CLICKABLE to an image would see an OVER-report, because
+  the answer lives in an event handler no dump can serialise.
 
 ---
 

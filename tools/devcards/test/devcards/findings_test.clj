@@ -26,9 +26,10 @@
 ;; ── what the builtins DO and DO NOT reproduce ────────────────────────────
 ;; Scope, stated because the obvious stronger reading is false: this pins the
 ;; builtins against DIRECT calls to the two lane fns. It does NOT pin them
-;; against protogen's own gate. core.clj composes the lanes by hand, routes on
-;; :expect, and runs the emission lane TWICE (dark and light) — shapes
-;; builtin-producers does not express and this test cannot certify.
+;; against protogen's own gate, which routes through the registry but with a
+;; different producer vector — `devcards.expect/tree-producer` for the :expect
+;; routing, and `emission-by-mode-producer` for the dark/light pair. Those are
+;; pinned in devcards.expect-test; nothing here certifies them.
 
 (deftest builtin-producers-match-a-direct-call-to-the-two-lanes
   (testing "same inputs, same findings — modulo the :producer tag the registry

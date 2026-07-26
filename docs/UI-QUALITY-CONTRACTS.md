@@ -186,13 +186,31 @@ Snapped-away carousel pages are **not** exempted. Measured: zero overlap
 findings on any `lv_tabview` card across the whole corpus, even with every class
 forced interactive, so no exemption is owed.
 
-### 2.4 Stated conservatism
+### 2.4 The box that is judged, and what it cannot see
 
-The rule measures `:coords`; the pointer is tested against
-`lv_obj_get_click_area` — coords grown by `ext_click_area`. Where a widget
-extends its click area the true hazard boundary is larger than the box judged,
-so the rule UNDER-reports. A clean overlap lane is not a claim that no two click
-areas touch.
+The rule judges the REACHABLE box: a node's click area
+(`lv_obj_get_click_area` — coords grown by `ext_click_pad`, which is what
+`lv_obj_hit_test` tests), intersected with every ancestor's descent gate.
+Both halves are needed, and each alone is wrong in the opposite direction.
+Judging `:coords` under-reports wherever a widget extends its touch target;
+judging the raw click area over-reports, because `lv_indev_search_obj`
+descends into a node's children only while the point stays inside each
+ancestor's `coords` — click-area pixels outside an ancestor are dead to the
+pointer, and naming them describes a hazard region no pointer can visit.
+
+Two facts remain unseeable, and neither occurs in this tree — they are stated
+because a consumer's renderer is not bound by that:
+
+- `LV_OBJ_FLAG_OVERFLOW_VISIBLE` widens the descent gate by the node's ext
+  draw size. Nothing sets it — not the renderer, not LVGL — so the gate is
+  exactly `:coords` and the intersection above is EXACT rather than merely
+  conservative. A consumer that sets it would see this rule clip too hard and
+  UNDER-report.
+- `LV_OBJ_FLAG_ADV_HITTEST` lets a widget refuse a hit inside its own box by
+  answering `LV_EVENT_HIT_TEST`. Only `lv_image` sets it, and `lv_image` clears
+  CLICKABLE at construction, so no node reaches the pairing with it set. A
+  consumer that re-adds CLICKABLE to an image would see an OVER-report, because
+  the answer lives in an event handler no dump can serialise.
 
 ---
 
