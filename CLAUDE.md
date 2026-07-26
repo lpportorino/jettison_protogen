@@ -152,6 +152,14 @@ Rules:
   measurement can see. Mandatory to RUN and mandatory to DISPOSITION is the
   whole obligation; a finding earns pass/fail only by being reimplemented as a
   deterministic producer.
+- **AUDIT YOUR SCREENS FOR THE `DISABLED` DEAD ZONE.** `LV_STATE_DISABLED` does
+  NOT remove a widget from the pointer path — a disabled control painted over
+  an enabled one absorbs the press and drops it. Neither of your oracles can
+  see it: the framebuffer is identical either way, and no event fires. So a
+  screen carrying this defect passes everything you run today, and any design
+  that treats disabled controls as safe to stack has a live dead-zone class it
+  has never looked for. `docs/UI-QUALITY-CONTRACTS.md` §2.2 has the LVGL
+  sources and what to do about it.
 
 ## The reference interpreter + the devcards proof
 

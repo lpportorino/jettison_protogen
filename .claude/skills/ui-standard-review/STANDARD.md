@@ -296,6 +296,22 @@ A disabled control painted over an enabled one therefore **absorbs the press and
 drops it** — the silent version of the defect, because the control underneath is
 dead *and* nothing anywhere reports a press.
 
+**CONSUMER AUDIT OWED — this one is not discharged by arming a lane.** Neither
+of your existing oracles can see it: the framebuffer is byte-identical whether
+the control underneath was reachable or dead, so no pixel test fires, and no
+event is emitted, so no event log fires either. A screen with this defect passes
+everything you currently run.
+
+So it has to be looked for directly. Audit your own screens for **stacked
+interactive elements where one is disabled** — most cheaply by arming
+`devcards.overlap` against your corpus, which reports exactly these pairs and
+names the disabled participant in its `:detail`. Any design reasoning that
+"disabled controls are safe to stack" — a disabled overlay left mounted over a
+live control, a disabled full-bleed scrim, a control disabled *because* another
+is meant to receive the press — is the shape to hunt. If you find none, that is
+worth recording; if you find one, the fix is the LAYER CONTRACT (declare the
+stacking intent), not an exemption.
+
 ### 2.3 What is excluded
 
 - **Related nodes** (one an ancestor of the other) — containment is composition.
