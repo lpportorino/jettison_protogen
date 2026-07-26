@@ -151,16 +151,11 @@ What this message is used for.
 
 ## Constraint Types
 
-The parser supports these buf.validate constraints:
-
-| Type | Constraints |
-|------|-------------|
-| Numeric | gt, gte, lt, lte, example |
-| String | minLen, maxLen, pattern, in, email |
-| Bytes | minLen, maxLen |
-| Enum | definedOnly, notIn |
-| Repeated | minItems |
-| General | required |
+The constraints the parser supports are enumerated in `constraint-registry` in
+`docs/.protodoc/tools/src/protodoc/parse.clj`, with a `defmethod
+parse-constraint` per entry in the same file. Read that — a table here is a
+second copy that goes quietly short, which is how this one lost
+`:repeated/maxItems`.
 
 ### Adding New Constraints
 
@@ -178,16 +173,17 @@ No method in multimethod 'parse-constraint' for dispatch value: :type/constraint
 
 ## Interaction Metadata
 
-### Categories
-`:sensor` `:actuator` `:settings` `:status` `:lifecycle` `:diagnostic`
+The categories, UI patterns, feedback types and semantic types are CLOSED malli
+enums declared in `docs/.protodoc/tools/src/protodoc/schema.clj`
+(`InteractionCategory`, `UIPattern`, `FeedbackType`, `SemanticType`), each value
+carrying its own doc string. Read that file for the live set; each semantic
+type's compatible proto field types live beside it in
+`semantic-type-compatible-field-types` (`lint.clj`), which is what the linter
+enforces.
 
-### UI Patterns
-- Atomic: `:toggle` `:action-button` `:slider` `:stepper` `:indicator` `:enum-picker`
-- Molecular: `:slider-with-steppers` `:press-accelerating`
-- Composite: `:slider-with-presets` `:directional-mover` `:tabbed-config`
-
-### Semantic Types
-`:normalized` `:angle` `:percentage` `:coordinate-geo` `:temperature` `:voltage` `:current` `:power` `:distance` `:duration` `:count` `:timestamp` `:enum-label` `:raw`
+Copies of these lists were kept here and drifted — between them they had lost
+five UI patterns and five semantic types, so an agent following this skill could
+not offer values the schema accepts and the linter would pass.
 
 ---
 

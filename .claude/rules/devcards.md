@@ -82,12 +82,15 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
 - Select a builtin with `findings/builtin-producer`, never by position —
   `(first builtin-producers)` silently repoints the lane when that vector is
   reordered or grown.
-- **`builtin-producers` is a MENU, not the armed set.** Nothing reads the
-  vector as a whole; each lane names the producers it wants. So adding a
-  producer to `builtin-producers` arms it NOWHERE — the gate runs exactly the
-  same rules and exits 0 as before. Arming a rule against this repo's corpus
-  means adding it to a lane's producer vector in `devcards.lanes`, and that
-  is a change owing its own evidence.
+- **`builtin-producers` is `card-findings`'s DEFAULT, not protogen's armed
+  set.** Both statements matter and they pull opposite ways, so measure rather
+  than reason: a caller that OMITS `:producers` runs every entry of that
+  vector, so appending to it does arm the new rule for that caller. Every lane
+  in `devcards.lanes` NAMES its producers, so appending arms nothing in
+  protogen's own gate — verified by appending an always-firing producer and
+  watching the naming caller stay silent while the omitting caller reported it.
+  Arming a rule here means adding it to a lane's producer vector, and that is a
+  change owing its own evidence.
 
 ## The VLM UI review — one batched agent, briefed once, never a gate
 

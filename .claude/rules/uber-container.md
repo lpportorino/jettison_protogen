@@ -41,11 +41,16 @@ that same GraalVM), so a run IN THE CONTAINER reproduces CI byte-for-byte across
 all three artifact classes: goldens (raw framebuffer sha256), generated doc
 TEXT, **and the gallery JPEGs**.
 
-The battery's own freshness gate is the proof, not an assumption: it runs
-`git diff --exit-code tools/devcards/goldens tools/devcards/docs` against a
-fresh CI re-render, so a green battery IS the statement that the committed
-sheets are byte-identical to what CI mints. Measured: a full gallery re-mint
-from this container passed that gate unchanged.
+The proof is CI's own freshness step, and it is NOT a battery lane: after the
+containerised regen, `renderer.yml` and `devcards.yml` run
+`git diff --exit-code tools/devcards/goldens tools/devcards/docs` on the
+RUNNER. It has to be there — git cannot resolve this checkout from inside the
+container (`detected dubious ownership`), the same reason `standard-brief`'s
+freshness half is a separate non-battery target — and `check-renderer`'s
+`fixtures` lane WRITES the manifests rather than verifying them, so a green
+in-container battery asserts nothing about freshness by itself. What makes the
+claim above true is the measurement: a full gallery re-mint from this container
+passed that CI step unchanged.
 
 So a pixel-shifting renderer or corpus change re-mints goldens AND the gallery
 locally in the pinned container, and commits both in the same change — the

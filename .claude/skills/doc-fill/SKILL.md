@@ -55,22 +55,12 @@ Options:
 #### 3. UI Pattern
 Ask: "How should this be displayed in a UI?"
 
-Options:
-- Atomic:
-  - `:toggle` - On/off switch
-  - `:action-button` - Button that triggers action
-  - `:slider` - Continuous value control
-  - `:stepper` - Increment/decrement buttons
-  - `:indicator` - Read-only display
-  - `:enum-picker` - Select from options
-- Molecular:
-  - `:slider-with-steppers` - Slider + fine control buttons
-  - `:press-accelerating` - Hold to accelerate
-- Composite:
-  - `:slider-with-presets` - Slider + preset buttons
-  - `:directional-mover` - Multi-axis control (pan/tilt)
-  - `:tabbed-config` - Multiple config sections
-  - `:state-machine-menu` - Complex state transitions
+Options: every value `UIPattern` declares in
+`docs/.protodoc/tools/src/protodoc/schema.clj` — READ IT before presenting
+choices, and offer all of them. It is a closed malli enum with a doc string per
+value, so the file is both the list and the explanations; a copy here would
+silently stop offering whatever was added last, which is exactly what happened
+to the copy this replaced.
 
 **Hints:**
 - Parameterless commands → `:action-button`
@@ -82,11 +72,8 @@ Options:
 #### 4. Feedback Type
 Ask: "How should the UI respond after sending this command?"
 
-Options:
-- `:fire-and-forget` - Send and don't wait for confirmation
-- `:pending-timeout` - Show pending state, timeout after ~2s if no response
-- `:poll-confirm` - Poll server for confirmation
-- `:optimistic-visual` - Update UI immediately, revert on failure
+Options: every value `FeedbackType` declares in
+`docs/.protodoc/tools/src/protodoc/schema.clj` — read it and offer all of them.
 
 **Hints:**
 - Lifecycle commands (start/stop) → `:pending-timeout`
@@ -120,32 +107,19 @@ Provide context: Show type and constraints.
 #### 2. Semantic Type
 Ask: "What semantic type is '{name}'?"
 
-Options (field-type compatibility in parentheses):
-- `:normalized` - 0-1 range value (double/float only)
-- `:angle` - Degrees or radians (double/float/int32/uint32)
-- `:percentage` - 0-100% (double/float/int32/uint32)
-- `:coordinate-geo` - Lat/lon geographic coordinates (double/float only)
-- `:coordinate-viewport` - NDC viewport coordinates -1 to 1 (double/float only)
-- `:speed` - Movement speed value (double/float only)
-- `:temperature` - Celsius/Fahrenheit (double/float/int32)
-- `:voltage` - Volts (double/float only)
-- `:current` - Amps (double/float only)
-- `:power` - Watts (double/float only)
-- `:distance` - Meters (double/float/int32/uint32/int64/uint64)
-- `:duration` - Time span, ms or s (uint32/uint64/int32/int64/double/float)
-- `:count` - Integer count (uint32/int32/uint64/int64 only)
-- `:timestamp` - Time value (uint64/int64/uint32/double only)
-- `:identifier` - ID values (uint32/int32/uint64/int64/string)
-- `:enum-label` - Enum display name (enum fields ONLY, not bool/int)
-- `:toggle-state` - Boolean on/off (bool fields ONLY)
-- `:raw` - No special type (any field type)
+Options: every value `SemanticType` declares in
+`docs/.protodoc/tools/src/protodoc/schema.clj`. Each value's COMPATIBLE proto
+field types are declared beside it in
+`docs/.protodoc/tools/src/protodoc/lint.clj` (`semantic-type-compatible-field-types`),
+which is what the linter enforces — read that map rather than guessing, because
+a mismatch is a lint error, not a style preference.
 
-**IMPORTANT: Type compatibility rules:**
-- `:enum-label` ONLY works with `:enum` field type — never use for `:bool` or numeric fields
-- `:toggle-state` ONLY works with `:bool` field type
-- `:normalized`/`:coordinate-geo`/`:coordinate-viewport` ONLY work with `:double`/`:float`
-- `:count` ONLY works with integer types (not `:double`/`:float`)
-- For `:message` typed fields, do NOT assign a semantic type — omit `:interaction` entirely
+**IMPORTANT: the compatibility map is the rule, not this list.** Two habits are
+worth carrying anyway, because they are the ones most often got wrong:
+- an enum-display type never belongs on a `:bool` or numeric field, and a
+  boolean-state type never belongs on anything but `:bool`;
+- for `:message` typed fields, assign no semantic type at all — omit
+  `:interaction` entirely.
 
 **Hints from constraints:**
 - `gte: 0, lte: 1` with double/float → `:normalized`

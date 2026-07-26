@@ -164,9 +164,11 @@ the wasmtime harness's visual-regression suite, dual-oracle morph parity,
 the coverage matrix, and demo parity — plus the devcard corpus; the
 cross-engine determinism probe re-proves wasmtime ≡ GraalWasm on a new
 build). The battery entry is `make -f renderer.mk check-renderer` from the
-repo root, inside the toolchain container built from `Dockerfile.base`
-(`.github/workflows/renderer.yml` runs it in CI; the vocabulary/fixture
-generators live in `tools/renderer-gen/`).
+repo root, inside the toolchain container built from `Dockerfile.base`. No
+workflow invokes that entry: `.github/workflows/renderer.yml` and
+`devcards.yml` DECOMPOSE it into individual `renderer.mk` targets, so what CI
+covers is a SUBSET of the local battery and the two are kept in step by hand.
+The vocabulary/fixture generators live in `tools/renderer-gen/`.
 
 The interpreter is the same artifact class as the bindings: a generated
 projection of this repo's own sources. Render-time assets under `renderer/assets/` are generic and secret-free: the OFL font and
@@ -174,8 +176,10 @@ the `images/demo/` twins of the vendored LVGL demo (source pinned via
 `renderer/lvgl/demos/.ported-from.edn`) carry provenance; the icons and `test_*`
 fixtures are self-authored placeholders. Fleet cost, stated
 plainly: each renderer release adds a regenerated JPEG gallery to the history
-every consumer clones (bounded by the JPEG-only image policy; PNGs/raw dumps
-stay gitignored). controls.wasm is a rebuildable build artifact, NOT committed
+every consumer clones. The JPEG-only rule is the GALLERY's — generated contact
+images under `tools/devcards/docs/` are JPEG and raw dumps stay gitignored — not
+the repo's: PNG is also the committed format for render fixtures and for the
+wasmtime harness's reference snapshots. controls.wasm is a rebuildable build artifact, NOT committed
 (`renderer/.gitignore`) — CI and consumers build it from source with the
 WASI-SDK.
 
@@ -225,18 +229,15 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 ### Generated Output Structure
 ```
 output/
-├── c/                    # nanopb C bindings
-├── cpp/                  # C++ bindings
-├── go/                   # Go bindings with buf.validate support
-├── kotlin/               # Kotlin bindings with buf.validate support
-├── java/                 # Java bindings with buf.validate support
-├── python/               # Python bindings with type stubs
-├── rust/                 # Rust bindings using prost
-├── typescript/           # TypeScript bindings using ts-proto (no validation)
-├── typescript-validated/ # TypeScript bindings with protovalidate-es
-├── zig/                  # Zig bindings using zig-protobuf
-└── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
+├── <one dir per language>   # the binding outputs
+└── manifests/               # renderer/token manifests — NOT a binding output
 ```
+
+The per-language directories are exactly the ones `generate-protos.sh` creates —
+its single `mkdir -p "$OUTPUT_BASE_DIR"/{…}` line is the one home of that list,
+and the distribution table below names each repo they are pushed to. Do not
+re-enumerate them here; `output/manifests/` is tracked and is NOT one of them,
+which is precisely what a copied listing kept getting wrong.
 
 ## Key Patterns
 

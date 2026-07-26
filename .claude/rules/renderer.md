@@ -19,7 +19,9 @@ language bindings, not a hand-maintained app.
 - Entry, from the repo root inside the `Dockerfile.base` toolchain container (the
   host has no WASI-SDK): `make -f renderer.mk check-renderer`, or the
   `/check-renderer` skill. The lanes and their order are the `check-renderer`
-  target in `renderer.mk`; CI runs them in `.github/workflows/renderer.yml`.
+  target in `renderer.mk`. CI never invokes that target: `renderer.yml`
+  DECOMPOSES it into individual steps and `devcards.yml` runs others, so the set
+  CI covers is a SUBSET — a lane omitted from both workflows runs only locally.
 - CI's fixtures/gallery jobs consume an ALREADY-BUILT `controls.wasm` (the
   `*-prebuilt` targets, guarded by `wasm-present`) — a missing wasm is a
   sequencing bug, never a skip.

@@ -44,12 +44,13 @@ holds that line.
 Read `.claude/skills/ui-standard-review/STANDARD.md` at the start of the
 session, before the first element.
 
-It is GENERATED from the canonical sources — `docs/UI-QUALITY-CONTRACTS.md`, the
-live classification table in `tools/devcards/src/devcards/lvgl_classes.clj`, and
-each producer's declared `:thresholds` — so that the briefing is one read
-instead of a re-derivation per element. Do not hand-edit it, and do not
-re-read the canonical sources element by element; if STANDARD.md disagrees with
-them, regenerate it and fix the source, never patch the prose copy.
+It is GENERATED from this standard's own sources by
+`tools/devcards/src/devcards/standard_brief.clj` — which is the honest
+statement of what those sources are, since the page is a function of that
+namespace and everything it reads. The point is that the briefing is one read
+instead of a re-derivation per element. Do not hand-edit it, and do not re-read
+the canonical sources element by element; if STANDARD.md disagrees with them,
+regenerate it and fix the SOURCE, never patch the prose copy.
 
 ## The batch protocol — this is the design, not an optimisation
 
@@ -120,8 +121,8 @@ invariant lanes and the gallery cropper. Nothing commits it, so a batch obtains
 it from a run of its own. `tools/devcards/dev/class_census.clj` is the shape to
 copy: a tracked, read-only probe that renders each card and parses its dump.
 (`tools/devcards/out/findings.edn` is NOT a source of trees — it holds the
-deterministic lanes' FINDINGS, and on a clean corpus it is the two-byte literal
-`[]`.) Runs happen in the pinned toolchain container
+deterministic lanes' FINDINGS, and on a clean corpus it is an empty vector.)
+Runs happen in the pinned toolchain container
 (`.claude/rules/uber-container.md`).
 
 **Never infer a DOM value from pixels.** If a card's tree is not available for
@@ -197,9 +198,11 @@ deferral is literal.
 
 - **Exact overlap** — two pointer-path elements sharing a pixel is
   `devcards.overlap`, measured on inclusive rects. Do not eyeball it. Note the
-  rule's own stated conservatism (it measures `:coords`, the pointer is tested
-  against the grown click area) — that under-reporting is recorded in
-  UI-QUALITY-CONTRACTS §2.4 and is not yours to patch by eye.
+  rule judges the REACHABLE box — each node's click area (coords grown by
+  `ext_click_pad`, which is what `lv_obj_hit_test` tests), intersected with
+  every ancestor's descent gate. UI-QUALITY-CONTRACTS §2.4 records what that
+  still cannot see (a transform, `OVERFLOW_VISIBLE`, `ADV_HITTEST`); none of it
+  is yours to patch by eye.
 - **Layer inversion, ambiguous z, unjudgeable proxy stacks** — `devcards.layers`
   and the §1 outcome matrix. `z` is DECLARED intent; a reviewer reading stacking
   off what renders would bless exactly the defect §1.2 exists to catch.
