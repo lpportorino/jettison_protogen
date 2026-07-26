@@ -9,6 +9,42 @@
  :aliases
  {:run {:main-opts ["-m" "protodoc.core"]}
 
+  ;; AOT — every doc leg is a fresh JVM, and almost all of its wall clock is
+  ;; Clojure LOADING (i.e. compiling) this namespace tree plus malli/selmer/
+  ;; telemere, from source, again. `:aot-compile` does that compilation once
+  ;; into target/classes; `:aot` puts that directory on the classpath so a leg
+  ;; run as `-M:aot:run` loads bytecode instead. Drive it through `aot.sh`
+  ;; (`make docs-aot`), which is content-hash gated and asserts the entry class
+  ;; was actually produced.
+  ;;
+  ;; ONLY aot.sh's HASH CATCHES STALE BYTECODE. clojure.lang.RT/load prefers a
+  ;; `.class` over the `.clj` it shadows only when the class is NEWER, and the
+  ;; sources are deliberately NOT copied into target/classes — so an ORDINARY
+  ;; edit, which stamps mtime=now, does fall back to loading source. But that
+  ;; preference is itself an MTIME comparison, so an edit arriving with an OLD
+  ;; mtime (a `cp -p`, a tar extract, a checkout) loads the stale class
+  ;; SILENTLY. Hence `-M:aot:run` MUST always be preceded by `make docs-aot`;
+  ;; the source fallback is a convenience, never the guarantee. aot.sh's header
+  ;; carries the three-command reproduction.
+  ;;
+  ;; NO NEW DEPENDENCY, deliberately. build.clj's `uber` carries the same
+  ;; compile step, but reaching it needs io.github.clojure/tools.build, which
+  ;; the pinned toolchain image does not prefetch — wiring `-T:build` into a
+  ;; doc leg would make it download at run time. `compile` is in clojure core,
+  ;; so this alias resolves to exactly the dependency set `:run` already has.
+  :aot {:extra-paths ["target/classes"]}
+
+  ;; DRIVE `:aot-compile` THROUGH aot.sh, never by hand. It compiles INTO
+  ;; target/classes while that directory is on the classpath, so over an
+  ;; already-POPULATED dir the compiler loads a stale class for a required
+  ;; namespace instead of recompiling it — leaving a partially-stale class dir
+  ;; that still carries a valid entry class, so the guard downstream cannot see
+  ;; it either. aot.sh removes the dir before every compile, so the driven path
+  ;; is always clean.
+  :aot-compile {:extra-paths ["target/classes"]
+                :jvm-opts ["-Dclojure.compile.path=target/classes"]
+                :main-opts ["-e" "(compile 'protodoc.core)"]}
+
   :test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}

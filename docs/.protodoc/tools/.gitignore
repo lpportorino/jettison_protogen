@@ -1,7 +1,11 @@
-# Clojure tools-deps build artifacts (regenerated on every `clojure -M:...`).
-# These must NOT be tracked: classpath caches are machine/checkout-specific and
-# get dirtied by every run, which otherwise leaves the protogen submodule
-# perpetually "modified" in the superproject.
+# Clojure tools-deps caches and compiled output. These must NOT be tracked:
+# they are machine/checkout-specific and get dirtied by runs, which otherwise
+# leaves the protogen submodule perpetually "modified" in the superproject.
+#
+# .cpcache/ is a per-run classpath cache. target/ is NOT regenerated per run:
+# target/classes holds the AOT bytecode the docs legs load, minted once by
+# aot.sh and kept until its input hash moves. Deleting it costs one recompile,
+# never correctness.
 .cpcache/
 target/
 .nrepl-port

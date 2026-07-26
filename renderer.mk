@@ -296,6 +296,14 @@ manifests:
 # the gate would be permanently red — worse than absent, because a gate that is
 # always red is one everybody learns to skip. Both sides are normalised to a
 # sentinel so the comparison is about CONTENT.
+#
+# THIS LEG LOADS FROM SOURCE (`-M:run`) ON PURPOSE — DO NOT "SPEED IT UP" WITH
+# `-M:aot:run`. The committed manifests it compares against are produced by the
+# Makefile's `docs-manifests`, which runs AOT-loaded. So this comparison is also
+# the only CONTINUOUS check that protodoc's two load modes still emit the same
+# bytes; switching this side to AOT too would buy a couple of seconds and
+# silently retire that check, leaving the equivalence proven exactly once, by
+# hand, at the commit that introduced AOT. The seconds are not worth it.
 .PHONY: manifests-proto-db
 manifests-proto-db:
 	@tmp="$$(mktemp -d)"; \

@@ -286,6 +286,8 @@ RUN cd /prefetch/devcards \
     && clojure -P -M:test \
     && cd /prefetch/protodoc \
     && clojure -P -M:run \
+    && clojure -P -M:aot:run \
+    && clojure -P -M:aot-compile \
     && clojure -P -M:test \
     && rm -rf /prefetch \
     && test -n "$(ls -A /root/.gitlibs/_repos)" \

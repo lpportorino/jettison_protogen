@@ -142,15 +142,41 @@ versions: build ## Show versions of tools in the Docker image
 
 # === Documentation targets ===
 
+# Each protodoc leg below is a fresh JVM whose wall clock is dominated by
+# Clojure LOADING — i.e. compiling — the same namespace tree (protodoc plus
+# malli/selmer/telemere) all over again; on this tree that load is the large
+# majority of the leg. `docs-aot` does that compile ONCE into
+# docs/.protodoc/tools/target/classes, and the legs run through the `:aot`
+# alias, which puts that directory on the classpath so the JVM loads bytecode
+# instead of compiling source.
+#
+# It is a prerequisite rather than a manual step because it is content-hash
+# gated: with the compiled output current it re-hashes the inputs and exits, so
+# the common case adds a fraction of a second. See docs/.protodoc/tools/aot.sh
+# for the freshness contract (and why it is a hash, not a timestamp).
+#
+# A NEW `-M:aot:run` LEG MUST TAKE `docs-aot` TOO — that hash is the only thing
+# standing between a leg and stale bytecode. Clojure's own .class-vs-.clj
+# preference is an MTIME comparison, so it does not cover an edit that arrives
+# with an old timestamp (a `cp -p`, a tar extract, a checkout); aot.sh's header
+# carries the reproduction.
+#
+# The test leg deliberately does NOT use it: a gate judges the source that
+# ships. Nor does binary-dedup-run — that leg runs in its own container and
+# would pay the compile without amortising it.
+.PHONY: docs-aot
+docs-aot: ## Compile protodoc to bytecode for the docs legs (content-hash gated)
+	@docs/.protodoc/tools/aot.sh
+
 .PHONY: docs-generate
-docs-generate: ## Generate proto documentation (parse + extract + render)
+docs-generate: docs-aot ## Generate proto documentation (parse + extract + render)
 	@printf "$(GREEN)Generating proto documentation...$(NC)\n"
-	@cd docs/.protodoc/tools && clojure -M:run generate --descriptor ../../../output/json-descriptors/descriptor-set.json --output-dir ../.. --db-path ../proto-db.edn
+	@cd docs/.protodoc/tools && clojure -M:aot:run generate --descriptor ../../../output/json-descriptors/descriptor-set.json --output-dir ../.. --db-path ../proto-db.edn
 
 .PHONY: docs-render
-docs-render: ## Render markdown from existing proto-db.edn (no parsing)
+docs-render: docs-aot ## Render markdown from existing proto-db.edn (no parsing)
 	@printf "$(GREEN)Rendering proto documentation...$(NC)\n"
-	@cd docs/.protodoc/tools && clojure -M:run render --output-dir ../.. --db-path ../proto-db.edn
+	@cd docs/.protodoc/tools && clojure -M:aot:run render --output-dir ../.. --db-path ../proto-db.edn
 
 .PHONY: docs-coverage
 docs-coverage: ## Show proto documentation coverage
@@ -167,9 +193,9 @@ docs-test: ## Run proto documentation tests
 	@cd docs/.protodoc/tools && clojure -M:test
 
 .PHONY: docs-manifests
-docs-manifests: ## Generate machine-readable JSON manifests from proto-db.edn
+docs-manifests: docs-aot ## Generate machine-readable JSON manifests from proto-db.edn
 	@printf "$(GREEN)Generating proto manifests...$(NC)\n"
-	@cd docs/.protodoc/tools && clojure -M:run manifest --db-path ../proto-db.edn --config-path ../manifest-config.edn --output-dir ../../../output/manifests --git-sha "$$(cd ../../.. && git rev-parse --short HEAD 2>/dev/null || echo unknown)"
+	@cd docs/.protodoc/tools && clojure -M:aot:run manifest --db-path ../proto-db.edn --config-path ../manifest-config.edn --output-dir ../../../output/manifests --git-sha "$$(cd ../../.. && git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 	@printf "$(GREEN)Manifests written to output/manifests/$(NC)\n"
 
 .PHONY: docs-docker-build
