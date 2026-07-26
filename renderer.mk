@@ -152,7 +152,13 @@ reload: wasm proto-classes morph-fixtures
 # lane still cannot read a stale fixture — the never-staleness property the
 # duplicated form was there for, at one generation per battery instead of two
 # ~8s + ~7s of identical work). Invoking either lane alone still regenerates.
-morph-fixtures:
+# proto-classes is DECLARED, not merely implied. The emitter loads pronto, which
+# needs the compiled proto classes; serially it only ever worked because `reload`
+# and `morph-parity` list `proto-classes` BEFORE `morph-fixtures` and make walks
+# a prerequisite list left-to-right. A parallel build discards that ordering, and
+# the failure is not subtle: `ClassNotFoundException: pronto.ProtoMap`. Found by
+# actually running -j rather than by reading the makefile.
+morph-fixtures: proto-classes
 	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
 		--output ../../$(R)/output/morph-fixtures
 
