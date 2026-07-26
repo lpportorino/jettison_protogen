@@ -89,19 +89,49 @@
 
 (deftest intersection-rejects-malformed-boxes
   (testing "same contract as separation — an unmeasurable box must throw
-            rather than clip to something plausible"
-    (is (thrown? Exception (geometry/intersection nil [0 0 9 9])))
-    (is (thrown? Exception (geometry/intersection [0 0 9] [0 0 9 9])))))
+            rather than clip to something plausible.
+
+            Asserting the MESSAGE, not merely that something throws: nil and
+            a 3-element vector both blow up inside max/min with a
+            NullPointerException anyway, so `(thrown? Exception …)` passes
+            with the check-box! guards DELETED. A canary that cannot tell
+            the guard from its absence is not guarding anything."
+    (is (thrown-with-msg? clojure.lang.ExceptionInfo #"malformed coords in intersection/a"
+                          (geometry/intersection nil [0 0 9 9])))
+    (is (thrown-with-msg? clojure.lang.ExceptionInfo #"malformed coords in intersection/a"
+                          (geometry/intersection [0 0 9] [0 0 9 9])))
+    (testing "and the SECOND argument is guarded too, named as such — a
+              guard on only one side reads identical on these inputs"
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"malformed coords in intersection/b"
+                            (geometry/intersection [0 0 9 9] nil)))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"malformed coords in intersection/b"
+                            (geometry/intersection [0 0 9 9] [0 0 9 "9"]))))))
 
 (deftest intersection-agrees-with-intersect?
   (testing "two answers to the same question must never disagree — a box
             that intersects has a non-nil intersection, and one that does
-            not has nil"
+            not has nil.
+
+            The interesting inputs are the DEGENERATE ones. A well-formed
+            pair agrees by construction, so a canary made only of those
+            cannot fail; the cases below include zero-extent rects (x1=x2),
+            which LVGL itself produces for a collapsed widget, and rects
+            that touch on exactly one axis."
     (doseq [[a b] [[[0 0 9 9] [5 5 14 14]]
                    [[0 0 9 9] [10 0 19 9]]
                    [[0 0 9 9] [9 9 19 19]]
                    [[0 0 9 9] [20 20 29 29]]
-                   [[0 0 9 9] [2 2 4 4]]]]
+                   [[0 0 9 9] [2 2 4 4]]
+                   ;; zero-extent: a 1px-wide box, and a fully collapsed one
+                   [[5 5 5 5] [5 5 5 5]]
+                   [[5 5 5 5] [0 0 9 9]]
+                   [[5 5 5 5] [6 6 9 9]]
+                   [[5 5 5 9] [5 0 5 4]]
+                   ;; sharing exactly one corner pixel
+                   [[0 0 5 5] [5 5 9 9]]
+                   ;; one axis overlaps, the other misses by one
+                   [[0 0 9 9] [0 10 9 19]]
+                   [[0 0 9 9] [10 0 19 9]]]]
       (is (= (geometry/intersect? a b)
              (some? (geometry/intersection a b)))
           (str "disagreement on " a " vs " b)))))

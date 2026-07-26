@@ -381,6 +381,30 @@
           fs (judge root)]
       (is (empty? fs)))))
 
+(deftest a-node-with-no-box-of-its-OWN-is-UNMEASURABLE-not-clean
+  (testing "the sibling arm of the ancestor case below, and it needs its own
+            canary: an interactive node carrying no :coords and no
+            :click_area cannot be judged, and mutating that arm to a silent
+            exclusion leaves the whole suite green while a real node stops
+            being looked at."
+    (let [root (root-with [{:type "lv_button" :uid 1 :children []}
+                           {:type "lv_button" :uid 2 :coords [40 10 89 39]
+                            :children []}])
+          fs (judge root)]
+      (is (contains? (invariants-of fs) :unmeasurable-node))
+      (let [f (first (filter #(= :unmeasurable-node (:invariant %)) fs))]
+        (is (= "lv_button#1" (:node f)))
+        (is (re-find #"has no :coords" (:detail f))))
+      (testing "and it says out loud that silence is not clearance — the
+                whole point of reporting rather than dropping"
+        (is (re-find #"NOT thereby clear" (:detail (first fs)))))))
+  (testing "CONTROL: the same tree with the box present is silent, so the
+            finding keys on the missing box and not on the node existing"
+    (is (empty? (judge (root-with [{:type "lv_button" :uid 1 :coords [10 10 19 19]
+                                    :children []}
+                                   {:type "lv_button" :uid 2 :coords [40 10 89 39]
+                                    :children []}]))))))
+
 (deftest an-ancestor-with-no-coords-is-UNMEASURABLE-not-clean
   (testing "if any box in the chain is missing, the descent gate there is
             unknown and so is reachability. The gate owes the third answer

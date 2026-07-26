@@ -35,13 +35,12 @@
             [clojure.string :as str]
             [devcards.composition :as composition]
             [devcards.docs :as docs]
-            [devcards.expect :as expect]
-            [devcards.findings :as findings]
             [devcards.fixtures :as fixtures]
             [devcards.gates :as gates]
             [devcards.golden :as golden]
             [devcards.host :as host]
-            [devcards.interaction :as interaction])
+            [devcards.interaction :as interaction]
+            [devcards.lanes :as lanes])
   (:gen-class))
 
 (set! *warn-on-reflection* true)
@@ -89,18 +88,6 @@
            {:fb fb :tree tree :emissions @(:captured h)})
          (finally (host/close! h)))))
 
-(defn- invariant-findings-for
-  "Invariant findings for one card, THROUGH the registry. `:expect` is
-   supplied even when nil (the kitchen-sink case) because the registry
-   treats a nil value as absent, and the lane must judge those cards
-   rather than refuse them."
-  [id expect tree]
-  (:live (findings/card-findings {:card-id (str id)
-                                  :tree tree
-                                  :caps {:vis-px? true}
-                                  :expect (or expect :judged)
-                                  :producers [expect/tree-producer]})))
-
 (defn- manifest-of
   "Literal golden manifest from precomputed hashes ({id → sha})."
   [hashes]
@@ -141,7 +128,7 @@
         f1l (fam-hashes 1 false)
         f2l (fam-hashes 2 false)
         inv (vec (mapcat (fn [[id {:keys [expect tree]}]]
-                           (invariant-findings-for id expect tree))
+                           (lanes/atomic-findings id expect tree))
                          f0))
         gate-res (gates/run-gates spec {0 (update-vals f0 :dark-hash) 1 f1d 2 f2d})
         vs-light (mapv #(assoc % :mode :light) (gates/vanilla-stock-findings f1l f2l))
@@ -218,17 +205,10 @@
                           [(str id)
                            {:dark-hash (golden/sha256-hex (:fb dark))
                             :light-hash (golden/sha256-hex (:fb light))
-                            :inv (:live (findings/card-findings
-                                         {:card-id (str id)
-                                          :tree (:tree dark)
-                                          :caps {:vis-px? true}
-                                          :host-proxy? false
-                                          :emissions-by-mode
-                                          {:dark (:emissions dark)
-                                           :light (:emissions light)}
-                                          :producers
-                                          [(findings/builtin-producer :tree)
-                                           findings/emission-by-mode-producer]}))}])))
+                            :inv (lanes/composition-findings
+                                  id (:tree dark)
+                                  {:dark (:emissions dark)
+                                   :light (:emissions light)})}])))
                  built)
         fam-hashes (fn [family dark]
                      (into {}
