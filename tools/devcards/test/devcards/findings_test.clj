@@ -459,6 +459,37 @@
                            :host-proxy? true
                            :caps {:vis-px? true}})))))))
 
+(deftest an-absent-or-unusable-card-id-throws
+  (testing "every finding is keyed to a card, every exemption matches on that
+            key, and the verdict is reported per card. An absent :card-id
+            yields findings keyed to nil that no exemption can match and no
+            report can attribute — a run that LOOKS like it judged something.
+            This was the one refusal in the set with no canary."
+    (is (thrown? Exception (findings/card-findings
+                            {:tree clean-tree
+                             :caps {:vis-px? true}
+                             :producers [(findings/builtin-producer :tree)]})))
+    (is (thrown? Exception (findings/card-findings
+                            {:card-id nil
+                             :tree clean-tree
+                             :caps {:vis-px? true}
+                             :producers [(findings/builtin-producer :tree)]})))
+    (testing "and a non-nameable id is refused too — an id that cannot be
+              printed back is as unattributable as a missing one"
+      (is (thrown? Exception (findings/card-findings
+                              {:card-id 42
+                               :tree clean-tree
+                               :caps {:vis-px? true}
+                               :producers [(findings/builtin-producer :tree)]})))))
+  (testing "CONTROL: both accepted shapes register, so the throw keys on the
+            id being unusable and not on the call shape"
+    (doseq [id ["c" :c]]
+      (is (empty? (:live (findings/card-findings
+                          {:card-id id
+                           :tree clean-tree
+                           :caps {:vis-px? true}
+                           :producers [(findings/builtin-producer :tree)]})))))))
+
 ;; ── the by-mode emission lane ────────────────────────────────────────────
 ;; A card rendered in SEVERAL modes, every mode judged. It had no test at
 ;; all, which is how the empty-map silence below survived registration.

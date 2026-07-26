@@ -111,6 +111,20 @@ THEMES = {
 NOISE_TRIALS = 24  # independent seeds for the noise floor
 
 
+def in_container() -> bool:
+    """Are we inside the pinned toolchain container?
+
+    Must key on something ONLY a container has. `/opt/wasi-sdk` does not
+    qualify: an operator machine that builds the renderer has the SDK
+    installed too, so that test stamped a host run as "pinned container" —
+    the one confusion the marker exists to prevent, on exactly the machine
+    the comparison was measured on. Docker creates `/.dockerenv` inside the
+    container and nowhere else; podman's equivalent is checked too so the
+    answer does not silently depend on which runtime invoked us.
+    """
+    return os.path.exists("/.dockerenv") or os.path.exists("/run/.containerenv")
+
+
 def cls(ratio: float) -> str:
     """The label convention: >=6:1 readable, <=3:1 unreadable, else ambiguous."""
     if ratio >= 6.0:
@@ -217,10 +231,13 @@ def main() -> int:
 
     result = dict(
         environment=dict(python=platform.python_version(), numpy=np.__version__,
-                         container=os.path.exists("/opt/wasi-sdk"),
+                         container=in_container(),
                          note=("run environment — the pinned container and a "
                                "host stack must agree; a divergence is a "
-                               "finding, not a footnote")),
+                               "finding, not a footnote. The VERSIONS are the "
+                               "load-bearing half: they are what makes a "
+                               "figure reproducible, and they are reported "
+                               "whether or not the container is detected")),
         corpus=dict(frames=len(rows), seed=BASE_SEED, frame=[FRAME_H, FRAME_W],
                     k=K_OPERATING, veil_gray=VEIL_GRAY, trials=NOISE_TRIALS),
         separation=dict(worst_readable=worst_readable, best_unreadable=best_unreadable,
