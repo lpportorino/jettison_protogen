@@ -23,7 +23,20 @@
    Designed-geometry exclusions (each a narrow, verified LVGL widget
    contract, NEVER a blanket suppression — see the predicate docstrings for
    the per-rule rationale + the regression each rule still catches):
-   - a hidden ancestor's descendants skip :zero-visible-area only;
+   - a HIDDEN node (and its subtree) skips :clipped / :offscreen /
+     :zero-visible-area: LVGL declares a hidden object's geometry
+     meaningless. lv_obj_is_layout_positioned returns false for it, so it
+     is self-placed at its parent's content origin at its own
+     LV_SIZE_CONTENT size; and the parent's calc_content_width/height SKIP
+     hidden children, so the parent never grows to fit it. Its box is
+     therefore self-derived and structurally unrelated to the parent's
+     extent — exactly the two boxes obj_clipped/obj_offscreen compare. It
+     draws nothing (vis_px 0), and when SHOWN the parent recomputes
+     LV_SIZE_CONTENT and grows, so it is not clipped in the shown state
+     either. The flags that do NOT depend on the parent's extent
+     (:overflow, :text_truncated, :text_clipped, :squished) stay judged;
+     the SHOWN state is proven by the consumer's own driven-subject
+     variants, not by this lane;
    - lv_tabview's content child is a scroll-snap page carousel: the content
      may carry :scrollable_overflow, and a page fully snapped outside the
      content box (plus its subtree) may carry :clipped / :zero-visible-area;
@@ -148,11 +161,14 @@
 (defn- designed-flag?
   "Is `flag` on this annotated node one of the designed-geometry cases the
    ns docstring sanctions? Anything else is a live finding."
-  [{:keys [node parent snapped-under? tabview-content?]} flag]
+  [{:keys [node parent hidden-under? snapped-under? tabview-content?]} flag]
   (or (and (= flag :scrollable_overflow)
            (or (contains? designed-scroll-classes (:type node)) tabview-content?))
       (and (contains? #{:clipped :offscreen} flag)
-           (or snapped-under? (drum-label-escape? node parent)))
+           (or snapped-under?
+               (:hidden node)
+               hidden-under?
+               (drum-label-escape? node parent)))
       (and (= flag :overflow) (roller-drum-overflow? node))))
 
 (defn tree-findings
