@@ -30,6 +30,7 @@
    renderer/wasm_harness/tests/composition_interaction.rs — the same
    card bytes and taps, plus the cross-engine framebuffer byte-compare."
   (:require [devcards.fixtures :as fixtures]
+            [devcards.geometry :as geometry]
             [devcards.legos :as legos]
             [devcards.pointer :as pointer]
             [devcards.probe :as probe]))
@@ -308,6 +309,56 @@
                                ["outside"] (tap-tags pb :outside))]))
            [:static :draggable :resizable :alignable]))))
 
+(defn- handle-hit-clearance-findings
+  "Corner handles' GROWN hit areas must never overlap each other.
+
+   `lv_obj_set_ext_click_area` grows a handle on every side, so two corner
+   handles `gap` apart have their hit areas meet once each grows by gap/2 —
+   while their DRAWN boxes are still clear. A fixed grow therefore makes the
+   two handles on a short edge fight over a band in the middle, and
+   `lv_indev_search_obj`'s reverse walk hands that band to whichever was
+   created later; the earlier handle has a strip it cannot be pressed in.
+
+   Driven at the CORPUS's tightest resizable proxy rather than a synthetic
+   one, because the defect is a function of the authored size and a
+   synthetic card would only prove the arithmetic against itself. Asserts
+   the pairwise separation of the four grown areas is >= 0 (no shared
+   pixel); the ext SHRINKING to achieve that is correct, and 0 is a
+   legitimate value for a box with no room."
+  [boot! canvas]
+  (let [pb (fixtures/build-authored-card
+            canvas
+            {:id "handle-hit-clearance"
+             :node {:type :WIDGET_OBJ :props {:w 400 :h 200}
+                    :children
+                    [{:type :WIDGET_HOST_PROXY :x 10 :y 10
+                      :props {:w 96 :h 54
+                              :host_proxy_props {:proxy_id "px" :mode :resizable
+                                                 :handle_size 16 :min_w 96 :min_h 54}}
+                      :children []}]}})]
+    (probe/with-host boot!
+      (fn [h]
+        (render! h pb)
+        (let [boxes (->> (probe/dump-tree h)
+                         probe/node-seq
+                         (keep #(when (:click_area %) (:click_area %)))
+                         vec)
+              worst (when (seq boxes)
+                      (apply min (for [[i a] (map-indexed vector boxes)
+                                       b (subvec boxes (inc i))]
+                                   (geometry/separation a b))))]
+          (into []
+                (keep identity)
+                [;; a proxy with no grown handles at all would vacuously pass
+                 ;; the clearance check, so assert the drive target is real
+                 (probe/finding "handle-hit-clearance" :four-handles-grown
+                                4 (count boxes))
+                 (when (and worst (neg? worst))
+                   {:gate :interaction :card "handle-hit-clearance"
+                    :check :grown-handles-share-no-pixel
+                    :expected "separation >= 0"
+                    :actual (str "separation " worst " between two grown handle hit areas")})]))))))
+
 ;; ── entry ───────────────────────────────────────────────────────────────
 (defn run-lane
   "Drive the whole interaction lane. `boot!` returns a fresh started
@@ -339,4 +390,5 @@
         (into (ext-click-findings boot! scrubber s-pb))
         (into (dock-findings boot! dock d-pb))
         (into (long-event-name-findings boot! (:canvas inventory)))
-        (into (proxy-content-inert-findings boot! (:canvas inventory))))))
+        (into (proxy-content-inert-findings boot! (:canvas inventory)))
+        (into (handle-hit-clearance-findings boot! (:canvas inventory))))))

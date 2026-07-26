@@ -1925,6 +1925,55 @@ static int32_t proxy_handle_px(const proxy_entry_t *e) {
   int32_t px = lv_display_get_dpi(lv_display_get_default()) / 10;
   return px < 12 ? 12 : px;
 }
+/* Safe corner-handle ext_click_area for the proxy's CURRENT size.
+ *
+ * Each edge carries two corner handles, and lv_obj_set_ext_click_area grows
+ * a handle on every side — so two handles that are `gap` apart have their
+ * HIT areas meet once each grows by gap/2, even though the drawn boxes are
+ * still clear of each other. Growing by a fixed handle_px/2 therefore makes
+ * the two handles on a short edge fight over a band in the middle, and
+ * lv_indev_search_obj's reverse walk hands that band to whichever was
+ * created later — the earlier handle has a strip it cannot be pressed in.
+ *
+ * The fix is not to forbid small proxies: it is to give each handle as much
+ * grow as it can take without stealing its neighbour's. Uniform because
+ * LVGL's ext_click_area is one value for all four sides, so the tighter axis
+ * governs. 0 is a legitimate answer for a box with no room at all.
+ *
+ * Recomputed on resize as well as at construction — the safe value is a
+ * function of the current box, not of the authored one. */
+static int32_t proxy_handle_ext_px(const proxy_entry_t *e) {
+  int32_t handle_px = proxy_handle_px(e);
+  int32_t want = handle_px / 2;
+  /* CONTENT extent, not the outer box: the handles are aligned inside the
+   * padding/border, so the clear gap between the two on an edge is the
+   * content extent minus their two widths. Measuring the outer box
+   * overstates the room by exactly the insets and leaves the collision in
+   * place on a proxy whose padding is what made it tight. */
+  int32_t gap_x = lv_obj_get_content_width(e->obj) - 2 * handle_px;
+  int32_t gap_y = lv_obj_get_content_height(e->obj) - 2 * handle_px;
+  int32_t room = gap_x < gap_y ? gap_x : gap_y;
+  if (room < 0)
+    room = 0;
+  int32_t safe = room / 2;
+  return safe < want ? safe : want;
+}
+/* Apply that to every handle. Wired to LV_EVENT_SIZE_CHANGED on the proxy
+ * rather than called once at construction: props stream AFTER children, so
+ * at construction the box is still 0x0 and every handle would be pinned at
+ * ext 0. Keying on the event means the value tracks the real box through
+ * construction, a props-driven resize and a drag-resize alike. */
+static void proxy_apply_handle_ext(proxy_entry_t *e) {
+  int32_t ext = proxy_handle_ext_px(e);
+  for (int i = 0; i < PROXY_HANDLE_COUNT; i++)
+    if (e->handles[i])
+      lv_obj_set_ext_click_area(e->handles[i], ext);
+}
+static void proxy_size_changed_cb(lv_event_t *ev) {
+  proxy_entry_t *e = (proxy_entry_t *)lv_event_get_user_data(ev);
+  if (e && e->obj)
+    proxy_apply_handle_ext(e);
+}
 /* ONE emission site: read the post-layout rect + visibility, report,
  * cache as last-reported. Every phase funnels through here. */
 static void proxy_emit(proxy_entry_t *e, int32_t phase) {
@@ -2039,8 +2088,15 @@ static void proxy_resize_move(proxy_entry_t *e, int corner,
   if (corner == 0 || corner == 1)
     top = true;
   int32_t handle_px = proxy_handle_px(e);
-  int32_t min_w = e->min_w > 0 ? e->min_w : 2 * handle_px;
-  int32_t min_h = e->min_h > 0 ? e->min_h : 2 * handle_px;
+  /* 2*handle_px is the floor at which the two corner handles on an edge
+   * still do not overlap as DRAWN boxes. An authored min below it does not
+   * express a smaller proxy, it expresses handles on top of each other — so
+   * it is a floor UNDER the authored value, not an alternative to it. (The
+   * hit-area question is separate and handled by proxy_handle_ext_px, which
+   * shrinks the grow instead of forbidding the size.) */
+  int32_t draw_floor = 2 * handle_px;
+  int32_t min_w = e->min_w > draw_floor ? e->min_w : draw_floor;
+  int32_t min_h = e->min_h > draw_floor ? e->min_h : draw_floor;
   int32_t w = lv_obj_get_width(e->obj);
   int32_t h = lv_obj_get_height(e->obj);
   int32_t x = lv_obj_get_x_aligned(e->obj);
@@ -2067,6 +2123,7 @@ static void proxy_resize_move(proxy_entry_t *e, int corner,
     y += h - new_h;
   lv_obj_set_pos(e->obj, x, y);
   lv_obj_set_size(e->obj, new_w, new_h);
+  proxy_apply_handle_ext(e);
 }
 /* O4: PRESS_LOST = END (final rect = wherever the box is). */
 static void proxy_gesture_end(proxy_entry_t *e) {
@@ -2282,6 +2339,7 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
   }
   proxy_setup_affordance(e->glass, e, proxy_glass_event_cb);
   lv_obj_add_flag(e->glass, LV_OBJ_FLAG_PRESS_LOCK);
+  lv_obj_add_event_cb(obj, proxy_size_changed_cb, LV_EVENT_SIZE_CHANGED, e);
   lv_obj_set_size(e->glass, lv_pct(100), lv_pct(100));
   int32_t handle_px = proxy_handle_px(e);
   static const lv_align_t handle_aligns[PROXY_HANDLE_COUNT] = {
@@ -2298,13 +2356,13 @@ static void apply_host_proxy(widget_ctx_t *ctx) {
     lv_obj_add_flag(handle, LV_OBJ_FLAG_PRESS_LOCK);
     lv_obj_set_size(handle, handle_px, handle_px);
     lv_obj_align(handle, handle_aligns[i], 0, 0);
-    lv_obj_set_ext_click_area(handle, handle_px / 2);
     lv_obj_set_style_bg_color(handle, lv_color_white(), 0);
     lv_obj_set_style_bg_opa(handle, LV_OPA_COVER, 0);
     lv_obj_set_style_border_width(handle, 1, 0);
     lv_obj_set_style_border_color(handle, lv_color_black(), 0);
     e->handles[i] = handle;
   }
+  proxy_apply_handle_ext(e);
   for (int i = 0; i < PROXY_CELL_COUNT; i++) {
     lv_obj_t *cell = lv_obj_create(obj);
     if (!cell) {
