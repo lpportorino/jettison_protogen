@@ -413,10 +413,11 @@ make docs-docker-coverage  # Show coverage
 
 ### Claude Commands
 
-Two slash commands are available for proto schema exploration:
+Slash commands are available for proto schema exploration:
 
 - `/proto-search <query>` - Fuzzy search messages, fields, enums
 - `/proto-coverage` - Show documentation coverage report
+- `/doc-next` - Show next undocumented message with context
 
 ### Output Structure
 

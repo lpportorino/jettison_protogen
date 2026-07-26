@@ -1,7 +1,7 @@
 (ns devcards.conventions
   "The ui-render-conventions manifest: load the authored EDN home and emit
-   its deterministic JSON projection (final protogen home:
-   conventions/ui-render-conventions.edn -> output/manifests/
+   its deterministic JSON projection, committed alongside it
+   (conventions/ui-render-conventions.edn -> conventions/
    ui-style-conventions.json). Determinism contract: every map is
    re-normalized to sorted order on read, so two consecutive emits are
    byte-identical regardless of EDN reader map ordering."
@@ -14,8 +14,8 @@
   "conventions/ui-render-conventions.edn")
 
 (def json-out
-  "The generated JSON projection (tool-relative; protogen home:
-   output/manifests/ui-style-conventions.json)."
+  "The generated JSON projection (tool-relative; committed beside
+   `edn-home` at conventions/ui-style-conventions.json)."
   "conventions/ui-style-conventions.json")
 
 (defn- sort-maps

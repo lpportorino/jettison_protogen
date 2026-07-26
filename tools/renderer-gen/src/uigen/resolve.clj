@@ -325,8 +325,9 @@
    [<widget-eligible leaf scalars, flattened>]}]}, else nil. Maps each oneof field-
    number → its arm via the nested message's :fields, then recurses TWO levels into
    each arm leaf's scalars (extends message-subforms one deeper). Each invocation is
-   INDEPENDENT — azimuth and elevation arms differ (elevation drops :direction on 3
-   arms, uses :normalized speed), so never template one onto the other. An empty arm
+   INDEPENDENT — azimuth and elevation arms differ (elevation drops :direction on the
+   set_value/rotate_to arms — no wraparound ambiguity on a linear axis — and uses
+   :normalized speed), so never template one onto the other. An empty arm
    (e.g. halt) yields :scalars [] (a parameterless arm — a bare commit, no sub-form)."
   [command-id field-name]
   (let [pdb (mf/proto-db)

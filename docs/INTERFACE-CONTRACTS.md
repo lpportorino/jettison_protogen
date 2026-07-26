@@ -23,7 +23,7 @@ are BE; framing length prefixes and codec headers are LE), so never assume.
 
 ## 1. Stream / datagram magic + framing
 
-Every WebTransport stream and datagram class is identified by a 2-byte ASCII
+Every QUIC stream and datagram class is identified by a 2-byte ASCII
 magic prefix. Two distinct framing families share the magic mechanism:
 
 **Transport-header streams/datagrams (BE, versioned)** — the video plane. A
@@ -407,8 +407,8 @@ Reference implementations:
   OSD-variant outer tar → `manifest.jwt` + inner `*.tar.gz`) and polls the etag
   (200/304/503+Retry-After:5, a HEAD-floor debounce). The native consumer loads
   `controls.wasm` + a `ui.Screen` `.pb` from `controls.tar` and runs the
-  bare-etag poll (`/osd/{name}.tar/etag`, 5 s poll floor + 1.5 s debounce) — each
-  in its own stack.
+  bare-etag poll (`/osd/{name}.tar/etag`, 5 s poll interval, no push channel) —
+  each in its own stack.
 
 ---
 

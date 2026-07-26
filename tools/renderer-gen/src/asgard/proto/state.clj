@@ -42,7 +42,7 @@
 ;; in `changed`; a dropped subsystem has no slice ⇒ no entry ⇒ scoped-delta's
 ;; dropped-detection handles it.
 (def ^:private subsystem-parser
-  "{field-kw → (fn [^bytes slice] → Message)} for the 16 EMITTED JonGUIState
+  "{field-kw → (fn [^bytes slice] → Message)} for the EMITTED JonGUIState
    subsystem fields (every subsystem-tags key EXCEPT :meteo-internal, which is
    root-skipped). Each parser closes over a LITERAL imported class's static
    parseFrom (zero reflection, load-order-safe) — NOT a string transform on the

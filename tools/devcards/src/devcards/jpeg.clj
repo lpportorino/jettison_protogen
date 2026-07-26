@@ -1,9 +1,9 @@
 (ns devcards.jpeg
   "RGBA framebuffer → committed-quality JPEG (galleries + contact sheets).
 
-   Design pinned by the JPEG POC (JPEG_POC.md): direct javax.imageio interop,
-   NO added dependency (buy-before-build: the JDK encoder is the mature
-   library). Two POC-proven correctness invariants:
+   Design pinned by a throw-away JPEG encoder POC: direct javax.imageio
+   interop, NO added dependency (buy-before-build: the JDK encoder is the
+   mature library). Two POC-proven correctness invariants:
    - FLATTEN BEFORE ENCODE: the renderer's straight-alpha RGBA carries
      GARBAGE color bytes under A=0 pixels; SrcOver onto opaque black
      (c*a/255) makes them deterministically black. Encoding un-flattened

@@ -249,9 +249,10 @@
 ;; adaptive settle — a render must be a deterministic function of module +
 ;; inputs; the demo's anim-frozen values are functions of ticks × ms) →
 ;; at least one tick must report a flush → read framebuffer.
-;; HOME: these constants graduate to the conventions manifest
-;; (render-protocol section); the values here then become a read of that
-;; manifest, whose mirror gate asserts harness RENDER_TICKS == manifest.
+;; MIRRORED: corpus/spec.edn's `:render` section restates these same values
+;; (:render-ticks/:tick-ms/:dpi); dev/t22_smoke.clj asserts this ns's
+;; constants agree with the spec's copy, so a drift between the Rust harness
+;; and the corpus fails loudly there.
 (def render-ticks "Pinned tick count per render (mirror of lvgl_harness::RENDER_TICKS)." 3)
 
 (def tick-ms "Elapsed ms per tick (mirror of lvgl_harness::TICK_MS)." 16)
