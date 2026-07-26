@@ -184,11 +184,18 @@ morph-parity: wasm proto-classes morph-fixtures
 # BOTH paths (controls.wasm from EDN fixtures vs reference.wasm literal lv_*),
 # tree + framebuffer asserted tolerance-0. The driver builds both wasm
 # oracles + the harness itself (stale-artifact trap — see its header).
-matrix: proto-classes
+# `wasm reference` are DECLARED even though run.sh builds them itself, and that
+# is the point: with the edge, make has already produced both by the time the
+# script runs, so the script's own build finds them fresh and WRITES NOTHING.
+# Without it, run.sh is a SECOND WRITER of renderer/output/{controls,reference}
+# .wasm while harness/reload/decode-limits READ those same artifacts — harmless
+# serially, a write/read race under -j. The in-script build stays so the script
+# remains runnable standalone (its usage line and README document that).
+matrix: proto-classes wasm reference
 	cd $(R) && bash coverage_matrix/run.sh
 
 # Demo-parity capstone: lv_demo_widgets rendered both ways, BIT-EQUAL per tab.
-demo-parity: proto-classes
+demo-parity: proto-classes wasm reference
 	cd $(R) && bash tools/demo-parity.sh
 
 # ── Manifest freshness ──────────────────────────────────────────────────────

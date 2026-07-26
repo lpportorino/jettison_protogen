@@ -36,7 +36,10 @@ source "$ROOT/tools/in-container.sh"
 # Build BOTH wasm paths + the harness here (the stale-artifact trap: a
 # fresh EDN against a stale wasm reads as a rendering bug).
 echo "── building controls.wasm + reference.wasm + harness ──"
-dev make -f wasm.mk all reference
+# -j$(nproc), matching renderer.mk's wasm lane and coverage_matrix/run.sh. This
+# was the last of THREE call sites building these same two targets, and the only
+# one still serial (measured elsewhere: 80.6s -> 22.9s on a clean tree, 3.5x).
+dev make -f wasm.mk -j"$(nproc)" all reference
 dev_w wasm_harness bash -c 'PATH=$HOME/.cargo/bin:$PATH cargo build --quiet --release'
 
 OUT=output/demo-parity
