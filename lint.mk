@@ -353,7 +353,9 @@ fmt-c:
 # which already has the toolchain image and builds the compile DB there.
 lint-c-tidy:
 	@command -v $(RUN_CLANG_TIDY) >/dev/null 2>&1 || { \
-		printf '\033[31m[lint-c-tidy]\033[0m no run-clang-tidy at %s nor on PATH — run inside tools/uber.sh\n' >&2 "$(RUN_CLANG_TIDY)"; exit 1; }
+		printf '\033[31m[lint-c-tidy]\033[0m cannot run: no run-clang-tidy at /opt/wasi-sdk/bin and none on PATH.\n' >&2; \
+		printf '  The pinned one ships with the WASI-SDK, so run this inside the toolchain\n' >&2; \
+		printf '  container: tools/uber.sh '\''make -f lint.mk lint-c-tidy'\''\n' >&2; exit 1; }
 	@printf '\033[32m[lint-c-tidy]\033[0m %s (%s cpus)\n' "$(RUN_CLANG_TIDY)" "$(NPROC)"
 	@[ -f renderer/compile_commands.json ] || $(MAKE) -C renderer -f wasm.mk compile-db
 	@cd renderer && $(RUN_CLANG_TIDY) -clang-tidy-binary $(CLANG_TIDY) -p . -quiet -j $(NPROC)

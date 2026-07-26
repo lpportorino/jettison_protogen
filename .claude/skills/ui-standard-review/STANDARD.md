@@ -62,7 +62,7 @@ A worked example, produced by actually running the `:overlap` rule over a synthe
 {:card "example/two-controls", :detail "two interactive elements SHARE pixels (overlap depth 10px) — [0,0,49,29] 50x30 vs [40,10,89,39] 50x30. Exactly one can take the pointer there", :invariant :overlap, :node "lv_button#2 vs lv_slider#3"}
 ```
 
-READ THAT EXAMPLE FOR ITS SHAPE, NOT ITS KEYWORD. It was produced by a DETERMINISTIC rule, so it carries that rule's `:invariant` — which is exactly the kind of finding you must NOT emit, because a machine already owns it and reports it reproducibly. Yours carry the `:vlm/`-namespaced keywords listed above. The namespace is what keeps one exemption from silencing both a model's finding and a machine's.
+READ THAT EXAMPLE FOR ITS SHAPE, NOT ITS KEYWORD. It was produced by a DETERMINISTIC rule, so it carries that rule's `:invariant` — which is exactly the kind of finding you must NOT emit, because a machine already owns it and reports it reproducibly. Yours carry a `:vlm/`-namespaced keyword from the closed set in the SKILL — this page does not list them, and does not get to add one. The namespace is what keeps one exemption from silencing both a model's finding and a machine's.
 
 ## The live classification table
 
@@ -318,14 +318,23 @@ descends into a node's children only while the point stays inside each
 ancestor's `coords` — click-area pixels outside an ancestor are dead to the
 pointer, and naming them describes a hazard region no pointer can visit.
 
-Two facts remain unseeable, and neither occurs in this tree — they are stated
-because a consumer's renderer is not bound by that:
+Some facts remain unseeable. None occurs in this corpus, which is why the rule
+assumes them away rather than guessing; each is stated because a consumer's
+screens are not bound by that. Read the list as the rule's known blind spots,
+not as a closed set — the test for adding one is whether `lv_indev_search_obj`
+consults something the dump omits.
 
+- A **transform**. `lv_indev_search_obj` inverse-transforms the point before
+  both the descent gate and the hit test, while the dump's `:coords` are
+  untransformed. Under a non-identity scale or rotation the reachable box is
+  therefore wrong in BOTH directions. This is reachable from the `ui_ast`
+  vocabulary — `PROP_SCALE_X/Y`, `PROP_ROTATION`, `PROP_PIVOT_X/Y` — so a
+  consumer that transforms an interactive subtree gets answers this rule
+  cannot justify, and should treat the lane as unmeasured there.
 - `LV_OBJ_FLAG_OVERFLOW_VISIBLE` widens the descent gate by the node's ext
-  draw size. Nothing sets it — not the renderer, not LVGL — so the gate is
-  exactly `:coords` and the intersection above is EXACT rather than merely
-  conservative. A consumer that sets it would see this rule clip too hard and
-  UNDER-report.
+  draw size. Nothing sets it — not the renderer, not LVGL — so on THIS tree
+  the gate is exactly `:coords`. A consumer that sets it would see this rule
+  clip too hard and UNDER-report.
 - `LV_OBJ_FLAG_ADV_HITTEST` lets a widget refuse a hit inside its own box by
   answering `LV_EVENT_HIT_TEST`. Only `lv_image` sets it, and `lv_image` clears
   CLICKABLE at construction, so no node reaches the pairing with it set. A

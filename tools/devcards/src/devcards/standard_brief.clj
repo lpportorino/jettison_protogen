@@ -14,9 +14,18 @@
      docs/UI-QUALITY-CONTRACTS.md     the contract text, embedded VERBATIM
      devcards.lvgl-classes            the live classification table
      each producer's :thresholds      the live defaults + their :doc
+     each producer's :requires        rendered into the producer table
+     the example producer's :fn       RUN, so the worked example is real
+                                      output and moves when the rule does
 
-   — so a standard change that does not reach the briefing shows up as a
-   diff, which is exactly what the `standard-brief` target in renderer.mk
+   Treat that list as the ones worth naming, not as a closed set: the page
+   is a function of this namespace and everything it reads, so the honest
+   statement of its inputs is the generator itself. The gate does not
+   depend on the list being complete — it regenerates and diffs, so it
+   catches a drift in any input whether or not anyone wrote it down.
+
+   A standard change that does not reach the briefing therefore shows up as
+   a diff, which is exactly what the `standard-brief` target in renderer.mk
    gates on (regenerate, then `git diff --exit-code`, the shape the
    goldens/gallery freshness step uses).
 
@@ -345,9 +354,10 @@
    "READ THAT EXAMPLE FOR ITS SHAPE, NOT ITS KEYWORD. It was produced by a "
    "DETERMINISTIC rule, so it carries that rule's `:invariant` — which is "
    "exactly the kind of finding you must NOT emit, because a machine already "
-   "owns it and reports it reproducibly. Yours carry the `:vlm/`-namespaced "
-   "keywords listed above. The namespace is what keeps one exemption from "
-   "silencing both a model's finding and a machine's.\n\n"
+   "owns it and reports it reproducibly. Yours carry a `:vlm/`-namespaced "
+   "keyword from the closed set in the SKILL — this page does not list them, "
+   "and does not get to add one. The namespace is what keeps one exemption "
+   "from silencing both a model's finding and a machine's.\n\n"
 
    "## The live classification table\n\n"
    "Read from `devcards.lvgl-classes/starter-table` at generation time. "

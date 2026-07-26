@@ -72,17 +72,22 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   equal-depth pairs.
 - **protogen's own gate runs THROUGH the registry**, so the instruction above
   is not advice this repo exempts itself from: `core.clj` judges every card via
-  `findings/card-findings`. The DOM lane is `devcards.expect/tree-producer`
-  (the `:expect` routing, including the INVERTED `:probe-defect` arm) and the
-  composition lane pairs the `:tree` builtin with
-  `findings/emission-by-mode-producer`. Select a builtin with
-  `findings/builtin-producer`, never by position — `(first builtin-producers)`
-  silently repoints the lane when the vector is reordered.
-- Being routed through the registry is still NOT the same as being armed:
-  membership in `builtin-producers` is what `core.clj` reads, so adding a
-  producer to `devcards.findings` does not by itself make
-  `make -f renderer.mk fixtures` run it. Arming a rule against this repo's
-  corpus means adding it to the producer vector the gate passes.
+  `findings/card-findings`. The two lanes it passes live in `devcards.lanes` —
+  `atomic-findings` (the `:expect` routing, including the INVERTED
+  `:probe-defect` arm) and `composition-findings` (the `:tree` builtin plus
+  `findings/emission-by-mode-producer`). They live there rather than in
+  `core.clj` for a testability reason worth keeping: core loads the generated
+  bindings, so nothing requiring it runs under the `:test` alias, and a lane
+  that cannot be named in a test cannot be pinned by one.
+- Select a builtin with `findings/builtin-producer`, never by position —
+  `(first builtin-producers)` silently repoints the lane when that vector is
+  reordered or grown.
+- **`builtin-producers` is a MENU, not the armed set.** Nothing reads the
+  vector as a whole; each lane names the producers it wants. So adding a
+  producer to `builtin-producers` arms it NOWHERE — the gate runs exactly the
+  same rules and exits 0 as before. Arming a rule against this repo's corpus
+  means adding it to a lane's producer vector in `devcards.lanes`, and that
+  is a change owing its own evidence.
 
 ## The VLM UI review — one batched agent, briefed once, never a gate
 

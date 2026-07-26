@@ -198,14 +198,23 @@ descends into a node's children only while the point stays inside each
 ancestor's `coords` — click-area pixels outside an ancestor are dead to the
 pointer, and naming them describes a hazard region no pointer can visit.
 
-Two facts remain unseeable, and neither occurs in this tree — they are stated
-because a consumer's renderer is not bound by that:
+Some facts remain unseeable. None occurs in this corpus, which is why the rule
+assumes them away rather than guessing; each is stated because a consumer's
+screens are not bound by that. Read the list as the rule's known blind spots,
+not as a closed set — the test for adding one is whether `lv_indev_search_obj`
+consults something the dump omits.
 
+- A **transform**. `lv_indev_search_obj` inverse-transforms the point before
+  both the descent gate and the hit test, while the dump's `:coords` are
+  untransformed. Under a non-identity scale or rotation the reachable box is
+  therefore wrong in BOTH directions. This is reachable from the `ui_ast`
+  vocabulary — `PROP_SCALE_X/Y`, `PROP_ROTATION`, `PROP_PIVOT_X/Y` — so a
+  consumer that transforms an interactive subtree gets answers this rule
+  cannot justify, and should treat the lane as unmeasured there.
 - `LV_OBJ_FLAG_OVERFLOW_VISIBLE` widens the descent gate by the node's ext
-  draw size. Nothing sets it — not the renderer, not LVGL — so the gate is
-  exactly `:coords` and the intersection above is EXACT rather than merely
-  conservative. A consumer that sets it would see this rule clip too hard and
-  UNDER-report.
+  draw size. Nothing sets it — not the renderer, not LVGL — so on THIS tree
+  the gate is exactly `:coords`. A consumer that sets it would see this rule
+  clip too hard and UNDER-report.
 - `LV_OBJ_FLAG_ADV_HITTEST` lets a widget refuse a hit inside its own box by
   answering `LV_EVENT_HIT_TEST`. Only `lv_image` sets it, and `lv_image` clears
   CLICKABLE at construction, so no node reaches the pairing with it set. A

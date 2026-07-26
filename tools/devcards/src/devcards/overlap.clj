@@ -54,16 +54,25 @@
    pointer, and genuinely intended. Ordering that by declaration is the
    layer contract's job, not this rule's.
 
-   TWO REACHABILITY FACTS THE DUMP CANNOT EXPRESS. Neither occurs in this
-   tree, which is why the rule assumes them away rather than guessing; both
-   are stated because a consumer's renderer is not bound by that.
+   REACHABILITY FACTS THE DUMP CANNOT EXPRESS. None occurs in this corpus,
+   which is why the rule assumes them away rather than guessing; each is
+   stated because a consumer's screens are not bound by that. Read this as
+   the rule's known blind spots, not as a closed set — the test for adding
+   one is whether `lv_indev_search_obj` consults something the dump omits.
 
+   - A TRANSFORM. `lv_indev_search_obj` inverse-transforms the point
+     (lv_indev.c:626) BEFORE both the descent gate and the hit test, while
+     the dump's `:coords` are untransformed. Under a non-identity scale or
+     rotation the reachable box computed here is therefore wrong in BOTH
+     directions. This is reachable from the ui_ast vocabulary —
+     PROP_SCALE_X/Y, PROP_ROTATION, PROP_PIVOT_X/Y (renderer.c:3407-3435) —
+     so a consumer that transforms an interactive subtree gets answers this
+     rule cannot justify. No corpus card sets any of them.
    - LV_OBJ_FLAG_OVERFLOW_VISIBLE widens the descent gate below by
      `lv_obj_get_ext_draw_size` (lv_indev.c:632-635). Nothing sets that
-     flag anywhere — not renderer/src, not LVGL itself — so the gate is
-     exactly `:coords` and the clipping below is EXACT, not conservative.
-     Were a consumer to set it, this rule would clip too hard and UNDER-
-     report.
+     flag anywhere — not renderer/src, not LVGL itself — so on THIS tree
+     the gate is exactly `:coords`. Were a consumer to set it, this rule
+     would clip too hard and UNDER-report.
    - LV_OBJ_FLAG_ADV_HITTEST lets a widget refuse a hit inside its own box
      by answering LV_EVENT_HIT_TEST (lv_obj_pos.c). Only lv_image sets it
      (lv_image.c:694) and lv_image clears CLICKABLE at construction, so no

@@ -12,12 +12,18 @@
       (roller labels, dropdown lists). A hand-guessed
       list would be wrong in exactly the places that matter.
 
-   2. The snapped-carousel question. `devcards.overlap` deliberately does
-      NOT exempt a tabview page the carousel has snapped out of view, on
-      the argument that over-exempting is the worse failure. That argument
-      has never met a real lv_tabview. If snapped pages do collide here,
-      the exemption is owed a proof-carrying entry — or the rule is owed a
-      fix. Either way it is decided on output, not on the argument.
+   2. The snapped-carousel question, now SETTLED — by arithmetic rather
+      than by the exemption it was expected to need. A page the carousel
+      has snapped out of view sits outside the tabview content box, and
+      `devcards.overlap` clips every node's reachable box to its ancestors'
+      descent gates, so those nodes intersect to nothing and leave the
+      pairing as `:unreachable`. That is a determination, not an exemption:
+      the pointer genuinely cannot arrive there, because
+      `lv_indev_search_obj` never descends past the content box. So no
+      proof-carrying entry is owed, and the ACTIVE page — which does
+      intersect — stays fully judged. Re-run this probe if the carousel's
+      geometry changes; the conclusion rests on the snapped page being
+      fully outside its content box, which is a layout property, not a law.
 
    Read-only: renders, dumps, counts, prints. Writes nothing, gates
    nothing, and is not part of the battery.
