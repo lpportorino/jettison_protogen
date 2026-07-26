@@ -233,6 +233,34 @@ $(OBJ_DIR)/%.o: %.cpp lv_conf.h
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS_COMPILE) -c -o $@ $<
 
+# ── Provenance stamp: which protogen commit this wasm was BUILT FROM ─────────
+# controls.wasm is not committed, so `git submodule update` no longer delivers
+# the artifact recorded at the pin — and nothing downstream could tell a build
+# of the pinned source from a stale build left in the worktree. A consumer could
+# bump the pin across a renderer change, never rebuild, and watch its ENTIRE
+# battery go green while shipping the PREVIOUS interpreter (pinned-renderer
+# compares the tar against whatever is on disk; controls-tar-fresh re-stages
+# that same stale wasm; the screen corpus renders it).
+#
+# So the link records its own provenance beside the artifact. Consumers compare
+# this against their gitlink; anything else is a stale build.
+#
+# BARE `git rev-parse`, never `git -C`: inside the toolchain container GIT_DIR
+# and GIT_WORK_TREE are exported, and they OVERRIDE -C — a `-C` form silently
+# reports the wrong repository's HEAD, which is worse than no stamp because it
+# reads as authoritative while being false.
+#
+# Keyed on $@, not a fixed path: $(OUT) is mode-keyed, so a BUILD=dev link would
+# otherwise clobber the release stamp with one describing a module that never
+# ships. Covered by renderer/.gitignore's output/*.
+#
+# UNRESOLVABLE DEGRADES TO A REJECT, never to a pass: with no git available the
+# value below is the literal string, which matches no gitlink, so the consumer
+# fails. "Cannot answer" must read as NO. Dirtiness is likewise a reject — a
+# build carrying uncommitted renderer edits is not a build of the pinned source,
+# whatever HEAD says.
+PROTOGEN_SHA ?= $(shell git rev-parse HEAD 2>/dev/null || echo UNRESOLVABLE-NO-GIT)$(shell git diff --quiet HEAD -- . 2>/dev/null || echo -dirty)
+
 # Link with clang++ (needed for C++ ThorVG runtime).
 # Stub objects (wasm_sjlj_stub) provide setjmp/longjmp for ThorVG's tvgSwRle.
 # $(OUT): release -> output/controls.wasm (-O2 -flto, the shipped+gated artifact);
@@ -240,6 +268,7 @@ $(OBJ_DIR)/%.o: %.cpp lv_conf.h
 $(OUT): $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(RENDERER_OBJ) $(THORVG_OBJS)
 	@mkdir -p output
 	$(CXX) $(CXXFLAGS_LINK) $(LDFLAGS) -o $@ $^ $(SJLJ_LIB)
+	@printf '%s\n' '$(PROTOGEN_SHA)' >$@.build-sha
 
 # reference.wasm: same scaffold + ABI, but the literal-lv_* renderer (diff oracle).
 output/reference.wasm: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(REFERENCE_OBJ) $(DEMO_OBJS) $(THORVG_OBJS)
@@ -248,6 +277,7 @@ output/reference.wasm: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(REFERENCE_O
 
 clean:
 	rm -f output/controls.wasm output/controls.dev.wasm output/reference.wasm
+	rm -f output/controls.wasm.build-sha output/controls.dev.wasm.build-sha
 	rm -rf build
 
 # ── compile database ────────────────────────────────────────────────────────
