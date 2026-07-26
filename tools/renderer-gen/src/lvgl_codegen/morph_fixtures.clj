@@ -783,7 +783,15 @@
         ok-wire (patch/patch-ir base-hash degenerate-target-hash
                                 (replace-op grid-pool-ok-cells))
         insert-exhaust-wire (patch/patch-ir base-hash degenerate-target-hash
-                                            (insert-op grid-pool-exhaust-cells))]
+                                            (insert-op grid-pool-exhaust-cells))
+        ;; The DISCRIMINATOR for the INSERT path. Two sites return -4 on that
+        ;; path — patch_pools_low's fixed margin and the demand-aware check —
+        ;; and an over-demand test asserting only `rc == -4` cannot say which
+        ;; fired. A WITHIN-pool INSERT must SUCCEED, and only the demand-aware
+        ;; check lets it: if the fixed margin were the site refusing, it would
+        ;; refuse this one too. The REPLACE path already had its twin.
+        insert-ok-wire (patch/patch-ir base-hash degenerate-target-hash
+                                       (insert-op grid-pool-ok-cells))]
     ;; Single-file names (NOT the `.base.pb`/`.target.pb`/`.patch.pb` triple
     ;; suffixes) — the morph-parity dual oracle scans every `*.base.pb` as a
     ;; full triple, so a lone base under that suffix would demand a phantom
@@ -795,9 +803,12 @@
                             (str out-dir "/grid_pool_within_pool.pb"))
     (proto-ser/write-bytes! (proto-ser/patch->bytes insert-exhaust-wire)
                             (str out-dir "/grid_pool_insert_over_demand.pb"))
+    (proto-ser/write-bytes! (proto-ser/patch->bytes insert-ok-wire)
+                            (str out-dir "/grid_pool_insert_within_pool.pb"))
     (println (str "  grid-pool/base + over_demand(" grid-pool-exhaust-cells
                   " cells) + within_pool(" grid-pool-ok-cells " cells)"
-                  " + insert_over_demand(" grid-pool-exhaust-cells " cells)"))))
+                  " + insert_over_demand(" grid-pool-exhaust-cells " cells)"
+                  " + insert_within_pool(" grid-pool-ok-cells " cells)"))))
 (m/=> emit-grid-pool-case!
       [:=>
        [:cat schema/tokens-schema [:map-of [:string {:min 1}] map?] [:string {:min 1}]]

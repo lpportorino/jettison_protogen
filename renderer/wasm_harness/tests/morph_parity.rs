@@ -33,6 +33,12 @@
 )]
 use lvgl_harness::{ControlsHost, HostConfig, PointerEvent};
 use serde_json::Value;
+
+/// Mirrors `grid-pool-ok-cells` in `tools/renderer-gen/src/lvgl_codegen/
+/// morph_fixtures.clj` — the grid-container count of the WITHIN-pool walls.
+/// Duplicated deliberately, like the other cap mirrors here: reading the number
+/// from the generator that produced the fixture would assert nothing.
+const GRID_POOL_OK_CELLS: usize = 5;
 use std::path::PathBuf;
 const WIDTH: u32 = 960;
 const HEIGHT: u32 = 540;
@@ -627,6 +633,91 @@ fn grid_pool_within_pool_replace_succeeds() {
         !after.contains("REPLACE ME"),
         "the target must be replaced by the grid subtree"
     );
+    assert_grid_wall_laid_out(&after, GRID_POOL_OK_CELLS, "within-pool REPLACE");
+}
+
+/// The grid containers of a within-pool wall must actually LAY OUT — distinct,
+/// non-degenerate rects — not merely be present in the tree.
+///
+/// Without this, `rc == 0` plus "the old target is gone" proves only that the
+/// guard did not OVER-refuse. Every container could have collapsed to a
+/// zero-area box stacked at the origin (which is exactly what pool exhaustion
+/// degrades a grid container to) and the assertions above would still pass.
+fn assert_grid_wall_laid_out(dump: &str, expected_cells: usize, case: &str) {
+    let tree: Value = serde_json::from_str(dump).expect("dump_tree JSON");
+    let mut rects: Vec<(i64, i64, i64, i64)> = Vec::new();
+    collect_rects(&tree, &mut rects);
+    let sized: Vec<_> = rects.iter().filter(|(_, _, w, h)| *w > 0 && *h > 0).collect();
+    assert!(
+        sized.len() >= expected_cells,
+        "{case}: only {} node(s) have a non-degenerate rect, expected at least \
+         {expected_cells} laid-out grid containers — a collapsed wall is what \
+         pool exhaustion produces, and rc==0 alone cannot tell them apart",
+        sized.len()
+    );
+    let distinct: std::collections::BTreeSet<_> = sized.iter().collect();
+    assert!(
+        distinct.len() > 1,
+        "{case}: every laid-out node shares one rect — the wall did not lay out, \
+         it stacked"
+    );
+}
+
+/// Collect each node's rect from a `controls_dump_tree` payload.
+///
+/// The dump emits `"coords":[x1,y1,x2,y2]` — an LVGL area, INCLUSIVE on both
+/// ends, not an (x, y, w, h) tuple. Getting that wrong yields zero rects and an
+/// assertion that looks like a renderer failure; it is worth naming here since
+/// the shape is not guessable from the test side.
+fn collect_rects(node: &Value, out: &mut Vec<(i64, i64, i64, i64)>) {
+    if let Some(obj) = node.as_object() {
+        if let Some(c) = obj.get("coords").and_then(Value::as_array) {
+            let v: Vec<i64> = c.iter().filter_map(Value::as_i64).collect();
+            if let [x1, y1, x2, y2] = v[..] {
+                // Inclusive area -> width/height.
+                out.push((x1, y1, x2 - x1 + 1, y2 - y1 + 1));
+            }
+        }
+        if let Some(kids) = obj.get("children").and_then(Value::as_array) {
+            for k in kids {
+                collect_rects(k, out);
+            }
+        }
+    }
+}
+
+/// The DISCRIMINATOR the over-demand INSERT test cannot be on its own.
+///
+/// Two sites return PATCH_ERR_POOL on the INSERT path: `patch_pools_low`'s
+/// FIXED margin, checked at the op top, and `grid_demand_exceeds_pool`, the
+/// demand-aware check the over-demand test NAMES. An assertion of `rc == -4`
+/// cannot say which fired, and today the answer is a property of FIXTURE
+/// SIZING (the base leaves the pool empty so the fixed margin passes), not of
+/// anything asserted. Let `grid_pool_base` gain a grid container and the fixed
+/// margin starts firing first: both over-demand tests stay GREEN while
+/// silently testing a different door.
+///
+/// A within-pool INSERT must SUCCEED, and only the demand-aware check permits
+/// that — the fixed margin, were it the site refusing, would refuse this too.
+/// So this test going RED is the signal that the over-demand tests have
+/// changed doors.
+#[test]
+fn grid_pool_within_pool_insert_succeeds() {
+    let base = read_pb("grid_pool_base");
+    let ok = read_pb("grid_pool_insert_within_pool");
+    let mut host = new_host();
+    load(&mut host, &base);
+    let rc = host.apply_patch(&ok).expect("apply within-pool insert");
+    assert_eq!(
+        rc, 0,
+        "a within-pool grid INSERT must SUCCEED, got {rc} — if this is -4, the \
+         FIXED patch_pools_low margin is now the site refusing, which means the \
+         over-demand INSERT test is no longer exercising the demand-aware check \
+         its name claims"
+    );
+    ticks(&mut host, RENDER_TICKS);
+    let after = host.dump_tree().expect("dump after");
+    assert_grid_wall_laid_out(&after, GRID_POOL_OK_CELLS, "within-pool INSERT");
 }
 
 /// An INSERT whose payload subtree's grid demand OUTRUNS the write-once
