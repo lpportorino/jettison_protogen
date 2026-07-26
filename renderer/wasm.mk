@@ -189,7 +189,7 @@ DEP_OBJS := $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(RENDERER_OBJ) \
 # $(OUT) is output/controls.wasm (release, default) or output/controls.dev.wasm
 # (BUILD=dev). TODO(perf): split the ~510 vendored TUs (LVGL+ThorVG+nanopb) into
 # a prebuilt static archive so even a release link skips re-archiving them.
-all: $(OUT)
+all: $(OUT) $(OUT).build-sha
 
 # Compile every TU, but do NOT link. For consumers that need the COMPILATION —
 # the flags, the diagnostics, the compile_commands entries — and never read the
@@ -268,7 +268,33 @@ PROTOGEN_SHA ?= $(shell git rev-parse HEAD 2>/dev/null || echo UNRESOLVABLE-NO-G
 $(OUT): $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(RENDERER_OBJ) $(THORVG_OBJS)
 	@mkdir -p output
 	$(CXX) $(CXXFLAGS_LINK) $(LDFLAGS) -o $@ $^ $(SJLJ_LIB)
-	@printf '%s\n' '$(PROTOGEN_SHA)' >$@.build-sha
+
+# ── the provenance stamp is its own target, and that is load-bearing ────────
+# It used to be written as a side effect of the link above, whose prerequisites
+# are OBJECT FILES. PROTOGEN_SHA was not among them, so any commit that moved
+# HEAD without touching a renderer source — the harness Cargo.toml, devcards
+# tooling, docs, CI wiring — left the stamp naming the OLD commit while make
+# correctly reported nothing to do. `make wasm` was then a NO-OP that appears to
+# succeed: exit 0, no output, stamp unchanged. Consumers compare this stamp
+# against their gitlink precisely BECAUSE byte-identical output does not
+# establish provenance, so the artifact whose whole job is answering "built from
+# which commit" could quietly answer with a stale one. It failed SAFE (the
+# consumer gate reds) but its printed remedy was the very command that no-ops.
+#
+# The sha is a make VARIABLE and cannot be a prerequisite directly. It is
+# written to a file whose mtime moves ONLY when the value actually changes (the
+# cmp-before-write idiom renderer.mk uses for the manifests), and THAT is the
+# prerequisite. So a HEAD change re-stamps WITHOUT dragging in the multi-second
+# serial LTO relink — which is exactly why doing it inside the link recipe was
+# tempting and wrong.
+.PHONY: sha-probe
+output/.protogen-sha: sha-probe
+	@mkdir -p output
+	@printf '%s\n' '$(PROTOGEN_SHA)' | cmp -s - $@ 2>/dev/null \
+	  || printf '%s\n' '$(PROTOGEN_SHA)' >$@
+
+$(OUT).build-sha: $(OUT) output/.protogen-sha
+	@cp output/.protogen-sha $@
 
 # reference.wasm: same scaffold + ABI, but the literal-lv_* renderer (diff oracle).
 output/reference.wasm: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(REFERENCE_OBJ) $(DEMO_OBJS) $(THORVG_OBJS)
@@ -278,6 +304,7 @@ output/reference.wasm: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(REFERENCE_O
 clean:
 	rm -f output/controls.wasm output/controls.dev.wasm output/reference.wasm
 	rm -f output/controls.wasm.build-sha output/controls.dev.wasm.build-sha
+	rm -f output/.protogen-sha
 	rm -rf build
 
 # ── compile database ────────────────────────────────────────────────────────
@@ -308,4 +335,4 @@ compile-db:
 	@printf '\n]\n' >> compile_commands.json
 	@printf '[compile-db] %s entries -> renderer/compile_commands.json\n' "$(words $(TIDY_SRCS))"
 
-.PHONY: all objects reference clean
+.PHONY: all objects reference clean sha-probe
