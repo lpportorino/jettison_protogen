@@ -41,8 +41,10 @@ runner via their protogen pin against their own private fixture corpora.
 
 ## Runner mechanism (`src/devcards/host.clj`)
 
-GraalWasm, plain Maven deps (JDK 21+; interpreted on stock JDK, JIT under
-GraalVM CE): ONE shared Engine + content-keyed Source cache (warm instantiation
+GraalWasm, plain Maven deps — but GraalVM CE is REQUIRED, not merely preferred:
+a stock JDK has no JVMCI/Graal compiler, so the polyglot host would interpret
+the wasm, and the runner hard-fails rather than degrade silently to that.
+ONE shared Engine + content-keyed Source cache (warm instantiation
 ~1-4ms), a FRESH Context per card (hermetic — no state bleed), the renderer's
 four mandatory `env` imports captured, WASI assets preopen for fonts/icons, ABI
 gate on start (`supported-abis`), raw-framebuffer read + dump_tree copy-out.

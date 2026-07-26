@@ -42,8 +42,9 @@
    builds a working engine that interprets every wasm instruction, prints a
    WARNING nobody reads in a 25-minute log, and produces identical results —
    only far slower. Measured on this corpus: 1404 renders took 407.9s
-   interpreted (~290ms each), which is ~27% of the whole renderer battery spent
-   on a misconfiguration rather than on work.
+   interpreted (~290ms each) versus 19.2s with the optimizing runtime — the
+   single largest leg of the renderer battery, spent on a misconfiguration
+   rather than on work.
 
    A warning is the wrong shape for that. It is a REQUIRED toolchain component
    that is absent, so it hard-fails here rather than being absorbed — the same

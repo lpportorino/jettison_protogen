@@ -279,7 +279,7 @@ RUN cd /prefetch/devcards \
     && clojure -P -M:morph-fixtures \
     && clojure -P -M:test \
     && rm -rf /prefetch \
-    && test -d /root/.gitlibs/_repos \
+    && test -n "$(ls -A /root/.gitlibs/_repos)" \
     && test -n "$(ls -A /root/.m2/repository)"
 
 # No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>

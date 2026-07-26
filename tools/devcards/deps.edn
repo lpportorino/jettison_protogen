@@ -1,8 +1,9 @@
 ;; protogen devcards runner.
 ;; Public tooling: renders the canonical devcard corpus against the PINNED
 ;; controls.wasm via GraalWasm and proves the two-ended goldens (schema-validate,
-;; raw-framebuffer hash, DOM invariants). Runs on any JDK 21+ (polyglot as plain
-;; Maven deps — interpreted on stock JDK, JIT on GraalVM CE; no JDK swap).
+;; raw-framebuffer hash, DOM invariants). REQUIRES GraalVM CE: polyglot ships as
+;; plain Maven deps, but without JVMCI + the Graal compiler it interprets the
+;; wasm, so the runner hard-fails rather than degrade silently.
 {:aliases {;; The bindings path: protogen's own output/java compiled by
            ;; tools/compile-bindings.sh.
            :bindings {:extra-paths ["target/proto-classes"]}

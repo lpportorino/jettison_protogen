@@ -705,9 +705,11 @@ int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
    * both a hard refusal (nothing usable was built) and a CONTAINED defect —
    * notably a duplicate codegen uid, where the collided node is left
    * unidentified on purpose and the rest of the screen is correct and
-   * renderable. `wasm_harness/tests/reload_cycle.rs` pins that contract, and
-   * its non-vacuity guard catches exactly this: blanking the screen makes its
-   * uniqueness assertion pass over an empty tree, proving nothing.
+   * renderable. `wasm_harness/tests/reload_cycle.rs` catches the BLANKING —
+   * its non-vacuity guard fails when the screen is empty, because a uniqueness
+   * assertion over an empty tree proves nothing. Note what it does NOT check:
+   * it asserts uid uniqueness, never tree COMPLETENESS, so it cannot see a
+   * truncated build. That blind spot is real and unclosed.
    *
    * Distinguishing the two would need the decoder to report an error CLASS
    * rather than a bare -1; until it does, the honest behavior is to keep

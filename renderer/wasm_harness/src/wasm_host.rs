@@ -944,8 +944,8 @@ impl ControlsHost {
     /// erroring on a non-zero (rejection) status — the load-path twin of
     /// `resize_raw`/`apply_patch`.
     ///
-    /// Decode-limit contracts (nesting depth, sibling fan-out, total node
-    /// count) are REJECTIONS, not harness failures: the assertion under test is
+    /// Decode-limit contracts (today: nesting depth, plus a fan-out floor)
+    /// are REJECTIONS, not harness failures: the assertion under test is
     /// the exact status AND that the guest is left in a defined state. The
     /// typed `load_ui` collapses every non-zero status into one error string,
     /// which cannot distinguish "refused cleanly at the cap" from "trapped".

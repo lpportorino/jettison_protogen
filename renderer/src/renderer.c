@@ -4006,15 +4006,21 @@ static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
    * already consumed whatever the build needs; on a pb_decode failure above
    * nanopb released them itself, so this only runs on the success path. */
   pb_release(ui_WidgetNode_fields, &child);
-  /* ABORT on a diagnosed failure — do not keep building siblings.
+  /* LATCH and continue — deliberately NOT an abort.
    *
-   * Latching the error and returning true lets the decode run to completion:
-   * the caller gets -1, but every remaining sibling has already been built and
-   * is live on the screen. A host that reloads on a nonzero status still shows
-   * that wrong tree until the reload lands, and one that only logs shows it
-   * forever. Returning false stops the decode at the first diagnosed node,
-   * which is what makes the status code mean "nothing usable was built". */
-  return child_ctx.error == 0;
+   * Aborting here (returning `child_ctx.error == 0`) was tried and reverted. It
+   * looks like fail-fast, but `finalize_widget` latches ctx->error for a
+   * DUPLICATE UID too (see register_uid's caller), and that case is contracted
+   * to stay renderable: the collided node is left unidentified so no reconciler
+   * can mis-target it, while the rest of the screen builds normally. Aborting
+   * turned that into a TRUNCATED tree — every sibling after the collision
+   * silently missing — which no test caught, because reload_cycle asserts uid
+   * UNIQUENESS, not tree completeness.
+   *
+   * Making this an abort therefore requires first distinguishing a hard refusal
+   * from a contained defect, which the bare -1 status cannot express. Until it
+   * can, latching is the behavior the contract is written against. */
+  return true;
 }
 /* ================================================================
  * Public API

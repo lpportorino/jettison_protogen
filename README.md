@@ -232,7 +232,7 @@ devcard/renderer proof battery. The exact pinned versions live in
 - Zig
 - Python 3 with protobuf tools
 - Node.js with TypeScript proto tools
-- GraalVM Community JDK — the devcard renderer runs on any JDK 21+ (stock JDKs interpret the polyglot host); GraalVM CE JIT-compiles it, and apt's OpenJDK 17 is below the 21+ floor (see `tools/devcards/README.md`)
+- GraalVM Community JDK — REQUIRED for the devcard renderer, not merely preferred. A stock JDK has no JVMCI/Graal compiler, so the polyglot host would fall back to interpreting the wasm; the runner now REFUSES to start in that state rather than silently taking ~20x longer (see `tools/devcards/README.md`)
 - Clojure CLI (the devcards corpus runner)
 - WASI-SDK (the renderer wasm cross-compiler)
 - nanopb for C generation

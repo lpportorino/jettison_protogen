@@ -141,14 +141,14 @@ reload: wasm proto-classes morph-fixtures
 # prerequisite rather than a step duplicated into each lane: make builds a phony
 # target once per invocation, so a full battery regenerates these ONCE while each
 # lane still cannot read a stale fixture — the never-staleness property the
-# duplicated form was there for, at a measured ~7s less per battery run (it was
+# duplicated form was there for, at one generation per battery instead of two
 # ~8s + ~7s of identical work). Invoking either lane alone still regenerates.
 morph-fixtures:
 	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
 		--output ../../$(R)/output/morph-fixtures
 
 # ── Decode limits (hostile-payload contracts; NOT a pixel oracle) ───────────
-# Nesting depth, per-parent fan-out, aggregate node count, and abort-on-error —
+# Nesting depth, plus a floor pinning the widest fan-out the corpus uses —
 # the paths a crafted .pb reaches and an authored screen never does. Builds its
 # trees in-process, so it needs only the wasm: no fixtures, no codegen.
 #
