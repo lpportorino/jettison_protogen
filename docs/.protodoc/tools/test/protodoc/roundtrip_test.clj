@@ -6,6 +6,7 @@
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
             [protodoc.extract :as extract]
+            [protodoc.placeholder :as placeholder]
             [protodoc.render :as render]))
 
 (deftest roundtrip-description-test
@@ -348,3 +349,85 @@
       (is (= :normalized (get-in (first (:fields msg)) [:interaction :semantic-type])))
       ;; New field 2 should have no interaction
       (is (nil? (:interaction (second (:fields msg))))))))
+
+;; ── The absence marker must not round-trip into content ────────────────────
+;;
+;; The templates render `*No description yet.*` when a message or enum has no
+;; :description. `docs-generate` then RE-EXTRACTS the rendered markdown back
+;; into proto-db.edn, and the extractor reads that placeholder as genuine prose.
+;;
+;; This is worse than a cosmetic round-trip loss, because the placeholder is the
+;; ABSENCE MARKER that docs-coverage and docs-lint key on. Once written back as
+;; content, an undescribed message reads as DOCUMENTED and the gates stop
+;; flagging it — coverage appears to improve at exactly the moment nothing was
+;; written. The tool that measures documentation coverage is satisfied by its
+;; own placeholder.
+;;
+;; Not latent: `make docs-docker-generate` is a documented step in protogen's
+;; CLAUDE.md Common Operations and is chained by docs-docker-all, so every regen
+;; following the documented procedure corrupts the gate's input.
+(deftest absent-description-survives-a-regeneration-cycle
+  (testing "a message with NO description does not gain the placeholder as content"
+    (let [msg {:id "cmd.Test.Undescribed"
+               :name "Undescribed"
+               :package "cmd.Test"
+               :source "test.proto"
+               :fields []}
+          md (render/render-message msg)]
+      ;; Non-vacuity: if rendering ever stops emitting the placeholder, the
+      ;; extraction assertion below passes while proving nothing — its pass
+      ;; value would equal its nothing-was-rendered value.
+      (is (str/includes? md placeholder/absent-description)
+          (str "non-vacuity: the rendered markdown does not contain the absence "
+               "marker, so the extraction assertion below cannot be meaningful"))
+      (let [extracted (render->extract msg)]
+        (is (nil? (:description extracted))
+            (str "the absence marker round-tripped back as content — an "
+                 "undescribed message now reads as DOCUMENTED, and "
+                 "docs-coverage/docs-lint will stop flagging it"))))))
+
+(deftest absent-enum-description-survives-a-regeneration-cycle
+  (testing "an enum with NO description does not gain the placeholder either"
+    ;; enum.md.selmer carries the SAME placeholder as message.md.selmer — the
+    ;; original finding named only the message template.
+    (let [enum {:id "ser.TestUndescribedEnum"
+                :name "TestUndescribedEnum"
+                :package "ser"
+                :source "test.proto"
+                :values []}
+          md (render/render-enum enum)]
+      (is (str/includes? md placeholder/absent-description)
+          "non-vacuity: the rendered enum markdown lacks the absence marker")
+      (let [temp-file (java.io.File/createTempFile "enum-roundtrip" ".md")]
+        (try
+          (spit temp-file md)
+          (is (nil? (:description (extract/extract-from-file (.getPath temp-file))))
+              "the enum absence marker round-tripped back as content")
+          (finally (.delete temp-file)))))))
+
+;; The two babashka scripts that KEY on the absence marker cannot reference the
+;; shared constant: they are `#!/usr/bin/env bb` with no bb.edn, so a require of
+;; the JVM namespace `protodoc.placeholder` would fail at runtime (clojure.md —
+;; babashka is a separate runtime with its own namespace set). Their copies of
+;; the literal are therefore unavoidable, and they are the DANGEROUS copies:
+;; proto-coverage.clj is the coverage measurement itself, so a reworded
+;; placeholder that it stopped recognising would inflate reported coverage
+;; silently — the same class of bug as the round-trip this suite just closed,
+;; one layer out.
+;;
+;; Since one home cannot be had, drift is made mechanical instead of hoped for.
+(deftest bb-scripts-agree-with-the-shared-absence-marker
+  (testing "the bb scripts' hard-coded marker matches placeholder/absent-description"
+    (doseq [script ["../scripts/proto-coverage.clj" "../scripts/doc-next.clj"]]
+      (let [src (slurp script)]
+        ;; Non-vacuity: assert the file was actually read and mentions a marker
+        ;; at all, so a moved/renamed script fails loudly instead of passing on
+        ;; an empty search.
+        (is (seq src) (str "non-vacuity: " script " read as empty"))
+        (is (str/includes? src placeholder/absent-description)
+            (str script " no longer contains "
+                 (pr-str placeholder/absent-description)
+                 " — it keys on that literal to detect UNDOCUMENTED items, so a "
+                 "mismatch makes it read undescribed items as documented and "
+                 "over-report coverage. Update the script to match "
+                 "protodoc.placeholder/absent-description."))))))

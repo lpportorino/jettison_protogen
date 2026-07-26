@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-{% if description %}{{description|safe}}{% else %}*No description yet.*{% endif %}
+{% if description %}{{description|safe}}{% else %}{{absent-description|safe}}{% endif %}
 
 ## Fields
 

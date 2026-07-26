@@ -2,6 +2,7 @@
   "Render proto-db to Obsidian-compatible markdown files."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
+            [protodoc.placeholder :as placeholder]
             [selmer.parser :as selmer]
             [taoensso.telemere :as t]))
 
@@ -154,13 +155,15 @@
   "Render a single message to markdown string."
   [message]
   (selmer/render-file "message.md.selmer"
-                      (message-to-template-data message)))
+                      (assoc (message-to-template-data message)
+                             :absent-description placeholder/absent-description)))
 
 (defn render-enum
   "Render a single enum to markdown string."
   [enum]
   (selmer/render-file "enum.md.selmer"
-                      (enum-to-template-data enum)))
+                      (assoc (enum-to-template-data enum)
+                             :absent-description placeholder/absent-description)))
 
 (defn- add-short-description
   "Add short-description (full description) to a message or enum map for index rendering."

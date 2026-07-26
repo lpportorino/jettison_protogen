@@ -2,6 +2,7 @@
   "Extract user content from existing markdown files for roundtrip preservation."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
+            [protodoc.placeholder :as placeholder]
             [taoensso.telemere :as t]))
 
 ;; Extraction rules:
@@ -263,7 +264,11 @@
               (when @current-section
                 (let [content (str/trim (str/join "\n" @buffer))]
                   (case @current-section
-                    :description (swap! result assoc :description content)
+                    ;; content-or-nil: a rendered absence marker is NOT prose.
+                    ;; Storing it would make an undescribed item read as
+                    ;; documented and silence docs-coverage/docs-lint.
+                    :description (swap! result assoc :description
+                                        (placeholder/content-or-nil content))
                     :interaction (swap! result assoc :interaction
                                         (parse-interaction-meta @buffer))
                     :field-notes (flush-field!)
@@ -313,7 +318,8 @@
       (when @current-section
         (let [content (str/trim (str/join "\n" @buffer))]
           (case @current-section
-            :description (swap! result assoc :description content)
+            :description (swap! result assoc :description
+                                (placeholder/content-or-nil content))
             :interaction (swap! result assoc :interaction
                                 (parse-interaction-meta @buffer))
             :field-notes (flush-field!)
