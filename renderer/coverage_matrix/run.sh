@@ -24,7 +24,16 @@ source "$ROOT/tools/in-container.sh"
 # diverge on the tree oracle (the two dumps disagree on dump format/content),
 # which reads as a rendering bug when it is only artifact drift.
 echo "── building controls.wasm + reference.wasm + harness ──"
-dev make -f wasm.mk all reference
+# -j$(nproc) to match renderer.mk's own wasm lane, which has always built these
+# same two targets in parallel. This call site did not, so the identical build
+# ran SERIALLY here: measured on a clean tree, 80.6s real / 73.3s user (0.91x)
+# without the flag versus 22.9s real / 100.4s user (4.4x) with it — a 3.5x
+# ratio, large enough to survive the CPU contention this box sees.
+# Usually incremental in a battery run (the wasm lane has normally built it
+# already), so the everyday saving is far smaller — but it is exactly when a
+# renderer source DID change, which is when the matrix is worth running at all,
+# that the full rebuild happens here.
+dev make -f wasm.mk -j"$(nproc)" all reference
 dev_w wasm_harness bash -c 'PATH=$HOME/.cargo/bin:$PATH cargo build --quiet --release'
 
 MATRIX=coverage_matrix
