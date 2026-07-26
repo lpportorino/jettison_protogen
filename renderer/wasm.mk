@@ -94,18 +94,31 @@ CXXFLAGS_LINK := --target=$(TARGET) --sysroot=$(SYSROOT) \
 # knobs. `stack-size` in particular is load-bearing and must not be dropped:
 #
 #   children_decode_cb recurses once per widget-tree level, and each level costs
-#   a widget_ctx_t + a ui_WidgetNode + the nanopb/LVGL frames around them —
-#   ~4.8 KB measured. The WASI-SDK default stack is 64 KiB, which carries the
-#   decoder about 13 levels before it walks off the stack into a trap. That is
-#   FAR below renderer.c's own MAX_DECODE_DEPTH, so without this flag the depth
-#   guard is unreachable dead code and an over-deep tree crashes the guest
-#   instead of being refused with a diagnostic.
+#   a widget_ctx_t + a ui_WidgetNode + the nanopb frames around them — 4816 B,
+#   from clang -fstack-usage over the recursion cycle (children_decode_cb 4528
+#   + pb_decode 64 + pb_decode_inner 192 + decode_callback_field 32). The
+#   WASI-SDK default stack is 64 KiB, which carries the decoder about 13 levels
+#   before it walks off the stack into a trap. That is FAR below renderer.c's
+#   own MAX_DECODE_DEPTH, so without this flag the depth guard is unreachable
+#   dead code and an over-deep tree crashes the guest instead of being refused
+#   with a diagnostic.
 #
 # 256 KiB carries the decoder well past MAX_DECODE_DEPTH with room to spare, so
 # the declared cap becomes the limit that actually fires. It costs 192 KiB of
-# the 8 MiB initial memory. Raising MAX_DECODE_DEPTH obliges re-checking this
-# number against the measured per-level cost; the decode_limits harness test
-# asserts a chain AT the cap still loads, so an under-sized stack fails loudly.
+# the 8 MiB initial memory. A chain AT the cap peaks at <=159232 B — 61% of the
+# reservation — measured by bisecting this number until decode_limits'
+# nesting_at_the_declared_cap_loads_clean stops passing. Re-run that bisection
+# when raising MAX_DECODE_DEPTH, and equally when widening any string bound that
+# lands in the per-level frame — whether INLINE in ui_WidgetNode or mirrored
+# into widget_ctx_t (binding_entry_t / bind_format_entry_t), which costs the
+# same per level. proto/ui/ui_ast.options carries the worked example of a
+# proposed string widen that overflowed this reservation. Bisecting requires
+# forcing a rebuild (touch a source) — this file is not a prerequisite of the
+# link rule, so editing the number alone leaves make with nothing to do and the
+# PREVIOUS artifact under test. Once the artifact really is rebuilt, the
+# decode_limits harness test asserts a chain AT the cap still loads, so an
+# under-sized stack fails loudly; without the forced rebuild it asserts nothing
+# about the number you just edited.
 LDFLAGS := -Wl,--export=malloc -Wl,--export=free \
            -Wl,--export=controls_init \
            -Wl,--export=controls_load_ui \

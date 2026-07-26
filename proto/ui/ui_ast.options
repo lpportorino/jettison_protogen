@@ -44,6 +44,111 @@ ui.TextareaProps.placeholder     max_size:256
 ui.ButtonMatrixProps.map_str     max_size:1024
 ui.LineProps.points              type:FT_CALLBACK
 
+# ── The nine max_size:64 bounds stay 64. Measured; do not re-litigate. ─────
+# A uniform widen of all nine to 256 was proposed and REFUSED on measurement:
+# StyleProperty.string_value, EventBinding.set_subject, SubjectDeclaration.name,
+# SubjectValue.name, VisibilityBinding.subject, BindFormatsEntry.key,
+# BindingsEntry.key, BindingsEntry.value, HostProxyProps.proxy_id. The binding
+# constraint is the renderer's decode STACK, not the wire.
+#
+# WHY A STRING BOUND COSTS STACK. ui_WidgetNode is recursive, and every level of
+# children_decode_cb (renderer/src/renderer.c) puts one whole ui_WidgetNode plus
+# one widget_ctx_t on the C stack. The nine fields split three ways.
+#
+# TWO of them sit INLINE in ui_WidgetNode, as FIVE buffer instances:
+# EventBinding.set_subject (via .event) and VisibilityBinding.subject four times
+# over (.visibility, .checked_when, .enabled_when, .color_when.when).
+#
+# THREE are FT_CALLBACK map entries — BindingsEntry.key/value and
+# BindFormatsEntry.key — so they cost nothing in ui_WidgetNode, but the renderer
+# MIRRORS them into widget_ctx_t (binding_entry_t / bind_format_entry_t, 4 slots
+# each), which is per level too, and again into the STATIC pending_bindings[64]
+# pool. A widened wire bound multiplies in all three places.
+#
+# The remaining FOUR cost 0 per level. StyleProperty.string_value decodes in a
+# transient leaf frame; proxy_id sits in the widget_props union that
+# DropdownProps.options already dominates; and SubjectDeclaration.name /
+# SubjectValue.name are not in ui_WidgetNode at all (Screen.subjects and
+# StateUpdate.values are FT_CALLBACK). Of those two only SubjectDeclaration.name
+# costs static bytes, in subject_registry[32]; SubjectValue.name is read
+# straight off the decoded message (find_subject(sv.name)) and is mirrored
+# nowhere. pending_event_subject[32] is NOT theirs — its sole writer copies
+# EventBinding.set_subject — so it is that field's static cost, not these.
+#
+# Widening ALL NINE to 256 therefore moves sizeof(ui_WidgetNode) 2252 -> 3212
+# (+5x192) and sizeof(widget_ctx_t) 2232 -> 4536 (+12x192). Those two account
+# for the entire +3264 B/level in the table below, which is how the stack cost
+# is known to be structural rather than incidental. It also adds 156 KiB of
+# STATIC memory: pending_bindings 115712 -> 263168, subject_registry
+# 19712 -> 25856, pending_event_subject 2176 -> 8320.
+#
+# MEASURED — wasm32-wasip1, -O2 -flto; frames from clang -fstack-usage, peaks by
+# bisecting renderer/wasm.mk's -Wl,-z,stack-size against decode_limits'
+# nesting_at_the_declared_cap_loads_clean (a chain at MAX_DECODE_DEPTH = 32):
+#
+#   config                    sizeof(ui_WidgetNode)  per level  peak at depth 32
+#   all nine at 64 (this file)                2252       4816           <=159232
+#   subject-name set at 256                   3212       6544           <=214528
+#   all nine at 256                           3212       8080   TRAPS (>262144)
+#
+# The reservation is 262144. The all-nine widen overflows it — decode_limits
+# fails 4 of 9 and the at-cap load traps inside LVGL instead of the depth guard
+# refusing, which is the exact failure that reservation exists to prevent. Both
+# bisected peaks imply the same 5120 B non-recursive constant, and on that model
+# all-nine lands near 263680: it misses by only ~1.5 KB. Narrow, not a
+# landslide — but the bisected chain is a bare nesting probe, so what it leaves
+# unspent is the whole margin every other decode path has to fit in. The two
+# KEYS are what push it over: BindingsEntry.key and BindFormatsEntry.key add
+# 1536 B per level (49152 B at the cap) and buy nothing — they are LVGL property
+# names from the renderer's own closed vocabulary ("text", "value", "checked"),
+# not a domain value.
+#
+# BindingsEntry.value is the one that looks like a key and is not: ui_ast.proto
+# calls it "value = subject name" and binding_entry_t.value says the same, so it
+# belongs with the four subject-name bounds — a name legal to DECLARE but too
+# long to BIND is a wire bug. That five-field set at 256 IS mechanically safe
+# (decode_limits 9/9 green, peak 214528 of 262144), but it spends 54% of the
+# margin the reservation currently holds. Each byte of the bound costs 288 B at
+# the cap (9 buffers x 32 levels): 128 lands near 177664, 192 near 196096.
+#
+# max_size IS NOT THE ONLY GATE — EXCEPT FOR THREE OF THE NINE, WHERE IT IS.
+# max_size only sizes the nanopb C struct; what a producer may legally emit is
+# buf.validate max_len in ui_ast.proto. That caps SIX of these at 63:
+# StyleProperty.string_value, EventBinding.set_subject, SubjectDeclaration.name,
+# SubjectValue.name, VisibilityBinding.subject, HostProxyProps.proxy_id. For
+# those six a max_size-only widen is INERT — it spends stack margin and admits
+# nothing, because no conforming producer can emit past 63 anyway.
+#
+# The other three — BindingsEntry.key, BindingsEntry.value, BindFormatsEntry.key
+# — carry NO buf.validate at all. `bindings` and `bind_formats` are bare
+# map<string, string> declarations with no field options, and nothing constrains
+# the generated map entries' key or value. For those three max_size IS the only
+# cap, and today it is enforced LOUDLY: nanopb refuses a longer entry outright
+# ("string overflow"). So a max_size-only widen there is NOT inert — it is the
+# dangerous direction. The over-long value would start decoding and then be
+# truncated at 63, silently, by the renderer's hand-declared mirrors
+# (binding_entry_t.key/value, bind_format_entry_t.key) in strncpy. Those mirrors
+# carry no _Static_assert tying them to the wire — unlike event_cb_data_t.name,
+# which renderer.c asserts against ui_EventBinding.name for exactly this failure
+# mode. Wiring that same mirror >= wire assert over every mirror listed below
+# would make a forgotten one a BUILD failure rather than a silent truncation,
+# and is the right follow-up; it is a renderer.c change, not made in this
+# documentation-only edit.
+#
+# A real widen is therefore a coordinated edit set whose shape depends on which
+# field: max_len in ui_ast.proto (for the six that have one; for the three map
+# entries there is nothing there to move, so adding a cap is a wire-contract
+# change in its own right), max_size here, EVERY renderer mirror of the field,
+# and a re-run of the bisection. The mirrors are the SEVEN hand-declared
+# fixed buffers each fed by a truncating strncpy: subject_entry_t.name,
+# pending_event_subject_t.subject, binding_entry_t.key, binding_entry_t.value,
+# bind_format_entry_t.key, event_cb_data_t.set_subject (renderer.c:219) and
+# proxy_entry_t.id (renderer.c:1872, PROXY_ID_BUF). The last two are the easy
+# ones to miss: they are reached from EventBinding.set_subject and
+# HostProxyProps.proxy_id rather than from a name field, and neither carries a
+# _Static_assert today — renderer.c has exactly two, over event_cb_data_t.name
+# and UI_EVENT_TRIGGER_CHARS.
+
 # Phase 1.3: Subject binding
 ui.Screen.subjects                       type:FT_CALLBACK
 ui.SubjectDeclaration.name               max_size:64
