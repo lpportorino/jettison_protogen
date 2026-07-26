@@ -1772,6 +1772,36 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
    * sibling of the checked line above). */
   if (lv_obj_has_state(obj, LV_STATE_DISABLED))
     tree_append(",\"disabled\":true");
+  /* POINTER REACHABILITY, emitted only when it differs from the common case.
+   * lv_obj_hit_test gates on LV_OBJ_FLAG_CLICKABLE alone (lv_obj_pos.c), and
+   * lv_obj_constructor sets that on EVERY object — so clickable is the norm
+   * and its absence is the informative state, which is also why the negative
+   * spelling is the cheap one (a handful of labels/images/lines/spinners,
+   * versus every container). NOT redundant with the class name: this is a
+   * per-INSTANCE fact a type-keyed classifier cannot recover. A STATIC
+   * host_proxy has the flag cleared at runtime so the pointer falls through
+   * it, and nothing in the dump said so, which left a consumer's overlap rule
+   * counting a fall-through surface as pointer-taking. */
+  if (!lv_obj_has_flag(obj, LV_OBJ_FLAG_CLICKABLE))
+    tree_append(",\"clickable\":false");
+  /* The pointer is tested against the CLICK AREA — coords grown by
+   * ext_click_pad (lv_obj_get_click_area) — never against coords. A rule
+   * measuring coords therefore UNDER-reports wherever a widget extends its
+   * touch target. Emitted only when the two differ, which is rare, so the
+   * dump stays compact and a geometry rule can judge the real hazard
+   * boundary rather than the drawn box. */
+  {
+    lv_area_t click;
+    lv_obj_get_click_area(obj, &click);
+    if (click.x1 != a.x1 || click.y1 != a.y1 || click.x2 != a.x2 ||
+        click.y2 != a.y2) {
+      char cbuf[64];
+      (void)snprintf(cbuf, sizeof(cbuf), ",\"click_area\":[%d,%d,%d,%d]",
+                     (int)click.x1, (int)click.y1, (int)click.x2,
+                     (int)click.y2);
+      tree_append(cbuf);
+    }
+  }
   tree_append(",\"children\":[");
   uint32_t n = lv_obj_get_child_count(obj);
   for (uint32_t i = 0; i < n; i++) {

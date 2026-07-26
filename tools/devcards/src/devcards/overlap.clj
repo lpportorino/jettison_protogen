@@ -71,11 +71,30 @@
 (set! *warn-on-reflection* true)
 
 (defn- pointer-reachable?
-  "Can this annotated entry take the pointer at all? HIDDEN (or under a
-   hidden ancestor) is the one structural denial — see the ns docstring
-   for why DISABLED is deliberately absent from this test."
+  "Can this annotated entry take the pointer at all? Two structural denials,
+   and DISABLED is deliberately neither of them (see the ns docstring):
+
+   - HIDDEN, or under a hidden ancestor: `lv_indev_search_obj` returns NULL
+     for the node and its whole subtree.
+   - CLICKABLE cleared: `lv_obj_hit_test` gates on that flag alone, so the
+     pointer falls straight through. This is a per-INSTANCE fact — the
+     renderer clears the flag at runtime on a STATIC host_proxy so the
+     surface is see-through to input — which a type-keyed classification
+     table cannot express. dump_obj emits `\"clickable\":false` only when the
+     flag is clear, so an ABSENT key means clickable."
   [{:keys [node hidden-under?]}]
-  (and (not (:hidden node)) (not hidden-under?)))
+  (and (not (:hidden node))
+       (not hidden-under?)
+       (not (false? (:clickable node)))))
+
+(defn- hazard-box
+  "The box the POINTER is actually tested against. `lv_obj_hit_test` uses
+   `lv_obj_get_click_area` — coords GROWN by ext_click_pad — never coords,
+   so a widget that extends its touch target has a hazard boundary larger
+   than the box it draws. dump_obj emits `click_area` only when the two
+   differ, so falling back to `:coords` is exact rather than approximate."
+  [node]
+  (or (:click_area node) (:coords node)))
 
 (defn- label-of
   [{:keys [node]}]
@@ -118,20 +137,20 @@
         ;; node reading as "far apart" makes a broken run and a clean run
         ;; produce the same empty vector.
         no-coords (for [e nodes
-                        :when (and (interactive? e) (nil? (:coords (:node e))))]
+                        :when (and (interactive? e) (nil? (hazard-box (:node e))))]
                     {:card card-id
                      :invariant :unmeasurable-node
                      :node (label-of e)
                      :detail (str "interactive node has no :coords, so overlap "
                                   "could not judge it — it is NOT thereby "
                                   "clear of everything else")})
-        candidates (into [] (filter #(and (interactive? %) (:coords (:node %)))) nodes)]
+        candidates (into [] (filter #(and (interactive? %) (hazard-box (:node %)))) nodes)]
     (into (into unclassified no-coords)
           (for [[i a] (map-indexed vector candidates)
                 b (subvec candidates (inc i))
                 :when (not (invariants/related? a b))
-                :let [sep (geometry/separation (:coords (:node a))
-                                               (:coords (:node b)))]
+                :let [sep (geometry/separation (hazard-box (:node a))
+                                               (hazard-box (:node b)))]
                 :when (< sep gap-px)]
             {:card card-id
              :invariant :overlap
@@ -141,8 +160,8 @@
                             (str "SHARE pixels (overlap depth " (- sep) "px)")
                             (str "sit " sep "px apart, under the " gap-px
                                  "px minimum"))
-                          " — " (geometry/describe (:coords (:node a)))
-                          " vs " (geometry/describe (:coords (:node b)))
+                          " — " (geometry/describe (hazard-box (:node a)))
+                          " vs " (geometry/describe (hazard-box (:node b)))
                           ". Exactly one can take the pointer there"
                           (state-note a b))}))))
 

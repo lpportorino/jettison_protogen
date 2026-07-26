@@ -10,6 +10,7 @@
    a naive pairwise geometry check reproduces first."
   (:require [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
+            [devcards.geometry :as geometry]
             [devcards.invariants :as invariants]
             [devcards.overlap :as overlap]))
 
@@ -242,3 +243,53 @@
                    :host-proxy? false
                    :caps {:vis-px? true}
                    :producers (conj findings/builtin-producers overlap/producer)})))))
+
+;; ── per-INSTANCE pointer facts the dump now carries ──────────────────────
+;; A type-keyed table says what a CLASS can do. These two keys say what THIS
+;; object does, and dump_obj emits each only when it differs from the norm.
+
+(deftest a-clickable-false-node-is-out-of-the-pointer-path
+  (testing "lv_obj_hit_test gates on LV_OBJ_FLAG_CLICKABLE alone, and the
+            renderer clears it at runtime on a STATIC host_proxy so the
+            pointer falls straight through. The class is still interactive;
+            THIS instance is not, and no type-keyed table can express that."
+    (let [fs (judge (root-with
+                     [{:type "lv_button" :uid 1 :coords [10 10 59 39]
+                       :clickable false :children []}
+                      {:type "lv_button" :uid 2 :coords [40 10 89 39] :children []}
+                      {:type "lv_switch" :uid 3 :coords [45 10 95 39] :children []}]))]
+      (testing "no pair involving the fall-through surface fires"
+        (is (not-any? #(re-find #"#1" (str (:node %))) fs)))
+      (testing "CONTROL: the two ordinary controls with the same overlap still
+                fire — the exclusion keys on the flag, not on the geometry"
+        (is (= #{"lv_button#2 vs lv_switch#3"} (set (map :node fs))))))))
+
+(deftest an-absent-clickable-key-means-CLICKABLE
+  (testing "the key is emitted ONLY when the flag is clear, so absence is the
+            positive case — reading it as falsey would silence every ordinary
+            widget in the corpus"
+    (is (= #{:overlap} (invariants-of (judge overlapping-controls))))))
+
+(deftest the-pointer-is-judged-against-the-CLICK-AREA-not-the-drawn-box
+  (testing "lv_obj_hit_test tests lv_obj_get_click_area — coords grown by
+            ext_click_pad — so a widget that extends its touch target has a
+            hazard boundary larger than the box it draws. Judging :coords
+            UNDER-reports exactly there, which is live in this repo's own
+            corpus: the host_proxy card has four such nodes."
+    (let [drawn-apart
+          (root-with [{:type "lv_button" :uid 1 :coords [10 10 49 39]
+                       :click_area [0 0 65 49] :children []}
+                      {:type "lv_button" :uid 2 :coords [60 10 99 39] :children []}])
+          fs (judge drawn-apart)]
+      (testing "the DRAWN boxes are 10 clear pixels apart, so a coords-based
+                rule passes them"
+        (is (= 10 (geometry/separation [10 10 49 39] [60 10 99 39]))))
+      (testing "but the CLICK AREAS overlap by 6px, and that is what the
+                pointer actually sees — so the rule must fire"
+        (is (= -6 (geometry/separation [0 0 65 49] [60 10 99 39])))
+        (is (= #{:overlap} (invariants-of fs)))
+        (is (re-find #"overlap depth 6px" (:detail (first fs)))))
+      (testing "and the reported geometry is the HAZARD box, not the drawn one
+                — a reader told to inspect coordinates that pass would be sent
+                to the wrong place"
+        (is (re-find #"\[0,0,65,49\]" (:detail (first fs))))))))
