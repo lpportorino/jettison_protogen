@@ -46,7 +46,8 @@ RGEN := tools/renderer-gen
 	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary-prebuilt interaction-prebuilt \
-	standard-brief standard-brief-generate composition-clean doc-audit
+	standard-brief standard-brief-generate composition-clean doc-audit \
+	ui-review-preflight ui-review-preflight-canary
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -720,6 +721,27 @@ standard-brief: standard-brief-generate
 		echo "  page as the standard, so a stale one judges against rules that moved." >&2; \
 		exit 1; }
 	@echo "standard-brief: fresh ($(STANDARD_BRIEF) vs the contract + the live classification table + the declared thresholds)"
+
+# ── UI-standard review PREFLIGHT ────────────────────────────────────────────
+# The VLM review is mandatory and is NOT a gate, so its whole failure mode is a
+# GREEN: an empty batch, or a batch of the PIN's own renders, reports exactly
+# what a reviewed-and-sound surface reports. `preflight.sh` resolves the review's
+# inputs up front and refuses with a distinct exit code per reason; the canary
+# asserts all 11 of those arms.
+#
+# DELIBERATELY NOT A check-renderer PREREQUISITE, and the reason is semantic
+# rather than mechanical — unlike `standard-brief`, which is kept out because git
+# cannot resolve this checkout inside the container. These two need no git, no
+# wasm and no network and would run fine there. They stay out because
+# `check-renderer` IS the gate, and a gate whose green included "the review's
+# inputs resolve" invites reading that green as evidence about the review — the
+# precise over-claim §0 forbids. The preflight is run BY the reviewer, at the
+# start of the review, and its result belongs in the review's report.
+ui-review-preflight:
+	@.claude/skills/ui-standard-review/preflight.sh
+
+ui-review-preflight-canary:
+	@tools/ui-review-preflight-canary.sh
 
 # ── renderer-gen schema guard suite ─────────────────────────────────────────
 # The lvgl_codegen schema guard tests (tools/renderer-gen/test): pure in-memory

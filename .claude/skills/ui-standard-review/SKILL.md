@@ -36,16 +36,109 @@ below is not competing with a session's other work. Invoking this skill
 directly is equivalent and is the right shape when you are already the only
 thing in the context. Either way it is ONE reviewer over a large batch.
 
-Consumers run this skill through their protogen pin against their OWN gallery.
-Their fixtures never land here — the corpus secret-scan (`gates.clj`) is what
-holds that line. Every `.claude/rules/…` path below is anchored at PROTOGEN's
-root, not yours: read those from your pin's mount point, because a path-scoped
-rule does not auto-load at a consumer.
-
 **It reviews a ui_ast SURFACE, not a repository.** Its only inputs are the
 committed gallery renders and the `dump_tree` behind them, so a repo that also
 ships a DOM or native front-end owes this pass for its ui_ast overlay and
 nothing for the rest — there is no gallery and no dump for the rest to review.
+
+**Scope is decided by what PAINTS the surface, not by whether you can run the
+dump.** A surface whose pixels come from `controls.wasm` interpreting a
+`ui.Screen` is in scope, harness or no harness; `controls_dump_tree` is how you
+INSPECT an in-scope surface and never how you decide scope
+(`CLAUDE.md` §"WHAT THIS BINDS"). So a consumer who has not stood up a runner
+yet is **owed a gallery**, not exempt from the review: that state is an
+obligation NOT YET DISCHARGED, and `preflight.sh` below exits non-zero saying
+exactly that rather than letting an empty batch print clean.
+
+## AT A CONSUMER — install the launcher, anchor the paths, run the preflight
+
+Consumers run this skill through their protogen pin against their OWN gallery.
+Their fixtures never land here — the corpus secret-scan (`gates.clj`) is what
+holds that line. Three things have to be true before a single image is judged,
+and **each of them used to fail silently, producing a clean report over a
+surface nobody looked at.**
+
+### 1. The launcher does not exist at a consumer until you install it
+
+**Agents and skills are discovered from the PROJECT ROOT's `.claude/`, never
+from a submodule mount.** With the pin at `proto/protogen/`,
+`subagent_type: ui-standard-review` does not exist and this skill is not in the
+skill listing — so `CLAUDE.md`'s "RUN IT by launching the `ui-standard-review`
+AGENT" has no first step. Measured, Claude Code 2.1.220, three identical mounts
+differing only in what sat at the consumer's `.claude/`: with nothing there,
+neither name appears in either listing; with a copy, both appear; **with a
+relative symlink into the pin, both appear.**
+
+Install it once, and re-check it at every pin bump:
+
+```sh
+# from YOUR repo root, with the pin at proto/protogen
+mkdir -p .claude/agents .claude/skills
+ln -s ../../proto/protogen/.claude/agents/ui-standard-review.md \
+      .claude/agents/ui-standard-review.md
+ln -s ../../proto/protogen/.claude/skills/ui-standard-review \
+      .claude/skills/ui-standard-review
+```
+
+**Prefer the symlink over a copy, and the reason is not tidiness.** Through the
+link, this file and `STANDARD.md` stay the PIN's bytes and cannot drift from
+them — which is what §"WHY IT MAY NOT BE FORKED" asks for, made mechanical
+instead of disciplinary. A copy also registers and is the fallback where
+symlinks are unusable (a checkout with `core.symlinks=false`), but it must then
+be re-synced at every pin bump and `preflight.sh` fails loud once it has
+drifted. Either way: **do not edit either file at your end.**
+
+### 2. The two roots, and never resolving one against the other
+
+Every path in this skill resolves against ONE of two roots. Confusing them is
+the whole defect class here, and it fails green in both directions.
+
+| what | root | at protogen | at a consumer |
+|---|---|---|---|
+| the CODE you run — the runner, `core/render-one!`, `dev/class_census.clj`, this file, `STANDARD.md`, `preflight.sh`, every `.claude/rules/…` path | the **PIN** | the repo root | the submodule mount, e.g. `proto/protogen/` |
+| the RENDERS you review — the gallery | the **SURFACE under review** | the repo root | **YOUR** repo root, never the mount |
+
+Resolving the gallery against the pin is the worse of the two failures: the
+literal path `tools/devcards/docs/widgets/` from a consumer root resolves to
+nothing (empty batch, clean report), but a `**` glob for it resolves **under the
+mount**, where protogen's own 732 committed renders live — and reviewing those
+produces a plausible-looking report that discharges nothing. Both were measured
+in a simulated mount; the second returned 732 protogen images and zero of the
+consumer's own.
+
+`.claude/rules/…` in particular is anchored at PROTOGEN's root and is
+path-scoped to `tools/devcards/**` there, so it does not auto-load at a
+consumer: read it explicitly from the pin.
+
+### 3. Run the preflight, and take the batch from it
+
+```sh
+# from the SURFACE's own repo root
+proto/protogen/.claude/skills/ui-standard-review/preflight.sh
+# or, if your gallery is not at tools/devcards/docs/widgets:
+UI_REVIEW_GALLERY=ui/gallery/widgets \
+  proto/protogen/.claude/skills/ui-standard-review/preflight.sh
+```
+
+It prints the unit roster and render counts, and **that roster IS the batch —
+do not glob for more.** Otherwise it refuses, with one exit code per reason so
+a red is attributable to the clause that produced it:
+
+| exit | state | why it is not "clean" |
+|---|---|---|
+| 3 | no gallery at the resolved path | obligation NOT YET DISCHARGED, not out of scope |
+| 4 | the gallery resolved inside the PIN | you were about to review protogen's surface |
+| 5 | gallery present, no unit holds a render | an empty batch reports clean |
+| 6 | no launcher at the project root | the agent cannot be launched here at all |
+| 7 | launcher installed but drifted from the pin | a local edit is a silent fork of the standard |
+| 8 | cannot tell which checkout is the pin | a copied skill would compare itself with itself |
+
+`tools/ui-review-preflight-canary.sh` in the pin is its canary: 11 arms, each
+asserting its own exit code, so breaking one clause reds that clause's arms and
+no others.
+
+**A clean preflight is NOT a discharged review.** It says the reviewer would
+look at the right images. It says nothing about whether anyone looked.
 
 ## Load the standard ONCE
 
@@ -105,14 +198,26 @@ the cheapest defect class to find here.
 
 ## The inputs
 
-**The renders.** Committed, generated, DO-NOT-EDIT:
+**Anchored per the two-root table above.** `<SURFACE>` is the repo root of the
+surface under review — protogen's own root here, YOUR root at a consumer.
+`<PIN>` is protogen's root — the same root here, the submodule mount at a
+consumer. Never substitute one for the other, and take `<GALLERY>` from
+`preflight.sh` rather than assembling it by hand.
+
+**The renders.** Committed, generated, DO-NOT-EDIT. At protogen `<GALLERY>` is
+`<SURFACE>/tools/devcards/docs/widgets`; a consumer's may be anywhere in its own
+tree, which is why the preflight prints the resolved path:
 
 ```
-tools/devcards/docs/widgets/<UNIT>/<UNIT>-<state-slug>-<family>.jpg
-tools/devcards/docs/widgets/<UNIT>/README.md
+<GALLERY>/<UNIT>/<UNIT>-<state-slug>-<family>.jpg
+<GALLERY>/<UNIT>/README.md
 ```
 
-`<UNIT>` is the WidgetType enum directory or a composition unit's slug.
+`<UNIT>` is the WidgetType enum directory or a composition unit's slug — BOTH,
+and the distinction is load-bearing: protogen's own gallery is 24 units, of
+which `legos` and `kitchen-sinks` are compositions carrying 48 of the 732
+renders. A batch that reads `<UNIT>` as widgets-only drops exactly the cards
+this pass is most often about.
 `<state-slug>` is the card id's tail past the class segment with slashes turned
 to underscores (`gallery/cell-label` → `gallery/state-slug`), so card
 `lv_slider/pressed/medium/max` is `pressed_medium_max`. `<family>` is a
@@ -124,14 +229,20 @@ is what catches a theme-specific defect: a token that only collapses in one
 family looks like a correct render until its siblings are next to it.
 
 **The DOM.** `dump_tree`, produced in-process by `core/render-one!` with
-`:dump? true` (`tools/devcards/src/devcards/core.clj`) and consumed by the
+`:dump? true` (`<PIN>/tools/devcards/src/devcards/core.clj`) and consumed by the
 invariant lanes and the gallery cropper. Nothing commits it, so a batch obtains
-it from a run of its own. `tools/devcards/dev/class_census.clj` is the shape to
-copy: a tracked, read-only probe that renders each card and parses its dump.
-(`tools/devcards/out/findings.edn` is NOT a source of trees — it holds the
-deterministic lanes' FINDINGS, and on a clean corpus it is an empty vector.)
+it from a run of its own. `<PIN>/tools/devcards/dev/class_census.clj` is the
+shape to copy: a tracked, read-only probe that renders each card and parses its
+dump — the CODE is the pin's, the CORPUS it is pointed at is the surface's.
+(`<SURFACE>/tools/devcards/out/findings.edn` is NOT a source of trees — it holds
+the deterministic lanes' FINDINGS, and on a clean corpus it is an empty vector.)
 Runs happen in the pinned toolchain container
-(`.claude/rules/uber-container.md`).
+(`<PIN>/.claude/rules/uber-container.md`).
+
+**No dump available is a REPORTED state, never a quiet narrowing.** If the
+surface has no harness yet, say so in the report as an obligation outstanding
+and name the DOM-dependent invariants you therefore could not judge — the same
+rule as the per-card case below, applied to the whole surface.
 
 **Never infer a DOM value from pixels.** If a card's tree is not available for
 this pass, say so in the report and do not judge the DOM-dependent invariants
