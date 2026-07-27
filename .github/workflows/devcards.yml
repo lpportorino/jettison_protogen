@@ -100,9 +100,16 @@ on:
 permissions:
   contents: read
 
+# Same shape as renderer.yml, for the reason written out there: a PR's
+# intermediate pushes are not pinnable and a master sha is. Applied here too
+# because the interaction lane armed below lengthens this job, and the measured
+# cancellation rate tracks lane DURATION (Renderer 12 cancelled of 41 shas at
+# 14 min, Devcards 2 of 46, Lint 0 at 28 s) rather than anything about the
+# change. Read renderer.yml's block for what this does NOT buy — it is not
+# total coverage of every sha.
 concurrency:
   group: devcards-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   devcards:

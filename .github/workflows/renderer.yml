@@ -85,9 +85,38 @@ on:
 permissions:
   contents: read
 
+# Cancel superseded PR runs; NEVER cancel a master run.
+#
+# On a pull request only the tip matters — an intermediate push is not a thing
+# anyone can pin, so cancelling it costs nothing. On master every push produces
+# a sha the consumer fleet can pin (a bisect, a hand-pinned submodule, or simply
+# the window between a push and its successor), and this is the 14-minute lane:
+# MEASURED, 18 of 41 distinct shas that triggered a Renderer Battery have no
+# successful run — 12 of those cancelled. Lint (28 s) has 0 cancellations and
+# Devcards 2 of 46, so the effect tracks lane DURATION, not the change. Under
+# blanket cancel-in-progress, whether a sha was verified depends on how fast the
+# next push landed rather than on anything about the change itself.
+#
+# The narrowing that keeps this honest: CLAUDE.md's flow is that consumers track
+# the master BRANCH and `git submodule update --remote` follows HEAD, and head
+# is normally the SURVIVING push — the one whose run was not cancelled. So this
+# is not "44% of what consumers pin is unverified"; it is that the intermediate
+# shas are unverifiable after the fact, and those are exactly what a bisect walks.
+#
+# WHAT THIS DOES NOT BUY, stated because the obvious reading is wrong: it does
+# NOT give every master sha a battery. GitHub holds at most ONE pending run per
+# group and cancels the previously pending one when a third arrives, so a burst
+# of four rapid pushes completes the FIRST and the LAST and still discards the
+# two in between. The change moves coverage from "only the newest" to "the
+# newest, plus every sha that had a free runner when it landed" — strictly
+# better, not total. Making it total needs a queue this setting does not have.
+#
+# Cost, stated rather than hidden: latency. A push that lands during a battery
+# now waits for it instead of killing it. On a public repo these are free-tier
+# runners, so the cost is time-to-verdict, not budget.
 concurrency:
   group: renderer-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # Build both wasm oracles in the pinned toolchain image, then run the
