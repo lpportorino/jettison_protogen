@@ -473,6 +473,17 @@ For automated distribution, these deploy keys must be configured as repository s
 - `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors
 - `SELF_PUSH` - Deploy key for pushing back to jettison_protogen repository
 
+One more secret is **optional** and is not a deploy key:
+
+- `BUF_TOKEN` — a Buf Schema Registry token (create at
+  <https://buf.build/settings/user>). It lifts the Go leg's BSR code-generation
+  budget from 10 to 960 requests/hour. `build-and-release.yml` passes it to the
+  "Generate all proto bindings" step and `generate-protos.sh` forwards it into
+  the **go** container only, and only when non-empty — so an absent secret
+  (today's state, and every fork build, since forks cannot read repository
+  secrets) prints an unauthenticated warning and runs exactly as before. Never
+  a hard failure.
+
 ## Common Operations
 
 ### After Adding New Proto Messages
@@ -737,9 +748,24 @@ Go generation uses `buf generate` with remote plugins, which connects to the Buf
 - Response headers: `X-RateLimit-Remaining`, `X-RateLimit-Reset`, `Retry-After`
 
 ### Avoiding Rate Limits
-1. **Authenticate requests**: Run `buf registry login` to increase code generation limit from 10/hour to 960/hour
+1. **Authenticate requests**: 10/hour → 960/hour. Locally, `buf registry login`
+   writes a `~/.netrc` the container never sees, so what actually reaches the go
+   container is the `BUF_TOKEN` environment variable — export it before
+   `make generate`. In CI it is the optional `BUF_TOKEN` repository secret
+   above. **It is not configured today**, so the Go leg still runs on the
+   10/hour budget and says so in its own log line.
 2. **Batch generation**: Run `make generate` once rather than regenerating frequently
 3. **Local plugins**: Consider using local plugins instead of remote BSR plugins for high-frequency development
+
+**No retry, no backoff, and no `Retry-After` handling exists anywhere**, and
+that is a decision rather than an oversight: `buf`'s exit code does not
+distinguish a 429 from a deterministic failure, so a blind retry around
+`buf generate` would silently re-run the class of bug that has ACTUALLY reddened
+this workflow (a bad `bash -c` payload — see `lint.mk`'s `lint-sh` apostrophe
+check) while looking like throttle tolerance. A red here is loud and fails
+closed: the go leg checks for `*.pb.go`, `run_generation()` propagates into
+`FAILED_LANGS`, and every "Push to …" step is then skipped — nothing partial has
+ever reached a consumer.
 
 ### Troubleshooting
 If Go generation fails with rate limit errors:

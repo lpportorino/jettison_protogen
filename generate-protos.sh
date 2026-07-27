@@ -90,20 +90,53 @@ fi
 run_generation() {
     local lang=$1
     local script=$2
-    
+
     print_info "Generating $lang bindings..."
-    
+
     # Modified script to set permissions inside container
     local full_script="$script
 # Set permissions to 777 for all generated files
 find /workspace/output -type f -exec chmod 777 {} + 2>/dev/null || true
 find /workspace/output -type d -exec chmod 777 {} + 2>/dev/null || true"
-    
+
+    # BSR AUTHENTICATION, go leg only.
+    #
+    # The Go leg is the ONE generator that reaches the network: its
+    # buf.gen.yaml names two REMOTE plugins, so `buf generate` is a Buf
+    # Schema Registry code-generation request. Unauthenticated that budget is
+    # 10 requests/hour per IP; a token lifts it to 960/hour (CLAUDE.md,
+    # "Buf Schema Registry (BSR) Rate Limits"). buf reads the token from
+    # BUF_TOKEN — verified present as a literal in the pinned buf 1.72.0
+    # binary in Dockerfile.base — so no `buf registry login` step and no
+    # ~/.netrc is needed.
+    #
+    # OPTIONAL, and absence must stay silent-but-stated rather than fatal:
+    # every fork build, every local `make generate`, and this repo's own CI
+    # until the secret is configured run without one, exactly as they do
+    # today. `-e BUF_TOKEN` is added only when the variable is NON-EMPTY —
+    # a set-but-empty BUF_TOKEN (what `${{ secrets.BUF_TOKEN }}` expands to
+    # when the secret does not exist) would otherwise be handed to buf as a
+    # credential.
+    #
+    # Scoped to `go` so a token is not spread across ten container
+    # invocations that have no use for it. The json-descriptors leg also runs
+    # buf, but only `buf build`, which is local and makes no BSR request.
+    local -a env_args=()
+    if [ "$lang" = "go" ]; then
+        if [ -n "${BUF_TOKEN:-}" ]; then
+            env_args+=(-e BUF_TOKEN)
+            print_info "  BSR: authenticated (BUF_TOKEN present) — 960 codegen req/hour"
+        else
+            print_warning "  BSR: UNAUTHENTICATED (no BUF_TOKEN) — 10 codegen req/hour; a 429 fails this leg and the whole run"
+        fi
+    fi
+
     docker run --rm \
         -v "$SCRIPT_DIR/proto:/workspace/proto:ro" \
         -v "$SCRIPT_DIR/output/$lang:/workspace/output:rw" \
         -v "$SCRIPT_DIR/scripts:/workspace/scripts:ro" \
         -w /workspace \
+        "${env_args[@]+"${env_args[@]}"}" \
         "$DOCKER_IMAGE" \
         -c "$full_script"
     

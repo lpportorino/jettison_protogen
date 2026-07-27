@@ -94,6 +94,22 @@ jobs:
 
     # Generate all proto bindings
     - name: Generate all proto bindings
+      env:
+        # BSR AUTHENTICATION for the Go leg (the one generator that reaches the
+        # network — two REMOTE plugins in its buf.gen.yaml). Unauthenticated,
+        # BSR allows 10 code-generation requests/hour per IP; a token lifts that
+        # to 960. This workflow has been unauthenticated for its entire life.
+        #
+        # THE SECRET DOES NOT EXIST YET. To configure it: create a BSR token at
+        # https://buf.build/settings/user, add it as the repository secret
+        # `BUF_TOKEN`, and nothing else changes — generate-protos.sh forwards it
+        # into the go container only, and ONLY when non-empty.
+        #
+        # Until then this expands to the empty string, which the script treats
+        # as absent: it prints the unauthenticated warning and runs exactly as
+        # it does today. That is also what every fork build gets, since forks
+        # cannot read repository secrets — so this must never be a hard failure.
+        BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
       run: |
         # List proto files we're going to process
         echo "Proto files to process:"
