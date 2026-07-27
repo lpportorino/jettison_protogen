@@ -53,7 +53,38 @@
     (str/join "/" (assoc parts 1 "default"))))
 
 (defn coverage-findings
-  "Every spec card must have a hash; every widget must have cards."
+  "Every spec card must have a hash; every widget must have cards.
+
+   ARM 1 (`card never rendered`) WAS PROPOSED FOR DELETION AS UNFIREABLE AND
+   IT IS NOT — recorded here because the argument for deleting it is a good
+   one and someone will make it again. It runs: `card-index` above and
+   `fixtures/entries` are the same `(for [w (:widgets spec) c (:cards w)] …)`
+   over the SAME spec value, which `core/-main` binds once and threads to
+   both; `build-all` throws on the first entry it cannot build, so a partial
+   corpus never reaches this lane. From that it follows that no CALLER can
+   put a spec id outside `hashes` — and the conclusion drawn was that the arm
+   fires only under a hand-`dissoc`.
+
+   The step that does not follow is that the two comprehensions are the same
+   EXPRESSION, not the same VALUE by construction. Their sameness is a
+   property of the source text, and this arm is the gate ON that sameness.
+   MEASURED: patch `fixtures/entries` to drop the first card of the first
+   widget — an ordinary regression, a filter added to the build inventory —
+   and a full `fixtures` run reports
+
+     {:gate :coverage, :card \"lv_obj/default/small\",
+      :detail \"card never rendered\"}
+
+   and exits 1. It fires, and it is the only one of the four findings that
+   run produced whose diagnosis is CORRECT: the golden lane says \"the card
+   left the corpus\" (it did not — it left the build inventory) and the
+   state-contract lane calls it a \"spec defect\" (the spec is fine). Three
+   lanes see the symptom; this one names the cause. Do not delete it, and do
+   not count it as free either — it is ~0 ms over a map lookup per card.
+
+   ARM 2 (`widget class has ZERO cards`) is a spec-authoring guard and needs
+   no such defence: a widget declared with an empty `:cards` builds nothing,
+   so no other lane has anything to be missing."
   [spec hashes]
   (let [idx (card-index spec)]
     (-> []

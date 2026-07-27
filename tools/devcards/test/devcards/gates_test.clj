@@ -1,6 +1,14 @@
 (ns devcards.gates-test
-  "Canaries for the GOLDEN-DRIFT lane (`devcards.gates/golden-drift-findings`)
-   — the lane that makes a devcards run able to fail on PIXELS.
+  "Canaries for the GOLDEN-DRIFT and COVERAGE lanes of `devcards.gates`.
+
+   The coverage canaries are here because the lane was proposed for deletion
+   as unable to fire, and the proof that it fires cost a 90-second corpus
+   render against a patched `fixtures/entries`. That evidence should not have
+   to be re-bought: `coverage-findings` is pure, so both arms pin in
+   milliseconds, and the next reader who reasons that the arm cannot fire
+   meets a red test instead of a green corpus.
+
+   GOLDEN-DRIFT — the lane that makes a devcards run able to fail on PIXELS.
 
    Before it existed the run re-minted the manifests and compared them to
    nothing: corrupting a committed sha256 exited 0 and silently overwrote the
@@ -108,3 +116,59 @@
                [{:label :atomic-dark
                  :committed (m "a" "aa")
                  :fresh (m "a" "aa")}])))))
+
+;; ── coverage ────────────────────────────────────────────────────────────
+;; These exist because the `card never rendered` arm was proposed for deletion
+;; as unable to fire, on the argument that `gates/card-index` and
+;; `fixtures/entries` are the same comprehension over the same spec value. The
+;; comprehensions ARE the same today; the arm is the gate on their STAYING the
+;; same, and it fires the moment they diverge. Proved live (patch
+;; `fixtures/entries` to drop one card, run `fixtures`, get
+;; `{:gate :coverage :card "lv_obj/default/small" :detail "card never
+;; rendered"}` and exit 1) and pinned here so nobody has to pay for that render
+;; twice. `coverage-findings` is pure, so both arms take a spec map and a hash
+;; map and nothing else.
+
+(defn- spec-of
+  "A minimal corpus spec: `{tag [card-id …]} → {:widgets [...]}`."
+  [tag->ids]
+  {:widgets (vec (for [[tag ids] tag->ids]
+                   {:tag tag :cards (vec (for [id ids] {:id id}))}))})
+
+(deftest coverage-arm-1-fires-when-a-spec-card-was-never-rendered
+  ;; REVERT-TO-BREAK: gates/coverage-findings — delete the first `into` arm (or
+  ;; weaken its `:when` to `false`) and the first clause below reds while the
+  ;; CONTROL stays green.
+  (let [spec (spec-of {"lv_obj" ["lv_obj/default/small" "lv_obj/disabled/small"]})]
+    (testing "a spec card with no hash is a finding NAMING that card — the
+              gate must never pass over a corpus it only partly rendered"
+      (let [fs (gates/coverage-findings spec {"lv_obj/disabled/small" "bb"})]
+        (is (= [{:gate :coverage
+                 :card "lv_obj/default/small"
+                 :detail "card never rendered"}]
+               fs))))
+    (testing "CONTROL: with BOTH cards hashed the lane is silent, so the
+              assertion above keys on the missing hash and not on the arm
+              flagging whatever it is handed"
+      (is (= [] (gates/coverage-findings
+                 spec
+                 {"lv_obj/default/small" "aa" "lv_obj/disabled/small" "bb"}))))
+    (testing "CONTROL: extra hashes the spec never declared are NOT this arm's
+              business — `:unexpected` is the golden lane's finding, and an
+              arm that flagged both directions would double-report it"
+      (is (= [] (gates/coverage-findings
+                 spec
+                 {"lv_obj/default/small" "aa"
+                  "lv_obj/disabled/small" "bb"
+                  "kitchen-sink/form-row" "cc"}))))))
+
+(deftest coverage-arm-2-fires-on-a-widget-declared-with-no-cards
+  ;; REVERT-TO-BREAK: gates/coverage-findings — delete the second `into` arm.
+  (testing "a widget class with an empty :cards is a spec-authoring defect,
+            reported against the TAG (there is no card id to name)"
+    (is (= [{:gate :coverage :card "lv_led" :detail "widget class has ZERO cards"}]
+           (gates/coverage-findings (spec-of {"lv_led" []}) {}))))
+  (testing "CONTROL: one card is enough to satisfy it, so the clause above is
+            about emptiness and not about the widget existing"
+    (is (= [] (gates/coverage-findings (spec-of {"lv_led" ["lv_led/default/small"]})
+                                       {"lv_led/default/small" "aa"})))))
