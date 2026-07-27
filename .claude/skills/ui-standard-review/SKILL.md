@@ -280,8 +280,32 @@ being a vision finding:
 {:card "…" :invariant :vlm/… :rationale "…" :retires-when "…"}
 ```
 
-`invariants/validate-exemptions!` accepts those four keys and no others, and
-requires both strings non-blank. An exemption matching no finding is itself a
-finding (`:stale-exemption`), so the list can only shrink — which is why a
-`:retires-when` naming a condition that can actually be observed is the whole
-value of the entry.
+**Do NOT add `:act/test-mode :manual` unless the precondition below holds.** The
+mode is a PRODUCER declaration, never a finding's: `findings.clj` THROWS if a
+producer fn emits `:act/test-mode`, and the registry stamps it from the
+producer's own `:test-mode`, only when that differs from `:automatic`. Findings
+you emit BY HAND in the `{:card :invariant :node :detail}` shape above pass
+through no producer, so their mode is `:automatic`. The matcher compares the
+mode on both sides, so an entry naming `:manual` will not match them:
+
+| exemption entry | result against a hand-emitted VLM finding |
+|---|---|
+| without `:act/test-mode` | `{:live 0, :exempted 1, :stale 0}` — matches |
+| with `:act/test-mode :manual` | `{:live 1, :exempted 0, :stale 1}` — un-exempts it AND goes stale |
+
+`:act/test-mode :manual` is required ONLY IF the VLM lane is armed as a registry
+producer declaring `:test-mode :manual` — which `.claude/rules/devcards.md`
+forbids in THIS repo ("Do not wire it into the verdict"), and which no `:vlm/`
+producer anywhere in `src/` does. To tell which case you are in: if a producer
+in your armed vector has a `:vlm/`-namespaced `:id` and declares `:test-mode
+:manual`, add the key; otherwise omit it. The narrowing axis still earns its
+keep where it applies — without it an entry can swallow a DETERMINISTIC finding
+sharing the card, invariant and node.
+
+`invariants/validate-exemptions!` names the accepted key set in one place —
+`invariants/exemption-keys`, which is derived from the finding side rather than
+re-spelled, since re-spelling is how the mode came to be missing from it.
+`:rationale` and `:retires-when` must be non-blank. An exemption matching no
+finding is itself a finding (`:stale-exemption`), so the list can only shrink —
+which is why a `:retires-when` naming a condition that can actually be observed
+is the whole value of the entry.

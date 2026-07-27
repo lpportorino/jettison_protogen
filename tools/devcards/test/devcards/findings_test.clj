@@ -879,9 +879,12 @@
                      :retires-when "the corpus is clean under the default"})))))))
 
 (deftest a-REGISTERED-manual-producer-is-reported-and-never-blocks
-  (testing "the VLM review's whole disposition, end to end: it rides the
-            registry, it is stamped :manual, it lands in the vector, and it
-            does not set the exit code.
+  (testing "what a VLM lane's disposition looks like ONCE it is armed as a
+            registry producer — which nothing in this repo does, and which
+            `.claude/rules/devcards.md` forbids here: it rides the registry,
+            it is stamped :manual, it lands in the vector, and it does not set
+            the exit code. The review as it actually runs today is emitted by
+            hand, passes through no producer, and is :automatic.
             REVERT-TO-BREAK: stop stamping :act/test-mode in `card-findings`.
 
             Also through `lanes/run-verdict` — the exit code this asserts on

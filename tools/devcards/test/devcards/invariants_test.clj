@@ -358,20 +358,26 @@
                       :node "n"}]
                     [legacy-exemption])))))
 
-(deftest a-VLM-exemption-does-NOT-swallow-the-DETERMINISTIC-finding
-  (testing "the silent skip this whole axis exists to prevent. The VLM review
-            is :manual and rides this same vector; a deterministic lane on
-            the same card and invariant is :automatic. With no mode conjunct
-            an entry dispositioning the VLM finding also swallowed the
-            :failed deterministic one that shares its (card, invariant,
-            outcome) — into :exempted, so the run was byte-identical to a
-            clean one, and the stale ratchet stayed quiet because the entry
-            was still matching something.
+(deftest a-MANUAL-lane-exemption-does-NOT-swallow-the-AUTOMATIC-finding
+  (testing "the silent skip this axis exists to prevent. A lane armed through
+            `devcards.findings` declaring `:test-mode :manual` has that mode
+            STAMPED on its findings; a deterministic lane's read :automatic.
+            With no mode conjunct an entry dispositioning the manual finding
+            also swallowed the :failed automatic one that shares its (card,
+            invariant, outcome) — into :exempted, so the run was
+            byte-identical to a clean one, and the stale ratchet stayed quiet
+            because the entry was still matching something.
+
+            The shape below is what `card-findings` stamps for such a
+            producer, and it is NOT protogen's: no producer here declares
+            :manual, and the hand-emitted VLM review passes through no
+            producer, so it reads :automatic on both sides. This conjunct is
+            armed ahead of the lane it is for.
             REVERT-TO-BREAK: delete the `finding-mode` conjunct."
-    (let [vlm-entry (assoc legacy-exemption :act/test-mode :manual)
+    (let [manual-entry (assoc legacy-exemption :act/test-mode :manual)
           fs [{:card "c" :invariant :contrast :act/test-mode :manual :node "n"}
               {:card "c" :invariant :contrast :node "n"}]]
-      (is (= #{[nil nil nil "n"]} (live-of fs [vlm-entry])))))
+      (is (= #{[nil nil nil "n"]} (live-of fs [manual-entry])))))
   (testing "CONTROL: the same entry DOES exempt the manual finding it was
             written for, so the survivor above is the mode axis and not a
             dead entry"

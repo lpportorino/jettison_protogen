@@ -25,7 +25,7 @@ Running this review is required before any push that modifies elements — in th
 
 ### Disposition before push
 
-Every finding is dispositioned before the push: FIXED, or EXEMPTED with the same proof-carrying entry any other exemption owes — a `:rationale` and a `:retires-when`, per card and per invariant. Exemptions ratchet DOWN: an exemption matching no finding is itself a finding (`:stale-exemption`), so the list can only shrink (`devcards.invariants` is the mechanism and the authority). An undispositioned finding is not a pass.
+Every finding is dispositioned before the push: FIXED, or EXEMPTED with the same proof-carrying entry any other exemption owes — `:rationale`, `:retires-when`, both non-blank. An entry MATCHES on `:card`, `:invariant`, `:node`, `:act/outcome`, `:act/reason`, `:act/test-mode`. `:card` and `:invariant` are mandatory. `:node` matches ANY node when absent. `:act/outcome` and `:act/test-mode` are optional too but narrow the OTHER WAY — absent reads the DEFAULT (`:failed`, `:automatic`) on both sides, so omitting one does NOT widen the entry, it pins that axis to its default: an entry naming no mode matches the automatic finding and NOT the manual one. That is what lets an entry written before these axes existed keep matching exactly what it always matched. `:act/reason` is not a free choice at all — it is REQUIRED when `:act/outcome` names a reasoned outcome and REFUSED otherwise, so there is no state in which you pick it. Exemptions ratchet DOWN: an exemption matching no finding is itself a finding (`:stale-exemption`), so the list can only shrink (`devcards.invariants` is the mechanism and the authority). An undispositioned finding is not a pass.
 
 ### Your verdict is NOT a gate verdict
 

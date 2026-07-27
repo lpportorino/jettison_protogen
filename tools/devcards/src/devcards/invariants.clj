@@ -314,17 +314,45 @@
   [entry problem]
   (throw (ex-info (str "malformed exemption: " problem) {:entry entry})))
 
-(def ^:private exemption-keys
-  "Every key an exemption entry may carry. :node and the three `:act/*` axes
-   are OPTIONAL narrowing axes; the set stays closed so a typo is refused
-   rather than silently widening what an entry swallows.
+(def exemption-proof-keys
+  "The PROOF an exemption owes, independent of what it matches. Both are
+   mandatory non-blank strings — an exemption is a dated decision, and one
+   without a `:retires-when` that can actually be observed is a permanent
+   waiver wearing a temporary one's clothes."
+  #{:rationale :retires-when})
+
+(def exemption-match-keys
+  "The axes an entry MATCHES on — the conjunct `exempt?` evaluates. :card and
+   :invariant are mandatory. :node matches ANY node when absent.
+   :act/outcome and :act/test-mode are optional too but narrow the OTHER
+   WAY — absent reads the DEFAULT on both sides, so omitting one pins that
+   axis to its default rather than widening the entry, which is what keeps
+   an entry written before an axis existed matching exactly what it always
+   matched and unable to start swallowing a newly-added :cantTell or
+   :manual finding. :act/reason is NOT a free choice: `validate-exemptions!`
+   REQUIRES it when :act/outcome names a reasoned outcome and REFUSES it
+   otherwise, so no entry ever chooses to omit it. `exempt?` carries the
+   full argument.
 
    The axes are read from `outcome/axis-keys` rather than re-spelled, so the
-   entry side and the finding side cannot drift — which is exactly how
-   :act/test-mode came to be missing here in the first draft, leaving a
-   four-key exemption able to swallow a :manual VLM finding and a
-   deterministic :failed one with the same entry."
-  (into #{:card :invariant :node :rationale :retires-when} outcome/axis-keys))
+   entry side and the finding side cannot drift apart. A re-spelled list can
+   omit an axis, and the omission is invisible from either side — an entry
+   then silently matches on fewer axes than the findings carry, which is the
+   hazard `exempt?` documents on the outcome and mode conjuncts."
+  (into #{:card :invariant :node} outcome/axis-keys))
+
+(def exemption-keys
+  "Every key an exemption entry may carry: what it matches on, plus the proof
+   it owes. The set stays closed so a typo is refused rather than silently
+   widening what an entry swallows.
+
+   PUBLIC because it is the ONE home of this list and two documents now read
+   it rather than re-spelling it: `devcards.standard-brief` derives the
+   generated STANDARD.md's exemption paragraph from it, and the
+   ui-standard-review SKILL.md points at it by name. Re-spelling is how the
+   mode went missing here in the first place; a generated brief that
+   re-spelled it would rot the same way, silently."
+  (into exemption-match-keys exemption-proof-keys))
 
 (defn validate-exemptions!
   "Exemptions shape check — every entry {:card <string-or-regex-string>
@@ -388,24 +416,40 @@
    matching: its own retirement condition is the very event that turns it
    into a defect-hider.
 
-   THE MODE CONJUNCT IS THE SAME ARGUMENT ON THE ORTHOGONAL AXIS, and its
-   absence was a live silent skip rather than an omission of symmetry. The
-   VLM review is :manual and rides this same vector; a deterministic lane on
-   the same card and invariant is :automatic. With no mode conjunct, a
-   dispositioned VLM exemption swallowed the DETERMINISTIC finding whose
-   (card, invariant, outcome) it shared — and swallowed it into :exempted,
-   so the run was byte-identical to a clean one and the stale ratchet stayed
-   quiet because the entry was still matching something. There was also no
-   way to write the narrower entry: the key set refused :act/test-mode
-   outright, so the hole could not be closed at the config layer.
+   THE MODE CONJUNCT IS THE SAME ARGUMENT ON THE ORTHOGONAL AXIS. What it
+   guards is a lane armed through `devcards.findings` declaring
+   `:test-mode :manual`, a mode the registry STAMPS onto that lane's
+   findings. Without the conjunct, an entry written to disposition such a
+   finding also swallowed the :automatic one sharing its (card, invariant,
+   outcome, reason, node) — into :exempted, so the run was byte-identical to
+   a clean one and the stale ratchet stayed quiet because the entry was still
+   matching something.
+
+   IT IS NOT WHAT SEPARATES THE VLM REVIEW FROM A DETERMINISTIC LANE HERE.
+   That review is emitted BY HAND and passes through no producer, so BOTH
+   sides read :automatic; what keeps them apart in this repo is the `:vlm/`
+   namespace on :invariant, which the invariant conjunct already matches on.
+   No protogen producer declares :manual, so this conjunct is armed ahead of
+   the lane it is for — real machinery that nothing here exercises.
 
    The defaults point in DIFFERENT directions, and each preserves what
    absence has always meant. An absent :act/outcome or :act/test-mode is the
-   default on BOTH sides — read through the SAME accessor, so the two sides
-   cannot drift — meaning an entry written before these axes existed matches
-   exactly the automatic/:failed findings it always matched, and cannot start
-   swallowing a newly-added :cantTell or a :manual one. An absent :node
-   matches ANY node, because that is exactly what an exemption does today."
+   default on BOTH sides — read through the SAME accessor, so those two
+   sides cannot drift — meaning an entry written before these axes existed
+   matches exactly the automatic/:failed findings it always matched, and
+   cannot start swallowing a newly-added :cantTell or a :manual one. An
+   absent :node matches ANY node, because that is exactly what an exemption
+   does today.
+
+   :act/reason has NO accessor and no default def — it is compared with a
+   bare `=`, so nil-on-both-sides is arithmetic rather than policy. The
+   effect is identical today and the coupling is what makes it safe:
+   `validate-exemptions!` requires a reason exactly when :act/outcome names
+   a reasoned outcome and refuses it otherwise, so an entry never chooses.
+   Declaring a non-nil reason default would be INERT: the other two axes'
+   defaults are live because their accessors read them, and this axis has no
+   reader to reach. That asymmetry — not the default's value — is the seam to
+   close first if a reason default is ever wanted."
   [exemption finding]
   (and (= (:invariant exemption) (:invariant finding))
        (= (outcome/finding-outcome exemption) (outcome/finding-outcome finding))

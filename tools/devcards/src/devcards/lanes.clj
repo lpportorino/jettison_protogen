@@ -102,8 +102,19 @@
    outcomes are IN SCOPE for the NOT-EXERCISED line. Every entry here declares
    no `:outcomes`, so the armed set can emit `:failed` and nothing else —
    which is why that line must not name :cantTell or :untested on this
-   corpus."
-  (into atomic-producers composition-producers))
+   corpus.
+
+   DEDUPED, because the two lanes legitimately share `overlap/producer` and a
+   plain concat therefore carried `:overlap` twice — enough that
+   `(findings/validate-producers! armed-producers)` REFUSED the very vector
+   named 'every producer this gate arms'. Nothing the verdict computes from it
+   is order- or multiplicity-sensitive (it unions the declared outcomes), so
+   this changes no line; it makes the def safe for the next caller, who will
+   reasonably expect to be able to validate it. `distinct` compares whole
+   producer maps, so two DIFFERENT producers colliding on one id still reach
+   `validate-producers!` and still throw — which is the case that is a real
+   defect."
+  (into [] (distinct) (concat atomic-producers composition-producers)))
 
 (defn atomic-findings
   "The live findings for ONE atomic card — the exact call the gate makes.

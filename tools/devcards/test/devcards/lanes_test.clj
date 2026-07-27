@@ -18,7 +18,8 @@
    `lanes/composition-findings` — the exact fns `devcards.core` calls, with
    the arguments it passes — and the producer-selection test asserts through
    the lane rather than about the helper."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.java.io :as io]
+            [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
             [devcards.lanes :as lanes]
             [devcards.outcome :as outcome]))
@@ -201,6 +202,66 @@
       (is (= 40 (count (filter #(re-find #"^\{:card " %) lines))))
       (is (not-any? #(re-find #"more" %) lines)))))
 
+;; ── the CALL SITE, pinned as source text ─────────────────────────────────
+
+(def ^:private core-source
+  "`devcards.core` as TEXT. It cannot be required here — it drags
+   `devcards.fixtures` and the generated bindings, neither on the :test
+   alias's path — so text is the only instrument that reaches it. The
+   suite already reads files this way (see `lvgl-classes-test`)."
+  (slurp (io/file "src/devcards/core.clj")))
+
+(def ^:private verdict-call-site
+  "The generate arm's ENTIRE decision, as one form. Whitespace-tolerant and
+   otherwise exact: the token sequence is the claim."
+  (re-pattern
+   (str "\\(let\\s+\\[\\{:keys\\s+\\[lines\\s+exit\\]\\}"
+        "\\s+\\(lanes/run-verdict\\s+all-findings\\)\\]"
+        "\\s+\\(doseq\\s+\\[l\\s+lines\\]\\s+\\(println\\s+l\\)\\)"
+        "\\s+\\(System/exit\\s+exit\\)\\)")))
+
+(deftest core-CALLS-run-verdict-and-exits-with-what-it-returned
+  (testing "the sibling canary above pins what `run-verdict` COMPUTES; it
+            cannot pin that anything calls it. Measured, on this tree:
+            rewriting core's `(System/exit exit)` to `(System/exit 0)` — the
+            gate then permanently green on any corpus — left the whole suite
+            passing, `run-verdict-IS-the-expression-core-runs` included. So
+            did deleting the call outright for
+            `(System/exit (if (seq all-findings) 1 0))`.
+
+            WHAT IT PINS, AND WHAT IT DOES NOT. It pins that the form below
+            appears in core's source and that `run-verdict` is called exactly
+            once. It cannot pin REACHABILITY: measured, inserting
+            `(System/exit 0)` immediately BEFORE that form leaves the pattern
+            intact and the whole suite green — the same permanently-green
+            gate, invisible here. That residual is inherent to a source-text
+            assertion, and source text is the only instrument that reaches
+            core, which is the premise above. Read this as pinning the two
+            named reverts and nothing wider.
+
+            REVERT-TO-BREAK: change `(System/exit exit)` in
+            `core.clj`'s generate arm to `(System/exit 0)`."
+    ;; The match is reduced to a boolean BEFORE `is` sees it — otherwise a
+    ;; failure pretty-prints the whole of core.clj as the actual value.
+    (let [found? (some? (re-find verdict-call-site core-source))]
+      (is found?
+          (str "core.clj's generate arm no longer reads "
+               "`(let [{:keys [lines exit]} (lanes/run-verdict all-findings)] "
+               "(doseq [l lines] (println l)) (System/exit exit))`. Either the "
+               "verdict moved back into core — where no test can name it — or "
+               "the exit code stopped being the one run-verdict returned."))))
+  (testing "and `run-verdict` is called EXACTLY once, so the form pinned
+            above is the only verdict core computes — a second call site
+            would be a second, unpinned decision"
+    (is (= 1 (count (re-seq #"\(lanes/run-verdict\s" core-source)))))
+  (testing "CONTROL: the pattern is a real discriminator, not a tautology —
+            it must NOT match the same form with the exit code forced"
+    (is (not (re-find verdict-call-site
+                      (str "(let [{:keys [lines exit]} "
+                           "(lanes/run-verdict all-findings)] "
+                           "(doseq [l lines] (println l)) "
+                           "(System/exit 0))"))))))
+
 (deftest the-armed-set-is-the-set-that-RUNS
   (testing "`armed-producers` is what scopes the NOT-EXERCISED line, so a
             hand-kept second list would let that line describe a lane the gate
@@ -212,6 +273,22 @@
                  (map :id lanes/composition-producers))))
     (is (contains? (set (map :id lanes/armed-producers)) :overlap)
         "the overlap lane IS armed here — see .claude/rules/devcards.md"))
+  (testing "and it is a vector the ARMING VALIDATOR accepts. The assertion
+            above compares SETS, so it saw nothing when a plain concat carried
+            `overlap/producer` from both lanes and `validate-producers!`
+            refused the result with `duplicate producer ids [:overlap]` — a
+            def named 'every producer this gate arms' that the arming check
+            rejects is a trap for the next caller.
+            REVERT-TO-BREAK: `(into atomic-producers composition-producers)`
+            in `lanes/armed-producers`."
+    (is (findings/validate-producers! lanes/armed-producers))
+    (is (= (count lanes/armed-producers)
+           (count (distinct (map :id lanes/armed-producers))))
+        "armed-producers carries a duplicate :id")
+    (testing "CONTROL: the shared producer is genuinely in BOTH lane vectors,
+              so the dedupe above is load-bearing and not decoration"
+      (is (contains? (set (map :id lanes/atomic-producers)) :overlap))
+      (is (contains? (set (map :id lanes/composition-producers)) :overlap))))
   (testing "and every armed producer is two-way and automatic, which is the
             fact that makes :cantTell and :untested OUT OF SCOPE for this
             gate's NOT-EXERCISED line"

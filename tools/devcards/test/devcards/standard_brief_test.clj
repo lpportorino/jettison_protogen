@@ -19,6 +19,7 @@
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
+            [devcards.invariants :as invariants]
             [devcards.layers :as layers]
             [devcards.lvgl-classes :as lvgl-classes]
             [devcards.overlap :as overlap]
@@ -263,6 +264,63 @@
           "control: the live page carries none of the mutant's values")
       (is (str/includes? mutant "| `:overlap` | `:overlap/gap-px` | `7` |"))
       (is (str/includes? mutant "| `lv_label` | `:interactive` | `true` |")))))
+
+(deftest the-exemption-paragraph-is-DERIVED-from-the-key-set
+  (testing "this paragraph was a HARDCODED STRING reading 'per card and per
+            invariant', and it stayed that way through the commit that added
+            the outcome, mode and reason conjuncts to `invariants/exempt?`.
+            Nothing went red: `make -f renderer.mk standard-brief` regenerates
+            and diffs the page, so it compares the generator against ITSELF
+            and a stale literal inside it is invisible.
+
+            THIS CANARY CLOSES THE ROT HALF ONLY. It asserts every key in the
+            LIVE set is named, so an axis added later and not rendered reds
+            it — the original defect. It does NOT detect a RE-HARDCODING:
+            measured, a literal reproducing today's text satisfies every
+            assertion below, because they are substring checks against
+            today's key names. Detecting that needs an oracle for 'this
+            string was COMPUTED', which a substring assertion cannot be, so
+            that half of the seam is open and stays open.
+            REVERT-TO-BREAK: replace the `exemption-match-keys` splice in
+            `exemption-contract-md` with a literal naming every axis but
+            `:act/reason`."
+    (let [para (sb/exemption-contract-md)]
+      (doseq [k invariants/exemption-match-keys]
+        (is (str/includes? para (str "`" k "`"))
+            (str "the brief does not name the match axis " k)))
+      (doseq [k invariants/exemption-proof-keys]
+        (is (str/includes? para (str "`" k "`"))
+            (str "the brief does not name the proof key " k)))))
+  (testing "and it reaches the ASSEMBLED page, not just its own fn — a
+            paragraph that stopped being spliced in would pass the loop above
+            and teach nothing"
+    (let [live (sb/brief-md (opts))]
+      (is (str/includes? live "`:act/test-mode`"))
+      ;; The THREE absence behaviours, pinned SEPARATELY, because collapsing
+      ;; them into one sentence is how this paragraph came to tell the
+      ;; reviewing agent that an absent axis matches ANY value. Measured: an
+      ;; entry omitting :act/test-mode does NOT match a :manual finding, it
+      ;; pins the axis to :automatic; only :node matches anything; and
+      ;; :act/reason is not omittable by choice at all.
+      (is (str/includes? live "matches ANY node when absent"))
+      (is (str/includes? live "absent reads the DEFAULT"))
+      (is (str/includes? live "REQUIRED when `:act/outcome` names a reasoned"))))
+  (testing "CONTROL: every retracted wording is GONE from the page, so each
+            correction is a REPLACEMENT and not an addition alongside the
+            stale claim. Pinning the true sentence alone cannot see that —
+            the page can carry both and still pass every assertion above,
+            measured — so each retraction owes its own negation here.
+
+            THESE ARE LITERAL-STRING NEGATIONS OF THREE EXACT SENTENCES and
+            they do not survive rewording: measured, a PARAPHRASE carrying
+            the identical false meaning passes all of them. A substring
+            assertion cannot cover paraphrase, and no matcher here should
+            pretend to — read these as pinning the three retractions by
+            name, not the idea behind them."
+    (let [live (sb/brief-md (opts))]
+      (is (not (str/includes? live "per card and per invariant")))
+      (is (not (str/includes? live "an absent axis matches ANY value")))
+      (is (not (str/includes? live "findings of EITHER mode"))))))
 
 ;; ── the published roster ────────────────────────────────────────────────
 (deftest reviewed-producers-references-the-live-rules

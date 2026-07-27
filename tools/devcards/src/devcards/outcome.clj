@@ -20,8 +20,12 @@
    distinction promoted to a value the registry can check.
 
    The TEST MODE axis is orthogonal to the outcome and is what lets a
-   non-reproducible lane — the VLM review — ride the same finding vector
-   without being mistaken for a deterministic one.
+   non-reproducible lane ride the same finding vector without being mistaken
+   for a deterministic one. It is a PRODUCER declaration (`:test-mode` on the
+   registry entry, stamped onto that producer's findings), so it reaches
+   exactly the lanes armed through `devcards.findings` — which today's VLM
+   review is not. See `default-fail-modes` for what that does and does not
+   cover.
 
    THE AXES ARE NAMESPACED ON A FINDING (`:act/outcome`, `:act/test-mode`,
    `:act/reason`) AND THAT IS A COMPATIBILITY REQUIREMENT, NOT A STYLE.
@@ -168,10 +172,21 @@
   #{:failed :cantTell :untested})
 
 (def default-fail-modes
-  "Only DETERMINISTIC findings may set the exit code. A :manual finding — the
-   VLM review — rides the same vector, is reported and exemptable, and never
-   reaches the process verdict. That was a convention with nothing enforcing
-   it until this set."
+  "Only a producer that DECLARES itself deterministic may set the exit code.
+   The mode is a producer-level declaration — `:test-mode` on the registry
+   entry, which `devcards.findings` stamps onto that producer's findings — so
+   this set narrows exactly one population: a lane armed through the registry
+   declaring `:test-mode :manual`. Nothing in this repo declares one, so the
+   set is armed ahead of the lane it is for.
+
+   IT DOES NOT COVER THE VLM REVIEW, which is the population most likely to be
+   assumed under it. Those findings are written BY HAND in the
+   `{:card :invariant :node :detail}` shape, pass through no producer, and so
+   carry the default :automatic — measured: `blocking` keeps one and
+   `lanes/run-verdict` exits 1. What holds that review out of the process
+   verdict is that no path feeds it in (`.claude/rules/devcards.md`, 'Do not
+   wire it into the verdict'), which is a convention this set does not
+   enforce."
   #{:automatic})
 
 (def default-policy
@@ -208,8 +223,10 @@
   (when-let [extra (seq (remove policy-keys (keys policy)))]
     (policy-error policy (str "unknown keys " (vec extra)
                               " — declared: " (vec (sort policy-keys)))))
-  (doseq [[k allowed floor] [[:fail-outcomes outcomes :failed]
-                             [:fail-modes test-modes :automatic]]]
+  (doseq [[k allowed floor refused]
+          [[:fail-outcomes outcomes :failed unreportable-outcomes]
+           ;; no mode is unreportable — every test-mode can reach a finding
+           [:fail-modes test-modes :automatic #{}]]]
     (let [v (get policy k)]
       (when-not (and (set? v) (seq v))
         (policy-error policy (str k " must be a NON-EMPTY set, got "
@@ -217,6 +234,17 @@
       (when-let [bad (seq (remove allowed v))]
         (policy-error policy (str k " names unknown values " (vec bad)
                                   " — declared: " (vec (sort allowed)))))
+      ;; The symmetric half of `invariants/validate-exemptions!`'s
+      ;; "stale from birth" refusal. :passed is a legal OUTCOME but
+      ;; `unreportable-outcomes` guarantees it never reaches a finding, so
+      ;; naming it here arms a clause that can never fire — config that reads
+      ;; as a tightening and is inert. Refused rather than tolerated for the
+      ;; same reason an unknown threshold key throws: a knob that looks armed
+      ;; and is not is worse than one that is rejected.
+      (when-let [dead (seq (filter refused v))]
+        (policy-error policy (str k " names " (vec dead) " — never reachable "
+                                  "on a finding (see unreportable-outcomes), "
+                                  "so the clause could never fire")))
       (when-not (contains? v floor)
         (policy-error policy (str k " may not drop " floor)))))
   (when (not= (select-keys policy [:fail-outcomes :fail-modes]) default-policy)
@@ -477,6 +505,21 @@
                           "cannot say which blocking outcomes were even in "
                           "scope. Pass :producers"))
                    ". 'I could not look' is not 'nothing to report'."))
+
+        ;; The THIRD state, and it was silent. `emittable` is a set, so an
+        ;; armed set that can emit no blocking outcome — empty, or entirely
+        ;; outside fail-modes, e.g. a VLM-only :manual lane — yields #{},
+        ;; which is truthy. Without this branch the run prints no scope line
+        ;; at all, and "everything in scope fired" reads exactly like "nothing
+        ;; was ever in scope". `validate-producers!` refuses an empty producer
+        ;; vector at the registry for this very reason; the verdict must not
+        ;; be laxer than the registry about the same hazard.
+        (and emittable (empty? emittable))
+        (conj (str "NOT EXERCISED: NOTHING IN SCOPE — no armed producer "
+                   "declares a blocking outcome under this policy, so this "
+                   "run could not have failed on a producer finding however "
+                   "bad the corpus was. A green here is the shape of the "
+                   "armed set, not a judgement about the cards."))
 
         (seq not-exercised)
         (conj (str "NOT EXERCISED: "

@@ -161,6 +161,46 @@
       "No rule in the roster above declares a threshold."
       (docgen/md-table ["rule" "consumer key" "default" "what it means"] rows))))
 
+(defn- kw-list
+  "`#{:a :b}` -> \"`:a`, `:b`\", sorted so the rendered page is stable."
+  ^String [ks]
+  (str/join ", " (map #(str "`" % "`") (sort ks))))
+
+(defn exemption-contract-md
+  "The exemption contract sentence, DERIVED from `invariants/exemption-keys`
+   rather than restated.
+
+   This paragraph is why: it used to be a hardcoded string reading 'per card
+   and per invariant', and it stayed that way through the commit that added
+   the outcome, mode and reason conjuncts to `exempt?`. Nothing went red —
+   `make -f renderer.mk standard-brief` regenerates and diffs the page, so it
+   compares the generator's output against itself and a stale literal is
+   INVISIBLE to it. That is exactly the failure this ns's own docstring
+   exists to prevent: a hand-written brief is a second copy of the standard,
+   and a hardcoded sentence inside a generator is still a second copy.
+
+   Now adding a match axis changes this page, and the diff is the review."
+  ^String []
+  (str "Every finding is dispositioned before the push: FIXED, or EXEMPTED "
+       "with the same proof-carrying entry any other exemption owes — "
+       (kw-list invariants/exemption-proof-keys)
+       ", both non-blank. An entry MATCHES on "
+       (kw-list invariants/exemption-match-keys)
+       ". `:card` and `:invariant` are mandatory. `:node` matches ANY node "
+       "when absent. `:act/outcome` and `:act/test-mode` are optional too "
+       "but narrow the OTHER WAY — absent reads the DEFAULT (`:failed`, "
+       "`:automatic`) on both sides, so omitting one does NOT widen the "
+       "entry, it pins that axis to its default: an entry naming no mode "
+       "matches the automatic finding and NOT the manual one. That is what "
+       "lets an entry written before these axes existed keep matching "
+       "exactly what it always matched. `:act/reason` is not a free choice "
+       "at all — it is REQUIRED when `:act/outcome` names a reasoned "
+       "outcome and REFUSED otherwise, so there is no state in which you "
+       "pick it. Exemptions ratchet DOWN: an exemption "
+       "matching no finding is itself a finding (`:stale-exemption`), so the "
+       "list can only shrink (`devcards.invariants` is the mechanism and the "
+       "authority). An undispositioned finding is not a pass.\n\n"))
+
 (defn example-finding
   "Run `producer` over `example-tree` with `classes` and the producer's own
    resolved defaults, and return its FIRST finding (nil when it finds
@@ -267,13 +307,7 @@
    "it.\n\n"
 
    "### Disposition before push\n\n"
-   "Every finding is dispositioned before the push: FIXED, or EXEMPTED "
-   "with the same proof-carrying entry any other exemption owes — a "
-   "`:rationale` and a `:retires-when`, per card and per invariant. "
-   "Exemptions ratchet DOWN: an exemption matching no finding is itself a "
-   "finding (`:stale-exemption`), so the list can only shrink "
-   "(`devcards.invariants` is the mechanism and the authority). An "
-   "undispositioned finding is not a pass.\n\n"
+   (exemption-contract-md)
 
    "### Your verdict is NOT a gate verdict\n\n"
    "Every other lane in this standard is reproducible — exact integer "

@@ -175,10 +175,13 @@
 ;; ── the mode axis keeps a non-reproducible lane out of the verdict ───────
 
 (deftest a-manual-finding-is-reported-but-never-blocks
-  (testing "the VLM review rides the same vector and is exemptible on the
-            same terms, but every other lane in this standard is reproducible
-            and it is not. Mandatory to RUN and to DISPOSITION is the whole
-            obligation; a pass/fail is not part of it.
+  (testing "a non-reproducible lane rides the same vector and is exemptible on
+            the same terms, but every other lane in this standard IS
+            reproducible. Mandatory to RUN and to DISPOSITION is the whole
+            obligation; a pass/fail is not part of it. The mode below is what
+            the registry stamps for a producer declaring `:test-mode :manual`
+            — no protogen producer does, and the hand-emitted VLM review
+            reaches this filter as :automatic (see `default-fail-modes`).
             REVERT-TO-BREAK: widen `default-fail-modes` to `test-modes`."
     (let [vlm (act :invariant :legibility-doubt :act/outcome :cantTell
                    :act/reason :not-a-validated-classifier
@@ -426,7 +429,16 @@
     (let [vlm {:id :vlm :test-mode :manual :outcomes #{:failed :cantTell}}
           v (outcome/verdict [legacy] outcome/default-policy {:producers [vlm]})]
       (is (empty? (:emittable v)))
-      (is (empty? (:not-exercised v)))))
+      (is (empty? (:not-exercised v)))
+      ;; …and the run must SAY that, or the emptiness above is a silence
+      ;; rather than a measurement. An earlier version of this test asserted
+      ;; only the two emptinesses, which certified the hole: a VLM-only armed
+      ;; set printed a report byte-identical to a fully-exercised
+      ;; deterministic gate.
+      ;; REVERT-TO-BREAK: delete the (and emittable (empty? emittable))
+      ;; cond-> branch in outcome/verdict.
+      (is (some #(str/includes? % "NOTHING IN SCOPE") (:lines v))
+          "an armed set that can block on nothing must announce it")))
   (testing "CONTROL: the IDENTICAL producer at the default (:automatic) mode
             does put :cantTell in scope, so the emptiness above keys on the
             mode and not on the declaration being ignored"
@@ -525,7 +537,9 @@
             the docstrings. A printed line naming a standard would claim a
             conformance no gate here measures — the same overclaim the
             hardware-scoped rules are kept out of.
-            REVERT-TO-BREAK: put 'W3C ACT' in `describe-policy`'s prefix."
+            REVERT-TO-BREAK: put 'ACT Rules' in `describe-policy`'s prefix.
+            The token has to be one the regex below actually names — 'W3C
+            ACT' does NOT red this, because the pattern is `\\bACT Rules`."
     (let [lines (concat (outcome/report-lines [] outcome/default-policy)
                         (outcome/report-lines [legacy] (narrowed))
                         (outcome/report-lines
@@ -583,6 +597,21 @@
          (str (msg #(outcome/validate-policy!
                      (narrowed :fail-outcomes #{:failed :bogus}))))
          "names unknown values")))
+  (testing "and an outcome that is LEGAL but can never reach a finding is
+            refused too — :passed is in `outcomes`, so it clears the
+            unknown-values check above, but `unreportable-outcomes` keeps it
+            off every finding at both layers. Naming it arms a clause that can
+            never fire: config that reads as a tightening and is inert. This
+            is `validate-exemptions!`'s 'stale from birth' refusal on the
+            policy side.
+            REVERT-TO-BREAK: delete the (filter refused v) block."
+    (is (str/includes?
+         (str (msg #(outcome/validate-policy!
+                     (narrowed :fail-outcomes #{:failed :passed}))))
+         "never reachable"))
+    (testing "CONTROL: the SAME set minus :passed is accepted, so the throw
+              keys on :passed and not on the narrowing itself"
+      (is (outcome/validate-policy! (narrowed :fail-outcomes #{:failed})))))
   (testing "as is an unknown KEY, so a misspelt knob cannot look armed"
     (is (str/includes?
          (str (msg #(outcome/validate-policy! (narrowed :fail-outcome #{:failed}))))

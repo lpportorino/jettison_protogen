@@ -269,7 +269,10 @@
 
 (defn -main
   "CLI: `generate` renders + judges + writes goldens/manifest-{dark,light}
-   .edn; non-zero exit on any finding."
+   .edn; non-zero exit on any BLOCKING finding — see this ns's docstring for
+   what blocking means. Under today's shipped `lanes/verdict-policy` that is
+   every finding, but the two are not the same claim and a consumer is free to
+   narrow the policy without touching this fn."
   [& [mode]]
   (let [spec (fixtures/load-spec)
         built (fixtures/build-all spec)]

@@ -504,6 +504,16 @@
   ;; computed here but dropped by every lane in this repo, so it would be
   ;; silent. Same class as the unknown threshold key: the closed set must not
   ;; leak out through the exemption door.
+  ;;
+  ;; KNOWN LIMIT, latent until something declares :reasons. `producers` is THIS
+  ;; CALL's vector, and card-findings runs once per card PER LANE with a
+  ;; lane-scoped set, while exemption lists are global. So a globally-correct
+  ;; exemption naming a reason the OTHER lane's producer declares throws on
+  ;; this one, and the message blames the exemption — the wrong place to look.
+  ;; Fixing it means checking the vocabulary ONCE against the union of every
+  ;; armed producer, and that union is known in `lanes/run-verdict`, not here.
+  ;; A move worth making deliberately rather than folding into the commit that
+  ;; introduced the key.
   (let [vocab (into #{} (mapcat (comp keys :reasons)) producers)]
     (doseq [e exemptions :when (and (map? e) (contains? e :act/reason))]
       (when-not (contains? vocab (:act/reason e))
