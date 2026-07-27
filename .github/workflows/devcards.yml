@@ -106,7 +106,7 @@ concurrency:
 
 jobs:
   devcards:
-    name: build corpus + verify goldens/invariants/secret-scan
+    name: build corpus + verify goldens/invariants/secret-scan + interaction
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -141,6 +141,20 @@ jobs:
         key: devcards-m2-${{ hashFiles('tools/devcards/deps.edn') }}
         restore-keys: |
           devcards-m2-
+    - # interaction-prebuilt (armed below) builds the wasmtime harness with
+      # cargo. Same key SHAPE and same paths as renderer.yml's fixtures job so
+      # the two jobs share one cache namespace rather than each paying a cold
+      # Rust build; this runner is the plain one, so CARGO_HOME is ~/.cargo.
+      name: Cache cargo registry + interaction-harness target
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          renderer/wasm_harness/target
+        key: fixtures-cargo-${{ hashFiles('renderer/wasm_harness/Cargo.lock', 'renderer/wasm_harness/Cargo.toml') }}
+        restore-keys: |
+          fixtures-cargo-
     - # The pure-helper unit suite (dump-tree reductions, image math): needs
       # only the Clojure CLI set up above — no wasm, no bindings — so it runs
       # BEFORE the corpus gate and fails cheap, mirroring devcards-test's
@@ -161,8 +175,26 @@ jobs:
       # gallery-prebuilt regenerates the JPEG gallery + doc pages. A single red
       # names its exact failing card/check; there is no partial-credit path. Both
       # consume the wasm the composite action built above (wasm-present guards it).
-      name: Corpus gate + gallery (renderer.mk fixtures-prebuilt + gallery-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt
+      #
+      # interaction-prebuilt (the wasmtime mirror of the GraalWasm interaction
+      # lane) is armed HERE as well as in renderer.yml, and the reason is the
+      # one renderer.yml documents for ITSELF: a gate has to run on the pushes
+      # that can break it. That suite's inputs are the composition cards, the
+      # framebuffer dumps and the geometry declaration the devcards runner
+      # writes — every one of them a product of tools/devcards/**, which
+      # matches THIS workflow's paths and NOT renderer.yml's. Until now a
+      # corpus edit could take the cross-engine framebuffer comparison or a
+      # pointer identity red and ship green, detonating on a later, unrelated
+      # renderer/** push whose author had no part in causing it. Same
+      # pathology, same fix, one workflow over.
+      #
+      # It rides in THIS invocation rather than a step of its own because it
+      # takes fixtures-prebuilt as a declared prerequisite: a second `make`
+      # naming that phony target would re-render the whole corpus again. One
+      # invocation, one render, and make (not step adjacency) orders the suite
+      # after the cards.
+      name: Corpus gate + gallery + interaction (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt
     - # B3a: a devcards-path change that shifts pixels re-mints the goldens AND
       # the gallery/doc pages inside the runner; without this assertion it would
       # exit green (the pass value == the nothing-ran value, fail-fast.md). The

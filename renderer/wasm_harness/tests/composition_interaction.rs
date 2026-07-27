@@ -13,7 +13,9 @@
 //! Inputs are repo-relative, produced by the devcards runner (`fixtures`, or
 //! `fixtures-prebuilt` on a host with no WASI toolchain, persists them under
 //! tools/devcards/out/composition/): cards/<slug>.pb +
-//! fb/<slug>_dark<d>.raw, plus renderer/output/controls.wasm +
+//! fb/<slug>_dark<d>.raw + interaction-geometry.json (the pointer-contract
+//! DECLARATION this suite reads instead of copying the corpus's own numbers
+//! — see `geometry`), plus renderer/output/controls.wasm +
 //! renderer/assets. A missing input is a battery SEQUENCING bug (run the
 //! matching devcards lane first) — fail loud, never skip.
 #![allow(
@@ -28,20 +30,15 @@
 )]
 use lvgl_harness::{ControlsHost, HostConfig, PointerEvent, RENDER_TICKS, TICK_MS};
 use std::path::PathBuf;
-/// The composition-lane canvas (corpus/composition.edn :canvas).
+/// The composition-lane canvas (corpus/composition.edn :canvas) and the
+/// pinned render protocol's dpi. These stay COMPILE-TIME constants on
+/// purpose while the pointer geometry below is read: `core/run-composition`
+/// throws when the inventory canvas differs from the pinned render
+/// protocol, so a corpus canvas edit fails at the source and this copy
+/// cannot go stale silently. The pointer numbers had no such guard.
 const WIDTH: u32 = 800;
 const HEIGHT: u32 = 480;
 const DPI: i32 = 160;
-/// The scrubber cards' TRACK rect — MUST match corpus/composition.edn
-/// (placement arithmetic: the hit-halo wrapper sits at track-xy minus
-/// devcards.legos/scrubber-halo, so the track lands here).
-const TRACK_X: i32 = 100;
-const TRACK_Y: i32 = 200;
-const TRACK_W: i32 = 600;
-const TRACK_H: i32 = 20;
-/// The renderer's seek_on_press ext-click widening in px at the pinned
-/// dpi (LV_DPX(24)) — the hit-halo boundary the envelope test walks.
-const EXT_CLICK_PX: i32 = 24;
 /// The protogen repo root (wasm_harness -> renderer -> root).
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -73,6 +70,75 @@ fn boot() -> ControlsHost {
 fn card_bytes(slug: &str) -> Vec<u8> {
     let path = devcards_input(&format!("cards/{slug}.pb"));
     std::fs::read(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()))
+}
+/// The pointer-contract DECLARATION the devcards runner emits beside the
+/// cards (devcards.interaction/geometry-declaration ->
+/// out/composition/interaction-geometry.json). READ, never re-copied.
+///
+/// These numbers — the track rect, the ext-click width, the seek min/max,
+/// the dock's button count — are all projections of
+/// tools/devcards/corpus/composition.edn and devcards.legos/scrubber-halo,
+/// which the GraalWasm lane derives. Hard-copying them here made a
+/// legitimate corpus edit red THIS suite while leaving that lane green —
+/// and red on the wrong push, because a corpus edit matches devcards.yml's
+/// `paths:` and not renderer.yml's. Reading the declaration is what makes
+/// the two engines move together. It is a DECLARATION, not a reading of
+/// the rendered tree: deriving it from `dump_tree` would make this suite
+/// assert that the renderer does whatever it currently does.
+///
+/// Absence is a sequencing bug, exactly like a missing card.
+fn geometry() -> serde_json::Value {
+    let path = devcards_input("interaction-geometry.json");
+    let raw =
+        std::fs::read(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    serde_json::from_slice(&raw)
+        .unwrap_or_else(|e| panic!("parse {}: {e}", path.display()))
+}
+/// An inclusive-origin rect in canvas px.
+#[derive(Clone, Copy, Debug)]
+struct Rect {
+    x: i32,
+    y: i32,
+    w: i32,
+    h: i32,
+}
+fn decl_i32(v: &serde_json::Value, path: &str) -> i32 {
+    let mut cur = v;
+    for key in path.split('.') {
+        cur = &cur[key];
+    }
+    i32::try_from(
+        cur.as_i64()
+            .unwrap_or_else(|| panic!("interaction-geometry.json: {path} is not an integer")),
+    )
+    .unwrap_or_else(|e| panic!("interaction-geometry.json: {path} out of i32 range: {e}"))
+}
+fn decl_str(v: &serde_json::Value, path: &str) -> String {
+    let mut cur = v;
+    for key in path.split('.') {
+        cur = &cur[key];
+    }
+    cur.as_str()
+        .unwrap_or_else(|| panic!("interaction-geometry.json: {path} is not a string"))
+        .to_owned()
+}
+/// The scrubber card's TRACK rect, as declared (corpus `:placement` +
+/// devcards.legos/scrubber-halo).
+fn scrubber_track(g: &serde_json::Value) -> Rect {
+    Rect {
+        x: decl_i32(g, "scrubber.track.x"),
+        y: decl_i32(g, "scrubber.track.y"),
+        w: decl_i32(g, "scrubber.track.w"),
+        h: decl_i32(g, "scrubber.track.h"),
+    }
+}
+/// The stock-mapped slider value for a tap at `frac` of the track — the
+/// same mapping devcards.interaction/seek-value applies, over the same
+/// declared :min/:max.
+fn seek_value(g: &serde_json::Value, frac: f64) -> i64 {
+    let min = f64::from(decl_i32(g, "scrubber.min"));
+    let max = f64::from(decl_i32(g, "scrubber.max"));
+    (frac.mul_add(max - min, min)).round() as i64
 }
 /// Every composition card the devcards runner persisted, DISCOVERED from the
 /// card dir it writes rather than hand-listed. A hand-maintained roster is a
@@ -155,11 +221,8 @@ fn settle(host: &mut ControlsHost, ticks: u32) {
     }
 }
 /// px point at `frac` of the horizontal track, `dy` px below its center.
-fn track_px(frac: f64, dy: i32) -> (i32, i32) {
-    (
-        TRACK_X + (frac * f64::from(TRACK_W)) as i32,
-        TRACK_Y + TRACK_H / 2 + dy,
-    )
+fn track_px(t: Rect, frac: f64, dy: i32) -> (i32, i32) {
+    (t.x + (frac * f64::from(t.w)) as i32, t.y + t.h / 2 + dy)
 }
 /// Drain + parse captured host_event envelopes; return (tag, value) pairs.
 fn envelopes(host: &mut ControlsHost) -> Vec<(String, i64)> {
@@ -234,16 +297,17 @@ fn composition_cross_engine_fb() {
 /// with the exact stock-mapped value, and release adds NO duplicate.
 #[test]
 fn scrubber_press_seek_identity() {
+    let g = geometry();
     let mut host = boot();
-    let pb = card_bytes("lego_scrubber");
+    let pb = card_bytes(&decl_str(&g, "scrubber.slug"));
     let _ = render_card(&mut host, &pb, 1);
-    let (x, y) = track_px(0.70, 0);
+    let (x, y) = track_px(scrubber_track(&g), 0.70, 0);
     press_px(&mut host, x, y);
     settle(&mut host, 4);
     let after_down = envelopes(&mut host);
     assert_eq!(
         seek_values(&after_down),
-        vec![70],
+        vec![seek_value(&g, 0.70)],
         "press-seek must fire exactly once at DOWN with the stock-mapped value"
     );
     release_px(&mut host, x, y);
@@ -253,33 +317,42 @@ fn scrubber_press_seek_identity() {
         seek_values(&after_up).is_empty(),
         "release must add NO duplicate seek (got {after_up:?})"
     );
-    println!("press-seek [70], no duplicate at release");
+    println!(
+        "press-seek [{}], no duplicate at release",
+        seek_value(&g, 0.70)
+    );
 }
 /// Drag continuity: press-seek prepends exactly one immediate value to the
 /// stock MOVE stream.
 #[test]
 fn scrubber_press_drag_stream() {
+    let g = geometry();
+    let track = scrubber_track(&g);
     let mut host = boot();
-    let pb = card_bytes("lego_scrubber");
+    let pb = card_bytes(&decl_str(&g, "scrubber.slug"));
     let _ = render_card(&mut host, &pb, 1);
-    let (x0, y0) = track_px(0.30, 0);
+    let (x0, y0) = track_px(track, 0.30, 0);
     press_px(&mut host, x0, y0);
     settle(&mut host, 3);
     for frac in [0.45, 0.55, 0.70] {
-        let (x, y) = track_px(frac, 0);
+        let (x, y) = track_px(track, frac, 0);
         move_px(&mut host, x, y);
         settle(&mut host, 3);
     }
-    let (xe, ye) = track_px(0.70, 0);
+    let (xe, ye) = track_px(track, 0.70, 0);
     release_px(&mut host, xe, ye);
     settle(&mut host, 3);
     let events = envelopes(&mut host);
+    let expected: Vec<i64> = [0.30, 0.45, 0.55, 0.70]
+        .iter()
+        .map(|f| seek_value(&g, *f))
+        .collect();
     assert_eq!(
         seek_values(&events),
-        vec![30, 45, 55, 70],
+        expected,
         "drag must stream press value + each MOVE value exactly once"
     );
-    println!("drag stream [30, 45, 55, 70]");
+    println!("drag stream {expected:?}");
 }
 /// The ext-click envelope THROUGH THE LEGO (the halo wrapper is what lets
 /// LVGL's point-on-parent-coords descent reach the slider's widened click
@@ -287,12 +360,15 @@ fn scrubber_press_drag_stream() {
 /// no VALUE_CHANGED and would fake a miss.
 #[test]
 fn scrubber_ext_click_envelope() {
+    let g = geometry();
+    let track = scrubber_track(&g);
+    let ext_click_px = decl_i32(&g, "scrubber.ext_click_px");
     let mut host = boot();
-    let pb = card_bytes("lego_scrubber");
-    let y2 = TRACK_Y + TRACK_H - 1; // inclusive bottom edge
-    let x = TRACK_X + (0.70 * f64::from(TRACK_W)) as i32;
-    for dy in [2, 16, EXT_CLICK_PX, EXT_CLICK_PX + 1, 30] {
-        let expect_hit = dy <= EXT_CLICK_PX;
+    let pb = card_bytes(&decl_str(&g, "scrubber.slug"));
+    let y2 = track.y + track.h - 1; // inclusive bottom edge
+    let x = track.x + (0.70 * f64::from(track.w)) as i32;
+    for dy in [2, 16, ext_click_px, ext_click_px + 1, ext_click_px + 6] {
+        let expect_hit = dy <= ext_click_px;
         let _ = render_card(&mut host, &pb, 1);
         press_px(&mut host, x, y2 + dy);
         settle(&mut host, 4);
@@ -315,8 +391,10 @@ fn scrubber_ext_click_envelope() {
 /// are gate-held on the GraalWasm engine's interaction lane.)
 #[test]
 fn dock_fold_identity() {
+    let g = geometry();
+    let expected_buttons = usize::try_from(decl_i32(&g, "dock.button_count")).expect("count >= 0");
     let mut host = boot();
-    let pb = card_bytes("lego_dock-expanded");
+    let pb = card_bytes(&decl_str(&g, "dock.slug"));
     let _ = render_card(&mut host, &pb, 1);
     let tree: serde_json::Value =
         serde_json::from_str(&host.dump_tree().expect("dump_tree")).expect("tree JSON");
@@ -324,8 +402,8 @@ fn dock_fold_identity() {
     find_type(&tree, "lv_button", &mut buttons);
     assert_eq!(
         buttons.len(),
-        10,
-        "expanded dock: fold + 3x3 stage buttons expected"
+        expected_buttons,
+        "expanded dock: fold + 3 buttons per stage expected"
     );
     let fold = buttons[0];
     let (cx, cy) = (

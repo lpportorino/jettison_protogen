@@ -44,10 +44,14 @@
   (probe/render-drained! h pb {:bp 0 :dark 1}))
 
 ;; ── scrubber ────────────────────────────────────────────────────────────
-(defn- scrubber-track
+(defn scrubber-track
   "The scrubber card's TRACK rect (canvas px): the corpus places the
    hit-halo WRAPPER, so the track sits at placement + scrubber-halo,
-   sized by the lego opts."
+   sized by the lego opts.
+
+   PUBLIC because the wasmtime mirror suite reads it too, through
+   `geometry-declaration` — see that fn for why it may not carry its own
+   copy."
   [{:keys [opts placement]}]
   {:x (+ (long (:x placement)) (long legos/scrubber-halo))
    :y (+ (long (:y placement)) (long legos/scrubber-halo))
@@ -360,26 +364,83 @@
                     :actual (str "separation " worst " between two grown handle hit areas")})]))))))
 
 ;; ── entry ───────────────────────────────────────────────────────────────
+(defn drive-targets
+  "The two composition cards the interaction contract is driven through,
+   DISCOVERED from the corpus rather than named: the first buffered
+   scrubber composition card and the expanded dock card. A corpus
+   without them is a corpus that lost its interaction contract, so their
+   absence THROWS rather than passing vacuously.
+
+   ONE home, because BOTH engines drive them — this lane directly, and
+   the wasmtime mirror via `geometry-declaration`. Two copies of the
+   discovery would let the engines drift onto different cards while both
+   stayed green."
+  [inventory]
+  (let [cards (:cards inventory)]
+    {:scrubber (or (first (filter #(and (= :scrubber (:lego %))
+                                        (= :composition (:expect %))
+                                        (some? (get-in % [:opts :buffered])))
+                                  cards))
+                   (throw (ex-info "no buffered scrubber composition card to drive" {})))
+     :dock (or (first (filter #(and (= :dock-panel (:lego %))
+                                    (not (get-in % [:opts :folded?])))
+                              cards))
+               (throw (ex-info "no expanded dock composition card to drive" {})))}))
+
+(defn geometry-declaration
+  "The pointer-contract DECLARATION the WASMTIME mirror suite
+   (renderer/wasm_harness/tests/composition_interaction.rs) reads instead
+   of carrying its own copies of these numbers.
+
+   WHY THIS EXISTS. The mirror suite used to hard-code the track rect
+   (100,200,600×20), the ext-click width (24) and the seek min/max — all
+   projections of this corpus and of `legos/scrubber-halo`, which THIS
+   lane derives. The two lanes then disagreed about which change is a
+   defect: a corpus `:placement` edit is a legitimate authoring change
+   that re-mints goldens and leaves this lane green, while the mirror
+   suite went red on a stale copy. Worse, it went red LATE — the edit
+   matches devcards.yml's `paths:` and not renderer.yml's, so the red
+   landed on some later, unrelated `renderer/**` push whose author had
+   no part in causing it (MEASURED: shifting `:placement` 20 px left
+   devcards green and failed 3 of the mirror's 5 tests).
+
+   So the numbers are DECLARED here, once, and READ there — never
+   re-derived from what renders, which would make the mirror assert that
+   the renderer does whatever it currently does. What is NOT in here is
+   deliberate: the canvas and dpi stay compile-time constants in the
+   mirror because `core/run-composition` already throws when the
+   inventory canvas differs from the pinned render protocol, so that
+   copy cannot go stale silently.
+
+   Emitted as JSON beside the persisted cards by `devcards.core`."
+  [inventory]
+  (let [{:keys [scrubber dock]} (drive-targets inventory)
+        track (scrubber-track scrubber)
+        stages (get-in dock [:opts :stages])]
+    {:scrubber {:card (:id scrubber)
+                :track track
+                ;; the seek envelope's stock mapping (see `seek-value`)
+                :min (long (get-in scrubber [:opts :min]))
+                :max (long (get-in scrubber [:opts :max]))
+                :seek_event (get-in scrubber [:opts :seek-event-name])
+                ;; the halo IS the reachable envelope: the wrapper's box
+                ;; stops LVGL's descent at exactly the slider's widened
+                ;; click boundary (see legos/scrubber-halo).
+                :ext_click_px (long legos/scrubber-halo)}
+     :dock {:card (:id dock)
+            ;; the panel's depth-first button order: fold first, then
+            ;; ▲▼✕ per stage — the same arithmetic `dock-findings` indexes with.
+            :button_count (inc (* 3 (count stages)))}}))
+
 (defn run-lane
   "Drive the whole interaction lane. `boot!` returns a fresh started
    host; `inventory` is the parsed composition inventory; `built` its
-   built entries ({:id :bytes ...}). The drive targets come from the
-   corpus itself: the first buffered scrubber composition card and the
-   expanded dock card — a corpus without them is a corpus that lost its
-   interaction contract, so their absence THROWS rather than passing
-   vacuously. Returns a findings vector (empty = green)."
+   built entries ({:id :bytes ...}). The drive targets come from
+   `drive-targets` — the corpus itself, never a hard-coded id. Returns a
+   findings vector (empty = green)."
   [boot! inventory built]
   (let [bytes-of (into {} (map (juxt :id :bytes)) built)
-        cards (:cards inventory)
-        scrubber (or (first (filter #(and (= :scrubber (:lego %))
-                                          (= :composition (:expect %))
-                                          (some? (get-in % [:opts :buffered])))
-                                    cards))
-                     (throw (ex-info "no buffered scrubber composition card to drive" {})))
-        dock (or (first (filter #(and (= :dock-panel (:lego %))
-                                      (not (get-in % [:opts :folded?])))
-                                cards))
-                 (throw (ex-info "no expanded dock composition card to drive" {})))
+        {:keys [scrubber dock]} (drive-targets inventory)
         s-pb ^bytes (get bytes-of (:id scrubber))
         d-pb ^bytes (get bytes-of (:id dock))
         canvas-w (long (get-in inventory [:canvas :w]))]

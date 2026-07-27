@@ -256,6 +256,28 @@
    then catches any path the CURRENT run writes without claiming."
   "out/composition")
 
+(def composition-geometry-file
+  "The pointer-contract DECLARATION the wasmtime mirror suite reads
+   (renderer/wasm_harness/tests/composition_interaction.rs), written
+   beside the `.pb` cards it already consumes."
+  (str composition-out-dir "/interaction-geometry.json"))
+
+(defn- persist-geometry-declaration!
+  "Emit `interaction/geometry-declaration` as JSON.
+
+   JSON because the mirror suite already parses JSON (dump_tree,
+   host_event envelopes) and carries no EDN reader. Each entry gains the
+   artifact SLUG so the mirror resolves the card file it must drive
+   without re-implementing `comp-slug` — the same class of copy this
+   file exists to retire."
+  [inventory]
+  (let [decl (update-vals (interaction/geometry-declaration inventory)
+                          #(assoc % :slug (comp-slug (:card %))))]
+    (io/make-parents composition-geometry-file)
+    (spit composition-geometry-file
+          (with-out-str (json/pprint decl :key-fn name)))
+    nil))
+
 (defn run-composition
   "The authored-composition lane over built composition entries
    (devcards.composition/build-all output): family-0 renders (dark +
@@ -271,6 +293,10 @@
     (throw (ex-info "composition canvas != the pinned render protocol's"
                     {:inventory (:canvas inventory)
                      :protocol (:canvas render-protocol)})))
+  ;; Emitted BEFORE the renders, alongside the cards below: a red run must
+  ;; still leave the mirror suite a declaration matching the cards it wrote,
+  ;; or the mirror's own red would name a stale file instead of the defect.
+  (persist-geometry-declaration! inventory)
   (let [t0 (System/nanoTime)
         f0 (into {}
                  (map (fn [{:keys [id] ^bytes pb :bytes}]
