@@ -6,7 +6,8 @@
    byte-identical gallery re-mint proves end-to-end. `write-text!`/`write-bytes!`
    are exercised by that same re-mint (they write every committed page + JPEG),
    so they carry no separate unit test here."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.java.io :as io]
+            [clojure.test :refer [deftest is testing]]
             [devcards.docgen :as docgen]))
 
 ;; ── md-table ────────────────────────────────────────────────────────────
@@ -92,3 +93,137 @@
                 "Regenerate: line1\nline2. Sources: srcA\nsrcB.\n"
                 "-->\n\n")
            (docgen/do-not-edit-header "line1\nline2" "srcA\nsrcB")))))
+
+;; ── audit: the two-way disk reconciliation ──────────────────────────────
+;; Each empty direction below is paired with a non-empty opposite direction or
+;; a control over the same populated tree. "Reconciled" and "never looked" must
+;; not be allowed to satisfy the same assertion.
+
+(def ^:private test-details
+  {:missing "TEST missing detail"
+   :orphaned "TEST orphaned detail"
+   :refused "TEST refusal detail"})
+
+(defn- with-tree
+  "Run `f` over a fresh temp dir populated with `rel-paths` (empty files),
+   always deleting it afterwards. Returns f's value."
+  [rel-paths f]
+  (let [root (java.io.File/createTempFile "docgen-audit" "")
+        _ (.delete root)
+        _ (.mkdirs root)
+        written (mapv (fn [rel]
+                        (let [file (java.io.File. root ^String rel)]
+                          (io/make-parents file)
+                          (spit file "")
+                          (.getPath file)))
+                      rel-paths)]
+    (try (f (.getPath root) written)
+         (finally (doseq [^java.io.File file (reverse (file-seq root))]
+                    (.delete file))))))
+
+(deftest audit-is-CLEAN-when-disk-is-exactly-what-was-claimed
+  (testing "claiming exactly what is on disk yields both directions empty, and
+            dropping one claim over the SAME populated tree proves the walk"
+    (with-tree ["a/x.jpg" "a/README.md" "b/y.jpg"]
+      (fn [root claimed]
+        (let [a (docgen/audit root claimed)
+              control (docgen/audit root (pop claimed))]
+          (is (= 3 (:claimed a)))
+          (is (= [] (:missing a)))
+          (is (= [] (:orphaned a)))
+          (is (empty? (docgen/audit-findings a test-details)))
+          (is (= 1 (count (:orphaned control)))
+              "the same disk walk sees the one file the control did not claim"))))))
+
+(deftest audit-REPORTS-the-orphan-a-git-diff-cannot-see
+  (testing "dropping one existing path from the claim models a retired unit"
+    (with-tree ["a/x.jpg" "a/README.md" "b/y.jpg"]
+      (fn [root claimed]
+        (let [retired (first (filter #(re-find #"y\.jpg$" %) claimed))
+              a (docgen/audit root (remove #{retired} claimed))
+              fs (docgen/audit-findings a test-details)]
+          (is (= 2 (:claimed a)))
+          (is (= [] (:missing a))
+              "both remaining claims name files the populated fixture wrote")
+          (is (= 1 (count (:orphaned a))))
+          (is (re-find #"y\.jpg$" (first (:orphaned a))))
+          (is (= [:disk-audit] (mapv :gate fs)))
+          (is (= [:orphaned-artifact] (mapv :invariant fs)))
+          (is (= ["TEST orphaned detail"] (mapv :detail fs))))))))
+
+(deftest audit-REPORTS-a-claimed-path-that-was-never-written
+  (testing "a claimed path absent from disk reports the other direction"
+    (with-tree ["a/x.jpg"]
+      (fn [root claimed]
+        (let [a (docgen/audit root (conj (vec claimed)
+                                         (str root "/a/never-written.jpg")))
+              fs (docgen/audit-findings a test-details)]
+          (is (= 1 (count (:missing a))))
+          (is (= [] (:orphaned a))
+              "the one on-disk fixture file is still present in the claim")
+          (is (= [:missing-artifact] (mapv :invariant fs)))
+          (is (= ["TEST missing detail"] (mapv :detail fs))))))))
+
+(deftest audit-REFUSES-a-root-that-is-not-a-directory
+  (testing "an absent root must not collapse to zero orphans"
+    (is (thrown-with-msg? clojure.lang.ExceptionInfo #"is not a directory"
+                          (docgen/audit "no/such/root" [])))))
+
+(deftest audit-REFUSES-an-EMPTY-claim
+  (testing "empty against empty is not reconciliation — it proves the emitter
+            wrote nothing, the same vacuous pass the audit exists to prevent"
+    (with-tree []
+      (fn [root _claimed]
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo #"claimed ZERO paths"
+                              (docgen/audit root []))))))
+  (testing "CONTROL: a non-empty claim against a populated root is accepted"
+    (with-tree ["a/x.jpg"]
+      (fn [root claimed]
+        (is (= 1 (:claimed (docgen/audit root claimed))))))))
+
+(deftest audit-REFUSES-a-DUPLICATED-claim
+  (testing "two units claiming one path must not dedupe to a clean set"
+    (with-tree ["a/x.jpg"]
+      (fn [root claimed]
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                              #"claimed the SAME canonical path twice"
+                              (docgen/audit root (concat claimed claimed))))
+        (is (= 1 (:claimed (docgen/audit root claimed)))
+            "the same single claim is accepted when it is not duplicated")))))
+
+(deftest audit-compares-CANONICAL-paths
+  (testing "equivalent spellings identify one path; a wrong canonical path over
+            the SAME populated tree produces both directions as the control"
+    (with-tree ["a/x.jpg"]
+      (fn [root _claimed]
+        (let [a (docgen/audit root [(str root "/./a/../a/x.jpg")])
+              control (docgen/audit root [(str root "/a/not-x.jpg")])]
+          (is (= [] (:missing a)))
+          (is (= [] (:orphaned a)))
+          (is (= 1 (count (:missing control))))
+          (is (= 1 (count (:orphaned control)))))))))
+
+(deftest run-audit-turns-designed-refusals-into-persistable-findings
+  (testing "the CLI adapter is total across audit's empty-claim refusal, so
+            render findings assembled before it are not discarded by a throw"
+    (with-tree []
+      (fn [root _claimed]
+        (let [{:keys [audit findings line]}
+              (docgen/run-audit root [] test-details)]
+          (is (re-find #"REFUSED" line))
+          (is (re-find #"claimed ZERO paths" (:refused audit)))
+          (is (= [{:gate :disk-audit
+                   :card root
+                   :invariant :audit-refused
+                   :detail (str "TEST refusal detail: "
+                                "the emitter claimed ZERO paths — an empty claim "
+                                "against an empty tree would pass without proving "
+                                "that the emitter wrote anything")}]
+                 findings))))))
+  (testing "CONTROL: the same adapter reports a populated exact tree clean"
+    (with-tree ["a/x.jpg"]
+      (fn [root claimed]
+        (let [run (docgen/run-audit root claimed test-details)]
+          (is (= 1 (get-in run [:audit :claimed])))
+          (is (= [] (:findings run)))
+          (is (re-find #"missing 0 \\| orphaned 0" (:line run))))))))

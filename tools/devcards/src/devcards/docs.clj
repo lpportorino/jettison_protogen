@@ -59,6 +59,21 @@
    family)."
   "docs/widgets")
 
+(def audit-root
+  "The root `devcards.docgen/audit` reconciles this generator's claimed
+   paths against — the PARENT of `out-dir`, deliberately.
+
+   It is the tree CI diffs (`git diff --exit-code tools/devcards/goldens
+   tools/devcards/docs`), and the audit has to cover exactly that: a file
+   sitting under `docs/` but outside `docs/widgets/` is inside the tree the
+   freshness gate treats as generated while being claimed by nothing, which
+   is the orphan case in its purest form. Auditing `out-dir` instead would
+   leave that one blind spot open under a root whose whole point is that
+   everything in it is generated. Measured: every file under `docs/` today
+   is under `docs/widgets/` and is claimed, so the wider root costs nothing
+   and closes the gap."
+  "docs")
+
 ;; ── Descriptor reading (string-keyed JSON walking) ──────────────────────
 (defn load-descriptor
   "Parse the descriptor-set JSON at `path` into a string-keyed map."

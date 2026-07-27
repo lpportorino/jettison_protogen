@@ -14,7 +14,8 @@
    and a templating dep would hide the byte shape the page keeps visible. Shapes
    are hand-validated (no malli dependency; the devcards tool is malli-free)."
   (:require [clojure.java.io :as io]
-            [clojure.string :as str])
+            [clojure.string :as str]
+            [devcards.corpus :as corpus])
   (:import (java.io File)))
 
 (set! *warn-on-reflection* true)
@@ -76,6 +77,165 @@
                             (let [f (get imgs (:file-suffix fam))]
                               (str "![" label " " (:file-suffix fam) "](./" f ")")))
                           render-sets))))))
+
+(defn audit
+  "TWO-WAY disk reconciliation for a generated tree: what the emitter CLAIMS
+   it wrote, against what is actually on disk under `root`.
+
+   WHY IT EXISTS. Every doc emitter here only ever WRITES — there is no
+   deletion path in any of them. Retire a widget, a sink or a lego from the
+   corpus and the generator simply stops emitting that unit's files, which
+   leaves them on disk, TRACKED, and byte-unchanged. A freshness gate shaped
+   `git diff --exit-code <root>` then reports nothing about them, because
+   nothing modified them: the author commits the re-mint, and from that
+   commit on every run is green with the orphans still shipping to every
+   consumer that clones this history. Measured on this tree — retiring one
+   composition card left three tracked JPEGs behind and the freshness step
+   exited 0.
+
+   No other lane can see it, and for one shared reason: the devcard gate
+   judges cards that EXIST, the golden manifests hash cards that EXIST, and
+   the freshness diff compares files that are WRITTEN. All three are keyed
+   on the LIVE corpus, and an orphan is precisely what has left it.
+
+   BOTH DIRECTIONS ARE REPORTED. :missing is claimed-but-absent (a write
+   that silently failed, or a root pointed at the wrong tree); :orphaned is
+   present-but-unclaimed (the retired unit). Reporting one would trade one
+   blind spot for the other. Returns {:root :claimed :missing :orphaned},
+   both vectors sorted.
+
+   `claimed` must be the emitter's OWN report of the paths it wrote — pass
+   `(map :path files)` straight from the `write-text!` / `write-bytes!`
+   returns. A hand-listed inventory would be a second home for the naming
+   scheme and would go stale in exactly the way this audit exists to catch:
+   the same defect, one level up.
+
+   Three refusals, because each silence would read as a clean tree:
+   - a root that is not a directory THROWS. An absent root walks to nothing,
+     which reports zero orphans — indistinguishable from a reconciled tree.
+   - an EMPTY claim throws. Empty against empty otherwise reports both
+     directions clean while proving only that the emitter wrote nothing.
+   - a DUPLICATED claimed path throws. Two units claiming one path means one
+     silently overwrote the other, and the set arithmetic below would call
+     that reconciled.
+
+   Compares CANONICAL paths, so a claimed \"docs/x.jpg\" and a walked
+   \"./docs/x.jpg\" are one path rather than a missing/orphaned pair. Only
+   FILES are walked: git tracks no directories, so an emptied directory
+   cannot reach a consumer's clone.
+
+   The set comparison delegates to `devcards.corpus/diff-cards`, the existing
+   committed-vs-rendered reconciliation. Canonical paths are the identities
+   and both sides carry one constant presence hash. Its :missing and
+   :unexpected classes therefore become this fn's :missing and :orphaned;
+   :mismatched is impossible by construction because artifact CONTENT is not
+   this audit's contract."
+  [^String root claimed]
+  (let [dir (File. root)]
+    (when-not (.isDirectory dir)
+      (throw (ex-info (str "audit root " (pr-str root) " is not a directory — "
+                           "an absent root walks to nothing and reports zero "
+                           "orphans, which is byte-identical to a reconciled "
+                           "tree")
+                      {:root root})))
+    (let [claimed-paths (mapv #(.getCanonicalPath (File. ^String %)) claimed)]
+      (when (empty? claimed-paths)
+        (throw (ex-info (str "the emitter claimed ZERO paths — an empty claim "
+                             "against an empty tree would pass without proving "
+                             "that the emitter wrote anything")
+                        {:root root :claimed 0})))
+      (let [claimed-set (set claimed-paths)]
+        (when (not= (count claimed-set) (count claimed-paths))
+          (throw (ex-info (str "the emitter claimed the SAME canonical path "
+                               "twice — one unit overwrote another's file, and "
+                               "reconciling the deduped set against disk would "
+                               "report that as clean")
+                          {:root root
+                           :claimed (count claimed-paths)
+                           :duplicated
+                           (vec (sort (for [[p n] (frequencies claimed-paths)
+                                            :when (> n 1)]
+                                        p)))})))
+        (let [on-disk (into #{}
+                            (comp (filter #(.isFile ^File %))
+                                  (map #(.getCanonicalPath ^File %)))
+                            (file-seq dir))
+              as-cards (fn [paths]
+                         (into {} (map (fn [p] [p {:sha256 ::present}])) paths))
+              {:keys [mismatched missing unexpected]}
+              (corpus/diff-cards (as-cards claimed-set) (as-cards on-disk))]
+          (when (seq mismatched)
+            (throw (ex-info "artifact-presence comparison produced content drift"
+                            {:root root :mismatched mismatched})))
+          {:root root
+           :claimed (count claimed-set)
+           :missing missing
+           :orphaned unexpected})))))
+
+(defn audit-findings
+  "`audit`'s two directions as batch-level findings.
+
+   These findings deliberately do NOT pass through `findings/card-findings`.
+   A disk audit reconciles one whole root against the emitter's complete
+   claimed set; it is neither a per-card rule nor something that can be run
+   once for each card without repeating the filesystem walk. It therefore
+   cannot use that function's exemption matching or producer metadata.
+   `devcards.core` feeds the returned findings to `lanes/run-verdict`, so they
+   do share the gate's total reporting and exit policy. `:gate :disk-audit`
+   makes the batch source explicit instead of implying registry provenance.
+
+   `details` is required and root-specific:
+   {:missing string :orphaned string :refused string}. A tracked generated
+   tree and a cleaned scratch tree have different recovery actions, so one
+   generic prescription would be false for at least one caller."
+  [{:keys [root missing orphaned]} details]
+  (doseq [k [:missing :orphaned :refused]]
+    (when (str/blank? (get details k))
+      (throw (ex-info "audit finding details must be non-blank and root-specific"
+                      {:root root :missing-detail k}))))
+  (-> (mapv (fn [p]
+              {:gate :disk-audit
+               :card root
+               :invariant :missing-artifact
+               :node p
+               :detail (:missing details)})
+            missing)
+      (into (mapv (fn [p]
+                    {:gate :disk-audit
+                     :card root
+                     :invariant :orphaned-artifact
+                     :node p
+                     :detail (:orphaned details)})
+                  orphaned))))
+
+(defn run-audit
+  "TOTAL adapter for a CLI arm: run `audit`, turn a designed refusal into one
+   blocking finding, and return {:audit :findings :line}.
+
+   `audit` itself keeps its throw contract for direct consumers and tests.
+   The CLI uses this adapter so a non-directory root, empty claim, or duplicate
+   claim joins the FULL findings vector, which `core.clj` persists before
+   calling the total verdict. A refusal can therefore never discard findings
+   the render lanes already produced."
+  [^String root claimed details]
+  (try
+    (let [a (audit root claimed)]
+      {:audit a
+       :findings (audit-findings a details)
+       :line (format "doc-audit: root %s | %d claimed | missing %d | orphaned %d"
+                     (:root a)
+                     (:claimed a)
+                     (count (:missing a))
+                     (count (:orphaned a)))})
+    (catch clojure.lang.ExceptionInfo e
+      (let [data (ex-data e)
+            finding {:gate :disk-audit
+                     :card root
+                     :invariant :audit-refused
+                     :detail (str (:refused details) ": " (ex-message e))}]
+        {:audit (merge {:root root :refused (ex-message e)} data)
+         :findings [finding]
+         :line (str "doc-audit: root " root " | REFUSED | " (ex-message e))}))))
 
 (defn write-bytes!
   "Write `content` bytes at `path` (parent dirs created). Returns {:path

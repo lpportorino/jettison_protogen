@@ -216,32 +216,38 @@
    pinned `outcome/exit-code` — a fn with zero production callers — and a
    mutation forcing `:exit 0` in what core actually ran left all of them
    green. That is the identical failure this namespace was created to fix for
-   the LANES, arriving one function to the left. After this move, core's
-   `generate` arm holds no decision at all: a `doseq println` and a
-   `System/exit`, both of whose inputs are computed and pinned here.
+   the LANES, arriving one function to the left. After this move, neither
+   core arm holds a decision: each has only a `doseq println` and a
+   `System/exit`, both of whose inputs are computed and source-pinned.
 
-   Passes `armed-producers` so the NOT-EXERCISED line is scoped to what this
-   gate can actually emit; see `outcome/verdict`.
+   The one-argument arity passes `armed-producers`, the set the generate mode
+   actually runs, so its NOT-EXERCISED line is scoped to what that gate can
+   emit. The two-argument arity is for a batch source outside
+   `findings/card-findings`; gallery passes [] because its disk audit is not a
+   registered per-card producer. The findings still block under the shipped
+   defaults, but the report does not claim gallery exercised the atomic or
+   composition producers.
 
    Returns `outcome/verdict`'s map with `:lines` extended by the console
    detail — the by-lane tally and the findings themselves, blocking first,
    truncated at 40 with the remainder counted. Truncation is console-only:
    `core.clj` persists the FULL vector to out/findings.edn before calling
    this."
-  [findings]
-  (let [{:keys [blocking lines] :as v}
-        (outcome/verdict findings verdict-policy {:producers armed-producers})
-        blocking? (set blocking)
-        ;; sort-by is STABLE, so with no ACT axis anywhere this is the
-        ;; identity ordering and the console output is unchanged.
-        ordered (sort-by #(if (blocking? %) 0 1) findings)
-        shown (into (conj lines
-                          (str "by lane: "
-                               (pr-str (frequencies
-                                        (map #(or (:gate %) (:invariant %))
-                                             findings)))))
-                    (map pr-str)
-                    (take 40 ordered))]
-    (assoc v :lines (cond-> shown
-                      (> (count findings) 40)
-                      (conj (str "… " (- (count findings) 40) " more"))))))
+  ([findings] (run-verdict findings armed-producers))
+  ([findings producers]
+   (let [{:keys [blocking lines] :as v}
+         (outcome/verdict findings verdict-policy {:producers producers})
+         blocking? (set blocking)
+         ;; sort-by is STABLE, so with no ACT axis anywhere this is the
+         ;; identity ordering and the console output is unchanged.
+         ordered (sort-by #(if (blocking? %) 0 1) findings)
+         shown (into (conj lines
+                           (str "by lane: "
+                                (pr-str (frequencies
+                                         (map #(or (:gate %) (:invariant %))
+                                              findings)))))
+                     (map pr-str)
+                     (take 40 ordered))]
+     (assoc v :lines (cond-> shown
+                       (> (count findings) 40)
+                       (conj (str "… " (- (count findings) 40) " more")))))))

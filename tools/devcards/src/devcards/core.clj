@@ -26,11 +26,12 @@
    tree to review and commit — the regenerate-then-diff shape `renderer.mk`'s
    `manifests` and `generated-projection` lanes already use.
 
-   THAT IS THE GOLDENS ONLY. The JPEG gallery and the generated doc pages
-   under docs/ are produced by the `gallery` mode and are still mint-only, so
-   CI's `git diff --exit-code tools/devcards/goldens tools/devcards/docs` step
-   remains the thing that catches a stale CONTACT SHEET. What it is no longer
-   the only thing catching is a moved PIXEL.
+   THAT CONTENT comparison is the goldens only. The JPEG gallery and generated
+   doc pages under docs/ are produced by `gallery`, so CI's `git diff
+   --exit-code tools/devcards/goldens tools/devcards/docs` remains the gate for
+   a changed CONTACT SHEET. The two-way disk audit in each mode covers the
+   different blind spot: a retired generated file that nothing rewrites and
+   `git diff` therefore cannot see.
 
    `gallery` is the T2.7 doc build (recorded call: a core mode, not a
    dev/ script — the pipeline has ONE CLI and the gallery is a pipeline
@@ -40,12 +41,13 @@
    (devcards.gallery + devcards.docs).
 
    Exit code is the verdict: non-zero on any BLOCKING finding, where blocking
-   is `devcards.lanes/verdict-policy` applied to each finding's ACT/EARL
-   :act/outcome and its producer's :act/test-mode — both defaulting to the
-   pre-policy behaviour, so a finding that declares neither blocks exactly as
-   it always did. Counts always print and the full vector always persists to
-   out/findings.edn: silence is never success, and a non-blocking finding is
-   never silent.
+   is `devcards.lanes/verdict-policy` applied to each finding's ACT/EARL axes.
+   Per-card findings get producer metadata through `findings/card-findings`;
+   the batch-level disk audit cannot use that per-card contract and carries no
+   ACT axes, so the shipped defaults make it blocking. It is deliberately not
+   exemptible. Both modes print counts and persist their full findings vector
+   to out/findings.edn before the verdict: silence is never success, and a
+   non-blocking finding is never silent.
 
    'Counts always print' is a claim about ORDER, and it is load-bearing:
    `outcome/verdict` is TOTAL and is computed as one step, so a malformed
@@ -55,15 +57,17 @@
    map that omits what it never saw cannot tell 'none observed' from 'not a
    value this run could produce'.
 
-   THE VERDICT IS NOT COMPUTED IN THIS NAMESPACE. `lanes/run-verdict` returns
-   the lines and the exit code together; `-main` prints and exits. Nothing
-   here decides anything, because nothing here can be loaded by a test — the
-   generated bindings this ns requires are not on the :test alias's path."
+   THE VERDICT IS NOT COMPUTED IN THIS NAMESPACE. Each mode calls
+   `lanes/run-verdict`, which returns the lines and exit code together;
+   `-main` only prints and exits with those values. The two source-text pins in
+   `lanes_test.clj` are necessary because this ns cannot be loaded by a test —
+   the generated bindings it requires are not on the :test alias's path."
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.pprint :as pp]
             [clojure.string :as str]
             [devcards.composition :as composition]
+            [devcards.docgen :as docgen]
             [devcards.docs :as docs]
             [devcards.fixtures :as fixtures]
             [devcards.gates :as gates]
@@ -88,6 +92,38 @@
    :atomic-light "goldens/manifest-light.edn"
    :composition-dark "goldens/manifest-composition-dark.edn"
    :composition-light "goldens/manifest-composition-light.edn"})
+
+(def ^:private audit-details
+  "Root-specific recovery text for the batch-level disk audit. Tracked
+   generated trees and regenerated scratch have different remedies."
+  {:goldens
+   {:missing (str "the golden writer returned this manifest path but no file "
+                  "exists there — inspect the write before accepting a re-mint")
+    :orphaned (str "this TRACKED golden manifest is no longer claimed by any "
+                   "live lane — delete it in the same corpus change that "
+                   "retired the lane")
+    :refused "the committed goldens tree could not be reconciled"}
+   :composition
+   {:missing (str "the fresh composition writer returned this scratch path but "
+                  "no file exists there — the write did not survive this run")
+    :orphaned (str "the composition scratch tree was deleted immediately "
+                   "before this run, so this unclaimed file was created by the "
+                   "current generator — fix the writer/claim disagreement and "
+                   "rerun; there is no tracked file to delete")
+    :refused "the freshly rebuilt composition scratch tree could not be reconciled"}
+   :docs
+   {:missing (str "the gallery writer returned this doc path but no file exists "
+                  "there — inspect the write before accepting the gallery")
+    :orphaned (str "this TRACKED doc artifact is no longer claimed by the live "
+                   "gallery — delete it in the same corpus change that retired "
+                   "its unit")
+    :refused "the committed docs tree could not be reconciled"}})
+
+(defn- persist-findings!
+  "Persist one CLI arm's FULL findings vector before its total verdict."
+  [findings]
+  (io/make-parents "out/findings.edn")
+  (with-open [w (io/writer "out/findings.edn")] (pp/pprint findings w)))
 
 ;; Assembled-home paths (protogen root layout: tools/devcards/ beside
 ;; renderer/): the pinned wasm + assets are the relocated renderer's build
@@ -191,11 +227,14 @@
                  :light (manifest-of (update-vals f0 :light-hash))}}))
 
 (defn- persist-bytes!
-  "Write `b` at `path` (parents created)."
-  [^String path ^bytes b]
+  "Write `b` at `path` (parents created). Returns the path — the composition
+   lane collects them as its CLAIMED set for `docgen/audit`, so what is
+   reconciled is what this fn actually wrote rather than a second listing of
+   the naming scheme."
+  ^String [^String path ^bytes b]
   (io/make-parents path)
   (with-open [o (io/output-stream path)] (.write o b))
-  nil)
+  path)
 
 (defn- comp-slug
   "Composition card id -> flat artifact slug (ids contain '/')."
@@ -207,7 +246,14 @@
    framebuffers — the SAME bytes the wasmtime interaction suite
    re-renders and byte-compares
    (renderer/wasm_harness/tests/composition_interaction.rs reads this
-   tree repo-relatively)."
+   tree repo-relatively).
+
+   AUDITED after `renderer.mk` deletes and rebuilds it for every fixtures run.
+   The harness DISCOVERS its card roster by `read_dir` over this tree
+   rather than hand-listing it — deliberately, so it cannot go narrower
+   than the corpus. Cleaning before generation prevents an ignored slug from
+   making two developers on one commit get different verdicts; reconciliation
+   then catches any path the CURRENT run writes without claiming."
   "out/composition")
 
 (defn run-composition
@@ -216,8 +262,8 @@
    light) under the full invariant + render-time-emission lanes, the
    vanilla≡stock family pin (both modes), the :inert-prop
    pixel-inertness pin, the golden manifests, and the GraalWasm
-   interaction lane. Returns {:findings :counts :manifests
-   {:dark m :light m}}."
+   interaction lane. Returns {:findings :artifacts :counts :manifests
+   {:dark m :light m}}; :artifacts is derived from the writer returns."
   [inventory built]
   (when (empty? built)
     (throw (ex-info "empty composition corpus — refusing a vacuous run" {})))
@@ -230,21 +276,22 @@
                  (map (fn [{:keys [id] ^bytes pb :bytes}]
                         (let [dark (render-one! pb {:family 0 :dark true :dump? true})
                               light (render-one! pb {:family 0 :dark false})]
-                          (persist-bytes! (str composition-out-dir "/cards/"
-                                               (comp-slug id)
-                                               ".pb")
-                                          pb)
-                          (persist-bytes! (str composition-out-dir "/fb/"
-                                               (comp-slug id)
-                                               "_dark1.raw")
-                                          (:fb dark))
-                          (persist-bytes! (str composition-out-dir "/fb/"
-                                               (comp-slug id)
-                                               "_dark0.raw")
-                                          (:fb light))
                           [(str id)
                            {:dark-hash (golden/sha256-hex (:fb dark))
                             :light-hash (golden/sha256-hex (:fb light))
+                            :artifacts
+                            [(persist-bytes! (str composition-out-dir "/cards/"
+                                                  (comp-slug id)
+                                                  ".pb")
+                                             pb)
+                             (persist-bytes! (str composition-out-dir "/fb/"
+                                                  (comp-slug id)
+                                                  "_dark1.raw")
+                                             (:fb dark))
+                             (persist-bytes! (str composition-out-dir "/fb/"
+                                                  (comp-slug id)
+                                                  "_dark0.raw")
+                                             (:fb light))]
                             :inv (lanes/composition-findings
                                   id (:tree dark)
                                   {:dark (:emissions dark)
@@ -280,6 +327,7 @@
                      (into (gates/corpus-secret-findings (:cards inventory)))
                      (into interaction-findings))]
     {:findings findings
+     :artifacts (vec (mapcat (comp :artifacts val) (sort-by key f0)))
      :counts {:composition-cards (count built)
               :composition-renders (* (count built) 6)
               :composition-findings (count findings)
@@ -288,11 +336,12 @@
                  :light (manifest-of (update-vals f0 :light-hash))}}))
 
 (defn -main
-  "CLI: `generate` renders + judges + writes goldens/manifest-{dark,light}
-   .edn; non-zero exit on any BLOCKING finding — see this ns's docstring for
-   what blocking means. Under today's shipped `lanes/verdict-policy` that is
-   every finding, but the two are not the same claim and a consumer is free to
-   narrow the policy without touching this fn."
+  "CLI: `generate` renders, judges, writes and audits goldens/composition;
+   `gallery` renders, writes and audits docs. Both exit non-zero on any
+   BLOCKING finding — see this ns's docstring for what blocking means. Under
+   today's shipped `lanes/verdict-policy` that is every finding, but the two
+   are not the same claim and a consumer is free to narrow the policy without
+   touching this fn."
   [& [mode]]
   (let [spec (fixtures/load-spec)
         built (fixtures/build-all spec)]
@@ -328,34 +377,38 @@
               {:label :composition-light
                :committed (:cards (:composition-light committed))
                :fresh (:cards (:light (:manifests comp-run)))}])
+            manifest-writes [[(:atomic-dark golden-manifest-paths)
+                              (:dark manifests)]
+                             [(:atomic-light golden-manifest-paths)
+                              (:light manifests)]
+                             [(:composition-dark golden-manifest-paths)
+                              (:dark (:manifests comp-run))]
+                             [(:composition-light golden-manifest-paths)
+                              (:light (:manifests comp-run))]]
+            _ (doseq [[path m] manifest-writes] (golden/write-manifest! m path))
+            goldens-audit
+            (docgen/run-audit "goldens"
+                              (map first manifest-writes)
+                              (:goldens audit-details))
+            composition-audit
+            (docgen/run-audit composition-out-dir
+                              (:artifacts comp-run)
+                              (:composition audit-details))
             all-findings (-> (vec findings)
                              (into (:findings comp-run))
-                             (into golden-findings))]
-        (golden/write-manifest! (:dark manifests)
-                                (:atomic-dark golden-manifest-paths))
-        (golden/write-manifest! (:light manifests)
-                                (:atomic-light golden-manifest-paths))
-        (golden/write-manifest! (:dark (:manifests comp-run))
-                                (:composition-dark golden-manifest-paths))
-        (golden/write-manifest! (:light (:manifests comp-run))
-                                (:composition-light golden-manifest-paths))
-        ;; Persist the FULL findings vector every run (console truncates at
-        ;; 40) — triage reads out/findings.edn, the exit code stays the gate.
-        (io/make-parents "out/findings.edn")
-        (with-open [w (io/writer "out/findings.edn")] (pp/pprint all-findings w))
+                             (into golden-findings)
+                             (into (:findings goldens-audit))
+                             (into (:findings composition-audit)))]
+        (persist-findings! all-findings)
+        (println (:line goldens-audit))
+        (println (:line composition-audit))
         (println "renders:" (:renders counts)
                  " elapsed:" (format "%.1fs" (double (:elapsed-s counts))))
         (println "composition renders:" (:composition-renders (:counts comp-run))
                  " cards:" (:composition-cards (:counts comp-run))
                  " elapsed:" (format "%.1fs" (double (:elapsed-s (:counts comp-run)))))
-        ;; NO DECISION LIVES HERE. `lanes/run-verdict` computes both the
-        ;; lines and the exit code, because this ns cannot load under the
-        ;; :test alias and an expression no test can name is an expression no
-        ;; canary can pin — measured: forcing :exit 0 in a verdict computed
-        ;; here left every "reaches the EXIT-CODE" test green. It is also
-        ;; TOTAL (see `outcome/verdict`), so nothing between the persisted
-        ;; vector above and System/exit below can throw, which is what makes
-        ;; this ns's "counts always print" claim true.
+        ;; NO DECISION LIVES HERE. The source-text canary in lanes_test pins
+        ;; this entire call/print/exit form, and run-verdict is TOTAL.
         (let [{:keys [lines exit]} (lanes/run-verdict all-findings)]
           (doseq [l lines] (println l))
           (System/exit exit)))
@@ -369,7 +422,12 @@
                              :composition {:cards (:cards inventory)
                                            :built comp-built}
                              :paths {:wasm wasm-path :assets assets-path}})
-            total (reduce + (map :bytes files))]
+            total (reduce + (map :bytes files))
+            docs-audit (docgen/run-audit docs/audit-root
+                                         (map :path files)
+                                         (:docs audit-details))
+            audit-findings (:findings docs-audit)]
+        (persist-findings! audit-findings)
         (doseq [{:keys [path] n :bytes} files]
           (println (format "  %-64s %8d bytes" path n)))
         (println
@@ -381,5 +439,10 @@
           (count files)
           total
           (/ (- (System/nanoTime) t0) 1e9)))
-        (System/exit 0))
+        (println (:line docs-audit))
+        ;; The gallery arm uses the SAME testable, total verdict as generate;
+        ;; no direct `(if (seq audit-findings) ...)` decision lives here.
+        (let [{:keys [lines exit]} (lanes/run-verdict audit-findings [])]
+          (doseq [l lines] (println l))
+          (System/exit exit)))
       (do (println "unknown mode" mode) (System/exit 2)))))

@@ -177,8 +177,8 @@
             one expression here no canary could name — and canaries were
             written against `outcome/exit-code`, a fn with ZERO production
             callers, which stayed green through a mutation of what the gate
-            actually ran. This fn is now that whole computation: everything
-            core does with it is `doseq println` and `System/exit`."
+            actually ran. This fn is now that whole computation: after each
+            core arm calls it, only `doseq println` and `System/exit` remain."
     (let [live (lanes/atomic-findings "c" nil defective-tree)
           {:keys [lines exit blocking]} (lanes/run-verdict live)]
       (is (= 1 exit))
@@ -200,9 +200,18 @@
     (let [lines (:lines (lanes/run-verdict
                          (vec (repeat 40 {:card "c" :invariant :clipped}))))]
       (is (= 40 (count (filter #(re-find #"^\{:card " %) lines))))
-      (is (not-any? #(re-find #"more" %) lines)))))
+      (is (not-any? #(re-find #"more" %) lines))))
+  (testing "and the batch arity still blocks a disk finding without pretending
+            gallery ran the per-card producer set"
+    (let [finding {:gate :disk-audit
+                   :card "docs"
+                   :invariant :orphaned-artifact}
+          v (lanes/run-verdict [finding] [])]
+      (is (= 1 (:exit v)))
+      (is (= [finding] (:blocking v)))
+      (is (= #{} (:emittable v))))))
 
-;; ── the CALL SITE, pinned as source text ─────────────────────────────────
+;; ── the CALL SITES, pinned as source text ────────────────────────────────
 
 (def ^:private core-source
   "`devcards.core` as TEXT. It cannot be required here — it drags
@@ -211,7 +220,7 @@
    suite already reads files this way (see `lvgl-classes-test`)."
   (slurp (io/file "src/devcards/core.clj")))
 
-(def ^:private verdict-call-site
+(def ^:private generate-verdict-call-site
   "The generate arm's ENTIRE decision, as one form. Whitespace-tolerant and
    otherwise exact: the token sequence is the claim."
   (re-pattern
@@ -220,7 +229,45 @@
         "\\s+\\(doseq\\s+\\[l\\s+lines\\]\\s+\\(println\\s+l\\)\\)"
         "\\s+\\(System/exit\\s+exit\\)\\)")))
 
-(deftest core-CALLS-run-verdict-and-exits-with-what-it-returned
+(def ^:private gallery-verdict-call-site
+  "The gallery arm's ENTIRE decision. The explicit [] is the honest producer
+   scope: disk reconciliation is batch-level, not a registered per-card lane."
+  (re-pattern
+   (str "\\(let\\s+\\[\\{:keys\\s+\\[lines\\s+exit\\]\\}"
+        "\\s+\\(lanes/run-verdict\\s+audit-findings\\s+\\[\\]\\)\\]"
+        "\\s+\\(doseq\\s+\\[l\\s+lines\\]\\s+\\(println\\s+l\\)\\)"
+        "\\s+\\(System/exit\\s+exit\\)\\)")))
+
+(def ^:private generate-audit-call-site
+  "Both generate audits, and both insertions into the vector sent to the
+   verdict. This is the production expression whose deletion was invisible
+   to the donated suite."
+  (re-pattern
+   (str "(?s)goldens-audit\\s+"
+        "\\(docgen/run-audit\\s+\"goldens\"\\s+"
+        "\\(map\\s+first\\s+manifest-writes\\)\\s+"
+        "\\(:goldens\\s+audit-details\\)\\)\\s+"
+        "composition-audit\\s+"
+        "\\(docgen/run-audit\\s+composition-out-dir\\s+"
+        "\\(:artifacts\\s+comp-run\\)\\s+"
+        "\\(:composition\\s+audit-details\\)\\)\\s+"
+        "all-findings\\s+\\(->\\s+\\(vec\\s+findings\\).*?"
+        "\\(into\\s+\\(:findings\\s+goldens-audit\\)\\)\\s+"
+        "\\(into\\s+\\(:findings\\s+composition-audit\\)\\)\\)\\]"
+        "\\s+\\(persist-findings!\\s+all-findings\\)")))
+
+(def ^:private gallery-audit-call-site
+  "Gallery derives its findings from the writer returns and persists them
+   before reaching the verdict."
+  (re-pattern
+   (str "(?s)docs-audit\\s+"
+        "\\(docgen/run-audit\\s+docs/audit-root\\s+"
+        "\\(map\\s+:path\\s+files\\)\\s+"
+        "\\(:docs\\s+audit-details\\)\\)\\s+"
+        "audit-findings\\s+\\(:findings\\s+docs-audit\\)\\]"
+        "\\s+\\(persist-findings!\\s+audit-findings\\)")))
+
+(deftest generate-CALLS-run-verdict-and-exits-with-what-it-returned
   (testing "the sibling canary above pins what `run-verdict` COMPUTES; it
             cannot pin that anything calls it. Measured, on this tree:
             rewriting core's `(System/exit exit)` to `(System/exit 0)` — the
@@ -230,8 +277,8 @@
             `(System/exit (if (seq all-findings) 1 0))`.
 
             WHAT IT PINS, AND WHAT IT DOES NOT. It pins that the form below
-            appears in core's source and that `run-verdict` is called exactly
-            once. It cannot pin REACHABILITY: measured, inserting
+            appears in core's source. It cannot pin REACHABILITY: measured,
+            inserting
             `(System/exit 0)` immediately BEFORE that form leaves the pattern
             intact and the whole suite green — the same permanently-green
             gate, invisible here. That residual is inherent to a source-text
@@ -243,24 +290,64 @@
             `core.clj`'s generate arm to `(System/exit 0)`."
     ;; The match is reduced to a boolean BEFORE `is` sees it — otherwise a
     ;; failure pretty-prints the whole of core.clj as the actual value.
-    (let [found? (some? (re-find verdict-call-site core-source))]
+    (let [found? (some? (re-find generate-verdict-call-site core-source))]
       (is found?
           (str "core.clj's generate arm no longer reads "
                "`(let [{:keys [lines exit]} (lanes/run-verdict all-findings)] "
                "(doseq [l lines] (println l)) (System/exit exit))`. Either the "
                "verdict moved back into core — where no test can name it — or "
                "the exit code stopped being the one run-verdict returned."))))
-  (testing "and `run-verdict` is called EXACTLY once, so the form pinned
-            above is the only verdict core computes — a second call site
-            would be a second, unpinned decision"
-    (is (= 1 (count (re-seq #"\(lanes/run-verdict\s" core-source)))))
   (testing "CONTROL: the pattern is a real discriminator, not a tautology —
             it must NOT match the same form with the exit code forced"
-    (is (not (re-find verdict-call-site
+    (is (not (re-find generate-verdict-call-site
                       (str "(let [{:keys [lines exit]} "
                            "(lanes/run-verdict all-findings)] "
                            "(doseq [l lines] (println l)) "
                            "(System/exit 0))"))))))
+
+(deftest gallery-CALLS-run-verdict-and-exits-with-what-it-returned
+  (testing "gallery used to decide directly with `(if (seq audit-findings)
+            1 0)`, a production expression no unit test could name. The exact
+            call/print/exit form is pinned here.
+            REVERT-TO-BREAK: force gallery's `(System/exit exit)` to
+            `(System/exit 0)`."
+    (is (some? (re-find gallery-verdict-call-site core-source))
+        (str "core.clj's gallery arm no longer exits with the value returned "
+             "by `(lanes/run-verdict audit-findings [])`")))
+  (testing "CONTROL: forcing the exit code does not match"
+    (is (not (re-find gallery-verdict-call-site
+                      (str "(let [{:keys [lines exit]} "
+                           "(lanes/run-verdict audit-findings [])] "
+                           "(doseq [l lines] (println l)) "
+                           "(System/exit 0))")))))
+  (testing "both decision sites are enumerated: one generate and one gallery"
+    (is (= 2 (count (re-seq #"\(lanes/run-verdict\s" core-source)))))
+  (testing "and the findings reaching that decision come from the paths
+            docs/generate! returned, then persist before the verdict"
+    (is (some? (re-find gallery-audit-call-site core-source)))))
+
+(deftest generate-INCLUDES-both-disk-audits-in-the-verdict
+  (testing "testing `docgen/audit` cannot prove generate uses its findings.
+            This pins the two real audit calls AND both insertions into
+            all-findings.
+            REVERT-TO-BREAK: drop the goldens-audit and composition-audit
+            insertions from the all-findings thread."
+    (is (some? (re-find generate-audit-call-site core-source))
+        (str "core.clj's generate arm no longer derives both audits and "
+             "includes both findings vectors in all-findings")))
+  (testing "CONTROL: merely computing the audits without inserting them does
+            not match"
+    (is (not (re-find generate-audit-call-site
+                      (str "goldens-audit "
+                           "(docgen/run-audit \"goldens\" "
+                           "(map first manifest-writes) "
+                           "(:goldens audit-details)) "
+                           "composition-audit "
+                           "(docgen/run-audit composition-out-dir "
+                           "(:artifacts comp-run) "
+                           "(:composition audit-details)) "
+                           "all-findings (-> (vec findings) "
+                           "(into golden-findings))"))))))
 
 (deftest the-armed-set-is-the-set-that-RUNS
   (testing "`armed-producers` is what scopes the NOT-EXERCISED line, so a

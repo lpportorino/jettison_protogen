@@ -46,7 +46,7 @@ RGEN := tools/renderer-gen
 	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary-prebuilt interaction-prebuilt \
-	standard-brief standard-brief-generate
+	standard-brief standard-brief-generate composition-clean doc-audit
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
@@ -89,8 +89,9 @@ bindings:
 # CI STILL DIFFS, AND STILL HAS TO. This lane sees the GOLDENS; the JPEG
 # gallery and generated doc pages come from the `gallery` mode, which
 # check-renderer does not run, so `git diff --exit-code tools/devcards/goldens
-# tools/devcards/docs` remains the only thing catching a stale contact sheet.
-fixtures: wasm bindings
+# tools/devcards/docs` remains the thing that catches changed contact-sheet
+# CONTENT. The disk audit below catches an unchanged retired path.
+fixtures: wasm bindings composition-clean
 	cd tools/devcards && clojure -M:bindings:run generate
 
 # ── CI prebuilt-wasm entries (no WASI toolchain on the runner) ──────────────
@@ -105,8 +106,15 @@ wasm-present:
 		echo "FATAL: $(R)/output/controls.wasm missing — build it (make -f renderer.mk wasm) or download the battery artifact first" >&2; \
 		exit 1; }
 
-fixtures-prebuilt: wasm-present bindings
+fixtures-prebuilt: wasm-present bindings composition-clean
 	cd tools/devcards && clojure -M:bindings:run generate
+
+# out/composition is ignored scratch, but the wasmtime interaction harness
+# discovers its roster with read_dir. Rebuild it from empty before every
+# generate arm so a retired local slug cannot change the verdict or harness
+# population for one developer while a fresh CI checkout stays green.
+composition-clean:
+	rm -rf tools/devcards/out/composition
 
 # Gallery + generated doc pages against the prebuilt wasm — CI diffs
 # tools/devcards/docs afterwards (a pixel-shifting renderer change must
@@ -121,6 +129,26 @@ gallery-prebuilt: wasm-present bindings
 # exemptions/rule special-casing the standard forbids.
 deadzone-canary-prebuilt: wasm-present bindings
 	cd tools/devcards && clojure -M:bindings:deadzone-canary
+# ── Two-way disk reconciliation over the generated trees ────────────────────
+# No doc/golden emitter here has a DELETION path — they only ever write. So
+# retire a widget, kitchen sink or lego and the generator simply stops
+# emitting that unit's files, which stay on disk, TRACKED and byte-unchanged;
+# the freshness step above reports nothing about them because nothing
+# modified them, and once the author commits the re-mint every later run is
+# green with the orphans still shipping to every consumer that clones this
+# history. Measured before the audit existed: retiring one composition card
+# left three tracked JPEGs behind and `git diff --exit-code` exited 0.
+#
+# It is NOT a standalone pass, and cannot be. The audit's CLAIMED set has to
+# be the emitter's own report of the paths it just wrote — a second listing
+# of the naming scheme would go stale in exactly the way the audit exists to
+# catch. So the reconciliation rides the two arms that do the writing, and
+# this target is the name for running both AGAINST AN ALREADY-BUILT
+# renderer/output/controls.wasm: `generate` reconciles goldens/ and the
+# freshly-cleaned out/composition (the roster the wasmtime harness DISCOVERS
+# by read_dir), `gallery` reconciles docs/. Each fails its own arm non-zero.
+doc-audit: fixtures-prebuilt gallery-prebuilt
+	@echo "doc-audit: goldens/, out/composition/ and docs/ each reconciled against what its generator claimed — see the audit lines above"
 
 # ── Harness suite (wasmtime host; adapted from the source repo's battery) ───
 # visual_regression reads renderer/output/fixtures/*.pb plus the tabview
