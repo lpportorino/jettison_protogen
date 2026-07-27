@@ -146,10 +146,36 @@ MANDATORY — here, and wherever such a surface is authored, owed for the SURFAC
 and not for the repository (see `CLAUDE.md` §"Consuming the UI standard" for the
 obligation and the disposition rule). This section is how.
 
+- **RESOLVE THE INPUTS FIRST, with `preflight.sh`, and never by globbing.**
+  `.claude/skills/ui-standard-review/preflight.sh`, run from the surface's own
+  repo root, prints the unit roster that IS the batch — or refuses, with a
+  distinct exit code per reason: no gallery (3), a gallery that resolved inside
+  the PIN (4), a gallery with no renders (5), no launcher installed at the
+  project root (6), a launcher that has drifted from the pin (7). Each of those
+  states previously produced a CLEAN review, which is the whole defect: this
+  pass is not a gate, so an empty or misdirected batch is indistinguishable from
+  a surface that was looked at and found sound. `tools/ui-review-preflight-canary.sh`
+  is its canary — 11 arms, each asserting its own exit code.
 - **Reuse the artifacts that exist; add no pipeline.** The inputs are the
-  committed gallery images under `docs/widgets/<WIDGET>/` (one per family — see
-  `gallery.clj` `family-renders`) and the per-card `dump_tree` the runner already
-  captures (`core.clj` `render-one!`). Anything the review WRITES goes through
+  committed gallery images under **`tools/devcards/docs/widgets/<UNIT>/`** (one
+  per family — see `gallery.clj` `family-renders`) and the per-card `dump_tree`
+  the runner already captures (`core.clj` `render-one!`). Both halves of that
+  path were wrong and both were silent:
+  - **REPO-ROOT-ANCHORED, unlike every other path in this file**, which is
+    devcards-tool-relative (`goldens/`, `corpus/spec.edn`, `gallery.clj`). This
+    bullet is read by an agent working from the REPO root, and `docs/widgets/`
+    from there is the Obsidian proto vault — which has no `widgets/`, so the
+    unanchored form resolved to nothing even here.
+  - **`<UNIT>`, not `<WIDGET>`** — `SKILL.md` is the definition and it means a
+    WidgetType enum directory OR a composition unit slug. Reading it as
+    widgets-only silently drops `legos` and `kitchen-sinks`, i.e. 48 of the 732
+    committed renders and exactly the composition cards the review is most often
+    about.
+
+  At a CONSUMER that path is the consumer's OWN gallery and never the pin's;
+  resolve it with `.claude/skills/ui-standard-review/preflight.sh`, which
+  refuses a gallery inside the pin instead of reviewing it. Anything the review
+  WRITES goes through
   `docgen.clj` (`do-not-edit-header`, `md-table`, `image-grid-md`,
   `write-text!`), so it carries the DO-NOT-EDIT header like every other
   generated doc.
