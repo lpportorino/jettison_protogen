@@ -1,30 +1,54 @@
 # UI Quality Contracts
 
 The interface-quality standard protogen defines and its consumers gate on.
-Companion to `INTERFACE-CONTRACTS.md`, which covers the cross-language WIRE
-surface; nothing here is a wire surface. The rules here are enforced by
-finding-producers in `tools/devcards/src/devcards/` and are consumed through the
-registry (`devcards.findings`), never re-implemented in a consumer — see
-`CLAUDE.md` §"Consuming the UI standard".
 
-## 0. The two lanes have different verdict shapes, on purpose
+**SCOPE: a ui_ast SURFACE, never a repository.** Everything here binds an
+interface rendered through the ui_ast vocabulary by the reference interpreter,
+including widgets a consumer authors on top. The mechanical test is whether the
+nodes come out of `controls_dump_tree`. A UI in any other technology is outside
+these gates — not by courtesy but because the machinery cannot see it — while
+still owing the panel-and-operator readability numbers and the hardware bench
+obligations, which never depended on a widget toolkit. `CLAUDE.md` §"Consuming
+the UI standard" carries the full statement.
 
-| lane | measurement | verdict |
+**Companion to `INTERFACE-CONTRACTS.md`, and SEPARABLE from it.** That document
+is what a consumer owes for consuming the WIRE; this one is what a surface owes
+for RENDERING ui_ast. Nothing here is a wire surface, and **a consumer can owe
+that document entirely and this one's GATES not at all** — a client that speaks
+the protocol and draws its own interface is exactly that case. What it still
+owes is the scope paragraph above, which is a statement of obligation and not a
+gate.
+
+The rules here are enforced by finding-producers in
+`tools/devcards/src/devcards/` and are consumed through the registry
+(`devcards.findings`), never re-implemented in a consumer.
+
+## 0. Two verdict SHAPES, and which measurement earns which
+
+| shape | earned by | verdict |
 |---|---|---|
-| **Geometry** — occlusion, overlap, the layer contract | exact integer arithmetic on inclusive rects | pass / fail |
-| **Readability** — contrast | a measurement whose separating gap is narrower than its own seed-to-seed noise | pass / fail / **uncertain** |
+| **exact** | integer arithmetic on inclusive rects — geometry: occlusion, overlap, the layer contract. **And equally** token-level contrast against a declared floor. **This row is the SHAPE a measurement earns, never an inventory of what ships** | pass / fail |
+| **banded** | a measurement whose separating gap is narrower than its own seed-to-seed noise. **No such producer ships here** — see below | pass / fail / **uncertain** |
 
-Neither lane may borrow the other's shape. Geometry has no noise floor, so an
+Neither shape may borrow the other's. Geometry has no noise floor, so an
 "uncertain" verdict there would manufacture doubt the arithmetic does not have.
-Readability's uncertain band is the only legitimate place for an adjudicator,
-and one must be validated as a classifier on a held-out labelled set before it
-is wired in.
+A noise-banded measurement is the only legitimate place for an adjudicator, and
+one must be validated as a classifier on a held-out labelled set before it is
+wired in.
+
+**NO READABILITY LANE SHIPS HERE, and the distinction matters for which shape a
+future one takes.** Token-level contrast is EXACT arithmetic against a declared
+floor — same shape as geometry, no noise band, no adjudicator. **The three-way
+shape belongs to a DIFFERENT quantity**: an ink-DRIFT measurement over a degraded
+render, whose separating gap is narrower than its own seed-to-seed noise. Do not
+carry "readability is three-way" across to the arithmetic one; they are two
+quantities that share a word.
 
 **PDL-HW** — legibility under a hardware condition (sunlight, darkness, a
 specific panel revision) — is a BENCH obligation scoped to a hardware revision,
 never a gate result. No gate here can see those conditions, so no pass message
-may imply them. A green readability lane says the render is legible under the
-gate's own fixed veil, and nothing more.
+may imply them, and no green here may be read as legibility under any condition
+the gate did not impose.
 
 ---
 
@@ -63,8 +87,8 @@ has finished.
 
 A layer is a field on an existing node, never a wrapper object inserted to mark
 one. A marker that exists as an `lv_obj` has geometry, so it participates in the
-very overlap and occlusion checks it was added to describe — the instrument
-would perturb the measurement. Default `z` is `0`, so an undeclared subtree gets
+very geometry checks it was added to describe — the instrument would perturb the
+measurement. Default `z` is `0`, so an undeclared subtree gets
 the strict base rule rather than an exemption.
 
 ### 1.4 The outcome matrix
@@ -224,16 +248,21 @@ A disabled control painted over an enabled one therefore **absorbs the press and
 drops it** — the silent version of the defect, because the control underneath is
 dead *and* nothing anywhere reports a press.
 
-**CONSUMER AUDIT OWED — this one is not discharged by arming a lane.** Neither
-of your existing oracles can see it: the framebuffer is byte-identical whether
-the control underneath was reachable or dead, so no pixel test fires, and no
-event is emitted, so no event log fires either. A screen with this defect passes
-everything you currently run.
+**CONSUMER AUDIT OWED — arming a lane NARROWS this one, it does not discharge
+it.** Neither PIXEL oracle nor EVENT log can see it: the framebuffer is
+byte-identical whether the control underneath was reachable or dead, so no pixel
+test fires, and no event is emitted, so no event log fires either.
 
-So it has to be looked for directly. Audit your own screens for **stacked
-interactive elements where one is disabled** — most cheaply by arming
-`devcards.overlap` against your corpus, which reports exactly these pairs and
-names the disabled participant in its `:detail`. Any design reasoning that
+What CAN see it is `devcards.overlap`, which declines to exclude a disabled node
+and names that participant in its `:detail`. Read that report for exactly what it
+is: overlap is ORDER-FREE, so it tells you the two share a pixel and one of them
+is disabled — never that the disabled one WINS the hit test. That is the
+necessary condition, not the verdict, which is why arming the lane leaves an
+audit still owed.
+
+So the rest has to be looked for directly. Audit your own screens for **stacked
+interactive elements where one is disabled**, starting from the pairs the lane
+reports. Any design reasoning that
 "disabled controls are safe to stack" — a disabled overlay left mounted over a
 live control, a disabled full-bleed scrim, a control disabled *because* another
 is meant to receive the press — is the shape to hunt. If you find none, that is
@@ -355,9 +384,10 @@ whether one exists on real screens.
 
 Do not re-run this expecting a different answer, and do not promote the
 separation above into a threshold: a number fitted to a corpus containing no
-defects would pass everything. protogen does not yet ship an occlusion lane;
-when it does, the table it uses still owes a measurement on a corpus that
-contains damage, which means a consumer's.
+defects would pass everything. protogen ships no occlusion lane at all — not
+per-role and not global (§0: `:zero-visible-area` is armed but measures
+ancestor CLIP, a different quantity); when one lands, the table it uses still
+owes a measurement on a corpus that contains damage, which means a consumer's.
 
 | uid | kind | VISIBLE fraction | verdict |
 |---|---|---|---|
@@ -389,9 +419,9 @@ which, and guessing would bake a number nobody can defend into a gate that
 condemns real screens.
 
 **Therefore:** the `:text` / `:interactive` arm is ready to implement; the
-`:structural` arm is NOT, and protogen ships no occlusion lane until it is
-re-measured here against a corpus this repo can reproduce. Shipping the table as
-though it were coherent is the kind of green-looking lie §0 exists to forbid.
+`:structural` arm is NOT, and protogen ships no per-role occlusion lane until it
+is re-measured here against a corpus this repo can reproduce. Shipping the table
+as though it were coherent is the kind of green-looking lie §0 exists to forbid.
 
 Thresholds are DATA. Each producer declares its own with a default and a
 predicate; the registry namespaces them by producer id, **throws on an unknown

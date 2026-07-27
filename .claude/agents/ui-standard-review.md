@@ -1,6 +1,6 @@
 ---
 name: ui-standard-review
-description: Batched visual review of committed devcard gallery renders plus their dump_tree DOM against this repo's UI standard. Launch after any change to what a card renders — a widget, a composition, the theme, the interpreter — and before pushing it. One agent loads the standard once and judges MANY elements; never one agent per check.
+description: Batched visual review of committed devcard gallery renders plus their dump_tree DOM against this repo's UI standard. Launch after any change to what a ui_ast SURFACE renders — a widget, a composition, the theme, the interpreter — and before pushing it. One agent loads the standard once and judges MANY elements; never one agent per check.
 model: sonnet
 tools: Read, Glob, Grep, Bash
 ---

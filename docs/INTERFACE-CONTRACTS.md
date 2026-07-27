@@ -15,6 +15,16 @@ renderer both embed. Each section is a contract both ends MUST agree on
 byte-for-byte; each ends with a `Reference implementations:` line citing the
 producing/consuming source in BOTH repos so any drift is a two-sided bug.
 
+**This document is SEPARABLE from `UI-QUALITY-CONTRACTS.md`.** That one is the
+interface-quality standard, and it binds a ui_ast SURFACE — an interface the
+reference interpreter renders. This one binds anything that speaks the WIRE.
+**A consumer can owe this document entirely and that one's GATES not at all**: a
+client that speaks the protocol and draws its own interface, in any technology,
+owes the bytes here and none of the UI gates there, because those gates read a
+`dump_tree` and a framebuffer it does not produce. Read that one's scope section
+anyway before concluding nothing is owed — the readability and bench obligations
+it states are properties of a panel and an operator, not of a widget toolkit.
+
 All multi-byte integers are explicitly tagged big-endian (BE) or little-endian
 (LE) per field — the two stacks mix conventions deliberately (transport headers
 are BE; framing length prefixes and codec headers are LE), so never assume.

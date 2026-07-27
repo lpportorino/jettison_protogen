@@ -75,34 +75,140 @@ Rules:
 
 ## Consuming the UI standard (MANDATORY — arm the gates, never fork them)
 
-protogen defines HOW interfaces work: the ui_ast vocabulary, the ONE reference
-interpreter, and the INTERFACE-QUALITY STANDARD those imply. A consumer owns
-WHAT its screens contain; it does not own the standard, and it does not get to
-decide locally what "reachable" or "readable" means. A consumer that hand-rolls
-its own geometry or contrast check forks the standard silently — two stacks
-required to agree then disagree about whether the same screen is defective, and
-the defect one of them catches stays live in every other. This is the §"Fixing
-protogen from a consumer" rule applied to the gates themselves: **a quality rule
-that lives only in your repo is a bug in this one.**
+### WHAT THIS BINDS — a SURFACE, never a repository
 
-The standard has two ends and they are DELIBERATELY different shapes:
-- **Geometry** (occlusion, overlap, the layer contract) is exact integer
-  arithmetic on inclusive rects — `devcards.geometry`. It has no noise floor, so
-  it is strictly pass/fail. Importing an "uncertain" verdict here manufactures
-  doubt the arithmetic does not have.
-- **Readability** (contrast) is a measurement whose separating gap is narrower
-  than its own seed-to-seed noise, so it is THREE-way (pass/fail/uncertain), and
-  the uncertain band is the only place an adjudicator belongs — one validated as
-  a classifier on a held-out labelled set before it is wired in.
-Never import one lane's verdict shape into the other. A hardware-scoped claim
-(sunlight, darkness) belongs to a BENCH obligation; a gate that cannot see it
-must not imply it in a pass message.
+**This standard binds any interface rendered through the ui_ast vocabulary by
+the reference interpreter — including every widget and composition a consumer
+authors on top of it. It binds nothing else in the repository that contains
+one.**
+
+Scoping by repo would be wrong in both directions, and the fleet proves it:
+`docs/INTERFACE-CONTRACTS.md` describes two co-equal render targets — a web
+stack and a native stack — that **both EMBED the same `controls.wasm`**. Each
+therefore owns an in-scope ui_ast surface AND out-of-scope chrome around it, in
+one repository. A repo-level rule over-binds the shell and never explains why
+the overlay is covered.
+
+**The test is mechanical: if the nodes come out of `controls_dump_tree`, the
+surface is in scope.** A consumer's million new widgets are in scope precisely
+because they compose classes the interpreter emits — which is also the condition
+the DOM-reading harnesses below need (the goldens are independent of it; they
+hash raw framebuffer bytes and never read a value). A tree too big for the dump
+buffer does not narrow scope silently either — but know which WAY it fails: the
+sentinel OVERWRITES the tail of already-cut JSON, so the runner's parse throws
+before any producer runs. It is loud, and it is not the `:dump-truncated`
+finding, which reads a root key a parsed dump can never carry.
+
+**A host-proxy surface is NOT an exception to the test**, and it is worth saying
+because it looks like one. The compositor paints it after LVGL, so its paint
+ORDER cannot be read off the tree — that is what the `:proxy-rects` declaration
+supplies. The SURFACE itself is an authored widget with a uid, `dump_obj` emits
+`proxy_root` on it, and the layer contract resolves the declaration to that dump
+node by uid and THROWS if it matches none. Every coordinate it judges comes from
+the dump.
+
+**The one real gap is named rather than hidden:** this interpreter puts every
+OBJECT on the active screen, while stock LVGL also searches its system, top and
+bottom layers, so a port that started using them would need this sentence
+revisited before the dump could still stand for the whole surface.
+
+### WHAT THIS DOES NOT BIND, and what is still owed anyway
+
+A UI built in any other technology — a DOM front-end, a native toolkit — is out
+of scope, and not as a courtesy: **the machinery is mechanically inapplicable.**
+No `dump_tree` means no `:coords` / `:click_area` / `:clickable`, so no geometry
+and no classification key; no `controls.wasm` means no framebuffer to hash; no
+gallery means no input for the visual review.
+
+Stronger still, the overlap rule's verdict would not MEAN the same thing. Its
+correctness argument is not "two boxes overlap" — it is that
+`lv_indev_search_obj` walks children in REVERSE and returns the FIRST hit, so
+the later sibling silently wins and the one underneath is dead. Two premises
+under that do not transfer: the ORDERING is reverse child index, where a DOM
+resolves by stacking context and z-index; and the reachable box is
+`lv_obj_get_click_area` grown by `ext_click_pad` and intersected with each
+ancestor's descent gate, which has no DOM analogue — nor does `pointer-events:
+none`, which removes a box from hit-testing with no LVGL counterpart.
+
+**And one of those goes SILENTLY wrong, which is worse than a wrong verdict.**
+The descent gate is exactly `:coords` only while nothing sets
+`LV_OBJ_FLAG_OVERFLOW_VISIBLE` — a child outside its parent's box cannot then be
+reached, so the rule records `:unreachable` as a POSITIVE determination and drops
+the node with no finding. **In CSS, `overflow: visible` is the initial value**:
+the default is inverted, that child IS hit-testable, and a ported rule would drop
+genuinely reachable elements while emitting output byte-identical to a clean run.
+A gate going green on elements it never judged is the one failure class this
+standard refuses everywhere else.
+
+**Do not read that as a hazard only a DOM has.** The flag is settable straight
+from the wire — `obj_flags` is direct-cast onto `lv_obj_add_flag` — and the
+authoring vocabulary already names it, so a consumer can create the same silent
+under-report inside the very lane this section orders armed; `overlap`'s
+docstring records it as a known limit rather than leaving it to be discovered.
+What separates the two is DEGREE, and the degree is what matters: here it takes
+a deliberate flag on a subtree, whereas in CSS it is what every element does
+unless told otherwise.
+
+(What does NOT rescue it is event bubbling: the rule already excludes
+ancestor/descendant pairs — `invariants/related?` — because containment is how
+composition works, and bubbling propagates along exactly that chain. LVGL
+bubbles too, opt-in via `LV_OBJ_FLAG_EVENT_BUBBLE`. For the independent
+siblings the rule DOES judge, a DOM hit-test yields one target and the sibling
+underneath gets nothing — the same hazard, not a phantom one.)
+
+**But out of scope for THESE GATES is not out of scope for the obligation.**
+Readability numbers are properties of a PANEL and an OPERATOR — angular
+character size, touch geometry, chromaticity under night vision — not of a
+widget toolkit, and the bench obligation for hardware-scoped claims (sunlight,
+darkness, a panel revision) never mentioned a toolkit either. A surface with no
+ui_ast owes those the same; what it does not owe is protogen's lanes, because
+they cannot see it. Do not read "not ui_ast" as "nothing owed" — that inference
+is the one this section exists to prevent.
+
+**Be warned that this repo does not SPECIFY those numbers.** They are governed
+upstream and there is no in-tree document to point you at yet, so this paragraph
+establishes only that having no ui_ast fails to discharge them — it does not tell
+you their values. That caveat belongs here rather than in a commit message: an
+obligation nobody can scope is the exact defect this section was written to fix,
+and introducing a second one while fixing the first would be no improvement.
+
+### THE TWO DOCUMENTS, and they are separable
+
+`docs/INTERFACE-CONTRACTS.md` is what a consumer owes for consuming the WIRE.
+`docs/UI-QUALITY-CONTRACTS.md` is what a surface owes for RENDERING ui_ast. **A
+consumer can owe the first entirely and the second's GATES not at all** — a
+client that speaks the protocol and draws its own interface is exactly that
+case, and what it still owes is the section above, which is an obligation rather
+than a gate.
+
+### WHY IT MAY NOT BE FORKED
+
+Within that scope: a consumer owns WHAT its screens contain; it does not own the
+standard, and it does not get to decide locally what "reachable" means. A
+consumer that hand-rolls its own geometry check forks the standard silently —
+two stacks required to agree then disagree about whether the same screen is
+defective, and the defect one of them catches stays live in every other. This is
+the §"Fixing protogen from a consumer" rule applied to the gates themselves: **a
+quality rule that lives only in your repo is a bug in this one.**
+
+**Geometry is exact integer arithmetic on inclusive rects** (`devcards.geometry`)
+with no noise floor, so it is strictly pass/fail. Importing an "uncertain"
+verdict here manufactures doubt the arithmetic does not have. A measurement
+whose separating gap is narrower than its own noise is three-way instead, and
+the uncertain band is the only place an adjudicator belongs — one validated as a
+classifier on a held-out labelled set before it is wired in. **Never import one
+verdict SHAPE into the other's measurement**, and never let a gate imply in a
+pass message something it cannot see.
 
 Rules:
 - **Integrate with the harnesses; do not re-implement them.** Add rules through
   the finding-producer registry (`devcards.findings`) and drive your screens
-  through `devcards.corpus/render-corpus`. Both take consumer config, so nothing
-  here needs patching to run against a private corpus.
+  through `devcards.corpus/render-corpus`. Neither needs patching to run against
+  a private corpus: the registry validates producers against a closed key set,
+  and the corpus driver knows nothing about hosts or themes — **it takes your
+  render fn, so the wasm lives on YOUR side of the call.** Widget classification
+  merges your table OVER the shipped one (`lvgl-classes/merge-consumer`), so you
+  can add rows and correct ours.
 - **ARM THE OVERLAP LANE — protogen runs it on its own corpus, so this is not
   advice this repo exempts itself from.** `devcards.lanes` passes
   `overlap/producer` at `:overlap/gap-px 0` (strict overlap: a shared pixel
@@ -127,17 +233,40 @@ Rules:
   the good/bad boundary rather than separating. The ratios behind that claim
   were measured in a CONSUMER, not here — `docs/UI-QUALITY-CONTRACTS.md` §4
   records them and says so; treat them as the consumer's evidence for the
-  design, not as a protogen measurement. Note this constrains the OCCLUSION
-  lane, which protogen does not yet ship; the overlap rule's `gap-px` is a
+  design, not as a protogen measurement. Note this constrains the PER-ROLE
+  occlusion lane, and protogen ships no occlusion lane in ANY sense — the armed
+  `:zero-visible-area` check is not the global case of it but a different
+  quantity, an ancestor-CLIP walk that cannot see a covering sibling
+  (`docs/UI-QUALITY-CONTRACTS.md` §0). The overlap rule's `gap-px` is likewise a
   single geometric threshold and correctly has no role axis.
 - **An unjudged element is a FINDING, never a skip.** A rule that passes over
   what it could not classify reports "clean" and "I could not look" as the same
-  empty vector. Every lane owes the third answer out loud.
+  empty vector. Every lane owes the third answer out loud. Two escapes are
+  sanctioned and both leave a record: a proof-carrying exemption, and a
+  `:default` in your classification table — which `devcards.classify` documents
+  as *your explicit, visible decision to stop enforcing totality*. Declaring
+  either is a choice on the record; omitting the third answer is not.
 - **Every gate carries a canary that fails for ITS OWN reason.** A red run
   proves nothing if the finding came from a different clause than the one under
   test — a gate that goes red for parent/child nesting instead of the hazard is
   a false gate that happens to be the right colour. Prove it by mutation: break
   the clause, watch its canary and only its canary fail.
+- **A producer reads the interpreter's dump key vocabulary (`dump_obj` in the
+  renderer C source is its one home), and absence is NOT NEUTRAL — check which
+  WAY each key fails before you trust a green.** Several keys are emitted only
+  when they carry information, so an absent one can mean "nothing to report" or
+  "the default", and those are not interchangeable — `clickable` absent means
+  CLICKABLE, `disabled` absent means enabled, and a rule that reads absence as
+  "no information" supplies neither. The RELATED trap is a key you never consult
+  at all, and it sits inside the very lane this section tells you to arm:
+  `click_area` is emitted only when it DIFFERS from coords, so a rule that
+  measures coords and never reads it UNDER-reports reach — while
+  `overlap/hit-box`'s read-then-fall-back-to-coords is exact, because absent
+  THERE does mean the two are equal. Two different hazards; do not merge them. The
+  `overlap` and `invariants` docstrings carry which way each key fails, and
+  `:caps` is how a capability-gated key declares itself; the registry's
+  `:requires` check guards the top-level context keys a caller supplied, NOT the
+  per-node keys inside the tree, so it cannot catch this for you.
 - **Declare intent; never derive it from what renders.** Layer z, roles, and
   proxy rects are DECLARATIONS. A checker that reads stacking off the current
   paint order asserts that the system does what it does, and blesses the bug it
@@ -145,13 +274,19 @@ Rules:
 - **Your corpus stays yours; the runner stays ours.** Device-specific screens
   never land here (the corpus secret-scan is gate-enforced). Private consumers
   run THIS runner against their own private corpora via their protogen pin.
-- **The VLM UI review is MANDATORY before any push that changes what a card
-  renders** — a widget, a composition, the theme, the interpreter — here AND in
-  every repo deriving from this UI, each over its own renders. RUN IT by
-  launching the `ui-standard-review` AGENT (`.claude/agents/`), which pins the
-  model tier and loads the skill of the same name as its first act. The agent
-  is the launcher and the skill is the standard: one batched agent per push,
-  never one per check. `.claude/rules/devcards.md` carries the operational how.
+- **The VLM UI review is MANDATORY before any push that changes what a ui_ast
+  SURFACE renders** — a widget, a composition, the theme, the interpreter —
+  here AND wherever such a surface is authored, each over its own renders. It
+  is owed for the surface, not for the repository: a repo that also ships a DOM
+  front-end owes this for its ui_ast overlay and nothing for the rest, because
+  the review's inputs are the gallery renders and the `dump_tree` behind them.
+  RUN IT by launching the `ui-standard-review` AGENT (`.claude/agents/`), which
+  pins the model tier and loads the skill of the same name as its first act.
+  The agent is the launcher and the skill is the standard: one batched agent per
+  push, never one per check. The operational how is `.claude/rules/devcards.md`
+  — **read it explicitly from your pin; it is path-scoped to `tools/devcards/**`
+  anchored at THIS repo's root, so it does not auto-load at a consumer's mount
+  point.**
 - **Its findings are DISPOSITIONED before the push — fixed, or exempted** with
   the same proof-carrying `:rationale` + `:retires-when` every other exemption
   owes (`devcards.invariants/validate-exemptions!`, where an exemption matching
@@ -167,12 +302,17 @@ Rules:
   deterministic producer.
 - **AUDIT YOUR SCREENS FOR THE `DISABLED` DEAD ZONE.** `LV_STATE_DISABLED` does
   NOT remove a widget from the pointer path — a disabled control painted over
-  an enabled one absorbs the press and drops it. Neither of your oracles can
-  see it: the framebuffer is identical either way, and no event fires. So a
-  screen carrying this defect passes everything you run today, and any design
-  that treats disabled controls as safe to stack has a live dead-zone class it
-  has never looked for. `docs/UI-QUALITY-CONTRACTS.md` §2.2 has the LVGL
-  sources and what to do about it.
+  an enabled one absorbs the press and drops it. Neither PIXEL oracle nor EVENT
+  log can see it: the framebuffer is identical either way, and no event fires.
+  What can see it is the overlap lane above — it declines to exclude a disabled
+  node and names that participant in its `:detail` — so arming it is how you
+  look for this, and one more reason the lane is not optional. Read the report
+  for what it is, though: overlap is ORDER-FREE, so it tells you the two share
+  a pixel and one is disabled, never that the disabled one WINS. That is the
+  necessary condition, not the verdict. Any design that treats disabled
+  controls as safe to stack has a live dead-zone class, and
+  `docs/UI-QUALITY-CONTRACTS.md` §2.2 has the LVGL sources and what to do
+  about it.
 
 ## The reference interpreter + the devcards proof
 

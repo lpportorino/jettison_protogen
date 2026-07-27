@@ -875,7 +875,7 @@
         (is (zero? (outcome/exit-code
                     live
                     {:fail-outcomes #{:failed} :fail-modes #{:automatic}
-                     :rationale "arming the contrast lane on a fresh corpus"
+                     :rationale "arming a contrast lane on a fresh corpus"
                      :retires-when "the corpus is clean under the default"})))))))
 
 (deftest a-REGISTERED-manual-producer-is-reported-and-never-blocks

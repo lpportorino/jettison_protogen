@@ -108,9 +108,10 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
 
 ## The VLM UI review — one batched agent, briefed once, never a gate
 
-Running it before a push that changes what a card renders is MANDATORY, in this
-repo and in every repo deriving from this UI (see `CLAUDE.md` §"Consuming the UI
-standard" for the obligation and the disposition rule). This section is how.
+Running it before a push that changes what a ui_ast SURFACE renders is
+MANDATORY — here, and wherever such a surface is authored, owed for the SURFACE
+and not for the repository (see `CLAUDE.md` §"Consuming the UI standard" for the
+obligation and the disposition rule). This section is how.
 
 - **Reuse the artifacts that exist; add no pipeline.** The inputs are the
   committed gallery images under `docs/widgets/<WIDGET>/` (one per family — see

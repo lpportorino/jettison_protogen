@@ -41,7 +41,7 @@
   [& {:as extra}]
   (merge {:fail-outcomes #{:failed}
           :fail-modes #{:automatic}
-          :rationale "the contrast lane is arming against a fresh corpus"
+          :rationale "a contrast lane is arming against a fresh corpus"
           :retires-when "the corpus is clean under the shipped default"}
          extra))
 

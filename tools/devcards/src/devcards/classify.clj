@@ -6,8 +6,12 @@
    Two facts, and they are separate axes on purpose:
    - :interactive? — can this type take the pointer? Drives the overlap
      rule, where two things competing for the same pixel is the hazard.
-   - :role — what is this element FOR? Drives the per-role readability and
-     occlusion thresholds. `roles` below is the closed set.
+   - :role — what is this element FOR? It is the axis the per-role
+     occlusion and readability thresholds WOULD key on; protogen ships
+     neither of those today, and no occlusion producer in any sense
+     (`docs/UI-QUALITY-CONTRACTS.md` §0, §4). `:zero-visible-area` is not
+     the global case of one — it keys on `vis_px`, an ancestor-CLIP
+     measure blind to a covering sibling. `roles` below is the closed set.
 
    A structural container that scrolls is genuinely {:role :structural
    :interactive? true}, which is why one field cannot stand in for the

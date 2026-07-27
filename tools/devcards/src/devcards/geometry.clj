@@ -11,10 +11,12 @@
 
    Exact integer arithmetic, no tolerance and no noise floor — occlusion
    and adjacency are decidable from the rects alone. That is a deliberate
-   boundary: the contrast lane's three-way uncertain band exists because
-   its measurement has a noise floor wider than its separating gap, and
-   importing that band here would manufacture uncertainty this arithmetic
-   does not have."
+   boundary: a three-way uncertain band belongs to a measurement whose noise
+   floor is wider than its separating gap, and importing that band here would
+   manufacture uncertainty this arithmetic does not have. Note which
+   measurement: TOKEN-LEVEL CONTRAST is exact arithmetic against a declared
+   floor and takes THIS shape, not the three-way one. No readability producer
+   ships here at all (`docs/UI-QUALITY-CONTRACTS.md` §0)."
   (:require [clojure.string :as str]))
 
 (set! *warn-on-reflection* true)

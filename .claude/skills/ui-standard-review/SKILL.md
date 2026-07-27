@@ -1,6 +1,6 @@
 ---
 name: ui-standard-review
-description: Batched visual review of committed devcard gallery renders plus their dump_tree DOM against this repo's UI standard. One agent loads the standard once and judges MANY elements, emitting findings in the registry's {:card :invariant :node :detail} shape. Owed before any push that modifies elements, here and in consumer repos.
+description: Batched visual review of committed devcard gallery renders plus their dump_tree DOM against this repo's UI standard. One agent loads the standard once and judges MANY elements, emitting findings in the registry's {:card :invariant :node :detail} shape. Owed before any push that modifies what a ui_ast surface renders — here and wherever such a surface is authored.
 argument-hint: "[unit-dir]"
 allowed-tools: Read, Glob, Grep, Bash
 ---
@@ -21,9 +21,10 @@ never a pass/fail verdict.
 
 ## When it is owed, and what launches it
 
-Before any push that modifies elements — the renderer C source, the theme, the
-`ui_ast` vocabulary, the corpus, or the committed gallery — in this repo AND in
-every consumer that pins it (`CLAUDE.md` §"Consuming the UI standard"). Nothing
+Before any push that modifies what a ui_ast SURFACE renders — the renderer C
+source, the theme, the `ui_ast` vocabulary, the corpus, or the committed
+gallery — here AND wherever such a surface is authored (`CLAUDE.md`
+§"Consuming the UI standard"). Owed for the surface, not for the repository. Nothing
 mechanical enforces this, the same way nothing mechanical enforces the
 antagonistic review in §"Fixing protogen from a consumer": running it is the
 obligation, and its findings must be dispositioned before the push, not after.
@@ -37,7 +38,14 @@ thing in the context. Either way it is ONE reviewer over a large batch.
 
 Consumers run this skill through their protogen pin against their OWN gallery.
 Their fixtures never land here — the corpus secret-scan (`gates.clj`) is what
-holds that line.
+holds that line. Every `.claude/rules/…` path below is anchored at PROTOGEN's
+root, not yours: read those from your pin's mount point, because a path-scoped
+rule does not auto-load at a consumer.
+
+**It reviews a ui_ast SURFACE, not a repository.** Its only inputs are the
+committed gallery renders and the `dump_tree` behind them, so a repo that also
+ships a DOM or native front-end owes this pass for its ui_ast overlay and
+nothing for the rest — there is no gallery and no dump for the rest to review.
 
 ## Load the standard ONCE
 
@@ -207,8 +215,8 @@ deferral is literal.
   and the §1 outcome matrix. `z` is DECLARED intent; a reviewer reading stacking
   off what renders would bless exactly the defect §1.2 exists to catch.
 - **Occlusion arithmetic** — never state a covered or visible fraction. §4
-  records that the role arms are not settled and that protogen ships no
-  occlusion lane; supplying an eyeball number in that gap bakes in a threshold
+  records that the role arms are not settled and §0 that protogen ships no
+  occlusion lane at all; supplying an eyeball number in that gap bakes in a threshold
   nobody can defend. "This label is unreadable because something covers it" is a
   visual claim and belongs here; "0.33 visible" is not.
 - **Golden hashes and pixel identity** — the goldens hash RAW framebuffers; the
@@ -224,9 +232,11 @@ deferral is literal.
 ## Honesty requirements
 
 - **A finding here is not a verdict.** Geometry is pass/fail because integer
-  arithmetic has no noise floor; readability is three-way, and §0 requires an
-  adjudicator in its uncertain band to be validated as a classifier on a
-  held-out labelled set before it is wired in. This pass is neither. Report
+  arithmetic has no noise floor; a noise-banded measurement is three-way, and
+  §0 requires an adjudicator in its uncertain band to be validated as a
+  classifier on a held-out labelled set before it is wired in. This pass is
+  neither — and note §0 also records that NO readability producer ships here,
+  so there is no lane result for you to agree or disagree with. Report
   findings; do not report a lane result, and never write a pass message that
   implies coverage this pass does not have.
 - **Two runs can disagree.** Say so when reporting. A finding that did not
@@ -237,9 +247,9 @@ deferral is literal.
 - **Uncertain stays uncertain.** Open `:detail` with `UNCERTAIN — ` and state
   what would settle it (a measurement, a second family, a DOM value not
   available this pass). Do not round uncertainty up into a defect or down into
-  silence. `:vlm/illegible-contrast` is uncertain by default: the readability
-  measurement's separating gap is narrower than its own seed-to-seed noise (§0),
-  so an eye cannot resolve what the instrument cannot.
+  silence. `:vlm/illegible-contrast` is uncertain by default — no readability
+  producer ships here to settle it (§0), so your eye is the only instrument
+  that looked and it is not one that can conclude.
 - **Hardware conditions are out of scope.** Sunlight, darkness, a panel
   revision — PDL-HW is a bench obligation scoped to a hardware revision (§0).
   This pass sees the gate's own fixed veil and nothing more.
@@ -250,8 +260,8 @@ Every finding is FIXED, EXEMPTED, or — for an UNCERTAIN finding only — DEFER
 TO THE INSTRUMENT that can settle it. Nothing is left un-dispositioned.
 
 **The uncertain case is not a loophole; it is forced.** `:vlm/illegible-contrast`
-is uncertain BY DEFAULT (the readability measurement's separating gap is
-narrower than its own seed-to-seed noise, §0), so "fix it" would round
+is uncertain BY DEFAULT — §0 records that no readability producer ships here, so
+nothing deterministic can confirm or refute you — and so "fix it" would round
 uncertainty up into a defect and "exempt it" would round it down into a
 settled judgement — and §0 forbids both. Exempting is the worse of the two: an
 exemption asserts *we looked and it is acceptable*, which is exactly the claim
