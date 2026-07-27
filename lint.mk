@@ -158,11 +158,19 @@ hooks-status:
 # the one that does exist depends on it — the exact reading under which someone
 # deletes a target the local gate needs.
 #
-# NOR IS IT "every gate". It excludes `lint-c-tidy` (container-only, needs a
-# compile database) and `wire-contract` (a different KIND of gate — see below).
-# The pre-push hook calls those two separately for exactly that reason, so the
-# hook's gate set is strictly WIDER than this aggregate. A green `lint` is
-# four lanes, and naming them is the only honest headline.
+# NOR IS IT "every gate", and the two it omits are omitted for DIFFERENT
+# reasons — which is why neither belongs in a headline that says "every":
+#   lint-c-tidy    not in this aggregate and NOT in the hook either. It is
+#                  container-only (it needs a compile database emitted from the
+#                  build's own flags) and runs in renderer.yml alone, so it is
+#                  the one lane a green local push has genuinely not run.
+#   wire-contract  a different KIND of gate — a generated artifact contradicting
+#                  a hand-written contract, see below — deliberately kept out of
+#                  `lint` so a green `lint` keeps meaning "formatting and lint
+#                  over hand-authored code". The hook calls it SEPARATELY
+#                  (.githooks/pre-push:109), so the hook's gate set is wider
+#                  than this target by exactly that one lane.
+# A green `lint` is four lanes. Naming them is the only honest headline.
 #
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
