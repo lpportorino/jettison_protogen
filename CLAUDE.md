@@ -212,7 +212,9 @@ Rules:
 - **ARM THE OVERLAP LANE — protogen runs it on its own corpus, so this is not
   advice this repo exempts itself from.** `devcards.lanes` passes
   `overlap/producer` at `:overlap/gap-px 0` (strict overlap: a shared pixel
-  fires, touching does not — at 1 a carousel's stacked pages flood it). What it
+  fires, touching does not — at 1 the tabview cards' own layout abutment floods
+  it, and NOT the carousel's snapped pages, which never enter the pairing at any
+  threshold). What it
   catches is invisible to every other oracle you run: two pointer-taking
   elements in one place look identical in the framebuffer whether the one
   underneath was reachable or dead. Expect your first run to be red on DESIGNED

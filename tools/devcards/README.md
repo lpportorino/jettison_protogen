@@ -80,9 +80,11 @@ Wiring a private corpus in:
                       overlap/producer
                       layers/producer)
    ;; gap-px 0 is strict overlap (a SHARED pixel). Raising it to 1 also fires
-   ;; on boxes that merely touch — measured on protogen's own corpus that goes
-   ;; from 17 findings to 97, of which 66 are lv_tabview pages touching by
-   ;; construction (UI-QUALITY-CONTRACTS §2.3). Start at 0.
+   ;; on boxes that merely TOUCH, which on protogen's own corpus takes the lane
+   ;; from 0 findings to 80 — none of them a hazard, all of them layout
+   ;; abutting at 0px (UI-QUALITY-CONTRACTS §2.3 has the breakdown and the
+   ;; mechanism). Measure your own corpus rather than porting that count.
+   ;; Start at 0.
    :thresholds  {:overlap/gap-px 0 :layers/gap-px 0}})
 ```
 

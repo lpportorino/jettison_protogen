@@ -71,10 +71,35 @@
 
 (def overlap-thresholds
   "Strict overlap: a SHARED pixel fires, touching does not. Deliberately not
-   1 — at gap-px 1 this corpus reports 97 findings, 66 of them lv_tabview
-   pages touching by construction (UI-QUALITY-CONTRACTS §2.3). The lane is a
-   pointer-hazard gate, and two elements that merely touch take no press
-   from each other."
+   1 — RE-MEASURED over all 244 cards on this tree, gap-px 1 reports 80
+   findings where gap-px 0 reports none, 66 of them on the five lv_tabview
+   cards plus the tabview kitchen sink (UI-QUALITY-CONTRACTS §2.3). The lane
+   is a pointer-hazard gate, and two elements that merely touch take no press
+   from each other.
+
+   THEY ARE NOT STACKED PAGES, which is what this docstring used to say. Every
+   one of the 66 is an ABUTMENT at 0px: the tab bar against the content area
+   below it, one tab button against the next, a tab button against the content
+   area. A snapped-away page never reaches the pairing at ANY threshold — it
+   sits outside its content box, so the descent-gate clip records it
+   `:unreachable`, a determination rather than a gap. The other 14 are the
+   scrubber legos' vertically stacked rows, abutting the same way. Raising the
+   threshold floods the lane with LAYOUT, not with hazards.
+
+   THE COUNT IS A PROPERTY OF THIS CORPUS, THIS TABLE AND THIS RENDERER, so
+   re-measure rather than trust it — the number here was 97, from a tree state
+   nothing reproduces, which is the failure `overlap/producer`'s closing
+   paragraph warns about for the census it lost. Reproduce it with
+   `GAP_PX=1 clojure -M:bindings:class-census`, and `CLASSES=shipped` to judge
+   with the armed table instead of the probe's: the two agree on 0/80/66, which
+   is a result rather than a tautology, since the shipped table marks several
+   classes non-interactive and the two therefore judge different node sets.
+
+   The 97 did not originate here and was never measured here: it came from
+   `docs/UI-QUALITY-CONTRACTS.md` §2.3, recorded before the arming work, and was
+   copied into this docstring BY that arming commit without being re-derived —
+   at which point gap-px 0 already reported 0, not the 17 the doc's table still
+   showed."
   {:overlap/gap-px 0})
 
 (def atomic-producers

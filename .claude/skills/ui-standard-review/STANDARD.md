@@ -395,19 +395,48 @@ stacking intent), not an exemption.
 - **`HIDDEN` nodes and their subtree** — `lv_indev_search_obj` returns `NULL`
   immediately, so they can neither take the pointer nor deny it.
 
-Snapped-away carousel pages are **not** exempted, and they do not need to be —
-but that result is THRESHOLD-DEPENDENT, so read the number with its condition.
-Measured over the whole corpus with every class forced interactive:
+Snapped-away carousel pages are **not** exempted, and they do not need to be at
+ANY threshold: a snapped page sits outside its content box, so the descent-gate
+clip (§2.4) records it `:unreachable` and it never enters the pairing at all.
+That is a positive determination, not a waiver.
 
-| `:overlap/gap-px` | findings | of which `lv_tabview` |
+What IS threshold-dependent is how much LAYOUT the lane reports. Re-measured
+over all 244 cards on this tree — and identical under the shipped
+classification table and under the class-census probe table with every class
+forced interactive, so no classification choice is doing the work:
+
+| `:overlap/gap-px` | findings | of which on tabview-NAMED cards |
 |---|---|---|
-| `0` (strict overlap — a shared pixel) | 17 | **0** |
-| `1` (touching also fires) | 97 | **66** |
+| `0` (strict overlap — a shared pixel) | 0 | 0 |
+| `1` (touching also fires) | 80 | **66** (56 on `lv_tabview` cards + 10 on the tabview kitchen sink) |
 
-At the strict-overlap default no exemption is owed. At `gap-px 1` a carousel's
-stacked pages TOUCH by construction and the lane floods. That is the rule
-working, not a defect in it — but a consumer raising the threshold must expect
-it, and must not read the zero above as unconditional.
+At the strict-overlap default nothing fires and no exemption is owed. At
+`gap-px 1` every one of the 80 is an ABUTMENT at 0px, and the participant list
+has to include the ACTIVE PAGE or the arithmetic does not close: a tabview's
+content container and its active page carry the SAME box, so every pair against
+the content is reported twice. That is the tab bar against both, one tab button
+against the next, and each tab button against both — 66 across the six
+tabview-named cards — plus the scrubber legos' vertically stacked rows for the
+other 14. (Bar-against-content alone would give 6 on a 3-tab card; the measured
+figure is 10.)
+
+**No pair is two SNAPPED pages**, and none can be: a snapped-away page sits
+outside its content box, so the descent-gate clip records it `:unreachable` and
+`overlap` drops it BEFORE the pair comprehension — a determination, not an
+exemption, and independent of the threshold. Exactly one page per card is
+reachable, so a page-vs-page pair is impossible. Do not read that as "no page
+participates": the active page is a participant in 26 of the 66. So a consumer
+raising the threshold floods the lane with its own layout — the rule working,
+not a defect in it — and the zero above must not be read as unconditional.
+
+An earlier revision of this table read 17 / 97 and attributed the 66 to
+carousel pages touching. Both numbers predate the work that took the
+strict-overlap lane to zero (the interpreter declaring its own proxy
+composition, and clearing `CLICKABLE` on two decorative widgets); the gap-px-1
+drop of exactly 17 is consistent with those being the same 17 findings, though
+this note does not re-derive that. **Re-measure rather than trusting any count
+here** — see `devcards.overlap/producer`'s closing paragraph, which makes the
+same point about a census it had already lost.
 
 ### 2.4 The box that is judged, and what it cannot see
 

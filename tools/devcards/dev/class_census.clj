@@ -37,6 +37,7 @@
             [devcards.fixtures :as fixtures]
             [devcards.host :as host]
             [devcards.invariants :as invariants]
+            [devcards.lvgl-classes :as lvgl-classes]
             [devcards.overlap :as overlap]))
 
 (set! *warn-on-reflection* true)
@@ -84,14 +85,35 @@
   {:default {:interactive? true :role :interactive}
    :types {}})
 
+(def ^:private gap-px
+  "The threshold this probe reports at, from GAP_PX (default 0).
+
+   PARAMETERISED BECAUSE THE DOCS TELL YOU TO RE-MEASURE AT 1. Both
+   `docs/UI-QUALITY-CONTRACTS.md` §2.3 and `lanes/overlap-thresholds` carry a
+   gap-px-1 count and instruct the reader to re-derive it rather than trust it —
+   and while this was hardcoded to 0 there was no way to do that without editing
+   this file, which makes the instruction unexecutable. `GAP_PX=1 clojure
+   -M:bindings:class-census` now reproduces the published figure."
+  (parse-long (or (System/getenv "GAP_PX") "0")))
+
+(def ^:private judge-classes
+  "Which classification table to judge with, from CLASSES (default the probe
+   table). `CLASSES=shipped` uses `lvgl-classes/merge-consumer`, the table
+   protogen's own gate actually arms — the two agreeing is a RESULT worth being
+   able to reproduce, not a tautology: the shipped table marks several classes
+   non-interactive, so the two genuinely judge different node sets."
+  (if (= "shipped" (System/getenv "CLASSES"))
+    (lvgl-classes/merge-consumer {})
+    probe-table))
+
 (defn- overlap-report
   [dumps]
   (into []
         (mapcat (fn [{:keys [id tree]}]
                   (overlap/findings {:card-id id
                                      :nodes (invariants/annotate-tree tree)
-                                     :classes probe-table
-                                     :thresholds {:gap-px 0}})))
+                                     :classes judge-classes
+                                     :thresholds {:gap-px gap-px}})))
         dumps))
 
 (defn -main
@@ -131,7 +153,7 @@
         (doseq [f (take 6 cfs)]
           (println (format "    %s" (:node f)))))
       (let [tabview (filter #(str/includes? (str (:card %)) "tabview") overlaps)]
-        (println (format "\n  of which lv_tabview cards: %d" (count tabview)))))
+        (println (format "\n  of which tabview-NAMED cards (substring match): %d" (count tabview)))))
 
     (println "\n══ classify/validate-table! on the probe table ══")
     (println (if (classify/validate-table! probe-table) "table valid" "?"))))
