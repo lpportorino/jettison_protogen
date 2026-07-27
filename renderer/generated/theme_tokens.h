@@ -21,8 +21,8 @@
 #define THEME_FOCUSED_EDGE_LIGHT 0x0891B2 /* FOCUS_KEY outline */
 #define THEME_CHECKED_DARK 0x0E7490 /* checked-state fill + edited-state outline */
 #define THEME_CHECKED_LIGHT 0x0E7490 /* checked-state fill + edited-state outline */
-#define THEME_DISABLED_FG_DARK 0x8686A0 /* disabled-state dim */
-#define THEME_DISABLED_FG_LIGHT 0x585846 /* disabled-state dim */
+#define THEME_DISABLED_FG_DARK 0x9A9BB6 /* disabled-state dim */
+#define THEME_DISABLED_FG_LIGHT 0x3D3C2C /* disabled-state dim */
 #define THEME_RADIUS_PANEL 4 /* px: panel tier (cards, containers) */
 #define THEME_RADIUS_CONTROL 2 /* px: control tier (form controls, cb indicator) */
 #define THEME_RADIUS_BUTTON 2 /* px: buttons + buttonmatrix items */

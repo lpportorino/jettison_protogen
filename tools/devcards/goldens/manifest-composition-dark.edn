@@ -2,12 +2,12 @@
  :cards
  {"lego/dock-expanded"
   {:sha256
-   "e5c49268eef6b0b04382f4c9957e31f439e80d9cd7a22406a5e8e6537a7f1feb",
+   "29afd90a8904b700c945fe748c6b973c1032fafb33630dcad0f3ec8c895bf0eb",
    :w 800,
    :h 480},
   "lego/dock-folded"
   {:sha256
-   "b7544290f8afee923904970788fd11f94c7f28318bc4e53207971b94247eee12",
+   "a28d601605e96ae4a78e53c47e8c486de0eda678e5f727ef861b5bbe5eed8865",
    :w 800,
    :h 480},
   "lego/dock-hidden-child"
@@ -17,7 +17,7 @@
    :h 480},
   "lego/dock-multirow"
   {:sha256
-   "fbdc4d8c87920fd0e08881c53f12cb5660631a23d55b22e26b884360c64d3b1b",
+   "fec1cbc0ad0ff6b614f855c949233912b27f60a4703095abf216cf463c38d207",
    :w 800,
    :h 480},
   "lego/scrubber"

@@ -1455,7 +1455,7 @@
     {:expect :distinct
      :id "lv_led/disabled/default-size/on"
      :notes
-     "Asgard dims DISABLED (t->styles.disabled, opa 128) so this differs from the on baseline; stock/vanilla register only MAIN|DEFAULT, so vanilla≡stock holds by scope."
+     "Asgard dims DISABLED (t->styles.disabled_dim, opa 128) so this differs from the on baseline; stock/vanilla register only MAIN|DEFAULT, so vanilla≡stock holds by scope. An led is one filled rect with a shadow and carries no glyph, which is the precondition the fade variant is scoped to — the text-bearing classes take a token swap instead."
      :props {:led_props {:brightness 255 :color {:b 129 :g 185 :r 16}}}
      :size :default-size
      :state :disabled
@@ -2665,7 +2665,7 @@
      :expect :distinct
      :id "lv_tabview/disabled/medium"
      :notes
-     "Root-level disable is the only wire granularity; asgard dims the disabled tabview (t->styles.disabled, opa 128) so it differs from default, while stock/vanilla render it identical to default (vanilla≡stock holds by scope). Pages mirror lv_tabview/default/medium EXACTLY (labels included): a distinctness pin is meaningful only over content-identical fixtures — the earlier label-less pages made the pair differ in content, so the hash diff said nothing about state styling."
+     "Root-level disable is the only wire granularity; asgard applies t->styles.disabled (a text-tone swap, NO opa and NO recolor) so it differs from default, while stock/vanilla render it identical to default (vanilla≡stock holds by scope). Pages mirror lv_tabview/default/medium EXACTLY (labels included): a distinctness pin is meaningful only over content-identical fixtures — the earlier label-less pages made the pair differ in content, so the hash diff said nothing about state styling. WHAT CARRIES THE DISTINCTNESS CHANGED. The fade this arm used to carry reached every glyph in the subtree and cost the tab/page text 17.21:1 -> 3.76:1 dark and 15.76:1 -> 2.76:1 light (measured off the framebuffer, tools/devcards/dev/disabled_pair_probe.clj). It is replaced by the ROOT'S OWN BACKGROUND draining to surface-2, which shows wherever the transparent content and pages do not cover it. The label TONES do not change at all, and that is measured rather than assumed: a text-only swap on this root produced a cell BYTE-IDENTICAL to lv_tabview/default/medium and this very gate rejected it. text_color is inheritable, but the walk stops at the first ancestor that sets it and every label here already has one — stock's btn claims the tab labels, asgard's panel claims the page-content wrappers. Recovering the tone half needs LV_STATE_DISABLED propagated from the root to the bar's buttons and pages so each swaps in its OWN state: a renderer-side change to state application, and the reason root-level granularity is a wire note rather than a theme one."
      :props {:h 200
              :tabview_props
              {:active_index 0 :tab_bar_size 48 :tab_names ["Alpha" "Beta" "Gamma"]}

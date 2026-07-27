@@ -1541,6 +1541,14 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
     if (p->column_count > 0) {
       lv_table_set_column_count(obj, p->column_count);
     }
+    /* NO CELL TEXT IS DECODED HERE, and the theme currently DEPENDS on that.
+     * A table therefore renders an empty grid, which is the only reason
+     * `disabled_flat` may still express DISABLED as a whole-widget opa fade:
+     * the rule that bans the fade bans it over subtrees containing TEXT, and
+     * this one has none. WIRING lv_table_set_cell_value HERE VOIDS THAT — the
+     * table's disabled arm in theme.c must move to the token-pair swap in the
+     * same change, or every disabled cell's glyphs get composited toward
+     * their own background. Nothing mechanical catches this yet. */
     break;
   }
   /* ObjProps, ButtonProps: empty — nothing to apply */

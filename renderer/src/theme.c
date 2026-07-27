@@ -59,21 +59,21 @@ typedef struct {
   lv_style_t edited_edge;    /* EDITED-state outline — cyan ring over stock's
                             * red color_secondary (slider/bar/roller/spinbox/
                             * textarea) (asgard-only)                       */
-  lv_style_t disabled;       /* DISABLED dim — filled value widgets
-                            * (asgard-only, empty in vanilla)              */
-  lv_style_t disabled_text;  /* DISABLED for text-value widgets (spinbox/
-                             * textarea/checkbox label): authored text
-                             * tone + recolor, NO opa — a whole-widget
-                             * opa halves text-vs-fill self-contrast
-                             * (asgard-only)                              */
-  lv_style_t disabled_fill;  /* DISABLED for accent-filled buttons:
-                             * authored surface-2 fill + disabled text,
-                             * stock recolor neutralized (asgard-only)    */
-  lv_style_t disabled_flat;  /* DISABLED for no-fill line-art surfaces
-                             * (table): opa fade toward the local bg +
-                             * authored text, NO recolor — a fixed
-                             * recolor target LIGHTENS dark cells
-                             * (asgard-only)                              */
+  lv_style_t disabled;       /* DISABLED for text-bearing widgets with NO
+                             * fill to swap (label, checkbox MAIN): tone
+                             * only, NO opa and NO recolor (asgard-only)  */
+  lv_style_t disabled_dim;   /* DISABLED for TEXT-FREE geometry widgets
+                             * only: opa fade + recolor. Its precondition
+                             * is the empty subtree, not the class list  */
+  lv_style_t disabled_fill;  /* DISABLED PAIR SWAP — surface-2 fill +
+                             * disabled text, stock recolor neutralized.
+                             * The default for any FILLED text-bearing
+                             * widget: button, the field controls, the
+                             * tabview root (asgard-only)                 */
+  lv_style_t disabled_flat;  /* DISABLED for the table's line-art grid:
+                             * opa fade, NO recolor — a fixed recolor
+                             * target LIGHTENS dark cells. Same
+                             * text-free precondition as disabled_dim   */
   lv_style_t hover;          /* HOVERED lighten (asgard-only)                */
   lv_style_t pressed;        /* PRESSED darken for classes stock leaves
                             * unpressed — arc, roller, dropdown, checkbox
@@ -83,6 +83,9 @@ typedef struct {
                             * stock grey ring sinks into the light
                             * surface AND measures under the 3:1 floor
                             * on the dark canvas                           */
+  lv_style_t readout_arc;    /* MOVING spinner-ring tone — closes the stock
+                              * color_primary fallthrough on a readout
+                              * (asgard-only)                              */
   lv_style_t track_bg;       /* resting rect-track fill (bar/slider/switch
                             * MAIN): edge tone at FULL opa — stock's
                             * LV_OPA_20 muted track dilutes any authored
@@ -433,64 +436,104 @@ static void style_init(asgard_theme_t *t) {
     lv_style_set_outline_pad(&s->edited_edge, THEME_BORDER_W);
     lv_style_set_outline_opa(&s->edited_edge, LV_OPA_COVER);
   }
-  /* disabled dim — asgard-only NEW state coverage (stock has none for the
-   * value widgets); vanilla stays empty so stock-parity holds. One formula
-   * does NOT fit every content class, so the dim splits four ways:
+  /* DISABLED — asgard-only NEW state coverage (stock has none for the value
+   * widgets); vanilla stays empty so stock-parity holds.
    *
-   * - `disabled` (opa + recolor + text): FILLED value widgets whose
-   *   critical content is geometry, not glyphs — slider, arc, bar, switch,
-   *   dropdown, roller, led, the tabview root, standalone labels, the
-   *   checkbox indicator. Opacity alone blends toward whatever sits BEHIND
-   *   the part (adequate on dark, self-contrast-collapsing on light) and
-   *   never desaturates a saturated hue, so the draw is also pulled toward
-   *   the authored disabled-fg tone.
-   * - `disabled_text` (text + recolor, NO opa): text-value widgets whose
-   *   critical content IS the glyph run — spinbox digits, textarea text,
-   *   the checkbox label. A whole-widget opa scales every draw through
-   *   layer->opa and LVGL has no per-run text exemption, so the 50% fade
-   *   moves glyph luminance toward the fill and halves self-contrast (the
-   *   light-mode collapse, measured ~1.2:1 at small spinbox); no token
-   *   retune can recover it (even a black pre-image caps ~3:1 after the
-   *   blend). The recolor no-ops on the authored glyph tone (same target)
-   *   while still muting the field chrome.
-   * - `disabled_fill` (authored fill + text, recolor OFF): the accent
-   *   button. Both opa and recolor converge a white-on-accent label with
-   *   its own fill; instead the fill collapses to surface-2 and the label
-   *   takes the disabled-fg tone — a pairing the tokens prove >=4.5:1 in
-   *   both modes. recolor_opa 0 overrides the stock grey wash so the
-   *   authored pair renders exactly.
-   * - `disabled_flat` (opa + text, NO recolor): no-fill line-art surfaces
-   *   (table). The disabled-fg recolor target is LIGHTER than the dark
-   *   cell tone, so recoloring LIGHTENS a disabled dark table (it pops
-   *   instead of receding); the opa fade recedes toward the local bg in
-   *   both modes. */
+   * THE RULE THIS SPLIT ENFORCES: no whole-widget opacity, and no
+   * whole-widget recolor, on any subtree containing TEXT. Disabled is a
+   * TOKEN-PAIR SWAP there, never a fade.
+   *
+   * WHY BOTH, when only opacity is usually named. `lv_obj_refr` folds a MAIN
+   * `opa` into `layer->opa` AND a MAIN `recolor` into `layer->recolor`, and
+   * lv_obj_draw.c then applies the layer recolor to bg, border, outline,
+   * shadow AND text colour alike. So the two mechanisms fail the SAME way:
+   * both re-composite the glyph and its fill, and both move the two ends
+   * TOWARD EACH OTHER. Measured on this corpus before the split — disabled
+   * tabview (opa) 3.76:1 dark / 2.76:1 light against 17.21 / 15.76 enabled;
+   * disabled textarea (recolor, no opa) 2.33:1 dark / 3.83:1 light. The
+   * recolor arm was the one that had been treated as the SAFE alternative to
+   * the fade, and it measured worse than the fade it replaced.
+   *
+   * WHAT THAT BUYS beyond the contrast: with neither mechanism live, the
+   * AUTHORED pair IS the RENDERED pair, so a token-level contrast gate can
+   * mean something. Under a fade it cannot — the rendered colours appear in
+   * no token table at all.
+   *
+   * - `disabled` (text only): the text-bearing widgets that have NO fill of
+   *   their own to swap — a standalone label, the checkbox's label on MAIN.
+   *   recolor_opa TRANSP is load-bearing, not tidiness: the STOCK parent
+   *   styles DISABLED as a grey recolor at LV_OPA_50 (lv_theme_default.c),
+   *   which is the very mechanism this rule bans, and the only way to
+   *   decline an inherited style property is to override it.
+   *
+   *   ITS REACH IS THE OBJECT, NOT THE SUBTREE, and that limit is why
+   *   `disabled_fill` exists for everything else. text_color is inheritable,
+   *   but `get_selector_style_prop`'s walk stops at the FIRST ancestor that
+   *   sets it, so this only ever colours glyphs drawn by the object itself
+   *   or by descendants nothing else has styled. Measured the hard way: the
+   *   tabview root took this style and the corpus card came back
+   *   BYTE-IDENTICAL to its enabled twin — stock's `btn` sets text_color on
+   *   the tab buttons and asgard's own `panel` sets it on the page-content
+   *   wrappers, so between them every label in that subtree is claimed.
+   * - `disabled_dim` (opa + recolor + text): TEXT-FREE geometry only —
+   *   slider, switch, arc, bar, led, and the checkbox INDICATOR part. Here
+   *   the fade is the right signal: the critical content is a shape, there
+   *   is no glyph self-contrast to collapse, and opacity alone blends toward
+   *   whatever sits BEHIND the part (adequate on dark, collapsing on light)
+   *   so the draw is also pulled toward the authored disabled-fg tone.
+   *   ITS PRECONDITION IS THE EMPTY SUBTREE, NOT THE CLASS LIST. Attach a
+   *   label to any of those six and the hazard is live again with nothing
+   *   here to catch it — the previous version of this comment reasoned
+   *   correctly and then listed four glyph-bearing classes under it.
+   * - `disabled_fill` (authored fill + text, recolor OFF): THE PAIR SWAP,
+   *   and the default answer for any text-bearing widget that HAS a fill —
+   *   the accent button, and every field control (dropdown, roller,
+   *   textarea, spinbox) plus the tabview root. The fill drains to surface-2
+   *   and the glyphs take the disabled-fg tone, a pair the tokens prove at
+   *   6.04:1 dark / 7.16:1 light against the governing 6:1.
+   *
+   *   MOVING THE FILL IS WHAT MAKES THE STATE VISIBLE AT ALL, which is not
+   *   obvious until the text half fails to carry it. Two corpus cards proved
+   *   it in one run: a small textarea showing only a PLACEHOLDER has no
+   *   glyph whose tone changes between states, and the tabview root cannot
+   *   reach its labels at all (see `disabled` above) — both rendered
+   *   byte-identical to their enabled twins under a text-only swap. A
+   *   disabled control that looks enabled is worse than a faded one: it is
+   *   the dead-zone hazard, an affordance that lies about taking a press.
+   *   bg_opa COVER is explicit for the same reason — the button inherited
+   *   an opaque fill from stock's `btn` and the tabview root does not.
+   * - `disabled_flat` (opa + text, NO recolor): the table grid. Same
+   *   text-free precondition as `disabled_dim`, and it holds only because
+   *   the renderer never sets cell_data, so every cell renders EMPTY (the
+   *   corpus lv_table notes record that decode gap). WIRING CELL TEXT
+   *   RE-ARMS THE HAZARD HERE and this style must move to `disabled` in the
+   *   same change. Kept separate from `disabled_dim` because the disabled-fg
+   *   recolor target is LIGHTER than the dark cell tone, so recoloring
+   *   LIGHTENS a disabled dark table (it pops instead of receding). */
   style_reset(&s->disabled, inited);
   if (!v) {
-    lv_style_set_opa(&s->disabled, THEME_DISABLED_OPA);
     lv_style_set_text_color(
         &s->disabled, lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
                                             THEME_DISABLED_FG_LIGHT)));
-    lv_style_set_recolor(&s->disabled,
-                         lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                               THEME_DISABLED_FG_LIGHT)));
-    lv_style_set_recolor_opa(&s->disabled, 100);
+    lv_style_set_recolor_opa(&s->disabled, LV_OPA_TRANSP);
   }
-  style_reset(&s->disabled_text, inited);
+  style_reset(&s->disabled_dim, inited);
   if (!v) {
+    lv_style_set_opa(&s->disabled_dim, THEME_DISABLED_OPA);
     lv_style_set_text_color(
-        &s->disabled_text,
-        lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                              THEME_DISABLED_FG_LIGHT)));
-    lv_style_set_recolor(&s->disabled_text,
+        &s->disabled_dim, lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
+                                                THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_recolor(&s->disabled_dim,
                          lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
                                                THEME_DISABLED_FG_LIGHT)));
-    lv_style_set_recolor_opa(&s->disabled_text, 100);
+    lv_style_set_recolor_opa(&s->disabled_dim, 100);
   }
   style_reset(&s->disabled_fill, inited);
   if (!v) {
     lv_style_set_bg_color(&s->disabled_fill,
                           lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
                                                 THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_opa(&s->disabled_fill, LV_OPA_COVER);
     lv_style_set_text_color(
         &s->disabled_fill,
         lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
@@ -554,6 +597,34 @@ static void style_init(asgard_theme_t *t) {
         lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
     lv_style_set_bg_opa(&s->track_bg, LV_OPA_COVER);
   }
+  /* readout arc — the MOVING half of a spinner ring, and the arc twin of
+   * `checked_accent` (which the bar's INDICATOR takes). arc_color only, for
+   * the same reason `track_tone` carries no bg_opa.
+   *
+   * IT EXISTS TO CLOSE A LEAK, not to restyle anything: asgard styled the
+   * spinner's MAIN and returned, so its INDICATOR fell through to the STOCK
+   * parent's `arc_indic_primary` — i.e. to `color_primary`, the call-to-
+   * action colour, on a widget the renderer does not even mark interactive.
+   * NON-INTERACTIVE READOUTS NEVER TAKE THE ACTION HUE: an operator must be
+   * able to read "this is something you press" off the palette, and a
+   * spinner and a progress bar are things you WATCH. checked-accent is the
+   * theme's existing state/value-indication tone (switch/checkbox checked
+   * fill, roller/dropdown selected band) and 69.9 deg off the action hue.
+   *
+   * WHAT THIS DOES NOT FIX, measured: the moving arm against its own resting
+   * ring is 1.04:1 dark / 1.06:1 light, far under WCAG 1.4.11's 3:1 gap-fill
+   * — and it was 1.11 / 1.13 under the leaked primary, so this is a hue fix,
+   * not a visibility fix. NO existing token clears 3:1 against the edge-0
+   * resting track (best measured: focused-edge 2.84 dark / 1.37 light), so
+   * the fix is a LIGHTNESS decision across the ladder — the derived-palette
+   * task's, not this one's. Measured lead for it: moving the resting track
+   * off the boundary tone edge-0 onto surface-2 puts this pair at 3.06:1
+   * dark / 3.44:1 light with no change to the indicator at all. */
+  style_reset(&s->readout_arc, inited);
+  if (!v)
+    lv_style_set_arc_color(&s->readout_arc,
+                           lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
+                                                 THEME_CHECKED_LIGHT)));
   /* selected tab-bar label — asgard DARK only, COLOR only. The tab bar is
    * frozen to stock geometry (demo-parity capstone), but stock derives the
    * selected label tint from color_primary while the selected tab fill is
@@ -652,9 +723,11 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
     /* DISABLED — the accent-filled variant (see the disabled_fill init
      * comment): the accent drains to surface-2 and the label takes the
-     * disabled-fg tone, a token-proven >=4.5:1 pair in both modes. Both
-     * generic dim formulas fail here: opa halves the label-vs-fill delta,
-     * and a recolor drags label and fill toward the same target. */
+     * disabled-fg tone, a pair the tokens prove at 6.04:1 dark / 7.16:1
+     * light against the governing 6:1. Both generic formulas fail here: opa
+     * halves the label-vs-fill delta, and a recolor drags label and fill
+     * toward the same target. THIS ARM GOT THE ANSWER RIGHT FIRST — it is
+     * the swap the rest of the disabled system was generalised from. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
     add_interactive(t, obj);
@@ -666,7 +739,12 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.knob, LV_PART_KNOB);
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* DISABLED — the FADE variant: a slider's content is a track, a fill
+       * and a knob, with no glyph anywhere in its subtree, so the opa is the
+       * signal and there is no text self-contrast for it to collapse. That
+       * emptiness is the precondition (see the disabled_dim init comment);
+       * a value label parented INTO a slider would void it. */
+      lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* Track + fill agree with the crisp knob — the same by-construction
@@ -694,12 +772,13 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       /* Checked (ON) fill — cyan over stock's violet indicator. */
       lv_obj_add_style(obj, &t->styles.checked_accent,
                        LV_PART_INDICATOR | LV_STATE_CHECKED);
-      /* DISABLED dim — the same object-level opa+recolor the slider arm
-       * carries (the MAIN opa folds into layer->opa, so knob and indicator
-       * fade with the track). Stock's grey recolor alone pulled the light
-       * track TOWARD the page tone; the disabled-fg target is darker than
-       * the light surface, so the dim recovers instead of erasing. */
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* DISABLED — the FADE variant, same reasoning as the slider arm: a
+       * switch is a track, an indicator and a knob, and carries no glyph.
+       * The MAIN opa folds into layer->opa, so knob and indicator fade with
+       * the track. Stock's grey recolor alone pulled the light track TOWARD
+       * the page tone; the disabled-fg target is darker than the light
+       * surface, so the dim recovers instead of erasing. */
+      lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
       /* Body radius must AGREE with the knob's. `knob` gives asgard a crisp
        * THEME_RADIUS_CONTROL corner, but the switch MAIN was left to stock —
        * whose radius is LV_RADIUS_CIRCLE — so the track stayed a full pill
@@ -723,7 +802,9 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   if (lv_obj_check_type(obj, &lv_arc_class)) {
     /* knob stays stock (circle is intrinsic to an arc end) */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* DISABLED — the FADE variant: an arc is two rings and a knob, no
+       * glyph (see the disabled_dim init comment for the precondition). */
+      lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
       lv_obj_add_style(obj, &t->styles.track_tone, LV_PART_MAIN);
     }
@@ -735,15 +816,24 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   if (lv_obj_check_type(obj, &lv_spinner_class)) {
     /* spinner is its own class (exact-type checks miss the arc arm); the
      * resting ring needs the same edge tone. */
-    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.track_tone, LV_PART_MAIN);
+      /* ...and the MOVING arm, which styling MAIN alone left falling through
+       * to stock's color_primary. See the readout_arc init comment: this is
+       * the action-hue leak, not a restyle. No DISABLED arm — the renderer
+       * marks a spinner non-interactive, so it has no disabled state to
+       * express. */
+      lv_obj_add_style(obj, &t->styles.readout_arc, LV_PART_INDICATOR);
+    }
     return;
   }
 #endif
 #if LV_USE_BAR
   if (lv_obj_check_type(obj, &lv_bar_class)) {
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* DISABLED — the FADE variant: a bar is a track and a fill, no glyph
+       * (see the disabled_dim init comment for the precondition). */
+      lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* A bar IS a slider track (same pill stock geometry); squaring the
@@ -754,6 +844,15 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       /* Resting track — same as the slider MAIN: edge tone at full opa,
        * both modes (see the track_bg init comment). */
       lv_obj_add_style(obj, &t->styles.track_bg, LV_PART_MAIN);
+      /* The FILLED portion — the same color_primary fallthrough the spinner
+       * arm carries, in rect form: styling MAIN and returning left stock's
+       * `bg_color_primary` on LV_PART_INDICATOR. A bar is a readout, so it
+       * takes the state/value tone rather than the action hue (see the
+       * readout_arc init comment, including what this does NOT fix). Unlike
+       * the spinner this is a RECT part, so it reuses checked_accent's
+       * bg_color+bg_opa directly rather than an arc twin. NOT applied to the
+       * slider, which is genuinely interactive and keeps the action hue. */
+      lv_obj_add_style(obj, &t->styles.checked_accent, LV_PART_INDICATOR);
     }
     return;
   }
@@ -776,14 +875,15 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * checkmark rides on top (white-on-cyan token-proven >=4.5:1). */
       lv_obj_add_style(obj, &t->styles.checked_accent,
                        LV_PART_INDICATOR | LV_STATE_CHECKED);
-      /* DISABLED — per part, per content class: the indicator (border +
-       * fill geometry) takes the filled-widget dim; the label text rides
-       * MAIN, where a whole-widget opa would halve glyph self-contrast, so
-       * MAIN takes the text-preserving variant (authored tone; without it
-       * the disabled label rendered byte-identical to default). */
-      lv_obj_add_style(obj, &t->styles.disabled,
+      /* DISABLED — per part, per content class, and the ONE place both
+       * variants meet on one widget. The INDICATOR is a box: no glyph, so it
+       * takes the fade. MAIN carries the label, so it takes the swap. The
+       * split works because a part opa is NOT a layer opa — lv_obj_refr
+       * reads `opa` off LV_PART_MAIN only, so the indicator's fade scales
+       * the indicator's own draws and never reaches the label. */
+      lv_obj_add_style(obj, &t->styles.disabled_dim,
                        LV_PART_INDICATOR | LV_STATE_DISABLED);
-      lv_obj_add_style(obj, &t->styles.disabled_text, LV_STATE_DISABLED);
+      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
     }
     add_interactive(t, obj);
     return;
@@ -797,7 +897,11 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * against the light card — author it to the panel tone (asgard-only). */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.field_bg, 0);
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* DISABLED — the PAIR SWAP: the closed field shows the SELECTED OPTION
+       * as a glyph run, so this subtree carries text and the fade is banned
+       * here (see the disabled_fill init comment). field_bg drains from
+       * surface-1 to surface-2 and the option tone moves with it. */
+      lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       /* PRESSED — the documented dark-pressed fix already proven on the
        * arc/roller arms; stock's black recolor is a near-no-op on the dark
        * surface (measured pressed-vs-default delta 3-8/255). */
@@ -830,7 +934,16 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.roller_pad, 0);
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      /* Field surface — same closed-field fill as dropdown/textarea/spinbox.
+       * The roller's MAIN was left to stock, which is PURE WHITE in light
+       * mode (measured), and the fade was the only thing that had been
+       * hiding it: removing the fade puts a stock white panel back on a
+       * tactical-olive card. */
+      lv_obj_add_style(obj, &t->styles.field_bg, 0);
+      /* DISABLED — the PAIR SWAP: a roller is a COLUMN OF GLYPH RUNS and
+       * nothing else, so it is the purest case the fade ban exists for (see
+       * the disabled_fill init comment). */
+      lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
       /* Selected band — cyan over stock's violet PART_SELECTED fill (the
        * always-visible centred option); white option text rides on top. */
@@ -851,13 +964,37 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.control_rad, 0);
     lv_obj_add_style(obj, &t->styles.ta_pad, 0);
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
-    /* DISABLED — text-preserving variant (see the disabled_text init
-     * comment): the content IS a glyph run, so the authored dim tone
-     * replaces the fade; stock's own recolor-only dim stays underneath
-     * for the field chrome but the recolor target is overridden so it
-     * no-ops on the authored text. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
-      lv_obj_add_style(obj, &t->styles.disabled_text, LV_STATE_DISABLED);
+      /* Field surface — the SAME closed-field fill the dropdown arm takes.
+       * Without it a textarea kept STOCK's card fill (measured #282B30 dark /
+       * #FFFFFF light), so its text pairs were measured against a colour that
+       * appears in no token table: the placeholder and disabled numbers below
+       * are only meaningful once the backdrop is an authored token. */
+      lv_obj_add_style(obj, &t->styles.field_bg, 0);
+      /* PLACEHOLDER — asgard never styled LV_PART_TEXTAREA_PLACEHOLDER, so it
+       * fell through to stock's grey (lv_theme_default.c), measured 2.995:1
+       * dark / 1.412:1 light against the fill it actually rendered on. A
+       * placeholder is TEXT AN OPERATOR MUST READ — it is what says what the
+       * field wants — so the 6:1 shall binds it like any other text.
+       *
+       * disabled-fg is the tone by CONSTRAINT, not by analogy: a placeholder
+       * survives both field surfaces (surface-1 enabled, surface-2 once
+       * disabled_fill drains it), and disabled-fg is the only muted tone
+       * clearing 6:1 on BOTH — fg-1, the obvious "muted text" choice, fails
+       * the disabled surface at 5.82:1 dark. The token's NAME lags its role
+       * here; the value does not. */
+      lv_obj_add_style(obj, &t->styles.disabled, LV_PART_TEXTAREA_PLACEHOLDER);
+      /* DISABLED — the PAIR SWAP (see the disabled_fill init comment): the
+       * content IS a glyph run, so the authored dim tone replaces the fade
+       * AND stock's recolor wash, which is neutralised rather than left
+       * under the authored text. Leaving that recolor live is what collapsed
+       * this widget to 2.33:1 dark / 3.83:1 light: it lifts the FILL toward
+       * the text tone even though it no-ops on the text itself. The FILL
+       * half is what a placeholder-only field has instead of a tone change:
+       * its one glyph run is the placeholder, which reads the same in both
+       * states, so without the drain the small cell was byte-identical to
+       * its enabled twin. */
+      lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       /* Edited (active-edit) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
     }
@@ -870,11 +1007,22 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     lv_obj_add_style(obj, &t->styles.control_rad, 0);
     lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
-      /* DISABLED — text-preserving variant, NOT the opa dim: the digits
-       * are the widget's whole content, and the 50% fade collapsed them
-       * to ~1.2:1 on the light fill (see the disabled_text init comment
-       * for why neither an opa exemption nor a token retune can fix it). */
-      lv_obj_add_style(obj, &t->styles.disabled_text, LV_STATE_DISABLED);
+      /* Field surface — same closed-field fill as dropdown/textarea/roller,
+       * and this is the ENABLED half; DISABLED drains further to surface-2
+       * via disabled_fill below. Measured necessary, not tidied in: the
+       * spinbox had been left on STOCK's card tone (#282B30 dark), and with
+       * the fade gone the disabled digits sat at 5.23:1 on it — under the 6:1
+       * shall, and under it ONLY because the backdrop was not an authored
+       * surface. A tone derived against the surface ladder cannot deliver its
+       * number on a backdrop that is not on the ladder. */
+      lv_obj_add_style(obj, &t->styles.field_bg, 0);
+      /* DISABLED — the SWAP, NOT the fade: the digits are the widget's whole
+       * content, and the 50% opa collapsed them to ~1.2:1 on the light fill
+       * (see the disabled init comment for why neither an opa exemption nor
+       * a token retune can recover that). The recolor that replaced the opa
+       * here was measured no better — 2.33:1 dark on the textarea twin — so
+       * both are gone and the authored PAIR stands alone. */
+      lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.cursor_off,
                        LV_PART_CURSOR | LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
@@ -916,13 +1064,27 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
     /* Column dividers (asgard-only) — see the table_grid init comment. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.table_grid, LV_PART_ITEMS);
-    /* DISABLED dim — asgard-only new-state coverage (stock's table arm styles
-     * no disabled state); the opa cascades over the grid + cells. The FLAT
+    /* DISABLED — asgard-only new-state coverage (stock's table arm styles no
+     * disabled state); the opa cascades over the grid + cells. The FLAT
      * variant, not the recolor one: the table's cells carry no fill, and the
      * disabled-fg recolor target is lighter than the dark card tone, so the
      * recolor made a disabled dark table POP instead of recede (see the
      * disabled_flat init comment). Vanilla adds nothing, so
-     * vanilla-equals-stock holds by scope. */
+     * vanilla-equals-stock holds by scope.
+     *
+     * THIS IS THE ONE FADE LEFT OVER A WIDGET THAT WILL EVENTUALLY CARRY
+     * TEXT, and it is legal today only because renderer.c never sets
+     * cell_data — every cell renders empty, so the subtree the ban protects
+     * is a grid of lines, with no glyph self-contrast for a fade to collapse.
+     *
+     * `disabled_fill` WOULD ALSO WORK HERE and is what every other box-owning
+     * widget now uses: table MAIN is left at stock's zeroed bg, so the drain
+     * would paint surface-2 and read as distinct on its own. It is not used
+     * ONLY to keep this change to the widgets that had a measured defect —
+     * a scope line, not a claim that the fade is better. WIRING CELL TEXT
+     * REMOVES THE CHOICE: this arm must become `disabled_fill` in the same
+     * change, and the corpus's :distinct expectation then rides the fill and
+     * the text tone instead of the fade. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.disabled_flat, LV_STATE_DISABLED);
     return;
@@ -932,33 +1094,57 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
   if (lv_obj_check_type(obj, &lv_tabview_class)) {
     /* The tabview ROOT: its bar/content/pages are styled by the obj-arm guards
      * above, so the root itself normally takes nothing. Asgard adds only the
-     * DISABLED dim so a disabled tabview reads inactive like the other value
-     * widgets — the opa cascades over the whole tab chrome. Vanilla adds
-     * nothing, so vanilla-equals-stock holds by scope. */
+     * DISABLED state. Vanilla adds nothing, so vanilla-equals-stock holds by
+     * scope.
+     *
+     * THE PAIR SWAP, and this is the widget where only the FILL half of it
+     * survives. A tabview's whole visible content is tab labels and page
+     * labels, so it is squarely inside the ban — it measured the worst damage
+     * of any card, 3.76:1 dark / 2.76:1 light against 17.21 / 15.76 enabled.
+     *
+     * THE TEXT HALF REACHES NOTHING HERE, and that was measured, not
+     * reasoned: with a text-only swap on this root the corpus card came back
+     * byte-identical to its enabled twin. text_color is inheritable but the
+     * walk stops at the first ancestor that sets it, and every label in this
+     * subtree already has one — stock's `btn` claims the tab labels, asgard's
+     * own `panel` claims the page-content wrappers. So what expresses the
+     * state is the root's own background, which is otherwise unpainted and
+     * shows wherever the transparent content and pages do not cover it.
+     *
+     * The label TONES stay at their enabled values, which is a smaller signal
+     * than the fade gave and a deliberately better trade: the fade "dimmed"
+     * them by destroying their contrast. Recovering the tone half needs
+     * LV_STATE_DISABLED propagated from the root to the bar's buttons and the
+     * pages, so each can swap in its OWN state — a renderer-side change to
+     * how state is applied, which is also why the corpus entry calls
+     * root-level disable a WIRE granularity note rather than a theme one. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
     return;
   }
 #endif
 #if LV_USE_LED
   if (lv_obj_check_type(obj, &lv_led_class)) {
     lv_obj_add_style(obj, &t->styles.led, 0);
-    /* DISABLED dim — asgard-only new-state coverage (stock's led arm styles
+    /* DISABLED — the FADE variant: an led is one filled rounded rect with a
+     * shadow, no glyph (see the disabled_dim init comment for the
+     * precondition). asgard-only new-state coverage (stock's led arm styles
      * only MAIN|DEFAULT). Vanilla adds nothing, so vanilla-equals-stock holds
      * by scope. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
-      lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
+      lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
     return;
   }
 #endif
 #if LV_USE_LABEL
   if (lv_obj_check_type(obj, &lv_label_class)) {
-    /* DISABLED dim for standalone labels — NO family styles a plain label's
+    /* DISABLED for standalone labels — NO family styles a plain label's
      * disabled state (stock covers labels only as textarea children), so a
      * label carrying LV_STATE_DISABLED rendered pixel-identical to enabled.
-     * The shared disabled style authors the dim text tone + recolor; a
-     * label without the state bit is untouched. Vanilla adds nothing, so
-     * vanilla-equals-stock holds by scope. */
+     * The SWAP: a label is nothing but a glyph run, so the authored tone is
+     * the whole of its disabled expression; a label without the state bit is
+     * untouched. Vanilla adds nothing, so vanilla-equals-stock holds by
+     * scope. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.disabled, LV_STATE_DISABLED);
     return;

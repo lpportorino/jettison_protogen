@@ -27,6 +27,17 @@
           ;; ("#8A8A70") served both roles and could not clear either.
           :olive-400 "#70705A"
           :olive-500 "#585846"
+          ;; :olive-600 = light DISABLED TEXT tone. It exists because the
+          ;; disabled fade was removed (see :fg-disabled for the full
+          ;; derivation): with no fade the AUTHORED pair is the RENDERED pair,
+          ;; so the tone has to clear the governing 6:1 on its own, and
+          ;; :olive-500 does not (5.44:1 / 4.64:1 / 3.91:1 on surface-1/2/
+          ;; overlay). Solved as the DIMMEST OKLCH lightness at :olive-500's
+          ;; own hue+chroma clearing 6:1 against the DARKEST light surface
+          ;; (surface-overlay #C0C0A8): L 0.455 -> 0.353, giving 6.03:1 there
+          ;; and 9.75/8.39/7.16:1 on surface-0/1/2. Note DARKER, not lighter —
+          ;; light-mode dimming moves away from the surface, not toward it.
+          :olive-600 "#3D3C2C"
           :olive-fg-0 "#1A1A28"
           :olive-fg-1 "#404050"
           ;; Accent palette
@@ -41,16 +52,76 @@
           :amber-deep "#D97706"
           :red "#EF4444"
           :green "#10B981"
-          ;; Media scrubber "played" position blue (see :media-accent). A named
-          ;; palette primitive, promoted from a former inline devcards literal.
+          ;; Media scrubber "played" position blue (see :media-accent).
+          ;;
+          ;; NOT DERIVED, AND SAYING SO IS THE POINT. This value is GitHub
+          ;; Primer's accent blue. It reached this file by being PROMOTED from
+          ;; an inline devcards literal to a named primitive "so the media hue
+          ;; has one home" — and giving a foreign design system's colour a home
+          ;; here made it look like it came off the same ladder as every token
+          ;; around it. It did not. Promotion is not derivation: a token needs a
+          ;; REASON for its value, not just a single home, and this one has no
+          ;; reason beyond where it was copied from.
+          ;;
+          ;; Left at its value ON PURPOSE, because the honest fix is not local.
+          ;; Measured: h 258.3, which is 34.7 deg from :accent-bg (293.0) and
+          ;; 35.2 deg from :checked-accent (223.1) — confusable with both. But
+          ;; 258 is very nearly the MIDPOINT of the 70-degree gap those two
+          ;; leave, so no other hue in that gap does better; the accent space is
+          ;; full, and separating the media hue means moving the accents. That
+          ;; is the locked-lightness-ladder task's solve, not a value this
+          ;; change can pick without pre-empting it. What is fixed here is the
+          ;; false impression of provenance, which is what actually misleads.
           :media-blue "#2F81F7"
           ;; Text colors
           :fg-white "#E8E8F0"
           :fg-muted "#9898B0"
-          ;; Dim-but-legible: muted/disabled text still clears the 4.5:1 text
-          ;; floor on surface-2 (4.63:1; the prior "#606078" measured 2.69:1)
-          ;; while staying visibly dimmer than :fg-muted.
-          :fg-dim "#8686A0"}
+          ;; Dim-but-legible, and NO LONGER THE DISABLED TONE — that role moved
+          ;; to :fg-disabled when the fade came out. This is now only :fg-2,
+          ;; the muted-text role.
+          ;;
+          ;; Its historical justification was clearing 4.5:1 on surface-2
+          ;; (4.63:1; the prior "#606078" measured 2.69:1) while staying
+          ;; visibly dimmer than :fg-muted. That bar is WCAG's, which PDL-1
+          ;; rejects as the floor: at the governing 6:1 this tone FAILS on
+          ;; every dark surface (5.57 / 5.24 / 4.63 on surface-0/1/2). It is
+          ;; left at its value because moving it is a ladder-wide decision —
+          ;; :fg-1 above it fails too — and that ladder is its own task.
+          :fg-dim "#8686A0"
+          ;; :fg-disabled = dark DISABLED TEXT tone, and the reason it is a
+          ;; SEPARATE primitive from :fg-dim is the whole point of the change
+          ;; that introduced it.
+          ;;
+          ;; Until now `disabled-fg` was an ALIAS of `fg-2`, and the disabled
+          ;; LOOK came from a whole-widget opacity in theme.c rather than from
+          ;; the tone. That fade folds into `layer->opa` (lv_refr.c
+          ;; `lv_obj_refr`) and re-composites the GLYPH AND THE FILL against
+          ;; whatever sits behind, so the pair the operator reads was never the
+          ;; pair these tokens declare — measured on the disabled tabview at
+          ;; 3.76:1 dark / 2.76:1 light against 17.21 / 15.76 enabled. With the
+          ;; fade gone the authored pair IS the rendered pair, so it has to
+          ;; clear the floor by itself.
+          ;;
+          ;; DERIVED, not picked: the dimmest OKLCH lightness at :fg-dim's own
+          ;; hue (285.2) and chroma (0.039) that clears MIL-STD-1472H 5.2.2.7's
+          ;; 6:1 "shall" against the LIGHTEST dark surface (surface-2 #1E1E2E).
+          ;; L 0.629 -> 0.697, giving 6.04:1 there and 7.27/6.84:1 on
+          ;; surface-0/1. Hue and chroma are unchanged because WCAG contrast is
+          ;; a LUMINANCE ratio — chroma does not enter it, so only L can fix a
+          ;; contrast failure. Everything from here up to :fg-white also clears
+          ;; 6:1; the minimum is taken because it is the only DERIVED point in
+          ;; that range and it keeps the most dimming signal.
+          ;;
+          ;; KNOWN, AND NOT FIXED HERE: at L 0.697 this sits 0.009 above
+          ;; :fg-muted (:fg-1, L 0.688) — so the disabled tone is now marginally
+          ;; BRIGHTER than the muted tone and the two are near-indistinguishable
+          ;; in dark mode. That inversion is forced, not chosen: :fg-muted
+          ;; itself measures 5.82:1 on surface-2 and is BELOW the governing
+          ;; floor, so anything that clears 6:1 must outrank it. Raising this
+          ;; token further to escape the collision would spend disabled signal
+          ;; working around a token that has to move anyway; the fix is the
+          ;; locked lightness ladder, which owns :fg-1.
+          :fg-disabled "#9A9BB6"}
  :fonts {:b612mono-bold-12 {:family "b612mono_bold" :size 12}
          :b612mono-bold-14 {:family "b612mono_bold" :size 14}
          :b612mono-bold-16 {:family "b612mono_bold" :size 16}
@@ -160,7 +231,19 @@
             ;; 5.36:1), and improves on the stock red edited ring it replaces
             ;; (red measured 2.77:1 on the light surface).
             :checked-accent {:dark :cyan-dim :light :cyan-dim}
-            :disabled-fg {:dark :fg-dim :light :olive-500}
+            ;; The DISABLED text tone — and, since the fade was removed, the
+            ;; only thing carrying the disabled signal on a text-bearing
+            ;; widget. It has its own primitives (:fg-disabled / :olive-600)
+            ;; rather than aliasing :fg-2, because it now has to clear the
+            ;; governing 6:1 unaided and :fg-2 does not. The derivation and the
+            ;; residual it leaves behind are on those two primitives.
+            ;;
+            ;; The NAME lags the ROLE: this is "the dimmest tone still legible
+            ;; at the governing floor", which is also what a textarea
+            ;; PLACEHOLDER needs, and theme.c authors the placeholder from it
+            ;; for exactly that reason. Renaming belongs with the ladder work
+            ;; that renumbers these roles, not with the fade removal.
+            :disabled-fg {:dark :fg-disabled :light :olive-600}
             ;; ── HUD overlay controls ──
             :hud-border {:dark :violet :light :violet-deep}
             :hud-scrim-opa {:dark :subtle :light :light}
