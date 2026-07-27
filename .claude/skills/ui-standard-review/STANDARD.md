@@ -261,8 +261,20 @@ has a dead button and no gate that can tell them. `devcards.interaction`'s
 directions — a one-sided test would pass against a renderer that had stopped
 delivering events entirely.
 
-The overlap lane reports the glass-vs-content pair for this reason. That pair is
-a DESIGNED stack, and this section is what makes it one.
+**The interpreter DECLARES this composition, and the overlap lane reads the
+declaration.** `dump_tree` carries `proxy_root` on the proxy box and
+`proxy_part` (`glass` / `handle` / `cell`) plus `proxy_owner` on each affordance
+the renderer builds. `devcards.overlap` excludes a pair only when BOTH nodes sit
+in the SAME proxy and at least one is an affordance — the stack this section
+describes. It has to come from the renderer because those objects never pass
+through `finalize_widget`, so they carry no uid and nothing else can name them,
+here or in any consumer; and inferring it from paint order is what §1.2 forbids.
+
+The exclusion is deliberately narrow, and each boundary has a canary:
+two DIFFERENT proxies' surfaces still fire (their order lives in the compositor,
+§1.6); an affordance against a node outside its proxy still fires; and two
+ordinary content children of one proxy still fire, because nothing about the
+proxy makes THEIR overlap intentional.
 
 ### 1.6 Determining OBSERVED stacking
 

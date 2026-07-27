@@ -557,6 +557,20 @@ void renderer_cleanup(void) {
 void proxy_report_sweep(void) {
   /* The reference path builds no host proxies — nothing to report. */
 }
+const char *renderer_proxy_root(const lv_obj_t *obj) {
+  /* Same reason as the sweep above: no proxies exist on this path, so no
+   * object is a proxy box and dump_tree emits no proxy_root key. NOT a
+   * degraded answer — it is the true one for a module that builds none. */
+  (void)obj;
+  return NULL;
+}
+const char *renderer_proxy_part(const lv_obj_t *obj, const char **owner_id) {
+  /* Likewise: no proxy owns any affordance here. Leaving *owner_id untouched
+   * is safe because the caller only reads it when a part is returned. */
+  (void)obj;
+  (void)owner_id;
+  return NULL;
+}
 int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len) {
   /* The reference path decodes no proto — a crafted CmdSpec `.pb` never reaches
    * a decode boundary here. Report the nanopb-reject sentinel; the controls

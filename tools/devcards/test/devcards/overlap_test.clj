@@ -12,6 +12,7 @@
             [devcards.findings :as findings]
             [devcards.geometry :as geometry]
             [devcards.invariants :as invariants]
+            [devcards.classify :as classify]
             [devcards.overlap :as overlap]))
 
 (def ^:private table
@@ -423,3 +424,77 @@
         (let [f (first (filter #(= :unmeasurable-node (:invariant %)) fs))]
           (is (= "lv_button#1" (:node f)))
           (is (re-find #"ancestor \"lv_obj\" has no :coords" (:detail f))))))))
+
+(def ^:private proxy-table
+  "As `table`, but lv_obj is INTERACTIVE — which is what the shipped starter
+   table says, and what makes proxy affordances (all bare lv_obj) enter the
+   pairing at all. With the default table above they are never paired and
+   every assertion below would pass vacuously."
+  {:types (assoc (:types table) "lv_obj" {:interactive? true :role :structural})})
+
+(defn- judge-proxy [root] (judge root proxy-table 0))
+
+;; ── the interpreter's own declared composition ──────────────────────────
+;; dump_obj marks the proxy box (`proxy_root`) and each affordance it builds
+;; (`proxy_part` + `proxy_owner`). Those objects never pass through
+;; finalize_widget so they carry no uid, in this repo or in any consumer —
+;; the declaration is the ONLY way to name them, which is why it comes from
+;; the renderer rather than from a rule reading paint order.
+
+(deftest a-designed-proxy-stack-does-not-fire
+  (testing "glass over content, and glass over handle, inside ONE proxy: the
+            documented §1.5b stack — the proxy IS the interaction target and
+            its glass takes every press inside the box."
+    (let [root (root-with
+                [{:type "lv_obj" :uid 9 :proxy_root "px" :coords [10 10 109 69]
+                  :children
+                  [{:type "lv_button" :uid 1 :coords [20 20 79 49] :children []}
+                   {:type "lv_obj" :uid 2 :proxy_part "glass" :proxy_owner "px"
+                    :coords [10 10 109 69] :children []}
+                   {:type "lv_obj" :uid 3 :proxy_part "handle" :proxy_owner "px"
+                    :coords [10 10 25 25] :children []}]}])]
+      (testing "CONTROL: the glass and the handle really are interactive
+                under this table, so the emptiness below is the EXCLUSION
+                doing its job and not an unclassified or unpaired type"
+        (is (every? #(:interactive? (classify/classify proxy-table %))
+                    ["lv_obj" "lv_button"])))
+      (is (empty? (judge-proxy root))))))
+
+(deftest the-exclusion-is-scoped-to-ONE-proxy
+  (testing "two DIFFERENT proxies' affordances overlapping still fire —
+            their relative stacking lives in the compositor and is
+            unjudgeable from the tree (§1.6), so silencing it would be an
+            answer the rule does not have."
+    (let [root (root-with
+                [{:type "lv_obj" :uid 8 :proxy_root "a" :coords [10 10 89 49]
+                  :children [{:type "lv_obj" :uid 1 :proxy_part "glass"
+                              :proxy_owner "a" :coords [10 10 89 49] :children []}]}
+                 {:type "lv_obj" :uid 9 :proxy_root "b" :coords [50 10 129 49]
+                  :children [{:type "lv_obj" :uid 2 :proxy_part "glass"
+                              :proxy_owner "b" :coords [50 10 129 49] :children []}]}])
+          fs (judge-proxy root)]
+      (is (seq fs))
+      (is (contains? (invariants-of fs) :overlap)))))
+
+(deftest an-affordance-against-an-OUTSIDE-node-still-fires
+  (testing "the exclusion needs BOTH nodes in the same proxy. A handle
+            overlapping an unrelated control outside its proxy is an ordinary
+            collision and must stay red."
+    (let [root (root-with
+                [{:type "lv_obj" :uid 9 :proxy_root "px" :coords [10 10 89 49]
+                  :children [{:type "lv_obj" :uid 1 :proxy_part "handle"
+                              :proxy_owner "px" :coords [10 10 49 49] :children []}]}
+                 {:type "lv_button" :uid 2 :coords [30 10 99 49] :children []}])
+          fs (judge-proxy root)]
+      (is (contains? (invariants-of fs) :overlap)))))
+
+(deftest two-plain-children-of-one-proxy-still-fire
+  (testing "being inside a proxy does not make an overlap intentional. The
+            exclusion requires at least one node to be an AFFORDANCE the
+            renderer built — two ordinary content children colliding is the
+            author's bug, not the interpreter's composition."
+    (let [root (root-with
+                [{:type "lv_obj" :uid 9 :proxy_root "px" :coords [10 10 109 69]
+                  :children [{:type "lv_button" :uid 1 :coords [20 20 79 49] :children []}
+                             {:type "lv_switch" :uid 2 :coords [50 20 99 49] :children []}]}])]
+      (is (contains? (invariants-of (judge-proxy root)) :overlap)))))

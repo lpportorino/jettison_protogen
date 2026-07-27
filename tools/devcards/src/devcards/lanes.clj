@@ -21,7 +21,9 @@
    THIS corpus' vocabulary, not a registry concern. A consumer's corpus
    declares what its own cards are for, through its own producer."
   (:require [devcards.findings :as findings]
-            [devcards.invariants :as invariants]))
+            [devcards.invariants :as invariants]
+            [devcards.lvgl-classes :as lvgl-classes]
+            [devcards.overlap :as overlap]))
 
 (set! *warn-on-reflection* true)
 
@@ -52,6 +54,21 @@
            ;; nil expect (kitchen sinks) and every judged expect → full lane
            (invariants/tree-findings card-id tree caps nodes)))})
 
+(def overlap-classes
+  "The classification table the overlap lane judges this corpus with: the
+   shipped starter table, unextended. protogen is the table's author, so
+   taking it as-is is the honest dogfood — a private override here would
+   gate this repo on rules no consumer inherits."
+  (lvgl-classes/merge-consumer {}))
+
+(def overlap-thresholds
+  "Strict overlap: a SHARED pixel fires, touching does not. Deliberately not
+   1 — at gap-px 1 this corpus reports 97 findings, 66 of them lv_tabview
+   pages touching by construction (UI-QUALITY-CONTRACTS §2.3). The lane is a
+   pointer-hazard gate, and two elements that merely touch take no press
+   from each other."
+  {:overlap/gap-px 0})
+
 (defn atomic-findings
   "The live findings for ONE atomic card — the exact call the gate makes.
 
@@ -66,7 +83,9 @@
                                   :tree tree
                                   :caps {:vis-px? true}
                                   :expect (or expect :judged)
-                                  :producers [tree-producer]})))
+                                  :classes overlap-classes
+                                  :thresholds overlap-thresholds
+                                  :producers [tree-producer overlap/producer]})))
 
 (defn composition-findings
   "The live findings for ONE composition card — the exact call the gate
@@ -82,5 +101,8 @@
                                   :caps {:vis-px? true}
                                   :host-proxy? false
                                   :emissions-by-mode emissions-by-mode
+                                  :classes overlap-classes
+                                  :thresholds overlap-thresholds
                                   :producers [(findings/builtin-producer :tree)
-                                              findings/emission-by-mode-producer]})))
+                                              findings/emission-by-mode-producer
+                                              overlap/producer]})))

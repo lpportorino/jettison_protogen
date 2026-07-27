@@ -1892,6 +1892,48 @@ static const lv_align_t proxy_cell_aligns[PROXY_CELL_COUNT] = {
     LV_ALIGN_LEFT_MID,    LV_ALIGN_CENTER,     LV_ALIGN_RIGHT_MID,
     LV_ALIGN_BOTTOM_LEFT, LV_ALIGN_BOTTOM_MID, LV_ALIGN_BOTTOM_RIGHT,
 };
+/* Which proxy an object belongs to, for the DUMP only.
+ *
+ * `renderer_proxy_root` answers "is this the proxy box itself", and
+ * `renderer_proxy_part` answers "is this one of the affordances that box
+ * owns". Both return the proxy's stable id so a consumer of the dump can
+ * tell TWO proxies apart rather than lumping every affordance together.
+ *
+ * These exist because the affordance objects are created by this file with
+ * bare lv_obj_create and never pass through finalize_widget, so they carry
+ * no uid and nothing downstream can name them. A geometry rule that sees
+ * only coordinates cannot tell the designed glass-over-content stack
+ * (UI-QUALITY-CONTRACTS §1.5b) from an accidental collision; these two keys
+ * are the interpreter DECLARING its own composition rather than leaving the
+ * rule to infer it from paint order, which §1.2 forbids. */
+const char *renderer_proxy_root(const lv_obj_t *obj) {
+  for (int i = 0; i < proxy_count; i++)
+    if (proxy_registry[i].obj == obj)
+      return proxy_registry[i].id;
+  return NULL;
+}
+const char *renderer_proxy_part(const lv_obj_t *obj, const char **owner_id) {
+  for (int i = 0; i < proxy_count; i++) {
+    proxy_entry_t *e = &proxy_registry[i];
+    if (!e->obj)
+      continue;
+    const char *part = NULL;
+    if (e->glass == obj)
+      part = "glass";
+    for (int h = 0; !part && h < PROXY_HANDLE_COUNT; h++)
+      if (e->handles[h] == obj)
+        part = "handle";
+    for (int c = 0; !part && c < PROXY_CELL_COUNT; c++)
+      if (e->cells[c] == obj)
+        part = "cell";
+    if (part) {
+      if (owner_id)
+        *owner_id = e->id;
+      return part;
+    }
+  }
+  return NULL;
+}
 static proxy_entry_t *find_proxy_by_obj(const lv_obj_t *obj) {
   for (int i = 0; i < proxy_count; i++) {
     if (proxy_registry[i].obj == obj)

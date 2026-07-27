@@ -346,7 +346,7 @@
    codegen seam's `obj-flag-keyword->int`; only the flags the corpus uses).
    Both wire fields are direct-cast by renderer.c: `obj_flags` through
    `lv_obj_add_flag`, `obj_flags_clear` through `lv_obj_remove_flag`."
-  {:hidden 1 :scrollable 16})
+  {:hidden 1 :clickable 2 :scrollable 16})
 
 (defn- obj-flag-bits
   "OR a node's flag-keyword collection into an LVGL bitmask; an unknown
@@ -886,6 +886,11 @@
     :props {:w 360 :h 460}
     :layout {:flow :column}
     :children [{:type :WIDGET_ARC
+                ;; A GAUGE, not a control: clearing CLICKABLE keeps it out of
+                ;; the pointer path entirely. Decoration that stays clickable
+                ;; is a latent dead zone — it can take a press meant for
+                ;; something else, and nothing renders differently either way.
+                :flags-clear [:clickable]
                 :props {:w 80
                         :h 80
                         :arc_props {:start_angle 0

@@ -139,6 +139,12 @@
    extent. Sits beneath the transparent-track slider overlay."
   [{mn :min mx :max :keys [buffered width height]}]
   {:type :WIDGET_BAR
+   ;; DECORATION, and it must say so: this bar sits UNDER a transparent-track
+   ;; slider that owns the interaction. Left clickable it stays in the pointer
+   ;; path, competing for presses it must never win — a dead element by paint
+   ;; order rather than by intent. Clearing the flag is the by-construction
+   ;; resolution; it moves no pixel.
+   :flags-clear [:clickable]
    :props {:bar_props {:min_value mn :max_value mx :value buffered}}
    :styles [{:part :main
              :props {:w width :h height :bg-color (:track scrubber-palette) :radius 4}}

@@ -1802,6 +1802,31 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
       tree_append(cbuf);
     }
   }
+  /* PROXY MEMBERSHIP — emitted only for the proxy box and the affordances
+   * it owns, so ordinary nodes stay compact. The renderer builds the glass,
+   * handles and align cells itself with bare lv_obj_create; they never reach
+   * finalize_widget, so they carry no uid and NOTHING downstream can name
+   * them. Without these keys a geometry rule sees only rectangles and cannot
+   * distinguish the designed glass-over-content stack (§1.5b) from an
+   * accidental collision — and inferring it from paint order is what
+   * UI-QUALITY-CONTRACTS §1.2 forbids. The owner id is carried so two
+   * proxies are told apart rather than lumped together. */
+  {
+    const char *root_id = renderer_proxy_root(obj);
+    if (root_id) {
+      char pbuf[128];
+      (void)snprintf(pbuf, sizeof(pbuf), ",\"proxy_root\":\"%s\"", root_id);
+      tree_append(pbuf);
+    }
+    const char *owner = NULL;
+    const char *part = renderer_proxy_part(obj, &owner);
+    if (part && owner) {
+      char pbuf[192];
+      (void)snprintf(pbuf, sizeof(pbuf), ",\"proxy_part\":\"%s\",\"proxy_owner\":\"%s\"",
+                     part, owner);
+      tree_append(pbuf);
+    }
+  }
   tree_append(",\"children\":[");
   uint32_t n = lv_obj_get_child_count(obj);
   for (uint32_t i = 0; i < n; i++) {

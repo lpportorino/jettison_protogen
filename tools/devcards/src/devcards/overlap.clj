@@ -169,6 +169,44 @@
                 (recur clipped (next ancs))
                 [:unreachable nil]))))))))
 
+(defn- proxy-scope
+  "The id of the proxy this entry sits inside, or nil.
+
+   Two nodes in the SAME proxy where at least one is an affordance are the
+   designed glass-over-content / glass-over-handle stack that
+   UI-QUALITY-CONTRACTS §1.5b establishes: a non-static proxy IS the
+   interaction target, its glass takes every press inside the box, and the
+   affordances are the interpreter's own composition.
+
+   The interpreter DECLARES this — `dump_obj` emits `proxy_root` on the box
+   and `proxy_part`/`proxy_owner` on each affordance it builds — so the rule
+   reads an intent rather than inferring one from paint order, which §1.2
+   forbids. It has to come from the renderer because those objects never
+   pass through finalize_widget and therefore carry no uid; nothing else can
+   name them, in this repo or in any consumer."
+  [path->node {:keys [node path]}]
+  (or (:proxy_owner node)
+      (:proxy_root node)
+      (some (fn [i]
+              (let [anc (get path->node (subvec path 0 i))]
+                (or (:proxy_owner anc) (:proxy_root anc))))
+            (range (count path) 0 -1))))
+
+(defn- designed-proxy-stack?
+  "Is this pair the documented intra-proxy stack? BOTH nodes in the same
+   proxy AND at least one an affordance the renderer built.
+
+   Deliberately narrow. A pair spanning TWO proxies still fires — their
+   relative stacking lives in the compositor and is unjudgeable from here
+   (§1.6). An affordance against a node outside its proxy still fires. And
+   two ordinary content children of one proxy still fire, because nothing
+   about the proxy makes THEIR overlap intentional."
+  [path->node a b]
+  (let [sa (proxy-scope path->node a)
+        sb (proxy-scope path->node b)]
+    (and sa (= sa sb)
+         (or (:proxy_part (:node a)) (:proxy_part (:node b))))))
+
 (defn- label-of
   [{:keys [node]}]
   (str (:type node) (when-let [uid (:uid node)] (str "#" uid))))
@@ -239,6 +277,7 @@
           (for [[i a] (map-indexed vector candidates)
                 b (subvec candidates (inc i))
                 :when (not (invariants/related? a b))
+                :when (not (designed-proxy-stack? path->node a b))
                 :let [sep (geometry/separation (reach-of a) (reach-of b))]
                 :when (< sep gap-px)]
             {:card card-id

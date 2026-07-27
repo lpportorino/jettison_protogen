@@ -151,5 +151,13 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
  *       PB_BYTES_ARRAY_T(128) cap, or more than the 2-patch static array.
  * The reference oracle decodes no proto and stubs this (returns -2). */
 int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len);
+/* Proxy membership, for dump_tree. `renderer_proxy_root` returns the proxy's
+ * stable id when `obj` IS a proxy box, else NULL. `renderer_proxy_part`
+ * returns "glass" / "handle" / "cell" when `obj` is one of a proxy's
+ * renderer-built affordances (and sets *owner_id to that proxy's id), else
+ * NULL. Together they let a dump consumer scope a pair to ONE proxy — the
+ * affordances carry no uid, so nothing else can name them. */
+const char *renderer_proxy_root(const lv_obj_t *obj);
+const char *renderer_proxy_part(const lv_obj_t *obj, const char **owner_id);
 #endif
 /* RENDERER_H */
