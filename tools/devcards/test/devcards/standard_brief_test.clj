@@ -165,8 +165,17 @@
 (deftest producers-md-reads-each-rules-live-requires
   (testing "the context column is the rule's declared :requires — the layer
             contract needs the proxy rects and the overlap rule does not, and
-            the page must show that difference rather than one shared list"
-    (let [rows (into {} (for [line (str/split-lines (sb/producers-md sb/reviewed-producers))
+            the page must show that difference rather than one shared list.
+
+            The roster is spelled out here rather than taken from
+            `sb/reviewed-producers`: the published roster deliberately holds
+            only rules this repo ARMS, and `layers/producer` is armed by no
+            lane. What this test pins is that the column is read per-rule from
+            each producer's own `:requires`, which needs two rules that differ
+            — whether either is published is `reviewed-producers`' business
+            and is pinned below."
+    (let [rows (into {} (for [line (str/split-lines (sb/producers-md [overlap/producer
+                                                                      layers/producer]))
                               :let [id (second (re-find #"^\| `([^`]+)` \|" line))]
                               :when id]
                           [id line]))]
@@ -329,9 +338,28 @@
             rule. `identical?` is the discriminating test: an equal copy is
             not the same object, which the control proves it can tell apart."
     (is (identical? overlap/producer (first sb/reviewed-producers)))
-    (is (identical? layers/producer (second sb/reviewed-producers)))
     (is (not (identical? overlap/producer (into {} overlap/producer)))
         "control: identical? distinguishes an equal copy, so the assertions
          above are about identity and not merely value")
     (is (= sb/reviewed-producers (findings/validate-producers! sb/reviewed-producers))
         "the roster is registry-valid — a malformed one fails generation")))
+
+(deftest reviewed-producers-publishes-only-what-a-lane-ARMS
+  (testing "`layers/producer` is armed by NO lane in this repo, so the page
+            must not publish its threshold beside the armed rule's — a number
+            that judged no render, printed next to one that judged every
+            render, reads as coverage, and the page's reader (a model holding
+            this page and nothing else) has no docstring to disambiguate them.
+            REVERT-TO-BREAK: put `layers/producer` back in
+            `sb/reviewed-producers`."
+    (is (not (some #{layers/producer} sb/reviewed-producers)))
+    (is (not (str/includes? (sb/thresholds-md sb/reviewed-producers)
+                            "`:layers/gap-px`")))
+    (is (str/includes? (sb/brief-md (opts)) "`:overlap/gap-px`")
+        "control: the ARMED rule's key is still published, so the assertion
+         above is about which rules are listed and not about the table
+         having disappeared")
+    (is (str/includes? (sb/thresholds-md [overlap/producer layers/producer])
+                       "`:layers/gap-px`")
+        "control: the renderer CAN emit that row — it is the roster that
+         omits it, not the generator that cannot print it")))

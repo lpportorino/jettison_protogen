@@ -58,7 +58,35 @@
    first therefore turns 'the dump overflowed and I judged nothing' into a
    clean card on every :probe-pixel-only card and into a wrong diagnosis on the
    :probe-defect ones. What the card is FOR is only a meaningful question once
-   the instrument answered at all."
+   the instrument answered at all.
+
+`:probe-pixel-only` IS A SKIP, AND THIS LANE EMITS NO THIRD ANSWER FOR IT.
+   Say it here because the empty vector cannot: five corpus cards declare it,
+   the DOM lane returns `[]` for each, and that `[]` is byte-identical to the
+   one a fully-judged clean card returns. Nothing in the run's output — not
+   findings.edn, not the by-lane tally — distinguishes \"judged and clean\"
+   from \"not judged\" on those cards. The RECORD that makes this a declared
+   skip rather than the silence CLAUDE.md forbids lives in the CORPUS, not
+   here: `corpus/spec.edn`'s `:expect-legend` defines the class, and each of
+   the five carries `:notes` naming the failure mode dump_tree is structurally
+   blind to. That is a real record and a reader can check it; it is simply not
+   in the same place as the answer.
+
+   WHAT DOES JUDGE THOSE FIVE, since 'pixel-only' is a claim about which
+   ORACLE owns them and not a claim that nothing does: `gates/golden-drift-
+   findings` compares every card's raw-framebuffer sha256 against the
+   committed `goldens/manifest-{dark,light}.edn`, and all five are committed
+   in both — VERIFIED, not assumed. Before that lane was armed the only
+   comparison anywhere was CI's `git diff`, and the card `:notes` still say
+   things like \"the PNG pixels are the assertion\" from that era; the local
+   battery can now fail on them. Do not read this arm as a hole in the pixel
+   coverage — it is a hole in the DOM lane's REPORTING, which is the smaller
+   and more precise complaint.
+
+   THE TWO PARAGRAPHS ABOVE MEET AT ONE POINT: the skip is what this arm does
+   when the instrument ANSWERED. A truncated dump is judged before the router
+   reaches the arm at all, so the `[]` described here is the reply to a tree
+   that was read and declined, never to one that was never read."
   {:id :tree-by-expect
    :requires #{:tree :caps :expect}
    :fn (fn [{:keys [card-id tree nodes caps expect]}]

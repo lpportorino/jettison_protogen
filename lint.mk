@@ -1,6 +1,7 @@
 # lint.mk — format + lint gates for hand-authored Clojure and C.
 #
-#   make -f lint.mk lint        # every gate (check-only; what CI runs)
+#   make -f lint.mk lint        # the four lanes .githooks/pre-push runs
+#                               # (check-only; CI runs each lane separately)
 #   make -f lint.mk fmt-fix     # rewrite formatting in place
 #   make -f lint.mk lint-clj    # one lane at a time
 #
@@ -147,7 +148,22 @@ hooks-status:
 	fi
 
 
-## lint: every gate, check-only — the CI entry point
+## lint: the four check-only lanes the PRE-PUSH HOOK runs — not all of them
+# WHO CALLS THIS, precisely, because the answer used to be written down wrong.
+# `.githooks/pre-push` (line 86) is the SOLE caller. No CI job invokes it: CI
+# runs the lanes INDIVIDUALLY — lint.yml calls `lint-sh`, `fmt-clj`, `lint-clj`
+# as three steps, and renderer.yml calls `fmt-c` and `lint-c-tidy` inside the
+# pinned image. So this target is LIVE and local, and the comment that called it
+# "the CI entry point" pointed a reader at a caller that does not exist while
+# the one that does exist depends on it — the exact reading under which someone
+# deletes a target the local gate needs.
+#
+# NOR IS IT "every gate". It excludes `lint-c-tidy` (container-only, needs a
+# compile database) and `wire-contract` (a different KIND of gate — see below).
+# The pre-push hook calls those two separately for exactly that reason, so the
+# hook's gate set is strictly WIDER than this aggregate. A green `lint` is
+# four lanes, and naming them is the only honest headline.
+#
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
 lint: lint-sh fmt-clj lint-clj fmt-c

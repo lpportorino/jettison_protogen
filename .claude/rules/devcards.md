@@ -204,7 +204,27 @@ obligation and the disposition rule). This section is how.
   Proprietary device meta-nodes (DDE, camera controls) NEVER land here; private
   consumers run THIS runner via their protogen pin against their own private
   corpora.
-- `corpus-secret-findings` (`gates.clj`) scans EVERY card population — prose
-  included, since the corpus file IS the public artifact — and rides the normal
-  verdict, so a hit exits non-zero. Widening its match classes is a deliberate
-  change that owes its own false-positive measurement.
+- `corpus-secret-findings` (`gates.clj`) scans every CARD population — the
+  atomic widget cards, the kitchen sinks, and the composition inventory — and
+  within a card it scans every string, prose included, since the corpus file IS
+  the public artifact. It rides the normal verdict, so a hit exits non-zero.
+  Widening its match classes is a deliberate change that owes its own
+  false-positive measurement.
+- **BUT ITS POPULATION IS CARDS, AND THE CORPUS FILES CARRY PROSE OUTSIDE ANY
+  CARD.** This bullet used to read "scans EVERY card population — prose
+  included", which a reader takes as "every string in the corpus file" — it is
+  not. The gate receives card maps only (`gates.clj`'s three call sites:
+  `run-gates`, and `core.clj` for the kitchen sinks and the composition
+  inventory), so the widget-level `:notes` / `:deviation` prose that sits BESIDE
+  `:cards`, and the spec's own top-level prose, reach no scanned population at
+  all. MEASURED on this tree: the gate sees 544 strings from `spec.edn`'s card
+  populations, while 194 strings live outside them (171 widget-level, 40 spec
+  top-level, less 17 whose exact value also appears inside some card) — the
+  longest a 466-char paragraph. A device landmark pasted into a widget's
+  `:notes` ships and nothing here reds.
+  Left as a NAMED GAP rather than closed, deliberately: extending the
+  populations means passing widget maps with `:cards` stripped (otherwise every
+  card is scanned twice and every hit is reported twice), which is a change to
+  what the gate judges and owes its own false-positive measurement, exactly as
+  the match classes do. Close it as its own change; do not read this bullet as
+  cover for prose the gate cannot see.

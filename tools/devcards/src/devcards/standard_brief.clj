@@ -34,11 +34,20 @@
    nothing, and it could not be diffed by the gate above.
 
    WHAT THIS NS DOES NOT DECIDE. It publishes the standard; it does not
-   arm anything. `devcards.overlap` and `devcards.layers` ship OPT-IN and
-   protogen's own corpus does not run them (each producer's docstring
-   carries the evidence for why), so `reviewed-producers` below is the
-   roster whose declared knobs the briefing PUBLISHES — never a claim
+   arm anything — `devcards.lanes` does, and `reviewed-producers` below is
+   the roster whose declared knobs the briefing PUBLISHES, never a claim
    about what is armed.
+
+   THAT DISTINCTION IS EXACTLY WHY THE ROSTER IS NOT THE FULL PRODUCER SET,
+   and this paragraph used to say the opposite of the truth. It read
+   \"`devcards.overlap` and `devcards.layers` ship OPT-IN and protogen's
+   own corpus does not run them\" — written when neither ran. `devcards.lanes`
+   has since ARMED `overlap/producer` on both the atomic and the composition
+   lane, and nothing updated this sentence, so a reader was told the armed
+   rule was unarmed. `layers/producer` really is armed by no lane here
+   (uid-keyed declarations; renderer-built affordances are permanently
+   uid-free), which is why it is no longer in the roster: see
+   `reviewed-producers`.
 
    Shapes are hand-validated (no malli dependency; the devcards tool is
    malli-free), and the page is assembled with the shared
@@ -48,7 +57,6 @@
             [devcards.docgen :as docgen]
             [devcards.findings :as findings]
             [devcards.invariants :as invariants]
-            [devcards.layers :as layers]
             [devcards.lvgl-classes :as lvgl-classes]
             [devcards.overlap :as overlap]))
 
@@ -76,8 +84,33 @@
    rather than emitting a plausible-looking table. `validate-producers!`
    also refuses an empty vector, which is the failure that matters here:
    a briefing that published no rules would read as a standard with no
-   rules."
-  (findings/validate-producers! [overlap/producer layers/producer]))
+   rules.
+
+   `layers/producer` WAS HERE AND IS NOT ANY MORE. It is armed by no lane in
+   this repo, so `STANDARD.md` published `:layers/gap-px 0` in the same table
+   as the armed `:overlap/gap-px 0`, distinguished only by one hedging
+   sentence that told the reader to consult each rule's DOCSTRING — which the
+   reader of this page, a vision-language model holding the page and nothing
+   else, does not have. A number that judged no render, printed beside one
+   that judged every render, reads as coverage. `thresholds-md` states the
+   same thing from the other end: the published default is what a consumer
+   supplying nothing gets, and for a rule no lane runs that is not the value
+   anything below was judged at.
+
+   THE ALTERNATIVE WAS REJECTED ON PURPOSE. Marking each row armed/unarmed
+   would mean deriving the armed set from `devcards.lanes` — inverting the
+   dependency so the PUBLISHED STANDARD reads this repo's private arming
+   choices — or hardcoding the answer in generator prose, which is the second
+   copy of the standard this whole namespace exists to prevent (see
+   `exemption-contract-md`). Publishing only what is armed needs neither.
+
+   A CONSUMER LOSES NOTHING: `generate!` takes `:producers`, so a consumer
+   arming the layer contract passes `[overlap/producer layers/producer]` and
+   gets both rows on its own page. What is gone is protogen publishing a knob
+   for a rule protogen does not run. The layer contract's PROSE is unaffected
+   — it lives in `docs/UI-QUALITY-CONTRACTS.md` §1, embedded verbatim below,
+   which names no threshold key."
+  (findings/validate-producers! [overlap/producer]))
 
 (def example-card-id
   "The synthetic card id the worked example carries. Deliberately not a
@@ -148,8 +181,10 @@
    default, and the producer's own `:doc`.
 
    The default is the value that matters most: it is what runs when a
-   consumer supplies nothing, so it is the number the reviewed renders
-   were judged against."
+   consumer supplies nothing. It is therefore the number the reviewed
+   renders were judged at ONLY for a rule some lane actually arms — which
+   is why `reviewed-producers` publishes only rules this repo arms rather
+   than every rule the registry defines."
   ^String [producers]
   (let [rows (for [p producers
                    [k spec] (sort-by key (:thresholds p))]
@@ -423,9 +458,11 @@
 
    "## The rules, and the thresholds they were judged at\n\n"
    "Read from each producer's declared `:thresholds` at generation time. "
-   "Membership here is NOT the armed state — it is the roster whose knobs "
-   "this page publishes; each rule's own docstring states whether it runs "
-   "against this repo's corpus.\n\n"
+   "This is a ROSTER, not an armed set: a rule's presence here does not "
+   "by itself mean it judged any render you are reviewing, and the page "
+   "cannot tell you which did. Read a published threshold as the value "
+   "that rule WOULD use, never as evidence that the renders below were "
+   "judged by it.\n\n"
    (producers-md producers)
    "\n\n"
    (thresholds-md producers)

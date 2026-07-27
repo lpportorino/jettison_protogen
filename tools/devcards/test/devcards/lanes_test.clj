@@ -119,12 +119,27 @@
             the whole reason this cannot be the plain tree lane"
     (is (= #{:probe-defect-absent} (invariants-of (judge :probe-defect clean-tree))))))
 
-(deftest probe-pixel-only-judges-nothing-and-says-so
+(deftest probe-pixel-only-judges-nothing-and-DOES-NOT-say-so
   (testing "a pixel-only probe is exempt from the DOM lane by declaration.
             The arm must be selected by :expect, not reached by accident —
             so it stays silent on a tree the judged arm reports."
     (is (empty? (judge :probe-pixel-only defective-tree)))
-    (is (contains? (invariants-of (judge :judged defective-tree)) :clipped))))
+    (is (contains? (invariants-of (judge :judged defective-tree)) :clipped)))
+  (testing "THE NAME OF THIS TEST USED TO END '-and-says-so', which the code
+            does not do and this canary never asserted. Pinned explicitly so
+            the gap is a statement rather than an omission: the skipped arm's
+            output is INDISTINGUISHABLE from a clean judged card's, so no
+            consumer of this lane's findings can tell the two apart. The
+            declaration that makes the skip legitimate lives in
+            corpus/spec.edn (:expect-legend + each card's :notes), and the
+            cards' pixels are pinned by gates/golden-drift-findings — see
+            `lanes/tree-producer`. Emitting a third answer here is a CODE
+            change with a finding-shape decision behind it, deliberately not
+            made under a claims-correction pass."
+    (is (= (judge :probe-pixel-only defective-tree)
+           (judge :judged clean-tree))
+        "the skip and a clean full judgement return the SAME value — which is
+         precisely why the run cannot report the difference")))
 
 ;; ── truncation outranks the router ───────────────────────────────────────
 

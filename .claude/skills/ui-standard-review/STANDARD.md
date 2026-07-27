@@ -100,17 +100,15 @@ The table declares NO `:default`, so totality is enforced: a class absent from t
 
 ## The rules, and the thresholds they were judged at
 
-Read from each producer's declared `:thresholds` at generation time. Membership here is NOT the armed state — it is the roster whose knobs this page publishes; each rule's own docstring states whether it runs against this repo's corpus.
+Read from each producer's declared `:thresholds` at generation time. This is a ROSTER, not an armed set: a rule's presence here does not by itself mean it judged any render you are reviewing, and the page cannot tell you which did. Read a published threshold as the value that rule WOULD use, never as evidence that the renders below were judged by it.
 
 | rule | context it requires | thresholds it declares |
 |---|---|---|
 | `:overlap` | `:classes`, `:nodes` | `:gap-px` |
-| `:layers` | `:declaration`, `:nodes`, `:proxy-rects` | `:gap-px` |
 
 | rule | consumer key | default | what it means |
 |---|---|---|---|
 | `:overlap` | `:overlap/gap-px` | `0` | minimum clear pixels between two interactive elements; 0 = they may touch but not overlap, 1 = they may not touch |
-| `:layers` | `:layers/gap-px` | `0` | minimum clear pixels between elements before the layer contract judges them; 0 = overlap only, 1 = touching counts |
 
 Thresholds are DATA: the registry namespaces each key by its rule, throws on an unknown key and throws when two rules collide on one, so neither a typo nor a naming clash can quietly relax the gate it names (§4).
 
