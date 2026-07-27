@@ -128,7 +128,7 @@ LINT_SH_FILES := $(shell git ls-files '*.sh' .githooks/pre-push 2>/dev/null \
 LINT_SH_DISCOVERY_ERR := $(shell git ls-files '*.sh' .githooks/pre-push 2>&1 >/dev/null)
 
 .PHONY: lint lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
-	install-hooks hooks-status audit-clj-paths
+	install-hooks hooks-status audit-clj-paths wire-contract
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -151,6 +151,27 @@ hooks-status:
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
 lint: lint-sh fmt-clj lint-clj fmt-c
+
+## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
+# DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
+# over hand-authored code" and every workflow that calls it expects that
+# meaning; this is a different kind of gate — a generated artifact contradicting
+# a hand-written contract — and folding it in would silently change what a green
+# `lint` claims. It is called explicitly instead, from the three places that
+# need it: .githooks/pre-push, .github/workflows/wire-contract.yml, and
+# .github/workflows/build-and-release.yml.
+#
+# ONE COMMAND, TWO DESCRIPTOR SOURCES, AND THE DIFFERENCE MATTERS. The script
+# defaults to the COMMITTED output/json-descriptors/descriptor-set.json, which
+# cannot see a proto edit nobody regenerated. build-and-release.yml runs this
+# same target immediately after `make generate`, where that same path now holds
+# the FRESHLY generated set — so the fan-out to the consumer repos is gated on
+# the descriptors actually being shipped, not on the last ones committed.
+#
+# Needs nothing but python3 (stdlib only), which is why it can run on a plain
+# runner, in the uber container, and in the pre-push hook alike.
+wire-contract:
+	@python3 tools/wire_contract_check.py --quiet
 
 ## cpus: report the detected parallelism (debug aid across dev machines)
 cpus:

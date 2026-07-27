@@ -1,0 +1,71 @@
+# Assert docs/INTERFACE-CONTRACTS.md against the generated descriptor set.
+#
+# WHY THIS IS NOT `buf breaking`. That doc's §10 and CLAUDE.md both state that
+# renumbering IS ALLOWED when every consumer rebuilds in lockstep, so a hard
+# breaking-change gate would contradict a deliberate design choice. What the
+# policy does is DELEGATE detection to the consumers' §9 wire-parity tests —
+# and it therefore assumes this repo keeps §9 TRUE. Nothing did: the §9 byte
+# vectors lived only in that markdown file, and no test or code read them.
+# Measured (.protogen/research/exp-e2-proto-breaking.md): renumbering
+# cmd.Root.protocol_version moved the G1 ping encoding and every gate in the
+# repo stayed green. This job is the tripwire the policy already assumed.
+#
+# WHERE THE OTHER HALF RUNS. This job reads the COMMITTED descriptor set, so it
+# cannot see a proto edit nobody regenerated. build-and-release.yml runs the
+# same target immediately after `make generate`, against the FRESHLY generated
+# set, before the first consumer push — that is the leg that gates the fan-out.
+# This one exists because build-and-release does NOT fire on a doc-only edit
+# (and must not: a doc typo should never cut a release), and because a PR wants
+# an answer in seconds rather than after a full image build.
+#
+# WHY IT IS NOT A LANE OF lint.yml. That workflow's path filter is source-shaped
+# (**/*.clj, **/*.sh, …) and would not fire on a change to proto/ at all, which
+# is the change class this exists for.
+name: Wire Contract
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+    - "proto/**"
+    - "output/json-descriptors/**"
+    - "docs/INTERFACE-CONTRACTS.md"
+    - "ui-event-envelope.schema.json"
+    - "tools/wire_contract_check.py"
+    - "lint.mk"
+    - ".github/workflows/wire-contract.yml"
+  pull_request:
+    paths:
+    - "proto/**"
+    - "output/json-descriptors/**"
+    - "docs/INTERFACE-CONTRACTS.md"
+    - "ui-event-envelope.schema.json"
+    - "tools/wire_contract_check.py"
+    - "lint.mk"
+    - ".github/workflows/wire-contract.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wire-contract-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  wire-contract:
+    name: §9 golden vectors + §5/§6/§8 field tables vs the descriptor set
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - # No toolchain setup: the checker is python3 stdlib only, and python3 is
+      # preinstalled on every GitHub runner image. That is deliberate — this
+      # gate has to be cheap enough to run on a doc typo.
+      #
+      # Full output, not --quiet: on a green run the assertion list IS the
+      # coverage report, and the NOT-COVERED block is printed either way so a
+      # reader never has to infer what the gate could not see.
+      name: wire contract vs descriptor set
+      run: python3 tools/wire_contract_check.py

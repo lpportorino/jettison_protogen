@@ -615,7 +615,8 @@ Reference implementations:
 ## 10. Evolving this contract (anti-drift)
 
 These are CROSS-LANGUAGE wire surfaces: every encoder/decoder of them lives in
-two repos and must agree byte-for-byte. Two mechanisms keep them from drifting.
+two repos and must agree byte-for-byte. Three mechanisms keep them from
+drifting — and only the third one lives in THIS repo.
 
 1. **Generate, don't hand-roll.** Encoders should be built from the pinned proto
    (`prost` in Rust, the generated ts-proto in TypeScript). A hand-roll is
@@ -630,8 +631,46 @@ two repos and must agree byte-for-byte. Two mechanisms keep them from drifting.
    Touch a wire encoder ⇒ the parity test guards it; this contract + the §9
    vectors are the source of truth.
 
+3. **This repo asserts the vectors above against the generated descriptor set**
+   — `tools/wire_contract_check.py`, run by `make -f lint.mk wire-contract`.
+   Mechanism 2 delegates detection to the consumers, which only works if the
+   vectors here are TRUE; for a long time nothing checked that, and a renumber
+   of `cmd.Root.protocol_version` moved the G1 encoding while every gate in this
+   repo stayed green. The checker re-derives §9's G1/G1-B bytes by encoding each
+   vector's stated message from the descriptor, and compares §5's/§6's/§8's
+   field numbers, proto types, wire types, enum values and (for §6) validate
+   constraints against it.
+
+   **It ASSERTS; it does not GENERATE this document.** Generating the vectors
+   would make them always true and destroy the tripwire — the drift would move
+   silently into the consumers instead of stopping here.
+
+   **It is not a compatibility gate, and does not try to be.** Renumbering stays
+   allowed exactly as the loop below says. What it refuses is shipping a
+   renumber with a stale contract. So an additive field at a free number in
+   `cmd.Root` is GREEN (this doc pins a PATH through that message, not its field
+   set), while an additive field in `ser.OsdClientMetadata` is RED, because §5
+   claims that message's COMPLETE field set and an undocumented field makes the
+   claim false.
+
+   **What it cannot see**: anything with no descriptor home — §1 framing, §2's
+   codec/transport headers and their G2/G3 vectors, §3's profiles and G4, §7's
+   package format, §8's `controls_*` export list and ABI constants, and G5's
+   envelope bytes (only each vector's key set is checked, against
+   `ui-event-envelope.schema.json`). Those remain mechanism 2's alone. The
+   checker prints that list on every run, green or red, so a pass is never
+   mistaken for coverage it does not have.
+
+   It runs in `.github/workflows/wire-contract.yml` (push + PR, against the
+   committed descriptors) and — the leg that matters — as a step of
+   `build-and-release.yml` immediately after `make generate` and before the
+   first consumer push, where the descriptors are FRESH and nothing has shipped
+   yet. `.githooks/pre-push` runs it locally.
+
 **The evolution loop** — when a proto change touches a surface named here: edit
 `proto/`, regenerate the bindings, update this doc to match, bump the
 `jettison_protogen` submodule pin in BOTH consumers (web + native) in
 lockstep, and rebuild. Renumbering is allowed (no compat shims — both consumers
-rebuild together); the §9 parity tests fail loudly on any divergence.
+rebuild together); the §9 parity tests fail loudly on any divergence, and
+mechanism 3 blocks the fan-out until the "update this doc to match" beat is
+actually done.

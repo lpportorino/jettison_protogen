@@ -97,5 +97,30 @@ EOF
   exit 1
 fi
 
+# The one PROTO-AWARE check in this hook. It is called separately rather than
+# folded into `lint` because `lint` means formatting and lint over
+# hand-authored code, and a green `lint` should keep meaning exactly that.
+#
+# It reads the COMMITTED descriptor set, so locally it answers "does the doc
+# match what I have generated" — run `make generate` first if you edited
+# proto/ and want this to see it. CI closes that gap authoritatively in
+# build-and-release.yml, which runs the same target on freshly generated
+# descriptors before anything reaches the consumer repos.
+if ! make -f lint.mk wire-contract; then
+  cat >&2 <<'EOF'
+
+[pre-push] BLOCKED — docs/INTERFACE-CONTRACTS.md no longer describes the protos.
+
+  see the findings :  python3 tools/wire_contract_check.py
+
+Renumbering IS allowed (§10) — what is not allowed is shipping it with a stale
+contract. Both consumers assert §9's byte vectors in their wire-parity tests, so
+a wrong §9 turns into a red battery in every repo that bumps its pin, with the
+cause already pushed. Update the doc to match the descriptor and bump both pins
+in lockstep, or revert the proto change.
+EOF
+  exit 1
+fi
+
 printf '\033[32m[pre-push]\033[0m gates green\n'
 exit 0

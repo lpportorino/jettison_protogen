@@ -8,6 +8,10 @@ on:
       - 'Dockerfile*'
       - 'generate-*.sh'
       - 'scripts/**'
+      # The wire-contract gate below is a step of THIS job, so a change to the
+      # checker or its make target must re-run the fan-out's validation.
+      - 'tools/wire_contract_check.py'
+      - 'lint.mk'
       - '.github/workflows/**'
   workflow_dispatch:
     inputs:
@@ -63,6 +67,26 @@ jobs:
 
         echo "Generated files:"
         find output -type f 2>/dev/null | head -20 || echo "No files generated yet"
+
+    # THE ONLY VALIDATION BETWEEN `make generate` AND TEN CONSUMER REPOS.
+    #
+    # It runs HERE, after generation and before the first push, because this is
+    # the one point in the fleet where the FRESHLY generated descriptor set
+    # exists and nothing has shipped yet. wire-contract.yml runs the same target
+    # on PRs and pushes, but against the COMMITTED descriptor set — which cannot
+    # see a proto edit nobody regenerated. This step can.
+    #
+    # WHAT IT DOES NOT DO: forbid a renumber. docs/INTERFACE-CONTRACTS.md §10
+    # allows one when every consumer rebuilds in lockstep, and that same §10
+    # spells out the loop — "edit proto/, regenerate the bindings, UPDATE THIS
+    # DOC TO MATCH, bump the jettison_protogen submodule pin in BOTH consumers".
+    # This step enforces the doc-update beat of that documented loop. A red here
+    # means the bindings about to be fanned out no longer match the contract the
+    # consumers assert their encoders against, so shipping them would hand every
+    # consumer a §9 parity failure whose cause lives in a commit already pushed.
+    # Fix the doc (and bump the pins in lockstep), or revert the proto change.
+    - name: Validate the wire contract against the generated descriptors
+      run: make -f lint.mk wire-contract
 
     # Push to C repository
     - name: Push to jettison_proto_c
