@@ -9,8 +9,29 @@
    drift fails loudly as a manifest diff, never as a silent re-mint.
 
    Pure core: `build-manifest` walks cards through a caller-supplied
-   render fn (card → {:fb bytes :w int :h int}); `verify` re-renders and
-   diffs. IO (EDN read/write) sits at the edge."
+   render fn (card → {:fb bytes :w int :h int}). IO (EDN read/write) sits
+   at the edge.
+
+   DIFFING IS NOT HERE, AND THAT IS `devcards.corpus`'s CLAIM, NOT A GAP:
+   its own docstring calls itself \"the render loop, error partitioning, and
+   golden-set diffing every bring-your-own-corpus consumer plugs into\", and
+   names this ns as the \"manifest IO + hashing\" half. `corpus/diff-cards`
+   is that diff, it is unit-tested, and it is what the devcards gate calls
+   (`gates/golden-drift-findings` ← `core/-main`).
+
+   A `verify` fn used to live here that re-rendered every manifest card
+   through a caller-supplied render fn and diffed. It is REMOVED rather than
+   wired, and the two reasons are worth keeping because they are the ones a
+   consumer needs: it had ZERO call sites anywhere while its docstring
+   described a caller (\"The caller fails on any :mismatched or :missing
+   entry\") that did not exist; and against `corpus/diff-cards` it was
+   strictly worse at the one job — it cost a second full render of the corpus
+   (measured: 5.4s to re-render 234 dark cards whose hashes the mint had
+   already computed) and it saw only two drift classes, explicitly
+   disclaiming the third (a card in the corpus but absent from the manifest).
+   CONSUMER MIGRATION: pass the card maps you already hold — the ones
+   `corpus/render-corpus` returns in `:by-variant` — to `corpus/diff-cards`
+   instead. You gain `:unexpected` and pay no renders."
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.pprint :as pp])
@@ -37,26 +58,6 @@
                        (let [{:keys [fb w h]} (render! card-id)]
                          [card-id {:sha256 (sha256-hex fb) :w w :h h}])))
                 cards)})
-
-(defn verify
-  "Re-render every manifest card and diff against its golden. Returns
-   {:ok [..] :mismatched [{:card :expected :actual}] :missing [..]} —
-   :missing = cards the render fn threw for (fixture gone). The caller
-   fails on any :mismatched or :missing entry; a card in the CORPUS but
-   not the manifest is the coverage gate's finding, not this one's."
-  [manifest render!]
-  (reduce (fn [acc [card-id {:keys [sha256]}]]
-            (let [{:keys [fb error]} (try {:fb (:fb (render! card-id))}
-                                          (catch Exception e {:error (ex-message e)}))]
-              (cond error (update acc :missing conj {:card card-id :error error})
-                    (= sha256 (sha256-hex fb)) (update acc :ok conj card-id)
-                    :else (update
-                           acc
-                           :mismatched
-                           conj
-                           {:card card-id :expected sha256 :actual (sha256-hex fb)}))))
-          {:ok [] :mismatched [] :missing []}
-          (:cards manifest)))
 
 (defn write-manifest!
   "Persist a manifest as pretty EDN (stable ordering: :cards is a sorted

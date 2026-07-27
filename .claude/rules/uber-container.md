@@ -47,10 +47,16 @@ containerised regen, `renderer.yml` and `devcards.yml` run
 RUNNER. It has to be there — git cannot resolve this checkout from inside the
 container (`detected dubious ownership`), the same reason `standard-brief`'s
 freshness half is a separate non-battery target — and `check-renderer`'s
-`fixtures` lane WRITES the manifests rather than verifying them, so a green
-in-container battery asserts nothing about freshness by itself. What makes the
-claim above true is the measurement: a full gallery re-mint from this container
-passed that CI step unchanged.
+`fixtures` lane covers only HALF of what that diff spans. Write the boundary,
+because it moved: the lane now READS each committed `goldens/manifest-*.edn`
+before the mint overwrites it and fails on any drifted, missing or new card
+(`gates/golden-drift-findings`), so a green in-container battery DOES assert the
+goldens are fresh. It asserts nothing about `tools/devcards/docs` — the JPEG
+contact sheets and generated pages come from the separate `gallery` mode and are
+still mint-only, and `check-renderer` does not even list `gallery-prebuilt`. So
+the runner diff stays load-bearing, for the DOCS half. What makes the claim above
+true is the measurement: a full gallery re-mint from this container passed that
+CI step unchanged.
 
 So a pixel-shifting renderer or corpus change re-mints goldens AND the gallery
 locally in the pinned container, and commits both in the same change — the

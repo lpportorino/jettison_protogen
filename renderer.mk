@@ -72,9 +72,24 @@ bindings:
 # ── Devcards corpus (the render-level goldens) ──────────────────────────────
 # The devcards pipeline's ONE CLI (devcards.core `generate`): build every
 # card, render across theme families × dark/light, judge invariants +
-# vanilla≡stock + the state-contract lanes, and (re)write the golden
-# manifests. Exit code is the verdict; CI additionally asserts the committed
-# goldens/ are unchanged (manifest freshness).
+# vanilla≡stock + the state-contract lanes, VERIFY every card's raw-framebuffer
+# hash against the committed goldens/manifest-*.edn, and then (re)write those
+# manifests. Exit code is the verdict.
+#
+# THE VERIFY HALF IS WHY THIS LANE CAN FAIL ON PIXELS AT ALL. It used to only
+# re-mint: corrupting a committed sha256 exited 0 and silently overwrote the
+# corruption back, and a real theme-colour shift moved 243 of 468 hashes with
+# `check-renderer` still printing GREEN — no lane in the battery compared a
+# rendered pixel to any committed reference. Both are now measured red, the
+# second with 243 findings all tagged `:gate :golden`. The mint still happens
+# after the comparison, so a red run leaves the corrected manifests in the tree
+# to review and commit — the same regenerate-then-diff shape `manifests` and
+# `generated-projection` use.
+#
+# CI STILL DIFFS, AND STILL HAS TO. This lane sees the GOLDENS; the JPEG
+# gallery and generated doc pages come from the `gallery` mode, which
+# check-renderer does not run, so `git diff --exit-code tools/devcards/goldens
+# tools/devcards/docs` remains the only thing catching a stale contact sheet.
 fixtures: wasm bindings
 	cd tools/devcards && clojure -M:bindings:run generate
 
@@ -276,16 +291,39 @@ manifests:
 	done; \
 	rm -rf "$$tmp"; \
 	$(MAKE) --no-print-directory -f renderer.mk manifests-proto-db || rc=1; \
-	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + theme-tokens.h + gesture-thresholds.h + proto-db trio)"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + theme-tokens.h + gesture-thresholds.h + the proto-db manifests enumerated above)"; \
 	exit "$$rc"
 
-# The proto-db-derived trio (signals/sub-signals/endpoints.json) shares the
-# output/manifests/ directory with the pair above but NOT their producer: they
-# come from docs/.protodoc/tools reading proto-db.edn, via the Makefile's
-# `docs-manifests` target, and had no freshness comparison at all. That gap is
-# not hypothetical — signals.json kept publishing an altitude bound for ~150
-# commits after the proto dropped it, and was corrected only as an incidental
-# side effect of an unrelated docs regeneration.
+# The proto-db-derived manifests (endpoints / signals / sub-signals /
+# reverse-index.json) share the output/manifests/ directory with the pair above
+# but NOT their producer: they come from docs/.protodoc/tools reading
+# proto-db.edn, via the Makefile's `docs-manifests` target, and had no freshness
+# comparison at all. That gap is not hypothetical — signals.json kept publishing
+# an altitude bound for ~150 commits after the proto dropped it, and was
+# corrected only as an incidental side effect of an unrelated docs regeneration.
+#
+# THE COMPARED SET IS DISCOVERED FROM THE EMIT, NOT HAND-LISTED, and that is the
+# whole repair. This loop was a literal `for f in signals.json sub-signals.json
+# endpoints.json` while `manifest.clj`'s writer emitted FOUR files — so
+# reverse-index.json, at 163 KB the LARGEST tracked manifest, was published with
+# nothing checking it. Measured: corrupting the committed copy left this target
+# at exit 0 while the parent printed a "fresh" line over it, and a real emitter
+# regression in `build-reverse-index` changed only that file and passed both this
+# gate AND the full protodoc suite (reverse-index-test asserts shape and never
+# reads :related-signal-docs). A hand-kept list beside a producer is free to go
+# short exactly once and then stays short; discovering it from the emit means a
+# fifth manifest is covered the day it is written.
+#
+# WHICH IS WHY THE NON-VACUITY FLOOR IS NOT CEREMONY: a discovered set can also
+# go EMPTY (a failed emit that still exits 0, an output-dir flag that moved), and
+# a zero-file loop is a green tick over zero coverage — the same trap
+# `generated-projection`'s GENERATED_CMD_FILES guard exists for. protogen
+# publishes four, so fewer than four means DISCOVERY broke, not that there is
+# nothing to compare. More than four is fine and needs no edit here.
+#
+# The PASS MESSAGE ENUMERATES what it compared, for the same reason: the old one
+# said "proto-db trio fresh" over a directory holding four published manifests —
+# a pass message implying more than the measurement could see.
 #
 # `make generate` does NOT cover this: it regenerates language bindings, not
 # these manifests. A green generate says nothing about their freshness.
@@ -313,9 +351,24 @@ manifests-proto-db:
 	       --config-path ../manifest-config.edn --output-dir "$$tmp" \
 	       --git-sha SENTINEL ) >/dev/null \
 	  || { rm -rf "$$tmp"; echo "FATAL: proto-db manifest emit failed" >&2; exit 1; }; \
+	emitted="$$(cd "$$tmp" && ls *.json 2>/dev/null)"; \
+	n=$$(printf '%s\n' $$emitted | grep -c . || true); \
+	if [ "$$n" -lt 4 ]; then \
+	  echo "FATAL: the proto-db emit produced $$n manifest(s) — protogen publishes" >&2; \
+	  echo "  FOUR (endpoints, signals, sub-signals, reverse-index). Fewer means" >&2; \
+	  echo "  DISCOVERY broke, not that there is nothing to compare; a loop over an" >&2; \
+	  echo "  empty set is a green tick over zero coverage." >&2; \
+	  echo "  emitted: $$(printf '%s ' $$emitted)" >&2; \
+	  rm -rf "$$tmp"; exit 1; \
+	fi; \
 	rc=0; \
-	for f in signals.json sub-signals.json endpoints.json; do \
-	  [ -f "$$tmp/$$f" ] || { echo "FATAL: emit produced no $$f" >&2; rc=1; continue; }; \
+	for f in $$emitted; do \
+	  if [ ! -f "output/manifests/$$f" ]; then \
+	    echo "FATAL: the emitter writes $$f but output/manifests/$$f does NOT EXIST —" >&2; \
+	    echo "  a published manifest that has never been committed. Run" >&2; \
+	    echo "  'make docs-manifests' and git add it." >&2; \
+	    rc=1; continue; \
+	  fi; \
 	  sed -e 's/"generated-at":"[^"]*"/"generated-at":"SENTINEL"/' \
 	      -e 's/"protogen-commit":"[^"]*"/"protogen-commit":"SENTINEL"/' \
 	      "output/manifests/$$f" >"$$tmp/committed-$$f"; \
@@ -325,7 +378,7 @@ manifests-proto-db:
 	  fi; \
 	done; \
 	rm -rf "$$tmp"; \
-	[ "$$rc" -eq 0 ] && echo "manifests: proto-db trio fresh (signals + sub-signals + endpoints)"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: proto-db fresh ($$n compared: $$(printf '%s ' $$emitted))"; \
 	exit "$$rc"
 
 # ── renderer/generated freshness (the nanopb projection) ────────────────────

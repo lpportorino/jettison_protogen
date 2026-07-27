@@ -19,8 +19,18 @@
      GraalWasm interaction lane (devcards.interaction); every card's
      bytes persist under out/composition/ for the wasmtime mirror suite.
    The CLI has exactly these two modes; anything else exits 2. `generate`
-   RE-MINTS the manifests rather than checking them, so drift against the
-   committed ones is caught by CI's freshness step, never by this run.
+   BOTH verifies and re-mints: every card's fresh raw-FB hash is diffed
+   against the COMMITTED manifest (`gates/golden-drift-findings`, read before
+   the mint overwrites it) and any drift is a blocking finding, then the
+   manifests are rewritten so a red run leaves the corrected copies in the
+   tree to review and commit — the regenerate-then-diff shape `renderer.mk`'s
+   `manifests` and `generated-projection` lanes already use.
+
+   THAT IS THE GOLDENS ONLY. The JPEG gallery and the generated doc pages
+   under docs/ are produced by the `gallery` mode and are still mint-only, so
+   CI's `git diff --exit-code tools/devcards/goldens tools/devcards/docs` step
+   remains the thing that catches a stale CONTACT SHEET. What it is no longer
+   the only thing catching is a moved PIXEL.
 
    `gallery` is the T2.7 doc build (recorded call: a core mode, not a
    dev/ script — the pipeline has ONE CLI and the gallery is a pipeline
@@ -68,6 +78,16 @@
 (def render-protocol
   "The pinned per-card render protocol (mirrors the conventions manifest)."
   {:ticks 3 :tick-ms 16 :dpi 160 :canvas {:w 800 :h 480}})
+
+(def golden-manifest-paths
+  "label → committed golden manifest path. THE ONE HOME of these four paths:
+   the golden-drift lane READS each of them and the mint WRITES the same file,
+   and two literal lists would be free to drift into verifying a file nothing
+   writes — a gate that can only ever be green."
+  {:atomic-dark "goldens/manifest-dark.edn"
+   :atomic-light "goldens/manifest-light.edn"
+   :composition-dark "goldens/manifest-composition-dark.edn"
+   :composition-light "goldens/manifest-composition-light.edn"})
 
 ;; Assembled-home paths (protogen root layout: tools/devcards/ beside
 ;; renderer/): the pinned wasm + assets are the relocated renderer's build
@@ -278,17 +298,47 @@
         built (fixtures/build-all spec)]
     (case (or mode "generate")
       "generate"
-      (let [{:keys [findings counts manifests]} (run-generate spec built)
+      ;; THE COMMITTED MANIFESTS ARE READ FIRST, before a single render and
+      ;; long before the mint overwrites them. Ordering is load-bearing twice:
+      ;; the writes below destroy exactly what the golden lane compares
+      ;; against, and `golden/read-manifest` throws on a truncated or empty
+      ;; manifest — so a damaged one kills the run in a second rather than
+      ;; after a ninety-second corpus render.
+      (let [committed (update-vals golden-manifest-paths golden/read-manifest)
+            {:keys [findings counts manifests]} (run-generate spec built)
             inventory (composition/load-inventory)
             comp-built (composition/build-all inventory)
             comp-run (run-composition inventory comp-built)
-            all-findings (into (vec findings) (:findings comp-run))]
-        (golden/write-manifest! (:dark manifests) "goldens/manifest-dark.edn")
-        (golden/write-manifest! (:light manifests) "goldens/manifest-light.edn")
+            ;; The label→(committed, fresh) pairing. It lives here because the
+            ;; fresh maps do, and this ns cannot be loaded by a test — which is
+            ;; why `gates/golden-drift-findings` refuses an empty side rather
+            ;; than trusting it: a mis-paired label lands on nil and throws
+            ;; naming the label, instead of comparing nothing and passing.
+            golden-findings
+            (gates/golden-drift-findings
+             [{:label :atomic-dark
+               :committed (:cards (:atomic-dark committed))
+               :fresh (:cards (:dark manifests))}
+              {:label :atomic-light
+               :committed (:cards (:atomic-light committed))
+               :fresh (:cards (:light manifests))}
+              {:label :composition-dark
+               :committed (:cards (:composition-dark committed))
+               :fresh (:cards (:dark (:manifests comp-run)))}
+              {:label :composition-light
+               :committed (:cards (:composition-light committed))
+               :fresh (:cards (:light (:manifests comp-run)))}])
+            all-findings (-> (vec findings)
+                             (into (:findings comp-run))
+                             (into golden-findings))]
+        (golden/write-manifest! (:dark manifests)
+                                (:atomic-dark golden-manifest-paths))
+        (golden/write-manifest! (:light manifests)
+                                (:atomic-light golden-manifest-paths))
         (golden/write-manifest! (:dark (:manifests comp-run))
-                                "goldens/manifest-composition-dark.edn")
+                                (:composition-dark golden-manifest-paths))
         (golden/write-manifest! (:light (:manifests comp-run))
-                                "goldens/manifest-composition-light.edn")
+                                (:composition-light golden-manifest-paths))
         ;; Persist the FULL findings vector every run (console truncates at
         ;; 40) — triage reads out/findings.edn, the exit code stays the gate.
         (io/make-parents "out/findings.edn")

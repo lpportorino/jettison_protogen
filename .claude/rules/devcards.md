@@ -10,8 +10,9 @@ paths:
 The devcard corpus proves the `ui_ast` schema and the renderer agree, from three
 ends: schema-validate every fixture, hash the RAW framebuffer (goldens), and
 assert `dump_tree` invariants. One CLI (`devcards.core`): `generate` (build +
-render + judge + write goldens) and `gallery` (write the committed JPEG doc
-tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
+render + judge + VERIFY every hash against the committed manifests, then re-mint
+them) and `gallery` (write the committed JPEG doc tree). Run via
+`make -f renderer.mk fixtures` (`*-prebuilt` in CI).
 
 ## Goldens hash RAW framebuffers — the JPEGs are presentation only
 - `goldens/manifest-*.edn` = per-card sha256 over the RAW RGBA bytes read out of
@@ -29,6 +30,17 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
   `make -f renderer.mk fixtures` (re-mints `goldens/`) and `gallery-prebuilt`
   (re-mints `docs/widgets/`), committed in the SAME change. CI enforces it with
   `git diff --exit-code tools/devcards/goldens tools/devcards/docs`.
+- **The first `fixtures` run after a deliberate pixel change is SUPPOSED to be
+  red, and that is not a bug to work around.** The lane verifies against the
+  committed manifests BEFORE re-minting them, so it names every card whose hash
+  moved and exits non-zero — with the corrected manifests already written to the
+  tree. Read the findings, confirm the movement is the one you intended, commit
+  the manifests, re-run green. Same shape as `manifests` and
+  `generated-projection`. What you must never do is reach for the re-mint
+  without reading what moved: the whole point is that 243 cards shifting used to
+  print GREEN.
+- **The CI diff is still the only gate on `docs/`.** The verify half covers the
+  goldens only; the gallery is mint-only and `check-renderer` does not run it.
 - `docs/widgets/**` is GENERATED, DO-NOT-EDIT. Edit `corpus/spec.edn`,
   `corpus/composition.edn`, the conventions manifests, or the generator ns —
   never the output.

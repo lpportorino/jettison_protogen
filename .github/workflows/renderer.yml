@@ -47,6 +47,25 @@ on:
     # input even though nothing under renderer/ moved. Without this entry the
     # freshness gate could only ever fire on the side that was already correct.
     - "output/c/**"
+    # The SOURCE side of the proto-db manifest leg, for exactly the reason
+    # output/c/** is above it. The "Manifest freshness" step below runs
+    # `renderer.mk manifests`, which chains `manifests-proto-db` — a comparison
+    # whose INPUTS are these three roots and whose outputs are the
+    # output/manifests/*.json already matched. Matching only the outputs armed
+    # the gate on the side that was already correct: replaying this filter over
+    # the 67 commits in history that touched these roots, 37 (55%) matched no
+    # renderer.yml path at all and so never ran this gate in CI — including
+    # `fix(protodoc): deterministic manifest provenance, drop wall-clock`, a
+    # change to the manifest emitter's own stamping.
+    #
+    # A docs-only push now pays a full battery, and that is the accepted price:
+    # the alternative is a second CI home for one gate, which is what this repo
+    # refuses everywhere else. The runner is GitHub-hosted on a public repo, so
+    # the minutes are free; what is NOT free is a published manifest nothing
+    # compares.
+    - "docs/.protodoc/proto-db.edn"
+    - "docs/.protodoc/manifest-config.edn"
+    - "docs/.protodoc/tools/**"
     - ".github/workflows/renderer.yml"
   pull_request:
     paths:
@@ -56,6 +75,10 @@ on:
     - "tools/renderer-gen/**"
     - "output/manifests/**"
     - "output/c/**"
+    # See the push filter above: the proto-db manifest leg's SOURCE side.
+    - "docs/.protodoc/proto-db.edn"
+    - "docs/.protodoc/manifest-config.edn"
+    - "docs/.protodoc/tools/**"
     - ".github/workflows/renderer.yml"
   workflow_dispatch: {}
 
@@ -151,14 +174,67 @@ jobs:
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f lint.mk lint-c-tidy
-    - # A2: the published manifests must be byte-fresh vs a regen from their
-      # sources (tokens.edn + renderer.c). check-renderer runs `manifests` FIRST
-      # locally; renderer.yml DECOMPOSES check-renderer into individual targets,
-      # so without this step CI would never catch a manifest that drifted from
-      # its source (harness/oracles/goldens all render self-consistently against
-      # a stale manifest). Reads only tokens.edn + renderer.c — no wasm /
-      # proto-classes / cargo — so it runs cheaply and fails early.
-      name: Manifest freshness (A2 — design-tokens + renderer-caps)
+    - # THE LVGL DRIFT AXIS, plus the canary layer that proves its parity
+      # assertion still fires. Both were in `check-renderer` and in ZERO
+      # workflows — CI decomposes the battery, so a target omitted here simply
+      # never runs.
+      #
+      # `construct-bindings` re-extracts the vendored LVGL enums with the
+      # container's clang (AST dump, for typedef grouping) and gcc (a native
+      # probe, the only correct oracle for `A | B` bitmask and macro-derived
+      # values), re-emits enums.clj + renderer/generated/ui_luts.h from that one
+      # extraction, and cmps both against the committed copies. This is a WIRE
+      # gate, not a codegen gate: `construct/registry.clj`'s assign-once
+      # numbering THROWS when a vendored-LVGL bump renumbers an already-pinned
+      # member, which is a silent cross-fleet wire break — and a whole set of
+      # enum typedefs is DIRECT-CAST, so the proto number must EQUAL the header
+      # value and the C compiler cannot catch a shift because the generated
+      # header IS the declaration. `generated-projection` above structurally
+      # cannot see this axis: it projects from output/c and deliberately
+      # excludes ui_luts.h (renderer.mk records the split).
+      #
+      # `clj-schema-test` is the canary layer for the schema guards. The
+      # sharpest form of the gap it closes: lint.yml already hands
+      # tools/renderer-gen/test to clj-kondo, so CI LINTED THESE CANARIES AND
+      # NEVER EXECUTED THEM.
+      #
+      # PATH-FILTER CHECK (the failure this workflow already made once with the
+      # proto-db leg): construct-bindings reads renderer/lvgl/**, renderer/
+      # lv_conf.h and tools/renderer-gen/{src,tools}/**, and writes into
+      # tools/renderer-gen/src/lvgl_codegen/generated/ and renderer/generated/;
+      # clj-schema-test reads tools/renderer-gen/{src,test}/**. Every one of
+      # those is under `renderer/**` or `tools/renderer-gen/**`, both already in
+      # this workflow's `paths:`. Nothing here needs a new trigger.
+      #
+      # In the container because the extractor needs BOTH the WASI-SDK clang and
+      # a native gcc, neither of which a plain runner is provisioned with. After
+      # the cheap C lint lanes, before the wasm build.
+      name: LVGL enum factory freshness + renderer-gen schema canaries
+      run: |
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
+          jettison-proto-generator-base:latest \
+          make -f renderer.mk construct-bindings clj-schema-test
+    - # A2: every published manifest must be byte-fresh vs a regen from its
+      # source. check-renderer runs `manifests` FIRST locally; renderer.yml
+      # DECOMPOSES check-renderer into individual targets, so without this step
+      # CI would never catch a manifest that drifted from its source
+      # (harness/oracles/goldens all render self-consistently against a stale
+      # manifest).
+      #
+      # THIS STEP HAS TWO LEGS, and the title used to name only the first. The
+      # `manifests` target emits+cmps design-tokens.json / renderer-caps.json
+      # (from tokens.edn) and generated/theme_tokens.h + gesture_thresholds.h
+      # (tokens.edn's C projections), and then CHAINS `manifests-proto-db`,
+      # which emits+cmps the four output/manifests/*.json the fleet consumes
+      # (endpoints / signals / sub-signals / reverse-index) from
+      # docs/.protodoc/proto-db.edn. The old comment asserted "Reads only
+      # tokens.edn + renderer.c" — false since that leg was chained in, and
+      # believing it is precisely why this workflow's `paths:` never grew the
+      # proto-db roots it now carries.
+      #
+      # Still no wasm / proto-classes / cargo, so it runs cheaply and fails
+      # early.
+      name: Manifest freshness (A2 — design-tokens + renderer-caps + theme/gesture headers + the proto-db manifests)
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
@@ -170,12 +246,47 @@ jobs:
           jettison-proto-generator-base:latest \
           make -f renderer.mk wasm reference
         sha256sum renderer/output/controls.wasm renderer/output/reference.wasm
-    - name: Harness suite + oracles (visual_regression + morph_parity + matrix + demo-parity)
+    - # `reload` and `decode-limits` join this invocation, closing the last two
+      # battery lanes that ran in no workflow at all.
+      #
+      # THEY RIDE THIS `make`, NOT A STEP OF THEIR OWN, for the reason
+      # renderer.mk's own header gives for morph-fixtures: `reload` takes the
+      # shared `morph-fixtures` prerequisite that `oracles`→`morph-parity`
+      # already builds, and make builds a phony target once per invocation — a
+      # second `make` would regenerate the triples a second time for nothing.
+      #
+      # WHAT THEY COVER THAT NOTHING ELSE HERE DOES. Measured when arming them:
+      # reverting the atomic uid-registration fix in renderer.c (identity
+      # propagating BEFORE register_uid is consulted) and rebuilding reds
+      # `reload/duplicate_uid_screen_reload` — "colliding load left duplicate
+      # uid(s) in the live tree" — while its three sibling tests in the same
+      # binary pass and `decode-limits` passes on that same wasm. That control is
+      # the sharp one: decode_limits walks the IDENTICAL collision path (it
+      # builds two nodes with uid 42 and its log shows "uid 42 registered twice")
+      # and still passes, because it asserts "refused, not trapped" and never
+      # inspects identity bookkeeping. The wider claim that the pixel oracles and
+      # the devcards corpus also stay green is the gate audit's measurement, not
+      # re-run here; the structural reason it holds is that the defect is
+      # invisible in the framebuffer and invisible to a pure reload, so only a
+      # dump_tree uid-uniqueness assertion can see it.
+      #
+      # `decode-limits` is uniquely-covering by construction: the in-tree
+      # fixtures top out at three nesting levels and the corpus at six, so a
+      # MAX_DECODE_DEPTH above six is invisible to every other lane — which is
+      # exactly how it went unreachable once without a gate noticing. It is also
+      # the ONLY assertion that wasm.mk's 256 KiB stack reservation is adequate.
+      #
+      # PATH-FILTER CHECK: both read renderer/wasm_harness/tests/*.rs and the
+      # controls.wasm built from renderer/src/**; reload additionally reads the
+      # morph triples emitted from tools/renderer-gen/** against
+      # output/manifests/design-tokens.json. All four roots are already in this
+      # workflow's `paths:` — no new trigger needed.
+      name: Harness suite + oracles + reload-cycle + decode-limits
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           -e CARGO_HOME=/workspace/.cargo-home \
           jettison-proto-generator-base:latest \
-          make -f renderer.mk harness oracles
+          make -f renderer.mk harness oracles reload decode-limits
     - # The wasm + harness steps run as ROOT inside the container (no --user),
       # so every file cargo writes into the cached paths comes back root-owned.
       # The post-job `actions/cache` save runs as the RUNNER user, cannot read

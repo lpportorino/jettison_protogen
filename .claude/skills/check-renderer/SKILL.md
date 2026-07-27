@@ -33,7 +33,11 @@ make -f renderer.mk check-renderer
 - `wasm` / `reference` — build `controls.wasm` (shipped) + `reference.wasm` (the
   independent literal-`lv_*` diff oracle).
 - `fixtures` — devcards corpus: schema-validate + RAW-framebuffer goldens + DOM
-  invariants; re-mints `tools/devcards/goldens/manifest-*.edn`.
+  invariants. VERIFIES every card's hash against the committed
+  `tools/devcards/goldens/manifest-*.edn` (drifted / missing / new card each a
+  `:gate :golden` finding) and then re-mints them — so it is the lane that can
+  fail on pixels, and a red first run after a deliberate pixel change is
+  expected.
 - `harness` — wasmtime `visual_regression` over freshly regenerated fixtures.
 - `interaction` — cross-engine mirror: wasmtime re-renders the SAME bytes the
   GraalWasm devcards runner built, byte-compares the framebuffers, and replays
@@ -45,7 +49,11 @@ make -f renderer.mk check-renderer
 ## Triage a red battery
 - Red goldens or gallery: a pixel-shifting change must re-mint BOTH — run
   `fixtures` then `gallery-prebuilt` and commit `tools/devcards/goldens` +
-  `tools/devcards/docs` together (CI diffs both).
+  `tools/devcards/docs` together (CI diffs both). `fixtures` names every card
+  whose hash moved before it rewrites the manifests; READ that list and confirm
+  the movement is the one you intended, then commit and re-run green. The
+  gallery has no such list — it is mint-only, so `git diff` is still how you see
+  what moved under `tools/devcards/docs`.
 - Any red oracle: fix the ROOT CAUSE in the C source / theme / vocabulary —
   never suppress the gate. See the `renderer` and `devcards` rules for the
   contract.

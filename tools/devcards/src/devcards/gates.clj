@@ -18,6 +18,11 @@
      and an unresolvable baseline is a spec-defect finding, never a skip.
      :probe* cards are excluded from both directions — their semantics live
      in the invariants lane (devcards.invariants) and the pixel gallery.
+   - GOLDEN DRIFT: every card's freshly-rendered raw-framebuffer hash equals
+     the one COMMITTED in goldens/manifest-*.edn. This is the lane that makes
+     the run able to fail on PIXELS; without it `generate` re-minted the
+     manifests and the only thing anywhere that compared them to the committed
+     copies was a CI-side `git diff`, absent locally.
    - VANILLA≡STOCK: per card, family-1 hash == family-2 hash (the theme's
      idempotency contract at corpus scale).
    - INERT-PROP (composition lane): an :inert-prop card's hash == its
@@ -28,7 +33,8 @@
      PUBLIC and its fixtures are gate-held secret-free; this is the lane CI
      advertises. Runs over EVERY card population — atomic, kitchen-sink, and
      composition."
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [devcards.corpus :as corpus]))
 
 (set! *warn-on-reflection* true)
 
@@ -92,6 +98,86 @@
                                :else nil)]
            :when finding]
        finding))))
+
+(defn golden-drift-findings
+  "GOLDEN DRIFT: the freshly-rendered raw-framebuffer hashes vs the COMMITTED
+   golden manifests. `manifests` = seq of
+   {:label kw :committed {id → {:sha256 ..}} :fresh {id → {:sha256 ..}}} —
+   one entry per committed manifest file, both maps in `devcards.golden`'s
+   manifest `:cards` shape.
+
+   WHY THIS EXISTS AT ALL. `generate` RE-MINTS the manifests, so before this
+   lane the run's own goldens were self-blessing: corrupting a committed
+   sha256 exited 0 and silently overwrote the corruption back, and a real
+   pixel shift moved 243 of 468 hashes with the battery still printing GREEN.
+   The only comparison anywhere was CI's `git diff --exit-code
+   tools/devcards/goldens tools/devcards/docs`, which is a runner step and not
+   a battery lane — so a local `check-renderer` could not fail on pixels.
+
+   IT IS A COMPARISON, NOT A REPLACEMENT FOR THE CI DIFF. The mint still
+   happens: a red run leaves the corrected manifests in the tree to review and
+   commit, the same regenerate-then-diff shape `renderer.mk`'s `manifests` and
+   `generated-projection` lanes use. And this lane sees GOLDENS only — the
+   JPEG gallery and the generated doc pages under tools/devcards/docs are
+   still mint-only, so the CI diff remains load-bearing for those.
+
+   THREE DRIFT CLASSES, via `corpus/diff-cards` — which is the diffing home
+   `devcards.corpus`'s own docstring claims (\"golden-set diffing every
+   bring-your-own-corpus consumer plugs into\"), and which takes the hashes the
+   mint ALREADY computed rather than re-rendering the corpus a second time:
+     :mismatched — the pixels moved,
+     :missing    — committed but not rendered (a card left the corpus),
+     :unexpected — rendered but not committed (a new card, never minted).
+
+   VACUITY IS REFUSED IN THREE PLACES, because every one of them is a way to
+   report 'clean' while having compared nothing: zero manifests, a committed
+   map with no cards, and a fresh map with no cards each THROW. The empty-map
+   throw is also what turns a mis-paired call site (label paired with the
+   wrong :fresh map) into a loud failure naming the label instead of a silent
+   green — the pairing lives in `devcards.core`, which no test can load."
+  [manifests]
+  (when (empty? manifests)
+    (throw (ex-info "refusing a golden lane over ZERO manifests" {})))
+  (reduce
+   (fn [acc {:keys [label committed fresh]}]
+     (when (empty? committed)
+       (throw (ex-info "EMPTY committed golden manifest — nothing to verify is a
+                        failure, not a pass"
+                       {:manifest label})))
+     (when (empty? fresh)
+       (throw (ex-info "ZERO fresh renders for a committed manifest — a lane with
+                        nothing to compare must never report clean"
+                       {:manifest label})))
+     (let [{:keys [mismatched missing unexpected]} (corpus/diff-cards committed fresh)]
+       (-> acc
+           (into (map (fn [{:keys [id expected actual]}]
+                        {:gate :golden
+                         :manifest label
+                         :card id
+                         :detail (str "raw-framebuffer sha256 MOVED vs the committed"
+                                      " manifest: " expected " -> " actual
+                                      " — the re-minted manifest is already in the"
+                                      " tree; if the pixel change is intended,"
+                                      " review and commit it")}))
+                 mismatched)
+           (into (map (fn [id]
+                        {:gate :golden
+                         :manifest label
+                         :card id
+                         :detail (str "committed in the manifest but NOT rendered"
+                                      " this run — the card left the corpus and the"
+                                      " manifest was never re-minted")}))
+                 missing)
+           (into (map (fn [id]
+                        {:gate :golden
+                         :manifest label
+                         :card id
+                         :detail (str "rendered but ABSENT from the committed"
+                                      " manifest — a new card whose golden has"
+                                      " never been committed")}))
+                 unexpected))))
+   []
+   manifests))
 
 (defn vanilla-stock-findings
   "Per-card family-1 vs family-2 hash equality — the corpus-scale
