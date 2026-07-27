@@ -1446,9 +1446,10 @@ uint32_t controls_fb_bpp(void) { return 4u; }
  * of the visual differential: the reference path and the proto path each dump
  * a tree and a JSON-Patch diff explains any divergence. The layout-defect
  * flags (clipped / overflow / scrollable_overflow / text_truncated) are
- * derived from resolved geometry, so both oracles agree on them. Geometry is
- * what alignment/layout resolves to; resolved styles are added in a later
- * phase. */
+ * derived from resolved geometry, so both oracles agree on them. Resolved
+ * STYLE (colour + opacity) rides alongside — see the block comment above
+ * obj_effective_opa, which is also where each key's absence is defined,
+ * because they do not all mean the same thing when missing. */
 #define TREE_BUF_SIZE 131072u
 static char tree_buf[TREE_BUF_SIZE];
 /* Bounded JSON output sink — the ONE appending/escaping machinery, shared by
@@ -1685,6 +1686,231 @@ static bool obj_squished(const lv_obj_t *obj, const lv_area_t *coords) {
     return true;
   return false;
 }
+/* ── RESOLVED STYLE: what colour, on what, at what opacity ─────────────────
+ * A readability gate needs three things geometry cannot give it: the colour of
+ * the glyphs, the colour under them, and how much of either survives the
+ * opacity chain. Every value below is read back through LVGL's OWN getters and
+ * composed with LVGL's OWN arithmetic, so the dump TRACKS the draw path rather
+ * than modelling it; and because every one of those getters lives in lvgl/src
+ * (wasm.mk's LIB_OBJS, linked into controls.wasm AND reference.wasm), this
+ * introduces no symbol the reference oracle would fail to resolve.
+ *
+ * WHICH WAY EACH KEY FAILS — absence is NOT neutral, and they do not all fail
+ * the same way. A producer that guesses one of these is silently wrong:
+ *   opa                  absent => LV_OPA_COVER.
+ *   text_color           absent => THE NEAREST ANCESTOR THAT EMITTED ONE.
+ *                        LV_STYLE_TEXT_COLOR is inheritable, so emitting it
+ *                        everywhere would repeat the screen's colour on almost
+ *                        every node; only a CHANGE is emitted. The root has no
+ *                        parent and so always emits, which is what makes the
+ *                        walk up terminate.
+ *   text_opa             absent => LV_OPA_COVER. Present => that alpha, and it
+ *                        ALREADY INCLUDES `opa` — never multiply the two.
+ *   bg_color             absent => THIS NODE PAINTS NO MAIN FILL. It does not
+ *                        mean "the default background"; nothing was drawn.
+ *   bg_opa               absent WITH bg_color => the fill covers fully.
+ *                        Present => that alpha, already including `opa`.
+ *   text_on              absent => this node's text, if any, rides on MAIN.
+ *   backdrop_unresolved  absent => either the node draws no text, or the fill
+ *                        under its glyphs fully covers and IS bg_color (or
+ *                        text_on.bg). Present => THE THIRD ANSWER: this node
+ *                        does not determine what is behind its glyphs, and a
+ *                        reader that computes a contrast ratio anyway is
+ *                        guessing. It is a positive declaration precisely so a
+ *                        producer can turn it into a finding rather than skip.
+ *
+ * WHY THERE IS NO ANCESTOR WALK. The obvious way to finish the backdrop — walk
+ * ancestors to the first with a covering bg — is WRONG here, and not
+ * marginally: PARTS ARE NOT NODES. dump_obj recurses lv_obj children, so no
+ * part-level rect ever enters the tree, yet lv_theme_default gives
+ * lv_buttonmatrix's LV_PART_ITEMS a covering bg (`btn`) and this theme repaints
+ * it (`btnm_items`) — every button label rides on a rect no walk from the
+ * buttonmatrix node can see. `text_on` answers exactly that class by naming the
+ * part the glyphs are on and reporting ITS fill; `backdrop_unresolved` is the
+ * honest remainder. Two further breakages are LATENT in this corpus rather than
+ * fired, recorded so they are not rediscovered as bugs: lv_dropdown_open
+ * REPARENTS the open list to the screen, so it covers nodes it has no ancestry
+ * with (every dropdown card here is closed), and a PROXY_MODE_ALIGNABLE proxy
+ * rect is placed by the host compositor after LVGL has finished (no card sets
+ * it).
+ *
+ * WHAT THIS STILL CANNOT SEE, said out loud. LV_PART_ITEMS on lv_buttonmatrix
+ * and lv_table is ONE style read for a row of independently-stated items:
+ * lv_buttonmatrix.c re-resolves the part per button from its ctrl bits
+ * (checked/inactive) and only the selected button inherits the widget's own
+ * pressed/focused state. There is no node to hang those variants on, so what is
+ * reported is the part as the object's CURRENT state resolves it — exact for a
+ * default-state widget, and the default-button style for any other. */
+/* Effective opacity — LVGL's accumulation INCLUDING ITS CLAMPS, which is not a
+ * product. lv_obj_get_style_opa_recursive short-circuits to TRANSP the instant
+ * any link is <= LV_OPA_MIN (2), SKIPS links >= LV_OPA_MAX (253) from the
+ * multiply entirely (so 255 is exactly neutral), and snaps to TRANSP/COVER at
+ * those same rails. Reimplemented rather than called because that function
+ * knows only LV_STYLE_OPA: LV_STYLE_OPA_LAYERED is a SECOND, independent link
+ * on the same chain (lv_refr.c refr_obj returns outright when it is <=
+ * LV_OPA_MIN and blends the widget's whole layer at it otherwise) and the
+ * ui_ast exposes it as a settable prop, so a screen can fade a subtree through
+ * a link the library helper does not fold.
+ *
+ * ORDER, stated rather than glossed: this folds self -> root, the direction
+ * lv_obj_get_style_opa_recursive folds; the draw path folds root -> self as it
+ * descends. MIX2 truncates, so the two directions are not exactly associative
+ * and a chain of unequal links can disagree in the low bit. That relationship
+ * is LVGL's own — the library helper stands in the same place against the same
+ * draw path — and it is why the rail probe
+ * (tools/devcards/dev/opa_rail_probe.clj) adjudicates every value it covers
+ * against the FRAMEBUFFER instead of against arithmetic. */
+static lv_opa_t obj_effective_opa(const lv_obj_t *obj) {
+  lv_opa_t acc = LV_OPA_COVER;
+  for (const lv_obj_t *o = obj; o != NULL; o = lv_obj_get_parent(o)) {
+    /* BOTH LINKS TAKE THE SAME RAILS, but they reach them at different
+     * levels, and that difference is a trap worth naming because reading
+     * refr_obj alone gets it wrong. For LV_STYLE_OPA the skip is right there:
+     * `if(opa_main < LV_OPA_MAX)`. For LV_STYLE_OPA_LAYERED there is no such
+     * guard — calculate_layer_type layers on `!= LV_OPA_COVER` and refr_obj
+     * blends at exactly that value, which reads as "253 fades". It does not:
+     * every software blender takes an `opa >= LV_OPA_MAX` fast path that
+     * copies the source verbatim, so the rail simply lives one level lower.
+     * MEASURED, not reasoned — an earlier version of this function split the
+     * two links on that misreading, and opa_rail_probe's `layered-253` vs
+     * `opa-255` comparison came back byte-identical and refuted it. */
+    const lv_opa_t links[2] = {lv_obj_get_style_opa(o, LV_PART_MAIN),
+                               lv_obj_get_style_opa_layered(o, LV_PART_MAIN)};
+    for (uint32_t i = 0; i < 2u; i++) {
+      if (links[i] <= LV_OPA_MIN)
+        return LV_OPA_TRANSP;
+      if (links[i] < LV_OPA_MAX)
+        acc = LV_OPA_MIX2(acc, links[i]);
+    }
+  }
+  if (acc <= LV_OPA_MIN)
+    return LV_OPA_TRANSP;
+  if (acc >= LV_OPA_MAX)
+    return LV_OPA_COVER;
+  return acc;
+}
+/* One draw's own alpha scaled by the node's effective opa, at the same rails
+ * lv_obj_init_draw_rect_dsc / _label_dsc use: bail at <= LV_OPA_MIN, skip the
+ * multiply at >= LV_OPA_MAX. */
+static lv_opa_t opa_scaled(lv_opa_t own, lv_opa_t node_opa) {
+  if (own <= LV_OPA_MIN)
+    return LV_OPA_TRANSP;
+  if (node_opa < LV_OPA_MAX)
+    own = LV_OPA_MIX2(own, node_opa);
+  if (own <= LV_OPA_MIN)
+    return LV_OPA_TRANSP;
+  return own;
+}
+/* Fold a non-MAIN part's own LV_STYLE_OPA into an already-accumulated node
+ * opa, mirroring get_layer_opa's non-MAIN branch (lv_obj_draw.c) under
+ * lv_obj_get_style_opa_recursive's rails. */
+static lv_opa_t part_opa(const lv_obj_t *obj, lv_part_t part,
+                         lv_opa_t node_opa) {
+  const lv_opa_t own = lv_obj_get_style_opa(obj, part);
+  if (own <= LV_OPA_MIN)
+    return LV_OPA_TRANSP;
+  if (own < LV_OPA_MAX)
+    return LV_OPA_MIX2(node_opa, own);
+  return node_opa;
+}
+/* The colour LVGL actually hands the draw: the styled colour with the
+ * ACCUMULATED recolor applied. Byte-identical to lv_obj_draw.c's
+ * normal_apply_layer_recolor — its layer branch and its
+ * lv_obj_get_style_recolor_recursive fallback compose the chain in the same
+ * order (descendant over ancestor), so the fallback is faithful outside a
+ * refresh. Not cosmetic: this theme's DISABLED style sets recolor at opa 100,
+ * so a gate reading the bare style colour would grade every disabled label
+ * against a colour that is never drawn. */
+static lv_color_t style_color_drawn(const lv_obj_t *obj, lv_part_t part,
+                                    lv_color_t styled) {
+  const lv_color32_t rc = lv_obj_get_style_recolor_recursive(obj, part);
+  return lv_color_mix(lv_color_make(rc.red, rc.green, rc.blue), styled,
+                      rc.alpha);
+}
+typedef struct {
+  lv_part_t part;
+  const char *name;
+} text_part_t;
+/* The part a class draws its PRIMARY text on, when that is not LV_PART_MAIN.
+ * Enumerated from the lv_obj_init_draw_label_dsc call sites under
+ * lvgl/src/widgets, never guessed. `lv_obj_has_class` so a subclass inherits
+ * the row. Two exclusions are DECISIONS, listed so their absence does not read
+ * as an oversight: (1) classes whose primary text is already on MAIN —
+ * lv_label, lv_checkbox, lv_dropdown's own label, lv_textarea and lv_roller via
+ * their internal label children; (2) DECORATIVE glyph parts, which carry no
+ * content a readability clause judges — lv_dropdown's LV_PART_INDICATOR
+ * chevron, lv_textarea's LV_PART_CURSOR and LV_PART_TEXTAREA_PLACEHOLDER. The
+ * roller row IS listed, because LV_PART_SELECTED redraws the banded row over
+ * its own fill, so the selected row's backdrop is the band and not the roller's
+ * MAIN — the unbanded rows are the child label's, reported on that node. */
+static bool obj_text_part(const lv_obj_t *obj, text_part_t *out) {
+#if LV_USE_BUTTONMATRIX
+  if (lv_obj_has_class(obj, &lv_buttonmatrix_class)) {
+    out->part = LV_PART_ITEMS;
+    out->name = "items";
+    return true;
+  }
+#endif
+#if LV_USE_TABLE
+  if (lv_obj_has_class(obj, &lv_table_class)) {
+    out->part = LV_PART_ITEMS;
+    out->name = "items";
+    return true;
+  }
+#endif
+#if LV_USE_ROLLER
+  if (lv_obj_has_class(obj, &lv_roller_class)) {
+    out->part = LV_PART_SELECTED;
+    out->name = "selected";
+    return true;
+  }
+#endif
+#if LV_USE_SCALE
+  if (lv_obj_has_class(obj, &lv_scale_class)) {
+    out->part = LV_PART_INDICATOR;
+    out->name = "indicator";
+    return true;
+  }
+#endif
+  (void)obj;
+  (void)out;
+  return false;
+}
+/* Does this node put glyphs on screen at all? Only these owe a backdrop, so
+ * only these can carry `backdrop_unresolved`. An EMPTY label draws nothing and
+ * is excluded on purpose — reporting an unresolved backdrop for zero glyphs
+ * would be a finding with no subject. */
+static bool obj_draws_text(const lv_obj_t *obj) {
+  if (lv_obj_check_type(obj, &lv_label_class)) {
+    const char *t = lv_label_get_text(obj);
+    return t != NULL && t[0] != '\0';
+  }
+#if LV_USE_CHECKBOX
+  if (lv_obj_check_type(obj, &lv_checkbox_class))
+    return true;
+#endif
+#if LV_USE_DROPDOWN
+  if (lv_obj_check_type(obj, &lv_dropdown_class))
+    return true;
+#endif
+  text_part_t tp;
+  return obj_text_part(obj, &tp);
+}
+/* ,"<key>":"#rrggbb" — the leading comma is the dump's separator convention,
+ * which also makes this usable inside the text_on object after its first
+ * member. */
+static void tree_append_color(const char *key, lv_color_t c) {
+  char buf[48];
+  (void)snprintf(buf, sizeof(buf), ",\"%s\":\"#%02x%02x%02x\"", key,
+                 (unsigned)c.red, (unsigned)c.green, (unsigned)c.blue);
+  tree_append(buf);
+}
+/* ,"<key>":<0..255> */
+static void tree_append_opa(const char *key, lv_opa_t opa) {
+  char buf[32];
+  (void)snprintf(buf, sizeof(buf), ",\"%s\":%u", key, (unsigned)opa);
+  tree_append(buf);
+}
 static void dump_obj(const lv_obj_t *obj, bool is_root) {
   lv_area_t a;
   lv_obj_get_coords(obj, &a);
@@ -1827,6 +2053,82 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
                      owner);
       tree_append(pbuf);
     }
+  }
+  /* RESOLVED STYLE — see the block comment above obj_effective_opa for what
+   * each key's ABSENCE means; they do not all fail the same way. */
+  {
+    const lv_opa_t opa = obj_effective_opa(obj);
+    if (opa != LV_OPA_COVER)
+      tree_append_opa("opa", opa);
+    /* text_color rides the inheritance chain, so emit only where it CHANGES
+     * (the root has no parent and always emits). */
+    const lv_color_t txt = style_color_drawn(
+        obj, LV_PART_MAIN,
+        lv_obj_get_style_text_color_filtered(obj, LV_PART_MAIN));
+    const lv_obj_t *parent = lv_obj_get_parent(obj);
+    bool txt_differs = true;
+    if (parent != NULL) {
+      const lv_color_t up = style_color_drawn(
+          parent, LV_PART_MAIN,
+          lv_obj_get_style_text_color_filtered(parent, LV_PART_MAIN));
+      txt_differs =
+          up.red != txt.red || up.green != txt.green || up.blue != txt.blue;
+    }
+    if (txt_differs)
+      tree_append_color("text_color", txt);
+    const lv_opa_t txt_opa =
+        opa_scaled(lv_obj_get_style_text_opa(obj, LV_PART_MAIN), opa);
+    if (txt_opa != LV_OPA_COVER)
+      tree_append_opa("text_opa", txt_opa);
+    /* The node's own MAIN fill. Silent when it paints nothing — a colour there
+     * would describe a rect that was never drawn. */
+    const lv_opa_t bg_opa =
+        opa_scaled(lv_obj_get_style_bg_opa(obj, LV_PART_MAIN), opa);
+    if (bg_opa != LV_OPA_TRANSP) {
+      tree_append_color("bg_color",
+                        style_color_drawn(obj, LV_PART_MAIN,
+                                          lv_obj_get_style_bg_color_filtered(
+                                              obj, LV_PART_MAIN)));
+      if (bg_opa != LV_OPA_COVER)
+        tree_append_opa("bg_opa", bg_opa);
+    }
+    /* The fill this node's glyphs actually ride on: its MAIN fill, unless the
+     * class draws its text on another part (obj_text_part), in which case that
+     * part's fill is what is under them. */
+    lv_opa_t glyph_bg = bg_opa;
+    text_part_t tp;
+    if (obj_text_part(obj, &tp)) {
+      const lv_opa_t p_opa = part_opa(obj, tp.part, opa);
+      const lv_opa_t p_bg =
+          opa_scaled(lv_obj_get_style_bg_opa(obj, tp.part), p_opa);
+      glyph_bg = p_bg;
+      tree_append(",\"text_on\":{\"part\":\"");
+      tree_append(tp.name);
+      tree_append("\"");
+      tree_append_color(
+          "color", style_color_drawn(
+                       obj, tp.part,
+                       lv_obj_get_style_text_color_filtered(obj, tp.part)));
+      const lv_opa_t p_txt_opa =
+          opa_scaled(lv_obj_get_style_text_opa(obj, tp.part), p_opa);
+      if (p_txt_opa != LV_OPA_COVER)
+        tree_append_opa("text_opa", p_txt_opa);
+      if (p_bg != LV_OPA_TRANSP) {
+        tree_append_color(
+            "bg", style_color_drawn(
+                      obj, tp.part,
+                      lv_obj_get_style_bg_color_filtered(obj, tp.part)));
+        if (p_bg != LV_OPA_COVER)
+          tree_append_opa("bg_opa", p_bg);
+      }
+      tree_append("}");
+    }
+    /* THE THIRD ANSWER. Glyphs over a fill that does not fully cover sit on
+     * something this node does not name, and the ancestor walk that would name
+     * it is refuted above. Say so, so a producer emits a finding instead of a
+     * confident wrong number. */
+    if (glyph_bg != LV_OPA_COVER && obj_draws_text(obj))
+      tree_append(",\"backdrop_unresolved\":true");
   }
   tree_append(",\"children\":[");
   uint32_t n = lv_obj_get_child_count(obj);

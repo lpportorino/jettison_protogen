@@ -18,6 +18,17 @@
            ;; as dump `type` (the classification table's real key set), and
            ;; what the overlap rule says about the real corpus. Gates nothing.
            :class-census {:extra-paths ["dev"] :main-opts ["-m" "class-census"]}
+           ;; Read-only probe: how many bytes of dump_obj's SINGLE shared
+           ;; TREE_BUF_SIZE buffer the real corpus consumes. Run before AND
+           ;; after any change to the dump's key set — an always-emitted key
+           ;; spends headroom on every node of every card, and the overflow
+           ;; surfaces as a :dump-truncated finding, not as a build error.
+           :dump-size-probe {:extra-paths ["dev"] :main-opts ["-m" "dump-size-probe"]}
+           ;; Read-only probe: does the dump's `opa` reproduce LVGL's OWN
+           ;; accumulation at its RAILS (253 neutral, 2 transparent, MIX2
+           ;; chaining)? Adjudicated by framebuffer identity, not by the
+           ;; probe's own arithmetic. Exits non-zero on a mismatch.
+           :opa-rail-probe {:extra-paths ["dev"] :main-opts ["-m" "opa-rail-probe"]}
            ;; Unit tests for the pure helpers (dump-tree reductions, image
            ;; math). Same pinned runner protodoc's suite uses.
            :test {:extra-paths ["test"]
