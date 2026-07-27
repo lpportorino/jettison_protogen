@@ -18,6 +18,19 @@ mistake unable to reach the fleet.
   nag loop — but an explicit `OWNER_REPO` override still bypasses it.
 - Seed the brief as **its own commit**, so the worker's commits are exactly what
   gets lifted and nothing has to be untangled later.
+- **Never git-ignore the deliverable.** Excluding scratch inputs is right;
+  putting the required report in `.git/info/exclude` silently drops the one
+  artifact the lift reads. One worker caught it and used `git add -f`; a worker
+  who does not notice hands back nothing.
+- **Give each fork its OWN scratch subdirectory when more than one runs at a
+  time.** The session scratchpad is SHARED, and this failure is silent rather
+  than loud: a sibling truncating your log mid-run leaves you reading ANOTHER
+  fork's test output as your own, which is indistinguishable from your checkout
+  containing a file it does not have. Container and git isolation hold; the
+  scratch path is what crosses. Say in the brief that siblings are running.
+- **Signal only processes you have identified.** Verify `/proc/<pid>/cwd`, or
+  for containers the `docker inspect` mount path, before stopping anything. A
+  pattern-matched `pkill` has killed another session's monitors.
 - A brief is a HYPOTHESIS about the fix. Ask the worker, in writing, to report
   what in it turned out to be wrong; that is reliably where the best work is.
 
