@@ -62,9 +62,23 @@ tree). Run via `make -f renderer.mk fixtures` (`*-prebuilt` in CI).
 - Classification (`devcards.classify`) is the consumer's table, and an
   undeclared widget type is an `:unclassified-type` FINDING, not a skip.
   `devcards.lvgl-classes/merge-consumer` is the starter table to build on.
-- New rules ship OPT-IN — neither `overlap/producer` nor `layers/producer` is in
-  `builtin-producers`. Arming one against protogen's own corpus is a separate
-  change owing its own evidence.
+- New rules ship OPT-IN: neither `overlap/producer` nor `layers/producer` is in
+  `builtin-producers`, and arming one against protogen's own corpus is a
+  separate change owing its own evidence.
+- **`overlap/producer` IS armed here** — `devcards.lanes` passes it on both the
+  atomic and composition lanes, with the shipped starter table and
+  `:overlap/gap-px 0`, at zero findings. Getting there took the interpreter
+  DECLARING its own proxy composition (`proxy_root` / `proxy_part` /
+  `proxy_owner` in the dump) and clearing CLICKABLE on two decorative widgets
+  that were sitting in the pointer path. Neither was a silencing, and the
+  exclusion's narrowness is canaried three ways.
+- **`layers/producer` is NOT armed, and cannot be** for the nodes that matter.
+  Its declaration is uid-keyed, and the renderer's own affordances never pass
+  through `finalize_widget`, so they are uid-free in this repo AND in every
+  consumer. Measured three ways — no declaration, a declared z, a declared z
+  plus a proxy rect — it returns byte-identical output. Do not spend another
+  session rediscovering this; a consumer's AUTHORED nodes do carry uids, so the
+  lane is usable there, on those.
 - **A pairwise geometry rule must enumerate pairs in pre-order and never use
   vector `compare` for paint order** — Clojure's vector comparator is
   COUNT-first, so it inverts the verdict whenever the earlier node is deeper.

@@ -103,6 +103,19 @@ Rules:
   the finding-producer registry (`devcards.findings`) and drive your screens
   through `devcards.corpus/render-corpus`. Both take consumer config, so nothing
   here needs patching to run against a private corpus.
+- **ARM THE OVERLAP LANE — protogen runs it on its own corpus, so this is not
+  advice this repo exempts itself from.** `devcards.lanes` passes
+  `overlap/producer` at `:overlap/gap-px 0` (strict overlap: a shared pixel
+  fires, touching does not — at 1 a carousel's stacked pages flood it). What it
+  catches is invisible to every other oracle you run: two pointer-taking
+  elements in one place look identical in the framebuffer whether the one
+  underneath was reachable or dead. Expect your first run to be red on DESIGNED
+  stacks; resolve those by construction or by the interpreter's own declaration,
+  not by per-card exemptions, which is the ratchet these rules refuse.
+  The LAYER lane is a different story: its declaration is uid-keyed and
+  renderer-built affordances are permanently uid-free, so it can judge your
+  AUTHORED nodes and never those. Do not read a clean layers run as coverage of
+  a proxy's internals.
 - **Classification and thresholds are DATA you supply, not code you fork.**
   Widget classification is `devcards.classify`; each producer declares its own
   thresholds and the registry namespaces them by producer id. An unknown
