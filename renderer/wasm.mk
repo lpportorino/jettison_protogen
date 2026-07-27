@@ -7,6 +7,10 @@ CC := $(WASI_SDK)/bin/clang
 CXX := $(WASI_SDK)/bin/clang++
 SYSROOT := $(WASI_SDK)/share/wasi-sysroot
 TARGET := wasm32-wasip1
+# Depfiles are included before the `all` rule below. Once they exist, make
+# would otherwise adopt the first included object as its implicit default and
+# a plain `make -f wasm.mk BUILD=...` could stop without checking the module.
+.DEFAULT_GOAL := all
 
 # Build mode toggle — RELEASE is the default and the ONLY shipped artifact.
 #   BUILD=release (default): -O2 -flto -> output/controls.wasm. The four
@@ -31,6 +35,14 @@ BUILD ?= release
 ifeq ($(BUILD),dev)
 OPT := -O0 -g -gdwarf-5
 OUT := output/controls.dev.wasm
+# Keep the LVGL feature configuration mode-keyed just like the object tree.
+# The dev header is deliberately seeded byte-for-byte from the release header;
+# later instrumentation work can change it without perturbing release. A
+# per-BUILD include directory was chosen over -DLV_CONF_PATH because release
+# keeps its historical compile command exactly, while the alternative requires
+# a quote-escaped macro to be kept in sync across the C and C++ flag sets.
+LV_CONF := config/dev/lv_conf.h
+LV_CONF_INCLUDE := -Iconfig/dev
 # Both modes keep the SjLj transform (ThorVG's tvgSwRle.cpp #errors without
 # `-mllvm -wasm-enable-sjlj`). But with -flto OFF the dev link has no whole-program
 # codegen to lower the __wasm_setjmp family inline, so dev links wasi-sdk's
@@ -40,6 +52,8 @@ SJLJ_LIB := -lsetjmp
 else
 OPT := -O2 -flto
 OUT := output/controls.wasm
+LV_CONF := lv_conf.h
+LV_CONF_INCLUDE :=
 SJLJ_LIB :=
 endif
 
@@ -75,20 +89,20 @@ CFLAGS := --target=$(TARGET) --sysroot=$(SYSROOT) \
           -DPB_FIELD_32BIT \
           -DPB_ENABLE_MALLOC \
           -DHAS_NANOPB \
-          -I. -Ilvgl -Isrc -Igenerated
+          $(LV_CONF_INCLUDE) -I. -Ilvgl -Isrc -Igenerated
 CXXFLAGS_COMPILE := --target=$(TARGET) --sysroot=$(SYSROOT) \
             $(OPT) \
             $(DEPFLAGS) \
             -DLV_CONF_INCLUDE_SIMPLE \
             -fno-exceptions -fno-rtti \
             -mllvm -wasm-enable-sjlj \
-            -I. -Ilvgl -Isrc -Igenerated \
+            $(LV_CONF_INCLUDE) -I. -Ilvgl -Isrc -Igenerated \
             -std=c++17
 CXXFLAGS_LINK := --target=$(TARGET) --sysroot=$(SYSROOT) \
             $(OPT) \
             -DLV_CONF_INCLUDE_SIMPLE \
             -fno-exceptions -fno-rtti \
-            -I. -Ilvgl -Isrc -Igenerated \
+            $(LV_CONF_INCLUDE) -I. -Ilvgl -Isrc -Igenerated \
             -std=c++17
 # The memory triple at the end of this list is a CONTRACT, not three tuning
 # knobs. `stack-size` in particular is load-bearing and must not be dropped:
@@ -311,23 +325,24 @@ objects: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(RENDERER_OBJ) $(THORVG_OB
 # by the visual-differential harness, never part of `controls.tar`.
 reference: output/reference.wasm
 
-# Every object depends on lv_conf.h: a config toggle (decoder on/off, a
-# feature flag) changes what the #if guards compile — without this dep a
-# conf edit leaves stale objects and the change silently never ships.
+# Every object depends on this BUILD's real LVGL configuration: a config toggle
+# (decoder on/off, a feature flag) changes what the #if guards compile —
+# without this dep a conf edit leaves stale objects and the change silently
+# never ships.
 # Library sources: compile without -Werror (LVGL has format-nonliteral warnings)
-$(OBJ_DIR)/%.o: %.c lv_conf.h
+$(OBJ_DIR)/%.o: %.c $(LV_CONF)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Application sources: compile as C23 with strict warnings. -std=c23 is applied
 # HERE (app rule) only — vendored LVGL/nanopb compile with the generic rule below
 # at the toolchain default, so a newer standard never destabilizes upstream code.
-$(OBJ_DIR)/src/%.o: src/%.c lv_conf.h
+$(OBJ_DIR)/src/%.o: src/%.c $(LV_CONF)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(APP_STD) $(WARN_FLAGS) -c -o $@ $<
 
 # ThorVG C++ sources
-$(OBJ_DIR)/%.o: %.cpp lv_conf.h
+$(OBJ_DIR)/%.o: %.cpp $(LV_CONF)
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS_COMPILE) -c -o $@ $<
 
