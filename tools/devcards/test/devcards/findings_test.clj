@@ -7,9 +7,13 @@
    set, a rule that never received its input, a threshold typo that
    relaxes the gate it names. Those are the failures a green gate cannot
    distinguish from success, so each one throws."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.string :as str]
+            [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
-            [devcards.invariants :as invariants]))
+            [devcards.invariants :as invariants]
+            [devcards.lanes :as lanes]
+            [devcards.outcome :as outcome]
+            [devcards.overlap :as overlap]))
 
 (def ^:private clean-tree
   {:type "lv_obj" :coords [0 0 99 99] :children []})
@@ -556,3 +560,345 @@
                  (findings/validate-producers!
                   [{:id :ui :fn (fn [_] []) :requires #{}
                     :thresholds {:gap-px {:pred #(pos? %) :default nil :doc "d"}}}])))))
+
+;; ── the ACT/EARL declaration ─────────────────────────────────────────────
+;; The vocabulary alone would let a future author soften a definite defect
+;; into a doubt in a four-character diff. These pin the DECLARATION that
+;; makes that a registration-time throw instead — and, first, the thing the
+;; declaration must never cost: the OPEN finding map every producer written
+;; before these axes was allowed to return.
+
+(defn- emit
+  "A producer that emits exactly `f` (merged onto a well-formed finding)."
+  [p f]
+  (findings/card-findings
+   {:card-id "c"
+    :tree clean-tree
+    :producers [(merge {:id :probe :requires #{}
+                        :fn (fn [{:keys [card-id]}]
+                              [(merge {:card card-id :invariant :x} f)])}
+                       p)]}))
+
+(defn- msg
+  "The message of whatever `f` throws, or nil. `thrown?` alone cannot tell a
+   clause from its neighbour, which is how a decorative canary survives."
+  [f]
+  (try (f) nil (catch Throwable t (ex-message t))))
+
+;; ── the compatibility floor: a legacy producer keeps its OPEN map ────────
+
+(deftest a-producer-DECLARING-NO-AXES-may-still-return-an-open-map
+  (testing "before these axes existed, `check-findings!` required :card and
+            :invariant and permitted every other key, and the VLM review's
+            own briefing documents the shape as open. protogen is trunk-only
+            upstream for ten-plus consumer repos, so reserving the three
+            plainest words in the vocabulary — :outcome, :test-mode, :reason
+            — would have been a MIGRATION every consumer answered at its next
+            pin bump, and :reason is the likely one in the wild: it is the
+            natural name for 'why this fired', and the gap a consumer would
+            have filled locally with its own :severity + :reason.
+            REVERT-TO-BREAK: read the unnamespaced keys in `check-outcome!`."
+    (doseq [payload [{:reason "the label overflows its box"}
+                     {:outcome "suppressed by hand"}
+                     {:test-mode :manual}
+                     {:severity :minor :confidence 0.4}]]
+      (is (= [:x] (mapv :invariant (:live (emit {} payload))))
+          (pr-str payload))))
+  (testing "and the payload SURVIVES onto the finding rather than being
+            quietly normalised away — a silent overwrite would be data loss
+            dressed as compatibility"
+    (is (= "the label overflows its box"
+           (:reason (first (:live (emit {} {:reason "the label overflows its box"})))))))
+  (testing "CONTROL: a producer that OPTED IN is held to the namespaced
+            spelling, so the tolerance above is scoped to the population that
+            could not have known about it — and no producer that exists today
+            opts in"
+    (is (str/includes?
+         (str (msg #(emit {:outcomes #{:failed}} {:reason "v"})))
+         "the finding axis is :act/reason"))
+    (is (str/includes?
+         (str (msg #(emit {:test-mode :automatic} {:outcome :failed})))
+         "the finding axis is :act/outcome"))))
+
+;; ── the closed producer key set ──────────────────────────────────────────
+
+(deftest the-producer-key-set-is-CLOSED
+  (testing "widening this set from four keys to seven was FREE, because
+            nothing pinned it — the one state in which widening a closed set
+            costs nothing is the state in which it has no canary. :severity
+            is the plausible next widening: it is the axis this repo
+            deliberately does not have, and a producer carrying it would look
+            armed and do nothing.
+            REVERT-TO-BREAK: add :severity to `producer-keys`."
+    (is (str/includes?
+         (str (msg #(findings/validate-producers!
+                     [{:id :p :fn (fn [_] []) :requires #{} :severity :minor}])))
+         "unknown keys [:severity]")))
+  (testing "CONTROL: the same producer without it registers, so the throw
+            keys on the key and not on the producer shape"
+    (is (= 1 (count (findings/validate-producers!
+                     [{:id :p :fn (fn [_] []) :requires #{}}]))))))
+
+;; ── the declaration is a whitelist ───────────────────────────────────────
+
+(deftest a-geometry-producer-CANNOT-emit-a-doubt-it-never-declared
+  (testing "geometry is exact integer arithmetic with no noise floor, so an
+            uncertain verdict there manufactures doubt the arithmetic does not
+            have. A producer that declares no :outcomes is two-way by
+            construction and softening one of its findings throws.
+            REVERT-TO-BREAK: delete the (contains? declared o) block."
+    (is (str/includes?
+         (str (msg #(emit {} {:act/outcome :inapplicable})))
+         "declares only [:failed]")))
+  (testing "and a producer that declared the DOUBT still cannot emit a
+            verdict beside it — the declaration is a whitelist, not a mode"
+    (is (str/includes?
+         (str (msg #(emit {:outcomes #{:failed :cantTell}
+                           :reasons {:noise-band "d"}}
+                          {:act/outcome :untested})))
+         "declares only [:cantTell :failed]")))
+  (testing "and the armed geometry rule really is one of those — this is the
+            premise, not the defect"
+    (is (not (contains? overlap/producer :outcomes))))
+  (testing "CONTROL: the same producer's ordinary finding, and an explicit
+            :failed, both pass — so the throw keys on the undeclared outcome"
+    (is (= [:x] (mapv :invariant (:live (emit {} {})))))
+    (is (= [:x] (mapv :invariant (:live (emit {} {:act/outcome :failed})))))))
+
+(deftest the-VOCABULARY-is-checked-where-it-can-actually-be-violated
+  (testing "a producer's DECLARED set is validated as a subset of the
+            vocabulary at registration. That is what made the finding-side
+            'not in the ACT vocabulary' clause unreachable — (contains?
+            declared o) implies it — and deleting that clause left the suite
+            green, because both of its assertions threw from neighbouring
+            clauses. It is gone; this pins the clause that is real.
+            REVERT-TO-BREAK: delete the (every? outcome/outcomes outs) test
+            from `validate-producers!`."
+    (is (str/includes?
+         (str (msg #(emit {:outcomes #{:failed :cantTel}} {})))
+         ":outcomes must be a non-empty subset of")))
+  (testing "and the finding side of the vocabulary is checked at the VERDICT
+            seam instead, which is the only place the corpus gates and the
+            interaction lane can be reached at all — pinned in
+            devcards.outcome-test"
+    (is (some? (outcome/axis-problem {:producer :x :act/outcome :cantTel}))))
+  (testing "CONTROL: the well-formed declaration registers"
+    (is (= [:x] (mapv :invariant
+                      (:live (emit {:outcomes #{:failed :cantTell}
+                                    :reasons {:noise-band "in the noise"}}
+                                   {})))))))
+
+;; ── :passed may not even be DECLARED ─────────────────────────────────────
+
+(deftest a-producer-may-not-declare-passed
+  (testing "the cheapest laundering path this design had: +1 keyword in
+            :outcomes and +1 on the finding bought a non-blocking real
+            defect, owing no reason, no doc, no :rationale, no :retires-when
+            and no policy edit — making the least-reviewed path to a green
+            gate also the easiest one. It is a category error besides: this
+            vector has no per-(rule, target) result model, so :passed on a
+            reported finding can only mean 'suppressed'.
+            REVERT-TO-BREAK: delete the `unreportable-outcomes` block from
+            `validate-producers!`."
+    (is (str/includes?
+         (str (msg #(emit {:outcomes #{:failed :passed}} {})))
+         "which a FINDING may never carry")))
+  (testing "CONTROL: the other four values declare fine, so the throw keys on
+            :passed and not on declaring a second outcome"
+    (is (= [:x] (mapv :invariant
+                      (:live (emit {:outcomes #{:failed :cantTell :inapplicable
+                                                :untested}
+                                    :reasons {:r "why"}}
+                                   {})))))))
+
+;; ── every non-default outcome owes a DECLARED reason ─────────────────────
+
+(deftest every-outcome-that-is-not-failed-owes-a-reason-vocabulary
+  (testing "axe-core's incomplete-data set(key,reason) validates only that
+            the key is a string, so a typo is a new reason. The concept is
+            worth keeping; that implementation is not. Widened from :cantTell
+            alone because :inapplicable and :untested are non-blocking by
+            shape too, so leaving them reason-free left two outcomes a real
+            defect could be relabelled into for free. They are also the two
+            halves of the same obligation: :inapplicable says the clause ran
+            and this target was out of scope, :untested says the clause did
+            not run here — and each is evidence only if it says WHICH.
+            REVERT-TO-BREAK: narrow the if-let back to (contains? outs
+            :cantTell)."
+    (doseq [o [:cantTell :inapplicable :untested]]
+      (is (str/includes? (str (msg #(emit {:outcomes #{:failed o}} {})))
+                         "no non-empty :reasons map")
+          (str o))))
+  (testing "and a reason vocabulary with nothing to explain is the inverse
+            mistake — a declaration that names nothing"
+    (is (str/includes? (str (msg #(emit {:reasons {:noise-band "d"}} {})))
+                       ":reasons but :outcomes names none of")))
+  (testing "a bare set is not enough either: a reason with no stated meaning
+            names the gap without saying what would close it"
+    (is (str/includes?
+         (str (msg #(emit {:outcomes #{:failed :cantTell}
+                           :reasons {:noise-band "  "}} {})))
+         "needs a non-blank doc")))
+  (testing "and a namespaced reason key is refused — the producer id names it
+            already"
+    (is (str/includes?
+         (str (msg #(emit {:outcomes #{:failed :cantTell}
+                           :reasons {:acme/noise-band "d"}} {})))
+         "must be an UNQUALIFIED keyword")))
+  (testing "CONTROL: the well-formed declaration registers and judges"
+    (is (= [:x] (mapv :invariant
+                      (:live (emit {:outcomes #{:failed :cantTell}
+                                    :reasons {:noise-band "measured ratio and
+                                              threshold are closer than the
+                                              measurement's own noise"}}
+                                   {})))))))
+
+(deftest a-non-answer-must-name-a-DECLARED-reason
+  (let [contrast {:outcomes #{:failed :cantTell :inapplicable :untested}
+                  :reasons {:noise-band "in the noise"
+                            :mask-absent "no glyph mask supplied"}}]
+    (testing "'the score is in the noise band', 'there is no glyph ink here'
+              and 'no mask was supplied' are three different non-answers; one
+              that will not say which it is has re-fused them.
+              REVERT-TO-BREAK: delete the (contains? reasons …) block."
+      (doseq [o [:cantTell :inapplicable :untested]]
+        (is (str/includes? (str (msg #(emit contrast {:act/outcome o})))
+                           "its declared reasons are [:mask-absent :noise-band]")
+            (str o))
+        (is (some? (msg #(emit contrast {:act/outcome o
+                                         :act/reason :noize-band})))
+            (str o " typo"))))
+    (testing "and a reason on a :failed is refused — the vocabulary belongs to
+              the non-answers and nothing else"
+      (is (str/includes?
+           (str (msg #(emit contrast {:act/outcome :failed
+                                      :act/reason :noise-band})))
+           "reason vocabulary belongs to")))
+    (testing "CONTROL: a declared reason on each non-answer passes, so every
+              throw above keys on its own clause"
+      (doseq [o [:cantTell :inapplicable :untested]]
+        (is (= [:noise-band]
+               (mapv :act/reason
+                     (:live (emit contrast {:act/outcome o
+                                            :act/reason :noise-band}))))
+            (str o))))))
+
+;; ── the mode axis belongs to the producer ────────────────────────────────
+
+(deftest the-mode-axis-belongs-to-the-PRODUCER
+  (testing "a finding that could name its own mode would let a
+            non-reproducible lane claim :automatic one finding at a time,
+            which is exactly what the axis exists to make impossible.
+            REVERT-TO-BREAK: delete the (contains? f :act/test-mode) block."
+    (is (str/includes? (str (msg #(emit {} {:act/test-mode :automatic})))
+                       "the mode is the PRODUCER's"))
+    (is (str/includes?
+         (str (msg #(emit {:test-mode :manual} {:act/test-mode :manual})))
+         "the mode is the PRODUCER's")))
+  (testing "an undeclarable mode is refused at registration"
+    (is (str/includes? (str (msg #(emit {:test-mode :semi-auto} {})))
+                       ":test-mode must be one of")))
+  (testing "a :manual producer's findings come back STAMPED, so the verdict
+            can keep a non-reproducible lane out of the exit code"
+    (is (= [:manual]
+           (mapv :act/test-mode (:live (emit {:test-mode :manual} {}))))))
+  (testing "and an :automatic producer's findings carry NO axis key at all —
+            every producer in the fleet is automatic today, so the persisted
+            findings vector stays byte-identical"
+    (let [f (first (:live (emit {} {})))]
+      (is (empty? (filter #(contains? f %) outcome/axis-keys))))))
+
+;; ── the exemption vocabulary door ────────────────────────────────────────
+
+(deftest an-exemption-may-not-name-an-UNDECLARED-reason
+  (let [contrast {:id :contrast
+                  :requires #{}
+                  :outcomes #{:failed :cantTell}
+                  :reasons {:noise-band "in the noise"}
+                  :fn (fn [{:keys [card-id]}]
+                        [{:card card-id :invariant :contrast
+                          :act/outcome :cantTell :act/reason :noise-band}])}
+        judge (fn [reason]
+                (findings/card-findings
+                 {:card-id "c"
+                  :tree clean-tree
+                  :producers [contrast]
+                  :exemptions [{:card "c" :invariant :contrast
+                                :act/outcome :cantTell :act/reason reason
+                                :rationale "no mask emitter for this class yet"
+                                :retires-when "the mask emitter lands"}]}))]
+    (testing "an exemption naming a reason no ARMED producer declares matches
+              nothing, and the stale-exemption ratchet that would catch it is
+              dropped by every lane in this repo — so it would be silent.
+              REVERT-TO-BREAK: delete the `vocab` doseq in `card-findings`."
+      (is (str/includes? (str (msg #(judge :mask-absent)))
+                         "no armed producer declares it")))
+    (testing "CONTROL: the declared reason exempts, proving the throw is the
+              vocabulary check and not the exemption path being broken"
+      (let [res (judge :noise-band)]
+        (is (empty? (:live res)))
+        (is (= [:contrast] (mapv :invariant (:exempted res))))
+        (is (empty? (:stale-exemptions res)))))))
+
+;; ── END TO END: a registered producer through to the exit code ───────────
+
+(deftest a-REGISTERED-cantTell-reaches-the-EXIT-CODE
+  (testing "the registry half of this suite stopped at (:live …) and the
+            verdict half started from a hand-built vector, so the path the
+            whole axis exists for — a producer declares :cantTell, emits one,
+            and the process fails on it — was pinned at neither end.
+            REVERT-TO-BREAK: drop :cantTell from `default-fail-outcomes`, or
+            stop stamping in `card-findings`.
+
+            IT RUNS THROUGH `lanes/run-verdict`, the fn `devcards.core` calls.
+            Through `outcome/exit-code` this test was closed against a fn with
+            no production caller: forcing :exit 0 in the gate's own
+            computation left it green."
+    (let [contrast {:id :contrast :requires #{}
+                    :outcomes #{:failed :cantTell}
+                    :reasons {:noise-band "in the noise"}
+                    :fn (fn [{:keys [card-id]}]
+                          [{:card card-id :invariant :contrast
+                            :act/outcome :cantTell :act/reason :noise-band}])}
+          live (:live (findings/card-findings {:card-id "c" :tree clean-tree
+                                               :producers [contrast]}))]
+      (is (= 1 (count live)))
+      (is (nil? (outcome/axis-problem (first live)))
+          "the registry's own output must satisfy the verdict's entitlement
+           check, or the two halves disagree about the same finding")
+      (is (= 1 (:exit (lanes/run-verdict live))))
+      (is (zero? (:exit (lanes/run-verdict [])))
+          "CONTROL: the same fn over an empty vector exits 0, so the one
+           above is the finding and not a constant")
+      (is (= live (outcome/blocking live outcome/default-policy)))
+      (testing "and under a narrowed policy the SAME live vector is advisory"
+        (is (zero? (outcome/exit-code
+                    live
+                    {:fail-outcomes #{:failed} :fail-modes #{:automatic}
+                     :rationale "arming the contrast lane on a fresh corpus"
+                     :retires-when "the corpus is clean under the default"})))))))
+
+(deftest a-REGISTERED-manual-producer-is-reported-and-never-blocks
+  (testing "the VLM review's whole disposition, end to end: it rides the
+            registry, it is stamped :manual, it lands in the vector, and it
+            does not set the exit code.
+            REVERT-TO-BREAK: stop stamping :act/test-mode in `card-findings`.
+
+            Also through `lanes/run-verdict` — the exit code this asserts on
+            has to be the one the process leaves with."
+    (let [vlm {:id :vlm-review :requires #{} :test-mode :manual
+               :fn (fn [{:keys [card-id]}]
+                     [{:card card-id :invariant :vlm/legibility-doubt
+                       :detail "the numerals sit on a busy plate"}])}
+          live (:live (findings/card-findings {:card-id "c" :tree clean-tree
+                                               :producers [vlm]}))]
+      (is (= [:manual] (mapv :act/test-mode live)))
+      (is (zero? (:exit (lanes/run-verdict live))))
+      (is (seq live) "the CONTROL for the zero above — an empty vector would
+                      satisfy it vacuously and for the wrong reason")
+      (testing "CONTROL: the identical producer declared :automatic DOES set
+                the exit code, so the zero keys on the declared mode"
+        (let [auto (:live (findings/card-findings
+                           {:card-id "c" :tree clean-tree
+                            :producers [(dissoc vlm :test-mode)]}))]
+          (is (= 1 (:exit (lanes/run-verdict auto)))))))))

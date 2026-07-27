@@ -65,7 +65,8 @@
    cards mandate explicit finite w/h — an empty box, not a collapsed or
    flagged one — so the corpus runs exemption-free until a real unsolvable
    arrives."
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [devcards.outcome :as outcome]))
 
 (set! *warn-on-reflection* true)
 
@@ -313,17 +314,62 @@
   [entry problem]
   (throw (ex-info (str "malformed exemption: " problem) {:entry entry})))
 
+(def ^:private exemption-keys
+  "Every key an exemption entry may carry. :node and the three `:act/*` axes
+   are OPTIONAL narrowing axes; the set stays closed so a typo is refused
+   rather than silently widening what an entry swallows.
+
+   The axes are read from `outcome/axis-keys` rather than re-spelled, so the
+   entry side and the finding side cannot drift — which is exactly how
+   :act/test-mode came to be missing here in the first draft, leaving a
+   four-key exemption able to swallow a :manual VLM finding and a
+   deterministic :failed one with the same entry."
+  (into #{:card :invariant :node :rationale :retires-when} outcome/axis-keys))
+
 (defn validate-exemptions!
   "Exemptions shape check — every entry {:card <string-or-regex-string>
-   :invariant <kw> :rationale <ne-string> :retires-when <ne-string>}, no
-   other keys. Throws on the first malformed entry; returns the list."
+   :invariant <kw> :rationale <ne-string> :retires-when <ne-string>} plus the
+   optional :node <regex-string> / :act/outcome / :act/test-mode /
+   :act/reason narrowing axes, no other keys. Throws on the first malformed
+   entry; returns the list."
   [exemptions]
   (doseq [e exemptions]
     (when-not (map? e) (exemption-error e "not a map"))
-    (when-let [extra (seq (remove #{:card :invariant :rationale :retires-when} (keys e)))]
+    (when-let [extra (seq (remove exemption-keys (keys e)))]
       (exemption-error e (str "unknown keys " (vec extra))))
     (when-not (string? (:card e)) (exemption-error e ":card must be a string"))
     (when-not (keyword? (:invariant e)) (exemption-error e ":invariant must be a keyword"))
+    ;; :node is a regex STRING, like :card, and the reason is not that
+    ;; `re-pattern` would reject anything else — it returns a Pattern
+    ;; unchanged, so a #"…" literal would match perfectly well. It is that
+    ;; the exemption list is DATA: committed, reviewed, and round-tripped
+    ;; through EDN, where a Pattern does not survive as itself. One spelling
+    ;; for both regex fields is the second reason.
+    (when (and (contains? e :node) (not (string? (:node e))))
+      (exemption-error e (str ":node must be a regex STRING, like :card — "
+                              "the exemption list is EDN data and a compiled "
+                              "pattern does not round-trip")))
+    (when-not (contains? outcome/outcomes (outcome/finding-outcome e))
+      (exemption-error e (str ":act/outcome must be one of "
+                              (vec (sort outcome/outcomes)))))
+    (when (contains? outcome/unreportable-outcomes (outcome/finding-outcome e))
+      (exemption-error e (str ":act/outcome " (outcome/finding-outcome e)
+                              " can never appear on a finding, so an entry "
+                              "naming it would be stale from birth")))
+    (when-not (contains? outcome/test-modes (outcome/finding-mode e))
+      (exemption-error e (str ":act/test-mode must be one of "
+                              (vec (sort outcome/test-modes)))))
+    ;; Mirrors the finding side exactly: an outcome that owes a reason owes
+    ;; one here, and nothing else may carry one. An exemption for "we cannot
+    ;; measure the bitmap gauges" must not also swallow "the mask emitter
+    ;; failed".
+    (if (contains? outcome/reasoned-outcomes (outcome/finding-outcome e))
+      (when-not (keyword? (:act/reason e))
+        (exemption-error e (str "an " (outcome/finding-outcome e)
+                                " exemption owes an :act/reason keyword")))
+      (when (contains? e :act/reason)
+        (exemption-error e (str ":act/reason without an :act/outcome in "
+                                (vec (sort outcome/reasoned-outcomes))))))
     (doseq [k [:rationale :retires-when]]
       (when-not (and (string? (get e k)) (not (str/blank? (get e k))))
         (exemption-error
@@ -332,9 +378,43 @@
   exemptions)
 
 (defn- exempt?
+  "An exemption matches per (card, invariant, outcome, MODE, reason, node).
+
+   The OUTCOME conjunct is load-bearing rather than tidy. Without it an entry
+   written for a :cantTell — 'no glyph mask for this widget class; retires
+   when the mask emitter lands' — silences the REAL :failed finding that
+   appears on the same card and invariant the moment that emitter lands. The
+   stale-exemption ratchet cannot catch that, because the entry is still
+   matching: its own retirement condition is the very event that turns it
+   into a defect-hider.
+
+   THE MODE CONJUNCT IS THE SAME ARGUMENT ON THE ORTHOGONAL AXIS, and its
+   absence was a live silent skip rather than an omission of symmetry. The
+   VLM review is :manual and rides this same vector; a deterministic lane on
+   the same card and invariant is :automatic. With no mode conjunct, a
+   dispositioned VLM exemption swallowed the DETERMINISTIC finding whose
+   (card, invariant, outcome) it shared — and swallowed it into :exempted,
+   so the run was byte-identical to a clean one and the stale ratchet stayed
+   quiet because the entry was still matching something. There was also no
+   way to write the narrower entry: the key set refused :act/test-mode
+   outright, so the hole could not be closed at the config layer.
+
+   The defaults point in DIFFERENT directions, and each preserves what
+   absence has always meant. An absent :act/outcome or :act/test-mode is the
+   default on BOTH sides — read through the SAME accessor, so the two sides
+   cannot drift — meaning an entry written before these axes existed matches
+   exactly the automatic/:failed findings it always matched, and cannot start
+   swallowing a newly-added :cantTell or a :manual one. An absent :node
+   matches ANY node, because that is exactly what an exemption does today."
   [exemption finding]
   (and (= (:invariant exemption) (:invariant finding))
-       (re-matches (re-pattern (:card exemption)) (str (:card finding)))))
+       (= (outcome/finding-outcome exemption) (outcome/finding-outcome finding))
+       (= (outcome/finding-mode exemption) (outcome/finding-mode finding))
+       (= (:act/reason exemption) (:act/reason finding))
+       (re-matches (re-pattern (:card exemption)) (str (:card finding)))
+       (or (nil? (:node exemption))
+           (boolean (re-matches (re-pattern (:node exemption))
+                                (str (:node finding)))))))
 
 (defn apply-exemptions
   "Split findings against the proof-carrying exemption list. Returns

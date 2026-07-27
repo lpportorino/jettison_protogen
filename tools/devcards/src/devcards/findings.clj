@@ -48,11 +48,37 @@
    - an unknown threshold key throws instead of falling back to a
      default, so a typo cannot silently relax the gate it names."
   (:require [clojure.string :as str]
-            [devcards.invariants :as invariants]))
+            [devcards.invariants :as invariants]
+            [devcards.outcome :as outcome]))
 
 (set! *warn-on-reflection* true)
 
-(def ^:private producer-keys #{:id :fn :requires :thresholds})
+(def ^:private producer-keys
+  "Every key a producer may declare. CLOSED, and closed the same way
+   `context-keys` and the exemption key set are: an entry carrying a knob
+   nothing reads looks armed and does nothing.
+
+   :outcomes / :test-mode / :reasons are the ACT/EARL axes, all three
+   OPTIONAL — a producer that declares none is two-way
+   (`outcome/legacy-outcomes`) and deterministic, which is what every
+   producer written before them already was.
+
+   Widening this set from four keys to seven was FREE, because it had no
+   canary of its own — the one state in which widening a closed set costs
+   nothing is the state in which nothing pins it. `:severity` is the
+   plausible next widening (it is the axis this repo deliberately does not
+   have) and is what the canary uses."
+  #{:id :fn :requires :thresholds :outcomes :test-mode :reasons})
+
+(def ^:private act-declaration-keys
+  "The producer keys that OPT IN to the ACT axes. A producer naming none of
+   them keeps the open-map finding contract it was written against — see
+   `outcome/reserved-plain-keys` and the ns docstring there."
+  #{:outcomes :test-mode :reasons})
+
+(defn- declares-act-axes?
+  [producer]
+  (boolean (some #(contains? producer %) act-declaration-keys)))
 
 (def ^:private context-keys
   "Every ctx input a producer may declare in :requires. Closed, so a
@@ -126,7 +152,65 @@
                                " fails the producer's own :pred — the default "
                                "is what runs when the consumer supplies "
                                "nothing, so it cannot be the one value "
-                               "exempt from validation")))))
+                               "exempt from validation"))))
+    ;; The ACT/EARL declaration. ABSENT is legal and means #{:failed}, so
+    ;; every producer that predates this registers unchanged.
+    ;;
+    ;; This clause is what makes "neither lane may borrow the other's shape"
+    ;; a REGISTRATION-TIME property rather than prose. A geometry rule
+    ;; declares no :outcomes and is therefore structurally two-way: a future
+    ;; author cannot soften one of its findings to :cantTell in a
+    ;; four-character diff, because it throws, naming the producer. That
+    ;; softening is this repo's own regression class — a defaulted :caps and
+    ;; a defaulted classification each deleted a whole finding class in
+    ;; silence — in the one form a bare vocabulary cannot see.
+    (let [outs (:outcomes p outcome/legacy-outcomes)]
+      (when-not (and (set? outs) (seq outs) (every? outcome/outcomes outs))
+        (producer-error p (str ":outcomes must be a non-empty subset of "
+                               (vec (sort outcome/outcomes)) ", got "
+                               (pr-str outs))))
+      ;; :passed is refused as a DECLARATION, and refused again on the
+      ;; finding itself in `outcome/axis-problem`. Two layers because two
+      ;; populations: this one cannot see the corpus gates or the interaction
+      ;; lane, which never meet the registry. See
+      ;; `outcome/unreportable-outcomes` for why it is a category error and
+      ;; why it was the cheapest laundering path in the design.
+      (when-let [bad (seq (filter outcome/unreportable-outcomes outs))]
+        (producer-error p (str ":outcomes names " (vec (sort bad))
+                               ", which a FINDING may never carry — a "
+                               "reported finding is by construction not a "
+                               "pass, and this vector has no per-target "
+                               "result model for one to mean anything else")))
+      (when-not (contains? outcome/test-modes
+                           (:test-mode p outcome/default-test-mode))
+        (producer-error p (str ":test-mode must be one of "
+                               (vec (sort outcome/test-modes)) ", got "
+                               (pr-str (:test-mode p)))))
+      ;; A CLOSED reason vocabulary, mandatory the moment a producer claims it
+      ;; can emit any outcome that owes one — :cantTell, :inapplicable or
+      ;; :untested (`outcome/reasoned-outcomes`). The CONCEPT is axe-core's
+      ;; declared "incomplete" keys; its IMPLEMENTATION is refused — axe
+      ;; validates only that the key is a string, so a typo is a new reason. A
+      ;; bare set is not enough either: a reason with no stated meaning names
+      ;; the gap without saying what would close it, so the vocabulary is a
+      ;; map to non-blank docs.
+      (if-let [reasoned (seq (filter outcome/reasoned-outcomes outs))]
+        (do
+          (when-not (and (map? (:reasons p)) (seq (:reasons p)))
+            (producer-error p (str "declares " (vec (sort reasoned))
+                                   " but no non-empty :reasons map — an "
+                                   "unenumerated reason vocabulary is an open "
+                                   "one, and an open one cannot be reviewed")))
+          (doseq [[k doc] (:reasons p)]
+            (when-not (simple-keyword? k)
+              (producer-error p (str "reason key " (pr-str k)
+                                     " must be an UNQUALIFIED keyword — the "
+                                     "producer id names it already")))
+            (when-not (and (string? doc) (not (str/blank? doc)))
+              (producer-error p (str "reason " k " needs a non-blank doc")))))
+        (when (contains? p :reasons)
+          (producer-error p (str ":reasons but :outcomes names none of "
+                                 (vec (sort outcome/reasoned-outcomes))))))))
   (let [ids (map :id producers)]
     (when-let [dupes (seq (for [[id n] (frequencies ids) :when (> n 1)] id))]
       (throw (ex-info (str "duplicate producer ids " (vec dupes)
@@ -220,10 +304,77 @@
                          "one is an oversight)")
                     {:producer (:id producer) :missing (vec (sort missing))}))))
 
+(defn- check-outcome!
+  "The ACT/EARL axes on ONE finding, checked against the DECLARING producer.
+   An absent :act/outcome is `outcome/default-outcome`, so a rule written
+   before this existed is unaffected — and so is a rule that uses the
+   unnamespaced words for its own payload, which the open finding map has
+   always permitted (see `outcome/reserved-plain-keys`).
+
+   The mode axis is the PRODUCER's and is stamped by the registry, never
+   carried on a finding: a lane cannot claim reproducibility one finding at a
+   time, which is precisely what the axis exists to make impossible.
+
+   There is deliberately NO 'not in the ACT vocabulary' clause here. It was
+   unreachable: `validate-producers!` has already proved the declared set is
+   a subset of the vocabulary, so `(contains? declared o)` implies it, and
+   deleting the clause left the suite green because both of its own
+   assertions threw from neighbouring clauses. The vocabulary is checked
+   where it can actually be violated — at registration, and at the verdict
+   seam for the populations that never register."
+  [producer f]
+  (let [o (outcome/finding-outcome f)
+        declared (:outcomes producer outcome/legacy-outcomes)
+        reasons (:reasons producer {})]
+    ;; The near-miss refusal, scoped to producers that OPTED IN. For every
+    ;; other producer the plain words stay opaque payload, which is the
+    ;; entire backward-compatibility seam: no producer that exists today
+    ;; declares an ACT axis, so this reaches nobody by construction.
+    (when (declares-act-axes? producer)
+      (when-let [k (some #(when (contains? f %) %)
+                         (sort (keys outcome/reserved-plain-keys)))]
+        (throw (ex-info (str "producer " (:id producer) " declares ACT axes "
+                             "and emitted " k " — the finding axis is "
+                             (get outcome/reserved-plain-keys k)
+                             "; the unnamespaced name is payload and would "
+                             "be read as " (pr-str outcome/default-outcome))
+                        {:producer (:id producer) :finding f}))))
+    (when-not (contains? declared o)
+      (throw (ex-info (str "producer " (:id producer) " emitted " (pr-str o)
+                           " but declares only " (vec (sort declared))
+                           " — widen :outcomes deliberately, in the same "
+                           "diff, or fix the rule")
+                      {:producer (:id producer) :outcome o :finding f})))
+    (when (contains? f :act/test-mode)
+      (throw (ex-info (str "producer " (:id producer) " put :act/test-mode on "
+                           "a finding — the mode is the PRODUCER's "
+                           "declaration and the registry stamps it")
+                      {:producer (:id producer) :finding f})))
+    (if (contains? outcome/reasoned-outcomes o)
+      (when-not (contains? reasons (:act/reason f))
+        (throw (ex-info (str "producer " (:id producer) " emitted a "
+                             (pr-str o) " with :act/reason "
+                             (pr-str (:act/reason f))
+                             " — its declared reasons are "
+                             (vec (sort (keys reasons)))
+                             ". 'the score is in the noise band', 'there is "
+                             "no glyph ink here' and 'no mask was supplied' "
+                             "are three different non-answers; one that will "
+                             "not say which it is has re-fused them")
+                        {:producer (:id producer) :finding f})))
+      (when (contains? f :act/reason)
+        (throw (ex-info (str "producer " (:id producer) " attached an "
+                             ":act/reason to a " (pr-str o) " finding — the "
+                             "reason vocabulary belongs to "
+                             (vec (sort outcome/reasoned-outcomes))
+                             " and nothing else")
+                        {:producer (:id producer) :finding f}))))))
+
 (defn- check-findings!
   "A producer must return a seq of finding maps carrying :card and
    :invariant — the two keys every downstream lane (exemptions, the
-   verdict, the CI report) reads."
+   verdict, the CI report) reads — and, where it names one, an ACT/EARL
+   outcome its own declaration admits."
   [producer findings]
   (when-not (sequential? findings)
     (throw (ex-info (str "producer " (:id producer) " returned "
@@ -233,7 +384,8 @@
     (when-not (and (map? f) (contains? f :card) (contains? f :invariant))
       (throw (ex-info (str "producer " (:id producer)
                            " emitted a finding without :card/:invariant")
-                      {:producer (:id producer) :finding f}))))
+                      {:producer (:id producer) :finding f})))
+    (check-outcome! producer f))
   findings)
 
 (def builtin-producers
@@ -347,6 +499,19 @@
                          "registry never made, and (with :tree absent) "
                          "against nil, returning [] instead of throwing")
                     {:card card-id})))
+  ;; An exemption naming a :reason no ARMED producer declares would match
+  ;; nothing — and the stale-exemption ratchet that would catch that is
+  ;; computed here but dropped by every lane in this repo, so it would be
+  ;; silent. Same class as the unknown threshold key: the closed set must not
+  ;; leak out through the exemption door.
+  (let [vocab (into #{} (mapcat (comp keys :reasons)) producers)]
+    (doseq [e exemptions :when (and (map? e) (contains? e :act/reason))]
+      (when-not (contains? vocab (:act/reason e))
+        (throw (ex-info (str "exemption names :act/reason "
+                             (pr-str (:act/reason e))
+                             " — no armed producer declares it. Declared: "
+                             (vec (sort vocab)))
+                        {:exemption e :known (vec (sort vocab))})))))
   (let [resolved (resolve-thresholds producers thresholds)
         nodes (when (map? tree) (invariants/annotate-tree tree))
         ;; nil counts as ABSENT — see check-requires!. :nodes joins the
@@ -358,11 +523,19 @@
         raw (into []
                   (mapcat (fn [p]
                             (check-requires! p supplied)
-                            (map #(assoc % :producer (:id p))
-                                 (check-findings!
-                                  p
-                                  ((:fn p) (assoc base :thresholds
-                                                  (get resolved (:id p))))))))
+                            ;; :act/test-mode is stamped only when it CARRIES
+                            ;; information. Every producer here and in every
+                            ;; consumer is :automatic today, so the persisted
+                            ;; findings vector stays byte-identical; the key
+                            ;; appears exactly when a lane is not reproducible.
+                            (let [mode (:test-mode p outcome/default-test-mode)]
+                              (map #(cond-> (assoc % :producer (:id p))
+                                      (not= outcome/default-test-mode mode)
+                                      (assoc :act/test-mode mode))
+                                   (check-findings!
+                                    p
+                                    ((:fn p) (assoc base :thresholds
+                                                    (get resolved (:id p)))))))))
                   producers)]
     (invariants/apply-exemptions raw exemptions)))
 

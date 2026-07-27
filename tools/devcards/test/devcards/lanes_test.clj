@@ -20,7 +20,8 @@
    the lane rather than about the helper."
   (:require [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
-            [devcards.lanes :as lanes]))
+            [devcards.lanes :as lanes]
+            [devcards.outcome :as outcome]))
 
 (def ^:private clean-tree
   {:type "lv_obj" :coords [0 0 99 99] :children []})
@@ -149,3 +150,121 @@
                          "c" defective-tree
                          {:dark {:commands [] :reports [] :events []}}))
                        :clipped))))))
+
+;; ── the verdict policy this gate runs under ─────────────────────────────
+
+(deftest this-gate-runs-the-SHIPPED-policy-unnarrowed
+  (testing "protogen authors the default, so a private relaxation here would
+            gate this repo more loosely than every consumer that inherits it"
+    (is (= outcome/default-policy lanes/verdict-policy)))
+  (testing "and under it the lanes' own findings block THROUGH THE EXPRESSION
+            core.clj RUNS, which is what makes the equality above load-bearing
+            rather than decorative. Asserting `outcome/exit-code` here proved
+            nothing: that fn has no production caller, so forcing :exit 0 in
+            the gate's own computation left this green.
+            REVERT-TO-BREAK: `:exit 0` in `lanes/run-verdict`."
+    (let [live (lanes/atomic-findings "c" nil defective-tree)]
+      (is (seq live))
+      (is (= 1 (:exit (lanes/run-verdict live))))))
+  (testing "CONTROL: a clean run through the SAME fn exits zero, so the one
+            above keys on the finding and not on the fn being constant"
+    (is (zero? (:exit (lanes/run-verdict []))))))
+
+(deftest run-verdict-IS-the-expression-core-runs
+  (testing "core.clj cannot load under the :test alias, so for as long as the
+            verdict->lines->exit computation lived in its `-main` it was the
+            one expression here no canary could name — and canaries were
+            written against `outcome/exit-code`, a fn with ZERO production
+            callers, which stayed green through a mutation of what the gate
+            actually ran. This fn is now that whole computation: everything
+            core does with it is `doseq println` and `System/exit`."
+    (let [live (lanes/atomic-findings "c" nil defective-tree)
+          {:keys [lines exit blocking]} (lanes/run-verdict live)]
+      (is (= 1 exit))
+      (is (= (vec live) (vec blocking)))
+      (testing "the report core prints is computed here too — the policy line,
+                the counts, the by-lane tally and the findings themselves"
+        (is (some #(re-find #"verdict policy: " %) lines))
+        (is (some #(re-find #"^findings: 1 " %) lines))
+        (is (some #(re-find #"^by lane: " %) lines))
+        (is (some #(re-find #":clipped" %) lines)))))
+  (testing "and the console truncation is here rather than in core, so the
+            '40 shown, remainder counted' claim can be measured"
+    (let [many (vec (repeat 45 {:card "c" :invariant :clipped}))
+          lines (:lines (lanes/run-verdict many))]
+      (is (= 40 (count (filter #(re-find #"^\{:card " %) lines))))
+      (is (some #(re-find #"^… 5 more" %) lines))))
+  (testing "CONTROL: at 40 findings nothing is elided, so the line above is a
+            measurement of the threshold and not boilerplate"
+    (let [lines (:lines (lanes/run-verdict
+                         (vec (repeat 40 {:card "c" :invariant :clipped}))))]
+      (is (= 40 (count (filter #(re-find #"^\{:card " %) lines))))
+      (is (not-any? #(re-find #"more" %) lines)))))
+
+(deftest the-armed-set-is-the-set-that-RUNS
+  (testing "`armed-producers` is what scopes the NOT-EXERCISED line, so a
+            hand-kept second list would let that line describe a lane the gate
+            does not run. It is derived from the two vectors the lanes pass.
+            REVERT-TO-BREAK: inline the producer vectors back into
+            `atomic-findings` / `composition-findings`."
+    (is (= (set (map :id lanes/armed-producers))
+           (into (set (map :id lanes/atomic-producers))
+                 (map :id lanes/composition-producers))))
+    (is (contains? (set (map :id lanes/armed-producers)) :overlap)
+        "the overlap lane IS armed here — see .claude/rules/devcards.md"))
+  (testing "and every armed producer is two-way and automatic, which is the
+            fact that makes :cantTell and :untested OUT OF SCOPE for this
+            gate's NOT-EXERCISED line"
+    (is (= #{:failed}
+           (outcome/emittable-outcomes lanes/armed-producers
+                                       (:fail-modes lanes/verdict-policy))))
+    (is (every? #(nil? (:outcomes %)) lanes/armed-producers))))
+
+(deftest the-lanes-emit-findings-with-NO-ACT-axes
+  (testing "the artifact-stability pin: every producer this gate arms is
+            two-way and automatic, so out/findings.edn keeps the shape every
+            consumer's triage already reads"
+    (let [live (into (lanes/atomic-findings "c" nil defective-tree)
+                     (lanes/composition-findings
+                      "c" defective-tree
+                      {:dark {:commands [] :reports [] :events []}
+                       :light {:commands [{:id "c1"}] :reports [] :events []}}))]
+      (is (seq live) "the CONTROL — an empty vector would satisfy the next
+                      two assertions vacuously")
+      (is (every? (fn [f] (empty? (filter #(contains? f %) outcome/axis-keys)))
+                  live))
+      (testing "and each is nevertheless JUDGEABLE by the verdict — every one
+                satisfies the entitlement check, so the two halves cannot
+                disagree about the same finding"
+        (is (every? #(nil? (outcome/axis-problem %)) live))))))
+
+(deftest the-lanes-verdict-REPORTS-before-it-decides
+  (testing "the report has to survive whatever the verdict refuses: the
+            counts, the policy line and the NOT-EXERCISED line are computed
+            in the same total step as the exit code, so nothing between the
+            persisted vector and System/exit can throw"
+    (let [live (lanes/atomic-findings "c" nil defective-tree)
+          v (lanes/run-verdict live)]
+      (is (= 1 (:exit v)))
+      (is (empty? (:malformed v)))
+      (is (some #(re-find #"^findings: " %) (:lines v)))))
+  (testing "and this gate's NOT-EXERCISED line names NOTHING, because nothing
+            it arms can emit :cantTell or :untested. The earlier assertion
+            here required the opposite — it pinned a line that fired on every
+            run of this corpus, red or green, forever, which is the zero-bit
+            banner the scoping fix deletes. It is also why the UNDETERMINED
+            admission must not appear: the armed set IS supplied here.
+            REVERT-TO-BREAK: drop `{:producers armed-producers}` from
+            `run-verdict`."
+    (let [v (lanes/run-verdict (lanes/atomic-findings "c" nil defective-tree))]
+      (is (= #{:failed} (:emittable v)))
+      (is (= [] (:not-exercised v)))
+      (is (not-any? #(re-find #"NOT EXERCISED" %) (:lines v)))))
+  (testing "CONTROL: the SAME findings under a policy fed a producer that
+            declares :cantTell do get the line, so its absence above is the
+            armed set's shape and not the line having been deleted"
+    (let [v (outcome/verdict (lanes/atomic-findings "c" nil defective-tree)
+                             lanes/verdict-policy
+                             {:producers [{:id :contrast
+                                           :outcomes #{:failed :cantTell}}]})]
+      (is (some #(re-find #"NOT EXERCISED: :cantTell 0" %) (:lines v))))))

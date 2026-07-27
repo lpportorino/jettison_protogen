@@ -29,8 +29,26 @@
    contact sheets + generated doc pages under docs/widgets/
    (devcards.gallery + devcards.docs).
 
-   Exit code is the verdict: non-zero on ANY finding; counts always print —
-   silence is never success."
+   Exit code is the verdict: non-zero on any BLOCKING finding, where blocking
+   is `devcards.lanes/verdict-policy` applied to each finding's ACT/EARL
+   :act/outcome and its producer's :act/test-mode — both defaulting to the
+   pre-policy behaviour, so a finding that declares neither blocks exactly as
+   it always did. Counts always print and the full vector always persists to
+   out/findings.edn: silence is never success, and a non-blocking finding is
+   never silent.
+
+   'Counts always print' is a claim about ORDER, and it is load-bearing:
+   `outcome/verdict` is TOTAL and is computed as one step, so a malformed
+   axis becomes a printed blocking finding instead of an exception thrown
+   before the report exists. Zero counts print as zeroes and unexercised
+   blocking outcomes get a named NOT-EXERCISED line, because a `frequencies`
+   map that omits what it never saw cannot tell 'none observed' from 'not a
+   value this run could produce'.
+
+   THE VERDICT IS NOT COMPUTED IN THIS NAMESPACE. `lanes/run-verdict` returns
+   the lines and the exit code together; `-main` prints and exits. Nothing
+   here decides anything, because nothing here can be loaded by a test — the
+   generated bindings this ns requires are not on the :test alias's path."
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.pprint :as pp]
@@ -277,13 +295,17 @@
         (println "composition renders:" (:composition-renders (:counts comp-run))
                  " cards:" (:composition-cards (:counts comp-run))
                  " elapsed:" (format "%.1fs" (double (:elapsed-s (:counts comp-run)))))
-        (println "findings:" (count all-findings)
-                 " by lane:"
-                 (frequencies (map #(or (:gate %) (:invariant %)) all-findings)))
-        (doseq [f (take 40 all-findings)] (prn f))
-        (when (> (count all-findings) 40)
-          (println "…" (- (count all-findings) 40) "more"))
-        (System/exit (if (seq all-findings) 1 0)))
+        ;; NO DECISION LIVES HERE. `lanes/run-verdict` computes both the
+        ;; lines and the exit code, because this ns cannot load under the
+        ;; :test alias and an expression no test can name is an expression no
+        ;; canary can pin — measured: forcing :exit 0 in a verdict computed
+        ;; here left every "reaches the EXIT-CODE" test green. It is also
+        ;; TOTAL (see `outcome/verdict`), so nothing between the persisted
+        ;; vector above and System/exit below can throw, which is what makes
+        ;; this ns's "counts always print" claim true.
+        (let [{:keys [lines exit]} (lanes/run-verdict all-findings)]
+          (doseq [l lines] (println l))
+          (System/exit exit)))
       "gallery"
       (let [t0 (System/nanoTime)
             inventory (composition/load-inventory)

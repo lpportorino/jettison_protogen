@@ -7,7 +7,8 @@
    exemption case here is paired with a CONTROL that must still fire. An
    exemption test with no control cannot tell 'correctly exempted' from
    'the lane returned nothing at all'."
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.string :as str]
+            [clojure.test :refer [deftest is testing]]
             [devcards.invariants :as inv]))
 
 (def ^:private caps
@@ -279,3 +280,184 @@
               measures against the DISPLAY, and leaving the carousel's content
               box says nothing about that"
       (is (contains? (nodes-of findings :offscreen) "lv_obj#4")))))
+
+;; ── the exemption shape and its matching axes ───────────────────────────
+;; The closed key set had NO canary at all before the ACT axes widened it,
+;; which is the one state in which widening a closed set is free. These pin
+;; the set, then each new axis, each against a control that must stay live.
+
+(def ^:private legacy-exemption
+  {:card "c" :invariant :contrast
+   :rationale "proven benign for this card"
+   :retires-when "the widget grows its own box"})
+
+(defn- live-of
+  [findings exemptions]
+  (set (map (juxt :act/outcome :act/test-mode :act/reason :node)
+            (:live (inv/apply-exemptions findings exemptions)))))
+
+(defn- msg
+  "The message of whatever `f` throws, or nil. `thrown?` alone cannot tell a
+   clause from its neighbour, which is how a decorative canary survives."
+  [f]
+  (try (f) nil (catch Throwable t (ex-message t))))
+
+(deftest the-exemption-key-set-is-CLOSED
+  (testing "an unknown key must be refused rather than ignored: an entry
+            carrying a knob nothing reads looks armed and does nothing.
+            :severity is the plausible neighbour — it is the axis this repo
+            deliberately does NOT have.
+            REVERT-TO-BREAK: add :severity to `exemption-keys`."
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :severity :minor)])))
+         "unknown keys [:severity]")))
+  (testing "and the three ACT axes are IN it — the first draft omitted
+            :act/test-mode, which made a manual-only exemption unwritable and
+            therefore made the hole below unfixable at the config layer"
+    (is (inv/validate-exemptions!
+         [(assoc legacy-exemption :act/test-mode :manual)])))
+  (testing "CONTROL: the same entry without the unknown key validates, so the
+            throw keys on the key and not on the entry shape"
+    (is (= [legacy-exemption] (inv/validate-exemptions! [legacy-exemption])))))
+
+(deftest a-legacy-exemption-still-exempts-a-legacy-finding
+  (testing "the compat pin: every exemption ever written here predates the
+            outcome axis, so absent must keep meaning what it meant"
+    (is (empty? (live-of [{:card "c" :invariant :contrast :node "n"}]
+                         [legacy-exemption]))))
+  (testing "and the UNNAMESPACED words on a finding are payload the matcher
+            does not read, so a consumer producer that used :reason for its
+            own purposes keeps the exemption written for it"
+    (is (empty? (live-of [{:card "c" :invariant :contrast :node "n"
+                           :reason "overflows its box" :outcome "hand-set"}]
+                         [legacy-exemption])))))
+
+(deftest a-failed-exemption-does-NOT-swallow-another-outcome
+  (testing "without the outcome conjunct, an entry written for one verdict
+            silences the other on the same card and invariant — and the stale
+            ratchet cannot catch it, because the entry is still matching: its
+            own retirement condition is the event that turns it into a
+            defect-hider.
+
+            The surviving finding is REASON-FREE on purpose. Measured: with a
+            :cantTell + reason finding, deleting the outcome conjunct leaves
+            this green, because the reason conjunct separates them for its own
+            unrelated reason. Only the outcome differs below.
+            REVERT-TO-BREAK: delete the `finding-outcome` conjunct."
+    (is (= #{[:untested nil nil "n"]}
+           (live-of [{:card "c" :invariant :contrast :act/outcome :untested
+                      :node "n"}]
+                    [legacy-exemption]))))
+  (testing "CONTROL: the matching :failed finding IS exempted by that same
+            entry in the same call, so the survivor above is the outcome axis
+            and not a dead exemption"
+    (is (= #{[:untested nil nil "n"]}
+           (live-of [{:card "c" :invariant :contrast :node "n"}
+                     {:card "c" :invariant :contrast :act/outcome :untested
+                      :node "n"}]
+                    [legacy-exemption])))))
+
+(deftest a-VLM-exemption-does-NOT-swallow-the-DETERMINISTIC-finding
+  (testing "the silent skip this whole axis exists to prevent. The VLM review
+            is :manual and rides this same vector; a deterministic lane on
+            the same card and invariant is :automatic. With no mode conjunct
+            an entry dispositioning the VLM finding also swallowed the
+            :failed deterministic one that shares its (card, invariant,
+            outcome) — into :exempted, so the run was byte-identical to a
+            clean one, and the stale ratchet stayed quiet because the entry
+            was still matching something.
+            REVERT-TO-BREAK: delete the `finding-mode` conjunct."
+    (let [vlm-entry (assoc legacy-exemption :act/test-mode :manual)
+          fs [{:card "c" :invariant :contrast :act/test-mode :manual :node "n"}
+              {:card "c" :invariant :contrast :node "n"}]]
+      (is (= #{[nil nil nil "n"]} (live-of fs [vlm-entry])))))
+  (testing "CONTROL: the same entry DOES exempt the manual finding it was
+            written for, so the survivor above is the mode axis and not a
+            dead entry"
+    (is (empty? (live-of [{:card "c" :invariant :contrast
+                           :act/test-mode :manual :node "n"}]
+                         [(assoc legacy-exemption :act/test-mode :manual)]))))
+  (testing "and symmetrically: a legacy four-key entry does not silently
+            change meaning the moment a :manual producer is armed"
+    (is (= #{[nil :manual nil "n"]}
+           (live-of [{:card "c" :invariant :contrast
+                      :act/test-mode :manual :node "n"}]
+                    [legacy-exemption])))))
+
+(deftest a-non-answer-exemption-is-scoped-to-ONE-reason
+  (testing "an exemption for 'we cannot measure the bitmap gauges' must not
+            also swallow 'the mask emitter failed'.
+            REVERT-TO-BREAK: delete the :act/reason conjunct."
+    (let [e (assoc legacy-exemption :act/outcome :cantTell
+                   :act/reason :noise-band)
+          fs [{:card "c" :invariant :contrast :act/outcome :cantTell
+               :act/reason :noise-band :node "n"}
+              {:card "c" :invariant :contrast :act/outcome :cantTell
+               :act/reason :mask-absent :node "n"}]]
+      (is (= #{[:cantTell nil :mask-absent "n"]} (live-of fs [e]))))))
+
+(deftest the-node-axis-narrows-and-its-absence-does-not
+  (let [fs [{:card "c" :invariant :contrast :node "btn#1"}
+            {:card "c" :invariant :contrast :node "label#2"}]]
+    (testing "an absent :node matches ANY node — exactly what an exemption
+              did before the axis existed"
+      (is (empty? (live-of fs [legacy-exemption]))))
+    (testing "and a supplied one is a FULL-match regex, like :card: the named
+              node is exempted and the other stays live.
+              REVERT-TO-BREAK: delete the :node conjunct."
+      (is (= #{[nil nil nil "label#2"]}
+             (live-of fs [(assoc legacy-exemption :node "btn#.*")]))))
+    (testing "full-match, not substring — a pattern that matches a prefix
+              only must exempt nothing.
+              REVERT-TO-BREAK: `re-find` for `re-matches` on the :node conjunct."
+      (is (= 2 (count (live-of fs [(assoc legacy-exemption :node "btn")])))))))
+
+(deftest the-exemption-axis-rules-mirror-the-finding-rules
+  (testing "an outcome that owes a reason owes one here too.
+            REVERT-TO-BREAK: delete the reasoned-outcome branch."
+    (doseq [o [:cantTell :inapplicable :untested]]
+      (is (str/includes?
+           (str (msg #(inv/validate-exemptions!
+                       [(assoc legacy-exemption :act/outcome o)])))
+           "owes an :act/reason keyword")
+          (str o))))
+  (testing "and nothing else may carry one"
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :act/reason :noise-band)])))
+         ":act/reason without an :act/outcome in")))
+  (testing "an outcome outside the ACT vocabulary is refused"
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :act/outcome :cantTel)])))
+         ":act/outcome must be one of")))
+  (testing "and :passed is refused too: a finding may never carry it, so an
+            entry naming it would be stale from birth"
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :act/outcome :passed)])))
+         "stale from birth")))
+  (testing "an out-of-vocabulary MODE is refused — the axis the first draft
+            could not even name"
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :act/test-mode :semi-auto)])))
+         ":act/test-mode must be one of")))
+  (testing "and a non-string :node is refused. NOT because `re-pattern` would
+            reject it — it returns a Pattern unchanged, so a #\"…\" literal
+            would match perfectly well, and the first draft's stated
+            justification was refutable in one line. Because the exemption
+            list is DATA: committed, reviewed and round-tripped through EDN,
+            where a compiled Pattern does not survive as itself.
+            REVERT-TO-BREAK: delete the :node string check."
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :node #"btn.*")])))
+         "does not round-trip")))
+  (testing "CONTROL: the well-formed narrowed entry validates, so each throw
+            keys on its own clause"
+    (is (inv/validate-exemptions!
+         [(assoc legacy-exemption :act/outcome :cantTell
+                 :act/reason :noise-band :act/test-mode :manual
+                 :node "btn#.*")]))))
