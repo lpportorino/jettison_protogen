@@ -45,7 +45,7 @@ RGEN := tools/renderer-gen
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
-	wasm-present fixtures-prebuilt gallery-prebuilt interaction-prebuilt \
+	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary-prebuilt interaction-prebuilt \
 	standard-brief standard-brief-generate
 
 # ── Build ────────────────────────────────────────────────────────────────────
@@ -113,6 +113,14 @@ fixtures-prebuilt: wasm-present bindings
 # re-mint the gallery in the same change, exactly like the goldens).
 gallery-prebuilt: wasm-present bindings
 	cd tools/devcards && clojure -M:bindings:run gallery
+
+# Four mutation-sensitive DISABLED dead-zone cards through the real authored
+# fixture builder and real wasm. Kept outside the golden corpus because the
+# positive ARM-1 card necessarily fires the already-armed, order-free overlap
+# rule; making that expected overlap green would require the per-card
+# exemptions/rule special-casing the standard forbids.
+deadzone-canary-prebuilt: wasm-present bindings
+	cd tools/devcards && clojure -M:bindings:deadzone-canary
 
 # ── Harness suite (wasmtime host; adapted from the source repo's battery) ───
 # visual_regression reads renderer/output/fixtures/*.pb plus the tabview
@@ -714,5 +722,5 @@ graal-check:
 	  exit 1; }
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
-check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures harness interaction oracles reload decode-limits
+check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary-prebuilt harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

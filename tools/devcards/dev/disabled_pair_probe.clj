@@ -116,8 +116,8 @@
         cands (filter (fn [[c n]] (and (>= (long n) ink-floor) (not= c fill))) hist)]
     (when (seq cands)
       (let [[glyph glyph-n] (apply max-key
-                                  (fn [[c _]] (Math/abs (- (luminance c) yf)))
-                                  cands)]
+                                   (fn [[c _]] (Math/abs (- (luminance c) yf)))
+                                   cands)]
         [fill glyph fill-n glyph-n]))))
 
 (defn- walk [root] (tree-seq #(seq (:children %)) :children root))

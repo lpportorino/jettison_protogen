@@ -20,7 +20,8 @@
    Separate from `devcards.findings` for the opposite reason: `:expect` is
    THIS corpus' vocabulary, not a registry concern. A consumer's corpus
    declares what its own cards are for, through its own producer."
-  (:require [devcards.findings :as findings]
+  (:require [devcards.deadzone :as deadzone]
+            [devcards.findings :as findings]
             [devcards.invariants :as invariants]
             [devcards.lvgl-classes :as lvgl-classes]
             [devcards.outcome :as outcome]
@@ -102,13 +103,22 @@
    showed."
   {:overlap/gap-px 0})
 
+(def deadzone-thresholds
+  "Strict ordered overlap, matching `overlap-thresholds`: the disabled
+   winner and enabled node beneath it must share a pixel."
+  {:deadzone/gap-px 0})
+
+(def producer-thresholds
+  "The namespaced thresholds for every adjustable producer in either lane."
+  (merge overlap-thresholds deadzone-thresholds))
+
 (def atomic-producers
   "The producers that judge an ATOMIC card. A named vector rather than a
    literal inside the call below because `armed-producers` has to be the set
    that actually runs — a hand-kept second list would be free to drift, and
    the NOT-EXERCISED line computed from it would then lie in the one direction
    nothing else can catch."
-  [tree-producer overlap/producer])
+  [tree-producer overlap/producer deadzone/producer])
 
 (def composition-producers
   "The producers that judge a COMPOSITION card. The DOM producer is selected
@@ -116,7 +126,8 @@
    judges with a different rule the moment that vector is reordered or grown."
   [(findings/builtin-producer :tree)
    findings/emission-by-mode-producer
-   overlap/producer])
+   overlap/producer
+   deadzone/producer])
 
 (def armed-producers
   "Every producer this gate arms, across both lanes. Derived from the two
@@ -172,7 +183,7 @@
                                   :caps {:vis-px? true}
                                   :expect (or expect :judged)
                                   :classes overlap-classes
-                                  :thresholds overlap-thresholds
+                                  :thresholds producer-thresholds
                                   :producers atomic-producers
                                   :armed-producers armed-producers
                                   :exemptions gate-exemptions})))
@@ -188,7 +199,7 @@
                                   :host-proxy? false
                                   :emissions-by-mode emissions-by-mode
                                   :classes overlap-classes
-                                  :thresholds overlap-thresholds
+                                  :thresholds producer-thresholds
                                   :producers composition-producers
                                   :armed-producers armed-producers
                                   :exemptions gate-exemptions})))

@@ -85,7 +85,7 @@
 
 (set! *warn-on-reflection* true)
 
-(defn- pointer-reachable?
+(defn pointer-reachable?
   "Can this annotated entry take the pointer at all? Two structural denials,
    and DISABLED is deliberately neither of them (see the ns docstring):
 
@@ -136,7 +136,7 @@
   [path->node path]
   (map #(get path->node (subvec path 0 %)) (range (count path))))
 
-(defn- reachability
+(defn reachability
   "Where this node can ACTUALLY take the pointer, as [status box]:
 
      [:box b]           b is the reachable region
@@ -169,7 +169,7 @@
                 (recur clipped (next ancs))
                 [:unreachable nil]))))))))
 
-(defn- proxy-scope
+(defn proxy-scope
   "The id of the proxy this entry sits inside, or nil.
 
    Two nodes in the SAME proxy where at least one is an affordance are the
@@ -192,7 +192,7 @@
                 (or (:proxy_owner anc) (:proxy_root anc))))
             (range (count path) 0 -1))))
 
-(defn- designed-proxy-stack?
+(defn designed-proxy-stack?
   "Is this pair the documented intra-proxy stack? BOTH nodes in the same
    proxy AND at least one an affordance the renderer built.
 
@@ -207,7 +207,7 @@
     (and sa (= sa sb)
          (or (:proxy_part (:node a)) (:proxy_part (:node b))))))
 
-(defn- label-of
+(defn label-of
   [{:keys [node]}]
   (str (:type node) (when-let [uid (:uid node)] (str "#" uid))))
 

@@ -272,7 +272,9 @@
            (into (set (map :id lanes/atomic-producers))
                  (map :id lanes/composition-producers))))
     (is (contains? (set (map :id lanes/armed-producers)) :overlap)
-        "the overlap lane IS armed here — see .claude/rules/devcards.md"))
+        "the overlap lane IS armed here — see .claude/rules/devcards.md")
+    (is (contains? (set (map :id lanes/armed-producers)) :deadzone)
+        "the ordered DISABLED dead-zone lane is armed here"))
   (testing "and it is a vector the ARMING VALIDATOR accepts. The assertion
             above compares SETS, so it saw nothing when a plain concat carried
             `overlap/producer` from both lanes and `validate-producers!`
@@ -288,7 +290,9 @@
     (testing "CONTROL: the shared producer is genuinely in BOTH lane vectors,
               so the dedupe above is load-bearing and not decoration"
       (is (contains? (set (map :id lanes/atomic-producers)) :overlap))
-      (is (contains? (set (map :id lanes/composition-producers)) :overlap))))
+      (is (contains? (set (map :id lanes/composition-producers)) :overlap))
+      (is (contains? (set (map :id lanes/atomic-producers)) :deadzone))
+      (is (contains? (set (map :id lanes/composition-producers)) :deadzone))))
   (testing "and every armed producer is two-way and automatic, which is the
             fact that makes :cantTell and :untested OUT OF SCOPE for this
             gate's NOT-EXERCISED line"

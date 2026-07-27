@@ -248,26 +248,39 @@ A disabled control painted over an enabled one therefore **absorbs the press and
 drops it** — the silent version of the defect, because the control underneath is
 dead *and* nothing anywhere reports a press.
 
-**CONSUMER AUDIT OWED — arming a lane NARROWS this one, it does not discharge
-it.** Neither PIXEL oracle nor EVENT log can see it: the framebuffer is
-byte-identical whether the control underneath was reachable or dead, so no pixel
-test fires, and no event is emitted, so no event log fires either.
+Neither the PIXEL oracle nor EVENT log can see it: the framebuffer is
+byte-identical whether the control underneath was reachable or dead, so no
+pixel test fires, and no event is emitted, so no event log fires either.
 
-What CAN see it is `devcards.overlap`, which declines to exclude a disabled node
-and names that participant in its `:detail`. Read that report for exactly what it
-is: overlap is ORDER-FREE, so it tells you the two share a pixel and one of them
-is disabled — never that the disabled one WINS the hit test. That is the
-necessary condition, not the verdict, which is why arming the lane leaves an
-audit still owed.
+`devcards.overlap` supplies the order-free necessary condition and
+`devcards.deadzone` supplies the ordered verdict. The latter reuses overlap's
+classification and reachable-box arithmetic, then reads the dump's declared
+child paths exactly as `lv_indev_search_obj` does: the larger child index at the
+first divergence wins. It fires only when that winner is disabled and the node
+beneath is enabled. A disabled node underneath an enabled winner is not the
+defect.
 
-So the rest has to be looked for directly. Audit your own screens for **stacked
-interactive elements where one is disabled**, starting from the pairs the lane
-reports. Any design reasoning that
-"disabled controls are safe to stack" — a disabled overlay left mounted over a
-live control, a disabled full-bleed scrim, a control disabled *because* another
-is meant to receive the press — is the shape to hunt. If you find none, that is
-worth recording; if you find one, the fix is the LAYER CONTRACT (declare the
-stacking intent), not an exemption.
+**CONSUMER AUDIT OWED — run the armed dead-zone producer over your own corpus,
+then audit what a static dump cannot express.** The producer discharges ARM 1
+for each rendered tree it actually judges; it does not cover a control that
+becomes disabled only after interaction, layouts at unrendered breakpoints, or
+ARM 2 (a disabled clickable descendant over an enabled clickable ancestor).
+ARM 2 is measured by the census but not armed because the dump carries no press
+intent: it cannot distinguish a container that would have taken the press from
+harness/layout scaffolding. Resolve a first red run by construction or by the
+interpreter's own stacking declaration, never by per-card exemptions.
+
+**PROTOGEN SELF-AUDIT, 2026-07-27.** At `gap-px 0`, ARM 1 found **0 hits over
+244 cards / 1295 nodes / 700 pointer-taking / 50 disabled across 48 cards / 9
+overlapping pointer-taking pairs**. At `gap-px 1`, the denominator rose to 91
+near-pairs and still none involved a disabled participant. All 9 strict
+overlaps are the same interpreter-declared `host_proxy`
+glass-over-affordance construct. Quote the zero with its cause: **a corpus that
+barely stacks is a weak proving ground for a stacking hazard; a corpus that
+never stacks cannot carry a stacking defect.** This is strong evidence about
+the corpus and weak evidence about the hazard. The same census measured 41
+ARM-2 instances (29 against the harness root/screen, 12 against deeper
+containers); they remain non-blocking until press intent is declared.
 
 ### 2.3 What is excluded
 

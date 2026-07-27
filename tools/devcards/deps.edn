@@ -18,6 +18,15 @@
            ;; as dump `type` (the classification table's real key set), and
            ;; what the overlap rule says about the real corpus. Gates nothing.
            :class-census {:extra-paths ["dev"] :main-opts ["-m" "class-census"]}
+           ;; Read-only audit: ordered DISABLED pointer dead zones plus
+           ;; population accounting and four real-wasm planted cases.
+           :deadzone-census
+           {:extra-paths ["dev"] :main-opts ["-m" "deadzone-census"]}
+           ;; The four-case mutation-sensitive subset, armed in
+           ;; renderer.mk's battery without re-running the full census.
+           :deadzone-canary
+           {:extra-paths ["dev"]
+            :main-opts ["-m" "deadzone-census" "--canary-only"]}
            ;; Read-only probe: the EFFECTIVE (glyph, fill) pair a disabled
            ;; widget renders, measured off the framebuffer rather than read
            ;; off the tokens. The opa ban's acceptance instrument — a
