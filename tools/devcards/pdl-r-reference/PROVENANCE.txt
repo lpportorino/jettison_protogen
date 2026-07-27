@@ -66,17 +66,25 @@ linear-light conversion is not actually being applied."
 So the POC is the thing that is wrong, and upstream already knew. A port inherits BOTH the
 sRGB measurement recorded here AND the open obligation to move it into linear light with a
 re-derived threshold. What is measured about that move: applying the veil in linear light
-and sweeping the threshold gives a NEGATIVE class gap at every value tried (t=0.001 →
+and sweeping the threshold gives a NEGATIVE class gap at each value tried (t=0.001 →
 -0.0080, 0.01 → -0.1092, 0.02 → -0.0758, 0.08 → -0.1466), i.e. the classes invert. That is
 one sweep, not a derivation from the PDL-1 floor, so it does not discharge the obligation —
 it says the naive linear-light port is worse, not that the criterion is wrong.
 
-lib.py has no `region_score` — it is frozen_corpus.py:171-174, and its docstring
-("worst-region … absolute, linear light") is where the correction belongs alongside this
-file. It is not worst-region either: that function scores a SINGLE mask and returns `[0]`,
-never taking a max. The worst-of-many reduction (lib.py:253-260 `worst_tile_score`) is
-exercised only by run_experiment.py, so every landmark below is a single-region score —
-which matters, because worst-region is the property the variant was chosen FOR.
+READ THE 0.08 POINT WITH ITS CAVEAT: it is not measured over the same population as the
+other three. At that threshold `loss_fraction` returns None for 7 of the 65 unreadable
+regions — every one a 1.2:1 frame, the hardest cases the metric exists to judge — and the
+figure is obtainable only by dropping them. Dropping unreadables can only make the gap
+LESS negative, so the direction survives disclosure; the silence would not have. Note what
+it implies: the `loss_fraction` None path, provably dead at the recorded constants, goes
+LIVE the moment this file's own linear-light experiment runs, which is why the porting
+warning below is about a live hazard and not a dormant one.
+
+`region_score` is frozen_corpus.py's, not lib.py's, and it is NOT worst-region: it scores
+a SINGLE mask and returns `[0]`, never taking a max. The worst-of-many reduction
+(lib.py:253-260 `worst_tile_score`) is exercised only by run_experiment.py, so every
+landmark below is a single-region score — which matters, because worst-region is the
+property the variant was chosen FOR, and no shared-corpus measurement of it exists.
 
 CONSTANTS a future :pdl-r/* threshold map must carry. Four are lib.py's values,
 unoverridden by either driver; `k` is DRIVER-supplied, since lib.py:200 gives it no
@@ -107,8 +115,9 @@ actually reaching `edge_bitmap`.
   frozen main-sweep frame (dark / noisy / medium / 6.0, seed_tag "frozen", which is also
   the worst-readable landmark 0.12954395241242567): k=0.0 -> 0.000000, k=0.3 -> 0.038334,
   k=0.6 -> 0.129544, k=0.9 -> 0.497026. Those digits are frame-specific and do NOT hold on
-  the 24 differently-seeded noise-floor frames, which span 0.0179 (measured there:
-  k=0.3 -> 0.033047, k=0.9 -> 0.495704). The absolute threshold breaks scale-invariance,
+  the 24 differently-seeded noise-floor frames, which span 0.0179 (seed_tag
+  "noise0": k=0.3 -> 0.033047, k=0.9 -> 0.495704; across all 24, k=0.3 spans
+  0.031746..0.043536 and k=0.9 spans 0.495370..0.506596). The absolute threshold breaks scale-invariance,
   which is why k bites; nothing breaks offset-invariance, which is why the veil does not.
 
 MEASUREMENTS ON A SYNTHETIC CORPUS — these are NOT thresholds and do not transfer.
@@ -164,13 +173,13 @@ DEAD ENDS, do not retry.
   and it is the transferable lesson: 16 of 30 labels (53%) must go unreadable before
   cumulative crosses the line that ONE bad label trips instantly (masking delta +0.0041
   against a 0.136 threshold; 27.8% FP pooled, 33% FN on light/noisy). INHERITED from the
-  bake-off, but re-derivable here — run_experiment.py:296-308 `dilution_test` computes it
+  bake-off, but re-derivable here — run_experiment.py:295-308 `run_dilution_test` computes it
   and that code is preserved.
 
   Literal edge-energy RATIO — 0.50 +/- 0.004 across the whole 21:1 -> 1.2:1 sweep; an
   affine veil through a linear operator self-normalises. INHERITED from the bake-off and
   never faithfully re-measured: that variant's code was not preserved, only the winner's,
-  so frozen_corpus.py:177-190's reimplementation is a shape check and its output must not
+  so frozen_corpus.py:177-193's reimplementation is a shape check and its output must not
   be quoted against the 0.50 +/- 0.004.
 
   SSIM — sign-INVERTS between light and dark themes. Also inherited from the bake-off;

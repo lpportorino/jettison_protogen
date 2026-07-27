@@ -10,8 +10,8 @@ inputs. Until they are, "the margin is narrower than the noise" is a claim
 inherited from six different experiments rather than one result.
 
 WHAT IT DOES. Freezes the corpus (one seed, one frame size, one veil, one
-operating k), runs the winner's metric — Region Ink-edge Drift, worst-region
-over renderer-supplied glyph-ink masks — and reports:
+operating k), runs the winner's metric — Region Ink-edge Drift over
+renderer-supplied glyph-ink masks, ONE region per frame — and reports:
 
   * the separating gap: worst readable score vs best unreadable score, which
     is the margin any threshold has to live inside;
@@ -169,7 +169,19 @@ def build_frame(theme, bg_type, size_cat, ratio, seed_tag="frozen"):
 
 
 def region_score(base, mask, k=K_OPERATING):
-    """The WINNER: worst-region clamped ink-edge drift, absolute, linear light."""
+    """The winner's metric over ONE region: clamped ink-edge drift, absolute
+    threshold, measured in sRGB CODE VALUES.
+
+    Two words this signature does not earn, both of which it used to claim.
+    It is not WORST-REGION: it takes a single mask and indexes [0], so no max
+    is ever taken and every landmark this driver reports is a single-region
+    score. lib.py's worst_tile_score is the worst-of-many reduction and only
+    run_experiment.py exercises it. And it is not LINEAR LIGHT: the 0..255
+    frame goes straight into veiling_glare and then ndimage.sobel, so the 40.0
+    threshold is definitionally an sRGB-code-value threshold. See
+    PROVENANCE.txt — linear light is an upstream acceptance criterion this
+    reference does not meet, not a description of what it does.
+    """
     deg = veiling_glare(base, k=k, veil_gray=VEIL_GRAY)
     return per_region_scores(base, deg, [mask])[0], deg
 
@@ -276,7 +288,7 @@ def main() -> int:
     print(f"\n  VERDICT: {result['verdict']}")
     print("\n── dead end, FAITHFULLY re-measured (lib.py's own function) ──")
     print(f"  cumulative   gap {min(cums_u) - max(cums_r):+.4f} "
-          f"vs worst-region {gap:+.4f}")
+          f"vs per-region {gap:+.4f}")
     print("               negative = the classes OVERLAP; cumulative does not "
           "separate at all on this corpus")
     print("\n── NOT a re-measurement ──")
