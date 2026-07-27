@@ -12,7 +12,23 @@ on:
       # checker or its make target must re-run the fan-out's validation.
       - 'tools/wire_contract_check.py'
       - 'lint.mk'
-      - '.github/workflows/**'
+      # THIS FILE ONLY — not '.github/workflows/**'. The other three workflows
+      # each name only their own file; this one used to name the whole
+      # directory, so every renderer.yml / devcards.yml / lint.yml edit ran the
+      # fan-out. That is not a cheap no-op: each of the ten "Push to …" steps
+      # rewrites the consumer README with `date -u` and the triggering sha
+      # BEFORE `git add -A`, so the `git diff --staged --quiet` guard below can
+      # never be true — every run commits and pushes to all ten consumer repos,
+      # and the unconditional "Create release" step cuts a prerelease.
+      #
+      # Measured on this repo's own history (503 first-parent master commits,
+      # per COMMIT — GitHub evaluates a push's whole range, so this is a lower
+      # bound on pushes, not a push count): 199 commits match the old set, 189
+      # match this one. The ten that stop firing touched only renderer.yml,
+      # devcards.yml, lint.yml or .github/actions/**, none of which changes
+      # anything this workflow runs. Every commit that touches THIS file still
+      # fires (verified: 0 misses).
+      - '.github/workflows/build-and-release.yml'
   workflow_dispatch:
     inputs:
       release_tag:
@@ -23,6 +39,27 @@ on:
 permissions:
   contents: write  # Allow pushing to the repository
   packages: write  # Allow pushing packages
+
+# The other three workflows all had one; this one never did, and stacking was
+# real rather than theoretical — 12 overlapping run-pairs across 4 clusters,
+# up to 4 runs concurrently in flight on one day.
+#
+# cancel-in-progress is FALSE, deliberately, and this is the one place this
+# repo's concurrency shape diverges from renderer/devcards/lint/wire-contract.
+# Those four are read-only gates whose only product is a verdict, so cancelling
+# a superseded run costs nothing. This workflow is a WRITER: it clones, commits
+# and pushes to ten consumer repositories in sequence, then cuts a release.
+# Cancelling it mid-sequence leaves the fleet SPLIT — some consumers carrying
+# the new bindings, the rest carrying the old — with no record of where it
+# stopped, which is exactly the cross-repo divergence CLAUDE.md's trunk-only
+# policy exists to prevent. Queueing instead makes the fan-out serial: at most
+# one run writing to any consumer repo at a time (today two stacked runs can
+# clone/rebase/push the same consumer concurrently), one `buf generate` against
+# the BSR at a time, and the newest push still wins because GitHub cancels the
+# PENDING run — never the running one — when a third arrives.
+concurrency:
+  group: build-and-release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build-and-distribute:
