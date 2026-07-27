@@ -1822,8 +1822,9 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
     const char *part = renderer_proxy_part(obj, &owner);
     if (part && owner) {
       char pbuf[192];
-      (void)snprintf(pbuf, sizeof(pbuf), ",\"proxy_part\":\"%s\",\"proxy_owner\":\"%s\"",
-                     part, owner);
+      (void)snprintf(pbuf, sizeof(pbuf),
+                     ",\"proxy_part\":\"%s\",\"proxy_owner\":\"%s\"", part,
+                     owner);
       tree_append(pbuf);
     }
   }

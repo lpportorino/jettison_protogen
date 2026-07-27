@@ -9,10 +9,10 @@
    nesting control below is not a nicety: it is the specific defect that
    a naive pairwise geometry check reproduces first."
   (:require [clojure.test :refer [deftest is testing]]
+            [devcards.classify :as classify]
             [devcards.findings :as findings]
             [devcards.geometry :as geometry]
             [devcards.invariants :as invariants]
-            [devcards.classify :as classify]
             [devcards.overlap :as overlap]))
 
 (def ^:private table
