@@ -9,29 +9,45 @@
 ;; ============================================================================
 ;; FRAMEWORK SELF-CHECK (MUST BE FIRST — detects silent test-runner breakage)
 ;;
-;; If clojure.test is silently broken (assertions no-op'd, reports swallowed,
-;; test discovery fails), these tests must either fail loudly or not appear
-;; in the run output. Tests use distinctive "CANARY-" prefixes so CI can grep
-;; for them as a "tests-were-discovered" marker.
+;; If clojure.test is silently broken (assertions no-op'd, reports swallowed),
+;; these tests must fail loudly. CANARY-2/3/4 do that and are FALSIFIABLE: each
+;; redefines `clojure.test/report`, drives a known-outcome assertion through it,
+;; and throws RAW when the report it must have produced is absent.
 ;;
 ;; Canary guidance: do NOT use the `is` macro to verify `is` itself. If `is`
 ;; is silently broken, using it for the canary produces a circular false
 ;; negative (both the broken and the verifying `is` pass). Instead, use raw
 ;; `throw` for the canary failure path — a real thrown exception is reported
 ;; by clojure.test as an :error regardless of the `is` macro's state.
+;;
+;; WHAT THIS BLOCK DELIBERATELY NO LONGER CLAIMS. It used to open "…test
+;; discovery fails, these tests must either fail loudly OR NOT APPEAR in the
+;; run output", with two canaries resting on that second half: CANARY-1
+;; ("the test body runs") and CANARY-5 (a discovery sentinel whose stated
+;; value was that CI could grep its name). Both were deleted because both were
+;; MEASURED unable to fail, and the "or not appear" escape is not a mechanism
+;; — nothing reads this run's output for a name.
+;;
+;;   CANARY-1: detected "the body did not run" by throwing FROM INSIDE THE
+;;   BODY. Measured — with `clojure.test/test-var` neutered so every deftest is
+;;   enumerated and counted but NO body runs, the suite printed "Ran 233 tests
+;;   containing 0 assertions. 0 failures, 0 errors." and exited 0. Silent.
+;;   The runner's own assertion count is the thing that catches this class,
+;;   and it caught it in the same run.
+;;
+;;   CANARY-5: `(when-not (= marker "CANARY-sentinel-present") (throw …))` over
+;;   a local bound to that same literal — annotated "(unreachable)" in its own
+;;   comment. Its fallback was "CI can grep the name": measured, ZERO
+;;   references to the CANARY marker exist outside this file, and NO workflow
+;;   runs this suite at all. Measured the failure it existed to mark, too —
+;;   with this whole file removed from the test tree, the suite printed "Ran
+;;   179 tests containing 21313 assertions. 0 failures, 0 errors." and exited
+;;   0. Fifty-four deftests vanished green.
+;;
+;; A gate that cannot fail is worse than no gate: it occupies the slot where a
+;; real one would go. If discovery breakage is worth gating, gate it on the
+;; runner's own counts from OUTSIDE the run — not from a test inside it.
 ;; ============================================================================
-
-(deftest CANARY-1-body-executes-test
-  (testing "CANARY-1: test body runs to completion"
-    (let [counter (atom 0)]
-      (swap! counter inc)
-      (swap! counter inc)
-      (swap! counter inc)
-      (swap! counter inc)
-      (swap! counter inc)
-      (when-not (= 5 @counter)
-        (throw (ex-info (str "CANARY FAILURE: body counter=" @counter " expected 5")
-                        {:type :canary-failure :counter @counter}))))))
 
 (deftest CANARY-2-is-macro-reports-failures-test
   (testing "CANARY-2: (is (= 1 2)) actually reports :fail to clojure.test/report"
@@ -85,30 +101,28 @@
                        " fails=" (count fails))
                   {:type :canary-failure})))))))
 
-(deftest CANARY-5-sentinel-test-discovery-marker
-  (testing "CANARY-5 sentinel: this test name appears in test output"
-    ;; Trivial — its value is that the test name appears in clojure.test output.
-    ;; CI can grep for "CANARY-5 sentinel" to verify this file was loaded and
-    ;; tests were enumerated. If this line doesn't appear in output, test
-    ;; discovery is broken.
-    (let [marker "CANARY-sentinel-present"]
-      (when-not (= marker "CANARY-sentinel-present")
-        (throw (ex-info "CANARY FAILURE: string equality broken (unreachable)"
-                        {:type :canary-failure}))))))
-
-(deftest CANARY-6-namespace-loaded-test
-  (testing "CANARY-6: binary-dedup namespace loaded and functions resolvable"
-    ;; If the namespace under test failed to load (e.g., due to compile error),
-    ;; none of the other tests would run. This canary verifies the target
-    ;; functions actually exist. Uses raw var resolution instead of `is`.
-    (let [required-vars ['extract-subsystem-fields 'has-map-field?
-                         'validate-determinism! 'generate-typescript 'generate!]]
-      (doseq [sym required-vars]
-        (let [v (ns-resolve 'protodoc.binary-dedup sym)]
-          (when-not (var? v)
-            (throw (ex-info (str "CANARY FAILURE: protodoc.binary-dedup/" sym
-                                 " is not resolvable. Namespace load failed?")
-                            {:type :canary-failure :missing-var sym}))))))))
+;; CANARY-6 WAS HERE — "binary-dedup namespace loaded and functions
+;; resolvable", ns-resolving five vars and throwing on any that is missing.
+;; Deleted: it is a strict subset of two guards that BOTH fire before it, and
+;; the measurement is not a reading of the code but a run.
+;;
+;; Renamed `has-map-field?` throughout protodoc/binary_dedup.clj, so the ns
+;; loads cleanly with that var simply gone (27 `bd/has-map-field?` call sites
+;; remain in this file). Result:
+;;
+;;   Syntax error compiling at (protodoc/binary_dedup_test.clj:334:17).
+;;   No such var: bd/has-map-field?      [exit 2]
+;;
+;; A COMPILE error in this namespace, naming the file and the line. CANARY-6
+;; lives in the same namespace, so it never ran and never reported. A cruder
+;; break — renaming only the `defn` — does not even reach here: binary_dedup.clj
+;; calls the var itself and fails to compile at its own line 139.
+;;
+;; Nor were the five vars unwatched. Direct sibling call sites, measured:
+;; extract-subsystem-fields 23, has-map-field? 27, validate-determinism! 5,
+;; generate-typescript 7, generate! 10 — 72 of this file's 82 `bd/` references.
+;; Each is a compile-time resolution with a line number, which is strictly more
+;; than "is not resolvable. Namespace load failed?" tells you.
 
 ;; ============================================================================
 ;; Test Helpers
