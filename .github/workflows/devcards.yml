@@ -79,6 +79,10 @@ on:
     # fire on a push that changed what it checks.
     - "docs/UI-QUALITY-CONTRACTS.md"
     - ".claude/skills/ui-standard-review/**"
+    # The preflight canary step below. preflight.sh itself is already covered by
+    # the skill glob above; its canary lives outside that tree, so without this
+    # line a change that broke the canary would never run it.
+    - "tools/ui-review-preflight-canary.sh"
     - ".github/workflows/devcards.yml"
     - ".github/actions/build-controls-wasm/**"
   pull_request:
@@ -93,6 +97,10 @@ on:
     # fire on a push that changed what it checks.
     - "docs/UI-QUALITY-CONTRACTS.md"
     - ".claude/skills/ui-standard-review/**"
+    # The preflight canary step below. preflight.sh itself is already covered by
+    # the skill glob above; its canary lives outside that tree, so without this
+    # line a change that broke the canary would never run it.
+    - "tools/ui-review-preflight-canary.sh"
     - ".github/workflows/devcards.yml"
     - ".github/actions/build-controls-wasm/**"
   workflow_dispatch: {}
@@ -118,6 +126,18 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v5
+    - # FIRST and CHEAP, before any toolchain is provisioned: bash, cp and
+      # mktemp only. It is the canary for
+      # .claude/skills/ui-standard-review/preflight.sh, which resolves the
+      # mandatory VLM review's inputs at a consumer. That review is NOT a gate,
+      # so its whole failure mode is a GREEN — an empty batch and a batch of
+      # THIS repo's own renders both report what a reviewed-and-sound surface
+      # reports — and the preflight is the only thing that turns those states
+      # into a refusal. A canary nobody runs rots into a green of its own, and
+      # this one asserts each of its 11 arms on its EXACT exit code, so a clause
+      # that stops refusing reds its own arms and not somebody else's.
+      name: UI-review preflight canary
+      run: tools/ui-review-preflight-canary.sh
     - # B3: build controls.wasm FROM SOURCE (pinned WASI-SDK). This job used to
       # depend on a committed wasm blob; that blob is retired (B2), so the wasm
       # is now a function of the checkout — the composite action installs the ONE
