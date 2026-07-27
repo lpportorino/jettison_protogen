@@ -345,3 +345,53 @@
                              {:producers [{:id :contrast
                                            :outcomes #{:failed :cantTell}}]})]
       (is (some #(re-find #"NOT EXERCISED: :cantTell 0" %) (:lines v))))))
+
+;; ── the exemption vocabulary is the ARMED set's, not one lane's ──────────
+
+(deftest the-reason-VOCABULARY-comes-from-armed-producers-not-the-lane
+  (let [contrast {:id :contrast :requires #{}
+                  :outcomes #{:failed :cantTell}
+                  :reasons {:noise-band "the score is in the noise band"}
+                  :fn (fn [_] [])}
+        exemption [{:card "c" :invariant :contrast
+                    :act/outcome :cantTell :act/reason :noise-band
+                    :rationale "no mask emitter for this widget class yet"
+                    :retires-when "the mask emitter lands"}]]
+    (testing "exemption lists are GLOBAL and `card-findings` runs once per card
+              PER LANE, so a reason declared by a producer in the ARMED set but
+              absent from THIS lane's own vector must still be accepted. The
+              redefs put `contrast` in `armed-producers` ONLY — neither lane's
+              producer vector gains it — so the vocabulary can only be coming
+              from the armed set.
+              REVERT-TO-BREAK: drop `:armed-producers armed-producers` from
+              `atomic-findings` / `composition-findings`, or read the
+              vocabulary off `producers` in `card-findings`."
+      (with-redefs [lanes/armed-producers (conj lanes/armed-producers contrast)
+                    lanes/gate-exemptions exemption]
+        (is (contains? (invariants-of (lanes/atomic-findings "c" nil defective-tree))
+                       :clipped))
+        (is (contains? (invariants-of
+                        (lanes/composition-findings
+                         "c" defective-tree
+                         {:dark {:commands [] :reports [] :events []}}))
+                       :clipped))))
+    (testing "CONTROL: the SAME exemption with the armed set UNCHANGED — where
+              nothing anywhere declares :noise-band — throws on BOTH lanes. So
+              the pass above is the armed set doing the work, and the door is
+              still shut on a reason no producer declares at all"
+      (with-redefs [lanes/gate-exemptions exemption]
+        (is (thrown? Exception (lanes/atomic-findings "c" nil defective-tree)))
+        (is (thrown? Exception
+                     (lanes/composition-findings
+                      "c" defective-tree
+                      {:dark {:commands [] :reports [] :events []}})))))
+    (testing "and the armed set the lanes hand over IS `armed-producers` — the
+              vector derived from what the lanes actually pass, so the
+              vocabulary cannot drift from the rules that run"
+      (is (= (set (map :id lanes/armed-producers))
+             (into (set (map :id lanes/atomic-producers))
+                   (map :id lanes/composition-producers)))))
+    (testing "and this gate's own exemption list is EMPTY — a CLAIM the gate
+              has to keep making. An entry landing here unnoticed is how a
+              gate quietly stops being one."
+      (is (= [] lanes/gate-exemptions)))))

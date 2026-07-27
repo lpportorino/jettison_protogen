@@ -219,6 +219,40 @@
                       {:ids (vec ids)}))))
   producers)
 
+(defn validate-exemption-reasons!
+  "Every exemption's `:act/reason` must be one some ARMED producer declares.
+   `armed` is the producer set armed for the RUN — the union across every
+   lane — never one lane's vector. Throws naming the exemption and the
+   declared vocabulary; returns the exemptions.
+
+   WHY THE ARMED SET AND NOT THE CALLER'S. `card-findings` runs once per card
+   PER LANE with a lane-scoped producer vector, while exemption lists are
+   GLOBAL — which is exactly what `apply-exemptions`' stale ratchet assumes.
+   Deriving the vocabulary from the call's own vector therefore threw on
+   every lane whose producers happened not to include the declaring one, and
+   the message blamed the EXEMPTION: the wrong place to look, for an entry
+   that was globally correct. Measured before this existed: a `contrast`
+   producer declaring `:reasons {:noise-band …}` and one global exemption
+   naming it returned normally under `:producers [contrast]` and threw
+   `no armed producer declares it. Declared: []` under `:producers [tree]`.
+
+   WHY NOT RELAX IT INSTEAD. An exemption naming an undeclared reason matches
+   nothing, and the stale-exemption ratchet that would catch that is computed
+   by `card-findings` but dropped by every lane in this repo — so relaxing
+   the throw trades a wrong error for NO error. Same class as the unknown
+   threshold key: the closed set must not leak out through the exemption
+   door."
+  [armed exemptions]
+  (let [vocab (into #{} (mapcat (comp keys :reasons)) armed)]
+    (doseq [e exemptions :when (and (map? e) (contains? e :act/reason))]
+      (when-not (contains? vocab (:act/reason e))
+        (throw (ex-info (str "exemption names :act/reason "
+                             (pr-str (:act/reason e))
+                             " — no ARMED producer declares it. Declared "
+                             "across the armed set: " (vec (sort vocab)))
+                        {:exemption e :known (vec (sort vocab))})))))
+  exemptions)
+
 (defn threshold-key
   "The consumer-facing key for producer `id`'s threshold `k`. The producer
    id is used WHOLE — a namespaced id keeps its namespace, flattened into
@@ -474,9 +508,12 @@
 
    Opts are the context inputs above plus :producers (default
    `builtin-producers`), :thresholds (consumer-supplied, namespaced by
-   producer id) and :exemptions. The annotated walk is computed ONCE and
-   shared, so every producer agrees about ancestry, hidden subtrees and
-   snapped carousel pages."
+   producer id), :exemptions, and :armed-producers — the run's whole armed
+   set, required exactly when an exemption names an `:act/reason`, because
+   the reason vocabulary is a property of the RUN and this call sees one
+   LANE. See `validate-exemption-reasons!`. The annotated walk is computed
+   ONCE and shared, so every producer agrees about ancestry, hidden subtrees
+   and snapped carousel pages."
   [{:keys [card-id tree producers thresholds exemptions]
     :or {producers builtin-producers thresholds {} exemptions []}
     :as opts}]
@@ -499,29 +536,29 @@
                          "registry never made, and (with :tree absent) "
                          "against nil, returning [] instead of throwing")
                     {:card card-id})))
-  ;; An exemption naming a :reason no ARMED producer declares would match
-  ;; nothing — and the stale-exemption ratchet that would catch that is
-  ;; computed here but dropped by every lane in this repo, so it would be
-  ;; silent. Same class as the unknown threshold key: the closed set must not
-  ;; leak out through the exemption door.
+  ;; THE REASON VOCABULARY IS THE ARMED SET'S, NEVER THIS CALL'S. `producers`
+  ;; here is one LANE's vector — this fn runs once per card per lane — while
+  ;; exemption lists are GLOBAL, so reading the vocabulary off `producers`
+  ;; made a globally-correct exemption throw on every lane that happens not to
+  ;; arm the declaring producer. The caller therefore DECLARES the armed set,
+  ;; and an absent declaration is refused rather than defaulted back to
+  ;; `producers`: that default is the defect, and a default that reintroduces
+  ;; the bug it replaced is worse than none. Absent-is-an-oversight is the
+  ;; same rule `check-requires!` applies one seam over.
   ;;
-  ;; KNOWN LIMIT, latent until something declares :reasons. `producers` is THIS
-  ;; CALL's vector, and card-findings runs once per card PER LANE with a
-  ;; lane-scoped set, while exemption lists are global. So a globally-correct
-  ;; exemption naming a reason the OTHER lane's producer declares throws on
-  ;; this one, and the message blames the exemption — the wrong place to look.
-  ;; Fixing it means checking the vocabulary ONCE against the union of every
-  ;; armed producer, and that union is known in `lanes/run-verdict`, not here.
-  ;; A move worth making deliberately rather than folding into the commit that
-  ;; introduced the key.
-  (let [vocab (into #{} (mapcat (comp keys :reasons)) producers)]
-    (doseq [e exemptions :when (and (map? e) (contains? e :act/reason))]
-      (when-not (contains? vocab (:act/reason e))
-        (throw (ex-info (str "exemption names :act/reason "
-                             (pr-str (:act/reason e))
-                             " — no armed producer declares it. Declared: "
-                             (vec (sort vocab)))
-                        {:exemption e :known (vec (sort vocab))})))))
+  ;; Scoped to exemptions that actually NAME a reason, so every caller written
+  ;; before the axis existed is unaffected — nothing in this repo declares
+  ;; :reasons today, so this reaches nobody by construction.
+  (when (some #(and (map? %) (contains? % :act/reason)) exemptions)
+    (when-not (contains? opts :armed-producers)
+      (throw (ex-info (str "an exemption names an :act/reason, so the run's "
+                           "ARMED producer set must be supplied as "
+                           ":armed-producers — the vocabulary is the union "
+                           "across every lane, and this call's :producers is "
+                           "only one of them (see "
+                           "`validate-exemption-reasons!`)")
+                      {:card card-id})))
+    (validate-exemption-reasons! (:armed-producers opts) exemptions))
   (let [resolved (resolve-thresholds producers thresholds)
         nodes (when (map? tree) (invariants/annotate-tree tree))
         ;; nil counts as ABSENT — see check-requires!. :nodes joins the

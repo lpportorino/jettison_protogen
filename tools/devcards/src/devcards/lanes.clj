@@ -141,6 +141,22 @@
    defect."
   (into [] (distinct) (concat atomic-producers composition-producers)))
 
+(def gate-exemptions
+  "This gate's GLOBAL exemption list, and it is EMPTY.
+
+   The emptiness is a CLAIM, not an omission — the registry's own
+   supplied-but-empty/absent distinction applied to the gate itself. protogen's
+   corpus is exemption-free on purpose: the overlap lane reached zero by the
+   interpreter DECLARING its own proxy composition and by clearing CLICKABLE on
+   two decorative widgets, never by a waiver (see `overlap/producer`). Passing
+   it EXPLICITLY below rather than letting `card-findings` default it is what
+   makes that a statement a reader can check.
+
+   It is GLOBAL — one list for both lanes — which is the fact that makes the
+   reason vocabulary the ARMED set's rather than any one lane's; see
+   `findings/validate-exemption-reasons!`."
+  [])
+
 (defn atomic-findings
   "The live findings for ONE atomic card — the exact call the gate makes.
 
@@ -157,7 +173,9 @@
                                   :expect (or expect :judged)
                                   :classes overlap-classes
                                   :thresholds overlap-thresholds
-                                  :producers atomic-producers})))
+                                  :producers atomic-producers
+                                  :armed-producers armed-producers
+                                  :exemptions gate-exemptions})))
 
 (defn composition-findings
   "The live findings for ONE composition card — the exact call the gate
@@ -171,7 +189,9 @@
                                   :emissions-by-mode emissions-by-mode
                                   :classes overlap-classes
                                   :thresholds overlap-thresholds
-                                  :producers composition-producers})))
+                                  :producers composition-producers
+                                  :armed-producers armed-producers
+                                  :exemptions gate-exemptions})))
 
 (defn run-verdict
   "THE GATE'S PROCESS VERDICT — the lines `devcards.core` prints and the code

@@ -810,35 +810,112 @@
 
 ;; ── the exemption vocabulary door ────────────────────────────────────────
 
+(def ^:private contrast-producer
+  "A producer that DECLARES a reason vocabulary — the shape the whole
+   exemption-vocabulary door exists for. Nothing in this repo declares
+   `:reasons` yet, so this stands in for the first consumer that does."
+  {:id :contrast
+   :requires #{}
+   :outcomes #{:failed :cantTell}
+   :reasons {:noise-band "in the noise"}
+   :fn (fn [{:keys [card-id]}]
+         [{:card card-id :invariant :contrast
+           :act/outcome :cantTell :act/reason :noise-band}])})
+
+(defn- exemption-for
+  [reason]
+  [{:card "c" :invariant :contrast
+    :act/outcome :cantTell :act/reason reason
+    :rationale "no mask emitter for this class yet"
+    :retires-when "the mask emitter lands"}])
+
 (deftest an-exemption-may-not-name-an-UNDECLARED-reason
-  (let [contrast {:id :contrast
-                  :requires #{}
-                  :outcomes #{:failed :cantTell}
-                  :reasons {:noise-band "in the noise"}
-                  :fn (fn [{:keys [card-id]}]
-                        [{:card card-id :invariant :contrast
-                          :act/outcome :cantTell :act/reason :noise-band}])}
-        judge (fn [reason]
+  (let [armed [contrast-producer (findings/builtin-producer :tree)]
+        judge (fn [producers reason]
                 (findings/card-findings
                  {:card-id "c"
                   :tree clean-tree
-                  :producers [contrast]
-                  :exemptions [{:card "c" :invariant :contrast
-                                :act/outcome :cantTell :act/reason reason
-                                :rationale "no mask emitter for this class yet"
-                                :retires-when "the mask emitter lands"}]}))]
-    (testing "an exemption naming a reason no ARMED producer declares matches
-              nothing, and the stale-exemption ratchet that would catch it is
-              dropped by every lane in this repo — so it would be silent.
-              REVERT-TO-BREAK: delete the `vocab` doseq in `card-findings`."
-      (is (str/includes? (str (msg #(judge :mask-absent)))
-                         "no armed producer declares it")))
-    (testing "CONTROL: the declared reason exempts, proving the throw is the
-              vocabulary check and not the exemption path being broken"
-      (let [res (judge :noise-band)]
+                  :caps {:vis-px? true}
+                  :producers producers
+                  :armed-producers armed
+                  :exemptions (exemption-for reason)}))]
+    (testing "a reason NO producer anywhere declares still throws — the
+              vocabulary door has to stay shut, or the fix below would have
+              traded a false positive for a false negative. An exemption
+              naming an undeclared reason matches nothing, and the
+              stale-exemption ratchet that would catch that is computed by
+              `card-findings` but dropped by every lane here, so it would be
+              silent.
+              REVERT-TO-BREAK: delete the `validate-exemption-reasons!` call
+              in `card-findings`."
+      (is (str/includes? (str (msg #(judge [contrast-producer] :mask-absent)))
+                         "no ARMED producer declares it"))
+      (testing "and it throws from the OTHER lane too, so the refusal is not
+                an accident of which producer happens to be running"
+        (is (str/includes?
+             (str (msg #(judge [(findings/builtin-producer :tree)] :mask-absent)))
+             "no ARMED producer declares it"))))
+    (testing "THE DEFECT THIS FIXES. The vocabulary is the ARMED set's, so a
+              globally-correct exemption is accepted by EVERY lane — including
+              the one whose own producer vector does not declare the reason.
+              Measured before the fix: this exact call threw
+              `no armed producer declares it. Declared: []`, and the message
+              blamed the exemption, which is the wrong place to look.
+              REVERT-TO-BREAK: read the vocabulary off `producers` instead of
+              `(:armed-producers opts)` in `card-findings`."
+      (let [res (judge [(findings/builtin-producer :tree)] :noise-band)]
+        (is (empty? (:live res)))
+        (is (empty? (:exempted res))
+            "the DOM lane emitted nothing to exempt — the point is that the
+             call returns at all")
+        (is (= [:stale-exemption]
+               (mapv :invariant-class (:stale-exemptions res)))
+            "and the entry is correctly reported STALE for this lane, which is
+             the ratchet's job — not the vocabulary check's")))
+    (testing "CONTROL: on the lane that DOES produce it, the declared reason
+              exempts — so the assertions above key on the vocabulary and not
+              on the exemption path being broken"
+      (let [res (judge [contrast-producer] :noise-band)]
         (is (empty? (:live res)))
         (is (= [:contrast] (mapv :invariant (:exempted res))))
-        (is (empty? (:stale-exemptions res)))))))
+        (is (empty? (:stale-exemptions res)))))
+    (testing "and an ABSENT :armed-producers is REFUSED rather than defaulted
+              back to this call's :producers — that default IS the defect, and
+              a default that reintroduces the bug it replaced is worse than
+              none"
+      (is (str/includes?
+           (str (msg #(findings/card-findings
+                       {:card-id "c" :tree clean-tree :caps {:vis-px? true}
+                        :producers [contrast-producer]
+                        :exemptions (exemption-for :noise-band)})))
+           "must be supplied as :armed-producers"))
+      (testing "CONTROL: an exemption naming NO reason needs no armed set, so
+                every caller written before the axis existed is untouched"
+        (is (empty? (:live (findings/card-findings
+                            {:card-id "c" :tree clean-tree :caps {:vis-px? true}
+                             :producers [(findings/builtin-producer :tree)]
+                             :exemptions [{:card "c" :invariant :clipped
+                                           :rationale "r" :retires-when "w"}]}))))))))
+
+(deftest the-reason-vocabulary-is-the-UNION-of-the-armed-set
+  (testing "`validate-exemption-reasons!` unions every armed producer's
+            declared reasons, so which lane is running cannot change the
+            answer — that variance was the whole defect"
+    (let [other {:id :other :requires #{} :outcomes #{:failed :untested}
+                 :reasons {:no-mask "no mask was supplied"}
+                 :fn (fn [_] [])}
+          armed [contrast-producer other]]
+      (is (= (exemption-for :noise-band)
+             (findings/validate-exemption-reasons! armed (exemption-for :noise-band))))
+      (is (= (exemption-for :no-mask)
+             (findings/validate-exemption-reasons! armed (exemption-for :no-mask))))
+      (testing "CONTROL: a reason NEITHER declares still throws, and the
+                message names the whole union rather than one lane's share"
+        (let [m (str (msg #(findings/validate-exemption-reasons!
+                            armed (exemption-for :invented))))]
+          (is (str/includes? m "no ARMED producer declares it"))
+          (is (str/includes? m ":no-mask"))
+          (is (str/includes? m ":noise-band")))))))
 
 ;; ── END TO END: a registered producer through to the exit code ───────────
 
