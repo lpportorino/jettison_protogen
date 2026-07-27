@@ -26,6 +26,19 @@ set -euo pipefail
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || echo "${CLAUDE_PROJECT_DIR:-$PWD}")"
 cd "$repo_root"
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+targets="$script_dir/targets.sh"
+if [ ! -r "$targets" ] || ! source "$targets"; then
+  echo "[git-behind] target resolver unavailable at $targets — not polling" >&2
+  exit 0
+fi
+remote="${REMOTE:-origin}"
+if ! git_behind_remote_is_configured "$remote"; then
+  echo "[git-behind] $GIT_BEHIND_REFUSAL_REASON — not polling. Add that remote" \
+       "or set REMOTE to one this checkout can fetch."
+  exit 0
+fi
+
 # ── self-dedup: at most ONE git-behind per checkout, any arming channel ──────
 # Context compaction loses the Monitor-tool task handle (and TaskList does not
 # surface armed Monitors at all), so the agent re-arms post-compaction; a second
@@ -52,7 +65,6 @@ else
 fi
 
 interval="${POLL_S:-60}"
-remote="${REMOTE:-origin}"
 branch="${BRANCH:-master}"
 maxlog="${MAXLOG:-10}"
 maxfiles="${MAXFILES:-10}"
@@ -120,5 +132,5 @@ while :; do
     fi
     last_seen="$upstream"
   fi
-  sleep "$interval"
+  monitor_sleep "$interval"
 done

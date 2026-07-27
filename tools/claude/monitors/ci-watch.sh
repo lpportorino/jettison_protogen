@@ -7,9 +7,9 @@
 #   Monitor(command="tools/claude/monitors/ci-watch.sh", persistent=true)
 # See `.claude/rules/monitor-discipline.md`.
 #
-# NO TOKEN REQUIRED: jettison_protogen is public, and the Actions REST API
-# serves run/job status for a public repo unauthenticated. That also caps us at
-# 60 requests/hour per IP, and — verified against the live API — an
+# NO TOKEN REQUIRED for a public origin: the Actions REST API serves run/job
+# status unauthenticated. That also caps us at 60 requests/hour per IP, and —
+# verified against the live API — an
 # unauthenticated conditional (ETag / If-None-Match) request STILL costs a
 # request, so 304-polling buys nothing here. Hence the deliberately slow
 # cadence below. Set GH_TOKEN to lift the ceiling to 5000/hour.
@@ -56,34 +56,94 @@
 # anything else on this IP. The script also reads x-ratelimit-remaining and
 # backs off hard when the budget runs low, rather than hammering into 403s.
 #
-# Tunables (env): OWNER_REPO, BRANCH (default master),
-# POLL_ACTIVE_S (default 120), POLL_IDLE_S (default 300), GH_TOKEN (optional).
+# Tunables (env): OWNER_REPO (default: derive from origin), BRANCH (default
+# master), POLL_ACTIVE_S (default 180), POLL_IDLE_S (default 300), GH_TOKEN
+# (optional).
 set -uo pipefail
 
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || echo "${CLAUDE_PROJECT_DIR:-$PWD}")"
 cd "$repo_root"
 
-OWNER_REPO="${OWNER_REPO:-lpportorino/jettison_protogen}"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+targets="$script_dir/targets.sh"
+if [ ! -r "$targets" ] || ! source "$targets"; then
+  echo "[ci-watch] target resolver unavailable at $targets — not polling" >&2
+  exit 0
+fi
+if ! ci_watch_resolve_target; then
+  echo "[ci-watch] $CI_WATCH_REFUSAL_REASON — not polling. Set OWNER_REPO to a" \
+       "non-empty owner/repo only when watching CI unrelated to this checkout is intentional."
+  exit 0
+fi
+OWNER_REPO="$CI_WATCH_OWNER_REPO"
 BRANCH="${BRANCH:-master}"
 POLL_ACTIVE_S="${POLL_ACTIVE_S:-180}"
 POLL_IDLE_S="${POLL_IDLE_S:-300}"
 API="https://api.github.com/repos/${OWNER_REPO}/actions/runs?branch=${BRANCH}&per_page=20"
 
+if ! command -v python3 >/dev/null 2>&1; then
+  echo "[ci-watch] python3 unavailable — cannot parse the Actions API; not polling"
+  exit 0
+fi
+
 mkdir -p "$repo_root/.protogen"
 if command -v flock >/dev/null 2>&1; then
   exec 9>"$repo_root/.protogen/ci-watch.lock"
-  if ! flock -n 9; then
-    echo "[ci-watch] already armed for this checkout (lock held) — second arm is a no-op"
-    exit 0
+  if flock -n 9; then
+    :
+  else
+    flock_rc=$?
+    if [ "$flock_rc" -ne 1 ]; then
+      echo "[ci-watch] checkout lock failed (flock rc=$flock_rc) — polling without checkout dedup"
+    else
+      echo "[ci-watch] already armed for this checkout (lock held) — second arm is a no-op"
+      exit 0
+    fi
   fi
 else
   # See git-behind.sh: never let a missing flock invert into an immediate exit.
   echo "[ci-watch] flock unavailable (no kernel-lock self-dedup) — polling without it"
 fi
 
-if ! command -v python3 >/dev/null 2>&1; then
-  echo "[ci-watch] python3 unavailable — cannot parse the Actions API; not polling"
-  exit 0
+# Unauthenticated Actions reads share one per-IP budget across checkouts.
+# Deduplicate the exact endpoint (owner/repo + branch) outside the checkout.
+# A token has its own larger budget, so token-authenticated watchers do not
+# participate in this unauthenticated lock.
+if command -v flock >/dev/null 2>&1 && [ -z "${GH_TOKEN:-}" ]; then
+  if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+    lock_dir="$XDG_RUNTIME_DIR"
+  else
+    lock_dir="/tmp/ci-watch-$(id -u)"
+    if ! mkdir -p "$lock_dir" || ! chmod 0700 "$lock_dir"; then
+      echo "[ci-watch] cannot prepare private runtime dir $lock_dir — polling without cross-checkout dedup"
+      lock_dir=""
+    fi
+  fi
+
+  if [ -n "$lock_dir" ]; then
+    if lock_key="$(printf '%s\0%s' "$OWNER_REPO" "$BRANCH" |
+      python3 -c 'import hashlib, sys; print(hashlib.sha256(sys.stdin.buffer.read()).hexdigest())')" \
+      && [ -n "$lock_key" ]; then
+      slug_lock="$lock_dir/ci-watch.$lock_key.lock"
+      if { exec 8>"$slug_lock"; } 2>/dev/null; then
+        if flock -n 8 2>/dev/null; then
+          :
+        else
+          flock_rc=$?
+          if [ "$flock_rc" -eq 1 ]; then
+            echo "[ci-watch] ${OWNER_REPO}@${BRANCH} is already being watched by another" \
+                 "checkout on this machine — not polling the same unauthenticated endpoint twice."
+            exit 0
+          fi
+          echo "[ci-watch] shared lock failed (flock rc=$flock_rc) — polling without cross-checkout dedup"
+        fi
+      else
+        echo "[ci-watch] cannot open shared lock $slug_lock — polling without cross-checkout dedup"
+      fi
+    else
+      echo "[ci-watch] cannot compute shared lock key — polling without cross-checkout dedup"
+    fi
+  fi
 fi
 
 auth=()
@@ -251,7 +311,7 @@ while :; do
       printf '[ci-watch] rate budget exhausted (%s left) — backing off ~15min; NOT a green signal\n' "$rem"
       starved_notified=1
     fi
-    sleep 900
+    monitor_sleep 900
     continue
   fi
   starved_notified=0
@@ -261,8 +321,8 @@ while :; do
   if printf '%s\n' "$cur" | awk -F'\t' '
        $4 ~ /^(queued|in_progress|requested|waiting|pending)$/ { found = 1 }
        END { exit(found ? 0 : 1) }'; then
-    sleep "$POLL_ACTIVE_S"
+    monitor_sleep "$POLL_ACTIVE_S"
   else
-    sleep "$POLL_IDLE_S"
+    monitor_sleep "$POLL_IDLE_S"
   fi
 done

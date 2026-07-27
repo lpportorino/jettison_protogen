@@ -11,7 +11,7 @@ states are learned.
 
 ## The rule
 
-1. **Arm the always-arm pair on turn ONE of EVERY session, unconditionally:**
+1. **Arm each applicable monitor on turn ONE of EVERY session:**
    `Monitor(command="tools/claude/monitors/git-behind.sh", persistent=true)` and
    `Monitor(command="tools/claude/monitors/ci-watch.sh", persistent=true)`.
    Both are cheap and idle until something happens. `git-behind` polls the
@@ -20,7 +20,11 @@ states are learned.
    polls the public Actions API (no token needed) and reports run transitions,
    including every failing conclusion. The SessionStart banner and the
    per-prompt `[WARN] <monitor> NOT armed` hook carry the obligation
-   mechanically; both go quiet once armed.
+   mechanically; both go quiet once armed. A monitor is not applicable when
+   its own target precondition refuses: `git-behind` needs its configured
+   remote, while `ci-watch` derives owner/repo from a GitHub `origin` unless a
+   non-empty `OWNER_REPO` intentionally overrides it. The scripts and hook
+   source one resolver, so a deliberate refusal is not reported as unarmed.
 2. **Do not ask, do not narrate — arm, then answer the prompt.** Arming is not a
    decision to surface; it is the precondition for the rest of the session being
    honest about remote state.
@@ -29,10 +33,11 @@ states are learned.
    no-op because each script `flock`-self-dedups. A SESSION RESTART kills every
    monitor regardless of `persistent: true` — re-arm for real. Never reason "I
    armed it earlier, so it is alive."
-4. **The lock is the liveness signal, not the task API.** `TaskList` / `TaskGet`
-   do not surface armed Monitor tasks. Liveness is the `flock` probe of
-   `.protogen/<monitor>.lock` — which is exactly what the per-prompt `[WARN]`
-   does. If the WARN is absent, the monitor is live.
+4. **The precondition plus lock are the liveness signal, not the task API.**
+   `TaskList` / `TaskGet` do not surface armed Monitor tasks. An inapplicable
+   monitor is not owed; otherwise liveness is the `flock` probe of
+   `.protogen/<monitor>.lock` — exactly the two checks the per-prompt `[WARN]`
+   makes. If the WARN is absent, the monitor is live or deliberately declined.
 5. **Trust the event; follow its pointer.** Every event is self-describing and
    carries where-to-dig (the rebase command, the failing run's URL). When remote
    state "feels stale", read the monitor's event or arm one — never blind-poll
@@ -62,6 +67,20 @@ arm the monitor instead.
 - Respect the remote's budget: the Actions API allows 60 req/hour per IP
   unauthenticated, and an unauthenticated conditional request still costs one,
   so poll slowly and back off when idle.
+- **A CHECKOUT LOCK DOES NOT DEDUP A SHARED BUDGET.** A live set of
+  unauthenticated pollers exhausted one per-IP budget, and lock artifacts
+  survived across multiple checkouts. The artifacts prove arm attempts, not a
+  concurrent count. `ci-watch` therefore also locks by the exact remote-derived
+  owner/repo and branch outside the checkout. A `GH_TOKEN` watcher has a
+  different, larger budget and skips that unauthenticated lock.
+- Refuse permanent target failures at arm time. `ci-watch` does not poll when
+  an unset target cannot be derived from a GitHub `origin`; `git-behind` does
+  not call a missing remote a pending fetch. This does not make checkout locks
+  wrong for `git-behind`: its fetch is per-checkout work, not a shared API
+  budget.
+- Close lock descriptors in sleeping children. The monitor shell remains the
+  lock owner; an orphaned `sleep` must not outlive it while falsely reporting
+  liveness.
 
-The shorthand: **arm both on turn one; the lock is liveness; read the event,
-never blind-poll; silence is not success.**
+The shorthand: **arm both applicable monitors on turn one; target + lock is
+liveness; read the event, never blind-poll; silence is not success.**

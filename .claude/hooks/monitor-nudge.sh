@@ -7,8 +7,8 @@
 #
 #   session-start : print the trunk sync state + an explicit "arm these NOW"
 #                   instruction naming the exact Monitor(...) recipes.
-#   user-prompt   : VIOLATION-ONLY — one [WARN] line per always-arm monitor that
-#                   is not live. Silent (zero context cost) once all are armed.
+#   user-prompt   : VIOLATION-ONLY — one [WARN] line per applicable monitor that
+#                   is not live. Silent once all applicable monitors are armed.
 #
 # Liveness is a `flock` LOCK-PROBE of each monitor's self-dedup lock, NOT the
 # harness task API: TaskList/TaskGet do not surface armed Monitor tasks, and a
@@ -25,11 +25,25 @@ root="${CLAUDE_PROJECT_DIR:-}"
 [ -n "$root" ] || root="$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")"
 cd "$root" 2>/dev/null || exit 0
 
-# name|recipe|why  — the always-arm tier
+hook_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+targets="$hook_dir/../../tools/claude/monitors/targets.sh"
+[ -r "$targets" ] && source "$targets" 2>/dev/null || exit 0
+
+# name|recipe|why — the session-monitor tier
 MONITORS=(
   "git-behind|Monitor(command=\"tools/claude/monitors/git-behind.sh\", persistent=true)|trunk-only + a pinned consumer fleet: it catches someone else's push before your next push rejects, and before a rebase silently inverts a doc claim"
   "ci-watch|Monitor(command=\"tools/claude/monitors/ci-watch.sh\", persistent=true)|the battery is the gate: it catches a red run at push time instead of at the next manual check"
 )
+
+# owed <name> -> 0 when this checkout has a target the monitor can observe.
+# These are the monitor scripts' own preconditions, sourced from targets.sh.
+owed() {
+  case "$1" in
+  ci-watch) ci_watch_resolve_target ;;
+  git-behind) git_behind_remote_is_configured "${REMOTE:-origin}" ;;
+  *) return 0 ;;
+  esac
+}
 
 # armed <name> -> 0 when a live monitor holds the lock
 armed() {
@@ -57,6 +71,7 @@ print(json.dumps({"hookSpecificOutput": {
 missing=()
 for m in "${MONITORS[@]}"; do
   n="${m%%|*}"
+  owed "$n" >/dev/null || continue
   armed "$n" || missing+=("$m")
 done
 
@@ -92,23 +107,31 @@ hooks: pre-push format/lint gate ARMED (.githooks)"
 
   body="$body
 
-[INFO] ARM THE ALWAYS-ARM MONITORS NOW — turn one, every session:"
+[INFO] ARM EACH APPLICABLE MONITOR NOW — turn one, every session:"
   for m in "${MONITORS[@]}"; do
     n="${m%%|*}"
     rest="${m#*|}"
     recipe="${rest%%|*}"
     why="${rest#*|}"
-    state="NOT armed"
-    armed "$n" && state="already armed — do NOT re-arm"
+    if owed "$n" >/dev/null; then
+      state="NOT armed"
+      armed "$n" && state="already armed — do NOT re-arm"
+    else
+      case "$n" in
+      ci-watch) state="not owed here — $CI_WATCH_REFUSAL_REASON" ;;
+      git-behind) state="not owed here — $GIT_BEHIND_REFUSAL_REASON" ;;
+      esac
+    fi
     body="$body
   $recipe
       ($n: $state) — $why"
   done
   body="$body
 
-Re-arming after a /compact is a harmless no-op (each script flock-self-dedups),
-but a SESSION RESTART kills them for real — re-arm then. TaskList does not show
-armed Monitors; the per-prompt [WARN] is your liveness signal.
+Re-arming an applicable monitor after a /compact is a harmless no-op (each
+script flock-self-dedups), but a SESSION RESTART kills them for real — re-arm
+then. TaskList does not show armed Monitors; the per-prompt [WARN] is your
+liveness signal.
 See .claude/rules/monitor-discipline.md"
   emit SessionStart "$body"
   ;;
