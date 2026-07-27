@@ -443,6 +443,12 @@ static void style_init(asgard_theme_t *t) {
    * whole-widget recolor, on any subtree containing TEXT. Disabled is a
    * TOKEN-PAIR SWAP there, never a fade.
    *
+   * THE RULE IS NOT THIS THEME'S — it is docs/UI-QUALITY-CONTRACTS.md §6,
+   * which every consumer inherits, and devcards.opa is its deterministic
+   * clause. This comment records how THIS theme obeys it; §6 records why,
+   * what a consumer owes for a widget we have never seen, and (§6.6) the
+   * adjacent SCRIM question it deliberately leaves open.
+   *
    * WHY BOTH, when only opacity is usually named. `lv_obj_refr` folds a MAIN
    * `opa` into `layer->opa` AND a MAIN `recolor` into `layer->recolor`, and
    * lv_obj_draw.c then applies the layer recolor to bg, border, outline,
@@ -482,9 +488,12 @@ static void style_init(asgard_theme_t *t) {
    *   whatever sits BEHIND the part (adequate on dark, collapsing on light)
    *   so the draw is also pulled toward the authored disabled-fg tone.
    *   ITS PRECONDITION IS THE EMPTY SUBTREE, NOT THE CLASS LIST. Attach a
-   *   label to any of those six and the hazard is live again with nothing
-   *   here to catch it — the previous version of this comment reasoned
-   *   correctly and then listed four glyph-bearing classes under it.
+   *   label to any of those six and the hazard is live again — the previous
+   *   version of this comment reasoned correctly and then listed four
+   *   glyph-bearing classes under it. Nothing HERE catches that, but
+   *   devcards.opa now does, and it catches it at the LABEL rather than at
+   *   the slider: obj_effective_opa accumulates self -> root, so the fade
+   *   declared here is emitted on the attached label's own node.
    * - `disabled_fill` (authored fill + text, recolor OFF): THE PAIR SWAP,
    *   and the default answer for any text-bearing widget that HAS a fill —
    *   the accent button, and every field control (dropdown, roller,
@@ -507,7 +516,9 @@ static void style_init(asgard_theme_t *t) {
    *   the renderer never sets cell_data, so every cell renders EMPTY (the
    *   corpus lv_table notes record that decode gap). WIRING CELL TEXT
    *   RE-ARMS THE HAZARD HERE and this style must move to `disabled` in the
-   *   same change. Kept separate from `disabled_dim` because the disabled-fg
+   *   same change — which devcards.opa-test's `table-carve-out-still-holds`
+   *   now enforces from the other end, by reading renderer.c for the call.
+   *   Kept separate from `disabled_dim` because the disabled-fg
    *   recolor target is LIGHTER than the dark cell tone, so recoloring
    *   LIGHTENS a disabled dark table (it pops instead of receding). */
   style_reset(&s->disabled, inited);

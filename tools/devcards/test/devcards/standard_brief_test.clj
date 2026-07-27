@@ -18,10 +18,13 @@
    inequalities above it cannot be noise."
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
+            [devcards.deadzone :as deadzone]
             [devcards.findings :as findings]
             [devcards.invariants :as invariants]
+            [devcards.lanes :as lanes]
             [devcards.layers :as layers]
             [devcards.lvgl-classes :as lvgl-classes]
+            [devcards.opa :as opa]
             [devcards.overlap :as overlap]
             [devcards.standard-brief :as sb]))
 
@@ -338,6 +341,26 @@
             rule. `identical?` is the discriminating test: an equal copy is
             not the same object, which the control proves it can tell apart."
     (is (identical? overlap/producer (first sb/reviewed-producers)))
+    (is (identical? deadzone/producer (second sb/reviewed-producers)))
+    (is (identical? opa/producer (nth sb/reviewed-producers 2)))
+    (testing "and the roster is EXACTLY the set some lane ARMS, asserted in
+              BOTH directions against `devcards.lanes` rather than against a
+              transcribed list. The negative half alone — `layers/producer`
+              absent — is what shipped first, and it cannot catch the failure
+              that actually happened: `deadzone/producer` was armed on both
+              lanes and left off this page, with the whole suite green. A
+              roster that may silently omit an armed rule publishes a
+              threshold table the review agent reads as complete."
+      (is (= (set (map :id (distinct (concat lanes/atomic-producers
+                                             lanes/composition-producers))))
+             (conj (set (map :id sb/reviewed-producers)) :tree-by-expect))
+          "every armed producer is published, and nothing unarmed is —
+           :tree-by-expect is protogen's own corpus routing rule, which has no
+           consumer-facing threshold and is therefore the one deliberate
+           exclusion")
+      (is (not (some #{layers/producer} sb/reviewed-producers))
+          "layers/producer is armed by no lane here, so its threshold must not
+           print beside numbers that judged every render"))
     (is (not (identical? overlap/producer (into {} overlap/producer)))
         "control: identical? distinguishes an equal copy, so the assertions
          above are about identity and not merely value")

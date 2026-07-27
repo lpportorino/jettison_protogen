@@ -424,18 +424,34 @@
       (is (contains? (set (map :id lanes/composition-producers)) :overlap))
       (is (contains? (set (map :id lanes/atomic-producers)) :deadzone))
       (is (contains? (set (map :id lanes/composition-producers)) :deadzone))))
-  (testing "and every armed producer is two-way and automatic, which is the
-            fact that makes :cantTell and :untested OUT OF SCOPE for this
-            gate's NOT-EXERCISED line"
-    (is (= #{:failed}
+  (testing "and EXACTLY ONE armed producer is three-way. `opa/producer`
+            declares #{:failed :cantTell} because a faded node whose
+            glyph-bearing-ness the dump cannot decide is neither a violation
+            nor clean; every other producer declares nothing and is therefore
+            two-way. That one declaration is what puts :cantTell IN SCOPE for
+            the NOT-EXERCISED line — see the verdict canary below — while
+            :untested stays out of scope, which is the half of the scoping fix
+            this change does not touch."
+    (is (= #{:failed :cantTell}
            (outcome/emittable-outcomes lanes/armed-producers
                                        (:fail-modes lanes/verdict-policy))))
-    (is (every? #(nil? (:outcomes %)) lanes/armed-producers))))
+    (is (= [:opa] (mapv :id (filter :outcomes lanes/armed-producers))))
+    (is (= #{:failed :cantTell}
+           (:outcomes (first (filter :outcomes lanes/armed-producers)))))
+    (testing "and every armed producer is still :automatic, so the whole
+              armed set can set the exit code"
+      (is (every? #(nil? (:test-mode %)) lanes/armed-producers)))))
 
 (deftest the-lanes-emit-findings-with-NO-ACT-axes
-  (testing "the artifact-stability pin: every producer this gate arms is
+  (testing "the artifact-stability pin: every finding these lanes produce is
             two-way and automatic, so out/findings.edn keeps the shape every
-            consumer's triage already reads"
+            consumer's triage already reads.
+
+            NOT 'every producer' any more, and the distinction is the whole
+            point: `opa/producer` DECLARES :cantTell and would stamp
+            `:act/outcome` onto such a finding. What keeps the artifact stable
+            is that a :cantTell BLOCKS — so the shape only changes on a run
+            that is already red, never quietly on a green one."
     (let [live (into (lanes/atomic-findings "c" nil defective-tree)
                      (lanes/composition-findings
                       "c" defective-tree
@@ -460,26 +476,34 @@
       (is (= 1 (:exit v)))
       (is (empty? (:malformed v)))
       (is (some #(re-find #"^findings: " %) (:lines v)))))
-  (testing "and this gate's NOT-EXERCISED line names NOTHING, because nothing
-            it arms can emit :cantTell or :untested. The earlier assertion
-            here required the opposite — it pinned a line that fired on every
-            run of this corpus, red or green, forever, which is the zero-bit
-            banner the scoping fix deletes. It is also why the UNDETERMINED
+  (testing "and this gate's NOT-EXERCISED line names EXACTLY :cantTell, and
+            names it as a MEASUREMENT rather than as a banner. The scoping
+            fix's rule is that the line may only name an outcome some ARMED
+            producer can actually emit; `opa/producer` declares :cantTell, so
+            naming it carries a bit — 'this corpus produced no third answer' —
+            and the run in which it produced one would drop the word AND
+            block, because the shipped policy fails on :cantTell. :untested is
+            still named by nobody, which is the half of the fix this change
+            leaves exactly as it was. It is also why the UNDETERMINED
             admission must not appear: the armed set IS supplied here.
             REVERT-TO-BREAK: drop `{:producers armed-producers}` from
             `run-verdict`."
     (let [v (lanes/run-verdict (lanes/atomic-findings "c" nil defective-tree))]
-      (is (= #{:failed} (:emittable v)))
-      (is (= [] (:not-exercised v)))
-      (is (not-any? #(re-find #"NOT EXERCISED" %) (:lines v)))))
+      (is (= #{:failed :cantTell} (:emittable v)))
+      (is (= [:cantTell] (:not-exercised v)))
+      (is (some #(re-find #"NOT EXERCISED: :cantTell 0" %) (:lines v)))
+      (is (not-any? #(re-find #":untested" %)
+                    (filter #(re-find #"NOT EXERCISED" %) (:lines v))))))
   (testing "CONTROL: the SAME findings under a policy fed a producer that
-            declares :cantTell do get the line, so its absence above is the
-            armed set's shape and not the line having been deleted"
+            also declares :untested name BOTH, so the single-word line above
+            is the armed set's shape and not the line having been truncated"
     (let [v (outcome/verdict (lanes/atomic-findings "c" nil defective-tree)
                              lanes/verdict-policy
                              {:producers [{:id :contrast
-                                           :outcomes #{:failed :cantTell}}]})]
-      (is (some #(re-find #"NOT EXERCISED: :cantTell 0" %) (:lines v))))))
+                                           :outcomes #{:failed :cantTell
+                                                       :untested}}]})]
+      (is (some #(re-find #"NOT EXERCISED: :cantTell 0, :untested 0" %)
+                (:lines v))))))
 
 ;; ── the exemption vocabulary is the ARMED set's, not one lane's ──────────
 

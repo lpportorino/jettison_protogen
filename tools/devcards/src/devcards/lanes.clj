@@ -24,6 +24,7 @@
             [devcards.findings :as findings]
             [devcards.invariants :as invariants]
             [devcards.lvgl-classes :as lvgl-classes]
+            [devcards.opa :as opa]
             [devcards.outcome :as outcome]
             [devcards.overlap :as overlap]))
 
@@ -159,7 +160,7 @@
    that actually runs — a hand-kept second list would be free to drift, and
    the NOT-EXERCISED line computed from it would then lie in the one direction
    nothing else can catch."
-  [tree-producer overlap/producer deadzone/producer])
+  [tree-producer overlap/producer deadzone/producer opa/producer])
 
 (def composition-producers
   "The producers that judge a COMPOSITION card. The DOM producer is selected
@@ -168,7 +169,8 @@
   [(findings/builtin-producer :tree)
    findings/emission-by-mode-producer
    overlap/producer
-   deadzone/producer])
+   deadzone/producer
+   opa/producer])
 
 (def armed-producers
   "Every producer this gate arms, across both lanes. Derived from the two
@@ -176,10 +178,15 @@
    running or miss one that is.
 
    Read by `run-verdict` for exactly one purpose: to decide which blocking
-   outcomes are IN SCOPE for the NOT-EXERCISED line. Every entry here declares
-   no `:outcomes`, so the armed set can emit `:failed` and nothing else —
-   which is why that line must not name :cantTell or :untested on this
-   corpus.
+   outcomes are IN SCOPE for the NOT-EXERCISED line. `opa/producer` declares
+   `#{:failed :cantTell}` and every other entry declares nothing (so
+   `:failed` alone) — which means the armed set can emit :cantTell, that line
+   NAMES it, and on this corpus it names it as NOT EXERCISED. That is a
+   measurement now, where before the whole line was permanently out of scope:
+   a run in which the opa clause could not decide a faded node would drop
+   :cantTell from the not-exercised list and BLOCK, because the shipped
+   policy fails on it. :untested stays out of scope — nothing armed here
+   declares it.
 
    DEDUPED, because the two lanes legitimately share `overlap/producer` and a
    plain concat therefore carried `:overlap` twice — enough that

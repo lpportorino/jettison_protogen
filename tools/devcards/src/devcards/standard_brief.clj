@@ -34,9 +34,13 @@
    nothing, and it could not be diffed by the gate above.
 
    WHAT THIS NS DOES NOT DECIDE. It publishes the standard; it does not
-   arm anything — `devcards.lanes` does, and `reviewed-producers` below is
-   the roster whose declared knobs the briefing PUBLISHES, never a claim
-   about what is armed.
+   arm anything — `devcards.lanes` does — and membership in
+   `reviewed-producers` below says nothing about arming in either direction.
+   `devcards.overlap`, `devcards.deadzone` and `devcards.opa` ARE armed there,
+   on both lanes; `devcards.layers` is run by no lane in this repo at all.
+   Each producer's docstring carries its own evidence; this roster is only the
+   set whose declared knobs the briefing PUBLISHES, so a reviewer knows what
+   was judged and at what setting.
 
    THAT DISTINCTION IS EXACTLY WHY THE ROSTER IS NOT THE FULL PRODUCER SET,
    and this paragraph used to say the opposite of the truth. It read
@@ -58,6 +62,8 @@
             [devcards.findings :as findings]
             [devcards.invariants :as invariants]
             [devcards.lvgl-classes :as lvgl-classes]
+            [devcards.deadzone :as deadzone]
+            [devcards.opa :as opa]
             [devcards.overlap :as overlap]))
 
 (set! *warn-on-reflection* true)
@@ -110,7 +116,8 @@
    for a rule protogen does not run. The layer contract's PROSE is unaffected
    — it lives in `docs/UI-QUALITY-CONTRACTS.md` §1, embedded verbatim below,
    which names no threshold key."
-  (findings/validate-producers! [overlap/producer]))
+  (findings/validate-producers! [overlap/producer deadzone/producer
+                                 opa/producer]))
 
 (def example-card-id
   "The synthetic card id the worked example carries. Deliberately not a
@@ -397,8 +404,14 @@
    "boundary is visible in a render.\n"
    "- **`layer_top` / `layer_sys`.** Out of scope for the dump entirely "
    "(§1.6).\n"
-   "- **Transforms, opacity, partial transparency.** The contract does "
-   "not model them (§1.4), and neither should your findings.\n"
+   "- **Transforms and partial transparency.** The LAYER contract does not "
+   "model them (§1.4), and neither should your findings. WHOLE-WIDGET "
+   "OPACITY IS THE EXCEPTION AND IS NOW MODELLED: §6 bans it over any "
+   "subtree containing text and `devcards.opa` judges it deterministically, "
+   "so a faded label is somebody else's finding — reporting it here adds a "
+   "non-reproducible verdict to a question a reproducible lane already "
+   "answered. A translucent SCRIM over live text is neither: §6.6 leaves it "
+   "OPEN, so it is worth describing and is not yours to rule on.\n"
    "- **Any hardware condition.** Legibility under sunlight, darkness or "
    "a specific panel revision is a bench obligation scoped to a hardware "
    "revision, never a gate result (§0, PDL-HW). You are looking at a "

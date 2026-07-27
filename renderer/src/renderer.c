@@ -1548,7 +1548,15 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
      * this one has none. WIRING lv_table_set_cell_value HERE VOIDS THAT — the
      * table's disabled arm in theme.c must move to the token-pair swap in the
      * same change, or every disabled cell's glyphs get composited toward
-     * their own background. Nothing mechanical catches this yet. */
+     * their own background.
+     *
+     * SOMETHING MECHANICAL DOES CATCH THIS NOW, and it is the reason this
+     * paragraph is worth keeping rather than trusting: `lv_table` sits in
+     * devcards.opa's `text-free-classes` on exactly the condition stated
+     * above, and devcards.opa-test's `table-carve-out-still-holds` reads THIS
+     * FILE with comments stripped and fails the moment the call appears. So
+     * the change that wires cell text goes red until lv_table moves to
+     * `glyph-classes` and theme.c's arm moves off `disabled_flat`. */
     break;
   }
   /* ObjProps, ButtonProps: empty — nothing to apply */

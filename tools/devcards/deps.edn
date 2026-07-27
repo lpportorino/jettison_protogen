@@ -33,6 +33,11 @@
            ;; whole-widget opa/recolor re-composites both ends, so only this
            ;; can say whether the authored pair is the rendered one.
            :disabled-pair {:extra-paths ["dev"] :main-opts ["-m" "disabled-pair-probe"]}
+           ;; Read-only probe: where a whole-widget fade lands on the real
+           ;; corpus, and whether it lands on glyphs. The opa ban's ARMING
+           ;; evidence — devcards.opa's docstring quotes its counts, and this
+           ;; is how they are re-derived rather than trusted.
+           :opa-text-probe {:extra-paths ["dev"] :main-opts ["-m" "opa-text-probe"]}
            ;; Read-only probe: how many bytes of dump_obj's SINGLE shared
            ;; TREE_BUF_SIZE buffer the real corpus consumes. Run before AND
            ;; after any change to the dump's key set — an always-emitted key
