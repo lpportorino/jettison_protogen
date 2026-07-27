@@ -217,6 +217,14 @@ docs-docker-test: ## Run proto docs tests in Docker
 # runner's own summary, never by a test tally — including one written down here,
 # which is why none is: it would rot on the next test added and then quietly
 # disagree with the suite it claims to describe.
+#
+# MEASURED, both mounts, same image, same tree: the correct mount and a
+# tools-dir-only mount ran the IDENTICAL number of tests, while the assertion
+# count fell by ~96% and 89 errors appeared. Read the second half of that
+# sentence as the good news it is — this recipe's warning has been quoted
+# elsewhere as a SILENT degradation, and it is not one. The degraded run exits
+# NON-ZERO and prints its errors; what it hides is only how much less it
+# checked. So the failure mode here is a misread of scope, never a false green.
 	@printf "$(GREEN)Running proto docs tests via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v "$$(pwd)":/repo -w /repo/docs/.protodoc/tools \
