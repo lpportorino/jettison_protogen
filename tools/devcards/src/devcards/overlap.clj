@@ -54,11 +54,20 @@
    pointer, and genuinely intended. Ordering that by declaration is the
    layer contract's job, not this rule's.
 
-   REACHABILITY FACTS THE DUMP CANNOT EXPRESS. None occurs in this corpus,
-   which is why the rule assumes them away rather than guessing; each is
-   stated because a consumer's screens are not bound by that. Read this as
-   the rule's known blind spots, not as a closed set — the test for adding
-   one is whether `lv_indev_search_obj` consults something the dump omits.
+   OVERFLOW_VISIBLE IS EXPRESSED, INCLUDING THE VALUE THAT MATTERS.
+   `lv_indev_search_obj` grows an ancestor's child-descent gate by
+   `lv_obj_get_ext_draw_size` when LV_OBJ_FLAG_OVERFLOW_VISIBLE is set.
+   `dump_obj` emits that resolved `descend_gate` only when it differs from
+   `coords`; `descend-gate` reads it and otherwise falls back to coords.
+   Absence is therefore exact even when the flag is set with a zero ext draw
+   size — it never means the producer forgot to look.
+
+   REACHABILITY FACTS THE DUMP STILL CANNOT EXPRESS. None occurs in this
+   corpus, which is why the rule assumes them away rather than guessing;
+   each is stated because a consumer's screens are not bound by that. Read
+   this as the rule's known blind spots, not as a closed set — the test for
+   adding one is whether `lv_indev_search_obj` consults something the dump
+   omits.
 
    - A TRANSFORM. `lv_indev_search_obj` inverse-transforms the point
      (lv_indev.c:626) BEFORE both the descent gate and the hit test, while
@@ -68,11 +77,6 @@
      PROP_SCALE_X/Y, PROP_ROTATION, PROP_PIVOT_X/Y (renderer.c:3407-3435) —
      so a consumer that transforms an interactive subtree gets answers this
      rule cannot justify. No corpus card sets any of them.
-   - LV_OBJ_FLAG_OVERFLOW_VISIBLE widens the descent gate below by
-     `lv_obj_get_ext_draw_size` (lv_indev.c:632-635). Nothing sets that
-     flag anywhere — not renderer/src, not LVGL itself — so on THIS tree
-     the gate is exactly `:coords`. Were a consumer to set it, this rule
-     would clip too hard and UNDER-report.
    - LV_OBJ_FLAG_ADV_HITTEST lets a widget refuse a hit inside its own box
      by answering LV_EVENT_HIT_TEST (lv_obj_pos.c). Only lv_image sets it
      (lv_image.c:694) and lv_image clears CLICKABLE at construction, so no
@@ -118,11 +122,12 @@
 (defn- descend-gate
   "The box an ancestor must contain the point within before
    `lv_indev_search_obj` will look at its children at all
-   (lv_indev.c:631-646). It is the ancestor's `:coords` — NOT its click
-   area, which the descent gate never consults, and not its ext draw size,
-   which only applies under OVERFLOW_VISIBLE (see the ns docstring)."
+   (lv_indev.c:631-646). It is NOT the click area, which the descent gate
+   never consults. Normally it equals `:coords`; under OVERFLOW_VISIBLE it
+   is coords grown by the resolved ext draw size. dump_obj emits
+  `descend_gate` only when those boxes differ, so the fallback is exact."
   [node]
-  (:coords node))
+  (or (:descend_gate node) (:coords node)))
 
 (defn- ancestor-nodes
   "The node maps of every STRICT ancestor of `path`, outermost first.
@@ -146,11 +151,12 @@
                         unknown and the caller owes a finding
 
    `lv_indev_search_obj` descends into a node's children only while the
-   point stays inside each ancestor's `:coords`, then hit-tests the node
+   point stays inside each ancestor's descent gate (`descend_gate` when
+   emitted, otherwise the exactly-equal `coords`), then hit-tests the node
    against its own click area. So reachability is the click area
-   INTERSECTED with every ancestor's descent gate — a click area that
-   leaks outside its parent is dead pixels, and reporting them names a
-   hazard region no pointer can visit."
+   INTERSECTED with every ancestor's gate — a click area that leaks outside
+   an ordinary parent is dead pixels, while OVERFLOW_VISIBLE can make the
+   same pixels reachable."
   [path->node {:keys [node path]}]
   (let [own (hit-box node)]
     (if (nil? own)

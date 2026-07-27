@@ -53,6 +53,8 @@
 /* obj_focus (defocus path) */
 #include "lvgl/src/core/lv_obj_class_private.h"
 /* lv_obj_class_t.name */
+#include "lvgl/src/core/lv_obj_draw_private.h"
+/* lv_obj_get_ext_draw_size (the OVERFLOW_VISIBLE descent gate) */
 #include "lvgl/src/widgets/label/lv_label_private.h"
 /* lv_label_t.dot_begin */
 #include "renderer.h"
@@ -2026,6 +2028,32 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
                      (int)click.x1, (int)click.y1, (int)click.x2,
                      (int)click.y2);
       tree_append(cbuf);
+    }
+  }
+  /* The box lv_indev_search_obj uses to decide whether it will DESCEND into
+   * this object's children. Normally that is exactly coords. Under
+   * OVERFLOW_VISIBLE, LVGL grows it by this object's resolved ext_draw_size
+   * before testing the inverse-transformed point.
+   *
+   * Emit the already-resolved gate (option b), not `overflow_visible` plus a
+   * value a producer would have to reconstruct: this is the exact box the
+   * consumer needs, it uses only LVGL getters linked into both wasm oracles,
+   * and absence has the same precise convention as click_area — the gate
+   * equals coords. A set flag whose ext_draw_size is zero therefore costs no
+   * dump bytes and needs no special case downstream. Transforms remain a
+   * separately declared limitation: both coords and this gate live in the
+   * pre-transform coordinate space lv_indev_search_obj compares after
+   * inverse-transforming the pointer, while the dump carries no transform. */
+  if (lv_obj_has_flag(obj, LV_OBJ_FLAG_OVERFLOW_VISIBLE)) {
+    lv_area_t gate = a;
+    int32_t ext_draw_size = lv_obj_get_ext_draw_size(obj);
+    lv_area_increase(&gate, ext_draw_size, ext_draw_size);
+    if (gate.x1 != a.x1 || gate.y1 != a.y1 || gate.x2 != a.x2 ||
+        gate.y2 != a.y2) {
+      char gbuf[64];
+      (void)snprintf(gbuf, sizeof(gbuf), ",\"descend_gate\":[%d,%d,%d,%d]",
+                     (int)gate.x1, (int)gate.y1, (int)gate.x2, (int)gate.y2);
+      tree_append(gbuf);
     }
   }
   /* PROXY MEMBERSHIP — emitted only for the proxy box and the affordances

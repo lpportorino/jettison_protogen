@@ -346,7 +346,7 @@
    codegen seam's `obj-flag-keyword->int`; only the flags the corpus uses).
    Both wire fields are direct-cast by renderer.c: `obj_flags` through
    `lv_obj_add_flag`, `obj_flags_clear` through `lv_obj_remove_flag`."
-  {:hidden 1 :clickable 2 :scrollable 16})
+  {:hidden 1 :clickable 2 :scrollable 16 :overflow-visible 1048576})
 
 (defn- obj-flag-bits
   "OR a node's flag-keyword collection into an LVGL bitmask; an unknown

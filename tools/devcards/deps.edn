@@ -39,6 +39,12 @@
            ;; spends headroom on every node of every card, and the overflow
            ;; surfaces as a :dump-truncated finding, not as a build error.
            :dump-size-probe {:extra-paths ["dev"] :main-opts ["-m" "dump-size-probe"]}
+           ;; Render-level canaries for the conditional OVERFLOW_VISIBLE
+           ;; descend_gate and the pre-parse truncation-suffix contract.
+           ;; Unlike a hand-built dump map, both construct real protobuf
+           ;; cards, render the wasm and exercise the host membrane.
+           :dump-contract-probe
+           {:extra-paths ["dev"] :main-opts ["-m" "dump-contract-probe"]}
            ;; Read-only probe: does the dump's `opa` reproduce LVGL's OWN
            ;; accumulation at its RAILS (253 neutral, 2 transparent, MIX2
            ;; chaining)? Adjudicated by framebuffer identity, not by the

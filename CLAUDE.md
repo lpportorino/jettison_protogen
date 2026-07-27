@@ -94,10 +94,12 @@ surface is in scope.** A consumer's million new widgets are in scope precisely
 because they compose classes the interpreter emits — which is also the condition
 the DOM-reading harnesses below need (the goldens are independent of it; they
 hash raw framebuffer bytes and never read a value). A tree too big for the dump
-buffer does not narrow scope silently either — but know which WAY it fails: the
-sentinel OVERWRITES the tail of already-cut JSON, so the runner's parse throws
-before any producer runs. It is loud, and it is not the `:dump-truncated`
-finding, which reads a root key a parsed dump can never carry.
+buffer does not narrow scope silently either — know which WAY it fails: the
+sentinel OVERWRITES the tail of already-cut JSON, `devcards.host/dump-tree!`
+checks that suffix BEFORE parsing and substitutes a canonical root carrying
+`truncated`, and the invariant lane emits a HARD `:dump-truncated` finding.
+The host still returns one JSON String; there is no separate truncation flag a
+copied caller can forget to check.
 
 **A host-proxy surface is NOT an exception to the test**, and it is worth saying
 because it looks like one. The compositor paints it after LVGL, so its paint
@@ -140,14 +142,14 @@ genuinely reachable elements while emitting output byte-identical to a clean run
 A gate going green on elements it never judged is the one failure class this
 standard refuses everywhere else.
 
-**Do not read that as a hazard only a DOM has.** The flag is settable straight
-from the wire — `obj_flags` is direct-cast onto `lv_obj_add_flag` — and the
-authoring vocabulary already names it, so a consumer can create the same silent
-under-report inside the very lane this section orders armed; `overlap`'s
-docstring records it as a known limit rather than leaving it to be discovered.
-What separates the two is DEGREE, and the degree is what matters: here it takes
-a deliberate flag on a subtree, whereas in CSS it is what every element does
-unless told otherwise.
+**That does not remain a hazard on the ui_ast path.** The flag is settable
+straight from the wire — `obj_flags` is direct-cast onto `lv_obj_add_flag` — so
+`dump_obj` emits the already-resolved `descend_gate` box when
+OVERFLOW_VISIBLE makes it differ from coords. The overlap producer reads that
+box and falls back to coords only when the two are exactly equal. A consumer
+must therefore rebuild the wasm AND consume `descend_gate`; copying only the
+old coords-based producer recreates the silent under-report. CSS still has no
+equivalent dump declaration, and its default remains inverted.
 
 (What does NOT rescue it is event bubbling: the rule already excludes
 ancestor/descendant pairs — `invariants/related?` — because containment is how
@@ -264,8 +266,12 @@ Rules:
   `click_area` is emitted only when it DIFFERS from coords, so a rule that
   measures coords and never reads it UNDER-reports reach — while
   `overlap/hit-box`'s read-then-fall-back-to-coords is exact, because absent
-  THERE does mean the two are equal. Two different hazards; do not merge them. The
-  `overlap` and `invariants` docstrings carry which way each key fails, and
+  THERE does mean the two are equal. The ancestor side has the same precise
+  convention: `descend_gate` is emitted only when OVERFLOW_VISIBLE grows it,
+  and `overlap/descend-gate` falls back to coords because absence means equality,
+  not because the flag was assumed clear. These are different boxes with
+  different jobs; do not merge them. The `overlap` and `invariants` docstrings
+  carry which way each key fails, and
   `:caps` is how a capability-gated key declares itself; the registry's
   `:requires` check guards the top-level context keys a caller supplied, NOT the
   per-node keys inside the tree, so it cannot catch this for you.

@@ -382,6 +382,37 @@
           fs (judge root)]
       (is (empty? fs)))))
 
+(deftest overflow-visible-widens-the-ancestor-descent-gate
+  (testing "the same outside child is unreachable through an ordinary parent
+            and reachable when dump_obj declares the OVERFLOW_VISIBLE gate.
+            The paired runs make the silent case non-vacuous: only the
+            ancestor gate changes, and the widened one must expose exactly the
+            sibling collision the coords-only gate drops."
+    (let [ordinary {:type "lv_obj" :coords [0 0 199 199]
+                    :children
+                    [{:type "lv_obj" :uid 9 :coords [0 0 49 49]
+                      :children [{:type "lv_button" :uid 1
+                                  :coords [120 120 159 159]
+                                  :children []}]}
+                     {:type "lv_button" :uid 2
+                      :coords [120 120 159 159]
+                      :children []}]}
+          widened (assoc-in ordinary
+                            [:children 0 :descend_gate]
+                            [-100 -100 149 149])
+          silent (judge ordinary)
+          fired (judge widened)]
+      (is (nil? (geometry/intersection
+                 (get-in ordinary [:children 0 :coords])
+                 (get-in ordinary [:children 0 :children 0 :coords])))
+          "control geometry: the child really is outside ordinary coords")
+      (is (empty? silent)
+          "the old coords-only gate positively classifies the child unreachable")
+      (is (= #{:overlap} (invariants-of fired))
+          "the emitted gate makes the same child reachable")
+      (is (= ["lv_button#1 vs lv_button#2"] (mapv :node fired))
+          "only the intended independent sibling pair fires"))))
+
 (deftest a-node-with-no-box-of-its-OWN-is-UNMEASURABLE-not-clean
   (testing "the sibling arm of the ancestor case below, and it needs its own
             canary: an interactive node carrying no :coords and no

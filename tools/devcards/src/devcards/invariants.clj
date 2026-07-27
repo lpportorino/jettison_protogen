@@ -14,8 +14,11 @@
      the field is emitted only when visible < total, so 0 is the occlusion
      signal). Capability-gated: the caller declares :vis-px? from the module
      it actually loaded; the check never silently no-ops.
-   - The dump is COMPLETE: a root `truncated` sentinel makes the card
-     unjudgeable — HARD finding, never a skip.
+   - The dump is COMPLETE or fails as data: the renderer's overflow sentinel
+     overwrites the tail of structurally cut JSON, and `devcards.host` detects
+     that suffix BEFORE parsing and substitutes a root `truncated` key. The
+     card is then unjudgeable — HARD :dump-truncated finding, never a parse
+     throw or a skip.
    - Emissions: :commands, :reports, :events are EMPTY for every card;
      :proxy-reports empty for every card EXCEPT a host_proxy card, which
      must carry EXACTLY ONE (positively asserted — absence is a finding).

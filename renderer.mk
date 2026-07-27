@@ -41,7 +41,7 @@ SHELL := bash
 R := renderer
 RGEN := tools/renderer-gen
 
-.PHONY: wasm reference proto-classes bindings fixtures harness interaction \
+.PHONY: wasm reference proto-classes bindings fixtures dump-contracts harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer \
@@ -93,6 +93,14 @@ bindings:
 # CONTENT. The disk audit below catches an unchanged retired path.
 fixtures: wasm bindings composition-clean
 	cd tools/devcards && clojure -M:bindings:run generate
+
+# Render-level dump-contract canaries: real protobuf cards through the freshly
+# built wasm and the public host. One exercises OVERFLOW_VISIBLE reachability;
+# one genuinely overruns TREE_BUF_SIZE and must become :dump-truncated before
+# JSON parsing. They are separate from the corpus because each deliberately
+# constructs the violation whose finding proves the clause is alive.
+dump-contracts: wasm bindings
+	cd tools/devcards && clojure -M:bindings:dump-contract-probe
 
 # ── CI prebuilt-wasm entries (no WASI toolchain on the runner) ──────────────
 # The devcards corpus + gallery CI job consumes an ALREADY-BUILT
@@ -750,5 +758,5 @@ graal-check:
 	  exit 1; }
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
-check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary-prebuilt harness interaction oracles reload decode-limits
+check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary-prebuilt dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

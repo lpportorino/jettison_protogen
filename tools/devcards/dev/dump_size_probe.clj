@@ -48,14 +48,16 @@
 
 (defn- render+dump!
   "One hermetic render of `pb`, returning the RAW dump string (the bytes the C
-   buffer actually held, before any parsing)."
+   buffer actually held, before host normalisation or parsing). This probe is
+   the one diagnostic caller of dump-tree-raw!; production callers use
+   dump-tree!, which turns a truncation suffix into parseable root JSON."
   ^String [^bytes pb]
   (let [h (host/start! {:wasm "../../renderer/output/controls.wasm"
                         :assets "../../renderer/assets"
                         :w (:w canvas)
                         :h (:h canvas)})]
     (try (host/render-card! h {:pb pb :bp 0 :dark 1})
-         (host/dump-tree! h)
+         (host/dump-tree-raw! h)
          (finally (host/close! h)))))
 
 (defn- walk [root] (tree-seq #(seq (:children %)) :children root))
@@ -64,7 +66,7 @@
   "Every dump key that is emitted only when it carries information. Counting
    them is how the buffer-cost argument stops being a claim."
   [:text :opa :text_color :text_opa :bg_color :bg_opa :text_on
-   :backdrop_unresolved :click_area :vis_px :hidden :disabled])
+   :backdrop_unresolved :click_area :descend_gate :vis_px :hidden :disabled])
 
 (defn -main
   [& show]
@@ -77,8 +79,10 @@
                            (count built) (count atomic) (count comp-built)))
         rows (mapv (fn [{:keys [id] ^bytes pb :bytes}]
                      (let [s (render+dump! pb)
-                           tree (json/read-str s :key-fn keyword)
-                           nodes (walk tree)]
+                           truncated? (str/ends-with? s ",\"truncated\":true")
+                           tree (when-not truncated?
+                                  (json/read-str s :key-fn keyword))
+                           nodes (if tree (walk tree) [])]
                        (when (some #(str/includes? (str id) %) show)
                          (println (format "\n══ RAW DUMP: %s (%d bytes) ══" id
                                           (count (.getBytes s "UTF-8"))))
@@ -86,7 +90,7 @@
                        {:id (str id)
                         :bytes (count (.getBytes s "UTF-8"))
                         :nodes (count nodes)
-                        :truncated? (boolean (:truncated tree))
+                        :truncated? truncated?
                         :key-hits (into {}
                                         (map (fn [k]
                                                [k (count (filter k nodes))]))

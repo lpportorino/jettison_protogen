@@ -280,9 +280,11 @@
                       {:ticks render-ticks :tick-ms tick-ms})))
     (read-framebuffer! host)))
 
-(defn dump-tree!
-  "controls_dump_tree -> the DOM JSON string (copied out of linear memory
-   before any next call — the pointer aliases the renderer's static buffer)."
+(defn dump-tree-raw!
+  "Diagnostic-only controls_dump_tree bytes, copied out of linear memory
+   before any next call. A truncated result is deliberately NOT valid JSON;
+   ordinary callers need dump-tree!, which normalises the renderer sentinel
+   before a parser can see it."
   ^String [{:keys [^Value mem call!]}]
   (let [ptr (.asLong ^Value (call! "controls_dump_tree"))
         sb (StringBuilder.)]
@@ -291,3 +293,18 @@
         (if (zero? b)
           (.toString sb)
           (do (.append sb (char (bit-and b 0xFF))) (recur (inc p))))))))
+
+(defn dump-tree!
+  "controls_dump_tree -> one parseable DOM JSON String.
+
+   A renderer-buffer overflow ends with `,\"truncated\":true` but is otherwise
+   structurally cut JSON. Detect that suffix HERE, before any caller can parse
+   it, and return a canonical root carrying the same positive key. The return
+   contract stays one JSON String — never a String plus an out-of-band flag a
+   copied host can forget — while every existing parse site reaches the
+   :dump-truncated invariant instead of throwing first."
+  ^String [host]
+  (let [raw (dump-tree-raw! host)]
+    (if (.endsWith ^String raw ",\"truncated\":true")
+      "{\"truncated\":true,\"children\":[]}"
+      raw)))
