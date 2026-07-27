@@ -114,7 +114,7 @@
 
 (def overlap-thresholds
   "Strict overlap: a SHARED pixel fires, touching does not. Deliberately not
-   1 — RE-MEASURED over all 244 cards on this tree, gap-px 1 reports 80
+   1 — RE-MEASURED over all 246 cards on this tree, gap-px 1 reports 80
    findings where gap-px 0 reports none, 66 of them on the five lv_tabview
    cards plus the tabview kitchen sink (UI-QUALITY-CONTRACTS §2.3). The lane
    is a pointer-hazard gate, and two elements that merely touch take no press

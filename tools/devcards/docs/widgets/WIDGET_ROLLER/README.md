@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_ROLLER
 
-`lv_roller` — 17 atomic corpus cards (state × size[/value], ids `lv_roller/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_roller` — 19 atomic corpus cards (state × size[/value], ids `lv_roller/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -32,6 +32,8 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `hovered/medium/mid` | ![hovered/medium/mid vanilla](./WIDGET_ROLLER-hovered_medium_mid-vanilla.jpg) | ![hovered/medium/mid asgard-dark](./WIDGET_ROLLER-hovered_medium_mid-asgard-dark.jpg) | ![hovered/medium/mid asgard-light](./WIDGET_ROLLER-hovered_medium_mid-asgard-light.jpg) |
 | `default/medium/min` | ![default/medium/min vanilla](./WIDGET_ROLLER-default_medium_min-vanilla.jpg) | ![default/medium/min asgard-dark](./WIDGET_ROLLER-default_medium_min-asgard-dark.jpg) | ![default/medium/min asgard-light](./WIDGET_ROLLER-default_medium_min-asgard-light.jpg) |
 | `default/medium/max` | ![default/medium/max vanilla](./WIDGET_ROLLER-default_medium_max-vanilla.jpg) | ![default/medium/max asgard-dark](./WIDGET_ROLLER-default_medium_max-asgard-dark.jpg) | ![default/medium/max asgard-light](./WIDGET_ROLLER-default_medium_max-asgard-light.jpg) |
+| `disabled/medium/min` | ![disabled/medium/min vanilla](./WIDGET_ROLLER-disabled_medium_min-vanilla.jpg) | ![disabled/medium/min asgard-dark](./WIDGET_ROLLER-disabled_medium_min-asgard-dark.jpg) | ![disabled/medium/min asgard-light](./WIDGET_ROLLER-disabled_medium_min-asgard-light.jpg) |
+| `disabled/medium/max` | ![disabled/medium/max vanilla](./WIDGET_ROLLER-disabled_medium_max-vanilla.jpg) | ![disabled/medium/max asgard-dark](./WIDGET_ROLLER-disabled_medium_max-asgard-dark.jpg) | ![disabled/medium/max asgard-light](./WIDGET_ROLLER-disabled_medium_max-asgard-light.jpg) |
 
 ## Committed states
 

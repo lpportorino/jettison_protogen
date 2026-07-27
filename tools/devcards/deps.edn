@@ -38,6 +38,13 @@
            ;; evidence — devcards.opa's docstring quotes its counts, and this
            ;; is how they are re-derived rather than trusted.
            :opa-text-probe {:extra-paths ["dev"] :main-opts ["-m" "opa-text-probe"]}
+           ;; Read-only probe: WHERE inside its own box a roller puts the
+           ;; selected option, and whether that position moves with the
+           ;; selected INDEX. Settles by framebuffer what `lv_roller_label`
+           ;; coords alone cannot: a label that scrolls one row per step is
+           ;; equally consistent with the selection being pinned to the centre
+           ;; and with it sliding to a list boundary.
+           :roller-bounds {:extra-paths ["dev"] :main-opts ["-m" "roller-bounds-probe"]}
            ;; Read-only probe: how many bytes of dump_obj's SINGLE shared
            ;; TREE_BUF_SIZE buffer the real corpus consumes. Run before AND
            ;; after any change to the dump's key set — an always-emitted key

@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 228
+ :card-count 230
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -2127,7 +2127,7 @@
     :props-path [:dropdown_props :selected]
     :range {:max 2 :mid 1 :min 0}
     :samples [:min :mid :max]}}
-  {:authored-count 17
+  {:authored-count 19
    :cards
    [{:expect :baseline
      :id "lv_roller/default/small/mid"
@@ -2299,11 +2299,31 @@
      :size :medium
      :state :default
      :states-bits 0
+     :value :max}
+    {:expect :distinct
+     :id "lv_roller/disabled/medium/min"
+     :notes
+     "LIST-BOUNDARY x DISABLED. The disabled swap drains the selected band to surface-2, so GEOMETRY — the selected row is the centred one — becomes the only cue for which option is current. At selected 0 one visible row is BLANK, which is the shape that cue was suspected of failing in. It does not: lv_roller's get_sel_area computes the band from the roller's own coords and font metrics alone (no sel_opt_id term) and refr_position scrolls the label so the selected option lands there, so the selection is pinned to the centre at EVERY index. Measured on this tree at medium: band and selected glyph at the same y for min/mid/max. These two cells are what would catch that pinning being lost — no other disabled roller card samples a boundary. Baseline resolves to lv_roller/default/medium/min, so the pair is a controlled A/B on state alone."
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 0 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :disabled
+     :states-bits 512
+     :value :min}
+    {:expect :distinct
+     :id "lv_roller/disabled/medium/max"
+     :notes
+     "LIST-BOUNDARY x DISABLED at the far end — see lv_roller/disabled/medium/min. At selected 2 the BLANK visible row is the bottom one; both ends are sampled because the label overhangs the clip box in opposite directions and a clamp introduced at one end need not show at the other."
+     :props {:roller_props {:options "One\nTwo\nThree" :selected 2 :visible_row_count 3}
+             :w 120}
+     :size :medium
+     :state :disabled
+     :states-bits 512
      :value :max}]
    :committed-states [:default :hovered :pressed :disabled :focus-key :edited]
    :declared-count 14
    :deviation
-   "+3 over declared 14: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium). The survey's :edited cells draw outline_secondary in stock, so the manifest commits :edited for WIDGET_ROLLER and those three cells render visually distinct under the asgard theme."
+   "+5 over declared 14: +1 :hovered at medium (manifest-committed, absent from the survey grid); +4 value-axis cells at medium (default x min/max, and disabled x min/max). The survey's :edited cells draw outline_secondary in stock, so the manifest commits :edited for WIDGET_ROLLER and those three cells render visually distinct under the asgard theme. The disabled x min/max pair is the deliberate over-sample: the disabled swap drains the selected band, leaving centring as the ONLY cue for which option is current, and a boundary is where centring would fail if it ever did — so the claim that a disabled roller stays readable is only OBSERVED if a disabled boundary card exists. Every other state samples its size's own mid row."
    :notes
    "pressed is confirmatory-only under stock (no pressed style in the stock roller arm) and sampled at small+medium only per survey; the manifest commits it distinct under the asgard theme."
    :sizes

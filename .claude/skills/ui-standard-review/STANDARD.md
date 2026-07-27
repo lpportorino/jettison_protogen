@@ -414,7 +414,7 @@ clip (§2.4) records it `:unreachable` and it never enters the pairing at all.
 That is a positive determination, not a waiver.
 
 What IS threshold-dependent is how much LAYOUT the lane reports. Re-measured
-over all 244 cards on this tree — and identical under the shipped
+over all 246 cards on this tree — and identical under the shipped
 classification table and under the class-census probe table with every class
 forced interactive, so no classification choice is doing the work:
 
@@ -527,13 +527,13 @@ them. They are recorded as the evidence the design rests on, and they are
 exactly as strong as an unreproducible measurement can be.
 
 **protogen's corpus cannot corroborate them, and this has now been measured
-rather than assumed.** Over all 244 cards, 169 nodes report a `vis_px` below
+rather than assumed.** Over all 246 cards, 171 nodes report a `vis_px` below
 their own area — and every one of them is a DELIBERATE mechanism, not damage:
 
 - 155 are fully occluded (ratio 0.0000), and they are hidden proxy affordances
   (61), closed dropdown popup lists (30), and carousel pages the tabview has
   snapped out of view (30), plus kitchen-sink and lego instances of the same.
-- The 14 partials are designed or probes: eleven are `lv_roller_label`, whose
+- The 16 partials are designed or probes: thirteen are `lv_roller_label`, whose
   vertical overflow IS the wheel illusion (§2.3's designed-geometry exclusion),
   and three are probe cards exercising a known limit.
 
