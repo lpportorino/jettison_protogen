@@ -378,8 +378,18 @@ source under `renderer/`, its theme, its `wasm.mk` build producing
 `controls.wasm`, and the proof battery that gates it (the pixel oracles —
 the wasmtime harness's visual-regression suite, dual-oracle morph parity,
 the coverage matrix, and demo parity — plus the devcard corpus; the
-cross-engine determinism probe re-proves wasmtime ≡ GraalWasm on a new
-build). The battery entry is `make -f renderer.mk check-renderer` from the
+cross-engine MIRROR, `composition_cross_engine_fb` in
+`renderer/wasm_harness/tests/composition_interaction.rs`, re-proves wasmtime ≡
+GraalWasm on every build by asserting each composition card's raw framebuffer
+byte-identical to the GraalWasm dump of the same `.pb` — 20 comparisons on
+this corpus, discovered from the card directory so a new card joins by
+itself). That sentence used to read "the cross-engine determinism probe
+re-proves…", which is verbatim the SELF-DESCRIPTION of two files that were
+wired into nothing — `fb_hash_probe.rs` (since deleted) and
+`tools/devcards/dev/spike_r22.clj` (a dev spike, still unwired and still
+correctly labelled one). Name the file that does the work, not the phrase
+the ones that did not chose for themselves.
+The battery entry is `make -f renderer.mk check-renderer` from the
 repo root, inside the toolchain container built from `Dockerfile.base`. No
 workflow invokes that entry: `.github/workflows/renderer.yml` and
 `devcards.yml` DECOMPOSE it into individual `renderer.mk` targets, so what CI

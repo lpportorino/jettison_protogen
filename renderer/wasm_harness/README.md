@@ -75,9 +75,23 @@ Straight (non-premultiplied) alpha: consumers must composite (see
 - `morph_parity.rs` — dual-oracle tree-patch parity: `load_ui(base) +
   apply_patch` vs a fresh `load_ui(target)`, `dump_tree` byte-equal +
   framebuffer pixel-identical, plus state-preservation and failure contracts.
-- `fb_hash_probe.rs` — the cross-engine determinism probe (writes raw-FB twins to
-  `target/fb-probe/` for external `sha256sum` comparison against the GraalWasm
-  dumps).
+`fb_hash_probe.rs` WAS LISTED HERE and is gone. It rendered 4 fixtures ×
+light/dark and wrote the raw framebuffers to `target/fb-probe/` for an
+EXTERNAL `sha256sum` comparison that nothing performed. It was never
+compiled: no `*.mk`, `*.yml`, `*.sh`, `*.toml` or `Makefile` named it, and
+`renderer.mk` names exactly the five binaries above. Measured — appending
+`this is not rust at all (((` to it left all five `cargo test --test X
+--no-run` at exit 0, while the control `--test fb_hash_probe --no-run`
+exited 101. Its only assertion was `flushed`, so even run by hand it stayed
+green while half its dumps came out the wrong theme; and 180 of 235
+`visual_regression` tests already red on that same no-flush class.
+The standing cross-engine proof is `composition_cross_engine_fb` in
+`composition_interaction.rs` above, which does the comparison the probe left
+to a human: 20 wasmtime-vs-GraalWasm byte-equality assertions on this corpus
+(every composition card × dark/light), discovered from the card directory so
+a new card joins by itself. The probe's 4 hand-listed fixtures never would
+have. `tools/devcards/dev/spike_r22.clj` remains as the hand-runnable dumper
+for a new ABI revision, in `dev/` where a spike belongs.
 
 ## The visual differential
 
