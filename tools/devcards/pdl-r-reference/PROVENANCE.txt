@@ -12,18 +12,176 @@ camp/...` citation would have rotted. The full history survives as a bundle at
 ~/eudoxia-preserve-7bf1a5d/full-history.bundle, but recovering from a bundle is a chore
 this copy avoids.
 
-WHAT IT IS: "Region Ink-edge Drift" — clamped edge-BITMAP drift, WORST-REGION over
-renderer-supplied glyph-ink masks, decoration suppressed AT THE RENDERER, absolute
-threshold in LINEAR LIGHT, fixed veil. It won a six-variant bake-off.
+WHAT IT IS: "Region Ink-edge Drift" — clamped edge-BITMAP drift over renderer-supplied
+glyph-ink masks, decoration suppressed AT THE RENDERER, degraded by a veiling-glare
+washout. It won a six-variant bake-off.
 
-READ BEFORE USING (the finding that matters more than the code): each of the six variants
-built its OWN corpus — same seed, different frame sizes / veil constants / k-sweeps — so
-every cross-variant number compares in SHAPE, not digit-for-digit. Re-measure on ONE
-FROZEN SHARED CORPUS before implementing anything. And the separating gap is 0.0053
-against a measured seed-to-seed noise floor of 0.0117: THE MARGIN IS NARROWER THAN THE
-NOISE, which is why the gate must be three-way (pass/fail/uncertain) rather than binary.
+DECORATION SUPPRESSION IS PART OF THE DESIGN AND NOTHING HERE MEASURES IT. The frozen
+corpus applies no decoration at all — lib.py's nuisance generators (`add_drop_shadow`
+:161, `add_glow` :178, `shift_1px` :187, `add_mild_noise` :191) have zero call sites in
+frozen_corpus.py — so none of the five landmarks below exercises it. The reason it is a
+PORTING HAZARD rather than a slogan is inherited from the bake-off: glow is a measured,
+reproducible FALSE POSITIVE of +0.092 region — larger than every real content-loss delta
+measured there, enough to drive a 21:1 label past the fail line. A port that lets any
+non-glyph energy into the mask inherits that.
 
-DEAD ENDS, do not retry: literal edge-energy RATIO (0.50 +/- 0.004 across the whole
-21:1 -> 1.2:1 sweep — an affine veil through a linear operator self-normalises); SSIM
-(sign-INVERTS between light and dark themes); cumulative scoring (needs 53% of labels
-dead to notice what worst-region catches at one).
+WHAT IT MEASURES: whether glyph EDGES survive a degradation — nothing more. It never
+sees whether the resulting text can be read, only whether the strokes still register as
+edges. The corpus's own label vocabulary collides with that: frozen_corpus.py:128-134
+`cls()` names its WCAG contrast classes "readable" / "unreadable". Those are LABEL names
+for a contrast-ratio ground truth, not a claim about what the metric measures. A port
+that carries the word "readable" into a user-facing verdict overstates what it can see.
+(The legibility/readability distinction is conventional and does not need a normative
+citation here; the fleet's own standard ruling rejects ISO 15008 as a binding source
+precisely because its text has never been read first-hand on this project.)
+
+THE MEASUREMENT SPACE IS sRGB CODE VALUES, 0..255 — NOT linear light. This is the single
+correction a port must not get wrong. frozen_corpus.py:171-174 `region_score` feeds the
+raw 0..255 frame straight into `veiling_glare` and then `per_region_scores`, and
+lib.py:214-218 `edge_bitmap` runs `ndimage.sobel` on exactly what it is handed; there is
+no linearisation anywhere on that chain. Instrumenting `edge_bitmap` at both call sites
+shows arrays of min/max 27.62/165.0 and 164.05/219.0, dtype float32, thresh 40.0.
+"Linear light" is not a variant of this metric at the recorded constants, it is a
+description that would zero it out: the same frame linearised spans 0.011364..0.376262,
+and `edge_bitmap(linear, 40.0)` yields 0 true pixels against 1675 for the sRGB frame. The
+40.0 threshold is DEFINITIONALLY an sRGB-code-value threshold.
+
+The only linearisation in the file is in the LABEL path. lib.py's `srgb_to_lin` /
+`lin_to_srgb` / `gray_luminance` are reached only through `solve_text_gray` (lib.py:55,61)
+and `actual_contrast_ratio` (lib.py:66), which synthesise the WCAG contrast ground truth
+the frames are classified by. Zero linearisation call sites sit on the measurement path.
+
+"LINEAR LIGHT" IS AN UPSTREAM ACCEPTANCE CRITERION THIS REFERENCE DOES NOT SATISFY — not
+a mis-description of it. The bake-off report states the duty directly (§"So does the
+detector's threshold dominate the result?"): EDGE_THRESH "must be stated as a named design
+constant whose value is derived from the PDL-1 floor … computed in linear light — not, as
+the POCs had it, '40 on 8-bit gamma-encoded gray'. Doing the blend and the detection in
+gamma space is a physically wrong transform that shifts the pass/fail boundary in ways
+that present as flakiness rather than as a colour-management bug." Its gate-design entry
+"4 — Linear-light degrade, named veil constant" carries the matching pair — Accept: "blend
+and any filtering happen in linear light"; Canary: "run the identical corpus with the
+degrade in gamma space. The pass/fail boundary must MOVE MEASURABLY. If it does not, the
+linear-light conversion is not actually being applied."
+
+So the POC is the thing that is wrong, and upstream already knew. A port inherits BOTH the
+sRGB measurement recorded here AND the open obligation to move it into linear light with a
+re-derived threshold. What is measured about that move: applying the veil in linear light
+and sweeping the threshold gives a NEGATIVE class gap at every value tried (t=0.001 →
+-0.0080, 0.01 → -0.1092, 0.02 → -0.0758, 0.08 → -0.1466), i.e. the classes invert. That is
+one sweep, not a derivation from the PDL-1 floor, so it does not discharge the obligation —
+it says the naive linear-light port is worse, not that the criterion is wrong.
+
+lib.py has no `region_score` — it is frozen_corpus.py:171-174, and its docstring
+("worst-region … absolute, linear light") is where the correction belongs alongside this
+file. It is not worst-region either: that function scores a SINGLE mask and returns `[0]`,
+never taking a max. The worst-of-many reduction (lib.py:253-260 `worst_tile_score`) is
+exercised only by run_experiment.py, so every landmark below is a single-region score —
+which matters, because worst-region is the property the variant was chosen FOR.
+
+CONSTANTS a future :pdl-r/* threshold map must carry. Four are lib.py's values,
+unoverridden by either driver; `k` is DRIVER-supplied, since lib.py:200 gives it no
+default at all. `edge_threshold` was additionally confirmed at runtime as the value
+actually reaching `edge_bitmap`.
+
+  :pdl-r/k               0.6    frozen_corpus.py:101, run_experiment.py:30
+  :pdl-r/edge-threshold  40.0   lib.py:211 EDGE_THRESH — sRGB code values, see above
+  :pdl-r/ink-alpha       0.15   lib.py:135 INK_ALPHA_THRESH
+  :pdl-r/dilate-px       2      lib.py:136 INK_DILATE_PX
+  :pdl-r/min-edge-px     8      lib.py:221 loss_fraction, never passed by any caller
+
+  Two shapes a port must preserve, not just the numbers. `k` has NO default in lib.py —
+  it is a required positional, so it cannot be silently inherited; a port that gives it a
+  default introduces exactly the hazard the signature forecloses. `ink_alpha` is the
+  opposite: lib.py:151 reads the module global directly, so unlike `dilate_px` it is NOT
+  overridable per call, and a port that exposes it as an argument has widened the
+  contract.
+
+  `veil_gray` is NOT a threshold and must NOT be in that map. lib.py:200 defaults it to
+  235.0 and both drivers pass 255.0 explicitly, but the metric cannot tell:
+  lib.py:201 `frame * (1.0 - k) + veil_gray * k` is affine with slope (1-k), so veil_gray
+  contributes a pure constant offset, and Sobel annihilates constants. Measured over all
+  180 frames with veil_gray in {235.0, 255.0, 0.0, 128.0, -1000.0}, the worst spread of
+  the region score is EXACTLY 0. The invariance holds because `veiling_glare` does not
+  clip; a port that clips AND admits veil_gray > 255, or applies the veil in a different
+  space, breaks it. The only degradation knob that moves this metric is k — on the
+  frozen main-sweep frame (dark / noisy / medium / 6.0, seed_tag "frozen", which is also
+  the worst-readable landmark 0.12954395241242567): k=0.0 -> 0.000000, k=0.3 -> 0.038334,
+  k=0.6 -> 0.129544, k=0.9 -> 0.497026. Those digits are frame-specific and do NOT hold on
+  the 24 differently-seeded noise-floor frames, which span 0.0179 (measured there:
+  k=0.3 -> 0.033047, k=0.9 -> 0.495704). The absolute threshold breaks scale-invariance,
+  which is why k bites; nothing breaks offset-invariance, which is why the veil does not.
+
+MEASUREMENTS ON A SYNTHETIC CORPUS — these are NOT thresholds and do not transfer.
+frozen_corpus.py fixes one seed, one frame size, one veil and one operating k, and
+frozen_corpus_result.json records the run: 180 frames, seed 20260725, 120x300, k=0.6,
+24 noise trials.
+
+  worst readable    0.1295
+  best unreadable   0.1363
+  GAP              +0.0067
+  noise sd          0.0041
+  noise range       0.0179
+
+The gap is narrower than the noise RANGE, which is the comparator (frozen_corpus.py:247),
+and that is why the gate must be three-way (pass/fail/uncertain) rather than binary. Read
+the comparator carefully: the gap EXCEEDS the standard deviation and is well under the
+range, so quoting +0.0067 beside 0.0041 alone inverts the finding.
+
+These five numbers are properties of DejaVu glyphs on synthetic flat/gradient/noisy
+backgrounds under one synthetic degradation. Nothing licenses them as a cut point on
+renderer output. A port re-measures on its own corpus; what transfers is the SHAPE of the
+result — a separating gap narrower than the seed-to-seed spread — not the digits.
+
+REPRODUCIBILITY: the recorded run is python 3.12.3 / numpy 1.26.4 inside the pinned
+container. Replaying the corpus from lib.py's own functions on python 3.14.6 / numpy 2.5.1
+reproduces all five landmarks BIT-EXACTLY across a numpy major version. The result does
+not rest on the pin; the pin exists to keep a future divergence a real signal.
+
+PORTING WARNING — the reference implements the silent skip protogen forbids.
+lib.py:221-234 `loss_fraction` returns None when a region carries fewer than
+`min_edge_px` edge pixels, and lib.py:253-260 `worst_tile_score` filters those out and
+returns None if none survive. It is not fully silent — the reduction is returned as a
+tuple alongside the complete per-region vector including its Nones, so a caller CAN see
+what was dropped (run_experiment.py:280 does; run_experiment.py:306 discards it). What
+lib.py lacks is a FINDING, and per CLAUDE.md "an unjudged element is a FINDING, never a
+skip". A port emits a cantTell finding with reason :too-few-edge-px instead of dropping
+the region.
+
+This is a latent defect in code that is reference-only, NOT a defect in the numbers
+above. The path is provably dead in both drivers: frozen_corpus.py never calls
+`worst_tile_score` at all, and across the full 180-frame corpus and run_experiment's
+multi-label canvases — up to every label planted bad — zero region scores are None. The
+frozen driver is in fact the opposite of a silent skipper: frozen_corpus.py:174 takes
+`[0]` unconditionally and :207 does `float(reg)`, which would raise TypeError on a None.
+Changing the None behaviour changes no recorded figure.
+
+DEAD ENDS, do not retry.
+
+  CUMULATIVE scoring — faithfully re-measured on the frozen corpus with lib.py's own
+  `cumulative_score`: worst readable 0.3419, best unreadable 0.1363, gap -0.2057. The
+  classes OVERLAP; it does not separate at all here.
+  Its MASKING property is the separate result the bake-off actually disqualified it on,
+  and it is the transferable lesson: 16 of 30 labels (53%) must go unreadable before
+  cumulative crosses the line that ONE bad label trips instantly (masking delta +0.0041
+  against a 0.136 threshold; 27.8% FP pooled, 33% FN on light/noisy). INHERITED from the
+  bake-off, but re-derivable here — run_experiment.py:296-308 `dilution_test` computes it
+  and that code is preserved.
+
+  Literal edge-energy RATIO — 0.50 +/- 0.004 across the whole 21:1 -> 1.2:1 sweep; an
+  affine veil through a linear operator self-normalises. INHERITED from the bake-off and
+  never faithfully re-measured: that variant's code was not preserved, only the winner's,
+  so frozen_corpus.py:177-190's reimplementation is a shape check and its output must not
+  be quoted against the 0.50 +/- 0.004.
+
+  SSIM — sign-INVERTS between light and dark themes. Also inherited from the bake-off;
+  no code preserved, not re-measured on the frozen corpus.
+
+Note the asymmetry the bitmap metric shares with the edge-energy dead end: both
+self-normalise against an affine veil, but the bitmap metric only against the OFFSET, not
+the slope. That is what leaves it with any signal at all.
+
+READ BEFORE USING: figures inherited from the six-variant bake-off compare in SHAPE, not
+digit-for-digit — each variant built its own corpus, same seed but different frame sizes,
+veil constants and k-sweeps. Only the winner's metric and the cumulative dead end have
+been re-measured on the ONE FROZEN SHARED CORPUS; everything else on this page carrying a
+number from the bake-off is flagged inherited above.
