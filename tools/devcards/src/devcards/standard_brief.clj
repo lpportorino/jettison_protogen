@@ -308,6 +308,18 @@
    "and the `dump_tree` behind them. §5 is why it cannot be one repo's "
    "habit: a quality rule that lives only in a consumer is a defect live "
    "in every other consumer that has not yet tripped over it.\n\n"
+   "**It is discharged only over the renders of the surface it was "
+   "launched for**, and nothing mechanical checks that it ran — so its "
+   "failure mode is a GREEN. An empty batch, and a batch taken from some "
+   "OTHER repo's gallery, both report exactly what a surface that was "
+   "looked at and found sound reports. Take the batch from "
+   "`.claude/skills/ui-standard-review/preflight.sh` and never from a "
+   "glob, and treat its refusal as your RESULT rather than as an obstacle "
+   "to route around. The state it exists to separate: a surface whose "
+   "harness does not exist yet is an obligation NOT YET DISCHARGED, never "
+   "a surface out of scope. Scope follows what PAINTS the pixels, and "
+   "`controls_dump_tree` is how you INSPECT an in-scope surface rather "
+   "than how you decide scope.\n\n"
 
    "### Disposition before push\n\n"
    (exemption-contract-md)

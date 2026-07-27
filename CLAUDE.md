@@ -89,17 +89,38 @@ therefore owns an in-scope ui_ast surface AND out-of-scope chrome around it, in
 one repository. A repo-level rule over-binds the shell and never explains why
 the overlay is covered.
 
-**The test is mechanical: if the nodes come out of `controls_dump_tree`, the
-surface is in scope.** A consumer's million new widgets are in scope precisely
-because they compose classes the interpreter emits — which is also the condition
-the DOM-reading harnesses below need (the goldens are independent of it; they
-hash raw framebuffer bytes and never read a value). A tree too big for the dump
-buffer does not narrow scope silently either — know which WAY it fails: the
-sentinel OVERWRITES the tail of already-cut JSON, `devcards.host/dump-tree!`
-checks that suffix BEFORE parsing and substitutes a canonical root carrying
-`truncated`, and the invariant lane emits a HARD `:dump-truncated` finding.
-The host still returns one JSON String; there is no separate truncation flag a
-copied caller can forget to check.
+**The test is mechanical, and its subject is what PAINTS the surface: if the
+reference interpreter renders it from a `ui.Screen` — equivalently, if its nodes
+are ones `controls_dump_tree` EMITS — the surface is in scope.** That is a
+property of the surface, never an instruction to go and run the dump.
+`controls_dump_tree` is how you INSPECT an in-scope surface; it is not how you
+decide scope.
+
+A consumer's million new widgets are in scope precisely because they compose
+classes the interpreter emits — which is also the condition the DOM-reading
+harnesses below need (the goldens are independent of it; they hash raw
+framebuffer bytes and never read a value). **That consequence only survives the
+reading above**, which is the strongest reason to insist on it: a widget already
+authored but not yet in a corpus emits no dump nodes today, so a literal "run it
+and see" would put it out of scope on precisely the day it most needs judging.
+
+**A dump that yields nothing is UNMEASURED, never OUT OF SCOPE.** This is the
+standard's own *"an unjudged element is a FINDING, never a skip"* applied one
+level up — to the SURFACE rather than the element — and it needs saying because
+the failure runs in the direction that feels like diligence. A consumer whose
+surface IS ui_ast but who has not stood up a harness yet runs the test in its
+operational reading, gets no nodes, and honestly concludes "out of scope". What
+they actually hold is an obligation NOT YET DISCHARGED, owed a gallery and a
+runner. `.claude/skills/ui-standard-review/preflight.sh` returns exactly that
+answer (exit 3, "NOT DISCHARGED"), rather than an empty batch that reports
+clean.
+
+A tree too big for the dump buffer does not narrow scope silently either — know
+which WAY it fails: the sentinel OVERWRITES the tail of already-cut JSON,
+`devcards.host/dump-tree!` checks that suffix BEFORE parsing and substitutes a
+canonical root carrying `truncated`, and the invariant lane emits a HARD
+`:dump-truncated` finding. The host still returns one JSON String; there is no
+separate truncation flag a copied caller can forget to check.
 
 **A host-proxy surface is NOT an exception to the test**, and it is worth saying
 because it looks like one. The compositor paints it after LVGL, so its paint
@@ -121,6 +142,14 @@ of scope, and not as a courtesy: **the machinery is mechanically inapplicable.**
 No `dump_tree` means no `:coords` / `:click_area` / `:clickable`, so no geometry
 and no classification key; no `controls.wasm` means no framebuffer to hash; no
 gallery means no input for the visual review.
+
+**Read all three as CANNOT-EVER, never as NOT-YET** — because the same three
+words also describe a ui_ast surface whose harness has not been built, and that
+one is fully in scope. The DOM front-end is out because nothing in its stack can
+ever produce those inputs: the interpreter is not in the picture at all. A
+ui_ast surface with no runner is missing the identical three artefacts and OWES
+every one of them. This sentence is about the technology; it is not a licence to
+discharge the obligation by not having built the harness.
 
 Stronger still, the overlap rule's verdict would not MEAN the same thing. Its
 correctness argument is not "two boxes overlap" — it is that
@@ -291,7 +320,18 @@ Rules:
   RUN IT by launching the `ui-standard-review` AGENT (`.claude/agents/`), which
   pins the model tier and loads the skill of the same name as its first act.
   The agent is the launcher and the skill is the standard: one batched agent per
-  push, never one per check. The operational how is `.claude/rules/devcards.md`
+  push, never one per check. **At a consumer that agent DOES NOT EXIST until you
+  install it**: agents and skills are discovered from the PROJECT ROOT's
+  `.claude/` and never from a submodule mount, so `subagent_type:
+  ui-standard-review` resolves to nothing at a mount point and the mandate's one
+  named entry point has no first step. Symlink the pin's agent file and skill
+  directory into your own `.claude/` — the two `ln -s` lines are in the skill's
+  §"AT A CONSUMER", and a relative symlink is verified to register — then
+  re-check at every pin bump. **Resolve the batch with
+  `.claude/skills/ui-standard-review/preflight.sh` from your own repo root and
+  review exactly what it prints, never by globbing**, which is how this review
+  ends up judging nothing at all, or judging protogen's own shipped renders
+  under the mount. The operational how is `.claude/rules/devcards.md`
   — **read it explicitly from your pin; it is path-scoped to `tools/devcards/**`
   anchored at THIS repo's root, so it does not auto-load at a consumer's mount
   point.**
