@@ -946,8 +946,42 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
       /* Selected band — cyan over stock's violet PART_SELECTED fill (the
-       * always-visible centred option); white option text rides on top. */
+       * always-visible centred option); white option text rides on top.
+       *
+       * THE WHITE IS STOCK'S, NOT OURS, AND IT IS REFERENCE-INFEASIBLE.
+       * `bg_color_primary` sets bg AND text_color=white together
+       * (lv_theme_default's style_init); asgard replaces only the fill, so
+       * the glyph tone leaks through. White on checked-accent measures
+       * 5.36:1 against the governing 6:1 — and white MAXIMISES luminance
+       * against that fill, so no choice of text tone reaches the floor.
+       * `checked-accent`'s own lightness has to move, which is the palette
+       * derivation's job, not this arm's. Same shape as `accent-text`. */
       lv_obj_add_style(obj, &t->styles.checked_accent, LV_PART_SELECTED);
+      /* DISABLED on the BAND, and this part needs its own entry because the
+       * MAIN swap cannot reach it. bg_color is not inherited across parts,
+       * and the stock white above is set ON this part — so a roller whose
+       * MAIN had drained to surface-2 still showed the selected option in
+       * full-contrast white on live cyan. The centred row is the one a
+       * reader actually reads, so the widget went on announcing itself as
+       * live while every other row dimmed.
+       *
+       * Reusing `disabled_fill` rather than authoring a band-specific pair
+       * is the point: it is the SAME token pair every other text-bearing
+       * disabled control takes (surface-2 + disabled-fg, 6.04:1 dark /
+       * 7.16:1 light), so the roller does not become a place where DISABLED
+       * means something local. LV_STATE_DISABLED outranks the DEFAULT-state
+       * entry above by state weight, so it wins independently of add order.
+       *
+       * The band stops being visible as a band, which is the intended
+       * consequence and not a loss: it goes to surface-2 like the rest of
+       * the field, and WHICH option is selected stays legible from the
+       * roller's own geometry — the selected row is the centred one. The
+       * alternative, keeping a distinguishable band, has no token that does
+       * it: a surface-1 band on a surface-2 field separates by 1.13:1 dark /
+       * 1.17:1 light, and every fill that clears 3:1 against surface-2 fails
+       * 6:1 for the glyph riding on it. */
+      lv_obj_add_style(obj, &t->styles.disabled_fill,
+                       LV_PART_SELECTED | LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* Stock cards the roller MAIN (rounded) while its SELECTED band is a

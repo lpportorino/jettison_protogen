@@ -652,17 +652,17 @@
    :h 480},
   "lv_roller/disabled/large/mid"
   {:sha256
-   "09e206fde5beb2f7f5d29431b853b4c7a3809028ee89f22c83a0c8b83c2da6aa",
+   "50a07d7328fc8996b45f18e58cb1ecf5cc0bd73c0d14919c9d71d3bee6764e56",
    :w 800,
    :h 480},
   "lv_roller/disabled/medium/mid"
   {:sha256
-   "830c07f7ddbe3c02d25c655d6c2c0e941a3d0a59255f2545e94266faf2599e8c",
+   "b543eaf3e1f2a7de204f97ccf6e32fc10adccf55dcd86020d3a74fe96d1156b5",
    :w 800,
    :h 480},
   "lv_roller/disabled/small/mid"
   {:sha256
-   "048b3308ef787ca3b06fb0ac3b8b8e9b00523881b84596c6cdf487b29dd84a32",
+   "f9e93a77e9e4d0ed7e5bfa06d9be66dd0d8299a7e33b0b1a193f1bb893cdb7b9",
    :w 800,
    :h 480},
   "lv_roller/edited/large/mid"
