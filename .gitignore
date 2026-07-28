@@ -59,3 +59,12 @@ renderer/compile_commands.json
 # PDL-R measurement scratch (the reference + harness are committed; runs are not)
 tools/devcards/pdl-r-reference/__pycache__/
 tools/devcards/pdl-r-reference/frozen_corpus_result.json
+
+# The donation harness's per-fork scratch area (tools/claude/forks.sh). It is
+# scratch BY CONTRACT -- release deletes it -- so nothing here may be tracked.
+# It was tracked once, and three separate workers tripped over it: release
+# deleted base-tree files and then refused its own deletions, a mutation driver
+# at an obvious name overwrote a committed script, and `git add -A` swept the
+# harness's own test litter into a commit. Ignoring it makes the name mean one
+# thing in every clone.
+.fork-scratch/
