@@ -6,6 +6,50 @@ on any push to `master`, so the strip is not tidiness: with no remote configured
 a push cannot resolve a destination at all, which is the only thing that makes a
 mistake unable to reach the fleet.
 
+## ONE FORK, ONE OWNER — and write down who it is
+
+A fork has exactly one worker. Two in one tree is not a merge inconvenience, it
+is a design failure: neither can see the other's intent, so they produce
+competing implementations of the same thing and there is no principled way to
+choose between them afterwards. Measured here — one lane ended up with a
+committed workflow from one worker, an untracked competing workflow from
+another, and a generated artifact modified by neither's brief, all in one tree.
+
+- **Name the owner in the seed commit and in the brief.** "You are the only
+  worker in this checkout" is a fact the worker can act on: it licenses
+  committing freely and it makes an unexpected file a signal rather than noise.
+- **Never dispatch a second worker into an owned fork.** If a fork is already
+  handed to someone — another agent, another harness, a person — the way to add
+  effort is another fork, not another worker.
+- **A worker that meets a file it did not write must NOT resolve it.** Preserve
+  it, exclude it, and say in the report that its provenance is unprovable. That
+  is the correct outcome, not a failure to finish.
+
+## WHO the worker is changes the LIFT
+
+**A Claude Code agent under these rules** produces a predictable shape: a
+committed `FINAL_REPORT.md`, per-consumer CONSEQUENCES in the commit message,
+enumerated forms for contended files, and an explicit account of what the brief
+got wrong. A lift can lean on that structure and spend its effort on the claims.
+
+**A third party — another LLM, another harness, or the user working by hand —
+is bound by none of it, by construction.** Expect any of: no report, or one left
+uncommitted; commit messages without a CONSEQUENCES beat; untracked files;
+generated artifacts modified in passing; work abandoned mid-edit when the
+session ends. None of that is misconduct — it is simply a different contract.
+
+So for a third-party fork, **derive everything from the TREE and never from the
+report's existence**:
+
+- read `git log`, `git status --porcelain --untracked-files=all`, and the diff
+  before forming any view of what was done;
+- do not assume a commit boundary means "finished" — it may mean "the session
+  ended here";
+- re-derive the CONSEQUENCES beat yourself if the message lacks one, because the
+  bump author downstream executes that beat verbatim;
+- treat a modified generated artifact as **not part of the deliverable** unless
+  the change explains it. Regenerate in the receiving checkout instead.
+
 ## Creating one
 
 - Clone, `git remote remove origin`, and **verify both ways**: `git remote -v`
@@ -33,6 +77,32 @@ mistake unable to reach the fleet.
   pattern-matched `pkill` has killed another session's monitors.
 - A brief is a HYPOTHESIS about the fix. Ask the worker, in writing, to report
   what in it turned out to be wrong; that is reliably where the best work is.
+
+## "READY TO LIFT" IS A CLAIM ABOUT A WORKER, NOT ABOUT `git status`
+
+Establish that the work has STOPPED before you read a line of it. Every cheap
+signal here is a point sample, and an agent between tool calls looks exactly
+like an agent that has finished.
+
+- **A clean `git status` proves nothing.** Measured: a fork checked clean, and
+  fifty seconds later carried seventy uncommitted insertions. The check landed
+  between two writes.
+- **A `/proc/<pid>/cwd` sweep proves nothing either, and this is the trap.**
+  Tool-call writes are short-lived processes; between calls there is NO process
+  to find, so the sweep reports idle for a fully active worker. It answers "is
+  something writing this instant", never "is anyone working here".
+- **What does hold**: the owner has DECLARED completion; the tree is clean; no
+  file under the fork has a recent mtime (`find <fork> -newermt '-3 minutes'
+  -type f -not -path '*/.git/*'`); and for containerised work, no live container
+  mounts it (`docker inspect` the mount path — that is what actually catches an
+  agent the process sweep misses).
+- Use the process sweep only for its real job: confirming nothing is running
+  before you `rm -rf`, and identifying a process before you signal it.
+
+**The presence-aware byte-check diagnoses this for free.** A CONTENT MISMATCH
+between a fork's worktree and its own HEAD means the WORKTREE IS DIRTY — a live
+worker, or work abandoned mid-edit. It does not mean the bundle is bad. Check
+`git -C <fork> status` before concluding the backup failed.
 
 ## Lifting
 
@@ -75,7 +145,17 @@ mistake unable to reach the fleet.
   path assert `exists-in-fork == exists-in-bundle` FIRST, and compare hashes
   only when both exist. Use `git cat-file -e FETCH_HEAD:<path>` for the bundle
   side; `git show` piped to a hasher cannot distinguish "absent" from "empty".
-- Only after that byte-compare passes: `rm -rf` the fork.
+- **A BUNDLE CARRIES COMMITS. IT CANNOT CARRY WHAT GIT DOES NOT TRACK**, and
+  the verification will not tell you, because it only walks
+  `git diff --name-only BASE..master`. Untracked files and uncommitted
+  modifications are invisible to both. Measured: a competing implementation of
+  a whole CI lane existed only as an untracked file; a verified bundle plus
+  `rm -rf` would have destroyed it while every check reported green.
+  Before deleting, run `git -C <fork> status --porcelain --untracked-files=all`
+  and copy anything it lists into `fork-preserve/<name>-untracked/`. An empty
+  listing is the only licence to skip that.
+- Only after that byte-compare passes AND the untracked sweep is empty or
+  copied: `rm -rf` the fork.
 
 ## Know which repo you just acted on
 
@@ -96,6 +176,8 @@ under which a command silently lands in the wrong one.
   `git checkout master` and nothing is lost — but only if you look. Check the
   branch ref, not `git log -1`, which reports HEAD.
 
-The shorthand: **strip and verify the remote; lift on re-run evidence, not on
-the report; restore by FETCH into a repo holding the base and byte-compare
-before deleting; and name the repo in every command that spans two.**
+The shorthand: **one fork one owner; strip and verify the remote; prove the
+worker STOPPED before reading the work; lift on re-run evidence, not on the
+report; copy the untracked before you trust the bundle; restore by FETCH into a
+repo holding the base and byte-compare before deleting; and name the repo in
+every command that spans two.**
