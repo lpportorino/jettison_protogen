@@ -162,10 +162,10 @@ and wrong.** The compiled tables carry their own `line_height` / `base_line` and
 they do not agree with the TTF they were cut from: `font_orbitron_bold_32` says
 35 where that face's `hhea` ascender/descender scale to 40.13, and
 `font_b612mono_bold_12` says 15 where the same arithmetic gives 14.58. **The
-sign flips**, so no single correction factor rescues a TTF-derived number — the
-two files are the only sources of truth and they must be read directly. Any
-font-metric measurement records which rasterizer produced it or it is not a
-measurement.
+sign flips**, so no single correction factor rescues a TTF-derived number: the
+compiled table is the only source of truth for what renders, and it has to be
+read directly. Any font-metric measurement records which rasterizer produced it
+or it is not a measurement.
 
 The one TTF tuple is the exception that proves the ordering, not a
 counterexample: TinyTTF derives `line_height` from `stbtt_GetFontVMetrics` — the
