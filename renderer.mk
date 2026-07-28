@@ -210,7 +210,7 @@ reference: wasm
 # rather than assumed, over the variables that actually differ between the two
 # paths. Five clean release builds in the pinned image, all byte-identical:
 # the baseline; a repeat from a wiped object tree (determinism at all); the tree
-# bind-mounted at /home/runner/work/protogen/protogen instead of /workspace
+# bind-mounted at the hosted runner's own workspace path instead of /workspace
 # (the REPO-PATH axis); WASI_SDK pointed at /root/wasi-sdk instead of
 # /opt/wasi-sdk (the SDK-PATH axis — what the composite action actually does);
 # and nproc forced to 2 instead of 12 (the runner has fewer cores than a dev

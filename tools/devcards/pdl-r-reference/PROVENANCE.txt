@@ -1,16 +1,25 @@
 PDL-R V6 reference implementation — the bake-off WINNER's measurement code.
 
-upstream: jettison_eudoxia
+upstream: a PRIVATE consumer repository — deliberately unnamed, see NAMES below
 sha:      2ec54f335ad98b9396797ce350399b78eb8ecd63  (tag camp/pdl-r-bakeoff-20260725)
-path:     .eudoxia/artifacts/worktree-pocs/wf_341ef87c-34e-11/{lib.py,run_experiment.py}
+path:     <upstream>/artifacts/worktree-pocs/wf_341ef87c-34e-11/{lib.py,run_experiment.py}
 flavor:   source-port (reference only — NOT wired into any gate)
 date:     2026-07-26
 
-WHY IT WAS COPIED HERE RATHER THAN CITED: eudoxia is executing a git orphan reset that
-collapses its history and destroys all 29 camp/* tags, this one included. A `git show
-camp/...` citation would have rotted. The full history survives as a bundle at
-~/eudoxia-preserve-7bf1a5d/full-history.bundle, but recovering from a bundle is a chore
-this copy avoids.
+NAMES: this repository is PUBLIC and the upstream is not. The upstream repo, its
+container image and its internal namespaces are therefore referred to generically here
+and in the two ported files — their PROSE only; no executable line was changed, so the
+measurements below still describe the code as lifted.
+
+The sha above is KEPT even though the orphan reset described next will make it
+unresolvable: it names no repo, no path and no author, so it discloses nothing, and a
+recorded identifier that cannot be resolved today is still worth more than none if the
+bundle is ever restored. Do not read it as a handle you can follow.
+
+WHY IT WAS COPIED HERE RATHER THAN CITED: the upstream repo is executing a git orphan
+reset that collapses its history and destroys all 29 camp/* tags, this one included. A
+`git show camp/...` citation would have rotted. The full history survives as a bundle
+preserved outside that repo, but recovering from a bundle is a chore this copy avoids.
 
 WHAT IT IS: "Region Ink-edge Drift" — clamped edge-BITMAP drift over renderer-supplied
 glyph-ink masks, decoration suppressed AT THE RENDERER, degraded by a veiling-glare

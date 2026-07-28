@@ -8,7 +8,7 @@ Deterministic corpus generation: every RNG draw is seeded from
 (BASE_SEED, canonical-key) via crc32 (stable across processes/interpreters,
 unlike Python's hash() for strings under hash randomization).
 
-Run: docker run --rm -v <worktree>:/w -w /w eudoxia/mega:latest python3 run_experiment.py
+Run: docker run --rm -v <worktree>:/w -w /w <upstream-image>:latest python3 run_experiment.py
 """
 import sys, json, zlib, time
 sys.path.insert(0, "/w")

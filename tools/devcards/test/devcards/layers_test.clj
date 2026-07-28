@@ -11,7 +11,7 @@
    can only pass for its own reason: the assertions check the :invariant
    AND that no other clause produced it. The known-bad topology (chrome
    declared above a video proxy the compositor punches on top) is
-   reproduced synthetically — eudoxia's actual screens cannot come here,
+   reproduced synthetically — a private consumer's actual screens cannot come here,
    and the corpus is gate-enforced secret-free.
 
    The real 4-prompt capture going red remains the CONSUMER's proof. These

@@ -144,8 +144,8 @@ def ink_mask_full_frame(frame_shape, alpha, x, y, dilate_px=INK_DILATE_PX):
     ACTUALLY part of the label keeps a noisy/video background's own edges
     (which also gain/lose Sobel response under degradation) out of the
     text-legibility measurement. Mirrors the per-uid visible-pixel idea
-    already planned for this repo's presentation layer
-    (headless-ui-eyeball.md's `eudoxia.ui.visibility`)."""
+    already planned for the UPSTREAM's presentation layer — "this repo" in
+    the original meant that repo, not this one, which has no such layer."""
     th, tw = alpha.shape
     full = np.zeros(frame_shape, dtype=bool)
     full[y:y + th, x:x + tw] = alpha > INK_ALPHA_THRESH

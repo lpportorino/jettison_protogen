@@ -24,9 +24,11 @@ It also re-runs the two dead ends on this same corpus, because a dead end
 demonstrated on a different corpus is exactly the kind of inherited claim this
 script exists to retire.
 
-PROVENANCE. lib.py is the lifted V6 reference and is NOT edited — its two font
-constants point at the bake-off machine's dist-packages and are patched here at
-import time. Everything measured below comes from lib.py's own functions.
+PROVENANCE. lib.py is the lifted V6 reference and is edited ONLY for the upstream
+name genericisation recorded in PROVENANCE.txt — no executable line differs from
+the original. Its two font constants point at the bake-off machine's
+dist-packages and are patched here at import time. Everything measured below
+comes from lib.py's own functions.
 
 ENVIRONMENT. The pinned toolchain container carries numpy/scipy/PIL and DejaVu
 (Dockerfile.base), so this runs THERE and its numbers are reproducible like
@@ -56,7 +58,8 @@ import zlib
 import numpy as np
 
 # ── resolve DejaVu, then patch lib's font constants before anything reads them
-# lib.py is the lifted reference and is NOT edited, so its two hardcoded paths
+# lib.py's executable lines are the lifted reference and are NOT edited (only its
+# prose was genericised — PROVENANCE.txt), so its two hardcoded paths
 # (the bake-off machine's dist-packages) are overridden here. Candidates cover
 # both environments this runs in: the pinned container installs
 # fonts-dejavu-core at the system path, while a host may only have the copy

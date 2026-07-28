@@ -1,6 +1,6 @@
 # Canonical C style for the renderer's hand-authored sources.
 #
-# KEYS ARE BYTE-IDENTICAL TO ~/git/cc/sych/.clang-format ON PURPOSE. One C style
+# KEYS ARE BYTE-IDENTICAL TO the sych repo's .clang-format ON PURPOSE. One C style
 # across the fleet means a file moved between repos does not reformat, and a
 # reviewer reading two repos reads one layout. Change a key here only in lockstep
 # with sych.
