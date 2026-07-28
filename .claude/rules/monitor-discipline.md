@@ -50,6 +50,25 @@ tool turns each stdout line into a notification as it happens; that is the whole
 point. If you catch yourself backgrounding a poll loop to watch remote state,
 arm the monitor instead.
 
+## When a red run's raw logs answer 403
+The public jobs endpoint still exposes each job's conclusion and every step's
+name, status and conclusion without a token:
+
+```bash
+curl -sS \
+  "https://api.github.com/repos/<owner>/<repo>/actions/runs/<id>/jobs"
+```
+
+Use it once to localise the red when the run URL's raw logs are forbidden. This
+is the same endpoint `ci-watch` uses to name step progress; it does not recover
+the raw command output, but it distinguishes the failing step from every green
+neighbour. Measured on a public failed run: the logs request returned HTTP 403,
+while this request returned HTTP 200 and named the exact failing step.
+
+**That diagnosis costs one request from the same unauthenticated 60/hour/IP
+budget as `ci-watch`.** It is a one-shot fallback, never a polling loop; reuse
+the returned job document, and do not query each job separately.
+
 ## Authoring contract (when touching the scripts)
 - `tail -F` (follow by name) over `-f`; `grep --line-buffered` / `awk … fflush()`
   in every pipe, or events lag.

@@ -80,6 +80,24 @@ render, whose separating gap is narrower than its own seed-to-seed noise. Do not
 carry "readability is three-way" across to the arithmetic one; they are two
 quantities that share a word.
 
+**A RANGE CHECK CANNOT CERTIFY RECOVERED ALPHA.** Measured on the real renderer,
+the 4bpp font masks contain exactly the 16 levels `{0, 17, ..., 255}`. That
+codebook makes nearest-codeword decoding possible; it is NOT what bounds the
+naive inversion. The bound comes from LVGL's `LV_UDIV255` blend truncating toward
+the background: for every defined inversion (`fg != bg`), the rendered channel
+stays between `fg` and `bg`, so recovered alpha stays in `[0,1]`. Exact equality
+makes the inversion NaN, not out of range. At CR 1.05 the naive recovery was
+wrong by a mean 23.21/255 and misclassified 108 mask pixels while producing ZERO
+out-of-range values. **A `[0,1]` gate has no red for that failure; it can report
+plausible values while the recovery is wrong.**
+
+**THE SAME RECOVERY MEASUREMENT DOES NOT EARN A CONTENT-INDEPENDENT LOOKUP.**
+At a fixed `montserrat_14` font, anti-aliased ink fraction varied **0.47–0.83**
+across the tested content. A score sensitive to the ink/AA mix therefore moves
+with content. The experiment proves the recovery mechanism, not transferability
+from a measured matrix cell to every other card; that transfer remains unproven
+until it is measured across held-out content.
+
 **PDL-HW** — legibility under a hardware condition (sunlight, darkness, a
 specific panel revision) — is a BENCH obligation scoped to a hardware revision,
 never a gate result. No gate here can see those conditions, so no pass message
