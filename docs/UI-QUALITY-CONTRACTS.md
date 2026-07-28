@@ -2,6 +2,18 @@
 
 The interface-quality standard protogen defines and its consumers gate on.
 
+**EDITING THIS FILE STALES A GENERATED ARTIFACT, and the local battery cannot
+tell you.** This text is embedded VERBATIM into
+`.claude/skills/ui-standard-review/STANDARD.md`, so an edit here that is not
+followed by a regeneration leaves the review skill briefing its agent from
+superseded text — the one reader that acts on it. What catches it is
+`make -f renderer.mk standard-brief`, which is deliberately NOT a
+`check-renderer` lane (it shells out to git, which cannot resolve the checkout
+from inside the container), so it runs only in CI and **a green local battery
+says nothing about it**. Regenerate in the pinned container
+(`tools/uber.sh 'make -f renderer.mk standard-brief-generate'`) and commit the
+result in the SAME change.
+
 **SCOPE: a ui_ast SURFACE, never a repository.** Everything here binds an
 interface rendered through the ui_ast vocabulary by the reference interpreter,
 including widgets a consumer authors on top. The mechanical test is whether the
