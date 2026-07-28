@@ -300,7 +300,10 @@ preserve_scratch_scripts() {
   local fork="$1" preserve_dir="$2" scratch="$fork/.fork-scratch"
   local source relative destination
   PRESERVED_SCRIPT_COUNT=0
-  [ -d "$scratch" ] || return
+  # `return 0`, never a bare `return`: a bare one propagates the FAILED test's
+  # status out of a bare call site under `set -e`, so a fork with no scratch
+  # directory aborts release with exit 1 and NO message at all.
+  [ -d "$scratch" ] || return 0
 
   while IFS= read -r -d '' source; do
     relative="${source#"$scratch"/}"
