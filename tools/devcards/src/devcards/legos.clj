@@ -574,7 +574,7 @@
            :radius 13
            :border-width 1
            :pad-all 2}
-   :flags-clear [:scrollable]
+   :flags-clear [:scrollable :clickable]
    :children [{:type :WIDGET_LABEL :text (str badge)}]})
 
 (defn- stage-caption
@@ -590,7 +590,7 @@
    ;; :cross-place centres the shorter children against the tall switch;
    ;; :track-place is what centres that whole band inside the 48px row.
    :layout {:flow :row :cross-place :center :track-place :center}
-   :flags-clear [:scrollable]
+   :flags-clear [:scrollable :clickable]
    ;; WIDGET_SWITCH, not WIDGET_CHECKBOX: a checkbox with no authored text
    ;; renders the stock default "Check box" label (the renderer skips empty
    ;; text, so the wire cannot express an icon-only checkbox).
@@ -631,7 +631,7 @@
    ;; spare pixel on the right and reads as left-aligned in a centred card.
    :layout {:flow :row :main-place :center
             :cross-place :center :track-place :center}
-   :flags-clear [:scrollable]
+   :flags-clear [:scrollable :clickable]
    :children (if disabled?
                (mapv #(update % :states-bits (fnil bit-or 0) lv-state-disabled) nodes)
                nodes)})
@@ -657,7 +657,7 @@
      ;; reads as "the entry is stuck to the top of its container".
      :layout {:flow :column :main-place :center
               :cross-place :center :track-place :center}
-     :flags-clear [:scrollable]
+     :flags-clear [:scrollable :clickable]
      :children (into [(stage-caption stage idx)]
                      (map #(body-row % disabled?))
                      rows)}))
@@ -675,7 +675,7 @@
    ;; and a hardcoded 130 was dead space the moment the band was centred.
    :layout {:flow :row :main-place :center
             :cross-place :center :track-place :center}
-   :flags-clear [:scrollable]
+   :flags-clear [:scrollable :clickable]
    :children [(icon-button sym-list {:name "dock-fold"})
               {:type :WIDGET_LABEL :text "STAGES"} (badge-node badge)]})
 
@@ -692,6 +692,17 @@
                       (conj (mapv #(get-in % [:props :h]) cards)
                             (:dropdown-h dock-chrome)))]
     {:type :WIDGET_OBJ
+     ;; LAYOUT BOX, not a control. LVGL makes every lv_obj CLICKABLE by default
+     ;; (`obj->flags = LV_OBJ_FLAG_CLICKABLE`, lv_obj.c), so a container sits in
+     ;; the pointer path unless something takes it out — that DEFAULT, not any
+     ;; authored intent, is why a disabled stage's widgets find an enabled
+     ;; hit-testable ancestor here and `devcards.deadzone` reports
+     ;; :disabled-covers-ancestor. Every dock event belongs to a LEAF (the
+     ;; caption switch, the icon buttons, the fold toggle), never to a box, so
+     ;; clearing it denies no press anyone was listening for. Resolving this by
+     ;; construction is what the standard requires; a per-card exemption is the
+     ;; ratchet it refuses.
+     :flags-clear [:clickable]
      :props {:w (:panel-w dock-chrome) :h (stack-h heights)}
      ;; A column's CROSS axis is horizontal, and it defaults to START: the
      ;; 288px cards inside a 320px panel would sit hard against the left edge
@@ -722,6 +733,9 @@
                       (conj (mapv (constantly (:rail-btn-h dock-chrome)) stages)
                             (:badge-h dock-chrome)))]
     {:type :WIDGET_OBJ
+     ;; Same reasoning as `expanded-panel`: a layout box, and every rail event
+     ;; belongs to a leaf button (`dock-fold`, the per-stage buttons).
+     :flags-clear [:clickable]
      :props {:w (:rail-w dock-chrome) :h (stack-h heights)}
      ;; same as the expanded panel: the rail mixes a 30px icon button, 36px
      ;; letter buttons and a 34px badge, so cross-START would align their LEFT
