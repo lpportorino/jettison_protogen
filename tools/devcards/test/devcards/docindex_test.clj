@@ -41,6 +41,7 @@
           :page/sections [{:section/kind :prose :prose/text "body"}]
           :index/group "members"
           :index/heading nil
+          :index/order-range [0 1]
           :index/blocks [{:section/kind :table
                           :section/merge :member-rows
                           :table/headers ["id" "what it proves"]
@@ -58,6 +59,7 @@
           :unit/index? false
           :index/group "legend"
           :index/heading "Legend"
+          :index/order-range [900 900]
           :index/blocks [{:section/kind :table
                           :table/headers ["token" "bit"]
                           :table/rows [["`a`" 1]]}]}))
@@ -92,6 +94,7 @@
           :page/cross-links [{:link/text "index" :link/href "../README.md"}]
           :index/group "newcomer"
           :index/heading "Newcomer"
+          :index/order-range [100 100]
           :index/blocks [{:section/kind :table
                           :table/headers ["card" "what it proves"]
                           :table/rows [["`newcomer/basic`" "being in the set is the only registration."]]}]}))
@@ -303,6 +306,29 @@
                                                 :index/heading nil
                                                 :unit/order 950))))))
 
+(deftest refuses-a-member-outside-its-groups-declared-position
+  (testing "a matching group id and heading do not authorize an arbitrary
+            position in global order"
+    (let [intruder (assoc newcomer
+                          :unit/order 50
+                          :index/group "members"
+                          :index/heading nil
+                          :index/order-range [0 1])]
+      (is (thrown-with-msg?
+           clojure.lang.ExceptionInfo
+           #"falls outside its group's declared :index/order-range"
+           (docindex/index-md (conj baseline intruder))))))
+  (testing "one member cannot expand the group's declaration by itself"
+    (let [intruder (assoc newcomer
+                          :unit/order 50
+                          :index/group "members"
+                          :index/heading nil
+                          :index/order-range [0 50])]
+      (is (thrown-with-msg?
+           clojure.lang.ExceptionInfo
+           #"disagree about the group order range"
+           (docindex/index-md (conj baseline intruder)))))))
+
 (deftest refuses-a-group-whose-members-disagree-about-its-heading
   (testing "an absent heading is an oversight and an explicit nil is a claim;
             the two must never be confused"
@@ -328,6 +354,7 @@
     (let [m3 (fn [id order merge?]
                (-> (member id order)
                    (assoc-in [:provenance/closed-set :set/size] 3)
+                   (assoc :index/order-range [0 2])
                    (assoc-in [:index/blocks 0 :section/merge]
                              (when merge? :member-rows))))]
       (is (thrown-with-msg?

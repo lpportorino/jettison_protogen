@@ -463,6 +463,7 @@
            {:link/text "widget gallery index" :link/href "../README.md"}]
           :index/group "widgets"
           :index/heading nil
+          :index/order-range [0 (dec total)]
           :index/blocks
           [{:section/kind :table
             :section/merge :widget-index
@@ -513,6 +514,7 @@
             :page/cross-links [{:link/text "widget gallery index" :link/href "../README.md"}]
             :index/group "kitchen-sinks"
             :index/heading "Kitchen sinks"
+            :index/order-range [100 100]
             :index/blocks
             [{:section/kind :prose
               :prose/text (str (count rows) " authored multi-widget compositions render "
@@ -551,6 +553,7 @@
             :page/cross-links [{:link/text "widget gallery index" :link/href "../README.md"}]
             :index/group "legos"
             :index/heading "Composition legos"
+            :index/order-range [200 200]
             :index/blocks
             [{:section/kind :prose
               :prose/text (str "The authored-composition corpus — the public "
@@ -576,6 +579,7 @@
           :unit/index? false
           :index/group "states-legend"
           :index/heading "States legend"
+          :index/order-range [900 900]
           :index/blocks
           [{:section/kind :prose
             :prose/text (str "Card captions are card-id tails "

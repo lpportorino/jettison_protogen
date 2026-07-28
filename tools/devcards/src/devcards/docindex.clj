@@ -166,6 +166,14 @@
       (throw (ex-info "cross-link is missing its text or its href"
                       {:unit where :link l})))))
 
+(defn- order-range?
+  "A closed interval in the one global `:unit/order` space."
+  [value]
+  (and (vector? value)
+       (= 2 (count value))
+       (every? integer? value)
+       (<= (first value) (second value))))
+
 (defn validate-manifest!
   "Every refusal a SINGLE manifest owes, independent of the set it lives in
    (the set-level refusals — ordering, reachability, groups, closed sets —
@@ -323,7 +331,12 @@
                       {:unit (:unit/id m)})))
     (when (empty? (:index/blocks m))
       (throw (ex-info "unit joins a group but contributes no index blocks"
-                      {:unit (:unit/id m) :group (:index/group m)})))))
+                      {:unit (:unit/id m) :group (:index/group m)})))
+    (when-not (order-range? (:index/order-range m))
+      (throw (ex-info "unit joins a group without a valid :index/order-range"
+                      {:unit (:unit/id m)
+                       :group (:index/group m)
+                       :range (:index/order-range m)})))))
 
 (defn- validate-closed-sets!
   "A set of units may CLAIM to be closed and total. Deriving an index from
@@ -389,6 +402,37 @@
                       {:group group-id
                        :declared (mapv (juxt :unit/id :index/heading) members)})))
     (first headings)))
+
+(defn- group-order-range
+  "Return a group's repeated-and-agreed exact span in global unit order.
+
+   Contiguity says members with one group id form one run, but it does not say
+   where that run belongs. Repeating the range on every member makes position a
+   checked declaration without introducing a separate group registry."
+  [group-id members]
+  (let [ranges (distinct (map :index/order-range members))]
+    (when (< 1 (count ranges))
+      (throw (ex-info "group members disagree about the group order range"
+                      {:group group-id
+                       :declared (mapv (juxt :unit/id :index/order-range) members)})))
+    (let [declared (first ranges)
+          orders (mapv :unit/order members)
+          actual [(apply min orders) (apply max orders)]]
+      (doseq [member members
+              :let [order (:unit/order member)]]
+        (when-not (<= (first declared) order (second declared))
+          (throw (ex-info "unit order falls outside its group's declared :index/order-range"
+                          {:unit (:unit/id member)
+                           :group group-id
+                           :order order
+                           :range declared}))))
+      (when-not (= declared actual)
+        (throw (ex-info "group order range is not its exact member span"
+                        {:group group-id
+                         :declared declared
+                         :actual actual
+                         :members (mapv :unit/id members)})))
+      declared)))
 
 (defn- fold-run
   "Fold one maximal run of adjacent blocks sharing a non-nil `:section/merge`
@@ -461,6 +505,7 @@
             (let [id (:index/group (first run))]
               {:group/id id
                :group/heading (group-heading id run)
+               :group/order-range (group-order-range id run)
                :group/blocks (merged-blocks id run)
                :group/members (vec run)}))
           runs)))
