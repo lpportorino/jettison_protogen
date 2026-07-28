@@ -1,32 +1,54 @@
 (ns devcards.docs
-  "Per-widget doc pages + the gallery index (T2.7) — the promoted F2-POC
-   generator. For every ui.WidgetType value it emits
-   docs/widgets/<WIDGET_ENUM_NAME>/README.md (GENERATED, DO-NOT-EDIT)
-   assembling: the per-card JPEGs (one image per card x family, no baked
-   label — devcards.gallery), the
-   conventions manifest's committed-states row, the props-message schema
-   table from protogen's committed JSON FileDescriptorSet, protodoc
-   cross-links, and the corpus spec widget's :notes as known limitations.
-   Plus docs/widgets/README.md (all-widget index + kitchen-sink section +
-   states legend) and docs/widgets/kitchen-sinks/ (the authored
-   compositions get their own gallery dir — recorded call: a sink is not a
-   WidgetType, so it must not masquerade as a widget page, and burying the
-   compositions in the index would hide the only multi-widget renders).
+  "The EMITTER half of the generated doc tree (T2.7): protogen's committed data
+   and the JPEGs this namespace renders, assembled into UNIT MANIFESTS and
+   handed to `devcards.docindex`, which owns every byte of layout.
 
-   The F2 gotchas this generator pins:
+   THIS HALF KEEPS THE PRIVILEGES — the ui.WidgetType enum, the committed JSON
+   FileDescriptorSet, corpus/spec.edn, corpus/composition.edn, the conventions
+   manifest, GraalWasm, and the per-card JPEGs it writes. Everything downstream
+   of a render crosses the seam as FINISHED data, because none of it is
+   expressible as a reference the render-free half could resolve: a props table
+   is rows of cells by the time it leaves here, and an image is a literal
+   filename.
+
+   WHAT THE SPLIT BOUGHT. The index used to restate the same hand-kept list of
+   unit classes in five places — the emitted sections, the output directories,
+   the slug literals, the preview map, and a page count written as
+   `registry + 3` — of which only the first was visible in the output. A new
+   class took five coordinated edits and a missed one shipped green. There is
+   now ONE list, the vector of units `generate!` assembles, and the page count
+   is derived from it.
+
+   The manifests are an IN-MEMORY intermediate, never written: see
+   `devcards.docindex`'s docstring for why, and for what that costs.
+
+   The F2 gotchas this generator still pins:
    - The props schema source is output/json-descriptors/descriptor-set.json
      — docs/.protodoc/proto-db.edn LACKS the ui package (protogen gap,
-     Backlog), so the descriptor IS the one usable home.
+     Backlog), so the descriptor IS the one usable home. It is walked HERE and
+     nowhere else; the render-free half holds no descriptor and could never
+     look a message name up.
    - The registry is ENUM-DERIVED, never hand-typed: WidgetType values come
      from the descriptor, each resolved to its WidgetNode widget_props
      oneof arm, its corpus spec class, and its conventions widget-states
      row — any missing/extra mapping FAILS generation (an undeclared
-     WidgetType is red by construction).
+     WidgetType is red by construction). That claim crosses the seam as a
+     closed-set stamp, which `devcards.docindex` re-checks arithmetically.
    - Markdown is hand-rolled GFM (the F2 buy-before-build survey: pipe
      tables + image refs are the whole surface; a templating dep would hide
      the byte shape a DO-NOT-EDIT page should keep visible).
    - Every table gets a REAL header row — md-table REJECTS blank headers
-     (the F2 index-grid defect, pinned mechanically).
+     (the F2 index-grid defect, pinned mechanically). Because a manifest
+     carries structured rows rather than finished GFM, that refusal now fires
+     on the CONSUMER side of the seam too: a malformed table cannot be handed
+     across and cheerfully written out.
+
+   PROSE WITH NO UPSTREAM HOME. Every page lede, the committed-states
+   explainer, the shape-only footnote, the index lede and both index blurbs are
+   string literals below, and they carry interpolated counts. This namespace
+   owns both the sentence and the number in it and regenerates them together.
+   It is authored English with no source of truth — the one honest gap the
+   split surfaces rather than papers over.
 
    Cross-link fact (documented not guessed): the ui_ast.proto and
    protodoc-index links are written for the protogen root layout
@@ -41,6 +63,7 @@
             [clojure.string :as str]
             [devcards.conventions :as conventions]
             [devcards.docgen :as docgen]
+            [devcards.docindex :as docindex]
             [devcards.gallery :as gallery]
             [devcards.jpeg :as jpeg]))
 
@@ -73,6 +96,24 @@
    is under `docs/widgets/` and is claimed, so the wider root costs nothing
    and closes the gap."
   "docs")
+
+(def sinks-unit-id
+  "The kitchen-sinks unit's id — THE ONE HOME of that name. It is the page
+   directory, the colocated image slug and the manifest's `:unit/id` at once, so
+   a second copy would be a second convention waiting to disagree."
+  "kitchen-sinks")
+
+(def legos-unit-id
+  "The composition-legos unit's id — one home, for the same reason."
+  "legos")
+
+(defn- unit-dir
+  "Where a unit's colocated artifacts are written. `devcards.docindex/page-path`
+   puts that unit's page INSIDE this same directory; if the two ever disagreed,
+   every image reference on the page would resolve outside it and
+   `devcards.docindex/validate-image-refs!` would refuse the run."
+  ^String [^String unit-id]
+  (str out-dir "/" unit-id))
 
 ;; ── Descriptor reading (string-keyed JSON walking) ──────────────────────
 (defn load-descriptor
@@ -217,190 +258,132 @@
           :states (vec states)}))
      enums)))
 
-;; ── GFM building blocks (delegated to the shared devcards.docgen seam) ───
-(def ^:private do-not-edit-header
-  "The widget-gallery DO-NOT-EDIT banner: docgen's generic banner (regen-cmd +
-   sources) fed the gallery's regenerate command + rendered-from sources. The
-   arg strings carry the same hand-wrapped newlines the pre-extraction literal
-   had, so the emitted banner stays byte-identical to the committed pages."
-  (docgen/do-not-edit-header
-   "`clojure -M:bindings:run gallery` from the devcards tool root\n(tools/devcards/)"
-   (str "corpus/spec.edn (cards + notes) +\n"
-        "conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +\n"
-        "output/json-descriptors/descriptor-set.json (props schema) + the colocated\n"
-        "per-card JPEGs rendered from the pinned controls.wasm")))
+;; ── Provenance + prose with no upstream home ────────────────────────────
+(def regen-cmd
+  "The DO-NOT-EDIT banner's regenerate clause, hand-wrapped exactly as
+   committed."
+  "`clojure -M:bindings:run gallery` from the devcards tool root\n(tools/devcards/)")
 
-(defn props-table-md
-  "A widget's props-message fields as a GFM table, or a prose note when the
-   message is empty (ObjProps/ButtonProps — no fields is a real,
-   documentable shape, not a generator failure)."
-  ^String [^String qualified-name fields]
-  (if (empty? fields)
-    (format (str "`%s` carries **no widget-specific properties** — this widget "
-                 "draws entirely from the shared `WidgetNode` contract (`text`, "
-                 "`children`, `style_groups`, `states`).")
-            qualified-name)
-    (docgen/md-table ["field" "number" "type" "constraints"]
-                     (map (juxt :name :number :type :constraints) fields))))
+(def sources-note
+  "The banner's sources clause. ONE hand-wrapped string, never a vector a
+   renderer joins: the committed banner's line breaks fall INSIDE a source
+   entry, so any structured shape would reflow the banner on every page for no
+   semantic gain.
 
-;; ── Page templates ──────────────────────────────────────────────────────
+   The manifest schema makes provenance PER UNIT, which is the point — this one
+   shared value names corpus/spec.edn and the descriptor even on the
+   composition page, whose real source is corpus/composition.edn. As data that
+   inaccuracy is a one-line fix rather than a generator change; it is not taken
+   here, because taking it would change committed bytes and that belongs in its
+   own deliberate change rather than riding along with the split."
+  (str "corpus/spec.edn (cards + notes) +\n"
+       "conventions/ui-render-conventions.edn (:widget-states, :state-selectors) +\n"
+       "output/json-descriptors/descriptor-set.json (props schema) + the colocated\n"
+       "per-card JPEGs rendered from the pinned controls.wasm"))
+
+(def ^:private provenance
+  "The DO-NOT-EDIT banner halves every unit carries."
+  {:provenance/regen-cmd regen-cmd :provenance/sources sources-note})
+
+(def committed-states-explainer
+  "The distinctness/inertness paragraph above every widget's state list."
+  (str "The asgard theme commits to rendering each state below **visually "
+       "distinct** from `default` (gate-held: distinctness). Any state *not* "
+       "listed renders identical to `default` (inertness — hovered-on-a-label "
+       "is the canonical probe)."))
+
+(def props-shape-only-note
+  "The footnote under every props section — a headingless block following the
+   headed table or prose, which is how the manifest vocabulary does without a
+   trailing-prose slot."
+  (str "*Shape-only: the committed JSON descriptor carries no `SourceCodeInfo` "
+       "comments and `docs/.protodoc/proto-db.edn` does not cover the `ui` "
+       "package, so no per-field prose exists to include (protogen backlog).*"))
+
+(defn- widget-lede
+  "A widget page's lede, with its card count resolved."
+  ^String [^String tag card-count]
+  (str "`" tag "` — " card-count " atomic corpus cards (state × size[/value], ids `" tag
+       "/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls "
+       "through to the loaded theme — the object under test. One image per card × "
+       "family, cropped to the card's dump_tree content box; the row caption is the "
+       "card-id tail."))
+
+;; ── The blocks this emitter owns ────────────────────────────────────────
+(def render-sets
+  "The committed gallery render sets narrowed to the two keys the image grid
+   reads. NARROWED rather than passed whole, so the render-free half never sees
+   render vocabulary; narrowed FROM the published var rather than restated, so
+   there is no second copy to drift."
+  (mapv #(select-keys % [:title :file-suffix]) gallery/family-renders))
+
+(def preview-suffix
+  "The render set the index previews with. It belongs on this side: it is a
+   fact about how the images were rendered, and the other half only ever sees
+   the resulting filename."
+  "asgard-dark")
+
+(def caption-header
+  "The image grid's caption-column header. It stays this literal even under a
+   heading that is not about states — the grid's own default, made explicit as
+   data so no caller has to know a default."
+  "state")
+
+(defn props-block
+  "A widget's props-message fields as an index-vocabulary block: a `:table`
+   when the message has fields, a `:prose` note when it has none
+   (ObjProps/ButtonProps — no fields is a real, documentable shape, not a
+   generator failure). SAME heading either way, and the footnote under it is
+   the caller's separate headingless block: the empty case is a different
+   VALUE, never a branch in the renderer.
+
+   Rows are `message-fields` output straight off the descriptor. THIS IS THE
+   ONE PLACE THE PROPS SCHEMA COMES FROM. Deriving it from anything else — most
+   temptingly, reading it back out of the very page it is about to reproduce —
+   makes the resulting byte comparison circular, proving only that a substring
+   survived a round trip."
+  [^String message-name ^String qualified-name fields]
+  (merge {:section/heading (str "Props schema — `" message-name "` (`" qualified-name "`)")}
+         (if (empty? fields)
+           {:section/kind :prose
+            :prose/text (format (str "`%s` carries **no widget-specific properties** — this "
+                                     "widget draws entirely from the shared `WidgetNode` "
+                                     "contract (`text`, `children`, `style_groups`, "
+                                     "`states`).")
+                                qualified-name)}
+           {:section/kind :table
+            :table/headers ["field" "number" "type" "constraints"]
+            :table/rows (mapv (juxt :name :number :type :constraints) fields)})))
+
+(defn- grid-block
+  "A unit's card grid: one row per card, its caption in column one and one
+   literal filename per render set. `rows` is `card-files!` output, which is
+   already the grid's row shape."
+  [^String heading rows]
+  {:section/kind :grid
+   :section/heading heading
+   :grid/caption-header caption-header
+   :grid/render-sets render-sets
+   :grid/rows (vec rows)})
+
+(defn- preview-block
+  "A unit's index preview as a first-class `:image` block, so the block
+   validator can see it and the disk audit can be held against it."
+  [^String alt ^String unit-id ^String preview]
+  {:section/kind :image
+   :image/alt alt
+   :image/src (str "./" unit-id "/" preview)
+   :image/href (str "./" unit-id "/README.md")})
+
+;; ── Rendering + writing the per-card artifacts ──────────────────────────
 (defn- card-file-name
   "The colocated per-card artifact name: <slug>-<state>-<family>.jpg. One
-   JPEG per (card, family), no label baked in — the caption lives in the grid."
+   JPEG per (card, family), no label baked in — the caption lives in the grid.
+   THE ONE HOME of this convention: the filename is carried into the manifest
+   literally, so nothing downstream re-derives it."
   ^String [^String slug ^String state-slug fam]
   (str slug "-" state-slug "-" (:file-suffix fam) ".jpg"))
 
-(defn- states-grid-md
-  "A state x family image grid: one ROW per card (its state caption in column
-   one, then the three family thumbnails) — docgen's generic image grid over the
-   committed family render sets (devcards.gallery/family-renders). The caption is
-   real markdown text welded to its images by the table row, so it can never
-   float away from its card the way a baked-in sheet label did; the browser packs
-   the cells, so no in-repo packing can misplace them. `rows` are the maps
-   `card-files!` returns ({:label :imgs {suffix filename}})."
-  ^String [rows]
-  (docgen/image-grid-md gallery/family-renders rows))
-
-(defn widget-page-md
-  "The full README.md body for one widget's doc page, from its registry
-   entry and the rendered per-card `rows` (card-files! output)."
-  ^String [{:keys [enum message-name qualified-name fields widget states]} rows]
-  (let [tag (:tag widget)
-        notes (:notes widget)]
-    (str
-     do-not-edit-header
-     "# "
-     enum
-     "\n\n"
-     "`"
-     tag
-     "` — "
-     (count (:cards widget))
-     " atomic corpus cards "
-     "(state × size[/value], ids `" tag
-     "/<state>/<size>[/<value>]`), "
-     "rendered unstyled so everything unset falls through to the loaded "
-     "theme — the object under test. One image per card × family, cropped to "
-     "the card's dump_tree content box; the row caption is the card-id tail.\n\n"
-     "## States\n\n" (states-grid-md rows)
-     "\n\n## Committed states\n\n"
-     "The asgard theme commits to rendering each state below **visually "
-     "distinct** from `default` (gate-held: distinctness). Any state *not* "
-     "listed renders identical to `default` (inertness — hovered-on-a-label "
-     "is the canonical probe).\n\n" (str/join "\n" (map #(str "- `" (name %) "`") states))
-     "\n\n## Props schema — `" message-name
-     "` (`" qualified-name
-     "`)\n\n" (props-table-md qualified-name fields)
-     "\n\n*Shape-only: the committed JSON descriptor carries no "
-     "`SourceCodeInfo` comments and `docs/.protodoc/proto-db.edn` does not "
-     "cover the `ui` package, so no per-field prose exists to include "
-     "(protogen backlog).*\n\n"
-     "## Known limitations\n\n"
-     (if (str/blank? (str notes)) "None recorded in the corpus spec for this class." notes)
-     "\n\n---\n" "Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; "
-     "[protodoc index](../../index.md) &middot; "
-     "[widget gallery index](../README.md)\n")))
-
-(defn legos-page-md
-  "The composition-legos gallery page: a caption x family image grid (one
-   JPEG per card x family — devcards.gallery/family-renders) over the
-   authored-composition corpus (corpus/composition.edn — the source of
-   this page, beside the atomic spec) + a table linking each card to its
-   `devcards.legos` maker and its contract notes."
-  ^String [cards rows]
-  (str do-not-edit-header
-       "# Composition legos\n\n"
-       "The "
-       (count cards)
-       " authored-composition cards from `corpus/composition.edn` — the "
-       "public `devcards.legos` builders compiled through the authored "
-       "lane (`devcards.fixtures/build-authored-card`), the only corpus "
-       "cells carrying events, absolute placement, and part-selector "
-       "styling. Interaction contracts (press-seek, drag, the ext-click "
-       "halo, dock event identities) are gate-held on BOTH engines; the "
-       "images document the pixels. Each is cropped to the lego's own "
-       "box — the scrubber's includes its transparent hit-halo wrapper.\n\n"
-       "## States\n\n" (states-grid-md rows)
-       "\n\n## The cards\n\n"
-       (docgen/md-table ["card" "lego" "what it proves"]
-                        (for [{:keys [id lego notes]} cards]
-                          [(str "`" id "`") (str "`" (name lego) "`") notes]))
-       "\n\n---\n" "Cross-links: [widget gallery index](../README.md)\n"))
-
-(defn sinks-page-md
-  "The kitchen-sinks gallery page: a caption x family image grid (one JPEG
-   per card x family) over all the authored
-   compositions + a table linking each sink to its member widget pages.
-   `tag->enum` resolves spec widget tags to page dirs."
-  ^String [sinks tag->enum rows]
-  (str do-not-edit-header
-       "# Kitchen sinks\n\n"
-       "The "
-       (count sinks)
-       " authored multi-widget compositions from the same "
-       "corpus the gates verify — the only cells where widgets render as "
-       "neighbors. Each is a whole composite screen, cropped to the sink "
-       "container: one image per sink × family.\n\n"
-       "## Screens\n\n" (states-grid-md rows)
-       "\n\n## The compositions\n\n"
-       (docgen/md-table ["sink" "member widgets" "what it proves"]
-                        (for [{:keys [id widgets description]} sinks]
-                          [(str "`" id "`")
-                           (str/join ", "
-                                     (for [tag widgets
-                                           :let [e (or (get tag->enum tag)
-                                                       (throw (ex-info
-                                                               "sink member tag has no widget page"
-                                                               {:sink id :tag tag})))]]
-                                       (str "[" e "](../" e "/README.md)"))) description]))
-       "\n\n---\n" "Cross-links: [widget gallery index](../README.md)\n"))
-
-(defn index-page-md
-  "The docs/widgets/README.md index: every WidgetType row (link, committed
-   states, asgard-dark preview), the kitchen-sink section, and the states
-   legend (a generated projection of the conventions manifest's
-   :state-selectors — the manifest stays the one home)."
-  ^String [registry state-selectors previews sink-count]
-  (str
-   do-not-edit-header
-   "# Widget gallery\n\n"
-   "Per-widget rendered doc pages, generated from the same corpus the "
-   "devcard gates verify — all "
-   (count registry)
-   " `ui.WidgetType` values, "
-   "enum-derived (an undeclared WidgetType fails generation). Previews are "
-   "one asgard-dark card; each page adds vanilla + asgard-light per card.\n\n"
-   (docgen/md-table
-    ["widget" "committed states" "preview (asgard dark)"]
-    (for [{:keys [enum states]} registry]
-      [(str "[`" enum "`](./" enum "/README.md)")
-       (str/join ", " (map #(str "`" (name %) "`") states))
-       (str "[![" enum "](./" enum "/"
-            (or (get previews enum)
-                (throw (ex-info "no preview image for widget index row" {:enum enum})))
-            ")](./" enum "/README.md)")]))
-   "\n\n## Kitchen sinks\n\n"
-   sink-count " authored multi-widget compositions render on their own page: "
-   "[kitchen sinks](./kitchen-sinks/README.md).\n\n"
-   "[![kitchen sinks](./kitchen-sinks/" (get previews "kitchen-sinks") ")]"
-   "(./kitchen-sinks/README.md)\n\n"
-   "## Composition legos\n\n"
-   "The authored-composition corpus — the public `devcards.legos` "
-   "builders (media scrubber + foldable stage-manager dock) with their "
-   "gate-held interaction contracts — renders on its own page: "
-   "[composition legos](./legos/README.md).\n\n"
-   "[![composition legos](./legos/" (get previews "legos") ")]"
-   "(./legos/README.md)\n\n"
-   "## States legend\n\n"
-   "Card captions are card-id tails (`<state>/<size>[/<value>]`); the "
-   "state vocabulary below is a generated projection of "
-   "`ui-render-conventions.edn` `:state-selectors` (the manifest is the one "
-   "home).\n\n"
-   (docgen/md-table ["state" "lv_state bit"]
-                    (for [[k v] (sort-by val state-selectors)] [(str "`" (name k) "`") v]))
-   "\n"))
-
-;; ── Generation (renders + writes) ───────────────────────────────────────
 (defn- card-files!
   "Render + encode + write ONE JPEG per (card, family) for a gallery unit
    (`entries` = its built corpus entries, spec order). No label is baked into
@@ -432,10 +415,197 @@
      :rows (mapv #(select-keys % [:label :imgs]) per-card)}))
 
 (defn- unit-preview
-  "The index-preview filename for a unit: its first card's asgard-dark image."
-  ^String [rows]
-  (get-in (first rows) [:imgs "asgard-dark"]))
+  "The index-preview filename for a unit: its first card's preview-set image.
+   A MISSING one THROWS. It has to: a nil here ships an image target that
+   resolves to the unit's DIRECTORY, which exists — so the page renders, the
+   link is dead, and the index is green."
+  ^String [^String unit-id rows]
+  (or (get-in (first rows) [:imgs preview-suffix])
+      (throw (ex-info "unit has no preview image for the index"
+                      {:unit unit-id :render-set preview-suffix}))))
 
+;; ── Unit manifests ──────────────────────────────────────────────────────
+(defn widget-manifest
+  "One WidgetType's manifest. `order` is its enum ordinal, which doubles as its
+   `:set/index` in the closed-set stamp — the arithmetic the other half checks
+   in place of the enum it cannot see."
+  [{:keys [enum message-name qualified-name fields widget states]} rows order total]
+  (merge provenance
+         {:manifest/version 1
+          :unit/id enum
+          :unit/order order
+          :unit/page? true
+          :unit/index? false
+          :page/title enum
+          :page/lede (widget-lede (:tag widget) (count (:cards widget)))
+          :page/sections
+          [(grid-block "States" rows)
+           ;; "## Committed states" is a HEADED prose block followed by a
+           ;; HEADINGLESS bullets block, which is why the vocabulary needs no
+           ;; lede slot...
+           {:section/kind :prose
+            :section/heading "Committed states"
+            :prose/text committed-states-explainer}
+           {:section/kind :bullets
+            :bullets/items (mapv #(str "`" (name %) "`") states)}
+           ;; ...and "## Props schema" is a HEADED table (or prose) followed by
+           ;; a HEADINGLESS footnote, which is why it needs no tail slot either.
+           (props-block message-name qualified-name fields)
+           {:section/kind :prose :prose/text props-shape-only-note}
+           {:section/kind :prose
+            :section/heading "Known limitations"
+            :prose/text (if (str/blank? (str (:notes widget)))
+                          "None recorded in the corpus spec for this class."
+                          (:notes widget))}]
+          :page/cross-links
+          [{:link/text "`ui_ast.proto`" :link/href "../../../proto/ui/ui_ast.proto"}
+           {:link/text "protodoc index" :link/href "../../index.md"}
+           {:link/text "widget gallery index" :link/href "../README.md"}]
+          :index/group "widgets"
+          :index/heading nil
+          :index/blocks
+          [{:section/kind :table
+            :section/merge :widget-index
+            :table/headers ["widget" "committed states" "preview (asgard dark)"]
+            :table/rows [[(str "[`" enum "`](./" enum "/README.md)")
+                          (str/join ", " (map #(str "`" (name %) "`") states))
+                          (str "[![" enum "](./" enum "/" (unit-preview enum rows)
+                               ")](./" enum "/README.md)")]]}]
+          :provenance/closed-set {:set/id "ui.WidgetType"
+                                  :set/size total
+                                  :set/index order}}))
+
+(defn sinks-manifest
+  "The kitchen-sinks unit. A sink is not a WidgetType, so it is its OWN unit —
+   and that now costs one manifest, not five coordinated generator edits. No
+   closed-set stamp: the class is OPEN and may come and go freely, which is
+   exactly the asymmetry the design wants."
+  [sinks tag->enum rows]
+  (let [unit sinks-unit-id]
+    (merge provenance
+           {:manifest/version 1
+            :unit/id unit
+            :unit/order 100
+            :unit/page? true
+            :unit/index? false
+            :page/title "Kitchen sinks"
+            :page/lede (str "The " (count rows) " authored multi-widget compositions "
+                            "from the same corpus the gates verify — the only cells where "
+                            "widgets render as neighbors. Each is a whole composite screen, "
+                            "cropped to the sink container: one image per sink × family.")
+            :page/sections
+            [(grid-block "Screens" rows)
+             {:section/kind :table
+              :section/heading "The compositions"
+              :table/headers ["sink" "member widgets" "what it proves"]
+              :table/rows
+              (mapv (fn [{:keys [id widgets description]}]
+                      [(str "`" id "`")
+                       (str/join ", "
+                                 (for [tag widgets
+                                       :let [e (or (get tag->enum tag)
+                                                   (throw (ex-info
+                                                           "sink member tag has no widget page"
+                                                           {:sink id :tag tag})))]]
+                                   (str "[" e "](../" e "/README.md)")))
+                       description])
+                    sinks)}]
+            :page/cross-links [{:link/text "widget gallery index" :link/href "../README.md"}]
+            :index/group "kitchen-sinks"
+            :index/heading "Kitchen sinks"
+            :index/blocks
+            [{:section/kind :prose
+              :prose/text (str (count rows) " authored multi-widget compositions render "
+                               "on their own page: [kitchen sinks](./kitchen-sinks/README.md).")}
+             (preview-block "kitchen sinks" unit (unit-preview unit rows))]})))
+
+(defn legos-manifest
+  "The composition-legos unit, from the authored-composition inventory. Also
+   OPEN — no closed-set stamp."
+  [cards rows]
+  (let [unit legos-unit-id]
+    (merge provenance
+           {:manifest/version 1
+            :unit/id unit
+            :unit/order 200
+            :unit/page? true
+            :unit/index? false
+            :page/title "Composition legos"
+            :page/lede (str "The " (count cards) " authored-composition cards from "
+                            "`corpus/composition.edn` — the public `devcards.legos` builders "
+                            "compiled through the authored lane "
+                            "(`devcards.fixtures/build-authored-card`), the only corpus cells "
+                            "carrying events, absolute placement, and part-selector styling. "
+                            "Interaction contracts (press-seek, drag, the ext-click halo, dock "
+                            "event identities) are gate-held on BOTH engines; the images "
+                            "document the pixels. Each is cropped to the lego's own box — the "
+                            "scrubber's includes its transparent hit-halo wrapper.")
+            :page/sections
+            [(grid-block "States" rows)
+             {:section/kind :table
+              :section/heading "The cards"
+              :table/headers ["card" "lego" "what it proves"]
+              :table/rows (mapv (fn [{:keys [id lego notes]}]
+                                  [(str "`" id "`") (str "`" (name lego) "`") notes])
+                                cards)}]
+            :page/cross-links [{:link/text "widget gallery index" :link/href "../README.md"}]
+            :index/group "legos"
+            :index/heading "Composition legos"
+            :index/blocks
+            [{:section/kind :prose
+              :prose/text (str "The authored-composition corpus — the public "
+                               "`devcards.legos` builders (media scrubber + foldable "
+                               "stage-manager dock) with their gate-held interaction "
+                               "contracts — renders on its own page: "
+                               "[composition legos](./legos/README.md).")}
+             (preview-block "composition legos" unit (unit-preview unit rows))]})))
+
+(defn states-legend-manifest
+  "The states legend: a unit with index blocks and NO page. It is what keeps
+   \"unit\" from silently meaning \"page\" — a projection of the conventions
+   manifest belongs on the index and nowhere else, and it rides exactly the
+   same group machinery as everything that does have a page. Its rows ride as a
+   real table block, width-checked on both sides of the seam, rather than as
+   pre-rendered markdown smuggled through a blurb."
+  [state-selectors]
+  (merge provenance
+         {:manifest/version 1
+          :unit/id "states-legend"
+          :unit/order 900
+          :unit/page? false
+          :unit/index? false
+          :index/group "states-legend"
+          :index/heading "States legend"
+          :index/blocks
+          [{:section/kind :prose
+            :prose/text (str "Card captions are card-id tails "
+                             "(`<state>/<size>[/<value>]`); the state vocabulary below is a "
+                             "generated projection of `ui-render-conventions.edn` "
+                             "`:state-selectors` (the manifest is the one home).")}
+           {:section/kind :table
+            :table/headers ["state" "lv_state bit"]
+            :table/rows (mapv (fn [[k v]] [(str "`" (name k) "`") v])
+                              (sort-by val state-selectors))}]}))
+
+(defn index-manifest
+  "The index is a UNIT TOO — same page frame, same banner, same provenance;
+   only its body comes from the fold instead of from itself. Its `:unit/order`
+   sorts it ahead of every group, which is where its H1 and lede belong."
+  [widget-count]
+  (merge provenance
+         {:manifest/version 1
+          :unit/id "index"
+          :unit/order -1
+          :unit/page? true
+          :unit/index? true
+          :page/title "Widget gallery"
+          :page/lede (str "Per-widget rendered doc pages, generated from the same corpus "
+                          "the devcard gates verify — all " widget-count
+                          " `ui.WidgetType` values, enum-derived (an undeclared WidgetType "
+                          "fails generation). Previews are one asgard-dark card; each page "
+                          "adds vanilla + asgard-light per card.")}))
+
+;; ── Generation (renders + writes) ───────────────────────────────────────
 (defn generate!
   "The T2.7 build: for every WidgetType — one JPEG per card x family + README.md
    under docs/widgets/<ENUM>/ — plus docs/widgets/kitchen-sinks/,
@@ -445,7 +615,13 @@
    output>} :paths {:wasm :assets}}. Returns {:files [{:path :bytes}]
    :images n :pages n :cells n} for the caller's report; every gap (a
    widget with zero built cards, a sink or composition card absent from
-   the build) throws."
+   the build) throws.
+
+   ORDER IS LOAD-BEARING: every JPEG is rendered, then the WHOLE unit set is
+   assembled, then the set is validated and every page rendered, and only then
+   is a single page written. A set-level refusal — a class reaching the index
+   through no group, a closed set that lost a member or got ordered against its
+   own indices — therefore fires before any README lands on disk."
   [{:keys [spec built composition paths]}]
   (let [conv (conventions/load-conventions)
         descriptor (load-descriptor descriptor-path)
@@ -461,53 +637,59 @@
         ;; Parallel over widgets: each render-cell! boots its OWN fresh
         ;; GraalWasm context (hermetic — see gallery/render-cell!), so widget
         ;; units render concurrently on the shared engine with no shared state;
-        ;; pmap preserves order, so widget-files stays deterministic.
-        ;; Parallel over widgets: each render boots its OWN fresh GraalWasm
-        ;; context (hermetic — see gallery/render-cell!), so widget units
-        ;; render concurrently with no shared state; pmap preserves order, so
-        ;; the output stays deterministic. Each element is [enum files preview].
-        widget-units (pmap (fn [{:keys [enum widget] :as entry}]
-                             (let [entries (get atomic-by-widget (:tag widget))
-                                   dir (str out-dir "/" enum)]
-                               (when (empty? entries)
-                                 (throw (ex-info "widget class has ZERO built cards"
-                                                 {:enum enum :tag (:tag widget)})))
-                               (let [{:keys [files rows]} (card-files! paths canvas dir enum entries)
-                                     readme (docgen/write-text! (str dir "/README.md")
-                                                                (widget-page-md entry rows))]
-                                 [enum (conj files readme) (unit-preview rows)])))
-                           registry)
-        widget-files (vec (mapcat second widget-units))
-        sink-dir (str out-dir "/kitchen-sinks")
+        ;; pmap preserves order, so the unit sequence stays deterministic.
+        widget-units
+        (vec (pmap (fn [[order {:keys [enum widget] :as entry}]]
+                     (let [entries (get atomic-by-widget (:tag widget))
+                           dir (unit-dir enum)]
+                       (when (empty? entries)
+                         (throw (ex-info "widget class has ZERO built cards"
+                                         {:enum enum :tag (:tag widget)})))
+                       (let [{:keys [files rows]} (card-files! paths canvas dir enum entries)]
+                         {:manifest (widget-manifest entry rows order (count registry))
+                          :images files})))
+                   (map-indexed vector registry)))
+        sink-dir (unit-dir sinks-unit-id)
         {sink-imgs :files sink-rows :rows} (card-files! paths canvas sink-dir
-                                                        "kitchen-sinks" built-sinks)
-        sink-files (conj sink-imgs
-                         (docgen/write-text! (str sink-dir "/README.md")
-                                             (sinks-page-md (:kitchen-sinks spec) tag->enum sink-rows)))
+                                                        sinks-unit-id built-sinks)
         comp-built (:built composition)
         _ (when (not= (count comp-built) (count (:cards composition)))
             (throw (ex-info "built composition cards disagree with the inventory"
                             {:built (mapv :id comp-built)
                              :inventory (mapv :id (:cards composition))})))
-        legos-dir (str out-dir "/legos")
+        legos-dir (unit-dir legos-unit-id)
         {legos-imgs :files legos-rows :rows} (card-files! paths canvas legos-dir
-                                                          "legos" comp-built)
-        legos-files (conj legos-imgs
-                          (docgen/write-text! (str legos-dir "/README.md")
-                                              (legos-page-md (:cards composition) legos-rows)))
-        previews (-> (into {} (map (fn [[enum _ preview]] [enum preview])) widget-units)
-                     (assoc "kitchen-sinks" (unit-preview sink-rows)
-                            "legos" (unit-preview legos-rows)))
-        index-file (docgen/write-text! (str out-dir "/README.md")
-                                       (index-page-md registry (:state-selectors conv)
-                                                      previews (count sink-rows)))
-        files (-> widget-files
-                  (into sink-files)
-                  (into legos-files)
-                  (conj index-file))]
+                                                          legos-unit-id comp-built)
+        ;; THE ONE LIST. A new unit class is one more entry here and nothing
+        ;; else — no directory literal, no slug literal, no preview entry, no
+        ;; page-count arithmetic.
+        units (-> widget-units
+                  (conj {:manifest (sinks-manifest (:kitchen-sinks spec) tag->enum sink-rows)
+                         :images sink-imgs}
+                        {:manifest (legos-manifest (:cards composition) legos-rows)
+                         :images legos-imgs}
+                        {:manifest (states-legend-manifest (:state-selectors conv))
+                         :images []}
+                        {:manifest (index-manifest (count registry))
+                         :images []}))
+        manifests (mapv :manifest units)
+        page-text (into {} (docindex/pages out-dir manifests))
+        files (vec (mapcat
+                    (fn [{:keys [manifest images]}]
+                      (let [path (docindex/page-path out-dir manifest)]
+                        (cond-> (vec images)
+                          (:unit/page? manifest)
+                          (conj (docgen/write-text!
+                                 path
+                                 (or (get page-text path)
+                                     (throw (ex-info
+                                             "unit declares a page the renderer did not produce"
+                                             {:unit (:unit/id manifest) :path path}))))))))
+                    units))]
+    (docindex/validate-image-refs! (seq page-text) (map :path files))
     {:files files
      :images (count (filter #(str/ends-with? (:path %) ".jpg") files))
-     :pages (+ (count registry) 3)
+     :pages (docindex/page-count manifests)
      :cells (* (count gallery/family-renders)
                (+ (count (filter #(= :atomic (:kind %)) built))
                   (count built-sinks)
