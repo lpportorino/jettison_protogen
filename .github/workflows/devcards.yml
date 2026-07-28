@@ -249,6 +249,10 @@ jobs:
       # exit green (the pass value == the nothing-ran value, fail-fast.md). The
       # goldens pin per-card raw-FB sha256; the contact sheets are renders of the
       # same corpus — a dirty goldens/ or docs/ means the push forgot them.
+      # A RETIREMENT NOW REACHES THIS DIFF TOO: the doc generator prunes the
+      # artifacts of a retired unit, so they appear here as deletions. Before the
+      # prune they were invisible to this step and surfaced only as a blocking
+      # audit finding the author cleared by hand.
       # renderer.yml's fixtures job already had this assertion; devcards.yml did
       # NOT — that gap is what B3a closes.
       name: Golden manifest + gallery freshness

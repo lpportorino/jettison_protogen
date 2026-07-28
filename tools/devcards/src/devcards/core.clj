@@ -46,6 +46,15 @@
    different blind spot: a retired generated file that nothing rewrites and
    `git diff` therefore cannot see.
 
+   THE AUDIT NOW PRUNES AS WELL AS REPORTS, which changes what the freshness
+   diff can see. A retired artifact used to be a blocking finding the author
+   cleared by hand, and the gate stayed red until they did; the prune deletes it,
+   so it reaches `git diff` as a ` D` entry rather than as an invisible file.
+   Deletion is gated on TOTALITY, not on the render: unless every page the
+   registry declares was written, nothing is deleted and every orphan comes back
+   `:run-not-total`. A run that produced less than it should must never be read
+   as a run whose missing units were retired.
+
    `gallery` is the T2.7 doc build (recorded call: a core mode, not a
    dev/ script — the pipeline has ONE CLI and the gallery is a pipeline
    product, not a probe): renders the corpus once per committed family set

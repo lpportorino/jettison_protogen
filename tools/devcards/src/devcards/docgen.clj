@@ -82,16 +82,23 @@
   "TWO-WAY disk reconciliation for a generated tree: what the emitter CLAIMS
    it wrote, against what is actually on disk under `root`.
 
-   WHY IT EXISTS. Every doc emitter here only ever WRITES — there is no
-   deletion path in any of them. Retire a widget, a sink or a lego from the
-   corpus and the generator simply stops emitting that unit's files, which
-   leaves them on disk, TRACKED, and byte-unchanged. A freshness gate shaped
-   `git diff --exit-code <root>` then reports nothing about them, because
-   nothing modified them: the author commits the re-mint, and from that
-   commit on every run is green with the orphans still shipping to every
-   consumer that clones this history. Measured on this tree — retiring one
-   composition card left three tracked JPEGs behind and the freshness step
-   exited 0.
+   WHY IT EXISTS. A doc emitter here only ever WRITES. Retire a widget, a
+   sink or a lego from the corpus and the generator simply stops emitting that
+   unit's files, which leaves them on disk, TRACKED, and byte-unchanged. A
+   freshness gate shaped `git diff --exit-code <root>` then reports nothing
+   about them, because nothing modified them: the author commits the re-mint,
+   and from that commit on every run is green with the orphans still shipping
+   to every consumer that clones this history. Measured on this tree —
+   retiring one composition card left three tracked JPEGs behind and the
+   freshness step exited 0.
+
+   THIS FN STAYS NON-DESTRUCTIVE, and that is a boundary rather than an
+   omission. `prune-orphans!` below adds the deletion, and it can only do so
+   because it is handed a TOTALITY PRECONDITION and a naming policy that say
+   which absences are retirements. This one is also the reconciliation for the
+   goldens tree and the composition scratch tree, where no such precondition
+   exists and where the correct answer to an orphan is a blocking finding.
+   Do not move a delete in here.
 
    No other lane can see it, and for one shared reason: the devcard gate
    judges cards that EXIST, the golden manifests hash cards that EXIST, and
@@ -171,6 +178,172 @@
            :claimed (count claimed-set)
            :missing missing
            :orphaned unexpected})))))
+
+(defn- canonical
+  "A path's canonical form — the identity `audit` reconciles on, so the
+   pruner's own set arithmetic cannot disagree with the walk it prunes."
+  ^String [^String p]
+  (.getCanonicalPath (File. p)))
+
+(defn prune-orphans!
+  "DELETE the orphans a generated root has accumulated; REPORT everything else.
+
+   `audit` above reports both directions and removes nothing, which leaves a
+   retired artifact TRACKED until a human reads the finding and runs `git rm`.
+   This is the same reconciliation with one destructive step attached, and it
+   has to answer the question the audit never had to: an orphan is `absent
+   from the claim`, and ABSENT FROM THE CLAIM is what a retired unit and a
+   unit this run never rendered look like ALIKE. Delete on the wrong reading
+   and a single bad run takes the whole tree with it.
+
+   THE TOTALITY PRECONDITION IS HOW THEY ARE TOLD APART, and it is imposed
+   HERE rather than trusted from the caller — a caller can forget, a seam
+   cannot. `required-claims` is the set of paths the emitter DECLARES it must
+   have written for this run to be complete, and it only means anything
+   because it is derived from data that does not depend on the render (for the
+   widget gallery: one page per unit of the enum-derived registry, resolved
+   before a single pixel). Then:
+
+   - every required claim present in `claimed` → the run rendered its whole
+     DECLARED set, so an artifact absent from it is RETIRED. Delete the ones
+     `disposition` authorises.
+   - any required claim missing → the run is PARTIAL. Delete NOTHING: every
+     orphan is returned kept with reason `:run-not-total`, and the caller's
+     audit reports the lot exactly as it did before this fn existed.
+
+   It fails, in other words, in the direction that KEEPS FILES. That is also
+   why the precondition may not be empty: a precondition requiring nothing is
+   satisfied by a run that rendered nothing, which is precisely the partial
+   run whose orphans must not be deleted.
+
+   THIS IS THE SECOND LINE OF DEFENCE, NOT THE FIRST. A generator worth
+   pruning behind is already total — the widget gallery throws on a class with
+   zero built cards, on sinks disagreeing with the spec, on a composition
+   build disagreeing with its inventory, on a unit with no preview, on a
+   declared page the renderer did not produce — so a partial claim should
+   never reach here at all. The precondition exists for the refactor that
+   loosens one of those throws without anyone noticing that a deletion now
+   hangs off it.
+
+   `disposition` decides WHAT MAY GO, and it is deliberately not a boolean: it
+   returns `:retired` to authorise deletion, or any other keyword as the
+   REASON the path is being kept, so `:kept` is self-describing and a rule
+   that declines cannot be confused with a rule that never looked. Widening is
+   its own hazard, so two limits are enforced here regardless of what it
+   returns: a non-keyword answer throws, and an authorised path that does not
+   lie strictly under `root` throws rather than being deleted.
+
+   Deletion is FILES only, inherited from `audit`'s walk. An emptied unit
+   directory is left behind: git tracks no directories, so it cannot reach a
+   consumer's clone, and removing it would be exactly the silent widening the
+   `disposition` contract above exists to prevent.
+
+   EVERY REFUSAL HERE FIRES BEFORE THE FIRST `.delete`, and that ordering is
+   load-bearing rather than incidental: it is what lets `run-prune!` below
+   absorb a refusal into a value, knowing the value describes a tree nothing
+   has touched. Keep the delete step last.
+
+   `opts` = {:root :claimed :required-claims :disposition}. Returns
+   {:root :claimed :missing :deleted :undeletable :kept :unmet :refused :line}.
+   `:undeletable` is a delete the filesystem refused; it is left for the
+   caller's audit to re-report as an orphan, which is why this fn does not
+   throw on one — the tree is still exactly as reconcilable as it was."
+  [{:keys [^String root claimed required-claims disposition]}]
+  (when-not (ifn? disposition)
+    (throw (ex-info (str "prune-orphans! needs a disposition fn — without one "
+                         "nothing decides what may be deleted")
+                    {:root root :disposition (type disposition)
+                     :prune/contract true})))
+  (let [required (into (sorted-set) (map canonical) required-claims)]
+    (when (empty? required)
+      (throw (ex-info (str "prune-orphans! was handed an EMPTY totality "
+                           "precondition — a precondition that requires nothing "
+                           "is satisfied by a run that rendered nothing, which "
+                           "is the partial run whose orphans must not be deleted")
+                      {:root root :prune/contract true})))
+    (let [a (audit root claimed)
+          claimed-set (into #{} (map canonical) claimed)
+          unmet (vec (remove claimed-set required))
+          root-prefix (str (canonical root) File/separator)
+          judged (mapv (fn [^String p] [p (disposition p)]) (:orphaned a))
+          _ (doseq [[^String p d] judged]
+              (when-not (keyword? d)
+                (throw (ex-info (str "a disposition must answer with a keyword — "
+                                     ":retired to authorise deletion, or the "
+                                     "reason the path is kept")
+                                {:root root :path p :disposition d
+                                 :prune/contract true})))
+              (when (and (= :retired d) (not (str/starts-with? p root-prefix)))
+                (throw (ex-info (str "the disposition authorised deleting a path "
+                                     "OUTSIDE the audited root — a prune may never "
+                                     "reach past the tree it reconciled")
+                                {:root root :path p :prune/contract true}))))
+          total? (empty? unmet)
+          authorised (if total?
+                       (vec (sort (for [[p d] judged :when (= :retired d)] p)))
+                       [])
+          kept (vec (sort-by :path
+                             (for [[p d] judged
+                                   :when (or (not total?) (not= :retired d))]
+                               {:path p :reason (if total? d :run-not-total)})))
+          deleted (filterv #(.delete (File. ^String %)) authorised)
+          undeletable (vec (remove (set deleted) authorised))]
+      {:root root
+       :claimed (:claimed a)
+       :missing (:missing a)
+       :deleted deleted
+       :undeletable undeletable
+       :kept kept
+       :unmet unmet
+       :refused (when-not total?
+                  (str "the run did not write " (count unmet) " of its "
+                       (count required) " DECLARED pages, so every orphan was "
+                       "kept: an incomplete run's absences are not retirements"))
+       :line (format (str "doc-prune: root %s | %s | deleted %d | kept %d | "
+                          "undeletable %d")
+                     root
+                     (if total? "run TOTAL" (format "run PARTIAL (%d unmet)" (count unmet)))
+                     (count deleted)
+                     (count kept)
+                     (count undeletable))})))
+
+(defn run-prune!
+  "TOTAL adapter for a CLI arm, mirroring `run-audit` below: run
+   `prune-orphans!` and return a designed refusal as a VALUE rather than a
+   throw.
+
+   IT MUST NOT BECOME A NEW WAY TO KILL THE RUN. Every refusal
+   `prune-orphans!` raises is also a condition the caller's own `run-audit`
+   over the same root meets moments later, where it already becomes a
+   PERSISTED blocking finding. Letting the throw escape would replace that
+   report with a stack trace and discard the findings the render lanes had
+   already assembled — the prune is an addition to the reporting path, never a
+   subtraction from it. So it exits non-zero either way; the difference is
+   whether the operator gets a findings file.
+
+   ONLY THE TREE'S REFUSALS ARE ABSORBED. The reconciliation's three — a
+   root that is not a directory, an empty claim, a duplicated claim — are
+   conditions of the CALL SITE'S OWN inputs, so `run-audit` over the same root
+   and the same claim meets each of them again and reports it. `prune-orphans!`
+   also raises four refusals about the PRUNE CONTRACT itself — a missing or
+   non-keyword `disposition`, an empty `required-claims`, an authorisation
+   reaching outside the root — and nothing downstream re-derives those. Those
+   carry `:prune/contract` in their ex-data and are RE-THROWN: absorbing a
+   misconfigured call would print a line and let a tree with no orphans exit
+   green, which is the one shape this whole file exists to refuse.
+
+   THIS IS ONLY SAFE BECAUSE NOTHING HAS BEEN DELETED YET — see
+   `prune-orphans!` on why every refusal precedes the delete step. Anything
+   that is NOT a designed refusal still propagates."
+  [opts]
+  (try (prune-orphans! opts)
+       (catch clojure.lang.ExceptionInfo e
+         (when (:prune/contract (ex-data e)) (throw e))
+         (let [root (:root opts)]
+           {:root root
+            :deleted [] :undeletable [] :kept [] :unmet [] :missing []
+            :refused (ex-message e)
+            :line (str "doc-prune: root " root " | REFUSED | " (ex-message e))}))))
 
 (defn audit-findings
   "`audit`'s two directions as batch-level findings.

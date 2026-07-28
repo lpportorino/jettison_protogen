@@ -317,7 +317,10 @@ bindings:
 # gallery and generated doc pages come from the `gallery` mode, which
 # check-renderer does not run, so `git diff --exit-code tools/devcards/goldens
 # tools/devcards/docs` remains the thing that catches changed contact-sheet
-# CONTENT. The disk audit below catches an unchanged retired path.
+# CONTENT. The disk audit below catches an unchanged retired path — and now
+# PRUNES it, so the retirement reaches that diff as a deletion instead of
+# sitting outside it. The prune refuses unless the run wrote every declared
+# page, so an incomplete run deletes nothing.
 # `manifests`: the composition path resolves colour tokens through
 # devcards.tokens, which READS output/manifests/design-tokens.json at a fixed
 # relative path and throws if it is absent. The manifests lane installs that

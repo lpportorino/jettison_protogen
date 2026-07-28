@@ -65,7 +65,9 @@
             [devcards.docgen :as docgen]
             [devcards.docindex :as docindex]
             [devcards.gallery :as gallery]
-            [devcards.jpeg :as jpeg]))
+            [devcards.jpeg :as jpeg])
+  (:import (java.io File)
+           (java.util.regex Pattern)))
 
 (set! *warn-on-reflection* true)
 
@@ -94,7 +96,12 @@
    leave that one blind spot open under a root whose whole point is that
    everything in it is generated. Measured: every file under `docs/` today
    is under `docs/widgets/` and is claimed, so the wider root costs nothing
-   and closes the gap."
+   and closes the gap.
+
+   IT IS ALSO THE PRUNE'S ROOT, and the gap between the two roots is exactly
+   what keeps the prune narrow. `orphan-disposition` is built over `out-dir`,
+   so an orphan in the band between the two — under `docs/`, outside
+   `docs/widgets/` — is reconciled and REPORTED but can never be deleted."
   "docs")
 
 (def sinks-unit-id
@@ -609,6 +616,131 @@
                           "fails generation). Previews are one asgard-dark card; each page "
                           "adds vanilla + asgard-light per card.")}))
 
+;; ── Retirement: which stale files under the doc tree may be DELETED ─────
+;; Two questions, kept apart on purpose because they fail differently.
+;;
+;;   IS THE RUN ENTITLED TO CALL AN ABSENCE A RETIREMENT?  `required-pages`
+;;   below answers it, and `devcards.docgen/prune-orphans!` enforces the
+;;   answer. That is where "retired" is separated from "this run did not
+;;   produce it".
+;;
+;;   IS THIS PARTICULAR FILE ONE OF OURS?  `orphan-disposition` answers it,
+;;   and it is a question purely about the NAMING SCHEME this emitter owns.
+;;   That is where "the retired unit's own artifacts" is separated from
+;;   "anything else that happens to sit under the doc tree".
+;;
+;; Neither answer is sufficient alone: totality without the naming policy
+;; sweeps a stray file the moment a unit is retired, and the naming policy
+;; without totality deletes a live unit's whole directory on a bad run.
+
+(def ^:private page-basename
+  "The basename `devcards.docindex/page-path` gives a unit's page. DERIVED by
+   calling that fn rather than spelled here, so the recogniser cannot drift
+   from the writer — the same reason `card-file-name` is the one home of the
+   image name."
+  (let [p (docindex/page-path "R" {:unit/id "U"})]
+    (subs p (inc (long (str/last-index-of p "/"))))))
+
+(defn- card-file-pattern
+  "The regex matching every image name `card-file-name` can produce for
+   `unit-id` — one alternative per committed render set.
+
+   BUILT BY CALLING `card-file-name` with a sentinel state slug and splitting
+   its output on the sentinel, so the recogniser is a projection of the writer
+   instead of a second copy of its format. Move the format and this pattern
+   moves with it; the alternative is a literal `<slug>-<state>-<family>.jpg`
+   spelled twice, one of which would eventually stop matching what is on disk
+   and would then quietly classify every real artifact as `not ours`.
+
+   `[^/]+` for the state slug is exact rather than lax: `gallery/state-slug`
+   replaces every `/` in a card-id tail with `_`, and `gallery/cell-label`
+   refuses an id with no tail at all, so the slug is always a non-empty
+   separator-free token."
+  ^Pattern [^String unit-id]
+  (let [sentinel " STATE "
+        sentinel-re (Pattern/compile (Pattern/quote sentinel))
+        alt (fn [fam]
+              (let [[pre post] (str/split (card-file-name unit-id sentinel fam)
+                                          sentinel-re 2)]
+                (str (Pattern/quote pre) "[^/]+" (Pattern/quote post))))]
+    (Pattern/compile (str "^(?:" (str/join "|" (map alt gallery/family-renders)) ")$"))))
+
+(defn orphan-disposition
+  "A `devcards.docgen/prune-orphans!` disposition over `units-root` (the
+   directory unit directories are children of — `out-dir` in production).
+
+   Answers `:retired` for a path this emitter's own naming scheme could have
+   produced for the unit directory it sits in, and a NAMED REASON for
+   everything else. Not a boolean: a rule that declines must not read like a
+   rule that never looked, and the reason is what the caller reports.
+
+   `:retired` covers BOTH shapes of retirement with one clause, which is the
+   point of putting the totality precondition somewhere else. A card dropped
+   from `corpus/spec.edn` orphans an image inside a directory the run still
+   writes to; a whole unit dropped from `ui.WidgetType` orphans an entire
+   directory the run no longer names. Under a run whose declared pages were
+   all written, both are gone from the corpus and neither needs the live unit
+   set consulted to know it.
+
+   Everything else is a REASON and is kept:
+   - `:outside-the-unit-tree` — under the audited root but not under
+     `units-root` at all. The audited root is deliberately the PARENT of
+     `units-root`, so this is the class the audit exists to see and the prune
+     must never touch.
+   - `:at-the-tree-root` — a file directly in `units-root`, which is where the
+     index page lives. The index is a constant unit and cannot be orphaned; a
+     file that turns up here unclaimed is not this emitter's to remove.
+   - `:below-a-unit-directory` — nested deeper than `<unit>/<file>`. Nothing
+     here writes at that depth.
+   - `:not-an-emitter-artifact` — right depth, wrong name.
+
+   Paths arrive CANONICAL (that is the identity `docgen/audit` reconciles on),
+   so `units-root` is canonicalised to match. `File.getCanonicalPath` does not
+   require the path to exist, so this is safe to build before a tree does."
+  [^String units-root]
+  (let [prefix (str (.getCanonicalPath (File. units-root)) File/separator)
+        sep-re (Pattern/compile (Pattern/quote File/separator))]
+    (fn [^String path]
+      (if-not (str/starts-with? path prefix)
+        :outside-the-unit-tree
+        (let [parts (str/split (subs path (count prefix)) sep-re)]
+          (case (count parts)
+            1 :at-the-tree-root
+            2 (let [[unit-id fname] parts]
+                (if (or (= fname page-basename)
+                        (boolean (re-matches (card-file-pattern unit-id) fname)))
+                  :retired
+                  :not-an-emitter-artifact))
+            :below-a-unit-directory))))))
+
+(defn required-pages
+  "The page paths this run MUST write for its absences to count as
+   retirements — `devcards.docgen/prune-orphans!`'s totality precondition.
+
+   DECLARED, NEVER OBSERVED. Every entry is resolved from the enum-derived
+   registry and the two open-class unit-id constants BEFORE a single card is
+   rendered, so checking it against what the run claimed is a real comparison
+   rather than the run agreeing with itself. Derive this from the manifests
+   the render produced and the check becomes circular: it would then hold for
+   any subset the generator happened to emit, which is the exact reading that
+   turns a crashed render into a mass deletion.
+
+   The registry is what makes it trustworthy, and the guard is one it already
+   carries: `widget-registry` resolves the WidgetType enum in BOTH directions
+   — a spec widget class outside the enum throws just as an enum value with no
+   spec class does. A descriptor truncated to fewer WidgetType values (the one
+   input that could shrink this set without anybody editing the corpus)
+   therefore cannot produce a registry at all while `corpus/spec.edn` still
+   declares the classes it dropped.
+
+   The states legend is absent because it declares no page (`:unit/page?
+   false`); a unit that writes nothing can attest to nothing."
+  [registry]
+  (-> (mapv (fn [{:keys [enum]}] (docindex/page-path out-dir {:unit/id enum})) registry)
+      (conj (docindex/page-path out-dir {:unit/id sinks-unit-id})
+            (docindex/page-path out-dir {:unit/id legos-unit-id})
+            (docindex/page-path out-dir {:unit/index? true}))))
+
 ;; ── Generation (renders + writes) ───────────────────────────────────────
 (defn generate!
   "The T2.7 build: for every WidgetType — one JPEG per card x family + README.md
@@ -617,19 +749,34 @@
    `opts` = {:spec <parsed corpus spec> :built <build-all output>
    :composition {:cards <inventory cards> :built <composition build-all
    output>} :paths {:wasm :assets}}. Returns {:files [{:path :bytes}]
-   :images n :pages n :cells n} for the caller's report; every gap (a
-   widget with zero built cards, a sink or composition card absent from
-   the build) throws.
+   :images n :pages n :cells n :prune <prune-orphans! result>} for the
+   caller's report; every gap (a widget with zero built cards, a sink or
+   composition card absent from the build) throws.
 
    ORDER IS LOAD-BEARING: every JPEG is rendered, then the WHOLE unit set is
    assembled, then the set is validated and every page rendered, and only then
    is a single page written. A set-level refusal — a class reaching the index
    through no group, a closed set that lost a member or got ordered against its
-   own indices — therefore fires before any README lands on disk."
+   own indices — therefore fires before any README lands on disk.
+
+   AND THE PRUNE IS LAST, after the final write and after `validate-image-refs!`.
+   It reconciles the tree against the COMPLETE claim, so it cannot run before
+   the claim is complete; and running it after image-ref validation means a
+   page that points at an artifact nobody wrote refuses the run while every
+   file it was about to judge is still on disk.
+
+   IT NARRATES ITS OWN DELETIONS, which is a deliberate exception to this fn
+   leaving the report to its caller. Every other outcome here is a value the
+   caller prints; a deletion has already happened by the time the value is
+   returned, and its only other record is the operator's git working tree."
   [{:keys [spec built composition paths]}]
   (let [conv (conventions/load-conventions)
         descriptor (load-descriptor descriptor-path)
         registry (widget-registry descriptor spec (:widget-states conv))
+        ;; DECLARED HERE, one line after the registry and long before anything
+        ;; renders — see `required-pages` for why observing it later would make
+        ;; the totality check circular.
+        required (required-pages registry)
         canvas (get-in spec [:render :canvas])
         atomic-by-widget (group-by :widget (filter #(= :atomic (:kind %)) built))
         built-sinks (filterv #(= :sink (:kind %)) built)
@@ -691,10 +838,20 @@
                                              {:unit (:unit/id manifest) :path path}))))))))
                     units))]
     (docindex/validate-image-refs! (seq page-text) (map :path files))
-    {:files files
-     :images (count (filter #(str/ends-with? (:path %) ".jpg") files))
-     :pages (docindex/page-count manifests)
-     :cells (* (count gallery/family-renders)
-               (+ (count (filter #(= :atomic (:kind %)) built))
-                  (count built-sinks)
-                  (count comp-built)))}))
+    (let [prune (docgen/run-prune!
+                 {:root audit-root
+                  :claimed (map :path files)
+                  :required-claims required
+                  :disposition (orphan-disposition out-dir)})]
+      (doseq [p (:deleted prune)] (println "  DELETED (retired)" p))
+      (doseq [p (:undeletable prune)] (println "  UNDELETABLE (still orphaned)" p))
+      (when-let [r (:refused prune)] (println "  PRUNE REFUSED —" r))
+      (println (:line prune))
+      {:files files
+       :images (count (filter #(str/ends-with? (:path %) ".jpg") files))
+       :pages (docindex/page-count manifests)
+       :cells (* (count gallery/family-renders)
+                 (+ (count (filter #(= :atomic (:kind %)) built))
+                    (count built-sinks)
+                    (count comp-built)))
+       :prune prune})))

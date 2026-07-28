@@ -7,8 +7,12 @@
    are exercised by that same re-mint (they write every committed page + JPEG),
    so they carry no separate unit test here."
   (:require [clojure.java.io :as io]
+            [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
-            [devcards.docgen :as docgen]))
+            [devcards.docgen :as docgen])
+  (:import (java.io File)
+           (java.nio.file Files)
+           (java.nio.file.attribute FileAttribute)))
 
 ;; ── md-table ────────────────────────────────────────────────────────────
 (deftest md-table-happy-path
@@ -202,6 +206,294 @@
           (is (= [] (:orphaned a)))
           (is (= 1 (count (:missing control))))
           (is (= 1 (count (:orphaned control)))))))))
+
+;; ── prune-orphans!: the deletion, and what licenses it ──────────────────
+;; Every test below fixes the tree, the claim and the disposition and varies
+;; exactly ONE of them, so a red names the clause that moved rather than the
+;; neighbour that would also have refused.
+
+(defn- retire-images
+  "A disposition of the shape `devcards.docs/orphan-disposition` has, reduced
+   to what a mechanism test needs: authorise images, NAME why anything else is
+   kept."
+  [^String path]
+  (if (str/ends-with? path ".jpg") :retired :not-an-image))
+
+(defn- on-disk? [^String path] (.isFile (File. path)))
+
+(defn- named
+  "How many of `paths` end in `tail`. Counted rather than indexed on purpose:
+   `(first ...)` on an empty result throws inside the assertion, and an ERROR
+   is a broken assertion wearing the colour of a caught defect."
+  [paths ^String tail]
+  (count (filterv (fn [^String p] (str/ends-with? p tail)) paths)))
+
+(defn- pick
+  "The one written path ending in `tail` — the fixture writes absolute paths,
+   and a test must name its subject rather than index into a vector."
+  ^String [written ^String tail]
+  (let [hits (filterv (fn [^String p] (str/ends-with? p tail)) written)]
+    (when-not (= 1 (count hits))
+      (throw (ex-info "fixture does not name exactly one such path"
+                      {:tail tail :hits hits})))
+    (first hits)))
+
+(deftest prune-DELETES-an-authorised-orphan-and-leaves-the-claim-alone
+  (testing "a TOTAL run removes the unclaimed image and touches nothing claimed"
+    (with-tree ["a/README.md" "a/live.jpg" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              live (pick written "a/live.jpg")
+              stale (pick written "a/stale.jpg")
+              r (docgen/prune-orphans! {:root root
+                                        :claimed [page live]
+                                        :required-claims [page]
+                                        :disposition retire-images})]
+          (is (= [] (:unmet r)))
+          (is (nil? (:refused r)))
+          (is (= 1 (count (:deleted r))))
+          (is (= 1 (named (:deleted r) "a/stale.jpg")))
+          (is (= [] (:kept r)))
+          (is (= [] (:undeletable r)))
+          (is (not (on-disk? stale)) "the retired artifact is gone from disk")
+          (is (on-disk? page) "the claimed page is untouched")
+          (is (on-disk? live) "the claimed image is untouched"))))))
+
+(deftest prune-KEEPS-and-NAMES-what-the-disposition-declines
+  (testing "an orphan the policy does not authorise stays on disk and comes
+            back carrying the policy's own reason — 'I declined' and 'I never
+            looked' must not be the same empty vector"
+    (with-tree ["a/README.md" "a/stale.jpg" "a/notes.txt"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              notes (pick written "a/notes.txt")
+              r (docgen/prune-orphans! {:root root
+                                        :claimed [page]
+                                        :required-claims [page]
+                                        :disposition retire-images})]
+          (is (= 1 (count (:deleted r))))
+          (is (= [{:path notes :reason :not-an-image}] (:kept r)))
+          (is (on-disk? notes) "the declined orphan is still on disk"))))))
+
+(deftest prune-DELETES-NOTHING-when-a-DECLARED-page-was-not-written
+  (testing "THE RETIRED-vs-UNRENDERED DISCRIMINATOR. Both calls see the same
+            tree, the same orphan and the same disposition; the ONLY difference
+            is whether the run claimed the page it declared it would write. An
+            incomplete run's absences are not retirements."
+    (with-tree ["a/README.md" "a/live.jpg" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              live (pick written "a/live.jpg")
+              stale (pick written "a/stale.jpg")
+              partial-run (docgen/prune-orphans! {:root root
+                                                  :claimed [live]
+                                                  :required-claims [page]
+                                                  :disposition retire-images})]
+          (is (= 1 (count (:unmet partial-run))))
+          (is (= 1 (named (:unmet partial-run) "a/README.md")))
+          (is (re-find #"DECLARED pages" (:refused partial-run)))
+          (is (re-find #"run PARTIAL" (:line partial-run)))
+          (is (= [] (:deleted partial-run)))
+          (is (on-disk? stale) "the orphan a partial run could not explain STAYS")
+          (is (= #{:run-not-total} (set (map :reason (:kept partial-run))))
+              "every orphan comes back named by the refusal, not by the policy")
+          (is (= 2 (count (:kept partial-run)))
+              "the unwritten page is itself an orphan and is kept too")
+          ;; CONTROL: the same tree, the same disposition, the page claimed.
+          (let [total-run (docgen/prune-orphans! {:root root
+                                                  :claimed [page live]
+                                                  :required-claims [page]
+                                                  :disposition retire-images})]
+            (is (re-find #"run TOTAL" (:line total-run)))
+            (is (= 1 (count (:deleted total-run))))
+            (is (not (on-disk? stale))
+                "with the declared page claimed, the very same orphan goes")))))))
+
+(deftest prune-REFUSES-an-EMPTY-totality-precondition
+  (testing "a precondition requiring nothing is satisfied by a run that
+            rendered nothing — the partial run whose orphans must not go"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              stale (pick written "a/stale.jpg")]
+          (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                                #"EMPTY totality precondition"
+                                (docgen/prune-orphans!
+                                 {:root root
+                                  :claimed [page]
+                                  :required-claims []
+                                  :disposition retire-images})))
+          (is (on-disk? stale) "the refusal happened before any delete")
+          ;; CONTROL: one required claim over the same tree is accepted.
+          (is (= 1 (count (:deleted (docgen/prune-orphans!
+                                     {:root root
+                                      :claimed [page]
+                                      :required-claims [page]
+                                      :disposition retire-images}))))))))))
+
+(deftest prune-REFUSES-a-disposition-that-is-not-a-keyword
+  (testing "a boolean answer cannot say WHY a path was kept, so the two-valued
+            shape is refused outright rather than coerced"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              stale (pick written "a/stale.jpg")]
+          (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                                #"must answer with a keyword"
+                                (docgen/prune-orphans!
+                                 {:root root
+                                  :claimed [page]
+                                  :required-claims [page]
+                                  :disposition (constantly true)})))
+          (is (on-disk? stale) "the refusal happened before any delete")
+          ;; CONTROL: the keyword-answering disposition over the same tree.
+          (is (= 1 (count (:deleted (docgen/prune-orphans!
+                                     {:root root
+                                      :claimed [page]
+                                      :required-claims [page]
+                                      :disposition retire-images}))))))))))
+
+(deftest prune-REFUSES-a-disposition-that-is-missing-entirely
+  (testing "no disposition means nothing decided what may go"
+    (with-tree ["a/README.md"]
+      (fn [root written]
+        (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                              #"needs a disposition fn"
+                              (docgen/prune-orphans!
+                               {:root root
+                                :claimed written
+                                :required-claims written})))))))
+
+(deftest prune-INHERITS-the-audit-refusals-before-it-deletes
+  (testing "reconciliation runs first, so an empty claim refuses here too —
+            otherwise every file in the tree would look retired"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [stale (pick written "a/stale.jpg")]
+          (is (thrown-with-msg? clojure.lang.ExceptionInfo #"claimed ZERO paths"
+                                (docgen/prune-orphans!
+                                 {:root root
+                                  :claimed []
+                                  :required-claims [(pick written "a/README.md")]
+                                  :disposition retire-images})))
+          (is (on-disk? stale)))))))
+
+(deftest prune-REFUSES-to-delete-a-path-that-escapes-the-audited-root
+  (testing "a symlinked subdirectory makes the walk yield canonical paths
+            OUTSIDE the tree that was reconciled; a policy that authorises one
+            must not be obeyed"
+    (let [outside (.toFile (Files/createTempDirectory "docgen-prune-outside"
+                                                      (make-array FileAttribute 0)))
+          victim (File. outside "victim.jpg")]
+      (try
+        (spit victim "")
+        (with-tree ["a/README.md"]
+          (fn [root written]
+            (Files/createSymbolicLink (.toPath (File. ^String root "linked"))
+                                      (.toPath outside)
+                                      (make-array FileAttribute 0))
+            (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                                  #"OUTSIDE the audited root"
+                                  (docgen/prune-orphans!
+                                   {:root root
+                                    :claimed written
+                                    :required-claims written
+                                    :disposition retire-images})))
+            (is (.isFile victim) "the file outside the tree survives")
+            ;; CONTROL: a policy that declines that same path reconciles the
+            ;; identical tree without throwing, so the throw is attributable to
+            ;; the AUTHORISATION and not to the symlink being present.
+            (is (= [] (:deleted (docgen/prune-orphans!
+                                 {:root root
+                                  :claimed written
+                                  :required-claims written
+                                  :disposition (constantly :not-mine)}))))
+            (is (.isFile victim))))
+        (finally (.delete victim) (.delete outside))))))
+
+(deftest prune-REPORTS-a-file-that-vanished-between-the-walk-and-the-delete
+  (testing ":undeletable is the fail-closed remainder — the run does not throw,
+            and the caller's own audit still sees the path as an orphan"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              r (docgen/prune-orphans!
+                 {:root root
+                  :claimed [page]
+                  :required-claims [page]
+                  ;; models a concurrent removal: the walk saw the file, the
+                  ;; delete does not.
+                  :disposition (fn [^String p]
+                                 (let [d (retire-images p)]
+                                   (when (= :retired d) (.delete (File. p)))
+                                   d))})]
+          (is (= [] (:deleted r)))
+          (is (= 1 (count (:undeletable r))))
+          (is (= 1 (named (:undeletable r) "a/stale.jpg")))
+          (is (re-find #"undeletable 1" (:line r))))))))
+
+(deftest run-prune-ABSORBS-a-designed-refusal-instead-of-killing-the-arm
+  (testing "a duplicate claim is `audit`'s refusal, so it reaches the adapter
+            through `prune-orphans!`; it must come back as a value, delete
+            nothing, and leave the orphan for the caller's own audit to report"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              stale (pick written "a/stale.jpg")
+              opts {:root root
+                    :claimed [page page]
+                    :required-claims [page]
+                    :disposition retire-images}
+              r (try (docgen/run-prune! opts)
+                     (catch clojure.lang.ExceptionInfo e {:escaped (ex-message e)}))]
+          (is (nil? (:escaped r)) "a designed refusal must not escape the adapter")
+          (is (re-find #"SAME canonical path twice" (str (:refused r))))
+          (is (re-find #"REFUSED" (str (:line r))))
+          (is (= [] (:deleted r)))
+          (is (on-disk? stale) "a refused prune leaves the tree exactly as it was")))))
+  (testing "CONTROL: the same adapter over a claim with no duplicate prunes"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              r (docgen/run-prune! {:root root
+                                    :claimed [page]
+                                    :required-claims [page]
+                                    :disposition retire-images})]
+          (is (nil? (:refused r)))
+          (is (= 1 (count (:deleted r)))))))))
+
+(deftest run-prune-RE-THROWS-a-refusal-about-the-prune-CONTRACT
+  (testing "a misconfigured CALL is not a tree condition — nothing downstream
+            re-derives it, so absorbing it would let a tree with no orphans
+            exit green on a prune that never ran"
+    (with-tree ["a/README.md" "a/stale.jpg"]
+      (fn [root written]
+        (let [page (pick written "a/README.md")
+              stale (pick written "a/stale.jpg")]
+          (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                                #"EMPTY totality precondition"
+                                (docgen/run-prune! {:root root
+                                                    :claimed [page]
+                                                    :required-claims []
+                                                    :disposition retire-images})))
+          (is (thrown-with-msg? clojure.lang.ExceptionInfo
+                                #"must answer with a keyword"
+                                (docgen/run-prune! {:root root
+                                                    :claimed [page]
+                                                    :required-claims [page]
+                                                    :disposition (constantly true)})))
+          (is (on-disk? stale) "neither escape deleted anything")
+          ;; CONTROL: the neighbouring class over the SAME tree is still
+          ;; absorbed, so the re-throw is attributable to :prune/contract and
+          ;; not to `run-prune!` having stopped catching.
+          (is (some? (:refused
+                      ;; caught here too, so deleting the adapter's catch
+                      ;; outright reds this as a FAIL rather than an ERROR
+                      (try (docgen/run-prune! {:root root
+                                               :claimed [page page]
+                                               :required-claims [page]
+                                               :disposition retire-images})
+                           (catch clojure.lang.ExceptionInfo _ nil))))))))))
 
 (deftest run-audit-turns-designed-refusals-into-persistable-findings
   (testing "the CLI adapter is total across audit's empty-claim refusal, so
