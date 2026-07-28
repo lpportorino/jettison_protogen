@@ -1019,14 +1019,37 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * means something local. LV_STATE_DISABLED outranks the DEFAULT-state
        * entry above by state weight, so it wins independently of add order.
        *
-       * The band stops being visible as a band, which is the intended
-       * consequence and not a loss: it goes to surface-2 like the rest of
-       * the field, and WHICH option is selected stays legible from the
-       * roller's own geometry — the selected row is the centred one. The
-       * alternative, keeping a distinguishable band, has no token that does
-       * it: a surface-1 band on a surface-2 field separates by 1.13:1 dark /
-       * 1.17:1 light, and every fill that clears 3:1 against surface-2 fails
-       * 6:1 for the glyph riding on it. */
+       * The band stops being visible as a band, and the whole disabled
+       * roller then renders ONE (fill, glyph) pair on every inked scanline
+       * — surface-2 + disabled-fg, 6.04:1 dark / 7.16:1 light. So the
+       * selected row is typographically identical to its neighbours and
+       * POSITION is the only remaining cue. That cue is real and measured:
+       * the SELECTED band sits at y 39-77 of the roller's own 0-115 box and
+       * the selected option's glyphs at 52-63, at min, mid AND max — the
+       * selection is pinned to the centre at both list boundaries, not just
+       * mid-list (`clojure -M:bindings:roller-bounds`).
+       *
+       * THE EARLIER DEFENCE OF THAT ALSO CLAIMED AN IMPOSSIBILITY, AND THE
+       * IMPOSSIBILITY IS FALSE. It read: every fill that clears 3:1 against
+       * surface-2 fails 6:1 for the glyph riding on it. The surface-1 half
+       * is right — a surface-1 band on a surface-2 field separates by
+       * 1.13:1 dark / 1.17:1 light. The general half is not, and the case
+       * it misses is the INVERSION: over the closed token table
+       * (generated/theme_tokens.h) four of the 49 ordered (fill, glyph)
+       * pairs clear a 3:1 band floor AND a 6:1 glyph floor in BOTH modes.
+       * disabled-fg as the FILL under surface-2 glyphs measures 6.04:1 dark
+       * / 7.16:1 light for band-against-field and the same 6.04:1 / 7.16:1
+       * for glyph-on-band; fg-0 as the fill does it at 13.46:1 / 11.02:1.
+       *
+       * SO THIS ARM IS A CHOICE, NOT A FORCED MOVE. What it buys is that
+       * DISABLED keeps meaning ONE thing. What the inversion would cost is
+       * measured too, and it is a hierarchy inversion rather than a
+       * contrast failure: the DISABLED band would separate from its field
+       * at 6.04:1 / 7.16:1 while the ENABLED band separates at 3.46:1 dark
+       * / 4.03:1 light, so the inert state would carry the stronger cue of
+       * the two. UI-QUALITY-CONTRACTS.md forbids neither, and no
+       * measurement in this repo settles which is right — re-litigate it on
+       * these numbers, never on the impossibility. */
       lv_obj_add_style(obj, &t->styles.disabled_fill,
                        LV_PART_SELECTED | LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
