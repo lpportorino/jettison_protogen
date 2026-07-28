@@ -231,9 +231,13 @@ jobs:
       # proto-db leg): construct-bindings reads renderer/lvgl/**, renderer/
       # lv_conf.h and tools/renderer-gen/{src,tools}/**, and writes into
       # tools/renderer-gen/src/lvgl_codegen/generated/ and renderer/generated/;
-      # clj-schema-test reads tools/renderer-gen/{src,test}/**. Every one of
-      # those is under `renderer/**` or `tools/renderer-gen/**`, both already in
-      # this workflow's `paths:`. Nothing here needs a new trigger.
+      # clj-schema-test reads tools/renderer-gen/{src,test}/** AND, since the
+      # wire-number LUT check joined it, renderer/lvgl/**, renderer/lv_conf.h,
+      # renderer/generated/ui_luts.h and renderer/coverage_matrix/run.sh. Every
+      # one of those is under `renderer/**` or `tools/renderer-gen/**`, both
+      # already in this workflow's `paths:`. Nothing here needs a new trigger —
+      # and this sentence is what a future path-filter audit reads, so it lists
+      # what the lane ACTUALLY reads rather than where it happens to live.
       #
       # In the container because the extractor needs BOTH the WASI-SDK clang and
       # a native gcc, neither of which a plain runner is provisioned with. After

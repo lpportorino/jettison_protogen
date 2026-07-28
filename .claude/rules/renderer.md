@@ -49,17 +49,28 @@ language bindings, not a hand-maintained app.
   a screen, not in a devcard fixture, only in the codegen vocabulary and in that
   script — so `matrix` is their SOLE rendering gate, and likewise for every
   direct-cast enum family, which has no LUT for a static gate to read.
-  `construct-bindings` byte-compares `renderer/generated/ui_luts.h` against the
-  vendored LVGL headers cheaply, but it is blind one leg upstream at the
-  authoring-keyword → wire-number map
-  (`tools/renderer-gen/src/lvgl_codegen/emit_proto.clj`), so it is a complement
-  and never a substitute. Read each lane's green as ITS OWN clause.
-- **No standing canary covers the wire-number LUTs.** `renderer.mk`'s canary
-  targets serve the deadzone lane and the review preflight; nothing fires for a
-  wrong-but-legal `flex_flow_lut` entry, which is precisely the class
-  `ui_luts.h`'s own banner names as uncatchable by the C compiler — the header
-  IS the declaration. That `matrix` is non-vacuous here rests on a hand-run
-  mutation, not on a lane, and that is a gap rather than a decision.
+  `construct-bindings` does NOT merely byte-compare `renderer/generated/ui_luts.h`
+  — it RE-EXTRACTS from the vendored headers and re-emits, so a wrong-but-legal
+  entry in that file is already red there (`FATAL: … was STALE vs a fresh
+  extraction`). What no extraction can reach is one leg further upstream: the
+  HAND-WRITTEN authoring-keyword → wire-number map in
+  `tools/renderer-gen/src/lvgl_codegen/emit_proto.clj`, which nothing derives and
+  so nothing can re-derive. Read each lane's green as ITS OWN clause.
+- **That upstream leg now has a standing STATIC check** —
+  `lvgl-codegen.wire-lut-test`, in `clj-schema-test` and therefore in
+  `check-renderer` and in CI. It parses the vendored headers in pure Clojure and
+  asserts the composed chain authoring keyword → wire number → LUT → LVGL value
+  against what the header declares, with totality asserted in BOTH directions so
+  an unjudged keyword is a failure rather than a silence. Its oracle was
+  cross-checked against the production clang+gcc extractor at zero disagreements,
+  and it judges two further hand-written spellings of the same LVGL fact:
+  `renderer/coverage_matrix/run.sh`'s `FLEX_VALS`, and `emit_proto`'s carried
+  `LV_COORD_MAX` / `LV_GRID_CONTENT` / `LV_GRID_FR`. A fourth spelling is still
+  uncovered — `expand.clj`'s `layout-flow` class-token map.
+  **That `matrix` is non-vacuous here still rests on a hand-run mutation, not on
+  a lane, and that is a gap rather than a decision.** The static check judges
+  what the numbers MEAN; it does not establish that any lane would notice a
+  wrong one at render time.
 
 ## The determinism contract — change all-or-none
 - The pinned render protocol (tick budget, tick ms, DPI, canvas) is restated in

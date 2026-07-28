@@ -975,14 +975,21 @@ ui-review-preflight-canary:
 # this live JVM.
 #
 # It is unarmed TODAY, and the boundary is exact rather than reassuring, because
-# it was measured by asking the JVM instead of grepping. Requiring the three test
-# namespaces loads ELEVEN namespaces (the three plus eight sources:
-# construct.lift, construct.schema, generated.enums, resolve, schema,
-# style-props, theme-tokens, design-tokens-json). NO pronto namespace is among
-# them. `pronto.ProtoMap` IS resolvable — the directory is on the classpath —
-# so the safety here is that nothing the suite loads ever triggers that
-# resolution, NOT that the class is out of reach. The one `pronto` string
-# anywhere in that closure is a docstring at resolve.clj:17.
+# it was measured by asking the JVM instead of grepping. Requiring every test
+# namespace in this suite loads FOURTEEN project namespaces, and NO pronto
+# namespace is among them. `pronto.ProtoMap` IS resolvable — the directory is on
+# the classpath — so the safety here is that nothing the suite loads ever
+# triggers that resolution, NOT that the class is out of reach.
+#
+# `lvgl-codegen.emit-proto` is now in that closure and is the first namespace in
+# it to touch a protobuf class at all, so the question "has the suite started
+# reaching into generated Java?" is live in a way it was not before. It has not:
+# `com.google.protobuf.ByteString` resolves out of the protobuf-java JAR, never
+# out of `target/proto-classes`, which is the directory the hazard is about.
+#
+# Re-derive both facts rather than trusting this paragraph — it is the kind that
+# goes stale silently, and it already did once:
+#   tools/uber.sh 'bash tools/renderer-gen/dev/wirelut_coverage_boundary.sh /workspace'
 #
 # Four namespaces in this project genuinely `:require` pronto; none is in the
 # closure above. A require reaching any of them from this suite arms the hazard,
