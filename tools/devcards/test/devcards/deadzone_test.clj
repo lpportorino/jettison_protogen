@@ -64,26 +64,85 @@
           "CONTROL: the same input class can produce the ARM-1 finding")
       (is (empty? fs)))))
 
-(deftest containment-is-measured-but-not-emitted-by-the-producer
+(def ^:private disabled-child-over-enabled-ancestor
+  (root-with
+   [{:type "lv_obj"
+     :uid 10
+     :coords [20 20 299 159]
+     :children
+     [{:type "lv_button"
+       :uid 11
+       :disabled true
+       :coords [40 40 239 119]
+       :children []}]}]))
+
+(deftest containment-finds-disabled-child-over-enabled-ancestor
+  (let [tree
+        disabled-child-over-enabled-ancestor
+        measured (containment-findings tree)]
+    (testing "the related pair is ordered without asking winner for a path
+              divergence: LVGL searches the child before its ancestor"
+      (is (= #{:disabled-covers-ancestor} (invariants-of measured)))
+      (is (= "lv_button#11 INSIDE lv_obj#10"
+             (:node (first measured)))))))
+
+(deftest overflow-visible-does-not-hide-a-farther-covered-ancestor
   (let [tree
         (root-with
          [{:type "lv_obj"
-           :uid 10
-           :coords [20 20 299 159]
+           :uid 9
+           :coords [0 0 399 199]
            :children
-           [{:type "lv_button"
-             :uid 11
-             :disabled true
-             :coords [40 40 239 119]
-             :children []}]}])
-        measured (containment-findings tree)
-        armed (sibling-findings tree)]
-    (testing "CONTROL: ARM 2 is mechanically present on the same tree"
-      (is (= #{:disabled-covers-ancestor} (invariants-of measured)))
-      (is (= "lv_button#11 INSIDE lv_obj#10"
-             (:node (first measured)))))
-    (testing "but the ARM-1 producer is silent, so ARM 2 cannot block"
-      (is (empty? armed)))))
+           [{:type "lv_obj"
+             :uid 10
+             :coords [0 0 299 159]
+             :children
+             [{:type "lv_obj"
+               :uid 12
+               :coords [20 20 99 99]
+               :descend_gate [0 0 199 159]
+               :children
+               [{:type "lv_button"
+                 :uid 11
+                 :disabled true
+                 :coords [120 40 179 79]
+                 :children []}]}]}]}])
+        fs (containment-findings tree)]
+    (testing "the nearest clickable ancestor has no shared hit pixel, but its
+              OVERFLOW_VISIBLE descent gate makes the child reachable"
+      (is (not-any? #(= "lv_button#11 INSIDE lv_obj#12" (:node %)) fs)))
+    (testing "selection continues outward to the nearest enabled ancestor that
+              the disabled child actually covers"
+      (is (some #(= "lv_button#11 INSIDE lv_obj#10" (:node %)) fs)))))
+
+(deftest armed-containment-clause-canary
+  (let [tree disabled-child-over-enabled-ancestor
+        registry
+        (:live
+         (findings/card-findings
+          {:card-id "c"
+           :tree tree
+           :classes table
+           :thresholds {:deadzone/gap-px 0}
+           :producers [deadzone/producer]}))
+        atomic (lanes/atomic-findings "c" :judged tree)
+        composition
+        (lanes/composition-findings
+         "c"
+         tree
+         {:dark {:commands [] :reports [] :events []}
+          :light {:commands [] :reports [] :events []}})
+        armed? (fn [fs]
+                 (contains? (invariants-of fs)
+                            :disabled-covers-ancestor))]
+    (testing "the reducer, registry, and both exact lane entry points arm ARM 2"
+      (is (= [true true true]
+             (mapv armed? [registry atomic composition]))))
+    (testing "CONTROL: enabling the same child removes this disabled-state
+              clause without changing its containment geometry"
+      (is (empty?
+           (containment-findings
+            (assoc-in tree [:children 0 :children 0 :disabled] false)))))))
 
 (deftest winner-refuses-an-ancestor-related-pair
   (let [[ancestor child]
@@ -129,7 +188,8 @@
             :classes table
             :thresholds {:deadzone/gap-px 0}
             :producers [deadzone/producer]})]
-      (is (= #{:disabled-dead-zone} (invariants-of (:live res))))))
+      (is (contains? (invariants-of (:live res))
+                     :disabled-dead-zone))))
   (testing "the exact atomic entry point carries ARM 1"
     (is (contains?
          (invariants-of

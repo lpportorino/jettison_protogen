@@ -291,36 +291,43 @@ pixel test fires, and no event is emitted, so no event log fires either.
 `devcards.overlap` supplies the order-free necessary condition and
 `devcards.deadzone` supplies the ordered verdict. The latter reuses overlap's
 classification and reachable-box arithmetic, then reads the dump's declared
-child paths exactly as `lv_indev_search_obj` does: the larger child index at the
-first divergence wins. It fires only when that winner is disabled and the node
-beneath is enabled. A disabled node underneath an enabled winner is not the
-defect.
+child paths exactly as `lv_indev_search_obj` does. For unrelated nodes, the
+larger child index at the first divergence wins. For a related pair there is no
+divergence: LVGL searches the descendant branch before testing the ancestor
+itself. Both cases fire only when the winner is disabled and the enabled node
+beneath shares reachable pixels. A disabled node underneath an enabled winner
+is not the defect.
 
 **CONSUMER AUDIT OWED — run the armed dead-zone producer over your own corpus,
-then audit what a static dump cannot express.** The producer discharges ARM 1
-for each rendered tree it actually judges; it does not cover a control that
-becomes disabled only after interaction, layouts at unrendered breakpoints, or
-ARM 2 (a disabled clickable descendant over an enabled clickable ancestor).
-ARM 2 is measured by the census but not armed because the dump carries no press
-intent: it cannot distinguish a container that would have taken the press from
-harness/layout scaffolding. Resolve a first red run by construction or by the
-interpreter's own stacking declaration, never by per-card exemptions.
+then audit what a static dump cannot express.** The producer discharges both
+the unrelated-node arm and the disabled-descendant-over-enabled-ancestor arm
+for each rendered tree it actually judges. It does not cover a control that
+becomes disabled only after interaction or layouts at unrendered breakpoints.
+The dump also carries pointer mechanism, not press intent: it cannot prove that
+an enabled structural ancestor has a handler. That is an unjudged element and
+therefore remains a finding; it is never converted to a clean result. Resolve a
+first red run by construction or by an interpreter-owned declaration, never by
+per-card exemptions.
 
-**PROTOGEN SELF-AUDIT, 2026-07-27.** At `gap-px 0`, ARM 1 found **0 hits over
-244 cards / 1295 nodes / 700 pointer-taking / 50 disabled across 48 cards / 9
-overlapping pointer-taking pairs**. At `gap-px 1`, the denominator rose to 91
-near-pairs and still none involved a disabled participant. All 9 strict
-overlaps are the same interpreter-declared `host_proxy`
-glass-over-affordance construct. Quote the zero with its cause: **a corpus that
-barely stacks is a weak proving ground for a stacking hazard; a corpus that
-never stacks cannot carry a stacking defect.** This is strong evidence about
-the corpus and weak evidence about the hazard. The same census measured 41
-ARM-2 instances (29 against the harness root/screen, 12 against deeper
-containers); they remain non-blocking until press intent is declared.
+**PROTOGEN SELF-AUDIT, 2026-07-28.** The pinned-wasm census rendered **246
+cards / 1303 nodes / 704 pointer-taking / 52 disabled across 50 cards / 9
+overlapping pointer-taking pairs**, with no unclassified or unmeasurable
+candidate. The unrelated-node arm found 0 hits; none of the 9 strict overlaps
+involved a disabled participant, and all 9 were the same interpreter-declared
+`host_proxy` glass-over-affordance construct. The related-node arm found 43
+disabled descendants: 12 against deeper ancestors and 31 against the corpus
+root/scaffolding paths. Quote the zero with its cause: **a corpus that barely
+stacks is a weak proving ground for an unrelated-node stacking hazard.** The 43
+related findings are the previously non-blocking population this change arms;
+their count is a measurement, not an expected-value assertion. Re-run the
+census when the corpus, table, or renderer changes.
 
 ### 2.3 What is excluded
 
-- **Related nodes** (one an ancestor of the other) — containment is composition.
+- **Related nodes in the generic overlap rule** (one an ancestor of the other)
+  — ordinary containment is composition. This exclusion does not apply to the
+  dead-zone arm for a disabled clickable descendant over an enabled clickable
+  ancestor.
 - **`HIDDEN` nodes and their subtree** — `lv_indev_search_obj` returns `NULL`
   immediately, so they can neither take the pointer nor deny it.
 

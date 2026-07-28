@@ -2,7 +2,7 @@
   "The ordered DISABLED pointer dead-zone rule required by
    UI-QUALITY-CONTRACTS §2.2.
 
-   ARM 1, the armed rule, reports two unrelated pointer-taking nodes whose
+   ARM 1 reports two unrelated pointer-taking nodes whose
    reachable boxes overlap when the node reached FIRST by
    `lv_indev_search_obj` is disabled and the node beneath it is enabled.
    The disabled winner claims the pointer, receives no LV_EVENT_PRESSED, and
@@ -15,11 +15,17 @@
    from the dump's declared child paths, not observed paint: LVGL searches
    children from the largest index down and returns the first hit.
 
-   ARM 2, `containment-findings`, measures disabled clickable descendants over
-   enabled clickable ancestors for the census only. It is NOT part of
-   `producer`. The current dump cannot distinguish an ancestor with press
-   intent from harness/layout scaffolding, and arming that mechanically true
-   but intent-empty class would block on ordinary containers."
+   ARM 2 reports a disabled clickable descendant over the nearest enabled
+   clickable ancestor with which it shares reachable pixels. There is no
+   first-divergence comparison for a related pair: `lv_indev_search_obj`
+   searches the descendant branch before it tests the ancestor itself, so the
+   descendant wins.
+
+   Both arms are part of `producer`. The dump proves pointer mechanism but not
+   whether an enabled structural ancestor has a press handler. That missing
+   intent is not permission to report clean: the ARM-2 finding carries the
+   ancestor path and the census' root/scaffolding marker so an operator can
+   resolve it explicitly."
   (:require [devcards.classify :as classify]
             [devcards.geometry :as geometry]
             [devcards.invariants :as invariants]
@@ -131,33 +137,45 @@
                          "inside the design)")))}))))
 
 (defn containment-findings
-  "Census-only ARM 2 findings for one card.
+  "ARM 2 findings for one card.
 
    A disabled clickable descendant always wins over an enabled clickable
-   ancestor because LVGL searches children before the node itself. These
-   findings deliberately carry whether the nearest hit-testable ancestor is
-   harness scaffolding, but do not infer press intent or exempt anything.
-   This function is not the armed producer."
+   ancestor because LVGL searches children before the node itself. Select the
+   nearest ENABLED ancestor that actually shares reachable pixels with the
+   child. Testing geometry as part of that selection matters under
+   OVERFLOW_VISIBLE: the nearest clickable ancestor can have a hit box
+   disjoint from a child reached through its larger descent gate while a
+   farther ancestor still lies beneath the child.
+
+   Findings retain the census' root/scaffolding path marker as diagnostic
+   metadata only. It never exempts the finding: the dump does not express
+   press intent, and an unjudged ancestor must not become a clean verdict."
   [{:keys [card-id] :as ctx}]
   (let [{:keys [pairable reach-of]} (prepared ctx)
         path->pairable (into {} (map (juxt :path identity)) pairable)
-        nearest-pairable-ancestor
-        (fn [path]
+        nearest-covered-enabled-ancestor
+        (fn [child]
           (first
-           (keep #(get path->pairable (subvec path 0 %))
-                 (range (dec (count path)) -1 -1))))
+           (keep (fn [depth]
+                   (when-let [ancestor
+                              (get path->pairable
+                                   (subvec (:path child) 0 depth))]
+                     (when-not (disabled? ancestor)
+                       (when-let [hit
+                                  (geometry/intersection
+                                   (reach-of child)
+                                   (reach-of ancestor))]
+                         [ancestor hit]))))
+                 (range (dec (count (:path child))) -1 -1))))
         scaffolding? (fn [ancestor]
                        (contains? #{[] [0]} (:path ancestor)))]
     (into []
           (for [child pairable
                 :let [path (:path child)]
                 :when (and (seq path) (disabled? child))
-                :let [ancestor (nearest-pairable-ancestor path)]
-                :when (and ancestor (not (disabled? ancestor)))
-                :let [hit (geometry/intersection
-                           (reach-of child)
-                           (reach-of ancestor))]
-                :when hit]
+                :let [[ancestor hit]
+                      (nearest-covered-enabled-ancestor child)]
+                :when ancestor]
             {:card card-id
              :invariant :disabled-covers-ancestor
              :node (str (overlap/label-of child)
@@ -169,28 +187,39 @@
              (str "DISABLED " (overlap/label-of child)
                   " is a CLICKABLE descendant of ENABLED "
                   (overlap/label-of ancestor)
-                  " (the nearest hit-testable ancestor), and "
+                  " (the nearest enabled hit-testable ancestor sharing "
+                  "reachable pixels), and "
                   "lv_indev_search_obj tests children before the node "
                   "itself, so the child always wins over "
                   (geometry/describe hit)
                   " — the press is absorbed and dropped"
                   (if (scaffolding? ancestor)
-                    (str ". The ancestor is the harness root/screen, which "
-                         "takes no press by intent; mechanism says hazard "
-                         "while the dump cannot express that intent")
-                    ". The ancestor is a real screen element"))}))))
+                    (str ". The ancestor path matches the corpus census' "
+                         "root/scaffolding marker; that is diagnostic only, "
+                         "not an exemption, because the dump cannot express "
+                         "press intent")
+                    (str ". The dump proves the pointer-path conflict but "
+                         "cannot express whether the ancestor has press "
+                         "intent; that unjudged fact is a finding, not a "
+                         "skip")))}))))
 
-(defn census-findings
-  "Both measured arms for the read-only census. ARM 1 includes the coverage
-   findings; ARM 2 contributes only containment findings."
+(defn findings
+  "Both ordered dead-zone arms. ARM 1 contributes the coverage findings;
+   ARM 2 reuses the same prepared population and adds containment findings."
   [ctx]
   (into (sibling-findings ctx) (containment-findings ctx)))
 
+(defn census-findings
+  "Compatibility entry point for the read-only census; identical to the
+   producer's two-arm reducer so the probe cannot measure a weaker rule than
+   the gate runs."
+  [ctx]
+  (findings ctx))
+
 (def producer
-  "The registry entry for ARM 1 only. ARM 2 remains reachable through
-  `containment-findings`/`census-findings` but cannot block a lane."
+  "The registry entry for both ordered dead-zone arms."
   {:id :deadzone
-   :fn sibling-findings
+   :fn findings
    :requires #{:nodes :classes}
    :thresholds
    {:gap-px

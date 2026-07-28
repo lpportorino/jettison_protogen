@@ -22,7 +22,10 @@
      construction. This is not a nicety: without it the rule reports every
      button against its own label, and a run that goes red for nesting
      rather than for the hazard is a false gate that happens to be the
-     right colour.
+     right colour. This exclusion belongs to the ORDER-FREE overlap rule; it
+     is not a disabled-state exemption. `devcards.deadzone` separately judges
+     the ordered case where a disabled clickable descendant wins over an
+     enabled clickable ancestor.
 
    - HIDDEN nodes and their whole subtree. `lv_indev_search_obj` returns
      NULL immediately for LV_OBJ_FLAG_HIDDEN (lv_indev.c:623, 'if this obj
