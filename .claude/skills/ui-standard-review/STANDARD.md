@@ -44,7 +44,7 @@ What you cannot see, stated plainly so a clean review is not over-read:
 - **Pointer reachability.** The framebuffer is identical whether an occluded control was reachable or dead (§2.1). A stack that looks fine can still eat every press.
 - **Where the hazard boundary actually is.** The rules judge the REACHABLE box — the click area, grown by `ext_click_pad`, clipped to every ancestor's descent gate (§2.4). It can be larger than anything drawn, and it can be smaller than the click area itself. Neither boundary is visible in a render.
 - **`layer_top` / `layer_sys`.** Out of scope for the dump entirely (§1.6).
-- **Transforms, opacity, partial transparency.** The contract does not model them (§1.4), and neither should your findings.
+- **Transforms and partial transparency.** The LAYER contract does not model them (§1.4), and neither should your findings. WHOLE-WIDGET OPACITY IS THE EXCEPTION AND IS NOW MODELLED: §6 bans it over any subtree containing text and `devcards.opa` judges it deterministically, so a faded label is somebody else's finding — reporting it here adds a non-reproducible verdict to a question a reproducible lane already answered. A translucent SCRIM over live text is neither: §6.6 leaves it OPEN, so it is worth describing and is not yours to rule on.
 - **Any hardware condition.** Legibility under sunlight, darkness or a specific panel revision is a bench obligation scoped to a hardware revision, never a gate result (§0, PDL-HW). You are looking at a gallery render, not a panel.
 
 ## Emitting a finding
@@ -105,10 +105,15 @@ Read from each producer's declared `:thresholds` at generation time. This is a R
 | rule | context it requires | thresholds it declares |
 |---|---|---|
 | `:overlap` | `:classes`, `:nodes` | `:gap-px` |
+| `:deadzone` | `:classes`, `:nodes` | `:gap-px` |
+| `:opa` | `:nodes` | `:glyph-classes`, `:text-free-classes` |
 
 | rule | consumer key | default | what it means |
 |---|---|---|---|
 | `:overlap` | `:overlap/gap-px` | `0` | minimum clear pixels between two interactive elements; 0 = they may touch but not overlap, 1 = they may not touch |
+| `:deadzone` | `:deadzone/gap-px` | `0` | minimum clear pixels between the disabled winner and the enabled node beneath it; 0 = they must share a pixel |
+| `:opa` | `:opa/glyph-classes` | `#{}` | consumer widget classes that draw their own glyphs; UNIONED onto the shipped set, never replacing it |
+| `:opa` | `:opa/text-free-classes` | `#{}` | consumer widget classes that never put a glyph on screen; UNIONED onto the shipped set, never replacing it |
 
 Thresholds are DATA: the registry namespaces each key by its rule, throws on an unknown key and throws when two rules collide on one, so neither a typo nor a naming clash can quietly relax the gate it names (§4).
 
@@ -604,3 +609,218 @@ reasoning, not a copy of the code. When a rule changes:
 2. Keep the canary that fails for that clause, and re-prove it by mutation.
 3. Say in the commit message what each consumer must do — the CONSEQUENCES beat
    is the instruction every pin-bump author executes verbatim.
+
+**§6 is numbered after this section rather than before it**, because renumbering
+a section this document's own consumers cite is a worse cost than an out-of-order
+appendix. Read §5 as the procedure and §6 as one more rule.
+
+---
+
+## 6. The opacity ban
+
+> **No whole-widget opacity on any subtree containing text. Disabled state is
+> expressed by a TOKEN-PAIR SWAP, never by a fade.**
+
+### 6.1 Why this is a RULE and not four fixes
+
+The argument is evidential, not stylistic. The reference theme had already
+worked around this hazard **three separate times without anyone writing it
+down** — one disabled style declining `opa`, another neutralising the stock
+recolor, a third using the fade deliberately for line-art — while **four
+glyph-bearing classes still carried it**. A hazard handled case-by-case three
+times and missed four times is a rule waiting to be written. It will be
+forgotten again, which is why this section exists and why §6.5 arms a gate
+rather than leaving the rule to memory.
+
+### 6.2 What it buys beyond one contrast fix
+
+It collapses the readability matrix to a clean cartesian product and deletes an
+entire class of *"the rendered pair is not the proven pair"*. A matrix cannot
+enumerate a composite that varies continuously; with the ban, it does not have
+to — **the AUTHORED pair IS the RENDERED pair**, so a token-level contrast gate
+can mean something at all. Under a fade it cannot: the rendered colours appear
+in no token table.
+
+Measured on this interpreter before the ban: a themed button under
+`LV_STATE_DISABLED` rendered `#ACACAC` on `#6A32CC`, and the authored `#C8C8C8`
+appears nowhere. Where a ratio is quoted anywhere downstream of this rule, the
+governing floor is **6:1 shall / 10:1 should** (MIL-STD-1472H §5.2.2.7), **not**
+WCAG's 4.5:1; WCAG 2.2 §1.4.11's 3:1 is the gap-filler for NON-TEXT component
+boundaries, a different quantity with a different floor, and mixing the two is
+the error the precedence rule exists to prevent.
+
+### 6.3 The MECHANISM — read this, not the class list
+
+**A consumer inherits this rule only if it can apply the rule to a widget we
+have never seen.** So the statement is about the draw path, not about our
+widgets. Cited by symbol; every name below is greppable in the vendored LVGL
+tree and in `renderer/src`.
+
+`lv_obj_refr` (`lv_refr.c`) folds a MAIN `opa` into `layer->opa` (via
+`LV_OPA_MIX2`) and a MAIN `recolor` into `layer->recolor` (via
+`lv_obj_style_apply_recolor`) **before** it redraws the object, restoring both
+afterwards — so each accumulates down the whole subtree rather than applying to
+one widget.
+
+LVGL then has **no per-run text exemption**. `lv_obj_init_draw_label_dsc`
+(`lv_obj_draw.c`) reads the same `get_layer_opa` that every rect, line, arc and
+image descriptor reads, and mixes it into the **glyph** alpha; and
+`normal_apply_layer_recolor` in the same file is applied to bg, border, outline,
+shadow **and text colour alike**. So both mechanisms fail the same way: they
+re-composite the glyph and the fill it sits on, and move the two ends **toward
+each other**. That is what halves glyph self-contrast, and it is why "just fade
+it" is not a neutral way to say *disabled*.
+
+**Two mechanisms, one rule.** The recolor arm is the one usually mistaken for
+the safe alternative to the fade. On this interpreter it measured *worse* than
+the fade it replaced. A consumer reading only the word "opacity" will reach for
+the recolor and reproduce the defect exactly.
+
+**HOW TO ASK "DOES THIS SUBTREE HAVE GLYPHS" ABOUT A WIDGET NOBODY HERE HAS
+SEEN.** The question is never "is it a text widget" — it is whether anything in
+the subtree reaches a glyph draw, and in LVGL glyphs reach the screen by
+**three** routes, not one. Checking only the first is the mistake this
+paragraph exists to prevent; it was made while writing this section and caught
+by testing the wording against widgets outside this interpreter's set.
+
+1. **`lv_draw_label`** — a label descriptor. Usually built by
+   `lv_obj_init_draw_label_dsc`, which is why that function's call sites are a
+   good FIRST pass. **It is not a sufficient one:** `lv_span` builds its own
+   label descriptor and never calls it.
+2. **`lv_draw_letter`** — a single-glyph descriptor, used where text follows a
+   path. `lv_arclabel` draws entirely this way and appears in no
+   `lv_obj_init_draw_label_dsc` search.
+3. **`lv_draw_rect` with a `bg_image_src` that is a SYMBOL.** `lv_obj_draw.c`
+   resolves `LV_IMAGE_SRC_SYMBOL` into `bg_image_symbol_font` and draws
+   glyphs — so this route is a **STYLE, not a class**, and it puts text inside
+   a plain container that no class-keyed rule will ever suspect.
+
+And two structural cases sit on top of all three: **inheritance** (a subclass
+draws through its base — `lv_keyboard` draws through `lv_buttonmatrix`, and a
+class-name test sees neither) and **composition** (the glyphs are in a child
+object, where they are judged on that child's own node).
+
+**A note on the RAILS, because a rule that reads a style value owes them.**
+`lv_obj_get_style_opa_recursive` short-circuits to `LV_OPA_TRANSP` the instant
+any link is `<= LV_OPA_MIN` (2), **skips** links `>= LV_OPA_MAX` (253) from the
+multiply entirely, and snaps the result to TRANSP/COVER at those same rails.
+So a naive `opa != 255` test on a *style* is not the same predicate as "a fade
+is applied", and note **which way** it is wrong: the neutral band is every
+value `>= LV_OPA_MAX`, not the single value 255, so 253 and 254 fade nothing
+and such a test reports them as fades. `LV_STYLE_OPA_LAYERED` is a second,
+independent link on the same chain that the library helper does not fold, and
+the ui_ast exposes it as a settable prop. §6.5 explains why the shipped clause
+nonetheless does not do this arithmetic.
+
+### 6.4 The precondition is TEXT IN THE SUBTREE — never a class list
+
+**The fade is CORRECT for text-free geometry, and a clause that condemns it is a
+false gate that happens to be the right colour.** Where the critical content is
+a SHAPE there is no glyph self-contrast to collapse, and opacity alone is the
+right *disabled* signal. This interpreter's theme relies on that deliberately
+for slider, switch, arc, bar, led, the checkbox INDICATOR part, and the table's
+line-art grid.
+
+Two things follow, and both have bitten:
+
+- **It is the empty subtree, not the class name.** Attach a label to any of
+  those widgets and the hazard is live again. The theme's own comment once
+  reasoned correctly from glyph self-contrast and then listed four
+  glyph-bearing classes under "critical content is geometry, not glyphs" —
+  **check call sites against the doctrine, not just the doctrine.**
+- **A carve-out may be CONDITIONAL, and then the condition is part of the
+  rule.** The table grid keeps its fade only because this interpreter never
+  decodes cell text, so every cell renders empty. Wiring cell text re-arms the
+  hazard there and the table's disabled arm must move to the token-pair swap in
+  the same change. A conditional carve-out with an unwritten condition is an
+  exemption pretending to be a design.
+
+### 6.5 The gate clause, and what it can and cannot see
+
+`devcards.opa`, armed by `devcards.lanes` on both the atomic and the
+composition lane. It is that namespace, not this section, that is the authority
+for its own mechanics (§5).
+
+**What it judges.** One predicate selects the population — a dumped node
+carrying `opa` — and a three-way classification decides each: the node puts
+glyphs on screen (**violation**), provably does not (**clean**), or the dump
+cannot say (**`:cantTell`**, which BLOCKS under the shipped policy). Because
+`obj_effective_opa` accumulates self→root, a fade declared on a container is
+emitted on every descendant, so a **per-node** rule expresses this section's
+**subtree** contract without walking anything: the violation is reported where
+the glyphs actually are.
+
+**Why it does not do the rail arithmetic of §6.3.** It does not have to, and
+that distinction is worth stating rather than glossing: the rails are applied on
+the C side before the key is written, and `dump_obj` emits `opa` **only** when
+the accumulated value differs from `LV_OPA_COVER`. On the DUMP side the key's
+mere presence is exactly "a fade reaches this node's draws". A rule reading a
+STYLE, or reimplementing the accumulation, owes the rails itself.
+
+**What it cannot see, stated so a green is not over-read:**
+
+- **The RECOLOR arm.** `dump_obj` reports the colour LVGL actually draws —
+  `style_color_drawn` applies the accumulated recolor before emitting
+  `text_color` / `bg_color` — so the recolor's *effect* is baked into the
+  reported value and the recolor *itself* is invisible. **Half of §6.3's
+  mechanism is therefore ungated today.** §6.7 says what closes it.
+- **A state or theme no card renders.** This lane judges rendered cards. The
+  authored space is larger than any corpus, which is the other half of §6.7.
+- **Whether an `lv_image` is a picture or a symbol glyph.** It draws a label
+  descriptor iff its src is a SYMBOL, and the dump carries no src. That is the
+  `:cantTell`, and it is reported rather than assumed either way.
+- **A SYMBOL `bg_image_src` on any object** — route 3 of §6.3. It is
+  reachable from the ui_ast vocabulary and the dump carries no
+  `bg_image_src`, so the clause cannot see it and does not pretend to. No
+  card in this repo's corpus sets one, which is why the rule assumes it away
+  rather than guessing; **a consumer's screens are not bound by that**, and a
+  faded container with a symbol background is a violation this lane will
+  report as clean.
+
+That last one is stated rather than left to discovery because it is the only
+blind spot here that a class-keyed rule can never grow out of: the other two
+close when a class is declared or a key is added, and this one is a property
+of a STYLE.
+
+### 6.6 OPEN — the SCRIM question, which this section does NOT decide
+
+**Raised deliberately as unresolved.** A semi-transparent overlay ABOVE text is
+the same hazard class, and the ban as written does not reach it: the opacity
+sits on the overlay, not on the text's own subtree, so no glyph node carries a
+fade and §6.5's clause is silent by construction.
+
+The argument for making modal scrims OPAQUE is *not* readability. It is that
+**partial transparency makes a claim the interaction model cannot honour** —
+there is no 50% unclickable. An opaque, CLICKABLE scrim makes the visual claim
+match the interaction reality and kills the §2.2 dead-zone class for modals.
+The candidate invariant is checkable: *if you can read it, you should be able
+to touch it.*
+
+The honest counter is that **scrims exist to preserve context, and an opaque
+modal loses it** — which is a real design cost, not a quibble.
+
+**Both arguments are recorded here precisely so that neither is adopted by
+default. This is an operator decision that has not been taken, and writing a
+rule down is how such a decision gets made by accident.** Until it is taken, a
+consumer stacking a translucent scrim over live text owes §2.2's audit and gets
+no verdict from this section.
+
+### 6.7 What the STATIC tier still owes
+
+The clause in §6.5 is the half reachable from a rendered dump. The static tier
+consumes the token manifest, a font-metrics block, and AST style groups with
+full state/theme enumeration — inputs that exist before anything renders — and
+therefore owes the two halves §6.5 names as blind:
+
+1. **The RECOLOR arm.** With the ban in force the authored pair IS the rendered
+   pair, so every `text_color` / `bg_color` the dump reports must be a value the
+   token manifest declares. A whole-widget recolor produces a composite that
+   appears in no token table, which makes it detectable by exactly this
+   comparison — and detectable *only* because the ban makes the identity hold.
+2. **Exhaustive state/theme coverage.** The authored style groups enumerate
+   combinations no corpus renders, so the static tier judges the authored space
+   where §6.5 judges the rendered one. The finding shape is the same
+   `{:card :invariant :node :detail}` every producer returns; the canary values
+   are a style group that sets `opa` on a text-bearing group (must fire) paired
+   with one that sets it on a text-free group (must stay silent) — **both
+   halves, because the second is the one that catches a false gate.**

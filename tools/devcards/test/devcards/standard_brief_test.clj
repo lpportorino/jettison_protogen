@@ -351,13 +351,19 @@
               lanes and left off this page, with the whole suite green. A
               roster that may silently omit an armed rule publishes a
               threshold table the review agent reads as complete."
-      (is (= (set (map :id (distinct (concat lanes/atomic-producers
-                                             lanes/composition-producers))))
-             (conj (set (map :id sb/reviewed-producers)) :tree-by-expect))
-          "every armed producer is published, and nothing unarmed is —
-           :tree-by-expect is protogen's own corpus routing rule, which has no
-           consumer-facing threshold and is therefore the one deliberate
-           exclusion")
+      (let [armed (distinct (concat lanes/atomic-producers
+                                    lanes/composition-producers))]
+        (is (= (set (map :id (filter :thresholds armed)))
+               (set (map :id sb/reviewed-producers)))
+            "the roster is derived, not transcribed: exactly the ARMED
+             producers that DECLARE a threshold. The excluded ones are excluded
+             by a property rather than by a list — :tree-by-expect, :tree and
+             :emission-by-mode publish no knob, so there is nothing for the
+             page to state about them. Arming a rule that has a threshold and
+             forgetting this roster now fails here.")
+        (is (seq (remove :thresholds armed))
+            "control: some armed producer really does lack thresholds, so the
+             filter above is discriminating rather than vacuously total"))
       (is (not (some #{layers/producer} sb/reviewed-producers))
           "layers/producer is armed by no lane here, so its threshold must not
            print beside numbers that judged every render"))
