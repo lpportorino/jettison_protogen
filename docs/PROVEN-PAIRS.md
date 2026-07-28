@@ -266,23 +266,23 @@ By source: `vr-fixtures` 2
 
 An `lv_style_t` that sets `bg_color` and no `text_color` — `checked_accent` is the one to know: the roller/dropdown selected band takes its glyph colour from the STOCK parent theme, so the pair has no token on the ink side at all and is deliberately not completed from one.
 
-By source: `null` 5
+By source: `theme-c` 5
 
-- {:style "btnm_items", :fill [:surface-2]}
-- {:style "checked_accent", :fill [:checked-accent]}
-- {:style "field_bg", :fill [:surface-1]}
-- {:style "scrollbar", :fill [:edge-0]}
-- {:style "track_bg", :fill [:edge-0]}
+- {:source :theme-c, :style "btnm_items", :fill [:surface-2]}
+- {:source :theme-c, :style "checked_accent", :fill [:checked-accent]}
+- {:source :theme-c, :style "field_bg", :fill [:surface-1]}
+- {:source :theme-c, :style "scrollbar", :fill [:edge-0]}
+- {:source :theme-c, :style "track_bg", :fill [:edge-0]}
 
 ### `theme-style-ink-only` — 5
 
 An `lv_style_t` in the theme that sets `text_color` and no `bg_color`. Its fill arrives from whichever other style `theme_apply` puts on the same object, which is a runtime co-application this probe does not model.
 
-By source: `null` 5
+By source: `theme-c` 5
 
-- {:style "cursor_off", :ink [:disabled-fg]}
-- {:style "disabled", :ink [:disabled-fg]}
-- {:style "disabled_dim", :ink [:disabled-fg]}
-- {:style "disabled_flat", :ink [:disabled-fg]}
-- {:style "tab_txt", :ink [:fg-0]}
+- {:source :theme-c, :style "cursor_off", :ink [:disabled-fg]}
+- {:source :theme-c, :style "disabled", :ink [:disabled-fg]}
+- {:source :theme-c, :style "disabled_dim", :ink [:disabled-fg]}
+- {:source :theme-c, :style "disabled_flat", :ink [:disabled-fg]}
+- {:source :theme-c, :style "tab_txt", :ink [:fg-0]}
 

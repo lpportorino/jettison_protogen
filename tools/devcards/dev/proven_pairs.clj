@@ -587,9 +587,11 @@
                      :source :theme-style :idx 0 :state nil
                      :provenance :theme-style :style style})
                   (seq ink)
-                  [{:finding :theme-style-ink-only :style style :ink (vec (sort ink))}]
+                  [{:finding :theme-style-ink-only :source :theme-c
+                    :style style :ink (vec (sort ink))}]
                   (seq fill)
-                  [{:finding :theme-style-fill-only :style style :fill (vec (sort fill))}]
+                  [{:finding :theme-style-fill-only :source :theme-c
+                    :style style :fill (vec (sort fill))}]
                   :else nil))
           styles))
 
