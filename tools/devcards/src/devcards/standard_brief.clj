@@ -58,11 +58,11 @@
    `devcards.docgen` primitives so the DO-NOT-EDIT banner, the GFM tables
    and the writer stay one home apiece."
   (:require [clojure.string :as str]
+            [devcards.deadzone :as deadzone]
             [devcards.docgen :as docgen]
             [devcards.findings :as findings]
             [devcards.invariants :as invariants]
             [devcards.lvgl-classes :as lvgl-classes]
-            [devcards.deadzone :as deadzone]
             [devcards.opa :as opa]
             [devcards.overlap :as overlap]))
 

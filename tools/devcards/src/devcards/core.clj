@@ -269,14 +269,19 @@
    host_event envelopes) and carries no EDN reader. Each entry gains the
    artifact SLUG so the mirror resolves the card file it must drive
    without re-implementing `comp-slug` — the same class of copy this
-   file exists to retire."
+   file exists to retire.
+
+   RETURNS ITS PATH, like every other writer here, because the disk audit
+   reconciles what this lane CLAIMS against what is on disk. Returning nil
+   made the file an unclaimed artifact of the generator's own run — a
+   blocking `:orphaned-artifact` naming a file nothing had gone stale about."
   [inventory]
   (let [decl (update-vals (interaction/geometry-declaration inventory)
                           #(assoc % :slug (comp-slug (:card %))))]
     (io/make-parents composition-geometry-file)
     (spit composition-geometry-file
           (with-out-str (json/pprint decl :key-fn name)))
-    nil))
+    composition-geometry-file))
 
 (defn run-composition
   "The authored-composition lane over built composition entries
@@ -296,8 +301,8 @@
   ;; Emitted BEFORE the renders, alongside the cards below: a red run must
   ;; still leave the mirror suite a declaration matching the cards it wrote,
   ;; or the mirror's own red would name a stale file instead of the defect.
-  (persist-geometry-declaration! inventory)
-  (let [t0 (System/nanoTime)
+  (let [geometry-artifact (persist-geometry-declaration! inventory)
+        t0 (System/nanoTime)
         f0 (into {}
                  (map (fn [{:keys [id] ^bytes pb :bytes}]
                         (let [dark (render-one! pb {:family 0 :dark true :dump? true})
@@ -353,7 +358,8 @@
                      (into (gates/corpus-secret-findings (:cards inventory)))
                      (into interaction-findings))]
     {:findings findings
-     :artifacts (vec (mapcat (comp :artifacts val) (sort-by key f0)))
+     :artifacts (into [geometry-artifact]
+                      (mapcat (comp :artifacts val) (sort-by key f0)))
      :counts {:composition-cards (count built)
               :composition-renders (* (count built) 6)
               :composition-findings (count findings)
