@@ -304,15 +304,22 @@
    host can forget — while every existing parse site reaches the
    :dump-truncated invariant instead of throwing first.
 
-   SEPARATE FROM `dump-tree!` BECAUSE OF WHAT CAN GATE IT. `dump-tree!` needs a
-   live wasm instance, so its only end-to-end gate is the `dump-contracts`
-   target — which runs in the renderer workflow, whose `paths:` filter does not
-   name `tools/devcards/**`. A push that deleted this clause and touched
-   nothing else would therefore never start that workflow, and no corpus card
-   overruns the buffer, so nothing else would notice. As a pure fn it is
-   reachable from the unit suite, which the devcards workflow DOES run on such
-   a push. Keep both: the probe proves the renderer and this membrane agree,
-   the unit test proves the membrane itself still exists."
+   SEPARATE FROM `dump-tree!` BECAUSE OF WHAT CAN GATE IT — and the thing that
+   needs gating is the TRUNCATION path, not `dump-tree!`. `dump-tree!` itself
+   runs end-to-end on every corpus card under `fixtures-prebuilt` and
+   `gallery-prebuilt`, which the devcards workflow does run. But NO CORPUS CARD
+   OVERRUNS THE BUFFER, so none of those runs ever takes this branch: its only
+   end-to-end exerciser is the `dump-contracts` probe, which lives in the
+   renderer workflow, whose `paths:` filter does not name `tools/devcards/**`.
+   A push deleting this clause and touching nothing else would start no
+   workflow that runs the probe. As a pure fn the clause is reachable from the
+   unit suite, which the devcards workflow DOES run on such a push.
+
+   WHAT THAT LEAVES UNGATED, stated rather than implied: the unit suite pins
+   this fn's BEHAVIOUR, not its WIRING. Rewriting `dump-tree!` below to call
+   `dump-tree-raw!` directly leaves the whole suite green, and `dump-contracts`
+   — reachable locally through `check-renderer`, and in CI only from a
+   renderer-side push — remains the sole gate on the composition."
   ^String [^String raw]
   (if (.endsWith raw ",\"truncated\":true")
     "{\"truncated\":true,\"children\":[]}"

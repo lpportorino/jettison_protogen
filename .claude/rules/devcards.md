@@ -50,9 +50,18 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
 - **`check-renderer` runs neither of them**, because it does not list
   `gallery-prebuilt`. A green local battery therefore says NOTHING about
   `docs/` in either direction — not that the sheets are fresh, and not that no
-  orphan is shipping. Run `gallery-prebuilt` yourself to reach the orphan half;
-  the content half you cannot reach locally at all. The golden verify half is
-  separate and does ride `check-renderer`, but it covers `goldens/` only.
+  orphan is shipping. Run `gallery-prebuilt` yourself to reach the orphan half.
+  The content half has no make TARGET — it exists only as a workflow step, and
+  cannot be a battery lane because git cannot resolve this checkout inside the
+  container — but you reach the same assertion by hand, and doing so before a
+  push is the operator's job: re-mint in the PINNED CONTAINER
+  (`tools/uber.sh 'make -f renderer.mk gallery-prebuilt'`; a host run rewrites
+  every sheet through a different JPEG encoder) and then run
+  `git diff --exit-code tools/devcards/docs` on the host. That two-step is this
+  repo's normal local method, not a workaround — `.claude/rules/uber-container.md`
+  records a full gallery re-mint from that container passing CI's own step
+  unchanged. The golden verify half is separate and does ride `check-renderer`,
+  but it covers `goldens/` only.
 - `docs/widgets/**` is GENERATED, DO-NOT-EDIT. Edit `corpus/spec.edn`,
   `corpus/composition.edn`, the conventions manifests, or the generator ns —
   never the output.
