@@ -32,6 +32,17 @@
    under LV_STATE_DISABLED rendered #ACACAC on #6A32CC, and the authored
    #C8C8C8 appears nowhere.
 
+   WITH-NEITHER-MECHANISM-LIVE IS A SCOPE, AND THIS CLAUSE ONLY BANS ONE OF
+   THE TWO. This producer reads `:opa` and nothing else, so it enforces the
+   fade half; recolor is untouched by it and remains live in `hover`,
+   `pressed` and `disabled_dim`. The identity above therefore holds where the
+   theme pins recolor_opa TRANSP (the text-bearing `disabled` style) and not
+   theme-wide — 91 non-token drawn colours on the shipped corpus come from
+   those three recolor styles. A token-conformance gate that reads this
+   docstring as a theme-wide guarantee will report the design
+   `docs/UI-QUALITY-CONTRACTS.md` §6 PRESCRIBES as a violation of §6; §6.7
+   records that retraction.
+
    ── WHAT IT READS, AND WHY THE NAIVE PREDICATE IS RIGHT *HERE* ──────────
    `(contains? node :opa)`, and nothing else. That looks like the naive
    `opa != 255` test the opa RAILS make wrong, and it is not, because the

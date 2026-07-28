@@ -548,9 +548,19 @@ rather than leaving the rule to memory.
 It collapses the readability matrix to a clean cartesian product and deletes an
 entire class of *"the rendered pair is not the proven pair"*. A matrix cannot
 enumerate a composite that varies continuously; with the ban, it does not have
-to — **the AUTHORED pair IS the RENDERED pair**, so a token-level contrast gate
-can mean something at all. Under a fade it cannot: the rendered colours appear
-in no token table.
+to — **for a text-bearing widget under `disabled`, where the theme also holds
+`recolor_opa` at TRANSP, the AUTHORED pair IS the RENDERED pair**, so a
+token-level contrast gate can mean something at all. Under a fade it cannot: the
+rendered colours appear in no token table.
+
+**READ THAT SCOPE LITERALLY — the identity is not a property of the surface.**
+The ban is on OPACITY; a RECOLOR composes a new value over whatever colour it
+lands on, so the identity holds exactly where NEITHER mechanism is live. That is
+not everywhere: `hover`, `pressed` and `disabled_dim` all recolor, and the last
+is the mechanism §6 PRESCRIBES for text-free geometry. Measured over the shipped
+corpus, 1206 of 3082 drawn colours are in no token table, 91 of them from this
+theme's own recolor styles. §6.7 records what a gate built on the unscoped
+reading would have cost: it would have condemned §6's own design.
 
 Measured on this interpreter before the ban: a themed button under
 `LV_STATE_DISABLED` rendered `#ACACAC` on `#6A32CC`, and the authored `#C8C8C8`

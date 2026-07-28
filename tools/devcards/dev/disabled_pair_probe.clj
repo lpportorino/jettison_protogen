@@ -184,6 +184,9 @@
                    (hexof fill) (hexof glyph) fill-px glyph-px
                    (contrast fill glyph))))))
     (println (str "\nratio is the EFFECTIVE rendered pair. Compare against the "
-                  "AUTHORED pair\nin palette-audit.py section 1: the opa ban's "
-                  "whole point is making them equal.\nGoverning floor is 6:1 "
+                  "AUTHORED pair\nin palette-audit.py section 1: the opa ban "
+                  "makes them equal for DISABLED TEXT,\nwhere recolor_opa is "
+                  "also pinned TRANSP — it is not a theme-wide identity "
+                  "(hover,\npressed and disabled_dim all recolor; see "
+                  "UI-QUALITY-CONTRACTS.md 6.2).\nGoverning floor is 6:1 "
                   "(MIL-STD-1472H 5.2.2.7), NOT WCAG's 4.5:1."))))

@@ -465,6 +465,14 @@ static void style_init(asgard_theme_t *t) {
    * mean something. Under a fade it cannot — the rendered colours appear in
    * no token table at all.
    *
+   * "NEITHER MECHANISM LIVE" IS A SCOPE, NOT A DESCRIPTION OF THIS THEME.
+   * It holds for the text-bearing `disabled` style below, precisely because
+   * that style pins recolor_opa TRANSP. It does NOT hold theme-wide: `hover`,
+   * `pressed` and `disabled_dim` all recolor, and 91 non-token drawn colours
+   * on the shipped corpus come from exactly those. Do not lift this sentence
+   * out of the disabled-text context — a gate armed on the unscoped reading
+   * would condemn disabled_dim, which UI-QUALITY-CONTRACTS.md §6 prescribes.
+   *
    * - `disabled` (text only): the text-bearing widgets that have NO fill of
    *   their own to swap — a standalone label, the checkbox's label on MAIN.
    *   recolor_opa TRANSP is load-bearing, not tidiness: the STOCK parent

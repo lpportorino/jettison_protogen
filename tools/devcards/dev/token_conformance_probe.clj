@@ -3,14 +3,26 @@
    manifest declares?
 
    This is the arming measurement for the RECOLOR arm that
-   `docs/UI-QUALITY-CONTRACTS.md` §6.7 hands to the static tier. That section's
-   argument is short and worth restating, because the probe is meaningless
-   without it: with the opacity ban in force the AUTHORED pair IS the RENDERED
-   pair, so every colour the dump reports must be a token value — and a
-   whole-widget recolor produces a composite that appears in no token table,
-   which makes it detectable by exactly this comparison. The comparison is only
-   valid BECAUSE the ban holds; without it a faded colour would be a legitimate
-   non-token value and the arm would drown.
+   `docs/UI-QUALITY-CONTRACTS.md` §6.7 hands to the static tier — AND IT
+   REFUTED THAT SECTION'S FIRST PREMISE RATHER THAN SIZING IT. The argument
+   §6.7 shipped with was: with the opacity ban in force the AUTHORED pair IS
+   the RENDERED pair, so every colour the dump reports must be a token value,
+   and a whole-widget recolor produces a composite that appears in no token
+   table — detectable by exactly this comparison.
+
+   THE PREMISE IS FALSE AS WRITTEN, and this probe's own numbers are what
+   showed it. The ban is on OPACITY. A RECOLOR composes a new value over
+   whatever colour it lands on, and it is untouched by that ban: 1206 of 3082
+   drawn colours here are in no token table, and 91 of those come from this
+   theme's OWN recolor styles — 26 from `disabled_dim`, the mechanism §6
+   PRESCRIBES for text-free geometry. An arm armed on the unscoped reading
+   would report §6's own design as a violation of §6. §6.7 now carries the
+   retraction; §6.2 carries the scope in which the identity does hold (a
+   text-bearing widget under `disabled`, where recolor_opa is pinned TRANSP).
+
+   So the comparison below is still worth running and is NOT a gate: read it as
+   a census of drawn-vs-declared colour, whose job is to separate this theme's
+   DECLARED recolors from everything else before any clause blocks on it.
 
    IT DOES NOT DETECT RECOLORS. It detects a drawn colour that is in no token
    table, which is a FACT. A recolor is one cause; a stock LVGL colour leaking

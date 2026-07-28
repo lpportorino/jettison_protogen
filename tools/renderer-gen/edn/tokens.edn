@@ -29,7 +29,10 @@
           :olive-500 "#585846"
           ;; :olive-600 = light DISABLED TEXT tone. It exists because the
           ;; disabled fade was removed (see :fg-disabled for the full
-          ;; derivation): with no fade the AUTHORED pair is the RENDERED pair,
+          ;; derivation): with no fade the AUTHORED pair is the RENDERED pair
+          ;; — which holds HERE because this is disabled TEXT, where the theme
+          ;; also pins recolor_opa TRANSP, and is NOT a theme-wide identity
+          ;; (hover/pressed/disabled_dim all recolor; see §6.2) —
           ;; so the tone has to clear the governing 6:1 on its own, and
           ;; :olive-500 does not (5.44:1 / 4.64:1 / 3.91:1 on surface-1/2/
           ;; overlay). Solved as the DIMMEST OKLCH lightness at :olive-500's
