@@ -32,12 +32,27 @@ language bindings, not a hand-maintained app.
   object is invalidated. The next build then compiles ZERO files, relinks
   nothing, prints success, and every gate judges an artifact this toolchain
   never produced. Nothing downstream sees it: the module loads and the
-  provenance stamp still names the right commit. The tell is arithmetic —
-  `make -f wasm.mk -n all reference OBJ_DIR=<scratch> | grep -c ' -c -o '`
-  prints what a from-scratch build owes (557 on this tree, equal to the `.o`
-  count under `build/release`; `all` alone is 546). A run reporting fewer reused
-  that many stale objects, so `make -f wasm.mk clean` and re-run the lane before
-  any claim rests on it.
+  provenance stamp still names the right commit. The tell is arithmetic — from
+  `renderer/`, since that is where `wasm.mk` lives and from the repo root the
+  command matches nothing and prints 0, which reads exactly like "nothing owed":
+
+      cd renderer && make -f wasm.mk -n all reference OBJ_DIR=<scratch> \
+        | grep -c ' -c -o '
+
+  That prints what a from-scratch build owes. Compare it against the count your
+  real build reported; a run reporting FEWER reused that many stale objects, so
+  `make -f wasm.mk clean` and re-run the lane before any claim rests on it.
+  **The invariant, not the tally, is what to check** — the figure equals the
+  `.o` count under `build/release` after a clean build. Re-derive it rather than
+  trusting any copy; it moves the day a source file is added, and it was last
+  measured one higher than the figure this rule used to quote.
+  **DO NOT read the two targets as disjoint.** `all` and `reference` compile
+  almost the same translation units — the union is barely larger than either
+  one, `reference` alone is very nearly the whole union, and `all` alone is a
+  few short of it. So the difference between the union and `all` is NOT "what
+  the reference oracle costs"; it is the handful of objects only the reference
+  links. Subtracting one from the other to price a target gets an answer that
+  looks reasonable and means nothing — measure each target directly.
 - **LANE COVERAGE IS NOT NESTED, and `demo-parity`'s green is the one most
   likely to be over-read.** It renders exactly one screen,
   `renderer/edn/screens/demo_widgets.edn`, which authors three of the eight
