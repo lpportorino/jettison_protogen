@@ -18,7 +18,9 @@
 
    The suite never writes a file and never touches the renderer tree."
   (:require [clojure.edn :as edn]
+            [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
+            [lvgl-codegen.font-metrics :as fm]
             [lvgl-codegen.pdl-t0 :as t0])
   (:import (java.io File)))
 
@@ -291,3 +293,113 @@
       (is (seq (get-in m [:surface :dump-keys])))
       (is (seq (get-in m [:surface :dump-exports])))
       (is (seq (get-in m [:surface :font-metrics]))))))
+
+;; ── leg 4: the join between the node surface and the metric surface ─────────
+;; The metric surface is keyed by font NAME. Until `dump_obj` emitted one, the
+;; two surfaces this namespace parses could not be joined at all: perfect
+;; metrics on one side, resolved faces on the other, and no key between them.
+;; These two deftests guard the ends of that key — that the dump still carries
+;; it, and that the name it carries is one `resolve_font` would answer to.
+
+(deftest the-resolved-face-is-on-the-dump-surface
+  ;; REVERT-TO-BREAK: in `dump_obj` (renderer/src/main.c), delete the
+  ;;   (void)snprintf(fbuf, sizeof(fbuf), ",\"text_font\":\"%s\"", face_name);
+  ;; line and the `,\"text_font_unnamed\":true` in its else-branch. The parse
+  ;; still succeeds — it simply stops finding the key — so this FAILS rather
+  ;; than ERRORs. CONTROL: `font-metric-fields-are-measurements-not-provenance`
+  ;; above reads the OTHER end of the join, out of the compiled C tables
+  ;; through a different parser entirely, and stays green; so does
+  ;; `export-surface-is-the-linkers-list`. A red confined to this deftest is
+  ;; attributable to the emit site and not to file access or to the vocabulary
+  ;; parse as a whole.
+  (testing "dump_obj names the face it resolved"
+    (let [v (:dump-keys @real-surface)]
+      (is (contains? v "text_font")
+          (str "`text_font` is absent from dump_obj's vocabulary. A metrics table "
+               "keyed by font name then has nothing on the NODE side to join to, "
+               "and a per-node type clause judges zero nodes however complete the "
+               "metrics are"))
+      (is (contains? v "text_font_unnamed")
+          (str "the unnameable face has no declared spelling. dump_obj emits "
+               "text_font only where the face CHANGES, so a face it cannot name "
+               "would then go SILENT — and silence on that key means `inherited "
+               "from the nearest ancestor`, which is the opposite of what "
+               "happened"))))
+
+  (testing "the register prices it as present, and the answer does NOT move"
+    ;; Both halves matter. The first is the re-price. The second is the point
+    ;; of having three answers: :out-of-scope is not a function of inputs, so
+    ;; an input ARRIVING must not reopen a clause the standard closed.
+    (let [c (by-id @real-manifest :character-size)]
+      (is (not-any? #(= "text_font" (str (:name %))) (:missing c))
+          (str "the register still reports text_font missing while dump_obj emits "
+               "it — the clause's recorded evidence describes a tree that no "
+               "longer exists"))
+      (is (= :out-of-scope (:disposition c))
+          (str "an arriving input reopened an OUT-OF-SCOPE clause; that collapses "
+               "three answers into two and re-lists as a backlog item something "
+               "docs/UI-QUALITY-CONTRACTS.md §0 puts permanently out")))))
+
+(def ^:private font-table-open
+  "The exact opening line of dump_obj's reverse name table. A rename fails this
+   leg loudly rather than comparing an empty set against the arms and passing."
+  "static const font_name_t font_names[] = {")
+
+(def ^:private font-table-row-re
+  #"\{\s*&\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*\"([^\"]+)\"\s*\}")
+
+(defn- dump-font-table
+  "main.c's symbol -> name reverse map, parsed. Returns {} when the table
+   cannot be located, so a missing table FAILS the emptiness assertion below
+   instead of throwing out of `subs`."
+  []
+  (let [txt (slurp (File. (str repo-root "/" t0/main-c-path)))
+        start (str/index-of txt font-table-open)
+        end (when start (str/index-of txt "\n};" start))]
+    (if (and start end)
+      (into {} (map (fn [[_ sym nm]] [sym nm])) (re-seq font-table-row-re (subs txt start end)))
+      {})))
+
+(deftest every-face-resolve-font-answers-can-be-named-back
+  ;; `resolve_font` (renderer/src/renderer.c) is the ONE home of the
+  ;; name -> lv_font_t* direction, and `lvgl-codegen.font-metrics` parses it.
+  ;; dump_obj needs the REVERSE and cannot call that function: it is static to
+  ;; renderer.c, and the reference oracle links src/reference_ui.c INSTEAD of
+  ;; renderer.c, so a shared accessor would be stubbed on exactly the oracle
+  ;; the dump is compared against. The duplication is therefore forced; this is
+  ;; the gate that keeps it from drifting.
+  ;;
+  ;; REVERT-TO-BREAK: delete any one row from `font_names` in
+  ;; renderer/src/main.c (or transpose two rows' name strings — the pairing leg
+  ;; catches that one and the coverage leg does not). CONTROL:
+  ;; `the-resolved-face-is-on-the-dump-surface` above stays green, because the
+  ;; KEY is still emitted; only the value space shrank.
+  (let [table (dump-font-table)
+        arms (:arms (fm/resolve-font-arms repo-root))]
+    (testing "the reverse table was found at all"
+      (is (seq table)
+          (str "no `" font-table-open "` in main.c — the reverse map moved, and "
+               "an unparsed table would compare an empty set against the arms "
+               "and report perfect agreement")))
+
+    (testing "every name resolve_font answers to can be named back"
+      (doseq [{arm-symbol :symbol arm-name :name} arms]
+        (is (= arm-name (get table arm-symbol))
+            (str "resolve_font maps \"" arm-name "\" -> &" arm-symbol
+                 ", but dump_obj's reverse table says "
+                 (pr-str (get table arm-symbol))
+                 ". The two ways that goes wrong are not the same defect: nil "
+                 "narrows the join silently — the face emits text_font_unnamed "
+                 "and reads as 'no compiled table' — while a DIFFERENT name "
+                 "reports a face these glyphs are not cut from, which joins to "
+                 "the wrong metrics row and cannot be told from a correct one"))))
+
+    (testing "the table names no face resolve_font cannot produce"
+      ;; The other direction: a row whose symbol no arm returns is a name no
+      ;; screen can ever resolve to, so it is dead — and a dead row is how a
+      ;; transposed pair hides.
+      (let [arm-symbols (into #{} (map :symbol) arms)]
+        (doseq [[sym nm] (sort table)]
+          (is (contains? arm-symbols sym)
+              (str "dump_obj's table names &" sym " \"" nm "\", but resolve_font "
+                   "returns that symbol for no name at all — the row is dead")))))))

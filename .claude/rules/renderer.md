@@ -236,8 +236,34 @@ same `hhea` values — and TRUNCATES rather than rounds
 (`renderer/lvgl/src/libs/tiny_ttf/lv_tiny_ttf.c`). Know which way a failed load
 goes, too: `resolve_font` logs and falls back to `font_b612mono_bold_16` rather
 than failing, so a broken TTF path still renders. The `vr_ttf_font` /
-`vr_ttf_font_base` fixture pair and the differ between them are the oracle for
-that; the log is not.
+`vr_ttf_font_base` fixture pair and the differ between them are the PIXEL oracle
+for that; the log is not.
+
+**`dump_obj` is now a second, direct oracle for the same failure, and it answers
+a question the pixel pair cannot.** It emits `text_font` — the name
+`resolve_font` answers to — wherever the resolved face CHANGES from the parent's
+(the inheritable `text_color` convention), and `text_font_unnamed` when the face
+has no compiled table to name. So a face that reached TinyTTF reports
+`text_font_unnamed`, while one whose load FAILED reports
+`"text_font":"b612mono_bold_16"` — the substitution named, per node, without a
+differ and without reading the log. Two limits, so this does not get over-read:
+it cannot see a fallback for a screen that asked for `b612mono_bold_16` in the
+first place (the two states are then identical), and only the pixel pair proves
+the face actually DREW. What it does close is the per-node half of *"any
+font-metric measurement records which rasterizer produced it"*: the two spellings
+are exactly compiled-table vs runtime-rasterized, on the node the metrics would
+be joined to.
+
+**Measured under WASMTIME, because GraalWasm cannot render that fixture at all.**
+`vr_ttf_font.pb` through `devcards.host` traps in `dlfree` — a 4-byte access at
+`0xFFFFFFFE` — on the pinned wasm built from an UNMODIFIED `main.c` as well as
+from the current one, so it predates this key and is not caused by it. The same
+`.pb` on the same wasm renders and dumps cleanly under the wasmtime harness
+(`cargo test --test visual_regression
+test_wasi_ttf_font_renders_at_uncompiled_size`, and `--dump-tree` for the JSON).
+The consequence for a devcard author: **no corpus card can name an uncompiled
+font tuple**, so `text_font_unnamed` has no GraalWasm coverage and the engines
+are not interchangeable on this path.
 
 ## Stock colours are a table LOOKUP — nothing about them is computed
 

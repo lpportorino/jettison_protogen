@@ -78,7 +78,22 @@
                   and that part's fill is what is under them. `text_on.color`
                   is emitted unconditionally; `text_on.bg` follows the
                   bg_color convention, and its absence means that part paints
-                  no fill.
+                  no fill. `text_on.font` / `text_on.font_unnamed` follow the
+                  text_font conventions below, scoped to that PART — a screen
+                  can put a face on the drawing part, and the top-level
+                  `text_font` reads MAIN, so the two can legitimately disagree.
+     text_font    absent => THE NEAREST ANCESTOR THAT EMITTED ONE, the same
+                  inheritance convention as text_color (LV_STYLE_TEXT_FONT
+                  carries LV_STYLE_PROP_FLAG_INHERITABLE), and the root always
+                  emits one. Never a default.
+     text_font_unnamed
+                  present => the resolved face has NO compiled table, so there
+                  is no metrics row to join it to — a runtime `.bin` or TinyTTF
+                  face. It is the THIRD ANSWER and not a missing name: silence
+                  here would be read as \"inherited\" by the rule above, which
+                  is a different and wrong claim. Nothing here reads a TTF for
+                  metrics; the compiled table is the only truth for what
+                  renders.
      backdrop_unresolved
                   present => the interpreter positively declares the fill under
                   this node's glyphs does not cover. Absent => NOT \"resolved\".

@@ -63,10 +63,19 @@
 (defn- walk [root] (tree-seq #(seq (:children %)) :children root))
 
 (def ^:private conditional-keys
-  "Every dump key that is emitted only when it carries information. Counting
-   them is how the buffer-cost argument stops being a claim."
+  "Every TOP-LEVEL dump key that is emitted only when it carries information.
+   Counting them is how the buffer-cost argument stops being a claim.
+
+   TOP-LEVEL is load-bearing, not a hedge: the counter below is
+   `(filter k nodes)` over the flat node maps, so a key nested inside another
+   object cannot be seen by it. `text_on` carries conditional `font` and
+   `font_unnamed` spellings of its own; they are real conditional keys and they
+   are NOT counted here. Listing them would report a constant zero, which reads
+   as 'never emitted' rather than 'not measured' — the exact confusion this
+   probe exists to remove. Widen the walk before widening the list."
   [:text :opa :text_color :text_opa :bg_color :bg_opa :text_on
-   :backdrop_unresolved :click_area :descend_gate :vis_px :hidden :disabled])
+   :backdrop_unresolved :click_area :descend_gate :vis_px :hidden :disabled
+   :text_font :text_font_unnamed])
 
 (defn -main
   [& show]

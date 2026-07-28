@@ -325,8 +325,12 @@
                "the inputs are listed as evidence for the document's own argument "
                "that nothing here can measure this, never as a backlog. Angular size "
                "is a property of a PANEL and an OPERATOR: it needs a pixel pitch and "
-               "a viewing distance this repository has never held. Both listed inputs "
-               "are ALSO absent, which is why no amount of font work reopens it.")}
+               "a viewing distance this repository has never held. `text_font` is now "
+               "ON the dump surface and this row did not move, which is the sharpest "
+               "demonstration the register offers that :out-of-scope is not a function "
+               "of inputs — an arriving input cannot reopen it, and the still-absent "
+               ":cap-height is not what holds it shut. Read the earlier claim that "
+               "both inputs were absent as retracted, not weakened.")}
 
    {:id :flash-rate
     :quantity "the rate at which an indicator alternates state"

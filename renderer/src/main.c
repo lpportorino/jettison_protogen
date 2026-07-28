@@ -45,6 +45,8 @@
  *   controls_destroy() -> i32      — Cleanup
  */
 #include "commands.h"
+#include "fonts.h"
+/* the compiled B612Mono/Orbitron tables, for the text_font reverse map */
 #include "gesture.h"
 #include "host_imports.h"
 #include "log.h"
@@ -1734,7 +1736,28 @@ static bool obj_squished(const lv_obj_t *obj, const lv_area_t *coords) {
  *                        mean "the default background"; nothing was drawn.
  *   bg_opa               absent WITH bg_color => the fill covers fully.
  *                        Present => that alpha, already including `opa`.
+ *   text_font            absent => THE NEAREST ANCESTOR THAT EMITTED ONE, the
+ *                        same convention and the same reason as text_color:
+ *                        LV_STYLE_TEXT_FONT is inheritable, so only a CHANGE is
+ *                        emitted and the root always does. It is NOT a
+ *                        statement about glyphs — a node that draws none still
+ *                        emits it if its resolved face differs from its
+ *                        parent's. Present => the name resolve_font answers to,
+ *                        which is the key lvgl-codegen.font-metrics is keyed by.
+ *   text_font_unnamed    present => the face at this node CHANGED and is one
+ *                        this file cannot name: a runtime .bin or TinyTTF face,
+ *                        which has no compiled table and therefore no metrics
+ *                        row to join to. It is a positive declaration, the same
+ *                        third answer backdrop_unresolved is, so an ancestor
+ *                        walk terminates here rather than inheriting a face
+ *                        that was overridden. Absent alongside text_font =>
+ *                        nothing changed at this node.
  *   text_on              absent => this node's text, if any, rides on MAIN.
+ *   text_on.font         absent => the part draws with the face the text_font
+ *                        chain resolves for this node. Present => the part
+ *                        carries its OWN face and the top-level text_font is
+ *                        not the one these glyphs are cut from. `font_unnamed`
+ *                        is its unnameable case, exactly as above.
  *   backdrop_unresolved  absent => either the node draws no text, or the fill
  *                        under its glyphs fully covers and IS bg_color (or
  *                        text_on.bg). Present => THE THIRD ANSWER: this node
@@ -1919,6 +1942,65 @@ static bool obj_draws_text(const lv_obj_t *obj) {
 #endif
   text_part_t tp;
   return obj_text_part(obj, &tp);
+}
+/* ── the resolved face, by the name that joins it to the compiled metrics ────
+ * `resolve_font` (renderer/src/renderer.c) owns the name -> lv_font_t*
+ * direction and is its ONE home; `lvgl-codegen.font-metrics` PARSES that
+ * function's arms and keys every metric record by the same name string. A dump
+ * consumer holds the resolved POINTER and has nothing to join on, which is what
+ * this table is for: it is the REVERSE direction, and nothing but the dump
+ * needs it.
+ *
+ * IT IS A SECOND LISTING OF THOSE NAMES AND CANNOT BE ANYTHING ELSE FROM HERE.
+ * resolve_font is static to renderer.c, and the reference oracle
+ * (src/reference_ui.c) is linked INSTEAD of renderer.c — so an accessor over
+ * there would have to be stubbed here and would report nothing on the very
+ * oracle the dump is compared against. Two things bound what the duplication
+ * can cost, and they cover DIFFERENT drifts — say which, because the second one
+ * does not cover the first. Behaviourally: a face this table OMITS emits the
+ * `_unnamed` spelling below instead of going silent, so a missing row degrades
+ * to the declared third answer and never to a wrong name. That is no help at
+ * all against a MIS-PAIRED row, which reports a real name for the wrong face
+ * and is indistinguishable from a correct one. Only the mechanical guard
+ * catches that: `lvgl-codegen.pdl-t0-test` cross-checks every (symbol, name)
+ * PAIR against the arms resolve_font actually answers, so both a dropped row
+ * and a transposed one red there.
+ *
+ * ONLY THE COMPILED FACES ARE LISTED, and that is the whole set a join can
+ * reach: a runtime `.bin` or TinyTTF face has no C table for
+ * `lvgl-codegen.font-metrics` to read, so its record carries null metrics and a
+ * `metrics-unavailable` reason. renderer.c's binfont registry does hold those
+ * names — this file cannot see it, and surfacing them would hand a consumer a
+ * join key with nothing on the other side of the join. */
+typedef struct {
+  const lv_font_t *font;
+  const char *name;
+} font_name_t;
+static const font_name_t font_names[] = {
+    {&font_b612mono_bold_12, "b612mono_bold_12"},
+    {&font_b612mono_bold_14, "b612mono_bold_14"},
+    {&font_b612mono_bold_16, "b612mono_bold_16"},
+    {&font_b612mono_bold_18, "b612mono_bold_18"},
+    {&font_b612mono_bold_20, "b612mono_bold_20"},
+    {&font_orbitron_bold_22, "orbitron_bold_22"},
+    {&font_orbitron_bold_28, "orbitron_bold_28"},
+    {&font_orbitron_bold_32, "orbitron_bold_32"},
+    {&lv_font_montserrat_14, "montserrat_14"},
+    {&lv_font_montserrat_16, "montserrat_16"},
+    {&lv_font_montserrat_18, "montserrat_18"},
+    {&lv_font_montserrat_22, "montserrat_22"},
+    {&lv_font_montserrat_24, "montserrat_24"},
+};
+/* The name resolve_font answers to for this face, or NULL for one this table
+ * does not list. A NULL is REPORTED at every emit site, never dropped. */
+static const char *font_name(const lv_font_t *font) {
+  if (font == NULL)
+    return NULL;
+  for (size_t i = 0; i < sizeof(font_names) / sizeof(font_names[0]); i++) {
+    if (font_names[i].font == font)
+      return font_names[i].name;
+  }
+  return NULL;
 }
 /* ,"<key>":"#rrggbb" — the leading comma is the dump's separator convention,
  * which also makes this usable inside the text_on object after its first
@@ -2200,6 +2282,35 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
     }
     if (txt_differs)
       tree_append_color("text_color", txt);
+    /* THE FACE THE GLYPHS ARE CUT FROM, named so a consumer can join it to the
+     * compiled-table metrics (lvgl-codegen.font-metrics is keyed by exactly
+     * this string). LV_STYLE_TEXT_FONT carries LV_STYLE_PROP_FLAG_INHERITABLE
+     * (lvgl/src/misc/lv_style.c), so this rides the same chain text_color does
+     * and takes the same convention: emitted only where it CHANGES, and the
+     * root has no parent so it always emits, which is what terminates the walk
+     * up. ABSENT => THE NEAREST ANCESTOR THAT EMITTED ONE — never a default,
+     * and never "this node draws no glyphs" (glyph-bearing-ness is a different
+     * question, answered by `text` / `text_on` / `backdrop_unresolved`).
+     *
+     * The face can also fail to be NAMEABLE, and that is emitted rather than
+     * skipped: a runtime .bin or TinyTTF face has no compiled table and so no
+     * metrics row to join to, and `text_font_unnamed` says exactly that. A walk
+     * up terminates at whichever of the two keys it meets first; meeting
+     * neither all the way to the root can only mean a detached subtree. */
+    const lv_font_t *face = lv_obj_get_style_text_font(obj, LV_PART_MAIN);
+    bool face_differs = true;
+    if (parent != NULL)
+      face_differs = lv_obj_get_style_text_font(parent, LV_PART_MAIN) != face;
+    if (face_differs) {
+      const char *face_name = font_name(face);
+      if (face_name != NULL) {
+        char fbuf[64];
+        (void)snprintf(fbuf, sizeof(fbuf), ",\"text_font\":\"%s\"", face_name);
+        tree_append(fbuf);
+      } else {
+        tree_append(",\"text_font_unnamed\":true");
+      }
+    }
     const lv_opa_t txt_opa =
         opa_scaled(lv_obj_get_style_text_opa(obj, LV_PART_MAIN), opa);
     if (txt_opa != LV_OPA_COVER)
@@ -2244,6 +2355,28 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
                       lv_obj_get_style_bg_color_filtered(obj, tp.part)));
         if (p_bg != LV_OPA_COVER)
           tree_append_opa("bg_opa", p_bg);
+      }
+      /* The part's OWN face, when it is not the node's. `state_selector` on a
+       * ui_ast StyleGroup is a full lv_style_selector_t, so a screen can set
+       * LV_STYLE_TEXT_FONT on LV_PART_ITEMS / SELECTED / INDICATOR — and then
+       * the top-level text_font, which reads MAIN, names a face these glyphs
+       * are NOT cut from. Emitted only on that divergence, exactly like `bg`
+       * beside it: ABSENT => the part draws with the face the top-level
+       * text_font chain resolves for this node — which is `face`, compared
+       * against here rather than re-looked-up, so the two keys cannot disagree
+       * about what MAIN resolved to. Measured over this repo's corpus it fires
+       * on 0 of 48 text_on nodes, so being right about a consumer's screens
+       * costs this one nothing. */
+      const lv_font_t *p_face = lv_obj_get_style_text_font(obj, tp.part);
+      if (p_face != face) {
+        const char *p_face_name = font_name(p_face);
+        if (p_face_name != NULL) {
+          char pfbuf[64];
+          (void)snprintf(pfbuf, sizeof(pfbuf), ",\"font\":\"%s\"", p_face_name);
+          tree_append(pfbuf);
+        } else {
+          tree_append(",\"font_unnamed\":true");
+        }
       }
       tree_append("}");
     }
