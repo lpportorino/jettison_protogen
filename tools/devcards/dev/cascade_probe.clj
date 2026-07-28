@@ -3,7 +3,6 @@
    resolved-style keys dump_obj emits, so the fg/bg question is answered from
    measurement rather than from reading the C."
   (:require [clojure.data.json :as json]
-            [clojure.string :as str]
             [devcards.composition :as composition]
             [devcards.fixtures :as fixtures]
             [devcards.host :as host]))

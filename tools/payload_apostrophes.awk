@@ -27,6 +27,32 @@
 # purpose — leading indentation, an `export`/`declare` prefix, and content after
 # the quote are all still payloads, and a stricter regex is how the draft went
 # blind.
+# A PAYLOAD CANNOT SPAN TWO FILES, and this state used to. awk is handed every
+# script in ONE invocation, so an unterminated payload left `inblk` set on entry
+# to the next file: every apostrophe in it was then reported as being inside a
+# block "opened line N" — a line number from a DIFFERENT file, frequently
+# greater than the line being blamed, which is how the incoherence shows.
+#
+# The damage is not just noise. One genuine finding turned every following file
+# red, so the real defect sat buried among cascade entries pointing at correct
+# code, and the obvious reading — "these files are all broken" — is wrong in a
+# way that costs a bisect. Measured on this tree: one unterminated payload in
+# one scratch script produced findings across three unrelated files, including
+# lines 7-10 of a file whose blamed block "opened" at line 25.
+#
+# Resetting per file is what makes each report about the file it names. An
+# unterminated block is still worth knowing about, and the END rule reports it.
+FNR == 1 {
+  if (inblk)
+    printf "%s:%d: payload %s was never closed; state reset at end of file\n",
+           prevfile, start, name
+  inblk = 0
+  start = 0
+  name = ""
+}
+
+{ prevfile = FILENAME }
+
 /^[[:space:]]*(export[[:space:]]+|declare[[:space:]]+(-[A-Za-z]+[[:space:]]+)?|local[[:space:]]+)?[A-Za-z_][A-Za-z0-9_]*='/ {
   if (!inblk) {
     rest = $0
@@ -51,6 +77,41 @@
 
 # Closer: a lone quote, tolerating surrounding whitespace.
 inblk && /^[[:space:]]*'[[:space:]]*$/ { inblk = 0; next }
+
+# ...OR a quote that CLOSES THE STRING while sharing its line with content, which
+# is how an ordinary multi-line assignment ends:
+#     OLD='first line
+#     second line'
+# Requiring the quote to sit alone made that block never close, so every
+# apostrophe in the REST OF THE FILE was reported as inside it — correct code,
+# blamed by a rule that had lost track of the string. Shell decides this by
+# counting: after both legitimate embedded-apostrophe idioms are stripped, an
+# ODD number of quotes on the line means the string ends here. Only the text
+# BEFORE that final quote is still inside the payload and worth checking.
+# ...and the quote must be the LAST thing on the line. That is what separates a
+# string ending from the hazard this gate exists for, and the difference is not
+# cosmetic:
+#     OLD='first
+#     second'                 <- closes; nothing follows; harmless
+#     echo "it's broken"      <- ALSO closes, in shell, and everything after it
+#                                is now UNQUOTED. That is the defect.
+# Both are "an odd number of quotes", so counting alone cannot tell them apart —
+# a first attempt at this rule accepted both and silently destroyed the gate's
+# core detection, which its own canary caught. Anything after the closing quote
+# means the payload was cut short, so that stays a FINDING.
+inblk && /'[[:space:]]*$/ {
+  probe = $0
+  gsub(/'"'"'/, "", probe)
+  gsub(/'\\''/, "", probe)
+  n = gsub(/'/, "'", probe)
+  if (n == 1) {
+    tail = $0
+    sub(/'[[:space:]]*$/, "", tail)
+    check(tail, FNR)
+    inblk = 0
+    next
+  }
+}
 
 inblk { check($0, FNR) }
 

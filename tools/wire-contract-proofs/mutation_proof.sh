@@ -20,7 +20,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DOC="$ROOT/docs/INTERFACE-CONTRACTS.md"
 CHECK=(python3 "$ROOT/tools/wire_contract_check.py")
 
-cleanup() { git -C "$ROOT" checkout -- docs/INTERFACE-CONTRACTS.md 2>/dev/null || true; }
+cleanup() { env -u GIT_DIR -u GIT_WORK_TREE git -C "$ROOT" checkout -- docs/INTERFACE-CONTRACTS.md 2>/dev/null || true; }
 trap cleanup EXIT
 
 banner() { printf '\n=== %s ===\n' "$1"; }
@@ -41,7 +41,7 @@ if [ "$landed" -eq 0 ]; then
   echo "ABORT: mutation did not land — any result below would be meaningless."
   exit 3
 fi
-echo "git diff --stat:"; git -C "$ROOT" diff --stat -- docs/INTERFACE-CONTRACTS.md
+echo "git diff --stat:"; env -u GIT_DIR -u GIT_WORK_TREE git -C "$ROOT" diff --stat -- docs/INTERFACE-CONTRACTS.md
 
 banner "2. THE RED, AND THE CLAUSE IT NAMES"
 set +e
@@ -77,7 +77,7 @@ banner "4. REVERT, AND PROVE IT"
 cleanup
 trap - EXIT
 echo "git status --porcelain for the doc:"
-git -C "$ROOT" status --porcelain -- docs/INTERFACE-CONTRACTS.md
+env -u GIT_DIR -u GIT_WORK_TREE git -C "$ROOT" status --porcelain -- docs/INTERFACE-CONTRACTS.md
 echo "(empty above = the tracked doc is byte-identical to HEAD)"
 echo "grep for the corrupted line after revert: $(grep -c '50 04 e2 01 00' "$DOC" || true)"
 "${CHECK[@]}" --quiet | tail -1
