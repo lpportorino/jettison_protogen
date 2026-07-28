@@ -657,9 +657,21 @@ drifting — and only the third one lives in THIS repo.
    codec/transport headers and their G2/G3 vectors, §3's profiles and G4, §7's
    package format, §8's `controls_*` export list and ABI constants, and G5's
    envelope bytes (only each vector's key set is checked, against
-   `ui-event-envelope.schema.json`). Those remain mechanism 2's alone. The
-   checker prints that list on every run, green or red, so a pass is never
-   mistaken for coverage it does not have.
+   `ui-event-envelope.schema.json`). Those remain mechanism 2's alone, and the
+   checker prints that list on every run, green or red.
+
+   **Read that printed list as a FLOOR, not a total — one gap is missing from
+   it.** Only the two ping vectors as stated in §9 are re-derived from the
+   descriptor and compared byte-for-byte; §9 is their pinned home. §6 repeats
+   those same bytes for a human reader, and the checker tests each §6 copy only
+   for MEMBERSHIP in the set of derived vectors — never for which label it sits
+   under. Measured: give §6's native-client block the browser-HUD bytes, or the
+   reverse, or delete a §6 copy outright, and the run stays green with a
+   byte-identical assertion report; the same corruption inside §9 goes red and
+   names the vector. So a §6 copy that contradicts §9 is drift this repo does
+   NOT catch. When either moves, re-read §6 against §9 by hand — and treat the
+   `inline copy reproduces a derived vector` lines in the checker's output as
+   asserting less than their wording suggests.
 
    It runs in `.github/workflows/wire-contract.yml` (push + PR, against the
    committed descriptors) and — the leg that matters — as a step of

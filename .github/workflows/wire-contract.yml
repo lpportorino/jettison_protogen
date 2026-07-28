@@ -64,8 +64,22 @@ jobs:
       # preinstalled on every GitHub runner image. That is deliberate — this
       # gate has to be cheap enough to run on a doc typo.
       #
-      # Full output, not --quiet: on a green run the assertion list IS the
-      # coverage report, and the NOT-COVERED block is printed either way so a
-      # reader never has to infer what the gate could not see.
+      # Full output, not --quiet: on a green run the assertion list is the best
+      # coverage report on offer, and the NOT-COVERED block is printed either
+      # way.
+      #
+      # READ BOTH AS A FLOOR, NOT A TOTAL — one gap is on neither. The two
+      # `... inline copy reproduces a derived vector` lines assert only that the
+      # block under a §6 label holds SOME derived vector; the label is captured
+      # into the assertion's NAME and never into the assertion. Measured: swap
+      # §6's native-client and browser-HUD ping bytes, or delete a §6 copy
+      # outright, and this step stays green with a byte-identical report, while
+      # the same corruption inside §9 goes red and names the vector. The gap is
+      # written up in docs/INTERFACE-CONTRACTS.md §10 because the checker's own
+      # NOT-COVERED list does not carry it.
+      #
+      # An assertion-count floor would NOT have caught this and must not be
+      # mistaken for the fix: the corrupted doc passes the same number of
+      # assertions, with the same names, as the clean one.
       name: wire contract vs descriptor set
       run: python3 tools/wire_contract_check.py
