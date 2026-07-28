@@ -3,8 +3,9 @@
    RENDER, and what is its contrast?
 
    Exists because the whole-widget-opa question cannot be settled from the
-   token manifest. `palette-audit.py` measures the AUTHORED pair — the two
-   tokens the theme names. A whole-widget `lv_style_set_opa` folds into
+   token manifest. `tools/devcards/dev/palette-audit.py` measures the AUTHORED
+   pair — the two tokens the theme names. A whole-widget `lv_style_set_opa`
+   folds into
    `layer->opa` (lv_refr.c `lv_obj_refr`) and a whole-widget `recolor` folds
    into `layer->recolor` (same function), and BOTH re-composite the glyph AND
    the fill against whatever sits behind the widget. So the pair the operator
@@ -67,7 +68,7 @@
    "lv_button/disabled" "lv_button/default"])
 
 ;; ── WCAG 2.x relative luminance + contrast. Identical arithmetic to
-;; .protogen/research/palette-audit.py, so the two are comparable digit for
+;; tools/devcards/dev/palette-audit.py, so the two are comparable digit for
 ;; digit. MIL-STD-1472H 5.2.2.7 states the same quantity and binds the
 ;; THRESHOLD (6:1 shall) — see the plan's PDL-1 section.
 (defn- lin ^double [^long c]
@@ -184,7 +185,8 @@
                    (hexof fill) (hexof glyph) fill-px glyph-px
                    (contrast fill glyph))))))
     (println (str "\nratio is the EFFECTIVE rendered pair. Compare against the "
-                  "AUTHORED pair\nin palette-audit.py section 1: the opa ban "
+                  "AUTHORED pair\nin tools/devcards/dev/palette-audit.py "
+                  "section 1: the opa ban "
                   "makes them equal for DISABLED TEXT,\nwhere recolor_opa is "
                   "also pinned TRANSP — it is not a theme-wide identity "
                   "(hover,\npressed and disabled_dim all recolor; see "
