@@ -83,7 +83,14 @@ One or both ends is a hex LITERAL rather than a declared token — a drawn colou
 
 ## The third answer — 145 findings this derivation could NOT classify
 
-An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed.
+An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed. EVERY key is printed with its count, including the ones at zero — a section that vanished when it had nothing to say would print the same thing whether the check ran or not, which is the failure this whole section exists to refuse.
+
+### `class-token-never-visited` — 0
+
+A colour class token present in a source file's TEXT that the structural walk never reached. This is the coverage check: it is EMPTY when the walk saw every colour class the files contain, and non-empty means this table is missing something.
+
+By source: 
+
 
 ### `fill-carries-no-glyph` — 13
 

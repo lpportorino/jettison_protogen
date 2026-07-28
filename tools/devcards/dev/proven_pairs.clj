@@ -885,7 +885,10 @@
        (str "An unjudged element is a FINDING, never a skip: a rule that passes over what"
             " it could not classify reports \"clean\" and \"I could not look\" as the same"
             " empty result. Each key below is a distinct reason a pair does not exist or"
-            " could not be completed.")
+            " could not be completed. EVERY key is printed with its count, including the"
+            " ones at zero — a section that vanished when it had nothing to say would"
+            " print the same thing whether the check ran or not, which is the failure this"
+            " whole section exists to refuse.")
        ""]
       (mapcat
        (fn [[k rs]]
@@ -902,7 +905,8 @@
                                                       (update :text render-text))))))
                       (sort-by pr-str rs))
                  [""]))
-       (sort-by key by-finding))
+       ;; Seed every declared key at zero so a silent check is still VISIBLE.
+       (sort-by key (merge (zipmap (keys finding-notes) (repeat [])) by-finding)))
       [""]))))
 
 ;; ── Self-test: the derivation's own canaries ─────────────────────────────────
