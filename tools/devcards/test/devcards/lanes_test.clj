@@ -19,6 +19,7 @@
    the arguments it passes — and the producer-selection test asserts through
    the lane rather than about the helper."
   (:require [clojure.java.io :as io]
+            [clojure.set :as set]
             [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
             [devcards.lanes :as lanes]
@@ -441,6 +442,67 @@
     (testing "and every armed producer is still :automatic, so the whole
               armed set can set the exit code"
       (is (every? #(nil? (:test-mode %)) lanes/armed-producers)))))
+
+;; ── the supplied thresholds and the armed rules are ONE decision ─────────
+
+(def ^:private declared-threshold-keys
+  "Every consumer-facing threshold key the ARMED producers declare, built the
+   way `findings/resolve-thresholds` builds its own index — through
+   `findings/threshold-key`, so a change to that encoding moves both sides
+   together instead of leaving this canary asserting a stale spelling."
+  (into #{}
+        (for [p lanes/armed-producers [k _] (:thresholds p)]
+          (findings/threshold-key (:id p) k))))
+
+(deftest every-supplied-threshold-is-declared-by-an-ARMED-producer
+  (testing "`producer-thresholds` is handed to BOTH lanes, and
+            `resolve-thresholds` refuses a key the lane's own producer vector
+            does not declare. So SUPPLYING a threshold and ARMING its producer
+            are one step: the half-step throws on the first card and the gate
+            judges nothing.
+
+            WITHOUT THIS, THE SUITE STILL REDS — so the claim is about WHAT the
+            red says, and the first draft of this docstring overstated it.
+            Measured under the revert below: the resolver's ExceptionInfo does
+            name the offending key, and it surfaces as ERRORs inside canaries
+            about `:expect` routing, producer selection and exemption
+            vocabularies — reds attributed to subjects that are not the cause,
+            which abort those bodies and drop assertions the run should have
+            made. What the resolver cannot say is which half was intended: arm
+            the producer, or drop the key. This is a FAIL rather than an ERROR,
+            in a test whose NAME is the invariant, and it prescribes both.
+            REVERT-TO-BREAK: add `:palette/colors-by-mode` (or any other
+            unarmed producer's key) to `lanes/producer-thresholds`."
+    (is (= #{} (set/difference (set (keys lanes/producer-thresholds))
+                               declared-threshold-keys))
+        (str "lanes/producer-thresholds supplies a key no ARMED producer "
+             "declares. Declared across the armed set: "
+             (vec (sort declared-threshold-keys))
+             " — arm the producer in atomic-producers/composition-producers "
+             "in the SAME change, or drop the key.")))
+  (testing "CONTROL: the assertion is a real discriminator, not a tautology —
+            the exact key `devcards.palette` would contribute is absent from
+            the declared set, so adding it to the supplied map would be caught"
+    (is (seq declared-threshold-keys))
+    (is (not (contains? declared-threshold-keys :palette/colors-by-mode)))
+    (is (not= #{} (set/difference (conj (set (keys lanes/producer-thresholds))
+                                        :palette/colors-by-mode)
+                                  declared-threshold-keys))))
+  (testing "and the CONSEQUENCE is a throw rather than a fallback, on the real
+            resolver and with the real lane vector — which is what makes the
+            set relation above load-bearing instead of stylistic"
+    (is (thrown? Exception
+                 (findings/resolve-thresholds
+                  lanes/atomic-producers
+                  (assoc lanes/producer-thresholds :palette/colors-by-mode
+                         {:dark #{"#000000"} :light #{"#FFFFFF"}})))))
+  (testing "CONTROL: the map the gate actually supplies resolves against BOTH
+            lane vectors. One-sided coverage would let a key declared only by an
+            atomic-lane producer throw on every composition card."
+    (is (map? (findings/resolve-thresholds lanes/atomic-producers
+                                           lanes/producer-thresholds)))
+    (is (map? (findings/resolve-thresholds lanes/composition-producers
+                                           lanes/producer-thresholds)))))
 
 (deftest the-lanes-emit-findings-with-NO-ACT-axes
   (testing "the artifact-stability pin: every finding these lanes produce is

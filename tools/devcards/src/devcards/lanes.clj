@@ -151,7 +151,69 @@
   {:deadzone/gap-px 0})
 
 (def producer-thresholds
-  "The namespaced thresholds for every adjustable producer in either lane."
+  "The namespaced thresholds for every adjustable producer in either lane.
+
+   SUPPLYING A KEY AND ARMING ITS PRODUCER ARE ONE STEP, NOT TWO — and the
+   half-step is a HARD BREAK, not a no-op. `findings/resolve-thresholds` builds
+   its index from the producer vector the LANE passes and throws
+   `unknown threshold …` on any supplied key no producer in that vector
+   declares. Measured: merging `:palette/colors-by-mode` here while
+   `devcards.palette`'s producer stays out of both lane vectors throws on the
+   first card of BOTH lanes, so the gate judges nothing at all. That direction
+   is pinned by `lanes-test`'s
+   `every-supplied-threshold-is-declared-by-an-ARMED-producer`. It does NOT
+   turn a green suite red — the resolver's throw already reds it, and already
+   names the key. What it changes is the ATTRIBUTION: without it the mistake
+   arrives as ERRORs inside canaries about `:expect` routing, producer selection
+   and exemption vocabularies, which abort those bodies and say nothing about
+   which half was intended (arm the producer, or drop the key).
+
+   WHY `:palette/colors-by-mode` IS NOT HERE, and it is a MEASUREMENT rather
+   than an oversight. `devcards.palette`'s producer is written, registers
+   cleanly, and is reachable — `findings/card-findings` passes every context key
+   the caller supplies straight through, so `:draw-palette` needs no entry in
+   the registry's closed `context-keys` set. What stops it is the population.
+   Over the shipped corpus, 246 cards x 2 modes: 576 colour emissions match no
+   semantic token value, 192 of them (33.3%) carry the observer's
+   declared-theme-recolor tag. That tag is the separation an arming plan
+   naturally reaches for, `palette-findings` ALREADY applies it, and it is not
+   what is in the way: 384 blocking findings survive it, on 222 of the 492
+   renders, over 19 distinct hexes.
+
+   NINE OF THOSE 19 WERE TRACED to a source; the other ten were not, and this
+   says nine rather than nineteen for that reason. Two classes account for all
+   nine, and neither is a defect:
+     - AUTHORED BY THE CARD, as structured RGB rather than hex — which is why a
+       hex grep over the corpus finds nothing. #3B82F6 is the `lv_chart` series
+       colour and #00C800/#E63232 the `lv_scale` section colours, all literals
+       in `corpus/spec.edn`; #30363D and #8A939B are the scrubber lego's, in
+       `devcards.legos`.
+     - STOCK LVGL's OWN values, reached by fall-through. #FAFAFA and #212121
+       are `lv_theme_default`'s `color_text` — DARK_COLOR_TEXT and
+       LIGHT_COLOR_TEXT, i.e. `lv_palette_lighten(GREY,5)` and
+       `lv_palette_darken(GREY,4)` — and #F5F5F5 and #E0E0E0 are two more
+       entries of that same grey row in `lv_palette.c`.
+   A tenth is worth naming for what it is NOT: #6A32CC is authored NOWHERE in
+   this tree — not the corpus, not `theme.c`, not the token manifest — and lands
+   on pressed-button cards; §6.2 records the same value as the fill a disabled
+   themed button rendered. Its derivation was not traced, and that is the point:
+   it cannot be repaired by declaring a token, because nothing declares it.
+
+   A semantic colour catalogue does not declare a chart's series colour and does
+   not own stock's fall-through values. Blocking on these buys per-card
+   exemptions — the ratchet CLAUDE.md refuses — or a token-table change whose
+   obvious form §6.8 measures as a net CONTRAST LOSS. Arming is therefore a
+   design decision this repo has not made, not a wiring step somebody forgot.
+
+   RE-MEASURE RATHER THAN TRUST THAT — it is a property of this corpus, this
+   theme and this renderer. The probe is `tools/devcards/dev/palette_census.clj`.
+   It carries no deps.edn alias AND defines no -main (`-m` would load it, print
+   everything, then die on the missing var), so from `tools/devcards` in the
+   toolchain container it is:
+     clojure -Sdeps '{:aliases {:devpath {:extra-paths [\"dev\"]}}}' \\
+       -M:bindings:devpath -e \"(require 'palette-census)\"
+   `dev/brief_claims.clj` is the same shape and splits the non-token population
+   by the recolor tag."
   (merge overlap-thresholds deadzone-thresholds))
 
 (def atomic-producers
