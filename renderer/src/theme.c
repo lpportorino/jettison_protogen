@@ -108,6 +108,30 @@ typedef struct {
   disp_size_t size;
 } asgard_theme_t;
 static asgard_theme_t theme_inst;
+static bool style_recolor_matches(const lv_style_t *style,
+                                  lv_color32_t recolor) {
+  lv_style_value_t color;
+  lv_style_value_t opa;
+  if (lv_style_get_prop(style, LV_STYLE_RECOLOR, &color) !=
+          LV_STYLE_RES_FOUND ||
+      lv_style_get_prop(style, LV_STYLE_RECOLOR_OPA, &opa) !=
+          LV_STYLE_RES_FOUND)
+    return false;
+  return recolor.red == color.color.red && recolor.green == color.color.green &&
+         recolor.blue == color.color.blue && recolor.alpha == (lv_opa_t)opa.num;
+}
+bool asgard_theme_recolor_is_declared(lv_color32_t recolor) {
+  /* `inited` is load-bearing, not belt-and-braces: theme_inst is static, so
+   * before the first asgard_theme_init its zeroed `family` reads as
+   * ASGARD_THEME_FAMILY_ASGARD (0) and the guard below would vouch for
+   * recolors against never-populated styles. */
+  if (!theme_inst.inited || theme_inst.family != ASGARD_THEME_FAMILY_ASGARD ||
+      recolor.alpha == LV_OPA_TRANSP)
+    return false;
+  return style_recolor_matches(&theme_inst.styles.hover, recolor) ||
+         style_recolor_matches(&theme_inst.styles.pressed, recolor) ||
+         style_recolor_matches(&theme_inst.styles.disabled_dim, recolor);
+}
 /* Zero-time transition: state changes render INSTANTLY under the asgard
  * family (deterministic state cards + tactical immediacy). Props mirror the
  * stock theme's own transition set so every animated stock property is

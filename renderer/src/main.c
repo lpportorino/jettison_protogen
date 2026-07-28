@@ -57,6 +57,7 @@
 /* lv_obj_get_ext_draw_size (the OVERFLOW_VISIBLE descent gate) */
 #include "lvgl/src/widgets/label/lv_label_private.h"
 /* lv_label_t.dot_begin */
+#include "palette_observer.h"
 #include "renderer.h"
 #include "svg_decoder.h"
 #include "theme.h"
@@ -433,6 +434,14 @@ static int32_t update_composite(void) {
    * When the composite index changes, we must rebuild the widget tree
    * so the new variant's styles get decoded and applied. */
   if (new_idx != old_idx) {
+    /* The draw-stream census window is ONE composite. The root dump reports a
+     * single theme_dark, and a palette rule selects one token table from it,
+     * so records drawn under the previous composite would be judged against
+     * the wrong table. Measured before this clear existed: an in-place
+     * dark->light switch left every probed card's dump carrying
+     * dark-exclusive colours under theme_dark=0. Restyling invalidates the
+     * whole screen, so the next tick refills this honestly. */
+    palette_observer_clear();
     /* Theme lives in bit 0 of the composite index */
     if ((new_idx & 1) != (old_idx & 1))
       apply_default_theme();
@@ -596,6 +605,11 @@ int32_t controls_init(uint32_t width, uint32_t height) {
       height > CONTROLS_MAX_DIM)
     return -1;
   lv_init();
+  /* Read-only second draw unit: records descriptor colours in evaluate_cb,
+   * never creates or takes a task.  Registering it moves SW dispatch off
+   * LVGL's one-unit fast path, so pixel neutrality is a required golden proof
+   * for every change that keeps this line. */
+  palette_observer_init();
   fb_width = width;
   fb_height = height;
   framebuffer = calloc(width * height * 4, 1);
@@ -666,6 +680,10 @@ int32_t controls_init(uint32_t width, uint32_t height) {
  * contract was written down nowhere.
  */
 int32_t controls_load_ui(uint32_t ptr, uint32_t len) {
+  /* One census per full load. PARTIAL-strip repeats are merged by the observer
+   * and any bounded-buffer overflow is reported by
+   * controls_dump_draw_palette. */
+  palette_observer_clear();
   /* A full load is the patch chain's reset point: the cache becomes
    * fresh again, the current-state hash is the loaded bytes', and an
    * indeterminate tree (aborted patch) becomes determinate again. */
@@ -1917,6 +1935,80 @@ static void tree_append_opa(const char *key, lv_opa_t opa) {
   (void)snprintf(buf, sizeof(buf), ",\"%s\":%u", key, (unsigned)opa);
   tree_append(buf);
 }
+/* The draw-stream palette, as deterministic unique (hex, theme-recolor?)
+ * pairs.  Object pointers and PARTIAL-strip task order are runtime details and
+ * are dropped here; the observer retains task keys internally so repeats are
+ * merged before this set projection.
+ *
+ * THIS IS NOT PART OF THE SEMANTIC TREE, and that boundary is load-bearing
+ * rather than tidiness.  The palette describes what has been PAINTED since the
+ * last window boundary, so it is a property of the route taken to a screen and
+ * not of the screen.  Two structurally identical trees reached by different
+ * routes carry different palettes — measured: morph parity's
+ * dual_oracle_patched_equals_fresh saw 29 records on the patched route against
+ * 18 on the fresh one for the same tree.  The value of the draw stream is
+ * precisely that it reports what the tree cannot, so it can never be an
+ * equality-checked member of the tree.  It gets its own export. */
+static void tree_append_draw_palette(void) {
+  const palette_observation_t *records = palette_observer_records();
+  const uint32_t count = palette_observer_count();
+  char count_buf[64];
+  (void)snprintf(count_buf, sizeof(count_buf), "{\"records\":%u,\"colors\":[",
+                 (unsigned)count);
+  tree_append(count_buf);
+  bool first = true;
+  uint32_t previous = 0;
+  bool have_previous = false;
+  while (true) {
+    uint32_t next = UINT32_MAX;
+    for (uint32_t i = 0; i < count; i++) {
+      const uint32_t key =
+          (records[i].rgb << 1) | (records[i].theme_recolor ? 1u : 0u);
+      if ((!have_previous || key > previous) && key < next)
+        next = key;
+    }
+    if (next == UINT32_MAX)
+      break;
+    if (!first)
+      tree_append(",");
+    char buf[80];
+    (void)snprintf(buf, sizeof(buf), "{\"hex\":\"#%06X\",\"theme_recolor\":%s}",
+                   (unsigned)(next >> 1), (next & 1u) != 0 ? "true" : "false");
+    tree_append(buf);
+    first = false;
+    previous = next;
+    have_previous = true;
+  }
+  tree_append("]");
+  if (palette_observer_overflowed())
+    tree_append(",\"overflow\":true");
+  tree_append("}");
+  /* The observer's capacity can hold more distinct colours than this buffer
+   * can render, so a cut is reachable rather than theoretical — and cut JSON
+   * here would be read as a SHORTER palette, i.e. a cleaner one. Nothing can
+   * be appended to a full buffer, so rewrite the whole thing as the canonical
+   * overflow form the producer already answers :cantTell to. */
+  if (tree_out.truncated) {
+    tree_out.pos = 0;
+    tree_out.truncated = false;
+    tree_buf[0] = '\0';
+    char over[80];
+    (void)snprintf(over, sizeof(over),
+                   "{\"records\":%u,\"colors\":[],\"overflow\":true}",
+                   (unsigned)count);
+    tree_append(over);
+  }
+}
+/* Diagnostic-only, and the same contract as controls_dump_tree: the returned
+ * pointer is into the shared dump buffer, so the host copies it out before the
+ * next call into this module. */
+uint32_t controls_dump_draw_palette(void) {
+  tree_out.pos = 0;
+  tree_out.truncated = false;
+  tree_buf[0] = '\0';
+  tree_append_draw_palette();
+  return (uint32_t)(uintptr_t)tree_buf;
+}
 static void dump_obj(const lv_obj_t *obj, bool is_root) {
   lv_area_t a;
   lv_obj_get_coords(obj, &a);
@@ -2233,6 +2325,10 @@ int32_t controls_set_theme_family(int32_t family) {
   if (family == current_theme_family)
     return 0;
   current_theme_family = family;
+  /* Same window contract as update_composite: the family decides which
+   * recolors asgard_theme_recolor_is_declared will vouch for, so records from
+   * the outgoing family must not survive into the incoming one. */
+  palette_observer_clear();
   apply_default_theme();
   if (last_ui_data && !last_ui_stale) {
     if (rebuild_ui() != 0) {

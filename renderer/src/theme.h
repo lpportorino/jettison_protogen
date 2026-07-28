@@ -41,5 +41,10 @@ typedef enum {
  * re-init the theme to keep the vanilla mirrors aligned. */
 lv_theme_t *asgard_theme_init(lv_display_t *disp, bool dark,
                               asgard_theme_family_t family, lv_theme_t *parent);
+/* True only when `recolor` is one of the ASGARD family's live declared
+ * recolor signatures (hover, pressed, or disabled_dim).  The draw observer
+ * uses this to separate the theme's own intentional composites from stock or
+ * authored recolors without copying the style values into another table. */
+bool asgard_theme_recolor_is_declared(lv_color32_t recolor);
 #endif
 /* ASGARD_THEME_H */

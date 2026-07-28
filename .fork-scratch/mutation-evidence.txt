@@ -1,0 +1,32 @@
+=== BASELINE (unmutated) ===
+      Ran 10 tests containing 54 assertions.
+
+### A · the theme-recolor exemption clause
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=4 (want >=1)
+    failing tests reported:
+      FAIL in (declared-theme-recolors-are-separated-from-everything-else) (palette_test.clj:102)
+      FAIL in (declared-theme-recolors-are-separated-from-everything-else) (palette_test.clj:110)
+      Ran 10 tests containing 54 assertions.
+
+### B · the zero-records third answer
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=2 (want >=1)
+    failing tests reported:
+      FAIL in (an-observer-that-saw-nothing-is-cantTell-not-clean) (palette_test.clj:159)
+      FAIL in (an-observer-that-saw-nothing-is-cantTell-not-clean) (palette_test.clj:160)
+      FAIL in (an-observer-that-saw-nothing-is-cantTell-not-clean) (palette_test.clj:161)
+      Ran 10 tests containing 54 assertions.
+
+### C · mode-specific table selection
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    failing tests reported:
+      FAIL in (the-palette-is-mode-specific) (palette_test.clj:86)
+      Ran 10 tests containing 54 assertions.
+
+### D · the theme-family clear site
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=3 (want >=1)
+    failing tests reported:
+      FAIL in (the-observation-window-is-cleared-wherever-the-composite-can-change) (palette_test.clj:226)
+      Ran 10 tests containing 54 assertions.
+
+=== RESTORED ===
+      Ran 10 tests containing 54 assertions.

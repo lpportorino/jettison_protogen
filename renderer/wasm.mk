@@ -164,6 +164,7 @@ LDFLAGS := -Wl,--export=malloc -Wl,--export=free \
            -Wl,--export=controls_get_dirty_rect \
            -Wl,--export=controls_get_dirty_rect_ptr \
            -Wl,--export=controls_dump_tree \
+           -Wl,--export=controls_dump_draw_palette \
            -Wl,--export=gesture_test_reset \
            -Wl,--export=gesture_test_feed \
            -Wl,--export=gesture_decisions_ptr \
@@ -188,7 +189,7 @@ STUB_SRCS := src/wasm_sjlj_stub.c
 # Common application sources, shared by both WASM modules. The renderer differs:
 #   controls.wasm  <- src/renderer.c     (decodes the proto UI AST — the deployed path)
 #   reference.wasm <- src/reference_ui.c (literal lv_* calls — the diff oracle)
-COMMON_APP_SRCS := src/main.c src/theme.c src/gesture.c src/svg_decoder.c src/cmd_patch.c $(FONT_SRCS)
+COMMON_APP_SRCS := src/main.c src/theme.c src/palette_observer.c src/gesture.c src/svg_decoder.c src/cmd_patch.c $(FONT_SRCS)
 
 # ThorVG C++ sources (internal LVGL build)
 THORVG_SRCS := $(sort $(shell find lvgl/src/libs/thorvg -name '*.cpp' 2>/dev/null))
