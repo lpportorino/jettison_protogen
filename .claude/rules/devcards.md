@@ -39,8 +39,16 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
   `generated-projection`. What you must never do is reach for the re-mint
   without reading what moved: the whole point is that 243 cards shifting used to
   print GREEN.
-- **The CI diff is still the only gate on `docs/`.** The verify half covers the
-  goldens only; the gallery is mint-only and `check-renderer` does not run it.
+- **`docs/` now has TWO local gates, and they catch opposite failures.** The
+  golden verify half covers `goldens/` only. On `docs/`, the `gallery` arm runs
+  a two-way disk audit over `devcards.docs/audit-root` and exits through
+  `lanes/run-verdict`, so a file the generators no longer emit but that is
+  still TRACKED is caught locally as an orphan. What that audit CANNOT see is
+  changed CONTENT — a re-minted sheet is emitted and present, so the audit is
+  satisfied — and that is what CI's `git diff --exit-code` still owns. Neither
+  is redundant: one gate is for retired artifacts, the other for moved bytes.
+  `check-renderer` does not list `gallery-prebuilt`, so the content half is
+  still a CI-only assertion.
 - `docs/widgets/**` is GENERATED, DO-NOT-EDIT. Edit `corpus/spec.edn`,
   `corpus/composition.edn`, the conventions manifests, or the generator ns —
   never the output.

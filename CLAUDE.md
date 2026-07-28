@@ -312,13 +312,19 @@ Rules:
   NOT remove a widget from the pointer path — a disabled control painted over
   an enabled one absorbs the press and drops it. Neither PIXEL oracle nor EVENT
   log can see it: the framebuffer is identical either way, and no event fires.
-  What can see it is the overlap lane above — it declines to exclude a disabled
-  node and names that participant in its `:detail` — so arming it is how you
-  look for this, and one more reason the lane is not optional. Read the report
-  for what it is, though: overlap is ORDER-FREE, so it tells you the two share
-  a pixel and one is disabled, never that the disabled one WINS. That is the
-  necessary condition, not the verdict. Any design that treats disabled
-  controls as safe to stack has a live dead-zone class, and
+  **IT TAKES TWO LANES, and arming only the first is the trap.** `devcards.
+  overlap` declines to exclude a disabled node and names that participant in
+  its `:detail`, but it is ORDER-FREE: it tells you the two share a pixel and
+  one is disabled, never that the disabled one WINS. That is the necessary
+  condition, not the verdict. `devcards.deadzone` supplies the ordered verdict
+  — it walks children in the same REVERSE order `lv_indev_search_obj` does and
+  names the winner — and protogen arms both on both lanes, so this is not
+  advice this repo exempts itself from. **Neither substitutes for the other in
+  the direction you might assume:** overlap excludes any pair the interpreter
+  declared a proxy stack, and deadzone does not exclude that class at all, so
+  a disabled-over-enabled pair INSIDE one `host_proxy` is reported by deadzone
+  and by no oracle whatsoever under overlap alone. Any design that treats
+  disabled controls as safe to stack has a live dead-zone class, and
   `docs/UI-QUALITY-CONTRACTS.md` §2.2 has the LVGL sources and what to do
   about it.
 

@@ -53,6 +53,7 @@ living in one consumer is a defect live in all the others — see `CLAUDE.md`
 | `devcards.lvgl-classes` | the STARTER table for the classes this renderer emits, plus `merge-consumer` |
 | `devcards.geometry` | exact integer rect arithmetic on INCLUSIVE coords |
 | `devcards.overlap` | no two pointer-taking elements share a pixel (opt-in) |
+| `devcards.deadzone` | which of two stacked elements WINS the press, in `lv_indev_search_obj`'s reverse child order (opt-in) |
 | `devcards.layers` | the layer contract — declared z vs observed stacking (opt-in) |
 
 A producer is `{:id :fn :requires :thresholds}` and its `:fn` takes ONE context
@@ -76,8 +77,15 @@ Wiring a private corpus in:
    :classes     (lvgl-classes/merge-consumer {:types {"fx_dock" {...}}})
    :declaration {:layers {12 {:z 10 :id "chrome"}}}   ; layers/producer only
    :proxy-rects []                                    ; layers/producer only
+   ;; Naming your producers is what ARMS them: `builtin-producers` is
+   ;; `card-findings`'s DEFAULT, and every opt-in lane must be conj'd on
+   ;; explicitly. Nothing checks that you armed every lane this runner ships
+   ;; — an omitted one is silent, and its verdict is byte-identical to a
+   ;; clean run. `deadzone` and `overlap` answer DIFFERENT questions and
+   ;; neither covers the other (see CLAUDE.md's dead-zone rule).
    :producers   (conj findings/builtin-producers
                       overlap/producer
+                      deadzone/producer
                       layers/producer)
    ;; gap-px 0 is strict overlap (a SHARED pixel). Raising it to 1 also fires
    ;; on boxes that merely TOUCH, which on protogen's own corpus takes the lane
@@ -85,7 +93,7 @@ Wiring a private corpus in:
    ;; abutting at 0px (UI-QUALITY-CONTRACTS §2.3 has the breakdown and the
    ;; mechanism). Measure your own corpus rather than porting that count.
    ;; Start at 0.
-   :thresholds  {:overlap/gap-px 0 :layers/gap-px 0}})
+   :thresholds  {:overlap/gap-px 0 :deadzone/gap-px 0 :layers/gap-px 0}})
 ```
 
 `devcards.corpus/render-corpus` drives the screens; neither takes anything
