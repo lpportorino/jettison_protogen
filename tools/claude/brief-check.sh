@@ -287,6 +287,46 @@ cited_tokens() {
   done | sort -u
 }
 
+# SHIP GENEROUSLY, JUDGE CONSERVATIVELY — the two questions are not the same
+# question, and answering both from `cited_tokens` is what made CITATION FORM
+# decide whether a worker got its inputs at all.
+#
+# `cited_tokens` sees backticked spans and the two fence bodies. An indented
+# block, a fenced block and plain prose are invisible to it. Measured: two
+# briefs differing ONLY in citation form and naming the same two existing files
+# — the inline one shipped both, the code-block one shipped ZERO and still
+# reported CLAIMED at exit 0, so its worker started against inputs that had
+# never been copied in.
+#
+# The obvious repair — widen `cited_tokens` itself — was tried and REVERTED,
+# because it also widens what is JUDGED and that fires on good briefs: the
+# suite's own clean fixture names a deliberately-absent path in prose to make a
+# negative-existence claim, and check 1 then reported it as a missing citation.
+# A check that fires on good briefs is disabled within a week, which the head of
+# this file says in as many words.
+#
+# So the asymmetry is deliberate and it only ever runs one way. What is SHIPPED
+# is a superset of what is JUDGED: copying in an extra untracked file a brief
+# merely mentions costs a file copy and is recorded for release's exclusion,
+# whereas judging a passing mention as a defect blocks a correct brief. The two
+# sets are still built by the SAME normalisation and the SAME scope rule, so
+# this is a widening of one input, not the second divergent extractor that
+# design refuses.
+shippable_tokens() {
+  local brief="$1" span tok norm
+  {
+    cited_tokens "$brief"
+    cat -- "$brief"
+  } | while IFS= read -r span; do
+    span="$(printf '%s\n' "$span" | sed 's/([^)]*)//g')"
+    for tok in $span; do
+      norm="$(normalise_token "$tok")"
+      is_path_like "$norm" || continue
+      printf '%s\n' "$norm"
+    done
+  done | sort -u
+}
+
 exists_on_disk() {
   local root="$1" entry="$2"
   if has_glob "$entry"; then
@@ -711,7 +751,7 @@ cmd_ship_list() {
     [ -z "$(resolve_entry "$entry")" ] || continue
     [ -f "$root/$entry" ] || continue
     printf '%s\n' "$entry"
-  done < <(cited_tokens "$brief")
+  done < <(shippable_tokens "$brief")
 }
 
 cmd_cite_paths() {
