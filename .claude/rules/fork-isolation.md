@@ -173,6 +173,15 @@ unemphasised, it does not exist. Every constraint goes inline.
   produces a canary that cannot go red — the worker writes the assertion to
   match the number you handed it, and you learn nothing. Give the command and
   the criterion; never the result.
+- **AND WITHHOLD THE DIRECTION OF ERROR, which survives every attempt to strip
+  the numbers.** "You will probably find it under-reports" names no value, reads
+  as helpful framing, and still hands over the answer: a worker who finds
+  nothing looks harder in the direction named and stops looking in the other. A
+  prediction makes its own direction cheaper to reach, so a brief that carries
+  one cannot distinguish a real finding from a supplied one. Say what would
+  settle the question, never which way you expect it to fall — and when a
+  hypothesis genuinely must be stated for the work to be scoped, label it as
+  the thing to REFUTE rather than the thing to confirm.
 - **NAME THE FORBIDDEN FILES EXPLICITLY.** Disjointness is what makes parallel
   forks safe, and a worker that does not know what it may not touch will touch
   it. Measured here: five forks, four of them ended up with two workers on one
