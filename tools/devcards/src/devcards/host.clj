@@ -166,6 +166,12 @@
                                       {"env" (env-imports mem-box captured)})]))
         inst ^Value (if (.hasMember instv "exports") (.getMember instv "exports") instv)
         export (fn ^Value [^String n] (.getMember inst n))
+        ;; Membership, not invocation. A wasm built before an export existed is
+        ;; a REAL state here (a consumer pins its own build), and asking for a
+        ;; missing member throws — which a caller cannot tell apart from the
+        ;; export existing and failing. Probing first is what lets an absent
+        ;; capability be REPORTED as absent instead of surfacing as a crash.
+        export? (fn [^String n] (.hasMember inst n))
         mem ^Value (export "memory")
         _ (reset! mem-box mem)
         call! (fn ^Value [^String n & xs]
@@ -184,6 +190,7 @@
         {:ctx ctx
          :mem mem
          :call! call!
+         :export? export?
          :push! push!
          :captured captured
          :fb-ptr (.asLong ^Value (call! "controls_get_framebuffer"))
@@ -280,19 +287,64 @@
                       {:ticks render-ticks :tick-ms tick-ms})))
     (read-framebuffer! host)))
 
+(defn- read-cstring
+  "The NUL-terminated dump buffer at `ptr`, copied out of linear memory into a
+   String.
+
+   ONE implementation, shared by every dump export, because the renderer gives
+   them all the SAME contract: the returned pointer is into the one shared dump
+   buffer, so the bytes must be copied out before the next call into the module.
+   A second hand-rolled copy of this loop beside the first would be a silently
+   divergent source for a rule nobody re-checks."
+  ^String [^Value mem ^long ptr]
+  (let [sb (StringBuilder.)]
+    (loop [p ptr]
+      (let [b (.readBufferByte mem p)]
+        (if (zero? b)
+          (.toString sb)
+          (do (.append sb (char (bit-and b 0xFF))) (recur (inc p))))))))
+
+(def draw-palette-export
+  "The renderer export carrying the draw-stream palette observation."
+  "controls_dump_draw_palette")
+
+(defn dump-draw-palette!
+  "The draw-stream palette observation as one JSON String, or NIL when this
+   wasm has no such export.
+
+   NIL MEANS ONE THING ONLY: the module predates the observer. That is a real
+   state — a consumer pins its own build — and it is why this probes membership
+   rather than calling and catching, which could not tell a missing export from
+   an export that threw. The caller's duty is to pass NO :draw-palette in that
+   case, so `devcards.palette` reaches its :observer-not-exposed reason and says
+   out loud that it could not look. Substituting an empty observation here would
+   erase that distinction and report a clean screen instead.
+
+   NO TRUNCATION MEMBRANE, and the asymmetry with `dump-tree!` is deliberate on
+   the RENDERER's side rather than overlooked here. `controls_dump_tree` signals
+   overflow by appending a sentinel to already-cut JSON, so the bytes are not
+   parseable and `normalize-dump` has to intervene before any parser sees them.
+   This export instead emits a COMPLETE object carrying `\"overflow\":true`, so
+   an overflowed observation parses fine and its own consumer decides what to do
+   with it. Do not copy the membrane across; there is nothing here for it to fix.
+
+   Throws if the host map carries no :export? — that is a wiring defect in the
+   caller, never an answer about the module, and returning NIL for it would
+   quietly report every card as unobserved."
+  ^String [{:keys [^Value mem call! export?]}]
+  (when-not export?
+    (throw (ex-info "host map has no :export? probe; cannot tell a missing export from a broken one"
+                    {:export draw-palette-export})))
+  (when (export? draw-palette-export)
+    (read-cstring mem (.asLong ^Value (call! draw-palette-export)))))
+
 (defn dump-tree-raw!
   "Diagnostic-only controls_dump_tree bytes, copied out of linear memory
    before any next call. A truncated result is deliberately NOT valid JSON;
    ordinary callers need dump-tree!, which normalises the renderer sentinel
    before a parser can see it."
   ^String [{:keys [^Value mem call!]}]
-  (let [ptr (.asLong ^Value (call! "controls_dump_tree"))
-        sb (StringBuilder.)]
-    (loop [p ptr]
-      (let [b (.readBufferByte mem p)]
-        (if (zero? b)
-          (.toString sb)
-          (do (.append sb (char (bit-and b 0xFF))) (recur (inc p))))))))
+  (read-cstring mem (.asLong ^Value (call! "controls_dump_tree"))))
 
 (defn normalize-dump
   "The truncation membrane, as a pure String -> String so it can be gated.
