@@ -98,6 +98,35 @@ with content. The experiment proves the recovery mechanism, not transferability
 from a measured matrix cell to every other card; that transfer remains unproven
 until it is measured across held-out content.
 
+**A RENDERER-SIDE PER-GLYPH INK MASK IS PERMANENTLY OFF THE TABLE, and the
+reason is not technical.** Everything above describes what such an instrument
+would have to do; none of it is why one does not ship. A freedom-to-operate
+question over third-party patents sits in front of it, public sources cannot
+settle that question in either direction, and the standing instruction here is to
+DROP what cannot be told for sure rather than carry it as a maybe. Treat it as
+CLOSED: do NOT re-propose a glyph-ink mask on the strength of a better recovery
+method, because the recovery method was never the obstacle. Reopening it costs a
+patent-attorney opinion — an operator spend, not an engineering call. (Nothing in
+this section is legal advice.)
+
+**THE LICENCE DOES NOT GRANT WHAT IT IS ROUTINELY ASSUMED TO GRANT**, and this
+is the premise most likely to reopen the question wrongly. AGPLv3 §11's patent
+grant runs only from "a copyright holder who authorizes use under this License" —
+that contributor's own claims, never an unrelated third party's; the clause is
+byte-identical to GPLv3 §11. §12 cuts the other way too: a royalty-bearing
+patent licence taken out over the work would forbid conveying it at all.
+Publishing source creates no prior art against a claim that predates the
+publication, and infringement liability does not turn on whether the user is
+commercial or non-profit. **Being AGPL is not a defence and never was one.**
+
+**THIS BOUNDS THE MASK AND NOTHING ADJACENT TO IT, and the distinction is
+load-bearing.** Reading a DECLARED colour — an `lv_draw_*_dsc_t.color` before it
+is blended — and checking set membership against the token palette is a different
+instrument in kind: no mask, no glyph geometry, no legibility metric, no contrast
+ratio, no shaded output. A palette-conformance producer is therefore untouched by
+the paragraph above, and must not be shelved by association with it. The word
+these two share is "colour"; they share nothing else.
+
 **PDL-HW** — legibility under a hardware condition (sunlight, darkness, a
 specific panel revision) — is a BENCH obligation scoped to a hardware revision,
 never a gate result. No gate here can see those conditions, so no pass message
