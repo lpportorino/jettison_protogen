@@ -19,6 +19,30 @@
    third. Naming the finding after one cause would over-claim, and the clause
    this probe is sizing must not either.
 
+   AN OBSERVATION IS NOT A DEFECT, AND FOR `text_color` IT IS NOT EVEN A STYLE.
+   Read the counts as EMISSIONS, never as a population of things to fix — three
+   separate reasons, each measured on this corpus:
+     - `text_color` is emitted only where it CHANGES, so the SCREEN ROOT
+       contributes exactly one emission per card x mode and they all come from
+       ONE style object. That alone was 492 of the 790 non-token `text_color`
+       emissions. The root/non-root split below exists so that share is never
+       again read as a count of bad styles.
+     - A handful of styles can generate many distinct hexes, because a
+       `recolor` composes with whatever colour was inherited, so ONE style
+       yields a different composite over every base it lands on. Most of the
+       long tail of distinct hexes here is that, and much of it is THIS
+       THEME'S OWN — its hover, pressed and disabled_dim styles all carry a
+       recolor, and the last of those is the mechanism §6 PRESCRIBES for
+       text-free geometry. So the tail is not a leak inventory, and the
+       distinct-(class,hex) line is a closer proxy for \"how many decisions\"
+       than the raw total.
+     - `text_color` resolves on EVERY object, including ones that put no glyph
+       on screen (switch, slider, bar, arc, chart). Those emissions colour
+       nothing. This probe cannot tell them apart: `dump_obj` carries no
+       draws-text flag, and reconstructing one here would mean copying
+       `obj_draws_text`'s class list out of the renderer — the drift-prone
+       enumeration this repo bans. Treat the totals as an upper bound.
+
    WHICH KEYS, AND WHICH WAY EACH ABSENCE FAILS — from `dump_obj`'s own
    vocabulary block in `renderer/src/main.c`, which is its one home:
      text_color     absent => inherited from the nearest ancestor that emitted
@@ -70,7 +94,13 @@
          (json/read-str (host/dump-tree! h) :key-fn keyword)
          (finally (host/close! h)))))
 
-(defn- walk [root] (tree-seq #(seq (:children %)) :children root))
+(defn- walk
+  "Every node, tagged with whether it is the screen root — the one node
+   `dump_obj` guarantees emits `text_color`, because it has no parent to
+   differ from."
+  [root]
+  (cons (assoc root :root? true)
+        (rest (tree-seq #(seq (:children %)) :children root))))
 
 (defn- token-table
   "mode -> #{hex}. Colour tokens only; a border-width or a radius has no hex."
@@ -115,6 +145,7 @@
                     (assoc c :card (str id "|" (name mode))
                            :mode mode
                            :class (:type node)
+                           :root? (boolean (:root? node))
                            :hex (str/upper-case (:hex c)))))
         valid {:dark dark :light light}
         {ok true bad false} (group-by #(contains? (valid (:mode %)) (:hex %)) obs)]
@@ -126,6 +157,18 @@
     (doseq [[k es] (sort-by key (group-by :key obs))]
       (let [n-bad (count (remove #(contains? (valid (:mode %)) (:hex %)) es))]
         (println (format "  %-16s %5d observed  %5d non-token" (str k) (count es) n-bad))))
+
+    ;; See the ns docstring: emissions are not defects, and for text_color the
+    ;; root's share is one style object restated once per render.
+    (println "\n══ text_color: ROOT vs NON-ROOT ══")
+    (let [t (filter #(= :text_color (:key %)) bad)
+          {r true nr false} (group-by :root? t)]
+      (println (format "  screen root      %5d  (one style object, once per card x mode)"
+                       (count r)))
+      (println (format "  everything else  %5d  in %d distinct (class,hex) pair(s), %d class(es)"
+                       (count nr)
+                       (count (distinct (map (juxt :class :hex) nr)))
+                       (count (distinct (map :class nr))))))
 
     (if (empty? bad)
       (println "\n══ CLEAN ══ every drawn colour is a declared token value.")
@@ -147,4 +190,16 @@
     (println (format "  a token hex NEVER drawn: %s"
                      (pr-str (vec (sort (remove (set (map :hex obs)) (into dark light)))))))
     (println "  (a run where every drawn hex matched because the table contained")
-    (println "   every possible hex would show 0 unused tokens — it does not.)")))
+    (println "   every possible hex would show 0 unused tokens — it does not.)")
+    (println "  A NEVER-DRAWN TOKEN IS NOT BY ITSELF A FINDING, and on this corpus")
+    (println "  not one of them was: check both structural reasons before chasing one.")
+    (println "  (1) The manifest declares more colour tokens than the theme can")
+    (println "      reach. lvgl-codegen.theme-tokens' `fields` table is the closed")
+    (println "      token->C projection and its one home; a token absent from it has")
+    (println "      no THEME_* define, so theme.c CANNOT draw it — the token is")
+    (println "      manifest-and-docs only.")
+    (println "  (2) This probe reads four colour keys. LVGL also draws border,")
+    (println "      outline, arc, line and shadow colours, and `dump_obj` emits none")
+    (println "      of them — so a token used ONLY for one of those (the FOCUS_KEY")
+    (println "      outline is exactly this case) is drawn on every focus card and")
+    (println "      still lands in this list.")))
