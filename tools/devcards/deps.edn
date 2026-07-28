@@ -27,6 +27,13 @@
            :deadzone-canary
            {:extra-paths ["dev"]
             :main-opts ["-m" "deadzone-census" "--canary-only"]}
+           ;; The OVERLAP rule's real-render canary: planted overlapping and
+           ;; non-overlapping cases built through fixtures/build-authored-card
+           ;; and rendered on the pinned wasm, so the rule is judged against
+           ;; the dump vocabulary the renderer EMITS rather than against a
+           ;; hand-written map of it. Armed in renderer.mk's battery.
+           :overlap-canary
+           {:extra-paths ["dev"] :main-opts ["-m" "overlap-canary"]}
            ;; Read-only probe: the EFFECTIVE (glyph, fill) pair a disabled
            ;; widget renders, measured off the framebuffer rather than read
            ;; off the tokens. The opa ban's acceptance instrument — a

@@ -428,8 +428,18 @@ jobs:
       # prerequisite, and a phony prerequisite named by a SECOND `make` would
       # re-render the entire corpus a second time. One invocation, one render,
       # and make (not step adjacency) is what orders the suite after the cards.
-      name: Corpus build + judge + gallery + interaction + dead-zone canary (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt
+      #
+      # overlap-canary-prebuilt rides here for the same reason deadzone's does,
+      # and it is armed in devcards.yml too. Its two SIDES live under different
+      # path filters: the rule is tools/devcards/src/devcards/overlap.clj (this
+      # workflow's `paths:` does NOT name it) while the keys its verdicts turn
+      # on — click_area, clickable, proxy_root/proxy_part/proxy_owner — are
+      # emitted by dump_obj in renderer/src/main.c, which this one DOES name.
+      # Armed only there, it would run exclusively on pushes that cannot touch
+      # the renderer half; armed only here, exclusively on pushes that cannot
+      # touch the rule. Both, or it is decorative on one side.
+      name: Corpus build + judge + gallery + interaction + dead-zone + overlap canaries (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt
     - # A renderer change that shifts any pixel MUST re-mint the goldens AND
       # the gallery/doc pages in the same change (the manifests pin per-card
       # raw-FB sha256; the contact sheets are renders of the same corpus). A

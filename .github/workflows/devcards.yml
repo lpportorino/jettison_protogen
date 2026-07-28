@@ -227,8 +227,15 @@ jobs:
       # only there, the render-level canary ran exclusively on pushes that
       # structurally could not break it. It stays armed in both: a renderer or
       # wasm change can break it too, and that push triggers the other file.
-      name: Corpus gate + gallery + interaction + dead-zone canary (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt
+      #
+      # overlap-canary-prebuilt is the SAME argument for the overlap rule. Its
+      # subject `tools/devcards/src/devcards/overlap.clj` matches THIS
+      # workflow's `paths:` and none of renderer.yml's; the dump keys its
+      # verdicts turn on (click_area, clickable, the proxy triple) are emitted
+      # from renderer/src/main.c, which matches renderer.yml's and none of
+      # this one's. Neither file alone arms it over both halves.
+      name: Corpus gate + gallery + interaction + dead-zone + overlap canaries (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt
     - # B3a: a devcards-path change that shifts pixels re-mints the goldens AND
       # the gallery/doc pages inside the runner; without this assertion it would
       # exit green (the pass value == the nothing-ran value, fail-fast.md). The

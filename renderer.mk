@@ -46,6 +46,7 @@ RGEN := tools/renderer-gen
 	generated-projection construct-bindings \
 	devcards-test reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
+	overlap-canary overlap-canary-prebuilt \
 	interaction-prebuilt \
 	standard-brief standard-brief-generate composition-clean doc-audit \
 	ui-review-preflight ui-review-preflight-canary
@@ -281,6 +282,39 @@ deadzone-canary: wasm bindings
 
 deadzone-canary-prebuilt: wasm-present bindings
 	$(call deadzone-canary-suite,deadzone-canary-prebuilt)
+
+# The OVERLAP rule's real-render canary — four planted cases (siblings,
+# click_area, nesting, host_proxy) built through fixtures/build-authored-card
+# and rendered on the real wasm, judged with devcards.lanes' own table and
+# threshold.
+#
+# WHY IT IS NOT A CORPUS CARD, same reason the dead-zone canary is not: three
+# of the four cases are DESIGNED to fire the armed overlap lane, so parking
+# them in the golden corpus would need per-card exemptions — the ratchet the
+# standard forbids. Kept outside, they can assert a firing rule directly.
+#
+# It DOES NOT DUPLICATE `dump-contracts`. That probe's overflow-visible half
+# already renders an overlap pair whose verdict turns on `descend_gate`; this
+# one covers the keys it does not touch — `click_area`, `clickable`, and the
+# proxy declaration triple — plus the ancestry exclusion.
+#
+# TWO ENTRY POINTS for the reason `deadzone-canary-suite` above records in
+# full: the battery takes `overlap-canary`, which BUILDS the wasm it reads, so
+# `-j` cannot start it before the artifact exists; CI takes the prebuilt form,
+# which consumes the uploaded artifact on a runner with no WASI-SDK. The guard
+# stays in both, and $(1) names the target the CALLER can actually run.
+define overlap-canary-suite
+@test -f $(R)/output/controls.wasm || { \
+	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
+	exit 1; }
+cd tools/devcards && clojure -M:bindings:overlap-canary
+endef
+
+overlap-canary: wasm bindings
+	$(call overlap-canary-suite,overlap-canary)
+
+overlap-canary-prebuilt: wasm-present bindings
+	$(call overlap-canary-suite,overlap-canary-prebuilt)
 # ── Two-way disk reconciliation over the generated trees ────────────────────
 # No doc/golden emitter here has a DELETION path — they only ever write. So
 # retire a widget, kitchen sink or lego and the generator simply stops
@@ -1027,5 +1061,5 @@ BATTERY_JOBS ?= 4
 check-renderer:
 	@$(MAKE) --no-print-directory -f renderer.mk -j$(BATTERY_JOBS) check-renderer-lanes
 
-check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"
