@@ -16,7 +16,7 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 
 **The `as drawn` column is where a ratio stops being the whole story.** `composited (fill-opa)` means every context declaring that pair also fades the FILL (the `opa-` class prefix resolves to `bg-opa`, glyphs untouched), so the rendered pair is a token ink over a blend and the row's ratio is the AUTHORED one. `layer-opa` is the whole-widget fade, which re-composites both ends. Neither composite is computed here — the exact byte depends on the SW blend path, so it has to come from the dump. A row is marked only when EVERY context fades it; one un-faded context means the authored pair really is drawn somewhere and the ratio is exact there.
 
-## Token pairs (32 rows, 16 distinct pairs)
+## Token pairs (36 rows, 18 distinct pairs)
 
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
@@ -40,17 +40,21 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | `fg-1` | `pressed-surface` | light | #404050 | #C0C0A8 | 5.49 | PASS | **FAIL** | — |
 | `fg-1` | `surface-2` | dark | #9898B0 | #1E1E2E | 5.82 | PASS | **FAIL** | — |
 | `disabled-fg` | `surface-2` | dark | #9A9BB6 | #1E1E2E | 6.04 | PASS | PASS | — |
+| `surface-2` | `disabled-fg` | dark | #1E1E2E | #9A9BB6 | 6.04 | PASS | PASS | — |
 | `fg-1` | `surface-2` | light | #404050 | #D0D0C0 | 6.51 | PASS | PASS | — |
 | `fg-1` | `surface-1` | dark | #9898B0 | #12121F | 6.58 | PASS | PASS | — |
 | `fg-0` | `status-success` | light | #1A1A28 | #10B981 | 6.77 | PASS | PASS | — |
 | `disabled-fg` | `surface-2` | light | #3D3C2C | #D0D0C0 | 7.16 | PASS | PASS | — |
+| `surface-2` | `disabled-fg` | light | #D0D0C0 | #3D3C2C | 7.16 | PASS | PASS | — |
 | `fg-1` | `surface-1` | light | #404050 | #E0E0D4 | 7.63 | PASS | PASS | — |
 | `fg-0` | `status-warning` | light | #1A1A28 | #F59E0B | 8.00 | PASS | PASS | — |
 | `fg-0` | `surface-2` | light | #1A1A28 | #D0D0C0 | 11.02 | PASS | PASS | — |
 | `fg-0` | `surface-1` | light | #1A1A28 | #E0E0D4 | 12.91 | PASS | PASS | — |
+| `surface-1` | `fg-0` | light | #E0E0D4 | #1A1A28 | 12.91 | PASS | PASS | — |
 | `fg-0` | `surface-2` | dark | #E8E8F0 | #1E1E2E | 13.46 | PASS | PASS | — |
 | `fg-0` | `surface-0` | light | #1A1A28 | #F0F0E8 | 15.00 | PASS | PASS | — |
 | `fg-0` | `surface-1` | dark | #E8E8F0 | #12121F | 15.22 | PASS | PASS | — |
+| `surface-1` | `fg-0` | dark | #12121F | #E8E8F0 | 15.22 | PASS | PASS | — |
 | `fg-0` | `surface-0` | dark | #E8E8F0 | #0A0A12 | 16.18 | PASS | PASS | — |
 
 ### Where each token pair is declared
@@ -73,6 +77,8 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | `fg-1` | `surface-1` | `kitchen_sink:sm`, `vocabulary:sm` |
 | `fg-1` | `surface-2` | `kitchen_sink:sm`, `kitchen_sink:sm[fill-opa]` |
 | `fg-2` | `surface-1` | `kitchen_sink:sm` |
+| `surface-1` | `fg-0` | `theme-style/roller_sel:sm` |
+| `surface-2` | `disabled-fg` | `theme-style/roller_sel_dis:sm` |
 
 ## Non-token pairs (0 rows)
 
@@ -81,7 +87,7 @@ One or both ends is a hex LITERAL rather than a declared token — a drawn colou
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
 
-## The third answer — 145 findings this derivation could NOT classify
+## The third answer — 144 findings this derivation could NOT classify
 
 An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed. EVERY key is printed with its count, including the ones at zero — a section that vanished when it had nothing to say would print the same thing whether the check ran or not, which is the failure this whole section exists to refuse.
 
@@ -92,11 +98,11 @@ A colour class token present in a source file's TEXT that the structural walk ne
 By source: 
 
 
-### `fill-carries-no-glyph` — 13
+### `fill-carries-no-glyph` — 12
 
 A fill no declared ink sits on. `bg-fg-0` in the VR fixtures is the mirror of the case above — a FOREGROUND token used as a FILL, on a box with nothing written on it.
 
-By source: `demo_widgets` 11, `vr-fixtures` 2
+By source: `demo_widgets` 11, `vr-fixtures` 1
 
 - {:source :demo_widgets, :colour "#009688", :where :lv_button}
 - {:source :demo_widgets, :colour "#2196F3", :where :lv_button}
@@ -110,7 +116,6 @@ By source: `demo_widgets` 11, `vr-fixtures` 2
 - {:source :demo_widgets, :colour "#FF9800", :where :lv_button}
 - {:source :demo_widgets, :colour "#FFFFFF", :where :lv_obj}
 - {:source :vr-fixtures, :colour "#22D3EE", :where :lv_obj}
-- {:source :vr-fixtures, :colour "fg-0", :where :lv_obj}
 
 ### `ink-reaches-no-glyph` — 3
 
@@ -264,7 +269,7 @@ By source: `vr-fixtures` 2
 
 ### `theme-style-fill-only` — 5
 
-An `lv_style_t` that sets `bg_color` and no `text_color` — `checked_accent` is the one to know: the roller/dropdown selected band takes its glyph colour from the STOCK parent theme, so the pair has no token on the ink side at all and is deliberately not completed from one.
+An `lv_style_t` that sets `bg_color` and no `text_color` — `checked_accent` is the one to know: the DROPDOWN selected band takes its glyph colour from the STOCK parent theme, so the pair has no token on the ink side at all and is deliberately not completed from one. The ROLLER no longer belongs in that sentence: its band authors BOTH ends on its own style, which is what removed a constraint the old arm recorded as infeasible — stock sets bg and a white text_color together, so while only the fill was replaced no glyph tone could reach the floor.
 
 By source: `theme-c` 5
 

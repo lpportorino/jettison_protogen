@@ -5,7 +5,7 @@
    or the gallery reads.
 
    Run (in the toolchain container, from tools/devcards/):
-     clojure -Sdeps '{:aliases {:probe {:extra-paths [\"../../.fork-scratch\"]}}}' \\
+     clojure -Sdeps '{:aliases {:probe {:extra-paths [\"dev\"]}}}' \\
        -M:bindings:probe -m render-sheet <tag> <card-id-substring>..."
   (:require [clojure.java.io :as io]
             [clojure.string :as str]

@@ -795,9 +795,13 @@
         " same object, which is a runtime co-application this probe does not model.")
    :theme-style-fill-only
    (str "An `lv_style_t` that sets `bg_color` and no `text_color` — `checked_accent`"
-        " is the one to know: the roller/dropdown selected band takes its glyph"
-        " colour from the STOCK parent theme, so the pair has no token on the ink"
-        " side at all and is deliberately not completed from one.")
+        " is the one to know: the DROPDOWN selected band takes its glyph colour"
+        " from the STOCK parent theme, so the pair has no token on the ink side"
+        " at all and is deliberately not completed from one. The ROLLER no longer"
+        " belongs in that sentence: its band authors BOTH ends on its own style,"
+        " which is what removed a constraint the old arm recorded as infeasible —"
+        " stock sets bg and a white text_color together, so while only the fill"
+        " was replaced no glyph tone could reach the floor.")
    :subtree-not-literal
    (str "A node in Clojure source whose `:children` are built by an expression"
         " rather than written as literal maps. Everything under it is unreachable"

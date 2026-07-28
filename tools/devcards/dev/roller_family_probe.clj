@@ -28,7 +28,7 @@
    Read-only: renders, measures, prints. Writes nothing, gates nothing.
 
    Run (in the toolchain container, from tools/devcards/):
-     clojure -Sdeps '{:aliases {:probe {:extra-paths [\"../../.fork-scratch\"]}}}' \\
+     clojure -Sdeps '{:aliases {:probe {:extra-paths [\"dev\"]}}}' \\
        -M:bindings:probe -m roller-family-probe"
   (:require [clojure.data.json :as json]
             [clojure.string :as str]

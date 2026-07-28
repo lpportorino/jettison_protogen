@@ -9,7 +9,7 @@
    C rather than measuring it is how that hole gets under-estimated.
 
    Run (in the toolchain container, from tools/devcards/):
-     clojure -Sdeps '{:aliases {:probe {:extra-paths [\"../../.fork-scratch\"]}}}' \\
+     clojure -Sdeps '{:aliases {:probe {:extra-paths [\"dev\"]}}}' \\
        -M:bindings:probe -m cascade-census"
   (:require [clojure.data.json :as json]
             [devcards.cascade :as cascade]

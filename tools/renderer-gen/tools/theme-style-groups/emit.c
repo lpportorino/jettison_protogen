@@ -369,6 +369,8 @@ static const named_style_t named_styles[] = {
     NAMED_STYLE(field_bg),
     NAMED_STYLE(focus),
     NAMED_STYLE(checked_accent),
+    NAMED_STYLE(roller_sel),
+    NAMED_STYLE(roller_sel_dis),
     NAMED_STYLE(edited_edge),
     NAMED_STYLE(disabled),
     NAMED_STYLE(disabled_dim),

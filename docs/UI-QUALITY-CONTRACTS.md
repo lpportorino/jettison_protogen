@@ -884,7 +884,17 @@ through to (`DARK_COLOR_TEXT` / `LIGHT_COLOR_TEXT` in
 | dark body text on `surface-1` | 17.77:1 | 15.22:1 |
 | light body text on `surface-1` | 12.10:1 | 12.91:1 |
 | accent button label | **5.70:1** | **4.68:1** |
-| roller SELECTED band | **5.36:1** | **4.40:1** |
+
+**THE ROLLER SELECTED BAND IS NO LONGER A ROW IN THIS TABLE, and the reason is
+the point.** It used to sit here at 5.36:1 because it took `checked_accent` and
+inherited stock's white `text_color` — the fill was replaced and the glyph was
+not, so white maximised luminance against that fill and NO glyph tone could
+reach §6.2's 6:1 while the fill stayed. That was recorded as infeasible. It was
+not: authoring BOTH ends of the part removes the constraint. The band now takes
+its own style at 15.22:1 dark / 12.91:1 light, the token swap does not reach it,
+and a swap-vs-today row would misdescribe it in both columns. Read this as a
+worked case of §6.2's rule that a pair is (ink, fill) TOGETHER — a table row
+that moves only one end is measuring a constraint it imposed on itself.
 
 Two things follow and they point opposite ways.
 
@@ -932,8 +942,10 @@ is the assumption that decides what the gate can see.
 surface-only BG list omits, RENDERED: the three `status-*` fills — the `hud-btn`
 component sets `bg-status-error`, `md:bg-status-warning`, `lg:bg-status-success`
 under a `text-fg-0` label, and the visual-regression harness renders that
-fixture at every breakpoint — and `checked-accent`, which the roller arm in
-`renderer/src/theme.c` puts under the always-visible centred option. Those cells
+fixture at every breakpoint — and `checked-accent`, which `renderer/src/theme.c`
+puts under the DROPDOWN LIST's selected option. (It was the roller's centred
+option too, until that band moved to its own style authoring both ends; the
+dropdown is what still carries an unowned glyph over this fill.) Those cells
 are not marginal: dark `fg-0` on `status-warning` measures **1.76:1** and on
 `status-success` **2.08:1**, against a 6:1 floor. Omitted and merely AUTHORED
 (which is exactly the space §6.7's second item says the static tier judges):

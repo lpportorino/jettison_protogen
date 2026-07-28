@@ -54,8 +54,15 @@ typedef struct {
   lv_style_t focus;          /* FOCUS_KEY outline                            */
   lv_style_t checked_accent; /* CHECKED-state fill — cyan affordance over
                             * stock's violet color_primary (checkbox/switch
-                            * indicator, roller/dropdown selected band,
-                            * buttonmatrix checked item) (asgard-only)     */
+                            * indicator, bar indicator, dropdown-list
+                            * selected option, buttonmatrix checked item)
+                            * (asgard-only). NOT the roller band — see
+                            * roller_sel                                   */
+  lv_style_t roller_sel;     /* roller SELECTED band, ENABLED: fg-0 fill +
+                            * surface-1 glyphs (asgard-only)               */
+  lv_style_t roller_sel_dis; /* roller SELECTED band, DISABLED: the disabled
+                            * PAIR SWAPPED — disabled-fg fill + surface-2
+                            * glyphs (asgard-only)                         */
   lv_style_t edited_edge;    /* EDITED-state outline — cyan ring over stock's
                             * red color_secondary (slider/bar/roller/spinbox/
                             * textarea) (asgard-only)                       */
@@ -437,17 +444,108 @@ static void style_init(asgard_theme_t *t) {
   }
   /* checked-state fill — asgard-only NEW affordance colour. The interactive
    * lane's :checked-accent (mode-invariant cyan) fills the checked state over
-   * stock's violet color_primary: the checkbox/switch indicator, the roller/
-   * dropdown selected band, the buttonmatrix checked item. bg only — stock's
-   * cover opa + white selected-text stand, so the checkmark/label rides
-   * white-on-cyan (the token proves >=4.5:1 both modes). Vanilla stays empty
-   * so vanilla-equals-stock holds by scope. */
+   * stock's violet color_primary: the checkbox/switch indicator, the bar
+   * indicator, the dropdown-list selected option, the buttonmatrix checked
+   * item. bg only — stock's cover opa + white selected-text stand, so the
+   * checkmark/label rides white-on-cyan (the token proves >=4.5:1 both
+   * modes). Vanilla stays empty so vanilla-equals-stock holds by scope.
+   *
+   * THE ROLLER BAND IS NO LONGER ONE OF ITS CONSUMERS — see `roller_sel`
+   * below for why it had to leave, and why it left ALONE rather than
+   * dragging this token's other five call sites with it. */
   style_reset(&s->checked_accent, inited);
   if (!v) {
     lv_style_set_bg_color(&s->checked_accent,
                           lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
                                                 THEME_CHECKED_LIGHT)));
     lv_style_set_bg_opa(&s->checked_accent, LV_OPA_COVER);
+  }
+  /* ── the roller's SELECTED band, both states ────────────────────────────
+   * ONE RULE, TWO STATES: the band is the field's fill and a legible glyph
+   * tone SWAPPED, so the selected row reads as an inversion of the rows
+   * around it rather than as a third colour introduced on top of them. The
+   * ENABLED band inverts the enabled field (surface-1); the DISABLED band
+   * inverts the pair `disabled_fill` drains the whole widget to (surface-2 +
+   * disabled-fg).
+   *
+   * WHAT THIS FIXES, and it is two defects at once. (1) A DISABLED roller
+   * had NO selection cue: `disabled_fill` was applied to LV_PART_SELECTED as
+   * well as to MAIN, so band and field took the SAME surface-2 fill and the
+   * band stopped existing. Measured on this corpus before the change —
+   * `lv_roller/disabled/medium/mid` rendered ONE (fill, glyph) pair,
+   * #1E1E2E/#9A9BB6 dark and #D0D0C0/#3D3C2C light, on every inked scanline,
+   * so POSITION was the only remaining signal. (2) The ENABLED band's glyph
+   * failed the governing 6:1: stock's `bg_color_primary` sets bg AND
+   * text_color=white together, asgard replaced only the fill, and the leaked
+   * white measured 5.36:1 on checked-accent in BOTH modes.
+   *
+   * THE ASSIGNMENT IS FORCED, not chosen. Over the CLOSED token table
+   * (generated/theme_tokens.h) exactly four ordered (fill, glyph) pairs clear
+   * a 3:1 band-vs-field floor AND a 6:1 glyph-on-band floor in BOTH modes:
+   * fill fg-0 with surface-1 or surface-2 glyphs, and fill disabled-fg with
+   * the same two. `tools/devcards/dev/token_band_search.py` prints the whole
+   * 49-row grid, so the four survivors are auditable rather than asserted.
+   * The DISABLED band must be the WEAKER of the two available fills and the
+   * ENABLED band the stronger, because an inert state that out-shouts its
+   * live counterpart inverts the salience the state exists to signal — which
+   * leaves disabled-fg for DISABLED and fg-0 for ENABLED, and no freedom
+   * anywhere in that sentence. Measured against each state's own field:
+   * ENABLED 15.22:1 dark / 12.91:1 light, DISABLED 6.04:1 / 7.16:1. Enabled
+   * out-separates disabled in both modes, and the disabled band is visible
+   * as a band again.
+   *
+   * WHY THE ROLLER LEAVES `checked_accent` INSTEAD OF MOVING IT. The band
+   * needed a fill above 6.04:1 against surface-1 and fg-0 is the only one in
+   * the table, so "raise the shared token" means setting `checked_accent` to
+   * fg-0 — near-white on dark, near-black on light. That token is also the
+   * checkbox and switch CHECKED indicator, the bar INDICATOR, the
+   * dropdown-list selected option and the buttonmatrix checked item, and it
+   * is THEME_CHECKED, the same value `edited_edge` and `readout_arc` take.
+   * Raising it would delete the theme's state/value hue on five other
+   * surfaces to fix a contrast problem only the roller has — its band is the
+   * one of the six that sits on a field surface. So the roller takes its own
+   * style and every other checked surface is byte-identical to before.
+   *
+   * DISABLED STILL MEANS ONE THING, which was the whole defence of the arm
+   * this replaces. A disabled roller still renders exactly the two tokens it
+   * rendered before — surface-2 and disabled-fg, the pair every other
+   * text-bearing disabled control takes — and nothing else. Only which of
+   * the two is fill and which is ink changes, and only inside the band.
+   *
+   * Vanilla and stock stay empty, so their disabled roller card stays
+   * byte-identical to its enabled twin: stock's roller arm adds no style on
+   * any disabled selector, and that differential is the reference a shipped
+   * gate needs to reproduce upstream. */
+  style_reset(&s->roller_sel, inited);
+  if (!v) {
+    lv_style_set_bg_color(
+        &s->roller_sel,
+        lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK, THEME_FG0_LIGHT)));
+    lv_style_set_bg_opa(&s->roller_sel, LV_OPA_COVER);
+    /* NOT optional, and not symmetry: without it the band keeps stock's
+     * white text_color, which measures 1.22:1 on the dark fg-0 fill. The
+     * fill and the glyph have to move together on this part. */
+    lv_style_set_text_color(&s->roller_sel,
+                            lv_color_hex(pick_u32(t->dark, THEME_SURFACE1_DARK,
+                                                  THEME_SURFACE1_LIGHT)));
+  }
+  style_reset(&s->roller_sel_dis, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->roller_sel_dis,
+                          lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
+                                                THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_bg_opa(&s->roller_sel_dis, LV_OPA_COVER);
+    lv_style_set_text_color(&s->roller_sel_dis,
+                            lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
+                                                  THEME_SURFACE2_LIGHT)));
+    /* Carried over from the `disabled_fill` this selector used to take, and
+     * NOT as a no-op copied for luck: `normal_apply_layer_recolor`
+     * (lv_obj_draw.c) folds the LAYER recolor and then, for any part that is
+     * not MAIN, applies that PART's own recolor on top — so a recolor
+     * reaching LV_PART_SELECTED would re-composite this band's fill and its
+     * glyphs toward each other, which is exactly the mechanism
+     * UI-QUALITY-CONTRACTS.md §6 bans on a text-bearing surface. */
+    lv_style_set_recolor_opa(&s->roller_sel_dis, LV_OPA_TRANSP);
   }
   /* edited-state ring — asgard-only. The SAME cyan as an OUTLINE for the
    * encoder-edit state (slider/bar/roller/spinbox/textarea), replacing stock's
@@ -656,7 +754,11 @@ static void style_init(asgard_theme_t *t) {
    * able to read "this is something you press" off the palette, and a
    * spinner and a progress bar are things you WATCH. checked-accent is the
    * theme's existing state/value-indication tone (switch/checkbox checked
-   * fill, roller/dropdown selected band) and 69.9 deg off the action hue.
+   * fill, dropdown-list selected option, buttonmatrix checked item) and 69.9
+   * deg off the action hue. It was the ROLLER's selected band too until that
+   * band moved to `roller_sel`; the hue argument here is untouched by that,
+   * because it turns on checked-accent being a state tone rather than the
+   * action hue, and not on which widgets happen to wear it.
    *
    * WHAT THIS DOES NOT FIX, measured: the moving arm against its own resting
    * ring is 1.04:1 dark / 1.06:1 light, far under WCAG 1.4.11's 3:1 gap-fill
@@ -992,65 +1094,38 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * the disabled_fill init comment). */
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
-      /* Selected band — cyan over stock's violet PART_SELECTED fill (the
-       * always-visible centred option); white option text rides on top.
-       *
-       * THE WHITE IS STOCK'S, NOT OURS, AND IT IS REFERENCE-INFEASIBLE.
-       * `bg_color_primary` sets bg AND text_color=white together
-       * (lv_theme_default's style_init); asgard replaces only the fill, so
-       * the glyph tone leaks through. White on checked-accent measures
-       * 5.36:1 against the governing 6:1 — and white MAXIMISES luminance
-       * against that fill, so no choice of text tone reaches the floor.
-       * `checked-accent`'s own lightness has to move, which is the palette
-       * derivation's job, not this arm's. Same shape as `accent-text`. */
-      lv_obj_add_style(obj, &t->styles.checked_accent, LV_PART_SELECTED);
+      /* Selected band — the always-visible centred option. fg-0 fill with
+       * surface-1 glyphs, over stock's violet-fill/white-text
+       * `bg_color_primary`; both ends are authored here because stock sets
+       * bg AND text_color together on this part and replacing only the fill
+       * is what left the previous arm's glyph at 5.36:1. See the roller_sel
+       * init comment for the derivation and for why this band no longer
+       * takes `checked_accent`. */
+      lv_obj_add_style(obj, &t->styles.roller_sel, LV_PART_SELECTED);
       /* DISABLED on the BAND, and this part needs its own entry because the
-       * MAIN swap cannot reach it. bg_color is not inherited across parts,
-       * and the stock white above is set ON this part — so a roller whose
-       * MAIN had drained to surface-2 still showed the selected option in
-       * full-contrast white on live cyan. The centred row is the one a
-       * reader actually reads, so the widget went on announcing itself as
-       * live while every other row dimmed.
+       * MAIN swap cannot reach it: bg_color is not inherited across parts,
+       * and the entry above is set ON this part — so a roller whose MAIN had
+       * drained to surface-2 would still show the selected option at full
+       * enabled contrast, the widget announcing itself as live while every
+       * other row dimmed. LV_STATE_DISABLED outranks the DEFAULT-state entry
+       * above by state weight, so it wins independently of add order.
        *
-       * Reusing `disabled_fill` rather than authoring a band-specific pair
-       * is the point: it is the SAME token pair every other text-bearing
-       * disabled control takes (surface-2 + disabled-fg, 6.04:1 dark /
-       * 7.16:1 light), so the roller does not become a place where DISABLED
-       * means something local. LV_STATE_DISABLED outranks the DEFAULT-state
-       * entry above by state weight, so it wins independently of add order.
+       * WHAT THIS SELECTOR USED TO CARRY, and why it is worth naming: it was
+       * `disabled_fill` itself — the same surface-2 fill the MAIN drains to
+       * — so band and field became one colour and the band ceased to exist.
+       * That was defended on the grounds that DISABLED must keep meaning ONE
+       * thing, and the defence survives here intact: `roller_sel_dis` is
+       * built from the SAME two tokens, merely swapped. What does not
+       * survive is the claim that POSITION alone is an adequate selection
+       * cue — it was the only cue a disabled roller had, on a widget whose
+       * entire content is a column of glyph runs.
        *
-       * The band stops being visible as a band, and the whole disabled
-       * roller then renders ONE (fill, glyph) pair on every inked scanline
-       * — surface-2 + disabled-fg, 6.04:1 dark / 7.16:1 light. So the
-       * selected row is typographically identical to its neighbours and
-       * POSITION is the only remaining cue. That cue is real and measured:
-       * the SELECTED band sits at y 39-77 of the roller's own 0-115 box and
-       * the selected option's glyphs at 52-63, at min, mid AND max — the
-       * selection is pinned to the centre at both list boundaries, not just
-       * mid-list (`clojure -M:bindings:roller-bounds`).
-       *
-       * THE EARLIER DEFENCE OF THAT ALSO CLAIMED AN IMPOSSIBILITY, AND THE
-       * IMPOSSIBILITY IS FALSE. It read: every fill that clears 3:1 against
-       * surface-2 fails 6:1 for the glyph riding on it. The surface-1 half
-       * is right — a surface-1 band on a surface-2 field separates by
-       * 1.13:1 dark / 1.17:1 light. The general half is not, and the case
-       * it misses is the INVERSION: over the closed token table
-       * (generated/theme_tokens.h) four of the 49 ordered (fill, glyph)
-       * pairs clear a 3:1 band floor AND a 6:1 glyph floor in BOTH modes.
-       * disabled-fg as the FILL under surface-2 glyphs measures 6.04:1 dark
-       * / 7.16:1 light for band-against-field and the same 6.04:1 / 7.16:1
-       * for glyph-on-band; fg-0 as the fill does it at 13.46:1 / 11.02:1.
-       *
-       * SO THIS ARM IS A CHOICE, NOT A FORCED MOVE. What it buys is that
-       * DISABLED keeps meaning ONE thing. What the inversion would cost is
-       * measured too, and it is a hierarchy inversion rather than a
-       * contrast failure: the DISABLED band would separate from its field
-       * at 6.04:1 / 7.16:1 while the ENABLED band separates at 3.46:1 dark
-       * / 4.03:1 light, so the inert state would carry the stronger cue of
-       * the two. UI-QUALITY-CONTRACTS.md forbids neither, and no
-       * measurement in this repo settles which is right — re-litigate it on
-       * these numbers, never on the impossibility. */
-      lv_obj_add_style(obj, &t->styles.disabled_fill,
+       * The centring that cue rested on is real and stays measured, because
+       * it is what puts the band over the selected option in the first
+       * place: the SELECTED band sits at y 39-77 of the roller's own 0-115
+       * box and the selected option's glyphs at 52-63, at min, mid AND max
+       * (`clojure -M:bindings:roller-bounds`). */
+      lv_obj_add_style(obj, &t->styles.roller_sel_dis,
                        LV_PART_SELECTED | LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
