@@ -1,0 +1,52 @@
+{:protocol {:ticks 3, :tick-ms 16, :dpi 160, :canvas {:w 800, :h 480}},
+ :cards
+ {"lego/dock-expanded"
+  {:sha256
+   "2c3c8886638ee33625777f2b2adabe8940ba14c75ddf01a3088f4e0343b64d09",
+   :w 800,
+   :h 480},
+  "lego/dock-folded"
+  {:sha256
+   "79a8d1f818090f2b6deb9faaf9ff3f34cd6bc91a6a99861d9f8d38ddce5e2937",
+   :w 800,
+   :h 480},
+  "lego/dock-hidden-child"
+  {:sha256
+   "2bd4a1338f56470c6c9f1d31b5d5616cd5a0191271d147c6f6eb1975382eec2b",
+   :w 800,
+   :h 480},
+  "lego/dock-multirow"
+  {:sha256
+   "cf85e984aa192769eede95d8a991e244528ab3974c72d85453d32f9ca4a97aa2",
+   :w 800,
+   :h 480},
+  "lego/scrubber"
+  {:sha256
+   "46f5734de08029b8131782ba6c31fb7ff1d482372754ffd114e7760cb3180e3e",
+   :w 800,
+   :h 480},
+  "lego/scrubber-noseek"
+  {:sha256
+   "46f5734de08029b8131782ba6c31fb7ff1d482372754ffd114e7760cb3180e3e",
+   :w 800,
+   :h 480},
+  "lego/scrubber-plain"
+  {:sha256
+   "ce91bcf1854c4e261eb1f5b628e237be4c810bcfbf962be98b2531284452bc60",
+   :w 800,
+   :h 480},
+  "lego/scrubber-rich-full"
+  {:sha256
+   "7c3fcdce0d40628bcba9242d634acae773e63f61bf047b860806bc26a9518f30",
+   :w 800,
+   :h 480},
+  "lego/scrubber-rich-paused"
+  {:sha256
+   "6f037fa41b1678578aac11de61006394c57d3e26605d1914e4525f888c73fa69",
+   :w 800,
+   :h 480},
+  "lego/scrubber-rich-ticks"
+  {:sha256
+   "2099fb93f48d48ab0d48bd07f47ad171363e3dcc9c58b6be5c6abc86d160fb5c",
+   :w 800,
+   :h 480}}}

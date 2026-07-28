@@ -12,13 +12,18 @@
      claims and whose findings protogen can repair.
    - families 1/2 (vanilla/stock): per-card hash equality, BOTH modes (the
      vanilla arms carry dark-conditional stock colors — light must hold
-     too). These are differential reference controls, not alternate
-     quality-certified surfaces: stock LVGL is vendored upstream and vanilla
-     is required to reproduce it. Running the DOM lanes over either would
-     turn reference-control behaviour outside the product contract into local
-     findings and a permanent exemption ratchet. Their DOM is therefore
-     explicitly UNJUDGED, never implied clean; equality proves only that the
-     child theme is inert.
+     too), PLUS golden manifests for family 2 (manifest-stock-*). Equality
+     alone is RELATIVE: it cannot see a change that moves both reference
+     families by the same delta, which is every change to the substrate they
+     share. The stock manifests pin family 2 absolutely and family 1 follows
+     transitively — see `golden-manifest-paths` for why no vanilla manifest
+     is committed. These remain differential reference controls, not
+     alternate quality-certified surfaces: stock LVGL is vendored upstream
+     and vanilla is required to reproduce it. Running the DOM lanes over
+     either would turn reference-control behaviour outside the product
+     contract into local findings and a permanent exemption ratchet. Their
+     DOM is therefore explicitly UNJUDGED, never implied clean; the pixels
+     are pinned, the tree is not.
    - the state-contract lanes (distinctness/inertness) over family-0 dark.
    - the AUTHORED-COMPOSITION lane (corpus/composition.edn via
      devcards.composition): the same family-0 invariants + goldens
@@ -92,14 +97,32 @@
   {:ticks 3 :tick-ms 16 :dpi 160 :canvas {:w 800 :h 480}})
 
 (def golden-manifest-paths
-  "label → committed golden manifest path. THE ONE HOME of these four paths:
+  "label → committed golden manifest path. THE ONE HOME of these paths:
    the golden-drift lane READS each of them and the mint WRITES the same file,
    and two literal lists would be free to drift into verifying a file nothing
-   writes — a gate that can only ever be green."
+   writes — a gate that can only ever be green.
+
+   THE :stock-* HALF PINS FAMILY 2 ABSOLUTELY. The family-1-vs-2 equality lane
+   (`gates/vanilla-stock-findings`) is RELATIVE and therefore cannot see a
+   change that moves both reference families by the same delta — a vendored
+   LVGL bump, a font, the canvas, the render protocol. Those four manifests
+   are what turn \"vanilla and stock must not move\" from a cited control into
+   an armed one.
+
+   THERE IS DELIBERATELY NO :vanilla-* HALF. Family 1 is pinned transitively —
+   stock == committed here, vanilla == stock in the equality lane — so a
+   vanilla manifest set would double the committed surface (and the re-mint
+   diff of every substrate change) while detecting nothing new. That argument
+   is only sound while the equality lane stays TOTAL over these ids, which is
+   what its one-sided arms and their canaries exist to hold."
   {:atomic-dark "goldens/manifest-dark.edn"
    :atomic-light "goldens/manifest-light.edn"
    :composition-dark "goldens/manifest-composition-dark.edn"
-   :composition-light "goldens/manifest-composition-light.edn"})
+   :composition-light "goldens/manifest-composition-light.edn"
+   :stock-atomic-dark "goldens/manifest-stock-dark.edn"
+   :stock-atomic-light "goldens/manifest-stock-light.edn"
+   :stock-composition-dark "goldens/manifest-stock-composition-dark.edn"
+   :stock-composition-light "goldens/manifest-stock-composition-light.edn"})
 
 (def ^:private audit-details
   "Root-specific recovery text for the batch-level disk audit. Tracked
@@ -231,8 +254,14 @@
                     :renders (* (count built) 6)
                     :invariant-findings (count inv)
                     :elapsed-s (/ (- (System/nanoTime) t0) 1e9))
+     ;; :stock-* are the SAME family-2 hashes the equality lane above judged,
+     ;; minted as manifests so family 2 is pinned absolutely and not only
+     ;; relative to family 1. No extra render is paid: f2d/f2l already exist
+     ;; because the equality lane needs them.
      :manifests {:dark (manifest-of (update-vals f0 :dark-hash))
-                 :light (manifest-of (update-vals f0 :light-hash))}}))
+                 :light (manifest-of (update-vals f0 :light-hash))
+                 :stock-dark (manifest-of f2d)
+                 :stock-light (manifest-of f2l)}}))
 
 (defn- persist-bytes!
   "Write `b` at `path` (parents created). Returns the path — the composition
@@ -372,8 +401,14 @@
               :composition-renders (* (count built) 6)
               :composition-findings (count findings)
               :elapsed-s (/ (- (System/nanoTime) t0) 1e9)}
+     ;; :stock-* — see run-generate: the family-2 hashes the equality lane
+     ;; already computed, minted so the composition lane pins family 2
+     ;; absolutely too. The legos sit on the same substrate as the atomic
+     ;; cards, so leaving them relative-only would leave a hole this size.
      :manifests {:dark (manifest-of (update-vals f0 :dark-hash))
-                 :light (manifest-of (update-vals f0 :light-hash))}}))
+                 :light (manifest-of (update-vals f0 :light-hash))
+                 :stock-dark (manifest-of f2d)
+                 :stock-light (manifest-of f2l)}}))
 
 (defn -main
   "CLI: `generate` renders, judges, writes and audits goldens/composition;
@@ -416,7 +451,19 @@
                :fresh (:cards (:dark (:manifests comp-run)))}
               {:label :composition-light
                :committed (:cards (:composition-light committed))
-               :fresh (:cards (:light (:manifests comp-run)))}])
+               :fresh (:cards (:light (:manifests comp-run)))}
+              {:label :stock-atomic-dark
+               :committed (:cards (:stock-atomic-dark committed))
+               :fresh (:cards (:stock-dark manifests))}
+              {:label :stock-atomic-light
+               :committed (:cards (:stock-atomic-light committed))
+               :fresh (:cards (:stock-light manifests))}
+              {:label :stock-composition-dark
+               :committed (:cards (:stock-composition-dark committed))
+               :fresh (:cards (:stock-dark (:manifests comp-run)))}
+              {:label :stock-composition-light
+               :committed (:cards (:stock-composition-light committed))
+               :fresh (:cards (:stock-light (:manifests comp-run)))}])
             manifest-writes [[(:atomic-dark golden-manifest-paths)
                               (:dark manifests)]
                              [(:atomic-light golden-manifest-paths)
@@ -424,7 +471,15 @@
                              [(:composition-dark golden-manifest-paths)
                               (:dark (:manifests comp-run))]
                              [(:composition-light golden-manifest-paths)
-                              (:light (:manifests comp-run))]]
+                              (:light (:manifests comp-run))]
+                             [(:stock-atomic-dark golden-manifest-paths)
+                              (:stock-dark manifests)]
+                             [(:stock-atomic-light golden-manifest-paths)
+                              (:stock-light manifests)]
+                             [(:stock-composition-dark golden-manifest-paths)
+                              (:stock-dark (:manifests comp-run))]
+                             [(:stock-composition-light golden-manifest-paths)
+                              (:stock-light (:manifests comp-run))]]
             _ (doseq [[path m] manifest-writes] (golden/write-manifest! m path))
             goldens-audit
             (docgen/run-audit "goldens"

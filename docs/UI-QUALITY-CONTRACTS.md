@@ -45,6 +45,16 @@ the child theme is inert; it does **not** certify either render as usable,
 legible, or free of layout defects. Goldens likewise prove stability rather
 than correctness.
 
+**Equality is no longer their only pin, and the difference matters.** Family 2
+(stock) now also carries ABSOLUTE golden manifests, so a change that moves
+vanilla and stock TOGETHER — which keeps them equal and which the equality lane
+therefore cannot see — reds by name. Family 1 (vanilla) is deliberately NOT
+pinned, and that is an argument rather than an omission: a vanilla manifest can
+only fire when vanilla differs from asgard, which already implies that either
+the equality lane or the stock pin has fired. Pinning it would buy nothing and
+double the churn. Stock is the one pinned because it is the vendored upstream,
+so an LVGL bump reds against the family whose name says why.
+
 This is a deliberate boundary, not the accidental absence of a loop. A general
 DOM lane over those controls would turn reference behaviour outside protogen's
 product contract into local findings, followed by permanent exemptions. Their

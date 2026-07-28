@@ -22,9 +22,13 @@
      the one COMMITTED in goldens/manifest-*.edn. This is the lane that makes
      the run able to fail on PIXELS; without it `generate` re-minted the
      manifests and the only thing anywhere that compared them to the committed
-     copies was a CI-side `git diff`, absent locally.
+     copies was a CI-side `git diff`, absent locally. It pins family 0
+     (asgard) AND family 2 (stock) — the manifest-stock-* pair is what makes
+     \"stock must not move\" an armed claim rather than a cited one.
    - VANILLA≡STOCK: per card, family-1 hash == family-2 hash (the theme's
-     idempotency contract at corpus scale).
+     idempotency contract at corpus scale). RELATIVE, so blind on its own to
+     a change moving both families together; the stock goldens are the other
+     half, and this lane's docstring carries the transitivity argument.
    - INERT-PROP (composition lane): an :inert-prop card's hash == its
      declared :base-card sibling's — an interaction-only prop (the
      scrubber's seek_on_press) must move ZERO pixels.
@@ -212,18 +216,57 @@
 
 (defn vanilla-stock-findings
   "Per-card family-1 vs family-2 hash equality — the corpus-scale
-   idempotency gate. Takes the two family hash maps; judges every card
-   present in BOTH (coverage owns absences)."
+   idempotency gate. Takes the two family hash maps and judges the UNION of
+   their ids: a card rendered in one family and not the other is a finding,
+   never a skip.
+
+   IT IS RELATIVE, AND ON ITS OWN THAT MAKES IT BLIND IN ONE DIRECTION. A
+   change that moves family 1 and family 2 by the SAME delta — anything in
+   the substrate both sit on: vendored LVGL, the fonts, the canvas, the
+   render protocol — keeps them equal and this lane green. That is the whole
+   leak class, and it is why prose calling `vanilla == stock` a control for
+   \"vanilla and stock must not move\" was overstating what is armed.
+
+   WHAT CLOSES IT, AND WHY THIS LANE IS HALF OF IT. `goldens/manifest-stock-
+   *.edn` pins family 2 ABSOLUTELY through `golden-drift-findings`. Family 1
+   is then pinned TRANSITIVELY: stock == committed (golden lane) and vanilla
+   == stock (this lane) give vanilla == committed. That is why no family-1
+   manifest is committed — it would carry no detection this pair does not
+   already have, at the price of doubling the golden surface every substrate
+   change re-mints. `stock-pins-vanilla-transitively` in gates_test.clj is
+   that argument as a canary.
+
+   THE ONE-SIDED ARMS ARE LOAD-BEARING BECAUSE OF THAT ARGUMENT, not as
+   general tidiness. Transitivity needs this lane TOTAL over the ids the
+   golden lane pins: a card silently skipped here is a card whose family-1
+   pixels nothing checks, while the run still reports clean. The previous
+   shape iterated family 1 only and dropped any id missing from family 2,
+   so it could not even see the second direction."
   [vanilla-hashes stock-hashes]
   (vec
-   (for [[id v-hash] (sort-by key vanilla-hashes)
-         :let [s-hash (get stock-hashes id)]
-         :when (and s-hash (not= v-hash s-hash))]
-     {:gate :vanilla-stock
-      :card id
-      :detail
-      "family 1 (vanilla) != family 2 (stock) — a vanilla arm
-               drifted from the stock formula it restates"})))
+   (for [id (sort (into (set (keys vanilla-hashes)) (keys stock-hashes)))
+         :let [v-hash (get vanilla-hashes id)
+               s-hash (get stock-hashes id)
+               finding
+               (cond
+                 (nil? v-hash)
+                 {:gate :vanilla-stock
+                  :card id
+                  :detail "rendered in family 2 (stock) but NOT in family 1
+               (vanilla) — an unjudged card, not a match"}
+                 (nil? s-hash)
+                 {:gate :vanilla-stock
+                  :card id
+                  :detail "rendered in family 1 (vanilla) but NOT in family 2
+               (stock) — an unjudged card, not a match"}
+                 (not= v-hash s-hash)
+                 {:gate :vanilla-stock
+                  :card id
+                  :detail "family 1 (vanilla) != family 2 (stock) — a vanilla arm
+               drifted from the stock formula it restates"}
+                 :else nil)]
+         :when finding]
+     finding)))
 
 (defn inert-prop-findings
   "The composition lane's prop-inertness pin: an :inert-prop card must

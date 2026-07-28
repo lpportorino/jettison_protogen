@@ -1,5 +1,6 @@
 (ns devcards.gates-test
-  "Canaries for the GOLDEN-DRIFT and COVERAGE lanes of `devcards.gates`.
+  "Canaries for the GOLDEN-DRIFT, VANILLA≡STOCK and COVERAGE lanes of
+   `devcards.gates`.
 
    The coverage canaries are here because the lane was proposed for deletion
    as unable to fire, and the proof that it fires cost a 90-second corpus
@@ -116,6 +117,133 @@
                [{:label :atomic-dark
                  :committed (m "a" "aa")
                  :fresh (m "a" "aa")}])))))
+
+;; ── vanilla≡stock, and the absolute pin that closes its blind side ───────
+;; `vanilla-stock-findings` had NO canary anywhere in this suite, which is
+;; awkward for a lane repeatedly cited as the control for "vanilla and stock
+;; must not move". Two things are pinned below: that the lane fires at all,
+;; and — the point of the stock golden manifests — that it CANNOT fire on the
+;; case it gets cited against.
+
+(defn- h
+  "A family hash map in `core/fam-hashes`'s shape: {card-id → sha}. Flat, and
+   deliberately NOT `m` above: the equality lane takes raw hashes while the
+   golden lane takes manifest `:cards` entries, and a canary that blurred the
+   two would be asserting the author's model of the wiring rather than the
+   wiring."
+  [& id+sha]
+  (apply hash-map id+sha))
+
+(deftest vanilla-stock-fires-on-a-drifted-card-and-names-it
+  ;; REVERT-TO-BREAK: gates/vanilla-stock-findings — delete the `(not= v-hash
+  ;; s-hash)` arm from the `cond` (or weaken it to `false`) and the first
+  ;; clause reds while both CONTROLs stay green.
+  (testing "a card whose family-1 hash differs from family-2 is a finding
+            naming that card"
+    (let [fs (gates/vanilla-stock-findings (h "a" "aa" "b" "bb")
+                                           (h "a" "aa" "b" "DRIFTED"))]
+      (is (= 1 (count fs)))
+      (is (= {:gate :vanilla-stock :card "b"} (select-keys (first fs) [:gate :card])))
+      (is (re-find #"vanilla\) != family 2" (str (:detail (first fs)))))))
+  (testing "CONTROL: identical families are silent, so the clause above keys on
+            the inequality and not on the lane flagging whatever it is handed"
+    (is (= [] (gates/vanilla-stock-findings (h "a" "aa" "b" "bb")
+                                            (h "a" "aa" "b" "bb")))))
+  (testing "CONTROL: the finding is per-card — the untouched card must not be
+            swept in with its drifted sibling"
+    (is (= ["b"] (map :card (gates/vanilla-stock-findings
+                             (h "a" "aa" "b" "bb")
+                             (h "a" "aa" "b" "DRIFTED")))))))
+
+(deftest vanilla-stock-reports-a-one-sided-render-instead-of-skipping-it
+  ;; REVERT-TO-BREAK: gates/vanilla-stock-findings — delete the `(nil? s-hash)`
+  ;; arm for the first clause, the `(nil? v-hash)` arm for the second. Deleting
+  ;; both is what reverting the lane to its previous
+  ;; `(for [[id v-hash] vanilla-hashes :when (and s-hash …)])` shape does, and
+  ;; that shape could not see the second direction at all.
+  ;;
+  ;; This is not tidiness. The stock manifests pin family 2 absolutely and
+  ;; family 1 rides on `vanilla == stock`; a card this lane silently skips is a
+  ;; card whose family-1 pixels NOTHING checks, on a run that reports clean.
+  (testing "a card in vanilla with no stock counterpart is a finding, not a skip"
+    (let [fs (gates/vanilla-stock-findings (h "a" "aa" "lonely" "bb") (h "a" "aa"))]
+      (is (= 1 (count fs)))
+      (is (= "lonely" (:card (first fs))))
+      (is (re-find #"NOT in family 2" (str (:detail (first fs)))))))
+  (testing "and the OTHER direction — a card in stock with no vanilla
+            counterpart — which the previous shape never even visited"
+    (let [fs (gates/vanilla-stock-findings (h "a" "aa") (h "a" "aa" "lonely" "bb"))]
+      (is (= 1 (count fs)))
+      (is (= "lonely" (:card (first fs))))
+      (is (re-find #"NOT in family 1" (str (:detail (first fs)))))))
+  (testing "CONTROL: matched ids on both sides stay silent, so the two clauses
+            above key on the ABSENCE and not on the lane having become noisy"
+    (is (= [] (gates/vanilla-stock-findings (h "a" "aa" "b" "bb")
+                                            (h "a" "aa" "b" "bb"))))))
+
+(deftest stock-pins-vanilla-transitively
+  ;; THE ACCEPTANCE CANARY for the committed manifest-stock-* pair, and the
+  ;; reason those files exist. `vanilla == stock` is RELATIVE: a change moving
+  ;; BOTH reference families by the same delta — vendored LVGL, a font, the
+  ;; canvas, the render protocol — keeps them equal and this lane green. The
+  ;; first clause ASSERTS that blindness rather than assuming it, so the rest
+  ;; of the test is known to be about a case equality genuinely cannot reach.
+  ;;
+  ;; REVERT-TO-BREAK: remove the `:stock-*` entries from
+  ;; `core/golden-manifest-paths` and from the vector passed to
+  ;; `golden-drift-findings` — the "no golden lane" clause below is what that
+  ;; reverts to, and it is exactly the pre-change state.
+  (let [committed-stock (m "a" "aa" "b" "bb")
+        ;; the substrate moved: family 1 and family 2 land on the same new
+        ;; hash for card "b", so they still agree with each other
+        f1-both-moved (h "a" "aa" "b" "SUBSTRATE")
+        f2-both-moved (h "a" "aa" "b" "SUBSTRATE")]
+    (testing "the premise: equality is BLIND here — this is the case the lane
+              gets cited for and cannot see"
+      (is (= [] (gates/vanilla-stock-findings f1-both-moved f2-both-moved))))
+    (testing "the stock golden lane catches it, naming the card and the
+              manifest — this is the whole delivery"
+      (let [fs (gates/golden-drift-findings
+                [{:label :stock-atomic-dark
+                  :committed committed-stock
+                  :fresh (m "a" "aa" "b" "SUBSTRATE")}])]
+        (is (= 1 (count fs)))
+        (is (= "b" (:card (first fs))))
+        (is (= :stock-atomic-dark (:manifest (first fs))))))
+    (testing "CONTROL: with the substrate still put, BOTH lanes are silent — so
+              the red above comes from the moved hash and not from a lane that
+              flags every input"
+      (is (= [] (gates/vanilla-stock-findings (h "a" "aa" "b" "bb")
+                                              (h "a" "aa" "b" "bb"))))
+      (is (= [] (gates/golden-drift-findings
+                 [{:label :stock-atomic-dark
+                   :committed committed-stock
+                   :fresh (m "a" "aa" "b" "bb")}]))))
+    (testing "CONTROL: family 1 alone moving is the OTHER half of the pair —
+              equality reds, the stock pin stays green. Both halves are
+              load-bearing and neither subsumes the other"
+      (is (= ["b"] (map :card (gates/vanilla-stock-findings
+                               (h "a" "aa" "b" "VANILLA-ONLY")
+                               (h "a" "aa" "b" "bb")))))
+      (is (= [] (gates/golden-drift-findings
+                 [{:label :stock-atomic-dark
+                   :committed committed-stock
+                   :fresh (m "a" "aa" "b" "bb")}]))))
+    (testing "and family 1 is pinned ABSOLUTELY by the conjunction, which is
+              why no manifest-vanilla-* is committed: stock == committed and
+              vanilla == stock leaves exactly one value vanilla may hold"
+      (let [pinned-stock (h "a" "aa" "b" "bb")]
+        (doseq [candidate ["bb" "SUBSTRATE" "VANILLA-ONLY"]]
+          (let [f1 (h "a" "aa" "b" candidate)
+                red? (or (seq (gates/vanilla-stock-findings f1 pinned-stock))
+                         (seq (gates/golden-drift-findings
+                               [{:label :stock-atomic-dark
+                                 :committed committed-stock
+                                 :fresh (m "a" "aa" "b" (get pinned-stock "b"))}])))]
+            (is (= (not= candidate "bb") (boolean red?))
+                (str "family-1 hash " (pr-str candidate)
+                     " must be judged exactly when it differs from the"
+                     " committed stock golden"))))))))
 
 ;; ── coverage ────────────────────────────────────────────────────────────
 ;; These exist because the `card never rendered` arm was proposed for deletion

@@ -68,7 +68,10 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
 
 ## The gate lanes (`corpus/spec.edn` `:expect`)
 - coverage · state-contract (`:distinct` hash ≠ its `default` baseline; `:inert`
-  hash == baseline) · vanilla≡stock (theme family equality) · inert-prop
+  hash == baseline) · vanilla≡stock (theme family equality, PLUS absolute
+  stock manifests — equality alone is blind to a change moving both families
+  together, and family 1 is deliberately unpinned because a vanilla drift
+  already implies an equality or stock red) · inert-prop
   (composition lane: an interaction-only prop hashes IDENTICAL to its
   `:base-card`, proving it moves zero pixels).
 - Cards are UNSTYLED — everything unset falls through to the loaded wasm theme,

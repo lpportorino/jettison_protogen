@@ -1,0 +1,1182 @@
+{:protocol {:ticks 3, :tick-ms 16, :dpi 160, :canvas {:w 800, :h 480}},
+ :cards
+ {"kitchen-sink/form-row"
+  {:sha256
+   "e60b437df530f60b8a92d894b7cf6efcbf798bbcffbe2f63c73fedafa2b33c32",
+   :w 800,
+   :h 480},
+  "kitchen-sink/gauge-cluster"
+  {:sha256
+   "ddd6f172bf517986f459b6e548565cd2c28dcab9b001e184e4f64fcf6a28714f",
+   :w 800,
+   :h 480},
+  "kitchen-sink/hud-overlay"
+  {:sha256
+   "6a896c95d5cd50eab3e8b8af296c68c9293b60f77afe0b78d804c78fa6839519",
+   :w 800,
+   :h 480},
+  "kitchen-sink/settings-panel"
+  {:sha256
+   "bdb1acdab3d4bb0c64fb18a36953beffb8154e38337b5d26177d35cdc0da6087",
+   :w 800,
+   :h 480},
+  "kitchen-sink/tabview-with-content"
+  {:sha256
+   "b00b0add563b7a4e2b8a9290860bf0e1a7a38d11bddc4f473fba08e39d5bff9e",
+   :w 800,
+   :h 480},
+  "kitchen-sink/toolbar-strip"
+  {:sha256
+   "8c7fb85c342cf2b2eec43c4d6f90b0f7ec701c26bf54861774753837694c5e16",
+   :w 800,
+   :h 480},
+  "lv_arc/default/large/mid"
+  {:sha256
+   "1850c80872a7beb141968885ac31293b213100b9038820fca742b4d608ad9e13",
+   :w 800,
+   :h 480},
+  "lv_arc/default/medium/max"
+  {:sha256
+   "ce460adda26039bcf5249ce21ea978b76c6f79bfe087946e82728f35f2a89798",
+   :w 800,
+   :h 480},
+  "lv_arc/default/medium/mid"
+  {:sha256
+   "054d0577cd843ca760f3ecf8db6c090f6a905aa94b5623b32fbfa21e13e2b961",
+   :w 800,
+   :h 480},
+  "lv_arc/default/medium/min"
+  {:sha256
+   "a14d46c699994b8286f5849a10fc2fc5e263978e8b7ba040b836a063ef9dce06",
+   :w 800,
+   :h 480},
+  "lv_arc/default/small/mid"
+  {:sha256
+   "4dfc1b04ef0d0651fa753c15d1ba128e1ced4f301088eba92c593deeed16f7c8",
+   :w 800,
+   :h 480},
+  "lv_arc/disabled/large/mid"
+  {:sha256
+   "1850c80872a7beb141968885ac31293b213100b9038820fca742b4d608ad9e13",
+   :w 800,
+   :h 480},
+  "lv_arc/disabled/medium/mid"
+  {:sha256
+   "054d0577cd843ca760f3ecf8db6c090f6a905aa94b5623b32fbfa21e13e2b961",
+   :w 800,
+   :h 480},
+  "lv_arc/disabled/small/mid"
+  {:sha256
+   "4dfc1b04ef0d0651fa753c15d1ba128e1ced4f301088eba92c593deeed16f7c8",
+   :w 800,
+   :h 480},
+  "lv_arc/hovered/medium/mid"
+  {:sha256
+   "054d0577cd843ca760f3ecf8db6c090f6a905aa94b5623b32fbfa21e13e2b961",
+   :w 800,
+   :h 480},
+  "lv_arc/pressed/large/mid"
+  {:sha256
+   "1850c80872a7beb141968885ac31293b213100b9038820fca742b4d608ad9e13",
+   :w 800,
+   :h 480},
+  "lv_arc/pressed/medium/max"
+  {:sha256
+   "ce460adda26039bcf5249ce21ea978b76c6f79bfe087946e82728f35f2a89798",
+   :w 800,
+   :h 480},
+  "lv_arc/pressed/medium/mid"
+  {:sha256
+   "054d0577cd843ca760f3ecf8db6c090f6a905aa94b5623b32fbfa21e13e2b961",
+   :w 800,
+   :h 480},
+  "lv_arc/pressed/medium/min"
+  {:sha256
+   "a14d46c699994b8286f5849a10fc2fc5e263978e8b7ba040b836a063ef9dce06",
+   :w 800,
+   :h 480},
+  "lv_arc/pressed/small/mid"
+  {:sha256
+   "4dfc1b04ef0d0651fa753c15d1ba128e1ced4f301088eba92c593deeed16f7c8",
+   :w 800,
+   :h 480},
+  "lv_bar/default/large/mid"
+  {:sha256
+   "0ae55d346a989289ac66d7926e0b6dbba6b2a98322547ec7e3b87bf3c2463f48",
+   :w 800,
+   :h 480},
+  "lv_bar/default/medium/max"
+  {:sha256
+   "bfcd3f7f0d7be666b6bfe969f02c739ad279e357bfa3554287f85c6b9633bc34",
+   :w 800,
+   :h 480},
+  "lv_bar/default/medium/mid"
+  {:sha256
+   "5708c3bac6fa60035db3656531d368ca0dd64fdb580e46d7b68d2793f81b933a",
+   :w 800,
+   :h 480},
+  "lv_bar/default/medium/min"
+  {:sha256
+   "cb3a8f63fb1ba92c64982292af3a301b3a2b2758a75a6839a234f7bf5924f2bc",
+   :w 800,
+   :h 480},
+  "lv_bar/default/medium/range"
+  {:sha256
+   "250ba1acaa83df08c680bcc142873425e79e06056c1aa0749ff5280f1cf3dfce",
+   :w 800,
+   :h 480},
+  "lv_bar/default/small/mid"
+  {:sha256
+   "28d7444bb931c1da848e69c03a5d1f08943e7caa3055f7843d0c99918a3b628f",
+   :w 800,
+   :h 480},
+  "lv_bar/disabled/medium/mid"
+  {:sha256
+   "5708c3bac6fa60035db3656531d368ca0dd64fdb580e46d7b68d2793f81b933a",
+   :w 800,
+   :h 480},
+  "lv_bar/edited/medium/mid"
+  {:sha256
+   "9e67f827b25d25e5c41bd1a8be05e1b7c70d6b9a08b3345de922d2530abc1f1e",
+   :w 800,
+   :h 480},
+  "lv_bar/focus-key/medium/mid"
+  {:sha256
+   "f3624371b0c06e38a51743a5b5552847b9a76abd8b01e53e5d37fcad979d126d",
+   :w 800,
+   :h 480},
+  "lv_button/checked/large"
+  {:sha256
+   "87a5e53c801a3cb95b560caf5074c0370d43ff267cf19141da08fee4f60c52a7",
+   :w 800,
+   :h 480},
+  "lv_button/checked/medium"
+  {:sha256
+   "d00c95d1309bf8ade7fac488366bcc4f4aa718df898d544684bae141d7cc1654",
+   :w 800,
+   :h 480},
+  "lv_button/checked/small"
+  {:sha256
+   "9bc070b7c6bf21fb9aea6143c5b5cce611878557079f4864fe61f617912ffa56",
+   :w 800,
+   :h 480},
+  "lv_button/default/large"
+  {:sha256
+   "8abcf93c1505cc0a0f1f7aeb79d20a57d4bc7ff2722fb30a28333639bba908b0",
+   :w 800,
+   :h 480},
+  "lv_button/default/medium"
+  {:sha256
+   "471b4a7c0b3113e64d301ecb64da51a74fd5ba52a97a7c2954a8bc854830e349",
+   :w 800,
+   :h 480},
+  "lv_button/default/small"
+  {:sha256
+   "050aed834845143e725e37c0709f2ed69eeaa37cc4b7bc13d96c32adfd7cf43f",
+   :w 800,
+   :h 480},
+  "lv_button/disabled/large"
+  {:sha256
+   "b27b3936bd37adba889e76c96ec97599617bdf321864f59ad5ea732963b5aace",
+   :w 800,
+   :h 480},
+  "lv_button/disabled/medium"
+  {:sha256
+   "c41bf828db366f14127832f76ebee2d7462765aed7a7cf6110259bd83999b7ed",
+   :w 800,
+   :h 480},
+  "lv_button/disabled/small"
+  {:sha256
+   "ccfb18e2e783057b614187fb52e9c1ab64006079dc4e27b242810e8e768bef34",
+   :w 800,
+   :h 480},
+  "lv_button/focus-key/medium"
+  {:sha256
+   "d7b1c99e10f07367062e15ac4da05c6271fc19e6b305be745f4af1a6566800f4",
+   :w 800,
+   :h 480},
+  "lv_button/hovered/medium"
+  {:sha256
+   "471b4a7c0b3113e64d301ecb64da51a74fd5ba52a97a7c2954a8bc854830e349",
+   :w 800,
+   :h 480},
+  "lv_button/pressed/large"
+  {:sha256
+   "d4ce2a74d003aa84dd8c6bea91f96ef573573426741ae448e1d8ad91f215f2ea",
+   :w 800,
+   :h 480},
+  "lv_button/pressed/medium"
+  {:sha256
+   "a35c2d27a9e0e82b1117f0c502bba8b84b5f4ed62c2446d49a2e05a3e284a049",
+   :w 800,
+   :h 480},
+  "lv_button/pressed/small"
+  {:sha256
+   "03dabcbe474895fa0430491884a0dbf7eddce2dfbd2861ea9591a17d36b9b056",
+   :w 800,
+   :h 480},
+  "lv_buttonmatrix/default/flex-fit"
+  {:sha256
+   "359d9fc9b310d9f833d377b159296d35972b85f662fccd6c2aa0333a39f0baba",
+   :w 800,
+   :h 480},
+  "lv_buttonmatrix/default/large"
+  {:sha256
+   "a1bf3efe69a61a227bcc4a59fb52f5e5d42b58d63ba33b03391161aedcfbc154",
+   :w 800,
+   :h 480},
+  "lv_buttonmatrix/default/medium"
+  {:sha256
+   "415da26c62c6662c5d53118768ef3a037c7f49f94a86c24fed662e6204b2b19b",
+   :w 800,
+   :h 480},
+  "lv_buttonmatrix/default/small"
+  {:sha256
+   "7a29a1a17640cf25a4693f502a162a18a09ca13c5a9dafa8bdb55569d97e9ed1",
+   :w 800,
+   :h 480},
+  "lv_chart/default/large/bar"
+  {:sha256
+   "d4f3d065b3bd39140f1edb926f41b3c0cb0683dd78392f4588d6af016102b865",
+   :w 800,
+   :h 480},
+  "lv_chart/default/large/line"
+  {:sha256
+   "f72af64eb60ad62552da79d0db64b45ab7fa6af4f6abad182550543b4ceca35b",
+   :w 800,
+   :h 480},
+  "lv_chart/default/medium/line"
+  {:sha256
+   "baae68ffedfdf2d559ae80bda9cfb23f07262ea9d7492525a1035011e9b2ed43",
+   :w 800,
+   :h 480},
+  "lv_chart/default/small/bar"
+  {:sha256
+   "de0fa7c64be23d0b64a41b15bf8d75cedb8f1faf0d1b7d2868dc349470826adc",
+   :w 800,
+   :h 480},
+  "lv_chart/default/small/line"
+  {:sha256
+   "b142f77382fc05ee6722b412251580491e9cd7bab031f039823f34fcd387b051",
+   :w 800,
+   :h 480},
+  "lv_checkbox/checked-disabled/medium"
+  {:sha256
+   "0ca5cf676759a27bd708fddb99ed5676bf61ffc0443f9836f9903df0f053564d",
+   :w 800,
+   :h 480},
+  "lv_checkbox/checked/medium"
+  {:sha256
+   "ea0099c8882ffb8ccc91d8821fbe3cddde2fc8bf526d42eebb149f444f1613ee",
+   :w 800,
+   :h 480},
+  "lv_checkbox/default/forced-narrow"
+  {:sha256
+   "bcc9a4fa9d06a982c69bd70b64adef7d298aff432a29c34a1d730d5e97db3b8e",
+   :w 800,
+   :h 480},
+  "lv_checkbox/default/long-narrow"
+  {:sha256
+   "5447fd86a6abed19c36949565b63e44fd2511a046f70e7e5b1d65a088fc1e93a",
+   :w 800,
+   :h 480},
+  "lv_checkbox/default/medium"
+  {:sha256
+   "d80d1965271e6c9e599456015936478bca08d1946278b172ddff210ea3b74921",
+   :w 800,
+   :h 480},
+  "lv_checkbox/default/short"
+  {:sha256
+   "75ad3a56a1785037f26f5d73cd49714d50c138a34319a2ad7e4737e423e149d8",
+   :w 800,
+   :h 480},
+  "lv_checkbox/disabled/medium"
+  {:sha256
+   "b38331e17f36e1871f715b07f00363440146e7c5fc1cd3a7267d0592fd4ec196",
+   :w 800,
+   :h 480},
+  "lv_checkbox/focus-key/medium"
+  {:sha256
+   "7c8c59a4980f6af757259f09f0a43dfff73adf4e6d4a1124ed935bc4cb3dd5b1",
+   :w 800,
+   :h 480},
+  "lv_checkbox/hovered/medium"
+  {:sha256
+   "d80d1965271e6c9e599456015936478bca08d1946278b172ddff210ea3b74921",
+   :w 800,
+   :h 480},
+  "lv_checkbox/pressed/medium"
+  {:sha256
+   "a124f4e5bab50890cf31f2def104b619f442042425a7014f89b709aab065bdb9",
+   :w 800,
+   :h 480},
+  "lv_dropdown/default/large/mid"
+  {:sha256
+   "dedeeb790ac4ab255fab6e8eafacea83ec9064a6eb41db2affc07d18d7f4ac5a",
+   :w 800,
+   :h 480},
+  "lv_dropdown/default/medium/max"
+  {:sha256
+   "99cab452b5de81a478104d89402300bb4e133bb283cfe2decc6d89bf6bb146ed",
+   :w 800,
+   :h 480},
+  "lv_dropdown/default/medium/mid"
+  {:sha256
+   "a74e660536d0392fa0eb74237a37402d36f454701c4081423545cd63e3c92930",
+   :w 800,
+   :h 480},
+  "lv_dropdown/default/medium/min"
+  {:sha256
+   "687bdedd321ec3346e04c05c94e982a9a7fc1fe2bc23f0d2b26a8ac911f03fb7",
+   :w 800,
+   :h 480},
+  "lv_dropdown/default/small/mid"
+  {:sha256
+   "a6be5472d19bb9509c909ff55a5f93f8ac67ee54eb8ad6b57bde9d9b84c05f5a",
+   :w 800,
+   :h 480},
+  "lv_dropdown/disabled/large/mid"
+  {:sha256
+   "0146cbfb3b19a856d9baf85ae1499784dd704fe9deedae603faf97ffcd2266ff",
+   :w 800,
+   :h 480},
+  "lv_dropdown/disabled/medium/mid"
+  {:sha256
+   "e3eea177fc6b8c979bd1b378f230dc876645c94b9ed2e2db0143484a11c70459",
+   :w 800,
+   :h 480},
+  "lv_dropdown/disabled/small/mid"
+  {:sha256
+   "cd3eed9dfde2419948c81e4fb45b3db10e4538f57048a62af85190969c04272b",
+   :w 800,
+   :h 480},
+  "lv_dropdown/focus-key/large/mid"
+  {:sha256
+   "1eea7e81eb3decadca27cbce2ba5e6a53fe5fceeade3394df9d650e6b756b079",
+   :w 800,
+   :h 480},
+  "lv_dropdown/focus-key/medium/mid"
+  {:sha256
+   "5bff760fdb8139a7761528931319f9ff2b977f3e0dea42add33019bd6b33a814",
+   :w 800,
+   :h 480},
+  "lv_dropdown/focus-key/small/mid"
+  {:sha256
+   "67bd6f5054d001a4f6bfbf528b93b2de4622cd2cd094722adcff56e640f127cf",
+   :w 800,
+   :h 480},
+  "lv_dropdown/hovered/medium/mid"
+  {:sha256
+   "a74e660536d0392fa0eb74237a37402d36f454701c4081423545cd63e3c92930",
+   :w 800,
+   :h 480},
+  "lv_dropdown/pressed/large/mid"
+  {:sha256
+   "a5a29b26fed6afe08afb46f5d024fe14e5f7b94a0ab8c007ec61bbc40e4eb7aa",
+   :w 800,
+   :h 480},
+  "lv_dropdown/pressed/medium/mid"
+  {:sha256
+   "0488d976211a45ed475231ca4fc37e31881408612296ab00b70620e1d61d652a",
+   :w 800,
+   :h 480},
+  "lv_dropdown/pressed/small/mid"
+  {:sha256
+   "0e9ebcd6ab5f9e6791658a420e8e2b845f6a773fd8972c948555ea02c36618e2",
+   :w 800,
+   :h 480},
+  "lv_host_proxy/default/edge"
+  {:sha256
+   "a2c5de9f65ad968c40f0b28154f5ab00e9f555cfb00cb1f3c3b4c1a8abcc4092",
+   :w 800,
+   :h 480},
+  "lv_host_proxy/default/large"
+  {:sha256
+   "9b0ff5ab03356424f07958328816009a4f9e59ae74899eab483909afc9ec8e3a",
+   :w 800,
+   :h 480},
+  "lv_host_proxy/default/medium"
+  {:sha256
+   "acba3cec8661143d051a3cc48f89dd23b14657b1f4278e68748dd885aead9669",
+   :w 800,
+   :h 480},
+  "lv_host_proxy/default/medium/authored"
+  {:sha256
+   "fb8faed0eea11400507abcbb2673bfbf5e14f855ec27af91a222a6f0c745fdc4",
+   :w 800,
+   :h 480},
+  "lv_host_proxy/default/small"
+  {:sha256
+   "e529410878e12ed21c562715c44f8e03c189daaed196842fc62dfc20bbd08c0c",
+   :w 800,
+   :h 480},
+  "lv_image/default/large"
+  {:sha256
+   "091b966e1c191b56a79bee25a5ed0c8e5624e8ce6b95cf761a384cb0f43bd2bf",
+   :w 800,
+   :h 480},
+  "lv_image/default/medium"
+  {:sha256
+   "77fa5e7e4c8ce8cdc93d8d5e7a31221ad51ed4d3aa95b0e6cc48429723de4a1d",
+   :w 800,
+   :h 480},
+  "lv_image/default/small"
+  {:sha256
+   "8ac2db91e14f3668c00ca737b4a6bbe2dfab68c6d3ea3ae0efedafbe60dbd9cc",
+   :w 800,
+   :h 480},
+  "lv_image/disabled/large"
+  {:sha256
+   "091b966e1c191b56a79bee25a5ed0c8e5624e8ce6b95cf761a384cb0f43bd2bf",
+   :w 800,
+   :h 480},
+  "lv_image/disabled/medium"
+  {:sha256
+   "77fa5e7e4c8ce8cdc93d8d5e7a31221ad51ed4d3aa95b0e6cc48429723de4a1d",
+   :w 800,
+   :h 480},
+  "lv_image/disabled/small"
+  {:sha256
+   "8ac2db91e14f3668c00ca737b4a6bbe2dfab68c6d3ea3ae0efedafbe60dbd9cc",
+   :w 800,
+   :h 480},
+  "lv_label/default/large/clip"
+  {:sha256
+   "0394eb7cb9ec71f11cbcdb0b37b7e4353cbd2710a90b8d3aae2b0185da7c250d",
+   :w 800,
+   :h 480},
+  "lv_label/default/large/dots"
+  {:sha256
+   "4b0912a618aefd44c4d98adce4f77d67f032542f1f7640bd98ddd45f638838be",
+   :w 800,
+   :h 480},
+  "lv_label/default/large/pairing-heading"
+  {:sha256
+   "84d19438892adefdd64d8ef0947456d64abdca686f3e7d3105f6b26eec305d43",
+   :w 800,
+   :h 480},
+  "lv_label/default/large/symbols"
+  {:sha256
+   "29eec2f3d701483bf4d93be2d130b26980954def8955f27e8e82895353cdcb2d",
+   :w 800,
+   :h 480},
+  "lv_label/default/large/wrap"
+  {:sha256
+   "42f3f7d5ddef4bdba7bbb1b5b491eca00b2811a15196ada16ec5c20d957a3db2",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/clip"
+  {:sha256
+   "54ccc49634e4a1426e98161719a65a5d10e7cba0c5fd039e55d7ce5a6928be29",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/dots"
+  {:sha256
+   "43551aa8b7743976eb9db926ad178a56114a5faee7b0d19a336c814c3a2f057a",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/pairing-body"
+  {:sha256
+   "43eecd062d8d28fce11103496c1dea858eec7b2e35c84c0a3a01ccb84852cf6d",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/pairing-caption"
+  {:sha256
+   "14cc3e99985c1cbc0a3d0f3c68bbe470625de05b79f2a4fed8c630213fc97300",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/pairing-data-value"
+  {:sha256
+   "230581c132c0064410753fedf42b1aeb99c1c0a169b279e74d705284742c273c",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/pairing-muted"
+  {:sha256
+   "76692015d34a4d782282a2742742b37df17f9ad89ace4c713c56177a1c8ecfb3",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/symbols"
+  {:sha256
+   "78a7bb4860cb01ba8f77ad071cfe3f188da3450781e8fec378663d45cd677ebc",
+   :w 800,
+   :h 480},
+  "lv_label/default/medium/wrap"
+  {:sha256
+   "a78379954c1ed4834a7e3f5117a3a04d12f4dc33a88e7d8b5e953b7dea8ab76b",
+   :w 800,
+   :h 480},
+  "lv_label/default/small/clip"
+  {:sha256
+   "5fc178167038e4ada97ef66eb6198a43da01ca62e92e2e4cc15d1eccb8283a07",
+   :w 800,
+   :h 480},
+  "lv_label/default/small/dots"
+  {:sha256
+   "0c149b96397132d8f84d8b45019dc8104209b182b00673edfac1b2b71f67beb7",
+   :w 800,
+   :h 480},
+  "lv_label/default/small/symbols"
+  {:sha256
+   "03d66b359609f7af61d57287cb4218bc581e1f9f422193497273eff16f1a4f6b",
+   :w 800,
+   :h 480},
+  "lv_label/default/small/wrap"
+  {:sha256
+   "e47eff883212dc35e1786277aa875394ef5e2a0e69ba3c77b4f1f43e60ba0b93",
+   :w 800,
+   :h 480},
+  "lv_led/default/default-size/dim"
+  {:sha256
+   "8adca168dcae43e9b6456f84260178dfc84de1b7af75c63245da61c660fba5b6",
+   :w 800,
+   :h 480},
+  "lv_led/default/default-size/off"
+  {:sha256
+   "d646758774fb21003a7dd5d4493b02807f74a3180b10b99cd8a25752f042d948",
+   :w 800,
+   :h 480},
+  "lv_led/default/default-size/on"
+  {:sha256
+   "bfe35b3bff0e46af6ebc253b9143c349f84d0930913d3ccf4e64c8706fd66f7c",
+   :w 800,
+   :h 480},
+  "lv_led/default/default-size/on-error"
+  {:sha256
+   "595adef4a6d1b76541228a08997c76283ee5e04ed53dd74e9fe8c4775170b52f",
+   :w 800,
+   :h 480},
+  "lv_led/default/default-size/on-warning"
+  {:sha256
+   "e7b4b01310eb8042e8cb6a6d6155fbfabfea3247b5e7c6a7733480e2ec3e1cba",
+   :w 800,
+   :h 480},
+  "lv_led/default/large/on"
+  {:sha256
+   "ec463404b237ad15b7e3de58269acdabae8686cdc498cd34e5533962170fa0aa",
+   :w 800,
+   :h 480},
+  "lv_led/default/medium/on"
+  {:sha256
+   "bfe35b3bff0e46af6ebc253b9143c349f84d0930913d3ccf4e64c8706fd66f7c",
+   :w 800,
+   :h 480},
+  "lv_led/default/small/on"
+  {:sha256
+   "94efa03935b0c343c32bea8fee339f562461b21fe055db702e50cb35e88eb48d",
+   :w 800,
+   :h 480},
+  "lv_led/disabled/default-size/on"
+  {:sha256
+   "bfe35b3bff0e46af6ebc253b9143c349f84d0930913d3ccf4e64c8706fd66f7c",
+   :w 800,
+   :h 480},
+  "lv_line/default/large"
+  {:sha256
+   "0dec0776e917f2cb47a633b6a4787db1e0368bc9f6885deaf25b251c247bef8a",
+   :w 800,
+   :h 480},
+  "lv_line/default/medium"
+  {:sha256
+   "0dec0776e917f2cb47a633b6a4787db1e0368bc9f6885deaf25b251c247bef8a",
+   :w 800,
+   :h 480},
+  "lv_line/default/small"
+  {:sha256
+   "0dec0776e917f2cb47a633b6a4787db1e0368bc9f6885deaf25b251c247bef8a",
+   :w 800,
+   :h 480},
+  "lv_line/disabled/medium"
+  {:sha256
+   "0dec0776e917f2cb47a633b6a4787db1e0368bc9f6885deaf25b251c247bef8a",
+   :w 800,
+   :h 480},
+  "lv_obj/default/large"
+  {:sha256
+   "38c0ba0adee1ea3545811756784341577575888ba618d4d36ad320f501311362",
+   :w 800,
+   :h 480},
+  "lv_obj/default/medium"
+  {:sha256
+   "740199d40becf7913723cc8c240dd336dfea273f48f9027bc6f8d5c4a19de18b",
+   :w 800,
+   :h 480},
+  "lv_obj/default/medium/scrollbar-exposed"
+  {:sha256
+   "91bab7dcbb7c4100cc53612a0959d5b644c40d521d946481b9941d2a9475b17b",
+   :w 800,
+   :h 480},
+  "lv_obj/default/small"
+  {:sha256
+   "92215ee706fc4a1036e644603b8ec8858ec40536f2bb64b6ecb0e5756da75a22",
+   :w 800,
+   :h 480},
+  "lv_obj/disabled/large"
+  {:sha256
+   "38c0ba0adee1ea3545811756784341577575888ba618d4d36ad320f501311362",
+   :w 800,
+   :h 480},
+  "lv_obj/disabled/medium"
+  {:sha256
+   "740199d40becf7913723cc8c240dd336dfea273f48f9027bc6f8d5c4a19de18b",
+   :w 800,
+   :h 480},
+  "lv_obj/disabled/small"
+  {:sha256
+   "92215ee706fc4a1036e644603b8ec8858ec40536f2bb64b6ecb0e5756da75a22",
+   :w 800,
+   :h 480},
+  "lv_roller/default/large/mid"
+  {:sha256
+   "f333ff5f494b7d429f70149b38e8519547ef297bdfb820e1a8eb2a45c502cce2",
+   :w 800,
+   :h 480},
+  "lv_roller/default/medium/max"
+  {:sha256
+   "e905ae4f438b7b6b0506d17c0ef909fc7aa2034777904bca020939b453600655",
+   :w 800,
+   :h 480},
+  "lv_roller/default/medium/mid"
+  {:sha256
+   "11ab012fb293eae38206473b7c8c06250e6a870725353e7745fe5dd95b94b963",
+   :w 800,
+   :h 480},
+  "lv_roller/default/medium/min"
+  {:sha256
+   "1c3ae6a4fa0b3c0f222487c2c8ce620f0eb4bf8248246f4e3c68a9a7b986ac0f",
+   :w 800,
+   :h 480},
+  "lv_roller/default/small/mid"
+  {:sha256
+   "a6f53a8216924bd201d3baf38e515b5be8c4afe29b2707ab7e63d60ba04ae0ad",
+   :w 800,
+   :h 480},
+  "lv_roller/disabled/large/mid"
+  {:sha256
+   "f333ff5f494b7d429f70149b38e8519547ef297bdfb820e1a8eb2a45c502cce2",
+   :w 800,
+   :h 480},
+  "lv_roller/disabled/medium/max"
+  {:sha256
+   "e905ae4f438b7b6b0506d17c0ef909fc7aa2034777904bca020939b453600655",
+   :w 800,
+   :h 480},
+  "lv_roller/disabled/medium/mid"
+  {:sha256
+   "11ab012fb293eae38206473b7c8c06250e6a870725353e7745fe5dd95b94b963",
+   :w 800,
+   :h 480},
+  "lv_roller/disabled/medium/min"
+  {:sha256
+   "1c3ae6a4fa0b3c0f222487c2c8ce620f0eb4bf8248246f4e3c68a9a7b986ac0f",
+   :w 800,
+   :h 480},
+  "lv_roller/disabled/small/mid"
+  {:sha256
+   "a6f53a8216924bd201d3baf38e515b5be8c4afe29b2707ab7e63d60ba04ae0ad",
+   :w 800,
+   :h 480},
+  "lv_roller/edited/large/mid"
+  {:sha256
+   "2b07ab7f6c7a107f8d7eb2ce2a821ec889648fb63b29f58598ebf4cc0864a0da",
+   :w 800,
+   :h 480},
+  "lv_roller/edited/medium/mid"
+  {:sha256
+   "6da4d182057e57a0cabd913caca938e8f503985a73467e5adbc42b346d4c14b2",
+   :w 800,
+   :h 480},
+  "lv_roller/edited/small/mid"
+  {:sha256
+   "5556c24e7bfef6986735972b66ce68eb780cdb2aeb6a00dc419440caf0af85f2",
+   :w 800,
+   :h 480},
+  "lv_roller/focus-key/large/mid"
+  {:sha256
+   "ad6615f23e4026761f59ad44cc373074600dff3728c16664bcd077dca2babfb7",
+   :w 800,
+   :h 480},
+  "lv_roller/focus-key/medium/mid"
+  {:sha256
+   "e18f2b20686d7ee4422a24bf88cd9e9fd53d8acf8c0d86d6c57a334a1f1a27d6",
+   :w 800,
+   :h 480},
+  "lv_roller/focus-key/small/mid"
+  {:sha256
+   "1e66bfacc1feea854d9b26f1bb6b01261e6d7a9bfdc9e26984023ab3ca15b33c",
+   :w 800,
+   :h 480},
+  "lv_roller/hovered/medium/mid"
+  {:sha256
+   "11ab012fb293eae38206473b7c8c06250e6a870725353e7745fe5dd95b94b963",
+   :w 800,
+   :h 480},
+  "lv_roller/pressed/medium/mid"
+  {:sha256
+   "11ab012fb293eae38206473b7c8c06250e6a870725353e7745fe5dd95b94b963",
+   :w 800,
+   :h 480},
+  "lv_roller/pressed/small/mid"
+  {:sha256
+   "a6f53a8216924bd201d3baf38e515b5be8c4afe29b2707ab7e63d60ba04ae0ad",
+   :w 800,
+   :h 480},
+  "lv_scale/default/large/horizontal"
+  {:sha256
+   "cbbd04104709274ebe22f84d12ad9d8e7ef87d0a07f668a49729a5af05cc2099",
+   :w 800,
+   :h 480},
+  "lv_scale/default/large/round-inner"
+  {:sha256
+   "f260ef245f08a31c8cfe3c4327ca39426e562739637521fd562919decb2bb1ae",
+   :w 800,
+   :h 480},
+  "lv_scale/default/large/round-outer"
+  {:sha256
+   "83ee03ae44f189fd53b811ca866613fa736089cc52dc25243300542c1799c5d1",
+   :w 800,
+   :h 480},
+  "lv_scale/default/large/vertical"
+  {:sha256
+   "df416ab3bfe7434cc4211c96e49ce87a4a98f9b38d3f3af7ca7d0d964f12b9c2",
+   :w 800,
+   :h 480},
+  "lv_scale/default/medium/horizontal"
+  {:sha256
+   "4ee253c609d4769ede5a9efce8a18daf4c986c03db40d15c5dd593fae70fbd02",
+   :w 800,
+   :h 480},
+  "lv_scale/default/medium/round-inner"
+  {:sha256
+   "5da3543b6307f2f4bdf9de0dd4c071ffd2f57cac0d86a94f9c532d54c70621d6",
+   :w 800,
+   :h 480},
+  "lv_scale/default/medium/round-outer"
+  {:sha256
+   "2b37cc6a53dbf23e004df68f73208d749c638ef27eb5941c15b5faefd3e22891",
+   :w 800,
+   :h 480},
+  "lv_scale/default/medium/sections"
+  {:sha256
+   "ee4bce717e3805a60eb64bdf7c60e05ccd92ecdf4585876c50dc286cd72ae2bd",
+   :w 800,
+   :h 480},
+  "lv_scale/default/medium/vertical"
+  {:sha256
+   "d57fac5d3252d63fa176cc813d1f68448d4ee352fdac4192488fb8937a947e00",
+   :w 800,
+   :h 480},
+  "lv_scale/default/small/horizontal"
+  {:sha256
+   "16d4c654207d45bac98a6fdfd1d961656282fef8228fab97fe76683f29703392",
+   :w 800,
+   :h 480},
+  "lv_scale/default/small/round-inner"
+  {:sha256
+   "1bdd7849cc7d36da8e6e8f85bb98ee1515e9cd917e6ca3cbc92b874a0ab06d98",
+   :w 800,
+   :h 480},
+  "lv_scale/default/small/round-outer"
+  {:sha256
+   "18e7d723637c20f2cdb5311ef909ac0e575bf18da3eddeefaab35efcfc7bd778",
+   :w 800,
+   :h 480},
+  "lv_scale/default/small/vertical"
+  {:sha256
+   "619cb8028221f1a7bf9cdf4e96b15565dfb7db1f74a093abf8c3df385cec0798",
+   :w 800,
+   :h 480},
+  "lv_slider/default/large/mid"
+  {:sha256
+   "dca81fc59684bf03692abeabdf1472586b356f1b9f7ab4766303a46f69771392",
+   :w 800,
+   :h 480},
+  "lv_slider/default/medium/max"
+  {:sha256
+   "dbdd6763f433ac2e4f8df101897ecb7dc27c319e55b42b58f7e855fff256ee28",
+   :w 800,
+   :h 480},
+  "lv_slider/default/medium/mid"
+  {:sha256
+   "17a102e55b385ba4c2e8ea1b92eb0d939416f184fca59a103d6c56a3e4c44736",
+   :w 800,
+   :h 480},
+  "lv_slider/default/medium/min"
+  {:sha256
+   "ebe277ca9437ec45295e4abe6eefc5d1447ab94ae592728a7f2a9dbaaa22e039",
+   :w 800,
+   :h 480},
+  "lv_slider/default/small/mid"
+  {:sha256
+   "462f26ff92a90bc0d3baba166da549fa53744b4dec25f1249319fa5b9070f244",
+   :w 800,
+   :h 480},
+  "lv_slider/disabled/large/mid"
+  {:sha256
+   "dca81fc59684bf03692abeabdf1472586b356f1b9f7ab4766303a46f69771392",
+   :w 800,
+   :h 480},
+  "lv_slider/disabled/medium/mid"
+  {:sha256
+   "17a102e55b385ba4c2e8ea1b92eb0d939416f184fca59a103d6c56a3e4c44736",
+   :w 800,
+   :h 480},
+  "lv_slider/disabled/small/mid"
+  {:sha256
+   "462f26ff92a90bc0d3baba166da549fa53744b4dec25f1249319fa5b9070f244",
+   :w 800,
+   :h 480},
+  "lv_slider/edited/medium/mid"
+  {:sha256
+   "4e5498377d8b57a19559e047b042c231cf28e0929bae305454b3361255196bf8",
+   :w 800,
+   :h 480},
+  "lv_slider/focus-key/large/mid"
+  {:sha256
+   "0187b5e0e82194902febdf38c112b69a987ab3a4e55a97d77739765b8e9f660e",
+   :w 800,
+   :h 480},
+  "lv_slider/focus-key/medium/mid"
+  {:sha256
+   "ee045a7e9140941a32a5b662c97baf2ac7444e3ea44d0bf7b92eafae1f02dec2",
+   :w 800,
+   :h 480},
+  "lv_slider/focus-key/small/mid"
+  {:sha256
+   "3e523e1977a5f8eece386f584bb8201a3301f10408b7b4c93e3d9af4591f60c4",
+   :w 800,
+   :h 480},
+  "lv_slider/hovered/medium/mid"
+  {:sha256
+   "17a102e55b385ba4c2e8ea1b92eb0d939416f184fca59a103d6c56a3e4c44736",
+   :w 800,
+   :h 480},
+  "lv_slider/pressed/large/mid"
+  {:sha256
+   "fb6e6e9daa43ab038db38cb3526295d390c75b31c7eae161414808647bfc0b16",
+   :w 800,
+   :h 480},
+  "lv_slider/pressed/medium/max"
+  {:sha256
+   "8cf42927d53731bdf4e305c055165d04dd97c8848fdf2cca8f831ee978b16a68",
+   :w 800,
+   :h 480},
+  "lv_slider/pressed/medium/mid"
+  {:sha256
+   "cd89598cf7fd55af64ac684fc31cda6fb86919dd2b9d655ac2b7dc7232038137",
+   :w 800,
+   :h 480},
+  "lv_slider/pressed/medium/min"
+  {:sha256
+   "e17b441593e08e97e8b6673e72361b43b991d0872a4ef2d72d82ba5add63080f",
+   :w 800,
+   :h 480},
+  "lv_slider/pressed/small/mid"
+  {:sha256
+   "e89832744e89d7622fdb5f6f82c1c2ff17274f38ff2be76a62aea153b195967f",
+   :w 800,
+   :h 480},
+  "lv_spinbox/default/large"
+  {:sha256
+   "fa857f9704be12f611a5e1c50fdc53ab3f5b6f4c2a8cfec831f51049e243f639",
+   :w 800,
+   :h 480},
+  "lv_spinbox/default/medium/max"
+  {:sha256
+   "d83eccf6d17469468d15c8981755912546dcaa0062aceaf2493c2313fc197c6d",
+   :w 800,
+   :h 480},
+  "lv_spinbox/default/medium/mid"
+  {:sha256
+   "7cd67e38821b9ac96ef37621a05552525475ec0c50008d2f4963f5251111846e",
+   :w 800,
+   :h 480},
+  "lv_spinbox/default/medium/min"
+  {:sha256
+   "45517f6c05b2f55a8e980c2a1e3a2a7cf3e03b84539f0a077963aef0e5c7419b",
+   :w 800,
+   :h 480},
+  "lv_spinbox/default/small"
+  {:sha256
+   "65602347a8f09569e61a1c36aa9a46773932a7c4cdb44e1f41e6c1ff7dd7cbaf",
+   :w 800,
+   :h 480},
+  "lv_spinbox/disabled/large"
+  {:sha256
+   "fa857f9704be12f611a5e1c50fdc53ab3f5b6f4c2a8cfec831f51049e243f639",
+   :w 800,
+   :h 480},
+  "lv_spinbox/disabled/medium/mid"
+  {:sha256
+   "7cd67e38821b9ac96ef37621a05552525475ec0c50008d2f4963f5251111846e",
+   :w 800,
+   :h 480},
+  "lv_spinbox/disabled/small"
+  {:sha256
+   "65602347a8f09569e61a1c36aa9a46773932a7c4cdb44e1f41e6c1ff7dd7cbaf",
+   :w 800,
+   :h 480},
+  "lv_spinbox/edited/large"
+  {:sha256
+   "a1e5458a62bbe35836bf49dc140ca9974962a5795bb470a8a8fe88f682916da6",
+   :w 800,
+   :h 480},
+  "lv_spinbox/edited/medium/mid"
+  {:sha256
+   "4039fa269f74b9a302e2f1066463c98e7afe29f566e48a12d2eeb675f6c0c9ec",
+   :w 800,
+   :h 480},
+  "lv_spinbox/edited/small"
+  {:sha256
+   "9a93a1cffaf4c9698582a9f9b7237cb788c637438d88cb2acae8070f4bf6fe42",
+   :w 800,
+   :h 480},
+  "lv_spinbox/focus-key/large"
+  {:sha256
+   "5ff19ac57a670e228acb0d0381c747f55c4bb2e30807dfe0030d767ef6cb2c95",
+   :w 800,
+   :h 480},
+  "lv_spinbox/focus-key/medium/mid"
+  {:sha256
+   "6f4bf7a1047da71dc5fa15277153c8cc607b1eeaf33e1903f335d41b03761b13",
+   :w 800,
+   :h 480},
+  "lv_spinbox/focus-key/small"
+  {:sha256
+   "e06ffcbb2b4add49179d1630ae7fa563c88f7250ff2a69ddb0edecaa8ee49a6b",
+   :w 800,
+   :h 480},
+  "lv_spinbox/hovered/medium/mid"
+  {:sha256
+   "7cd67e38821b9ac96ef37621a05552525475ec0c50008d2f4963f5251111846e",
+   :w 800,
+   :h 480},
+  "lv_spinner/default/large"
+  {:sha256
+   "52b4fb3399614743d677957489cd3933d27354849c20f27f4b3bc74126e66740",
+   :w 800,
+   :h 480},
+  "lv_spinner/default/medium"
+  {:sha256
+   "c2bda4198fe57d3f18bf08f58172936a4886c6041964ca6d46614a32aced460d",
+   :w 800,
+   :h 480},
+  "lv_spinner/default/small"
+  {:sha256
+   "5f51d656f01240ac6f35ab92a1d8dfcc29a36c0c6c891f8bf437643aedc45ef4",
+   :w 800,
+   :h 480},
+  "lv_spinner/default/unsized-probe"
+  {:sha256
+   "393594e84576bca86d7444c6bced151ebb6832f6c50ce5f0a79d56e4847bced4",
+   :w 800,
+   :h 480},
+  "lv_spinner/disabled/large"
+  {:sha256
+   "52b4fb3399614743d677957489cd3933d27354849c20f27f4b3bc74126e66740",
+   :w 800,
+   :h 480},
+  "lv_spinner/disabled/medium"
+  {:sha256
+   "c2bda4198fe57d3f18bf08f58172936a4886c6041964ca6d46614a32aced460d",
+   :w 800,
+   :h 480},
+  "lv_spinner/disabled/small"
+  {:sha256
+   "5f51d656f01240ac6f35ab92a1d8dfcc29a36c0c6c891f8bf437643aedc45ef4",
+   :w 800,
+   :h 480},
+  "lv_switch/checked/large"
+  {:sha256
+   "48e4b66f97834f4875a6b29cb4806c34bda5c19337c408ab8e6e4e2df8a9dd18",
+   :w 800,
+   :h 480},
+  "lv_switch/checked/medium"
+  {:sha256
+   "9baa660ff3504722e12464c0470f960249c40d91dcc9199c9c59a81069f26ee5",
+   :w 800,
+   :h 480},
+  "lv_switch/checked/small"
+  {:sha256
+   "36e0328bffbc6df5cd9fba780ffdb81cd8b1f6987681986826f8d0764c87b0dd",
+   :w 800,
+   :h 480},
+  "lv_switch/default/large"
+  {:sha256
+   "176409ffc84881fb4d9482a24b0206d62d87d03ee719a4ec2f752ddc9f21696f",
+   :w 800,
+   :h 480},
+  "lv_switch/default/medium"
+  {:sha256
+   "e175ef67fc5de9c918cc25b1e20fd620d11cf7a0d6a848aa58fc296343e3161c",
+   :w 800,
+   :h 480},
+  "lv_switch/default/small"
+  {:sha256
+   "8dbed0868b8d24f128aa34863c3520a88e440c5bd452da82e870493a4f9e7ba6",
+   :w 800,
+   :h 480},
+  "lv_switch/disabled-checked/large"
+  {:sha256
+   "5f6ee0be03aa1c753bd2141597c0631d6d8494c5a622ea3b14570843df268e89",
+   :w 800,
+   :h 480},
+  "lv_switch/disabled-checked/medium"
+  {:sha256
+   "0bf55802dd82ffb69dc5360dc5ade4edd8959dc518cec119e1f648ba6d63aa0c",
+   :w 800,
+   :h 480},
+  "lv_switch/disabled-checked/small"
+  {:sha256
+   "5a71403721f86245fa3110774c4c773b4ed75d0b121ff8b4d21180ddcb9a6453",
+   :w 800,
+   :h 480},
+  "lv_switch/disabled/large"
+  {:sha256
+   "110b69ad2dbaaa7bb54bf1a71d31b4ffde33a61867aa130dbd33b085303c7cf4",
+   :w 800,
+   :h 480},
+  "lv_switch/disabled/medium"
+  {:sha256
+   "c869522b2ea162d198d994d97e9df0d1c175c573592ce78dba7196185c3be1bb",
+   :w 800,
+   :h 480},
+  "lv_switch/disabled/small"
+  {:sha256
+   "b1ae3ee6757d5fc7f5eaf6aa247262e0057b9805280fbb1aced316d654723968",
+   :w 800,
+   :h 480},
+  "lv_switch/focus-key/large"
+  {:sha256
+   "62232273f05fee58a82a5b387055b92a3fa309d2440c4e597e586cc394843b51",
+   :w 800,
+   :h 480},
+  "lv_switch/focus-key/medium"
+  {:sha256
+   "4fc0b0a9ba573590c8c32b949246c6e4bdbc21731723848748fb96c638f73952",
+   :w 800,
+   :h 480},
+  "lv_switch/focus-key/small"
+  {:sha256
+   "cfabae594a1b2d82e2cf2fdae627defc29f5e95dc20df06bd584b39babba5fe9",
+   :w 800,
+   :h 480},
+  "lv_switch/hovered/medium"
+  {:sha256
+   "e175ef67fc5de9c918cc25b1e20fd620d11cf7a0d6a848aa58fc296343e3161c",
+   :w 800,
+   :h 480},
+  "lv_table/default/large"
+  {:sha256
+   "83d7d0bc9181d510a34b234df587768179c6c9a8ebe84e1fef430e7c428203a2",
+   :w 800,
+   :h 480},
+  "lv_table/default/medium"
+  {:sha256
+   "e5ecfb52e82d93102452120a72b9392bea316bbed2c712204b88f4a3975c7aa1",
+   :w 800,
+   :h 480},
+  "lv_table/default/small"
+  {:sha256
+   "8e2031245199366332fbaa80efada4f553f097778a569cc374a00324f941c4f6",
+   :w 800,
+   :h 480},
+  "lv_table/disabled/large"
+  {:sha256
+   "83d7d0bc9181d510a34b234df587768179c6c9a8ebe84e1fef430e7c428203a2",
+   :w 800,
+   :h 480},
+  "lv_table/disabled/medium"
+  {:sha256
+   "e5ecfb52e82d93102452120a72b9392bea316bbed2c712204b88f4a3975c7aa1",
+   :w 800,
+   :h 480},
+  "lv_table/disabled/small"
+  {:sha256
+   "8e2031245199366332fbaa80efada4f553f097778a569cc374a00324f941c4f6",
+   :w 800,
+   :h 480},
+  "lv_tabview/default/large"
+  {:sha256
+   "e5254905c0f88c1476822f7ee62a6420700fa342910fa4903adc1aad6903dcbe",
+   :w 800,
+   :h 480},
+  "lv_tabview/default/medium"
+  {:sha256
+   "ff93695216967cd4dbbdfdfb568c6443cc88f0ea794841467e69be45a8521507",
+   :w 800,
+   :h 480},
+  "lv_tabview/default/medium/active-last"
+  {:sha256
+   "8987ba492cbc188ab1a90e762cf962aeaa7265bd12dc494232c9a48d6ab2e8ed",
+   :w 800,
+   :h 480},
+  "lv_tabview/default/small"
+  {:sha256
+   "f4687753ffea63319cad2c8b662137639b8a2324733f9133f1f81ad9acccb350",
+   :w 800,
+   :h 480},
+  "lv_tabview/disabled/medium"
+  {:sha256
+   "ff93695216967cd4dbbdfdfb568c6443cc88f0ea794841467e69be45a8521507",
+   :w 800,
+   :h 480},
+  "lv_textarea/default/large"
+  {:sha256
+   "2a4cc57a590d60c2a3741aa45fa5e4cca7991a24807f98e4d5f687369a425c2a",
+   :w 800,
+   :h 480},
+  "lv_textarea/default/large/value"
+  {:sha256
+   "b40c6f9ca136bbb45886ccbb013e442bee20c3e643aad2c0fcd7be2e3661159f",
+   :w 800,
+   :h 480},
+  "lv_textarea/default/medium"
+  {:sha256
+   "e2d1322a171a4621ee73b0549c4291961d5464bdc5ff4390ea193af1adb9a0d1",
+   :w 800,
+   :h 480},
+  "lv_textarea/default/small"
+  {:sha256
+   "5d65c4093b5f09a9006111a8c4b0363aba1f90169cf716c23a6b839f2ef27210",
+   :w 800,
+   :h 480},
+  "lv_textarea/default/small/value"
+  {:sha256
+   "fdc248e8449675e206eda67e46e8199ae1fa5a973629812d8fee190317e14a68",
+   :w 800,
+   :h 480},
+  "lv_textarea/disabled/large"
+  {:sha256
+   "7c8b61e3e0a4bdcfdd709c493fda92c94763aaf0caf8919f447361f0fe2cbe91",
+   :w 800,
+   :h 480},
+  "lv_textarea/disabled/medium"
+  {:sha256
+   "b6d4fe6c3ee7d908efce8d965e0972540089bbc6fd5e43562cad116915a73a05",
+   :w 800,
+   :h 480},
+  "lv_textarea/disabled/small"
+  {:sha256
+   "5d820f51594d59ff449427752e9c82a192293ff4b8f3e686b00d06de00590b90",
+   :w 800,
+   :h 480},
+  "lv_textarea/edited/medium"
+  {:sha256
+   "1e871a52e7f0540baab6c87f4fc3c2669051cc7153ebec2751b0f36ef0550da8",
+   :w 800,
+   :h 480},
+  "lv_textarea/focus-key/medium"
+  {:sha256
+   "590f4fd36e369939ef86a8d9b885f42fd5114827e9a42bb1865bacd44702de5c",
+   :w 800,
+   :h 480},
+  "lv_textarea/focused/medium"
+  {:sha256
+   "aa196ee5be3ff8f2ebf85873829434c634207832e3d953acf1ae20f5f3332b04",
+   :w 800,
+   :h 480},
+  "lv_textarea/hovered/medium"
+  {:sha256
+   "e2d1322a171a4621ee73b0549c4291961d5464bdc5ff4390ea193af1adb9a0d1",
+   :w 800,
+   :h 480}}}
