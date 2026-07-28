@@ -418,80 +418,75 @@ device meta nodes stay in consumer repos, which reuse this runner via their
 protogen pin. Device-specific screen AUTHORING stays in the private
 consumers; this repo defines how interfaces work, not what any product's
 screens contain.
+## What protogen is
 
-## Module Overview
+A Docker-based protocol-buffer code generator producing per-language bindings —
+plain, and validated (buf.validate) where the language supports it — plus the
+ui_ast reference interpreter above.
 
-Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go, Kotlin, and Java) using buf.validate annotations.
+### Where things live
 
-## Module Structure
+- `proto/` — input `.proto` files, subdirectories included. Generation walks it
+  recursively and excludes `test/`.
+- `output/` — generated bindings, one directory per language, plus
+  `output/manifests/` (renderer/token manifests). **`output/manifests/` is
+  tracked and is NOT a binding output.** The per-language list has exactly one
+  home: the single `mkdir -p "$OUTPUT_BASE_DIR"/{…}` line in
+  `generate-protos.sh`. Do not re-enumerate it anywhere — a copied listing is
+  what kept getting this wrong.
+- `renderer/` — the ui_ast reference interpreter: C source, theme, `wasm.mk`,
+  the vendored LVGL tree, the wasmtime harness and the dual-oracle drivers.
+  `renderer.mk` at the repo root is the battery entry.
+- `tools/devcards/` — the devcard corpus runner (GraalWasm): fixtures, golden
+  manifests, invariants, the JPEG gallery and per-widget docs.
+- `tools/renderer-gen/` — the renderer vocabulary/fixture codegen seam.
+- `docs/` — the Obsidian vault of generated per-message and per-enum markdown.
+  Implementation lives in `docs/.protodoc/`; user-written descriptions survive
+  regeneration by roundtrip extraction.
+- `Dockerfile.base` — **the version pin for every toolchain.** Change a version
+  here and nowhere else.
 
-### Core Files
-- `Makefile` - Build automation with targets for image building and proto generation
-- `generate-protos.sh` - Main generation script that orchestrates Docker container execution
-- `Dockerfile` - Main Docker image that uses the base image
-- `Dockerfile.base` - Base image with all necessary tools and dependencies
-- `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
-- `.github/workflows/build-and-release.yml` - GitHub Actions workflow for automated distribution
-- `.gitattributes` - Line-ending policy (`* text=auto eol=lf`; `renderer/lvgl/**`
-  is `-text` — byte-exact vendored upstream — plus explicit binary markers)
+## Regenerating — order matters, and splitting it reddens CI
 
-### Directories
-- `proto/` - Input directory containing .proto files to process (contains jon_shared_*.proto files)
-  - Supports subdirectories (e.g., `proto/opaque/` for opaque payload types)
-  - Generation scripts recursively find all `.proto` files, excluding `test/` directory
-- `output/` - All generated bindings organized by language (created at runtime)
-  - Preserves subdirectory structure (e.g., `output/typescript/opaque/`)
-- `scripts/` - Contains helper scripts like proto_cleanup.awk and add-validate-import.sh
-- `renderer/` - The ui_ast reference interpreter: C source + theme, `wasm.mk`
-  (builds `controls.wasm` / `reference.wasm`), the vendored LVGL tree, the
-  wasmtime proof harness, and the dual-oracle drivers (`renderer.mk` at the
-  repo root is the battery entry)
-- `tools/devcards/` - The devcard corpus runner (GraalWasm): fixtures,
-  golden manifests, invariants, the JPEG gallery + per-widget docs
-- `tools/renderer-gen/` - The renderer vocabulary/fixture codegen seam
-  (enum extraction, ui_ast assembly, token/caps manifest emitters)
+A generated artifact belongs in the SAME commit as the source change that moved
+it. Split them and CI's runner-side freshness diff reddens a commit that is
+otherwise correct, while a consumer pinning the intermediate sha vendors a
+binding that does not match the proto it came from.
 
-### Generated Output Structure
-```
-output/
-├── <one dir per language>   # the binding outputs
-└── manifests/               # renderer/token manifests — NOT a binding output
-```
+After changing any `.proto`:
 
-The per-language directories are exactly the ones `generate-protos.sh` creates —
-its single `mkdir -p "$OUTPUT_BASE_DIR"/{…}` line is the one home of that list,
-and the distribution table below names each repo they are pushed to. Do not
-re-enumerate them here; `output/manifests/` is tracked and is NOT one of them,
-which is precisely what a copied listing kept getting wrong.
+1. `make generate` — rebuilds bindings AND the descriptor set the docs render
+   from, so it runs FIRST.
+2. `make docs-docker-generate` — never instead of step 1; linting docs rendered
+   from the previous descriptor set proves nothing.
+3. Write descriptions for new messages and fields in the generated markdown.
+4. `make docs-docker-lint`.
+5. Commit everything together.
 
-## Key Patterns
+If the change touches a cross-language WIRE surface — stream framing, the
+codec/transport headers, the `cmd.*`/state/enrichment encoding, or the
+`controls.tar` / `controls.wasm` ABI — also update
+`docs/INTERFACE-CONTRACTS.md` and bump the pin in both consumer repos in
+lockstep. Their wire-parity tests assert that document's golden vectors and fail
+loudly on drift.
 
-### Docker Container Usage
-- Container builds automatically on first run if image doesn't exist
-- Base image built locally on first use or restored from GitHub Actions cache
-- All generation runs inside Docker for consistency
-- Uses volume mounts to access input/output directories
-- Runs bash scripts passed via `-c` flag
+`make help` lists the targets; `make versions` reports the pinned tool versions.
 
-### Parallel Processing
-- C generation uses `xargs -P 8` for parallel protoc invocations
-- Each language generator runs sequentially to avoid conflicts
-- Error handling aggregates failures and reports at end
+## Before implementing anything involving a proto message
 
-### Annotation Handling
-- AWK script (`proto_cleanup.awk`) removes buf.validate annotations
-- Required for nanopb (C) compatibility
-- Applied before generation for non-validation outputs
-- Preserves all other proto syntax
+Read its page under `docs/proto/` first — `cmd.<Package>.<Message>.md` for
+commands, `ser.<Package>.<Message>.md` for state and data, enums alongside them.
+Each carries purpose, field constraints, semantic notes, and interaction
+metadata (UI pattern, semantic type, feedback shape, related commands and
+state). The authoritative enums for that metadata are `UIPattern`,
+`SemanticType` and `FeedbackType` in
+`docs/.protodoc/tools/src/protodoc/schema.clj` — read them there, never from a
+prose copy, which can only lag.
 
-### Import Management
-- Validation-enabled outputs automatically add `import "buf/validate/validate.proto"`
-- All proto files compiled together to resolve cross-file dependencies
-- validate.proto copied from protovalidate repository
+## Distribution
 
-## Output Distribution
-
-Generated bindings are automatically distributed to dedicated repositories:
+CI generates every language in one job, then pushes each to its own repository,
+then commits generated output back here.
 
 | Language | Repository |
 |----------|------------|
@@ -506,305 +501,17 @@ Generated bindings are automatically distributed to dedicated repositories:
 | Java | [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java) |
 | JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors) |
 
-### GitHub Secrets Required
-
-For automated distribution, these deploy keys must be configured as repository secrets:
-
-- `C_PUSH` - Deploy key for jettison_proto_c
-- `CPP_PUSH` - Deploy key for jettison_proto_cpp
-- `GO_PUSH` - Deploy key for jettison_proto_go
-- `KOTLIN_PUSH` - Deploy key for jettison_proto_kotlin
-- `PYTHON_PUSH` - Deploy key for jettison_proto_python
-- `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
-- `PUSH_TO_PROTOVALIDATE_ES` - Deploy key for jettison_protovalidate_es
-- `RUST_PUSH` - Deploy key for jettison_proto_rust
-- `JAVA_PUSH` - Deploy key for jettison_proto_java
-- `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors
-- `SELF_PUSH` - Deploy key for pushing back to jettison_protogen repository
-
-One more secret is **optional** and is not a deploy key:
-
-- `BUF_TOKEN` — a Buf Schema Registry token (create at
-  <https://buf.build/settings/user>). It lifts the Go leg's BSR code-generation
-  budget from 10 to 960 requests/hour. `build-and-release.yml` passes it to the
-  "Generate all proto bindings" step and `generate-protos.sh` forwards it into
-  the **go** container only, and only when non-empty — so an absent secret
-  (today's state, and every fork build, since forks cannot read repository
-  secrets) prints an unauthenticated warning and runs exactly as before. Never
-  a hard failure.
-
-## Common Operations
-
-### After Adding New Proto Messages
-
-When new messages or fields are added to proto files, you MUST regenerate the documentation:
-
-1. **Regenerate bindings** (creates updated JSON descriptors):
-   ```bash
-   make generate
-   ```
-
-2. **Regenerate documentation**:
-   ```bash
-   make docs-docker-generate
-   ```
-
-3. **Add descriptions** to new messages/fields in the generated markdown files in `docs/`
-
-4. **Run lint** to verify no errors introduced:
-   ```bash
-   make docs-docker-lint
-   ```
-
-5. **Commit all changes** including the updated docs
-
-6. **If the change touches a cross-language WIRE surface** (stream framing, the
-   codec/transport headers, the `cmd.*`/state/enrichment encoding, or the
-   `controls.tar` / `controls.wasm` ABI), also update
-   **`docs/INTERFACE-CONTRACTS.md`** — the canonical cross-language wire contract
-   the ARM web + native clients consume — and bump the `jettison_protogen` pin in
-   both consumer repos in lockstep. Their wire-parity tests assert this doc's §9
-   golden vectors and fail loudly on drift (see that doc's § "Evolving this
-   contract").
-
-### Understanding Message Context
-
-**Before implementing features involving proto messages, read the documentation in `docs/`.**
-
-The documentation provides:
-- Message purpose and description
-- Field constraints (validation rules like `gte`, `lte`, `required`)
-- Field notes explaining semantic meaning
-- Interaction metadata (UI patterns, semantic types, related commands)
-- Related state messages and commands
-
-**Quick ways to find message documentation:**
-- Use `/proto-search <query>` to find messages by name or field
-- Read `docs/proto/cmd.<Package>.<Message>.md` for command messages
-- Read `docs/proto/ser.<Package>.<Message>.md` for state/data messages
-- Enum pages live under `docs/proto/` too (e.g. `docs/proto/ser.<EnumName>.md`)
-
-### CI/CD Architecture
-
-The repository uses a sequential workflow in GitHub Actions:
-
-1. **Build Base Stage**: Builds and caches the Docker base image
-2. **Sequential Generation**: All languages generated in a single job
-3. **Push to Language Repos**: Sequentially push to each dedicated repository
-4. **Update Main Repo**: Commit generated outputs back to jettison_protogen
-
-This architecture provides:
-- Simple execution flow for easier debugging
-- Independent language repositories for consumers
-- Automatic distribution without manual intervention
-- Efficient Docker layer caching via GitHub Actions cache
-
-### Adding a New Language
-1. Add toolchain installation to Dockerfile
-2. Create generation script in `generate-protos.sh`
-3. Add output directory creation
-4. Update documentation
-
-### Debugging Generation Issues
-```bash
-# Check Docker logs for specific language
-docker run --rm -it jettison-proto-generator:latest /bin/bash
-
-# Test individual commands inside container
-protoc --version
-which protoc-gen-go
-```
-
-### Updating Dependencies
-```bash
-# Edit the version variables in Dockerfile.base — that file is the pin
-
-# Force rebuild using Make
-make rebuild-base
-
-# Or using script directly
-REBUILD_IMAGE=true ./generate-protos.sh
-```
-
-### Using Make Commands
-```bash
-# Show help
-make help
-
-# Build Docker image only
-make build
-
-# Generate all proto bindings
-make generate
-
-# Clean and rebuild everything
-make rebuild
-
-# Open shell in container for debugging
-make shell
-
-# Show tool versions
-make versions
-```
-
-## Technical Details
-
-### Language-Specific Configurations
-
-**C (nanopb)**
-- Uses nanopb plugin for embedded-friendly code
-- Removes all validation annotations via AWK preprocessing
-- Generates fixed-size structs suitable for microcontrollers
-
-**C++**
-- Standard protoc generation with buf.validate annotations preserved
-- Annotations embedded as field options/extensions in generated code
-- Includes `buf/validate/validate.pb.h` header references
-- Runtime validation requires protovalidate-cc and CEL-C++ libraries (not included in generated output)
-- Applications must link against protovalidate-cc for runtime validation
-
-**Go**
-- Uses `buf generate` with remote BSR plugins (buf.build/protocolbuffers/go, buf.build/grpc/go)
-- buf.validate annotations preserved for runtime validation with protovalidate-go
-- Package paths preserved from proto files
-- **Note:** Subject to BSR rate limits (see rate limits section below)
-
-**Kotlin**
-- Uses local `protoc --kotlin_out` (not buf — so the proto package is respected without a prefix)
-- buf.validate annotations preserved for runtime validation
-- Generates Kotlin-specific protobuf classes with DSL builders
-- Runtime validation requires protovalidate Kotlin library
-
-**Java**
-- Standard protoc generation with buf.validate annotations preserved
-- Runtime validation requires protovalidate Java library
-- Package structure follows proto package declarations
-
-**TypeScript (Standard)**
-- Uses ts-proto for idiomatic TypeScript without validation
-- Configured options: esModuleInterop, forceLong=long
-- Generates index files for easier imports
-- Output directory: `output/typescript/`
-
-**TypeScript (Validated)**
-- Uses @bufbuild/protoc-gen-es with @bufbuild/protovalidate
-- Includes buf.validate annotations for runtime validation
-- Generates TypeScript with validation support
-- Published as @lpportorino/jettison-protovalidate-es
-- Output directory: `output/typescript-validated/`
-
-**Rust**
-- Uses prost-build in a temporary Cargo project
-- Handles all proto files in single compilation
-- Creates module structure automatically
-
-**Zig**
-- Uses protoc-gen-zig from Arwalk/zig-protobuf for Zig code generation
-- Removes all validation annotations via AWK preprocessing (no buf.validate support)
-- Proto3 only
-- Generates `.zig` files
-
-**Python**
-- Generates both .py implementation and .pyi type stubs
-- Uses standard protoc Python plugin
-- Compatible with mypy type checking
-
-### Validation Support
-
-Proto files use buf.validate annotations for validation constraints. The validated outputs include these annotations in the generated code:
-- **C++**: Standard protobuf generation with buf.validate annotations preserved as field options/extensions
-- **Go**: Standard protobuf generation with buf.validate annotations preserved
-- **Kotlin**: Standard protobuf generation with buf.validate annotations preserved
-- **Java**: Standard protobuf generation with buf.validate annotations preserved
-
-Runtime validation requires the protovalidate libraries:
-- **C++**: https://github.com/bufbuild/protovalidate-cc (requires CEL-C++ 0.11.0+)
-- **Go**: github.com/bufbuild/protovalidate-go
-- **Kotlin**: build.buf:protovalidate-kotlin
-- **Java**: build.buf.protovalidate
-
-**Important Notes**:
-- C++ generated code includes buf.validate header references, but applications must build and link against protovalidate-cc separately
-- The protovalidate-cc library is not included in the Docker image or generated output (it's only needed at runtime by applications)
-- Validation uses buf.validate (protovalidate), not protoc-gen-validate (PGV)
-
-### JSON Descriptor Generation
-
-The JSON descriptor generation script has been enhanced to use buf CLI when available, which properly preserves buf.validate annotations and CEL expressions:
-
-1. **Primary method (buf CLI)**:
-   - Detects if buf is installed in the Docker container
-   - Uses `buf build` with `--exclude-source-info` flag for cleaner output
-   - Generates both complete descriptor set and individual file descriptors
-   - **Preserves all buf.validate annotations with CEL expressions**
-
-2. **Fallback method (protoc + Python)**:
-   - Used when buf CLI is not available
-   - Attempts to preserve extensions using enhanced JSON serialization options
-   - May not fully preserve custom extensions like buf.validate
-   - Includes warning about potential limitation
-
-**CEL Expression Preservation**:
-- Validation rules are stored in field options under `[buf.validate.predefined]`
-- Each rule includes:
-  - `id`: Rule identifier (e.g., "float.gte", "int32.lt")
-  - `expression`: Complete CEL expression for validation
-  - Error message templates with formatting
-
-**Example preserved annotation**:
-```json
-"options": {
-  "[buf.validate.predefined]": {
-    "cel": [{
-      "id": "float.gte",
-      "expression": "!has(rules.lt) && !has(rules.lte) && (this.isNan() || this < rules.gte)? 'value must be greater than or equal to %s'.format([rules.gte]) : ''"
-    }]
-  }
-}
-```
-
-## Environment Variables
-
-- `PROTO_SOURCE_DIR`: Input directory (default: `./proto`)
-- `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
-- `REBUILD_IMAGE`: Force Docker rebuild (default: `false`)
-
-## Known Limitations
-
-1. C++ validation annotations are preserved in generated code, but runtime validation requires applications to build and link protovalidate-cc separately
-2. nanopb (C) requires annotation removal (doesn't support extensions)
-3. All proto files must be compiled together for cross-references
-4. Docker required for consistent environment
-5. GitHub Actions required for automated distribution
-6. Buf Schema Registry (BSR) rate limits apply to Go generation (see below)
-7. Zig (zig-protobuf) does not support buf.validate annotations or proto2
-
-## Buf Schema Registry (BSR) Rate Limits
-
-Go generation uses `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
-
-### Limits
-| Service | Unauthenticated | Authenticated |
-|---------|-----------------|---------------|
-| Code Generation | 10 req/hour (10 burst) | 960 req/hour (120 burst) |
-| General API | 30 req/sec (60 burst) | 30 req/sec (60 burst) |
-| FileDescriptorSetService | 1 req/sec (2 burst) | 1 req/sec (2 burst) |
-
-**Note:** Each `buf generate` command counts as one request (max 20 plugins per request).
-
-### Detecting Rate Limits
-- HTTP 429 response indicates rate limit exceeded
-- Response headers: `X-RateLimit-Remaining`, `X-RateLimit-Reset`, `Retry-After`
-
-### Avoiding Rate Limits
-1. **Authenticate requests**: 10/hour → 960/hour. Locally, `buf registry login`
-   writes a `~/.netrc` the container never sees, so what actually reaches the go
-   container is the `BUF_TOKEN` environment variable — export it before
-   `make generate`. In CI it is the optional `BUF_TOKEN` repository secret
-   above. **It is not configured today**, so the Go leg still runs on the
-   10/hour budget and says so in its own log line.
-2. **Batch generation**: Run `make generate` once rather than regenerating frequently
-3. **Local plugins**: Consider using local plugins instead of remote BSR plugins for high-frequency development
+Each push needs a deploy key in repository secrets; `build-and-release.yml` is
+the one home of which secret feeds which step.
+
+**`BUF_TOKEN` is the one OPTIONAL secret and is not a deploy key.** It lifts the
+Go leg's BSR code-generation budget from 10 to 960 requests/hour.
+`generate-protos.sh` forwards it into the **go** container only, and only when
+non-empty — so an absent token (today's state, and every fork build, since forks
+cannot read repository secrets) prints an unauthenticated warning and runs
+exactly as before. Never a hard failure. Locally, `buf registry login` writes a
+`~/.netrc` the container never sees, so export `BUF_TOKEN` before
+`make generate` if you want the larger budget.
 
 **No retry, no backoff, and no `Retry-After` handling exists anywhere**, and
 that is a decision rather than an oversight: `buf`'s exit code does not
@@ -816,208 +523,31 @@ closed: the go leg checks for `*.pb.go`, `run_generation()` propagates into
 `FAILED_LANGS`, and every "Push to …" step is then skipped — nothing partial has
 ever reached a consumer.
 
-### Troubleshooting
-If Go generation fails with rate limit errors:
-```bash
-# Check if authenticated
-buf registry whoami
+## Generation constraints that bite
 
-# Login to BSR (increases limits significantly)
-buf registry login
-```
+- **All proto files compile together.** Cross-file references do not resolve
+  otherwise.
+- **nanopb (C) cannot take extensions**, so `scripts/proto_cleanup.awk` strips
+  every buf.validate annotation before the C leg runs. The same strip feeds any
+  other target that cannot parse them.
+- **Validated outputs keep the annotations** as field options, and get
+  `import "buf/validate/validate.proto"` added automatically. They are
+  DECLARATIONS only — runtime enforcement needs the language's protovalidate
+  library, which is neither in the image nor in the generated output.
+- **Kotlin uses local `protoc --kotlin_out`, not `buf`**, so its proto package
+  is respected without a prefix.
+- **Go uses `buf generate` with remote BSR plugins**, which is why it alone is
+  subject to the budget above.
+- **JSON descriptors prefer `buf build`** because it preserves buf.validate
+  annotations with their CEL expressions; the protoc+Python fallback may not,
+  and says so when it runs.
 
-## Proto Documentation System
-
-The `docs/` directory IS the Obsidian vault, containing generated markdown with roundtrip support (user documentation survives regeneration). Implementation files are in `.protodoc/`.
-
-### Key Components
-
-```
-docs/                      # Obsidian vault (output)
-├── .protodoc/             # Implementation files (hidden)
-│   ├── proto-db.edn      # EDN database (git committed)
-│   ├── scripts/          # Babashka scripts for Claude
-│   │   ├── proto-search.clj
-│   │   ├── proto-coverage.clj
-│   │   ├── doc-next.clj
-│   │   ├── proto-lint.clj
-│   │   └── patch-lint.clj
-│   └── tools/            # Clojure tooling
-│       ├── src/protodoc/ # Clojure source
-│       ├── test/protodoc/# Tests
-│       ├── resources/    # Selmer templates
-│       ├── Dockerfile    # temurin-25 based
-│       └── deps.edn      # Dependencies
-├── proto/                 # Generated per-message + per-enum markdown (cmd.* + ser.*)
-└── index.md               # Generated schema index
-```
-
-### Database Schema
-
-The `proto-db.edn` file contains:
-
-```clojure
-{:messages {"cmd.DayCamera.SetIris" {:id "cmd.DayCamera.SetIris"
-                                      :name "SetIris"
-                                      :package "cmd.DayCamera"
-                                      :source "jon_shared_cmd_day_camera.proto"
-                                      :description "User docs (preserved)"
-                                      :fields [{:number 1 :name "value" :type :double
-                                                :constraints {:gte 0 :lte 1}}]}}
- :enums {"ser.JonGuiDataClientType" {...}}
- :search-index {"iris" ["cmd.DayCamera.SetIris"] ...}}
-```
-
-### Interaction Metadata
-
-Messages and fields can have optional interaction metadata for platform-agnostic UI specifications:
-
-```clojure
-;; Message-level interaction
-{:interaction {:category :actuator           ; :sensor :actuator :settings :status :lifecycle :diagnostic
-               :ui-pattern :slider-with-presets  ; See UI patterns below
-               :feedback :pending-timeout    ; :fire-and-forget :pending-timeout :poll-confirm :optimistic-visual
-               :timeout-ms 2000
-               :purpose "Controls the iris aperture"
-               :related-state ["ser.JonGuiDataCameraDay"]
-               :related-commands ["cmd.DayCamera.SetAutoIris"]
-               :preconditions ["Camera must be started" "Auto-iris disabled"]
-               :notes "Implementation notes"}}
-
-;; Field-level interaction
-{:interaction {:semantic-type :normalized    ; :angle :percentage :temperature :voltage etc.
-               :unit "%"                     ; Display unit
-               :precision 0                  ; Decimal places
-               :display-format "{value * 100}%"
-               :presets [0 0.25 0.5 0.75 1.0 "auto"]}}
-```
-
-**UI Patterns (hierarchical):**
-- Atomic: `:toggle` `:action-button` `:slider` `:stepper` `:indicator` `:enum-picker`
-- Molecular: `:slider-with-steppers` `:press-accelerating`
-- Composite: `:slider-with-presets` `:directional-mover` `:tabbed-config` `:state-machine-menu`
-
-**Semantic Types:** `:normalized` `:angle` `:percentage` `:coordinate-geo` `:coordinate-viewport` `:temperature` `:voltage` `:current` `:power` `:distance` `:duration` `:speed` `:count` `:timestamp` `:cardinal` `:enum-label` `:toggle-state` `:identifier` `:raw`
-
-*Authoritative enums: `UIPattern` / `SemanticType` / `FeedbackType` in [`schema.clj`](docs/.protodoc/tools/src/protodoc/schema.clj) — the lists above are illustrative and can lag the schema.*
-
-Interaction metadata survives roundtrip regeneration and appears in the `## Interaction` section of generated markdown.
-
-### Common Operations
-
-```bash
-# Generate docs (from repo root)
-make docs-generate
-make docs-docker-generate  # In Docker
-
-# Run tests
-make docs-test
-make docs-docker-test      # In Docker
-
-# Render only (DB → markdown, no parsing/extraction)
-make docs-render
-make docs-docker-render    # In Docker
-
-# Coverage report
-make docs-coverage
-make docs-docker-coverage  # In Docker
-
-# Lint documentation quality
-make docs-docker-lint      # In Docker
-
-# Validate database
-cd docs/.protodoc/tools && clojure -M:run validate --db-path ../../proto-db.edn
-
-# Search proto schema (via Claude command)
-/proto-search iris
-/proto-search camera zoom
-
-# Coverage report (via Claude command)
-/proto-coverage
-```
-
-### Claude Slash Commands
-
-Slash commands available for proto documentation:
-
-- `/proto-search <query>` - Fuzzy search messages, fields, enums
-- `/proto-coverage` - Show documentation coverage report
-- `/doc-next` - Show next undocumented message with context
-
-These use Babashka scripts that read directly from `.protodoc/proto-db.edn`.
-
-### Interactive Documentation Filling
-
-The `doc-fill` skill provides an interactive workflow for filling in missing documentation:
-
-1. **Find what's missing**: Run `/doc-next` to see undocumented items grouped by module
-2. **Review context**: See field types, constraints, and suggested questions
-3. **Answer questions**: Claude asks about purpose, category, UI pattern, etc.
-4. **Documentation written**: Claude edits the markdown file with collected info
-
-**Workflow example:**
-```
-User: /doc-next
-Claude: [Shows cmd.PMU.Start needs documentation]
-
-User: Let's document it
-Claude: [Invokes doc-fill skill, asks questions interactively]
-- What does PMU.Start do?
-- What category? (suggesting :lifecycle)
-- UI pattern? (suggesting :action-button)
-...
-
-User: [Answers each question]
-Claude: [Writes documentation to docs/proto/cmd.PMU.Start.md]
-```
-
-**Questions asked for each message:**
-1. Purpose - What does this message do?
-2. Category - :sensor :actuator :settings :status :lifecycle :diagnostic
-3. UI Pattern - :toggle :action-button :slider :slider-with-presets etc.
-4. Feedback - :fire-and-forget :pending-timeout :poll-confirm :optimistic-visual
-5. Related state messages (ser.*)
-6. Related commands
-7. For each field: semantic type, unit, precision, display format
-
-The skill suggests answers based on field constraints and naming patterns.
-
-### Workflow
-
-1. **Generate** - Parse JSON descriptors, extract user content, render markdown
-2. **Edit** - Users edit markdown in `docs/` (descriptions, field notes)
-3. **Regenerate** - User content extracted and preserved in new output
-4. **Search** - Use `/proto-search` to find messages/fields
-
-### Data Flow
-
-```
-descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.clj → docs/*.md
-                                       ↑                              │
-                                       └──────── user edits ──────────┘
-```
-
-### Testing
-
-```bash
-cd docs/.protodoc/tools
-clojure -M:test  # run the protodoc test suite
-
-# See docs/.protodoc/tools/test/protodoc/ for the current test namespaces.
-```
+`PROTO_SOURCE_DIR`, `OUTPUT_BASE_DIR` and `REBUILD_IMAGE` override the input
+directory, output directory and forced image rebuild respectively.
 
 ## References
 
-### Internal Files
-- See [`README.md`](./README.md) for user documentation
-- See [`docs/.protodoc/tools/README.md`](./docs/.protodoc/tools/README.md) for proto docs tool documentation
-- See [`scripts/proto_cleanup.awk`](./scripts/proto_cleanup.awk) for annotation removal logic
-
-### External Documentation
-- [Protocol Buffers](https://protobuf.dev/)
-- [buf.validate](https://github.com/bufbuild/protovalidate)
-- [nanopb](https://github.com/nanopb/nanopb)
-- [ts-proto](https://github.com/stephenh/ts-proto)
-- [prost](https://github.com/tokio-rs/prost)
-- [Malli](https://github.com/metosin/malli) - Schema validation
-- [Selmer](https://github.com/yogthos/Selmer) - Template rendering
+- [`README.md`](./README.md) — user-facing documentation
+- [`docs/.protodoc/tools/README.md`](./docs/.protodoc/tools/README.md) — the
+  proto-docs tooling
+- [`scripts/proto_cleanup.awk`](./scripts/proto_cleanup.awk) — annotation removal

@@ -26,10 +26,12 @@ must not be imported into these docs.
 
 ## When to use which tier
 - **CLAUDE.md** — the project charter (what this repo is, the fleet/consumer
-  model, the top-level engineering invariants). Prefer NOT to enumerate or
-  duplicate the `.claude/` tree in it — the harness auto-loads rules and surfaces
-  skill/command descriptions on its own (CLAUDE.md's existing proto-docs tooling
-  walkthrough is a standing exception, a candidate for later trimming).
+  model, the top-level engineering invariants). Do NOT enumerate or duplicate
+  the `.claude/` tree in it — the harness auto-loads rules and surfaces
+  skill/command descriptions on its own — and do not restate a tooling
+  walkthrough that a README, a `make help` or a schema file already owns. It
+  holds LAW; wherever a fact has an executable owner, it names that owner
+  instead of copying it. There is no standing exception to this.
 - **Unscoped rule** — cross-cutting posture that applies regardless of file type.
 - **Path-scoped rule** (`paths:`) — deep guidance that only matters when editing
   matching files (`renderer.md` → `renderer/**`; `devcards.md` →
