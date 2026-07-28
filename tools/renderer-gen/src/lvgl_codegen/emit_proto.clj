@@ -148,6 +148,40 @@
    :resizable :PROXY_MODE_RESIZABLE
    :alignable :PROXY_MODE_ALIGNABLE})
 
+(def layout-flow-keyword->member
+  "`:layout` authoring keywords → FlexFlow proto member spellings.
+
+   HAND-WRITTEN, and the one map in this namespace that is. Every other enum
+   translation here goes through a factory-generated
+   `gen-enums/*-keyword->member` map, which `renderer.mk`'s `construct-bindings`
+   re-emits from the vendored LVGL headers and byte-compares. Nothing extracts
+   or byte-compares THIS one: the `:layout` vocabulary is our own abbreviation
+   of `lv_flex_flow_t` (`:flex-col` for `COLUMN`), so no LVGL header declares
+   it and no generator can produce it.
+
+   That makes a swapped pair here the exact wrong-but-legal class `ui_luts.h`'s
+   banner names: legal proto, clean compile, identical regeneration, wrong flow
+   on screen. It is a public var rather than an inline `case` so
+   `lvgl-codegen.wire-lut-test` can judge it as data — totality against the
+   authoring schema's `:layout` enum, and each pair resolved through the
+   generated bindings and `ui_luts.h` to the value the vendored header declares.
+
+   An unmapped value emits FLEX_FLOW_NONE (\"no flex layout\" — the proto-only
+   synthetic), which is what an absent `:layout` means.
+
+   Kept as literal pairs on purpose. Deriving them from the generated bindings
+   would delete the divergence AND the check at once: the test would then
+   compare a derivation against itself and go green on any rule, however
+   wrong."
+  {:flex-row :FLEX_FLOW_ROW
+   :flex-col :FLEX_FLOW_COLUMN
+   :flex-row-wrap :FLEX_FLOW_ROW_WRAP
+   :flex-row-reverse :FLEX_FLOW_ROW_REVERSE
+   :flex-row-wrap-reverse :FLEX_FLOW_ROW_WRAP_REVERSE
+   :flex-col-wrap :FLEX_FLOW_COLUMN_WRAP
+   :flex-col-reverse :FLEX_FLOW_COLUMN_REVERSE
+   :flex-col-wrap-reverse :FLEX_FLOW_COLUMN_WRAP_REVERSE})
+
 (def ^:private props-enum-fields
   "Per `*_props` key: the enum-typed fields and the factory-generated
    authoring-keyword→proto-member map each translates through. The EDN layer
@@ -488,16 +522,9 @@
                  (not= op :COMPARE_EQ) (assoc :compare op)))))
     event (assoc :event (emit-event-binding event))
     layout (assoc :layout
-                  (cond-> {:flow (case layout
-                                   :flex-row :FLEX_FLOW_ROW
-                                   :flex-col :FLEX_FLOW_COLUMN
-                                   :flex-row-wrap :FLEX_FLOW_ROW_WRAP
-                                   :flex-row-reverse :FLEX_FLOW_ROW_REVERSE
-                                   :flex-row-wrap-reverse :FLEX_FLOW_ROW_WRAP_REVERSE
-                                   :flex-col-wrap :FLEX_FLOW_COLUMN_WRAP
-                                   :flex-col-reverse :FLEX_FLOW_COLUMN_REVERSE
-                                   :flex-col-wrap-reverse :FLEX_FLOW_COLUMN_WRAP_REVERSE
-                                   :FLEX_FLOW_NONE)}
+                  (cond-> {:flow (get layout-flow-keyword->member
+                                      layout
+                                      :FLEX_FLOW_NONE)}
                     (:main-place node) (assoc :main_place (:main-place node))
                     (:cross-place node) (assoc :cross_place (:cross-place node))
                     (:track-place node) (assoc :track_place (:track-place node))))
