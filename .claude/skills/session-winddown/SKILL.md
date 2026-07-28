@@ -44,11 +44,25 @@ committed, or it is lost to everyone but this machine.
    sufficient idle signal is that notification. Name every one still in flight
    in the sendoff, with what to re-dispatch.
 
-2. **Reconcile the fork roster.** Every fork under `~/git/cc/scratch/` is in
-   exactly one state, and the sendoff says which: lifted+preserved+GC'd; lifted
-   but awaiting GC; in flight and OWNED; or held for code nobody has lifted yet.
-   A fork that appears in no list is work about to be forgotten. Preserve before
-   deleting, including the untracked sweep a bundle cannot carry.
+2. **RECONCILE the fork roster — it should already exist.** Every fork under
+   `~/git/cc/scratch/` is in exactly one state, and the sendoff says which:
+   lifted+preserved+GC'd; lifted but awaiting GC; in flight and OWNED; or held
+   for code nobody has lifted yet. A fork that appears in no list is work about
+   to be forgotten. Preserve before deleting, including the untracked sweep a
+   bundle cannot carry — and read the WHOLE porcelain, since a STAGED file
+   reports `A `, not `??`.
+
+   **Winddown is where the roster is RECONCILED, never where it is first
+   written.** `.claude/rules/fork-isolation.md` requires the entry at the
+   moment of handover, because the task list dies with the session and a crash
+   before winddown would otherwise leave owned trees with no durable owner. If
+   you reach this step and a live fork has no roster entry, that is itself a
+   finding: write it, and note that the discipline slipped.
+
+   **The same applies to DISPATCHED AGENTS.** They die with the session. Record
+   what each is writing and where, at dispatch — an agent that was mid-edit when
+   the session ended leaves uncommitted changes whose provenance nothing
+   explains.
 
 3. **Land in-flight edits.** Every completed logical change becomes a commit
    with a real message and a per-consumer CONSEQUENCES beat. Nothing half-done

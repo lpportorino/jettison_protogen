@@ -101,6 +101,19 @@ report's existence**:
   nag loop — but an explicit `OWNER_REPO` override still bypasses it.
 - Seed the brief as **its own commit**, so the worker's commits are exactly what
   gets lifted and nothing has to be untangled later.
+- **WRITE THE ROSTER ENTRY AT THE HANDOVER, NOT AT WINDDOWN.** The harness task
+  list DIES WITH THE SESSION. Between handing over a path and the next winddown,
+  it may be the only record that a checkout is owned — and a crash, a restart or
+  a `/clear` in that window leaves owned trees on disk with nothing durable
+  saying who owns them, what they were given, or what they owe. The next session
+  then finds them, and every cheap signal (clean status, idle process table,
+  quiet mtime) reports them IDLE, which is exactly the state that gets a live
+  worker's tree deleted. Record: path, owner, base sha, seed-commit sha, the
+  files it owns, and what it CANNOT verify locally.
+  Two surfaces, and they are not interchangeable — **this file is the procedure
+  and survives a fresh clone; the roster is machine-local and survives only a
+  reboot of this machine.** A fork whose existence is recorded nowhere but in a
+  session is a fork about to be orphaned.
 - **Never git-ignore the deliverable.** Excluding scratch inputs is right;
   putting the required report in `.git/info/exclude` silently drops the one
   artifact the lift reads. One worker caught it and used `git add -f`; a worker
