@@ -117,14 +117,18 @@ LINT_CLJ_PATHS := tools/devcards/src \
 FMT_C_FILES := $(shell find renderer/src -maxdepth 1 \
 	\( -name '*.c' -o -name '*.h' \) -not -name 'font_*.c' 2>/dev/null | sort)
 
-# Hand-authored shell, from git's own index so a new script is picked up the
-# moment it is tracked. renderer/lvgl/** is vendored and excluded.
+# Hand-authored shell. `--others --exclude-standard` widens the index to
+# UNTRACKED-but-not-ignored scripts, because the index alone gives a worker who
+# has written a new script and not staged it a GREEN THAT NEVER READ IT — the
+# same vacuity this target's own guard below refuses, one level up. Ignored
+# paths (scratch, preserved forks) stay out, which is what keeps the widening
+# free. renderer/lvgl/** is vendored and excluded.
 #
 # git's stderr is CAPTURED rather than discarded: when discovery fails, the
 # reason ("not a git repository: …") is the whole diagnosis, and lint-sh's
 # guard prints it instead of guessing. Discarding it is what let a broken
 # discovery read as an empty-but-fine file list.
-LINT_SH_FILES := $(shell git ls-files '*.sh' .githooks/pre-push 2>/dev/null \
+LINT_SH_FILES := $(shell git ls-files --cached --others --exclude-standard '*.sh' .githooks/pre-push 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
 LINT_SH_DISCOVERY_ERR := $(shell git ls-files '*.sh' .githooks/pre-push 2>&1 >/dev/null)
 

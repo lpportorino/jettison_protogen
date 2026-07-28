@@ -137,6 +137,23 @@ with a CONTROL that must stay green so the survivor is attributable to the claus
 and not to a neighbour (`tools/devcards/test/devcards/invariants_test.clj`).
 Reviewing a canary means RUNNING that revert, not reading it.
 
+**A REFUSAL SHOWN IS NOT A REFUSAL ATTRIBUTED**, and this is the form the demand
+usually takes when it is under-specified. Asking a worker to "prove the guard
+fires" is satisfiable by any red — including one produced by a NEIGHBOURING
+clause that would have refused the same input for a different reason. Measured
+while hardening `tools/claude/forks.sh`: of four guards asked to be demonstrated,
+three had a neighbour that also refused, and one input tripped two clauses at
+once. Only a mutation pass — break THAT clause alone, leave the neighbours
+intact — separates them, and it is what surfaced a defect the four demonstrations
+walked straight past: a bare `return` propagating a failed test's status under
+`set -e`, aborting with exit 1 and no message.
+
+So the demand is not "show me a red". It is **"break this clause and show me the
+message that names it"**, plus a control proving the neighbours stayed green.
+Where the guard's own diagnosis can be wrong — an internal error mistaken for a
+clean verdict — the canary must distinguish those too: exit codes that separate
+FAIL from ERROR are how, and a suite asserting only non-zero cannot.
+
 **Require a FAIL, not an ERROR.** A mutation that breaks compilation or the
 namespace load reds the whole file while executing nothing, so the red carries no
 information about the clause. Measured, and it is why one canary was deleted
