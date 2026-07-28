@@ -148,6 +148,30 @@ The rules here are enforced by finding-producers in
 `tools/devcards/src/devcards/` and are consumed through the registry
 (`devcards.findings`), never re-implemented in a consumer.
 
+### Protogen's theme-family boundary
+
+Protogen's own corpus gate applies the DOM finding-producers to the shipped
+Asgard family. The vanilla and stock families are differential reference
+controls: stock LVGL is vendored upstream, and vanilla exists to prove that the
+child theme can reproduce it. Their per-card framebuffer equality proves that
+the child theme is inert; it does **not** certify either render as usable,
+legible, or free of layout defects. Goldens likewise prove stability rather
+than correctness.
+
+This is a deliberate boundary, not the accidental absence of a loop. A general
+DOM lane over those controls would turn reference behaviour outside protogen's
+product contract into local findings, followed by permanent exemptions. Their
+DOM is therefore explicitly **unjudged**, never reported clean. This does not
+narrow a consumer's obligation: every theme family a consumer ships as a
+product surface must run the standard's applicable producers over that surface.
+
+No family-crossing clause based only on `text_on.color != text_on.bg` closes
+that boundary. The comparison proves that the declared colours differ, not that
+an internal compound widget emitted its selected text or drew any glyph pixels;
+such internal labels need not expose a text value in the dump. A future
+glyph-presence clause needs a positive, mutation-proven instrument for glyph
+output. It must not infer presence from a declared colour pair.
+
 ## 0. Two verdict SHAPES, and which measurement earns which
 
 | shape | earned by | verdict |

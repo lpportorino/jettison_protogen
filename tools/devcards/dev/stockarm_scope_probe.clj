@@ -49,7 +49,7 @@
    dump node can fail without setting any object flag. Empty findings mean only
    that the current DOM lane reported nothing.
 
-   ALL THREE FAMILIES ARE RENDERED IN BOTH ARMS. A family-0-only run would
+   ALL THREE FAMILIES ARE RENDERED IN EVERY ARM. A family-0-only run would
    reproduce exactly the blind spot under measurement.
 
    Read-only: renders, counts, prints. Writes nothing, gates nothing, and is
@@ -149,10 +149,10 @@
               (println (format "      %-46s %s" (:card f) (:node f))))))))
 
     (println (str "\n0 NOVEL means arming would report nothing new and the\n"
-                  "ratchet argument has no referent; a large NOVEL count means\n"
-                  "the lane would report upstream's defects, which is the\n"
-                  "ratchet the scope decision refuses. Either way the number is\n"
-                  "the evidence, not the intuition."))))
+                  "ratchet argument has no referent; a large NOVEL count names\n"
+                  "the reference-control population the scope decision must\n"
+                  "either own or decline. Either way the number is the evidence,\n"
+                  "not the intuition."))))
 
 ;; ── the dom arm ─────────────────────────────────────────────────────────
 

@@ -7,10 +7,18 @@
      with the spec's :expect routing — :probe-defect cells must EXHIBIT at
      least one defect flag, :probe-pixel-only cells are dump-blind and
      skipped, everything else runs the full lanes — plus the golden
-     manifests (dark + light).
+     manifests (dark + light). This is the only DOM-judged family
+     DELIBERATELY: it is the product surface whose rendered quality protogen
+     claims and whose findings protogen can repair.
    - families 1/2 (vanilla/stock): per-card hash equality, BOTH modes (the
      vanilla arms carry dark-conditional stock colors — light must hold
-     too).
+     too). These are differential reference controls, not alternate
+     quality-certified surfaces: stock LVGL is vendored upstream and vanilla
+     is required to reproduce it. Running the DOM lanes over either would
+     turn reference-control behaviour outside the product contract into local
+     findings and a permanent exemption ratchet. Their DOM is therefore
+     explicitly UNJUDGED, never implied clean; equality proves only that the
+     child theme is inert.
    - the state-contract lanes (distinctness/inertness) over family-0 dark.
    - the AUTHORED-COMPOSITION lane (corpus/composition.edn via
      devcards.composition): the same family-0 invariants + goldens
