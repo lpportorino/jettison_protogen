@@ -254,6 +254,17 @@ like an agent that has finished.
   that is simply reading. Measured: a fork passed clean-status, no-process AND
   no-recent-mtime, and was deleted out from under a live agent that had not yet
   written its commits.
+- **THAT NOTIFICATION LICENSES THE LIFT, NOT THE END OF THE WORKER.** It says the
+  work has stopped; it does not say the AGENT is gone, and a completed agent
+  stays resumable — its own notification says so. So a fork can be lifted,
+  released and deleted while its worker is still resident, pointed at a path
+  that no longer exists. Measured on a ten-fork wave: nine released, and
+  afterwards exactly ONE agent was still alive while the rest had already been
+  reaped. Residency is NOT uniform, so it cannot be assumed in either
+  direction — the only honest move is to STOP each worker explicitly after its
+  fork is released, and to treat "no task found" as the confirmation rather than
+  as an error. `TaskStop` per agent id, then the roster and the process table
+  agree.
 - **THE ONLY SUFFICIENT SIGNAL IS THE OWNER SAYING IT IS DONE.** For an agent
   you dispatched, that is its COMPLETION NOTIFICATION arriving — not your
   impression that it looks finished. If you have not received it, the fork is

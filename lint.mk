@@ -208,7 +208,7 @@ hooks-status:
 #
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
-lint: lint-sh brief-check-test fmt-clj lint-clj fmt-c
+lint: lint-sh brief-check-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
@@ -337,6 +337,17 @@ splint-clj:
 # since the day it landed. The suite asserts each brief-check clause fires for
 # ITS OWN reason (a FAIL, not an ERROR), which is the property that separates a
 # real refusal from a neighbouring clause that would also have refused.
+# The two structural traps a fork LIFT re-introduces, both mechanical and both
+# recurring inside one ten-fork wave: tracked files under the per-fork scratch
+# directory (a cherry-pick carries them past the .gitignore that guards
+# authoring), and a dev/proof script whose repo root does not resolve from where
+# it now sits (a lift moves nearly every probe a fork writes, and the resulting
+# red is indistinguishable from a caught defect). Each clause is mutation-proven
+# to fire alone; see the header of the script.
+.PHONY: fork-hazards
+fork-hazards:
+	@bash tools/claude/fork-hazards.sh
+
 brief-check-test:
 	@bash tools/claude/brief_check_test.sh
 

@@ -612,6 +612,30 @@ cmd_release() {
   PRESERVED_SCRIPT_COUNT=0
   preserve_scratch_scripts "$fork" "$preserve_dir"
 
+  # THE REPORT IS LIFTED HERE, NOT BY HAND. It is the one artifact a lift reads
+  # most and the one a coordinator is most likely to skip, because the fork
+  # LOOKS finished by then. Doing it by hand failed exactly that way once: two
+  # `git show` calls failed against a clobbered ref, their errors scrolled past,
+  # and release ran anyway — leaving the report recoverable only from the bundle.
+  # It is recorded under .protogen/research/ (gitignored, machine-local) rather
+  # than committed, because it is a worker's own account and the DURABLE half of
+  # what it says belongs in commit messages and rules instead.
+  #
+  # Absence is NOT an error: a fork can legitimately be released before writing
+  # one, and a third-party worker is bound by no such convention. So this reports
+  # what it did and never refuses.
+  REPORT_PRESERVED="none (the fork committed no FINAL_REPORT.md)"
+  if git_in "$fork" cat-file -e master:FINAL_REPORT.md 2>/dev/null; then
+    report_dest="$ROOT/.protogen/research/$(basename -- "$fork")-final-report.md"
+    mkdir -p -- "$(dirname -- "$report_dest")"
+    if git_in "$fork" show master:FINAL_REPORT.md > "$report_dest" 2>/dev/null &&
+       [ -s "$report_dest" ]; then
+      REPORT_PRESERVED="$report_dest ($(wc -l < "$report_dest" | tr -d ' ') lines)"
+    else
+      fail "FINAL_REPORT.md exists at master but could not be copied out; the fork is retained: $fork"
+    fi
+  fi
+
   # Scratch is disposable only after its source-like proofs have been copied.
   # Removing it also drops regenerable logs, renders, and images.
   rm -rf -- "$fork/.fork-scratch"
@@ -657,6 +681,7 @@ cmd_release() {
   printf '  path: %s\n' "$fork"
   printf '  signal: %s\n' "$signal"
   printf '  scratch scripts preserved: %s\n' "$PRESERVED_SCRIPT_COUNT"
+  printf '  final report: %s\n' "$REPORT_PRESERVED"
   printf '  shipped sources excluded from the residue check by path: %s (record: %s)\n' \
     "$shipped_count" "$shipped_source"
   printf '  committed work bundle: %s\n' "$bundle"
