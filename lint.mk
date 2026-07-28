@@ -208,7 +208,7 @@ hooks-status:
 #
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
-lint: lint-sh brief-check-test forks-release-test fork-hazards fmt-clj lint-clj fmt-c
+lint: lint-sh brief-check-test forks-release-test uber-chown-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
@@ -367,6 +367,23 @@ brief-check-test:
 .PHONY: forks-release-test
 forks-release-test:
 	@bash tools/claude/forks_release_test.sh
+
+# tools/uber.sh's chown-back — the line that decides whether root-owned residue
+# in a checkout is REPORTED or silent. It rides `lint` for the same reasons the
+# two above do: no rendered surface, and its hermetic cases need nothing but
+# bash, coreutils and a stub `docker` on PATH.
+#
+# ITS LAST CASE WANTS DOCKER AND THE PINNED IMAGE, and reports UNJUDGED without
+# them rather than passing: that case is the one that runs the captured payload
+# in a REAL container against the REAL /workspace, which is what closes the
+# workspace-path substitution the hermetic cases make. So it is judged on a
+# developer host with the image built, and UNJUDGED on a plain runner and inside
+# `tools/uber.sh 'make -f lint.mk lint'` (no docker CLI in the base image). The
+# suite prints three counts and refuses to say ALL GREEN while any case is
+# unjudged; it exits 0 in that state rather than blocking a container run.
+.PHONY: uber-chown-test
+uber-chown-test:
+	@bash tools/uber_chown_test.sh
 
 # Parse-only, deliberately: shellcheck is not present on the host or in the
 # uber image, and adding a toolchain dependency for it is a separate decision.
