@@ -64,6 +64,17 @@ that duty dischargeable.
     committed gallery images are presentation, never compared. A consumer that
     hashes gallery images manufactures findings that are artifacts of its own
     stricter standard.
+11. **INSTALL PRESCRIBED TOOLING BY SYMLINK INTO THE PIN, NEVER BY COPY.** A copy
+    forks at the next change here and the staleness check cannot fire, because the
+    copy is what the check reads. A symlink tracks the pin, so a consumer whose pin
+    is a working directory picks fixes up with no re-vendor at all. Where a
+    consumer's launcher must be a real file, it is regenerated FROM the pin and the
+    staleness check compares against the pin rather than against itself.
+12. **THE LAW ABOUT THIS SURFACE LIVES HERE, NOT IN THE CONSUMER.** A consumer that
+    restates these duties in its own rules creates a second copy that drifts, and
+    the drift is invisible because each reads correctly alone. A consumer's own
+    rules may state what is SPECIFIC to it — its paths, its gates, its procedure —
+    and must point here for everything else.
 
 ## Anti-patterns
 
