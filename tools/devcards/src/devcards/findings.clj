@@ -33,6 +33,9 @@
      :emissions    captured host lanes
      :host-proxy?  the one card class whose proxy-report is positive
      :caps         what the loaded module can express, e.g. {:vis-px? true}
+     :framebuffer  the card's RAW rendered pixels, as ONE self-describing
+                   value {:bytes byte[] :width n :height n}, checked at this
+                   seam so that `supplied` means `usable`
      :classes      the consumer's `devcards.classify` table
      :declaration  consumer INTENT (layer z, roles) — never derived from
                    what currently renders
@@ -90,9 +93,93 @@
    corpus rendered in several MODES whose emissions must each be judged,
    are both ordinary shapes. Keeping them here rather than opening the set
    to arbitrary keys preserves the property the set exists for — a typo'd
-   :requires fails at registration instead of silently never matching."
+   :requires fails at registration instead of silently never matching.
+
+   :framebuffer IS ONE KEY, not the three that a byte array plus its
+   dimensions naturally wants, and that is the whole reason a PIXEL rule can
+   be admitted here without reopening the silence. `check-requires!` refuses
+   an ABSENT key; with three parallel keys a producer that declares two of
+   them and forgets the third is handed nil for the one it forgot, reads a
+   nil width, and measures nothing. Bundled, the value is validated ONCE, at
+   the seam, by `framebuffer-problem` — which is also the only way to close
+   the half-supplied case the closed set cannot see by itself: {:width 800
+   :height 480} is `some?`, satisfies the requirement, and hands a pixel rule
+   nil bytes through the front door the nil-is-absent rule was written to
+   shut.
+
+   IT IS AN OBSERVATION, NOT A DECLARATION, so a rule's per-rule INTENT does
+   NOT belong here beside it — the contours a border rule judges, the regions
+   a contrast rule judges, the roles a layout rule judges are all consumer
+   intent and ride `:declaration`'s own per-topic sub-keys, the way
+   `devcards.layers` reads `(:layers declaration)`. One context key per rule
+   is how a closed set stops being one."
   #{:tree :nodes :emissions :emissions-by-mode :host-proxy? :caps :classes
-    :declaration :proxy-rects :expect})
+    :declaration :proxy-rects :expect :framebuffer})
+
+(def framebuffer-bytes-per-pixel
+  "RGBA8888 — the ONE framebuffer layout this runner admits, which is what
+   makes a buffer's expected byte length a DERIVABLE fact rather than a
+   caller's claim. `devcards.host` gates it at boot (`controls_fb_format`
+   must report 1, else the module is refused) and `read-framebuffer!` copies
+   exactly (* w h 4) bytes out of linear memory.
+
+   Deliberately NOT a caller-supplied :format field on the value. Nothing in
+   this system can vary it today, so the field would be a knob that reads as
+   a capability declaration and does nothing, and the branch reading it could
+   never fire — the objection `producer-keys` makes about widening itself,
+   and the one `outcome/validate-policy!` makes about naming an unreachable
+   value. A renderer that grows a second layout adds the field in the SAME
+   diff as the branch that reads it."
+  4)
+
+(defn framebuffer-problem
+  "nil when `fb` is a usable `:framebuffer` context value, else a one-line
+   problem string. The value is {:bytes byte[] :width n :height n}.
+
+   THIS RUNS AT THE SEAM because `check-requires!` cannot. Its
+   absent-is-an-oversight rule reaches the top-level key and stops there:
+   {:width 800 :height 480} is `some?`, satisfies a producer's :requires, and
+   hands a pixel rule nil bytes — the silence the nil rule was written to
+   shut, arriving one level down. Classifying at the seam where the value is
+   acquired is also what keeps the NEXT pixel rule from re-deriving this
+   check slightly differently; a rule may refuse a framebuffer for its own
+   reasons, but it may not be handed an unusable one.
+
+   The LENGTH clause is the one that is easy to leave out and is the reason
+   the dimensions are evidence rather than decoration: a rule sampling [x y]
+   through a width that disagrees with the buffer reads the wrong pixels, and
+   every verdict it then returns is well-formed and wrong. There is no
+   partial credit here — a mismatch means the two halves of the value
+   describe different images, and neither is identifiable as the correct
+   one."
+  [fb]
+  (if-not (map? fb)
+    (str "must be a map {:bytes byte[] :width n :height n}, got "
+         (pr-str (type fb)))
+    (let [px (:bytes fb)
+          w (:width fb)
+          h (:height fb)]
+      (cond
+        (not (bytes? px))
+        (str ":bytes must be a byte array of RAW pixels, got "
+             (pr-str (type px)))
+
+        (not (pos-int? w))
+        (str ":width must be a positive integer, got " (pr-str w))
+
+        (not (pos-int? h))
+        (str ":height must be a positive integer, got " (pr-str h))
+
+        (not= (* (long w) (long h) (long framebuffer-bytes-per-pixel))
+              (alength ^bytes px))
+        (str ":bytes holds " (alength ^bytes px) " bytes, but :width " w
+             " x :height " h " x " framebuffer-bytes-per-pixel
+             " needs "
+             (* (long w) (long h) (long framebuffer-bytes-per-pixel))
+             " — the dimensions and the buffer describe different images, "
+             "and nothing here can say which one is right")
+
+        :else nil))))
 
 (defn- producer-error
   [producer problem]
@@ -536,6 +623,17 @@
                          "registry never made, and (with :tree absent) "
                          "against nil, returning [] instead of throwing")
                     {:card card-id})))
+  ;; A SUPPLIED framebuffer must be a USABLE one. nil is already ABSENT
+  ;; (`check-requires!`), so this clause is only about the half-supplied
+  ;; value that rule cannot see inside — see `framebuffer-problem`. The
+  ;; framebuffer itself is kept OUT of the ex-data: it is megabytes of raw
+  ;; pixels, and an error report that dumps them is one nobody reads.
+  (when (some? (:framebuffer opts))
+    (when-let [problem (framebuffer-problem (:framebuffer opts))]
+      (throw (ex-info (str ":framebuffer was supplied but is not usable — it "
+                           problem ". A pixel rule handed this samples the "
+                           "wrong bytes and still returns a verdict")
+                      {:card card-id :framebuffer-problem problem}))))
   ;; THE REASON VOCABULARY IS THE ARMED SET'S, NEVER THIS CALL'S. `producers`
   ;; here is one LANE's vector — this fn runs once per card per lane — while
   ;; exemption lists are GLOBAL, so reading the vocabulary off `producers`
