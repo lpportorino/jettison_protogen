@@ -258,6 +258,47 @@ never a gate result. No gate here can see those conditions, so no pass message
 may imply them, and no green here may be read as legibility under any condition
 the gate did not impose.
 
+**AND HARDWARE-SCOPED QUANTITIES ARE OUT OF SCOPE FOR THIS REPOSITORY — not
+pending, not deferred, OUT.** Angular character size, touch geometry and
+chromaticity under night vision are properties of a PANEL and an OPERATOR. Their
+values are governed upstream, this repository has never held them, and it will
+not: nothing here can measure them, so a threshold copied in would be an
+unsourced constant that no gate could ever check.
+
+The distinction from "pending" is the whole point and it is the one this document
+refuses to blur everywhere else. A PENDING obligation implies someone here owes
+work and has not done it, which keeps a permanently-empty slot on every reader's
+list and invites a future contributor to fill it with a plausible number. OUT OF
+SCOPE says the obligation is real, belongs to a bench and a hardware revision,
+and is discharged THERE. What this repository owes is the negative: never to
+print a pass that implies a condition it did not impose.
+
+So a "declared floor" here means a floor declared in TOKEN space — exact
+arithmetic against values this repository holds. It does not mean, and must not
+grow into, a panel-derived luminance number.
+
+**ACCESSIBILITY CONFORMANCE IS AN INTERNAL QUALITY BAR HERE, NEVER A BADGE.**
+WCAG 2.2 AA, Section 508 and EN 301 549 are not compliance obligations on this
+work; that was asked of the party who would hold such a contract, and the answer
+was no. The posture that follows is stable rather than provisional, so do not
+re-open it each time the acronyms surface:
+
+- **The stricter number is adopted, and the badge is never printed.** Where a
+  human-factors standard and WCAG both state a threshold for the same quantity,
+  the stricter binds — for text contrast that is 6:1, not WCAG's 4.5:1, so a
+  screen passing here already clears AA on that clause. No gate may report
+  "WCAG AA compliant" on the strength of it: clearing one criterion's number is
+  not conformance, and a message implying otherwise is the same over-claim §0
+  forbids everywhere else.
+- **No conformance REPORT is owed**, so nothing here needs a second
+  reporting leg, and the criteria with no literal referent on a fixed
+  framebuffer (resize, reflow) need no written exclusion — there is no
+  obligation for them to be excluded FROM.
+
+If that answer ever changes, both bullets change together: a report leg appears,
+and the unreferenced criteria must then be scoped out IN WRITING rather than
+silently skipped.
+
 ---
 
 ## 1. The layer contract

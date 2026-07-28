@@ -196,12 +196,18 @@ ui_ast owes those the same; what it does not owe is protogen's lanes, because
 they cannot see it. Do not read "not ui_ast" as "nothing owed" — that inference
 is the one this section exists to prevent.
 
-**Be warned that this repo does not SPECIFY those numbers.** They are governed
-upstream and there is no in-tree document to point you at yet, so this paragraph
-establishes only that having no ui_ast fails to discharge them — it does not tell
-you their values. That caveat belongs here rather than in a commit message: an
-obligation nobody can scope is the exact defect this section was written to fix,
-and introducing a second one while fixing the first would be no improvement.
+**Those numbers are OUT OF SCOPE for this repository — not pending here.** They
+are governed upstream, this repo has never held them, and it will not: nothing
+here can measure a panel or an operator, so a threshold copied in would be an
+unsourced constant no gate could check. The obligation is real and is discharged
+at a BENCH against a hardware revision. What this repo owes is the negative —
+never to print a pass implying a condition it did not impose
+(`docs/UI-QUALITY-CONTRACTS.md` §0).
+
+Read that as a boundary, not as a dismissal, and do not restore the older
+"pending" framing: a permanently-empty slot on every reader's list is what
+invites a future contributor to fill it with a plausible number, which is the
+exact defect this section exists to prevent.
 
 ### THE TWO DOCUMENTS, and they are separable
 
