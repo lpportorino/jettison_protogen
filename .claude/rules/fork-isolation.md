@@ -126,10 +126,15 @@ report's existence**:
   who does not notice hands back nothing.
   **This reaches the PROOF, not just the report.** A measurement whose probe
   sits in an ignored path leaves behind only its numbers, and **a number with no
-  re-runnable probe is recall, not evidence.** Live example in this tree:
-  `palette-audit.py` is gitignored and is cited BY PATH three times from tracked
-  `tools/devcards/dev/disabled_pair_probe.clj`, underneath every contrast figure
-  that workstream quotes. Track the probe next to the claim it supports.
+  re-runnable probe is recall, not evidence.** So track the probe next to the
+  claim it supports — `tools/devcards/dev/palette-audit.py`, cited BY PATH from
+  tracked `tools/devcards/dev/disabled_pair_probe.clj` underneath the contrast
+  figures that workstream quotes, is tracked for exactly this reason.
+  **Tracking it is necessary and not sufficient**, which is the half that keeps
+  getting missed: that same probe's own banner asserted counts its own run
+  contradicts. A committed probe whose prose states a RESULT has simply moved
+  the recall inside the repository — see `.claude/rules/devcards.md`
+  §"`dev/` probes".
 - **Know which ROOT a script resolves — not merely which repo you are in.** A
   tool that computes its root from its own location (`dirname "$0"/../..`, which
   is how `tools/perf/bench.sh` and `tools/uber.sh` both work) silently retargets

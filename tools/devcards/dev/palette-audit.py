@@ -26,10 +26,19 @@ MANIFEST = os.path.join(ROOT, "output/manifests/design-tokens.json")
 # PDL-1's precedence rule: MIL-STD-1472H governs wherever it states a threshold;
 # WCAG 2.2 AA fills gaps only where 1472H is silent; where both state one for the
 # same quantity, THE STRICTER BINDS. WCAG's 4.5:1 is an indoor number and is
-# explicitly rejected as the floor. Measured cost of having used it: 18 of 60
-# declared text pairs fail at 4.5:1 and 37 fail at 6:1 — nineteen pairs pass WCAG
-# and fail the standard that binds.
-#   ~/git/cc/jettison_eudoxia/docs/research/2026-07-25-pdl1-readability-standard.md
+# explicitly rejected as the floor. The cost of having used it is the GAP between
+# the two counts THIS RUN PRINTS: pairs that clear WCAG and fail the standard that
+# actually binds.
+#
+# The counts are deliberately NOT repeated here. This file computes them, so a
+# banner stating them is a second source of truth for a number only the run ever
+# refreshes — and the two had already diverged, the banner claiming figures the
+# live run contradicts. See .claude/rules/devcards.md §"`dev/` probes — the RUN
+# is the result, never the banner".
+#   Re-derive:  tools/uber.sh 'cd tools/devcards && python3 dev/palette-audit.py'
+#
+# PDL-1 itself is governed upstream and has no in-tree document; do not cite it
+# by a path on one operator's machine.
 SHALL = 6.0   # MIL-STD-1472H §5.2.2.7 — build FAILS below
 SHOULD = 10.0  # §5.2.2.7 — WARN below, not blocking
 # WCAG 2.2 §1.4.11 is a legitimate GAP-FILL: 1472H states nothing for generic
