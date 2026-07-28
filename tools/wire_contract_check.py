@@ -523,6 +523,23 @@ SPEC = re.compile(
     re.M | re.S)
 
 
+def spec_assignments(args: str) -> dict[str, str]:
+    """The field assignments in a §9 spec's argument list."""
+    out: dict[str, str] = {}
+    for part in args.split(","):
+        k, _, v = part.partition("=")
+        out[k.strip()] = v.strip()
+    return out
+
+
+def spec_key(fq: str, assignments: dict[str, str]) -> str:
+    """The key `derived` is stored under. ONE home, because check_repeated_blocks
+    must rebuild the identical key to look a vector up by its G-label; two
+    hand-rolled copies of this formatting would diverge silently and the lookup
+    would simply start missing, which reads as "no vector for this label"."""
+    return f"{fq}{{{', '.join(f'{k}={v}' for k, v in assignments.items())}}}"
+
+
 def check_golden_specs(d: Descriptors, s9: str, r: Report) -> dict[str, bytes]:
     """§9 — DERIVE each `Msg{...} = <bytes>` vector and assert the doc's bytes.
 
@@ -535,11 +552,8 @@ def check_golden_specs(d: Descriptors, s9: str, r: Report) -> dict[str, bytes]:
         return derived
     for m in specs:
         fq, args, doc_hex, stated_len = m.group(1), m.group(2), m.group(3), m.group(4)
-        assignments = {}
-        for part in args.split(","):
-            k, _, v = part.partition("=")
-            assignments[k.strip()] = v.strip()
-        label = f"{fq}{{{', '.join(f'{k}={v}' for k, v in assignments.items())}}}"
+        assignments = spec_assignments(args)
+        label = spec_key(fq, assignments)
         try:
             want = encode_message(d, fq, assignments)
         except (KeyError, ValueError) as exc:
@@ -563,6 +577,29 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
 
     labelled = list(re.finditer(r"\*\*(G1(?:-B)?) —", doc))
     r.found("§6/§9 G1 labelled blocks", len(labelled), 4)
+    # THE LABEL MUST BE LOAD-BEARING, NOT DECORATION. This used to assert
+    # membership — `got in bare` — while putting the G-label only in the
+    # assertion's NAME. That tests "this block is SOME derived vector" and never
+    # "the block under the G1 label is G1", so §6's two copies could be swapped
+    # for each other, or one replaced by the other's bytes, and the run stayed
+    # green with a byte-identical assertion report. §9 was pinned; §6 — the
+    # copies a human reads and encodes against — was pinned by nothing.
+    #
+    # PASS 1 binds each label to the ONE vector its §9 spec derives.
+    by_label: dict[str, bytes] = {}
+    for m in labelled:
+        blocks = fenced(doc[m.end():m.end() + 900])
+        if not blocks:
+            continue
+        sm = SPEC.match(blocks[0][1].strip())
+        if not sm:
+            continue
+        want = derived.get(spec_key(sm.group(1), spec_assignments(sm.group(2))))
+        if want is not None:
+            by_label.setdefault(m.group(1), want)
+
+    # PASS 2 asserts every non-spec copy equals ITS OWN label's vector.
+    copies: dict[str, int] = {}
     for m in labelled:
         blocks = fenced(doc[m.end():m.end() + 900])
         if not blocks:
@@ -571,9 +608,24 @@ def check_repeated_blocks(derived: dict[str, bytes], doc: str, r: Report) -> Non
         body = blocks[0][1].strip().splitlines()[0]
         if SPEC.match(blocks[0][1].strip()):
             continue  # the §9 spec form; already asserted by check_golden_specs
+        label = m.group(1)
+        copies[label] = copies.get(label, 0) + 1
         got = " ".join(re.sub(r"\(.*", "", body).split())
-        r.check(f"{m.group(1)} inline copy reproduces a derived vector",
-                got in bare, f"doc has {got!r}; derived vectors are {sorted(bare)}")
+        want = by_label.get(label)
+        if want is None:
+            r.fail(f"{label} inline copy is pinned",
+                   f"no §9 spec block defines {label}, so nothing derives what this copy must equal")
+            continue
+        r.eq(f"{label} inline copy reproduces the {label} vector", got, hexs(want))
+
+    # AND A DELETED COPY MUST NOT PASS EITHER. Equality alone cannot see an
+    # absent block: removing §6's copy outright simply leaves fewer things to
+    # compare, which is green. The labelled-block floor above does not catch it
+    # either, because it counts §9's spec blocks in the same population.
+    for label in sorted(by_label):
+        r.check(f"{label} still has an inline §6 copy", copies.get(label, 0) >= 1,
+                f"§9 derives {label} but no non-spec block repeats it — the human-readable "
+                f"copy was removed, and equality checks alone cannot see an absence")
 
     cw = list(re.finditer(r"Length-(?:prefixed|framed) on the `CW` stream", doc))
     r.found("CW length-framed blocks", len(cw), 2)

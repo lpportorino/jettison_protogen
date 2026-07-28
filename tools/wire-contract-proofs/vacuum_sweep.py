@@ -23,7 +23,13 @@ import sys
 import tempfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+# Repo root is TWO levels up from tools/wire-contract-proofs/. The depth is
+# part of the path: move this file and every path below silently retargets,
+# and the legs then fail for a reason unrelated to what is under test -- a red
+# indistinguishable from a caught defect.
+ROOT = Path(__file__).resolve().parent.parent.parent
+_SCRATCH = ROOT / ".fork-scratch"
+_SCRATCH.mkdir(exist_ok=True)
 CHECKER = ROOT / "tools" / "wire_contract_check.py"
 SUMMARY = re.compile(
     r"wire-contract check: (GREEN — (\d+) assertions held|RED — (\d+) failed, (\d+) passed)")
@@ -37,7 +43,7 @@ def baseline_doc() -> str:
 
 def run(doc_text: str) -> tuple[int, int, int]:
     """(exit code, assertions passed, assertions failed) for one doc variant."""
-    with tempfile.NamedTemporaryFile("w", suffix=".md", dir=ROOT / ".fork-scratch",
+    with tempfile.NamedTemporaryFile("w", suffix=".md", dir=_SCRATCH,
                                      delete=True) as fh:
         fh.write(doc_text)
         fh.flush()

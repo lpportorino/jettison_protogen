@@ -37,7 +37,13 @@ import sys
 import tempfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+# Repo root is TWO levels up from tools/wire-contract-proofs/. The depth is
+# part of the path: move this file and every path below silently retargets,
+# and the legs then fail for a reason unrelated to what is under test -- a red
+# indistinguishable from a caught defect.
+ROOT = Path(__file__).resolve().parent.parent.parent
+_SCRATCH = ROOT / ".fork-scratch"
+_SCRATCH.mkdir(exist_ok=True)
 CHECKER = ROOT / "tools" / "wire_contract_check.py"
 G1 = "08 01 28 02 50 03 e2 01 00"
 G1B = "08 01 28 02 50 01 e2 01 00"
@@ -51,7 +57,7 @@ def git_doc() -> str:
 
 def run(text: str) -> tuple[int, list[str], list[str]]:
     fh = tempfile.NamedTemporaryFile("w", suffix=".md",
-                                     dir=ROOT / ".fork-scratch", delete=False)
+                                     dir=_SCRATCH, delete=False)
     fh.write(text)
     fh.close()
     try:

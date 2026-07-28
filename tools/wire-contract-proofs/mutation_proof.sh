@@ -16,7 +16,7 @@
 #   - a CONTROL clause is named and shown green.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 DOC="$ROOT/docs/INTERFACE-CONTRACTS.md"
 CHECK=(python3 "$ROOT/tools/wire_contract_check.py")
 
