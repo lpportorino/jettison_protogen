@@ -969,9 +969,10 @@
       (testing "and under a narrowed policy the SAME live vector is advisory"
         (is (zero? (outcome/exit-code
                     live
-                    {:fail-outcomes #{:failed} :fail-modes #{:automatic}
-                     :rationale "arming a contrast lane on a fresh corpus"
-                     :retires-when "the corpus is clean under the default"})))))))
+                    (waiver
+                     {:fail-outcomes #{:failed} :fail-modes #{:automatic}
+                      :rationale "arming a contrast lane on a fresh corpus"
+                      :retires-when "the corpus is clean under the default"}))))))))
 
 (deftest a-REGISTERED-manual-producer-is-reported-and-never-blocks
   (testing "what a VLM lane's disposition looks like ONCE it is armed as a

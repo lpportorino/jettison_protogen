@@ -23,7 +23,9 @@
    by the floor check, and a closed key set that had no canary at all."
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
-            [devcards.outcome :as outcome]))
+            [devcards.invariants :as invariants]
+            [devcards.outcome :as outcome])
+  (:import (java.time LocalDate)))
 
 (def ^:private legacy
   "A finding in the shape every producer emits today: no ACT axes at all."
@@ -35,14 +37,42 @@
   [& {:as axes}]
   (merge {:card "c" :invariant :contrast :producer :contrast} axes))
 
+(defn- days-out
+  "An ISO date string `n` days from the LIVE clock (negative = before).
+
+   DERIVED FROM `outcome/today`, never written as a literal, for the reason
+   `devcards.findings-test`'s waiver fixture carries: every policy below
+   reaches `validate-policy!`'s short arity and is therefore judged against
+   the real date, so a hardcoded `:expires` would pass until the day it did
+   not and then red this whole namespace on a morning nobody touched it, for
+   a reason unrelated to anything here tests. The expiry and horizon canaries
+   further down pin a date instead — they can, because they call the
+   explicit-date arity, and pinning is what lets them assert exact messages."
+  [n]
+  (str (.plusDays ^java.time.LocalDate (outcome/today) n)))
+
 (defn- narrowed
   "A policy that stops blocking on everything but a definite defect. It is
-   the ONE deviation the floors still permit, and it owes its proof."
+   the ONE deviation the floors still permit, and it owes its proof — all
+   FOUR keys, the same set `invariants/exemption-proof-keys` demands of a
+   scoped waiver."
   [& {:as extra}]
   (merge {:fail-outcomes #{:failed}
           :fail-modes #{:automatic}
           :rationale "a contrast lane is arming against a fresh corpus"
-          :retires-when "the corpus is clean under the shipped default"}
+          :retires-when "the corpus is clean under the shipped default"
+          :owner "devcards-maintainer"
+          :expires (days-out 30)}
+         extra))
+
+(defn- widened
+  "A policy that blocks on MORE than the shipped default. The mode floor is
+   the whole mode default, so this axis is the only one a widening can even
+   use — which is why the direction went unnoticed long enough for the run
+   header to print it as a NARROWING."
+  [& {:as extra}]
+  (merge (narrowed)
+         {:fail-outcomes (conj outcome/default-fail-outcomes :inapplicable)}
          extra))
 
 (defn- msg
@@ -64,6 +94,21 @@
    the NOT-EXERCISED line has something in scope to be silent about."
   [{:id :contrast :outcomes #{:failed :cantTell}}
    {:id :mask :outcomes #{:failed :untested}}])
+
+(def ^:private inapplicable-producers
+  "An armed set that can emit :inapplicable — the one outcome the shipped
+   default does NOT block, so it is the only thing a widening can add. Without
+   a producer declaring it, every widening is INERT and the widening canaries
+   below would be measuring inertness rather than direction."
+  [{:id :mask :outcomes #{:failed :inapplicable}}])
+
+(def ^:private pinned-now
+  "The date the expiry canaries are judged against. `validate-policy!`'s
+   two-arity takes it, so those messages can be asserted EXACTLY — a canary
+   written against the live clock could only assert `thrown?`, and `thrown?`
+   cannot tell the expiry clause from the horizon clause that reads the same
+   key."
+  (LocalDate/parse "2026-01-15"))
 
 ;; ── the compatibility pin ────────────────────────────────────────────────
 
@@ -616,19 +661,368 @@
     (is (str/includes?
          (str (msg #(outcome/validate-policy! (narrowed :fail-outcome #{:failed}))))
          "unknown keys")))
-  (testing "and a deviation owes the same proof an exemption owes"
-    (is (str/includes?
-         (str (msg #(outcome/validate-policy! (narrowed :rationale "  "))))
-         "owes :rationale"))
-    (is (str/includes?
-         (str (msg #(outcome/validate-policy! (dissoc (narrowed) :retires-when))))
-         "owes :retires-when")))
   (testing "CONTROL: the shipped default needs NO proof, and a fully-proven
             narrowing is accepted — so every throw above keys on its own
             clause and not on the call shape"
     (is (= outcome/default-policy
            (outcome/validate-policy! outcome/default-policy)))
     (is (outcome/validate-policy! (narrowed)))))
+
+;; ── the deviation owes the SAME FOUR KEYS the waiver owes ────────────────
+
+(deftest the-proof-a-concession-owes-has-ONE-HOME
+  (testing "the whole defect was two accountability shapes drifting apart, so
+            the repair is worth nothing if the two sets are merely EQUAL
+            today. They are the SAME OBJECT: `invariants/exemption-proof-keys`
+            reads `outcome/proof-keys`, and the horizon and the clock moved
+            with it, because a shared key set checked by two independent
+            clause bodies is the same drift wearing a shared name.
+            REVERT-TO-BREAK: re-spell either set as a literal in
+            `devcards.invariants`."
+    (is (identical? outcome/proof-keys invariants/exemption-proof-keys))
+    (is (= #{:rationale :retires-when :owner :expires} outcome/proof-keys))
+    (is (= outcome/horizon-days invariants/waiver-horizon-days)))
+  (testing "the CLOCK is one clock, proven by REDEF rather than by comparing
+            two live reads — which would agree by coincidence on every day but
+            one, and disagree across a midnight boundary for reasons unrelated
+            to delegation. Two clocks would expire a waiver and a deviation on
+            different mornings.
+            REVERT-TO-BREAK: give `invariants/today` its own
+            `(LocalDate/now ZoneOffset/UTC)` body back."
+    (with-redefs [outcome/today (constantly (LocalDate/parse "2020-06-01"))]
+      (is (= (LocalDate/parse "2020-06-01") (invariants/today)))))
+  (testing "and the policy's closed key set is DERIVED from it, so a key the
+            validator DEMANDS can never be a key it refuses as unknown. The
+            declared list in the unknown-key refusal is `policy-keys` itself,
+            so a re-spelling that dropped one would show up here AND make the
+            fully-proven narrowing throw.
+            REVERT-TO-BREAK: re-spell `policy-keys` as the two-proof-key
+            literal it was."
+    (let [m (str (msg #(outcome/validate-policy! (narrowed :fail-outcome #{:failed}))))]
+      (is (str/includes? m "unknown keys"))
+      (doseq [k outcome/proof-keys]
+        (is (str/includes? m (str k)) (str "declared: must name " k))))))
+
+(deftest a-policy-DEVIATION-owes-the-four-keys-a-WAIVER-owes
+  (testing "the GLOBAL act owed two prose strings while the SCOPED one owed
+            four including an :owner and an :expires a validator can enforce.
+            A `:fail-outcomes` that drops :cantTell silences a whole verdict
+            class on every card at once; a waiver silences one (card,
+            invariant, node, outcome, mode, reason) tuple. No reading makes
+            the broader act owe the smaller proof, so the deviation came up to
+            the waiver rather than the reverse.
+            REVERT-TO-BREAK: delete the `(when (deviation policy)
+            (check-proof! …))` form at the end of `validate-policy!`."
+    (doseq [[k broken] [[:owner (narrowed :owner "   ")]
+                        [:owner (dissoc (narrowed) :owner)]
+                        [:rationale (narrowed :rationale "  ")]
+                        [:retires-when (dissoc (narrowed) :retires-when)]]]
+      (is (str/includes? (str (msg #(outcome/validate-policy! broken)))
+                         (str k " must be a non-blank string"))
+          (str k " " (pr-str broken)))))
+  (testing "and the message says WHICH act it is refusing, so a red is
+            routable back to the policy rather than to some waiver list
+            (the two share one clause body and differ only in this noun).
+            REVERT-TO-BREAK: pass \"waiver\" as `check-proof!`'s subject in
+            `validate-policy!` — `devcards.invariants-test` stays GREEN under
+            that mutation, which is exactly what makes this canary its own."
+    (is (str/includes? (str (msg #(outcome/validate-policy!
+                                   (dissoc (narrowed) :owner))))
+                       "the proof a policy deviation owes is mandatory")))
+  (testing ":expires is the fourth key and its FIRST clause is the same
+            non-blank one — an entry that never tried to have a date reads
+            differently from one typed wrong, and the two repairs differ.
+            REVERT-TO-BREAK: delete the string/blank guard in `proof-expiry`."
+    (is (str/includes? (str (msg #(outcome/validate-policy!
+                                   (dissoc (narrowed) :expires))))
+                       ":expires must be an ISO-8601 date STRING"))
+    (is (str/includes? (str (msg #(outcome/validate-policy!
+                                   (narrowed :expires (LocalDate/parse "2026-02-01")))))
+                       ":expires must be an ISO-8601 date STRING")))
+  (testing "and a date typed WRONG is its own clause.
+            REVERT-TO-BREAK: delete the DateTimeParseException catch in
+            `proof-expiry`."
+    (doseq [bad ["soon" "2026-13-01" "2026-02-30" "1/1/2026" "2026-1-1"]]
+      (is (str/includes? (str (msg #(outcome/validate-policy!
+                                     (narrowed :expires bad))))
+                         "is not an ISO-8601 date")
+          bad)))
+  (testing "CONTROL: the fully-proven narrowing validates and the SHIPPED
+            DEFAULT owes none of the four, so every throw above keys on its
+            own clause and not on 'any policy at all'"
+    (is (outcome/validate-policy! (narrowed)))
+    (is (= outcome/default-policy
+           (outcome/validate-policy! outcome/default-policy)))
+    (doseq [k outcome/proof-keys]
+      (is (not (contains? outcome/default-policy k))
+          (str "the shipped default must not carry " k)))))
+
+(deftest an-EXPIRED-policy-deviation-is-a-HARD-failure-that-NAMES-ITS-OWNER
+  (testing "this is what makes a global concession TEMPORARY. Before it, a
+            `:fail-outcomes` narrowed once stayed narrowed forever: the only
+            retirement condition was prose no machine can evaluate, so the
+            decision could only be re-taken by someone remembering to look.
+            REVERT-TO-BREAK: delete the `.isBefore` clause in `check-proof!`."
+    (let [m (str (msg #(outcome/validate-policy!
+                        (narrowed :expires "2026-01-14") pinned-now)))]
+      (is (str/includes? m "policy deviation EXPIRED on 2026-01-14 (1 day ago)"))
+      (testing "and it ROUTES ITSELF — the red arrives with a person on it,
+                which is the entire purchase of :owner"
+        (is (str/includes? m "devcards-maintainer")))
+      (testing "CONTROL — ATTRIBUTION: it carries NONE of the horizon
+                clause's wording. The horizon reads the SAME key and would
+                refuse a bad date for its own reason, so without this the red
+                above could be its neighbour's"
+        (is (not (str/includes? m "at most")))
+        (is (not (str/includes? m " out —"))))))
+  (testing "CONTROL — THE BOUNDARY: a deviation expiring TODAY is still in
+            force. One day apart, every other key byte-identical: one throws,
+            one validates — so the clause keys on the DATE"
+    (is (nil? (msg #(outcome/validate-policy!
+                     (narrowed :expires "2026-01-15") pinned-now))))))
+
+(deftest the-HORIZON-refuses-a-deviation-written-never-to-lapse
+  (testing "the opposite mistake to expiry: `:expires \"2099-01-01\"`
+            satisfies every other clause and is a permanent deviation with a
+            date painted on it. The bound is read from `outcome/horizon-days`
+            rather than typed, so a canary written against the constant cannot
+            pass a silently widened one.
+            REVERT-TO-BREAK: delete the `.isAfter` clause in `check-proof!`."
+    (is (str/includes?
+         (str (msg #(outcome/validate-policy!
+                     (narrowed :expires (str (.plusDays pinned-now
+                                                        (inc outcome/horizon-days))))
+                     pinned-now)))
+         (str "at most " outcome/horizon-days " days"))))
+  (testing "CONTROL — THE BOUNDARY: exactly the horizon validates, so the
+            throw keys on crossing it and not on being far away"
+    (is (nil? (msg #(outcome/validate-policy!
+                     (narrowed :expires (str (.plusDays pinned-now
+                                                        outcome/horizon-days)))
+                     pinned-now)))))
+  (testing "CONTROL — ATTRIBUTION: the horizon message does NOT say EXPIRED.
+            The two clauses read the same key and can never both fire, so each
+            red must be readable back to one of them"
+    (is (not (str/includes?
+              (str (msg #(outcome/validate-policy!
+                          (narrowed :expires (str (.plusDays pinned-now
+                                                             (inc outcome/horizon-days))))
+                          pinned-now)))
+              "EXPIRED"))))
+  (testing "and the ONE horizon governs BOTH acts. A global concession on a
+            LONGER leash than a card-scoped one is the inversion this whole
+            change removes, and nothing here can source a shorter number"
+    (is (= 90 outcome/horizon-days))))
+
+(deftest the-DEFAULT-CLOCK-is-live-on-the-policy-path-too
+  (testing "the 1-arity — the one `verdict`, and therefore every caller in
+            this repo, reaches — reads a REAL clock rather than a frozen one.
+            Both inputs below are stable forever: a date in 2020 can never
+            stop being past, and one day from `outcome/today` can never stop
+            being future.
+            REVERT-TO-BREAK: replace `(today)` in `validate-policy!`'s
+            1-arity with `(LocalDate/parse \"2026-01-15\")` — the first
+            assertion survives that (2020 is still past) and the SECOND fails,
+            because a date one day from the real now is then far beyond the
+            frozen horizon."
+    (is (str/includes?
+         (str (msg #(outcome/validate-policy! (narrowed :expires "2020-01-01"))))
+         "policy deviation EXPIRED on 2020-01-01"))
+    (is (nil? (msg #(outcome/validate-policy! (narrowed :expires (days-out 1))))))))
+
+;; ── the RATCHET: a deviation that matches nothing ────────────────────────
+;; `apply-exemptions` reports a waiver matching no finding as :stale-exemption,
+;; so the waiver list can only shrink. A deviation had no analogue — and
+;; "nothing to go stale against" was the defect rather than a missing
+;; convenience. `demoted-findings` supplies the relation; these pin the ratchet
+;; over it.
+
+(defn- dev-run
+  "`verdict` over `findings` under `policy` with `producers` armed, reduced to
+   the two things every canary below reads: the exit code and the ONE
+   DEVIATION line. Reading the line rather than only the colour is what makes
+   :stale distinguishable from :inert — both are red, and a canary that
+   asserted only non-zero could not tell which clause produced it."
+  [findings policy producers]
+  (let [v (outcome/verdict findings policy {:producers producers})]
+    {:exit (:exit v)
+     :status (:status (:deviation v))
+     :line (first (filter #(str/starts-with? % "DEVIATION") (:lines v)))}))
+
+(deftest a-STALE-deviation-FAILS-THE-RUN-on-an-EMPTY-corpus-too
+  (testing "the ratchet a global concession never had. This policy stops
+            blocking on :cantTell and :untested; an ARMED producer declares it
+            can emit both; and the run produced NO finding the policy demoted.
+            The concession bought nothing, so it is debt with no purchase and
+            the run fails on it — exactly as a waiver that matched no finding
+            is itself a finding.
+
+            THE EMPTY CORPUS IS THE POINT, not a convenience. A stale
+            deviation is most likely to be discovered on a clean run, which is
+            precisely where a verdict inferred from a blocking COUNT reads
+            zero — the same defect that once printed 'failing CLOSED' and
+            exited 0.
+            REVERT-TO-BREAK: drop `dev-problem` from `verdict`'s `:exit`
+            expression."
+    (let [r (dev-run [] (narrowed) three-way-producers)]
+      (is (= :stale (:status r)))
+      (is (= 1 (:exit r)))
+      (is (str/includes? (str (:line r)) "DEVIATION IS STALE"))
+      (is (str/includes? (str (:line r)) "[:cantTell :untested]"))))
+  (testing "CONTROL: the IDENTICAL policy and armed set over a corpus that
+            DOES contain a demoted finding is :live and exits 0 — so the red
+            above keys on the deviation having demoted nothing, and not on the
+            narrowing itself nor on the empty vector"
+    (let [r (dev-run [(act :act/outcome :cantTell :act/reason :noise-band)]
+                     (narrowed) three-way-producers)]
+      (is (= :live (:status r)))
+      (is (zero? (:exit r)))
+      (is (str/includes? (str (:line r)) "demoted 1 finding(s)"))))
+  (testing "CONTROL: the SHIPPED DEFAULT over the same empty vector and the
+            same armed set reports no deviation at all and exits 0, so none of
+            this reaches a run that did not deviate — protogen's own gate
+            included (`lanes/verdict-policy` IS the default)"
+    (let [r (dev-run [] outcome/default-policy three-way-producers)]
+      (is (nil? (:status r)))
+      (is (nil? (:line r)))
+      (is (zero? (:exit r)))))
+  (testing "and a MALFORMED finding does not keep a stale deviation looking
+            live: it blocks under every policy, so no policy can have demoted
+            it. The one below carries a :cantTell that WOULD be demoted on its
+            outcome alone — it is malformed only because nothing stamped it
+            :producer — so without the exclusion the deviation reads :live and
+            the ratchet is disarmed by a finding it has nothing to do with.
+            The exit is 1 either way (a malformed finding always blocks), so
+            :status is the only assertion that can see this.
+            REVERT-TO-BREAK: drop the `(nil? (axis-problem %))` conjunct from
+            `demoted-findings`."
+    (let [r (dev-run [{:card "c" :invariant :contrast
+                       :act/outcome :cantTell :act/reason :noise-band}]
+                     (narrowed) three-way-producers)]
+      (is (= :stale (:status r))))))
+
+(deftest a-deviation-NOTHING-ARMED-CAN-EMIT-is-INERT-and-says-which
+  (testing "`validate-policy!` already refuses a policy naming :passed —
+            'never reachable on a finding, so the clause could never fire'.
+            That is decidable from the VOCABULARY. The same defect against the
+            ARMED SET is not: only a run knows which producers are armed, so a
+            shape check cannot see it and this is the only layer that can.
+            REVERT-TO-BREAK: delete the `(not-any? emittable touched)` branch
+            of `deviation-status`'s cond."
+    (let [r (dev-run [] (narrowed) legacy-only-producers)]
+      (is (= :inert (:status r)))
+      (is (= 1 (:exit r)))
+      (is (str/includes? (str (:line r)) "DEVIATION IS INERT"))
+      (is (str/includes? (str (:line r)) "could not have changed a single verdict"))))
+  (testing "CONTROL — ATTRIBUTION: the same policy against an armed set that
+            CAN emit those outcomes is STALE, not inert. Both are red, so the
+            colour alone proves nothing; the two verdicts mean different
+            things and demand different repairs (remove the deviation vs. the
+            deviation was never reachable), and the messages are disjoint"
+    (let [r (dev-run [] (narrowed) three-way-producers)]
+      (is (= :stale (:status r)))
+      (is (not (str/includes? (str (:line r)) "INERT")))))
+  (testing "and a WIDENING onto an unemittable outcome is inert by the same
+            clause — 'reads as a tightening and is not' is direction-free"
+    (let [r (dev-run [] (widened) three-way-producers)]
+      (is (= :inert (:status r)))
+      (is (= 1 (:exit r))))))
+
+(deftest a-WIDENING-cannot-go-STALE-and-is-not-called-a-NARROWING
+  (testing "the asymmetry is the argument, not an omission. A NARROWING that
+            demoted nothing is a concession that conceded nothing. A WIDENING
+            that blocked nothing extra is a guard over a clean corpus — the
+            state it was written to reward — and calling that stale would
+            ratchet OUT the strictest policies this validator permits.
+            REVERT-TO-BREAK: drop the `(= :narrowing kind)` conjunct from
+            `deviation-status`'s :stale branch."
+    (let [r (dev-run [] (widened) inapplicable-producers)]
+      (is (= :live (:status r)))
+      (is (zero? (:exit r)))
+      (is (str/includes? (str (:line r)) "WIDENED"))
+      (testing "and it reports what it ADDS rather than what it demoted — a
+                widening demotes 0 by definition, so printing that number
+                would be the same digit on every possible widening run.
+                REVERT-TO-BREAK: print the :demoted branch for both kinds."
+        (is (str/includes? (str (:line r)) "blocks additionally on"))
+        (is (str/includes? (str (:line r)) "[:inapplicable]"))
+        (is (not (str/includes? (str (:line r)) "demoted"))))))
+  (testing "CONTROL: a NARROWING over an armed set that can reach it, with the
+            same empty corpus, IS stale and DOES fail — so the zero above is
+            the direction and not a ratchet that stopped reading its input"
+    (let [r (dev-run [] (narrowed) three-way-producers)]
+      (is (= :stale (:status r)))
+      (is (= 1 (:exit r)))))
+  (testing "and the run HEADER names the direction. It printed NARROWED for
+            any policy differing from the default, so a policy blocking on
+            MORE announced itself as a relaxation — the one line that
+            discloses the deviation was able to describe it backwards.
+            REVERT-TO-BREAK: return the literal \"NARROWED\" from
+            `describe-policy`'s deviation branch."
+    (let [line (outcome/describe-policy (widened))]
+      (is (str/includes? line "WIDENED"))
+      (is (not (str/includes? line "NARROWED"))))
+    (testing "CONTROL: a real narrowing still says NARROWED, so the assertion
+              above is not true of every deviating policy"
+      (is (str/includes? (outcome/describe-policy (narrowed)) "NARROWED"))))
+  (testing "and the header carries the WHOLE proof now — a global concession
+            whose owner and expiry never reach the log is one nobody can route
+            or retire"
+    (let [line (outcome/describe-policy (narrowed))]
+      (is (str/includes? line "devcards-maintainer"))
+      (is (str/includes? line (days-out 30))))))
+
+(deftest an-UNSUPPLIED-armed-set-leaves-the-RATCHET-UNARMED-and-says-so
+  (testing "the ratchet cannot fire without knowing what is armed, and the
+            honest report of that is an admission rather than a pass. This is
+            the same three-way the NOT-EXERCISED line already draws: 'I could
+            not look' is not 'nothing to report'.
+            REVERT-TO-BREAK: make the `(nil? emittable)` branch of
+            `deviation-status`'s cond yield `:inert` — a determinate verdict
+            computed from an absent input. DELETING the branch instead is not
+            the mutation to run: `not-any?` would then call nil as a
+            predicate and the namespace reds with an NPE, an ERROR that
+            executes nothing and names no clause."
+    (let [v (outcome/verdict [] (narrowed))
+          line (first (filter #(str/starts-with? % "DEVIATION") (:lines v)))]
+      (is (= :undetermined (:status (:deviation v))))
+      (is (str/includes? (str line) "UNDETERMINED"))
+      (is (str/includes? (str line) "Pass :producers"))
+      (testing "and it does NOT fail the run. A verdict the run could not
+                compute must not be spent as either colour, and the two-arity
+                is a legitimate entry point — so this path is UNARMED and says
+                so, never silently green"
+        (is (zero? (:exit v))))))
+  (testing "CONTROL: supplying the armed set over the identical inputs
+            replaces the admission with a determinate verdict, so the line
+            above is the missing input and not a constant"
+    (let [r (dev-run [] (narrowed) three-way-producers)]
+      (is (= :stale (:status r)))
+      (is (not (str/includes? (str (:line r)) "UNDETERMINED"))))))
+
+(deftest a-four-key-narrowing-still-makes-a-REGISTERED-cantTell-advisory
+  (testing "the behaviour `devcards.findings-test`'s end-to-end canary asserts
+            — a narrowed policy demotes a :cantTell to advisory — is UNCHANGED
+            by the four keys; what changed is the proof the policy owes to say
+            so. That fixture predates the accountability keys and carries only
+            two, so it now trips `validate-policy!` and needs `:owner` +
+            `:expires` added (its own `waiver` helper already completes
+            exemptions the same way). This assertion is the same claim under a
+            complete policy, so the required repair there is a fixture edit
+            and not a behaviour change."
+    (let [live [(act :act/outcome :cantTell :act/reason :noise-band)]]
+      (is (zero? (outcome/exit-code live (narrowed) {:producers three-way-producers})))
+      (is (empty? (outcome/blocking live (narrowed))))
+      (testing "CONTROL: the two-key policy that fixture uses is now refused,
+                and the refusal names the missing key rather than the
+                behaviour"
+        (is (str/includes?
+             (str (msg #(outcome/blocking
+                         live
+                         {:fail-outcomes #{:failed} :fail-modes #{:automatic}
+                          :rationale "arming a contrast lane on a fresh corpus"
+                          :retires-when "the corpus is clean under the default"})))
+             ":owner must be a non-blank string"))))))
 
 (deftest describe-policy-prints-a-narrowing-and-its-proof
   (testing "the least a decision to stop failing on something owes is a line

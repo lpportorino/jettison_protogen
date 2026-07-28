@@ -100,10 +100,8 @@
                               tree must put the slug in :rationale prose
                               rather than in a field something could
                               resolve."
-  (:require [clojure.string :as str]
-            [devcards.outcome :as outcome])
-  (:import (java.time LocalDate ZoneOffset)
-           (java.time.format DateTimeParseException)
+  (:require [devcards.outcome :as outcome])
+  (:import (java.time LocalDate)
            (java.time.temporal ChronoUnit)))
 
 (set! *warn-on-reflection* true)
@@ -386,8 +384,16 @@
    be a second fact free to disagree with git. `expires <= today + 90` is
    stable under the passage of time — the gap only shrinks — so an entry that
    passed on the day it was written can never start failing THIS clause
-   later. Only the expiry clause fires with time, which is what expiry is."
-  90)
+   later. Only the expiry clause fires with time, which is what expiry is.
+
+   THE VALUE IS `outcome/horizon-days`, read rather than re-spelled, and it
+   moved there because it is not a waiver-only number any more: a GLOBAL
+   policy deviation runs on the same horizon (`outcome/validate-policy!`).
+   Two constants named for the two acts would be free to disagree about how
+   long a concession may live — the exact class of drift that let the global
+   act owe less proof than the scoped one. The NAME stays here because
+   `devcards.standard-brief` and the generated STANDARD.md splice it."
+  outcome/horizon-days)
 
 (defn today
   "The gate's clock: the current date in UTC.
@@ -400,13 +406,26 @@
 
    Callers pass a date explicitly wherever the answer must be reproducible —
    `validate-exemptions!` and `apply-exemptions` both take one — so this is
-   the DEFAULT and never the only source."
+   the DEFAULT and never the only source.
+
+   DELEGATES TO `outcome/today` for the reason `waiver-horizon-days` carries:
+   the policy validator reads a clock now too, and two clocks would expire a
+   waiver and a policy deviation on different mornings."
   ^LocalDate []
-  (LocalDate/now ZoneOffset/UTC))
+  (outcome/today))
 
 (def exemption-proof-keys
   "The PROOF an exemption owes, independent of what it matches. All four are
-   mandatory non-blank strings.
+   mandatory non-blank strings. THE SET IS `outcome/proof-keys`, read rather
+   than re-spelled.
+
+   IT WAS NEVER EXEMPTION-SPECIFIC, and the move records that. The GLOBAL
+   policy deviation owes the same four, through the same `check-proof!`; a
+   proof set living in the namespace of ONE of the two acts is a proof set the
+   other can quietly diverge from, and divergence is exactly what happened —
+   the scoped waiver gained an :owner and an :expires while the global
+   deviation kept two prose strings. The NAME stays here because
+   `devcards.standard-brief` and the ui-standard-review SKILL.md read it.
 
    :rationale and :retires-when are the argument: why this finding is not a
    defect, and what event makes the entry unnecessary. :owner and :expires
@@ -426,7 +445,7 @@
    verification, it is that the expiry failure below has a name in it to
    route to; an unfalsifiable allowlist of real humans would be a second
    register free to rot against the team."
-  #{:rationale :retires-when :owner :expires})
+  outcome/proof-keys)
 
 (def exemption-match-keys
   "The axes an entry MATCHES on — the conjunct `exempt?` evaluates. :card and
@@ -460,39 +479,6 @@
    mode went missing here in the first place; a generated brief that
    re-spelled it would rot the same way, silently."
   (into exemption-match-keys exemption-proof-keys))
-
-(defn- plural-days
-  "`n` as \"1 day\" / \"3 days\". One home, because both expiry messages count
-   days and a red morning is the worst time to be reading `1 days`."
-  ^String [n]
-  (str n " day" (when (not= 1 n) "s")))
-
-(defn- expiry-date
-  "`e`'s :expires as a `LocalDate`, or an `exemption-error` naming exactly
-   which shape it failed. Two clauses, not one, and they are kept apart
-   because they diagnose different mistakes: a missing/blank/non-string
-   :expires is an entry that never tried to have a date, while an
-   unparseable one is a date typed wrong (`\"2026-13-01\"`, `\"soon\"`,
-   `\"1/1/2026\"`).
-
-   A STRING and never a `java.time.LocalDate` literal, for the reason
-   `:node` already carries: the exemption list is DATA — committed, reviewed
-   and round-tripped through EDN — and `LocalDate` has no EDN reader, so an
-   entry carrying one could not survive the file it lives in. `#inst` would
-   round-trip but drags a time-of-day and a zone that mean nothing to a
-   day-resolution decision."
-  ^LocalDate [e]
-  (let [v (:expires e)]
-    (when-not (and (string? v) (not (str/blank? v)))
-      (exemption-error e (str ":expires must be an ISO-8601 date STRING "
-                              "(YYYY-MM-DD) — a waiver with no date cannot "
-                              "expire, and it is EDN data like :card and "
-                              ":node rather than a Java object")))
-    (try
-      (LocalDate/parse ^String v)
-      (catch DateTimeParseException _
-        (exemption-error e (str ":expires " (pr-str v) " is not an ISO-8601 "
-                                "date (YYYY-MM-DD)"))))))
 
 (defn validate-exemptions!
   "Exemptions shape check — every entry carries the four
@@ -556,40 +542,13 @@
        (when (contains? e :act/reason)
          (exemption-error e (str ":act/reason without an :act/outcome in "
                                  (vec (sort outcome/reasoned-outcomes))))))
-     ;; The three PROSE proof keys. :expires is the fourth and is checked
-     ;; separately below because non-blank is only its first clause; deriving
-     ;; this vector from `exemption-proof-keys` minus :expires would read as
-     ;; though the two halves were interchangeable, and sorted so a
-     ;; multi-defect entry always names the same key first.
-     (doseq [k [:owner :rationale :retires-when]]
-       (when-not (and (string? (get e k)) (not (str/blank? (get e k))))
-         (exemption-error
-          e
-          (str k " must be a non-blank string — the proof is mandatory"))))
-     ;; ── the two expiry clauses ──────────────────────────────────────────
-     ;; They can never both fire (a date cannot be both before `now` and more
-     ;; than the horizon after it), so neither can mask the other and their
-     ;; order carries no meaning. Each message is written to contain a token
-     ;; the other does not — "EXPIRED" against "at most" — because a canary
-     ;; that can only assert `thrown?` cannot tell a clause from its
-     ;; neighbour, and these two are the closest neighbours in this fn: they
-     ;; read the SAME key.
-     (let [^LocalDate expires (expiry-date e)]
-       (when (.isBefore expires now)
-         (exemption-error
-          e
-          (str "waiver EXPIRED on " expires " ("
-               (plural-days (.between ChronoUnit/DAYS expires now))
-               " ago) — re-take the decision or fix the finding. Owner: "
-               (pr-str (:owner e)))))
-       (when (.isAfter expires (.plusDays now waiver-horizon-days))
-         (exemption-error
-          e
-          (str ":expires " expires " is "
-               (plural-days (.between ChronoUnit/DAYS now expires))
-               " out — a waiver may run at most " waiver-horizon-days
-               " days (waiver-horizon-days). A date beyond the horizon is a "
-               "permanent waiver with a date on it.")))))
+     ;; The four proof keys and the two expiry clauses, through
+     ;; `outcome/check-proof!` — the SAME call the global policy deviation
+     ;; makes, with "waiver" as the noun its messages read with. They were
+     ;; spelled here until the deviation was brought up to the same four keys;
+     ;; leaving a second copy behind would have recreated, inside one release,
+     ;; the drift the move exists to close.
+     (outcome/check-proof! e now #(exemption-error e %) "waiver"))
    exemptions))
 
 (defn- exempt?
@@ -686,7 +645,7 @@
                         first)]
        (str (count exemptions) " waiver" (when (not= 1 (count exemptions)) "s")
             ", next lapses " next-up " ("
-            (plural-days (.between ChronoUnit/DAYS now ^LocalDate next-up))
+            (outcome/plural-days (.between ChronoUnit/DAYS now ^LocalDate next-up))
             ")")))))
 
 (defn apply-exemptions

@@ -52,8 +52,19 @@
    that printed a standard's name would be claiming a conformance no gate
    here measures. `report-lines` is pinned against that by its own canary.
 
-   Requires nothing, so it loads under the :test alias, which `devcards.core`
-   does not (core drags `devcards.fixtures` and the generated bindings). That
+   IT IS ALSO THE HOME OF THE PROOF A CONCESSION OWES — `proof-keys`,
+   `today`, `horizon-days`, `check-proof!` — and that placement is forced the
+   same way this namespace's existence is. Two acts stop a finding from
+   failing a run: a SCOPED waiver (`devcards.invariants`) and this file's
+   GLOBAL policy deviation. `devcards.invariants` requires THIS ns, so a
+   shared definition can only live here; put it there and the policy side
+   would need a require that closes a cycle, and the only remaining option is
+   to spell the four keys and the two expiry clauses twice — in the one design
+   whose entire subject is two accountability shapes drifting apart.
+
+   Requires no devcards namespace, so it loads under the :test alias, which
+   `devcards.core` does not (core drags `devcards.fixtures` and the generated
+   bindings — `java.time` is an import and costs nothing here). That
    is the same reason `devcards.lanes` exists: an exit rule that cannot be
    named in a test cannot be pinned by one. So the gate's exit expression is
    NOT here and is not in `core.clj` either — it is
@@ -69,7 +80,10 @@
    failed closed, so a malformed policy printed 'failing CLOSED' and exited
    0). `blocking` remains, and is the only strict entry point; nothing that
    decides a process verdict may call it."
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str])
+  (:import (java.time LocalDate ZoneOffset)
+           (java.time.format DateTimeParseException)
+           (java.time.temporal ChronoUnit)))
 
 (set! *warn-on-reflection* true)
 
@@ -192,35 +206,267 @@
 (def default-policy
   {:fail-outcomes default-fail-outcomes :fail-modes default-fail-modes})
 
+;; ── the PROOF a concession owes, in ONE home ─────────────────────────────
+;; Everything from here to `check-proof!` is shared by the two acts that stop
+;; a finding from failing a run. `devcards.invariants` reads it for the scoped
+;; WAIVER; `validate-policy!` below reads it for the GLOBAL deviation. See the
+;; ns docstring for why the shared home can only be this file.
+
+(def horizon-days
+  "The OUTER BOUND on a concession's life, in days. An entry whose `:expires`
+   is further out than this is refused at write time.
+
+   The horizon is a separate clause from expiry and catches the opposite
+   mistake: expiry catches a concession that OUTLIVED its decision, the
+   horizon catches one written never to lapse in the first place. Without it,
+   `:expires \"2099-01-01\"` satisfies every other clause here and is a
+   permanent concession carrying a date — precisely the shape `:retires-when`
+   prose already was.
+
+   Measured against the clock rather than against a write date, deliberately:
+   nothing records when an entry was authored, and a stored write date would
+   be a second fact free to disagree with git. `expires <= today + 90` is
+   stable under the passage of time — the gap only shrinks — so an entry that
+   passed on the day it was written can never start failing THIS clause
+   later. Only the expiry clause fires with time, which is what expiry is.
+
+   ONE HORIZON FOR BOTH ACTS, and the alternative was considered rather than
+   skipped. A global deviation could be argued onto a SHORTER leash than a
+   card-scoped waiver, since it silences a whole verdict class — but any
+   shorter number would be an unsourced constant no measurement here supports,
+   and this repo refuses those. A LONGER one is the inversion this whole
+   design removes: more rope for the broader act. So: the same number, and the
+   decision is recorded here rather than left to look like an oversight."
+  90)
+
+(defn today
+  "The gate's clock: the current date in UTC.
+
+   UTC RATHER THAN THE DEFAULT ZONE, and this is not fussiness. protogen is
+   the pinned upstream for a 10+ repo fleet whose CI runners and operators sit
+   in unknown zones; with a local-zone clock the same concession is expired in
+   one checkout and live in another for up to a day, and the two disagree
+   about whether the gate is red. One day boundary for the whole fleet.
+
+   Callers pass a date explicitly wherever the answer must be reproducible —
+   `validate-policy!` and `invariants/validate-exemptions!` both take one — so
+   this is the DEFAULT and never the only source."
+  ^LocalDate []
+  (LocalDate/now ZoneOffset/UTC))
+
+(def proof-keys
+  "The PROOF a concession owes, independent of what it applies to. All four
+   are mandatory non-blank strings.
+
+   :rationale and :retires-when are the argument: why this finding is not a
+   defect, and what event makes the concession unnecessary. :owner and
+   :expires are the ACCOUNTABILITY — an entry carrying only the first two is a
+   decision with no author and no end.
+
+   :retires-when SURVIVES the arrival of :expires, and merging them would
+   lose the half that matters. The retirement CONDITION is a real-world event
+   ('the mask emitter lands') that no machine here can evaluate; the DATE is
+   the outer bound at which the decision must be re-taken whether or not that
+   event happened. Keeping only the date tells you WHEN to look and not WHAT
+   for; keeping only the prose is what let a concession be permanent while
+   claiming otherwise. Both, or neither is worth having.
+
+   WHAT :owner CANNOT SEE, said out loud so no pass message over-claims: the
+   check is `non-blank string`. `:owner \"TODO\"` passes. What it buys is not
+   verification, it is that the expiry failure below has a name in it to route
+   to; an unfalsifiable allowlist of real humans would be a second register
+   free to rot against the team.
+
+   THE SAME FOUR FOR BOTH ACTS. A `:fail-outcomes` that drops :cantTell is
+   GLOBAL — it silences a whole verdict class on every card at once — while a
+   waiver is scoped to one (card, invariant, node, outcome, mode, reason)
+   tuple. There is no reading on which the broader act owes the smaller proof,
+   and for one release cycle it owed exactly that: two prose strings, no
+   author, no end. `devcards.invariants/exemption-proof-keys` is this set."
+  #{:rationale :retires-when :owner :expires})
+
+(def ^:private prose-proof-keys
+  "The three proof keys whose whole check is `non-blank string`. :expires is
+   the fourth and is checked separately, because non-blank is only its first
+   clause; deriving this vector from `proof-keys` minus :expires would read as
+   though the two halves were interchangeable. Sorted, so a multi-defect entry
+   always names the same key first."
+  [:owner :rationale :retires-when])
+
+(defn plural-days
+  "`n` as \"1 day\" / \"3 days\". One home, because every message here counts
+   days and a red morning is the worst time to be reading `1 days`.
+
+   PUBLIC because `invariants/waiver-summary` counts days too and re-spelling
+   it there is how the two would come to disagree about the singular."
+  ^String [n]
+  (str n " day" (when (not= 1 n) "s")))
+
+(defn- proof-expiry
+  "`m`'s :expires as a `LocalDate`, or `(error! …)` naming exactly which shape
+   it failed. Two clauses, not one, and they are kept apart because they
+   diagnose different mistakes: a missing/blank/non-string :expires is an
+   entry that never tried to have a date, while an unparseable one is a date
+   typed wrong (`\"2026-13-01\"`, `\"soon\"`, `\"1/1/2026\"`).
+
+   A STRING and never a `java.time.LocalDate` literal, for the reason `:node`
+   already carries on the waiver side: a concession is DATA — committed,
+   reviewed and round-tripped through EDN — and `LocalDate` has no EDN reader,
+   so an entry carrying one could not survive the file it lives in. `#inst`
+   would round-trip but drags a time-of-day and a zone that mean nothing to a
+   day-resolution decision."
+  ^LocalDate [m error!]
+  (let [v (:expires m)]
+    (when-not (and (string? v) (not (str/blank? v)))
+      (error! (str ":expires must be an ISO-8601 date STRING (YYYY-MM-DD) — a "
+                   "concession with no date cannot expire, and it is EDN data "
+                   "like every other key here rather than a Java object")))
+    (try
+      (LocalDate/parse ^String v)
+      (catch DateTimeParseException _
+        (error! (str ":expires " (pr-str v) " is not an ISO-8601 "
+                     "date (YYYY-MM-DD)"))))))
+
+(defn check-proof!
+  "Assert `m` carries all four `proof-keys`, judged against `now`. `error!` is
+   the caller's one-argument refusal (it throws; nothing here returns from
+   it), and `subject` is the noun its messages read with — \"waiver\" for a
+   scoped exemption, \"policy deviation\" for a global one. Returns `m`.
+
+   THE SUBJECT IS A NOUN AND NOT A SECOND CODE PATH. Both callers run these
+   exact five clauses in this exact order; only the word in the sentence
+   differs, so a red is still readable back to the act that produced it while
+   the clauses themselves cannot drift. That is the whole reason this fn
+   exists rather than being spelled once per caller — the defect it was
+   written to close was two accountability shapes diverging while both looked
+   like proof.
+
+   Nothing here is a function of what `m` otherwise IS. That is what makes one
+   home possible: the proof a concession owes has never depended on what it
+   concedes."
+  [m ^LocalDate now error! subject]
+  (doseq [k prose-proof-keys]
+    (when-not (and (string? (get m k)) (not (str/blank? (get m k))))
+      (error! (str k " must be a non-blank string — the proof a " subject
+                   " owes is mandatory"))))
+  ;; ── the two expiry clauses ──────────────────────────────────────────────
+  ;; They can never both fire (a date cannot be both before `now` and more
+  ;; than the horizon after it), so neither can mask the other and their order
+  ;; carries no meaning. Each message is written to contain a token the other
+  ;; does not — "EXPIRED" against "at most" — because a canary that can only
+  ;; assert `thrown?` cannot tell a clause from its neighbour, and these two
+  ;; are the closest neighbours here: they read the SAME key.
+  (let [^LocalDate expires (proof-expiry m error!)]
+    (when (.isBefore expires now)
+      (error! (str subject " EXPIRED on " expires " ("
+                   (plural-days (.between ChronoUnit/DAYS expires now))
+                   " ago) — re-take the decision or fix the finding. Owner: "
+                   (pr-str (:owner m)))))
+    (when (.isAfter expires (.plusDays now horizon-days))
+      (error! (str ":expires " expires " is "
+                   (plural-days (.between ChronoUnit/DAYS now expires))
+                   " out — a " subject " may run at most " horizon-days
+                   " days (outcome/horizon-days). A date beyond the horizon is "
+                   "a permanent concession with a date on it."))))
+  m)
+
 (def ^:private policy-keys
-  #{:fail-outcomes :fail-modes :rationale :retires-when})
+  "Every key a policy may carry: the two blocking sets, plus the proof any
+   deviation from the shipped default owes. DERIVED from `proof-keys` rather
+   than re-spelled — a re-spelled list is how a mandatory key ends up refused
+   as unknown by the very validator that demands it."
+  (into #{:fail-outcomes :fail-modes} proof-keys))
 
 (defn- policy-error
   [policy problem]
   (throw (ex-info (str "malformed verdict policy: " problem) {:policy policy})))
 
+(defn deviation
+  "What `policy` CHANGES about the shipped default's blocking sets, as data —
+   or nil when it changes nothing. TAKES AN ALREADY-SHAPE-CHECKED POLICY (both
+   fail sets non-empty sets of known values); `validate-policy!` calls it only
+   after those clauses, and `describe-policy` / `verdict` only on a policy that
+   passed them.
+
+     {:demoted-outcomes #{…}  what the default blocked and this does not
+      :demoted-modes    #{…}  likewise on the orthogonal axis
+      :added-outcomes   #{…}  what this blocks and the default does not
+      :added-modes      #{…}
+      :kind :narrowing|:widening}
+
+   THE KIND IS NOT COSMETIC and the two halves are not symmetric, which is the
+   whole reason this returns structure rather than a boolean. A NARROWING is a
+   declared decision to stop failing on something: it is the act the four
+   `proof-keys` and the staleness ratchet exist for. A WIDENING gates MORE
+   strictly than upstream, so it cannot go stale by doing nothing — a guard
+   that catches nothing is a guard, while a concession that concedes nothing
+   is debt. `deviation-status` reads exactly that asymmetry.
+
+   Mixed counts as a NARROWING. A policy that drops :untested and adds
+   :inapplicable has stopped failing on something, and letting the addition
+   launder that would be the cheapest possible route around the proof.
+
+   :demoted-modes is DERIVED and is empty for every policy that can exist
+   today: `default-fail-modes` is `#{:automatic}`, which is also the mode
+   floor, so the mode axis can only be widened. It is computed rather than
+   asserted because that coincidence is a property of two other defs, and a
+   hardcoded #{} here would silently stop being true the day either moves."
+  [policy]
+  (let [{do* :fail-outcomes dm :fail-modes} default-policy
+        {po :fail-outcomes pm :fail-modes} policy
+        demoted-o (into #{} (remove po) do*)
+        demoted-m (into #{} (remove pm) dm)
+        added-o (into #{} (remove do*) po)
+        added-m (into #{} (remove dm) pm)]
+    (when (or (seq demoted-o) (seq demoted-m) (seq added-o) (seq added-m))
+      {:demoted-outcomes demoted-o
+       :demoted-modes demoted-m
+       :added-outcomes added-o
+       :added-modes added-m
+       :kind (if (or (seq demoted-o) (seq demoted-m)) :narrowing :widening)})))
+
 (defn validate-policy!
-  "Shape check for a run's verdict policy. It was written to mirror
-   `invariants/validate-exemptions!`: a policy that DEVIATES from the shipped
-   default owes the proof-carrying :rationale + :retires-when, because it is
-   the same act — a declared decision to stop failing on something.
+  "Shape check for a run's verdict policy, judged against `now` (the 1-arity
+   reads `today`, UTC). It MIRRORS `invariants/validate-exemptions!`: a policy
+   that DEVIATES from the shipped default owes the four proof-carrying
+   `proof-keys`, because it is the same act — a declared decision about what
+   stops failing a run — and it reaches them through the same
+   `check-proof!`, so the two cannot drift.
 
-   THE MIRROR IS NOW BROKEN AND THE GAP RUNS THE WRONG WAY, which is why this
-   says so rather than still claiming the parallel. An exemption now owes four
-   proof keys — `invariants/exemption-proof-keys` — including an :owner and an
-   :expires the validator can enforce, so a per-card waiver EXPIRES and a
-   human is named on it. A policy deviation owes only the two strings, so it
-   is permanent and unattributed.
+   THE MIRROR WAS BROKEN AND THE GAP RAN THE WRONG WAY. For one release cycle
+   an exemption owed four keys — an :owner and an :expires a validator could
+   enforce — while a policy deviation owed two prose strings, so the SCOPED
+   act expired and named a human and the GLOBAL one did neither. That is the
+   larger hole of the two, not the smaller one: an exemption is scoped to one
+   (card, invariant, node, outcome, mode, reason) tuple, while a
+   `:fail-outcomes` that drops :cantTell silences a whole verdict class on
+   every card at once. No reading makes the broader act owe the smaller proof,
+   so the deviation was brought up to the waiver rather than the reverse.
 
-   That is the larger hole of the two, not the smaller one. An exemption is
-   scoped to one (card, invariant, node, outcome, mode, reason) tuple and is
-   ratcheted by the :stale-exemption finding when it stops matching. A
-   `:fail-outcomes` that drops :cantTell is GLOBAL, matches nothing it can go
-   stale against, and silences a whole verdict class on every card at once —
-   the exact 'a disabled rule is an unrecorded permanent exception' shape the
-   waiver work exists to remove. Closing it is the same four keys plus an
-   expiry clause here; it is not done, and it needs `outcome-test` and the
-   policy fixtures in `findings-test` moved with it.
+   ALL FOUR ARE OWED BY A WIDENING TOO, which is the one place this deviates
+   from the obvious design. A widening gates more strictly than the shipped
+   default, so an expiry on it looks backwards — a tightening that lapses. It
+   does not lapse SILENTLY: an expired policy is refused here, `verdict`
+   reports it and fails CLOSED, so the failure mode is a red run naming the
+   date, never a quiet relaxation. What the expiry buys is that a local fork of
+   the fleet's gate posture gets re-taken on a schedule instead of outliving
+   the reason for it. One key list, no second code path, and no clause that is
+   owed by one kind of deviation and not the other.
+
+   THE PROOF IS THE ONLY THING THIS FN CAN CHECK. Whether the deviation is
+   INERT or STALE is a question about the ARMED PRODUCER SET and about what
+   the run actually produced, neither of which a shape check can see —
+   `deviation-status` owns those, and `verdict` calls it.
+
+   ONE FIXTURE OUTSIDE THIS FILE PREDATES THE TWO NEW KEYS and is red until it
+   carries them: the inline policy in `devcards.findings-test`'s
+   `a-REGISTERED-cantTell-reaches-the-EXIT-CODE`, which asserts a narrowed
+   policy makes a registered :cantTell advisory. The BEHAVIOUR it asserts is
+   unchanged — `outcome-test`'s
+   `a-four-key-narrowing-still-makes-a-REGISTERED-cantTell-advisory` pins the
+   same claim under a complete policy — so the repair is `:owner` plus
+   `:expires` on that map, exactly as that namespace's own `waiver` helper
+   already completes its exemptions from the live clock.
 
    Each of the two sets has a FLOOR it may not drop. A definite,
    deterministic defect that does not block is not a policy, it is a disabled
@@ -234,43 +480,44 @@
    a raw IllegalArgumentException out of `contains?`. The set clause is the
    only one that produces a correct message for a non-set, and each shape is
    pinned by message rather than by `thrown?`."
-  [policy]
-  (when-not (map? policy) (policy-error policy "not a map"))
-  (when-let [extra (seq (remove policy-keys (keys policy)))]
-    (policy-error policy (str "unknown keys " (vec extra)
-                              " — declared: " (vec (sort policy-keys)))))
-  (doseq [[k allowed floor refused]
-          [[:fail-outcomes outcomes :failed unreportable-outcomes]
-           ;; no mode is unreportable — every test-mode can reach a finding
-           [:fail-modes test-modes :automatic #{}]]]
-    (let [v (get policy k)]
-      (when-not (and (set? v) (seq v))
-        (policy-error policy (str k " must be a NON-EMPTY set, got "
-                                  (pr-str v))))
-      (when-let [bad (seq (remove allowed v))]
-        (policy-error policy (str k " names unknown values " (vec bad)
-                                  " — declared: " (vec (sort allowed)))))
-      ;; The symmetric half of `invariants/validate-exemptions!`'s
-      ;; "stale from birth" refusal. :passed is a legal OUTCOME but
-      ;; `unreportable-outcomes` guarantees it never reaches a finding, so
-      ;; naming it here arms a clause that can never fire — config that reads
-      ;; as a tightening and is inert. Refused rather than tolerated for the
-      ;; same reason an unknown threshold key throws: a knob that looks armed
-      ;; and is not is worse than one that is rejected.
-      (when-let [dead (seq (filter refused v))]
-        (policy-error policy (str k " names " (vec dead) " — never reachable "
-                                  "on a finding (see unreportable-outcomes), "
-                                  "so the clause could never fire")))
-      (when-not (contains? v floor)
-        (policy-error policy (str k " may not drop " floor)))))
-  (when (not= (select-keys policy [:fail-outcomes :fail-modes]) default-policy)
-    (doseq [k [:rationale :retires-when]]
-      (when-not (and (string? (get policy k)) (not (str/blank? (get policy k))))
-        (policy-error policy (str "a policy that differs from the shipped "
-                                  "default owes " k " — the proof is "
-                                  "mandatory, exactly as it is for an "
-                                  "exemption")))))
-  policy)
+  ([policy] (validate-policy! policy (today)))
+  ([policy ^LocalDate now]
+   (when-not (map? policy) (policy-error policy "not a map"))
+   (when-let [extra (seq (remove policy-keys (keys policy)))]
+     (policy-error policy (str "unknown keys " (vec extra)
+                               " — declared: " (vec (sort policy-keys)))))
+   (doseq [[k allowed floor refused]
+           [[:fail-outcomes outcomes :failed unreportable-outcomes]
+            ;; no mode is unreportable — every test-mode can reach a finding
+            [:fail-modes test-modes :automatic #{}]]]
+     (let [v (get policy k)]
+       (when-not (and (set? v) (seq v))
+         (policy-error policy (str k " must be a NON-EMPTY set, got "
+                                   (pr-str v))))
+       (when-let [bad (seq (remove allowed v))]
+         (policy-error policy (str k " names unknown values " (vec bad)
+                                   " — declared: " (vec (sort allowed)))))
+       ;; The symmetric half of `invariants/validate-exemptions!`'s
+       ;; "stale from birth" refusal. :passed is a legal OUTCOME but
+       ;; `unreportable-outcomes` guarantees it never reaches a finding, so
+       ;; naming it here arms a clause that can never fire — config that reads
+       ;; as a tightening and is inert. Refused rather than tolerated for the
+       ;; same reason an unknown threshold key throws: a knob that looks armed
+       ;; and is not is worse than one that is rejected.
+       ;;
+       ;; It is the VOCABULARY-LEVEL case of the same question
+       ;; `deviation-status` asks against the armed set: this one is decidable
+       ;; from the vocabulary alone, so it is refused at write time rather
+       ;; than reported at run time.
+       (when-let [dead (seq (filter refused v))]
+         (policy-error policy (str k " names " (vec dead) " — never reachable "
+                                   "on a finding (see unreportable-outcomes), "
+                                   "so the clause could never fire")))
+       (when-not (contains? v floor)
+         (policy-error policy (str k " may not drop " floor)))))
+   (when (deviation policy)
+     (check-proof! policy now #(policy-error policy %) "policy deviation"))
+   policy))
 
 (defn finding-outcome
   "`f`'s ACT outcome, defaulted. Used on findings AND on exemptions, which is
@@ -383,17 +630,198 @@
               (mapcat #(:outcomes % legacy-outcomes)))
         producers))
 
+(defn- blocks?
+  "Would `f` fail a run whose blocking sets are `fail-outcomes`/`fail-modes`?
+   The conjunct `blocking` and `verdict` both apply, named once so the
+   demotion arithmetic below cannot answer a slightly different question than
+   the verdict it is reasoning about."
+  [f fail-outcomes fail-modes]
+  (and (contains? fail-outcomes (finding-outcome f))
+       (contains? fail-modes (finding-mode f))))
+
+(defn demoted-findings
+  "The findings `policy` lets through that the SHIPPED DEFAULT would have
+   blocked — what the deviation actually bought, per run.
+
+   This is the policy-side answer to 'what does this concession match?', and
+   answering it is the whole reason a deviation can be ratcheted at all. A
+   waiver matches findings by tuple, so `apply-exemptions` can see one that
+   matches nothing; a deviation matches nothing by construction, which is
+   exactly why it had nothing to go stale against. Demotion is the relation
+   that was missing: it is computed against `default-policy` rather than
+   against the deviation's own declared sets, so a change to the shipped
+   default carries this with it and cannot leave it behind.
+
+   Malformed findings are excluded: they block unconditionally under every
+   policy (`verdict` puts them in :blocking whatever the sets say), so no
+   policy can demote one and counting them here would let a typo'd axis keep a
+   stale deviation looking live."
+  [policy findings]
+  (let [{do* :fail-outcomes dm :fail-modes} default-policy
+        {po :fail-outcomes pm :fail-modes} policy]
+    (filterv #(and (nil? (axis-problem %))
+                   (blocks? % do* dm)
+                   (not (blocks? % po pm)))
+             findings)))
+
+(defn deviation-status
+  "THE RATCHET A POLICY DEVIATION HAD NO ANALOGUE FOR, as data — or nil when
+   `policy` is the shipped default.
+
+   `invariants/apply-exemptions` reports a waiver that matched NO finding as a
+   :stale-exemption, so the waiver list can only shrink. A deviation had
+   nothing of the kind, and 'nothing to go stale against' was the defect
+   rather than a missing convenience: a `:fail-outcomes` narrowed once stayed
+   narrowed forever, silently, whatever the corpus later did. `demoted-findings`
+   supplies the missing relation and this fn is the ratchet over it.
+
+   Returns the `deviation` map plus:
+
+     :status :live         — the deviation demoted at least one finding, so it
+                             is doing what it was written to do
+             :stale        — NOTHING was demoted, though the armed set CAN
+                             emit an outcome this deviation drops. The
+                             concession bought nothing this run; remove it and
+                             the run is green under the shipped default. This
+                             is the :stale-exemption ratchet, one scope up
+             :inert        — no armed producer declares ANY outcome this
+                             deviation touches, so it could not have changed a
+                             single verdict however bad the corpus was. This
+                             is `validate-policy!`'s :passed 'never reachable'
+                             refusal against the ARMED SET instead of against
+                             the vocabulary — the same defect, and only
+                             decidable here because a shape check cannot see
+                             which producers are armed
+             :undetermined — the armed set was not supplied. 'I could not
+                             look' is not 'nothing to report'
+     :demoted n            — how many findings it demoted. ALWAYS 0 for a
+                             widening, by definition, which is why the widening
+                             line reports :promoted instead: a number that is
+                             zero whatever happened is not a disclosure
+     :promoted n           — the mirror: findings this policy blocks that the
+                             shipped default would have let through. Always 0
+                             for a pure narrowing, by the same definition
+
+   THE TWO KINDS ARE NOT SYMMETRIC UNDER STALENESS, and the asymmetry is the
+   argument rather than an omission. A NARROWING that demoted nothing is a
+   concession that conceded nothing — debt with no purchase. A WIDENING that
+   blocked nothing extra is a guard over a clean corpus, which is the state it
+   was written to reward; calling that stale would ratchet OUT the strictest
+   policies. So staleness is narrowing-only. INERTNESS applies to both,
+   because a clause nothing armed can reach is inert whichever direction it
+   points, and a widening onto an unemittable outcome is precisely the
+   'reads as a tightening and is not' shape the :passed clause already
+   refuses.
+
+   `emittable` is `emittable-outcomes`' answer for the armed set, or nil when
+   none was supplied. Judged against the deviation's WHOLE touched set —
+   demoted plus added — so :inert is claimed only when the deviation could not
+   have moved any verdict at all. A mixed policy whose demoted half alone is
+   unreachable is therefore not called inert; it is caught by :stale instead,
+   which is the weaker and truer statement.
+
+   TOTAL and pure: no input makes it throw, for the reason `verdict` is total."
+  [policy findings emittable]
+  (when-let [{:keys [kind demoted-outcomes added-outcomes] :as dev}
+             (deviation policy)]
+    (let [{do* :fail-outcomes dm :fail-modes} default-policy
+          {po :fail-outcomes pm :fail-modes} policy
+          touched (into demoted-outcomes added-outcomes)
+          demoted (demoted-findings policy findings)
+          ;; The mirror of `demoted-findings`, inline because only the
+          ;; widening's report line reads it — the ratchet does not, since a
+          ;; guard that caught nothing is not stale.
+          promoted (filterv #(and (nil? (axis-problem %))
+                                  (blocks? % po pm)
+                                  (not (blocks? % do* dm)))
+                            findings)]
+      (assoc dev
+             :demoted (count demoted)
+             :promoted (count promoted)
+             :status (cond
+                       (nil? emittable) :undetermined
+                       (not-any? emittable touched) :inert
+                       (and (= :narrowing kind) (empty? demoted)) :stale
+                       :else :live)))))
+
+(def ^:private deviation-problem-statuses
+  "The two `deviation-status` verdicts that FAIL a run. Both are the same
+   finding a stale waiver is — a recorded concession that is not earning its
+   record — and both must therefore red the gate rather than print a warning,
+   or the ratchet is decoration. :undetermined is deliberately absent: it is an
+   admission that the run could not look, and it is reported as such."
+  #{:stale :inert})
+
+(defn deviation-line
+  "One line describing `dev` (a `deviation-status` map), or nil for nil.
+
+   Each status names its OWN clause and says what to do about it, because
+   these four reds arrive on mornings when the corpus changed and nobody
+   touched the policy. A line that said only 'deviation' would need a triage
+   to tell 'remove this' from 'pass :producers'.
+
+   The :live line is not decoration either: it is what this check prints when
+   it does NOT apply, and a check whose applies and does-not-apply outputs are
+   the same string is not evidence. It also carries the disclosure the whole
+   change is for — how many verdicts the global concession actually swallowed
+   this run.
+
+   WHICH NUMBER the :live line reports turns on the direction, and reporting
+   the other one would be exactly the zero-bit line this file deletes
+   elsewhere: a narrowing's :promoted is 0 by definition and a widening's
+   :demoted is 0 by definition, so either would print the same digit on every
+   possible run of its own kind."
+  ^String [dev]
+  (when dev
+    (let [{:keys [kind status demoted promoted demoted-outcomes added-outcomes]} dev
+          label (if (= :narrowing kind) "NARROWED" "WIDENED")]
+      (case status
+        :live (if (= :narrowing kind)
+                (str "DEVIATION (NARROWED): demoted " demoted
+                     " finding(s) the shipped default would have blocked.")
+                (str "DEVIATION (WIDENED): blocks additionally on "
+                     (vec (sort added-outcomes)) " — " promoted
+                     " finding(s) failed this run that the shipped default "
+                     "would have let through."))
+        :stale (str "DEVIATION IS STALE: this policy stops blocking on "
+                    (vec (sort demoted-outcomes)) " and this run produced NO "
+                    "finding it demoted, so the concession bought nothing. "
+                    "Remove it — the run is green under the shipped default. "
+                    "This is the ratchet a :stale-exemption applies to a "
+                    "scoped waiver, applied to a GLOBAL one.")
+        :inert (str "DEVIATION IS INERT: no armed producer declares it can "
+                    "emit any of "
+                    (vec (sort (into demoted-outcomes added-outcomes)))
+                    ", so this deviation could not have changed a single "
+                    "verdict however bad the corpus was. Config that reads as "
+                    "a decision and is not.")
+        :undetermined (str "DEVIATION (" label "): UNDETERMINED — the armed "
+                           "producer set was not supplied, so this run cannot "
+                           "say whether the deviation demoted anything or "
+                           "could ever demote anything. Pass :producers. "
+                           "'I could not look' is not 'nothing to report'.")))))
+
 (defn describe-policy
-  "One line for the run header. A NARROWED policy prints its proof on every
-   run: the least a decision to stop failing on something owes is a line in
-   the log saying it was made."
+  "One line for the run header. A DEVIATING policy prints its whole proof on
+   every run: the least a decision about what stops failing a run owes is a
+   line in the log saying it was made, by whom, and when it lapses.
+
+   IT NAMES THE DIRECTION, and that is a repair rather than a flourish. This
+   printed `NARROWED` for ANY policy that differed from the default, so a
+   policy blocking on MORE than the shipped set — the only kind of deviation
+   the mode floor even permits on that axis — announced itself in the run
+   header as a relaxation. The one line that discloses the deviation was
+   capable of describing it backwards."
   ^String [policy]
   (str "verdict policy: fail-outcomes " (vec (sort (:fail-outcomes policy)))
        " fail-modes " (vec (sort (:fail-modes policy)))
-       (if (= (select-keys policy [:fail-outcomes :fail-modes]) default-policy)
-         " (shipped default)"
-         (str " (NARROWED — " (:rationale policy)
-              "; retires when " (:retires-when policy) ")"))))
+       (if-let [dev (deviation policy)]
+         (str " (" (if (= :narrowing (:kind dev)) "NARROWED" "WIDENED") " — "
+              (:rationale policy)
+              "; retires when " (:retires-when policy)
+              "; owner " (:owner policy)
+              ", expires " (:expires policy) ")")
+         " (shipped default)")))
 
 (defn- tally
   "`frequencies` over `ks`, WITH THE ZEROES. A frequencies map omits the keys
@@ -425,9 +853,23 @@
    exited 0 on every clean corpus — a permanently green gate. `:exit` reads
    the policy problem directly and never infers it from a count.
 
+   A STALE OR INERT DEVIATION FAILS THE RUN ON THE POLICY'S OWN ACCOUNT, by
+   the same argument and through the same seam as a malformed one: `:exit`
+   reads `deviation-status` directly rather than inferring it from a count,
+   because a deviation that has stopped earning its keep is most likely to be
+   discovered on a clean corpus, which is precisely where a count-inferred
+   verdict reads zero. It does NOT re-block the findings the way a malformed
+   policy does — the concession is legitimate config that has gone stale, not
+   an unreadable one, so relabelling every finding would misreport what is
+   wrong. :blocking stays the findings; the deviation stands on its own.
+
    `opts` (optional) may carry `:producers` — the ARMED producer set. Supply
-   it: `:not-exercised` is not computable without it (see below), and a report
-   that cannot compute it says so rather than guessing.
+   it: neither `:not-exercised` nor a deviation's staleness is computable
+   without it (see below), and a report that cannot compute them says so
+   rather than guessing. Note what that costs on THIS path specifically: the
+   ratchet cannot fire for a caller that omits the armed set, so the two-arity
+   is honest and unarmed rather than green. `lanes/run-verdict` — the gate's
+   own entry — always supplies it.
 
    Returns
      {:blocking      [finding …]   what fails the run
@@ -437,6 +879,7 @@
       :emittable     #{outcome …}|nil what the armed set CAN emit and block on
       :not-exercised [outcome …]|nil  in-scope blocking outcomes seen 0 times,
                                       nil when the armed set was not supplied
+      :deviation     {…}|nil          `deviation-status`, nil on the default
       :lines         [string …]       the report, in print order
       :exit          0|1}"
   ([findings policy] (verdict findings policy nil))
@@ -482,13 +925,28 @@
                          (vec (for [o (sort fail-outcomes)
                                     :when (and (contains? emittable o)
                                                (zero? (get by-outcome o 0)))]
-                                o)))]
+                                o)))
+         ;; An UNREADABLE policy has no readable deviation either: `deviation`
+         ;; reads the two fail sets, which are exactly what a policy problem
+         ;; says cannot be trusted. Reporting a deviation computed from them
+         ;; would be a measurement against a policy the header just
+         ;; disclaimed — the same refusal `emittable` makes one line up.
+         ;; THE RAW VECTOR, not `well-formed`. `demoted-findings` owns the
+         ;; malformed exclusion and states why; handing it the pre-filtered
+         ;; vector would make that conjunct unreachable — a clause that can
+         ;; never fire, which is the hazard the :passed refusal above exists
+         ;; to name. Measured: with `well-formed` here, deleting the conjunct
+         ;; left the whole suite green.
+         dev (when-not policy-problem
+               (deviation-status policy findings emittable))
+         dev-problem (contains? deviation-problem-statuses (:status dev))]
      {:blocking blocked
       :malformed malformed
       :by-outcome by-outcome
       :by-mode by-mode
       :emittable emittable
       :not-exercised not-exercised
+      :deviation dev
       :lines
       (cond-> [(if policy-problem
                  (str "verdict policy is MALFORMED (" policy-problem
@@ -544,10 +1002,17 @@
                    "emit and this run never produced. Zero observations is a "
                    "count, not a pass."))
 
+        ;; The deviation's own line, and it prints in EVERY state including
+        ;; :live — see `deviation-line`. A global concession that discloses
+        ;; itself only when it has gone stale is one nobody reads on the runs
+        ;; where it is actively swallowing verdicts.
+        (some? dev)
+        (conj (deviation-line dev))
+
         (seq malformed)
         (into (for [{:keys [finding problem]} malformed]
                 (str "MALFORMED (blocking): " problem " — " (pr-str finding)))))
-      :exit (if (or policy-problem (seq blocked)) 1 0)})))
+      :exit (if (or policy-problem dev-problem (seq blocked)) 1 0)})))
 
 (defn exit-code
   "The process verdict, and TRULY total: every input maps to 0 or 1 and no
