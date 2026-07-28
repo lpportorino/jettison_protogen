@@ -1,3 +1,7 @@
+(ns brief-claims
+  "Re-derives three claims a Gate-B brief asserted, rather than repeating them.
+   Read-only. See the comment block below for the three claims and the method.")
+
 ;; Checks three claims the brief makes, rather than repeating them.
 ;;
 ;; 1. "Only 8 of 21 semantic colour tokens project to C at all."
@@ -28,12 +32,12 @@
   (concat (fixtures/build-all (fixtures/load-spec))
           (composition/build-all (composition/load-inventory))))
 
-(defn- render [{:keys [bytes]} mode]
+(defn- render [{pb-bytes :bytes} mode]
   (let [h (host/start! {:wasm "../../renderer/output/controls.wasm"
                         :assets "../../renderer/assets"
                         :w 800 :h 480})]
     (try
-      (host/render-card! h {:pb bytes :bp 0 :dark (if (= mode :dark) 1 0)})
+      (host/render-card! h {:pb pb-bytes :bp 0 :dark (if (= mode :dark) 1 0)})
       (:colors (draw-palette! h))
       (finally (host/close! h)))))
 

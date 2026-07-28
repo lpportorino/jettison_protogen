@@ -1,3 +1,7 @@
+(ns family-sweep
+  "Does the recolor exemption behave correctly under the OTHER theme families?
+   Read-only. See the comment block below for why `false` is a guard, not a gap.")
+
 ;; Does the recolor exemption behave correctly under the OTHER theme families?
 ;;
 ;; asgard_theme_recolor_is_declared returns false for anything unless the live
@@ -23,13 +27,13 @@
 
 (def built (fixtures/build-all (fixtures/load-spec)))
 
-(defn- row [{:keys [id bytes]} family]
+(defn- row [{:keys [id] pb-bytes :bytes} family]
   (let [h (host/start! {:wasm "../../renderer/output/controls.wasm"
                         :assets "../../renderer/assets"
                         :w 800 :h 480})]
     (try
       (host/set-theme-family! h family)
-      (host/render-card! h {:pb bytes :bp 0 :dark 1})
+      (host/render-card! h {:pb pb-bytes :bp 0 :dark 1})
       (let [payload (draw-palette! h)
             tree (json/read-str (host/dump-tree-raw! h) :key-fn keyword)]
         {:id (str id)

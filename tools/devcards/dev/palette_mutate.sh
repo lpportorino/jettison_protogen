@@ -7,7 +7,15 @@
 # A canary is only credited when the run reports failures>0 AND errors==0 — an
 # ERROR is a broken harness wearing the right colour, not a caught defect.
 set -uo pipefail
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# THE DEPTH IS PART OF THE PATH: this file sits at tools/devcards/dev/, so the
+# repo root is three levels up. Move this script and every path below silently
+# retargets — the legs then fail for a reason unrelated to the mutation under
+# test, and that red is indistinguishable from a caught defect. Not resolved via
+# `git rev-parse --show-toplevel`, which is the obvious robust form and is wrong
+# here: git cannot resolve this checkout inside the toolchain container
+# (`detected dubious ownership`), so the git form works on the host and dies in
+# the one environment the battery actually runs in.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 SRC="$ROOT/tools/devcards/src/devcards/palette.clj"
 MAIN="$ROOT/renderer/src/main.c"
 

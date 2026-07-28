@@ -149,6 +149,26 @@ report's existence**:
   fork's test output as your own, which is indistinguishable from your checkout
   containing a file it does not have. Container and git isolation hold; the
   scratch path is what crosses. Say in the brief that siblings are running.
+  **A DISPATCHED SUBAGENT INHERITS THE PARENT SESSION'S SCRATCHPAD**, so telling
+  it to use its own in-fork directory does not by itself move the one path that
+  actually collides — a redirect it writes for a long build lands at the shared
+  location under whatever name it picks, and the obvious names collide first.
+  Measured: two batteries, two checkouts, one `battery.log`. The parent is not
+  exempt, and it is the parent that is fooled — it cannot afterwards prove the
+  log it read was its own run, so a green has to be re-established from the
+  tree (a clean status, the freshness checks) rather than from the transcript.
+- **THE FORK'S SCRATCH DIRECTORY MUST BE UNTRACKED, and check rather than
+  assume.** A directory named for scratch is not scratch if the base tree
+  commits files into it, and everything downstream then misreads: a worker's
+  `git add -A` sweeps repository content into its deliverable, a driver written
+  to an obvious name OVERWRITES a tracked file, and the lifecycle gate's
+  cleanup deletes base-tree content and refuses its own deletions. Three
+  independent workers hit this in one wave and each diagnosed it from a
+  different symptom, which is what a genuine trap looks like as opposed to one
+  worker's mistake. The durable repair is to keep the directory empty of
+  tracked files — a probe worth committing belongs beside the code it measures,
+  never in scratch — because every other mitigation is a guard around a name
+  that still means two things.
 - **Signal only processes you have identified.** Verify `/proc/<pid>/cwd`, or
   for containers the `docker inspect` mount path, before stopping anything. A
   pattern-matched `pkill` has killed another session's monitors.

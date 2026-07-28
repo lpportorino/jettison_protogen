@@ -1,3 +1,7 @@
+(ns palette-census
+  "Census of the draw-stream palette against the token table, per mode.
+   Read-only. Reads controls_dump_draw_palette the way host/dump-tree-raw! reads the tree.")
+
 (require '[clojure.data.json :as json]
          '[devcards.composition :as composition]
          '[devcards.fixtures :as fixtures]

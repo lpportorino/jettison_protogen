@@ -1,3 +1,7 @@
+(ns theme-switch-probe
+  "Discriminator for the in-place theme-switch contamination hazard.
+   Read-only. See the comment block below for the three palettes it compares.")
+
 ;; Discriminator for the in-place theme-switch contamination hazard.
 ;;
 ;; The observer accumulates across the module's lifetime.  `controls_load_ui`
@@ -64,10 +68,10 @@
       (palette h))))
 
 (def rows
-  (vec (for [{:keys [id bytes]} built
-             :let [d (fresh bytes 1)
-                   l (fresh bytes 0)
-                   s (switched bytes)
+  (vec (for [{:keys [id] pb-bytes :bytes} built
+             :let [d (fresh pb-bytes 1)
+                   l (fresh pb-bytes 0)
+                   s (switched pb-bytes)
                    dark-only (set/difference (:hexes d) (:hexes l))]]
          {:id (str id)
           :dark-only (count dark-only)
