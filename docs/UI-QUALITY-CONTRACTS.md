@@ -706,6 +706,22 @@ no verdict from this section.
 
 ### 6.7 What the STATIC tier still owes
 
+**ITS FIRST PREMISE IS FALSE AS WRITTEN, AND THE ARM BELOW CANNOT BE ARMED ON
+IT.** The sentence "with the ban in force the authored pair IS the rendered
+pair" treats the opacity ban as if it closed every path from an authored token
+to a drawn colour. It does not: the ban is on OPACITY, and a RECOLOR composes a
+new value over whatever colour it lands on. Measured over the shipped corpus,
+1206 of 3082 drawn colours are not token values, and 91 of those come from this
+theme's OWN recolor styles — 26 of them from `disabled_dim`, which is the
+mechanism §6 PRESCRIBES for text-free geometry. Arming the arm below literally
+would condemn §6's own design.
+
+What survives is narrower and still worth building: a drawn colour in no token
+table is a FACT worth reporting, but it is not evidence of a recolor, and the
+clause must separate the theme's declared recolors from everything else before
+it can block. Sizing it needs the probe, not this paragraph —
+`clojure -M:bindings:token-conformance`.
+
 The clause in §6.5 is the half reachable from a rendered dump. The static tier
 consumes the token manifest, a font-metrics block, and AST style groups with
 full state/theme enumeration — inputs that exist before anything renders — and
