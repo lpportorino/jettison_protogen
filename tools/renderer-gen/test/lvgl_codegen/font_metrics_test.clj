@@ -247,7 +247,12 @@
         (is (nil? bpp))
         (is (nil? banner))
         (is (string? metrics-unavailable))
-        (is (str/includes? metrics-unavailable "controls.wasm")
+        ;; `str` around the subject deliberately: a missing reason must produce
+        ;; a FAIL here too, never an ERROR. An ERROR reds the file while
+        ;; executing nothing further and carries no information about the
+        ;; clause — measured, when a mutation that blanked the reason turned
+        ;; this line into a NullPointerException instead of a verdict.
+        (is (str/includes? (str metrics-unavailable) "controls.wasm")
             "the reason must name what WOULD obtain the metric")
         (is (some? asset))
         (is (.isFile (io/file repo-root asset))
