@@ -174,7 +174,7 @@ hooks-status:
 #
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
-lint: lint-sh fmt-clj lint-clj fmt-c
+lint: lint-sh brief-check-test fmt-clj lint-clj fmt-c
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
@@ -297,6 +297,15 @@ splint-clj:
 # is not a gate. `bash -n` catches it in milliseconds, needs no new dependency,
 # and would have caught both occurrences before the push.
 #
+# The fork lifecycle gate's own canary suite. It rides `lint` rather than the
+# renderer battery because it touches no rendered surface and needs no container
+# — and because a gate whose canaries are never RUN is a gate nobody has checked
+# since the day it landed. The suite asserts each brief-check clause fires for
+# ITS OWN reason (a FAIL, not an ERROR), which is the property that separates a
+# real refusal from a neighbouring clause that would also have refused.
+brief-check-test:
+	@bash tools/claude/brief_check_test.sh
+
 # Parse-only, deliberately: shellcheck is not present on the host or in the
 # uber image, and adding a toolchain dependency for it is a separate decision.
 # `bash -n` is the floor, not the ceiling.
