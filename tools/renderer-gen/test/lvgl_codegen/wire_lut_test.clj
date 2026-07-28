@@ -436,7 +436,7 @@
     ;; Without this, an oracle that silently produced {} would make every
     ;; keyword check below iterate an empty collection and report green.
     (is (seq lift/required-typedefs)
-        "lift/required-typedefs is empty — nothing downstream can be judged")
+        "lift/required-typedefs is empty - nothing downstream can be judged")
     (doseq [typedef (sort lift/required-typedefs)]
       (testing typedef
         (is (seq (get @header-facts typedef))
@@ -461,7 +461,7 @@
 
 (deftest direct-cast-keywords-carry-the-header-value
   (testing "every generated keyword->int entry equals the vendored header value"
-    (is (seq (direct-typedefs)) "no direct-cast families derived — nothing judged")
+    (is (seq (direct-typedefs)) "no direct-cast families derived - nothing judged")
     (doseq [typedef (sort (direct-typedefs))]
       (let [{:keys [proto-type]} (get @header-constructs typedef)
             v (binding-var proto-type "-keyword->int")
@@ -490,7 +490,7 @@
 
 (deftest lut-families-resolve-through-the-table-to-the-header-value
   (testing "every LUT entry is the constant its wire number's keyword names"
-    (is (seq (lut-typedefs)) "ui_luts.h declared no tables — nothing judged")
+    (is (seq (lut-typedefs)) "ui_luts.h declared no tables - nothing judged")
     (doseq [typedef (sort (lut-typedefs))]
       (let [{:keys [proto-type]} (get @header-constructs typedef)
             _ (is (contains? lift/proto-emitted-typedefs typedef)
@@ -626,7 +626,7 @@
   (testing "every :layout keyword the schema admits has a mapping, and no more"
     (is (seq @layout-vocabulary) "the authoring schema declared no :layout keywords")
     (is (= @layout-vocabulary (set (keys emit-proto/layout-flow-keyword->member)))
-        (str "unjudged/unknown :layout keywords — schema: "
+        (str "unjudged/unknown :layout keywords - schema: "
              (sort @layout-vocabulary)
              ", emit-proto: " (sort (keys emit-proto/layout-flow-keyword->member))))))
 
@@ -638,7 +638,7 @@
           c-names (keyword->c-name typedef)
           by-name (into {} (map (juxt :name :value)) (get @header-facts typedef))
           candidates (keys kw->member)]
-      (is (seq candidates) "FlexFlow bindings are empty — nothing judged")
+      (is (seq candidates) "FlexFlow bindings are empty - nothing judged")
       (doseq [layout-kw (sort @layout-vocabulary)]
         (let [flow-kw (flow-keyword-for layout-kw candidates)
               want (get kw->member flow-kw)
@@ -646,7 +646,7 @@
           (is (= want got)
               (str layout-kw " abbreviates " flow-kw
                    ", whose proto member is " want " (" (get c-names flow-kw) ")"
-                   " — emit-proto maps it to " got))
+                   " - emit-proto maps it to " got))
           ;; And say it in LVGL values, which is what actually reaches the
           ;; renderer: the constant behind the emitted member must be the
           ;; constant behind the keyword.
