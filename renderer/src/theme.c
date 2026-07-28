@@ -300,7 +300,11 @@ static void style_init(asgard_theme_t *t) {
                        pick_i32(v, stock_pad_small(t), THEME_PAD_CONTROL));
   lv_style_set_pad_column(&s->btnm_pads,
                           pick_i32(v, stock_pad_small(t), THEME_PAD_CONTROL));
-  /* roller horizontal breathing room */
+  /* LOAD-BEARING roller geometry, not cosmetic breathing room. The selected
+   * row is redrawn into W - pad_left - pad_right - 2*border_width pixels, and
+   * lv_draw_label cancels below 1px. At the 48px small card, Asgard's 8px pads
+   * and 1px border leave 30px; stock large-tier 24px pads + 2px border leave
+   * -4px, so the selected glyph vanishes. Do not increase this casually. */
   style_reset(&s->roller_pad, inited);
   lv_style_set_pad_left(&s->roller_pad,
                         pick_i32(v, stock_pad_def(t), THEME_PAD_PANEL));

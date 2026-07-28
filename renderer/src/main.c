@@ -1700,6 +1700,10 @@ static bool obj_squished(const lv_obj_t *obj, const lv_area_t *coords) {
  * WHICH WAY EACH KEY FAILS — absence is NOT neutral, and they do not all fail
  * the same way. A producer that guesses one of these is silently wrong:
  *   opa                  absent => LV_OPA_COVER.
+ *   text                 absent => NOT "this node draws no glyphs." Only an
+ *                        exact lv_label emits it; lv_roller_label is a label
+ *                        subclass that draws glyphs but fails that exact-type
+ *                        check, so both text and text_clipped stay absent.
  *   text_color           absent => THE NEAREST ANCESTOR THAT EMITTED ONE.
  *                        LV_STYLE_TEXT_COLOR is inheritable, so emitting it
  *                        everywhere would repeat the screen's colour on almost

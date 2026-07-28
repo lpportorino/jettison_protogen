@@ -290,8 +290,10 @@ Rules:
   when they carry information, so an absent one can mean "nothing to report" or
   "the default", and those are not interchangeable — `clickable` absent means
   CLICKABLE, `disabled` absent means enabled, and a rule that reads absence as
-  "no information" supplies neither. The RELATED trap is a key you never consult
-  at all, and it sits inside the very lane this section tells you to arm:
+  "no information" supplies neither. `text` is sharper: only an exact `lv_label`
+  emits it, so the `lv_roller_label` subclass draws glyphs while both `text` and
+  `text_clipped` stay absent. The RELATED trap is a key you never consult at all,
+  and it sits inside the very lane this section tells you to arm:
   `click_area` is emitted only when it DIFFERS from coords, so a rule that
   measures coords and never reads it UNDER-reports reach — while
   `overlap/hit-box`'s read-then-fall-back-to-coords is exact, because absent
