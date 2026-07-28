@@ -1,0 +1,9 @@
+# BRIEF A — cites its sources INLINE
+
+Read `.protogen/research/evidence-a.md` and `.protogen/research/evidence-b.md`.
+
+## FILES YOU OWN
+- `tools/hello.sh`
+
+## FORBIDDEN — do not edit
+- `renderer`

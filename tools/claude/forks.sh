@@ -15,12 +15,40 @@ LOCK_HELD=0
 BRIEF_CHECK="$SCRIPT_DIR/brief-check.sh"
 
 # Sources a brief cites that git cannot carry are copied into the fork, and the
-# list of what was copied is written HERE so release can exclude those exact
-# paths. It is deliberately not an ignore-based exclusion: a clone carries its
-# own .gitignore, so whether a shipped file shows up in porcelain depends on the
-# tree being shipped INTO rather than on anything release controls. Path
-# exclusion is the only form that holds for a cited source anywhere in the tree.
+# list of what was copied is recorded so release can exclude those exact paths.
+# It is deliberately not an ignore-based exclusion: a clone carries its own
+# .gitignore, so whether a shipped file shows up in porcelain depends on the tree
+# being shipped INTO rather than on anything release controls. Path exclusion is
+# the only form that holds for a cited source anywhere in the tree.
+#
+# THE RECORD IS THE COORDINATOR'S AND LIVES IN THE COORDINATOR'S STATE DIR. It
+# used to live only at the in-fork path below — inside the ONE directory the
+# owner marker tells the worker is theirs, and which `release` itself `rm -rf`s.
+# So a worker that tidied its own scratch deleted the only record of what claim
+# had put in the tree, and release then refused the fork over residue THE
+# COORDINATOR HAD CREATED, with no state an operator could reach that made it
+# pass. Measured: a fork citing one untracked, non-ignored source released
+# cleanly with its scratch intact and deadlocked on `?? tools/scratch-note.md`
+# once the worker removed `.fork-scratch/`. That is the same false premise as
+# the tracked-files-under-.fork-scratch deletion this script already carries a
+# repair for — a cleanup step deciding, wrongly, what is disposable — reappearing
+# one level up, in what the cleanup step is allowed to destroy.
+#
+# The in-fork copy is still written, but purely as INFORMATION for the worker.
+# Nothing in release reads it while the coordinator's record exists, so deleting
+# it is now harmless.
 SHIPPED_MANIFEST_REL=".fork-scratch/shipped-sources.txt"
+
+# One record per fork, keyed by the fork's absolute path with `%` and `/`
+# percent-encoded. That encoding is injective (so two forks can never share a
+# record) and needs no hashing tool, keeping this script's dependency set as it
+# was.
+shipped_record_path() {
+  local fork="$1" key
+  key="${fork//%/%25}"
+  key="${key//\//%2F}"
+  printf '%s/shipped/%s.txt\n' "$STATE_DIR" "$key"
+}
 
 usage() {
   cat >&2 <<'EOF'
@@ -37,6 +65,10 @@ the remote, checks that every symlink stays inside the clone, commits
 DONATION_BRIEF.md plus DONATION_OWNER.md, and finally copies in every cited
 source that git cannot carry because it is untracked. If brief-path is omitted,
 claim reads <path>.brief.
+
+What claim shipped is recorded under .protogen/forks/shipped/, on the
+COORDINATOR's side, so release can tell a shipped input from worker residue even
+after the worker has cleaned out its own scratch directory.
 
 release preserves scratch scripts and a self-contained Git bundle under
 .protogen/forks/preserved/, requires a completely clean worktree after scratch
@@ -204,16 +236,57 @@ collect_owned_siblings() {
   done
 }
 
+# A cited source is a REPOSITORY-RELATIVE path, so its copy must land inside the
+# fork. This is checked textually rather than by resolving the destination,
+# because the destination does not exist yet — and the property wanted is "this
+# path has no way to leave the tree", for which `..` and an absolute root are the
+# only two mechanisms a relative path has.
+#
+# It is the same invariant assert_clone_links enforces for symlinks, arriving
+# through a door that check cannot cover: assert_clone_links inspects the tree
+# AFTER shipping and sees only symlinks, and `cp -p` dereferences, so a traversal
+# leaves nothing for it to find. Measured before this guard existed: a brief
+# citing `tools/../../pwn/loot.txt` made claim create a directory and write a
+# file OUTSIDE the fork, then report CLAIMED with "shipped: 1" and exit 0.
+assert_shippable_path() {
+  local rel="$1" fork="$2"
+  case "$rel" in
+    "" | /*)
+      fail "cited source is not a repository-relative path: '$rel'; the fork is retained and must not be dispatched: $fork"
+      ;;
+  esac
+  case "/$rel/" in
+    */../*)
+      fail "cited source '$rel' has a '..' component and would be written outside $fork; nothing outside the fork was created"
+      ;;
+  esac
+  return 0
+}
+
 # Copy every cited source that exists in this repository but is not tracked, so
 # a brief may cite gitignored evidence at all. `.protogen/` is gitignored, which
 # means `git clone` cannot carry it: four wave-5 forks were dispatched with
 # their cited research absent, and one was told to make a finding durable while
 # the finding itself sat in space the clone could not reach.
 ship_cited_sources() {
-  local fork="$1" brief="$2" rel dest count=0
+  local fork="$1" brief="$2" rel dest record list list_status=0 count=0
   local -a shipped=()
+
+  # THE PRODUCER'S EXIT STATUS IS PART OF THE ANSWER. brief-check.sh documents
+  # exit 3 as an INTERNAL ERROR that is never a verdict about the brief, and
+  # cmd_claim honours that contract on the `check` leg — then this leg read the
+  # list through a process substitution, whose status bash discards. An ERROR
+  # therefore arrived as ZERO LINES, which is byte-identical to the honest "this
+  # brief cites nothing git cannot carry": claim printed CLAIMED, printed
+  # "shipped: 0", recorded the fork OWNED and exited 0 with the worker's inputs
+  # missing. Measured with a ship-list forced onto its own exit-3 path.
+  list="$("$BRIEF_CHECK" ship-list "$brief" --root "$ROOT")" || list_status=$?
+  [ "$list_status" -eq 0 ] ||
+    fail "brief-check ship-list FAILED (exit $list_status) for $brief; that is an ERROR, not an empty ship list — the fork is retained and must not be dispatched: $fork"
+
   while IFS= read -r rel; do
     [ -n "$rel" ] || continue
+    assert_shippable_path "$rel" "$fork"
     # Re-checked here rather than trusted from the check pass: claim holds the
     # manifest lock, not a lock on the filesystem.
     [ -f "$ROOT/$rel" ] ||
@@ -224,11 +297,17 @@ ship_cited_sources() {
       fail "could not ship cited source $rel into $fork"
     shipped+=("$rel")
     count=$((count + 1))
-  done < <("$BRIEF_CHECK" ship-list "$brief" --root "$ROOT")
+  done <<< "$list"
 
+  record="$(shipped_record_path "$fork")"
+  mkdir -p -- "$(dirname -- "$record")" ||
+    fail "could not create the shipped-source record directory for $fork"
+  : > "$record" ||
+    fail "could not record the shipped sources for $fork at $record"
   mkdir -p -- "$fork/.fork-scratch"
   : > "$fork/$SHIPPED_MANIFEST_REL"
   if [ "$count" -gt 0 ]; then
+    printf '%s\n' "${shipped[@]}" > "$record"
     printf '%s\n' "${shipped[@]}" > "$fork/$SHIPPED_MANIFEST_REL"
   fi
   SHIPPED_COUNT="$count"
@@ -402,7 +481,17 @@ cmd_claim() {
   printf '  marker: committed before dispatch\n'
   printf '  remote: stripped and git push verified to refuse\n'
   printf '  brief: passed tools/claude/brief-check.sh\n'
+  # THE PATHS, not only the count. This is a DIAGNOSTIC and not a gate — it
+  # cannot tell a brief that legitimately ships nothing from one whose citations
+  # the extractor did not read, and nothing here should be taken to claim it can.
+  # What it does buy is the only signal available at the one moment a human is
+  # looking: the coordinator who meant to ship two files sees the list they meant
+  # to ship, rather than a bare `0` that reads the same as a brief with no
+  # gitignored inputs at all.
   printf '  cited sources shipped (untracked, git could not carry them): %s\n' "$SHIPPED_COUNT"
+  if [ "$SHIPPED_COUNT" -gt 0 ]; then
+    sed 's/^/    - /' -- "$(shipped_record_path "$fork")"
+  fi
 }
 
 print_residue() {
@@ -472,16 +561,33 @@ cmd_release() {
   # but that is a property of the tree being shipped into, not a guarantee this
   # script controls. A cited source under, say, `output/` or a path no ignore
   # rule covers would surface, and release would then refuse a fork whose only
-  # "residue" was what claim itself put there. Read BEFORE .fork-scratch is
-  # removed, because the post-preservation check below needs the same list.
+  # "residue" was what claim itself put there — which is exactly what happened
+  # while this list lived in worker-writable space; see SHIPPED_MANIFEST_REL.
+  # Still read BEFORE .fork-scratch is removed, because the transitional in-fork
+  # fallback below is inside it and the post-preservation check needs the same
+  # list.
   local -a shipped_excludes=()
-  local shipped_rel shipped_count=0
-  if [ -f "$fork/$SHIPPED_MANIFEST_REL" ]; then
+  local shipped_rel shipped_count=0 shipped_record shipped_source="none"
+  shipped_record="$(shipped_record_path "$fork")"
+  # TRANSITIONAL. A fork claimed before the record moved into the state
+  # directory has only the in-fork copy, and refusing to read it would strand
+  # every fork already in flight at the moment this landed.
+  # RETIRES WHEN: no fork claimed by the previous version of claim is still
+  # OWNED — `forks.sh list` is the check.
+  if [ -f "$shipped_record" ]; then
+    shipped_source="coordinator state"
+  elif [ -f "$fork/$SHIPPED_MANIFEST_REL" ]; then
+    shipped_record="$fork/$SHIPPED_MANIFEST_REL"
+    shipped_source="in-fork copy (pre-state-dir claim)"
+  else
+    shipped_record=""
+  fi
+  if [ -n "$shipped_record" ]; then
     while IFS= read -r shipped_rel; do
       [ -n "$shipped_rel" ] || continue
       shipped_excludes+=(":(exclude,literal)$shipped_rel")
       shipped_count=$((shipped_count + 1))
-    done < "$fork/$SHIPPED_MANIFEST_REL"
+    done < "$shipped_record"
   fi
 
   if ! residue="$(git_in "$fork" status --porcelain --untracked-files=all)"; then
@@ -551,7 +657,8 @@ cmd_release() {
   printf '  path: %s\n' "$fork"
   printf '  signal: %s\n' "$signal"
   printf '  scratch scripts preserved: %s\n' "$PRESERVED_SCRIPT_COUNT"
-  printf '  shipped sources excluded from the residue check by path: %s\n' "$shipped_count"
+  printf '  shipped sources excluded from the residue check by path: %s (record: %s)\n' \
+    "$shipped_count" "$shipped_source"
   printf '  committed work bundle: %s\n' "$bundle"
   printf '  state: GCd\n'
 }

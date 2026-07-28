@@ -1,0 +1,9 @@
+# BRIEF — the SAME two sources, cited in an INDENTED CODE BLOCK
+
+Read your inputs:
+
+    .protogen/research/evidence-a.md
+    .protogen/research/evidence-b.md
+
+## FILES YOU OWN
+- `tools/hello.sh`
