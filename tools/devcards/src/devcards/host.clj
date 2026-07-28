@@ -294,17 +294,33 @@
           (.toString sb)
           (do (.append sb (char (bit-and b 0xFF))) (recur (inc p))))))))
 
-(defn dump-tree!
-  "controls_dump_tree -> one parseable DOM JSON String.
+(defn normalize-dump
+  "The truncation membrane, as a pure String -> String so it can be gated.
 
    A renderer-buffer overflow ends with `,\"truncated\":true` but is otherwise
-   structurally cut JSON. Detect that suffix HERE, before any caller can parse
-   it, and return a canonical root carrying the same positive key. The return
-   contract stays one JSON String — never a String plus an out-of-band flag a
-   copied host can forget — while every existing parse site reaches the
-   :dump-truncated invariant instead of throwing first."
+   structurally cut JSON. Detect that suffix BEFORE any caller can parse it and
+   return a canonical root carrying the same positive key. The return contract
+   stays one JSON String — never a String plus an out-of-band flag a copied
+   host can forget — while every existing parse site reaches the
+   :dump-truncated invariant instead of throwing first.
+
+   SEPARATE FROM `dump-tree!` BECAUSE OF WHAT CAN GATE IT. `dump-tree!` needs a
+   live wasm instance, so its only end-to-end gate is the `dump-contracts`
+   target — which runs in the renderer workflow, whose `paths:` filter does not
+   name `tools/devcards/**`. A push that deleted this clause and touched
+   nothing else would therefore never start that workflow, and no corpus card
+   overruns the buffer, so nothing else would notice. As a pure fn it is
+   reachable from the unit suite, which the devcards workflow DOES run on such
+   a push. Keep both: the probe proves the renderer and this membrane agree,
+   the unit test proves the membrane itself still exists."
+  ^String [^String raw]
+  (if (.endsWith raw ",\"truncated\":true")
+    "{\"truncated\":true,\"children\":[]}"
+    raw))
+
+(defn dump-tree!
+  "controls_dump_tree -> one parseable DOM JSON String, normalised by
+   `normalize-dump` so a truncated dump arrives as data rather than as a parse
+   throw."
   ^String [host]
-  (let [raw (dump-tree-raw! host)]
-    (if (.endsWith ^String raw ",\"truncated\":true")
-      "{\"truncated\":true,\"children\":[]}"
-      raw)))
+  (normalize-dump (dump-tree-raw! host)))

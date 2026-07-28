@@ -39,16 +39,20 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
   `generated-projection`. What you must never do is reach for the re-mint
   without reading what moved: the whole point is that 243 cards shifting used to
   print GREEN.
-- **`docs/` now has TWO local gates, and they catch opposite failures.** The
-  golden verify half covers `goldens/` only. On `docs/`, the `gallery` arm runs
-  a two-way disk audit over `devcards.docs/audit-root` and exits through
-  `lanes/run-verdict`, so a file the generators no longer emit but that is
-  still TRACKED is caught locally as an orphan. What that audit CANNOT see is
-  changed CONTENT — a re-minted sheet is emitted and present, so the audit is
-  satisfied — and that is what CI's `git diff --exit-code` still owns. Neither
-  is redundant: one gate is for retired artifacts, the other for moved bytes.
-  `check-renderer` does not list `gallery-prebuilt`, so the content half is
-  still a CI-only assertion.
+- **`docs/` has TWO gates that catch opposite failures, and NEITHER is in the
+  battery entry.** The `gallery` arm runs a two-way disk audit over
+  `devcards.docs/audit-root` and exits through `lanes/run-verdict`, so a file
+  the generators no longer emit but that is still TRACKED is caught as an
+  orphan. What that audit CANNOT see is changed CONTENT — a re-minted sheet is
+  emitted and present, so the audit is satisfied — and that half is CI's
+  `git diff --exit-code`. One gate is for retired artifacts, the other for
+  moved bytes; neither substitutes for the other.
+- **`check-renderer` runs neither of them**, because it does not list
+  `gallery-prebuilt`. A green local battery therefore says NOTHING about
+  `docs/` in either direction — not that the sheets are fresh, and not that no
+  orphan is shipping. Run `gallery-prebuilt` yourself to reach the orphan half;
+  the content half you cannot reach locally at all. The golden verify half is
+  separate and does ride `check-renderer`, but it covers `goldens/` only.
 - `docs/widgets/**` is GENERATED, DO-NOT-EDIT. Edit `corpus/spec.edn`,
   `corpus/composition.edn`, the conventions manifests, or the generator ns —
   never the output.

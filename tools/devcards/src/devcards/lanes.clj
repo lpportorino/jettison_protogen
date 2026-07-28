@@ -56,9 +56,9 @@
    replaced with a canonical empty root — so it would report
    :probe-defect-absent, a finding naming a clause that never ran. Routing
    first therefore turns 'the dump overflowed and I judged nothing' into a
-   clean card on the six :probe-pixel-only cards and into a wrong diagnosis on
-   the :probe-defect ones. What the card is FOR is only a meaningful question
-   once the instrument answered at all."
+   clean card on every :probe-pixel-only card and into a wrong diagnosis on the
+   :probe-defect ones. What the card is FOR is only a meaningful question once
+   the instrument answered at all."
   {:id :tree-by-expect
    :requires #{:tree :caps :expect}
    :fn (fn [{:keys [card-id tree nodes caps expect]}]

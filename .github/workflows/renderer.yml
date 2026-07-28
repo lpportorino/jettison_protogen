@@ -276,11 +276,23 @@ jobs:
       # exactly how it went unreachable once without a gate noticing. It is also
       # the ONLY assertion that wasm.mk's 256 KiB stack reservation is adequate.
       #
-      # PATH-FILTER CHECK: both read renderer/wasm_harness/tests/*.rs and the
-      # controls.wasm built from renderer/src/**; reload additionally reads the
-      # morph triples emitted from tools/renderer-gen/** against
-      # output/manifests/design-tokens.json. All four roots are already in this
-      # workflow's `paths:` — no new trigger needed.
+      # PATH-FILTER CHECK: harness and oracles read
+      # renderer/wasm_harness/tests/*.rs and the controls.wasm built from
+      # renderer/src/**; reload additionally reads the morph triples emitted
+      # from tools/renderer-gen/** against output/manifests/design-tokens.json.
+      # All four roots are already in this workflow's `paths:`.
+      #
+      # dump-contracts IS DIFFERENT and the difference is not covered by the
+      # sentence above. Its renderer-side halves — the descend_gate emission
+      # and the truncation sentinel, both in renderer/src/** — do trigger this
+      # workflow. Its probe and the membrane it asserts against live under
+      # tools/devcards/**, which this workflow's `paths:` does NOT name, so a
+      # push touching only that root never starts this job. That gap is closed
+      # on the other side rather than by widening the filter (which would run
+      # the whole battery on every corpus edit): devcards.host/normalize-dump
+      # is a pure fn gated by devcards.host-test under devcards.yml's
+      # devcards-test, which does fire on tools/devcards/**. Read this lane as
+      # proof the two SIDES agree — not as the only gate on either one.
       name: Harness suite + oracles + reload-cycle + decode-limits + dump contracts
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
