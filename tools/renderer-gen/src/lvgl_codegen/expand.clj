@@ -55,11 +55,12 @@
    `lv_flex_flow_t`, so no LVGL header declares them and no generator can
    produce them, while the flow behind each one is entirely LVGL's.
 
-   The two must agree. A token here that `extract-layout` does not map is
-   diverted away from style parsing and then silently produces NO layout — the
-   class string still parses clean and the widget simply has none. A token
-   `extract-layout` maps but that is missing here throws \"Unknown class
-   token\" instead, which is at least loud.
+   The two must agree, and they fail in opposite directions. A token here that
+   `extract-layout` does not map is diverted away from style parsing and then
+   silently produces NO layout — the class string still parses clean and the
+   widget simply has none. A token `extract-layout` maps but that is missing
+   here falls through to style parsing instead; for every flow spelling that
+   ends in \"Unknown class token\", which is at least loud.
 
    `lvgl-codegen.wire-lut-test`'s `class-tokens-select-the-flow-they-name`
    judges both directions against the authoring schema's `:layout` enum, and

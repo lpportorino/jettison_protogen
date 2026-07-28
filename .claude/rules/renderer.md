@@ -43,7 +43,12 @@ language bindings, not a hand-maintained app.
   `renderer/edn/screens/demo_widgets.edn`, which authors three of the eight
   `lv_flex_flow_t` values — and a `:layout` grep under-counts them, because the
   `flex` / `flex-row` / `flex-col` CLASS utilities set the flow too
-  (`layout-flow` in `tools/renderer-gen/src/lvgl_codegen/expand.clj`). The
+  (`layout-directives` + `extract-layout` in
+  `tools/renderer-gen/src/lvgl_codegen/expand.clj` — two vars, not one, and
+  neither is named `layout-flow`; that name belongs to
+  `emit_proto/layout-flow-keyword->member`, a DIFFERENT leg already judged
+  below, so reaching for it lands on covered code and reads as a closed gap).
+  The
   `matrix` lane's `FLEX_KWS` (`renderer/coverage_matrix/run.sh`) drives all
   eight. **The five it does not share appear nowhere else in the tree** — not in
   a screen, not in a devcard fixture, only in the codegen vocabulary and in that
@@ -65,8 +70,26 @@ language bindings, not a hand-maintained app.
   cross-checked against the production clang+gcc extractor at zero disagreements,
   and it judges two further hand-written spellings of the same LVGL fact:
   `renderer/coverage_matrix/run.sh`'s `FLEX_VALS`, and `emit_proto`'s carried
-  `LV_COORD_MAX` / `LV_GRID_CONTENT` / `LV_GRID_FR`. A fourth spelling is still
-  uncovered — `expand.clj`'s `layout-flow` class-token map.
+  `LV_COORD_MAX` / `LV_GRID_CONTENT` / `LV_GRID_FR`. Leg 6 adds the fourth —
+  `expand.clj`'s class-token map — reading the live `layout-directives` and the
+  schema's `:layout` enum, so it asserts no token list of its own and is total
+  in both directions.
+  **KNOW WHICH WAY EACH OF THOSE TWO VARS FAILS; they are opposite.** A token in
+  `layout-directives` that `extract-layout` does not map is diverted away from
+  style parsing and then selects NO layout — the class string parses clean and
+  the widget silently has none. The reverse falls through to style parsing,
+  which for every flow spelling ends in a loud `Unknown class token`.
+  **The bare `flex` abbreviation is judged separately and its oracle is ARGUED,
+  not extracted.** It spells no `:layout` keyword, so the derived clause
+  structurally cannot reach it; the rule that it means row comes from
+  `lv_style_prop_get_default` having no `LV_STYLE_FLEX_FLOW` case, so an unset
+  flow resolves to 0 = `LV_FLEX_FLOW_ROW`. A renumbered `lv_flex_flow_t` would
+  red that deftest with no defect in `expand.clj`, which is why it is its own
+  deftest. Nothing in this tree states the rule; it was reconstructed from the
+  code it judges. And no pixel oracle could ever have caught a wrong answer
+  there: the bare `"flex"` literal appears only in those two definitions and in
+  no authored class string, so every committed golden left that one token in the
+  set unexercised.
   **That `matrix` is non-vacuous here still rests on a hand-run mutation, not on
   a lane, and that is a gap rather than a decision.** The static check judges
   what the numbers MEAN; it does not establish that any lane would notice a
