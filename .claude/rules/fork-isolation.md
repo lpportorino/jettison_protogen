@@ -335,6 +335,37 @@ first, per the signalling bullet above.
    rather than lift any generated artifact: a fork's copy was produced by its
    own toolchain, which is not the pin.
 
+## Lift traps measured across three waves — each cost a red, or nearly did
+
+These are properties of THIS tree, not general advice, and every one of them was
+paid for once already.
+
+- **`renderer/src/theme.c` is HASHED into
+  `tools/renderer-gen/generated/theme-style-groups.json`.** ANY edit to that
+  file — including a pure COMMENT — stales the manifest and reds
+  `lvgl-codegen.theme-style-groups-test`. Regenerate in the SAME commit. That
+  file is also `#include`d by `emit.c` under `-Werror`, so a comment can break
+  the BUILD outright (a `/*` inside a glob did exactly that).
+- **`check-renderer` does NOT cover `tools/devcards/docs`.** Both workflows diff
+  that tree on the runner, so a pixel change owes `gallery-prebuilt` as well as
+  the golden mint. And a re-mint set filtered on the WIDGET NAME misses composite
+  cards that contain the widget without naming it — measured, one composite in
+  twenty.
+- **Editing `docs/UI-QUALITY-CONTRACTS.md` stales
+  `.claude/skills/ui-standard-review/STANDARD.md`**, which is embedded from it
+  verbatim. The local battery cannot tell you. Regenerate with
+  `standard-brief-generate` and commit in the same change.
+- **`brief-check.sh` parses paths out of brief PROSE.** A shell brace expansion,
+  a whole directory where a sibling owns one file inside it, and a markdown `**`
+  immediately before a filename have each been refused. All three refusals were
+  CORRECT and all three were the coordinator's error, not a worker's. Write paths
+  as plain literals.
+- **A fork's report can be right about the evidence and wrong about the
+  conclusion.** Verify the claim, not the sentence — one report's premise
+  ("nothing is ever deleted, so it stays green forever") was half true: the
+  deletion really was absent, but a detection audit already blocked, which
+  changed what the fix had to be.
+
 ## Preserving — this is where a backup silently fails
 
 - Bundle against `BASE..master`, **never `..HEAD`**. A bundle cut against

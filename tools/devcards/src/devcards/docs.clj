@@ -657,7 +657,12 @@
    refuses an id with no tail at all, so the slug is always a non-empty
    separator-free token."
   ^Pattern [^String unit-id]
-  (let [sentinel " STATE "
+  ;; The sentinel is NUL-delimited because no unit-id can contain a NUL. It is
+  ;; built with (char 0), never typed as a raw byte: a literal NUL in the source
+  ;; makes grep classify this whole FILE as binary, so it returns no matches and
+  ;; exit 1 while the text is plainly there. Every text tool, and every reader
+  ;; grepping this file for a symbol, then silently sees nothing. Same value.
+  (let [sentinel (str (char 0) "STATE" (char 0))
         sentinel-re (Pattern/compile (Pattern/quote sentinel))
         alt (fn [fam]
               (let [[pre post] (str/split (card-file-name unit-id sentinel fam)
