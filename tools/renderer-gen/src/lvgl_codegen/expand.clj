@@ -47,7 +47,26 @@
   (bit-or pct (bit-shift-left 1 29)))
 
 (def ^:private layout-directives
-  "Class tokens that select a flex flow rather than a style property."
+  "Class tokens that select a flex flow rather than a style property.
+
+   HAND-WRITTEN, and one of the two spellings of that fact in this namespace —
+   `extract-layout` below carries the other. Nothing extracts either from
+   anything: the tokens are our own Tailwind-like abbreviation of
+   `lv_flex_flow_t`, so no LVGL header declares them and no generator can
+   produce them, while the flow behind each one is entirely LVGL's.
+
+   The two must agree. A token here that `extract-layout` does not map is
+   diverted away from style parsing and then silently produces NO layout — the
+   class string still parses clean and the widget simply has none. A token
+   `extract-layout` maps but that is missing here throws \"Unknown class
+   token\" instead, which is at least loud.
+
+   `lvgl-codegen.wire-lut-test`'s `class-tokens-select-the-flow-they-name`
+   judges both directions against the authoring schema's `:layout` enum, and
+   `bare-class-directive-selects-the-lvgl-default-flow` judges the bare `flex`
+   abbreviation against the vendored header's zero-valued flow. Kept private:
+   that suite reads it through `@#'`, which is a test concern and no reason to
+   widen this namespace's API."
   #{"flex" "flex-col" "flex-row"})
 
 (def ^:private exact-base-tokens
@@ -151,7 +170,24 @@
          (keep parse-class-token))))
 
 (defn extract-layout
-  "Extract layout flow from a class string. Returns :flex-row, :flex-col, or nil."
+  "Extract layout flow from a class string. Returns :flex-row, :flex-col, or nil.
+
+   The second hand-written spelling `layout-directives` names: this is where a
+   swap becomes WRONG BUT LEGAL. Point \"flex-col\" at any other member of the
+   authoring schema's `:layout` enum and the token still parses, the keyword is
+   still admissible, `emit-proto` still finds a FlexFlow member for it and
+   `ui_luts.h` still resolves that member to a real LVGL constant. Nothing
+   downstream can object; only the pixels are wrong. Judged in
+   `lvgl-codegen.wire-lut-test` leg 6.
+
+   `flex-col` wins over `flex-row`/`flex` when a class string carries both —
+   the first `condp` clause. Bare `flex` means the LVGL default flow (an unset
+   `LV_STYLE_FLEX_FLOW` resolves to 0, which is `LV_FLEX_FLOW_ROW`), the same
+   fact CSS states as `flex-direction: row` being initial.
+
+   Only two of the eight `:layout` keywords are reachable from a class string;
+   the wrapping and reversing flows are authorable only by writing `:layout`
+   directly (which the coverage-matrix fixtures do)."
   [class-str]
   (when class-str
     (let [tokens (str/split (str/trim class-str) #"\s+")]

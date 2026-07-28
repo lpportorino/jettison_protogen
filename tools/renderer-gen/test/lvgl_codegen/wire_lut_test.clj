@@ -14,7 +14,12 @@
    swapped pair is legal proto, compiles, regenerates identically, and renders
    the wrong flow. `renderer/coverage_matrix/run.sh`'s `FLEX_KWS`/`FLEX_VALS`
    is a second, in a shell script; `emit-proto`'s grid-track constants are a
-   third, hand-carried from `lv_grid.h`.
+   third, hand-carried from `lv_grid.h`. `lvgl-codegen.expand`'s
+   `layout-directives` + `extract-layout` are a FOURTH, one level further
+   upstream still: the class TOKEN that selects the `:layout` keyword the other
+   three then carry. Same defect class and the same invisibility - point
+   \"flex-col\" at a different valid flow and every stage below agrees with
+   itself all the way to the framebuffer.
 
    WHAT THIS SUITE ADDS.
    1. An INDEPENDENT oracle for the header values. `construct-bindings` and the
@@ -56,6 +61,7 @@
             [clojure.test :refer [deftest is testing]]
             [lvgl-codegen.construct.lift :as lift]
             [lvgl-codegen.emit-proto :as emit-proto]
+            [lvgl-codegen.expand :as expand]
             [lvgl-codegen.schema :as schema]))
 
 (set! *warn-on-reflection* true)
@@ -797,3 +803,122 @@
               (str "matrix reference value for " kw " is " v
                    ", but " c-name " is " (get by-name c-name)
                    " in the vendored header")))))))
+
+;; ── Leg 6: the CLASS TOKEN, one level above the :layout keyword ──────────────
+;; Legs 4 and 5 begin at the `:layout` authoring keyword. Nothing above them
+;; asked where that keyword comes from, and for every screen authored in the
+;; class DSL it comes from `lvgl-codegen.expand`: `layout-directives` says which
+;; tokens are layout tokens at all, and `extract-layout` says which flow each
+;; one selects. Both are hand-written, neither is extracted from anything, and
+;; before this leg neither was read by any test in the tree.
+;;
+;; The defect this catches is the same wrong-but-legal one: point "flex-col" at
+;; `:flex-row-wrap` and the token still parses, the keyword is still one the
+;; schema admits, `emit-proto` still finds a FlexFlow member for it, `ui_luts.h`
+;; still resolves that member to a real LVGL constant, and the C compiler has
+;; nothing to object to. Only the pixels are wrong.
+
+(defn- class-layout-directives
+  "The class tokens `expand/parse-class-token` diverts away from style parsing,
+   read out of the LIVE private var. Private on purpose - reading it here is a
+   test concern and does not widen `expand`'s API, the same call
+   `grid-track-constants-match-the-vendored-macros` makes about `emit-proto`.
+   Restating the token set in this file would BE the second spelling this leg
+   exists to prevent, and the test would then compare a copy against itself."
+  []
+  @#'expand/layout-directives)
+
+(defn- layout-keyword->lvgl-value
+  "The value the vendored header declares for a `:layout` authoring keyword.
+
+   Resolved through the SHAPE derivation (`flow-keyword-for`) and the header
+   oracle, NEVER through `emit-proto/layout-flow-keyword->member`: routing it
+   through that map would let a defect in leg 4's subject red leg 6 as well, and
+   a red two clauses can produce attributes to neither."
+  [layout-kw]
+  (let [c-names (keyword->c-name "lv_flex_flow_t")
+        by-name (into {} (map (juxt :name :value)) (get @header-facts "lv_flex_flow_t"))
+        c-name (get c-names (flow-keyword-for layout-kw (keys c-names)))]
+    (when-not (contains? by-name c-name)
+      (throw (ex-info "no vendored LVGL constant behind this :layout keyword"
+                      {:layout layout-kw :c-name c-name})))
+    (get by-name c-name)))
+
+(deftest class-tokens-select-the-flow-they-name
+  (testing "each layout class token selects the flow its own name spells"
+    (let [directives (class-layout-directives)]
+      (is (seq directives) "expand/layout-directives is empty - nothing judged")
+      (is (seq @layout-vocabulary) "the authoring schema declared no :layout keywords")
+      ;; TOTAL over the authoring vocabulary. Every `:layout` keyword the schema
+      ;; admits is judged, and the two answers are stated separately so the
+      ;; failure says which one broke: a keyword the DSL SPELLS must be selected
+      ;; by that spelling, and a keyword it does not spell must select NOTHING
+      ;; rather than quietly selecting some other flow.
+      (doseq [kw (sort @layout-vocabulary)]
+        (let [token (name kw)
+              got (expand/extract-layout token)]
+          (if (contains? directives token)
+            (is (= kw got)
+                (str "class token \"" token "\" selects " (pr-str got)
+                     ", but it spells " kw))
+            (is (nil? got)
+                (str "class token \"" token "\" is not in expand/layout-directives"
+                     " yet extract-layout selects " (pr-str got))))))
+      ;; TOTAL over the directive set, the other direction. A token the parser
+      ;; diverts away from style parsing but `extract-layout` then drops is the
+      ;; quiet failure: the class string still parses clean, no exception is
+      ;; thrown, and the widget simply has no layout.
+      (doseq [token (sort directives)]
+        (let [got (expand/extract-layout token)]
+          (is (contains? @layout-vocabulary got)
+              (str "class token \"" token "\" selects " (pr-str got)
+                   ", which the authoring schema's :layout enum does not admit"))))
+      ;; The two hand-written spellings INSIDE expand.clj must agree with each
+      ;; other. `layout-directives` gates `parse-class-token`; `extract-layout`
+      ;; carries its own token literals. A token in one and not the other is a
+      ;; silent hole in whichever direction it points, so both are asserted.
+      (doseq [token (sort directives)]
+        (is (nil? (expand/parse-class-token token))
+            (str "\"" token "\" is a layout directive, so parse-class-token must"
+                 " divert it rather than parse it as a style token")))
+      (doseq [kw (sort @layout-vocabulary)
+              :let [token (name kw)]
+              :when (not (contains? directives token))]
+        (is (thrown? clojure.lang.ExceptionInfo (expand/parse-class-token token))
+            (str "\"" token "\" names a :layout keyword the class DSL does not"
+                 " admit, so it must be REFUSED as a class token rather than"
+                 " silently ignored"))))))
+
+(deftest bare-class-directive-selects-the-lvgl-default-flow
+  (testing "a layout token that spells no :layout keyword abbreviates the default"
+    ;; `flex` is an ABBREVIATION rather than a spelling: no `:layout` keyword is
+    ;; named `:flex`, so the identity clause above cannot reach it. Left there
+    ;; it would be the one token in the set judged by nothing - the "clean" and
+    ;; "I could not look" green this suite refuses everywhere else.
+    ;;
+    ;; The oracle is LVGL's own default, not a table written here. An unset
+    ;; style property resolves to a zero `lv_style_value_t`
+    ;; (`lv_style_prop_get_default` has no case for `LV_STYLE_FLEX_FLOW`, so it
+    ;; falls to the `default:` arm), which means an object given flex layout
+    ;; with no explicit flow lays out as the `lv_flex_flow_t` enumerator whose
+    ;; value is 0. CSS states the same fact as `flex-direction: row` being the
+    ;; initial value.
+    ;;
+    ;; ARGUED, NOT EXTRACTED, and it is a deftest of its own for exactly that
+    ;; reason. "A bare directive means the default" is this suite's reading of
+    ;; the DSL; the vendored header supplies only the number behind it. A
+    ;; renumbered `lv_flex_flow_t` would red this without `expand.clj` having
+    ;; any defect, and keeping it separate stops that red from being mistaken
+    ;; for the derived clause above going off.
+    (let [directives (class-layout-directives)
+          aliases (remove #(contains? @layout-vocabulary (keyword %)) directives)
+          defaults (filter #(zero? (layout-keyword->lvgl-value %)) @layout-vocabulary)]
+      (is (= 1 (count defaults))
+          (str "lv_flex_flow_t must declare exactly one zero-valued flow for"
+               " \"the default\" to name anything - got " (sort defaults)))
+      (doseq [token (sort aliases)]
+        (let [got (expand/extract-layout token)]
+          (is (= (first defaults) got)
+              (str "class token \"" token "\" spells no :layout keyword, so it"
+                   " abbreviates the LVGL default flow " (first defaults)
+                   " - extract-layout selects " (pr-str got))))))))
