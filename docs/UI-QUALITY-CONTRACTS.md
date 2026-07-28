@@ -776,11 +776,19 @@ consumes the token manifest, a font-metrics block, and AST style groups with
 full state/theme enumeration — inputs that exist before anything renders — and
 therefore owes the two halves §6.5 names as blind:
 
-1. **The RECOLOR arm.** With the ban in force the authored pair IS the rendered
-   pair, so every `text_color` / `bg_color` the dump reports must be a value the
-   token manifest declares. A whole-widget recolor produces a composite that
-   appears in no token table, which makes it detectable by exactly this
-   comparison — and detectable *only* because the ban makes the identity hold.
+1. **The NON-TOKEN-COLOUR arm** — renamed, because "the RECOLOR arm" named it
+   after one of its causes and the retraction above is exactly about that. What
+   it can detect is that a `text_color` / `bg_color` the dump reports is a value
+   the token manifest does NOT declare. That is a FACT. A whole-widget recolor is
+   one cause of it; a stock LVGL colour reaching the surface through the theme
+   patch is another; a deliberately non-token colour is a third.
+   **It does NOT rest on the authored pair being the rendered pair, because that
+   identity is scoped** (§6.2: a text-bearing widget under `disabled`, where the
+   theme also pins `recolor_opa` TRANSP) and does not hold theme-wide. So the arm
+   cannot block on raw non-token-ness: it must first separate this theme's own
+   DECLARED recolors — `hover`, `pressed`, `disabled_dim` — from everything else,
+   or it condemns the mechanism §6 prescribes. Size it with the probe
+   (`clojure -M:bindings:token-conformance`), never from this paragraph.
 2. **Exhaustive state/theme coverage.** The authored style groups enumerate
    combinations no corpus renders, so the static tier judges the authored space
    where §6.5 judges the rendered one. The finding shape is the same

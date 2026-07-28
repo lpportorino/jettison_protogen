@@ -892,18 +892,28 @@ What survives is narrower and still worth building: a drawn colour in no token
 table is a FACT worth reporting, but it is not evidence of a recolor, and the
 clause must separate the theme's declared recolors from everything else before
 it can block. Sizing it needs the probe, not this paragraph —
-`clojure -M:bindings:token-conformance`.
+`clojure -M:bindings:token-conformance`. **And before acting on what it reports,
+read §6.8: the repair the finding suggests LOWERS contrast.** §6.9 is the same
+warning aimed at the token table the arm compares against.
 
 The clause in §6.5 is the half reachable from a rendered dump. The static tier
 consumes the token manifest, a font-metrics block, and AST style groups with
 full state/theme enumeration — inputs that exist before anything renders — and
 therefore owes the two halves §6.5 names as blind:
 
-1. **The RECOLOR arm.** With the ban in force the authored pair IS the rendered
-   pair, so every `text_color` / `bg_color` the dump reports must be a value the
-   token manifest declares. A whole-widget recolor produces a composite that
-   appears in no token table, which makes it detectable by exactly this
-   comparison — and detectable *only* because the ban makes the identity hold.
+1. **The NON-TOKEN-COLOUR arm** — renamed, because "the RECOLOR arm" named it
+   after one of its causes and the retraction above is exactly about that. What
+   it can detect is that a `text_color` / `bg_color` the dump reports is a value
+   the token manifest does NOT declare. That is a FACT. A whole-widget recolor is
+   one cause of it; a stock LVGL colour reaching the surface through the theme
+   patch is another; a deliberately non-token colour is a third.
+   **It does NOT rest on the authored pair being the rendered pair, because that
+   identity is scoped** (§6.2: a text-bearing widget under `disabled`, where the
+   theme also pins `recolor_opa` TRANSP) and does not hold theme-wide. So the arm
+   cannot block on raw non-token-ness: it must first separate this theme's own
+   DECLARED recolors — `hover`, `pressed`, `disabled_dim` — from everything else,
+   or it condemns the mechanism §6 prescribes. Size it with the probe
+   (`clojure -M:bindings:token-conformance`), never from this paragraph.
 2. **Exhaustive state/theme coverage.** The authored style groups enumerate
    combinations no corpus renders, so the static tier judges the authored space
    where §6.5 judges the rendered one. The finding shape is the same
@@ -911,3 +921,105 @@ therefore owes the two halves §6.5 names as blind:
    are a style group that sets `opa` on a text-bearing group (must fire) paired
    with one that sets it on a text-free group (must stay silent) — **both
    halves, because the second is the one that catches a false gate.**
+
+### 6.8 THE OBVIOUS REPAIR INVERTS — a token swap is a contrast LOSS
+
+§6.7's arm reports a drawn colour that no token declares. The repair that
+reading suggests — have the theme set `text_color` from a token on every widget
+it styles — **is the wrong first move, and the reason is arithmetic rather than
+taste.**
+
+Every ratio below is WCAG relative luminance, re-derived from
+`tools/renderer-gen/edn/tokens.edn` and the stock values the child theme falls
+through to (`DARK_COLOR_TEXT` / `LIGHT_COLOR_TEXT` in
+`renderer/lvgl/src/themes/default/lv_theme_default.c`):
+
+| pair | drawn today | after the token swap |
+|---|---:|---:|
+| dark body text on `surface-1` | 17.77:1 | 15.22:1 |
+| light body text on `surface-1` | 12.10:1 | 12.91:1 |
+| accent button label | **5.70:1** | **4.68:1** |
+| roller SELECTED band | **5.36:1** | **4.40:1** |
+
+Two things follow and they point opposite ways.
+
+**No body-text pair is a legibility problem.** Across every surface token in
+both modes those cells run 8.70:1 to 18.89:1 before the swap and after it —
+comfortably over §6.2's governing 6:1 — while the dark mode loses up to 2.71
+points and the light mode gains under 1.1. The leak is a palette-OWNERSHIP
+defect. It must not be sold as a readability one.
+
+**The pairs that DO break the floor are the accent pairs, and the declared
+tokens make them worse.** `accent-text` resolves to the same near-white as dark
+`fg-0`, and white already MAXIMISES luminance against those fills, so no choice
+of text tone reaches 6:1 — the FILL's lightness is what has to move. The shipped
+surface measures better than its own token table says it should.
+
+Know which way this fails. Acting on the arm alone re-mints every affected
+golden and gallery render, owes the mandatory VLM review, and buys a net
+contrast LOSS on the dark theme. Derive the accent fills first, project the
+tokens the theme needs, wire the theme, and re-mint once — in that order.
+
+**And on accent surfaces the theme has never had the choice.** The token→C
+projection is a closed table (`fields` in
+`tools/renderer-gen/src/lvgl_codegen/theme_tokens.clj`), `accent-text` is not in
+it, and no `THEME_ACCENT_TEXT_*` exists in `renderer/generated/theme_tokens.h`.
+A consumer reading a stock-looking accent glyph as the theme preferring stock
+over its token has the causality backwards; and adding the define is necessary
+but not sufficient, because `lv_theme_default_init` takes no accent-text
+parameter and stock styles couple the glyph colour to the fill.
+
+### 6.9 A DECLARED FG × BG CROSS PRODUCT IS NEITHER SOUND NOR COMPLETE
+
+The natural input for a token-level contrast gate is the cross product of a
+foreground-token list with a background-token list. **It fails in both
+directions at once, which is what makes it dangerous: the over-coverage is loud
+and the under-coverage is silent.**
+
+**The split is not a property of the tokens.** In this repo's own authoring
+vocabulary the same token appears on both sides — `bg-fg-0` is a real class, and
+the `hud-label` component in `tools/renderer-gen/edn/components.edn` is
+`text-accent-bg`, a background token used as ink. Any hand-written FG/BG split
+is therefore an assumption about usage, never a fact about the manifest, and it
+is the assumption that decides what the gate can see.
+
+**Under-coverage is the half that reports clean.** Text backgrounds a
+surface-only BG list omits, RENDERED: the three `status-*` fills — the `hud-btn`
+component sets `bg-status-error`, `md:bg-status-warning`, `lg:bg-status-success`
+under a `text-fg-0` label, and the visual-regression harness renders that
+fixture at every breakpoint — and `checked-accent`, which the roller arm in
+`renderer/src/theme.c` puts under the always-visible centred option. Those cells
+are not marginal: dark `fg-0` on `status-warning` measures **1.76:1** and on
+`status-success` **2.08:1**, against a 6:1 floor. Omitted and merely AUTHORED
+(which is exactly the space §6.7's second item says the static tier judges):
+`pressed-accent`, carried by the `btn-primary` and `hud-btn` components under
+their own labels. A cross product that omits either class returns an empty
+vector — "clean" and "I never looked" arriving as the same answer, which is the
+standard's *"an unjudged element is a FINDING, never a skip"* one level up.
+
+**Over-coverage is the half that wastes the reviewer.** The same construction
+scores `accent-text` against every surface, a combination nothing authors —
+`accent-text` is authored only as ink on `accent-bg` — so a mode-invariant white
+gets scored at 1.06:1 on a light surface and read as a catastrophic failure of
+a pair that cannot occur.
+
+**And a HALF-composited pair defeats the membership test itself — this is not
+§6's ban arriving from another direction, and reading it as one gets the
+mechanism wrong.** The authoring vocabulary's `opa-` class prefix resolves to
+`bg-opa`, not to whole-widget `opa` (`style-props` in
+`tools/renderer-gen/src/lvgl_codegen/style_props.clj`): whole-widget `opa` has
+no class prefix at all, so a class string cannot express the ban's hazard. What
+`hud-btn`'s `opa-overlay-opa` does instead is fade the FILL over whatever is
+behind it while leaving the glyphs untouched. The rendered pair is then a TOKEN
+foreground on a COMPOSITE background, and it is not the authored one — the dark
+`status-error` cell lands near 4.5:1 where the authored pair measures 3.09:1.
+**A gate that checks each end for token membership finds the foreground fine and
+has no opinion on the pair**, which is the failure that looks most like a pass.
+Note also which side of the tier line the composite falls on: the exact byte
+depends on the SW blend path taken (`lv_color_24_24_mix` and friends carry their
+own rounding), so a static tier reading tokens can bound this pair but cannot
+compute it — that value has to come from the dump.
+
+So: derive the pair set from what the authoring vocabulary and the theme
+actually pair, and where that cannot be established, emit the third answer
+rather than an empty one.
