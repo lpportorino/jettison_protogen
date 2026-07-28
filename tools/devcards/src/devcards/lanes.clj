@@ -46,22 +46,35 @@
 
    `:probe-defect` is the INVERTED arm and the reason this cannot be the
    plain tree lane: such a cell exists to EXHIBIT a defect flag, so its
-   ABSENCE is the finding."
+   ABSENCE is the finding.
+
+   TRUNCATION IS CHECKED BEFORE THE ROUTER, and that ordering is the whole
+   point rather than a detail. Two arms short-circuit without ever reaching
+   `invariants/tree-findings`, which is the only other home of the
+   :dump-truncated clause: `:probe-pixel-only` returns [] outright, and
+   `:probe-defect` reads defect flags off a tree that truncation has already
+   replaced with a canonical empty root — so it would report
+   :probe-defect-absent, a finding naming a clause that never ran. Routing
+   first therefore turns 'the dump overflowed and I judged nothing' into a
+   clean card on the six :probe-pixel-only cards and into a wrong diagnosis on
+   the :probe-defect ones. What the card is FOR is only a meaningful question
+   once the instrument answered at all."
   {:id :tree-by-expect
    :requires #{:tree :caps :expect}
    :fn (fn [{:keys [card-id tree nodes caps expect]}]
-         (case expect
-           :probe-pixel-only []
-           :probe-defect (if (some (fn [node]
-                                     (some #(get node %) invariants/defect-flags))
-                                   (tree-seq #(seq (:children %)) :children tree))
-                           []
-                           [{:card card-id
-                             :invariant :probe-defect-absent
-                             :detail (str "cell exists to EXHIBIT a defect flag; "
-                                          "none present")}])
-           ;; nil expect (kitchen sinks) and every judged expect → full lane
-           (invariants/tree-findings card-id tree caps nodes)))})
+         (or (seq (invariants/truncation-findings card-id tree))
+             (case expect
+               :probe-pixel-only []
+               :probe-defect (if (some (fn [node]
+                                         (some #(get node %) invariants/defect-flags))
+                                       (tree-seq #(seq (:children %)) :children tree))
+                               []
+                               [{:card card-id
+                                 :invariant :probe-defect-absent
+                                 :detail (str "cell exists to EXHIBIT a defect flag; "
+                                              "none present")}])
+               ;; nil expect (kitchen sinks) and every judged expect → full lane
+               (invariants/tree-findings card-id tree caps nodes))))})
 
 (def overlap-classes
   "The classification table the overlap lane judges this corpus with: the

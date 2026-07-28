@@ -126,6 +126,35 @@
     (is (empty? (judge :probe-pixel-only defective-tree)))
     (is (contains? (invariants-of (judge :judged defective-tree)) :clipped))))
 
+;; ── truncation outranks the router ───────────────────────────────────────
+
+(def ^:private truncated-tree
+  "Exactly what `devcards.host/dump-tree!` substitutes when it sees the
+   renderer's overflow sentinel: the real tree is GONE, not merely flagged."
+  {:truncated true :children []})
+
+(deftest truncation-fires-on-EVERY-arm-including-the-short-circuiting-ones
+  (testing "the judged arm reports it — the baseline the other arms must match"
+    (is (= #{:dump-truncated} (invariants-of (judge :judged truncated-tree)))))
+  (testing ":probe-pixel-only returns [] for a card it declines to judge, so
+            without the pre-router check a truncated dump on one of those
+            cards is byte-identical to a clean one. It is the arm that most
+            needs this and the one that could least report it."
+    (is (= #{:dump-truncated} (invariants-of (judge :probe-pixel-only truncated-tree)))))
+  (testing ":probe-defect reads flags off a tree truncation has already
+            emptied, so routing first would answer :probe-defect-absent —
+            red, but naming a clause that never ran. The truncation finding
+            must REPLACE that diagnosis, not sit beside it."
+    (let [fs (invariants-of (judge :probe-defect truncated-tree))]
+      (is (= #{:dump-truncated} fs))
+      (is (not (contains? fs :probe-defect-absent)))))
+  (testing "and the check is not a blanket short-circuit: an UNtruncated tree
+            still reaches whichever arm :expect selects. Without this control
+            a producer hard-wired to report :dump-truncated would pass every
+            assertion above."
+    (is (empty? (judge :probe-pixel-only defective-tree)))
+    (is (= #{:probe-defect-absent} (invariants-of (judge :probe-defect clean-tree))))))
+
 ;; ── producer selection is by NAME ────────────────────────────────────────
 
 (deftest a-builtin-producer-is-selected-by-id-not-position

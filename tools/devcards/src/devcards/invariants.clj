@@ -231,6 +231,28 @@
            (or (:hidden node) hidden-under? snapped-under?))
       (and (= flag :overflow) (roller-drum-overflow? node))))
 
+(defn truncation-findings
+  "The HARD :dump-truncated clause, on its own so every caller shares one copy.
+
+   Truncation is not a question about what a card is FOR — it is the
+   instrument reporting that it could not look. `devcards.host` substitutes a
+   canonical `{:truncated true :children []}` root when it sees the renderer's
+   overflow sentinel, so by the time any lane runs, EVERY key the tree carried
+   is gone. A lane that routes on the card's purpose before checking this
+   reports a card clean whose entire DOM was discarded — which is the
+   'clean' / 'could not look' conflation this standard refuses everywhere.
+
+   Callers: `tree-findings` (so the full lane keeps it) and
+   `devcards.lanes/tree-producer` (BEFORE its `:expect` router, so the
+   short-circuiting arms cannot skip it). Both must stay — the router bypasses
+   `tree-findings` entirely for two of its arms."
+  [card-id root]
+  (when (:truncated root)
+    [{:card card-id
+      :invariant :dump-truncated
+      :node "(root)"
+      :detail "dump_tree overflowed its buffer — card unjudgeable"}]))
+
 (defn tree-findings
   "DOM findings for one card's parsed dump tree. `caps` declares what the
    loaded module can express: {:vis-px? bool}. Returns finding maps
@@ -247,11 +269,7 @@
                      {:card card-id :got (type root)})))
    (let [annotated (or annotated (annotate-tree root))]
      (-> []
-         (into (when (:truncated root)
-                 [{:card card-id
-                   :invariant :dump-truncated
-                   :node "(root)"
-                   :detail "dump_tree overflowed its buffer — card unjudgeable"}]))
+         (into (truncation-findings card-id root))
          (into (for [entry annotated
                      flag defect-flags
                      :when (and (get (:node entry) flag) (not (designed-flag? entry flag)))]
