@@ -208,7 +208,7 @@ hooks-status:
 #
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
-lint: lint-sh brief-check-test fork-hazards fmt-clj lint-clj fmt-c
+lint: lint-sh brief-check-test forks-release-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
@@ -350,6 +350,23 @@ fork-hazards:
 
 brief-check-test:
 	@bash tools/claude/brief_check_test.sh
+
+# The other half of the fork lifecycle: whether `release` can DELETE a fork at
+# all. Rides `lint` for the same reasons brief-check-test does — no container,
+# no rendered surface, and a gate whose canaries are never run is a gate nobody
+# has checked since it landed.
+#
+# ITS PERMISSION CANARIES NEED A NON-ROOT UID. An unwritable directory does not
+# refuse root, so as root the suite reports UNJUDGED, declines to print ALL
+# GREEN, and exits 0 rather than blocking a container run. The pre-push hook is
+# this target's live caller and runs as the developer, which is where those
+# canaries are judged. `tools/uber.sh 'make -f lint.mk lint'` reaches this
+# target — it is ordered before lint-clj, not after — and would report them
+# UNJUDGED rather than judged; that aggregate then fails on lint-clj anyway,
+# for the reason this file's header gives.
+.PHONY: forks-release-test
+forks-release-test:
+	@bash tools/claude/forks_release_test.sh
 
 # Parse-only, deliberately: shellcheck is not present on the host or in the
 # uber image, and adding a toolchain dependency for it is a separate decision.

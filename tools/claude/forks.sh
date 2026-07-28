@@ -519,6 +519,128 @@ preserve_scratch_scripts() {
     -print0)
 }
 
+# A directory is empty when a dotglob'd `*` expands to nothing. Done with shell
+# builtins inside a subshell so the two `shopt`s cannot leak, and so this needs
+# neither `ls` nor a nested `find` — both of which a caller's shell environment
+# can shadow, and neither of which is needed to answer a question readdir
+# already answers.
+dir_is_empty() ( shopt -s nullglob dotglob; set -- "$1"/*; [ "$#" -eq 0 ] )
+
+# CAN THIS FORK BE DELETED AT ALL? Asked BEFORE the first destructive step, and
+# never inferred from that step's exit status.
+#
+# BOTH destructive steps in release are `rm -rf`, and `rm -rf` DELETES WHAT IT
+# CAN BEFORE IT FAILS. Measured on this tree against a directory a toolchain
+# container created in a bind mount: the sibling scratch log beside it was
+# removed, the root-owned subtree survived, and rm exited 1. Reacting to that
+# exit status therefore means reacting after part of the tree is already gone —
+# and at the FINAL `rm -rf "$fork"` it would mean reacting to a fork shredded
+# down to whatever refused, with its manifest still saying OWNED and the
+# operator's only intact copy the bundle.
+#
+# WHAT REFUSES AN UNLINK IS THE PARENT DIRECTORY, NOT THE FILE. Unlinking needs
+# write permission on the directory holding the entry and nothing whatever on
+# the entry itself, so root-owned FILES in a directory we own delete cleanly —
+# measured in that same run, where a root-owned `plain-scratch.log` sitting in a
+# user-owned directory went away without complaint. The predicate is DIRECTORIES
+# WE CANNOT WRITE. A scan for root-owned files would name the wrong set in both
+# directions at once: it would list that log, and it would miss an unwritable
+# directory whose contents we own.
+#
+# NOR IS OWNERSHIP THE PREDICATE. A directory root created at mode 755 and a
+# directory we own at mode 555 refuse our unlink with the identical EACCES —
+# both measured, both producing the same "cannot remove ...: Permission denied".
+# `test -w` asks the question the kernel is going to answer anyway, so it
+# honours root and ACLs for free, and it is why this guard is VACUOUS rather
+# than WRONG when release itself runs as uid 0.
+#
+# EMPTY IS NOT NON-EMPTY. `rm -rf` clears an EMPTY unwritable directory through
+# its PARENT's write bit and exits 0 — measured at mode 000 and at mode 555
+# alike — so emptiness belongs in the predicate. Dropping it turns every such
+# directory into a refusal release cannot justify, which is the false-positive
+# direction this guard has to be trusted not to take.
+assert_fork_is_clearable() {
+  local fork="$1" listing dir reason meta status=0 i owner_spec
+  local -a blockers=() reasons=()
+  owner_spec="$(id -u):$(id -g)" || owner_spec="$EUID"
+
+  # `-prune` so the scan never descends into a directory it has just flagged.
+  # That keeps find's own exit status meaningful, instead of drowning it in the
+  # very permission errors the flag already accounts for.
+  listing="$(find "$fork" -type d \
+    \( ! -readable -o ! -writable -o ! -executable \) -print -prune)" || status=$?
+  # THE PRODUCER'S EXIT STATUS IS PART OF THE ANSWER — the same lesson
+  # ship_cited_sources carries, in the one place where getting it wrong deletes
+  # something. A find that died emits ZERO LINES, which is byte-identical to
+  # "every directory here is clearable"; treating that as a verdict would delete
+  # a fork on the strength of a scan that never ran.
+  [ "$status" -eq 0 ] ||
+    fail "unclearable-residue: the clearability scan of $fork FAILED (find exit $status); that is an ERROR, not a clearable fork — nothing was deleted"
+
+  while IFS= read -r dir; do
+    [ -n "$dir" ] || continue
+    if [ -r "$dir" ] && [ -x "$dir" ]; then
+      if dir_is_empty "$dir"; then
+        continue
+      fi
+      reason="not writable by uid $EUID — rm cannot unlink the entries it holds"
+    else
+      # Unreadable is the one case this scan cannot decide: an empty one would
+      # in fact clear, but we cannot look inside to find out. Reported rather
+      # than assumed either way, because "I could not look" and "there is
+      # nothing there" must not arrive as the same answer.
+      reason="not readable or not traversable by uid $EUID — its contents are UNJUDGED"
+    fi
+    blockers+=("$dir")
+    reasons+=("$reason")
+  done <<< "$listing"
+
+  if [ "${#blockers[@]}" -eq 0 ]; then
+    return 0
+  fi
+
+  printf '[forks] FAIL — unclearable-residue: %s cannot be deleted by uid %s\n' \
+    "$fork" "$EUID" >&2
+  printf '  Nothing was deleted and the fork is still OWNED. This is refused BEFORE\n' >&2
+  printf '  the first `rm -rf`, because `rm -rf` removes what it can before it fails.\n' >&2
+  printf '  %s director(ies) in the way:\n' "${#blockers[@]}" >&2
+  for i in "${!blockers[@]}"; do
+    meta="$(stat -c '%A %U:%G' -- "${blockers[$i]}" 2>/dev/null)" || meta="<mode/owner unreadable>"
+    printf '    %s  %s\n' "$meta" "${blockers[$i]}" >&2
+    printf '      %s\n' "${reasons[$i]}" >&2
+  done
+  printf '  A toolchain container runs as root, so whatever it wrote into this bind\n' >&2
+  printf '  mount stayed root-owned on the host. Clear it with the SAME privilege\n' >&2
+  printf '  that created it. What to run, in order of preference:\n' >&2
+  if [ -x "$fork/tools/uber.sh" ]; then
+    # VERIFIED LIVE, not inferred from reading it: tools/uber.sh wraps every
+    # command so that /workspace is chowned back to the invoking uid/gid
+    # afterwards, on success and failure alike, and its /workspace mount is the
+    # checkout the script itself sits in — which for the fork's own copy is the
+    # fork. A no-op command is therefore a complete repair, and it took 0.31s
+    # against a planted root-owned subtree here.
+    printf '    %s/tools/uber.sh true\n' "$fork" >&2
+    printf '      (no sudo, and no image name to remember: uber.sh chowns its whole\n' >&2
+    printf '       /workspace mount back to your uid after EVERY run, so a no-op\n' >&2
+    printf '       command is enough. It builds the pinned image first if absent.)\n' >&2
+  else
+    printf '    (this fork ships no tools/uber.sh, so the container route needs the\n' >&2
+    printf '     image and mount you used by hand)\n' >&2
+  fi
+  printf '    chmod -R u+rwX <path>\n' >&2
+  printf '      (only where the path above is already yours — chmod cannot help you\n' >&2
+  printf '       with one owned by root)\n' >&2
+  # OWNER AND GROUP, not just the uid: `chown 1000` leaves the group alone, so a
+  # path left group-root stays a trap for the next tool that checks it. Resolved
+  # once, with a numeric fallback, so a stripped-down environment without `id`
+  # still prints something runnable rather than an empty field.
+  printf '    sudo chown -R %s <path>\n' "$owner_spec" >&2
+  printf '      (last resort, and ONLY the paths listed above — never the whole fork)\n' >&2
+  printf '  Then re-run this exact command:\n' >&2
+  printf '    tools/claude/forks.sh release %s --owner-signalled <signal>\n' "$fork" >&2
+  exit 1
+}
+
 cmd_release() {
   local raw_path="${1:-}" flag="${2:-}" signal="${3:-}"
   local fork marker_owner residue outside_residue post_residue
@@ -605,6 +727,18 @@ cmd_release() {
     exit 1
   fi
 
+  # DELIBERATELY AFTER THE RESIDUE CHECK, not before it. Uncommitted work is the
+  # question that decides whether this fork may be destroyed at all; whether the
+  # filesystem will let us destroy it is only worth asking once the answer to
+  # that one is yes. Keeping the order also keeps the residue clause the FIRST
+  # thing that speaks, so a fork carrying both faults is refused by the gate that
+  # was already load-bearing. Consequence, and it is intended: one fault is
+  # reported per run, residue first.
+  #
+  # Placed before preserve_dir is created, so a refusal here leaves no orphaned
+  # directory in the coordinator's state dir.
+  assert_fork_is_clearable "$fork"
+
   safe_task="${RECORD_TASK//[^a-zA-Z0-9._-]/_}"
   stamp="$(date -u +%Y%m%dT%H%M%SZ)"
   preserve_dir="$STATE_DIR/preserved/$safe_task-$stamp-$$"
@@ -638,7 +772,18 @@ cmd_release() {
 
   # Scratch is disposable only after its source-like proofs have been copied.
   # Removing it also drops regenerable logs, renders, and images.
-  rm -rf -- "$fork/.fork-scratch"
+  #
+  # GUARDED, THOUGH assert_fork_is_clearable HAS ALREADY PASSED. Unguarded, this
+  # line's failure propagated out under `set -e` with no `[forks]` line at all:
+  # release stopped mid-way carrying only rm's own one-line complaint, which
+  # names a FILE and so points at the wrong object entirely (the directory
+  # holding it is what refused). The scan upstream screens the whole permission
+  # class, so anything reaching here is NOT that class — a writer racing the
+  # scan, a mount point, or an I/O error — and the message says so rather than
+  # repeating a diagnosis that has already been ruled out.
+  if ! rm -rf -- "$fork/.fork-scratch"; then
+    fail "scratch-cleanup-failed: could not remove $fork/.fork-scratch; the fork is retained and stays OWNED. rm's own message is above. The clearability scan passed, so this is NOT the unwritable-directory class it screens for — suspect a writer racing this command, a mount point, or an I/O error."
+  fi
 
   # ...BUT `.fork-scratch/` IS NOT NECESSARILY ALL SCRATCH. The base tree may
   # TRACK files there, and this repo does: a rule elsewhere requires a probe to
