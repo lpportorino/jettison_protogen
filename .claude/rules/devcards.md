@@ -199,6 +199,21 @@ obligation and the disposition rule). This section is how.
   SPEC for a producer — arm it through the registry per §"Adding a rule", and
   the gate then belongs to the producer, not to the model.
 
+## `dev/` probes — the RUN is the result, never the banner
+
+The files under `tools/devcards/dev/` are measurement code, and each opens with
+a prose banner. **A banner that states a RESULT is a second source of truth for
+a number the file itself computes**, and only one of the two is ever
+re-obtained: the probe gets re-run, the banner does not. They diverge in
+silence, and the reader who quotes the banner never learns the probe disagrees
+with it — so diff a banner's numbers against a fresh run before quoting either.
+
+A banner therefore says what the probe MEASURES, what it reads, and how to run
+it, never what it found. That is `.claude/rules/claude-md-policy.md`'s law about
+a literal beside a live source — "a second silently divergent source" — reaching
+the probe tier, which that rule cannot reach on its own: it is scoped to `*.md`
+and so does not load where these files are edited.
+
 ## Secret-free — gate-enforced
 - Generic widgets, compositions, and generic meta-node examples only.
   Proprietary device meta-nodes (DDE, camera controls) NEVER land here; private

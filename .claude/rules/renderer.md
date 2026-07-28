@@ -188,6 +188,14 @@ compiled table is the only source of truth for what renders, and it has to be
 read directly. Any font-metric measurement records which rasterizer produced it
 or it is not a measurement.
 
+**Nor does a TTF hold ONE answer to fall back on.** `b612mono_bold.ttf` ships
+`VDMX`, `hdmx` and `LTSH` — per-ppem DEVICE metric tables — and
+`Orbitron-Bold.ttf` ships none of them, so settling the question on one face
+gets the other wrong. They answer a different question and must never be quoted
+beside `line_height`: VDMX reports ink EXTENT at a ppem (at ppem 20, yMax 20 and
+yMin -8), never a line advance. Which artifact and which table a number came out
+of is part of the number.
+
 The one TTF tuple is the exception that proves the ordering, not a
 counterexample: TinyTTF derives `line_height` from `stbtt_GetFontVMetrics` — the
 same `hhea` values — and TRUNCATES rather than rounds
@@ -196,6 +204,28 @@ goes, too: `resolve_font` logs and falls back to `font_b612mono_bold_16` rather
 than failing, so a broken TTF path still renders. The `vr_ttf_font` /
 `vr_ttf_font_base` fixture pair and the differ between them are the oracle for
 that; the log is not.
+
+## Stock colours are a table LOOKUP — nothing about them is computed
+
+Whatever the child theme leaves unset falls through to stock, whose greys
+resolve through `lv_palette_main` / `lv_palette_lighten` / `lv_palette_darken`
+(`renderer/lvgl/src/misc/lv_palette.c`) — both at the `LIGHT_COLOR_*` /
+`DARK_COLOR_*` macros atop
+`renderer/lvgl/src/themes/default/lv_theme_default.c` and at call sites spread
+through its style init, so that macro list is not the whole set. **All three
+are hardcoded Material tables indexed by palette row; there is no lightening
+arithmetic to reproduce.** The two ramps are different WIDTHS (lighten takes
+1..5, darken 1..4, so equal levels are unequal fractions of their ramp) and both
+decrement the level before indexing — so a stock colour reconstructed by
+formula, or by reading a macro's level argument as a 0-based index, lands a slot
+off and looks entirely plausible. Know which way an out-of-range level fails
+too: it warns and returns BLACK rather than refusing, so a wrong level is a
+wrong colour and never an error.
+
+Read the literal table. A copy of one that has to live outside `renderer/lvgl/`
+carries the accessor and level that produced it, because nothing here
+re-resolves such a copy when the vendored pin (`renderer/lvgl/.ported-from.edn`)
+moves.
 
 ## Fix the contract, not the gate
 - A red battery is the waist catching producer/interpreter drift. Fix the ROOT
