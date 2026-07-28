@@ -44,6 +44,10 @@
            ;; coords alone cannot: a label that scrolls one row per step is
            ;; equally consistent with the selection being pinned to the centre
            ;; and with it sliding to a list boundary.
+           ;; Read-only probe: is every colour the renderer DRAWS a value the
+           ;; token manifest declares? The arming measurement for the RECOLOR
+           ;; arm UI-QUALITY-CONTRACTS §6.7 hands to the static tier.
+           :token-conformance {:extra-paths ["dev"] :main-opts ["-m" "token-conformance-probe"]}
            :roller-bounds {:extra-paths ["dev"] :main-opts ["-m" "roller-bounds-probe"]}
            ;; Read-only probe: how many bytes of dump_obj's SINGLE shared
            ;; TREE_BUF_SIZE buffer the real corpus consumes. Run before AND
