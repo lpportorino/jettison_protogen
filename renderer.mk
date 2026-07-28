@@ -134,7 +134,16 @@ INSTALL_ATOMIC := install_atomic() { _t="$$(mktemp "$$(dirname "$$2")/.protogen-
 # ~16s of the 47s is `manifests-proto-db`, which writes nothing this build reads
 # and could be split back out if that ever matters; it is left whole because one
 # target named `manifests` is worth more than 16s here.
-wasm: generated-projection construct-bindings manifests
+# NO PREREQUISITES, DELIBERATELY — and this is a CI-shape constraint, not a
+# statement about the DAG. `wasm` genuinely consumes what `generated-projection`,
+# `construct-bindings` and `manifests` produce, and `check-renderer` lists all
+# three BEFORE it, so the ordering holds where it matters. But CI's composite
+# action calls `make -f renderer.mk wasm` directly on a PLAIN RUNNER to build the
+# artifact the *-prebuilt lanes consume, and those three are VERIFICATION lanes
+# that re-derive generated output and compare it. Making them prerequisites runs
+# a freshness check in an environment the battery never uses and that nothing
+# else exercises. Order them at the call site; do not hang them here.
+wasm:
 	$(MAKE) -C $(R) -f wasm.mk -j$$(nproc) all
 
 # reference.wasm: the demo-parity/matrix diff oracle (never deployed).
