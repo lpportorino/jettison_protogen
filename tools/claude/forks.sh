@@ -51,6 +51,9 @@ shipped_record_path() {
 }
 
 usage() {
+  # TAGGED like every other outcome, so a caller filtering this script's stderr
+  # on `^\[forks\]` sees all four classes and not just three.
+  printf '[forks] USAGE — the invocation is malformed; nothing was inspected\n' >&2
   cat >&2 <<'EOF'
 usage:
   tools/claude/forks.sh claim <path> <task-id> <owner> [brief-path]
@@ -76,13 +79,99 @@ cleanup, and only then deletes the fork.
 
 PROTOGEN_FORKS_STATE_DIR may select another state directory for an isolated
 test. Relative values are resolved from the repository root.
+
+EXIT CODES — a refusal and a breakage are different answers:
+  0  done
+  1  [forks] FAIL  — REFUSED. A guard looked and the answer is no. The named
+                     condition is real and will hold on a re-run: fix it. A
+                     driver working a wave blocks THIS fork and continues.
+  2  [forks] USAGE — the invocation is malformed; nothing was inspected.
+  3  [forks] ERROR — NO VERDICT. A guard could not look, or an action failed.
+                     Infer NOTHING about the fork. Read the underlying tool's
+                     message printed above it. A driver working a wave STOPS,
+                     because an ERROR usually indicts something shared.
+On FAIL the fork still exists and stays OWNED; on ERROR it may be in a state no
+guard has described (see fork-deletion-failed). These are brief-check.sh's codes.
 EOF
   exit 2
 }
 
+# ---------------------------------------------------------------------------
+# EXIT CODES — A REFUSAL AND A BREAKAGE ARE DIFFERENT ANSWERS, so they get
+# different codes and different prefixes. They used to share both: every guard
+# in this file printed `[forks] FAIL —` and exited 1, including the three that
+# said in their own message "that is an ERROR, not a verdict". A caller reading
+# `$?` could not tell them apart, and neither could one reading stderr.
+#
+#   0  the command did what it was asked
+#   1  [forks] FAIL  — REFUSED. A guard looked, and the answer is no.
+#   2  [forks] USAGE — the invocation is malformed; nothing was inspected.
+#   3  [forks] ERROR — NO VERDICT WAS REACHED. A guard could not look, or an
+#                      action this command had to perform failed.
+#
+# THESE ARE brief-check.sh's CODES ON PURPOSE. cmd_claim already had to
+# special-case that script's exit 3 so an internal error there would not arrive
+# here as a clean brief; having done that, emitting a DIFFERENT code for the
+# same distinction would leave a coordinator pipeline remembering which of two
+# neighbouring tools uses which number. One rule, both scripts.
+#
+# THE RULE THAT DECIDES A SITE, mechanical enough to apply to a new one: was the
+# failing operation an INSPECTION whose result IS the answer, or an ACTION this
+# command needed to perform?
+#
+#   inspection, result is the answer    -> FAIL   (`git status` reported residue)
+#   inspection, machinery failed        -> ERROR  (`git status` itself failed)
+#   inspection, result uninterpretable  -> ERROR  (a manifest state we cannot parse)
+#   action failed                       -> ERROR  (clone, commit, cp, rm, bundle)
+#
+# IT IS NOT "a re-check that fails is an ERROR". That mechanical shorthand fits
+# scratch-cleanup-failed and gets `cited source vanished between check and ship`
+# exactly wrong; both call sites carry the argument.
+#
+# WHAT A CALLER DOES DIFFERENTLY, because a distinction nobody acts on is
+# decoration:
+#
+#   FAIL (1)  The named condition is REAL and will still hold on a re-run. Fix
+#             it, or accept the verdict. A driver working a wave marks THIS fork
+#             blocked and carries on with the others.
+#
+#   ERROR (3) Infer NOTHING about the fork from this — not that it is clean, not
+#             that it is dirty, not that it is releasable. The underlying tool's
+#             own message is printed above; read that one. A driver working a
+#             wave STOPS, because an ERROR usually indicts something SHARED (the
+#             state dir, git, the disk, the toolchain), so the next fork's
+#             verdict cannot be trusted either.
+#
+# AND THE STATE THEY LEAVE BEHIND DIFFERS. On FAIL the fork still exists and
+# stays OWNED. On ERROR it may be in a state no guard has described: the final
+# `rm -rf "$fork"` is an ACTION, and `rm -rf` removes what it can before it
+# fails, so fork-deletion-failed reports a fork shredded down to whatever
+# refused. Inspect before retrying.
+#
+# ONE FAIL SITE IS NOT AS TIDY AS THAT SENTENCE, and saying so here is cheaper
+# than the next reader finding out: the POST-PRESERVATION residue refusal fires
+# after `.fork-scratch` has already been removed and its tracked content
+# restored. It is still a verdict — the guard looked and found residue — but it
+# has consumed untracked scratch by the time it speaks.
+#
+# ERROR SITES CARRY A CLAUSE ID; FAIL SITES KEEP THEIR PROSE. Both halves are
+# deliberate. The ERROR text is new, so a greppable id costs nothing; rewriting
+# the FAIL messages would break greps in tools/claude/brief_check_test.sh, which
+# asserts this script's refusal text, and a canary broken to tidy a message is a
+# bad trade. `unclearable-residue` is the one id that had to be SPLIT — the scan
+# FAILING and the scan FINDING BLOCKERS shared it, so no grep could separate
+# them even before the exit codes could not.
+# ---------------------------------------------------------------------------
 fail() {
   printf '[forks] FAIL — %s\n' "$*" >&2
   exit 1
+}
+
+# A BREAKAGE. Never call this where a guard reached an answer, however
+# unwelcome that answer is.
+error() {
+  printf '[forks] ERROR — %s\n' "$*" >&2
+  exit 3
 }
 
 cleanup() {
@@ -93,6 +182,15 @@ cleanup() {
 }
 trap cleanup EXIT
 
+# FAIL, NOT USAGE, and that was a decision rather than an omission. An empty
+# task id or one carrying a tab is a malformed ARGUMENT, so exit 2 is arguable —
+# but the split this file is built on is what the CALLER DOES NEXT, and it is
+# the same here as for any other refusal: the input is not acceptable, do not
+# retry it, fix it and re-run. Exit 2 is reserved for the case where the answer
+# is the usage block itself (a wrong subcommand, a wrong argument count), and
+# these messages are diagnoses instead. A tab or newline here would also corrupt
+# the TSV manifest, which makes this a verdict about the state of the world and
+# not merely about the command line.
 validate_field() {
   local label="$1" value="$2"
   [ -n "$value" ] || fail "$label must not be empty"
@@ -144,9 +242,21 @@ manifest_header() {
 EOF
 }
 
+# A HELD LOCK IS A VERDICT; A mkdir THAT FAILED FOR ANY OTHER REASON IS NOT, and
+# this function used to report them as the same thing. `mkdir "$LOCK_DIR"`
+# returns non-zero for EEXIST — the answer "another coordinator holds it" — and
+# also for ENOSPC, EACCES and EROFS on the state directory, where no lock exists
+# and none was inspected. The old code took every one of those to the same
+# `manifest is locked by pid unknown` refusal: a FAIL naming a holder that does
+# not exist, sending the operator to look for a coordinator instead of at a full
+# disk. Which one it was is decidable after the fact, and cheaply — EEXIST is
+# the only branch that leaves the directory THERE.
 acquire_lock() {
-  mkdir -p -- "$STATE_DIR"
+  mkdir -p -- "$STATE_DIR" ||
+    error "lock-create-failed: could not create the coordinator state directory $STATE_DIR; no claim was inspected and no lock is held"
   if ! mkdir -- "$LOCK_DIR" 2>/dev/null; then
+    [ -d "$LOCK_DIR" ] ||
+      error "lock-create-failed: could not create $LOCK_DIR and it does not exist, so nothing holds it; this is a fault of the state directory, not a live coordinator"
     local holder="unknown"
     if [ -r "$LOCK_DIR/pid" ]; then
       IFS= read -r holder < "$LOCK_DIR/pid" || holder="unknown"
@@ -157,12 +267,20 @@ acquire_lock() {
   printf '%s\n' "$$" > "$LOCK_DIR/pid"
 }
 
+# The manifest is this script's own state. Writing it is an ACTION, and an
+# unguarded one aborted under `set -e` with no [forks] line at all — which reads
+# to a caller as a FAIL whose message got lost. append_record in particular runs
+# in cmd_release AFTER `rm -rf "$fork"`, so a silent abort there leaves the fork
+# deleted and the manifest still saying OWNED.
 ensure_manifest() {
   [ -f "$MANIFEST" ] && return
   local tmp
-  tmp="$(mktemp "$STATE_DIR/manifest.XXXXXX")"
-  manifest_header > "$tmp"
-  mv -- "$tmp" "$MANIFEST"
+  tmp="$(mktemp "$STATE_DIR/manifest.XXXXXX")" ||
+    error "manifest-write-failed: could not create a temporary file in $STATE_DIR"
+  manifest_header > "$tmp" ||
+    error "manifest-write-failed: could not write the manifest header to $tmp"
+  mv -- "$tmp" "$MANIFEST" ||
+    error "manifest-write-failed: could not move $tmp into place at $MANIFEST"
 }
 
 RECORD_PATH=""
@@ -282,30 +400,44 @@ ship_cited_sources() {
   # missing. Measured with a ship-list forced onto its own exit-3 path.
   list="$("$BRIEF_CHECK" ship-list "$brief" --root "$ROOT")" || list_status=$?
   [ "$list_status" -eq 0 ] ||
-    fail "brief-check ship-list FAILED (exit $list_status) for $brief; that is an ERROR, not an empty ship list — the fork is retained and must not be dispatched: $fork"
+    error "ship-list-failed: brief-check ship-list FAILED (exit $list_status) for $brief; that is an ERROR, not an empty ship list — the fork is retained and must not be dispatched: $fork"
 
   while IFS= read -r rel; do
     [ -n "$rel" ] || continue
     assert_shippable_path "$rel" "$fork"
     # Re-checked here rather than trusted from the check pass: claim holds the
     # manifest lock, not a lock on the filesystem.
+    #
+    # A FAIL, THOUGH AN EARLIER CHECK SAID YES — which is the shorthand
+    # "a re-check that fails is an ERROR" refusing to hold. The shorthand fits
+    # scratch-cleanup-failed, where the guard that OWNS removability had already
+    # ruled and reality falsified its ruling. Here the earlier yes came from a
+    # DIFFERENT guard answering a DIFFERENT question at a different time, and
+    # the comment above says outright that this script never held a lock on the
+    # filesystem — so no invariant of ours has been broken. `[ -f ]` is an
+    # INSPECTION and its result IS the answer: the cited source is not there.
+    # The operator's move is the refusal move, restore the file or fix the brief
+    # and re-run, not the ERROR move of going to look at the machinery.
     [ -f "$ROOT/$rel" ] ||
       fail "cited source vanished between check and ship: $rel; the fork is retained and must not be dispatched: $fork"
     dest="$fork/$rel"
-    mkdir -p -- "$(dirname -- "$dest")"
+    mkdir -p -- "$(dirname -- "$dest")" ||
+      error "ship-copy-failed: could not create $(dirname -- "$dest") for cited source $rel; the fork is retained and must not be dispatched: $fork"
     cp -p -- "$ROOT/$rel" "$dest" ||
-      fail "could not ship cited source $rel into $fork"
+      error "ship-copy-failed: could not ship cited source $rel into $fork; the fork is retained and must not be dispatched"
     shipped+=("$rel")
     count=$((count + 1))
   done <<< "$list"
 
   record="$(shipped_record_path "$fork")"
   mkdir -p -- "$(dirname -- "$record")" ||
-    fail "could not create the shipped-source record directory for $fork"
+    error "shipped-record-failed: could not create the shipped-source record directory for $fork"
   : > "$record" ||
-    fail "could not record the shipped sources for $fork at $record"
-  mkdir -p -- "$fork/.fork-scratch"
-  : > "$fork/$SHIPPED_MANIFEST_REL"
+    error "shipped-record-failed: could not record the shipped sources for $fork at $record"
+  mkdir -p -- "$fork/.fork-scratch" ||
+    error "shipped-record-failed: could not create $fork/.fork-scratch"
+  : > "$fork/$SHIPPED_MANIFEST_REL" ||
+    error "shipped-record-failed: could not write the in-fork shipped-source list at $fork/$SHIPPED_MANIFEST_REL"
   if [ "$count" -gt 0 ]; then
     printf '%s\n' "${shipped[@]}" > "$record"
     printf '%s\n' "${shipped[@]}" > "$fork/$SHIPPED_MANIFEST_REL"
@@ -313,44 +445,63 @@ ship_cited_sources() {
   SHIPPED_COUNT="$count"
 }
 
+# AN UNREADABLE ANSWER IS NOT AN ANSWER. The question here is "would a claim
+# collide", and a state token this script does not recognise means the manifest
+# has been hand-edited, truncated, or written by a version that never existed.
+# The guard cannot say yes and cannot say no, so it says neither.
 state_blocks_claim() {
   case "$1" in
     OWNED | RELEASED | LIFTED) return 0 ;;
     GCd) return 1 ;;
-    *) fail "manifest contains invalid state: $1" ;;
+    *) error "manifest-state-invalid: $MANIFEST contains a state this script cannot interpret: '$1'; no collision verdict was reached" ;;
   esac
 }
 
 append_record() {
   local path="$1" task="$2" owner="$3" brief="$4"
   local claimed_at="$5" state="$6" signal="$7" tmp
+  # NOT A VERDICT ABOUT ANYTHING THE OPERATOR DID. Every caller of this function
+  # is inside this file and passes a literal, so reaching this line means
+  # forks.sh has a bug. There is no world the operator can change to make it
+  # pass, which is the tell.
   case "$state" in
     OWNED | RELEASED | LIFTED | GCd) ;;
-    *) fail "refusing invalid manifest state: $state" ;;
+    *) error "internal-invalid-state: append_record was called with '$state', which is a defect in forks.sh itself" ;;
   esac
-  tmp="$(mktemp "$STATE_DIR/manifest.XXXXXX")"
-  cp -- "$MANIFEST" "$tmp"
+  tmp="$(mktemp "$STATE_DIR/manifest.XXXXXX")" ||
+    error "manifest-write-failed: could not create a temporary file in $STATE_DIR; the manifest was NOT updated"
+  cp -- "$MANIFEST" "$tmp" ||
+    error "manifest-write-failed: could not copy $MANIFEST to $tmp; the manifest was NOT updated"
   printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
-    "$path" "$task" "$owner" "$brief" "$claimed_at" "$state" "$signal" >> "$tmp"
-  mv -- "$tmp" "$MANIFEST"
+    "$path" "$task" "$owner" "$brief" "$claimed_at" "$state" "$signal" >> "$tmp" ||
+    error "manifest-write-failed: could not append the '$state' record to $tmp; the manifest was NOT updated"
+  mv -- "$tmp" "$MANIFEST" ||
+    error "manifest-write-failed: could not move $tmp into place at $MANIFEST; the manifest was NOT updated"
 }
 
 assert_clone_links() {
   local fork="$1" bad resolved link
 
+  # THE SAME find, TWICE OVER, IN TWO CLASSES. A find that RAN and printed a
+  # path is an inspection whose result is the answer — FAIL. A find that DIED
+  # prints nothing, which is byte-identical to "this clone is clean", so its
+  # exit status is the only thing separating a verdict from silence — ERROR.
   if ! bad="$(find "$fork" -type l -lname '/*' -print -quit)"; then
-    fail "could not inspect clone for absolute symlinks"
+    error "symlink-scan-failed: could not inspect $fork for absolute symlinks; the clone is UNJUDGED and must not be dispatched"
   fi
   [ -z "$bad" ] || fail "clone contains an absolute symlink: $bad"
 
   if ! bad="$(find "$fork" -xtype l -print -quit)"; then
-    fail "could not inspect clone for dangling symlinks"
+    error "symlink-scan-failed: could not inspect $fork for dangling symlinks; the clone is UNJUDGED and must not be dispatched"
   fi
   [ -z "$bad" ] || fail "clone contains a dangling symlink: $bad"
 
   while IFS= read -r -d '' link; do
+    # A dangling link was already refused above, so a readlink that fails HERE
+    # is not the "target does not exist" case: it is the resolver itself giving
+    # up, and no containment verdict follows from it.
     if ! resolved="$(readlink -f -- "$link")"; then
-      fail "cannot resolve symlink: $link"
+      error "symlink-resolve-failed: cannot resolve $link, so it cannot be judged against the clone root; the clone must not be dispatched"
     fi
     case "$resolved" in
       "$fork" | "$fork"/*) ;;
@@ -367,11 +518,18 @@ verify_remote_is_stripped() {
   if push_output="$(git_in "$fork" push 2>&1)"; then
     fail "remote strip is not safe: git push unexpectedly succeeded in $fork"
   fi
+  # UNVERIFIED IS NOT REFUTED, and this is the sharpest pair in the file: the
+  # clause just above reports a push that SUCCEEDED, which is a verdict, and a
+  # damning one. This clause reports a push that failed for a reason we do not
+  # recognise — so the safety property the whole donation scheme rests on was
+  # neither confirmed nor denied. Its own word for itself has always been
+  # "unverified"; the exit code now agrees. The operator's move is to read git's
+  # actual output, printed immediately above, which is the ERROR move.
   case "$push_output" in
     *"No configured push destination"* | *"No remote configured to push to"*) ;;
     *)
       printf '%s\n' "$push_output" | sed 's/^/  /' >&2
-      fail "remote strip is unverified: git push failed for an unexpected reason"
+      error "remote-strip-unverified: git push failed for a reason this script does not recognise, so the strip is neither confirmed nor refuted: $fork"
       ;;
   esac
 }
@@ -408,8 +566,12 @@ cmd_claim() {
   # which is what every wave-4 and wave-5 fork paid. Sibling briefs come from
   # the manifest, so the cross-brief overlap check sees every fork that is live
   # right now rather than only the one being claimed.
+  # THE GATE IS THE MACHINERY, NOT THE SUBJECT. `[ -x ]` is an inspection with a
+  # perfectly legible result, but it is not an answer to the question claim is
+  # asking — "is this brief acceptable?" — which goes unanswered. The message
+  # has always said "unchecked"; that is an ERROR by construction.
   [ -x "$BRIEF_CHECK" ] ||
-    fail "brief gate is missing or not executable: $BRIEF_CHECK; refusing to dispatch an unchecked brief"
+    error "brief-gate-missing: the brief gate is missing or not executable: $BRIEF_CHECK; refusing to dispatch an unchecked brief"
   local -a sibling_args=()
   local sib
   while IFS= read -r sib; do
@@ -420,21 +582,26 @@ cmd_claim() {
   "$BRIEF_CHECK" check "$brief" --root "$ROOT" ${sibling_args+"${sibling_args[@]}"} || check_status=$?
   case "$check_status" in
     0) ;;
+    # PROPAGATED IN KIND, which is the whole point of sharing brief-check's
+    # code set: its 1 is a verdict about the brief and stays a FAIL here, its 2
+    # and 3 are not verdicts and stay ERRORs here. The message text of this FAIL
+    # is asserted by tools/claude/brief_check_test.sh; leave it alone.
     1) fail "brief-check REFUSED $brief; nothing was cloned and no fork exists" ;;
-    *) fail "brief-check could not reach a verdict on $brief (exit $check_status); that is an ERROR, not a clean brief" ;;
+    *) error "brief-gate-no-verdict: brief-check could not reach a verdict on $brief (exit $check_status); that is an ERROR, not a clean brief" ;;
   esac
 
   if ! env -u GIT_DIR -u GIT_WORK_TREE git clone --quiet --no-hardlinks "$ROOT" "$fork"; then
-    fail "clone failed; any partial path is preserved for inspection: $fork"
+    error "clone-failed: git clone of $ROOT did not complete; any partial path is preserved for inspection: $fork"
   fi
   if ! git_in "$fork" remote remove origin 2>/dev/null; then
-    fail "could not strip origin; fork is retained and must not be dispatched: $fork"
+    error "origin-strip-failed: could not remove the origin remote; the fork is retained and must not be dispatched: $fork"
   fi
   verify_remote_is_stripped "$fork"
 
   claimed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   base="$(git_in "$fork" rev-parse --short HEAD)"
-  cp -- "$brief" "$fork/DONATION_BRIEF.md"
+  cp -- "$brief" "$fork/DONATION_BRIEF.md" ||
+    error "seed-write-failed: could not copy the brief into $fork; the fork is retained and must not be dispatched"
   {
     printf 'owner: %s\n' "$owner"
     printf 'fork: %s\n' "$(basename -- "$fork")"
@@ -457,13 +624,16 @@ cmd_claim() {
     printf 'This requirement stands for every fork and is emitted HERE, by the harness,\n'
     printf 'because a standing requirement that depends on an author remembering to type\n'
     printf 'it is exactly the kind of rule that has already failed twice.\n'
-  } > "$fork/DONATION_OWNER.md"
-  mkdir -p -- "$fork/.fork-scratch"
+  } > "$fork/DONATION_OWNER.md" ||
+    error "seed-write-failed: could not write the owner marker into $fork; the fork is retained and must not be dispatched"
+  mkdir -p -- "$fork/.fork-scratch" ||
+    error "seed-write-failed: could not create $fork/.fork-scratch; the fork is retained and must not be dispatched"
 
-  git_in "$fork" add DONATION_BRIEF.md DONATION_OWNER.md
+  git_in "$fork" add DONATION_BRIEF.md DONATION_OWNER.md ||
+    error "seed-commit-failed: could not stage the owner marker; the fork is retained and must not be dispatched: $fork"
   if ! git_in "$fork" -c user.name=protogen -c user.email=protogen@localhost \
     commit --quiet -m "donate: seed brief and owner for '$task' (owner: $owner)"; then
-    fail "owner-marker seed commit failed; fork is retained and must not be dispatched: $fork"
+    error "seed-commit-failed: the owner-marker seed commit did not complete; the fork is retained and must not be dispatched: $fork"
   fi
 
   # Shipped AFTER the seed commit, so a cited source can never be swept into the
@@ -511,8 +681,14 @@ preserve_scratch_scripts() {
   while IFS= read -r -d '' source; do
     relative="${source#"$scratch"/}"
     destination="$preserve_dir/scripts/$relative"
-    mkdir -p -- "$(dirname -- "$destination")"
-    cp -p -- "$source" "$destination"
+    # PRESERVATION IS AN ACTION, AND ITS FAILURE USED TO BE SILENT. Unguarded,
+    # `set -e` aborted here with no [forks] line — a bare non-zero exit that a
+    # caller reads as a refusal whose message got lost, moments before release
+    # would have deleted the very file it failed to copy.
+    mkdir -p -- "$(dirname -- "$destination")" ||
+      error "preserve-failed: could not create $(dirname -- "$destination") to preserve $source; the fork is retained and nothing was deleted"
+    cp -p -- "$source" "$destination" ||
+      error "preserve-failed: could not preserve $source to $destination; the fork is retained and nothing was deleted"
     PRESERVED_SCRIPT_COUNT=$((PRESERVED_SCRIPT_COUNT + 1))
   done < <(find "$scratch" -type f \
     \( -name '*.sh' -o -name '*.clj' -o -name '*.py' -o -name '*.edn' -o -name '*.sql' \) \
@@ -574,8 +750,16 @@ assert_fork_is_clearable() {
   # something. A find that died emits ZERO LINES, which is byte-identical to
   # "every directory here is clearable"; treating that as a verdict would delete
   # a fork on the strength of a scan that never ran.
+  #
+  # AND IT GETS ITS OWN CLAUSE ID. This used to be reported as
+  # `unclearable-residue` at exit 1 — the SAME id and the SAME code as the
+  # refusal a hundred lines below, which is the finding this scan exists to
+  # report. A caller could separate a scan that died from a scan that found
+  # blockers by neither `$?` nor a grep of stderr, and the two demand opposite
+  # responses: one says clear the named directories, the other says nothing was
+  # judged at all.
   [ "$status" -eq 0 ] ||
-    fail "unclearable-residue: the clearability scan of $fork FAILED (find exit $status); that is an ERROR, not a clearable fork — nothing was deleted"
+    error "clearability-scan-failed: the clearability scan of $fork FAILED (find exit $status); no directory was judged, so this is NOT a clearable fork and NOT an unclearable one — nothing was deleted"
 
   while IFS= read -r dir; do
     [ -n "$dir" ] || continue
@@ -599,6 +783,11 @@ assert_fork_is_clearable() {
     return 0
   fi
 
+  # THE SCAN RAN AND FOUND SOMETHING — an inspection whose result IS the answer,
+  # so a FAIL. It names directories, and clearing them is a thing the operator
+  # can do; contrast clearability-scan-failed above, where the same function
+  # reached no answer at all. Emitted as a multi-line body rather than through
+  # fail(), which takes one line; same class, same code, same prefix.
   printf '[forks] FAIL — unclearable-residue: %s cannot be deleted by uid %s\n' \
     "$fork" "$EUID" >&2
   printf '  Nothing was deleted and the fork is still OWNED. This is refused BEFORE\n' >&2
@@ -712,14 +901,20 @@ cmd_release() {
     done < "$shipped_record"
   fi
 
+  # BOTH CLASSES, ONE INSPECTION. A git status that RAN and printed residue is
+  # the answer — the FAIL below. A git status that DIED prints nothing, which is
+  # byte-identical to a clean tree, and reading that as "clean" would delete a
+  # worker's uncommitted work on the strength of a check that never ran.
   if ! residue="$(git_in "$fork" status --porcelain --untracked-files=all)"; then
-    fail "git status failed; this is an ERROR, not evidence that release is safe"
+    error "residue-scan-failed: git status failed in $fork; this is an ERROR, not evidence that release is safe — nothing was deleted"
   fi
   if ! outside_residue="$(git_in "$fork" status --porcelain --untracked-files=all -- \
     . ':(exclude).fork-scratch' ':(exclude).fork-scratch/**' \
     ${shipped_excludes+"${shipped_excludes[@]}"})"; then
-    fail "scoped git status failed; this is an ERROR, not evidence that release is safe"
+    error "residue-scan-failed: the scoped git status failed in $fork; this is an ERROR, not evidence that release is safe — nothing was deleted"
   fi
+  # A FAIL emitted as a multi-line body rather than through fail(), which takes
+  # one line. Same class, same code, same prefix.
   if [ -n "$outside_residue" ]; then
     printf '[forks] FAIL — release found uncommitted residue in the whole porcelain:\n' >&2
     print_residue "$residue"
@@ -742,7 +937,8 @@ cmd_release() {
   safe_task="${RECORD_TASK//[^a-zA-Z0-9._-]/_}"
   stamp="$(date -u +%Y%m%dT%H%M%SZ)"
   preserve_dir="$STATE_DIR/preserved/$safe_task-$stamp-$$"
-  mkdir -p -- "$preserve_dir"
+  mkdir -p -- "$preserve_dir" ||
+    error "preserve-failed: could not create the preservation directory $preserve_dir; the fork is retained and nothing was deleted"
   PRESERVED_SCRIPT_COUNT=0
   preserve_scratch_scripts "$fork" "$preserve_dir"
 
@@ -761,12 +957,16 @@ cmd_release() {
   REPORT_PRESERVED="none (the fork committed no FINAL_REPORT.md)"
   if git_in "$fork" cat-file -e master:FINAL_REPORT.md 2>/dev/null; then
     report_dest="$ROOT/.protogen/research/$(basename -- "$fork")-final-report.md"
-    mkdir -p -- "$(dirname -- "$report_dest")"
+    mkdir -p -- "$(dirname -- "$report_dest")" ||
+      error "report-copy-failed: could not create $(dirname -- "$report_dest"); the fork is retained: $fork"
+    # cat-file -e SAID IT IS THERE. Failing to extract it after that is the
+    # extraction machinery giving up, not a verdict about the fork — and the
+    # absence case above is deliberately not an error at all.
     if git_in "$fork" show master:FINAL_REPORT.md > "$report_dest" 2>/dev/null &&
        [ -s "$report_dest" ]; then
       REPORT_PRESERVED="$report_dest ($(wc -l < "$report_dest" | tr -d ' ') lines)"
     else
-      fail "FINAL_REPORT.md exists at master but could not be copied out; the fork is retained: $fork"
+      error "report-copy-failed: FINAL_REPORT.md exists at master but could not be copied out; the fork is retained: $fork"
     fi
   fi
 
@@ -781,8 +981,37 @@ cmd_release() {
   # class, so anything reaching here is NOT that class — a writer racing the
   # scan, a mount point, or an I/O error — and the message says so rather than
   # repeating a diagnosis that has already been ruled out.
+  #
+  # THE CONTESTED ONE, AND IT IS AN ERROR. Read on its outcome alone it looks
+  # like a refusal: nothing is deleted, the fork is retained, it stays OWNED —
+  # exactly what a FAIL leaves behind. But the outcome is not the axis. Two
+  # things decide it, and they agree.
+  #
+  # FIRST, `rm -rf` IS AN ACTION, not an inspection. Its failure answers no
+  # question release was asking; it reports that a step release had already been
+  # cleared to take did not go through.
+  #
+  # SECOND, THE GUARD THAT OWNS THIS QUESTION ALREADY SAID YES.
+  # assert_fork_is_clearable ran a few lines up and ruled this fork clearable.
+  # Reaching here means that ruling was falsified — by a writer racing the scan,
+  # a mount point, or an I/O fault — and a guard whose verdict reality has just
+  # contradicted is broken machinery, not a second opinion.
+  #
+  # The message settles it either way, because it cannot name a condition to
+  # fix: it says SUSPECT a race, a mount, an I/O error. "Go and find out what is
+  # wrong" is the ERROR instruction. A refusal names the thing and expects it
+  # gone on the re-run.
+  #
+  # (When release itself runs as uid 0 the scan is vacuous rather than wrong,
+  # since `test -w` is always true for root. The classification is unchanged:
+  # what is left to reach this line is still EROFS, EIO or a mount, none of them
+  # a legible verdict about the fork.)
+  #
+  # `rm -rf` REMOVES WHAT IT CAN BEFORE IT FAILS, so scratch may be PARTLY gone
+  # by the time this speaks — one more reason a caller must inspect rather than
+  # assume the fork is as it left it.
   if ! rm -rf -- "$fork/.fork-scratch"; then
-    fail "scratch-cleanup-failed: could not remove $fork/.fork-scratch; the fork is retained and stays OWNED. rm's own message is above. The clearability scan passed, so this is NOT the unwritable-directory class it screens for — suspect a writer racing this command, a mount point, or an I/O error."
+    error "scratch-cleanup-failed: could not remove $fork/.fork-scratch; the fork is retained and stays OWNED, and scratch may be PARTLY removed because rm deletes what it can before it fails. rm's own message is above. The clearability scan passed, so this is NOT the unwritable-directory class it screens for — suspect a writer racing this command, a mount point, or an I/O error."
   fi
 
   # ...BUT `.fork-scratch/` IS NOT NECESSARILY ALL SCRATCH. The base tree may
@@ -797,8 +1026,12 @@ cmd_release() {
 
   if ! post_residue="$(git_in "$fork" status --porcelain --untracked-files=all -- \
     . ${shipped_excludes+"${shipped_excludes[@]}"})"; then
-    fail "post-preservation git status failed; the fork remains in place"
+    error "post-residue-scan-failed: the post-preservation git status failed in $fork; the fork remains in place and its residue is UNJUDGED"
   fi
+  # A FAIL — and the one FAIL in this file that has already consumed something.
+  # `.fork-scratch` is gone by now (its script-like proofs preserved, its
+  # tracked content restored), so "a refusal leaves the fork as it found it" is
+  # true of every other FAIL site and not of this one.
   if [ -n "$post_residue" ]; then
     printf '[forks] FAIL — release still has uncommitted residue after scratch preservation:\n' >&2
     print_residue "$post_residue"
@@ -810,14 +1043,23 @@ cmd_release() {
   # in a self-contained bundle so deletion cannot discard unique committed work.
   bundle="$preserve_dir/fork.bundle"
   if ! git_in "$fork" bundle create "$bundle" --all; then
-    fail "could not preserve committed work; the fork remains in place"
+    error "bundle-create-failed: could not preserve the fork's committed work; the fork remains in place"
   fi
+  # NOT A VERDICT ABOUT THE FORK. The bundle is an artifact this command created
+  # two lines ago, so a bundle that does not verify indicts the preservation
+  # step, not the worker's tree.
   if ! git_in "$fork" bundle verify "$bundle" >/dev/null; then
-    fail "bundle verification failed; the fork remains in place"
+    error "bundle-verify-failed: the bundle this run just created does not verify; the fork remains in place"
   fi
 
+  # THE WORST STATE THIS SCRIPT CAN REACH, and the clearest ERROR in it. Every
+  # guard has passed, the deletion was authorised, and `rm -rf` removed what it
+  # could before failing — so the fork is now shredded down to whatever refused,
+  # the manifest still says OWNED, and NO guard's verdict describes what is on
+  # disk. There is nothing here for a caller to "fix and re-run"; the bundle
+  # beside this message is the intact copy.
   if ! rm -rf -- "$fork"; then
-    fail "fork deletion failed; manifest remains OWNED for fail-safe recovery"
+    error "fork-deletion-failed: rm -rf of $fork did not complete, and rm deletes what it can before it fails — the fork is PARTIALLY DELETED and no verdict describes its current state. The manifest remains OWNED for fail-safe recovery and the committed work is in the bundle above."
   fi
   append_record "$RECORD_PATH" "$RECORD_TASK" "$RECORD_OWNER" "$RECORD_BRIEF" \
     "$RECORD_CLAIMED_AT" "GCd" "$signal"
