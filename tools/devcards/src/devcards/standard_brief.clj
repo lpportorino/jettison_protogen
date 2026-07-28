@@ -221,12 +221,31 @@
    exists to prevent: a hand-written brief is a second copy of the standard,
    and a hardcoded sentence inside a generator is still a second copy.
 
-   Now adding a match axis changes this page, and the diff is the review."
+   Now adding a match axis changes this page, and the diff is the review.
+
+   THE DERIVATION COVERS THE KEY NAMES AND NOT THEIR MEANING, which is the
+   half that rotted next. When `:owner` and `:expires` joined the proof set,
+   the splice above picked them up by itself — and the sentence around it
+   still read \"both non-blank\", true of a two-key set and false of a
+   four-key one, while saying nothing whatever about EXPIRY. A reviewing
+   agent following this page would have written a waiver with no date and had
+   it refused by a clause the page never mentioned. The horizon below is
+   therefore spliced from `invariants/waiver-horizon-days` rather than typed,
+   and the semantics get a canary of their own in `standard_brief_test`:
+   a derived LIST does not carry what its members MEAN."
   ^String []
   (str "Every finding is dispositioned before the push: FIXED, or EXEMPTED "
        "with the same proof-carrying entry any other exemption owes — "
        (kw-list invariants/exemption-proof-keys)
-       ", both non-blank. An entry MATCHES on "
+       ", each a non-blank string. An entry is a WAIVER and not a disabled "
+       "rule: `:owner` names who to ask, and `:expires` is an ISO-8601 date "
+       "(`YYYY-MM-DD`) at most " invariants/waiver-horizon-days
+       " days out. AN EXPIRED WAIVER IS A HARD FAILURE, and so is one dated "
+       "beyond that horizon — a date nothing can reach is prose wearing a "
+       "date. `:retires-when` stays beside it and carries what no machine "
+       "can evaluate: the EVENT that makes the entry unnecessary, where the "
+       "date only says when the decision must be re-taken regardless. "
+       "An entry MATCHES on "
        (kw-list invariants/exemption-match-keys)
        ". `:card` and `:invariant` are mandatory. `:node` matches ANY node "
        "when absent. `:act/outcome` and `:act/test-mode` are optional too "

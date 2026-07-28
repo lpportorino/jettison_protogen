@@ -317,6 +317,23 @@
       (is (str/includes? live "matches ANY node when absent"))
       (is (str/includes? live "absent reads the DEFAULT"))
       (is (str/includes? live "REQUIRED when `:act/outcome` names a reasoned"))))
+  (testing "and the KEY LIST being derived does NOT make the paragraph's
+            MEANING derived — the half that rotted next. When :owner and
+            :expires joined the proof set the splice picked them up by itself,
+            while the prose around it still read 'both non-blank' and said
+            nothing about EXPIRY at all: an agent following this page would
+            write a dateless waiver and meet a clause the page never named.
+            The horizon is spliced from `invariants/waiver-horizon-days`, so
+            changing the constant without changing the page reds here.
+            REVERT-TO-BREAK: type the number into `exemption-contract-md`
+            instead of splicing it, then change `waiver-horizon-days`."
+    (let [para (sb/exemption-contract-md)]
+      (is (str/includes? para (str "at most " invariants/waiver-horizon-days
+                                   " days out")))
+      (is (str/includes? para "AN EXPIRED WAIVER IS A HARD FAILURE"))
+      (is (not (str/includes? para "both non-blank"))
+          "CONTROL: the retracted wording is GONE, not sitting beside the
+           correction — a four-key proof set is not 'both'")))
   (testing "CONTROL: every retracted wording is GONE from the page, so each
             correction is a REPLACEMENT and not an addition alongside the
             stale claim. Pinning the true sentence alone cannot see that —

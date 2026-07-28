@@ -22,8 +22,25 @@
             [clojure.set :as set]
             [clojure.test :refer [deftest is testing]]
             [devcards.findings :as findings]
+            [devcards.invariants :as invariants]
             [devcards.lanes :as lanes]
             [devcards.outcome :as outcome]))
+
+(defn- waiver
+  "`m` completed into a valid waiver — the `:owner` + `:expires` half of
+   `invariants/exemption-proof-keys` added unless `m` already names them.
+
+   THE DATE IS DERIVED FROM THE LIVE CLOCK, never written as a literal. These
+   fixtures reach `apply-exemptions`' short arity, so they are judged against
+   `invariants/today`; a hardcoded `:expires` would pass until the day it did
+   not and then red this namespace on a morning nobody touched it, for a
+   reason unrelated to anything here tests. (`devcards.invariants-test` pins a
+   date instead — it can, because it calls the explicit-date arities, and
+   pinning is what lets it assert exact expiry messages.)"
+  [m]
+  (merge {:owner "devcards-maintainer"
+          :expires (str (.plusDays ^java.time.LocalDate (invariants/today) 30))}
+         m))
 
 (def ^:private clean-tree
   {:type "lv_obj" :coords [0 0 99 99] :children []})
@@ -574,10 +591,11 @@
                   :outcomes #{:failed :cantTell}
                   :reasons {:noise-band "the score is in the noise band"}
                   :fn (fn [_] [])}
-        exemption [{:card "c" :invariant :contrast
-                    :act/outcome :cantTell :act/reason :noise-band
-                    :rationale "no mask emitter for this widget class yet"
-                    :retires-when "the mask emitter lands"}]]
+        exemption [(waiver
+                    {:card "c" :invariant :contrast
+                     :act/outcome :cantTell :act/reason :noise-band
+                     :rationale "no mask emitter for this widget class yet"
+                     :retires-when "the mask emitter lands"})]]
     (testing "exemption lists are GLOBAL and `card-findings` runs once per card
               PER LANE, so a reason declared by a producer in the ARMED set but
               absent from THIS lane's own vector must still be accepted. The

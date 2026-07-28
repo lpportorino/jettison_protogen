@@ -60,16 +60,51 @@
      wheel illusion (roller :overflow; label :clipped/:offscreen);
    - `designed-scroll-classes` (lv_table) may carry :scrollable_overflow.
 
-   Exemptions are per-card + per-invariant, proof-carrying, ratchet-down:
-   every entry needs :rationale + :retires-when, and an exemption that
-   matches NO finding is itself a finding (:stale-exemption) so the list can
-   only shrink. No entry is currently live: the anticipated lv_line class
-   (renderer has no line_props decode arm) yields ZERO findings because its
-   cards mandate explicit finite w/h — an empty box, not a collapsed or
-   flagged one — so the corpus runs exemption-free until a real unsolvable
-   arrives."
+   Exemptions are per-card + per-invariant, proof-carrying, EXPIRING,
+   ratchet-down. `exemption-proof-keys` is the mandatory proof; an exemption
+   that matches NO finding is itself a finding (:stale-exemption) so the list
+   can only shrink, and one whose :expires has passed is a HARD failure so it
+   cannot outlive its own decision. No entry is currently live: the
+   anticipated lv_line class (renderer has no line_props decode arm) yields
+   ZERO findings because its cards mandate explicit finite w/h — an empty box,
+   not a collapsed or flagged one — so the corpus runs exemption-free until a
+   real unsolvable arrives.
+
+   AN EXEMPTION HERE IS THE UPSTREAM STANDARD'S \"WAIVER\"; the two words name
+   one object and this ns does not rename the older one, because the word is
+   spelled into `devcards.findings`, `devcards.outcome`,
+   `devcards.standard-brief`, the generated STANDARD.md and CLAUDE.md, and a
+   rename would be churn across every one of them for no change in what is
+   checked. What the upstream demands of a waiver, and where each demand
+   lands here:
+
+     an OWNER              -> :owner       (NEW — nothing carried it before)
+     an EXPIRY <= 90 days  -> :expires     (NEW — `waiver-horizon-days`)
+     a CLAUSE ID           -> :invariant, which already IS one, and is
+                              STRICTER than upstream's: the clause an entry
+                              waives is the tuple (:card, :invariant, :node,
+                              :act/outcome, :act/test-mode, :act/reason), so
+                              a separate :clause-id would be a second name
+                              for the same rule, free to disagree with it
+     a DECISION-DOC SLUG   -> :rationale. Deliberately NOT its own key: this
+                              repo has no decisions/ADR tree for a slug to
+                              point AT, so the field could only ever be
+                              checked for non-blankness — a clause that
+                              cannot fail, which is the same defect as a
+                              threshold key that silently falls back. The
+                              obligation the slug carries (the decision is
+                              recorded somewhere a reviewer can read it) is
+                              discharged by :rationale being committed,
+                              reviewed and diffable. The cost is real and
+                              named: a consumer that DOES keep a decisions
+                              tree must put the slug in :rationale prose
+                              rather than in a field something could
+                              resolve."
   (:require [clojure.string :as str]
-            [devcards.outcome :as outcome]))
+            [devcards.outcome :as outcome])
+  (:import (java.time LocalDate ZoneOffset)
+           (java.time.format DateTimeParseException)
+           (java.time.temporal ChronoUnit)))
 
 (set! *warn-on-reflection* true)
 
@@ -335,12 +370,63 @@
   [entry problem]
   (throw (ex-info (str "malformed exemption: " problem) {:entry entry})))
 
+(def waiver-horizon-days
+  "The OUTER BOUND on a waiver's life, in days. An entry whose `:expires` is
+   further out than this is refused at write time.
+
+   The horizon is a separate clause from expiry and catches the opposite
+   mistake: expiry catches a waiver that OUTLIVED its decision, the horizon
+   catches one written never to lapse in the first place. Without it,
+   `:expires \"2099-01-01\"` satisfies every other clause here and is a
+   permanent waiver carrying a date — precisely the shape `:retires-when`
+   prose already was.
+
+   Measured against the clock rather than against a write date, deliberately:
+   nothing records when an entry was authored, and a stored write date would
+   be a second fact free to disagree with git. `expires <= today + 90` is
+   stable under the passage of time — the gap only shrinks — so an entry that
+   passed on the day it was written can never start failing THIS clause
+   later. Only the expiry clause fires with time, which is what expiry is."
+  90)
+
+(defn today
+  "The gate's clock: the current date in UTC.
+
+   UTC RATHER THAN THE DEFAULT ZONE, and this is not fussiness. protogen is
+   the pinned upstream for a 10+ repo fleet whose CI runners and operators sit
+   in unknown zones; with a local-zone clock the same waiver is expired in one
+   checkout and live in another for up to a day, and the two disagree about
+   whether the gate is red. One day boundary for the whole fleet.
+
+   Callers pass a date explicitly wherever the answer must be reproducible —
+   `validate-exemptions!` and `apply-exemptions` both take one — so this is
+   the DEFAULT and never the only source."
+  ^LocalDate []
+  (LocalDate/now ZoneOffset/UTC))
+
 (def exemption-proof-keys
-  "The PROOF an exemption owes, independent of what it matches. Both are
-   mandatory non-blank strings — an exemption is a dated decision, and one
-   without a `:retires-when` that can actually be observed is a permanent
-   waiver wearing a temporary one's clothes."
-  #{:rationale :retires-when})
+  "The PROOF an exemption owes, independent of what it matches. All four are
+   mandatory non-blank strings.
+
+   :rationale and :retires-when are the argument: why this finding is not a
+   defect, and what event makes the entry unnecessary. :owner and :expires
+   are the ACCOUNTABILITY, and they are new — an entry carrying only the
+   first two was a decision with no author and no end.
+
+   :retires-when SURVIVES the arrival of :expires, and merging them would
+   lose the half that matters. The retirement CONDITION is a real-world event
+   ('the mask emitter lands') that no machine here can evaluate; the DATE is
+   the outer bound at which the decision must be re-taken whether or not that
+   event happened. Keeping only the date tells you WHEN to look and not WHAT
+   for; keeping only the prose is what let an exemption be permanent while
+   claiming otherwise. Both, or neither is worth having.
+
+   WHAT :owner CANNOT SEE, said out loud so no pass message over-claims: the
+   check is `non-blank string`. `:owner \"TODO\"` passes. What it buys is not
+   verification, it is that the expiry failure below has a name in it to
+   route to; an unfalsifiable allowlist of real humans would be a second
+   register free to rot against the team."
+  #{:rationale :retires-when :owner :expires})
 
 (def exemption-match-keys
   "The axes an entry MATCHES on — the conjunct `exempt?` evaluates. :card and
@@ -375,56 +461,136 @@
    re-spelled it would rot the same way, silently."
   (into exemption-match-keys exemption-proof-keys))
 
+(defn- plural-days
+  "`n` as \"1 day\" / \"3 days\". One home, because both expiry messages count
+   days and a red morning is the worst time to be reading `1 days`."
+  ^String [n]
+  (str n " day" (when (not= 1 n) "s")))
+
+(defn- expiry-date
+  "`e`'s :expires as a `LocalDate`, or an `exemption-error` naming exactly
+   which shape it failed. Two clauses, not one, and they are kept apart
+   because they diagnose different mistakes: a missing/blank/non-string
+   :expires is an entry that never tried to have a date, while an
+   unparseable one is a date typed wrong (`\"2026-13-01\"`, `\"soon\"`,
+   `\"1/1/2026\"`).
+
+   A STRING and never a `java.time.LocalDate` literal, for the reason
+   `:node` already carries: the exemption list is DATA — committed, reviewed
+   and round-tripped through EDN — and `LocalDate` has no EDN reader, so an
+   entry carrying one could not survive the file it lives in. `#inst` would
+   round-trip but drags a time-of-day and a zone that mean nothing to a
+   day-resolution decision."
+  ^LocalDate [e]
+  (let [v (:expires e)]
+    (when-not (and (string? v) (not (str/blank? v)))
+      (exemption-error e (str ":expires must be an ISO-8601 date STRING "
+                              "(YYYY-MM-DD) — a waiver with no date cannot "
+                              "expire, and it is EDN data like :card and "
+                              ":node rather than a Java object")))
+    (try
+      (LocalDate/parse ^String v)
+      (catch DateTimeParseException _
+        (exemption-error e (str ":expires " (pr-str v) " is not an ISO-8601 "
+                                "date (YYYY-MM-DD)"))))))
+
 (defn validate-exemptions!
-  "Exemptions shape check — every entry {:card <string-or-regex-string>
-   :invariant <kw> :rationale <ne-string> :retires-when <ne-string>} plus the
-   optional :node <regex-string> / :act/outcome / :act/test-mode /
-   :act/reason narrowing axes, no other keys. Throws on the first malformed
-   entry; returns the list."
-  [exemptions]
-  (doseq [e exemptions]
-    (when-not (map? e) (exemption-error e "not a map"))
-    (when-let [extra (seq (remove exemption-keys (keys e)))]
-      (exemption-error e (str "unknown keys " (vec extra))))
-    (when-not (string? (:card e)) (exemption-error e ":card must be a string"))
-    (when-not (keyword? (:invariant e)) (exemption-error e ":invariant must be a keyword"))
-    ;; :node is a regex STRING, like :card, and the reason is not that
-    ;; `re-pattern` would reject anything else — it returns a Pattern
-    ;; unchanged, so a #"…" literal would match perfectly well. It is that
-    ;; the exemption list is DATA: committed, reviewed, and round-tripped
-    ;; through EDN, where a Pattern does not survive as itself. One spelling
-    ;; for both regex fields is the second reason.
-    (when (and (contains? e :node) (not (string? (:node e))))
-      (exemption-error e (str ":node must be a regex STRING, like :card — "
-                              "the exemption list is EDN data and a compiled "
-                              "pattern does not round-trip")))
-    (when-not (contains? outcome/outcomes (outcome/finding-outcome e))
-      (exemption-error e (str ":act/outcome must be one of "
-                              (vec (sort outcome/outcomes)))))
-    (when (contains? outcome/unreportable-outcomes (outcome/finding-outcome e))
-      (exemption-error e (str ":act/outcome " (outcome/finding-outcome e)
-                              " can never appear on a finding, so an entry "
-                              "naming it would be stale from birth")))
-    (when-not (contains? outcome/test-modes (outcome/finding-mode e))
-      (exemption-error e (str ":act/test-mode must be one of "
-                              (vec (sort outcome/test-modes)))))
-    ;; Mirrors the finding side exactly: an outcome that owes a reason owes
-    ;; one here, and nothing else may carry one. An exemption for "we cannot
-    ;; measure the bitmap gauges" must not also swallow "the mask emitter
-    ;; failed".
-    (if (contains? outcome/reasoned-outcomes (outcome/finding-outcome e))
-      (when-not (keyword? (:act/reason e))
-        (exemption-error e (str "an " (outcome/finding-outcome e)
-                                " exemption owes an :act/reason keyword")))
-      (when (contains? e :act/reason)
-        (exemption-error e (str ":act/reason without an :act/outcome in "
-                                (vec (sort outcome/reasoned-outcomes))))))
-    (doseq [k [:rationale :retires-when]]
-      (when-not (and (string? (get e k)) (not (str/blank? (get e k))))
-        (exemption-error
-         e
-         (str k " must be a non-blank string — the proof " "is mandatory")))))
-  exemptions)
+  "Exemptions shape check — every entry carries the four
+   `exemption-proof-keys` plus :card <regex-string> and :invariant <kw>, and
+   may narrow with :node <regex-string> / :act/outcome / :act/test-mode /
+   :act/reason. No other keys. Throws on the first malformed entry; returns
+   the list.
+
+   `now` is the date the expiry clauses are judged against; the 1-arity reads
+   `today` (UTC). IT IS A PARAMETER RATHER THAN A LOOKUP because this fn is
+   otherwise pure and its callers are gates: a test that could not pin the
+   date would have to write assertions against a moving answer, which is how
+   an expiry canary quietly stops being able to go red.
+
+   THIS IS THE ONE PLACE A DEVCARD GATE READS A CLOCK, and the cost is real
+   enough to state rather than bury: a battery that passed yesterday can fail
+   today with no commit in between. That is what an expiry IS — the forcing
+   function is worthless if it can only fire when someone happens to edit the
+   file — but it is also the class of red most likely to be waved through as
+   'flaky'. Two things keep it honest. The impurity reaches ONLY the
+   human-authored exemption list: no pixel, no golden, no generated text is a
+   function of this date, so nothing byte-reproducible loses that property.
+   And the message names the owner and the lapse, so the red routes itself
+   instead of needing a triage."
+  ([exemptions] (validate-exemptions! exemptions (today)))
+  ([exemptions ^LocalDate now]
+   (doseq [e exemptions]
+     (when-not (map? e) (exemption-error e "not a map"))
+     (when-let [extra (seq (remove exemption-keys (keys e)))]
+       (exemption-error e (str "unknown keys " (vec extra))))
+     (when-not (string? (:card e)) (exemption-error e ":card must be a string"))
+     (when-not (keyword? (:invariant e)) (exemption-error e ":invariant must be a keyword"))
+     ;; :node is a regex STRING, like :card, and the reason is not that
+     ;; `re-pattern` would reject anything else — it returns a Pattern
+     ;; unchanged, so a #"…" literal would match perfectly well. It is that
+     ;; the exemption list is DATA: committed, reviewed, and round-tripped
+     ;; through EDN, where a Pattern does not survive as itself. One spelling
+     ;; for both regex fields is the second reason.
+     (when (and (contains? e :node) (not (string? (:node e))))
+       (exemption-error e (str ":node must be a regex STRING, like :card — "
+                               "the exemption list is EDN data and a compiled "
+                               "pattern does not round-trip")))
+     (when-not (contains? outcome/outcomes (outcome/finding-outcome e))
+       (exemption-error e (str ":act/outcome must be one of "
+                               (vec (sort outcome/outcomes)))))
+     (when (contains? outcome/unreportable-outcomes (outcome/finding-outcome e))
+       (exemption-error e (str ":act/outcome " (outcome/finding-outcome e)
+                               " can never appear on a finding, so an entry "
+                               "naming it would be stale from birth")))
+     (when-not (contains? outcome/test-modes (outcome/finding-mode e))
+       (exemption-error e (str ":act/test-mode must be one of "
+                               (vec (sort outcome/test-modes)))))
+     ;; Mirrors the finding side exactly: an outcome that owes a reason owes
+     ;; one here, and nothing else may carry one. An exemption for "we cannot
+     ;; measure the bitmap gauges" must not also swallow "the mask emitter
+     ;; failed".
+     (if (contains? outcome/reasoned-outcomes (outcome/finding-outcome e))
+       (when-not (keyword? (:act/reason e))
+         (exemption-error e (str "an " (outcome/finding-outcome e)
+                                 " exemption owes an :act/reason keyword")))
+       (when (contains? e :act/reason)
+         (exemption-error e (str ":act/reason without an :act/outcome in "
+                                 (vec (sort outcome/reasoned-outcomes))))))
+     ;; The three PROSE proof keys. :expires is the fourth and is checked
+     ;; separately below because non-blank is only its first clause; deriving
+     ;; this vector from `exemption-proof-keys` minus :expires would read as
+     ;; though the two halves were interchangeable, and sorted so a
+     ;; multi-defect entry always names the same key first.
+     (doseq [k [:owner :rationale :retires-when]]
+       (when-not (and (string? (get e k)) (not (str/blank? (get e k))))
+         (exemption-error
+          e
+          (str k " must be a non-blank string — the proof is mandatory"))))
+     ;; ── the two expiry clauses ──────────────────────────────────────────
+     ;; They can never both fire (a date cannot be both before `now` and more
+     ;; than the horizon after it), so neither can mask the other and their
+     ;; order carries no meaning. Each message is written to contain a token
+     ;; the other does not — "EXPIRED" against "at most" — because a canary
+     ;; that can only assert `thrown?` cannot tell a clause from its
+     ;; neighbour, and these two are the closest neighbours in this fn: they
+     ;; read the SAME key.
+     (let [^LocalDate expires (expiry-date e)]
+       (when (.isBefore expires now)
+         (exemption-error
+          e
+          (str "waiver EXPIRED on " expires " ("
+               (plural-days (.between ChronoUnit/DAYS expires now))
+               " ago) — re-take the decision or fix the finding. Owner: "
+               (pr-str (:owner e)))))
+       (when (.isAfter expires (.plusDays now waiver-horizon-days))
+         (exemption-error
+          e
+          (str ":expires " expires " is "
+               (plural-days (.between ChronoUnit/DAYS now expires))
+               " out — a waiver may run at most " waiver-horizon-days
+               " days (waiver-horizon-days). A date beyond the horizon is a "
+               "permanent waiver with a date on it.")))))
+   exemptions))
 
 (defn- exempt?
   "An exemption matches per (card, invariant, outcome, MODE, reason, node).
@@ -481,21 +647,67 @@
            (boolean (re-matches (re-pattern (:node exemption))
                                 (str (:node finding)))))))
 
+(defn waiver-summary
+  "The one-line waiver census a run header prints beside its violation count:
+   how many waivers are in force and when the next one lapses.
+
+   NOTHING IN THIS REPO CALLS IT, and saying so is the point — a primitive
+   that looks wired and is not is worse than one that is plainly not. The
+   wiring is one line wherever a run prints its header
+   (`devcards.lanes` / `devcards.core`, neither of which this change owns),
+   and it belongs there rather than here because this ns is pure and a header
+   is I/O.
+
+   WHY IT EXISTS AT ALL RATHER THAN BEING RE-DERIVED AT THE CALL SITE: the
+   count a reader needs beside `N violations` is the number of ENTRIES in
+   force, which is not `(count (:exempted …))` — that counts FINDINGS waived,
+   and one entry can waive many findings or, while stale, none. Two numbers
+   one keystroke apart, and the wrong one under-reports the debt exactly when
+   a single broad entry is doing the most work. One home for the arithmetic
+   is how they stop being confusable.
+
+   TAKES AN ALREADY-VALIDATED LIST and parses each `:expires` STRICTLY: an
+   unparseable date throws out of here rather than being skipped. Skipping was
+   the first cut and it is the shape this repo refuses everywhere else — the
+   count would stay right while the lapse date silently became some LATER
+   entry's, so the census would under-report exactly the number it exists to
+   report, and no branch of it could ever fail. A list reaching here with a
+   bad date has bypassed `validate-exemptions!`, which is a caller defect and
+   should be loud.
+
+   `now` defaults to `today` (UTC), as everywhere else here."
+  (^String [exemptions] (waiver-summary exemptions (today)))
+  (^String [exemptions ^LocalDate now]
+   (if (empty? exemptions)
+     "0 waivers"
+     (let [next-up (->> exemptions
+                        (map #(LocalDate/parse ^String (:expires %)))
+                        sort
+                        first)]
+       (str (count exemptions) " waiver" (when (not= 1 (count exemptions)) "s")
+            ", next lapses " next-up " ("
+            (plural-days (.between ChronoUnit/DAYS now ^LocalDate next-up))
+            ")")))))
+
 (defn apply-exemptions
   "Split findings against the proof-carrying exemption list. Returns
    {:live [..] :exempted [..] :stale-exemptions [..]} — an exemption that
    matched nothing is STALE and reported as its own finding class, so the
-   list ratchets down by construction."
-  [findings exemptions]
-  (let [exemptions (validate-exemptions! exemptions)
-        matched (set (for [e exemptions f findings :when (exempt? e f)] e))
-        live (vec (remove (fn [f] (some #(exempt? % f) exemptions)) findings))
-        stale (vec (remove matched exemptions))]
-    {:live live
-     :exempted (vec (remove (set live) findings))
-     :stale-exemptions (mapv (fn [e]
-                               {:card (:card e)
-                                :invariant (:invariant e)
-                                :invariant-class :stale-exemption
-                                :detail "exemption matched no finding — remove it"})
-                             stale)}))
+   list ratchets down by construction.
+
+   `now` is handed straight to `validate-exemptions!`; the 2-arity reads
+   `today` (UTC), which is what every caller in this repo does."
+  ([findings exemptions] (apply-exemptions findings exemptions (today)))
+  ([findings exemptions ^LocalDate now]
+   (let [exemptions (validate-exemptions! exemptions now)
+         matched (set (for [e exemptions f findings :when (exempt? e f)] e))
+         live (vec (remove (fn [f] (some #(exempt? % f) exemptions)) findings))
+         stale (vec (remove matched exemptions))]
+     {:live live
+      :exempted (vec (remove (set live) findings))
+      :stale-exemptions (mapv (fn [e]
+                                {:card (:card e)
+                                 :invariant (:invariant e)
+                                 :invariant-class :stale-exemption
+                                 :detail "exemption matched no finding — remove it"})
+                              stale)})))

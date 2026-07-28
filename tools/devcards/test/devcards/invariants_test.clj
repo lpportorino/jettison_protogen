@@ -9,7 +9,8 @@
    'the lane returned nothing at all'."
   (:require [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
-            [devcards.invariants :as inv]))
+            [devcards.invariants :as inv])
+  (:import (java.time LocalDate)))
 
 (def ^:private caps
   "vis_px is expressible — the lane must not silently no-op."
@@ -286,21 +287,74 @@
 ;; which is the one state in which widening a closed set is free. These pin
 ;; the set, then each new axis, each against a control that must stay live.
 
+(def ^:private pinned-today
+  "The date every waiver assertion below is judged at.
+
+   PINNED, AND THE FIXTURE'S DATE IS DERIVED FROM IT rather than written as a
+   literal. A fixture carrying a hardcoded future `:expires` is a time bomb:
+   it passes for a while and then reds this whole namespace on a day nobody
+   touched it, for a reason that has nothing to do with what any of these
+   tests judge. Deriving both ends from one pinned date makes every assertion
+   here reproducible forever — which is what the production clock deliberately
+   is NOT, and `the-default-clock-is-LIVE` below is where that half is proven."
+  (LocalDate/parse "2026-01-15"))
+
+(defn- days-out
+  "An ISO date string `n` days after `pinned-today` (negative = before)."
+  ^String [n]
+  (str (.plusDays pinned-today n)))
+
 (def ^:private legacy-exemption
+  "A minimal WELL-FORMED waiver: the four mandatory proof keys plus the two
+   mandatory match keys, and none of the optional narrowing axes.
+
+   Still called `legacy` because that is what these tests use it for — it is
+   the entry shape that predates the ACT axes, and the point of most
+   assertions below is that an entry naming no outcome/mode/reason keeps
+   matching exactly what it always matched. It is NOT a pre-waiver entry:
+   those no longer validate at all, by design (see
+   `a-waiver-owes-an-OWNER` / `a-waiver-owes-a-PARSEABLE-DATE`)."
   {:card "c" :invariant :contrast
    :rationale "proven benign for this card"
-   :retires-when "the widget grows its own box"})
+   :retires-when "the widget grows its own box"
+   :owner "devcards-maintainer"
+   :expires (days-out 30)})
 
 (defn- live-of
   [findings exemptions]
   (set (map (juxt :act/outcome :act/test-mode :act/reason :node)
-            (:live (inv/apply-exemptions findings exemptions)))))
+            (:live (inv/apply-exemptions findings exemptions pinned-today)))))
+
+(defn- validated
+  "`inv/validate-exemptions!` judged at `pinned-today`.
+
+   Every waiver assertion below goes through this rather than the 1-arity, so
+   no message check here is a function of the day the suite runs. The 1-arity
+   — the one production uses — is exercised exactly once, in
+   `the-default-clock-is-LIVE`, with inputs whose verdict cannot drift."
+  [entries]
+  (inv/validate-exemptions! entries pinned-today))
 
 (defn- msg
   "The message of whatever `f` throws, or nil. `thrown?` alone cannot tell a
    clause from its neighbour, which is how a decorative canary survives."
   [f]
   (try (f) nil (catch Throwable t (ex-message t))))
+
+(defn- refusal
+  "The refusal message `entries` produce at `pinned-today`, or nil when they
+   validate cleanly.
+
+   EVERY \"this validates\" CONTROL below asserts `(nil? (refusal …))` rather
+   than `(is (validated …))`, and the difference is the one the mutation
+   discipline turns on. A control written as `(is (validated …))` reports a
+   mutation that made it throw as an ERROR — the whole test reds while saying
+   nothing about WHICH clause refused, which is a broken harness wearing the
+   right colour. Measured: freezing the production clock turned exactly that
+   control into `0 failures, 1 errors`. Through `refusal` the same mutation
+   is a FAIL whose `actual` is the refusing clause's own message."
+  [entries]
+  (msg #(validated entries)))
 
 (deftest the-exemption-key-set-is-CLOSED
   (testing "an unknown key must be refused rather than ignored: an entry
@@ -309,17 +363,17 @@
             deliberately does NOT have.
             REVERT-TO-BREAK: add :severity to `exemption-keys`."
     (is (str/includes?
-         (str (msg #(inv/validate-exemptions!
+         (str (msg #(validated
                      [(assoc legacy-exemption :severity :minor)])))
          "unknown keys [:severity]")))
   (testing "and the three ACT axes are IN it — the first draft omitted
             :act/test-mode, which made a manual-only exemption unwritable and
             therefore made the hole below unfixable at the config layer"
-    (is (inv/validate-exemptions!
+    (is (validated
          [(assoc legacy-exemption :act/test-mode :manual)])))
   (testing "CONTROL: the same entry without the unknown key validates, so the
             throw keys on the key and not on the entry shape"
-    (is (= [legacy-exemption] (inv/validate-exemptions! [legacy-exemption])))))
+    (is (= [legacy-exemption] (validated [legacy-exemption])))))
 
 (deftest a-legacy-exemption-still-exempts-a-legacy-finding
   (testing "the compat pin: every exemption ever written here predates the
@@ -424,30 +478,30 @@
             REVERT-TO-BREAK: delete the reasoned-outcome branch."
     (doseq [o [:cantTell :inapplicable :untested]]
       (is (str/includes?
-           (str (msg #(inv/validate-exemptions!
+           (str (msg #(validated
                        [(assoc legacy-exemption :act/outcome o)])))
            "owes an :act/reason keyword")
           (str o))))
   (testing "and nothing else may carry one"
     (is (str/includes?
-         (str (msg #(inv/validate-exemptions!
+         (str (msg #(validated
                      [(assoc legacy-exemption :act/reason :noise-band)])))
          ":act/reason without an :act/outcome in")))
   (testing "an outcome outside the ACT vocabulary is refused"
     (is (str/includes?
-         (str (msg #(inv/validate-exemptions!
+         (str (msg #(validated
                      [(assoc legacy-exemption :act/outcome :cantTel)])))
          ":act/outcome must be one of")))
   (testing "and :passed is refused too: a finding may never carry it, so an
             entry naming it would be stale from birth"
     (is (str/includes?
-         (str (msg #(inv/validate-exemptions!
+         (str (msg #(validated
                      [(assoc legacy-exemption :act/outcome :passed)])))
          "stale from birth")))
   (testing "an out-of-vocabulary MODE is refused — the axis the first draft
             could not even name"
     (is (str/includes?
-         (str (msg #(inv/validate-exemptions!
+         (str (msg #(validated
                      [(assoc legacy-exemption :act/test-mode :semi-auto)])))
          ":act/test-mode must be one of")))
   (testing "and a non-string :node is refused. NOT because `re-pattern` would
@@ -458,12 +512,242 @@
             where a compiled Pattern does not survive as itself.
             REVERT-TO-BREAK: delete the :node string check."
     (is (str/includes?
-         (str (msg #(inv/validate-exemptions!
+         (str (msg #(validated
                      [(assoc legacy-exemption :node #"btn.*")])))
          "does not round-trip")))
   (testing "CONTROL: the well-formed narrowed entry validates, so each throw
             keys on its own clause"
-    (is (inv/validate-exemptions!
+    (is (validated
          [(assoc legacy-exemption :act/outcome :cantTell
                  :act/reason :noise-band :act/test-mode :manual
                  :node "btn#.*")]))))
+
+;; ── THE WAIVER CONTRACT: an owner, and a date that can arrive ───────────────
+;; An exemption here IS the upstream standard's waiver. Two of its four
+;; mandatory fields were missing and are now mandatory (`:owner`, `:expires`);
+;; the other two map onto keys that already existed, and the ns docstring
+;; carries that mapping. What follows judges the NEW clauses, each against a
+;; control that must stay green, because the two of them read the SAME key and
+;; a `thrown?` assertion could not tell them apart.
+
+(deftest a-waiver-owes-an-OWNER
+  (testing "a decision with no author is the shape this repo already refuses
+            everywhere else — a threshold with no declaring rule, a policy
+            deviation with no rationale. The waiver was the hole.
+            REVERT-TO-BREAK: drop :owner from the proof loop's key vector in
+            `validate-exemptions!`."
+    (is (str/includes?
+         (str (msg #(validated [(dissoc legacy-exemption :owner)])))
+         ":owner must be a non-blank string")))
+  (testing "and BLANK is not an owner — whitespace would satisfy `string?`
+            and satisfy nobody reading the red"
+    (is (str/includes?
+         (str (msg #(validated [(assoc legacy-exemption :owner "   ")])))
+         ":owner must be a non-blank string")))
+  (testing "WHAT THE CLAUSE CANNOT SEE, pinned so no reader over-reads it: a
+            placeholder PASSES. The check is non-blank and nothing more. What
+            it buys is that the expiry failure has a name in it to route to,
+            never that the name was verified — an allowlist of real humans
+            would be a second register free to rot against the team."
+    (is (nil? (refusal [(assoc legacy-exemption :owner "TODO")]))))
+  (testing "CONTROL: the same entry WITH an owner validates, so the throws
+            above key on :owner and not on the entry's shape"
+    (is (nil? (refusal [legacy-exemption])))))
+
+(deftest a-waiver-owes-a-PARSEABLE-DATE
+  (testing "no :expires at all. This is the clause that makes a waiver
+            temporary: `:retires-when` is prose no machine can evaluate, so
+            before this key an entry could only ever be retired by someone
+            remembering to look.
+            REVERT-TO-BREAK: delete the string/blank guard in `expiry-date`."
+    (is (str/includes?
+         (str (msg #(validated [(dissoc legacy-exemption :expires)])))
+         ":expires must be an ISO-8601 date STRING")))
+  (testing "a LocalDate OBJECT is refused for the reason :node already
+            carries: the exemption list is EDN data, and a Java temporal does
+            not round-trip through it as itself"
+    (is (str/includes?
+         (str (msg #(validated [(assoc legacy-exemption
+                                       :expires (LocalDate/parse "2026-02-01"))])))
+         ":expires must be an ISO-8601 date STRING")))
+  (testing "and a date typed WRONG is its OWN clause, not the missing-date
+            one — an entry that tried and failed reads differently from one
+            that never tried, and the two repairs are different.
+            REVERT-TO-BREAK: delete the DateTimeParseException catch in
+            `expiry-date`."
+    (doseq [bad ["soon" "2026-13-01" "2026-02-30" "1/1/2026" "2026-1-1"]]
+      (is (str/includes?
+           (str (msg #(validated [(assoc legacy-exemption :expires bad)])))
+           "is not an ISO-8601 date")
+          bad)))
+  (testing "CONTROL: a well-formed date inside the horizon validates, so each
+            throw above keys on its own clause"
+    (is (nil? (refusal [legacy-exemption])))))
+
+(deftest the-expiry-clause-FAILS-an-EXPIRED-waiver
+  (testing "AN EXPIRED WAIVER IS A HARD FAILURE, and the message names EXPIRY
+            rather than any neighbour. This is the whole point of a dated
+            decision: the date arrives while nobody is editing the file, which
+            is exactly when a permanent exemption used to become invisible.
+            REVERT-TO-BREAK: delete the `.isBefore` clause in
+            `validate-exemptions!`."
+    (is (str/includes?
+         (str (msg #(validated [(assoc legacy-exemption :expires (days-out -1))])))
+         "waiver EXPIRED on 2026-01-14 (1 day ago)")))
+  (testing "CONTROL — THE BOUNDARY: a waiver expiring TODAY is still in force,
+            and this is the pair that proves the clause keys on the DATE and
+            not on the entry's shape. One day apart, every other key
+            byte-identical: one throws, one validates."
+    (is (nil? (refusal [(assoc legacy-exemption :expires (days-out 0))]))))
+  (testing "CONTROL — ATTRIBUTION: the expired message carries NONE of the
+            horizon clause's wording. The horizon reads the same key and would
+            refuse a bad date for its own reason, so without this the red
+            above could be its neighbour's."
+    (let [m (str (msg #(validated [(assoc legacy-exemption
+                                          :expires (days-out -1))])))]
+      (is (not (str/includes? m "at most")))
+      (is (not (str/includes? m " out —")))))
+  (testing "and the failure ROUTES ITSELF — it names the owner, so a red on a
+            morning when nobody changed anything arrives with a person on it
+            instead of needing a triage"
+    (is (str/includes?
+         (str (msg #(validated [(assoc legacy-exemption :expires (days-out -1))])))
+         "devcards-maintainer"))))
+
+(deftest the-HORIZON-clause-refuses-a-waiver-written-never-to-lapse
+  (testing "the opposite mistake to expiry, and it needs its own clause:
+            `:expires \"2099-01-01\"` satisfies every other check here and is
+            a permanent waiver with a date painted on it. The bound is read
+            from `waiver-horizon-days` rather than typed, so a canary written
+            against the constant cannot pass a silently widened one.
+            REVERT-TO-BREAK: delete the `.isAfter` clause in
+            `validate-exemptions!`."
+    (is (str/includes?
+         (str (msg #(validated [(assoc legacy-exemption
+                                       :expires (days-out (inc inv/waiver-horizon-days)))])))
+         (str "at most " inv/waiver-horizon-days " days"))))
+  (testing "CONTROL — THE BOUNDARY: exactly the horizon validates, so the
+            throw keys on crossing it and not on being far away"
+    (is (nil? (refusal [(assoc legacy-exemption
+                               :expires (days-out inv/waiver-horizon-days))]))))
+  (testing "CONTROL — ATTRIBUTION: the horizon message does NOT say EXPIRED.
+            The two clauses read the same key and can never both fire (a date
+            cannot be both before now and more than the horizon after it), so
+            each red must be readable back to one of them."
+    (is (not (str/includes?
+              (str (msg #(validated [(assoc legacy-exemption
+                                            :expires (days-out (inc inv/waiver-horizon-days)))])))
+              "EXPIRED"))))
+  (testing "and the horizon itself is PINNED. Every assertion above derives
+            its dates from the constant, so all of them would follow a change
+            to it and none would notice — the value needs one assertion of its
+            own or it can be widened in silence."
+    (is (= 90 inv/waiver-horizon-days))))
+
+(deftest the-default-clock-is-LIVE
+  (testing "the 1-arity — the one `apply-exemptions` and therefore every
+            caller in this repo reaches — reads a REAL clock rather than a
+            frozen one. Both inputs below are stable forever: a date in 2020
+            can never stop being past, and one day after `inv/today` can never
+            stop being future, so this canary does not rot the way a literal
+            fixture date would.
+            REVERT-TO-BREAK: replace `(today)` in the 1-arity with
+            `(LocalDate/parse \"2026-01-15\")` — the first assertion survives
+            that (2020 is still past) and the SECOND fails, because a date one
+            day from the real now is then far beyond the frozen horizon.
+            The second is written through `msg` for the reason `refusal`
+            carries: as `(is (inv/validate-exemptions! …))` that exact
+            mutation was measured producing `0 failures, 1 errors`, an ERROR
+            that reds the test while naming no clause."
+    (is (str/includes?
+         (str (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption :expires "2020-01-01")])))
+         "waiver EXPIRED on 2020-01-01"))
+    (is (nil? (msg #(inv/validate-exemptions!
+                     [(assoc legacy-exemption
+                             :expires (str (.plusDays ^LocalDate (inv/today) 1)))])))))
+  (testing "and the clock is UTC, not the host zone: the same waiver must not
+            be expired in one checkout of this fleet and live in another.
+
+            WHAT THIS ONE CANNOT SEE, because a canary that over-claims is
+            worse than none. Every zone agrees with UTC about the date for
+            part of every day, so a wrong-zone `today` is only visible while
+            the two disagree — and on a UTC host (which the CI runners are)
+            `LocalDate/now` with the system default agrees ALWAYS, so this
+            assertion could never catch that particular substitution there.
+            It pins the INTENT and it caught a `Pacific/Kiritimati` (UTC+14)
+            substitution at the hour it was run; it is not a proof that the
+            zone cannot regress. Closing it properly needs the zone injected
+            the way the date already is."
+    (is (= (LocalDate/now java.time.ZoneOffset/UTC) (inv/today)))))
+
+(deftest the-upstream-fields-this-shape-DECLINES-are-refused-BY-NAME
+  (testing ":clause-id and :decision are the two upstream waiver fields this
+            reconciliation deliberately does not add — the first because
+            :invariant already IS the clause id and a second name is free to
+            disagree with it, the second because this repo has no decisions
+            tree for a slug to point at, so the field could only ever be
+            checked for non-blankness. Both decisions are only safe because
+            the key set is CLOSED: someone pasting an upstream entry in gets a
+            message naming the key, never a silent ignore."
+    (doseq [k [:clause-id :decision]]
+      (is (str/includes?
+           (str (msg #(validated [(assoc legacy-exemption k "x")])))
+           (str "unknown keys [" k "]"))
+          (str k))))
+  (testing "CONTROL: the clause id upstream asks for is :invariant, which is
+            already mandatory — an entry without one is refused for THAT
+            reason and not as an unknown key, which is what makes the mapping
+            in the ns docstring a real mapping rather than a claim"
+    (is (str/includes?
+         (str (msg #(validated [(dissoc legacy-exemption :invariant)])))
+         ":invariant must be a keyword"))))
+
+(deftest the-waiver-census-counts-ENTRIES-and-names-the-NEXT-lapse
+  (testing "no waivers reads as a COUNT and not as an absence — the upstream
+            standard prints this beside the violation count on every run, and
+            a blank line does not say 'zero'"
+    (is (= "0 waivers" (inv/waiver-summary [] pinned-today))))
+  (testing "one entry is SINGULAR and carries its lapse date"
+    (is (= "1 waiver, next lapses 2026-02-14 (30 days)"
+           (inv/waiver-summary [legacy-exemption] pinned-today))))
+  (testing "NEXT is the EARLIEST, not the head of the vector. A census that
+            reported the first entry would name a later date than the one
+            about to fire, which is the wrong half of the answer.
+            REVERT-TO-BREAK: drop the `sort` in `waiver-summary`."
+    (is (= "2 waivers, next lapses 2026-01-20 (5 days)"
+           (inv/waiver-summary [legacy-exemption
+                                (assoc legacy-exemption :expires (days-out 5))]
+                               pinned-today))))
+  (testing "and the count is ENTRIES, never FINDINGS. One entry can waive many
+            findings — here two — so reading `(count (:exempted …))` would
+            report the debt as twice its size, and while an entry is stale it
+            would report it as none."
+    (let [res (inv/apply-exemptions [{:card "c" :invariant :contrast :node "a"}
+                                     {:card "c" :invariant :contrast :node "b"}]
+                                    [legacy-exemption]
+                                    pinned-today)]
+      (is (= 2 (count (:exempted res))))
+      (is (empty? (:live res)))
+      (is (str/starts-with? (inv/waiver-summary [legacy-exemption] pinned-today)
+                            "1 waiver,"))))
+  (testing "and a list whose dates do NOT parse THROWS rather than being
+            skipped. Skipping was the first cut: the count stayed right while
+            the lapse silently became some LATER entry's, so the one number
+            this fn exists to report was the one it got wrong, and no branch
+            of it could ever fail. Only an unvalidated list can reach that
+            state, which is a caller defect and should be loud.
+            REVERT-TO-BREAK: wrap the `LocalDate/parse` in `waiver-summary`
+            in a `(try … (catch DateTimeParseException _ nil))` and `keep`.
+
+            ASSERTED ON THE PARSE FAILURE'S OWN WORDS, not on `some?`. The
+            `some?` form was written first and MEASURED DECORATIVE: a naive
+            lenient `keep` leaves `next-up` nil, the census then hands nil to
+            `.between`, and the NullPointerException satisfies `some?` exactly
+            as the parse failure did. A canary that accepts any throw cannot
+            tell its own clause from the crash its removal causes."
+    (is (str/includes?
+         (str (msg #(inv/waiver-summary [(assoc legacy-exemption
+                                                :expires "whenever")]
+                                        pinned-today)))
+         "could not be parsed"))))

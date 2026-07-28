@@ -355,9 +355,14 @@ Rules:
   anchored at THIS repo's root, so it does not auto-load at a consumer's mount
   point.**
 - **Its findings are DISPOSITIONED before the push — fixed, or exempted** with
-  the same proof-carrying `:rationale` + `:retires-when` every other exemption
-  owes (`devcards.invariants/validate-exemptions!`, where an exemption matching
-  no finding is itself a finding). They emit the producer shape
+  the same proof-carrying entry every other exemption owes — `:rationale`,
+  `:retires-when`, `:owner` and `:expires`, each a non-blank string
+  (`devcards.invariants/validate-exemptions!`, where an exemption matching
+  no finding is itself a finding). **An exemption here is a WAIVER, not a
+  disabled rule:** `:owner` names who to ask, and `:expires` is an ISO-8601
+  date at most 90 days out — expiry and horizon are separate hard failures so
+  neither masks the other, and `:retires-when` still carries the EVENT that
+  retires the entry, which no date can express. They emit the producer shape
   (`{:card :invariant :node :detail}`), so they ride the existing verdict and
   exemption machinery rather than a parallel path — and a consumer extends the
   review the way it extends every other lane: through the registry.

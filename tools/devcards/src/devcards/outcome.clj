@@ -200,11 +200,27 @@
   (throw (ex-info (str "malformed verdict policy: " problem) {:policy policy})))
 
 (defn validate-policy!
-  "Shape check for a run's verdict policy. Deliberately mirrors
+  "Shape check for a run's verdict policy. It was written to mirror
    `invariants/validate-exemptions!`: a policy that DEVIATES from the shipped
-   default owes the same proof-carrying :rationale + :retires-when an
-   exemption owes, because it is the same act — a declared, dated decision to
-   stop failing on something.
+   default owes the proof-carrying :rationale + :retires-when, because it is
+   the same act — a declared decision to stop failing on something.
+
+   THE MIRROR IS NOW BROKEN AND THE GAP RUNS THE WRONG WAY, which is why this
+   says so rather than still claiming the parallel. An exemption now owes four
+   proof keys — `invariants/exemption-proof-keys` — including an :owner and an
+   :expires the validator can enforce, so a per-card waiver EXPIRES and a
+   human is named on it. A policy deviation owes only the two strings, so it
+   is permanent and unattributed.
+
+   That is the larger hole of the two, not the smaller one. An exemption is
+   scoped to one (card, invariant, node, outcome, mode, reason) tuple and is
+   ratcheted by the :stale-exemption finding when it stops matching. A
+   `:fail-outcomes` that drops :cantTell is GLOBAL, matches nothing it can go
+   stale against, and silences a whole verdict class on every card at once —
+   the exact 'a disabled rule is an unrecorded permanent exception' shape the
+   waiver work exists to remove. Closing it is the same four keys plus an
+   expiry clause here; it is not done, and it needs `outcome-test` and the
+   policy fixtures in `findings-test` moved with it.
 
    Each of the two sets has a FLOOR it may not drop. A definite,
    deterministic defect that does not block is not a policy, it is a disabled

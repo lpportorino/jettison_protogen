@@ -431,7 +431,8 @@ Every finding is FIXED, EXEMPTED, or — for an UNCERTAIN finding only — DEFER
 TO THE INSTRUMENT that can settle it. Nothing is left un-dispositioned.
 
 DISCARDED-as-not-real is a fourth outcome, and one of TWO with no proof
-machinery standing behind it — no `:rationale`, no `:retires-when`, no stale
+machinery standing behind it — no `:rationale`, no `:retires-when`, no
+`:owner`, no `:expires`, no stale
 check to catch it later. `devcards.invariants`'s `validate-exemptions!` and its
 `:stale-exemption` finding cover EXEMPTED alone; a DEFERRAL is explicitly not an
 exemption-list entry either (see below), so it is unvalidated for the same
@@ -468,7 +469,9 @@ because the images you judged no longer exist.
 being a vision finding:
 
 ```clojure
-{:card "…" :invariant :vlm/… :rationale "…" :retires-when "…"}
+{:card "…" :invariant :vlm/…
+ :rationale "…" :retires-when "…"
+ :owner "…" :expires "YYYY-MM-DD"}
 ```
 
 **Do NOT add `:act/test-mode :manual` unless the precondition below holds.** The
@@ -496,7 +499,15 @@ sharing the card, invariant and node.
 `invariants/validate-exemptions!` names the accepted key set in one place —
 `invariants/exemption-keys`, which is derived from the finding side rather than
 re-spelled, since re-spelling is how the mode came to be missing from it.
-`:rationale` and `:retires-when` must be non-blank. An exemption matching no
+`:rationale`, `:retires-when`, `:owner` and `:expires` must each be a
+non-blank string, and an entry is a WAIVER rather than a disabled rule:
+`:owner` names who to ask and `:expires` is an ISO-8601 `YYYY-MM-DD` date at
+most 90 days out. AN EXPIRED WAIVER IS A HARD FAILURE, and so is one dated
+beyond that horizon — a date nothing can reach is prose wearing a date. The
+two clauses are separable so neither can mask the other, and `:retires-when`
+still carries what no machine can evaluate: the EVENT that makes the entry
+unnecessary, where the date only says when the decision must be re-taken
+regardless. An exemption matching no
 finding is itself a finding (`:stale-exemption`), so the list can only shrink —
 which is why a `:retires-when` naming a condition that can actually be observed
 is the whole value of the entry.

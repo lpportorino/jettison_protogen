@@ -15,6 +15,22 @@
             [devcards.outcome :as outcome]
             [devcards.overlap :as overlap]))
 
+(defn- waiver
+  "`m` completed into a valid waiver — the `:owner` + `:expires` half of
+   `invariants/exemption-proof-keys` added unless `m` already names them.
+
+   THE DATE IS DERIVED FROM THE LIVE CLOCK, never written as a literal. These
+   fixtures reach `apply-exemptions`' short arity, so they are judged against
+   `invariants/today`; a hardcoded `:expires` would pass until the day it did
+   not and then red this namespace on a morning nobody touched it, for a
+   reason unrelated to anything here tests. (`devcards.invariants-test` pins a
+   date instead — it can, because it calls the explicit-date arities, and
+   pinning is what lets it assert exact expiry messages.)"
+  [m]
+  (merge {:owner "devcards-maintainer"
+          :expires (str (.plusDays ^java.time.LocalDate (invariants/today) 30))}
+         m))
+
 (def ^:private clean-tree
   {:type "lv_obj" :coords [0 0 99 99] :children []})
 
@@ -285,10 +301,11 @@
                {:card-id "c"
                 :tree clean-tree
                 :producers [extra]
-                :exemptions [{:card "c"
-                              :invariant :custom
-                              :rationale "proven benign for this card"
-                              :retires-when "the widget grows its own box"}]})]
+                :exemptions [(waiver
+                              {:card "c"
+                               :invariant :custom
+                               :rationale "proven benign for this card"
+                               :retires-when "the widget grows its own box"})]})]
       (is (empty? (:live res)))
       (is (= [:custom] (mapv :invariant (:exempted res))))
       (is (empty? (:stale-exemptions res))))))
@@ -301,10 +318,10 @@
                 :emissions {}
                 :host-proxy? false
                 :caps {:vis-px? true}
-                :exemptions [{:card "c"
-                              :invariant :never-emitted
-                              :rationale "r"
-                              :retires-when "w"}]})]
+                :exemptions [(waiver {:card "c"
+                                      :invariant :never-emitted
+                                      :rationale "r"
+                                      :retires-when "w"})]})]
       (is (= [:stale-exemption] (mapv :invariant-class (:stale-exemptions res)))))))
 
 ;; ── threshold keys must not collide across namespaced producer ids ───────
@@ -824,10 +841,10 @@
 
 (defn- exemption-for
   [reason]
-  [{:card "c" :invariant :contrast
-    :act/outcome :cantTell :act/reason reason
-    :rationale "no mask emitter for this class yet"
-    :retires-when "the mask emitter lands"}])
+  [(waiver {:card "c" :invariant :contrast
+            :act/outcome :cantTell :act/reason reason
+            :rationale "no mask emitter for this class yet"
+            :retires-when "the mask emitter lands"})])
 
 (deftest an-exemption-may-not-name-an-UNDECLARED-reason
   (let [armed [contrast-producer (findings/builtin-producer :tree)]
@@ -894,8 +911,9 @@
         (is (empty? (:live (findings/card-findings
                             {:card-id "c" :tree clean-tree :caps {:vis-px? true}
                              :producers [(findings/builtin-producer :tree)]
-                             :exemptions [{:card "c" :invariant :clipped
-                                           :rationale "r" :retires-when "w"}]}))))))))
+                             :exemptions [(waiver {:card "c" :invariant :clipped
+                                                   :rationale "r"
+                                                   :retires-when "w"})]}))))))))
 
 (deftest the-reason-vocabulary-is-the-UNION-of-the-armed-set
   (testing "`validate-exemption-reasons!` unions every armed producer's
