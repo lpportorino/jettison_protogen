@@ -178,8 +178,23 @@
    {:id "planted/disabled-child-in-enabled-parent"
     :expect {:sibling 0 :containment-real 1 :containment-scaffold 0}
     :node (nested-button disabled-bits 0)}
+   ;; ENABLED child inside a DISABLED parent. Its own parent is disabled, so it
+   ;; is not the nearest ENABLED hit-testable ancestor; the walk continues up.
+   ;; This expected a SCAFFOLD-attributed finding while the corpus wrapper was
+   ;; clickable — and the wrapper is now cleared, because it emits nothing and
+   ;; had no business in the pointer path. With no enabled ancestor above the
+   ;; disabled parent, there is nothing being covered and NO finding is the
+   ;; right answer. The case keeps its place as the NEGATIVE arm: it proves the
+   ;; rule does not fire on an enabled child merely for being nested.
+   ;;
+   ;; ⚠️ NOTHING NOW EXERCISES `:scaffolding-ancestor? true`. That marker is
+   ;; still produced by `devcards.deadzone`, and no planted case can reach it
+   ;; while every corpus container is out of the pointer path. Recorded as an
+   ;; UNEXERCISED path rather than deleted, because deletion would also remove
+   ;; the diagnosis a consumer needs the day their own scaffolding IS clickable
+   ;; — which is LVGL's default, so it is the state they start from.
    {:id "planted/enabled-child-in-disabled-parent"
-    :expect {:sibling 0 :containment-real 0 :containment-scaffold 1}
+    :expect {:sibling 0 :containment-real 0 :containment-scaffold 0}
     :node (nested-button 0 disabled-bits)}])
 
 (defn- planted-row
