@@ -453,7 +453,8 @@
 
    MIL-STD-1472H governs where it states a threshold; WCAG 2.2 fills gaps only
    where 1472H is silent, and where both state one for the same quantity the
-   stricter binds (`docs/UI-QUALITY-CONTRACTS.md` §4). So text is 6:1, not 4.5:1
+   stricter binds (`docs/UI-QUALITY-CONTRACTS.md` §0, which carries the
+   precedence rule; §4 is per-role thresholds and states no precedence). So text is 6:1, not 4.5:1
    — `:wcag-aa-text` is carried ONLY to quantify what a WCAG-built gate would
    have blessed, and `solve-cell` will refuse it as a floor."
   {:text-shall {:ratio 6.0

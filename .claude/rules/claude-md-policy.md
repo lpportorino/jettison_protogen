@@ -14,7 +14,7 @@ This repo is additive-first and backward-compatible by contract — the pinned
 upstream for its consumer fleet (see `CLAUDE.md`); a no-backward-compat posture
 must not be imported into these docs.
 
-## The 4-tier model
+## The 5-tier model
 
 | Tier | Location | What auto-loads | When |
 |---|---|---|---|

@@ -171,9 +171,10 @@ obligation and the disposition rule). This section is how.
     unanchored form resolved to nothing even here.
   - **`<UNIT>`, not `<WIDGET>`** — `SKILL.md` is the definition and it means a
     WidgetType enum directory OR a composition unit slug. Reading it as
-    widgets-only silently drops `legos` and `kitchen-sinks`, i.e. 48 of the 732
-    committed renders and exactly the composition cards the review is most often
-    about.
+    widgets-only silently drops `legos` and `kitchen-sinks` — exactly the
+    composition cards the review is most often about. Their share of the
+    committed renders is not written here because it moves with the corpus;
+    `preflight.sh` prints the per-unit roster, which is the answer.
 
   At a CONSUMER that path is the consumer's OWN gallery and never the pin's;
   resolve it with `.claude/skills/ui-standard-review/preflight.sh`, which
@@ -235,11 +236,13 @@ and so does not load where these files are edited.
   `run-gates`, and `core.clj` for the kitchen sinks and the composition
   inventory), so the widget-level `:notes` / `:deviation` prose that sits BESIDE
   `:cards`, and the spec's own top-level prose, reach no scanned population at
-  all. MEASURED on this tree: the gate sees 544 strings from `spec.edn`'s card
-  populations, while 194 strings live outside them (171 widget-level, 40 spec
-  top-level, less 17 whose exact value also appears inside some card) — the
-  longest a 466-char paragraph. A device landmark pasted into a widget's
-  `:notes` ships and nothing here reds.
+  all. The unscanned population is NOT small and NOT short — it holds
+  widget-level prose beside `:cards` plus the spec's own top-level prose, and
+  its longest single string runs over a thousand characters. The counts are
+  deliberately not written here: they move with every corpus edit, and a stale
+  one would understate exactly the exposure this paragraph exists to name.
+  Re-derive them from `spec.edn` when you need them. A device landmark pasted
+  into a widget's `:notes` ships and nothing here reds.
   Left as a NAMED GAP rather than closed, deliberately: extending the
   populations means passing widget maps with `:cards` stripped (otherwise every
   card is scanned twice and every hit is reported twice), which is a change to

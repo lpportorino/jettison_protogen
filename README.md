@@ -212,7 +212,13 @@ For automated distribution, configure these deploy keys as repository secrets:
 
 ### Environment Variables
 
-- `PROTO_SOURCE_DIR`: Source proto directory (default: `./proto`)
+- `PROTO_SOURCE_DIR`: Source proto directory. **The default depends on which
+  entry point you use, and only one of them works unset.** `make generate`
+  supplies `./proto` (the `?=` in `Makefile`), which is where this repo's
+  sources live. `./generate-protos.sh` run DIRECTLY defaults to `../proto`
+  after `cd`-ing to its own directory — i.e. outside this repo — so it fails
+  its own source-directory check unless you set the variable. Prefer
+  `make generate`, or pass `PROTO_SOURCE_DIR=./proto` explicitly.
 - `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
 - `REBUILD_IMAGE`: Force Docker image rebuild (default: `false`)
 

@@ -301,7 +301,8 @@ arithmetic on values this repository holds, it is the same arithmetic
 a measured one compare digit for digit), and it needs no hardware constant.
 
 **THE LADDER MUST BE AUTHORED. Do not build it from the declared theme pairs.**
-`docs/PROVEN-PAIRS.md` reports 32 rows over 16 distinct declared pairs, and those
+`docs/PROVEN-PAIRS.md` reports the declared pairs — it is GENERATED, so read the
+count off its own header rather than from here, and those
 rows span 1.76:1 to 16.18:1 — but that span is across DIFFERENT hue families,
 while a cell holds the hue family fixed. Hold it fixed and the declared table
 offers roughly three rungs (`fg-0` on the dark surfaces: 16.18, 15.22, 13.46;

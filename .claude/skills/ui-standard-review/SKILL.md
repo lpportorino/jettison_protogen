@@ -101,9 +101,9 @@ the whole defect class here, and it fails green in both directions.
 Resolving the gallery against the pin is the worse of the two failures: the
 literal path `tools/devcards/docs/widgets/` from a consumer root resolves to
 nothing (empty batch, clean report), but a `**` glob for it resolves **under the
-mount**, where protogen's own 732 committed renders live — and reviewing those
+mount**, where protogen's own committed renders live — and reviewing those
 produces a plausible-looking report that discharges nothing. Both were measured
-in a simulated mount; the second returned 732 protogen images and zero of the
+in a simulated mount; the second returned protogen's whole gallery and zero of the
 consumer's own.
 
 `.claude/rules/…` in particular is anchored at PROTOGEN's root and is
@@ -215,7 +215,7 @@ tree, which is why the preflight prints the resolved path:
 
 `<UNIT>` is the WidgetType enum directory or a composition unit's slug — BOTH,
 and the distinction is load-bearing: protogen's own gallery is 24 units, of
-which `legos` and `kitchen-sinks` are compositions carrying 48 of the 732
+which `legos` and `kitchen-sinks` are compositions carrying a share of the
 renders. A batch that reads `<UNIT>` as widgets-only drops exactly the cards
 this pass is most often about.
 `<state-slug>` is the card id's tail past the class segment with slashes turned

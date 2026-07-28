@@ -58,7 +58,8 @@
    and mislabelling is cheaper to correct than a wrong threshold arm.
 
    Per-INSTANCE facts are never in this table. A STATIC host_proxy box has
-   CLICKABLE cleared at runtime (renderer.c:1966) and a disabled widget
+   CLICKABLE cleared at runtime (`proxy_apply_mode` in
+   `renderer/src/renderer.c`) and a disabled widget
    keeps it; both are read off the node, not looked up here."
   (:require [devcards.classify :as classify]))
 

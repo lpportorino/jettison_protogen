@@ -26,7 +26,8 @@
    A per-instance fact this table must be INTERSECTED with, rather than
    trusted over: whether this particular object still carries
    LV_OBJ_FLAG_CLICKABLE. The renderer clears it at runtime on a STATIC
-   host_proxy box so the pointer falls through (renderer.c:1966), and no
+   host_proxy box so the pointer falls through (`proxy_apply_mode` in
+   `renderer/src/renderer.c`), and no
    type-keyed :interactive? can express that. dump_obj emits a `clickable`
    key set false when the flag is clear, and `devcards.overlap` consumes it
    — so a rule that reads only this table still OVER-reports there, and the

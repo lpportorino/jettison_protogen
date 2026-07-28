@@ -1077,13 +1077,15 @@ is the assumption that decides what the gate can see.
 surface-only BG list omits, RENDERED: the three `status-*` fills — the `hud-btn`
 component sets `bg-status-error`, `md:bg-status-warning`, `lg:bg-status-success`
 under a `text-fg-0` label, and the visual-regression harness renders that
-fixture at every breakpoint — and `checked-accent`, which `renderer/src/theme.c`
-puts under the DROPDOWN LIST's selected option. (It was the roller's centred
-option too, until that band moved to its own style authoring both ends; the
-dropdown is what still carries an unowned glyph over this fill.) Those cells
-are not marginal: dark `fg-0` on `status-warning` measures **1.76:1** and on
-`status-success` **2.08:1**, against a 6:1 floor. Omitted and merely AUTHORED
+fixture at every breakpoint. Those cells are not marginal: dark `fg-0` on
+`status-warning` measures **1.76:1** and on `status-success` **2.08:1**,
+against a 6:1 floor. Omitted and merely AUTHORED
 (which is exactly the space §6.7's second item says the static tier judges):
+`checked-accent` under the DROPDOWN LIST's selected option — `theme.c` styles
+that part, but the renderer has NO open-list decode path, so no static fixture
+can construct one and nothing renders it today. It used to belong on the
+RENDERED side through the roller's centred option; that band now authors both
+its own ends, which moved the pairing here rather than removing it. And
 `pressed-accent`, carried by the `btn-primary` and `hud-btn` components under
 their own labels. A cross product that omits either class returns an empty
 vector — "clean" and "I never looked" arriving as the same answer, which is the

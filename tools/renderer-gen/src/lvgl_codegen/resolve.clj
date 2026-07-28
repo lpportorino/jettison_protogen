@@ -47,7 +47,7 @@
 
 (defn resolve-font
   "Resolve a semantic font token to LVGL C font symbol name.
-   :font-body → :montserrat-18 → \"montserrat_18\""
+   :font-body → :b612mono-bold-16 → \"b612mono_bold_16\""
   [tokens sem-key]
   (let [font-key (get-in tokens [:semantic sem-key])]
     (when-not font-key
@@ -57,7 +57,7 @@
 
 (defn resolve-spacing
   "Resolve a semantic spacing token to pixel integer.
-   :spacing-md → 4 → 16"
+   :spacing-md → 3 → 8"
   [tokens sem-key]
   (let [scale-key (get-in tokens [:semantic sem-key])]
     (when-not scale-key
@@ -66,7 +66,7 @@
 
 (defn resolve-radius
   "Resolve a semantic radius token to pixel integer.
-   :radius-card → :lg → 12"
+   :radius-card → :lg → 4"
   [tokens sem-key]
   (let [r-key (get-in tokens [:semantic sem-key])]
     (when-not r-key

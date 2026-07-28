@@ -52,7 +52,8 @@
 
    OVER-reports, and this one is DESIGNED: a designed affordance stack
    fires as a true collision. The renderer builds a resizable host_proxy as
-   a full-bleed glass plus four corner handles (renderer.c:2255-2288), all
+   a full-bleed glass plus four corner handles (`proxy_handle_px` /
+   `proxy_apply_handle_ext` in `renderer/src/renderer.c`), all
    CLICKABLE siblings, all shown together — genuinely competing for the
    pointer, and genuinely intended. Ordering that by declaration is the
    layer contract's job, not this rule's.
@@ -77,7 +78,8 @@
      the dump's `:coords` are untransformed. Under a non-identity scale or
      rotation the reachable box computed here is therefore wrong in BOTH
      directions. This is reachable from the ui_ast vocabulary —
-     PROP_SCALE_X/Y, PROP_ROTATION, PROP_PIVOT_X/Y (renderer.c:3407-3435) —
+     PROP_SCALE_X/Y, PROP_ROTATION, PROP_PIVOT_X/Y (the transform cases in
+     `apply_style_property`, `renderer/src/renderer.c`) —
      so a consumer that transforms an interactive subtree gets answers this
      rule cannot justify. No corpus card sets any of them.
    - LV_OBJ_FLAG_ADV_HITTEST lets a widget refuse a hit inside its own box

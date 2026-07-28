@@ -37,6 +37,24 @@ name, and `cmd_server` is named by this repo's OWN public `proto/ui/ui_input.pro
 and its generated docs. A term this repo publishes itself cannot be a leak, and
 genericizing it only makes the comment less accurate than the schema it describes.
 
+## Two cited doc trees are NOT VENDORED HERE — do not hunt for them
+
+Many files in this seam carry a header citing `docs/lvgl-factory/NN-*.md`, and a
+handful cite `docs/ui-nodes/README`. **Neither directory exists in this
+repository**, and neither is going to: they are the upstream design tree this
+closure was relocated from, and the citations are PROVENANCE for where a
+decision was made, not a pointer you can follow here.
+
+Verified: `docs/lvgl-factory` and `docs/ui-nodes` are both absent, cited from
+roughly twenty files between them.
+
+Left in place deliberately rather than stripped — an external design document we
+do not control is exactly the citation `.claude/rules/claude-md-policy.md`
+sanctions, provided the reader is told where it lives. This paragraph is that
+telling. What you must NOT do is treat one as a live path: do not `ls` for it,
+do not conclude the file is stale because the path 404s, and do not add a new
+citation in that shape without saying, at the citation, that it is external.
+
 ## Load-bearing subset vs. inert weight
 Only a small generic subset is reachable from the battery — the manifest joins,
 the `cmd.Root` pronto wrap, and the Malli primitives. The video/log schemas, the

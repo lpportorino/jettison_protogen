@@ -178,7 +178,7 @@ No method in multimethod 'parse-constraint' for dispatch value: :type/constraint
 
 The categories, UI patterns, feedback types and semantic types are CLOSED malli
 enums declared in `docs/.protodoc/tools/src/protodoc/schema.clj`
-(`InteractionCategory`, `UIPattern`, `FeedbackType`, `SemanticType`), each value
+(`MessageCategory`, `UIPattern`, `FeedbackType`, `SemanticType`), each value
 carrying its own doc string. Read that file for the live set; each semantic
 type's compatible proto field types live beside it in
 `semantic-type-compatible-field-types` (`lint.clj`), which is what the linter
