@@ -128,9 +128,39 @@ FMT_C_FILES := $(shell find renderer/src -maxdepth 1 \
 # reason ("not a git repository: …") is the whole diagnosis, and lint-sh's
 # guard prints it instead of guessing. Discarding it is what let a broken
 # discovery read as an empty-but-fine file list.
-LINT_SH_FILES := $(shell git ls-files --cached --others --exclude-standard '*.sh' .githooks/pre-push 2>/dev/null \
+#
+# THE PROBE MUST RUN THE SAME COMMAND AS THE DISCOVERY, and it used not to: it
+# dropped `--cached --others --exclude-standard`, so it was a DIFFERENT
+# EXPERIMENT from the one that had failed. Any fault specific to those flags
+# then produced an empty file list AND an empty diagnosis, and the guard below
+# fell through to its gitdir-mount advice — which is not merely absent
+# reasoning, it is the WRONG cause printed with confidence.
+#
+# Measured: with `core.excludesFile` naming a path git cannot read (a container
+# inheriting a host-side config value is the live way to reach this),
+#   git ls-files --cached --others --exclude-standard '*.sh' → exit 128,
+#     "fatal: cannot use … as an exclude file"
+#   git ls-files '*.sh'                                      → exit 0, no stderr
+# One invocation is run twice rather than two different invocations once each,
+# because make's $(shell) yields one stream per call; what matters is that both
+# calls ask the identical question.
+LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push
+LINT_SH_FILES := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
-LINT_SH_DISCOVERY_ERR := $(shell git ls-files '*.sh' .githooks/pre-push 2>&1 >/dev/null)
+LINT_SH_DISCOVERY_ERR := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>&1 >/dev/null)
+# EXPORTED so the guard can read it as a SHELL variable instead of interpolating
+# it into shell text. That is this lane's OWN bug class, living in this lane's
+# diagnosis: git quotes paths in its errors as a matter of course
+# ("fatal: pathspec 'x' did not match…"), and the guard used to expand the value
+# inside a SINGLE-QUOTED printf argument. One apostrophe from git rebalanced the
+# quoting, the rest of the recipe was reinterpreted as shell, and the target died
+# with `/bin/sh: syntax error near unexpected token` and make Error 2 — an ERROR
+# wearing the same red as this gate's own Error 1 FAIL, pointing at a line that
+# is not the problem, with the diagnosis it was printing never printed at all.
+# Measured with core.excludesFile naming a directory called `o'brien`.
+# A double-quoted expansion of an exported variable is re-parsed by nothing, so
+# apostrophes, quotes, `$` and backticks in git's message all survive intact.
+export LINT_SH_DISCOVERY_ERR
 
 .PHONY: lint lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
 	install-hooks hooks-status audit-clj-paths wire-contract
@@ -325,12 +355,15 @@ lint-sh:
 		printf '\033[31m[lint-sh] FAIL\033[0m — discovered ZERO shell scripts.\n' >&2; \
 		printf '  This repo tracks shell scripts, so an empty set means DISCOVERY broke,\n' >&2; \
 		printf '  not that there is nothing to check.\n' >&2; \
-		if [ -n "$(strip $(LINT_SH_DISCOVERY_ERR))" ]; then \
-			printf '  git said: %s\n' '$(LINT_SH_DISCOVERY_ERR)' >&2; \
+		if [ -n "$$LINT_SH_DISCOVERY_ERR" ]; then \
+			printf '  git said: %s\n' "$$LINT_SH_DISCOVERY_ERR" >&2; \
 		fi; \
-		printf '  git must be able to resolve this checkout. In a container, a gitfile\n' >&2; \
-		printf '  checkout (submodule or linked worktree) needs its real gitdir mounted;\n' >&2; \
-		printf '  tools/uber.sh does that for a self-contained gitdir.\n' >&2; \
+		printf '  THE LINE ABOVE IS THE DIAGNOSIS, if there is one. The commonest cause\n' >&2; \
+		printf '  is that git cannot resolve this checkout: in a container, a gitfile\n' >&2; \
+		printf '  checkout (submodule or linked worktree) needs its real gitdir mounted,\n' >&2; \
+		printf '  and tools/uber.sh does that for a self-contained gitdir. It is NOT the\n' >&2; \
+		printf '  only cause — a broken core.excludesFile fails the same way — so read\n' >&2; \
+		printf '  what git said before acting on this paragraph.\n' >&2; \
 		exit 1; \
 	fi
 	@printf '\033[32m[lint-sh]\033[0m bash -n (%s cpus, %s scripts)\n' \
