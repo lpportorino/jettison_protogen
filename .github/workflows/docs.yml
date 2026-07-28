@@ -1,0 +1,83 @@
+# Proto documentation quality is its own lane. Folding it into lint.yml would
+# make every hand-authored Clojure or shell change pay for the protodoc suite;
+# folding it into renderer.yml would couple a short JVM gate to the renderer's
+# multi-toolchain battery. This workflow fires only when an input the lane
+# actually reads changes.
+#
+# The runner toolchain is deliberate. The protodoc image gives exact local
+# Docker parity, but a fresh runner must build that image before either gate can
+# run. Temurin 25 matches the image's JDK major, and the Clojure CLI pin is the
+# same known-good pin used by lint.yml and devcards.yml. The Maven/gitlibs cache
+# is keyed on protodoc's own dependency declaration.
+name: Proto Documentation
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+    - "Makefile"
+    - "docs/.protodoc/tools/**"
+    # roundtrip_test.clj reads the Babashka coverage/queue scripts to assert
+    # their undocumented-item marker agrees with the JVM implementation.
+    - "docs/.protodoc/scripts/**"
+    - "docs/.protodoc/proto-db.edn"
+    - "docs/.protodoc/manifest-config.edn"
+    # The suite reads both descriptor-set.json and descriptor-set.binpb.
+    - "output/json-descriptors/**"
+    - ".github/workflows/docs.yml"
+  pull_request:
+    paths:
+    - "Makefile"
+    - "docs/.protodoc/tools/**"
+    - "docs/.protodoc/scripts/**"
+    - "docs/.protodoc/proto-db.edn"
+    - "docs/.protodoc/manifest-config.edn"
+    - "output/json-descriptors/**"
+    - ".github/workflows/docs.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: protodoc-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  quality:
+    name: documentation lint + protodoc suite
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Set up JDK 25 (LTS)
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: "25"
+
+    - name: Set up Clojure CLI
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        cli: "1.12.5.1654"
+
+    - name: Cache Maven-resolved dependencies
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+        key: protodoc-m2-${{ hashFiles('docs/.protodoc/tools/deps.edn') }}
+        restore-keys: |
+          protodoc-m2-
+
+    # Run the cheaper blocking gate first. protodoc exits non-zero when it
+    # reports an error; the step is intentionally a bare command so Actions'
+    # shell propagates that status.
+    - name: Documentation lint
+      working-directory: docs/.protodoc/tools
+      run: clojure -M:run lint --db-path ../proto-db.edn
+
+    - name: Protodoc test suite
+      run: make docs-test
