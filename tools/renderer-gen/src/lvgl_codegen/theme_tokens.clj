@@ -3,11 +3,15 @@
    resolves the semantic tokens the native child theme consumes (src/theme.c)
    and emits `generated/theme_tokens.h`, the way `lvgl-codegen.gesture-thresholds`
    emits its header. Themed COLOR tokens emit a _DARK/_LIGHT pair; scalar
-   tokens emit one define. The declared `fields` table is the closed contract:
-   a renamed/removed token fails resolution loudly at generation time, never a
-   silently-partial header, and the `manifests` freshness lane (renderer.mk)
-   is the drift canary — every battery run re-emits the header from the home
-   and FATALs if the committed copy differs."
+   tokens emit one define. The declared `fields` table is closed over ONLY the
+   semantic tokens exported to the native child theme, not over the full token
+   catalog emitted through design-tokens.json. A token absent from `fields`
+   emits no THEME_* define, so src/theme.c cannot select it; that absence is a
+   projection boundary, not evidence that the theme chose a stock LVGL value.
+   A renamed/removed projected token fails resolution loudly at generation
+   time, never a silently-partial header. The `manifests` freshness lane
+   (renderer.mk) is the generated-header drift canary, while
+   `lvgl-codegen.theme-tokens-test` derives and checks the color boundary."
   (:require [clojure.edn :as edn]
             [clojure.string :as str]
             [lvgl-codegen.resolve :as resolve]
@@ -27,9 +31,11 @@
    [:kind [:enum :color :radius :spacing :opacity]] [:doc [:string {:min 1}]]])
 
 (def fields
-  "The declared token↔projection mapping, in canonical emit order. Colors
-   emit `<c-macro>_DARK` + `<c-macro>_LIGHT` (0xRRGGBB); scalars emit one
-   integer define."
+  "The declared native-theme projection, in canonical emit order. It is an
+   intentional subset of the semantic catalog: authoring/manifest-only tokens
+   do not belong here. Colors present here emit `<c-macro>_DARK` +
+   `<c-macro>_LIGHT` (0xRRGGBB); scalars emit one integer define. A token
+   absent here has no C define and is therefore unavailable to src/theme.c."
   [{:sem-key :surface-1
     :c-macro "THEME_SURFACE1"
     :kind :color
