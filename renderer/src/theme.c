@@ -879,6 +879,83 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * the swap the rest of the disabled system was generalised from. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
+    /* CHECKED — INHERITED FROM STOCK, and the determination is OVERSIGHT,
+     * not a semantic. NOTHING IS ADDED FOR IT HERE YET; this is the
+     * decision, written down, because the silence was the defect. Four
+     * sibling selectors declare their checked hue (`checked_accent` at
+     * switch and checkbox INDICATOR|CHECKED, dropdown-list SELECTED|CHECKED,
+     * buttonmatrix ITEMS|CHECKED) and a reader of THIS arm could not tell an
+     * inherited colour from a chosen one.
+     *
+     * WHAT IS INHERITED, and by what mechanism. Nothing this arm adds
+     * carries LV_STATE_CHECKED, so `get_prop_core` (core/lv_obj_style.c)
+     * resolves bg_color AND text_color from stock's `bg_color_secondary` —
+     * an EXACT state match at weight 4, which beats every weight-0 style
+     * this arm adds. That style paints `color_secondary`, and main.c passes
+     * lv_palette_main(LV_PALETTE_RED) for EVERY family, asgard included: a
+     * #F44336 fill under a white label. Sampled on the committed gallery,
+     * the checked_large sheets under
+     * tools/devcards/docs/widgets/WIDGET_BUTTON: #F44236 after JPEG
+     * quantisation in asgard-dark, asgard-light AND vanilla alike. It is the
+     * ONE button state whose fill is family-invariant — the same sheets put
+     * default at #7B3AEC asgard vs #2196F3 vanilla, disabled at #1F1E2E vs
+     * #417BA9 — because this selector overrides even the accent main.c bakes
+     * into the stock parent's color_primary. Geometry still differs; it is
+     * the COLOUR that asgard contributes nothing to here.
+     *
+     * WHY OVERSIGHT AND NOT INTENT — four pieces, none of them taste.
+     * (1) The commit that created the checked hue (`feat(theme): cyan
+     *     checked/edited affordance + named media-blue token`) enumerated
+     *     the checked surfaces as the ones whose fill was "the brand-violet
+     *     color_primary". THIS one's never was — it was already the red —
+     *     so it fell outside that enumeration's own premise rather than
+     *     being weighed and kept.
+     * (2) The same commit stripped this exact red off every EDITED surface
+     *     for a reason that applies here verbatim: it "collides semantically
+     *     with :status-error". Re-derived — tokens.edn resolves
+     *     :status-error to :red #EF4444, this fill is #F44336: 4.1 deg apart
+     *     in hue, 1.02:1 in luminance. A checked toggle wears the theme's
+     *     error tone. Nothing about a toggle being ON is an error.
+     * (3) The same commit rejected a candidate accent for measuring 3.682:1
+     *     white-on-fill, and recorded the red it was displacing elsewhere at
+     *     2.77:1 on the light surface. This surface ships at BOTH of those
+     *     numbers at once: white-on-fill 3.68:1, under WCAG's 4.5:1 text
+     *     floor let alone §6.2's 6:1; and fill-vs-card 2.77:1 light, under
+     *     WCAG 1.4.11's 3:1 boundary floor. Dark passes that one at 5.04:1,
+     *     so the boundary defect is light-mode only; the label is not.
+     * (4) A theme hue on LV_STATE_CHECKED is UNIVERSAL, so it cannot encode
+     *     "destructive" even in principle: ui_ast carries no button role —
+     *     `states` and `checked_when` are raw lv_state_t — and a consumer
+     *     wanting a danger colour authors `style_groups` on the node.
+     *
+     * THE CHANGE, EXACTLY, when it is sequenced. Under the asgard gate:
+     *     lv_obj_add_style(obj, &t->styles.checked_accent, LV_STATE_CHECKED);
+     * It moves pixels on every checked-button card, so it re-mints goldens
+     * and gallery and owes the mandatory VLM review — its own commit, not a
+     * rider on this one. It is a strict improvement and still NOT the whole
+     * fix: fill-vs-card goes 2.77:1 -> 4.03:1 light (over the floor it fails
+     * today) and 5.04:1 -> 3.46:1 dark (still over), and the :status-error
+     * collision goes; but `checked_accent` sets bg and NOT text, so stock's
+     * white text_color keeps winning the exact-state match and the LABEL
+     * lands at 5.36:1 — under docs/UI-QUALITY-CONTRACTS.md §6.2's governing
+     * 6:1. That is the same leak `roller_sel` was split out to fix and the
+     * one §6.9 still records against the dropdown list. Re-derive the
+     * checked-accent figures with tools/devcards/dev/token_band_search.py,
+     * whose "SHIPPED enabled band" block prints both.
+     *
+     * AND THE ROLLER'S REPAIR DOES NOT PORT, which is why this waits.
+     * Authoring both ends needs a (fill, glyph) pair clearing 3:1 vs the
+     * card and 6:1 glyph-on-fill in both modes; over the closed table
+     * (generated/theme_tokens.h) the only survivors are fill fg-0 or
+     * disabled-fg under surface-1 or surface-2 glyphs — the roller band's
+     * hueless inversion tones, with disabled-fg already spoken for as the
+     * DISABLED ink. NO token in the closed table gives a checked BUTTON a
+     * state HUE that clears 6:1. That is the wall §6.8 already hits for this
+     * same button's DEFAULT label (white on accent, 5.70:1), and it
+     * prescribes the order: derive the fills, project the tokens, wire the
+     * theme, re-mint once. So the interim one-liner leaves the label exactly
+     * where the resting state already sits, and the full pair lands with
+     * that derivation. */
     add_interactive(t, obj);
     return;
   }
