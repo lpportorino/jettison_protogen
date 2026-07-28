@@ -281,12 +281,12 @@ jobs:
       # morph triples emitted from tools/renderer-gen/** against
       # output/manifests/design-tokens.json. All four roots are already in this
       # workflow's `paths:` — no new trigger needed.
-      name: Harness suite + oracles + reload-cycle + decode-limits
+      name: Harness suite + oracles + reload-cycle + decode-limits + dump contracts
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           -e CARGO_HOME=/workspace/.cargo-home \
           jettison-proto-generator-base:latest \
-          make -f renderer.mk harness oracles reload decode-limits
+          make -f renderer.mk harness oracles reload decode-limits dump-contracts
     - # The wasm + harness steps run as ROOT inside the container (no --user),
       # so every file cargo writes into the cached paths comes back root-owned.
       # The post-job `actions/cache` save runs as the RUNNER user, cannot read
@@ -387,8 +387,8 @@ jobs:
       # prerequisite, and a phony prerequisite named by a SECOND `make` would
       # re-render the entire corpus a second time. One invocation, one render,
       # and make (not step adjacency) is what orders the suite after the cards.
-      name: Corpus build + judge + gallery + interaction (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt
+      name: Corpus build + judge + gallery + interaction + dead-zone canary (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt
     - # A renderer change that shifts any pixel MUST re-mint the goldens AND
       # the gallery/doc pages in the same change (the manifests pin per-card
       # raw-FB sha256; the contact sheets are renders of the same corpus). A
