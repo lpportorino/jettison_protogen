@@ -1,0 +1,95 @@
+════════════════════════════════════════════════════════════════
+MUTATION: M1 derived backdrop -> naive (contains? node :backdrop_unresolved)
+landed:   grep -c '(and owes-pair? (contains? node :backdrop_unresolved))' = 1
+--- deftests that FAILED (the red) ---
+FAIL in (a-glyph-bearing-node-the-dump-says-NOTHING-about-is-UNKNOWN)
+FAIL in (an-absent-bg_opa-means-the-fill-COVERS-and-a-present-one-does-not)
+FAIL in (the-canonical-TRUNCATED-root-is-UNKNOWN-twice-over)
+--- tally ---
+Ran 18 tests containing 89 assertions.
+5 failures, 0 errors.
+--- one failing assertion, verbatim ---
+FAIL in (the-canonical-TRUNCATED-root-is-UNKNOWN-twice-over) (cascade_test.clj:372)
+`host/normalize-dump` substitutes a root with no `type` and no
+            `text_color`. Both gaps must surface: the class was never
+            classified AND the foreground has no source in this tree. A
+            resolver that shrugged at either would report a flooded dump as
+            having nothing to say.
+expected: (= [:backdrop-unresolved :class-not-declared :text-color-unrooted] (:reasons (first es)))
+  actual: (not (= [:backdrop-unresolved :class-not-declared :text-color-unrooted] [:class-not-declared :text-color-unrooted]))
+════════════════════════════════════════════════════════════════
+MUTATION: M2 walk threads self-hex instead of in-force
+landed:   grep -c '(walk child (conj path i) self-hex glyphs text-free)' = 1
+--- deftests that FAILED (the red) ---
+FAIL in (text_color-ABSENT-means-the-nearest-ancestor-that-emitted-one)
+--- tally ---
+Ran 18 tests containing 89 assertions.
+2 failures, 0 errors.
+--- one failing assertion, verbatim ---
+FAIL in (text_color-ABSENT-means-the-nearest-ancestor-that-emitted-one) (cascade_test.clj:187)
+the colour travels PAST a node that emits nothing, so the walk
+            must thread what is in force and not merely each node's own key.
+            REVERT-TO-BREAK: in `walk`, pass `self-hex` instead of `in-force`
+            down to the children.
+expected: (= {:hex "#fafafa", :opa 255, :covers? true, :from :inherited} (:fg e))
+  actual: (not (= {:hex "#fafafa", :opa 255, :covers? true, :from :inherited} nil))
+════════════════════════════════════════════════════════════════
+MUTATION: M3 fg reported even when :glyphs is :no
+landed:   grep -c 'fg (when true' = 1
+--- deftests that FAILED (the red) ---
+FAIL in (no-glyphs-is-a-POSITIVE-determination)
+--- tally ---
+Ran 18 tests containing 89 assertions.
+1 failures, 0 errors.
+--- one failing assertion, verbatim ---
+FAIL in (no-glyphs-is-a-POSITIVE-determination) (cascade_test.clj:106)
+an EMPTY lv_label draws nothing, and that is an answer ? its own
+            fill is still reported, because a fill is a fact whether or not
+            anything is written on it, while NO foreground is: `text_color`
+            resolves on every object and here it colours nothing, so handing
+            it back would be UI-QUALITY-CONTRACTS ?6.9's over-coverage half ?
+            a pair that cannot occur, scored anyway.
+            REVERT-TO-BREAK: in `entry`, drop the `(when owes-pair? ?)`
+            wrapper around `fg`.
+expected: (nil? (:fg e))
+  actual: (not (nil? {:hex "#fafafa", :opa 255, :covers? true, :from :inherited}))
+════════════════════════════════════════════════════════════════
+MUTATION: M4 backdrop_unresolved/fill consistency throw deleted
+landed:   grep -c 'MUTANT-M4-no-model-check' = 1
+--- deftests that FAILED (the red) ---
+FAIL in (a-backdrop_unresolved-that-contradicts-the-fill-keys-THROWS)
+--- tally ---
+Ran 18 tests containing 89 assertions.
+1 failures, 0 errors.
+--- one failing assertion, verbatim ---
+FAIL in (a-backdrop_unresolved-that-contradicts-the-fill-keys-THROWS) (cascade_test.clj:316)
+dump_obj emits the flag only when the glyph fill is below COVER,
+            so the flag plus a covering fill means this resolver's model of
+            the emission conditions is stale. Picking one answer silently is
+            the failure the namespace exists to refuse.
+            REVERT-TO-BREAK: delete the `(when (and declared bg (:covers? bg))
+            (throw ?))` form in `entry`.
+expected: (thrown-with-msg? clojure.lang.ExceptionInfo #"model of the emission conditions is stale" (cascade/resolve-tree (root-with {:type "lv_label", :coords [0 0 9 9], :text "x", :bg_color "#1f2937", :backdrop_unresolved true, :children []})))
+  actual: nil
+════════════════════════════════════════════════════════════════
+MUTATION: M5 glyph-verdict :else -> :no (the silent skip)
+landed:   grep -c ':else :no)))' = 1
+--- deftests that FAILED (the red) ---
+FAIL in (an-unclassified-class-is-a-REASON-and-not-a-shrug)
+FAIL in (every-DECLARED-reason-is-REACHABLE)
+FAIL in (the-canonical-TRUNCATED-root-is-UNKNOWN-twice-over)
+--- tally ---
+Ran 18 tests containing 89 assertions.
+8 failures, 0 errors.
+--- one failing assertion, verbatim ---
+FAIL in (the-canonical-TRUNCATED-root-is-UNKNOWN-twice-over) (cascade_test.clj:370)
+`host/normalize-dump` substitutes a root with no `type` and no
+            `text_color`. Both gaps must surface: the class was never
+            classified AND the foreground has no source in this tree. A
+            resolver that shrugged at either would report a flooded dump as
+            having nothing to say.
+expected: (= :unknown (:glyphs (first es)))
+  actual: (not (= :unknown :no))
+════════════════════════════════════════════════════════════════
+RESTORE PROOF: git diff --exit-code on the mutated file
+  clean — file is byte-identical to HEAD
