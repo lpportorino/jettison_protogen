@@ -151,13 +151,18 @@
 (def layout-flow-keyword->member
   "`:layout` authoring keywords → FlexFlow proto member spellings.
 
-   HAND-WRITTEN, and the one map in this namespace that is. Every other enum
-   translation here goes through a factory-generated
-   `gen-enums/*-keyword->member` map, which `renderer.mk`'s `construct-bindings`
-   re-emits from the vendored LVGL headers and byte-compares. Nothing extracts
-   or byte-compares THIS one: the `:layout` vocabulary is our own abbreviation
-   of `lv_flex_flow_t` (`:flex-col` for `COLUMN`), so no LVGL header declares
-   it and no generator can produce it.
+   HAND-WRITTEN, and the only hand-written translation in this namespace that
+   MIRRORS AN LVGL ENUM — which is the distinction that matters, not being
+   hand-written. `proxy-mode-keyword->member` above, the `:trigger` and
+   `show-when` cases, the widget-tag case and `emit-subject` are hand-written
+   too; every one of them maps to an enum WE own, so no vendored header could
+   ever judge them. Every LVGL-mirroring translation here goes through a
+   factory-generated `gen-enums/*-keyword->member` map, which `renderer.mk`'s
+   `construct-bindings` re-emits from the vendored headers and byte-compares.
+   Nothing extracts or byte-compares THIS one: the `:layout` vocabulary is our
+   own abbreviation of `lv_flex_flow_t` (`:flex-col` for `COLUMN`), so no LVGL
+   header declares it and no generator can produce it — while the value behind
+   it is entirely LVGL's.
 
    That makes a swapped pair here the exact wrong-but-legal class `ui_luts.h`'s
    banner names: legal proto, clean compile, identical regeneration, wrong flow

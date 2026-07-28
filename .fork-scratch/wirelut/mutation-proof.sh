@@ -23,18 +23,16 @@ ROOT="${1:-$PWD}"
 LUTS="$ROOT/renderer/generated/ui_luts.h"
 EMIT="$ROOT/tools/renderer-gen/src/lvgl_codegen/emit_proto.clj"
 ENUMS="$ROOT/tools/renderer-gen/src/lvgl_codegen/generated/enums.clj"
+MATRIX="$ROOT/renderer/coverage_matrix/run.sh"
 BK="$ROOT/.fork-scratch/wirelut/.backup"
 OUT="$ROOT/.fork-scratch/wirelut/mutation-runs"
+FILES=("$LUTS" "$EMIT" "$ENUMS" "$MATRIX")
 
 mkdir -p "$BK" "$OUT"
-cp "$LUTS" "$BK/ui_luts.h"
-cp "$EMIT" "$BK/emit_proto.clj"
-cp "$ENUMS" "$BK/enums.clj"
+for f in "${FILES[@]}"; do cp "$f" "$BK/$(basename "$f")"; done
 
 restore() {
-  cp "$BK/ui_luts.h" "$LUTS"
-  cp "$BK/emit_proto.clj" "$EMIT"
-  cp "$BK/enums.clj" "$ENUMS"
+  for f in "${FILES[@]}"; do cp "$BK/$(basename "$f")" "$f"; done
 }
 trap restore EXIT
 
@@ -93,7 +91,7 @@ mutate_case luts-wrong-but-legal "$LUTS" \
   's/^  LV_FLEX_FLOW_ROW_WRAP, /  LV_FLEX_FLOW_ROW_REVERSE, /' \
   'LV_FLEX_FLOW_ROW_REVERSE, /\* 3:' \
   lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value \
-  lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value
+  lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value
 
 # M2 -- a wrong-but-LEGAL hand-written pair: :flex-row-wrap emits the
 #       ROW_REVERSE member. Legal proto, clean compile, wrong flow.
@@ -108,7 +106,7 @@ mutate_case emit-proto-wrong-but-legal "$EMIT" \
 mutate_case enums-wrong-but-legal "$ENUMS" \
   's/^   :center 9$/   :center 8/' \
   '^   :center 8$' \
-  lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value \
+  lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value \
   lvgl-codegen.wire-lut-test/keyword-member-maps-name-the-header-constant
 
 # M4 -- TOTALITY, keyword side: a :layout keyword the authoring schema does not
@@ -126,15 +124,31 @@ mutate_case totality-extra-layout-keyword "$EMIT" \
 mutate_case totality-phantom-align-keyword "$ENUMS" \
   's/^   :center 9$/   :center 9\n   :phantom 9/' \
   '^   :phantom 9$' \
-  lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value \
+  lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value \
   lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value
+
+# M6 -- the coverage matrix's REFERENCE side: :flex-col's LVGL value becomes 5,
+#       which is LV_FLEX_FLOW_COLUMN_WRAP -- a real value of the same enum.
+mutate_case matrix-reference-wrong-but-legal "$MATRIX" \
+  's/^FLEX_VALS=(0 1 4 8 12 5 9 13)$/FLEX_VALS=(0 5 4 8 12 5 9 13)/' \
+  '^FLEX_VALS=(0 5 4 8 12 5 9 13)$' \
+  lvgl-codegen.wire-lut-test/coverage-matrix-reference-values-match-the-vendored-headers \
+  lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value
+
+# M7 -- a hand-carried grid constant off by one: LV_COORD_MAX-100 is LV_GRID_FR(0),
+#       a perfectly real LVGL coordinate, so nothing downstream can type-check it.
+mutate_case grid-constant-wrong-but-legal "$EMIT" \
+  's/^(def \^:private lv-grid-content (- lv-coord-max 101))$/(def ^:private lv-grid-content (- lv-coord-max 100))/' \
+  'lv-grid-content (- lv-coord-max 100)' \
+  lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros \
+  lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value
 
 echo
 echo "############ RESTORED -- final control run ############"
 restore
 run_suite >"$OUT/restored.txt"
 totals "$OUT/restored.txt"
-for f in "$LUTS" "$EMIT" "$ENUMS"; do
+for f in "${FILES[@]}"; do
   cmp -s "$BK/$(basename "$f")" "$f" && echo "restored OK: ${f#"$ROOT"/}" ||
     echo "FATAL: NOT restored: ${f#"$ROOT"/}"
 done

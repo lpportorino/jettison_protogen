@@ -1,0 +1,27 @@
+###### A. construct-bindings vs a wrong-but-legal ui_luts.h cell ######
+landed: 1
+extract-lvgl-enums: 851 constants across 96 enums
+construct-factory: 20 required typedefs emitted (of 96 extracted) -> /tmp/tmp.rS34zSnhgV/enums.clj + /tmp/tmp.rS34zSnhgV/ui_luts.h
+FATAL: renderer/generated/ui_luts.h was STALE vs a fresh extraction — regenerated in place; review and commit it.
+make: *** [renderer.mk:786: construct-bindings] Error 1
+construct-bindings exit: 2
+file repaired by the target itself: yes
+
+###### B. the clj-schema-test namespace closure ######
+project namespaces loaded: 14
+   lvgl-codegen.construct.lift
+   lvgl-codegen.construct.schema
+   lvgl-codegen.emit-proto
+   lvgl-codegen.generated.enums
+   lvgl-codegen.lvgl-parity-test
+   lvgl-codegen.resolve
+   lvgl-codegen.schema
+   lvgl-codegen.schema-test
+   lvgl-codegen.style-props
+   lvgl-codegen.theme-style-groups-test
+   lvgl-codegen.theme-tokens
+   lvgl-codegen.theme-tokens-test
+   lvgl-codegen.wire-lut-test
+   renderer-gen.design-tokens-json
+pronto namespaces loaded: 0 []
+ByteString comes from: file:/root/.m2/repository/com/google/protobuf/protobuf-java/4.35.0/protobuf-java-4.35.0.jar

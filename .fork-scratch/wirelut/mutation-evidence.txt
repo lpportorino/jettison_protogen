@@ -1,5 +1,5 @@
 ############ BASELINE (unmutated) ############
-21 tests, 1709 assertions, 0 failures.
+23 tests, 1732 assertions, 0 failures.
 
 ============================================================
 MUTATION: luts-wrong-but-legal
@@ -9,22 +9,22 @@ MUTATION: luts-wrong-but-legal
 -  LV_FLEX_FLOW_ROW_WRAP, /* 3: FLEX_FLOW_ROW_WRAP */
 +  LV_FLEX_FLOW_ROW_REVERSE, /* 3: FLEX_FLOW_ROW_WRAP */
 --- suite totals (expect FAILures, and ZERO errors) ---
-21 tests, 1709 assertions, 2 failures.
+23 tests, 1732 assertions, 2 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value) ---
-FAIL in lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value (wire_lut_test.clj:528)
+FAIL in lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value (wire_lut_test.clj:560)
 every LUT entry is the constant its wire number's keyword names lv_flex_flow_t
 lv_flex_flow_t :row-wrap wire 3: ui_luts.h maps it to LV_FLEX_FLOW_ROW_REVERSE, the header constant for this keyword is LV_FLEX_FLOW_ROW_WRAP
 Expected:
   "LV_FLEX_FLOW_ROW_WRAP"
 Actual:
-FAIL in lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value (wire_lut_test.clj:536)
+FAIL in lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value (wire_lut_test.clj:568)
 every LUT entry is the constant its wire number's keyword names lv_flex_flow_t
 lv_flex_flow_t :row-wrap wire 3: resolves to the value of LV_FLEX_FLOW_ROW_REVERSE, not to LV_FLEX_FLOW_ROW_WRAP
 Expected:
   4
 Actual:
---- CONTROL (run alone): lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value ---
+--- CONTROL (run alone): lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value ---
 1 tests, 208 assertions, 0 failures.
 
 ============================================================
@@ -35,23 +35,23 @@ MUTATION: emit-proto-wrong-but-legal
 -   :flex-row-wrap :FLEX_FLOW_ROW_WRAP
 +   :flex-row-wrap :FLEX_FLOW_ROW_REVERSE
 --- suite totals (expect FAILures, and ZERO errors) ---
-21 tests, 1709 assertions, 2 failures.
+23 tests, 1732 assertions, 2 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value) ---
-FAIL in lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value (wire_lut_test.clj:646)
+FAIL in lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value (wire_lut_test.clj:684)
 each hand-written :layout pair means the LVGL constant it names
 :flex-row-wrap abbreviates :row-wrap, whose proto member is :FLEX_FLOW_ROW_WRAP (LV_FLEX_FLOW_ROW_WRAP) - emit-proto maps it to :FLEX_FLOW_ROW_REVERSE
 Expected:
   :FLEX_FLOW_ROW_WRAP
 Actual:
-FAIL in lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value (wire_lut_test.clj:653)
+FAIL in lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value (wire_lut_test.clj:691)
 each hand-written :layout pair means the LVGL constant it names
 :flex-row-wrap: emits :FLEX_FLOW_ROW_REVERSE => LVGL value 8, but :row-wrap names LV_FLEX_FLOW_ROW_WRAP => 4
 Expected:
   4
 Actual:
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value ---
-1 tests, 41 assertions, 0 failures.
+1 tests, 44 assertions, 0 failures.
 
 ============================================================
 MUTATION: enums-wrong-but-legal
@@ -61,10 +61,10 @@ MUTATION: enums-wrong-but-legal
 -   :center 9
 +   :center 8
 --- suite totals (expect FAILures, and ZERO errors) ---
-21 tests, 1709 assertions, 1 failures.
+23 tests, 1732 assertions, 1 failures.
   ERROR blocks: 0
---- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value) ---
-FAIL in lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value (wire_lut_test.clj:485)
+--- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value) ---
+FAIL in lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value (wire_lut_test.clj:505)
 every generated keyword->int entry equals the vendored header value lv_align_t
 lv_align_t :center (LV_ALIGN_CENTER): header says 9, bindings say 8
 Expected:
@@ -82,10 +82,10 @@ MUTATION: totality-extra-layout-keyword
 +  {:flex-diagonal :FLEX_FLOW_ROW
 +   :flex-row :FLEX_FLOW_ROW
 --- suite totals (expect FAILures, and ZERO errors) ---
-21 tests, 1709 assertions, 1 failures.
+23 tests, 1732 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/layout-map-is-total-over-the-authoring-vocabulary) ---
-FAIL in lvgl-codegen.wire-lut-test/layout-map-is-total-over-the-authoring-vocabulary (wire_lut_test.clj:628)
+FAIL in lvgl-codegen.wire-lut-test/layout-map-is-total-over-the-authoring-vocabulary (wire_lut_test.clj:660)
 every :layout keyword the schema admits has a mapping, and no more
 unjudged/unknown :layout keywords - schema: (:flex-col :flex-col-reverse :flex-col-wrap :flex-col-wrap-reverse :flex-row :flex-row-reverse :flex-row-wrap :flex-row-wrap-reverse), emit-proto: (:flex-col :flex-col-reverse :flex-col-wrap :flex-col-wrap-reverse :flex-diagonal :flex-row :flex-row-reverse :flex-row-wrap :flex-row-wrap-reverse)
 Expected:
@@ -108,20 +108,66 @@ MUTATION: totality-phantom-align-keyword
 --- diff ---
 +   :phantom 9
 --- suite totals (expect FAILures, and ZERO errors) ---
-21 tests, 1709 assertions, 1 failures.
+23 tests, 1732 assertions, 1 failures.
   ERROR blocks: 0
---- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value) ---
-FAIL in lvgl-codegen.wire-lut-test/direct-cast-keywords-carry-the-header-value (wire_lut_test.clj:481)
+--- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value) ---
+FAIL in lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value (wire_lut_test.clj:501)
 every generated keyword->int entry equals the vendored header value lv_align_t
 lv_align_t: authoring keywords with no header enumerator: (:phantom)
 expected: (empty? (set/difference (set (keys actual)) (set (keys expected))))
   actual: (not (empty? #{:phantom}))
-21 tests, 1709 assertions, 1 failures.
+23 tests, 1732 assertions, 1 failures.
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value ---
-1 tests, 41 assertions, 0 failures.
+1 tests, 44 assertions, 0 failures.
+
+============================================================
+MUTATION: matrix-reference-wrong-but-legal
+  file: renderer/coverage_matrix/run.sh
+  landed: grep -c '^FLEX_VALS=(0 5 4 8 12 5 9 13)$' -> 1
+--- diff ---
+-FLEX_VALS=(0 1 4 8 12 5 9 13)
++FLEX_VALS=(0 5 4 8 12 5 9 13)
+--- suite totals (expect FAILures, and ZERO errors) ---
+23 tests, 1732 assertions, 1 failures.
+  ERROR blocks: 0
+--- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/coverage-matrix-reference-values-match-the-vendored-headers) ---
+FAIL in lvgl-codegen.wire-lut-test/coverage-matrix-reference-values-match-the-vendored-headers (wire_lut_test.clj:796)
+the matrix's FLEX_VALS are the LVGL values its FLEX_KWS name
+matrix reference value for :flex-col is 5, but LV_FLEX_FLOW_COLUMN is 1 in the vendored header
+Expected:
+  1
+Actual:
+--- CONTROL (run alone): lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value ---
+1 tests, 44 assertions, 0 failures.
+
+============================================================
+MUTATION: grid-constant-wrong-but-legal
+  file: tools/renderer-gen/src/lvgl_codegen/emit_proto.clj
+  landed: grep -c 'lv-grid-content (- lv-coord-max 100)' -> 1
+--- diff ---
+-(def ^:private lv-grid-content (- lv-coord-max 101))
++(def ^:private lv-grid-content (- lv-coord-max 100))
+--- suite totals (expect FAILures, and ZERO errors) ---
+23 tests, 1732 assertions, 2 failures.
+  ERROR blocks: 0
+--- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros) ---
+FAIL in lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros (wire_lut_test.clj:737)
+emit-proto's hand-carried grid coords equal the lv_grid.h macros
+emit-proto/lv-grid-content disagrees with LV_GRID_CONTENT
+Expected:
+  536870810
+Actual:
+FAIL in lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros (wire_lut_test.clj:740)
+emit-proto's hand-carried grid coords equal the lv_grid.h macros :content encodes to LV_GRID_CONTENT
+Expected:
+  536870810
+Actual:
+--- CONTROL (run alone): lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value ---
+1 tests, 18 assertions, 0 failures.
 
 ############ RESTORED -- final control run ############
-21 tests, 1709 assertions, 0 failures.
+23 tests, 1732 assertions, 0 failures.
 restored OK: renderer/generated/ui_luts.h
 restored OK: tools/renderer-gen/src/lvgl_codegen/emit_proto.clj
 restored OK: tools/renderer-gen/src/lvgl_codegen/generated/enums.clj
+restored OK: renderer/coverage_matrix/run.sh

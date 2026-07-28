@@ -10,18 +10,23 @@
    leg UPSTREAM of it: the hand-written authoring-keyword maps in
    `lvgl-codegen.emit-proto`, which no extraction produces and no byte
    comparison reaches. `emit-proto/layout-flow-keyword->member` is the live
-   instance — eight `:layout` keywords hand-paired to eight FlexFlow proto
-   members, where a swapped pair is legal proto, compiles, regenerates
-   identically, and renders the wrong flow.
+   instance — `:layout` keywords hand-paired to FlexFlow proto members, where a
+   swapped pair is legal proto, compiles, regenerates identically, and renders
+   the wrong flow. `renderer/coverage_matrix/run.sh`'s `FLEX_KWS`/`FLEX_VALS`
+   is a second, in a shell script; `emit-proto`'s grid-track constants are a
+   third, hand-carried from `lv_grid.h`.
 
    WHAT THIS SUITE ADDS.
    1. An INDEPENDENT oracle for the header values. `construct-bindings` and the
       committed bindings share one extractor; a defect in it agrees with
       itself. This namespace re-reads `renderer/lvgl/**.h` in pure Clojure and
       resolves each enumerator's value from the header text — a second opinion,
-      not a second copy. It runs with no clang, no gcc, no jq and no network,
-      which is why it can live in the cheap hermetic lane that runs on every
-      battery rather than only where the toolchain does.
+      not a second copy. The CHECK needs no clang, no gcc, no jq and no
+      network, so it is available wherever `clojure -M:test` is, including a
+      checkout where the extraction cannot run at all. (Its LANE,
+      `renderer.mk`'s `clj-schema-test`, does declare `construct-bindings` as a
+      prerequisite, so the lane is not toolchain-free even though this suite
+      is.)
    2. The composed question the byte comparison never asks:
       authoring keyword -> proto wire number -> (LUT | direct cast) -> LVGL
       value, against the value the vendored header declares for the constant
@@ -63,6 +68,8 @@
 (def ^:private lv-conf-path "../../renderer/lv_conf.h")
 
 (def ^:private luts-header-path "../../renderer/generated/ui_luts.h")
+
+(def ^:private coverage-matrix-path "../../renderer/coverage_matrix/run.sh")
 
 ;; ── The header oracle ───────────────────────────────────────────────────────
 ;; A pure-Clojure read of the vendored LVGL headers. Deliberately NOT the
@@ -135,11 +142,12 @@
   "Object-like `#define`s from the RENDERER's own `lv_conf.h` — the build's
    actual configuration, and the only authority consulted for a `#if` guard
    inside an enum body. A guard naming something absent here is a refusal, not
-   a default."
-  (delay (into {}
-               (map (fn [[_ nm body]] [nm (str/trim body)]))
-               (re-seq #"(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)[ \t]+(\S.*)$"
-                       (strip-comments (slurp lv-conf-path))))))
+   a default. Same set-valued shape as `object-macros` for the same reason: a
+   name defined twice must REFUSE, never silently take the last one."
+  (delay (reduce (fn [acc [_ nm body]] (update acc nm (fnil conj #{}) (str/trim body)))
+                 {}
+                 (re-seq #"(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)[ \t]+(\S.*)$"
+                         (strip-comments (slurp lv-conf-path))))))
 
 ;; ── A very small C constant-expression evaluator ────────────────────────────
 ;; Only the forms the vendored enum bodies actually use. Every unhandled token,
@@ -257,12 +265,16 @@
 
 (defn- conf-flag-true?
   "Is `nm` defined to a non-zero value in the renderer's own `lv_conf.h`?
-   Refuses a name absent there rather than assuming a default."
+   Refuses a name absent there rather than assuming a default, and refuses an
+   ambiguous one rather than picking."
   [nm]
-  (if-let [body (get @lv-conf-macros nm)]
-    (not (zero? (eval-c-expr body #(macro-value % 0))))
-    (throw (ex-info "enum body is guarded by a macro absent from lv_conf.h"
-                    {:macro nm :conf lv-conf-path}))))
+  (let [bodies (get @lv-conf-macros nm)]
+    (cond
+      (nil? bodies) (throw (ex-info "enum body is guarded by a macro absent from lv_conf.h"
+                                    {:macro nm :conf lv-conf-path}))
+      (not= 1 (count bodies)) (throw (ex-info "lv_conf.h defines this guard more than once"
+                                              {:macro nm :bodies bodies}))
+      :else (not (zero? (eval-c-expr (first bodies) #(macro-value % 0)))))))
 
 (defn- apply-preprocessor
   "Resolve `#if <IDENT>` / `#endif` inside an enum body against `lv_conf.h`,
@@ -407,10 +419,18 @@
 
 (defn- lut-typedefs [] (set (keys @lut-tables)))
 
-(defn- direct-typedefs
-  "Every required typedef whose wire int IS the LVGL value — i.e. everything
-   without a generated lookup table. Derived from the LUT header, so a family
-   that grows a table stops being checked as direct-cast automatically."
+(defn- untabled-typedefs
+  "Every required typedef whose generated map value IS the LVGL header value,
+   because no table stands between them. Two populations, arriving there for
+   different reasons and checked identically: the DIRECT-CAST proto-emitted
+   families, where the registry number is forced to equal the header value by
+   the parity contract; and the AUTHORING-ONLY families
+   (`lift/authoring-only-typedefs`), which never get a proto enum at all and
+   carry raw header values OR'd onto the wire.
+
+   Derived by SUBTRACTING the LUT header's tables rather than by naming
+   `lift`'s private direct-cast set, so a family that grows a table stops being
+   checked here automatically and starts being checked through the table."
   []
   (set/difference (set lift/required-typedefs) (lut-typedefs)))
 
@@ -457,12 +477,12 @@
     (is (= 255 (eval-c-expr "0xFFu" (fn [_] 0))))
     (is (= 5 (eval-c-expr "A | B" {"A" 1 "B" 4})))))
 
-;; ── Leg 1: keyword -> wire int, for every DIRECT-CAST family ────────────────
+;; ── Leg 1: keyword -> wire int, for every family with no table ──────────────
 
-(deftest direct-cast-keywords-carry-the-header-value
+(deftest untabled-families-carry-the-header-value
   (testing "every generated keyword->int entry equals the vendored header value"
-    (is (seq (direct-typedefs)) "no direct-cast families derived - nothing judged")
-    (doseq [typedef (sort (direct-typedefs))]
+    (is (seq (untabled-typedefs)) "no untabled families derived - nothing judged")
+    (doseq [typedef (sort (untabled-typedefs))]
       (let [{:keys [proto-type]} (get @header-constructs typedef)
             v (binding-var proto-type "-keyword->int")
             expected (keyword->header-value typedef)
@@ -495,13 +515,25 @@
       (let [{:keys [proto-type]} (get @header-constructs typedef)
             _ (is (contains? lift/proto-emitted-typedefs typedef)
                   (str typedef ": ui_luts.h has a table for a typedef the factory does not emit"))
-            {:keys [entries]} (get @lut-tables typedef)
-            kw->int @(binding-var proto-type "-keyword->int")
-            kw->member @(binding-var proto-type "-keyword->member")
+            {:keys [entries table]} (get @lut-tables typedef)
+            ;; `some->` rather than a bare deref: a var the emitter failed to
+            ;; write must FAIL naming itself, not NPE into an ERROR that
+            ;; executes none of the clauses below.
+            kw->int (some-> (binding-var proto-type "-keyword->int") deref)
+            kw->member (some-> (binding-var proto-type "-keyword->member") deref)
             header-values (keyword->header-value typedef)
             c-names (keyword->c-name typedef)
             by-index (into {} (map (juxt :index identity)) entries)]
         (testing typedef
+          (is (some? kw->int) (str typedef ": no keyword->int bindings for a LUT family"))
+          (is (some? kw->member) (str typedef ": no keyword->member bindings for a LUT family"))
+          ;; The C array's NAME is what `renderer.c` indexes, and `construct.emit`
+          ;; derives it from the proto type. A rename here is caught by the C
+          ;; compiler eventually; caught HERE it names the reason.
+          (is (= (csk/->snake_case_string proto-type) table)
+              (str typedef ": ui_luts.h array is `" table
+                   "_lut`, the proto type derives `"
+                   (csk/->snake_case_string proto-type) "_lut`"))
           ;; The array must be exactly the wire-number space: indexed 0..N-1,
           ;; one entry per keyword, no gap and no tail.
           (is (= (vec (range (count entries))) (mapv :index entries))
@@ -517,7 +549,7 @@
               (when entry
                 ;; The generated trailing comment must agree with the bindings,
                 ;; so a drifted comment cannot make a wrong row look right.
-                (is (= (name (get kw->member kw)) (:proto-name entry))
+                (is (= (some-> (get kw->member kw) name) (:proto-name entry))
                     (str typedef " " kw " wire " wire
                          ": ui_luts.h names member " (:proto-name entry)
                          ", bindings say " (get kw->member kw)))
@@ -634,9 +666,15 @@
   (testing "each hand-written :layout pair means the LVGL constant it names"
     (let [typedef "lv_flex_flow_t"
           {:keys [proto-type]} (get @header-constructs typedef)
-          kw->member @(binding-var proto-type "-keyword->member")
+          kw->member (some-> (binding-var proto-type "-keyword->member") deref)
           c-names (keyword->c-name typedef)
           by-name (into {} (map (juxt :name :value)) (get @header-facts typedef))
+          ;; NEVER a bare `(get by-name c)`: an absent constant would then read
+          ;; as nil on BOTH sides and the comparison would pass on nothing at
+          ;; all. A miss becomes a value that can only equal itself.
+          lvgl-value (fn [c] (if (contains? by-name c)
+                               (get by-name c)
+                               (str "<no LVGL constant named " c ">")))
           candidates (keys kw->member)]
       (is (seq candidates) "FlexFlow bindings are empty - nothing judged")
       (doseq [layout-kw (sort @layout-vocabulary)]
@@ -650,12 +688,12 @@
           ;; And say it in LVGL values, which is what actually reaches the
           ;; renderer: the constant behind the emitted member must be the
           ;; constant behind the keyword.
-          (is (= (get by-name (get c-names flow-kw))
-                 (get by-name (str "LV_" (name got))))
+          (is (= (lvgl-value (get c-names flow-kw))
+                 (lvgl-value (str "LV_" (some-> got name))))
               (str layout-kw ": emits " got " => LVGL value "
-                   (get by-name (str "LV_" (name got)))
+                   (lvgl-value (str "LV_" (some-> got name)))
                    ", but " flow-kw " names " (get c-names flow-kw)
-                   " => " (get by-name (get c-names flow-kw))))))
+                   " => " (lvgl-value (get c-names flow-kw))))))
       (testing "and the abbreviation is onto: no FlexFlow value is unreachable"
         ;; The synthetic FLEX_FLOW_NONE has no `:layout` spelling by design —
         ;; it is what an absent :layout emits — so it is excluded by having no
@@ -663,3 +701,99 @@
         (is (= (set (remove #(nil? (get c-names %)) candidates))
                (set (map #(flow-keyword-for % candidates) @layout-vocabulary)))
             "some header-backed FlexFlow value has no :layout keyword")))))
+
+;; ── Leg 5: the same mapping's OTHER two hand-written spellings ──────────────
+;; Neither is a keyword->wire map, but both are the same defect class: an LVGL
+;; number written out by hand where nothing compares it to the header. They are
+;; judged here because the oracle that can judge them already exists.
+
+(defn- function-macro
+  "`#define NAME(param) body` from the vendored headers, as `[param body]`.
+   Refuses an absent or ambiguous definition, like every other lookup here."
+  [nm]
+  (let [pattern (re-pattern (str "(?m)^[ \\t]*#[ \\t]*define[ \\t]+"
+                                 (java.util.regex.Pattern/quote nm)
+                                 "\\(([A-Za-z_]\\w*)\\)[ \\t]+(\\S.*)$"))
+        hits (into #{} (for [[_ text] @headers
+                             [_ param body] (re-seq pattern text)]
+                         [param (str/trim body)]))]
+    (when-not (= 1 (count hits))
+      (throw (ex-info "function-like macro must be defined exactly once"
+                      {:macro nm :definitions hits})))
+    (first hits)))
+
+(deftest grid-track-constants-match-the-vendored-macros
+  (testing "emit-proto's hand-carried grid coords equal the lv_grid.h macros"
+    ;; `encode-grid-track` turns an authoring track into the int the renderer
+    ;; hands straight to `lv_obj_set_grid_dsc_array`, using two constants
+    ;; transcribed from the headers into this namespace. `factory`'s
+    ;; `hand-carried-mirror-violations` pairs the `LV_STATE_*`/`LV_PART_*`
+    ;; constants with their headers; these two are in NO such pairing, so
+    ;; before this test nothing at all compared them.
+    ;; Private vars deliberately: reading them here is a test concern and does
+    ;; not widen the namespace's API.
+    (is (= (macro-value "LV_COORD_MAX" 0) @#'emit-proto/lv-coord-max)
+        "emit-proto/lv-coord-max disagrees with LV_COORD_MAX")
+    (is (= (macro-value "LV_GRID_CONTENT" 0) @#'emit-proto/lv-grid-content)
+        "emit-proto/lv-grid-content disagrees with LV_GRID_CONTENT")
+    (testing ":content encodes to LV_GRID_CONTENT"
+      (is (= (macro-value "LV_GRID_CONTENT" 0)
+             (#'emit-proto/encode-grid-track :content))))
+    (testing "[:fr n] encodes to LV_GRID_FR(n) for every n the schema admits"
+      ;; The macro is function-like, so it is EVALUATED with the argument
+      ;; substituted rather than pattern-matched: a reshuffled body
+      ;; (`LV_COORD_MAX - 99 + x - 1`) still has to agree numerically.
+      (let [[param body] (function-macro "LV_GRID_FR")]
+        (doseq [n [1 2 3 7 12]]
+          (let [substituted (str/replace body
+                                         (re-pattern (str "\\b"
+                                                          (java.util.regex.Pattern/quote param)
+                                                          "\\b"))
+                                         (str n))]
+            (is (= (eval-c-expr substituted #(macro-value % 0))
+                   (#'emit-proto/encode-grid-track [:fr n]))
+                (str "[:fr " n "] disagrees with LV_GRID_FR(" n ")"))))))
+    (testing "a px track passes through unchanged"
+      (is (= 42 (#'emit-proto/encode-grid-track 42))))))
+
+(deftest coverage-matrix-reference-values-match-the-vendored-headers
+  (testing "the matrix's FLEX_VALS are the LVGL values its FLEX_KWS name"
+    ;; `renderer/coverage_matrix/run.sh` drives the ONLY lane that renders all
+    ;; eight flows. Its proto side authors the `:layout` keyword; its reference
+    ;; side writes the raw LVGL value from a hand-kept parallel array. The lane
+    ;; compares framebuffers, so a wrong pair reds it ONLY IF the two flows it
+    ;; confuses happen to render differently in that fixture — which is a
+    ;; property of the fixture, not of the mapping. Comparing the array to the
+    ;; headers is unconditional.
+    (let [text (slurp coverage-matrix-path)
+          array (fn [nm]
+                  (let [hits (re-seq (re-pattern (str "(?s)\\b" nm "=\\((.*?)\\)")) text)]
+                    (when-not (= 1 (count hits))
+                      (throw (ex-info "shell array must be assigned exactly once"
+                                      {:array nm :matches (count hits)})))
+                    (str/split (str/trim (second (first hits))) #"\s+")))
+          kws (mapv keyword (array "FLEX_KWS"))
+          ref-vals (mapv #(Long/parseLong %) (array "FLEX_VALS"))
+          by-name (into {} (map (juxt :name :value)) (get @header-facts "lv_flex_flow_t"))
+          ;; Resolved through the SHAPE derivation, never through
+          ;; `emit-proto/layout-flow-keyword->member`. Routing it through the
+          ;; emit map would make a defect in that map red this test too, and a
+          ;; red that two clauses can produce attributes to neither.
+          c-names (keyword->c-name "lv_flex_flow_t")
+          candidates (keys c-names)]
+      (is (seq kws) "FLEX_KWS is empty - nothing judged")
+      (is (= (count kws) (count ref-vals))
+          (str "FLEX_KWS has " (count kws) " entries, FLEX_VALS has " (count ref-vals)))
+      ;; TOTALITY: the matrix must drive exactly the authoring vocabulary. A
+      ;; keyword the schema admits but the matrix never renders is an unjudged
+      ;; flow, and a keyword the matrix renders but the schema rejects is a
+      ;; fixture that cannot be authored.
+      (is (= @layout-vocabulary (set kws))
+          (str "matrix FLEX_KWS vs the authoring :layout vocabulary - matrix: "
+               (sort kws) ", schema: " (sort @layout-vocabulary)))
+      (doseq [[kw v] (map vector kws ref-vals)]
+        (let [c-name (get c-names (flow-keyword-for kw candidates))]
+          (is (= (get by-name c-name) v)
+              (str "matrix reference value for " kw " is " v
+                   ", but " c-name " is " (get by-name c-name)
+                   " in the vendored header")))))))
