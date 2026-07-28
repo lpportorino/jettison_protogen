@@ -209,11 +209,19 @@ jobs:
       # that can break it. That suite's inputs are the composition cards, the
       # framebuffer dumps and the geometry declaration the devcards runner
       # writes — every one of them a product of tools/devcards/**, which
-      # matches THIS workflow's paths and NOT renderer.yml's. Until now a
-      # corpus edit could take the cross-engine framebuffer comparison or a
-      # pointer identity red and ship green, detonating on a later, unrelated
-      # renderer/** push whose author had no part in causing it. Same
-      # pathology, same fix, one workflow over.
+      # matches THIS workflow's paths and NOT renderer.yml's. Without it a
+      # corpus edit can take a CROSS-ENGINE (wasmtime vs GraalWasm) framebuffer
+      # red and ship green, detonating on a later, unrelated renderer/** push
+      # whose author had no part in causing it. Same pathology, same fix, one
+      # workflow over.
+      #
+      # WHAT THIS LANE UNIQUELY ADDS IS ENGINE AGREEMENT, NOT THE POINTER
+      # CONTRACT — say it here because this comment used to imply otherwise and
+      # renderer.yml carried the identical over-claim. A pointer-contract
+      # regression reddens CI whether or not this lane runs; the four pointer
+      # tests inside it read as a wasmtime MIRROR of a GraalWasm lane, so their
+      # value is that the two engines agree, never that the contract is covered
+      # only here. Do not cite this lane as a pointer gate.
       #
       # It rides in THIS invocation rather than a step of its own because it
       # takes fixtures-prebuilt as a declared prerequisite: a second `make`

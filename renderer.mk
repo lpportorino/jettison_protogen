@@ -48,6 +48,7 @@ RGEN := tools/renderer-gen
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
 	interaction-prebuilt \
+	wasm-sha-record wasm-sha-verify \
 	standard-brief standard-brief-generate composition-clean doc-audit \
 	ui-review-preflight ui-review-preflight-canary
 
@@ -169,6 +170,121 @@ wasm:
 # (measured), where `.WAIT` is parsed as an ordinary prerequisite with no rule.
 reference: wasm
 	$(MAKE) -C $(R) -f wasm.mk -j$$(nproc) all reference
+
+# ── controls.wasm provisioning parity ───────────────────────────────────────
+# controls.wasm is built through TWO provisioning paths, and until now nothing
+# compared them:
+#
+#   1. the pinned toolchain IMAGE — .github/workflows/renderer.yml's battery
+#      job `docker run`s Dockerfile.base, whose WASI-SDK lives at /opt/wasi-sdk;
+#   2. a STOCK RUNNER — .github/actions/build-controls-wasm installs the same
+#      upstream WASI-SDK release tarball under $HOME and runs `wasm` directly.
+#      devcards.yml's corpus job takes this path.
+#
+# Both then judge the SAME committed goldens, so the two builds agreeing is
+# already load-bearing — it just had no direct assertion. renderer.yml printed a
+# bare `sha256sum` under a step named for bit-identity and threw the value away;
+# these two targets are what give that hash a comparator.
+#
+# WHAT THIS DOES AND DOES NOT CATCH, because the obvious reading over-claims it.
+# The VERSION cannot drift: the composite action derives WASI_SDK_VERSION by
+# grepping Dockerfile.base rather than re-typing it, so both paths ask for the
+# same upstream release. This is therefore NOT a version gate — that axis is
+# closed by construction, and the composite action's "identical compiler at the
+# identical pin" is an accurate description rather than a claim needing a check.
+#
+# What it catches is everything BELOW the version: an image that patches or wraps
+# the SDK, a poisoned composite-action cache, wasm.mk growing
+# environment-dependent behaviour — and ARCHITECTURE, which is the one axis where
+# the two paths are genuinely not written the same way. Dockerfile.base picks
+# WASI_ARCH from `uname -m` (arm64 on aarch64, else x86_64); the composite action
+# hard-codes the x86_64 asset. Both resolve to x86_64 only because both jobs run
+# on `ubuntu-latest` today, so moving either onto an ARM runner silently splits
+# the toolchain — and this comparison is what would say so.
+#
+# The goldens catch the subset of any such divergence that moves a pixel; this
+# catches the rest, and it names the drift directly instead of surfacing it as a
+# mystifying golden mismatch in whichever of the two workflows happened to run.
+#
+# IT IS ONLY A GATE IF THE BUILD IS REPRODUCIBLE, so that was MEASURED here
+# rather than assumed, over the variables that actually differ between the two
+# paths. Five clean release builds in the pinned image, all byte-identical:
+# the baseline; a repeat from a wiped object tree (determinism at all); the tree
+# bind-mounted at /home/runner/work/protogen/protogen instead of /workspace
+# (the REPO-PATH axis); WASI_SDK pointed at /root/wasi-sdk instead of
+# /opt/wasi-sdk (the SDK-PATH axis — what the composite action actually does);
+# and nproc forced to 2 instead of 12 (the runner has fewer cores than a dev
+# box, and `wasm` recurses with an explicit -j$$(nproc)). `strings` on the
+# result finds no build path at all — only clang's own version banner — which is
+# the structural reason the path axes come out flat.
+#
+# THE ONE AXIS THAT WAS NOT MEASURED, named rather than glossed: the HOST OS.
+# Every build above ran in Dockerfile.base; nothing here can run a
+# GitHub-hosted runner image, and fetching one was out of scope. clang is a
+# self-contained cross-compiler emitting wasm32 with its own sysroot, so host
+# libc should not reach codegen — but "should not" is an argument, not a
+# measurement, and if this gate ever reds on its first run with two hashes that
+# differ for no reviewable reason, THAT is the hypothesis to test first.
+#
+# The two halves are separate targets because they run in different places:
+# `wasm-sha-record` beside the build that produced the artifact, `wasm-sha-verify`
+# wherever the second build lands, with WASM_SHA_EXPECTED pointing at the
+# recorded sidecar. Keeping the comparison HERE rather than inline in the
+# workflow is what makes it runnable — and therefore mutation-provable — outside
+# Actions.
+#
+# reference.wasm gets NO sidecar and that is deliberate: the composite action
+# builds `wasm` only, so there is no second build to compare it against. Its
+# hash stays a printed log line in renderer.yml, and the comment there says so.
+WASM_ARTIFACT := $(R)/output/controls.wasm
+WASM_SHA_FILE := $(WASM_ARTIFACT).sha256
+
+# The expectation to verify against. Defaults to the sidecar this build wrote —
+# which makes a bare `wasm-sha-verify` a self-check — and is overridden by the
+# caller to the OTHER build's sidecar, which is the real use.
+WASM_SHA_EXPECTED ?= $(WASM_SHA_FILE)
+
+wasm-sha-record:
+	@test -s $(WASM_ARTIFACT) || { \
+		echo "FATAL: wasm-sha-record: $(WASM_ARTIFACT) is missing or empty — there is" >&2; \
+		echo "  nothing to record. Build it first (make -f renderer.mk wasm)." >&2; \
+		exit 1; }
+	@sha256sum $(WASM_ARTIFACT) | awk '{print $$1}' >$(WASM_SHA_FILE)
+	@echo "wasm-sha-record: $$(cat $(WASM_SHA_FILE))  $(WASM_ARTIFACT)"
+
+# BOTH INPUTS ARE GUARDED, and that is the half that is easy to leave out. A
+# missing artifact or a missing expectation means the comparison DID NOT HAPPEN,
+# and "I could not look" must never print the same thing as "they match" — which
+# is exactly what an unguarded `sha256sum ... | cmp -` would do on an absent
+# sidecar.
+wasm-sha-verify:
+	@test -s $(WASM_ARTIFACT) || { \
+		echo "FATAL: wasm-sha-verify: $(WASM_ARTIFACT) is missing or empty, so the" >&2; \
+		echo "  provisioning-parity comparison DID NOT RUN. This is a sequencing bug" >&2; \
+		echo "  (build the wasm first), never a pass." >&2; \
+		exit 1; }
+	@test -s $(WASM_SHA_EXPECTED) || { \
+		echo "FATAL: wasm-sha-verify: expected-hash file '$(WASM_SHA_EXPECTED)' is" >&2; \
+		echo "  missing or empty, so the provisioning-parity comparison DID NOT RUN." >&2; \
+		echo "  It is written by 'make -f renderer.mk wasm-sha-record' beside the" >&2; \
+		echo "  other build and carried here as an artifact. A gate that cannot look" >&2; \
+		echo "  must never report green." >&2; \
+		exit 1; }
+	@have="$$(sha256sum $(WASM_ARTIFACT) | awk '{print $$1}')"; \
+	want="$$(tr -d '[:space:]' <$(WASM_SHA_EXPECTED))"; \
+	if [ "$$have" != "$$want" ]; then \
+		echo "FATAL: wasm-sha-verify: PROVISIONING DRIFT — the two build paths do not" >&2; \
+		echo "  agree on controls.wasm." >&2; \
+		echo "    this build : $$have" >&2; \
+		echo "    expected   : $$want  ($(WASM_SHA_EXPECTED))" >&2; \
+		echo "  The pinned-image build and the stock-runner build are supposed to be" >&2; \
+		echo "  the identical upstream compiler at the identical pin, and both judge" >&2; \
+		echo "  the same committed goldens. Do not re-mint anything: find out which" >&2; \
+		echo "  toolchain moved. renderer.mk's provisioning-parity block lists the" >&2; \
+		echo "  axes already measured flat, and the one that was not." >&2; \
+		exit 1; \
+	fi; \
+	echo "wasm-sha-verify: provisioning parity OK ($$have)"
 
 # ── Classpath producers (batch javac; clean rebuild, no live-JVM consumer) ──
 # renderer-gen's proto classes: ALL of output/java + pronto's Java helpers —
@@ -353,6 +469,38 @@ harness: wasm proto-classes
 # lane persists them under tools/devcards/out/composition/), byte-compares
 # the raw framebuffers cross-engine, and replays the pointer contract
 # natively (press-seek / drag / ext-click envelope / dock fold).
+#
+# COUNT THE CROSS-ENGINE COMPARATOR; DO NOT COUNT THE FOUR POINTER TESTS AS
+# INDEPENDENT COVERAGE. The binary holds five tests, and they are not the same
+# kind of thing:
+#
+#   composition_cross_engine_fb  — every discovered card × dark/light, wasmtime's
+#     raw framebuffer asserted byte-identical to the GraalWasm dump. This is the
+#     ONLY automated cross-engine check anywhere in the repo. Nothing else can
+#     see an engine divergence at all.
+#   scrubber_press_seek_identity / scrubber_press_drag_stream /
+#   scrubber_ext_click_envelope / dock_fold_identity — the wasmtime MIRROR of
+#     devcards.interaction, which drives the same cards and the same taps on
+#     GraalWasm and reports press-seek, drag, ext-click and dock findings from
+#     `run-lane`, PLUS scrubber geometry/palette, long EventBinding.name,
+#     proxy-content inertness and handle hit-clearance. Strictly wider.
+#
+# So for a defect in the SHARED renderer source these four are dominated twice
+# over. They are dominated in BREADTH by the lane above, and they are dominated
+# in ORDER by make: `fixtures` (`fixtures-prebuilt`) is a DECLARED prerequisite
+# of `interaction` (`interaction-prebuilt`), so the Clojure lane's red aborts the
+# invocation and cargo never compiles. A mutation of renderer/src therefore
+# cannot be killed by these four first, whatever the battery log suggests.
+#
+# WHAT THEY DO COVER, stated precisely so the retraction does not overshoot into
+# the opposite falsehood: agreement of the two production-host ENGINES on the
+# pointer path. The framebuffer comparator renders and compares; it feeds no
+# pointer input, so a wasmtime-vs-GraalWasm divergence in event handling is
+# invisible to it and to every other lane. That axis is also exactly why mutation
+# testing reports these four as redundant and always will — a source mutation
+# perturbs both engines identically, so no edit to this repo can produce the
+# divergence they exist to catch. Read a mutation score here as measuring the
+# wrong axis, not as a licence to delete them.
 #
 # The card source is a DECLARED prerequisite, not merely a documented one. The
 # ordering used to rest on check-renderer happening to list fixtures earlier —
@@ -897,6 +1045,37 @@ devcards-test:
 # workflow step on the runner, not a battery lane.
 STANDARD_BRIEF := .claude/skills/ui-standard-review/STANDARD.md
 
+# THIS TARGET IS THE GENERATOR, NOT THE GATE, and the distinction is load-bearing
+# because `check-renderer-lanes` lists THIS one and not `standard-brief`.
+#
+# `devcards.standard-brief/-main` calls `generate!` and prints the path and byte
+# count. That is all it does — its own docstring says "the freshness comparison
+# is the caller's". So it REWRITES $(STANDARD_BRIEF) and exits 0 whether the page
+# was already fresh or wildly stale: a moved threshold, an edited contract, a
+# changed classification row all leave this target green while it silently
+# overwrites a tracked file. The ONLY thing that reds it is the generator
+# throwing — a malformed producer roster, an unreadable contract, an empty
+# classification table. That is real coverage and it is worth the battery slot;
+# it is simply not freshness, and a reader who sees this name under the section
+# header above and inside a gate's lane list will assume otherwise.
+#
+# THE HOLE THAT LEAVES IS LOCAL-ONLY, and that was checked rather than assumed.
+# In CI the real gate is armed and complete: devcards.yml runs `standard-brief`
+# (the git-diff half below), and every input the generator reads matches that
+# workflow's `paths:` — the contract at docs/UI-QUALITY-CONTRACTS.md, the
+# classification table and each producer's :thresholds under tools/devcards/**,
+# and the generated page under .claude/skills/ui-standard-review/**. renderer.yml
+# does not run either target at all, so nothing about the briefing is decomposed
+# into it. What the local battery loses is only EARLINESS: `check-renderer` will
+# not tell you the page drifted, it will just leave the corrected page sitting in
+# your working tree for `git status` to report.
+#
+# WHY THE OBVIOUS REPAIR IS REFUSED. Swapping this lane for `standard-brief`
+# would red every containerised battery on a repo-shape problem instead of a
+# standard problem — git cannot resolve this checkout inside Dockerfile.base, and
+# that target's own first guard turns "cannot look" into a hard failure, exactly
+# as it should. The block below records that decision; this note records what it
+# costs, which is the half that was missing.
 standard-brief-generate:
 	cd tools/devcards && clojure -M -m devcards.standard-brief
 
@@ -1068,5 +1247,13 @@ BATTERY_JOBS ?= 4
 check-renderer:
 	@$(MAKE) --no-print-directory -f renderer.mk -j$(BATTERY_JOBS) check-renderer-lanes
 
+# ONE NAME IN THE LIST BELOW IS NOT A GATE. `standard-brief-generate` is the
+# briefing GENERATOR: it rewrites a tracked page and exits 0 whether that page
+# was fresh or stale, so the battery cannot go red on briefing staleness and a
+# green here says nothing about it. It earns its slot by proving the generator
+# still RUNS; the freshness comparison is `standard-brief`, which is armed in
+# devcards.yml and cannot live here (git does not resolve inside the container).
+# That target's own block carries the full boundary. Every other name below
+# fails on its own subject.
 check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

@@ -66,6 +66,13 @@ on:
     - "docs/.protodoc/proto-db.edn"
     - "docs/.protodoc/manifest-config.edn"
     - "docs/.protodoc/tools/**"
+    # The SECOND provisioning path for controls.wasm. The parity job below
+    # builds through this composite action and compares its bytes against the
+    # pinned-image build, so a change to the action is a change to one half of
+    # the comparison. Without this entry the gate would run only on pushes that
+    # cannot move the thing it is comparing — the same defect the proto-db
+    # roots above were added to fix.
+    - ".github/actions/build-controls-wasm/**"
     - ".github/workflows/renderer.yml"
   pull_request:
     paths:
@@ -79,6 +86,9 @@ on:
     - "docs/.protodoc/proto-db.edn"
     - "docs/.protodoc/manifest-config.edn"
     - "docs/.protodoc/tools/**"
+    # See the push filter above: the second provisioning path the parity job
+    # compares against.
+    - ".github/actions/build-controls-wasm/**"
     - ".github/workflows/renderer.yml"
   workflow_dispatch: {}
 
@@ -272,13 +282,34 @@ jobs:
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f renderer.mk manifests
-    - name: Build controls.wasm + reference.wasm (bit-identity artifact)
+    - # `wasm-sha-record` RIDES THIS INVOCATION, and it is what turned this step
+      # honest. The step has always been named for bit-identity and has always
+      # ended by printing a `sha256sum` — and nothing anywhere compared that
+      # value to anything, so the name described an intention rather than a
+      # check. The target now writes the hash to a sidecar
+      # (renderer/output/controls.wasm.sha256) that is uploaded with the
+      # artifact and verified by the wasm-provisioning-parity job below against
+      # a build of the same commit through the OTHER provisioning path.
+      #
+      # IN the docker run, not after it: every file the container writes under
+      # renderer/output/ comes back root-owned, so a sidecar written afterwards
+      # by the runner user would hit the same permission wall the cargo-cache
+      # ownership step below exists for. Recording it inside costs nothing —
+      # renderer.mk's target needs only coreutils.
+      #
+      # reference.wasm keeps a BARE PRINT and no sidecar, deliberately: the
+      # composite action builds `wasm` only, so there is no second build of it to
+      # compare against. That line is a debugging log line and nothing more —
+      # said out loud so the next reader does not take it for a check, which is
+      # exactly the mistake the controls.wasm line invited for as long as it
+      # stood alone.
+      name: Build controls.wasm + reference.wasm (+ record the parity hash)
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           -e CARGO_HOME=/workspace/.cargo-home \
           jettison-proto-generator-base:latest \
-          make -f renderer.mk wasm reference
-        sha256sum renderer/output/controls.wasm renderer/output/reference.wasm
+          make -f renderer.mk wasm reference wasm-sha-record
+        sha256sum renderer/output/reference.wasm
     - # `reload` and `decode-limits` join this invocation, closing the last two
       # battery lanes that ran in no workflow at all.
       #
@@ -344,17 +375,82 @@ jobs:
       run: |
         sudo chown -R "$(id -u):$(id -g)" \
           .cargo-home renderer/wasm_harness/target 2>/dev/null || true
-    - name: Upload wasm artifacts (for the fixtures job + debugging)
+    - # The recorded parity hash rides the SAME artifact as the wasm it
+      # describes. A separate artifact would let the two be downloaded
+      # independently, which is precisely how a comparison ends up run against a
+      # hash of some other build. All three files share the renderer/output
+      # prefix, so they arrive flattened beside each other at the download path.
+      name: Upload wasm artifacts (for the fixtures + parity jobs, and debugging)
       if: always()
       uses: actions/upload-artifact@v6
       with:
         name: renderer-wasm
         path: |
           renderer/output/controls.wasm
+          renderer/output/controls.wasm.sha256
           renderer/output/reference.wasm
         retention-days: 7
         if-no-files-found: error
   
+  # ── controls.wasm provisioning parity ──────────────────────────────────────
+  # The comparator for the hash the battery job now records. This repo builds
+  # controls.wasm through TWO provisioning paths — the pinned toolchain image
+  # (the battery job above) and a stock runner with the upstream WASI-SDK
+  # installed under $HOME (.github/actions/build-controls-wasm, which is how
+  # devcards.yml gets its wasm) — and both then judge the SAME committed
+  # goldens. The two agreeing has therefore always been load-bearing; it simply
+  # had no assertion. This job is that assertion. renderer.mk's
+  # provisioning-parity block carries what it does and does not catch, the
+  # reproducibility axes measured flat, and the one axis that was not.
+  #
+  # COST, STATED RATHER THAN HIDDEN, because the tempting claim is that this is
+  # free. It is NOT: the two existing builds live in DIFFERENT WORKFLOWS with
+  # different path filters and no artifact crosses between them, so nothing here
+  # can reuse devcards.yml's build. This job pays a THIRD build of controls.wasm.
+  # What makes that acceptable is where the cost lands rather than its size: the
+  # runner is GitHub-hosted on a public repo so the minutes are free, and this
+  # job hangs off `battery` in parallel with `fixtures` — which renders the whole
+  # corpus, regenerates the gallery and builds the wasmtime harness — so it is
+  # expected to add no wall-clock to the workflow at all. Expected, not measured:
+  # nothing in the checkout can time a GitHub runner.
+  #
+  # It deliberately does NOT reuse the fixtures job. That job consumes the
+  # battery's artifact precisely so the corpus is judged against the SAME bytes
+  # the battery hashed, and provisioning a second clang there would rebuild the
+  # wasm OVER the downloaded artifact — the drift the handoff exists to prevent
+  # (renderer.mk's `interaction` block records this). A separate job keeps the
+  # second build in its own workspace where it cannot touch the first.
+  wasm-provisioning-parity:
+    name: controls.wasm parity (stock runner ≡ pinned image)
+    runs-on: ubuntu-latest
+    needs: battery
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+    - # The SECOND provisioning path, built exactly the way devcards.yml builds
+      # it — same composite action, same pin derived from Dockerfile.base, same
+      # $HOME install root. Using the action rather than re-spelling its steps is
+      # what makes this a test of the real path instead of a lookalike.
+      name: Build controls.wasm from source (stock runner, pinned WASI-SDK)
+      uses: ./.github/actions/build-controls-wasm
+    - # Into a scratch path, NOT renderer/output/ — the freshly built wasm lives
+      # there and must not be overwritten by the thing it is being compared
+      # against. A comparison of a file with itself is the one outcome that would
+      # pass while proving nothing.
+      name: Download the pinned-image build + its recorded hash
+      uses: actions/download-artifact@v7
+      with:
+        name: renderer-wasm
+        path: .battery-wasm/
+    - # The comparison lives in renderer.mk, not inline here, so it is runnable
+      # — and therefore mutation-provable — outside Actions. Both of its inputs
+      # are guarded: a missing artifact or a missing sidecar FAILS, because "I
+      # could not look" must never print what "they match" prints.
+      name: Compare the two provisioning paths
+      run: |
+        make -f renderer.mk wasm-sha-verify \
+          WASM_SHA_EXPECTED=.battery-wasm/controls.wasm.sha256
+
   # The devcards corpus regen against the freshly built wasm — the fixtures
   # regen + golden freshness gate. Runner-provisioned JDK/Clojure (the
   # devcards runner is pure JVM+GraalWasm — devcards.yml's own provisioning
@@ -421,11 +517,22 @@ jobs:
       # interaction-prebuilt is the wasmtime cross-engine suite
       # (composition_interaction.rs): check-renderer runs it locally, but
       # renderer.yml DECOMPOSES check-renderer and — like the A2 manifest gate
-      # before it — once omitted this lane, so a pointer-contract or cross-engine
-      # (wasmtime vs GraalWasm) regression could not redden CI. It re-renders the
-      # composition cards on the DOWNLOADED wasm and replays the pointer contract
-      # natively; the runner's preinstalled cargo builds the harness (cached
-      # above) — no WASI toolchain needed, wasmtime is pure Rust.
+      # before it — once omitted this lane, so a CROSS-ENGINE (wasmtime vs
+      # GraalWasm) regression could not redden CI. It re-renders the composition
+      # cards on the DOWNLOADED wasm and replays the pointer contract natively;
+      # the runner's preinstalled cargo builds the harness (cached above) — no
+      # WASI toolchain needed, wasmtime is pure Rust.
+      #
+      # THE POINTER HALF IS NOT WHAT THIS LANE ADDS, and this sentence used to
+      # say it was. A pointer-contract regression reddens CI without this lane:
+      # devcards.interaction drives the same cards and the same taps on GraalWasm
+      # inside fixtures-prebuilt, in this very `make` invocation, and reports a
+      # strictly wider set of findings. It is also a declared PREREQUISITE here,
+      # so its red aborts before cargo compiles. What is uniquely lost without
+      # this lane is engine AGREEMENT — the framebuffer byte-compare, plus the
+      # four pointer tests read as a wasmtime mirror of a GraalWasm lane rather
+      # than as coverage of the pointer contract itself. renderer.mk's
+      # `interaction` block carries the full accounting.
       #
       # It rides in THIS invocation rather than a step of its own for the same
       # reason the other two share one: it takes fixtures-prebuilt as a declared
