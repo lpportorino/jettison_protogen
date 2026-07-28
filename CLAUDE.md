@@ -246,6 +246,17 @@ Rules:
   render fn, so the wasm lives on YOUR side of the call.** Widget classification
   merges your table OVER the shipped one (`lvgl-classes/merge-consumer`), so you
   can add rows and correct ours.
+  **BUT KNOW WHICH HALF THIS REPO EXERCISES — unlike the overlap lane below,
+  this IS advice protogen partly exempts itself from.** `render-corpus` has NO
+  production caller here: `devcards.core` drives the shipped corpus with its
+  own `into`/`map` and reaches the per-card seam directly, so the function you
+  are told to build on is held up by its unit tests alone. It is a supported
+  API and not a stub — but it is a SECOND path, and this repo's gates cannot
+  notice the two diverging. Two consequences that bite in opposite directions:
+  a consumer threading NEW context through `render-corpus` finds no seam on the
+  shipped side to match, and a change to `core`'s driver can leave
+  `render-corpus` behind without reddening anything. Report drift here rather
+  than routing around it locally.
 - **ARM THE OVERLAP LANE — protogen runs it on its own corpus, so this is not
   advice this repo exempts itself from.** `devcards.lanes` passes
   `overlap/producer` at `:overlap/gap-px 0` (strict overlap: a shared pixel
