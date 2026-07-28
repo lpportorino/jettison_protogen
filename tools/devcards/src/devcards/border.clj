@@ -43,10 +43,31 @@
    guessed the square perimeter would measure a boundary the renderer never
    drew and report on it with full confidence.
 
+   ── IT MEASURES A BOUNDARY, NEVER A BORDER — READ THIS BEFORE ARMING ──
+
+   The signal is the LARGEST L1 among {point, inner, outer}, so any step
+   across the contour reaches the floor, whichever pair produced it. On a
+   widget whose FILL differs from its backdrop that step is present at every
+   sample REGARDLESS OF THE BORDER, and the two questions come apart
+   completely. Measured, not argued —
+   `a-fill-against-its-backdrop-supplies-the-signal-with-NO-border-drawn` in
+   the test namespace paints a flat filled rect with no stroke of any kind
+   and this rule returns :pass at full coverage, then paints a real border,
+   deletes four of its pixels, and returns :pass again on the break that
+   `equal-edge-counts-do-not-imply-equal-continuity` fails.
+
+   That is the correct quantity for LEGIBILITY — a border whose colour
+   equals its fill is invisible against the fill and legible against the
+   backdrop, and a rule demanding the stroke be distinct from BOTH sides
+   would condemn it — but it is NOT the quantity the words `border` and
+   `:border-contour-discontinuous` suggest, and a reader will take a green
+   here as `the border is drawn`. It does not say that and cannot. Where the
+   two answers must be separated, the separating measurement is a different
+   one (the point distinct from both neighbours rather than from either),
+   and it belongs in its own rule under its own name — not as a quiet
+   re-reading of this one.
+
    ── WHAT IT CANNOT SEE ────────────────────────────────────────────────
-   - It measures continuity of a declared rendered boundary signal, not
-     whether LVGL authored a border. A fill/background transition can supply
-     the same signal.
    - It cannot derive rounded, partial-side, part-specific or transformed
      contours from dump-tree rectangles. The producer needs the renderer or
      consumer to declare the actual contour.

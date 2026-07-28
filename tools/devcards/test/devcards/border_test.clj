@@ -116,6 +116,37 @@
       (is (= :pass (:verdict a)))
       (is (= :fail (:verdict b))))))
 
+(deftest a-fill-against-its-backdrop-supplies-the-signal-with-NO-border-drawn
+  ;; THE LIMIT OF THE QUANTITY, pinned rather than described. This test has no
+  ;; REVERT-TO-BREAK: it guards nothing, it MEASURES what the rule cannot
+  ;; separate, and inventing a mutation for it would dress a disclosure up as
+  ;; a gate. The ns docstring's claim is checkable here instead of taken on
+  ;; trust.
+  (let [contour (border/rect-contour [2 2 7 7])
+        fb (blank-frame 10 10)]
+    ;; One flat fill over the whole rect, perimeter included — no stroke of
+    ;; any kind, and a backdrop that differs from it.
+    (doseq [x (range 2 8) y (range 2 8)]
+      (set-pixel! fb [x y] [100 100 100]))
+    (let [result (border/measure-contour fb (target contour {}))]
+      (is (= 20 (:visible-count result))
+          "every sample reaches the floor on the fill/backdrop transition alone")
+      (is (= 300 (:weakest-delta result)))
+      (is (= :pass (:verdict result))
+          "a PASS with no border drawn: the signal is the largest L1 among
+           {point, inner, outer}, and the fill/backdrop step supplies it"))
+    ;; Now paint a real border and delete four of its pixels. Under
+    ;; `equal-edge-counts-do-not-imply-equal-continuity` that break is a FAIL;
+    ;; here the surviving fill carries every sample and the same break passes.
+    (doseq [sample contour]
+      (set-pixel! fb (:point sample) [255 255 255]))
+    (doseq [sample (subvec contour 5 9)]
+      (set-pixel! fb (:point sample) [100 100 100]))
+    (is (= :pass (:verdict (border/measure-contour fb (target contour {}))))
+        "so the same four-pixel break is invisible here — this rule reports
+         whether a declared boundary READS, never whether LVGL authored a
+         border, and on a filled widget those two answers come apart")))
+
 (deftest a-closed-contour-joins-the-end-back-to-the-start
   (let [contour (border/rect-contour [2 2 7 7])
         fb (paint-contour! (blank-frame 10 10) contour [255 255 255])]

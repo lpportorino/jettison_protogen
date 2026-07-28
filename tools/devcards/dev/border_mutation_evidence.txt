@@ -1,0 +1,100 @@
+=== BASELINE (unmutated) ===
+      Ran 15 tests containing 55 assertions.
+
+### A · the CONTINUITY clause (border/longest-linear-gap)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  equal-edge-counts-do-not-imply-equal-continuity
+      FAIL in (equal-edge-counts-do-not-imply-equal-continuity) (border_test.clj:114)
+      expected: (= 1 (:longest-gap-px a))
+        actual: (not (= 1 4))
+      FAIL in (equal-edge-counts-do-not-imply-equal-continuity) (border_test.clj:116)
+      expected: (= :pass (:verdict a))
+        actual: (not (= :pass :fail))
+      Ran 1 tests containing 5 assertions.
+    CONTROL no-edge-signal-is-one-whole-contour-gap
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (equal-edge-counts-do-not-imply-equal-continuity) (border_test.clj:114)
+      FAIL in (equal-edge-counts-do-not-imply-equal-continuity) (border_test.clj:116)
+      Ran 15 tests containing 55 assertions.
+
+### B · :framebuffer in the CLOSED context set (findings/context-keys)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  the-registry-ADMITS-the-declaration-this-rule-has-to-make
+      FAIL in (the-registry-ADMITS-the-declaration-this-rule-has-to-make) (border_test.clj:235)
+      expected: (= [border/producer] (refusal-free (fn* [] (findings/validate-producers! [border/producer]))))
+        actual: (not (= [{:id :border, :fn #object[devcards.border$findings 0x7ca0aa55 "devcards.border$findings@7ca0aa55"], :requires #{:framebuffer :declaration}, :outcomes #{:untested :failed}, :reasons {:canvas-clipped "At least one contour/inside/outside sample lies outside the framebuffer.", :nonopaque-sample "At least one sampled RAW pixel has alpha below 255, so its displayed RGB depends on an undeclared compositing backdrop."}}] [:refused "malformed finding producer: :requires names unknown context keys [:framebuffer] ? known: [:caps :classes :declaration :emissions :emissions-by-mode :expect :host-proxy? :nodes :proxy-rects :tree]"]))
+      Ran 1 tests containing 2 assertions.
+    CONTROL equal-edge-counts-do-not-imply-equal-continuity
+      Ran 1 tests containing 5 assertions.
+    whole namespace:
+      FAIL in (a-caller-that-cannot-supply-pixels-is-REFUSED) (border_test.clj:275)
+      FAIL in (a-caller-that-cannot-supply-pixels-is-REFUSED) (border_test.clj:281)
+      ERROR in (a-caller-that-cannot-supply-pixels-is-REFUSED) (findings.clj:186)
+      FAIL in (an-absent-borders-DECLARATION-is-an-oversight) (border_test.clj:331)
+      ERROR in (an-absent-borders-DECLARATION-is-an-oversight) (findings.clj:186)
+      FAIL in (a-HALF-supplied-framebuffer-is-refused-at-the-seam) (border_test.clj:302)
+      FAIL in (a-HALF-supplied-framebuffer-is-refused-at-the-seam) (border_test.clj:313)
+      ERROR in (the-rule-judges-through-the-real-registry) (findings.clj:186)
+      FAIL in (the-registry-ADMITS-the-declaration-this-rule-has-to-make) (border_test.clj:235)
+      Ran 15 tests containing 52 assertions.
+
+### C · the :bytes clause (findings/framebuffer-problem)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=6 (want >=1)
+    CANARY  a-HALF-supplied-framebuffer-is-refused-at-the-seam
+      FAIL in (a-HALF-supplied-framebuffer-is-refused-at-the-seam) (border_test.clj:302)
+      expected: (re-find #":bytes must be a byte array" (str (refusal (fn* [] (findings/card-findings {:card-id "c", :framebuffer {:width 10, :height 10}, :declaration {:borders []}, :producers [border/producer]})))))
+        actual: (not (re-find #":bytes must be a byte array" "[:threw \"java.lang.NullPointerException\" \"Cannot read the array length because \\\"xs\\\" is null\"]"))
+      Ran 1 tests containing 3 assertions.
+    CONTROL the-rule-judges-through-the-real-registry
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (a-HALF-supplied-framebuffer-is-refused-at-the-seam) (border_test.clj:302)
+      Ran 15 tests containing 55 assertions.
+
+### D · the byte-LENGTH clause (findings/framebuffer-problem)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=6 (want >=1)
+    CANARY  a-HALF-supplied-framebuffer-is-refused-at-the-seam
+      FAIL in (a-HALF-supplied-framebuffer-is-refused-at-the-seam) (border_test.clj:313)
+      expected: (re-find #"describe different images" (str (refusal (fn* [] (findings/card-findings {:card-id "c", :framebuffer {:bytes (byte-array (* 10 10 4)), :width 20, :height 10}, :declaration {:borders []}, :producers [border/producer]})))))
+        actual: (not (re-find #"describe different images" "[:returned-without-refusing]"))
+      Ran 1 tests containing 3 assertions.
+    CONTROL the-rule-judges-through-the-real-registry
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (malformed-contours-fail-loud) (border_test.clj:221)
+      FAIL in (a-HALF-supplied-framebuffer-is-refused-at-the-seam) (border_test.clj:313)
+      Ran 15 tests containing 55 assertions.
+
+### E · the absent-:borders refusal (border/declared-targets)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  an-absent-borders-DECLARATION-is-an-oversight
+      FAIL in (an-absent-borders-DECLARATION-is-an-oversight) (border_test.clj:331)
+      expected: (re-find #"must carry :borders" (str (refusal (fn* [] (findings/card-findings {:card-id "c", :framebuffer (blank-frame 10 10), :declaration {:layers {}}, :producers [border/producer]})))))
+        actual: (not (re-find #"must carry :borders" "[:returned-without-refusing]"))
+      Ran 1 tests containing 3 assertions.
+    CONTROL the-rule-judges-through-the-real-registry
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (an-absent-borders-DECLARATION-is-an-oversight) (border_test.clj:331)
+      Ran 15 tests containing 55 assertions.
+
+### F · :framebuffer in border/required-context
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-caller-that-cannot-supply-pixels-is-REFUSED
+      FAIL in (a-caller-that-cannot-supply-pixels-is-REFUSED) (border_test.clj:275)
+      expected: (re-find #"requires context \[:framebuffer\]" (str (refusal (fn* [] (findings/card-findings {:card-id "c", :declaration {:borders []}, :producers [border/producer]})))))
+        actual: (not (re-find #"requires context \[:framebuffer\]" "[:returned-without-refusing]"))
+      FAIL in (a-caller-that-cannot-supply-pixels-is-REFUSED) (border_test.clj:281)
+      expected: (re-find #"requires context \[:framebuffer\]" (str (refusal (fn* [] (findings/card-findings {:card-id "c", :framebuffer nil, :declaration {:borders []}, :producers [border/producer]})))))
+        actual: (not (re-find #"requires context \[:framebuffer\]" "[:returned-without-refusing]"))
+      Ran 1 tests containing 3 assertions.
+    CONTROL the-rule-judges-through-the-real-registry
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (a-caller-that-cannot-supply-pixels-is-REFUSED) (border_test.clj:275)
+      FAIL in (a-caller-that-cannot-supply-pixels-is-REFUSED) (border_test.clj:281)
+      Ran 15 tests containing 54 assertions.
+
+=== RESTORED ===
+      Ran 15 tests containing 55 assertions.
