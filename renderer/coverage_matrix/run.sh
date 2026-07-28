@@ -353,11 +353,25 @@ rgen clojure -M:codegen --tokens ../../output/manifests/design-tokens.json --inp
   >/dev/null
 
 # ── 3. Render both paths per row; byte-compare trees + framebuffers ──────────
-pass=0
-fail=0
+# ── The verdict is REDUCED FROM ARTIFACTS, never from shell counters ─────────
+# Each case writes expect_<id> before it starts work and result_<id> when it
+# reaches a verdict. The reduction below counts those files.
+#
+# WHY, and it is not style: a counter incremented inside run_row lives in the
+# shell that ran it. The moment this loop is parallelised (xargs -P, a trailing
+# &) every increment lands in a SUBSHELL, the parent never sees it, `fail`
+# stays 0, and the gate exits GREEN reporting "0 diverged (of 0)" while having
+# judged nothing. That is a silent pass, not a loud failure — the one outcome
+# this repo refuses everywhere. The expect/result pair also makes a case that
+# DIED mid-run (a crash, an OOM-killed harness) a HARD FAILURE instead of
+# silently shrinking the denominator.
+RES="$ROOT/$OUT/results"
+rm -rf "$RES"
+mkdir -p "$RES"
 
 run_row() { # <case-id> <ref-prop> <value>
   local id=$1 prop=$2 val=$3
+  : >"$RES/expect_${id}"
   printf "$(printf '\\x%02x\\x%02x' "$prop" "$val")" >"$ROOT/$OUT/sel_${id}.bin"
 
   # --assert-content: identical-but-BLANK screens would pass the equality
@@ -368,16 +382,16 @@ run_row() { # <case-id> <ref-prop> <value>
     --pb "$WS/$PB/${id}.pb" --output "$WS/$OUT" --dump-tree \
     --assert-content >/dev/null 2>&1 ||
     {
-      echo "  ${id}: PROTO RENDER/CONTENT FAILED"
-      fail=$((fail + 1))
+      echo "  ${id}: PROTO RENDER/CONTENT FAILED" >>"$RES/line_${id}"
+      echo "proto-render-failed" >"$RES/result_${id}"
       return
     }
   dev_w wasm_harness ./target/release/lvgl_harness --wasm "$WS/output/reference.wasm" --wasi-root "$WS/assets" \
     --pb "$WS/$OUT/sel_${id}.bin" --output "$WS/$OUT" --dump-tree \
     --assert-content >/dev/null 2>&1 ||
     {
-      echo "  ${id}: REFERENCE RENDER/CONTENT FAILED"
-      fail=$((fail + 1))
+      echo "  ${id}: REFERENCE RENDER/CONTENT FAILED" >>"$RES/line_${id}"
+      echo "reference-render-failed" >"$RES/result_${id}"
       return
     }
 
@@ -392,60 +406,129 @@ run_row() { # <case-id> <ref-prop> <value>
   sed 's/"uid":[0-9]*,//g' "$proto" | cmp -s - "$refr" && tree_ok=yes
   cmp -s "$proto_png" "$ref_png" && px_ok=yes
   if [ "$tree_ok" = yes ] && [ "$px_ok" = yes ]; then
-    printf '  %-22s (prop=%d val=%2d)  tree=ok  px=ok\n' "$id" "$prop" "$val"
-    pass=$((pass + 1))
+    printf '  %-22s (prop=%d val=%2d)  tree=ok  px=ok\n' "$id" "$prop" "$val" >>"$RES/line_${id}"
+    echo "ok" >"$RES/result_${id}"
   else
     printf '  %-22s (prop=%d val=%2d)  tree=%s px=%s  DIVERGE\n' \
-      "$id" "$prop" "$val" "$tree_ok" "$px_ok"
+      "$id" "$prop" "$val" "$tree_ok" "$px_ok" >>"$RES/line_${id}"
     [ "$tree_ok" = no ] && {
-      echo "      proto-tree: $(cat "$proto" 2>/dev/null || echo MISSING)"
-      echo "      ref-tree:   $(cat "$refr" 2>/dev/null || echo MISSING)"
+      echo "      proto-tree: $(cat "$proto" 2>/dev/null || echo MISSING)" >>"$RES/line_${id}"
+      echo "      ref-tree:   $(cat "$refr" 2>/dev/null || echo MISSING)" >>"$RES/line_${id}"
     }
-    fail=$((fail + 1))
+    echo "diverge" >"$RES/result_${id}"
   fi
+}
+
+# ── Bounded-concurrency dispatch ─────────────────────────────────────────────
+# Each case is independent: it reads its own .pb, writes only artifacts keyed by
+# its own id, and reports through result_<id>. That independence is what makes
+# this safe, and the artifact-based verdict above is what makes it CORRECT --
+# the two changes are a pair and neither is sound without the other.
+#
+# Serial cost was dominated by process startup, not rendering: 92 cases x 2
+# harness spawns = 184 launches, each loading and instantiating a wasm module.
+# Override with MATRIX_JOBS=1 to get the old serial behaviour when debugging.
+JOBS="${MATRIX_JOBS:-$(nproc)}"
+
+# The slot counter lives in THIS shell, which is the one place it is safe:
+# dispatch_row always runs in the parent, so an increment is never lost the way
+# a VERDICT counter inside a backgrounded run_row would be. That asymmetry is
+# the point of the artifact-based reduction above — scheduling state may be
+# shell state; the verdict may not.
+#
+# `wait -n` (bash 4.3+; this repo pins bash 5) blocks with NO forks. The
+# obvious alternative, `while [ "$(jobs -rp | wc -l)" -ge "$JOBS" ]`, forks a
+# subshell and a `wc` on every poll and spins hot while waiting — needless load
+# on a box that is usually already contended.
+running=0
+
+dispatch_row() {
+  if [ "$running" -ge "$JOBS" ]; then
+    wait -n 2>/dev/null || true
+    running=$((running - 1))
+  fi
+  run_row "$@" &
+  running=$((running + 1))
 }
 
 val=0
 for kw in "${ALIGN_KWS[@]}"; do
-  run_row "align_${kw}" 0 "$val"
+  dispatch_row "align_${kw}" 0 "$val"
   val=$((val + 1))
 done
 for ((v = 0; v < TEXT_ALIGN_N; v++)); do
-  run_row "textalign_${v}" 1 "$v"
+  dispatch_row "textalign_${v}" 1 "$v"
 done
 for v in "${TEXT_DECOR_VALS[@]}"; do
-  run_row "textdecor_${v}" 2 "$v"
+  dispatch_row "textdecor_${v}" 2 "$v"
 done
 for v in "${BORDER_SIDE_VALS[@]}"; do
-  run_row "borderside_${v}" 3 "$v"
+  dispatch_row "borderside_${v}" 3 "$v"
 done
 for i in "${!FLEX_KWS[@]}"; do
-  run_row "flexflow_${FLEX_KWS[$i]}" 4 "${FLEX_VALS[$i]}"
+  dispatch_row "flexflow_${FLEX_KWS[$i]}" 4 "${FLEX_VALS[$i]}"
 done
 for i in "${!BAR_MODE_KWS[@]}"; do
-  run_row "barmode_${i}" 5 "$i"
+  dispatch_row "barmode_${i}" 5 "$i"
 done
 for i in "${!ARC_MODE_KWS[@]}"; do
-  run_row "arcmode_${i}" 6 "$i"
+  dispatch_row "arcmode_${i}" 6 "$i"
 done
 for i in "${!ROLLER_MODE_KWS[@]}"; do
-  run_row "rollermode_${i}" 7 "$i"
+  dispatch_row "rollermode_${i}" 7 "$i"
 done
 for i in "${!SCALE_MODE_KWS[@]}"; do
-  run_row "scalemode_${i}" 8 "${SCALE_MODE_VALS[$i]}"
+  dispatch_row "scalemode_${i}" 8 "${SCALE_MODE_VALS[$i]}"
 done
 for i in "${!WIDGET_TAGS[@]}"; do
-  run_row "widget_${i}_${WIDGET_TAGS[$i]}" 9 "$i"
+  dispatch_row "widget_${i}_${WIDGET_TAGS[$i]}" 9 "$i"
 done
-run_row "widget_19_lv_tabview" 9 19
-run_row "widget_20_lv_chart" 9 20
+dispatch_row "widget_19_lv_tabview" 9 19
+dispatch_row "widget_20_lv_chart" 9 20
 for ((v = 0; v < COMBO_N; v++)); do
-  run_row "combo_${v}" 10 "$v"
+  dispatch_row "combo_${v}" 10 "$v"
 done
 for i in "${!IMAGE_IDS[@]}"; do
-  run_row "image_${IMAGE_IDS[$i]}" 13 "$i"
+  dispatch_row "image_${IMAGE_IDS[$i]}" 13 "$i"
 done
 
-total=$((pass + fail))
-echo "── coverage matrix: $pass matched, $fail diverged (of $total) ──"
+# ── Join, then replay per-case output in a DETERMINISTIC order ───────────────
+# Parallel workers would otherwise interleave their lines differently on every
+# run, making the gate log undiffable. Sorted-by-id replay is stable.
+wait
+for lf in "$RES"/line_*; do
+  [ -f "$lf" ] && cat "$lf"
+done
+
+# ── Reduce the verdict from the result artifacts ─────────────────────────────
+# Counted from files on disk, never from shell state, so this stays correct if
+# the case loop is ever parallelised. Three distinct outcomes, and the third is
+# the one a counter cannot express:
+#   expected == results  and every result ok   -> GREEN
+#   some result not ok                         -> RED, diverged/failed rows
+#   expected != results                        -> RED, UNJUDGED rows
+# The last is the anti-vacuous-green guard: a case that started and never
+# reached a verdict (crash, killed harness, a parallel worker that died) must
+# fail the gate LOUDLY rather than quietly shrink the denominator.
+expected=$(find "$RES" -name 'expect_*' -type f | wc -l)
+results=$(find "$RES" -name 'result_*' -type f | wc -l)
+pass=$(grep -lx 'ok' "$RES"/result_* 2>/dev/null | wc -l)
+fail=$((results - pass))
+
+if [ "$expected" -eq 0 ]; then
+  echo "── coverage matrix: NO CASES RAN — refusing to report a pass ──" >&2
+  exit 1
+fi
+
+echo "── coverage matrix: $pass matched, $fail diverged (of $results judged, $expected expected) ──"
+
+if [ "$results" -ne "$expected" ]; then
+  echo "── UNJUDGED ROWS: $((expected - results)) case(s) started and never reached a verdict ──" >&2
+  for e in "$RES"/expect_*; do
+    id="${e##*/expect_}"
+    [ -f "$RES/result_${id}" ] || echo "      NO RESULT: $id" >&2
+  done
+  exit 1
+fi
+
 [ "$fail" -eq 0 ]

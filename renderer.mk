@@ -92,7 +92,12 @@ bindings:
 # check-renderer does not run, so `git diff --exit-code tools/devcards/goldens
 # tools/devcards/docs` remains the thing that catches changed contact-sheet
 # CONTENT. The disk audit below catches an unchanged retired path.
-fixtures: wasm bindings composition-clean
+# `manifests`: the composition path resolves colour tokens through
+# devcards.tokens, which READS output/manifests/design-tokens.json at a fixed
+# relative path and throws if it is absent. The manifests lane installs that
+# file with a non-atomic `cp`, so this is a declared read-after-write edge, not
+# a convenience — see the matrix lane below for the full reasoning.
+fixtures: wasm bindings composition-clean manifests
 	cd tools/devcards && clojure -M:bindings:run generate
 
 # Render-level dump-contract canaries: real protobuf cards through the freshly
@@ -288,11 +293,21 @@ morph-parity: wasm proto-classes morph-fixtures
 # .wasm while harness/reload/decode-limits READ those same artifacts — harmless
 # serially, a write/read race under -j. The in-script build stays so the script
 # remains runnable standalone (its usage line and README document that).
-matrix: proto-classes wasm reference
+#
+# `manifests` is a prerequisite for the SAME CLASS OF REASON as the wasm note
+# above, on a different artifact. That lane installs output/manifests/
+# design-tokens.json with `cp` — truncate-then-write, NOT atomic — and run.sh
+# reads it (`--tokens ../../output/manifests/design-tokens.json`). Serially this
+# is safe only because check-renderer happens to list `manifests` before this
+# lane; that is an accident of LIST POSITION, not a declared constraint, and -j
+# discards it. Declared here so the ordering survives parallelism.
+matrix: proto-classes wasm reference manifests
 	cd $(R) && bash coverage_matrix/run.sh
 
 # Demo-parity capstone: lv_demo_widgets rendered both ways, BIT-EQUAL per tab.
-demo-parity: proto-classes wasm reference
+# `manifests` for the same reason as matrix above — demo-parity.sh reads the
+# same design-tokens.json.
+demo-parity: proto-classes wasm reference manifests
 	cd $(R) && bash tools/demo-parity.sh
 
 # ── Manifest freshness ──────────────────────────────────────────────────────
