@@ -91,13 +91,26 @@ like an agent that has finished.
   Tool-call writes are short-lived processes; between calls there is NO process
   to find, so the sweep reports idle for a fully active worker. It answers "is
   something writing this instant", never "is anyone working here".
-- **What does hold**: the owner has DECLARED completion; the tree is clean; no
-  file under the fork has a recent mtime (`find <fork> -newermt '-3 minutes'
-  -type f -not -path '*/.git/*'`); and for containerised work, no live container
-  mounts it (`docker inspect` the mount path — that is what actually catches an
-  agent the process sweep misses).
+- **A recent-mtime sweep proves nothing either.** A worker doing analysis writes
+  nothing for minutes at a stretch, so `find -newermt` reports quiet for an agent
+  that is simply reading. Measured: a fork passed clean-status, no-process AND
+  no-recent-mtime, and was deleted out from under a live agent that had not yet
+  written its commits.
+- **THE ONLY SUFFICIENT SIGNAL IS THE OWNER SAYING IT IS DONE.** For an agent
+  you dispatched, that is its COMPLETION NOTIFICATION arriving — not your
+  impression that it looks finished. If you have not received it, the fork is
+  still owned, whatever the filesystem says. For a third-party worker it is the
+  person who runs it telling you, and a report committed in the tree is
+  corroboration rather than proof.
+- The cheap checks above are still worth running, but only to catch the case
+  where something IS obviously live. **None of them can establish the negative**,
+  and treating an absence as completion is what destroys work.
 - Use the process sweep only for its real job: confirming nothing is running
   before you `rm -rf`, and identifying a process before you signal it.
+- **If you find your own fork deleted, do NOT recreate it.** Preserve everything
+  outside the `donate-*` glob so no tooling mistakes it for a fork, and report.
+  A session that has just learned its model of the environment is wrong should
+  not answer by writing a fresh checkout into shared state.
 
 **The presence-aware byte-check diagnoses this for free.** A CONTENT MISMATCH
 between a fork's worktree and its own HEAD means the WORKTREE IS DIRTY — a live
