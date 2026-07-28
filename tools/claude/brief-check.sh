@@ -443,6 +443,18 @@ check_sibling_overlap() {
     fi
     while IFS= read -r o; do
       [ -n "$o" ] || continue
+      # A HARNESS DELIVERABLE IS PER-FORK, SO IT IS NEVER A COLLISION. Each fork
+      # is its own CLONE with its own worktree, so two workers each writing
+      # `FINAL_REPORT.md` write two different files on disk — the premise of this
+      # check ("two workers dispatched onto one file") is simply false for these
+      # three names. Without this skip the check fires on every well-formed pair
+      # in every multi-fork wave, because this harness REQUIRES each brief to
+      # name its own report; that is the "fires on good briefs" failure mode the
+      # head of this file promises to avoid, and check 1 already excludes the
+      # same three names for the same reason.
+      if printf '%s\n' $HARNESS_DELIVERABLES | grep -qxF -- "$o"; then
+        continue
+      fi
       while IFS= read -r t; do
         [ -n "$t" ] || continue
         entries_overlap "$o" "$t" || continue
