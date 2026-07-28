@@ -55,6 +55,19 @@
            ;; token manifest declares? The arming measurement for the RECOLOR
            ;; arm UI-QUALITY-CONTRACTS §6.7 hands to the static tier.
            :token-conformance {:extra-paths ["dev"] :main-opts ["-m" "token-conformance-probe"]}
+           ;; Read-only probe: which (ink, fill) token pairs the sources DECLARE
+           ;; TOGETHER, and each one's contrast ratio — the constructive answer
+           ;; to UI-QUALITY-CONTRACTS §6.9's "a declared FG x BG cross product is
+           ;; neither sound nor complete". Regenerates docs/PROVEN-PAIRS.md.
+           ;; Renders NOTHING: pure arithmetic on declared values, so it needs no
+           ;; wasm, no bindings and no goldens. It borrows the AUTHORING GRAMMAR
+           ;; from tools/renderer-gen (class-string parse, breakpoint precedence,
+           ;; the token->C macro table) rather than forking it — a second parser
+           ;; would drift from the one the renderer is actually built with. malli
+           ;; comes with those namespaces; it is already in the pinned image.
+           :proven-pairs {:extra-paths ["dev" "../renderer-gen/src"]
+                          :extra-deps {metosin/malli {:mvn/version "0.20.1"}}
+                          :main-opts ["-m" "proven-pairs"]}
            :roller-bounds {:extra-paths ["dev"] :main-opts ["-m" "roller-bounds-probe"]}
            ;; Read-only probe: how many bytes of dump_obj's SINGLE shared
            ;; TREE_BUF_SIZE buffer the real corpus consumes. Run before AND
