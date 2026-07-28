@@ -12,6 +12,15 @@ esac
 MANIFEST="$STATE_DIR/manifest.tsv"
 LOCK_DIR="$STATE_DIR/manifest.lock"
 LOCK_HELD=0
+BRIEF_CHECK="$SCRIPT_DIR/brief-check.sh"
+
+# Sources a brief cites that git cannot carry are copied into the fork, and the
+# list of what was copied is written HERE so release can exclude those exact
+# paths. It is deliberately not an ignore-based exclusion: a clone carries its
+# own .gitignore, so whether a shipped file shows up in porcelain depends on the
+# tree being shipped INTO rather than on anything release controls. Path
+# exclusion is the only form that holds for a cited source anywhere in the tree.
+SHIPPED_MANIFEST_REL=".fork-scratch/shipped-sources.txt"
 
 usage() {
   cat >&2 <<'EOF'
@@ -21,10 +30,13 @@ usage:
   tools/claude/forks.sh check <path>
   tools/claude/forks.sh list
 
-claim clones this repository, strips and verifies the remote, checks that every
-symlink stays inside the clone, and commits DONATION_BRIEF.md plus
-DONATION_OWNER.md before returning the path for dispatch. If brief-path is
-omitted, claim reads <path>.brief.
+claim GATES THE BRIEF FIRST (tools/claude/brief-check.sh, against this tree and
+against every sibling brief the manifest still records as OWNED) and creates
+nothing if it is refused. It then clones this repository, strips and verifies
+the remote, checks that every symlink stays inside the clone, commits
+DONATION_BRIEF.md plus DONATION_OWNER.md, and finally copies in every cited
+source that git cannot carry because it is untracked. If brief-path is omitted,
+claim reads <path>.brief.
 
 release preserves scratch scripts and a self-contained Git bundle under
 .protogen/forks/preserved/, requires a completely clean worktree after scratch
@@ -158,6 +170,70 @@ lookup_record() {
   [ -n "$RECORD_PATH" ]
 }
 
+# Latest-wins over the append-only manifest, same semantics as cmd_list. A fork
+# still OWNED is a live sibling, and its committed brief is what its worker is
+# actually reading — so that, not the coordinator-side source file, is what the
+# cross-brief overlap check must compare against.
+collect_owned_siblings() {
+  local path task owner brief claimed_at state signal
+  [ -f "$MANIFEST" ] || return 0
+  declare -A latest_state=()
+  declare -A latest_brief=()
+  local -a order=()
+  while IFS=$'\t' read -r path task owner brief claimed_at state signal; do
+    case "$path" in
+      "" | \#*) continue ;;
+    esac
+    if [ -z "${latest_state[$path]+x}" ]; then
+      order+=("$path")
+    fi
+    latest_state["$path"]="$state"
+    latest_brief["$path"]="$brief"
+  done < "$MANIFEST"
+  local p
+  for p in ${order+"${order[@]}"}; do
+    [ "${latest_state[$p]}" = "OWNED" ] || continue
+    if [ -f "$p/DONATION_BRIEF.md" ]; then
+      printf '%s\n' "$p"
+    elif [ -f "${latest_brief[$p]}" ]; then
+      printf '%s\n' "${latest_brief[$p]}"
+    else
+      printf '[forks] note — sibling %s is OWNED but neither its fork brief nor %s is readable; its OWNED set is UNJUDGED\n' \
+        "$p" "${latest_brief[$p]}" >&2
+    fi
+  done
+}
+
+# Copy every cited source that exists in this repository but is not tracked, so
+# a brief may cite gitignored evidence at all. `.protogen/` is gitignored, which
+# means `git clone` cannot carry it: four wave-5 forks were dispatched with
+# their cited research absent, and one was told to make a finding durable while
+# the finding itself sat in space the clone could not reach.
+ship_cited_sources() {
+  local fork="$1" brief="$2" rel dest count=0
+  local -a shipped=()
+  while IFS= read -r rel; do
+    [ -n "$rel" ] || continue
+    # Re-checked here rather than trusted from the check pass: claim holds the
+    # manifest lock, not a lock on the filesystem.
+    [ -f "$ROOT/$rel" ] ||
+      fail "cited source vanished between check and ship: $rel; the fork is retained and must not be dispatched: $fork"
+    dest="$fork/$rel"
+    mkdir -p -- "$(dirname -- "$dest")"
+    cp -p -- "$ROOT/$rel" "$dest" ||
+      fail "could not ship cited source $rel into $fork"
+    shipped+=("$rel")
+    count=$((count + 1))
+  done < <("$BRIEF_CHECK" ship-list "$brief" --root "$ROOT")
+
+  mkdir -p -- "$fork/.fork-scratch"
+  : > "$fork/$SHIPPED_MANIFEST_REL"
+  if [ "$count" -gt 0 ]; then
+    printf '%s\n' "${shipped[@]}" > "$fork/$SHIPPED_MANIFEST_REL"
+  fi
+  SHIPPED_COUNT="$count"
+}
+
 state_blocks_claim() {
   case "$1" in
     OWNED | RELEASED | LIFTED) return 0 ;;
@@ -248,6 +324,27 @@ cmd_claim() {
   brief="$(canonical_file "$raw_brief")"
   validate_field "brief path" "$brief"
 
+  # THE BRIEF IS GATED BEFORE ANYTHING IS CREATED. A defective brief refused
+  # here costs one command; refused after dispatch it costs a worker-session,
+  # which is what every wave-4 and wave-5 fork paid. Sibling briefs come from
+  # the manifest, so the cross-brief overlap check sees every fork that is live
+  # right now rather than only the one being claimed.
+  [ -x "$BRIEF_CHECK" ] ||
+    fail "brief gate is missing or not executable: $BRIEF_CHECK; refusing to dispatch an unchecked brief"
+  local -a sibling_args=()
+  local sib
+  while IFS= read -r sib; do
+    [ -n "$sib" ] || continue
+    sibling_args+=(--sibling "$sib")
+  done < <(collect_owned_siblings)
+  local check_status=0
+  "$BRIEF_CHECK" check "$brief" --root "$ROOT" ${sibling_args+"${sibling_args[@]}"} || check_status=$?
+  case "$check_status" in
+    0) ;;
+    1) fail "brief-check REFUSED $brief; nothing was cloned and no fork exists" ;;
+    *) fail "brief-check could not reach a verdict on $brief (exit $check_status); that is an ERROR, not a clean brief" ;;
+  esac
+
   if ! env -u GIT_DIR -u GIT_WORK_TREE git clone --quiet --no-hardlinks "$ROOT" "$fork"; then
     fail "clone failed; any partial path is preserved for inspection: $fork"
   fi
@@ -270,7 +367,17 @@ cmd_claim() {
     printf 'If you meet a file you did not write: PRESERVE it, exclude it, and report its\n'
     printf 'provenance as unprovable. Do NOT adjudicate it.\n\n'
     printf 'THE REMOTE IS REMOVED ON PURPOSE. Do not add one.\n'
-    printf 'Scratch: ./.fork-scratch/ inside this checkout. Never use a shared temp path.\n'
+    printf 'Scratch: ./.fork-scratch/ inside this checkout. Never use a shared temp path.\n\n'
+    printf 'A REFUSAL SHOWN IS NOT A REFUSAL ATTRIBUTED. Proving "the guard fires" is\n'
+    printf 'under-specified: a neighbouring clause usually refuses too, so a red run can\n'
+    printf 'come from a clause other than the one under test and still look like proof.\n'
+    printf 'Prove each guard by BREAKING ITS OWN CLAUSE alone and watching that clause\n'
+    printf 'name itself in the failure — and assert the mutation LANDED (grep the new\n'
+    printf 'text, require a non-zero count) before believing any colour. Demand a FAIL,\n'
+    printf 'not an ERROR: a non-zero exit from a syntax error wears the right colour.\n'
+    printf 'This requirement stands for every fork and is emitted HERE, by the harness,\n'
+    printf 'because a standing requirement that depends on an author remembering to type\n'
+    printf 'it is exactly the kind of rule that has already failed twice.\n'
   } > "$fork/DONATION_OWNER.md"
   mkdir -p -- "$fork/.fork-scratch"
 
@@ -279,6 +386,11 @@ cmd_claim() {
     commit --quiet -m "donate: seed brief and owner for '$task' (owner: $owner)"; then
     fail "owner-marker seed commit failed; fork is retained and must not be dispatched: $fork"
   fi
+
+  # Shipped AFTER the seed commit, so a cited source can never be swept into the
+  # fork's history: these are INPUTS, not deliverables.
+  SHIPPED_COUNT=0
+  ship_cited_sources "$fork" "$brief"
 
   assert_clone_links "$fork"
   append_record "$fork" "$task" "$owner" "$brief" "$claimed_at" "OWNED" ""
@@ -289,6 +401,8 @@ cmd_claim() {
   printf '  owner: %s\n' "$owner"
   printf '  marker: committed before dispatch\n'
   printf '  remote: stripped and git push verified to refuse\n'
+  printf '  brief: passed tools/claude/brief-check.sh\n'
+  printf '  cited sources shipped (untracked, git could not carry them): %s\n' "$SHIPPED_COUNT"
 }
 
 print_residue() {
@@ -351,11 +465,31 @@ cmd_release() {
   [ "$marker_owner" = "$RECORD_OWNER" ] ||
     fail "owner marker ($marker_owner) disagrees with manifest owner ($RECORD_OWNER)"
 
+  # Sources shipped in by claim are the coordinator's INPUTS, not the worker's
+  # output, so they must not read as residue. They are excluded by exact PATH
+  # and never by relying on the fork's .gitignore: `.protogen/` happens to be
+  # ignored here, so today those files would not surface in porcelain at all —
+  # but that is a property of the tree being shipped into, not a guarantee this
+  # script controls. A cited source under, say, `output/` or a path no ignore
+  # rule covers would surface, and release would then refuse a fork whose only
+  # "residue" was what claim itself put there. Read BEFORE .fork-scratch is
+  # removed, because the post-preservation check below needs the same list.
+  local -a shipped_excludes=()
+  local shipped_rel shipped_count=0
+  if [ -f "$fork/$SHIPPED_MANIFEST_REL" ]; then
+    while IFS= read -r shipped_rel; do
+      [ -n "$shipped_rel" ] || continue
+      shipped_excludes+=(":(exclude,literal)$shipped_rel")
+      shipped_count=$((shipped_count + 1))
+    done < "$fork/$SHIPPED_MANIFEST_REL"
+  fi
+
   if ! residue="$(git_in "$fork" status --porcelain --untracked-files=all)"; then
     fail "git status failed; this is an ERROR, not evidence that release is safe"
   fi
   if ! outside_residue="$(git_in "$fork" status --porcelain --untracked-files=all -- \
-    . ':(exclude).fork-scratch' ':(exclude).fork-scratch/**')"; then
+    . ':(exclude).fork-scratch' ':(exclude).fork-scratch/**' \
+    ${shipped_excludes+"${shipped_excludes[@]}"})"; then
     fail "scoped git status failed; this is an ERROR, not evidence that release is safe"
   fi
   if [ -n "$outside_residue" ]; then
@@ -376,7 +510,8 @@ cmd_release() {
   # Removing it also drops regenerable logs, renders, and images.
   rm -rf -- "$fork/.fork-scratch"
 
-  if ! post_residue="$(git_in "$fork" status --porcelain --untracked-files=all)"; then
+  if ! post_residue="$(git_in "$fork" status --porcelain --untracked-files=all -- \
+    . ${shipped_excludes+"${shipped_excludes[@]}"})"; then
     fail "post-preservation git status failed; the fork remains in place"
   fi
   if [ -n "$post_residue" ]; then
@@ -406,6 +541,7 @@ cmd_release() {
   printf '  path: %s\n' "$fork"
   printf '  signal: %s\n' "$signal"
   printf '  scratch scripts preserved: %s\n' "$PRESERVED_SCRIPT_COUNT"
+  printf '  shipped sources excluded from the residue check by path: %s\n' "$shipped_count"
   printf '  committed work bundle: %s\n' "$bundle"
   printf '  state: GCd\n'
 }
