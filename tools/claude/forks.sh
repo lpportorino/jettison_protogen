@@ -510,6 +510,16 @@ cmd_release() {
   # Removing it also drops regenerable logs, renders, and images.
   rm -rf -- "$fork/.fork-scratch"
 
+  # ...BUT `.fork-scratch/` IS NOT NECESSARILY ALL SCRATCH. The base tree may
+  # TRACK files there, and this repo does: a rule elsewhere requires a probe to
+  # be tracked next to the claim it supports, and probes were committed here.
+  # A blanket rm then deletes base-tree content, the post-preservation check
+  # below sees those deletions as residue, and release refuses — permanently,
+  # for EVERY fork cut from such a tree, with no state the operator can reach
+  # that makes it pass. Restoring what git tracks is what keeps "scratch is
+  # disposable" true of the scratch and only the scratch.
+  git_in "$fork" checkout -- .fork-scratch 2>/dev/null || true
+
   if ! post_residue="$(git_in "$fork" status --porcelain --untracked-files=all -- \
     . ${shipped_excludes+"${shipped_excludes[@]}"})"; then
     fail "post-preservation git status failed; the fork remains in place"
