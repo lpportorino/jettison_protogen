@@ -57,6 +57,21 @@ mk_own_gallery() { # a generic, secret-free consumer surface
   done
 }
 
+mk_own_gallery_png() { # a consumer whose renders are PNG rather than JPEG
+  # NOT a hypothetical. A consumer minting renders for this review has every reason
+  # to keep them lossless: SKILL.md § "Golden hashes and pixel identity" warns that
+  # compression ringing, blocking and the black backdrop under transparent pixels are
+  # ARTEFACTS OF THE GALLERY rather than renderer defects. A gallery that never
+  # encoded to JPEG simply does not carry those artefacts, so refusing it turns the
+  # standard's own reasoning against the better input.
+  mkdir -p "$1/ui/gallery-png/widgets/CONSUMER_GAUGE" \
+           "$1/ui/gallery-png/widgets/consumer-dashboard"
+  for f in default-vanilla default-asgard-dark default-asgard-light; do
+    : > "$1/ui/gallery-png/widgets/CONSUMER_GAUGE/CONSUMER_GAUGE-$f.png"
+    : > "$1/ui/gallery-png/widgets/consumer-dashboard/consumer-dashboard-$f.png"
+  done
+}
+
 PASS=0
 FAIL=0
 run() { # $1 name  $2 expected-exit  $3 cwd  rest: env assignments then argv
@@ -91,9 +106,16 @@ run "same, positional arg -> WRONG SURFACE (4)" 4 "$A" \
 mk_own_gallery "$A"
 run "its OWN gallery -> resolved (0)" 0 "$A" \
   UI_REVIEW_GALLERY="$A/ui/gallery/widgets" "$PF_A"
+mk_own_gallery_png "$A"
+run "its OWN gallery, PNG renders -> resolved (0)" 0 "$A" \
+  UI_REVIEW_GALLERY="$A/ui/gallery-png/widgets" "$PF_A"
 mkdir -p "$A/ui/empty"
 run "gallery dir present but empty -> NOT DISCHARGED (5)" 5 "$A" \
   UI_REVIEW_GALLERY="$A/ui/empty" "$PF_A"
+# The empty arm above and the PNG arm are DELIBERATELY adjacent: before the render
+# scan accepted PNG, both returned 5, so a PNG gallery was indistinguishable from
+# no gallery at all. That is the failure this pair pins — an arm that only asserted
+# "PNG resolves" would still pass if the empty case regressed into resolving too.
 
 E=$ROOT/e
 mkdir -p "$E"

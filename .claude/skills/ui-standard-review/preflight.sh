@@ -198,7 +198,17 @@ renders=0
 roster=
 for d in "$GALLERY"/*/; do
   [ -d "$d" ] || continue
-  n=$(find "$d" -maxdepth 1 -type f -name '*.jpg' | wc -l)
+  # A CONSUMER'S GALLERY IS NOT REQUIRED TO BE JPEG, and by this standard's own
+  # reasoning it should not be. § "Golden hashes and pixel identity" records that
+  # compression ringing, blocking and the black backdrop under transparent pixels
+  # are ARTEFACTS OF THE GALLERY rather than renderer defects — a gallery that never
+  # encoded to JPEG carries none of them. protogen's own renders are .jpg because
+  # its devcards docs pipeline emits that; nothing about the REVIEW requires it.
+  # While this matched .jpg alone, a lossless gallery was indistinguishable from no
+  # gallery at all: both exited 5, and the refusal blamed the consumer for not
+  # minting renders it had in fact already minted.
+  n=$(find "$d" -maxdepth 1 -type f \
+       \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' \) | wc -l)
   [ "$n" -gt 0 ] || continue
   units=$((units + 1))
   renders=$((renders + n))

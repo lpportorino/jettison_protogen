@@ -209,9 +209,15 @@ consumer. Never substitute one for the other, and take `<GALLERY>` from
 tree, which is why the preflight prints the resolved path:
 
 ```
-<GALLERY>/<UNIT>/<UNIT>-<state-slug>-<family>.jpg
+<GALLERY>/<UNIT>/<UNIT>-<state-slug>-<family>.{jpg,jpeg,png}
 <GALLERY>/<UNIT>/README.md
 ```
+
+Protogen's own renders are `.jpg` because its devcards docs pipeline emits that;
+nothing about the review requires it, and a consumer minting PNG is handing the
+reviewer a BETTER input — see § "Golden hashes and pixel identity" below, which
+records that JPEG ringing, blocking and the black backdrop under transparent
+pixels are artefacts of the gallery rather than renderer defects.
 
 `<UNIT>` is the WidgetType enum directory or a composition unit's slug — BOTH,
 and the distinction is load-bearing: protogen's own gallery is 24 units, of
