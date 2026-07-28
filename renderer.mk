@@ -763,7 +763,11 @@ generated-projection:
 #     renderer/lvgl + renderer/lv_conf.h.
 #   CLANG — the container's clang is the WASI one and is NOT on PATH. It is
 #     used ONLY for the AST dump, which supplies enum GROUPING (typedef names);
-#     a wasm32 target is fine for that.
+#     a wasm32 target is fine for that. DERIVED FROM $WASI_SDK, never hardcoded:
+#     this lane is a prerequisite of `wasm`, and CI's composite action runs that
+#     on a PLAIN RUNNER where the SDK is unpacked under $HOME and /opt/wasi-sdk
+#     does not exist. `wasm.mk` takes the same variable with the same default,
+#     so container and runner agree without either restating a path.
 #   CC=gcc — the VALUES come from a natively-compiled probe, and the C compiler
 #     is the only correct oracle for them (sequential enumerators, `A | B`
 #     bitmasks, macro-derived values). This must be the NATIVE compiler.
@@ -772,7 +776,7 @@ generated-projection:
 construct-bindings:
 	@tmp="$$(mktemp -d)"; \
 	LVGL_DIR="$(CURDIR)/$(R)/lvgl" CONF_DIR="$(CURDIR)/$(R)" \
-	CLANG="$${CLANG:-/opt/wasi-sdk/bin/clang}" CC="$${CC:-gcc}" \
+	CLANG="$${CLANG:-$${WASI_SDK:-/opt/wasi-sdk}/bin/clang}" CC="$${CC:-gcc}" \
 	OUT_DIR="$$tmp/extract" \
 	  $(RGEN)/tools/lvgl-extract/extract-lvgl-enums.sh >"$$tmp/lvgl-enums.edn" \
 	  || { rm -rf "$$tmp"; echo "FATAL: LVGL enum extraction failed" >&2; exit 1; }; \
