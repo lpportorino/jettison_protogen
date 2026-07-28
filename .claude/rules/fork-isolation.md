@@ -66,6 +66,15 @@ mistake unable to reach the fleet.
   against the live fork before deleting anything. A bundle that verifies and
   restores nothing is the same failure class as a gate that goes green on what
   it never judged.
+- **Compare PRESENCE, not only content — a fork that DELETED a file breaks the
+  naive check in both directions.** `git diff --name-only BASE..master` lists
+  deleted paths too. Hashing "the file on each side" then reports a mismatch for
+  a path that is correctly absent from both, which is a false alarm; and the
+  obvious repair — skip paths missing locally — silently stops verifying
+  deletions, so a bundle that failed to record one would pass. For each changed
+  path assert `exists-in-fork == exists-in-bundle` FIRST, and compare hashes
+  only when both exist. Use `git cat-file -e FETCH_HEAD:<path>` for the bundle
+  side; `git show` piped to a hasher cannot distinguish "absent" from "empty".
 - Only after that byte-compare passes: `rm -rf` the fork.
 
 ## Know which repo you just acted on
