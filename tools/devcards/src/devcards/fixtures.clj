@@ -771,6 +771,21 @@
 
 (def ^:private wrapper-keys #{:props :flags-clear :notes})
 
+(defn- scaffolding-flags-clear
+  "Keep a harness/layout wrapper out of LVGL's pointer path, preserving any
+   additional flags the card explicitly clears.
+
+   `lv_obj`'s constructor sets LV_OBJ_FLAG_CLICKABLE, so a bare container is
+   hit-testable by default. Scaffolding is a LAYOUT device that never wants a
+   press, and `lv_indev_search_obj` tests children before the node itself —
+   so any DISABLED subject inside a hit-testable wrapper wins the search,
+   absorbs the press and drops it (`devcards.deadzone` ARM 2). Clearing the
+   flag resolves that BY CONSTRUCTION rather than by exemption, the same
+   mechanism the overlap lane used on two decorative widgets. A flag is not a
+   style: it moves no pixel and no golden."
+  [flags-clear]
+  (into [:clickable] (remove #{:clickable}) flags-clear))
+
 (defn- root-wrap
   "The harness root law: a WIDGET_OBJ sized to the FULL canvas with
    PROP_PAD_ALL 0 AND PROP_BORDER_WIDTH 0 (harness geometry, never theme
@@ -782,6 +797,7 @@
   [canvas node]
   {:type :WIDGET_OBJ
    :props {:w (:w canvas) :h (:h canvas) :pad-all 0 :border-width 0}
+   :flags-clear (scaffolding-flags-clear nil)
    :children [node]})
 
 (defn- screen-bytes
@@ -807,9 +823,10 @@
                (pos? (long (:states-bits card 0))) (assoc :states-bits (:states-bits card)))
         node (if-some [w (:wrapper card)]
                (do (assert-closed (str ctx " :wrapper") wrapper-keys w)
-                   (cond-> {:type :WIDGET_OBJ :children [node]}
-                     (:props w) (assoc :props (:props w))
-                     (:flags-clear w) (assoc :flags-clear (:flags-clear w))))
+                   (-> (cond-> {:type :WIDGET_OBJ :children [node]}
+                         (:props w) (assoc :props (:props w)))
+                       (assoc :flags-clear
+                              (scaffolding-flags-clear (:flags-clear w)))))
                node)]
     (screen-bytes canvas node)))
 

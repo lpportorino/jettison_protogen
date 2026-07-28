@@ -86,6 +86,20 @@
       (is (= "lv_button#11 INSIDE lv_obj#10"
              (:node (first measured)))))))
 
+(deftest pointer-transparent-scaffolding-removes-the-containment-hazard
+  (let [hazard disabled-child-over-enabled-ancestor
+        constructed
+        (-> hazard
+            (assoc :clickable false)
+            (assoc-in [:children 0 :clickable] false))]
+    (testing "CONTROL: the same geometry is hazardous while the wrapper takes
+              the pointer"
+      (is (= #{:disabled-covers-ancestor}
+             (invariants-of (containment-findings hazard)))))
+    (testing "clearing CLICKABLE on both the screen and its scaffolding wrapper
+              leaves no enabled pointer-taking ancestor for the child to cover"
+      (is (empty? (containment-findings constructed))))))
+
 (deftest overflow-visible-does-not-hide-a-farther-covered-ancestor
   (let [tree
         (root-with
