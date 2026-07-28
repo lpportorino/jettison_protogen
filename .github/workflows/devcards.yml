@@ -220,8 +220,15 @@ jobs:
       # naming that phony target would re-render the whole corpus again. One
       # invocation, one render, and make (not step adjacency) orders the suite
       # after the cards.
-      name: Corpus gate + gallery + interaction (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt
+      #
+      # deadzone-canary-prebuilt BELONGS HERE, not only in renderer.yml. Its
+      # subject is `tools/devcards/src/devcards/deadzone.clj`, which matches
+      # THIS workflow's `paths:` and matches none of renderer.yml's — so armed
+      # only there, the render-level canary ran exclusively on pushes that
+      # structurally could not break it. It stays armed in both: a renderer or
+      # wasm change can break it too, and that push triggers the other file.
+      name: Corpus gate + gallery + interaction + dead-zone canary (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt
     - # B3a: a devcards-path change that shifts pixels re-mints the goldens AND
       # the gallery/doc pages inside the runner; without this assertion it would
       # exit green (the pass value == the nothing-ran value, fail-fast.md). The
