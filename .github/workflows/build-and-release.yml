@@ -173,24 +173,27 @@ jobs:
           rm -rf *.pb.* *.h *.c
           cp -r ../output/c/* .
 
-          echo "# Jettison Proto C Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated C bindings using nanopb." >> README.md
-          echo "" >> README.md
-          echo "**Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)" >> README.md
-          echo "**Build Architecture**: $(uname -m)" >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No C binding changes to distribute"
+          else
+            echo "# Jettison Proto C Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated C bindings using nanopb." >> README.md
+            echo "" >> README.md
+            echo "**Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)" >> README.md
+            echo "**Build Architecture**: $(uname -m)" >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update C bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "C_PUSH secret not configured, skipping"
         fi
@@ -227,23 +230,26 @@ jobs:
           rm -rf *.pb.* *.h *.cc
           cp -r ../output/cpp/* .
 
-          echo "# Jettison Proto C++ Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated C++ bindings with buf.validate support." >> README.md
-          echo "" >> README.md
-          echo "**Runtime validation requires**: [protovalidate-cc](https://github.com/bufbuild/protovalidate-cc) and [CEL-C++](https://github.com/google/cel-cpp)" >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No C++ binding changes to distribute"
+          else
+            echo "# Jettison Proto C++ Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated C++ bindings with buf.validate support." >> README.md
+            echo "" >> README.md
+            echo "**Runtime validation requires**: [protovalidate-cc](https://github.com/bufbuild/protovalidate-cc) and [CEL-C++](https://github.com/google/cel-cpp)" >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update C++ bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "CPP_PUSH secret not configured, skipping"
         fi
@@ -280,13 +286,6 @@ jobs:
           rm -rf *.pb.go *.pb.gw.go buf
           cp -r ../output/go/* .
 
-          echo "# Jettison Proto Go Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated Go bindings with buf.validate support." >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           # Initialize go module if needed
           if [ ! -f go.mod ]; then
             go mod init github.com/lpportorico/jettison_proto_go
@@ -294,13 +293,23 @@ jobs:
           go mod tidy || echo "Warning: go mod tidy failed, continuing..."
 
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No Go binding changes to distribute"
+          else
+            echo "# Jettison Proto Go Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Go bindings with buf.validate support." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update Go bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "GO_PUSH secret not configured, skipping"
         fi
@@ -337,24 +346,27 @@ jobs:
           rm -rf *_pb2.py *_pb2.pyi
           cp -r ../output/python/* .
 
-          echo "# Jettison Proto Python Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated Python bindings with type stubs." >> README.md
-          echo "" >> README.md
-          echo "**Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)" >> README.md
-          echo "**Build Architecture**: $(uname -m)" >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No Python binding changes to distribute"
+          else
+            echo "# Jettison Proto Python Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Python bindings with type stubs." >> README.md
+            echo "" >> README.md
+            echo "**Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)" >> README.md
+            echo "**Build Architecture**: $(uname -m)" >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update Python bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "PYTHON_PUSH secret not configured, skipping"
         fi
@@ -391,13 +403,6 @@ jobs:
           rm -rf *.ts index.ts
           cp -r ../output/typescript/* .
 
-          echo "# Jettison Proto TypeScript Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated TypeScript bindings using ts-proto." >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           # Create package.json if needed
           if [ ! -f package.json ]; then
             npm init -y
@@ -405,13 +410,23 @@ jobs:
           fi
 
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No TypeScript binding changes to distribute"
+          else
+            echo "# Jettison Proto TypeScript Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated TypeScript bindings using ts-proto." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update TypeScript bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "TYPESCRIPT_PUSH secret not configured, skipping"
         fi
@@ -448,26 +463,29 @@ jobs:
           rm -rf *.ts package.json
           cp -r ../output/typescript-validated/* .
 
-          echo "# Jettison Protovalidate ES" > README.md
-          echo "" >> README.md
-          echo "Auto-generated TypeScript bindings with validation using @bufbuild/protovalidate-es." >> README.md
-          echo "" >> README.md
-          echo "## Installation" >> README.md
-          echo "\`\`\`bash" >> README.md
-          echo "npm install @lpportorino/jettison-protovalidate-es" >> README.md
-          echo "\`\`\`" >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No TypeScript validated binding changes to distribute"
+          else
+            echo "# Jettison Protovalidate ES" > README.md
+            echo "" >> README.md
+            echo "Auto-generated TypeScript bindings with validation using @bufbuild/protovalidate-es." >> README.md
+            echo "" >> README.md
+            echo "## Installation" >> README.md
+            echo "\`\`\`bash" >> README.md
+            echo "npm install @lpportorino/jettison-protovalidate-es" >> README.md
+            echo "\`\`\`" >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update TypeScript validated bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "PUSH_TO_PROTOVALIDATE_ES secret not configured, skipping"
         fi
@@ -504,13 +522,6 @@ jobs:
           rm -rf *.rs
           cp -r ../output/rust/* .
 
-          echo "# Jettison Proto Rust Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated Rust bindings using prost." >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           # Create Cargo.toml if needed
           if [ ! -f Cargo.toml ]; then
             cat > Cargo.toml << EOF
@@ -525,13 +536,23 @@ jobs:
           fi
 
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No Rust binding changes to distribute"
+          else
+            echo "# Jettison Proto Rust Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Rust bindings using prost." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update Rust bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "RUST_PUSH secret not configured, skipping"
         fi
@@ -568,21 +589,24 @@ jobs:
           rm -rf *.java com/ org/
           cp -r ../output/java/* .
 
-          echo "# Jettison Proto Java Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated Java bindings with buf.validate support." >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No Java binding changes to distribute"
+          else
+            echo "# Jettison Proto Java Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Java bindings with buf.validate support." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update Java bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "JAVA_PUSH secret not configured, skipping"
         fi
@@ -619,21 +643,24 @@ jobs:
           rm -rf *.kt com/ org/
           cp -r ../output/kotlin/* .
 
-          echo "# Jettison Proto Kotlin Bindings" > README.md
-          echo "" >> README.md
-          echo "Auto-generated Kotlin bindings with buf.validate support." >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No Kotlin binding changes to distribute"
+          else
+            echo "# Jettison Proto Kotlin Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Kotlin bindings with buf.validate support." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update Kotlin bindings from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "KOTLIN_PUSH secret not configured, skipping"
         fi
@@ -670,21 +697,24 @@ jobs:
           rm -rf *.json
           cp -r ../output/json-descriptors/* .
 
-          echo "# Jettison Proto JSON Descriptors" > README.md
-          echo "" >> README.md
-          echo "Auto-generated JSON descriptors with buf.validate annotations." >> README.md
-          echo "" >> README.md
-          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-          echo "Commit: ${{ github.sha }}" >> README.md
-
           cp ../LICENSE .
-          git add -A
-          git diff --staged --quiet || {
+          git add -f -A
+          if git diff --staged --quiet; then
+            echo "No JSON descriptor changes to distribute"
+          else
+            echo "# Jettison Proto JSON Descriptors" > README.md
+            echo "" >> README.md
+            echo "Auto-generated JSON descriptors with buf.validate annotations." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -f README.md
             git commit -m "Update JSON descriptors from ${{ github.sha }}"
             # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
-          }
+          fi
         else
           echo "JSON_DESCRIPTORS_PUSH secret not configured, skipping"
         fi
