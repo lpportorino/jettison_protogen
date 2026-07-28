@@ -20,6 +20,13 @@ tools/uber.sh 'make -f renderer.mk gallery-prebuilt'  # devcards JPEG gallery
 tools/uber.sh --check                                 # build AND verify it executes
 ```
 
+**A build that needs a new tool ADDS IT TO `Dockerfile.base`, pinned, in the
+same change — and rebuilds the image in that change too.** `uber.sh` is
+`present || build`: it reuses whatever base image already exists and never
+notices `Dockerfile.base` moved, so a pin bump silently leaves you gating on the
+OLD toolchain while CI (a `docker build` per job, on a fresh runner) uses the
+new one. `tools/uber.sh --build` is what closes it; nothing else will.
+
 Run the toolchain directly (`make -f renderer.mk …`, `make docs-generate`,
 `clojure`, `cargo`, `protoc`). Targets that themselves orchestrate docker
 (`make generate`, `docs-docker-*`, `binary-dedup`) can't run in here — the base

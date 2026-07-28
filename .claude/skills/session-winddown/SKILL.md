@@ -45,8 +45,9 @@ committed, or it is lost to everyone but this machine.
    in the sendoff, with what to re-dispatch.
 
 2. **RECONCILE the fork roster — it should already exist.** Run
-   `tools/claude/forks.sh list`, then reconcile its roster against every fork
-   under `~/git/cc/scratch/`. Each is in exactly one state, and the sendoff says
+   `tools/claude/forks.sh list`, then reconcile its roster against the tree each
+   entry names AND against every clone this session created that has no entry.
+   Each is in exactly one state, and the sendoff says
    which: lifted+preserved+GC'd; lifted but awaiting GC; in flight and OWNED; or
    held for code nobody has lifted yet. A fork that appears in no list is work
    about to be forgotten. Preserve before deleting, including the untracked

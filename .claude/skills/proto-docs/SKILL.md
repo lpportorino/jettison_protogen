@@ -78,9 +78,12 @@ docs/                           # Obsidian vault (output)
 
 4. **Add descriptions** to new fields in the markdown files
 
-5. **Commit changes**:
+5. **Commit changes** — stage the explicit paths this workflow writes, never
+   `-A`. Three siblings and a background `make` can be touching the same tree,
+   and `-A` stages whatever is on disk at that instant: an unrelated edit, or a
+   generation step still half-written.
    ```bash
-   git add -A && git commit -m "docs: Update proto documentation"
+   git add docs/ output/ && git commit -m "docs: Update proto documentation"
    ```
 
 ---

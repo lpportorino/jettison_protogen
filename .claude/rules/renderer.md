@@ -25,6 +25,19 @@ language bindings, not a hand-maintained app.
 - CI's fixtures/gallery jobs consume an ALREADY-BUILT `controls.wasm` (the
   `*-prebuilt` targets, guarded by `wasm-present`) — a missing wasm is a
   sequencing bug, never a skip.
+- **The battery builds INCREMENTALLY, so prove the tree was clean by the COMPILE
+  COUNT — exit 0 cannot.** No lane cleans `renderer/build/`, and `wasm.mk`'s
+  `-MMD -MP` depfiles track HEADERS, never the COMPILER: swap what sits at
+  `$(WASI_SDK)` — an image rebuild, or a host clang at that path — and not one
+  object is invalidated. The next build then compiles ZERO files, relinks
+  nothing, prints success, and every gate judges an artifact this toolchain
+  never produced. Nothing downstream sees it: the module loads and the
+  provenance stamp still names the right commit. The tell is arithmetic —
+  `make -f wasm.mk -n all reference OBJ_DIR=<scratch> | grep -c ' -c -o '`
+  prints what a from-scratch build owes (557 on this tree, equal to the `.o`
+  count under `build/release`; `all` alone is 546). A run reporting fewer reused
+  that many stale objects, so `make -f wasm.mk clean` and re-run the lane before
+  any claim rests on it.
 - **LANE COVERAGE IS NOT NESTED, and `demo-parity`'s green is the one most
   likely to be over-read.** It renders exactly one screen,
   `renderer/edn/screens/demo_widgets.edn`, which authors three of the eight
@@ -71,6 +84,14 @@ language bindings, not a hand-maintained app.
 - The mandatory `env` imports (`renderer/src/host_imports.h`) are
   instantiation-mandatory for `controls.wasm`; a host that omits one cannot load
   the module.
+- **`output/controls.wasm.build-sha` is SOURCE provenance, never TOOLCHAIN
+  provenance.** `PROTOGEN_SHA` (`wasm.mk`) is `git rev-parse HEAD` plus a
+  `-dirty` suffix, degrading to a literal that matches no gitlink so "cannot
+  answer" reads as NO. It records nothing about which IMAGE compiled the bytes,
+  and that gap is reachable rather than theoretical — `uber.sh` reuses whatever
+  base image is already present. So a stamp matching a consumer's gitlink
+  establishes the source and never the toolchain; only building in the pinned
+  image does that.
 
 ## LVGL traps — one HANGS, the rest go quietly wrong
 

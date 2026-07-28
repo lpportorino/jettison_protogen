@@ -32,6 +32,31 @@ Two guards you will meet:
 | `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes) | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt needs only the CLI |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags |
 
+## `lint-sh` proves the payload PARSES — not that it FAILS when it should
+
+`generate-protos.sh` builds each language leg as a single-quoted `bash -c`
+payload, and both of that lane's checks ask only whether the string is still a
+program. Neither can see a payload that runs, breaks, and exits 0. Two ways that
+happens, and the first is live in this tree:
+
+- **A pipeline reports the FILTER's exit code, not the command's** — unless
+  `set -o pipefail` is on, and only the host script sets it; every container
+  payload sets bare `set -e`. So the rust leg's closing `cargo build 2>&1 |
+  tail -5` exits 0 on a failed build, `set -e` never fires, and the leg prints
+  "completed successfully". Nothing downstream catches it either: the summary's
+  "no files generated" warning cannot fire, because `output/rust/` is tracked
+  and the mounted volume is never empty. The go leg is the shape to copy — it
+  asserts its OWN artifact (`*.pb.go` found, else `exit 1`) instead of trusting
+  a builder's status. Run the command bare and filter its output afterwards; or
+  assert the artifact.
+- **A background job that mutates tracked files OWNS them until it exits**, so
+  `git add -A` while one runs stages a tree that is correct for that job and
+  wrong for a commit — and the commit looks ordinary. This is the mirror of the
+  dirty-tree guard above: that one stops `fmt-fix` entangling your edits, this
+  one stops your commit capturing `fmt-fix`'s. Stage explicit paths, or wait for
+  the completion signal — an unchanged output file is not one, since a filtered
+  pipeline buffers until it exits.
+
 ## clang-tidy: driven by a REAL compile database, never hand-assembled flags
 
 `make -f lint.mk lint-c-tidy` (container-only) runs clang-tidy over the

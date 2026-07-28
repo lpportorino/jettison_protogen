@@ -149,6 +149,8 @@ report's existence**:
   pattern-matched `pkill` has killed another session's monitors.
 - A brief is a HYPOTHESIS about the fix. Ask the worker, in writing, to report
   what in it turned out to be wrong; that is reliably where the best work is.
+  Ask also for the fact it could NOT get — a datum the work lacked will be
+  lacking next time too, unless it lands somewhere durable.
 
 ## What makes a brief work — the measured part
 
@@ -171,6 +173,13 @@ unemphasised, it does not exist. Every constraint goes inline.
   it. Measured here: five forks, four of them ended up with two workers on one
   brief, and every one of the resulting collisions was in a file no brief had
   fenced.
+- **READ-ONLY MEANS NO MUTATING COMMAND, and a forbidden-files list does not say
+  that.** A worker told "read-only" can still `rm`, redirect into a tracked
+  path, `git checkout`/`restore`/`reset`, or mutate a container — none of which
+  any file list fences. Spell it out, and say what to do when a claim can only
+  be settled by a mutation: report the limitation and the EXACT probe, never run
+  it. Comparing two versions of a file is `git show A:path` against
+  `git show B:path`, never restore-then-inspect.
 - **DEMAND THE DISCRIMINATOR, NOT JUST THE RED.** "Prove the gate catches it"
   is satisfied by any red. Require: remove the neighbouring guard, keep the
   perturbation, and show a **FAIL, not an ERROR**. An ERROR is a broken
@@ -181,6 +190,12 @@ unemphasised, it does not exist. Every constraint goes inline.
   reach a consumer's private corpus; a brief demanding either yields a report
   whose central claim is ARGUED rather than executed, and the lift must then
   know which half is which. Ask for that split explicitly.
+- **NAME WHAT MUST BE TRUE IN THIS TREE FOR THE OUTPUT TO GO GREEN.** That is a
+  different limit from the one above — SEQUENCING, not capability. A fork whose
+  deliverable cannot pass until main-tree work lands burns a whole cycle to
+  produce something red on arrival. Ask the question before dispatching; if the
+  answer is "a fix that does not exist yet", do the fix first, or brief the fork
+  to expect the red and PROVE it.
 - **SAY THAT SIBLINGS ARE RUNNING**, and name this fork's own scratch path.
 
 **A fork that REFUSES its brief still delivers.** The refusal, its evidence, and
@@ -225,6 +240,25 @@ like an agent that has finished.
 between a fork's worktree and its own HEAD means the WORKTREE IS DIRTY — a live
 worker, or work abandoned mid-edit. It does not mean the bundle is bad. Check
 `git -C <fork> status` before concluding the backup failed.
+
+**WHEN THE COMPLETION NOTIFICATION NEVER COMES.** The law above says wait for
+it, so it cannot tell you what to do about a worker that is genuinely dead. For
+a dispatched subagent the one first-hand read is its transcript (the harness's
+per-session `subagents/agent-*.jsonl`), and it is a POSITIVE-ONLY probe: growth
+between two readings proves alive; no growth proves nothing, because a healthy
+agent writes nothing for the whole of any tool call and a container battery here
+runs for minutes. **Measured in this checkout, `stat` size/mtime and `wc -c`
+agree exactly on every live sibling transcript** — neither probe is privileged
+here, and a rule copied from a harness whose metadata IS stale must be
+re-measured before it is trusted. Never `cat`/`tail` it to decide: it is full
+JSONL sized by everything the agent has read, so the probe costs the parent more
+context than the answer is worth.
+
+Recovery is `TaskStop` and THEN re-dispatch — never a second worker on top of a
+possibly-live one, which is § ONE FORK, ONE OWNER with the collision moved
+in-conversation. And **`TaskStop` does not reap what the agent started**: it has
+left an orphaned uber container here, safe to remove only by identifying it
+first, per the signalling bullet above.
 
 ## Lifting
 
@@ -332,8 +366,9 @@ under which a command silently lands in the wrong one.
 
 The shorthand: **a CLONE never a worktree; one fork one owner; strip and verify
 the remote; brief inline, forbidden files named, expected values withheld; prove
-the worker STOPPED before reading the work; lift on re-run evidence, not on the
-report, and check what the lift CONTRADICTS; read the whole porcelain and copy
+the worker STOPPED before reading the work and STOP it before re-dispatching;
+lift on re-run evidence, not on the report, and check what the lift CONTRADICTS;
+read the whole porcelain and copy
 the untracked before you trust the bundle; restore by FETCH into a repo holding
 the base and byte-compare before deleting; and name the repo in every command
 that spans two.**

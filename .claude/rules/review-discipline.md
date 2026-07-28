@@ -2,7 +2,8 @@
 
 `CLAUDE.md` §"Fixing protogen from a consumer" makes the review the gate: nothing
 mechanical gates a push here. This file is what that review has to BE to deserve
-the name. `.claude/rules/fork-isolation.md` §"Lifting" applies the same discipline
+the name, and what to do with a finding that arrives outside one.
+`.claude/rules/fork-isolation.md` §"Lifting" applies the same discipline
 to work coming back from a fork; it is not a different standard.
 
 ## A TAPER IS NOT CONVERGENCE
@@ -73,6 +74,40 @@ the armed `:zero-visible-area` check in `tools/devcards/src/devcards/invariants.
 When retracting "X exists", the replacement is almost never "X does not exist":
 write the boundary.
 
+## A SURPRISE IS A FINDING THAT ARRIVED WITHOUT A REVIEW
+
+When the tree contradicts your expectation mid-task — a golden that moved when
+nothing should have shifted a pixel, a lint red in a file you did not touch, a
+symbol not where a rule said it was — you have been handed, early and free, the
+same object the fact-check lens above is run to produce. **Disposition it.**
+Absorbing it is the one move that costs more later, and "noting it for later"
+while pressing on is absorption. How far it preempts the in-flight task is
+already ranked by `.claude/rules/work-prioritisation.md`; the only sanctioned
+deferral is one said out loud.
+
+Localise before fixing, into exactly one of three:
+
+- **the code is wrong** → fix it at the root, never at the call site that met it;
+- **the doc, rule or NAME that shaped the expectation is wrong** → it
+  manufactured the surprise and IS the defect. This is the common bucket here,
+  because so much of this repo is prose about itself: the corpus-secret-scan
+  bullet in `.claude/rules/devcards.md` is a landed instance — the gate receives
+  card maps only, and what needed correcting was the rule sentence that read as
+  covering every string in the corpus file;
+- **nothing was written** → the contract was implicit and a careful reader was
+  bound to trip on it. Write it where the tripping happened.
+
+**Prefer the fix that removes the special case to the one that adds a guard** —
+the bar is that the class cannot recur, not that the symptom went. And **make
+both sides agree in the same commit**: code fixed with the sentence that
+described the old behaviour left standing is the next surprise, already queued.
+
+**"Flaky" is not a disposition available on the deterministic lanes.** A golden
+is sha256 over raw framebuffer bytes and `composition_cross_engine_fb` asserts
+wasmtime and GraalWasm byte-identical, so there is no tolerance band for a
+difference to be absorbed into: non-determinism there is a defect with no second
+reading, and re-running until green destroys the only evidence it existed.
+
 ## DEFECTS HIDE INSIDE THE PREVIOUS ROUND'S REPAIRS
 
 Every round here has found defects the round before it introduced. A round that
@@ -115,6 +150,41 @@ exiting 0 with every test body suppressed. All three deleted canaries used raw
 `throw` rather than `is`, so they contributed ZERO assertions to the tally the run
 is judged by. Read the assertion COUNT, not the colour.
 
+**A canary aimed one layer off PASSES**, and its green is indistinguishable from
+the green of one that reached the code the way callers do — it tests your MODEL
+of the fix. Two tells, either alone sufficient: it asserts on a value it
+constructed rather than on one the production path returned or stored; or its
+assertions would still hold with the change reverted. The `"truncated":true`
+repair above is a measured instance of the second. So ask the falsifying
+question BEFORE the canary lands — *which line goes red on the revert?* — and its
+pair, *what does this print when it does not apply?* A check whose broken output
+and whose nothing-to-report output are the same string is not evidence.
+
+The first tell has a specific shape here: **a canary whose fixture is a
+hand-written dump-tree map asserts the author's model of the dump vocabulary**,
+and that vocabulary's hazard is which keys `dump_obj` OMITS (`click_area` only
+when it differs from coords, `descend_gate` only when OVERFLOW_VISIBLE grows it;
+`CLAUDE.md` §"Consuming the UI standard" carries which way each absence fails).
+`devcards.deadzone` is the shape to copy: `deadzone_test.clj` pins the reducer
+and registry seams on hand maps and says in its own docstring that this is all
+it does, while `deadzone-canary-prebuilt` plants cases through
+`fixtures/build-authored-card` and renders them on the real wasm, armed in
+`check-renderer`. `devcards.overlap` has no such partner — its positives are
+hand maps only, and the `class-census` alias that runs the rule over the real
+corpus gates nothing. `.claude/rules/renderer.md` discloses the same gap for the
+wire-number LUTs in the same honest shape; naming it is the requirement, not
+having closed it.
+
+**A missing PREREQUISITE that only warns turns every later green into
+decoration.** Classify at the seam where the component is acquired, never at each
+caller — a caller can forget, a seam cannot — and the test is *is any claim this
+run produces still true without it?* If no, its absence must FAIL.
+`generate-protos.sh`'s BSR handling is the correct negative case: an absent
+`BUF_TOKEN` changes no generated byte, only the request budget, so it warns and
+continues — and the degradation it risks fails closed, since the go leg requires
+`*.pb.go` to exist, a failure propagates into `FAILED_LANGS`, and every push step
+is then skipped.
+
 Two more ways a red or green misattributes itself:
 
 - **A mutation that did not land looks exactly like a canary that did not fire.**
@@ -148,5 +218,6 @@ fix is the one most likely to have skipped the policy it contradicts.
 
 The shorthand: **two lenses at once, one of them a pure fact-check against the
 tree; run the gates rather than reading them; take the evidence and write the fix
-yourself; review the previous round's repairs; and make every red name the clause
-it came from.**
+yourself; disposition a surprise instead of absorbing it; review the previous
+round's repairs; and make every red name the clause it came from — through the
+path the callers use.**
