@@ -248,6 +248,66 @@ rule as the per-card case below, applied to the whole surface.
 this pass, say so in the report and do not judge the DOM-dependent invariants
 for it. "I could not look" and "clean" must not print the same.
 
+## Open the file — and open it again before you dismiss a finding
+
+The honesty requirements below make `:detail` *checkable*. **This section
+requires that the check was actually PERFORMED**, which is not the same thing,
+and the gap between the two is where the one measured failure sits.
+
+Before a finding leaves this pass, open what it names. The file must exist at
+the path given, and the claim must be visible in it. Where the claim has a
+cheaper instrument than an eye, use that instrument: "these two renders are
+identical" is `sha256sum`, not a judgement.
+
+**This is not the non-reproducibility argument and is not covered by it.**
+`CLAUDE.md` refuses this pass a gate verdict because a VLM is not
+reproducible (§0's own reason is different — it forbids borrowing a verdict
+SHAPE across measurements, and never mentions VLMs) — variance around an answer, addressed by never wiring it into the
+verdict. A claim about a file that is not there is a different failure: fluent,
+numerically specific, and indistinguishable from a real finding by the time it
+reaches disposition, so nothing downstream catches it.
+
+**A DISMISSAL IS A CLAIM ABOUT THE TREE AND CARRIES THE SAME BURDEN**, and that
+is the direction that actually failed here. Measured once, on the
+`WIDGET_ROLLER` unit at `4988febb`: four findings, every one re-checked by hand,
+and one recorded as FABRICATED — *"there is no such render"*. All three grounds
+for that verdict are false against this tree:
+
+- the render exists in all three families —
+  `tools/devcards/docs/widgets/WIDGET_ROLLER/WIDGET_ROLLER-hovered_medium_mid-{vanilla,asgard-dark,asgard-light}.jpg`,
+  and `git ls-tree 4988febb` lists all three at the reviewed commit;
+- `lv_roller/hovered/medium/mid` is a card in `tools/devcards/corpus/spec.edn`
+  and `:hovered` is in that unit's `:committed-states`;
+- the finding's numeric claim is TRUE. The vanilla hovered and vanilla default
+  renders are one sha256 (`863f1c13…`); their `asgard-dark` siblings are two
+  different hashes.
+
+**The mechanism is the durable part: absence of OUTPUT is not absence of a
+FILE.** The check ran `ls | grep -i hovered`, got nothing, and read nothing as
+proof. Here `ls` resolves to an alias that prints nothing at all when its stdout
+is not a terminal — `ls | wc -l` returns 0 in the directory where
+`/usr/bin/ls -1 | wc -l` returns 58 — so it emits exactly the same empty result
+for *no such file* and for *listed nothing*. Establish existence with something
+whose empty answer you can tell apart from a broken one: `Read` or `Glob` on the
+full path, `git ls-tree` at the commit under review, or a lister you have
+confirmed listed something else.
+
+That dismissal was expensive rather than merely wrong. Invariants run over
+family 0 only; families 1/2 get per-card hash equality *to each other*, and
+`core.clj` says their DOM is "explicitly UNJUDGED, never implied clean". The
+distinctness gate likewise judges "one family's hashes (the asgard family is the
+styled one the contract judges)" (`gates.clj`), where those two roller cards DO
+differ. So a state that collapses only under vanilla is green everywhere — the
+discarded finding was in a class no deterministic oracle here judges, which is
+the only class this pass exists to reach.
+
+**The mandate is unchanged.** Still mandatory to run, still mandatory to
+disposition; this adds a step before a finding is acted on and removes nothing.
+And do not carry a fabrication base rate away from this repo — there is none to
+carry. The one review where every finding was re-checked yielded no confirmed
+instance, because its single fabrication verdict does not itself survive
+re-checking. Carry the check, not a number.
+
 ## What to report
 
 ### Shape
@@ -369,6 +429,16 @@ deferral is literal.
 
 Every finding is FIXED, EXEMPTED, or — for an UNCERTAIN finding only — DEFERRED
 TO THE INSTRUMENT that can settle it. Nothing is left un-dispositioned.
+
+DISCARDED-as-not-real is a fourth outcome, and one of TWO with no proof
+machinery standing behind it — no `:rationale`, no `:retires-when`, no stale
+check to catch it later. `devcards.invariants`'s `validate-exemptions!` and its
+`:stale-exemption` finding cover EXEMPTED alone; a DEFERRAL is explicitly not an
+exemption-list entry either (see below), so it is unvalidated for the same
+reason. What makes DISCARDED the sharper of the two is that a deferral still
+names an instrument that will settle it, while a discard closes the question. It therefore carries its evidence inline, per
+§"Open the file", and a discard whose evidence is a command that printed nothing
+has no evidence at all.
 
 **The uncertain case is not a loophole; it is forced.** `:vlm/illegible-contrast`
 is uncertain BY DEFAULT — §0 records that no readability producer ships here, so
