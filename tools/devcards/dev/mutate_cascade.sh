@@ -13,7 +13,8 @@
 # Restoration is proved with `git diff --exit-code`, not by trusting the cp.
 set -uo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# tools/devcards/dev/ -> repo root is three levels up; the depth is part of the path.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 SRC="$ROOT/tools/devcards/src/devcards/cascade.clj"
 BAK="$ROOT/.fork-scratch/cascade.clj.orig"
 OUT="$ROOT/.fork-scratch/mutation-evidence-cascade.txt"
