@@ -18,9 +18,24 @@ another, and a generated artifact modified by neither's brief, all in one tree.
 - **Name the owner in the seed commit and in the brief.** "You are the only
   worker in this checkout" is a fact the worker can act on: it licenses
   committing freely and it makes an unexpected file a signal rather than noise.
-- **Never dispatch a second worker into an owned fork.** If a fork is already
-  handed to someone — another agent, another harness, a person — the way to add
-  effort is another fork, not another worker.
+- **PUBLISHING A FORK'S PATH IS THE HANDOVER.** The moment you give an operator
+  the path of a fork you built for them, it is owned — by them, or by whoever
+  they point at it. Ownership does not wait for the worker to start, and it
+  cannot be reclaimed by inference later. This is the failure that actually
+  happened: five forks were built for a third-party harness and their paths
+  handed over; a subsequent instruction to "dispatch five agents" was then
+  resolved ONTO those same five directories, putting two autonomous workers on
+  each identical brief.
+- **AN AMBIGUOUS DISPATCH MEANS A NEW FORK.** When an instruction could mean
+  "work the forks that exist" or "make new ones", it means new ones. Cloning is
+  cheap; two workers in one tree is not recoverable by any amount of care
+  afterwards. If new forks are clearly not what was meant, ASK — that question
+  costs one turn and the collision costs a session.
+- **Record the owner INSIDE the fork, in the seed commit**, not only in your own
+  notes. A worker that can read who owns the tree it woke up in can stop before
+  its first write. Without that, co-tenancy is discovered the expensive way —
+  by a rejected write, a compile error from someone else's test file, or a
+  rebase that rewrites your commits.
 - **A worker that meets a file it did not write must NOT resolve it.** Preserve
   it, exclude it, and say in the report that its provenance is unprovable. That
   is the correct outcome, not a failure to finish.
