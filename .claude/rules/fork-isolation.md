@@ -91,8 +91,14 @@ report's existence**:
 
 ## Creating one
 
-- Clone, `git remote remove origin`, and **verify both ways**: `git remote -v`
-  prints nothing AND `git push` answers `fatal: No configured push destination.`
+- **USE THE LIFECYCLE GATE.** Never clone a donation except through
+  `tools/claude/forks.sh claim <path> <task-id> <owner> [brief-path]`; never
+  `rm -rf` a fork except through `tools/claude/forks.sh release`, with
+  `<path> --owner-signalled <signal>`. `claim` owns remote stripping, the seed
+  commit and the manifest entry; `release` refuses uncommitted residue and
+  preserves scratch proofs and commits before deletion. **It VERIFIES its
+  bundle, it does not restore it** — so §"Preserving" below is still owed in
+  full on any fork whose work has not already been lifted.
 - **Do not arm the monitors there.** `git-behind` cannot fetch without a remote,
   so its silence is permanent and reads as coverage; `ci-watch` spends a shared
   per-IP budget on commits that checkout cannot have produced. Both scripts now
@@ -287,7 +293,7 @@ worker, or work abandoned mid-edit. It does not mean the bundle is bad. Check
   to the index and to nothing else. Measured here: a staged file survived one
   sweep only because it was noticed by eye.
 - Only after that byte-compare passes AND the untracked sweep is empty or
-  copied: `rm -rf` the fork.
+  copied: `forks.sh release` the fork, never a bare `rm -rf`.
 
 ## Churn while forks are live — and the one thing that must hold still
 
