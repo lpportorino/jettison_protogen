@@ -44,20 +44,120 @@ RGEN := tools/renderer-gen
 .PHONY: wasm reference proto-classes bindings fixtures dump-contracts harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection construct-bindings \
-	devcards-test reload decode-limits clj-schema-test check-renderer \
-	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary-prebuilt interaction-prebuilt \
+	devcards-test reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
+	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
+	interaction-prebuilt \
 	standard-brief standard-brief-generate composition-clean doc-audit \
 	ui-review-preflight ui-review-preflight-canary
+
+# ── Atomic install of a generated file ──────────────────────────────────────
+# The three freshness lanes below (`manifests`, `construct-bindings`,
+# `generated-projection`) all REGENERATE-THEN-DIFF: emit to a temp dir, cmp
+# against the committed copy, and on drift rewrite it in place and red the gate.
+# The rewrite used to be a plain `cp`, which is truncate-then-write: a reader
+# racing it sees a file that is neither the old bytes nor the new ones. Three of
+# those destinations are C headers the wasm build compiles and one is a Clojure
+# SOURCE file four namespaces require, so a torn read surfaces as a parse error
+# attributed to the lane that READ it — a red naming the wrong clause.
+#
+# `mv` FROM $(mktemp -d) DOES NOT FIX THIS, and that is the whole reason this
+# helper exists rather than a one-word substitution. rename(2) is atomic only
+# WITHIN one filesystem, and in the pinned container it is not one: /tmp is the
+# image's own overlay while /workspace is an ext4 bind mount, so `stat -c %d`
+# reports different devices for them. (The overlay's device NUMBER is per
+# container instance — three runs of the probe below reported 97, 169 and 196 —
+# so it is the INEQUALITY that is the fact here, never a particular id.) `mv`
+# across that boundary degrades to copy-then-unlink and is exactly as tearable
+# as the `cp` it replaced — while READING as though the hazard had been dealt
+# with, which is worse than leaving it.
+#
+# That is not an argument from the man page: tools/perf/atomic-install-probe.sh
+# measures it by INODE IDENTITY, which is deterministic where counting torn
+# reads is not. A rename(2) leaves the destination path on a NEW inode; every
+# in-place write leaves it on the same one. Measured there, `cp` and
+# `mv`-from-$(mktemp -d) both keep the inode and this helper does not.
+#
+# So the staging file is created IN THE DESTINATION'S OWN DIRECTORY, which is
+# the only way to guarantee the rename is same-filesystem no matter where TMPDIR
+# points. A reader then sees the old inode or the new one, never a partial one.
+#
+# MODE IS PRESERVED FROM THE DESTINATION, not from the source and not from
+# mktemp's 600 — `generated-projection`'s hazard 5 records why (renderer/generated
+# is mixed 644/755 against a uniformly-755 output/c, and cmp cannot see a mode
+# flip, so a mode-rewriting install stays green while dirtying the tree). $3 is
+# the mode to use when the destination does NOT exist and there is therefore
+# nothing to preserve; every call site that can hit that case passes it
+# explicitly.
+#
+# NOTHING IS STAGED ON A CLEAN TREE. Every call site sits inside an
+# `if ! cmp -s` branch, so a fresh checkout creates no temp file at all; the
+# `rm -f` on the failure path covers the rest.
+INSTALL_ATOMIC := install_atomic() { _t="$$(mktemp "$$(dirname "$$2")/.protogen-install.XXXXXX")" || return 1; _m="$$(stat -c %a "$$2" 2>/dev/null || echo "$${3:-644}")"; cat "$$1" >"$$_t" && chmod "$$_m" "$$_t" && mv -f "$$_t" "$$2" || { rm -f "$$_t"; return 1; }; };
 
 # ── Build ────────────────────────────────────────────────────────────────────
 # Release build: -O2 -flto -> renderer/output/controls.wasm (the shipped,
 # gate-validated artifact — proven bit-identical to the private source
 # repo's build at relocation time).
-wasm:
+#
+# THE THREE PREREQUISITES ARE THE PROJECTIONS THIS BUILD COMPILES, and each is
+# a file wasm.mk reaches through `-Igenerated`:
+#   generated-projection -> renderer/generated/*.pb.[ch] + the nanopb runtime
+#                           (wasm.mk's NANOPB_SRCS / GEN_SRCS / CMD_SRCS)
+#   construct-bindings   -> renderer/generated/ui_luts.h      (src/renderer.c)
+#   manifests            -> renderer/generated/theme_tokens.h (src/{renderer,main,theme}.c)
+#                           + gesture_thresholds.h            (src/gesture.c)
+# Serially this held only because check-renderer LISTED all three before `wasm`
+# and make walks a prerequisite list left to right — the same accident of list
+# position the `manifests -> matrix` note below was written about, on the lane
+# that consumes the most generated input in the tree. `-j` discards it.
+#
+# WHAT THE RACE COSTS IS ATTRIBUTION, NOT A FALSE GREEN, and saying so is the
+# point: all three lanes fail non-zero on any rewrite, so a battery in which one
+# of them wrote is RED no matter what `wasm` compiled. What the edge buys is
+# that the red names the clause that fired instead of a downstream compile error
+# on half a header, and that renderer/output/controls.wasm after a red run is
+# never a build of sources that no longer exist on disk — which a subsequent
+# `*-prebuilt` lane would otherwise judge as though it were the real artifact.
+#
+# MEASURED COST, because it is not free: `manifests` is 47.0s median and
+# `construct-bindings` 11.5s (interleaved -n 3, 12 cpus, loadavg 85..142), and
+# the two run concurrently, so this puts ~47s ahead of the wasm build on the
+# battery's critical path. Inside check-renderer that is not extra WORK — both
+# lanes run there regardless — only extra ORDER. It IS extra work for a
+# lane-level `make -f renderer.mk wasm`, which .github/workflows/renderer.yml
+# does in two steps — "Build controls.wasm + reference.wasm (bit-identity
+# artifact)" and "Harness suite + oracles + reload-cycle + decode-limits + dump
+# contracts" — each of which now drags all three in. Both already run those same
+# lanes as earlier steps of the same job, so this is redundant work rather than
+# new work, and it is the price of the ordering holding wherever the lanes run
+# rather than only where check-renderer happens to list them.
+# ~16s of the 47s is `manifests-proto-db`, which writes nothing this build reads
+# and could be split back out if that ever matters; it is left whole because one
+# target named `manifests` is worth more than 16s here.
+wasm: generated-projection construct-bindings manifests
 	$(MAKE) -C $(R) -f wasm.mk -j$$(nproc) all
 
 # reference.wasm: the demo-parity/matrix diff oracle (never deployed).
-reference:
+#
+# `wasm` IS A PREREQUISITE, AND IT IS AN ORDERING CONSTRAINT RATHER THAN A DATA
+# ONE — reference.wasm does not read controls.wasm. What the two share is the
+# OBJECT TREE: wasm.mk keys it as `build/$(BUILD)`, and output/reference.wasm's
+# prerequisites (LIB_OBJS, STUB_OBJS, COMMON_APP_OBJS, THORVG_OBJS) are the same
+# object files $(OUT)'s are, ~1500 of them from the vendored LVGL + ThorVG trees
+# alone. Worse, this recipe asks for `all` TOO, so both lanes also build
+# output/controls.wasm and controls.wasm.build-sha themselves. Run concurrently
+# these are two independent `make` processes with no shared jobserver compiling
+# and linking the same paths — the classic recursive-make double-build, and it
+# corrupts rather than merely duplicating.
+#
+# make has no mutex, so a declared edge is how a mutex is spelled here. It is
+# also why this could never have been caught by reading check-renderer's list:
+# `wasm reference` are ADJACENT there and serially the second is a no-op.
+#
+# GNU make 4.4's `.WAIT` would say this more precisely (order without
+# dependency), and it is not available: the pinned container ships GNU Make 4.3
+# (measured), where `.WAIT` is parsed as an ordinary prerequisite with no rule.
+reference: wasm
 	$(MAKE) -C $(R) -f wasm.mk -j$$(nproc) all reference
 
 # ── Classpath producers (batch javac; clean rebuild, no live-JVM consumer) ──
@@ -141,8 +241,37 @@ gallery-prebuilt: wasm-present bindings
 # positive ARM-1 card necessarily fires the already-armed, order-free overlap
 # rule; making that expected overlap green would require the per-card
 # exemptions/rule special-casing the standard forbids.
+#
+# TWO ENTRY POINTS, EXACTLY AS interaction / interaction-prebuilt BELOW, and for
+# the identical reason. The battery had only the *-prebuilt form, whose sole
+# wasm constraint is the `wasm-present` GUARD — it asserts controls.wasm exists
+# and cannot cause it to. Serially that was invisible: check-renderer lists
+# `wasm` earlier, so the artifact was always there by the time the guard looked.
+# Under -j make may start this lane immediately, and the guard then fires on a
+# battery that is perfectly well-formed — a FATAL that is a scheduling artifact,
+# arriving one run in some, which is the nondeterministic red the whole exercise
+# exists to prevent. The battery now takes `deadzone-canary`, which BUILDS what
+# it reads; CI keeps the prebuilt form, which consumes the uploaded artifact on
+# a runner with no WASI-SDK.
+#
+# The guard stays in both — the edge makes make build the wasm, the guard catches
+# it being absent for any other reason — and the recipe stays in ONE home for the
+# reason `interaction-suite` records: a shared third target would be a sibling
+# prerequisite, and sibling prerequisites carry no ordering. $(1) is the target
+# the CALLER can actually run, so a WASI-less host is never told to run the
+# WASI-only one.
+define deadzone-canary-suite
+@test -f $(R)/output/controls.wasm || { \
+	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
+	exit 1; }
+cd tools/devcards && clojure -M:bindings:deadzone-canary
+endef
+
+deadzone-canary: wasm bindings
+	$(call deadzone-canary-suite,deadzone-canary)
+
 deadzone-canary-prebuilt: wasm-present bindings
-	cd tools/devcards && clojure -M:bindings:deadzone-canary
+	$(call deadzone-canary-suite,deadzone-canary-prebuilt)
 # ── Two-way disk reconciliation over the generated trees ────────────────────
 # No doc/golden emitter here has a DELETION path — they only ever write. So
 # retire a widget, kitchen sink or lego and the generator simply stops
@@ -254,7 +383,18 @@ reload: wasm proto-classes morph-fixtures
 # a prerequisite list left-to-right. A parallel build discards that ordering, and
 # the failure is not subtle: `ClassNotFoundException: pronto.ProtoMap`. Found by
 # actually running -j rather than by reading the makefile.
-morph-fixtures: proto-classes
+#
+# `construct-bindings` and `manifests` are declared for the same reason on two
+# more inputs, and this lane is the one place they had to be said OUT LOUD: every
+# other rgen consumer (harness / matrix / demo-parity) lists `wasm`, which now
+# carries both transitively, and this one does not. The recipe reads
+# output/manifests/design-tokens.json ON ITS OWN COMMAND LINE — `manifests`
+# installs it — and its emitter loads `lvgl-codegen.morph-fixtures`, whose
+# closure requires `lvgl-codegen.generated.enums`, the Clojure source
+# `construct-bindings` writes. Its own consumers (`reload`, `morph-parity`) do
+# list `wasm`, but SIBLING PREREQUISITES CARRY NO ORDERING: make is free to start
+# morph-fixtures before wasm's prerequisites have finished.
+morph-fixtures: proto-classes construct-bindings manifests
 	cd $(RGEN) && clojure -M:morph-fixtures --tokens ../../output/manifests/design-tokens.json \
 		--output ../../$(R)/output/morph-fixtures
 
@@ -336,6 +476,7 @@ manifests:
 	  && clojure -M -m lvgl-codegen.gesture-thresholds \
 	       --tokens edn/gesture-thresholds.edn --output "$$tmp/gesture_thresholds.h" ) \
 	  || { rm -rf "$$tmp"; echo "FATAL: manifest emit failed" >&2; exit 1; }; \
+	$(INSTALL_ATOMIC) \
 	rc=0; \
 	for pair in \
 	  "design-tokens.json:output/manifests" \
@@ -344,7 +485,7 @@ manifests:
 	  "gesture_thresholds.h:$(R)/generated"; do \
 	  f="$${pair%%:*}"; d="$${pair##*:}"; \
 	  if ! cmp -s "$$d/$$f" "$$tmp/$$f"; then \
-	    cp "$$tmp/$$f" "$$d/$$f"; \
+	    install_atomic "$$tmp/$$f" "$$d/$$f" || { rm -rf "$$tmp"; echo "FATAL: installing $$d/$$f failed" >&2; exit 1; }; \
 	    echo "FATAL: $$d/$$f was STALE vs a fresh emit — regenerated in place; review and commit it." >&2; \
 	    rc=1; \
 	  fi; \
@@ -544,6 +685,7 @@ generated-projection:
 	  exit 1; \
 	fi
 	@rc=0; \
+	$(INSTALL_ATOMIC) \
 	project() { \
 	  src="$$1"; dst="$$2"; newok="$$3"; \
 	  if [ ! -f "$$src" ]; then \
@@ -561,13 +703,12 @@ generated-projection:
 	      echo "  added the name to the list, create it with the mode you intend." >&2; \
 	      return 1; \
 	    fi; \
-	    cp "$$src" "$$dst" && chmod 755 "$$dst" || return 1; \
+	    install_atomic "$$src" "$$dst" 755 || return 1; \
 	    echo "FATAL: $$dst is a NEW projection of $$src — created at 755, the mode every" >&2; \
 	    echo "  tracked cmd projection carries; review and commit it." >&2; \
 	    return 1; \
 	  fi; \
-	  mode="$$(stat -c %a "$$dst")" || return 1; \
-	  cp "$$src" "$$dst" && chmod "$$mode" "$$dst" || return 1; \
+	  install_atomic "$$src" "$$dst" || return 1; \
 	  echo "FATAL: $$dst was STALE vs $$src — regenerated in place; review and commit it." >&2; \
 	  return 1; \
 	}; \
@@ -649,13 +790,14 @@ construct-bindings:
 	    --bindings-out "$$tmp/enums.clj" \
 	    --luts-out "$$tmp/ui_luts.h" ) \
 	  || { rm -rf "$$tmp"; echo "FATAL: factory emit failed" >&2; exit 1; }; \
+	$(INSTALL_ATOMIC) \
 	rc=0; \
 	for pair in \
 	  "enums.clj:$(RGEN)/src/lvgl_codegen/generated/enums.clj" \
 	  "ui_luts.h:$(R)/generated/ui_luts.h"; do \
 	  f="$${pair%%:*}"; d="$${pair##*:}"; \
 	  if ! cmp -s "$$d" "$$tmp/$$f"; then \
-	    cp "$$tmp/$$f" "$$d"; \
+	    install_atomic "$$tmp/$$f" "$$d" || { rm -rf "$$tmp"; echo "FATAL: installing $$d failed" >&2; exit 1; }; \
 	    echo "FATAL: $$d was STALE vs a fresh extraction — regenerated in place; review and commit it." >&2; \
 	    rc=1; \
 	  fi; \
@@ -762,9 +904,48 @@ ui-review-preflight-canary:
 # The lvgl_codegen schema guard tests (tools/renderer-gen/test): pure in-memory
 # validate-screen-semantics checks — the leaf content-sizing guard that fails a
 # childless leaf (lv_bar/lv_slider/lv_led) content-sized to a ~0px collapse. No
-# wasm / proto-classes needed (schema/ loads only enums + style-props + malli),
-# so it runs early and fails cheap.
-clj-schema-test:
+# wasm and no proto-classes: the suite is hermetic and builds its screens in
+# memory, so it still runs early and fails cheap (18.1s median, of which the
+# added prerequisite below is 11.5s).
+#
+# `construct-bindings` IS declared, and this is the lane where the rule "every
+# consumer of a generated file names its producer" is least obvious and most
+# worth keeping uniform. `lvgl-codegen.schema` requires
+# `lvgl-codegen.generated.enums` — a Clojure SOURCE file this suite compiles at
+# load time and `construct-bindings` rewrites. The two are siblings in the
+# battery, so under -j the suite can be reading it while the factory writes it.
+# The install is atomic now, so the surviving hazard is a STALE read rather than
+# a torn one, and a stale read cannot manufacture a green: the factory reds the
+# battery on any rewrite. The edge is here so the red names the clause anyway,
+# and so `lvgl_parity_test`'s direct-cast assertions are known to have been made
+# against the same enums.clj the rest of the run compiled.
+#
+# WHAT IS *NOT* DECLARED HERE, deliberately, and it is a live residual: this
+# project's deps.edn puts `target/proto-classes` in its BASE `:paths`, so it is
+# on the classpath of every alias including `:test` — while `proto-classes`
+# (tools/compile-protos.sh) `rm -rf`s exactly that directory before javac. A
+# concurrent battery therefore deletes and repopulates a classpath ROOT under
+# this live JVM.
+#
+# It is unarmed TODAY, and the boundary is exact rather than reassuring, because
+# it was measured by asking the JVM instead of grepping. Requiring the three test
+# namespaces loads ELEVEN namespaces (the three plus eight sources:
+# construct.lift, construct.schema, generated.enums, resolve, schema,
+# style-props, theme-tokens, design-tokens-json). NO pronto namespace is among
+# them. `pronto.ProtoMap` IS resolvable — the directory is on the classpath —
+# so the safety here is that nothing the suite loads ever triggers that
+# resolution, NOT that the class is out of reach. The one `pronto` string
+# anywhere in that closure is a docstring at resolve.clj:17.
+#
+# Four namespaces in this project genuinely `:require` pronto; none is in the
+# closure above. A require reaching any of them from this suite arms the hazard,
+# and the failure would be `ClassNotFoundException: pronto.ProtoMap` at exactly
+# the moment the javac window opens — the same symptom morph-fixtures already
+# records. The edge is omitted rather than added because declaring it would make
+# an 18s hermetic lane wait on a 32.5s javac for a dependency it does not have;
+# if such a require appears, declare `proto-classes` here and delete this
+# paragraph.
+clj-schema-test: construct-bindings
 	cd $(RGEN) && clojure -M:test
 
 # ── The battery ─────────────────────────────────────────────────────────────
@@ -795,5 +976,43 @@ graal-check:
 	  exit 1; }
 	@echo "graal-check: JVMCI present ($$(java -version 2>&1 | sed -n 2p))"
 
-check-renderer: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary-prebuilt dump-contracts harness interaction oracles reload decode-limits
+# ── The battery runs its lanes CONCURRENTLY ─────────────────────────────────
+# `check-renderer` is the documented entry (the CLAUDE.md charter, .claude/rules/
+# renderer.md, tools/uber.sh) and stays the entry: it re-invokes this makefile
+# with `-j` on `check-renderer-lanes`, which carries the lane list. Passing -j at
+# the top level instead would have worked equally well and would have left every
+# operator who types the documented command running serially, which is the whole
+# point of arming it here.
+#
+# BATTERY_JOBS IS 4, NOT $(nproc), AND THAT IS DELIBERATE. Three lanes already
+# parallelise INTERNALLY and none of them participates in make's jobserver:
+# `wasm`/`reference` recurse with an explicit `-j$(nproc)` (an explicit -j in a
+# sub-make overrides the inherited jobserver), coverage_matrix/run.sh dispatches
+# `MATRIX_JOBS=$(nproc)` concurrent harness spawns, and every cargo lane runs its
+# own job pool. A top-level -j$(nproc) multiplies against all three. 4 is a
+# starting point, not a measured optimum — override it (`make -f renderer.mk
+# BATTERY_JOBS=1 check-renderer` is the old serial behaviour, and the control arm
+# of every measurement in this change).
+#
+# WHAT THE LANES CONTEND ON, since -j makes it matter and none of it is visible
+# in the list: SEVEN lanes write renderer/wasm_harness/target. They do not
+# corrupt each other — cargo takes its own locks — but the locks are PER PROFILE
+# DIRECTORY, not one per target/, and that split is what decides who waits for
+# whom. Verified on disk: target/{debug,release}/.cargo-{lock,build-lock,
+# artifact-lock}. The five `cargo test` lanes (harness, interaction, reload,
+# morph-parity, decode-limits) all build DEBUG and serialise against each other;
+# the two `cargo build --release` calls inside coverage_matrix/run.sh and
+# tools/demo-parity.sh serialise against each other in RELEASE; and the two
+# groups do NOT contend. So `-j` buys real concurrency ACROSS the two groups and
+# almost none within either, whatever BATTERY_JOBS says.
+#
+# The two oracle scripts also each re-invoke `make -f wasm.mk all reference`;
+# that is a no-op only because `wasm` and `reference` are declared prerequisites
+# of both and have therefore already finished.
+BATTERY_JOBS ?= 4
+
+check-renderer:
+	@$(MAKE) --no-print-directory -f renderer.mk -j$(BATTERY_JOBS) check-renderer-lanes
+
+check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"
