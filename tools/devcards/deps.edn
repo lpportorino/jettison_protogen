@@ -86,9 +86,23 @@
            ;; chaining)? Adjudicated by framebuffer identity, not by the
            ;; probe's own arithmetic. Exits non-zero on a mismatch.
            :opa-rail-probe {:extra-paths ["dev"] :main-opts ["-m" "opa-rail-probe"]}
+           ;; The stimulus instrument for docs/VLM-READBACK-PROTOCOL.md: emits
+           ;; the ANSWER KEY for a read-back calibration corpus (high-entropy
+           ;; strings loaded with the cockpit confusable set) plus its exact
+           ;; entropy. Renders nothing, judges nothing, gates nothing — a
+           ;; labelled set is manufactured once and a deterministic producer
+           ;; reproduces it forever, which is the only shape §0 allows here.
+           :readback-strings {:extra-paths ["dev"] :main-opts ["-m" "readback-strings"]}
            ;; Unit tests for the pure helpers (dump-tree reductions, image
            ;; math). Same pinned runner protodoc's suite uses.
-           :test {:extra-paths ["test"]
+           ;;
+           ;; `dev` IS ON THIS CLASSPATH ON PURPOSE. The pure instruments under
+           ;; dev/ are hand-authored and lint-gated like everything else, so a
+           ;; deftest suite is the right home for their unit proofs — and the
+           ;; runner still SCANS only `test` (cognitect.test-runner defaults
+           ;; `:dir` to #{"test"}), so nothing in dev/ whose name happens to end
+           ;; in -test is collected. dev/ here is reachable, not scanned.
+           :test {:extra-paths ["test" "dev"]
                   :extra-deps {io.github.cognitect-labs/test-runner
                                {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
                   :main-opts ["-m" "cognitect.test-runner"]}}
