@@ -172,9 +172,23 @@ LDFLAGS := -Wl,--export=malloc -Wl,--export=free \
            -Wl,--max-memory=268435456 \
            -Wl,-z,stack-size=262144 \
            -mexec-model=reactor
-# Sorted: link order IS wasm byte layout — an unsorted find links in
-# filesystem readdir order, making the artifact differ per checkout while
-# staying functionally identical. Sorting pins one canonical byte stream.
+# Sorted: link order IS wasm byte layout. TWO different orderings are in play
+# and BOTH must be pinned — `find` emits readdir order, while `$(wildcard)` is
+# glob(3), which orders by strcoll and therefore by LC_COLLATE. make's own
+# $(sort) is strcmp, so it is the one locale-invariant ordering available; every
+# discovered source list below is wrapped in it.
+#
+# The locale half is the one that bites across machines, because it splits HOST
+# from CONTAINER rather than checkout from checkout: this host runs
+# LANG=en_US.UTF-8 while both toolchain images carry only C/C.utf8/POSIX.
+# Measured — without $(sort), $(wildcard lvgl/demos/widgets/*.c) returns
+# lv_demo_widgets_analytics.c BEFORE lv_demo_widgets.c under en_US.UTF-8 and
+# after it under C, so two builds from identical sources and a byte-identical
+# WASI-SDK link a different byte stream.
+#
+# Sort each glob SEPARATELY, never over the union: a union sort would put
+# widgets/assets/img_*.c ahead of widgets/lv_demo_*.c ('a' < 'l') and reorder
+# the link for no reason.
 LVGL_SRCS := $(sort $(shell find lvgl/src -name '*.c' 2>/dev/null))
 NANOPB_SRCS := generated/pb_common.c generated/pb_decode.c generated/pb_encode.c
 
@@ -187,7 +201,7 @@ GEN_SRCS := generated/ui_ast.pb.c generated/ui_input.pb.c
 # renderer.mk's `generated-projection` list projects, and nothing there is
 # discovered by wildcard.
 DATA_TYPES_SRCS := generated/jon_shared_data_types.pb.c
-FONT_SRCS := $(wildcard src/font_*.c)
+FONT_SRCS := $(sort $(wildcard src/font_*.c))
 STUB_SRCS := src/wasm_sjlj_stub.c
 
 # Common application sources, shared by both WASM modules. The renderer differs:
@@ -211,7 +225,7 @@ REFERENCE_OBJ := $(OBJ_DIR)/src/reference_ui.o
 
 # lv_demo_widgets (vendored at lvgl/demos, v9.5.0 tag) — linked into
 # reference.wasm ONLY: the demo-parity oracle, never deployed.
-DEMO_SRCS := $(wildcard lvgl/demos/widgets/*.c)                    $(wildcard lvgl/demos/widgets/assets/*.c) lvgl/demos/lv_demos.c
+DEMO_SRCS := $(sort $(wildcard lvgl/demos/widgets/*.c))                    $(sort $(wildcard lvgl/demos/widgets/assets/*.c)) lvgl/demos/lv_demos.c
 DEMO_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(DEMO_SRCS))
 THORVG_OBJS := $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(THORVG_SRCS))
 
