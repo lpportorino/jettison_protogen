@@ -6,8 +6,15 @@ on:
     paths:
       - 'proto/**'
       - 'Dockerfile*'
+      # The build CONTEXT filter for both `docker build … .` steps below. A path
+      # excluded here that Dockerfile.base COPYs makes the image build fail, and
+      # nothing else in this list would have fired.
+      - '.dockerignore'
       - 'generate-*.sh'
       - 'scripts/**'
+      # Copied into all ten consumer repositories by every fan-out step, so a
+      # licence change that never fires here never reaches any of them.
+      - 'LICENSE'
       # The wire-contract gate below is a step of THIS job, so a change to the
       # checker or its make target must re-run the fan-out's validation.
       - 'tools/wire_contract_check.py'
