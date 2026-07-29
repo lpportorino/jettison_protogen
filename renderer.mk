@@ -104,7 +104,7 @@ INSTALL_ATOMIC := install_atomic() { _t="$$(mktemp "$$(dirname "$$2")/.protogen-
 # THE THREE PREREQUISITES ARE THE PROJECTIONS THIS BUILD COMPILES, and each is
 # a file wasm.mk reaches through `-Igenerated`:
 #   generated-projection -> renderer/generated/*.pb.[ch] + the nanopb runtime
-#                           (wasm.mk's NANOPB_SRCS / GEN_SRCS / CMD_SRCS)
+#                           (wasm.mk's NANOPB_SRCS / GEN_SRCS / DATA_TYPES_SRCS)
 #   construct-bindings   -> renderer/generated/ui_luts.h      (src/renderer.c)
 #   manifests            -> renderer/generated/theme_tokens.h (src/{renderer,main,theme}.c)
 #                           + gesture_thresholds.h            (src/gesture.c)
@@ -711,10 +711,11 @@ manifests:
 #
 # WHICH IS WHY THE NON-VACUITY FLOOR IS NOT CEREMONY: a discovered set can also
 # go EMPTY (a failed emit that still exits 0, an output-dir flag that moved), and
-# a zero-file loop is a green tick over zero coverage — the same trap
-# `generated-projection`'s GENERATED_CMD_FILES guard exists for. protogen
-# publishes four, so fewer than four means DISCOVERY broke, not that there is
-# nothing to compare. More than four is fine and needs no edit here.
+# a zero-file loop is a green tick over zero coverage. The floor is owed by
+# DISCOVERY, not by every loop — `generated-projection` below needs none because
+# every name it walks is a literal in this file. protogen publishes four, so
+# fewer than four means DISCOVERY broke, not that there is nothing to compare.
+# More than four is fine and needs no edit here.
 #
 # The PASS MESSAGE ENUMERATES what it compared, for the same reason: the old one
 # said "proto-db trio fresh" over a directory holding four published manifests —
@@ -793,15 +794,15 @@ manifests-proto-db:
 # stale copy is rewritten IN PLACE and the gate reds; review it and commit.
 #
 # NO PREREQUISITES, deliberately: both sides are COMMITTED, so this is a
-# sub-second cmp loop over 44 files with nothing to build. That is why it runs
-# at the front of the battery — a stale binding makes every downstream result
-# meaningless, so it has to fail before anything is compiled. It sits SECOND
-# rather than first only because graal-check's primacy is itself documented and
-# load-bearing; both report in well under a second, so which of the two speaks
-# first is immaterial, and demoting a stated invariant to win a tie is not.
+# sub-second cmp loop with nothing to build. That is why it runs at the front of
+# the battery — a stale binding makes every downstream result meaningless, so it
+# has to fail before anything is compiled. It sits SECOND rather than first only
+# because graal-check's primacy is itself documented and load-bearing; both
+# report in well under a second, so which of the two speaks first is immaterial,
+# and demoting a stated invariant to win a tie is not.
 #
-# WHAT IS AND IS NOT PROJECTED. renderer/generated tracks 49 files; 46 are
-# covered here (44 regular + 2 symlinks) and 3 are deliberately not:
+# WHAT IS AND IS NOT PROJECTED. Everything renderer/generated tracks is covered
+# here except three files, deliberately:
 #   theme_tokens.h, gesture_thresholds.h — emitted and cmp'd by `manifests`
 #     above. A second gate over them would be a second home for one fact.
 #   ui_luts.h — emitted and cmp'd by `construct-bindings` below, from the
@@ -820,42 +821,46 @@ manifests-proto-db:
 #      it finds generated/ui/ui_ast.pb.h and follows it back to ../ui_ast.pb.h.
 #      Losing one (hazard 1) breaks the build; asserting them is what makes the
 #      flattening sound, so the two hazards are one mechanism.
-#   3. It is a strict SUBSET — output/c tracks 102 files and only 44 of them
-#      are PROJECTED here, of which wasm.mk compiles the 21 .c (3 nanopb
-#      runtime + 15 cmd + jon_shared_data_types + the 2 ui bindings); the rest
-#      are the headers those include. A blanket copy would pour
-#      jon_shared_data_*, opaque/** and ui_nodes into the -Igenerated
-#      namespace. The three lists below ARE the projection; nothing crosses.
+#   3. It is a strict SUBSET — output/c tracks the whole binding surface and
+#      only a handful of it is PROJECTED here, of which wasm.mk compiles the .c
+#      (the 3 nanopb runtime files + jon_shared_data_types + the 2 ui
+#      bindings); the rest are the headers those include. A blanket copy would
+#      pour jon_shared_cmd*, jon_shared_data_*, opaque/** and ui_nodes into the
+#      -Igenerated namespace. The lists below ARE the projection; nothing
+#      crosses.
 #   4. There are NO --delete semantics. A mirroring copy would remove the two
 #      manifest-owned headers and ui_luts.h, none of which exist in output/c at
-#      all. The reverse direction is instead CHECKED and never acted on: an
-#      orphaned jon_shared_cmd* projection (its proto was deleted upstream)
-#      reds the gate naming the file to `git rm`, and nothing is deleted here.
+#      all. Nor does anything here infer a deletion in the REVERSE direction:
+#      every projected name is LISTED below, so a projection that should go away
+#      goes away by an edit to that list plus a `git rm` — a deliberate act
+#      visible in the diff, never something this gate discovers on its own.
 #   5. FILE MODES. renderer/generated is mixed (644/755/symlink) where output/c
 #      is uniformly 755, and cmp compares CONTENT — it cannot see a mode flip,
-#      so `cp -p` / `install` / `rsync -a` would silently rewrite 44 modes and
-#      stay green. Five in-scope destinations are tracked 644 against that 755
-#      source (LICENSE.nanopb and the four ui bindings). Plain `cp` preserves
-#      the destination inode's mode (measured in the pinned image: a 755 source
-#      over a 644 destination leaves 644), and the recipe captures and restores
-#      it anyway — but ONLY AN EXISTING DESTINATION HAS A MODE TO PRESERVE. A
-#      MISSING one would be created at the source's 755, and the operator told
-#      to commit a 644->755 flip. So absence is not treated as staleness at
-#      all: in the two FIXED lists it is a tracked-file DELETION and hard-fails
-#      untouched, and in the DERIVED cmd list it is a legitimately new binding,
-#      created at an EXPLICIT 755 — the mode all 30 tracked cmd projections
-#      already carry — rather than at whatever cp leaves after the umask.
+#      so `cp -p` / `install` / `rsync -a` would silently rewrite every
+#      projected mode and stay green. Five in-scope destinations are tracked
+#      644 against that 755 source (LICENSE.nanopb and the four ui bindings).
+#      Plain `cp` preserves the destination inode's mode (measured in the
+#      pinned image: a 755 source over a 644 destination leaves 644), and the
+#      recipe captures and restores it anyway — but ONLY AN EXISTING
+#      DESTINATION HAS A MODE TO PRESERVE. A MISSING one would be created at
+#      the source's 755, and the operator told to commit a 644->755 flip.
+#      So absence is not treated as staleness at all: every projected name is
+#      in a FIXED list, so a missing destination is a tracked-file DELETION and
+#      hard-fails untouched rather than being recreated at whatever mode cp
+#      leaves after the umask.
 #
-# The cmd family is DERIVED from output/c rather than listed, matching wasm.mk's
-# own `$(wildcard generated/jon_shared_cmd*.pb.c)`, so a new cmd proto flows
-# through both without an edit here. Its non-vacuity is guarded: this repo has
-# fifteen cmd pairs, so an empty expansion means discovery broke, not that there
-# is nothing to project (an empty input set is a green tick over zero coverage).
+# NON-VACUITY IS STRUCTURAL HERE, which is why no guard asserts it. Every name
+# below is a literal in this file, so the loops cannot go empty the way a
+# `$(wildcard …)` can — the failure mode a discovered set has (an empty
+# expansion reading as "nothing to project", a green tick over zero coverage)
+# needs a floor precisely because discovery can break silently. A hand-listed
+# set cannot: shrinking it is an edit to this file, in the diff, reviewed.
 GENERATED_DIR := $(R)/generated
 
 # The nanopb RUNTIME (copied verbatim from /opt/nanopb by generate-protos.sh)
-# plus the shared scalar/enum types every cmd binding includes. All live at
-# output/c's root and keep their names.
+# plus jon_shared_data_types, the shared scalar/enum binding every other
+# jon_shared_* message type builds on. All live at output/c's root and keep
+# their names.
 GENERATED_ROOT_FILES := LICENSE.nanopb pb.h \
 	pb_common.c pb_common.h pb_decode.c pb_decode.h pb_encode.c pb_encode.h \
 	jon_shared_data_types.pb.c jon_shared_data_types.pb.h
@@ -869,19 +874,11 @@ GENERATED_UI_FILES := ui_ast.pb.c ui_ast.pb.h ui_input.pb.c ui_input.pb.h
 # mode 120000, and the reason the flattened .pb.c files still compile.
 GENERATED_UI_LINKS := ui_ast.pb.h ui_input.pb.h
 
-GENERATED_CMD_FILES := $(notdir $(wildcard output/c/jon_shared_cmd*.pb.[ch]))
-
 generated-projection:
-	@if [ -z "$(strip $(GENERATED_CMD_FILES))" ]; then \
-	  echo "FATAL: discovered ZERO output/c/jon_shared_cmd*.pb.[ch] — this repo" >&2; \
-	  echo "  tracks fifteen cmd pairs, so an empty set means DISCOVERY broke," >&2; \
-	  echo "  not that there is nothing to project." >&2; \
-	  exit 1; \
-	fi
 	@rc=0; \
 	$(INSTALL_ATOMIC) \
 	project() { \
-	  src="$$1"; dst="$$2"; newok="$$3"; \
+	  src="$$1"; dst="$$2"; \
 	  if [ ! -f "$$src" ]; then \
 	    echo "FATAL: $$src is missing — renderer/generated projects it, so the" >&2; \
 	    echo "  source of the projection is gone. Regenerate output/c." >&2; \
@@ -889,17 +886,11 @@ generated-projection:
 	  fi; \
 	  cmp -s "$$src" "$$dst" && return 0; \
 	  if [ ! -e "$$dst" ]; then \
-	    if [ "$$newok" != new ]; then \
-	      echo "FATAL: $$dst is MISSING, not stale — its name is in a FIXED projection" >&2; \
-	      echo "  list, so there is no mode to preserve and copying the 755 source in" >&2; \
-	      echo "  would silently rewrite the tracked mode, which cmp cannot see (hazard" >&2; \
-	      echo "  5). Restore a DELETED file with 'git checkout -- $$dst'; if you just" >&2; \
-	      echo "  added the name to the list, create it with the mode you intend." >&2; \
-	      return 1; \
-	    fi; \
-	    install_atomic "$$src" "$$dst" 755 || return 1; \
-	    echo "FATAL: $$dst is a NEW projection of $$src — created at 755, the mode every" >&2; \
-	    echo "  tracked cmd projection carries; review and commit it." >&2; \
+	    echo "FATAL: $$dst is MISSING, not stale — its name is in a FIXED projection" >&2; \
+	    echo "  list, so there is no mode to preserve and copying the 755 source in" >&2; \
+	    echo "  would silently rewrite the tracked mode, which cmp cannot see (hazard" >&2; \
+	    echo "  5). Restore a DELETED file with 'git checkout -- $$dst'; if you just" >&2; \
+	    echo "  added the name to the list, create it with the mode you intend." >&2; \
 	    return 1; \
 	  fi; \
 	  install_atomic "$$src" "$$dst" || return 1; \
@@ -907,13 +898,10 @@ generated-projection:
 	  return 1; \
 	}; \
 	for f in $(GENERATED_ROOT_FILES); do \
-	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" fixed || rc=1; \
-	done; \
-	for f in $(GENERATED_CMD_FILES); do \
-	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" new || rc=1; \
+	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" || rc=1; \
 	done; \
 	for f in $(GENERATED_UI_FILES); do \
-	  project "output/c/ui/$$f" "$(GENERATED_DIR)/$$f" fixed || rc=1; \
+	  project "output/c/ui/$$f" "$(GENERATED_DIR)/$$f" || rc=1; \
 	done; \
 	for l in $(GENERATED_UI_LINKS); do \
 	  dst="$(GENERATED_DIR)/ui/$$l"; want="../$$l"; \
@@ -924,15 +912,7 @@ generated-projection:
 	  echo "  quoted include) — recreated; review and commit it." >&2; \
 	  rc=1; \
 	done; \
-	for f in $(GENERATED_DIR)/jon_shared_cmd*.pb.[ch]; do \
-	  [ -e "$$f" ] || continue; \
-	  b="$$(basename "$$f")"; \
-	  [ -f "output/c/$$b" ] && continue; \
-	  echo "FATAL: $$f is an ORPHAN — output/c has no $$b, so its proto is gone" >&2; \
-	  echo "  upstream while wasm.mk still compiles this copy. Delete it: git rm $$f" >&2; \
-	  rc=1; \
-	done; \
-	[ "$$rc" -eq 0 ] && echo "generated-projection: fresh ($(words $(GENERATED_ROOT_FILES) $(GENERATED_CMD_FILES) $(GENERATED_UI_FILES)) files + $(words $(GENERATED_UI_LINKS)) flatten symlinks vs output/c)"; \
+	[ "$$rc" -eq 0 ] && echo "generated-projection: fresh ($(words $(GENERATED_ROOT_FILES) $(GENERATED_UI_FILES)) files + $(words $(GENERATED_UI_LINKS)) flatten symlinks vs output/c)"; \
 	exit "$$rc"
 
 # ── The LVGL enum factory: the OTHER projection into renderer/generated ─────

@@ -181,8 +181,12 @@ NANOPB_SRCS := generated/pb_common.c generated/pb_decode.c generated/pb_encode.c
 # ui_input.pb.c: the host->WASM control channel (ui.HostToWasm) that
 # controls_host_message pb_decodes (R4 pointer entry + lifecycle).
 GEN_SRCS := generated/ui_ast.pb.c generated/ui_input.pb.c
-CMD_SRCS := $(wildcard generated/jon_shared_cmd*.pb.c) \
-               generated/jon_shared_data_types.pb.c
+
+# The shared scalar/enum nanopb binding — the leaf every other jon_shared_*
+# message type builds on. Listed by name: `-Igenerated` holds exactly what
+# renderer.mk's `generated-projection` list projects, and nothing there is
+# discovered by wildcard.
+DATA_TYPES_SRCS := generated/jon_shared_data_types.pb.c
 FONT_SRCS := $(wildcard src/font_*.c)
 STUB_SRCS := src/wasm_sjlj_stub.c
 
@@ -199,7 +203,7 @@ THORVG_SRCS := $(sort $(shell find lvgl/src/libs/thorvg -name '*.cpp' 2>/dev/nul
 # Toggling `make wasm` <-> `make wasm-dev` is then sound WITHOUT a clean, and each
 # mode stays independently incremental. (`clean` removes the whole build/ tree.)
 OBJ_DIR := build/$(BUILD)
-LIB_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(LVGL_SRCS) $(NANOPB_SRCS) $(GEN_SRCS) $(CMD_SRCS))
+LIB_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(LVGL_SRCS) $(NANOPB_SRCS) $(GEN_SRCS) $(DATA_TYPES_SRCS))
 STUB_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(STUB_SRCS))
 COMMON_APP_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(COMMON_APP_SRCS))
 RENDERER_OBJ := $(OBJ_DIR)/src/renderer.o
