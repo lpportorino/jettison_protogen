@@ -43,7 +43,13 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
   battery entry.** The `gallery` arm runs a two-way disk audit over
   `devcards.docs/audit-root` and exits through `lanes/run-verdict`, so a file
   the generators no longer emit but that is still TRACKED is caught as an
-  orphan. What that audit CANNOT see is changed CONTENT — a re-minted sheet is
+  orphan. **It is a DISK audit, so an UNTRACKED file is equally in scope** —
+  `devcards.docs-test`'s recogniser walk reds on a gitignored leftover (a
+  retired debug `.png` beside the JPEG gallery) while `git ls-files` reports
+  clean. Read a failure there as "something is on disk that the emitter never
+  wrote", never as "a committed artifact is unrecognised": taking it to git
+  finds nothing and the test looks broken when it is working. What that
+  audit CANNOT see is changed CONTENT — a re-minted sheet is
   emitted and present, so the audit is satisfied — and that half is CI's
   `git diff --exit-code`. One gate is for retired artifacts, the other for
   moved bytes; neither substitutes for the other.

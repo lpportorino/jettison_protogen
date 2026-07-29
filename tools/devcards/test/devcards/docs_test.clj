@@ -71,17 +71,27 @@
   (sort-by #(.getName ^File %)
            (filterv #(.isDirectory ^File %) (.listFiles (io/file docs/out-dir)))))
 
-(deftest every-committed-doc-artifact-is-recognised-except-the-index
-  (testing "run over the REAL committed tree: the recogniser matches what the
+(deftest every-on-disk-doc-artifact-is-recognised-except-the-index
+  (testing "run over the REAL ON-DISK tree: the recogniser matches what the
             emitter actually wrote, and the ONE file it declines is the index
-            page, which sits at the tree root and belongs to a constant unit"
+            page, which sits at the tree root and belongs to a constant unit.
+
+            THE SUBJECT IS THE FILESYSTEM, NOT THE INDEX, and the difference is
+            the whole diagnostic value: `file-seq` sees UNTRACKED and GITIGNORED
+            files too, so a stray left behind by a retired debug path reds this
+            as :not-an-emitter-artifact even though `git ls-files` is clean.
+            That is the intent — the gallery is JPEG-only (`card-file-name`) and
+            a leftover .png is exactly what should be caught. Say ON-DISK rather
+            than committed, because a reader who takes the failure to git finds
+            nothing there and concludes the TEST is broken."
     (let [files (filterv #(.isFile ^File %) (file-seq (io/file docs/audit-root)))
           by-disposition (group-by #(disposition (.getCanonicalPath ^File %)) files)]
       ;; an anti-vacuous floor, not a pinned count: a walk that found nothing
       ;; would satisfy every assertion below without judging anything.
-      (is (< 100 (count files)) "the subject is the committed tree, not an empty walk")
+      (is (< 100 (count files)) "the subject is the on-disk tree, not an empty walk")
       (is (= #{:retired :at-the-tree-root} (set (keys by-disposition)))
-          "no committed artifact falls into a decline class other than the index")
+          (str "an on-disk artifact fell into a decline class other than the "
+               "index — if git is clean, look for an UNTRACKED stray"))
       (is (= ["README.md"]
              (mapv #(.getName ^File %) (:at-the-tree-root by-disposition))))
       (is (= (dec (count files)) (count (:retired by-disposition)))))))
