@@ -7,6 +7,8 @@
 #ifndef THEME_TOKENS_H
 #define THEME_TOKENS_H
 
+#define THEME_SURFACE0_DARK 0x0A0A12 /* base tier — the surface a panel sits ON (tabview page/content) */
+#define THEME_SURFACE0_LIGHT 0xF0F0E8 /* base tier — the surface a panel sits ON (tabview page/content) */
 #define THEME_SURFACE1_DARK 0x12121F /* panel/container background */
 #define THEME_SURFACE1_LIGHT 0xE0E0D4 /* panel/container background */
 #define THEME_SURFACE2_DARK 0x1E1E2E /* elevated fill (buttonmatrix items) */
@@ -15,8 +17,8 @@
 #define THEME_EDGE0_LIGHT 0x70705A /* panel/container border */
 #define THEME_FG0_DARK 0xE8E8F0 /* primary text */
 #define THEME_FG0_LIGHT 0x1A1A28 /* primary text */
-#define THEME_ACCENT_DARK 0x7C3AED /* accent fill — the asgard family's stock-parent color_primary */
-#define THEME_ACCENT_LIGHT 0x7C3AED /* accent fill — the asgard family's stock-parent color_primary */
+#define THEME_ACCENT_DARK 0xB18AF4 /* accent fill — the asgard family's stock-parent color_primary */
+#define THEME_ACCENT_LIGHT 0x5C14D7 /* accent fill — the asgard family's stock-parent color_primary */
 #define THEME_FOCUSED_EDGE_DARK 0x22D3EE /* FOCUS_KEY outline */
 #define THEME_FOCUSED_EDGE_LIGHT 0x0891B2 /* FOCUS_KEY outline */
 #define THEME_CHECKED_DARK 0x0E7490 /* checked-state fill + edited-state outline */

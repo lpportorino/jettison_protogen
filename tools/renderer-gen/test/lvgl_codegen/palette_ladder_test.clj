@@ -224,6 +224,49 @@
   (pl/propose (pl/without-roles pl/protogen-spec
                                 #{:status-error :status-success :status-warning})))
 
+;; ── the dead-band fixture ───────────────────────────────────────────────────
+;; A fill NO ink can clear the 6:1 text shall against: black reaches 3.69:1 and
+;; white only 5.70:1, so its BEST case falls short and the solve must be refused
+;; before any search. That is the state `:reference-infeasible` exists to name.
+;;
+;; It is OWNED HERE, as a test constant, and that is the point. This value is
+;; what `:accent-bg` shipped before it forked per mode, and the canaries below
+;; used to reach it by pinning the live role. Then the fork REPAIRED the dead
+;; band — dark #B18AF4 best-cases at 7.81:1, light #5C14D7 at 8.28:1 — and four
+;; canaries went red for having their subject fixed underneath them. A canary
+;; coupled to a value it does not test fails on the day that value improves,
+;; which is precisely backwards. Section 6 below already builds synthetic specs
+;; "for the statuses the shipped palette does not happen to hit"; a dead band is
+;; now one of those.
+(def ^:private dead-band-fill "#7C3AED")
+
+(defn- with-dead-band-accent
+  "`spec` with :accent-bg forced to the dead-band fill. Mode-invariant, so both
+   modes are equally infeasible and a per-mode difference cannot be mistaken for
+   the effect under test."
+  [spec]
+  (update spec
+          :roles
+          (fn [roles]
+            (mapv (fn [r]
+                    (if (= :accent-bg (:role r))
+                      (assoc r :shipped dead-band-fill :mode-invariant? true)
+                      r))
+                  roles))))
+
+;; PINNED: accent-bg is frozen in the dead band, so accent-text — whose only
+;; constraint is `text-pair :accent-bg` — cannot be solved at all.
+(def ^:private dead-band-pinned-proposal
+  (pl/propose (pl/with-pinned (with-dead-band-accent pl/protogen-spec)
+                              #{:accent-bg})))
+
+;; FREE: the same dead band, but the solver may move accent-bg off it. This is
+;; the DISCRIMINATOR for the test above — same role, same hue, same chroma
+;; budget, different verdict — so the infeasibility is attributable to the
+;; pinned VALUE and to nothing about accent-text.
+(def ^:private dead-band-free-proposal
+  (pl/propose (with-dead-band-accent pl/protogen-spec)))
+
 (defn- resolved-map
   "Rebuild {mode {role realized}} from a proposal's EMITTED HEXES ONLY. This is
    the independent path: it never reads the solver's own `:evaluations`, so an
@@ -323,7 +366,7 @@
   ;; and is misreported as :unreachable-in-gamut — a status whose fix is this
   ;; role's own hue and chroma, which is precisely the wrong instruction.
   (testing "a foreground on a dead-band fill is refused BEFORE any search, against the fill"
-    (let [f (finding-for audit-proposal :accent-text :dark)]
+    (let [f (finding-for dead-band-pinned-proposal :accent-text :dark)]
       (is (some? f) "accent-text produced no finding at all against a pinned accent-bg")
       (is (= :reference-infeasible (:status f))
           (str "accent-text is " (pr-str (:status f))
@@ -341,11 +384,11 @@
   ;; chroma budget, and a different verdict — so the :reference-infeasible above
   ;; is attributable to accent-bg's pinned VALUE and to nothing about accent-text.
   (testing "unpinning the fill makes the doomed foreground solvable"
-    (is (nil? (finding-for derive-proposal :accent-text :dark))
+    (is (nil? (finding-for dead-band-free-proposal :accent-text :dark))
         "accent-text still fails when accent-bg is free to move")
-    (is (contains? (:palette derive-proposal) [:accent-text :dark]))
-    (is (not= (get-in derive-proposal [:palette [:accent-bg :dark] :hex])
-              (get-in audit-proposal [:palette [:accent-bg :dark] :hex]))
+    (is (contains? (:palette dead-band-free-proposal) [:accent-text :dark]))
+    (is (not= (get-in dead-band-free-proposal [:palette [:accent-bg :dark] :hex])
+              (get-in dead-band-pinned-proposal [:palette [:accent-bg :dark] :hex]))
         "accent-bg did not move, so the two runs do not differ in the way claimed")))
 
 (deftest test-blocked-upstream-is-emitted-not-skipped

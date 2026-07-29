@@ -54,9 +54,25 @@ const RENDER_TICKS: u32 = lvgl_harness::RENDER_TICKS;
 /// Minimum fraction of pixels that must differ for "should differ" assertions.
 /// 0.5% — real visual changes (bg color, widget value) affect far more.
 const MIN_DIFF_RATIO: f64 = 0.005;
-// Known colors from design tokens and test SVGs
+// Known colors from design tokens and test SVGs.
+//
+// THESE MIRROR `edn/tokens.edn` BY HAND, which is the second-source hazard the
+// repo forbids elsewhere — so `token_mirrors_are_fresh` below re-derives every
+// one of them from the generated manifest and fails naming the drifted token.
+// Add a constant here and add it there. The comment block above `bp_color`
+// drifted exactly this way once (it named #8B5CF6 for a constant holding
+// #7C3AED) and nothing caught it, because prose is not checked.
+// Doubles as hud-border's DARK pole and as an SVG fixture literal, which is why
+// it keeps the palette name rather than a semantic one.
 const VIOLET: (u8, u8, u8) = (139, 92, 246);
-const VIOLET_DEEP: (u8, u8, u8) = (124, 58, 237);
+// hud-border's LIGHT pole — a DIFFERENT token from the accent that used to be
+// indistinguishable from it: this value and the old mode-invariant accent were
+// both #7C3AED, so one constant stood for two tokens and no test could say
+// which it meant. The accent moving is what separated them.
+const HUD_BORDER_LIGHT: (u8, u8, u8) = (124, 58, 237);
+// The asgard accent, DARK pole. It is mode-forked (a light fill on dark
+// surfaces, dark on light), and every test here renders DEFAULT_THEME = dark.
+const ACCENT_DARK: (u8, u8, u8) = (177, 138, 244);
 const CYAN: (u8, u8, u8) = (34, 211, 238);
 const AMBER: (u8, u8, u8) = (245, 158, 11);
 const RED: (u8, u8, u8) = (239, 68, 68);
@@ -679,7 +695,7 @@ mod display_resize {
         tick_settle(&mut host);
         let fb = host.read_framebuffer().expect("framebuffer");
         assert!(
-            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
+            analysis::has_color(&fb, ACCENT_DARK, COLOR_TOLERANCE),
             "xl tier color renders after resize + bp switch"
         );
     }
@@ -1264,7 +1280,7 @@ mod hud_breakpoint {
         }
         // Fallback: try violet-deep (light theme uses it)
         let deep_regions =
-            analysis::find_color_regions(fb, width, height, VIOLET_DEEP, COLOR_TOLERANCE);
+            analysis::find_color_regions(fb, width, height, ACCENT_DARK, COLOR_TOLERANCE);
         assert!(
             !deep_regions.is_empty(),
             "no violet region found — button border not rendered"
@@ -1398,8 +1414,8 @@ mod hud_breakpoint {
         let mut host = new_host();
         let fb = render_hud(&mut host, 1, 0);
         assert!(
-            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
-            "HUD button light theme should have violet-deep border"
+            analysis::has_color(&fb, HUD_BORDER_LIGHT, COLOR_TOLERANCE),
+            "HUD button light theme should have the hud-border light pole"
         );
     }
     // ── Dark vs light theme produces different output ──
@@ -1561,7 +1577,7 @@ mod breakpoint_matrix {
             0 => (RED, 64),
             1 => (AMBER, 96),
             2 => (GREEN, 128),
-            3 => (VIOLET_DEEP, 160),
+            3 => (ACCENT_DARK, 160),
             _ => panic!("invalid bp {bp}"),
         }
     }
@@ -1825,14 +1841,14 @@ mod breakpoint_color {
     //   bp0: status-error  → red    #EF4444
     //   bp1: status-warning → amber #F59E0B
     //   bp2: status-success → green #10B981
-    //   bp3: accent-bg      → violet #8B5CF6
+    //   bp3: accent-bg      → the accent's DARK pole (see ACCENT_DARK)
 
     fn bp_color(bp: i32) -> ((u8, u8, u8), &'static str) {
         match bp {
             0 => (RED, "red"),
             1 => (AMBER, "amber"),
             2 => (GREEN, "green"),
-            3 => (VIOLET_DEEP, "violet-deep"),
+            3 => (ACCENT_DARK, "accent-dark"),
             _ => panic!("invalid bp {bp}"),
         }
     }
@@ -1873,7 +1889,7 @@ mod breakpoint_color {
         let mut host = new_host();
         let fb = render_bp_color(&mut host, 3, DEFAULT_THEME);
         assert!(
-            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
+            analysis::has_color(&fb, ACCENT_DARK, COLOR_TOLERANCE),
             "bp3 should have violet-deep background"
         );
     }
@@ -1912,7 +1928,7 @@ mod breakpoint_color {
         host.set_breakpoint(3).expect("set_breakpoint failed");
         let fb = tick_until_settled(&mut host);
         assert!(
-            analysis::has_color(&fb, VIOLET_DEEP, COLOR_TOLERANCE),
+            analysis::has_color(&fb, ACCENT_DARK, COLOR_TOLERANCE),
             "after transition to bp3, should have violet-deep"
         );
         assert!(
@@ -6141,5 +6157,57 @@ mod value_conditional_style {
             !analysis::has_color(&fb_cleared, RED, COLOR_TOLERANCE),
             "fault cleared: label must revert to the theme default (local override removed)"
         );
+    }
+}
+
+/// The hand-mirrored token constants at the top of this file, re-derived.
+///
+/// Every colour up there is a copy of a value whose home is `edn/tokens.edn`,
+/// projected into `output/manifests/design-tokens.json`. A copy is a second
+/// source, and this is the check that stops it drifting silently: it reads the
+/// manifest and fails NAMING the token whose value moved, rather than letting a
+/// downstream pixel assertion fail somewhere unrelated with no clue why.
+///
+/// Scoped to the SEMANTIC tokens only. `VIOLET`/`CYAN` and the SVG colours are
+/// palette entries or fixture literals with no semantic token to compare
+/// against, so asserting them here would compare a constant with itself.
+mod token_mirrors {
+    use super::*;
+
+    fn token_dark(manifest: &serde_json::Value, key: &str) -> (u8, u8, u8) {
+        let hex = manifest["tokens"][key]["dark"]
+            .as_str()
+            .unwrap_or_else(|| panic!("design-tokens.json has no dark value for {key}"));
+        let h = hex.trim_start_matches('#');
+        (
+            u8::from_str_radix(&h[0..2], 16).expect("hex"),
+            u8::from_str_radix(&h[2..4], 16).expect("hex"),
+            u8::from_str_radix(&h[4..6], 16).expect("hex"),
+        )
+    }
+
+    #[test]
+    fn token_mirrors_are_fresh() {
+        let raw = std::fs::read_to_string(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../../output/manifests/design-tokens.json"
+        ))
+        .expect("design-tokens.json is generated by `make -f renderer.mk manifests`");
+        let manifest: serde_json::Value = serde_json::from_str(&raw).expect("valid JSON");
+
+        for (name, key, mirrored) in [
+            ("ACCENT_DARK", "accent-bg", ACCENT_DARK),
+            ("VIOLET", "hud-border", VIOLET),
+            ("AMBER", "status-warning", AMBER),
+            ("RED", "status-error", RED),
+            ("GREEN", "status-success", GREEN),
+        ] {
+            assert_eq!(
+                mirrored,
+                token_dark(&manifest, key),
+                "{name} in this file no longer matches design token :{key} — the \
+                 token moved and its hand-copy here did not; update the constant"
+            );
+        }
     }
 }

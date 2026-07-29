@@ -394,15 +394,17 @@ static void apply_default_theme(void) {
    * lanes (vanilla-equals-stock, demo-parity) stay byte-identical. */
   bool asgard_family =
       (asgard_theme_family_t)current_theme_family == ASGARD_THEME_FAMILY_ASGARD;
-  /* The accent is deliberately mode-invariant (tokens.edn :accent-bg —
-   * white-on-accent clears the text floor in BOTH modes only for this hex),
-   * so there is no dark/light fork here; the assert turns a future token
-   * divergence into a build error at the one site that would silently
-   * ignore it. */
-  static_assert(THEME_ACCENT_DARK == THEME_ACCENT_LIGHT,
-                "accent tokens diverged — re-fork the mode select here");
-  lv_color_t primary = asgard_family ? lv_color_hex(THEME_ACCENT_DARK)
-                                     : lv_palette_main(LV_PALETTE_BLUE);
+  /* THE ACCENT TOKENS HAVE DIVERGED, deliberately, and this is the fork the
+   * former static_assert demanded. They are no longer one value: no ink
+   * reaches §6.2's governing 6:1 on a single shared fill, so each mode takes
+   * the pole that clears both the ink floor and button-vs-card (tokens.edn
+   * :accent-bg carries the derivation). color_primary is per-theme-instance
+   * and this call already runs once per mode, so the select is simply the
+   * mode. */
+  lv_color_t primary =
+      asgard_family ? lv_color_hex(current_theme_dark != 0 ? THEME_ACCENT_DARK
+                                                           : THEME_ACCENT_LIGHT)
+                    : lv_palette_main(LV_PALETTE_BLUE);
   lv_theme_t *stock =
       lv_theme_default_init(display, primary, lv_palette_main(LV_PALETTE_RED),
                             current_theme_dark != 0, &lv_font_montserrat_16);

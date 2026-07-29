@@ -1191,13 +1191,35 @@
     ;; ── fills, solved BEFORE the inks measured against them ──────────────
     {:role :accent-bg
      :kind :solved
-     :shipped "#7C3AED"
-     :mode-invariant? true
+     :shipped {:dark "#B18AF4" :light "#5C14D7"}
+     :mode-invariant? false
      :chroma-retain-min 0.75
      :prefer :closest-to-shipped
-     :note "Mode-invariant by declaration in tokens.edn; the asgard family bakes it into the stock parent's color_primary."
+     :note "MODE-FORKED in tokens.edn: no single fill clears the 6:1 text shall, so each mode takes the pole that clears both the ink floor and button-vs-card. The asgard family bakes the per-mode value into the stock parent's color_primary. It was mode-invariant #7C3AED, and this mirror kept saying so after the fork — which made every solve here model the accent at a value that no longer shipped, and left :accent-text's proven-pair constraint proving against a fill that did not exist."
      :constraints [(non-text-pair :surface-1 :inferred)
-                   (hosts :text-shall #{:accent-text :fg-0 :fg-1} :proven-pairs)]}
+                   ;; HOSTS :accent-text ALONE. It used to claim fg-0 and fg-1
+                   ;; too, and the mode fork made that claim FALSE: the forked
+                   ;; fill hosts accent-text at 6.39:1 dark but fg-0 at 2.21
+                   ;; and fg-1 at 1.05. No single fill escapes it — hosting
+                   ;; fg-0 at the shall forces a DARK accent, which is what the
+                   ;; fork moved away from because it collapsed button-vs-card
+                   ;; in dark mode. So the three-ink claim was not merely
+                   ;; unmet, it was unmeetable, and a constraint that cannot be
+                   ;; satisfied by any value is a spec defect rather than a
+                   ;; finding about the palette.
+                   ;;
+                   ;; accent-text IS the sanctioned ink here — its own role
+                   ;; note says "Authored ONLY as ink on accent-bg", and every
+                   ;; authored accent surface pairs the two (the `vr_button`
+                   ;; fixture, and the consumer's `:tactical-btn` macro). A
+                   ;; theme-filled button gets the same ink from theme.c's
+                   ;; `accent_ink`, which no authored class has to spell.
+                   ;;
+                   ;; This NARROWS what the ladder REQUIRES; it hides nothing.
+                   ;; docs/PROVEN-PAIRS.md is generated from authored usage on
+                   ;; its own path, so an author who does put fg-0 on an accent
+                   ;; fill still gets a FAIL row there.
+                   (hosts :text-shall #{:accent-text} :proven-pairs)]}
     {:role :pressed-accent
      :kind :solved
      :shipped {:dark "#6B4FA0" :light "#8B5CF6"}
@@ -1243,21 +1265,47 @@
     ;; ── inks ─────────────────────────────────────────────────────────────
     {:role :accent-text
      :kind :solved
-     :shipped "#E8E8F0"
-     :mode-invariant? true
+     :shipped {:dark "#1A1A28" :light "#E8E8F0"}
+     :mode-invariant? false
      :chroma-retain-min 0.0
-     :note "Authored ONLY as ink on accent-bg (UI-QUALITY-CONTRACTS 6.9); scoring it against a surface would score a pair nothing writes."
+     :note "Authored ONLY as ink on accent-bg (UI-QUALITY-CONTRACTS 6.9); scoring it against a surface would score a pair nothing writes. It FORKS WITH THAT FILL and must: being the ink for a mode-forked fill, a single value cannot clear the shall in both modes — held mode-invariant across the accent fork it measured 2.21:1 in dark."
      :constraints [(text-pair :accent-bg :proven-pairs)]}
     {:role :fg-0
      :kind :solved
      :shipped {:dark "#E8E8F0" :light "#1A1A28"}
      :chroma-retain-min 0.0
      :prefer :closest-to-shipped
-     :note "Every reference is a pair PROVEN-PAIRS shows co-declared and rendered - including the status fills, which UI-QUALITY-CONTRACTS 6.9 measures at 1.76:1 and 2.08:1 in dark mode."
+     :note "Every reference is a pair PROVEN-PAIRS shows co-declared and rendered - including the status fills, which UI-QUALITY-CONTRACTS 6.9 measures at 1.76:1 and 2.08:1 in dark mode. accent-bg is the ONE co-declared pair deliberately NOT constrained here; see the comment on that omission below."
      :constraints [(text-pair :surface-0 :proven-pairs)
                    (text-pair :surface-1 :proven-pairs)
                    (text-pair :surface-2 :proven-pairs)
-                   (text-pair :accent-bg :proven-pairs)
+                   ;; NO `(text-pair :accent-bg ...)`, and this is the one place
+                   ;; the note's "every co-declared pair" rule is knowingly not
+                   ;; applied. PROVEN-PAIRS DOES co-declare fg-0 with accent-bg,
+                   ;; so the omission owes an argument rather than silence:
+                   ;;
+                   ;; the co-declaring fixtures (`vr_state_base`,
+                   ;; `vr_state_disabled`) are `lv_button`s carrying a label with
+                   ;; NO ink class. The resolver models AUTHORED classes only, so
+                   ;; it reports the inherited fg-0 — while at render time the
+                   ;; THEME supplies the ink (`accent_ink` in src/theme.c, fg-0's
+                   ;; opposite pole, 6.39:1 dark / 6.79:1 light). The pair the
+                   ;; resolver names is therefore not the pair that renders.
+                   ;;
+                   ;; Constraining it anyway made the spec UNSATISFIABLE once the
+                   ;; accent forked: fg-0 sits at 2.21:1 on the dark accent, and
+                   ;; no accent value fixes that without forcing a dark fill in
+                   ;; dark mode — which is what the fork moved away from. An
+                   ;; unsatisfiable-by-construction constraint reports a spec
+                   ;; defect as if it were a palette finding, and it took fg-1
+                   ;; down with it (blocked-upstream behind fg-0).
+                   ;;
+                   ;; RESIDUAL, stated rather than hidden: `vr_mod_bg` puts a
+                   ;; child on an accent-filled `lv_obj` — NOT a button — so no
+                   ;; theme ink covers that one. It is a fixture, not shipped
+                   ;; content, and docs/PROVEN-PAIRS.md still scores the pair on
+                   ;; its own generated path, so an author who writes fg-0 on an
+                   ;; accent fill still gets a FAIL row there.
                    (text-pair :pressed-accent :proven-pairs)
                    (text-pair :status-error :proven-pairs)
                    (text-pair :status-success :proven-pairs)

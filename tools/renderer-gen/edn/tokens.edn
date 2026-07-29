@@ -48,6 +48,12 @@
           :violet "#8B5CF6"
           :violet-bright "#A78BFA"
           :violet-deep "#7C3AED"
+          ;; The two ACCENT-FILL poles, derived rather than picked: same hue
+          ;; (262 deg) and saturation as :violet-deep, moved only in lightness
+          ;; until white-on-fill (light) and dark-on-fill (dark) each clear
+          ;; §6.2's governing 6:1. See :accent-bg for why the pair must split.
+          :violet-pale "#B18AF4"
+          :violet-abyss "#5C14D7"
           :cyan "#22D3EE"
           :cyan-dim "#0E7490"
           :cyan-deep "#0891B2"
@@ -164,12 +170,39 @@
             :edge-0 {:dark :base-edge :light :olive-400}
             :edge-1 {:dark :violet-dim :light :olive-200}
             ;; ── Interactive / accent ──
-            ;; :violet-deep BOTH themes: white-on-accent clears the 4.5:1 text
-            ;; floor at 5.70:1 (dark :violet gave 3.47:1). The asgard theme
-            ;; family bakes this into the stock parent's color_primary, so
-            ;; widget chrome and authored accent-bg surfaces agree.
-            :accent-bg {:dark :violet-deep :light :violet-deep}
-            :accent-text :fg-white
+            ;; SPLIT PER MODE, and the split is FORCED rather than stylistic.
+            ;; :violet-deep in both themes was chosen against the 4.5:1 WCAG
+            ;; floor (it reached 5.70:1 with pure white). The governing floor
+            ;; here is §6.2's 6:1, and NO ink reaches it on that fill: white
+            ;; maximises at 5.70 and black gives 3.69, so the FILL had to move
+            ;; (docs/UI-QUALITY-CONTRACTS.md §6.8 states exactly this).
+            ;;
+            ;; Darkening a single shared value fixes the ink and breaks the
+            ;; other axis: against the DARK card (surface-1 #12121F) the button
+            ;; falls to ~1.6:1 and stops reading as a button at all. So each
+            ;; mode takes the pole that clears BOTH — a lighter fill with dark
+            ;; ink on dark surfaces, a darker fill with light ink on light ones.
+            ;; Measured (ink / vs surface-1): dark 6.39 / 6.90, light 6.79 /
+            ;; 6.22, against 4.68 / 3.26 / 4.28 before.
+            ;;
+            ;; This is the direction :hud-border and :pressed-accent already
+            ;; encode, and the mapping Material 3 uses for primary/onPrimary.
+            :accent-bg {:dark :violet-pale :light :violet-abyss}
+            ;; :accent-text FORKS WITH THE FILL IT SITS ON, and must: it is the
+            ;; ink authored compositions put ON :accent-bg (the `:tactical-btn`
+            ;; macro is `bg-accent-bg text-accent-text`), so the moment the fill
+            ;; stopped being one value the ink could not stay one either. Each
+            ;; mode takes fg-0's OPPOSITE pole — the light fill in dark mode
+            ;; wants dark ink — which is the same derivation src/theme.c makes
+            ;; for the accent ink it owns, from the same two palette entries.
+            ;; Measured on the pair: 6.39:1 dark, 6.79:1 light.
+            ;;
+            ;; It was mode-invariant, and holding it there while :accent-bg
+            ;; forked is precisely how a contrast REGRESSION shipped: the fill
+            ;; moved, this ink did not, and dark fell 4.68:1 -> 2.21:1 on every
+            ;; authored accent button. A token whose ONLY role is ink on a
+            ;; forked fill cannot itself be mode-invariant.
+            :accent-text {:dark :olive-fg-0 :light :fg-white}
             ;; ── Media ──
             ;; The scrubber "played" position blue — an authored-composition
             ;; colour (theme-family-independent by construction), mode-invariant.
@@ -177,6 +210,15 @@
             ;; through design-tokens.json, promoted from a former inline literal
             ;; so the media hue has one home like every other palette colour.
             :media-accent {:dark :media-blue :light :media-blue}
+            ;; The scrubber knob's bright neutral. It sits on the scrubber's own
+            ;; authored track, NOT on :accent-bg, so it is genuinely
+            ;; mode-invariant like :media-accent beside it — and it is its own
+            ;; token for exactly that reason. It used to borrow :accent-text,
+            ;; which quietly gave that token two unrelated jobs (accent ink, and
+            ;; this) and made the fork above look impossible: forking would have
+            ;; broken a knob that never wanted a mode at all. One token, one
+            ;; role; the value is unchanged, so no scrubber pixel moves.
+            :media-knob :fg-white
             ;; ── Status ──
             :status-success :green
             :status-warning :amber

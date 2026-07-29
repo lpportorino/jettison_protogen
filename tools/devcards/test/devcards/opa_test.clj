@@ -6,9 +6,9 @@
    catches a false gate. A clause that fires on a faded label is easy; a
    clause that ALSO fires on a faded arc is a gate that goes red for the
    wrong reason and looks exactly as correct as one that did not. The theme
-   fades slider, switch, arc, bar, led and the table's line-art grid ON
-   PURPOSE — the critical content there is a shape, with no glyph
-   self-contrast for a fade to collapse — so `text-free-classes-do-NOT-fire`
+   fades slider, arc, bar, led and the table's line-art grid ON
+   PURPOSE — the critical content there is a shape, with no self-contrast
+   for a fade to collapse — so `text-free-classes-do-NOT-fire`
    below is not a nicety. It is the specific defect this clause reproduces
    first if the precondition is ever read as 'DISABLED' rather than as
    'glyphs'.
@@ -92,11 +92,18 @@
 
 (def ^:private text-free-subjects
   "Every class the theme deliberately fades. `disabled_dim` covers slider,
-   switch, arc, bar, led and the checkbox INDICATOR part; `disabled_flat`
-   covers the table grid. Measured on the shipped corpus, these six are
-   EXACTLY the classes that carry `:opa` — so a clause that condemned any of
-   them would turn the gate red on a design decision."
-  ["lv_slider" "lv_switch" "lv_arc" "lv_bar" "lv_led" "lv_table"])
+   arc, bar, led and the checkbox INDICATOR part; `disabled_flat` covers the
+   table grid. A clause that condemned any of them would turn the gate red on
+   a design decision.
+
+   `lv_switch` IS DELIBERATELY ABSENT and was once here. Its value is
+   knob-vs-track contrast, which a fade collapses, so the theme gives it the
+   pair swap instead and it carries no layered `:opa` — see
+   docs/UI-QUALITY-CONTRACTS.md §6.4. The fixtures below are hand-written
+   dump maps, so a stale entry here would have kept passing on a planted
+   `:opa` the shipped corpus no longer produces; re-derive membership from
+   the corpus rather than trusting this vector."
+  ["lv_slider" "lv_arc" "lv_bar" "lv_led" "lv_table"])
 
 (deftest text-free-classes-do-NOT-fire
   (testing "the precondition is GLYPHS, not DISABLED and not a class list.

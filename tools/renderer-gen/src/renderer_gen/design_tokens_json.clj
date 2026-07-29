@@ -56,6 +56,7 @@
    :accent-bg :color
    :accent-text :color
    :media-accent :color
+   :media-knob :color
    :status-success :color
    :status-warning :color
    :status-error :color

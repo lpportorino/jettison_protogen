@@ -20,12 +20,12 @@
     :fg-2
     :hud-border
     :media-accent
+    :media-knob
     :pressed-accent
     :pressed-surface
     :status-error
     :status-success
     :status-warning
-    :surface-0
     :surface-overlay})
 
 (def ^:private known-native-theme-gaps

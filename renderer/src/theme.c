@@ -38,6 +38,14 @@ typedef struct {
   lv_style_t item_rad;       /* buttonmatrix ITEMS radius                    */
   lv_style_t btnm_pads;      /* buttonmatrix MAIN pads + gaps                */
   lv_style_t btnm_items;     /* buttonmatrix ITEMS fill (asgard-only)        */
+  lv_style_t accent_ink;     /* ink for ANY surface stock fills with
+                              * color_primary — asgard-only. Stock's
+                              * bg_color_primary hardcodes lv_color_white()
+                              * beside that fill, which is only legible while
+                              * the fill is dark; the asgard accent is LIGHT in
+                              * dark mode, so every such site needs the ink
+                              * inverted with it. Applied wherever stock uses
+                              * that pair, not only on buttons.               */
   lv_style_t roller_pad;     /* roller MAIN pad_hor                          */
   lv_style_t ta_pad;         /* textarea MAIN pad_ver                        */
   lv_style_t table_items;    /* table ITEMS pad                              */
@@ -81,6 +89,11 @@ typedef struct {
                              * opa fade, NO recolor — a fixed recolor
                              * target LIGHTENS dark cells. Same
                              * text-free precondition as disabled_dim   */
+  lv_style_t disabled_track; /* DISABLED track for a two-part control whose
+                             * VALUE is knob-vs-track contrast — the switch.
+                             * Pair-swap, no fade: see disabled_knob      */
+  lv_style_t disabled_knob;  /* DISABLED knob, the other half of that pair
+                             * (asgard-only)                              */
   lv_style_t hover;          /* HOVERED lighten (asgard-only)                */
   lv_style_t pressed;        /* PRESSED darken for classes stock leaves
                             * unpressed — arc, roller, dropdown, checkbox
@@ -100,6 +113,21 @@ typedef struct {
   lv_style_t tab_txt;        /* selected tab-bar label text, DARK only: the
                             * stock-derived selected-label tint converges
                             * with the muted accent tab fill (asgard-only) */
+  lv_style_t tab_bar_bg;     /* tab-bar chrome fill — surface-2 (asgard-only) */
+  lv_style_t tab_page_bg;    /* tab content + pages — surface-0, the base tier
+                            * a surface-1 panel sits ON. COLOR-ONLY, both:
+                            * the obj arm returns early for these three
+                            * containers to keep stock GEOMETRY (the
+                            * demo-parity capstone froze it), which also left
+                            * them with NO fill of ours — so they fell through
+                            * to stock, and stock LIGHT is white. Measured:
+                            * asgard-dark was byte-identical to VANILLA there,
+                            * i.e. unstyled in both families; dark merely read
+                            * as acceptable because stock LVGL is dark too.
+                            * Setting bg_color/bg_opa moves no geometry, so the
+                            * freeze holds (the same argument tab_txt makes),
+                            * and demo-parity renders VANILLA, which these skip
+                            * entirely (asgard-only)                        */
   lv_style_t cursor_off;     /* spinbox CURSOR hidden under DISABLED — a
                             * disabled control has no active edit cell
                             * (asgard-only)                                */
@@ -271,6 +299,38 @@ static void style_init(asgard_theme_t *t) {
   }
   /* button geometry */
   style_reset(&s->btn, inited);
+  /* Ink on the accent fill — THE OPPOSITE POLE OF fg-0, which looks like a bug
+   * and is the point. The accent fill inverts against its surface (light fill
+   * in DARK mode, dark fill in LIGHT), so the ink has to invert with it: a
+   * dark-mode accent button is a light chip and wants dark glyphs. fg-0's
+   * light value IS that dark ink, so the pair is taken from the existing token
+   * rather than inventing a second one.
+   *
+   * Stock cannot do this for us — lv_theme_default_init takes no accent-text
+   * parameter and couples the glyph colour to the fill — and the `accent-text`
+   * token does not reach here at all (absent from the token->C projection; see
+   * tokens.edn). Without this the fill moved and the ink did not, which is the
+   * exact half-fix docs/UI-QUALITY-CONTRACTS.md §6.8 warns buys a contrast
+   * LOSS. Measured on the pair: 6.39:1 dark / 6.79:1 light against §6.2's
+   * governing 6:1, up from 4.68:1 mode-invariant. */
+  if (!v)
+    lv_style_set_text_color(&s->btn,
+                            lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT,
+                                                  THEME_FG0_DARK)));
+  /* THE SAME INK, AS A REUSABLE STYLE — because `s->btn` is not the only place
+   * stock pairs color_primary with white. lv_theme_default's bg_color_primary
+   * applies that pair at many sites, and fixing only the button is a half-fix
+   * that reads as complete: the button measures 6.39:1 while the spinbox's
+   * edit CURSOR and a CHECKED buttonmatrix item still draw stock white on the
+   * light dark-mode accent, which measures 2.69:1. That regression is INVISIBLE
+   * to a golden (the hash moves either way, and a moved hash was the intended
+   * outcome) and invisible to the palette census (white and the accent are both
+   * declared tokens), so it is named here rather than left to be re-found. */
+  style_reset(&s->accent_ink, inited);
+  if (!v)
+    lv_style_set_text_color(&s->accent_ink,
+                            lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT,
+                                                  THEME_FG0_DARK)));
   lv_style_set_radius(&s->btn,
                       pick_i32(v, stock_btn_radius(t), THEME_RADIUS_BUTTON));
   lv_style_set_pad_hor(&s->btn,
@@ -331,6 +391,15 @@ static void style_init(asgard_theme_t *t) {
                        pick_i32(v, stock_pad_small(t), THEME_PAD_CONTROL));
   lv_style_set_pad_column(&s->btnm_pads,
                           pick_i32(v, stock_pad_small(t), THEME_PAD_CONTROL));
+  /* MAIN draws NOTHING (asgard-only) — which is what makes the gap above
+   * actually show "the container". Stock fills MAIN, so what appeared between
+   * the keys was stock's own panel tone, not the container: measured #FFFFFF
+   * in light against the surface-2 keys, and #282B30 in dark, the same pixel
+   * count in both families because neither took a token. Transparent rather
+   * than surface-1 on purpose: the buttonmatrix then reads correctly on
+   * whatever surface it is placed on, instead of being right only on a card. */
+  if (!v)
+    lv_style_set_bg_opa(&s->btnm_pads, LV_OPA_TRANSP);
   /* LOAD-BEARING roller geometry, not cosmetic breathing room. The selected
    * row is redrawn into W - pad_left - pad_right - 2*border_width pixels, and
    * lv_draw_label cancels below 1px. At the 48px small card, Asgard's 8px pads
@@ -419,10 +488,20 @@ static void style_init(asgard_theme_t *t) {
    * they sit on); the surface-2 tone gives each key a real fill against
    * the surface-1 card, and the wider gap shows the boundary. */
   style_reset(&s->btnm_items, inited);
-  if (!v)
+  if (!v) {
     lv_style_set_bg_color(&s->btnm_items,
                           lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
                                                 THEME_SURFACE2_LIGHT)));
+    /* Key GLYPHS take fg-0 for the same reason the fill takes surface-2: the
+     * fill was themed and the ink was not, so the ink stayed stock's own
+     * color_text (#FAFAFA dark / #212121 light — the greys lv_palette hands
+     * lv_theme_default). Both are legible, so this is token conformance
+     * rather than a contrast repair: a themed family should not paint values
+     * its own catalogue does not declare. */
+    lv_style_set_text_color(&s->btnm_items,
+                            lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK,
+                                                  THEME_FG0_LIGHT)));
+  }
   /* focus ring */
   style_reset(&s->focus, inited);
   if (v) {
@@ -616,7 +695,9 @@ static void style_init(asgard_theme_t *t) {
    *   the tab buttons and asgard's own `panel` sets it on the page-content
    *   wrappers, so between them every label in that subtree is claimed.
    * - `disabled_dim` (opa + recolor + text): TEXT-FREE geometry only —
-   *   slider, switch, arc, bar, led, and the checkbox INDICATOR part. Here
+   *   slider, arc, bar, led, and the checkbox INDICATOR part. NOT the switch:
+   *   its value is knob-vs-track contrast, which the fade collapses, so it
+   *   takes `disabled_track`/`disabled_knob` instead (see their init). Here
    *   the fade is the right signal: the critical content is a shape, there
    *   is no glyph self-contrast to collapse, and opacity alone blends toward
    *   whatever sits BEHIND the part (adequate on dark, collapsing on light)
@@ -692,6 +773,43 @@ static void style_init(asgard_theme_t *t) {
         &s->disabled_flat,
         lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
                               THEME_DISABLED_FG_LIGHT)));
+  }
+  /* DISABLED for a control whose VALUE IS knob-vs-track contrast — the switch.
+   *
+   * `disabled_dim`'s precondition is text-free geometry, and the switch meets
+   * it, but the argument underneath it does not reach this case: it says the
+   * critical content is a SHAPE with "no glyph self-contrast to collapse".
+   * A switch's shape never moves — its ON/OFF reading is carried entirely by
+   * the knob standing out from the track, and THAT is a self-contrast, so the
+   * fade collapses exactly the channel the state lives in. Measured on the
+   * checked card, and READ THE ENABLED FIGURE PER MODE: 5.36:1 enabled in
+   * LIGHT against 1.45:1 disabled, where the knob is effectively gone. DARK
+   * starts lower, 2.65:1 -> 2.23:1, because the enabled knob falls through to
+   * stock's `bg_color_white` — which is `color_card` (0x282b30), not white.
+   * The light collapse is the one that motivates this; dark is a smaller
+   * loss from an already-poor start, and the pair swap fixes both. A disabled control whose value
+   * cannot be read is the failure the disabled_fill comment already names —
+   * an affordance that lies about its state.
+   *
+   * So the switch takes the PAIR SWAP instead of the fade, reusing the exact
+   * token pair disabled_fill proves (6.04:1 dark / 7.16:1 light): the track
+   * drains to surface-2 and the knob takes the disabled-fg tone. No opa, so
+   * nothing folds into layer->opa and the pair keeps its measured contrast. */
+  style_reset(&s->disabled_track, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->disabled_track,
+                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
+                                                THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_opa(&s->disabled_track, LV_OPA_COVER);
+    lv_style_set_recolor_opa(&s->disabled_track, LV_OPA_TRANSP);
+  }
+  style_reset(&s->disabled_knob, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->disabled_knob,
+                          lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
+                                                THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_bg_opa(&s->disabled_knob, LV_OPA_COVER);
+    lv_style_set_recolor_opa(&s->disabled_knob, LV_OPA_TRANSP);
   }
   /* hover lighten/darken — asgard-only (stock styles HOVERED nowhere). The
    * recolor targets the CONTRASTING pole — white on dark, black on light — so
@@ -786,6 +904,25 @@ static void style_init(asgard_theme_t *t) {
   style_reset(&s->tab_txt, inited);
   if (!v && t->dark)
     lv_style_set_text_color(&s->tab_txt, lv_color_hex(THEME_FG0_DARK));
+  /* tabview surfaces — COLOR ONLY, asgard only. The bar is chrome and takes
+   * the elevated tier; the content/pages are the base tier the surface-1
+   * panels sit on, so the two read as distinct without either matching a
+   * panel. Nothing here sets radius, padding or border width, which is what
+   * keeps the frozen tabview geometry frozen. */
+  style_reset(&s->tab_bar_bg, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->tab_bar_bg,
+                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
+                                                THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_opa(&s->tab_bar_bg, LV_OPA_COVER);
+  }
+  style_reset(&s->tab_page_bg, inited);
+  if (!v) {
+    lv_style_set_bg_color(&s->tab_page_bg,
+                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE0_DARK,
+                                                THEME_SURFACE0_LIGHT)));
+    lv_style_set_bg_opa(&s->tab_page_bg, LV_OPA_COVER);
+  }
   /* disabled spinbox cursor — asgard-only: the stock cursor keeps its
    * highlight under DISABLED, where the dimmed digit sinks into it; a
    * disabled control has no active edit cell, so the highlight goes. The
@@ -834,11 +971,26 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * them here would shift tabview/win geometry the demo-parity capstone
      * has frozen. */
 #if LV_USE_TABVIEW
-    if (lv_obj_check_type(parent, &lv_tabview_class))
-      return; /* tab bar (child 0) + content (child 1) */
+    if (lv_obj_check_type(parent, &lv_tabview_class)) {
+      /* Tab BAR (child 0) only — stock GEOMETRY, asgard FILL. The CONTENT
+       * (child 1) and the pages deliberately keep taking nothing: they are
+       * transparent, so what shows through them is the tabview ROOT's fill,
+       * which is where both the base tone and the DISABLED state now live.
+       *
+       * FILLING THEM WAS THE FIRST ATTEMPT AND IT REGRESSED THE DISABLED
+       * STATE. LV_STATE_DISABLED does not propagate to children, so an
+       * opaque child cannot react to a disabled ROOT — it just covers the
+       * root's disabled fill, and the disabled card came back byte-identical
+       * to its enabled twin. The distinctness lane caught it; re-declaring
+       * disabled_fill on the children did NOT help, for the same reason. */
+      if (t->family == ASGARD_THEME_FAMILY_ASGARD &&
+          lv_obj_get_child(parent, 0) == obj)
+        lv_obj_add_style(obj, &t->styles.tab_bar_bg, 0);
+      return;
+    }
     if (lv_obj_get_parent(parent) != NULL &&
         lv_obj_check_type(lv_obj_get_parent(parent), &lv_tabview_class))
-      return; /* tab pages */
+      return; /* tab pages — transparent, see the bar guard above */
 #endif
 #if LV_USE_WIN
     if (lv_obj_check_type(parent, &lv_win_class))
@@ -998,13 +1150,21 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       /* Checked (ON) fill — cyan over stock's violet indicator. */
       lv_obj_add_style(obj, &t->styles.checked_accent,
                        LV_PART_INDICATOR | LV_STATE_CHECKED);
-      /* DISABLED — the FADE variant, same reasoning as the slider arm: a
-       * switch is a track, an indicator and a knob, and carries no glyph.
-       * The MAIN opa folds into layer->opa, so knob and indicator fade with
-       * the track. Stock's grey recolor alone pulled the light track TOWARD
-       * the page tone; the disabled-fg target is darker than the light
-       * surface, so the dim recovers instead of erasing. */
-      lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
+      /* DISABLED — the PAIR SWAP, NOT the fade the slider arm takes. Both are
+       * text-free geometry, but only the switch carries its VALUE in
+       * knob-vs-track contrast, and folding MAIN's opa into layer->opa fades
+       * knob and track together until that contrast is gone: measured 5.36:1
+       * enabled -> 1.45:1 disabled in LIGHT (dark starts at 2.65:1, not
+       * 5.36 — see the disabled_track init). See the disabled_track init for
+       * the full argument and the numbers. The track and the knob are styled
+       * as an explicit pair instead, so the state stays readable while still
+       * reading as disabled. */
+      lv_obj_add_style(obj, &t->styles.disabled_track,
+                       LV_PART_MAIN | LV_STATE_DISABLED);
+      lv_obj_add_style(obj, &t->styles.disabled_track,
+                       LV_PART_INDICATOR | LV_STATE_DISABLED);
+      lv_obj_add_style(obj, &t->styles.disabled_knob,
+                       LV_PART_KNOB | LV_STATE_DISABLED);
       /* Body radius must AGREE with the knob's. `knob` gives asgard a crisp
        * THEME_RADIUS_CONTROL corner, but the switch MAIN was left to stock —
        * whose radius is LV_RADIUS_CIRCLE — so the track stayed a full pill
@@ -1279,6 +1439,12 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * here was measured no better — 2.33:1 dark on the textarea twin — so
        * both are gone and the authored PAIR stands alone. */
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
+      /* The ENABLED cursor cell is stock's color_primary fill with stock's
+       * WHITE digit on it. That pair was legible while the accent was dark in
+       * both modes; it is not now — white on the dark-mode accent measures
+       * 2.69:1. The digit under the cursor is the one the operator is editing,
+       * so it is the least acceptable place to lose contrast. */
+      lv_obj_add_style(obj, &t->styles.accent_ink, LV_PART_CURSOR);
       lv_obj_add_style(obj, &t->styles.cursor_off,
                        LV_PART_CURSOR | LV_STATE_DISABLED);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
@@ -1374,8 +1540,19 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * pages, so each can swap in its OWN state — a renderer-side change to
      * how state is applied, which is also why the corpus entry calls
      * root-level disable a WIRE granularity note rather than a theme one. */
-    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
+      /* Base fill, and the root is the RIGHT owner of it: the content and the
+       * pages are transparent, so this is the tone that shows behind them —
+       * and putting it here keeps the DISABLED swap below on the same surface,
+       * which is what makes the state visible at all. Previously the root
+       * painted nothing enabled, so what showed through was stock's own
+       * `color_scr` — LIGHT_COLOR_SCR (#F5F5F5) and DARK_COLOR_SCR
+       * (0x15171A), neither of which the token catalogue declares. Both
+       * families took the same stock value there, so asgard-dark rendered
+       * that surface exactly as VANILLA does. */
+      lv_obj_add_style(obj, &t->styles.tab_page_bg, 0);
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
+    }
     return;
   }
 #endif

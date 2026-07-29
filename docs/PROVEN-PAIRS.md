@@ -20,19 +20,17 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
+| `fg-1` | `accent-bg` | dark | #9898B0 | #B18AF4 | 1.05 | **FAIL** | **FAIL** | — |
+| `fg-1` | `accent-bg` | light | #404050 | #5C14D7 | 1.23 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-warning` | dark | #E8E8F0 | #F59E0B | 1.76 | **FAIL** | **FAIL** | — |
-| `fg-1` | `accent-bg` | light | #404050 | #7C3AED | 1.78 | **FAIL** | **FAIL** | — |
-| `fg-1` | `accent-bg` | dark | #9898B0 | #7C3AED | 2.02 | **FAIL** | **FAIL** | — |
+| `fg-0` | `accent-bg` | light | #1A1A28 | #5C14D7 | 2.08 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-success` | dark | #E8E8F0 | #10B981 | 2.08 | **FAIL** | **FAIL** | — |
+| `fg-0` | `accent-bg` | dark | #E8E8F0 | #B18AF4 | 2.21 | **FAIL** | **FAIL** | — |
 | `fg-1` | `pressed-accent` | dark | #9898B0 | #6B4FA0 | 2.29 | **FAIL** | **FAIL** | — |
 | `fg-1` | `pressed-accent` | light | #404050 | #8B5CF6 | 2.40 | **FAIL** | **FAIL** | — |
-| `fg-0` | `accent-bg` | light | #1A1A28 | #7C3AED | 3.01 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-error` | dark | #E8E8F0 | #EF4444 | 3.09 | **FAIL** | **FAIL** | — |
 | `fg-0` | `pressed-accent` | light | #1A1A28 | #8B5CF6 | 4.06 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-error` | light | #1A1A28 | #EF4444 | 4.57 | PASS | **FAIL** | — |
-| `accent-text` | `accent-bg` | dark | #E8E8F0 | #7C3AED | 4.68 | PASS | **FAIL** | — |
-| `accent-text` | `accent-bg` | light | #E8E8F0 | #7C3AED | 4.68 | PASS | **FAIL** | — |
-| `fg-0` | `accent-bg` | dark | #E8E8F0 | #7C3AED | 4.68 | PASS | **FAIL** | — |
 | `fg-1` | `pressed-surface` | dark | #9898B0 | #2A2A3E | 4.97 | PASS | **FAIL** | — |
 | `fg-2` | `surface-1` | dark | #8686A0 | #12121F | 5.24 | PASS | **FAIL** | — |
 | `fg-0` | `pressed-accent` | dark | #E8E8F0 | #6B4FA0 | 5.30 | PASS | **FAIL** | — |
@@ -41,9 +39,11 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | `fg-1` | `surface-2` | dark | #9898B0 | #1E1E2E | 5.82 | PASS | **FAIL** | — |
 | `disabled-fg` | `surface-2` | dark | #9A9BB6 | #1E1E2E | 6.04 | PASS | PASS | — |
 | `surface-2` | `disabled-fg` | dark | #1E1E2E | #9A9BB6 | 6.04 | PASS | PASS | — |
+| `accent-text` | `accent-bg` | dark | #1A1A28 | #B18AF4 | 6.39 | PASS | PASS | — |
 | `fg-1` | `surface-2` | light | #404050 | #D0D0C0 | 6.51 | PASS | PASS | — |
 | `fg-1` | `surface-1` | dark | #9898B0 | #12121F | 6.58 | PASS | PASS | — |
 | `fg-0` | `status-success` | light | #1A1A28 | #10B981 | 6.77 | PASS | PASS | — |
+| `accent-text` | `accent-bg` | light | #E8E8F0 | #5C14D7 | 6.79 | PASS | PASS | — |
 | `disabled-fg` | `surface-2` | light | #3D3C2C | #D0D0C0 | 7.16 | PASS | PASS | — |
 | `surface-2` | `disabled-fg` | light | #D0D0C0 | #3D3C2C | 7.16 | PASS | PASS | — |
 | `fg-1` | `surface-1` | light | #404050 | #E0E0D4 | 7.63 | PASS | PASS | — |
@@ -70,7 +70,7 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | `fg-0` | `status-warning` | `vr-fixtures:disabled+md[fill-opa]`, `vr-fixtures:md` |
 | `fg-0` | `surface-0` | `vr-fixtures:sm` |
 | `fg-0` | `surface-1` | `kitchen_sink:sm`, `theme-style/panel:sm`, `vr-fixtures:sm` |
-| `fg-0` | `surface-2` | `vr-fixtures:lg`, `vr-fixtures:sm` |
+| `fg-0` | `surface-2` | `theme-style/btnm_items:sm`, `vr-fixtures:lg`, `vr-fixtures:sm` |
 | `fg-1` | `accent-bg` | `kitchen_sink:sm` |
 | `fg-1` | `pressed-accent` | `kitchen_sink:pressed+sm` |
 | `fg-1` | `pressed-surface` | `kitchen_sink:pressed+sm` |
@@ -87,7 +87,7 @@ One or both ends is a hex LITERAL rather than a declared token — a drawn colou
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
 
-## The third answer — 144 findings this derivation could NOT classify
+## The third answer — 149 findings this derivation could NOT classify
 
 An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed. EVERY key is printed with its count, including the ones at zero — a section that vanished when it had nothing to say would print the same thing whether the check ran or not, which is the failure this whole section exists to refuse.
 
@@ -267,24 +267,29 @@ By source: `vr-fixtures` 2
 - {:source :vr-fixtures, :where :lv_obj, :class "w-80 h-60"}
 - {:source :vr-fixtures, :where :lv_obj, :class "w-pct-100 h-pct-100 bg-surface-0"}
 
-### `theme-style-fill-only` — 5
+### `theme-style-fill-only` — 8
 
 An `lv_style_t` that sets `bg_color` and no `text_color` — `checked_accent` is the one to know: the DROPDOWN selected band takes its glyph colour from the STOCK parent theme, so the pair has no token on the ink side at all and is deliberately not completed from one. The ROLLER no longer belongs in that sentence: its band authors BOTH ends on its own style, which is what removed a constraint the old arm recorded as infeasible — stock sets bg and a white text_color together, so while only the fill was replaced no glyph tone could reach the floor.
 
-By source: `theme-c` 5
+By source: `theme-c` 8
 
-- {:source :theme-c, :style "btnm_items", :fill [:surface-2]}
 - {:source :theme-c, :style "checked_accent", :fill [:checked-accent]}
+- {:source :theme-c, :style "disabled_knob", :fill [:disabled-fg]}
+- {:source :theme-c, :style "disabled_track", :fill [:surface-2]}
 - {:source :theme-c, :style "field_bg", :fill [:surface-1]}
 - {:source :theme-c, :style "scrollbar", :fill [:edge-0]}
+- {:source :theme-c, :style "tab_bar_bg", :fill [:surface-2]}
+- {:source :theme-c, :style "tab_page_bg", :fill [:surface-0]}
 - {:source :theme-c, :style "track_bg", :fill [:edge-0]}
 
-### `theme-style-ink-only` — 5
+### `theme-style-ink-only` — 7
 
 An `lv_style_t` in the theme that sets `text_color` and no `bg_color`. Its fill arrives from whichever other style `theme_apply` puts on the same object, which is a runtime co-application this probe does not model.
 
-By source: `theme-c` 5
+By source: `theme-c` 7
 
+- {:source :theme-c, :style "accent_ink", :ink [:fg-0]}
+- {:source :theme-c, :style "btn", :ink [:fg-0]}
 - {:source :theme-c, :style "cursor_off", :ink [:disabled-fg]}
 - {:source :theme-c, :style "disabled", :ink [:disabled-fg]}
 - {:source :theme-c, :style "disabled_dim", :ink [:disabled-fg]}

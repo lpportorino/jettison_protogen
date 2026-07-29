@@ -357,6 +357,7 @@ static const named_style_t named_styles[] = {
     NAMED_STYLE(item_rad),
     NAMED_STYLE(btnm_pads),
     NAMED_STYLE(btnm_items),
+    NAMED_STYLE(accent_ink),
     NAMED_STYLE(roller_pad),
     NAMED_STYLE(ta_pad),
     NAMED_STYLE(table_items),
@@ -382,6 +383,10 @@ static const named_style_t named_styles[] = {
     NAMED_STYLE(readout_arc),
     NAMED_STYLE(track_bg),
     NAMED_STYLE(tab_txt),
+    NAMED_STYLE(tab_bar_bg),
+    NAMED_STYLE(tab_page_bg),
+    NAMED_STYLE(disabled_track),
+    NAMED_STYLE(disabled_knob),
     NAMED_STYLE(cursor_off),
     NAMED_STYLE(trans),
 #undef NAMED_STYLE
@@ -515,6 +520,16 @@ static void apply_target(int target_index) {
   case CONTEXT_TAB_INTERNAL:
     parent.class_p = &lv_tabview_class;
     parent.parent = &screen;
+    /* MODEL THE BAR, i.e. child 0 of the tabview. theme.c separates the tab
+     * bar from the content by `lv_obj_get_child(parent, 0) == obj`, and
+     * cap_get_child returns NULL unless spec_attr is populated — so without
+     * these two lines that guard is false at every replay point and the
+     * bar's style contributes NO applications, hence no group at all. It is
+     * not a wrong group, it is an ABSENT one, which is why the "has no
+     * applications" assertion cannot see it: that assertion iterates the
+     * groups that were emitted. */
+    tab_children[0] = &object;
+    parent.spec_attr = &tab_spec;
     break;
   case CONTEXT_TAB_PAGE:
     grandparent.class_p = &lv_tabview_class;
@@ -568,6 +583,27 @@ static void capture_applications(void) {
   }
   for (size_t i = 0; i < application_count; i++)
     (void)style_name(applications[i].style);
+  /* ROSTER TOTALITY — every named style must have been APPLIED somewhere.
+   *
+   * The reset-count check above proves theme.c initialises each rostered
+   * style; it says nothing about whether the probe ever reaches an object
+   * that style attaches to. A style whose guard the probe cannot satisfy
+   * captures zero applications and therefore emits NO GROUP — and the
+   * downstream "has no applications" assertion iterates the groups that
+   * WERE emitted, so it is structurally unable to see the absence. That is
+   * how a real style (the tab bar's fill, whose guard needs a populated
+   * spec_attr) shipped invisible to the public projection while every check
+   * stayed green. Assert it here, where the absent case is still
+   * representable. */
+  for (size_t i = 0; i < ARRAY_LEN(named_styles); i++) {
+    bool applied = false;
+    for (size_t j = 0; j < application_count && !applied; j++)
+      if (applications[j].style == named_styles[i].style)
+        applied = true;
+    if (!applied)
+      die("a named style captured ZERO applications — the probe never reaches "
+          "an object it attaches to, so it would emit no group at all");
+  }
 }
 static size_t capture_variants(cap_variant_t *variants, size_t capacity) {
   size_t count = 0;

@@ -163,8 +163,14 @@ if [ "$FAIL" -ne 0 ]; then
 fi
 # NON-VACUITY FLOOR, the class lint-sh and fmt-c carry: a canary that ran zero
 # arms would print the same cheerful nothing as one that ran them all.
-if [ "$PASS" -lt 11 ]; then
-  printf 'canary: FAIL — only %s arms ran; the matrix has 11\n' "$PASS" >&2
+# DERIVED, never a literal: two hand-typed copies of this count (the threshold
+# and the message) had both gone stale at 11 against a 12-arm matrix, so the
+# floor silently tolerated one arm going missing — the exact vacuity it exists
+# to refuse. Counting the arm definitions in this file makes a new arm raise
+# the floor by itself.
+ARMS=$(grep -c '^run "' "$0")
+if [ "$PASS" -lt "$ARMS" ]; then
+  printf 'canary: FAIL — only %s arms ran; the matrix has %s\n' "$PASS" "$ARMS" >&2
   exit 1
 fi
 printf 'canary: %s arms passed, each on its own exit code\n' "$PASS"

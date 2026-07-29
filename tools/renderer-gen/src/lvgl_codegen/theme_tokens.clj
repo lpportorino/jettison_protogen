@@ -36,7 +36,11 @@
    do not belong here. Colors present here emit `<c-macro>_DARK` +
    `<c-macro>_LIGHT` (0xRRGGBB); scalars emit one integer define. A token
    absent here has no C define and is therefore unavailable to src/theme.c."
-  [{:sem-key :surface-1
+  [{:sem-key :surface-0
+    :c-macro "THEME_SURFACE0"
+    :kind :color
+    :doc "base tier — the surface a panel sits ON (tabview page/content)"}
+   {:sem-key :surface-1
     :c-macro "THEME_SURFACE1"
     :kind :color
     :doc "panel/container background"}

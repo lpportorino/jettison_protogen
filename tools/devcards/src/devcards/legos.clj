@@ -91,14 +91,21 @@
    resolve their colour from tokens.edn through design-tokens.json
    (devcards.tokens) — one home instead of an inline literal: :played from
    :media-accent (the media hue; its value is bit-identical to the former
-   literal, so it moves no golden pixel), and :knob from :accent-text (the
+   literal, so it moves no golden pixel), and :knob from :media-knob (the
    canonical bright-neutral). The :knob promotion collapses a near-duplicate
    off-white (#e6edf3, Δ 2/5/3 vs the token's #E8E8F0) onto the one home, so
-   it is a real — if tiny — pixel change and re-mints the scrubber goldens."
+   it is a real — if tiny — pixel change and re-mints the scrubber goldens.
+
+   :knob reads :media-knob, NOT :accent-text, though both resolve to the same
+   #E8E8F0 and this knob's pixels are unchanged by the split. The knob sits on
+   the scrubber's OWN authored track, never on an accent fill, so it is
+   genuinely mode-invariant — while :accent-text must fork with :accent-bg.
+   One token served both roles once, and that shared identity is exactly what
+   made forking the accent ink look impossible."
   {:track "#30363d"
    :buffered "#8a939b"
    :played (tokens/color :media-accent)
-   :knob (tokens/color :accent-text)})
+   :knob (tokens/color :media-knob)})
 
 (def scrubber-halo
   "The wrapper's transparent hit-halo band, px per side — equal to the

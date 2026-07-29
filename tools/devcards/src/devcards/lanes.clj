@@ -173,15 +173,21 @@
    cleanly, and is reachable — `findings/card-findings` passes every context key
    the caller supplies straight through, so `:draw-palette` needs no entry in
    the registry's closed `context-keys` set. What stops it is the population.
-   Over the shipped corpus, 246 cards x 2 modes: 576 colour emissions match no
-   semantic token value, 192 of them (33.3%) carry the observer's
-   declared-theme-recolor tag. That tag is the separation an arming plan
-   naturally reaches for, `palette-findings` ALREADY applies it, and it is not
-   what is in the way: 384 blocking findings survive it, on 222 of the 492
-   renders, over 19 distinct hexes.
+   Over the shipped corpus, 246 cards x 2 modes, a large minority of colour
+   emissions match no semantic token value and about a third of those carry the
+   observer's declared-theme-recolor tag. THE FIGURES ARE NOT WRITTEN HERE ON
+   PURPOSE: they move with the theme — the tabview/buttonmatrix/switch
+   stock-fallthrough repair cut them measurably in one commit — and a pinned
+   tally in prose is a second source that goes stale silently. Re-derive with
+   the probe named at the end of this docstring.
 
-   NINE OF THOSE 19 WERE TRACED to a source; the other ten were not, and this
-   says nine rather than nineteen for that reason. Two classes account for all
+   That tag is the separation an arming plan naturally reaches for,
+   `palette-findings` ALREADY applies it, and it is not what is in the way: a
+   few hundred blocking findings survive it, across most renders and roughly a
+   score of distinct hexes.
+
+   NINE OF THOSE HEXES WERE TRACED to a source; the rest were not, and this
+   says nine rather than all of them for that reason. Two classes account for all
    nine, and neither is a defect:
      - AUTHORED BY THE CARD, as structured RGB rather than hex — which is why a
        hex grep over the corpus finds nothing. #3B82F6 is the `lv_chart` series

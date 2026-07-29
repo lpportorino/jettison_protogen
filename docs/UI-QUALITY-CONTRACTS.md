@@ -744,8 +744,21 @@ nonetheless does not do this arithmetic.
 false gate that happens to be the right colour.** Where the critical content is
 a SHAPE there is no glyph self-contrast to collapse, and opacity alone is the
 right *disabled* signal. This interpreter's theme relies on that deliberately
-for slider, switch, arc, bar, led, the checkbox INDICATOR part, and the table's
+for slider, arc, bar, led, the checkbox INDICATOR part, and the table's
 line-art grid.
+
+**THE SWITCH IS NOT IN THAT LIST, AND WHY IT LEFT IS THE SHARPEST READING OF
+THIS CLAUSE.** "Text-free" was never the whole precondition — the real one is
+that no self-contrast carries meaning. A switch's shape never moves: its
+ON/OFF value is read from the KNOB STANDING OUT FROM THE TRACK, which is a
+self-contrast in everything but glyphs, and the fade collapses exactly it.
+Measured on the checked card, knob against track: 1.45:1 disabled in LIGHT
+against 5.36:1 enabled there — the knob is effectively gone, which is the
+disabled control that lies about its state. It now takes the pair swap of §6.5
+instead (track to surface-2, knob to disabled-fg): 6.04:1 dark / 7.16:1 light.
+
+So read the precondition as **no meaning carried by any internal contrast**,
+and check a candidate against THAT rather than against the absence of glyphs.
 
 Two things follow, and both have bitten:
 
