@@ -260,9 +260,17 @@ docs-docker-test: ## Run proto docs tests in Docker
 # elsewhere as a SILENT degradation, and it is not one. The degraded run exits
 # NON-ZERO and prints its errors; what it hides is only how much less it
 # checked. So the failure mode here is a misread of scope, never a false green.
+#
+# MOUNTED READ-ONLY. This image declares no USER, so the payload runs as root
+# with a tracked tree as its working directory — the shape that leaves a
+# root-written .cpcache behind, in the very directory lint.mk's docs-lint later
+# runs `clojure` in. A test suite reads; it has no reason to write into the
+# source tree, and :ro makes that unrepresentable rather than merely unintended.
+# Measured against this mount: 235 tests, 23657 assertions, 0 failures, and
+# nothing written under docs/.protodoc/tools.
 	@printf "$(GREEN)Running proto docs tests via Docker...$(NC)\n"
 	@docker run --rm --network=host \
-		-v "$$(pwd)":/repo -w /repo/docs/.protodoc/tools \
+		-v "$$(pwd)":/repo:ro -w /repo/docs/.protodoc/tools \
 		protodoc:latest -M:test
 
 .PHONY: docs-docker-generate
