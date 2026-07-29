@@ -12,6 +12,7 @@ import {
   jonGuiDataVideoChannelFromJSON,
   jonGuiDataVideoChannelToJSON,
 } from "./jon_shared_data_types";
+import { TrinityBoardVersion } from "./opaque/trinity_tracking";
 
 export interface Root {
   setAutoFocus?: SetAutoFocus | undefined;
@@ -26,6 +27,11 @@ export interface Root {
   recognitionModeEnable?: RecognitionModeEnable | undefined;
   recognitionModeDisable?:
     | RecognitionModeDisable
+    | undefined;
+  /** Ring-Trinity golden fiducial board tracking */
+  startTrackTrinity?: StartTrackTrinity | undefined;
+  stopTrackTrinity?:
+    | StopTrackTrinity
     | undefined;
   /** CV Bridge container control */
   bridgeStart?: BridgeStart | undefined;
@@ -75,6 +81,30 @@ export interface StartTrackNDC {
 export interface StopTrack {
 }
 
+/**
+ * Begin tracking the Ring-Trinity golden fiducial board.
+ *
+ * UNLIKE StartTrackNDC THERE IS NO SEED POINT, and that is the point of the board:
+ * it is self-locating from its own geometry, so the operator does not have to put a
+ * cursor on it. There is exactly ONE board in a run, so no identity is needed to
+ * disambiguate between targets.
+ */
+export interface StartTrackTrinity {
+  channel: JonGuiDataVideoChannel;
+  /**
+   * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+   * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+   * rather than silently producing a pose against different geometry — a pose
+   * computed against the wrong board is wrong by a scale factor and looks entirely
+   * plausible.
+   */
+  expectBoard: TrinityBoardVersion | undefined;
+}
+
+/** Stop tracking the Ring-Trinity board. */
+export interface StopTrackTrinity {
+}
+
 /** CV Bridge container control commands */
 export interface BridgeStart {
 }
@@ -102,6 +132,8 @@ function createBaseRoot(): Root {
     dumpStop: undefined,
     recognitionModeEnable: undefined,
     recognitionModeDisable: undefined,
+    startTrackTrinity: undefined,
+    stopTrackTrinity: undefined,
     bridgeStart: undefined,
     bridgeStop: undefined,
     bridgeRestart: undefined,
@@ -142,6 +174,12 @@ export const Root: MessageFns<Root> = {
     }
     if (message.recognitionModeDisable !== undefined) {
       RecognitionModeDisable.encode(message.recognitionModeDisable, writer.uint32(90).fork()).join();
+    }
+    if (message.startTrackTrinity !== undefined) {
+      StartTrackTrinity.encode(message.startTrackTrinity, writer.uint32(98).fork()).join();
+    }
+    if (message.stopTrackTrinity !== undefined) {
+      StopTrackTrinity.encode(message.stopTrackTrinity, writer.uint32(106).fork()).join();
     }
     if (message.bridgeStart !== undefined) {
       BridgeStart.encode(message.bridgeStart, writer.uint32(162).fork()).join();
@@ -250,6 +288,22 @@ export const Root: MessageFns<Root> = {
           message.recognitionModeDisable = RecognitionModeDisable.decode(reader, reader.uint32());
           continue;
         }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.startTrackTrinity = StartTrackTrinity.decode(reader, reader.uint32());
+          continue;
+        }
+        case 13: {
+          if (tag !== 106) {
+            break;
+          }
+
+          message.stopTrackTrinity = StopTrackTrinity.decode(reader, reader.uint32());
+          continue;
+        }
         case 20: {
           if (tag !== 162) {
             break;
@@ -340,6 +394,16 @@ export const Root: MessageFns<Root> = {
         : isSet(object.recognition_mode_disable)
         ? RecognitionModeDisable.fromJSON(object.recognition_mode_disable)
         : undefined,
+      startTrackTrinity: isSet(object.startTrackTrinity)
+        ? StartTrackTrinity.fromJSON(object.startTrackTrinity)
+        : isSet(object.start_track_trinity)
+        ? StartTrackTrinity.fromJSON(object.start_track_trinity)
+        : undefined,
+      stopTrackTrinity: isSet(object.stopTrackTrinity)
+        ? StopTrackTrinity.fromJSON(object.stopTrackTrinity)
+        : isSet(object.stop_track_trinity)
+        ? StopTrackTrinity.fromJSON(object.stop_track_trinity)
+        : undefined,
       bridgeStart: isSet(object.bridgeStart)
         ? BridgeStart.fromJSON(object.bridgeStart)
         : isSet(object.bridge_start)
@@ -392,6 +456,12 @@ export const Root: MessageFns<Root> = {
     }
     if (message.recognitionModeDisable !== undefined) {
       obj.recognitionModeDisable = RecognitionModeDisable.toJSON(message.recognitionModeDisable);
+    }
+    if (message.startTrackTrinity !== undefined) {
+      obj.startTrackTrinity = StartTrackTrinity.toJSON(message.startTrackTrinity);
+    }
+    if (message.stopTrackTrinity !== undefined) {
+      obj.stopTrackTrinity = StopTrackTrinity.toJSON(message.stopTrackTrinity);
     }
     if (message.bridgeStart !== undefined) {
       obj.bridgeStart = BridgeStart.toJSON(message.bridgeStart);
@@ -447,6 +517,12 @@ export const Root: MessageFns<Root> = {
       (object.recognitionModeDisable !== undefined && object.recognitionModeDisable !== null)
         ? RecognitionModeDisable.fromPartial(object.recognitionModeDisable)
         : undefined;
+    message.startTrackTrinity = (object.startTrackTrinity !== undefined && object.startTrackTrinity !== null)
+      ? StartTrackTrinity.fromPartial(object.startTrackTrinity)
+      : undefined;
+    message.stopTrackTrinity = (object.stopTrackTrinity !== undefined && object.stopTrackTrinity !== null)
+      ? StopTrackTrinity.fromPartial(object.stopTrackTrinity)
+      : undefined;
     message.bridgeStart = (object.bridgeStart !== undefined && object.bridgeStart !== null)
       ? BridgeStart.fromPartial(object.bridgeStart)
       : undefined;
@@ -1055,6 +1131,131 @@ export const StopTrack: MessageFns<StopTrack> = {
   },
   fromPartial<I extends Exact<DeepPartial<StopTrack>, I>>(_: I): StopTrack {
     const message = createBaseStopTrack();
+    return message;
+  },
+};
+
+function createBaseStartTrackTrinity(): StartTrackTrinity {
+  return { channel: 0, expectBoard: undefined };
+}
+
+export const StartTrackTrinity: MessageFns<StartTrackTrinity> = {
+  encode(message: StartTrackTrinity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.channel !== 0) {
+      writer.uint32(8).int32(message.channel);
+    }
+    if (message.expectBoard !== undefined) {
+      TrinityBoardVersion.encode(message.expectBoard, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StartTrackTrinity {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStartTrackTrinity();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.channel = reader.int32() as any;
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.expectBoard = TrinityBoardVersion.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StartTrackTrinity {
+    return {
+      channel: isSet(object.channel) ? jonGuiDataVideoChannelFromJSON(object.channel) : 0,
+      expectBoard: isSet(object.expectBoard)
+        ? TrinityBoardVersion.fromJSON(object.expectBoard)
+        : isSet(object.expect_board)
+        ? TrinityBoardVersion.fromJSON(object.expect_board)
+        : undefined,
+    };
+  },
+
+  toJSON(message: StartTrackTrinity): unknown {
+    const obj: any = {};
+    if (message.channel !== 0) {
+      obj.channel = jonGuiDataVideoChannelToJSON(message.channel);
+    }
+    if (message.expectBoard !== undefined) {
+      obj.expectBoard = TrinityBoardVersion.toJSON(message.expectBoard);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StartTrackTrinity>, I>>(base?: I): StartTrackTrinity {
+    return StartTrackTrinity.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StartTrackTrinity>, I>>(object: I): StartTrackTrinity {
+    const message = createBaseStartTrackTrinity();
+    message.channel = object.channel ?? 0;
+    message.expectBoard = (object.expectBoard !== undefined && object.expectBoard !== null)
+      ? TrinityBoardVersion.fromPartial(object.expectBoard)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseStopTrackTrinity(): StopTrackTrinity {
+  return {};
+}
+
+export const StopTrackTrinity: MessageFns<StopTrackTrinity> = {
+  encode(_: StopTrackTrinity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StopTrackTrinity {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStopTrackTrinity();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): StopTrackTrinity {
+    return {};
+  },
+
+  toJSON(_: StopTrackTrinity): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StopTrackTrinity>, I>>(base?: I): StopTrackTrinity {
+    return StopTrackTrinity.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StopTrackTrinity>, I>>(_: I): StopTrackTrinity {
+    const message = createBaseStopTrackTrinity();
     return message;
   },
 };

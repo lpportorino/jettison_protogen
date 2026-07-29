@@ -17,10 +17,10 @@ Detector-agnostic inference status codes reported by the object detection pipeli
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | DETECTION_STATUS_UNSPECIFIED | - |
-| 1 | DETECTION_STATUS_OK | - |
-| 2 | DETECTION_STATUS_NOT_READY | - |
-| 3 | DETECTION_STATUS_IPC_TIMEOUT | - |
-| 4 | DETECTION_STATUS_INFER_FAILED | - |
-| 5 | DETECTION_STATUS_ERROR | - |
+| 0 | DETECTION_STATUS_UNSPECIFIED | The proto3 zero default, not a status. Both carriers — `ObjectDetectionsDay` and `ObjectDetectionsHeat` — constrain their `status` field `not_in: [0]`, so a payload reporting it is rejected at the ingest boundary; a decoded zero means the field was never populated. |
+| 1 | DETECTION_STATUS_OK | Inference succeeded for this cycle: the `detections` array is the complete set of objects found in the frame described by `frame`, and may be read. It is the only value under which `detections` is meaningful — under every other value the array is empty or stale. |
+| 2 | DETECTION_STATUS_NOT_READY | The detector could not run because it is not initialised yet — either its inference engine or its IPC link to the video pipeline. Expected transiently during startup rather than indicating a fault. |
+| 3 | DETECTION_STATUS_IPC_TIMEOUT | No frame arrived from the video pipeline within the detector's wait timeout, so no inference was attempted this cycle. Distinguishes a starved input from a broken detector: the engine itself is healthy and simply had nothing to run on. |
+| 4 | DETECTION_STATUS_INFER_FAILED | The inference engine ran and failed on this frame. The complement of `IPC_TIMEOUT`: a frame WAS present, and processing it is what went wrong. |
+| 5 | DETECTION_STATUS_ERROR | A failure none of the more specific codes covers. Being the catch-all it carries no diagnosis by itself — the detector writes error detail to stderr rather than embedding it in this message, so the log is the only place the cause exists. |
 

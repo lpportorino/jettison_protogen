@@ -5,6 +5,7 @@ option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison
 package cmd.CV;
 
 import "jon_shared_data_types.proto";
+import "opaque/trinity_tracking.proto";
 
 message Root {
   oneof cmd {
@@ -20,6 +21,10 @@ message Root {
     DumpStop dump_stop = 9;
     RecognitionModeEnable recognition_mode_enable = 10;
     RecognitionModeDisable recognition_mode_disable = 11;
+
+    // Ring-Trinity golden fiducial board tracking
+    StartTrackTrinity start_track_trinity = 12;
+    StopTrackTrinity stop_track_trinity = 13;
 
     // CV Bridge container control
     BridgeStart bridge_start = 20;
@@ -79,6 +84,29 @@ message StartTrackNDC {
 }
 
 message StopTrack {}
+
+// Begin tracking the Ring-Trinity golden fiducial board.
+//
+// UNLIKE StartTrackNDC THERE IS NO SEED POINT, and that is the point of the board:
+// it is self-locating from its own geometry, so the operator does not have to put a
+// cursor on it. There is exactly ONE board in a run, so no identity is needed to
+// disambiguate between targets.
+message StartTrackTrinity {
+  ser.JonGuiDataVideoChannel channel = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+  // you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+  // rather than silently producing a pose against different geometry — a pose
+  // computed against the wrong board is wrong by a scale factor and looks entirely
+  // plausible.
+  ser.TrinityBoardVersion expect_board = 2;
+}
+
+// Stop tracking the Ring-Trinity board.
+message StopTrackTrinity {}
 
 // CV Bridge container control commands
 message BridgeStart {

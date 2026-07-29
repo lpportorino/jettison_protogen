@@ -8,6 +8,8 @@
 ;; Extraction rules:
 ;; - ## Description → :description (raw markdown blob until next ## heading)
 ;; - ## Interaction → :interaction (structured metadata with subsections)
+;; - ## Values → :values {value-number description} (enum pages; the table's
+;;   Description column, keyed by the value NUMBER in column one)
 ;; - ### {name} (#{number}) → field :description (raw markdown blob until next ### or ##)
 ;; - #### Metadata → field :interaction (structured field metadata)
 
@@ -223,13 +225,81 @@
   (when-let [[_ fname num-str] (re-matches #"### (\S+) \(#(\d+)\)" line)]
     [fname (parse-long num-str)]))
 
+;; ============================================================================
+;; Enum '## Values' Table Parsing
+;; ============================================================================
+
+(defn- split-table-row
+  "Split one markdown pipe-table row into its cells.
+
+   A backslash-escaped pipe is a LITERAL pipe inside a cell, not a boundary —
+   it is the only way a description can mention `a | b` without silently
+   splitting its own row into an extra column and shifting every cell after it.
+   Returns the cells with the empty strings produced by the row's outer pipes
+   dropped, so `| 0 | A | - |` yields three cells and not five."
+  [line]
+  (let [n (count line)
+        cells (loop [i 0, cur (StringBuilder.), acc []]
+                (if (>= i n)
+                  (conj acc (str cur))
+                  (let [c (.charAt ^String line i)]
+                    (cond
+                      (and (= c \\) (< (inc i) n) (= (.charAt ^String line (inc i)) \|))
+                      (recur (+ i 2) (.append cur \|) acc)
+
+                      (= c \|)
+                      (recur (inc i) (StringBuilder.) (conj acc (str cur)))
+
+                      :else
+                      (recur (inc i) (.append cur c) acc)))))
+        cells (if (str/blank? (first cells)) (subvec cells 1) cells)]
+    (if (and (seq cells) (str/blank? (peek cells)))
+      (subvec cells 0 (dec (count cells)))
+      cells)))
+
+(defn- values-cell-content
+  "The authored prose in a Values-table Description cell, or nil.
+
+   `-` is what the template renders where a value has no description, and an
+   empty or whitespace-only cell is nothing at all. Neither may read back as
+   documentation: storing one would make an undescribed value look documented
+   and silence docs-coverage/docs-lint, exactly as `placeholder/content-or-nil`
+   prevents for the prose sections."
+  [cell]
+  (let [s (str/trim (or cell ""))]
+    (when-not (or (str/blank? s) (= s "-"))
+      s)))
+
+(defn- parse-values-table
+  "Parse the pipe table under '## Values' into {value-number description}.
+
+   Keyed by the NUMBER in the first column — never by row order and never by
+   name. The number is the enum value's wire identity, so prose keyed by it
+   follows a renumbered or reordered member instead of being re-assigned to
+   whoever now occupies that row. Rows whose first cell is not an integer (the
+   header, the |---| separator, stray prose) carry no value and are skipped."
+  [lines]
+  (reduce (fn [acc raw]
+            (let [line (str/trim raw)]
+              (if-not (str/starts-with? line "|")
+                acc
+                (let [cells (split-table-row line)
+                      number (parse-long (str/trim (or (first cells) "")))
+                      description (values-cell-content (nth cells 2 nil))]
+                  (if (and number description)
+                    (assoc acc number description)
+                    acc)))))
+          {}
+          lines))
+
 (defn- extract-sections
   "Extract sections from markdown lines.
    Returns {:description \"...\"
             :interaction {...}
+            :values {0 \"...\"}
             :field-notes {1 {:description \"...\" :interaction {...}}}}"
   [lines]
-  (let [result (atom {:description nil :interaction nil :field-notes {}})
+  (let [result (atom {:description nil :interaction nil :values {} :field-notes {}})
         current-section (atom nil)
         current-field (atom nil)
         in-field-metadata (atom false)
@@ -271,6 +341,8 @@
                                         (placeholder/content-or-nil content))
                     :interaction (swap! result assoc :interaction
                                         (parse-interaction-meta @buffer))
+                    :values (swap! result assoc :values
+                                   (parse-values-table @buffer))
                     :field-notes (flush-field!)
                     nil)))
               ;; Start new section
@@ -281,6 +353,7 @@
                       (cond
                         (str/starts-with? line "## Description") :description
                         (str/starts-with? line "## Interaction") :interaction
+                        (str/starts-with? line "## Values") :values
                         (str/starts-with? line "## Field Notes") :field-notes
                         :else nil)))
 
@@ -322,6 +395,8 @@
                                 (placeholder/content-or-nil content))
             :interaction (swap! result assoc :interaction
                                 (parse-interaction-meta @buffer))
+            :values (swap! result assoc :values
+                           (parse-values-table @buffer))
             :field-notes (flush-field!)
             nil))))
 
@@ -330,6 +405,7 @@
       (cond-> r
         (nil? (:description r)) (dissoc :description)
         (nil? (:interaction r)) (dissoc :interaction)
+        (empty? (:values r)) (dissoc :values)
         (empty? (:field-notes r)) (dissoc :field-notes)))))
 
 (defn extract-from-file
@@ -367,6 +443,7 @@
   "Merge extracted user content into IR database.
    User content keys: {:description \"...\"
                        :interaction {...}
+                       :values {value-number \"...\"}
                        :field-notes {field-number {:description \"...\" :interaction {...}}}}"
   [db user-content]
   (-> db
@@ -417,7 +494,22 @@
                      (assoc es id
                             (cond-> e
                               (seq (:description content))
-                              (assoc :description (:description content))))
+                              (assoc :description (:description content))
+
+                              ;; Add enum value descriptions by number. Matched
+                              ;; the same way preserve-user-content matches them,
+                              ;; so the two paths agree about which value a piece
+                              ;; of prose belongs to; prose for a number the enum
+                              ;; no longer declares is dropped rather than landing
+                              ;; on whichever value now sits in that position.
+                              (seq (:values content))
+                              (update :values
+                                      (fn [values]
+                                        (mapv (fn [v]
+                                                (if-let [d (get (:values content) (:number v))]
+                                                  (assoc v :description d)
+                                                  v))
+                                              values)))))
                      es))
                  enums
                  user-content)))))

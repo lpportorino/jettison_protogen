@@ -163,7 +163,7 @@ LINT_SH_DISCOVERY_ERR := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>&1 >/d
 export LINT_SH_DISCOVERY_ERR
 
 .PHONY: lint lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
-	install-hooks hooks-status audit-clj-paths wire-contract
+	install-hooks hooks-status audit-clj-paths wire-contract docs-lint
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -230,6 +230,24 @@ lint: lint-sh brief-check-test forks-release-test uber-chown-test fork-hazards f
 # runner, in the uber container, and in the pre-push hook alike.
 wire-contract:
 	@python3 tools/wire_contract_check.py --quiet
+
+## docs-lint: proto documentation lint — A WARNING IS A FAILURE
+# Runs the protodoc linter against the COMMITTED proto-db.edn. Every constrained
+# field and every enum value owes a description; the rule set is
+# docs/.protodoc/tools/src/protodoc/lint.clj.
+#
+# WHY A WARNING FAILS: `protodoc lint` used to exit 0 while printing its findings,
+# so the CI step that runs it stayed green and warnings accumulated with nothing
+# ever forcing a disposition. A warning nobody must act on is training to ignore
+# the linter, and a pile of them is where a real defect hides in plain sight —
+# the tool reports both the same way. Two responses are permitted: fix the
+# finding, or delete the rule with its reasoning recorded.
+#
+# This runs the tools directory directly rather than through the docs Docker
+# image, so it needs no image rebuild to reflect a rule change — deliberate,
+# because a gate that silently runs a stale copy of itself is worse than none.
+docs-lint:
+	@cd docs/.protodoc/tools && clojure -M:run lint --db-path ../proto-db.edn
 
 ## cpus: report the detected parallelism (debug aid across dev machines)
 cpus:

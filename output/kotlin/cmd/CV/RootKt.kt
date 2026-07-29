@@ -294,6 +294,66 @@ public object RootKt {
 
     /**
      * ```
+     * Ring-Trinity golden fiducial board tracking
+     * ```
+     *
+     * `.cmd.CV.StartTrackTrinity start_track_trinity = 12;`
+     */
+    public var startTrackTrinity: cmd.CV.JonSharedCmdCv.StartTrackTrinity
+      @JvmName("getStartTrackTrinity")
+      get() = _builder.startTrackTrinity
+      @JvmName("setStartTrackTrinity")
+      set(value) {
+        _builder.startTrackTrinity = value
+      }
+    /**
+     * ```
+     * Ring-Trinity golden fiducial board tracking
+     * ```
+     *
+     * `.cmd.CV.StartTrackTrinity start_track_trinity = 12;`
+     */
+    public fun clearStartTrackTrinity() {
+      _builder.clearStartTrackTrinity()
+    }
+    /**
+     * ```
+     * Ring-Trinity golden fiducial board tracking
+     * ```
+     *
+     * `.cmd.CV.StartTrackTrinity start_track_trinity = 12;`
+     * @return Whether the startTrackTrinity field is set.
+     */
+    public fun hasStartTrackTrinity(): kotlin.Boolean {
+      return _builder.hasStartTrackTrinity()
+    }
+
+    /**
+     * `.cmd.CV.StopTrackTrinity stop_track_trinity = 13;`
+     */
+    public var stopTrackTrinity: cmd.CV.JonSharedCmdCv.StopTrackTrinity
+      @JvmName("getStopTrackTrinity")
+      get() = _builder.stopTrackTrinity
+      @JvmName("setStopTrackTrinity")
+      set(value) {
+        _builder.stopTrackTrinity = value
+      }
+    /**
+     * `.cmd.CV.StopTrackTrinity stop_track_trinity = 13;`
+     */
+    public fun clearStopTrackTrinity() {
+      _builder.clearStopTrackTrinity()
+    }
+    /**
+     * `.cmd.CV.StopTrackTrinity stop_track_trinity = 13;`
+     * @return Whether the stopTrackTrinity field is set.
+     */
+    public fun hasStopTrackTrinity(): kotlin.Boolean {
+      return _builder.hasStopTrackTrinity()
+    }
+
+    /**
+     * ```
      * CV Bridge container control
      * ```
      *
@@ -420,6 +480,12 @@ public val cmd.CV.JonSharedCmdCv.RootOrBuilder.recognitionModeEnableOrNull: cmd.
 
 public val cmd.CV.JonSharedCmdCv.RootOrBuilder.recognitionModeDisableOrNull: cmd.CV.JonSharedCmdCv.RecognitionModeDisable?
   get() = if (hasRecognitionModeDisable()) getRecognitionModeDisable() else null
+
+public val cmd.CV.JonSharedCmdCv.RootOrBuilder.startTrackTrinityOrNull: cmd.CV.JonSharedCmdCv.StartTrackTrinity?
+  get() = if (hasStartTrackTrinity()) getStartTrackTrinity() else null
+
+public val cmd.CV.JonSharedCmdCv.RootOrBuilder.stopTrackTrinityOrNull: cmd.CV.JonSharedCmdCv.StopTrackTrinity?
+  get() = if (hasStopTrackTrinity()) getStopTrackTrinity() else null
 
 public val cmd.CV.JonSharedCmdCv.RootOrBuilder.bridgeStartOrNull: cmd.CV.JonSharedCmdCv.BridgeStart?
   get() = if (hasBridgeStart()) getBridgeStart() else null

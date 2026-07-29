@@ -7,13 +7,15 @@ import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
 import type { JonGuiDataVideoChannel } from "./jon_shared_data_types_pb";
 import { file_jon_shared_data_types } from "./jon_shared_data_types_pb";
+import type { TrinityBoardVersion } from "./opaque/trinity_tracking_pb";
+import { file_opaque_trinity_tracking } from "./opaque/trinity_tracking_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file jon_shared_cmd_cv.proto.
  */
 export const file_jon_shared_cmd_cv: GenFile = /*@__PURE__*/
-  fileDesc("Chdqb25fc2hhcmVkX2NtZF9jdi5wcm90bxIGY21kLkNWIoIGCgRSb290Ei4KDnNldF9hdXRvX2ZvY3VzGAEgASgLMhQuY21kLkNWLlNldEF1dG9Gb2N1c0gAEjAKD3N0YXJ0X3RyYWNrX25kYxgCIAEoCzIVLmNtZC5DVi5TdGFydFRyYWNrTkRDSAASJwoKc3RvcF90cmFjaxgDIAEoCzIRLmNtZC5DVi5TdG9wVHJhY2tIABI4ChN2YW1waXJlX21vZGVfZW5hYmxlGAQgASgLMhkuY21kLkNWLlZhbXBpcmVNb2RlRW5hYmxlSAASOgoUdmFtcGlyZV9tb2RlX2Rpc2FibGUYBSABKAsyGi5jbWQuQ1YuVmFtcGlyZU1vZGVEaXNhYmxlSAASRAoZc3RhYmlsaXphdGlvbl9tb2RlX2VuYWJsZRgGIAEoCzIfLmNtZC5DVi5TdGFiaWxpemF0aW9uTW9kZUVuYWJsZUgAEkYKGnN0YWJpbGl6YXRpb25fbW9kZV9kaXNhYmxlGAcgASgLMiAuY21kLkNWLlN0YWJpbGl6YXRpb25Nb2RlRGlzYWJsZUgAEicKCmR1bXBfc3RhcnQYCCABKAsyES5jbWQuQ1YuRHVtcFN0YXJ0SAASJQoJZHVtcF9zdG9wGAkgASgLMhAuY21kLkNWLkR1bXBTdG9wSAASQAoXcmVjb2duaXRpb25fbW9kZV9lbmFibGUYCiABKAsyHS5jbWQuQ1YuUmVjb2duaXRpb25Nb2RlRW5hYmxlSAASQgoYcmVjb2duaXRpb25fbW9kZV9kaXNhYmxlGAsgASgLMh4uY21kLkNWLlJlY29nbml0aW9uTW9kZURpc2FibGVIABIrCgxicmlkZ2Vfc3RhcnQYFCABKAsyEy5jbWQuQ1YuQnJpZGdlU3RhcnRIABIpCgticmlkZ2Vfc3RvcBgVIAEoCzISLmNtZC5DVi5CcmlkZ2VTdG9wSAASLwoOYnJpZGdlX3Jlc3RhcnQYFiABKAsyFS5jbWQuQ1YuQnJpZGdlUmVzdGFydEgAQgwKA2NtZBIFukgCCAEiEwoRVmFtcGlyZU1vZGVFbmFibGUiCwoJRHVtcFN0YXJ0IgoKCER1bXBTdG9wIhQKElZhbXBpcmVNb2RlRGlzYWJsZSIZChdTdGFiaWxpemF0aW9uTW9kZUVuYWJsZSIaChhTdGFiaWxpemF0aW9uTW9kZURpc2FibGUiFwoVUmVjb2duaXRpb25Nb2RlRW5hYmxlIhgKFlJlY29nbml0aW9uTW9kZURpc2FibGUiVwoMU2V0QXV0b0ZvY3VzEjgKB2NoYW5uZWwYASABKA4yGy5zZXIuSm9uR3VpRGF0YVZpZGVvQ2hhbm5lbEIKukgHggEEEAEgABINCgV2YWx1ZRgCIAEoCCK5AQoNU3RhcnRUcmFja05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIgsKCVN0b3BUcmFjayINCgtCcmlkZ2VTdGFydCIbCgpCcmlkZ2VTdG9wEg0KBWZvcmNlGAEgASgIIh4KDUJyaWRnZVJlc3RhcnQSDQoFZm9yY2UYASABKAhCSVpHZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chdqb25fc2hhcmVkX2NtZF9jdi5wcm90bxIGY21kLkNWIvQGCgRSb290Ei4KDnNldF9hdXRvX2ZvY3VzGAEgASgLMhQuY21kLkNWLlNldEF1dG9Gb2N1c0gAEjAKD3N0YXJ0X3RyYWNrX25kYxgCIAEoCzIVLmNtZC5DVi5TdGFydFRyYWNrTkRDSAASJwoKc3RvcF90cmFjaxgDIAEoCzIRLmNtZC5DVi5TdG9wVHJhY2tIABI4ChN2YW1waXJlX21vZGVfZW5hYmxlGAQgASgLMhkuY21kLkNWLlZhbXBpcmVNb2RlRW5hYmxlSAASOgoUdmFtcGlyZV9tb2RlX2Rpc2FibGUYBSABKAsyGi5jbWQuQ1YuVmFtcGlyZU1vZGVEaXNhYmxlSAASRAoZc3RhYmlsaXphdGlvbl9tb2RlX2VuYWJsZRgGIAEoCzIfLmNtZC5DVi5TdGFiaWxpemF0aW9uTW9kZUVuYWJsZUgAEkYKGnN0YWJpbGl6YXRpb25fbW9kZV9kaXNhYmxlGAcgASgLMiAuY21kLkNWLlN0YWJpbGl6YXRpb25Nb2RlRGlzYWJsZUgAEicKCmR1bXBfc3RhcnQYCCABKAsyES5jbWQuQ1YuRHVtcFN0YXJ0SAASJQoJZHVtcF9zdG9wGAkgASgLMhAuY21kLkNWLkR1bXBTdG9wSAASQAoXcmVjb2duaXRpb25fbW9kZV9lbmFibGUYCiABKAsyHS5jbWQuQ1YuUmVjb2duaXRpb25Nb2RlRW5hYmxlSAASQgoYcmVjb2duaXRpb25fbW9kZV9kaXNhYmxlGAsgASgLMh4uY21kLkNWLlJlY29nbml0aW9uTW9kZURpc2FibGVIABI4ChNzdGFydF90cmFja190cmluaXR5GAwgASgLMhkuY21kLkNWLlN0YXJ0VHJhY2tUcmluaXR5SAASNgoSc3RvcF90cmFja190cmluaXR5GA0gASgLMhguY21kLkNWLlN0b3BUcmFja1RyaW5pdHlIABIrCgxicmlkZ2Vfc3RhcnQYFCABKAsyEy5jbWQuQ1YuQnJpZGdlU3RhcnRIABIpCgticmlkZ2Vfc3RvcBgVIAEoCzISLmNtZC5DVi5CcmlkZ2VTdG9wSAASLwoOYnJpZGdlX3Jlc3RhcnQYFiABKAsyFS5jbWQuQ1YuQnJpZGdlUmVzdGFydEgAQgwKA2NtZBIFukgCCAEiEwoRVmFtcGlyZU1vZGVFbmFibGUiCwoJRHVtcFN0YXJ0IgoKCER1bXBTdG9wIhQKElZhbXBpcmVNb2RlRGlzYWJsZSIZChdTdGFiaWxpemF0aW9uTW9kZUVuYWJsZSIaChhTdGFiaWxpemF0aW9uTW9kZURpc2FibGUiFwoVUmVjb2duaXRpb25Nb2RlRW5hYmxlIhgKFlJlY29nbml0aW9uTW9kZURpc2FibGUiVwoMU2V0QXV0b0ZvY3VzEjgKB2NoYW5uZWwYASABKA4yGy5zZXIuSm9uR3VpRGF0YVZpZGVvQ2hhbm5lbEIKukgHggEEEAEgABINCgV2YWx1ZRgCIAEoCCK5AQoNU3RhcnRUcmFja05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIgsKCVN0b3BUcmFjayJ9ChFTdGFydFRyYWNrVHJpbml0eRI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASLgoMZXhwZWN0X2JvYXJkGAIgASgLMhguc2VyLlRyaW5pdHlCb2FyZFZlcnNpb24iEgoQU3RvcFRyYWNrVHJpbml0eSINCgtCcmlkZ2VTdGFydCIbCgpCcmlkZ2VTdG9wEg0KBWZvcmNlGAEgASgIIh4KDUJyaWRnZVJlc3RhcnQSDQoFZm9yY2UYASABKAhCSVpHZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types, file_opaque_trinity_tracking]);
 
 /**
  * @generated from message cmd.CV.Root
@@ -88,6 +90,20 @@ export type Root = Message<"cmd.CV.Root"> & {
      */
     value: RecognitionModeDisable;
     case: "recognitionModeDisable";
+  } | {
+    /**
+     * Ring-Trinity golden fiducial board tracking
+     *
+     * @generated from field: cmd.CV.StartTrackTrinity start_track_trinity = 12;
+     */
+    value: StartTrackTrinity;
+    case: "startTrackTrinity";
+  } | {
+    /**
+     * @generated from field: cmd.CV.StopTrackTrinity stop_track_trinity = 13;
+     */
+    value: StopTrackTrinity;
+    case: "stopTrackTrinity";
   } | {
     /**
      * CV Bridge container control
@@ -299,6 +315,56 @@ export const StopTrackSchema: GenMessage<StopTrack> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_cv, 11);
 
 /**
+ * Begin tracking the Ring-Trinity golden fiducial board.
+ *
+ * UNLIKE StartTrackNDC THERE IS NO SEED POINT, and that is the point of the board:
+ * it is self-locating from its own geometry, so the operator does not have to put a
+ * cursor on it. There is exactly ONE board in a run, so no identity is needed to
+ * disambiguate between targets.
+ *
+ * @generated from message cmd.CV.StartTrackTrinity
+ */
+export type StartTrackTrinity = Message<"cmd.CV.StartTrackTrinity"> & {
+  /**
+   * @generated from field: ser.JonGuiDataVideoChannel channel = 1;
+   */
+  channel: JonGuiDataVideoChannel;
+
+  /**
+   * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+   * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+   * rather than silently producing a pose against different geometry — a pose
+   * computed against the wrong board is wrong by a scale factor and looks entirely
+   * plausible.
+   *
+   * @generated from field: ser.TrinityBoardVersion expect_board = 2;
+   */
+  expectBoard?: TrinityBoardVersion | undefined;
+};
+
+/**
+ * Describes the message cmd.CV.StartTrackTrinity.
+ * Use `create(StartTrackTrinitySchema)` to create a new message.
+ */
+export const StartTrackTrinitySchema: GenMessage<StartTrackTrinity> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_cv, 12);
+
+/**
+ * Stop tracking the Ring-Trinity board.
+ *
+ * @generated from message cmd.CV.StopTrackTrinity
+ */
+export type StopTrackTrinity = Message<"cmd.CV.StopTrackTrinity"> & {
+};
+
+/**
+ * Describes the message cmd.CV.StopTrackTrinity.
+ * Use `create(StopTrackTrinitySchema)` to create a new message.
+ */
+export const StopTrackTrinitySchema: GenMessage<StopTrackTrinity> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_cv, 13);
+
+/**
  * CV Bridge container control commands
  *
  * Starts the CV bridge container
@@ -313,7 +379,7 @@ export type BridgeStart = Message<"cmd.CV.BridgeStart"> & {
  * Use `create(BridgeStartSchema)` to create a new message.
  */
 export const BridgeStartSchema: GenMessage<BridgeStart> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 12);
+  messageDesc(file_jon_shared_cmd_cv, 14);
 
 /**
  * @generated from message cmd.CV.BridgeStop
@@ -332,7 +398,7 @@ export type BridgeStop = Message<"cmd.CV.BridgeStop"> & {
  * Use `create(BridgeStopSchema)` to create a new message.
  */
 export const BridgeStopSchema: GenMessage<BridgeStop> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 13);
+  messageDesc(file_jon_shared_cmd_cv, 15);
 
 /**
  * @generated from message cmd.CV.BridgeRestart
@@ -351,5 +417,5 @@ export type BridgeRestart = Message<"cmd.CV.BridgeRestart"> & {
  * Use `create(BridgeRestartSchema)` to create a new message.
  */
 export const BridgeRestartSchema: GenMessage<BridgeRestart> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_cv, 14);
+  messageDesc(file_jon_shared_cmd_cv, 16);
 

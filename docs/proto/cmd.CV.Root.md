@@ -28,6 +28,8 @@ Container message for computer vision commands that provides object tracking, au
 | 9 | dump_stop | [[proto/cmd.CV.DumpStop]] | - |
 | 10 | recognition_mode_enable | [[proto/cmd.CV.RecognitionModeEnable]] | - |
 | 11 | recognition_mode_disable | [[proto/cmd.CV.RecognitionModeDisable]] | - |
+| 12 | start_track_trinity | [[proto/cmd.CV.StartTrackTrinity]] | - |
+| 13 | stop_track_trinity | [[proto/cmd.CV.StopTrackTrinity]] | - |
 | 20 | bridge_start | [[proto/cmd.CV.BridgeStart]] | - |
 | 21 | bridge_stop | [[proto/cmd.CV.BridgeStop]] | - |
 | 22 | bridge_restart | [[proto/cmd.CV.BridgeRestart]] | - |
@@ -38,7 +40,7 @@ Container message for computer vision commands that provides object tracking, au
 
 ### cmd (required)
 
-Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #20, #21, #22
+Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #20, #21, #22
 
 
 

@@ -42,6 +42,12 @@ PB_BIND(cmd_CV_StartTrackNDC, cmd_CV_StartTrackNDC, AUTO)
 PB_BIND(cmd_CV_StopTrack, cmd_CV_StopTrack, AUTO)
 
 
+PB_BIND(cmd_CV_StartTrackTrinity, cmd_CV_StartTrackTrinity, AUTO)
+
+
+PB_BIND(cmd_CV_StopTrackTrinity, cmd_CV_StopTrackTrinity, AUTO)
+
+
 PB_BIND(cmd_CV_BridgeStart, cmd_CV_BridgeStart, AUTO)
 
 

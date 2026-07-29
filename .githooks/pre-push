@@ -122,5 +122,38 @@ EOF
   exit 1
 fi
 
+# DOCUMENTATION LINT. Also proto-aware, and separate from `wire-contract` for the
+# same reason that one is separate from `lint`: they answer different questions.
+# wire-contract asks whether INTERFACE-CONTRACTS.md still describes the protos;
+# this asks whether every constrained field and enum value carries a description.
+#
+# A WARNING BLOCKS. That is the whole point of the lane: warnings are what
+# accumulate, because a command that prints them and exits 0 leaves CI green and
+# nothing ever has to be dispositioned. The two permitted responses are to fix the
+# finding or to delete the rule with its reasoning recorded.
+#
+# It reads the COMMITTED proto-db.edn, so locally it answers "does the doc match
+# what I have generated" — run `make docs-docker-generate` first if you edited
+# proto/ or a docs page and want this to see it.
+if ! make -f lint.mk docs-lint; then
+  cat >&2 <<'EOF'
+
+[pre-push] BLOCKED — proto documentation has lint findings.
+
+  see the findings :  make -f lint.mk docs-lint
+
+Every constrained field and every enum value owes a description. A constraint the
+reader can already see in the table is not a description — say what the quantity
+IS, in what units or frame, and what the bound protects against.
+
+If a finding is genuinely wrong for this repo, DELETE THE RULE in
+docs/.protodoc/tools/src/protodoc/lint.clj with the reasoning recorded there. Do
+not reach for --allow-warnings to get past a finding: that flag exists for a bulk
+regeneration whose findings are triaged in the following commit, and using it here
+re-opens the hole this lane was added to close.
+EOF
+  exit 1
+fi
+
 printf '\033[32m[pre-push]\033[0m gates green\n'
 exit 0

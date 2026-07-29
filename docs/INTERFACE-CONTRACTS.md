@@ -202,6 +202,41 @@ Reference implementations:
   (`[-1,1]`, +x right, +y UP); the WASM-side clamp + `ndc_to_px` flip live in
   `renderer/src/main.c` `ndc_to_px`.
 
+### 4.1 The CV payload plane uses the OPPOSITE Y SENSE under the same name
+
+**`+y is UP` above is scoped to the pointer/`cmd.*` plane. The CV detection and
+tracking payloads declare `+y is DOWN` — `-1.0` at TOP, `+1.0` at BOTTOM — and
+both planes are `double` in `[-1.0, 1.0]` called "NDC".**
+
+Nothing on the wire distinguishes them. A `double` carrying a y value is
+type-identical, range-identical and name-identical in both planes, so moving one
+across without a flip yields a VERTICALLY MIRRORED box — and a mirrored box is a
+plausible detection, not an error. There is no signal to catch it downstream.
+
+Which plane a field belongs to is decided by the message it lives in, never by
+its type. Derive the members rather than trusting a list here:
+
+```
+# the y-DOWN plane (CV payloads, ROI geometry)
+grep -rn 'left/top' proto/
+# the y-UP plane (pointer / gesture)
+grep -rniE '\+y up' proto/ui/ui_input.proto
+```
+
+The transforms in §4 apply ONLY to the y-UP plane. For a y-DOWN field the
+framebuffer mapping has no flip:
+
+```
+fb_y = (ndc_y + 1) * 0.5 * H         # -1.0 (top) maps to row 0
+```
+
+Two consequences a consumer must act on. A conversion helper written for one
+plane is WRONG for the other and will compile, run and produce output for both —
+so a shared `ndc_to_px` must take the plane as an argument or exist twice under
+names that cannot be confused. And the byte-identity claim above — that an NDC
+`double` is written VERBATIM from the pointer channel into the device command —
+holds WITHIN the y-UP plane and does not extend across this boundary.
+
 ---
 
 ## 5. OsdClientMetadata enrichment

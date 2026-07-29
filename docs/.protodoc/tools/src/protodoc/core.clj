@@ -163,12 +163,25 @@
 (defn lint-cli
   "Lint documentation quality.
 
+   A WARNING FAILS THIS COMMAND. Documentation lint has exactly two dispositions:
+   fix the finding, or delete the rule that raised it with the reasoning recorded.
+   \"Leave it and move on\" is not one of them — a warning nobody must act on is
+   training to ignore the linter, and a pile of them is where a real defect hides
+   in plain sight, indistinguishable from the noise because the tool reports both
+   the same way. Warnings accumulated here precisely because this command exited 0
+   while printing them, so CI stayed green and nothing ever had to be dispositioned.
+
+   :allow-warnings is the deliberate escape hatch and is NOT for clearing a red.
+   It exists for a bulk regeneration where the findings are triaged in a following
+   commit; using it to push past a finding re-opens the hole.
+
    Options:
-   - :db-path  - path to proto-db.edn
-   - :rules    - comma-separated rule names to include
-   - :exclude  - comma-separated rule names to exclude
-   - :severity - comma-separated severity levels to include"
-  [{:keys [db-path rules exclude severity]
+   - :db-path        - path to proto-db.edn
+   - :rules          - comma-separated rule names to include
+   - :exclude        - comma-separated rule names to exclude
+   - :severity       - comma-separated severity levels to include
+   - :allow-warnings - true to exit 0 despite warnings (errors still fail)"
+  [{:keys [db-path rules exclude severity allow-warnings]
     :or {db-path "docs/.protodoc/proto-db.edn"}}]
   (let [db (load-db db-path)
         _ (when-not db
@@ -177,10 +190,19 @@
         result (lint/lint db
                           :rules (parse-kws rules)
                           :exclude (parse-kws exclude)
-                          :severity (parse-kws severity))]
+                          :severity (parse-kws severity))
+        {:keys [error warning]} (:summary result)
+        errors   (or error 0)
+        warnings (or warning 0)]
     (print (lint/format-findings result))
     (flush)
-    (when (pos? (:error (:summary result)))
+    (when (and (pos? warnings) allow-warnings)
+      (println (format "\nlint: %d warning(s) TOLERATED by --allow-warnings. They are still findings."
+                       warnings)))
+    (when (or (pos? errors)
+              (and (pos? warnings) (not allow-warnings)))
+      (println (format "\nlint: FAILED — %d error(s), %d warning(s). Fix each finding, or remove the rule with its reasoning."
+                       errors warnings))
       (System/exit 1))))
 
 (defn validate
@@ -260,7 +282,7 @@
       "render"   (render-only options)
       "sync-ir"  (sync-ir options)
       "coverage" (coverage (update options :strict #(= % "true")))
-      "lint"     (lint-cli options)
+      "lint"     (lint-cli (update options :allow-warnings #(= % "true")))
       "validate" (validate-cli options)
       "manifest" (manifest/generate-manifests options)
       "binary-dedup" (binary-dedup/generate! (:descriptor options) (:output options))

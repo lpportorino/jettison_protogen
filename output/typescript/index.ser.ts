@@ -6,6 +6,7 @@
 /* eslint-disable */
 
 export * from "./jon_shared_data_types";
+export * from "./opaque/trinity_tracking";
 export * from "./jon_shared_data_time";
 export * from "./jon_shared_data_system";
 export * from "./jon_shared_data_lrf";

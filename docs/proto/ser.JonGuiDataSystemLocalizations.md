@@ -17,9 +17,9 @@ Specifies the UI language setting for the system, supporting four languages: Eng
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_SYSTEM_LOCALIZATION_EN | - |
-| 2 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UA | - |
-| 3 | JON_GUI_DATA_SYSTEM_LOCALIZATION_AR | - |
-| 4 | JON_GUI_DATA_SYSTEM_LOCALIZATION_CS | - |
+| 0 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED | Protobuf default zero, meaning the field was never set. Both fields typed by this enum — `ser.JonGuiDataSystem.loc` and `cmd.System.SetLocalization.loc` — carry `not_in: [0]`, so neither a reported system state nor a language-change command may leave the selection unset. |
+| 1 | JON_GUI_DATA_SYSTEM_LOCALIZATION_EN | English. The suffix matches the ISO 639-1 language code `en`. |
+| 2 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UA | Ukrainian. The suffix is the ISO 3166-1 COUNTRY code for Ukraine, not the language code — ISO 639-1 for Ukrainian is `uk` — so a consumer must not lower-case this suffix and expect a valid locale identifier. |
+| 3 | JON_GUI_DATA_SYSTEM_LOCALIZATION_AR | Arabic. The suffix matches the ISO 639-1 language code `ar`. |
+| 4 | JON_GUI_DATA_SYSTEM_LOCALIZATION_CS | Czech. The suffix matches the ISO 639-1 language code `cs`. |
 

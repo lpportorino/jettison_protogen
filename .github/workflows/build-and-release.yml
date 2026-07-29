@@ -141,6 +141,26 @@ jobs:
     - name: Validate the wire contract against the generated descriptors
       run: make -f lint.mk wire-contract
 
+    # DOCUMENTATION LINT — also before the first push, for the same reason: what
+    # ships to ten consumers should not carry undocumented constrained fields or
+    # undocumented enum values. A WARNING FAILS THIS STEP.
+    #
+    # That is the whole point. `protodoc lint` used to exit 0 while printing its
+    # findings, so both this pipeline and docs.yml stayed green while warnings
+    # accumulated, and nothing ever forced a disposition. Two responses are
+    # permitted: fix the finding, or delete the rule with its reasoning recorded
+    # in docs/.protodoc/tools/src/protodoc/lint.clj.
+    #
+    # WHAT IT SEES, STATED EXACTLY, because the boundary is not the one above:
+    # this reads the COMMITTED proto-db.edn, NOT the freshly generated
+    # descriptors. So it catches an undocumented field that was committed, and it
+    # does NOT catch a proto edit whose docs were never regenerated — that gap is
+    # a FRESHNESS question, not a lint one, and closing it here would require
+    # running the docs generation inside this writer job. Do not read a green here
+    # as "the docs match the protos"; it means "the docs that exist are complete".
+    - name: Proto documentation lint
+      run: make -f lint.mk docs-lint
+
     # THE TEN FAN-OUT STEPS BELOW SHARE ONE ORDERING RULE: DECIDE, THEN STAMP.
     #
     # Each writes a consumer README carrying two lines that vary on every run —

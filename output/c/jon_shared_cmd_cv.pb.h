@@ -5,6 +5,7 @@
 #define PB_CMD_CV_JON_SHARED_CMD_CV_PB_H_INCLUDED
 #include <pb.h>
 #include "jon_shared_data_types.pb.h"
+#include "opaque/trinity_tracking.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -61,6 +62,28 @@ typedef struct _cmd_CV_StopTrack {
     char dummy_field;
 } cmd_CV_StopTrack;
 
+/* Begin tracking the Ring-Trinity golden fiducial board.
+
+ UNLIKE StartTrackNDC THERE IS NO SEED POINT, and that is the point of the board:
+ it is self-locating from its own geometry, so the operator does not have to put a
+ cursor on it. There is exactly ONE board in a run, so no identity is needed to
+ disambiguate between targets. */
+typedef struct _cmd_CV_StartTrackTrinity {
+    ser_JonGuiDataVideoChannel channel;
+    /* Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+ you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+ rather than silently producing a pose against different geometry — a pose
+ computed against the wrong board is wrong by a scale factor and looks entirely
+ plausible. */
+    bool has_expect_board;
+    ser_TrinityBoardVersion expect_board;
+} cmd_CV_StartTrackTrinity;
+
+/* Stop tracking the Ring-Trinity board. */
+typedef struct _cmd_CV_StopTrackTrinity {
+    char dummy_field;
+} cmd_CV_StopTrackTrinity;
+
 /* CV Bridge container control commands */
 typedef struct _cmd_CV_BridgeStart { /* Starts the CV bridge container */
     char dummy_field;
@@ -88,6 +111,9 @@ typedef struct _cmd_CV_Root {
         cmd_CV_DumpStop dump_stop;
         cmd_CV_RecognitionModeEnable recognition_mode_enable;
         cmd_CV_RecognitionModeDisable recognition_mode_disable;
+        /* Ring-Trinity golden fiducial board tracking */
+        cmd_CV_StartTrackTrinity start_track_trinity;
+        cmd_CV_StopTrackTrinity stop_track_trinity;
         /* CV Bridge container control */
         cmd_CV_BridgeStart bridge_start;
         cmd_CV_BridgeStop bridge_stop;
@@ -113,6 +139,8 @@ extern "C" {
 #define cmd_CV_SetAutoFocus_init_default         {_ser_JonGuiDataVideoChannel_MIN, 0}
 #define cmd_CV_StartTrackNDC_init_default        {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_CV_StopTrack_init_default            {0}
+#define cmd_CV_StartTrackTrinity_init_default    {_ser_JonGuiDataVideoChannel_MIN, false, ser_TrinityBoardVersion_init_default}
+#define cmd_CV_StopTrackTrinity_init_default     {0}
 #define cmd_CV_BridgeStart_init_default          {0}
 #define cmd_CV_BridgeStop_init_default           {0}
 #define cmd_CV_BridgeRestart_init_default        {0}
@@ -128,6 +156,8 @@ extern "C" {
 #define cmd_CV_SetAutoFocus_init_zero            {_ser_JonGuiDataVideoChannel_MIN, 0}
 #define cmd_CV_StartTrackNDC_init_zero           {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_CV_StopTrack_init_zero               {0}
+#define cmd_CV_StartTrackTrinity_init_zero       {_ser_JonGuiDataVideoChannel_MIN, false, ser_TrinityBoardVersion_init_zero}
+#define cmd_CV_StopTrackTrinity_init_zero        {0}
 #define cmd_CV_BridgeStart_init_zero             {0}
 #define cmd_CV_BridgeStop_init_zero              {0}
 #define cmd_CV_BridgeRestart_init_zero           {0}
@@ -140,6 +170,8 @@ extern "C" {
 #define cmd_CV_StartTrackNDC_y_tag               3
 #define cmd_CV_StartTrackNDC_frame_time_tag      4
 #define cmd_CV_StartTrackNDC_state_time_tag      5
+#define cmd_CV_StartTrackTrinity_channel_tag     1
+#define cmd_CV_StartTrackTrinity_expect_board_tag 2
 #define cmd_CV_BridgeStop_force_tag              1
 #define cmd_CV_BridgeRestart_force_tag           1
 #define cmd_CV_Root_set_auto_focus_tag           1
@@ -153,6 +185,8 @@ extern "C" {
 #define cmd_CV_Root_dump_stop_tag                9
 #define cmd_CV_Root_recognition_mode_enable_tag  10
 #define cmd_CV_Root_recognition_mode_disable_tag 11
+#define cmd_CV_Root_start_track_trinity_tag      12
+#define cmd_CV_Root_stop_track_trinity_tag       13
 #define cmd_CV_Root_bridge_start_tag             20
 #define cmd_CV_Root_bridge_stop_tag              21
 #define cmd_CV_Root_bridge_restart_tag           22
@@ -170,6 +204,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_start,cmd.dump_start),   8) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_stop,cmd.dump_stop),   9) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_enable,cmd.recognition_mode_enable),  10) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_disable,cmd.recognition_mode_disable),  11) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,start_track_trinity,cmd.start_track_trinity),  12) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stop_track_trinity,cmd.stop_track_trinity),  13) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_start,cmd.bridge_start),  20) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_stop,cmd.bridge_stop),  21) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_restart,cmd.bridge_restart),  22)
@@ -186,6 +222,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_restart,cmd.bridge_restart),  22)
 #define cmd_CV_Root_cmd_dump_stop_MSGTYPE cmd_CV_DumpStop
 #define cmd_CV_Root_cmd_recognition_mode_enable_MSGTYPE cmd_CV_RecognitionModeEnable
 #define cmd_CV_Root_cmd_recognition_mode_disable_MSGTYPE cmd_CV_RecognitionModeDisable
+#define cmd_CV_Root_cmd_start_track_trinity_MSGTYPE cmd_CV_StartTrackTrinity
+#define cmd_CV_Root_cmd_stop_track_trinity_MSGTYPE cmd_CV_StopTrackTrinity
 #define cmd_CV_Root_cmd_bridge_start_MSGTYPE cmd_CV_BridgeStart
 #define cmd_CV_Root_cmd_bridge_stop_MSGTYPE cmd_CV_BridgeStop
 #define cmd_CV_Root_cmd_bridge_restart_MSGTYPE cmd_CV_BridgeRestart
@@ -250,6 +288,18 @@ X(a, STATIC,   SINGULAR, UINT64,   state_time,        5)
 #define cmd_CV_StopTrack_CALLBACK NULL
 #define cmd_CV_StopTrack_DEFAULT NULL
 
+#define cmd_CV_StartTrackTrinity_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  expect_board,      2)
+#define cmd_CV_StartTrackTrinity_CALLBACK NULL
+#define cmd_CV_StartTrackTrinity_DEFAULT NULL
+#define cmd_CV_StartTrackTrinity_expect_board_MSGTYPE ser_TrinityBoardVersion
+
+#define cmd_CV_StopTrackTrinity_FIELDLIST(X, a) \
+
+#define cmd_CV_StopTrackTrinity_CALLBACK NULL
+#define cmd_CV_StopTrackTrinity_DEFAULT NULL
+
 #define cmd_CV_BridgeStart_FIELDLIST(X, a) \
 
 #define cmd_CV_BridgeStart_CALLBACK NULL
@@ -277,6 +327,8 @@ extern const pb_msgdesc_t cmd_CV_RecognitionModeDisable_msg;
 extern const pb_msgdesc_t cmd_CV_SetAutoFocus_msg;
 extern const pb_msgdesc_t cmd_CV_StartTrackNDC_msg;
 extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
+extern const pb_msgdesc_t cmd_CV_StartTrackTrinity_msg;
+extern const pb_msgdesc_t cmd_CV_StopTrackTrinity_msg;
 extern const pb_msgdesc_t cmd_CV_BridgeStart_msg;
 extern const pb_msgdesc_t cmd_CV_BridgeStop_msg;
 extern const pb_msgdesc_t cmd_CV_BridgeRestart_msg;
@@ -294,12 +346,21 @@ extern const pb_msgdesc_t cmd_CV_BridgeRestart_msg;
 #define cmd_CV_SetAutoFocus_fields &cmd_CV_SetAutoFocus_msg
 #define cmd_CV_StartTrackNDC_fields &cmd_CV_StartTrackNDC_msg
 #define cmd_CV_StopTrack_fields &cmd_CV_StopTrack_msg
+#define cmd_CV_StartTrackTrinity_fields &cmd_CV_StartTrackTrinity_msg
+#define cmd_CV_StopTrackTrinity_fields &cmd_CV_StopTrackTrinity_msg
 #define cmd_CV_BridgeStart_fields &cmd_CV_BridgeStart_msg
 #define cmd_CV_BridgeStop_fields &cmd_CV_BridgeStop_msg
 #define cmd_CV_BridgeRestart_fields &cmd_CV_BridgeRestart_msg
 
 /* Maximum encoded size of messages (where known) */
-#define CMD_CV_JON_SHARED_CMD_CV_PB_H_MAX_SIZE   cmd_CV_Root_size
+#if defined(ser_TrinityBoardVersion_size)
+union cmd_CV_Root_cmd_size_union {char f12[(14 + ser_TrinityBoardVersion_size)]; char f0[44];};
+#endif
+#if defined(ser_TrinityBoardVersion_size)
+#define cmd_CV_Root_size                         (0 + sizeof(union cmd_CV_Root_cmd_size_union))
+#define cmd_CV_StartTrackTrinity_size            (8 + ser_TrinityBoardVersion_size)
+#endif
+#define CMD_CV_JON_SHARED_CMD_CV_PB_H_MAX_SIZE   cmd_CV_StartTrackNDC_size
 #define cmd_CV_BridgeRestart_size                2
 #define cmd_CV_BridgeStart_size                  0
 #define cmd_CV_BridgeStop_size                   2
@@ -307,11 +368,11 @@ extern const pb_msgdesc_t cmd_CV_BridgeRestart_msg;
 #define cmd_CV_DumpStop_size                     0
 #define cmd_CV_RecognitionModeDisable_size       0
 #define cmd_CV_RecognitionModeEnable_size        0
-#define cmd_CV_Root_size                         44
 #define cmd_CV_SetAutoFocus_size                 4
 #define cmd_CV_StabilizationModeDisable_size     0
 #define cmd_CV_StabilizationModeEnable_size      0
 #define cmd_CV_StartTrackNDC_size                42
+#define cmd_CV_StopTrackTrinity_size             0
 #define cmd_CV_StopTrack_size                    0
 #define cmd_CV_VampireModeDisable_size           0
 #define cmd_CV_VampireModeEnable_size            0

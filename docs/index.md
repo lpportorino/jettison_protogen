@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 287 messages, 25 enums, 848 fields
+**Statistics:** 292 messages, 27 enums, 883 fields
 
 ## Messages by Package
 
@@ -48,7 +48,20 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 - [[proto/cmd.CV.StabilizationModeDisable|StabilizationModeDisable]] — Disables the computer vision image stabilization mode, allowing the camera to respond freely to manual movement instead of compensating for shake and vibration. Tooltip: "Disable Image Stabilization - allows manual camera movement".
 - [[proto/cmd.CV.StabilizationModeEnable|StabilizationModeEnable]] — Enables computer vision-based image stabilization to reduce camera shake and vibration in the video feed. The system applies real-time stabilization algorithms to compensate for camera movement, providing steadier video output.
 - [[proto/cmd.CV.StartTrackNDC|StartTrackNDC]] — Initiates object tracking at a specific point using normalized device coordinates (NDC), where the user clicks on a video feed to begin tracking an object at that location. Includes frame and state timestamps for synchronization between frontend and backend video processing pipelines.
+- [[proto/cmd.CV.StartTrackTrinity|StartTrackTrinity]] — Begin tracking the Ring-Trinity golden fiducial board.
+
+Unlike [[proto/cmd.CV.StartTrackNDC]] there is **no seed point**, and that is the board's whole
+purpose: it is self-locating from its own geometry, so the operator does not have to put a cursor
+on it. There is exactly one board in a run, so nothing needs disambiguating.
+
+`expect_board` is optional. Unset means "track whatever Ring-Trinity board you find". When set, a
+mismatch is reported as `TRINITY_TRACKING_STATUS_BOARD_MISMATCH` instead of yielding a pose
+computed against different geometry — which would be wrong by a scale factor and look entirely
+plausible.
 - [[proto/cmd.CV.StopTrack|StopTrack]] — Stops active video tracking on both day and thermal cameras. When sent from the frontend, it is forwarded to both pipeline command channels to terminate automatic target following. The tracking button (with corner brackets icon) only appears when system.tracking is true.
+- [[proto/cmd.CV.StopTrackTrinity|StopTrackTrinity]] — Stop tracking the Ring-Trinity board.
+
+Symmetric with [[proto/cmd.CV.StopTrack]] for NDC tracking; takes no fields.
 - [[proto/cmd.CV.VampireModeDisable|VampireModeDisable]] — Disables vampire mode (sun avoidance) in the computer vision system, allowing cameras to look directly at bright light sources like the sun without automatic avoidance behavior. Sets cv.vampire_mode_enabled to false in the backend state.
 - [[proto/cmd.CV.VampireModeEnable|VampireModeEnable]] — Enables vampire mode for the computer vision system, which causes the cameras to actively avoid looking at the sun to protect sensors and prevent image overexposure. When enabled, the system prevents cameras from pointing at bright light sources.
 
@@ -379,11 +392,48 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 UUID: `019c40f6-825d-7e0e-9893-87c7b167a751`
 - [[proto/ser.OsdClientMetadata|OsdClientMetadata]] — Client-side canvas and rendering metadata for resolution-aware OSD overlay compositing. Injected by the frontend into `JonGUIState.opaque_payloads` so that the server-side OSD renderer (WASM or native) can correctly map its fixed-resolution framebuffer onto the client's variable-size display canvas. Carries the physical canvas dimensions, device pixel ratio, the NDC bounding box of the video proxy quad, the computed scale factor between OSD buffer pixels and physical display pixels, and the current UI theme parameters (OKLCH color space and sharp/smooth mode).
 - [[proto/ser.RgbColor|RgbColor]] — Represents an RGB color value with red, green, and blue components each constrained to 0-255, used in the UI to specify and display target marker colors for laser rangefinder measurements and on-screen display (OSD) configuration.
-- [[proto/ser.SamTrackingDay|SamTrackingDay]] — *No description yet.*
-- [[proto/ser.SamTrackingFrameMeta|SamTrackingFrameMeta]] — *No description yet.*
-- [[proto/ser.SamTrackingHeat|SamTrackingHeat]] — *No description yet.*
-- [[proto/ser.SamTrackingKalmanState|SamTrackingKalmanState]] — *No description yet.*
+- [[proto/ser.SamTrackingDay|SamTrackingDay]]
+- [[proto/ser.SamTrackingFrameMeta|SamTrackingFrameMeta]]
+- [[proto/ser.SamTrackingHeat|SamTrackingHeat]]
+- [[proto/ser.SamTrackingKalmanState|SamTrackingKalmanState]]
 - [[proto/ser.ScanNode|ScanNode]] — Represents a single waypoint within a rotary platform scanning pattern, containing positional data (azimuth and elevation angles), camera zoom table positions for both day and thermal cameras, and transition parameters (linger time at the waypoint and speed to the next node). Used across frontend scanning pattern editors, backend scan APIs, and embedded device controllers to define and execute multi-point scanning sequences.
+- [[proto/ser.TrinityAltPose|TrinityAltPose]] — The pose the disambiguator did **not** choose.
+
+Present when the near-affine two-fold ambiguity admitted a second solution that reprojection error
+could not separate from the chosen one. It is carried so a consumer can see the fork and apply its
+own prior — a scale prior, a temporal track, or an external range — rather than inheriting a
+selection it cannot audit.
+- [[proto/ser.TrinityBoardVersion|TrinityBoardVersion]] — Identifies **which physical board** a pose refers to.
+
+This is data, not a schema version. `JonOpaquePayload.version` already carries the payload's
+wire-format version, and the two move independently: a schema change does not reprint the board,
+and a new board revision does not change this message's shape. A single conflated "version" would
+make a reprint indistinguishable from a wire bump.
+
+`geometry_sha256` hashes the board's geometry manifest, which is the one home for every board
+dimension. Pinning that hash pins the geometry a pose was computed against exactly, so a reprint
+from an edited manifest is visibly a different board rather than a silent scale error.
+- [[proto/ser.TrinityTracking|TrinityTracking]] — Full-precision pose of the Ring-Trinity golden fiducial board, injected into
+`JonGUIState.opaque_payloads` by the trinity tracker at track rate.
+
+Unlike the SAM tracking payloads — which carry NDC in `[-1, 1]` because a bounding box is a
+screen artifact — this carries a **metric** pose in metres plus a unit quaternion. The board is
+the ground-truth judge other measurements are scored against, so quantising it to screen
+coordinates would destroy the precision it exists to provide.
+
+**Precision is anisotropic, and the encoding is not the limit.** A `double` resolves to ~1.8e-12
+mm at 10 m — about twelve orders of magnitude finer than a millimetre. The optics bind instead.
+Lateral error is `sigma_px * range / focal_px`: at 0.4 px centre localisation that is ~1.1 mm at
+10 m on day (focal_px 3517) and ~3.0 mm on heat (focal_px 1320). Range from apparent size obeys
+`dZ/Z = dS/S` and is far worse — ~27 mm at 10 m on day, degrading with the square of range.
+Millimetre-class is therefore reachable laterally at short range and **not** reachable in range
+from board extent alone, which is why `sigma_range_m` is separate from `sigma_position_m` and why
+`range_source` exists.
+
+**The two-fold ambiguity is surfaced rather than hidden.** A planar target under near-affine
+projection admits two poses that reprojection error cannot separate, so a payload emitting only
+the chosen one is silently wrong about half the time at range. `alternate` carries the rejected
+solution and `ambiguity_resolved` says whether the fork was closed.
 
 
 
@@ -412,6 +462,21 @@ UUID: `019c40f6-825d-7e0e-9893-87c7b167a751`
 - [[proto/ser.JonGuiDataVideoChannelHeatAGCModes|JonGuiDataVideoChannelHeatAGCModes]] — Defines three Automatic Gain Control (AGC) modes for thermal camera operation: Mode 1 (mixed AGC), Mode 2 (auto AGC 1), and Mode 3 (auto AGC 2) that adjust image brightness and contrast for optimal thermal imaging visibility. Used throughout the system to configure thermal camera settings via the HeatCamera.SetAGC command.
 - [[proto/ser.JonGuiDataVideoChannelHeatFilters|JonGuiDataVideoChannelHeatFilters]] — Specifies thermal camera display color schemes with four filter modes: Hot White (hottest objects rendered in white), Hot Black (hottest objects rendered in black), Sepia (warm tone colorization), and Sepia Inverse (inverted warm tone colorization). Applied via HeatCamera.SetFilters to control how thermal image data is visualized in real-time.
 - [[proto/ser.JonGuiDatatLrfLaserPointerModes|JonGuiDatatLrfLaserPointerModes]] — Controls the laser rangefinder's target designator pointer, supporting three operational states: disabled (OFF), and two active modes (ON_1 and ON_2) for different targeting scenarios. The pointer_mode field in JonGuiDataLrf tracks the current state of the LRF laser designator output.
-- [[proto/ser.SamTrackingState|SamTrackingState]] — *No description yet.*
-- [[proto/ser.SamTrackingStatus|SamTrackingStatus]] — *No description yet.*
+- [[proto/ser.SamTrackingState|SamTrackingState]]
+- [[proto/ser.SamTrackingStatus|SamTrackingStatus]]
+- [[proto/ser.TrinityRangeSource|TrinityRangeSource]] — How `TrinityTracking.position_z_m` was obtained.
+
+Not cosmetic. Monocular range from the board's apparent size degrades with the square of range
+(~27 mm at 10 m on day, ~676 mm at 50 m), while a direct LRF distance is roughly range-independent
+and is the millimetre-class option. The two differ by more than an order of magnitude at 50 m and
+look identical on the wire, so a consumer must be able to tell which it received.
+- [[proto/ser.TrinityTrackingStatus|TrinityTrackingStatus]] — Tracking state for this tick.
+
+`DEGRADED` is the load-bearing member: the board was found but is too small or too oblique for a
+pose, so position may be approximate while orientation is **not** valid. A small planar target
+loses orientation observability long before it loses position, and a single "tracking" state would
+force the consumer to trust both or neither.
+
+`BOARD_MISMATCH` fires when `StartTrackTrinity.expect_board` was set and a different board was
+detected, instead of silently producing a pose against different geometry.
 

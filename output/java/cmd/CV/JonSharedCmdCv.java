@@ -196,6 +196,48 @@ public final class JonSharedCmdCv {
 
     /**
      * <pre>
+     * Ring-Trinity golden fiducial board tracking
+     * </pre>
+     *
+     * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+     * @return Whether the startTrackTrinity field is set.
+     */
+    boolean hasStartTrackTrinity();
+    /**
+     * <pre>
+     * Ring-Trinity golden fiducial board tracking
+     * </pre>
+     *
+     * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+     * @return The startTrackTrinity.
+     */
+    cmd.CV.JonSharedCmdCv.StartTrackTrinity getStartTrackTrinity();
+    /**
+     * <pre>
+     * Ring-Trinity golden fiducial board tracking
+     * </pre>
+     *
+     * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+     */
+    cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder getStartTrackTrinityOrBuilder();
+
+    /**
+     * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+     * @return Whether the stopTrackTrinity field is set.
+     */
+    boolean hasStopTrackTrinity();
+    /**
+     * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+     * @return The stopTrackTrinity.
+     */
+    cmd.CV.JonSharedCmdCv.StopTrackTrinity getStopTrackTrinity();
+    /**
+     * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+     */
+    cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder getStopTrackTrinityOrBuilder();
+
+    /**
+     * <pre>
      * CV Bridge container control
      * </pre>
      *
@@ -307,6 +349,8 @@ public final class JonSharedCmdCv {
       DUMP_STOP(9),
       RECOGNITION_MODE_ENABLE(10),
       RECOGNITION_MODE_DISABLE(11),
+      START_TRACK_TRINITY(12),
+      STOP_TRACK_TRINITY(13),
       BRIDGE_START(20),
       BRIDGE_STOP(21),
       BRIDGE_RESTART(22),
@@ -338,6 +382,8 @@ public final class JonSharedCmdCv {
           case 9: return DUMP_STOP;
           case 10: return RECOGNITION_MODE_ENABLE;
           case 11: return RECOGNITION_MODE_DISABLE;
+          case 12: return START_TRACK_TRINITY;
+          case 13: return STOP_TRACK_TRINITY;
           case 20: return BRIDGE_START;
           case 21: return BRIDGE_STOP;
           case 22: return BRIDGE_RESTART;
@@ -697,6 +743,80 @@ public final class JonSharedCmdCv {
       return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
     }
 
+    public static final int START_TRACK_TRINITY_FIELD_NUMBER = 12;
+    /**
+     * <pre>
+     * Ring-Trinity golden fiducial board tracking
+     * </pre>
+     *
+     * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+     * @return Whether the startTrackTrinity field is set.
+     */
+    @java.lang.Override
+    public boolean hasStartTrackTrinity() {
+      return cmdCase_ == 12;
+    }
+    /**
+     * <pre>
+     * Ring-Trinity golden fiducial board tracking
+     * </pre>
+     *
+     * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+     * @return The startTrackTrinity.
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.StartTrackTrinity getStartTrackTrinity() {
+      if (cmdCase_ == 12) {
+         return (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     * Ring-Trinity golden fiducial board tracking
+     * </pre>
+     *
+     * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder getStartTrackTrinityOrBuilder() {
+      if (cmdCase_ == 12) {
+         return (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+    }
+
+    public static final int STOP_TRACK_TRINITY_FIELD_NUMBER = 13;
+    /**
+     * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+     * @return Whether the stopTrackTrinity field is set.
+     */
+    @java.lang.Override
+    public boolean hasStopTrackTrinity() {
+      return cmdCase_ == 13;
+    }
+    /**
+     * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+     * @return The stopTrackTrinity.
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.StopTrackTrinity getStopTrackTrinity() {
+      if (cmdCase_ == 13) {
+         return (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder getStopTrackTrinityOrBuilder() {
+      if (cmdCase_ == 13) {
+         return (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+    }
+
     public static final int BRIDGE_START_FIELD_NUMBER = 20;
     /**
      * <pre>
@@ -849,6 +969,12 @@ public final class JonSharedCmdCv {
       if (cmdCase_ == 11) {
         output.writeMessage(11, (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_);
       }
+      if (cmdCase_ == 12) {
+        output.writeMessage(12, (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_);
+      }
+      if (cmdCase_ == 13) {
+        output.writeMessage(13, (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_);
+      }
       if (cmdCase_ == 20) {
         output.writeMessage(20, (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_);
       }
@@ -910,6 +1036,14 @@ public final class JonSharedCmdCv {
       if (cmdCase_ == 11) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_);
+      }
+      if (cmdCase_ == 12) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_);
+      }
+      if (cmdCase_ == 13) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_);
       }
       if (cmdCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
@@ -984,6 +1118,14 @@ public final class JonSharedCmdCv {
           if (!getRecognitionModeDisable()
               .equals(other.getRecognitionModeDisable())) return false;
           break;
+        case 12:
+          if (!getStartTrackTrinity()
+              .equals(other.getStartTrackTrinity())) return false;
+          break;
+        case 13:
+          if (!getStopTrackTrinity()
+              .equals(other.getStopTrackTrinity())) return false;
+          break;
         case 20:
           if (!getBridgeStart()
               .equals(other.getBridgeStart())) return false;
@@ -1054,6 +1196,14 @@ public final class JonSharedCmdCv {
         case 11:
           hash = (37 * hash) + RECOGNITION_MODE_DISABLE_FIELD_NUMBER;
           hash = (53 * hash) + getRecognitionModeDisable().hashCode();
+          break;
+        case 12:
+          hash = (37 * hash) + START_TRACK_TRINITY_FIELD_NUMBER;
+          hash = (53 * hash) + getStartTrackTrinity().hashCode();
+          break;
+        case 13:
+          hash = (37 * hash) + STOP_TRACK_TRINITY_FIELD_NUMBER;
+          hash = (53 * hash) + getStopTrackTrinity().hashCode();
           break;
         case 20:
           hash = (37 * hash) + BRIDGE_START_FIELD_NUMBER;
@@ -1234,6 +1384,12 @@ public final class JonSharedCmdCv {
         if (recognitionModeDisableBuilder_ != null) {
           recognitionModeDisableBuilder_.clear();
         }
+        if (startTrackTrinityBuilder_ != null) {
+          startTrackTrinityBuilder_.clear();
+        }
+        if (stopTrackTrinityBuilder_ != null) {
+          stopTrackTrinityBuilder_.clear();
+        }
         if (bridgeStartBuilder_ != null) {
           bridgeStartBuilder_.clear();
         }
@@ -1328,6 +1484,14 @@ public final class JonSharedCmdCv {
             recognitionModeDisableBuilder_ != null) {
           result.cmd_ = recognitionModeDisableBuilder_.build();
         }
+        if (cmdCase_ == 12 &&
+            startTrackTrinityBuilder_ != null) {
+          result.cmd_ = startTrackTrinityBuilder_.build();
+        }
+        if (cmdCase_ == 13 &&
+            stopTrackTrinityBuilder_ != null) {
+          result.cmd_ = stopTrackTrinityBuilder_.build();
+        }
         if (cmdCase_ == 20 &&
             bridgeStartBuilder_ != null) {
           result.cmd_ = bridgeStartBuilder_.build();
@@ -1397,6 +1561,14 @@ public final class JonSharedCmdCv {
           }
           case RECOGNITION_MODE_DISABLE: {
             mergeRecognitionModeDisable(other.getRecognitionModeDisable());
+            break;
+          }
+          case START_TRACK_TRINITY: {
+            mergeStartTrackTrinity(other.getStartTrackTrinity());
+            break;
+          }
+          case STOP_TRACK_TRINITY: {
+            mergeStopTrackTrinity(other.getStopTrackTrinity());
             break;
           }
           case BRIDGE_START: {
@@ -1518,6 +1690,20 @@ public final class JonSharedCmdCv {
                 cmdCase_ = 11;
                 break;
               } // case 90
+              case 98: {
+                input.readMessage(
+                    getStartTrackTrinityFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 12;
+                break;
+              } // case 98
+              case 106: {
+                input.readMessage(
+                    getStopTrackTrinityFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 13;
+                break;
+              } // case 106
               case 162: {
                 input.readMessage(
                     getBridgeStartFieldBuilder().getBuilder(),
@@ -3131,6 +3317,326 @@ public final class JonSharedCmdCv {
         cmdCase_ = 11;
         onChanged();
         return recognitionModeDisableBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.StartTrackTrinity, cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder, cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder> startTrackTrinityBuilder_;
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       * @return Whether the startTrackTrinity field is set.
+       */
+      @java.lang.Override
+      public boolean hasStartTrackTrinity() {
+        return cmdCase_ == 12;
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       * @return The startTrackTrinity.
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StartTrackTrinity getStartTrackTrinity() {
+        if (startTrackTrinityBuilder_ == null) {
+          if (cmdCase_ == 12) {
+            return (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 12) {
+            return startTrackTrinityBuilder_.getMessage();
+          }
+          return cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      public Builder setStartTrackTrinity(cmd.CV.JonSharedCmdCv.StartTrackTrinity value) {
+        if (startTrackTrinityBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          startTrackTrinityBuilder_.setMessage(value);
+        }
+        cmdCase_ = 12;
+        return this;
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      public Builder setStartTrackTrinity(
+          cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder builderForValue) {
+        if (startTrackTrinityBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          startTrackTrinityBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 12;
+        return this;
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      public Builder mergeStartTrackTrinity(cmd.CV.JonSharedCmdCv.StartTrackTrinity value) {
+        if (startTrackTrinityBuilder_ == null) {
+          if (cmdCase_ == 12 &&
+              cmd_ != cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance()) {
+            cmd_ = cmd.CV.JonSharedCmdCv.StartTrackTrinity.newBuilder((cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 12) {
+            startTrackTrinityBuilder_.mergeFrom(value);
+          } else {
+            startTrackTrinityBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 12;
+        return this;
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      public Builder clearStartTrackTrinity() {
+        if (startTrackTrinityBuilder_ == null) {
+          if (cmdCase_ == 12) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 12) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          startTrackTrinityBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      public cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder getStartTrackTrinityBuilder() {
+        return getStartTrackTrinityFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder getStartTrackTrinityOrBuilder() {
+        if ((cmdCase_ == 12) && (startTrackTrinityBuilder_ != null)) {
+          return startTrackTrinityBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 12) {
+            return (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * Ring-Trinity golden fiducial board tracking
+       * </pre>
+       *
+       * <code>.cmd.CV.StartTrackTrinity start_track_trinity = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.StartTrackTrinity, cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder, cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder> 
+          getStartTrackTrinityFieldBuilder() {
+        if (startTrackTrinityBuilder_ == null) {
+          if (!(cmdCase_ == 12)) {
+            cmd_ = cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+          }
+          startTrackTrinityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.CV.JonSharedCmdCv.StartTrackTrinity, cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder, cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder>(
+                  (cmd.CV.JonSharedCmdCv.StartTrackTrinity) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 12;
+        onChanged();
+        return startTrackTrinityBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.StopTrackTrinity, cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder, cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder> stopTrackTrinityBuilder_;
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       * @return Whether the stopTrackTrinity field is set.
+       */
+      @java.lang.Override
+      public boolean hasStopTrackTrinity() {
+        return cmdCase_ == 13;
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       * @return The stopTrackTrinity.
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StopTrackTrinity getStopTrackTrinity() {
+        if (stopTrackTrinityBuilder_ == null) {
+          if (cmdCase_ == 13) {
+            return (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 13) {
+            return stopTrackTrinityBuilder_.getMessage();
+          }
+          return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      public Builder setStopTrackTrinity(cmd.CV.JonSharedCmdCv.StopTrackTrinity value) {
+        if (stopTrackTrinityBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stopTrackTrinityBuilder_.setMessage(value);
+        }
+        cmdCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      public Builder setStopTrackTrinity(
+          cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder builderForValue) {
+        if (stopTrackTrinityBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stopTrackTrinityBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      public Builder mergeStopTrackTrinity(cmd.CV.JonSharedCmdCv.StopTrackTrinity value) {
+        if (stopTrackTrinityBuilder_ == null) {
+          if (cmdCase_ == 13 &&
+              cmd_ != cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance()) {
+            cmd_ = cmd.CV.JonSharedCmdCv.StopTrackTrinity.newBuilder((cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 13) {
+            stopTrackTrinityBuilder_.mergeFrom(value);
+          } else {
+            stopTrackTrinityBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 13;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      public Builder clearStopTrackTrinity() {
+        if (stopTrackTrinityBuilder_ == null) {
+          if (cmdCase_ == 13) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 13) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stopTrackTrinityBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      public cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder getStopTrackTrinityBuilder() {
+        return getStopTrackTrinityFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder getStopTrackTrinityOrBuilder() {
+        if ((cmdCase_ == 13) && (stopTrackTrinityBuilder_ != null)) {
+          return stopTrackTrinityBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 13) {
+            return (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.CV.StopTrackTrinity stop_track_trinity = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.StopTrackTrinity, cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder, cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder> 
+          getStopTrackTrinityFieldBuilder() {
+        if (stopTrackTrinityBuilder_ == null) {
+          if (!(cmdCase_ == 13)) {
+            cmd_ = cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+          }
+          stopTrackTrinityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.CV.JonSharedCmdCv.StopTrackTrinity, cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder, cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder>(
+                  (cmd.CV.JonSharedCmdCv.StopTrackTrinity) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 13;
+        onChanged();
+        return stopTrackTrinityBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilder<
@@ -8182,6 +8688,1182 @@ public final class JonSharedCmdCv {
 
   }
 
+  public interface StartTrackTrinityOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.CV.StartTrackTrinity)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for channel.
+     */
+    int getChannelValue();
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The channel.
+     */
+    ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel();
+
+    /**
+     * <pre>
+     * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+     * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+     * rather than silently producing a pose against different geometry — a pose
+     * computed against the wrong board is wrong by a scale factor and looks entirely
+     * plausible.
+     * </pre>
+     *
+     * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+     * @return Whether the expectBoard field is set.
+     */
+    boolean hasExpectBoard();
+    /**
+     * <pre>
+     * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+     * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+     * rather than silently producing a pose against different geometry — a pose
+     * computed against the wrong board is wrong by a scale factor and looks entirely
+     * plausible.
+     * </pre>
+     *
+     * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+     * @return The expectBoard.
+     */
+    ser.TrinityTrackingOuterClass.TrinityBoardVersion getExpectBoard();
+    /**
+     * <pre>
+     * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+     * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+     * rather than silently producing a pose against different geometry — a pose
+     * computed against the wrong board is wrong by a scale factor and looks entirely
+     * plausible.
+     * </pre>
+     *
+     * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+     */
+    ser.TrinityTrackingOuterClass.TrinityBoardVersionOrBuilder getExpectBoardOrBuilder();
+  }
+  /**
+   * <pre>
+   * Begin tracking the Ring-Trinity golden fiducial board.
+   *
+   * UNLIKE StartTrackNDC THERE IS NO SEED POINT, and that is the point of the board:
+   * it is self-locating from its own geometry, so the operator does not have to put a
+   * cursor on it. There is exactly ONE board in a run, so no identity is needed to
+   * disambiguate between targets.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.CV.StartTrackTrinity}
+   */
+  public static final class StartTrackTrinity extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.CV.StartTrackTrinity)
+      StartTrackTrinityOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StartTrackTrinity.class.getName());
+    }
+    // Use StartTrackTrinity.newBuilder() to construct.
+    private StartTrackTrinity(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StartTrackTrinity() {
+      channel_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StartTrackTrinity_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StartTrackTrinity_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.CV.JonSharedCmdCv.StartTrackTrinity.class, cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int CHANNEL_FIELD_NUMBER = 1;
+    private int channel_ = 0;
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for channel.
+     */
+    @java.lang.Override public int getChannelValue() {
+      return channel_;
+    }
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The channel.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel() {
+      ser.JonSharedDataTypes.JonGuiDataVideoChannel result = ser.JonSharedDataTypes.JonGuiDataVideoChannel.forNumber(channel_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataVideoChannel.UNRECOGNIZED : result;
+    }
+
+    public static final int EXPECT_BOARD_FIELD_NUMBER = 2;
+    private ser.TrinityTrackingOuterClass.TrinityBoardVersion expectBoard_;
+    /**
+     * <pre>
+     * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+     * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+     * rather than silently producing a pose against different geometry — a pose
+     * computed against the wrong board is wrong by a scale factor and looks entirely
+     * plausible.
+     * </pre>
+     *
+     * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+     * @return Whether the expectBoard field is set.
+     */
+    @java.lang.Override
+    public boolean hasExpectBoard() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+     * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+     * rather than silently producing a pose against different geometry — a pose
+     * computed against the wrong board is wrong by a scale factor and looks entirely
+     * plausible.
+     * </pre>
+     *
+     * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+     * @return The expectBoard.
+     */
+    @java.lang.Override
+    public ser.TrinityTrackingOuterClass.TrinityBoardVersion getExpectBoard() {
+      return expectBoard_ == null ? ser.TrinityTrackingOuterClass.TrinityBoardVersion.getDefaultInstance() : expectBoard_;
+    }
+    /**
+     * <pre>
+     * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+     * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+     * rather than silently producing a pose against different geometry — a pose
+     * computed against the wrong board is wrong by a scale factor and looks entirely
+     * plausible.
+     * </pre>
+     *
+     * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+     */
+    @java.lang.Override
+    public ser.TrinityTrackingOuterClass.TrinityBoardVersionOrBuilder getExpectBoardOrBuilder() {
+      return expectBoard_ == null ? ser.TrinityTrackingOuterClass.TrinityBoardVersion.getDefaultInstance() : expectBoard_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
+        output.writeEnum(1, channel_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(2, getExpectBoard());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, channel_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getExpectBoard());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.CV.JonSharedCmdCv.StartTrackTrinity)) {
+        return super.equals(obj);
+      }
+      cmd.CV.JonSharedCmdCv.StartTrackTrinity other = (cmd.CV.JonSharedCmdCv.StartTrackTrinity) obj;
+
+      if (channel_ != other.channel_) return false;
+      if (hasExpectBoard() != other.hasExpectBoard()) return false;
+      if (hasExpectBoard()) {
+        if (!getExpectBoard()
+            .equals(other.getExpectBoard())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
+      hash = (53 * hash) + channel_;
+      if (hasExpectBoard()) {
+        hash = (37 * hash) + EXPECT_BOARD_FIELD_NUMBER;
+        hash = (53 * hash) + getExpectBoard().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.StartTrackTrinity prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Begin tracking the Ring-Trinity golden fiducial board.
+     *
+     * UNLIKE StartTrackNDC THERE IS NO SEED POINT, and that is the point of the board:
+     * it is self-locating from its own geometry, so the operator does not have to put a
+     * cursor on it. There is exactly ONE board in a run, so no identity is needed to
+     * disambiguate between targets.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.CV.StartTrackTrinity}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.CV.StartTrackTrinity)
+        cmd.CV.JonSharedCmdCv.StartTrackTrinityOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StartTrackTrinity_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StartTrackTrinity_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.CV.JonSharedCmdCv.StartTrackTrinity.class, cmd.CV.JonSharedCmdCv.StartTrackTrinity.Builder.class);
+      }
+
+      // Construct using cmd.CV.JonSharedCmdCv.StartTrackTrinity.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getExpectBoardFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        channel_ = 0;
+        expectBoard_ = null;
+        if (expectBoardBuilder_ != null) {
+          expectBoardBuilder_.dispose();
+          expectBoardBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StartTrackTrinity_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StartTrackTrinity getDefaultInstanceForType() {
+        return cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StartTrackTrinity build() {
+        cmd.CV.JonSharedCmdCv.StartTrackTrinity result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StartTrackTrinity buildPartial() {
+        cmd.CV.JonSharedCmdCv.StartTrackTrinity result = new cmd.CV.JonSharedCmdCv.StartTrackTrinity(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.CV.JonSharedCmdCv.StartTrackTrinity result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.channel_ = channel_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.expectBoard_ = expectBoardBuilder_ == null
+              ? expectBoard_
+              : expectBoardBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.CV.JonSharedCmdCv.StartTrackTrinity) {
+          return mergeFrom((cmd.CV.JonSharedCmdCv.StartTrackTrinity)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.StartTrackTrinity other) {
+        if (other == cmd.CV.JonSharedCmdCv.StartTrackTrinity.getDefaultInstance()) return this;
+        if (other.channel_ != 0) {
+          setChannelValue(other.getChannelValue());
+        }
+        if (other.hasExpectBoard()) {
+          mergeExpectBoard(other.getExpectBoard());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                channel_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                input.readMessage(
+                    getExpectBoardFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int channel_ = 0;
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for channel.
+       */
+      @java.lang.Override public int getChannelValue() {
+        return channel_;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for channel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelValue(int value) {
+        channel_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The channel.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel() {
+        ser.JonSharedDataTypes.JonGuiDataVideoChannel result = ser.JonSharedDataTypes.JonGuiDataVideoChannel.forNumber(channel_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataVideoChannel.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The channel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannel(ser.JonSharedDataTypes.JonGuiDataVideoChannel value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        channel_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChannel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        channel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private ser.TrinityTrackingOuterClass.TrinityBoardVersion expectBoard_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.TrinityTrackingOuterClass.TrinityBoardVersion, ser.TrinityTrackingOuterClass.TrinityBoardVersion.Builder, ser.TrinityTrackingOuterClass.TrinityBoardVersionOrBuilder> expectBoardBuilder_;
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       * @return Whether the expectBoard field is set.
+       */
+      public boolean hasExpectBoard() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       * @return The expectBoard.
+       */
+      public ser.TrinityTrackingOuterClass.TrinityBoardVersion getExpectBoard() {
+        if (expectBoardBuilder_ == null) {
+          return expectBoard_ == null ? ser.TrinityTrackingOuterClass.TrinityBoardVersion.getDefaultInstance() : expectBoard_;
+        } else {
+          return expectBoardBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      public Builder setExpectBoard(ser.TrinityTrackingOuterClass.TrinityBoardVersion value) {
+        if (expectBoardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          expectBoard_ = value;
+        } else {
+          expectBoardBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      public Builder setExpectBoard(
+          ser.TrinityTrackingOuterClass.TrinityBoardVersion.Builder builderForValue) {
+        if (expectBoardBuilder_ == null) {
+          expectBoard_ = builderForValue.build();
+        } else {
+          expectBoardBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      public Builder mergeExpectBoard(ser.TrinityTrackingOuterClass.TrinityBoardVersion value) {
+        if (expectBoardBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            expectBoard_ != null &&
+            expectBoard_ != ser.TrinityTrackingOuterClass.TrinityBoardVersion.getDefaultInstance()) {
+            getExpectBoardBuilder().mergeFrom(value);
+          } else {
+            expectBoard_ = value;
+          }
+        } else {
+          expectBoardBuilder_.mergeFrom(value);
+        }
+        if (expectBoard_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      public Builder clearExpectBoard() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        expectBoard_ = null;
+        if (expectBoardBuilder_ != null) {
+          expectBoardBuilder_.dispose();
+          expectBoardBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      public ser.TrinityTrackingOuterClass.TrinityBoardVersion.Builder getExpectBoardBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getExpectBoardFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      public ser.TrinityTrackingOuterClass.TrinityBoardVersionOrBuilder getExpectBoardOrBuilder() {
+        if (expectBoardBuilder_ != null) {
+          return expectBoardBuilder_.getMessageOrBuilder();
+        } else {
+          return expectBoard_ == null ?
+              ser.TrinityTrackingOuterClass.TrinityBoardVersion.getDefaultInstance() : expectBoard_;
+        }
+      }
+      /**
+       * <pre>
+       * Which board to expect. OPTIONAL: unset means "track whatever Ring-Trinity board
+       * you find". When SET, the tracker reports TRINITY_TRACKING_STATUS_BOARD_MISMATCH
+       * rather than silently producing a pose against different geometry — a pose
+       * computed against the wrong board is wrong by a scale factor and looks entirely
+       * plausible.
+       * </pre>
+       *
+       * <code>.ser.TrinityBoardVersion expect_board = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.TrinityTrackingOuterClass.TrinityBoardVersion, ser.TrinityTrackingOuterClass.TrinityBoardVersion.Builder, ser.TrinityTrackingOuterClass.TrinityBoardVersionOrBuilder> 
+          getExpectBoardFieldBuilder() {
+        if (expectBoardBuilder_ == null) {
+          expectBoardBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.TrinityTrackingOuterClass.TrinityBoardVersion, ser.TrinityTrackingOuterClass.TrinityBoardVersion.Builder, ser.TrinityTrackingOuterClass.TrinityBoardVersionOrBuilder>(
+                  getExpectBoard(),
+                  getParentForChildren(),
+                  isClean());
+          expectBoard_ = null;
+        }
+        return expectBoardBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.CV.StartTrackTrinity)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.CV.StartTrackTrinity)
+    private static final cmd.CV.JonSharedCmdCv.StartTrackTrinity DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.StartTrackTrinity();
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StartTrackTrinity getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StartTrackTrinity>
+        PARSER = new com.google.protobuf.AbstractParser<StartTrackTrinity>() {
+      @java.lang.Override
+      public StartTrackTrinity parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StartTrackTrinity> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StartTrackTrinity> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.StartTrackTrinity getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StopTrackTrinityOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.CV.StopTrackTrinity)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * <pre>
+   * Stop tracking the Ring-Trinity board.
+   * </pre>
+   *
+   * Protobuf type {@code cmd.CV.StopTrackTrinity}
+   */
+  public static final class StopTrackTrinity extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.CV.StopTrackTrinity)
+      StopTrackTrinityOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StopTrackTrinity.class.getName());
+    }
+    // Use StopTrackTrinity.newBuilder() to construct.
+    private StopTrackTrinity(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StopTrackTrinity() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StopTrackTrinity_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StopTrackTrinity_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.CV.JonSharedCmdCv.StopTrackTrinity.class, cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.CV.JonSharedCmdCv.StopTrackTrinity)) {
+        return super.equals(obj);
+      }
+      cmd.CV.JonSharedCmdCv.StopTrackTrinity other = (cmd.CV.JonSharedCmdCv.StopTrackTrinity) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.StopTrackTrinity prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Stop tracking the Ring-Trinity board.
+     * </pre>
+     *
+     * Protobuf type {@code cmd.CV.StopTrackTrinity}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.CV.StopTrackTrinity)
+        cmd.CV.JonSharedCmdCv.StopTrackTrinityOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StopTrackTrinity_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StopTrackTrinity_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.CV.JonSharedCmdCv.StopTrackTrinity.class, cmd.CV.JonSharedCmdCv.StopTrackTrinity.Builder.class);
+      }
+
+      // Construct using cmd.CV.JonSharedCmdCv.StopTrackTrinity.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_StopTrackTrinity_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StopTrackTrinity getDefaultInstanceForType() {
+        return cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StopTrackTrinity build() {
+        cmd.CV.JonSharedCmdCv.StopTrackTrinity result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.StopTrackTrinity buildPartial() {
+        cmd.CV.JonSharedCmdCv.StopTrackTrinity result = new cmd.CV.JonSharedCmdCv.StopTrackTrinity(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.CV.JonSharedCmdCv.StopTrackTrinity) {
+          return mergeFrom((cmd.CV.JonSharedCmdCv.StopTrackTrinity)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.StopTrackTrinity other) {
+        if (other == cmd.CV.JonSharedCmdCv.StopTrackTrinity.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.CV.StopTrackTrinity)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.CV.StopTrackTrinity)
+    private static final cmd.CV.JonSharedCmdCv.StopTrackTrinity DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.StopTrackTrinity();
+    }
+
+    public static cmd.CV.JonSharedCmdCv.StopTrackTrinity getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StopTrackTrinity>
+        PARSER = new com.google.protobuf.AbstractParser<StopTrackTrinity>() {
+      @java.lang.Override
+      public StopTrackTrinity parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StopTrackTrinity> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StopTrackTrinity> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.StopTrackTrinity getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface BridgeStartOrBuilder extends
       // @@protoc_insertion_point(interface_extends:cmd.CV.BridgeStart)
       com.google.protobuf.MessageOrBuilder {
@@ -9516,6 +11198,16 @@ public final class JonSharedCmdCv {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_CV_StopTrack_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_CV_StartTrackTrinity_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_CV_StartTrackTrinity_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_CV_StopTrackTrinity_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_CV_StopTrackTrinity_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_CV_BridgeStart_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -9541,55 +11233,63 @@ public final class JonSharedCmdCv {
     java.lang.String[] descriptorData = {
       "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033buf/v" +
       "alidate/validate.proto\032\033jon_shared_data_" +
-      "types.proto\"\202\006\n\004Root\022.\n\016set_auto_focus\030\001" +
-      " \001(\0132\024.cmd.CV.SetAutoFocusH\000\0220\n\017start_tr" +
-      "ack_ndc\030\002 \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'" +
-      "\n\nstop_track\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\022" +
-      "8\n\023vampire_mode_enable\030\004 \001(\0132\031.cmd.CV.Va" +
-      "mpireModeEnableH\000\022:\n\024vampire_mode_disabl" +
-      "e\030\005 \001(\0132\032.cmd.CV.VampireModeDisableH\000\022D\n" +
-      "\031stabilization_mode_enable\030\006 \001(\0132\037.cmd.C" +
-      "V.StabilizationModeEnableH\000\022F\n\032stabiliza" +
-      "tion_mode_disable\030\007 \001(\0132 .cmd.CV.Stabili" +
-      "zationModeDisableH\000\022\'\n\ndump_start\030\010 \001(\0132" +
-      "\021.cmd.CV.DumpStartH\000\022%\n\tdump_stop\030\t \001(\0132" +
-      "\020.cmd.CV.DumpStopH\000\022@\n\027recognition_mode_" +
-      "enable\030\n \001(\0132\035.cmd.CV.RecognitionModeEna" +
-      "bleH\000\022B\n\030recognition_mode_disable\030\013 \001(\0132" +
-      "\036.cmd.CV.RecognitionModeDisableH\000\022+\n\014bri" +
-      "dge_start\030\024 \001(\0132\023.cmd.CV.BridgeStartH\000\022)" +
-      "\n\013bridge_stop\030\025 \001(\0132\022.cmd.CV.BridgeStopH" +
-      "\000\022/\n\016bridge_restart\030\026 \001(\0132\025.cmd.CV.Bridg" +
-      "eRestartH\000B\014\n\003cmd\022\005\272H\002\010\001\"\023\n\021VampireModeE" +
-      "nable\"\013\n\tDumpStart\"\n\n\010DumpStop\"\024\n\022Vampir" +
-      "eModeDisable\"\031\n\027StabilizationModeEnable\"" +
-      "\032\n\030StabilizationModeDisable\"\027\n\025Recogniti" +
-      "onModeEnable\"\030\n\026RecognitionModeDisable\"W" +
-      "\n\014SetAutoFocus\0228\n\007channel\030\001 \001(\0162\033.ser.Jo" +
-      "nGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005valu" +
-      "e\030\002 \001(\010\"\271\001\n\rStartTrackNDC\0228\n\007channel\030\001 \001" +
-      "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020" +
-      "\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022" +
-      "\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nf" +
-      "rame_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tS" +
-      "topTrack\"\r\n\013BridgeStart\"\033\n\nBridgeStop\022\r\n" +
-      "\005force\030\001 \001(\010\"\036\n\rBridgeRestart\022\r\n\005force\030\001" +
-      " \001(\010BIZGgit-codecommit.eu-central-1.amaz" +
-      "onaws.com/v1/repos/jettison/jonp/cmd/cvb" +
-      "\006proto3"
+      "types.proto\032\035opaque/trinity_tracking.pro" +
+      "to\"\364\006\n\004Root\022.\n\016set_auto_focus\030\001 \001(\0132\024.cm" +
+      "d.CV.SetAutoFocusH\000\0220\n\017start_track_ndc\030\002" +
+      " \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'\n\nstop_tr" +
+      "ack\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\0228\n\023vampir" +
+      "e_mode_enable\030\004 \001(\0132\031.cmd.CV.VampireMode" +
+      "EnableH\000\022:\n\024vampire_mode_disable\030\005 \001(\0132\032" +
+      ".cmd.CV.VampireModeDisableH\000\022D\n\031stabiliz" +
+      "ation_mode_enable\030\006 \001(\0132\037.cmd.CV.Stabili" +
+      "zationModeEnableH\000\022F\n\032stabilization_mode" +
+      "_disable\030\007 \001(\0132 .cmd.CV.StabilizationMod" +
+      "eDisableH\000\022\'\n\ndump_start\030\010 \001(\0132\021.cmd.CV." +
+      "DumpStartH\000\022%\n\tdump_stop\030\t \001(\0132\020.cmd.CV." +
+      "DumpStopH\000\022@\n\027recognition_mode_enable\030\n " +
+      "\001(\0132\035.cmd.CV.RecognitionModeEnableH\000\022B\n\030" +
+      "recognition_mode_disable\030\013 \001(\0132\036.cmd.CV." +
+      "RecognitionModeDisableH\000\0228\n\023start_track_" +
+      "trinity\030\014 \001(\0132\031.cmd.CV.StartTrackTrinity" +
+      "H\000\0226\n\022stop_track_trinity\030\r \001(\0132\030.cmd.CV." +
+      "StopTrackTrinityH\000\022+\n\014bridge_start\030\024 \001(\013" +
+      "2\023.cmd.CV.BridgeStartH\000\022)\n\013bridge_stop\030\025" +
+      " \001(\0132\022.cmd.CV.BridgeStopH\000\022/\n\016bridge_res" +
+      "tart\030\026 \001(\0132\025.cmd.CV.BridgeRestartH\000B\014\n\003c" +
+      "md\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpSt" +
+      "art\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\"\031\n" +
+      "\027StabilizationModeEnable\"\032\n\030Stabilizatio" +
+      "nModeDisable\"\027\n\025RecognitionModeEnable\"\030\n" +
+      "\026RecognitionModeDisable\"W\n\014SetAutoFocus\022" +
+      "8\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoCh" +
+      "annelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\271\001\n\rSta" +
+      "rtTrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGui" +
+      "DataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024" +
+      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004" +
+      "\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrack\"}\n\021Sta" +
+      "rtTrackTrinity\0228\n\007channel\030\001 \001(\0162\033.ser.Jo" +
+      "nGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022.\n\014expe" +
+      "ct_board\030\002 \001(\0132\030.ser.TrinityBoardVersion" +
+      "\"\022\n\020StopTrackTrinity\"\r\n\013BridgeStart\"\033\n\nB" +
+      "ridgeStop\022\r\n\005force\030\001 \001(\010\"\036\n\rBridgeRestar" +
+      "t\022\r\n\005force\030\001 \001(\010BIZGgit-codecommit.eu-ce" +
+      "ntral-1.amazonaws.com/v1/repos/jettison/" +
+      "jonp/cmd/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           build.buf.validate.ValidateProto.getDescriptor(),
           ser.JonSharedDataTypes.getDescriptor(),
+          ser.TrinityTrackingOuterClass.getDescriptor(),
         });
     internal_static_cmd_CV_Root_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_cmd_CV_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_Root_descriptor,
-        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "BridgeStart", "BridgeStop", "BridgeRestart", "Cmd", });
+        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "StartTrackTrinity", "StopTrackTrinity", "BridgeStart", "BridgeStop", "BridgeRestart", "Cmd", });
     internal_static_cmd_CV_VampireModeEnable_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_CV_VampireModeEnable_fieldAccessorTable = new
@@ -9656,20 +11356,32 @@ public final class JonSharedCmdCv {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StopTrack_descriptor,
         new java.lang.String[] { });
-    internal_static_cmd_CV_BridgeStart_descriptor =
+    internal_static_cmd_CV_StartTrackTrinity_descriptor =
       getDescriptor().getMessageTypes().get(12);
+    internal_static_cmd_CV_StartTrackTrinity_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_CV_StartTrackTrinity_descriptor,
+        new java.lang.String[] { "Channel", "ExpectBoard", });
+    internal_static_cmd_CV_StopTrackTrinity_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_cmd_CV_StopTrackTrinity_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_CV_StopTrackTrinity_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_CV_BridgeStart_descriptor =
+      getDescriptor().getMessageTypes().get(14);
     internal_static_cmd_CV_BridgeStart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_BridgeStart_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_BridgeStop_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_cmd_CV_BridgeStop_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_BridgeStop_descriptor,
         new java.lang.String[] { "Force", });
     internal_static_cmd_CV_BridgeRestart_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_cmd_CV_BridgeRestart_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_BridgeRestart_descriptor,
@@ -9677,6 +11389,7 @@ public final class JonSharedCmdCv {
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
+    ser.TrinityTrackingOuterClass.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

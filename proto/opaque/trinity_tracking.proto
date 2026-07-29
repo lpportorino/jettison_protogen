@@ -1,0 +1,164 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// Full-precision pose of the Ring-Trinity golden fiducial board.
+// Injected into JonGUIState.opaque_payloads by the trinity tracker at track rate.
+//
+// WHY DOUBLES AND NOT NDC: the SAM tracking payloads carry NDC in [-1,1] because a
+// bounding box is a screen artifact. This payload carries a METRIC POSE — the board's
+// position in metres and its orientation as a unit quaternion — because it is the
+// ground-truth judge other measurements are scored against. Quantising it to screen
+// coordinates would destroy the precision the board exists to provide.
+//
+// UUID: 019facc1-62a1-74a8-9a75-2c195213c3d8
+message TrinityTracking {
+  // ─── identity of the physical target ────────────────────────────────────────
+  // WHICH BOARD this pose refers to. This is DATA, not the payload's schema
+  // version — JonOpaquePayload.version already carries that, and the two move
+  // independently: a schema change does not reprint the board, and a new board
+  // revision does not change this message's shape. Conflating them makes a
+  // re-print indistinguishable from a wire-format bump.
+  TrinityBoardVersion board_version = 1 [(buf.validate.field).required = true];
+
+  // ─── when ───────────────────────────────────────────────────────────────────
+  // CLOCK_BOOTTIME nanoseconds of the frame this pose was computed from — the
+  // same clock as a cv-dump's capture_time_ns and manifest t0_boot_ns/t1_boot_ns,
+  // so a pose joins against telemetry without a clock conversion.
+  uint64 capture_time_ns = 2 [(buf.validate.field).uint64.gt = 0];
+
+  TrinityTrackingStatus status = 3 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // ─── position: board origin in CAMERA frame, metres ─────────────────────────
+  // Right-handed, +X right, +Y down, +Z forward along the optical axis.
+  //
+  // PRECISION, MEASURED RATHER THAN PROMISED. `double` is not the limit — at 10 m
+  // it resolves to ~1.8e-12 mm, over-provisioned for millimetres by ~12 orders of
+  // magnitude. The OPTICS are the limit, and they are ANISOTROPIC:
+  //
+  //   LATERAL (x, y) = sigma_px * range / focal_px. At 0.4 px centre localisation:
+  //     day  (focal_px 3517):  1.1 mm @ 10 m,   5.7 mm @ 50 m
+  //     heat (focal_px 1320):  3.0 mm @ 10 m,  15.2 mm @ 50 m
+  //
+  //   RANGE (z) from apparent SIZE is far worse, because dZ/Z = dS/S and the board
+  //   subtends few pixels: 27 mm @ 10 m day, 676 mm @ 50 m day. It degrades with
+  //   the SQUARE of range, since the extent shrinks as the error stays fixed.
+  //
+  // So mm-level is achievable LATERALLY on day at short range, and is NOT
+  // achievable in RANGE from board extent alone at any useful distance. That
+  // asymmetry is why sigma_range_m is separate from sigma_position_m, and why
+  // range_source exists.
+  double position_x_m = 4;
+  double position_y_m = 5;
+  double position_z_m = 6 [(buf.validate.field).double.gt = 0.0];
+
+  // ─── orientation: unit quaternion, board -> camera ──────────────────────────
+  // A QUATERNION AND NOT EULER ANGLES, deliberately: Euler loses a degree of
+  // freedom at +/-90 degrees pitch (gimbal lock), and the board is routinely
+  // viewed near-edge-on where that singularity is reachable. A consumer wanting
+  // Euler converts; a producer emitting Euler cannot un-lose the DoF.
+  // Normalised: |q| = 1 within 1e-9.
+  double quat_w = 7 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double quat_x = 8 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double quat_y = 9 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double quat_z = 10 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+
+  // ─── per-axis confidence, because one scalar cannot say what is true ────────
+  // ROBUSTNESS AND PRECISION ARE DIFFERENT ORDERINGS HERE, and a consumer needs
+  // both. By ROBUSTNESS at far range: lateral and range stay OBSERVABLE while
+  // full 3-DoF orientation does not (the near-affine two-fold ambiguity). By
+  // PRECISION: lateral is best, range is ~20x worse, orientation worst. A single
+  // confidence number would have to lie about at least one axis, so consumers
+  // gate on the axis they actually use.
+  // 1-sigma uncertainties; negative means "not estimated".
+  double sigma_position_m = 11;      // isotropic 1-sigma on lateral position, m
+  double sigma_range_m = 12;         // 1-sigma on Z alone. When range_source is
+                                     // BOARD_EXTENT this is MUCH LARGER than
+                                     // sigma_position_m (27 mm vs 1.1 mm at 10 m
+                                     // day); with LRF it can be smaller. Never
+                                     // assume the relation — read range_source.
+  double sigma_orientation_mrad = 13; // 1-sigma on orientation, milliradians
+
+  // ─── the IPPE two-fold ambiguity, surfaced rather than hidden ───────────────
+  // A planar target under near-affine projection admits TWO poses that
+  // reprojection error cannot separate. A payload that emits only the chosen one
+  // is silently wrong about half the time at range. The alternate is carried so a
+  // consumer can see the fork and apply its own prior.
+  bool ambiguity_resolved = 14;
+  TrinityAltPose alternate = 15;  // unset when only one solution exists
+
+  // ─── where range came from ──────────────────────────────────────────────────
+  // Range from board extent is the weakest axis (see position_z_m). The platform
+  // carries an LRF whose distance is direct and roughly range-independent, so a
+  // fused pose can be mm-class in Z where a vision-only pose cannot. A consumer
+  // MUST be able to tell which it received: the two differ by more than an order
+  // of magnitude at 50 m, and they look identical on the wire.
+  TrinityRangeSource range_source = 19 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // ─── observability, for judging the pose rather than trusting it ────────────
+  uint32 anchors_seen = 16 [(buf.validate.field).uint32.lte = 3];
+  double board_extent_px = 17 [(buf.validate.field).double.gte = 0.0];
+  double reprojection_rms_px = 18 [(buf.validate.field).double.gte = 0.0];
+}
+
+// Which physical board revision this pose refers to.
+message TrinityBoardVersion {
+  // Board family, e.g. "ring-trinity"
+  string family = 1 [(buf.validate.field).string.min_len = 1];
+  uint32 major = 2;
+  uint32 minor = 3;
+  // sha256 of the board's geometry manifest (boards/<board>.json). The manifest
+  // is the one home for every board dimension, so its hash pins the geometry a
+  // pose was computed against EXACTLY — a reprint from an edited manifest is a
+  // different board and this field says so.
+  string geometry_sha256 = 4 [(buf.validate.field).string = {
+    pattern: "^[0-9a-f]{64}$"
+  }];
+}
+
+// The pose the disambiguator did NOT choose.
+message TrinityAltPose {
+  double position_x_m = 1;
+  double position_y_m = 2;
+  double position_z_m = 3;
+  double quat_w = 4;
+  double quat_x = 5;
+  double quat_y = 6;
+  double quat_z = 7;
+  double reprojection_rms_px = 8;
+}
+
+// How position_z_m was obtained. NOT cosmetic: board-extent range and LRF range
+// differ by more than an order of magnitude at 50 m.
+enum TrinityRangeSource {
+  TRINITY_RANGE_SOURCE_UNSPECIFIED = 0;
+  // Monocular, from the board's apparent size. Degrades with range squared.
+  TRINITY_RANGE_SOURCE_BOARD_EXTENT = 1;
+  // Direct LRF distance. Roughly range-independent; the mm-class option.
+  TRINITY_RANGE_SOURCE_LRF = 2;
+  // LRF range with board-derived lateral and orientation.
+  TRINITY_RANGE_SOURCE_FUSED = 3;
+}
+
+enum TrinityTrackingStatus {
+  TRINITY_TRACKING_STATUS_UNSPECIFIED = 0;
+  // Tracking, pose fields valid.
+  TRINITY_TRACKING_STATUS_LOCKED = 1;
+  // Searching — no board found this tick; pose fields are stale/unset.
+  TRINITY_TRACKING_STATUS_SEARCHING = 2;
+  // Board found but too small / too oblique for a pose; position may be
+  // approximate, orientation is NOT valid.
+  TRINITY_TRACKING_STATUS_DEGRADED = 3;
+  // Tracker running but the requested board version is not the one detected.
+  TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4;
+}

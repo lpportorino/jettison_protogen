@@ -1108,6 +1108,236 @@ impl JonGuiDataStateSource {
         }
     }
 }
+/// Full-precision pose of the Ring-Trinity golden fiducial board.
+/// Injected into JonGUIState.opaque_payloads by the trinity tracker at track rate.
+///
+/// WHY DOUBLES AND NOT NDC: the SAM tracking payloads carry NDC in  because a
+/// bounding box is a screen artifact. This payload carries a METRIC POSE — the board's
+/// position in metres and its orientation as a unit quaternion — because it is the
+/// ground-truth judge other measurements are scored against. Quantising it to screen
+/// coordinates would destroy the precision the board exists to provide.
+///
+/// UUID: 019facc1-62a1-74a8-9a75-2c195213c3d8
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TrinityTracking {
+    /// ─── identity of the physical target ────────────────────────────────────────
+    /// WHICH BOARD this pose refers to. This is DATA, not the payload's schema
+    /// version — JonOpaquePayload.version already carries that, and the two move
+    /// independently: a schema change does not reprint the board, and a new board
+    /// revision does not change this message's shape. Conflating them makes a
+    /// re-print indistinguishable from a wire-format bump.
+    #[prost(message, optional, tag = "1")]
+    pub board_version: ::core::option::Option<TrinityBoardVersion>,
+    /// ─── when ───────────────────────────────────────────────────────────────────
+    /// CLOCK_BOOTTIME nanoseconds of the frame this pose was computed from — the
+    /// same clock as a cv-dump's capture_time_ns and manifest t0_boot_ns/t1_boot_ns,
+    /// so a pose joins against telemetry without a clock conversion.
+    #[prost(uint64, tag = "2")]
+    pub capture_time_ns: u64,
+    #[prost(enumeration = "TrinityTrackingStatus", tag = "3")]
+    pub status: i32,
+    /// ─── position: board origin in CAMERA frame, metres ─────────────────────────
+    /// Right-handed, +X right, +Y down, +Z forward along the optical axis.
+    ///
+    /// PRECISION, MEASURED RATHER THAN PROMISED. `double` is not the limit — at 10 m
+    /// it resolves to ~1.8e-12 mm, over-provisioned for millimetres by ~12 orders of
+    /// magnitude. The OPTICS are the limit, and they are ANISOTROPIC:
+    ///
+    ///    LATERAL (x, y) = sigma_px * range / focal_px. At 0.4 px centre localisation:
+    ///      day  (focal_px 3517):  1.1 mm @ 10 m,   5.7 mm @ 50 m
+    ///      heat (focal_px 1320):  3.0 mm @ 10 m,  15.2 mm @ 50 m
+    ///
+    ///    RANGE (z) from apparent SIZE is far worse, because dZ/Z = dS/S and the board
+    ///    subtends few pixels: 27 mm @ 10 m day, 676 mm @ 50 m day. It degrades with
+    ///    the SQUARE of range, since the extent shrinks as the error stays fixed.
+    ///
+    /// So mm-level is achievable LATERALLY on day at short range, and is NOT
+    /// achievable in RANGE from board extent alone at any useful distance. That
+    /// asymmetry is why sigma_range_m is separate from sigma_position_m, and why
+    /// range_source exists.
+    #[prost(double, tag = "4")]
+    pub position_x_m: f64,
+    #[prost(double, tag = "5")]
+    pub position_y_m: f64,
+    #[prost(double, tag = "6")]
+    pub position_z_m: f64,
+    /// ─── orientation: unit quaternion, board -> camera ──────────────────────────
+    /// A QUATERNION AND NOT EULER ANGLES, deliberately: Euler loses a degree of
+    /// freedom at +/-90 degrees pitch (gimbal lock), and the board is routinely
+    /// viewed near-edge-on where that singularity is reachable. A consumer wanting
+    /// Euler converts; a producer emitting Euler cannot un-lose the DoF.
+    /// Normalised: |q| = 1 within 1e-9.
+    #[prost(double, tag = "7")]
+    pub quat_w: f64,
+    #[prost(double, tag = "8")]
+    pub quat_x: f64,
+    #[prost(double, tag = "9")]
+    pub quat_y: f64,
+    #[prost(double, tag = "10")]
+    pub quat_z: f64,
+    /// ─── per-axis confidence, because one scalar cannot say what is true ────────
+    /// ROBUSTNESS AND PRECISION ARE DIFFERENT ORDERINGS HERE, and a consumer needs
+    /// both. By ROBUSTNESS at far range: lateral and range stay OBSERVABLE while
+    /// full 3-DoF orientation does not (the near-affine two-fold ambiguity). By
+    /// PRECISION: lateral is best, range is ~20x worse, orientation worst. A single
+    /// confidence number would have to lie about at least one axis, so consumers
+    /// gate on the axis they actually use.
+    /// 1-sigma uncertainties; negative means "not estimated".
+    ///
+    /// isotropic 1-sigma on lateral position, m
+    #[prost(double, tag = "11")]
+    pub sigma_position_m: f64,
+    /// 1-sigma on Z alone. When range_source is
+    #[prost(double, tag = "12")]
+    pub sigma_range_m: f64,
+    /// BOARD_EXTENT this is MUCH LARGER than
+    /// sigma_position_m (27 mm vs 1.1 mm at 10 m
+    /// day); with LRF it can be smaller. Never
+    /// assume the relation — read range_source.
+    ///
+    /// 1-sigma on orientation, milliradians
+    #[prost(double, tag = "13")]
+    pub sigma_orientation_mrad: f64,
+    /// ─── the IPPE two-fold ambiguity, surfaced rather than hidden ───────────────
+    /// A planar target under near-affine projection admits TWO poses that
+    /// reprojection error cannot separate. A payload that emits only the chosen one
+    /// is silently wrong about half the time at range. The alternate is carried so a
+    /// consumer can see the fork and apply its own prior.
+    #[prost(bool, tag = "14")]
+    pub ambiguity_resolved: bool,
+    /// unset when only one solution exists
+    #[prost(message, optional, tag = "15")]
+    pub alternate: ::core::option::Option<TrinityAltPose>,
+    /// ─── where range came from ──────────────────────────────────────────────────
+    /// Range from board extent is the weakest axis (see position_z_m). The platform
+    /// carries an LRF whose distance is direct and roughly range-independent, so a
+    /// fused pose can be mm-class in Z where a vision-only pose cannot. A consumer
+    /// MUST be able to tell which it received: the two differ by more than an order
+    /// of magnitude at 50 m, and they look identical on the wire.
+    #[prost(enumeration = "TrinityRangeSource", tag = "19")]
+    pub range_source: i32,
+    /// ─── observability, for judging the pose rather than trusting it ────────────
+    #[prost(uint32, tag = "16")]
+    pub anchors_seen: u32,
+    #[prost(double, tag = "17")]
+    pub board_extent_px: f64,
+    #[prost(double, tag = "18")]
+    pub reprojection_rms_px: f64,
+}
+/// Which physical board revision this pose refers to.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TrinityBoardVersion {
+    /// Board family, e.g. "ring-trinity"
+    #[prost(string, tag = "1")]
+    pub family: ::prost::alloc::string::String,
+    #[prost(uint32, tag = "2")]
+    pub major: u32,
+    #[prost(uint32, tag = "3")]
+    pub minor: u32,
+    /// sha256 of the board's geometry manifest (boards/<board>.json). The manifest
+    /// is the one home for every board dimension, so its hash pins the geometry a
+    /// pose was computed against EXACTLY — a reprint from an edited manifest is a
+    /// different board and this field says so.
+    #[prost(string, tag = "4")]
+    pub geometry_sha256: ::prost::alloc::string::String,
+}
+/// The pose the disambiguator did NOT choose.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct TrinityAltPose {
+    #[prost(double, tag = "1")]
+    pub position_x_m: f64,
+    #[prost(double, tag = "2")]
+    pub position_y_m: f64,
+    #[prost(double, tag = "3")]
+    pub position_z_m: f64,
+    #[prost(double, tag = "4")]
+    pub quat_w: f64,
+    #[prost(double, tag = "5")]
+    pub quat_x: f64,
+    #[prost(double, tag = "6")]
+    pub quat_y: f64,
+    #[prost(double, tag = "7")]
+    pub quat_z: f64,
+    #[prost(double, tag = "8")]
+    pub reprojection_rms_px: f64,
+}
+/// How position_z_m was obtained. NOT cosmetic: board-extent range and LRF range
+/// differ by more than an order of magnitude at 50 m.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TrinityRangeSource {
+    Unspecified = 0,
+    /// Monocular, from the board's apparent size. Degrades with range squared.
+    BoardExtent = 1,
+    /// Direct LRF distance. Roughly range-independent; the mm-class option.
+    Lrf = 2,
+    /// LRF range with board-derived lateral and orientation.
+    Fused = 3,
+}
+impl TrinityRangeSource {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "TRINITY_RANGE_SOURCE_UNSPECIFIED",
+            Self::BoardExtent => "TRINITY_RANGE_SOURCE_BOARD_EXTENT",
+            Self::Lrf => "TRINITY_RANGE_SOURCE_LRF",
+            Self::Fused => "TRINITY_RANGE_SOURCE_FUSED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "TRINITY_RANGE_SOURCE_UNSPECIFIED" => Some(Self::Unspecified),
+            "TRINITY_RANGE_SOURCE_BOARD_EXTENT" => Some(Self::BoardExtent),
+            "TRINITY_RANGE_SOURCE_LRF" => Some(Self::Lrf),
+            "TRINITY_RANGE_SOURCE_FUSED" => Some(Self::Fused),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum TrinityTrackingStatus {
+    Unspecified = 0,
+    /// Tracking, pose fields valid.
+    Locked = 1,
+    /// Searching — no board found this tick; pose fields are stale/unset.
+    Searching = 2,
+    /// Board found but too small / too oblique for a pose; position may be
+    /// approximate, orientation is NOT valid.
+    Degraded = 3,
+    /// Tracker running but the requested board version is not the one detected.
+    BoardMismatch = 4,
+}
+impl TrinityTrackingStatus {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "TRINITY_TRACKING_STATUS_UNSPECIFIED",
+            Self::Locked => "TRINITY_TRACKING_STATUS_LOCKED",
+            Self::Searching => "TRINITY_TRACKING_STATUS_SEARCHING",
+            Self::Degraded => "TRINITY_TRACKING_STATUS_DEGRADED",
+            Self::BoardMismatch => "TRINITY_TRACKING_STATUS_BOARD_MISMATCH",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "TRINITY_TRACKING_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "TRINITY_TRACKING_STATUS_LOCKED" => Some(Self::Locked),
+            "TRINITY_TRACKING_STATUS_SEARCHING" => Some(Self::Searching),
+            "TRINITY_TRACKING_STATUS_DEGRADED" => Some(Self::Degraded),
+            "TRINITY_TRACKING_STATUS_BOARD_MISMATCH" => Some(Self::BoardMismatch),
+            _ => None,
+        }
+    }
+}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTime {
     #[prost(int64, tag = "1")]

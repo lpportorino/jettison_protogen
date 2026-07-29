@@ -166,4 +166,19 @@ UUID component (combined parts form full UUID)
 UUID component (combined parts form full UUID)
 
 
+### capture_type (#23)
+
+Discriminates what the capture event actually WAS: a ranged **TARGET** or a **PHOTO**. Per the field's own comment, PHOTO covers two distinct situations — the operator issuing a Photo command, and an LRF measure that returned no valid range.
+
+The consequence for a consumer is the part to hold onto: **on a PHOTO record no valid range exists**, so `distance_2d`, `distance_3b` and `distance_c` carry no measurement worth trusting whatever numbers they happen to hold. This field is how that is known without guessing, and it is why the discriminator exists at all.
+
+Its constraint is `defined_only` and — unlike `observer_fix_type` (#13) in this same message, which additionally excludes 0 — it deliberately admits 0. `JON_GUI_DATA_TARGET_TYPE_UNSPECIFIED` is therefore a legal value here, and per the field comment it means exactly one thing: **the record predates the discriminator**. It is not "the system did not look", and it is not a third kind of capture. Nothing else in the record recovers which of TARGET or PHOTO an UNSPECIFIED row was, so surface it as historical data rather than defaulting it to either value — defaulting it silently reclassifies old captures.
+
+`defined_only` means the number on the wire must be a member of [[proto/ser.JonGuiDataTargetType]] as this schema defines it; a value from a newer producer that this schema does not know is out of contract rather than something to pass through as an opaque number.
+
+Production path, per [[proto/ser.JonGuiDataTargetType]]: each capture event is a `target_id` increment; manifold publishes this field from an internal `has_range` flag, and media_meta_pub consumes it to set the `media_items` `kind`, which drives the photo/target split in the media API and gallery. One field decides which bucket a capture lands in downstream.
+
+Field 17 (`type`, `uint32`) is `reserved` in this message: its comment records that it was never written or read by any consumer and was retired in favour of this typed discriminator. `capture_type` is the only field here that carries the distinction.
+
+
 

@@ -1,4 +1,5 @@
 import jon_shared_data_types_pb2 as _jon_shared_data_types_pb2
+from opaque import trinity_tracking_pb2 as _trinity_tracking_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
@@ -6,7 +7,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("set_auto_focus", "start_track_ndc", "stop_track", "vampire_mode_enable", "vampire_mode_disable", "stabilization_mode_enable", "stabilization_mode_disable", "dump_start", "dump_stop", "recognition_mode_enable", "recognition_mode_disable", "bridge_start", "bridge_stop", "bridge_restart")
+    __slots__ = ("set_auto_focus", "start_track_ndc", "stop_track", "vampire_mode_enable", "vampire_mode_disable", "stabilization_mode_enable", "stabilization_mode_disable", "dump_start", "dump_stop", "recognition_mode_enable", "recognition_mode_disable", "start_track_trinity", "stop_track_trinity", "bridge_start", "bridge_stop", "bridge_restart")
     SET_AUTO_FOCUS_FIELD_NUMBER: _ClassVar[int]
     START_TRACK_NDC_FIELD_NUMBER: _ClassVar[int]
     STOP_TRACK_FIELD_NUMBER: _ClassVar[int]
@@ -18,6 +19,8 @@ class Root(_message.Message):
     DUMP_STOP_FIELD_NUMBER: _ClassVar[int]
     RECOGNITION_MODE_ENABLE_FIELD_NUMBER: _ClassVar[int]
     RECOGNITION_MODE_DISABLE_FIELD_NUMBER: _ClassVar[int]
+    START_TRACK_TRINITY_FIELD_NUMBER: _ClassVar[int]
+    STOP_TRACK_TRINITY_FIELD_NUMBER: _ClassVar[int]
     BRIDGE_START_FIELD_NUMBER: _ClassVar[int]
     BRIDGE_STOP_FIELD_NUMBER: _ClassVar[int]
     BRIDGE_RESTART_FIELD_NUMBER: _ClassVar[int]
@@ -32,10 +35,12 @@ class Root(_message.Message):
     dump_stop: DumpStop
     recognition_mode_enable: RecognitionModeEnable
     recognition_mode_disable: RecognitionModeDisable
+    start_track_trinity: StartTrackTrinity
+    stop_track_trinity: StopTrackTrinity
     bridge_start: BridgeStart
     bridge_stop: BridgeStop
     bridge_restart: BridgeRestart
-    def __init__(self, set_auto_focus: _Optional[_Union[SetAutoFocus, _Mapping]] = ..., start_track_ndc: _Optional[_Union[StartTrackNDC, _Mapping]] = ..., stop_track: _Optional[_Union[StopTrack, _Mapping]] = ..., vampire_mode_enable: _Optional[_Union[VampireModeEnable, _Mapping]] = ..., vampire_mode_disable: _Optional[_Union[VampireModeDisable, _Mapping]] = ..., stabilization_mode_enable: _Optional[_Union[StabilizationModeEnable, _Mapping]] = ..., stabilization_mode_disable: _Optional[_Union[StabilizationModeDisable, _Mapping]] = ..., dump_start: _Optional[_Union[DumpStart, _Mapping]] = ..., dump_stop: _Optional[_Union[DumpStop, _Mapping]] = ..., recognition_mode_enable: _Optional[_Union[RecognitionModeEnable, _Mapping]] = ..., recognition_mode_disable: _Optional[_Union[RecognitionModeDisable, _Mapping]] = ..., bridge_start: _Optional[_Union[BridgeStart, _Mapping]] = ..., bridge_stop: _Optional[_Union[BridgeStop, _Mapping]] = ..., bridge_restart: _Optional[_Union[BridgeRestart, _Mapping]] = ...) -> None: ...
+    def __init__(self, set_auto_focus: _Optional[_Union[SetAutoFocus, _Mapping]] = ..., start_track_ndc: _Optional[_Union[StartTrackNDC, _Mapping]] = ..., stop_track: _Optional[_Union[StopTrack, _Mapping]] = ..., vampire_mode_enable: _Optional[_Union[VampireModeEnable, _Mapping]] = ..., vampire_mode_disable: _Optional[_Union[VampireModeDisable, _Mapping]] = ..., stabilization_mode_enable: _Optional[_Union[StabilizationModeEnable, _Mapping]] = ..., stabilization_mode_disable: _Optional[_Union[StabilizationModeDisable, _Mapping]] = ..., dump_start: _Optional[_Union[DumpStart, _Mapping]] = ..., dump_stop: _Optional[_Union[DumpStop, _Mapping]] = ..., recognition_mode_enable: _Optional[_Union[RecognitionModeEnable, _Mapping]] = ..., recognition_mode_disable: _Optional[_Union[RecognitionModeDisable, _Mapping]] = ..., start_track_trinity: _Optional[_Union[StartTrackTrinity, _Mapping]] = ..., stop_track_trinity: _Optional[_Union[StopTrackTrinity, _Mapping]] = ..., bridge_start: _Optional[_Union[BridgeStart, _Mapping]] = ..., bridge_stop: _Optional[_Union[BridgeStop, _Mapping]] = ..., bridge_restart: _Optional[_Union[BridgeRestart, _Mapping]] = ...) -> None: ...
 
 class VampireModeEnable(_message.Message):
     __slots__ = ()
@@ -92,6 +97,18 @@ class StartTrackNDC(_message.Message):
     def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
 
 class StopTrack(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class StartTrackTrinity(_message.Message):
+    __slots__ = ("channel", "expect_board")
+    CHANNEL_FIELD_NUMBER: _ClassVar[int]
+    EXPECT_BOARD_FIELD_NUMBER: _ClassVar[int]
+    channel: _jon_shared_data_types_pb2.JonGuiDataVideoChannel
+    expect_board: _trinity_tracking_pb2.TrinityBoardVersion
+    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., expect_board: _Optional[_Union[_trinity_tracking_pb2.TrinityBoardVersion, _Mapping]] = ...) -> None: ...
+
+class StopTrackTrinity(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
