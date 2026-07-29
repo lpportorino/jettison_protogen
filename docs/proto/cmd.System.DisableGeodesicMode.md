@@ -42,9 +42,6 @@ Disables geodesic triangulation positioning mode
 - [[proto/cmd.System.EnableGeodesicMode]]
 
 
-### Preconditions
-
-
 
 ### Implementation Notes
 

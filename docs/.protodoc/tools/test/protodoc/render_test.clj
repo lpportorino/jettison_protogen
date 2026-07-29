@@ -166,6 +166,21 @@
       (is (str/includes? md "### Implementation Notes"))
       (is (str/includes? md "500ms")))))
 
+(deftest render-empty-preconditions-omits-heading-test
+  (testing "an empty :preconditions vector emits no heading"
+    ;; selmer's if-result is false for exactly nil, "", "false" and false — an
+    ;; empty VECTOR is truthy — so a bare {% if %} cannot guard this on its own.
+    ;; The collection has to be nil-normalized render-side, the way its two
+    ;; siblings already are. Without that, the heading renders with no body.
+    (let [md (render/render-message
+              (assoc-in sample-message-with-interaction
+                        [:interaction :preconditions] []))]
+      ;; NON-VACUITY GUARD, and it is required: the real assertion below is an
+      ;; ABSENCE check, whose pass value equals its nothing-rendered value. Pin
+      ;; that the message rendered at all first, or a broken renderer passes.
+      (is (str/includes? md "## Interaction"))
+      (is (not (str/includes? md "### Preconditions"))))))
+
 (deftest render-field-interaction-test
   (testing "Renders field-level interaction metadata"
     (let [md (render/render-message sample-message-with-interaction)]

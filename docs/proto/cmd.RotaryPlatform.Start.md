@@ -43,9 +43,6 @@ Starts the rotary platform subsystem
 - [[proto/cmd.RotaryPlatform.Halt]]
 
 
-### Preconditions
-
-
 
 ### Implementation Notes
 

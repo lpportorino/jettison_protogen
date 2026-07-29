@@ -42,9 +42,6 @@ Enables vampire mode for computer vision processing
 - [[proto/cmd.CV.VampireModeDisable]]
 
 
-### Preconditions
-
-
 
 ### Implementation Notes
 

@@ -97,7 +97,12 @@
                       (mapv #(str "[[proto/" % "]]") (:related-state interaction)))
      :related-commands (when (seq (:related-commands interaction))
                          (mapv #(str "[[proto/" % "]]") (:related-commands interaction)))
-     :preconditions (:preconditions interaction)
+     ;; Nil-normalized like its two siblings above, and it MUST be: selmer's
+     ;; if-result is false for exactly nil, "", "false" and false, so an empty
+     ;; VECTOR is truthy and the template's bare {% if %} cannot guard it. Left
+     ;; raw, an empty list renders the heading with no body under it.
+     :preconditions (when (seq (:preconditions interaction))
+                      (:preconditions interaction))
      :notes (:notes interaction)
      :has-any true}))
 

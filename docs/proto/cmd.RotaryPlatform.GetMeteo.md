@@ -42,9 +42,6 @@ Requests meteorological data from rotary platform sensors
 - [[proto/cmd.Compass.GetMeteo]]
 
 
-### Preconditions
-
-
 
 ### Implementation Notes
 

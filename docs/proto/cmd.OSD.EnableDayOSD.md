@@ -42,9 +42,6 @@ Enables on-screen display overlay for day camera
 - [[proto/cmd.OSD.DisableDayOSD]]
 
 
-### Preconditions
-
-
 
 ### Implementation Notes
 
