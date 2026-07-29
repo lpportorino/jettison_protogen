@@ -485,10 +485,51 @@ public final class JonSharedDataCv {
      */
     ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder getTrackedObjectsOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+     * actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+     * are what change.
+     *
+     * WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+     * enable, disable and reflect the trinity control from this field alone,
+     * without decoding an opaque payload — the state plane does not parse
+     * JonGUIState.opaque_payloads.
+     *
+     * THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+     * not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+     * JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+     * metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+     * the observability figures and the board identity; a bool would tell it
+     * nothing. Neither field is a copy of the other, and neither suppresses the
+     * other.
+     *
+     * IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+     * and BOARD_MISMATCH are all `true` here, because the button asks only whether
+     * tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+     * tracker not being up at all. A consumer that must tell those apart — is
+     * there a lock, is the pose valid, is this the board that was asked for —
+     * reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+     * payload, which is the authoritative and richer value. This field cannot
+     * answer that and must not be read as though it could.
+     * </pre>
+     *
+     * <code>bool trinity_tracking_active = 90;</code>
+     * @return The trinityTrackingActive.
+     */
+    boolean getTrinityTrackingActive();
   }
   /**
    * <pre>
-   * CV Gateway state enrichment - autofocus metrics and sweep status
+   * CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
+   * plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
+   * transforms, tracked objects, and whether the trinity tracker is running.
+   *
+   * Richer CV output — object detections, SAM tracking, the Ring-Trinity metric
+   * pose — does NOT travel here. It rides JonGUIState.opaque_payloads as
+   * ser.JonOpaquePayload entries and is decoded only by the consumers that handle
+   * each payload type; the state plane does not parse them.
    * </pre>
    *
    * Protobuf type {@code ser.JonGuiDataCV}
@@ -1856,6 +1897,45 @@ public final class JonSharedDataCv {
       return trackedObjects_.get(index);
     }
 
+    public static final int TRINITY_TRACKING_ACTIVE_FIELD_NUMBER = 90;
+    private boolean trinityTrackingActive_ = false;
+    /**
+     * <pre>
+     * Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+     * actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+     * are what change.
+     *
+     * WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+     * enable, disable and reflect the trinity control from this field alone,
+     * without decoding an opaque payload — the state plane does not parse
+     * JonGUIState.opaque_payloads.
+     *
+     * THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+     * not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+     * JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+     * metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+     * the observability figures and the board identity; a bool would tell it
+     * nothing. Neither field is a copy of the other, and neither suppresses the
+     * other.
+     *
+     * IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+     * and BOARD_MISMATCH are all `true` here, because the button asks only whether
+     * tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+     * tracker not being up at all. A consumer that must tell those apart — is
+     * there a lock, is the pose valid, is this the board that was asked for —
+     * reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+     * payload, which is the authoritative and richer value. This field cannot
+     * answer that and must not be read as though it could.
+     * </pre>
+     *
+     * <code>bool trinity_tracking_active = 90;</code>
+     * @return The trinityTrackingActive.
+     */
+    @java.lang.Override
+    public boolean getTrinityTrackingActive() {
+      return trinityTrackingActive_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1962,6 +2042,9 @@ public final class JonSharedDataCv {
       }
       for (int i = 0; i < trackedObjects_.size(); i++) {
         output.writeMessage(80, trackedObjects_.get(i));
+      }
+      if (trinityTrackingActive_ != false) {
+        output.writeBool(90, trinityTrackingActive_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2096,6 +2179,10 @@ public final class JonSharedDataCv {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(80, trackedObjects_.get(i));
       }
+      if (trinityTrackingActive_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(90, trinityTrackingActive_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2215,6 +2302,8 @@ public final class JonSharedDataCv {
       }
       if (!getTrackedObjectsList()
           .equals(other.getTrackedObjectsList())) return false;
+      if (getTrinityTrackingActive()
+          != other.getTrinityTrackingActive()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2325,6 +2414,9 @@ public final class JonSharedDataCv {
         hash = (37 * hash) + TRACKED_OBJECTS_FIELD_NUMBER;
         hash = (53 * hash) + getTrackedObjectsList().hashCode();
       }
+      hash = (37 * hash) + TRINITY_TRACKING_ACTIVE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getTrinityTrackingActive());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2424,7 +2516,14 @@ public final class JonSharedDataCv {
     }
     /**
      * <pre>
-     * CV Gateway state enrichment - autofocus metrics and sweep status
+     * CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
+     * plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
+     * transforms, tracked objects, and whether the trinity tracker is running.
+     *
+     * Richer CV output — object detections, SAM tracking, the Ring-Trinity metric
+     * pose — does NOT travel here. It rides JonGUIState.opaque_payloads as
+     * ser.JonOpaquePayload entries and is decoded only by the consumers that handle
+     * each payload type; the state plane does not parse them.
      * </pre>
      *
      * Protobuf type {@code ser.JonGuiDataCV}
@@ -2563,6 +2662,7 @@ public final class JonSharedDataCv {
           trackedObjectsBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x40000000);
+        trinityTrackingActive_ = false;
         return this;
       }
 
@@ -2736,6 +2836,9 @@ public final class JonSharedDataCv {
               : cameraTransformHeatBuilder_.build();
           to_bitField0_ |= 0x00000800;
         }
+        if (((from_bitField0_ & 0x80000000) != 0)) {
+          result.trinityTrackingActive_ = trinityTrackingActive_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -2866,6 +2969,9 @@ public final class JonSharedDataCv {
               trackedObjectsBuilder_.addAllMessages(other.trackedObjects_);
             }
           }
+        }
+        if (other.getTrinityTrackingActive() != false) {
+          setTrinityTrackingActive(other.getTrinityTrackingActive());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -3080,6 +3186,11 @@ public final class JonSharedDataCv {
                 }
                 break;
               } // case 642
+              case 720: {
+                trinityTrackingActive_ = input.readBool();
+                bitField0_ |= 0x80000000;
+                break;
+              } // case 720
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5827,6 +5938,122 @@ public final class JonSharedDataCv {
         return trackedObjectsBuilder_;
       }
 
+      private boolean trinityTrackingActive_ ;
+      /**
+       * <pre>
+       * Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+       * actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+       * are what change.
+       *
+       * WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+       * enable, disable and reflect the trinity control from this field alone,
+       * without decoding an opaque payload — the state plane does not parse
+       * JonGUIState.opaque_payloads.
+       *
+       * THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+       * not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+       * JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+       * metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+       * the observability figures and the board identity; a bool would tell it
+       * nothing. Neither field is a copy of the other, and neither suppresses the
+       * other.
+       *
+       * IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+       * and BOARD_MISMATCH are all `true` here, because the button asks only whether
+       * tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+       * tracker not being up at all. A consumer that must tell those apart — is
+       * there a lock, is the pose valid, is this the board that was asked for —
+       * reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+       * payload, which is the authoritative and richer value. This field cannot
+       * answer that and must not be read as though it could.
+       * </pre>
+       *
+       * <code>bool trinity_tracking_active = 90;</code>
+       * @return The trinityTrackingActive.
+       */
+      @java.lang.Override
+      public boolean getTrinityTrackingActive() {
+        return trinityTrackingActive_;
+      }
+      /**
+       * <pre>
+       * Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+       * actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+       * are what change.
+       *
+       * WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+       * enable, disable and reflect the trinity control from this field alone,
+       * without decoding an opaque payload — the state plane does not parse
+       * JonGUIState.opaque_payloads.
+       *
+       * THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+       * not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+       * JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+       * metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+       * the observability figures and the board identity; a bool would tell it
+       * nothing. Neither field is a copy of the other, and neither suppresses the
+       * other.
+       *
+       * IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+       * and BOARD_MISMATCH are all `true` here, because the button asks only whether
+       * tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+       * tracker not being up at all. A consumer that must tell those apart — is
+       * there a lock, is the pose valid, is this the board that was asked for —
+       * reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+       * payload, which is the authoritative and richer value. This field cannot
+       * answer that and must not be read as though it could.
+       * </pre>
+       *
+       * <code>bool trinity_tracking_active = 90;</code>
+       * @param value The trinityTrackingActive to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTrinityTrackingActive(boolean value) {
+
+        trinityTrackingActive_ = value;
+        bitField0_ |= 0x80000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+       * actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+       * are what change.
+       *
+       * WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+       * enable, disable and reflect the trinity control from this field alone,
+       * without decoding an opaque payload — the state plane does not parse
+       * JonGUIState.opaque_payloads.
+       *
+       * THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+       * not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+       * JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+       * metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+       * the observability figures and the board identity; a bool would tell it
+       * nothing. Neither field is a copy of the other, and neither suppresses the
+       * other.
+       *
+       * IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+       * and BOARD_MISMATCH are all `true` here, because the button asks only whether
+       * tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+       * tracker not being up at all. A consumer that must tell those apart — is
+       * there a lock, is the pose valid, is this the board that was asked for —
+       * reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+       * payload, which is the authoritative and richer value. This field cannot
+       * answer that and must not be read as though it could.
+       * </pre>
+       *
+       * <code>bool trinity_tracking_active = 90;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTrinityTrackingActive() {
+        bitField0_ = (bitField0_ & ~0x80000000);
+        trinityTrackingActive_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCV)
     }
 
@@ -5894,7 +6121,7 @@ public final class JonSharedDataCv {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val" +
       "idate/validate.proto\032\033jon_shared_data_ty" +
-      "pes.proto\"\252\024\n\014JonGuiDataCV\022G\n\023autofocus_" +
+      "pes.proto\"\313\024\n\014JonGuiDataCV\022G\n\023autofocus_" +
       "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof" +
       "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001" +
       "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day" +
@@ -5933,35 +6160,36 @@ public final class JonSharedDataCv {
       ".JonGuiDataTransform3DH\n\210\001\001\022>\n\025camera_tr" +
       "ansform_heat\030G \001(\0132\032.ser.JonGuiDataTrans" +
       "form3DH\013\210\001\001\0225\n\017tracked_objects\030P \003(\0132\034.s" +
-      "er.JonGuiDataTrackedObject\"\310\001\n\016Autofocus" +
-      "State\022\037\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030" +
-      "\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_ST" +
-      "ATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FI" +
-      "NE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020" +
-      "\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBrid" +
-      "geStatus\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED" +
-      "\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_B" +
-      "RIDGE_STATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STA" +
-      "TUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPI" +
-      "NG\020\004\022\034\n\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV" +
-      "_BRIDGE_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridge" +
-      "ExitReason\022%\n!CV_BRIDGE_EXIT_REASON_UNSP" +
-      "ECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_S" +
-      "TARTED\020\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL" +
-      "\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n C" +
-      "V_BRIDGE_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_" +
-      "BRIDGE_EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRI" +
-      "DGE_EXIT_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_" +
-      "REASON_TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASO" +
-      "N_SIGNAL\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi_tra" +
-      "ck_dayB\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_dayB\021" +
-      "\n\017_roi_focus_heatB\021\n\017_roi_track_heatB\020\n\016" +
-      "_roi_zoom_heatB\016\n\014_roi_fx_heatB\030\n\026_sharp" +
-      "ness_metrics_dayB\031\n\027_sharpness_metrics_h" +
-      "eatB\027\n\025_camera_transform_dayB\030\n\026_camera_" +
-      "transform_heatBJZHgit-codecommit.eu-cent" +
-      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
-      "np/data/cvb\006proto3"
+      "er.JonGuiDataTrackedObject\022\037\n\027trinity_tr" +
+      "acking_active\030Z \001(\010\"\310\001\n\016AutofocusState\022\037" +
+      "\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOF" +
+      "OCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COA" +
+      "RSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEE" +
+      "P\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020\004\022\032\n\026AU" +
+      "TOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBridgeStatu" +
+      "s\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030C" +
+      "V_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_S" +
+      "TATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUN" +
+      "NING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n" +
+      "\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE" +
+      "_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridgeExitRea" +
+      "son\022%\n!CV_BRIDGE_EXIT_REASON_UNSPECIFIED" +
+      "\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_STARTED\020" +
+      "\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033C" +
+      "V_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n CV_BRIDG" +
+      "E_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_" +
+      "EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXI" +
+      "T_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_" +
+      "TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASON_SIGNA" +
+      "L\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi_track_dayB" +
+      "\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_dayB\021\n\017_roi_" +
+      "focus_heatB\021\n\017_roi_track_heatB\020\n\016_roi_zo" +
+      "om_heatB\016\n\014_roi_fx_heatB\030\n\026_sharpness_me" +
+      "trics_dayB\031\n\027_sharpness_metrics_heatB\027\n\025" +
+      "_camera_transform_dayB\030\n\026_camera_transfo" +
+      "rm_heatBJZHgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/data" +
+      "/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5974,7 +6202,7 @@ public final class JonSharedDataCv {
     internal_static_ser_JonGuiDataCV_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCV_descriptor,
-        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", });
+        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

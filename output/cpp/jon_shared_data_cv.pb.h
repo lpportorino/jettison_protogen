@@ -436,6 +436,7 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     kLastExitReasonFieldNumber = 31,
     kBridgeUptimeMsFieldNumber = 32,
     kRestartCountFieldNumber = 33,
+    kTrinityTrackingActiveFieldNumber = 90,
   };
   // repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;
   int tracked_objects_size() const;
@@ -814,13 +815,23 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   void _internal_set_restart_count(::int32_t value);
 
   public:
+  // bool trinity_tracking_active = 90;
+  void clear_trinity_tracking_active() ;
+  bool trinity_tracking_active() const;
+  void set_trinity_tracking_active(bool value);
+
+  private:
+  bool _internal_trinity_tracking_active() const;
+  void _internal_set_trinity_tracking_active(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCV)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 31, 13,
-      0, 11>
+      5, 32, 13,
+      0, 13>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -870,6 +881,7 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     int last_exit_reason_;
     ::int64_t bridge_uptime_ms_;
     ::int32_t restart_count_;
+    bool trinity_tracking_active_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -2423,6 +2435,28 @@ inline ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>*
 JonGuiDataCV::_internal_mutable_tracked_objects() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.tracked_objects_;
+}
+
+// bool trinity_tracking_active = 90;
+inline void JonGuiDataCV::clear_trinity_tracking_active() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.trinity_tracking_active_ = false;
+}
+inline bool JonGuiDataCV::trinity_tracking_active() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.trinity_tracking_active)
+  return _internal_trinity_tracking_active();
+}
+inline void JonGuiDataCV::set_trinity_tracking_active(bool value) {
+  _internal_set_trinity_tracking_active(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.trinity_tracking_active)
+}
+inline bool JonGuiDataCV::_internal_trinity_tracking_active() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.trinity_tracking_active_;
+}
+inline void JonGuiDataCV::_internal_set_trinity_tracking_active(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.trinity_tracking_active_ = value;
 }
 
 #ifdef __GNUC__

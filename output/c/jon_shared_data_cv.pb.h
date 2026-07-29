@@ -46,7 +46,14 @@ typedef enum _ser_JonGuiDataCV_CvBridgeExitReason {
 } ser_JonGuiDataCV_CvBridgeExitReason;
 
 /* Struct definitions */
-/* CV Gateway state enrichment - autofocus metrics and sweep status */
+/* CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
+ plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
+ transforms, tracked objects, and whether the trinity tracker is running.
+
+ Richer CV output — object detections, SAM tracking, the Ring-Trinity metric
+ pose — does NOT travel here. It rides JonGUIState.opaque_payloads as
+ ser.JonOpaquePayload entries and is decoded only by the consumers that handle
+ each payload type; the state plane does not parse them. */
 typedef struct _ser_JonGuiDataCV {
     /* Day channel autofocus */
     ser_JonGuiDataCV_AutofocusState autofocus_state_day;
@@ -103,6 +110,32 @@ typedef struct _ser_JonGuiDataCV {
     /* Tracked objects (0 or more). Each object has UUID for joining with
  external data sources (labels, classifications, etc.) */
     pb_callback_t tracked_objects;
+    /* Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+ actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+ are what change.
+
+ WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+ enable, disable and reflect the trinity control from this field alone,
+ without decoding an opaque payload — the state plane does not parse
+ JonGUIState.opaque_payloads.
+
+ THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+ not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+ JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+ metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+ the observability figures and the board identity; a bool would tell it
+ nothing. Neither field is a copy of the other, and neither suppresses the
+ other.
+
+ IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+ and BOARD_MISMATCH are all `true` here, because the button asks only whether
+ tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+ tracker not being up at all. A consumer that must tell those apart — is
+ there a lock, is the pose valid, is this the board that was asked for —
+ reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+ payload, which is the authoritative and richer value. This field cannot
+ answer that and must not be read as though it could. */
+    bool trinity_tracking_active;
 } ser_JonGuiDataCV;
 
 
@@ -130,8 +163,8 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}}
-#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}}
+#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0}
+#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCV_autofocus_state_day_tag 1
@@ -165,6 +198,7 @@ extern "C" {
 #define ser_JonGuiDataCV_camera_transform_day_tag 70
 #define ser_JonGuiDataCV_camera_transform_heat_tag 71
 #define ser_JonGuiDataCV_tracked_objects_tag     80
+#define ser_JonGuiDataCV_trinity_tracking_active_tag 90
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCV_FIELDLIST(X, a) \
@@ -198,7 +232,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  sharpness_metrics_day,  60) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  sharpness_metrics_heat,  61) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_day,  70) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_heat,  71) \
-X(a, CALLBACK, REPEATED, MESSAGE,  tracked_objects,  80)
+X(a, CALLBACK, REPEATED, MESSAGE,  tracked_objects,  80) \
+X(a, STATIC,   SINGULAR, BOOL,     trinity_tracking_active,  90)
 #define ser_JonGuiDataCV_CALLBACK pb_default_field_callback
 #define ser_JonGuiDataCV_DEFAULT NULL
 #define ser_JonGuiDataCV_roi_focus_day_MSGTYPE ser_JonGuiDataROI

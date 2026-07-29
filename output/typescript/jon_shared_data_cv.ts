@@ -14,7 +14,16 @@ import {
   JonGuiDataTransform3D,
 } from "./jon_shared_data_types";
 
-/** CV Gateway state enrichment - autofocus metrics and sweep status */
+/**
+ * CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
+ * plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
+ * transforms, tracked objects, and whether the trinity tracker is running.
+ *
+ * Richer CV output — object detections, SAM tracking, the Ring-Trinity metric
+ * pose — does NOT travel here. It rides JonGUIState.opaque_payloads as
+ * ser.JonOpaquePayload entries and is decoded only by the consumers that handle
+ * each payload type; the state plane does not parse them.
+ */
 export interface JonGuiDataCV {
   /** Day channel autofocus */
   autofocusStateDay: JonGuiDataCV_AutofocusState;
@@ -73,6 +82,34 @@ export interface JonGuiDataCV {
    * external data sources (labels, classifications, etc.)
    */
   trackedObjects: JonGuiDataTrackedObject[];
+  /**
+   * Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+   * actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+   * are what change.
+   *
+   * WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+   * enable, disable and reflect the trinity control from this field alone,
+   * without decoding an opaque payload — the state plane does not parse
+   * JonGUIState.opaque_payloads.
+   *
+   * THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+   * not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+   * JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+   * metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+   * the observability figures and the board identity; a bool would tell it
+   * nothing. Neither field is a copy of the other, and neither suppresses the
+   * other.
+   *
+   * IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+   * and BOARD_MISMATCH are all `true` here, because the button asks only whether
+   * tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+   * tracker not being up at all. A consumer that must tell those apart — is
+   * there a lock, is the pose valid, is this the board that was asked for —
+   * reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+   * payload, which is the authoritative and richer value. This field cannot
+   * answer that and must not be read as though it could.
+   */
+  trinityTrackingActive: boolean;
 }
 
 /** Autofocus sweep state */
@@ -320,6 +357,7 @@ function createBaseJonGuiDataCV(): JonGuiDataCV {
     cameraTransformDay: undefined,
     cameraTransformHeat: undefined,
     trackedObjects: [],
+    trinityTrackingActive: false,
   };
 }
 
@@ -417,6 +455,9 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     }
     for (const v of message.trackedObjects) {
       JonGuiDataTrackedObject.encode(v!, writer.uint32(642).fork()).join();
+    }
+    if (message.trinityTrackingActive !== false) {
+      writer.uint32(720).bool(message.trinityTrackingActive);
     }
     return writer;
   },
@@ -676,6 +717,14 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
           message.trackedObjects.push(JonGuiDataTrackedObject.decode(reader, reader.uint32()));
           continue;
         }
+        case 90: {
+          if (tag !== 720) {
+            break;
+          }
+
+          message.trinityTrackingActive = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -842,6 +891,11 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
         : globalThis.Array.isArray(object?.tracked_objects)
         ? object.tracked_objects.map((e: any) => JonGuiDataTrackedObject.fromJSON(e))
         : [],
+      trinityTrackingActive: isSet(object.trinityTrackingActive)
+        ? globalThis.Boolean(object.trinityTrackingActive)
+        : isSet(object.trinity_tracking_active)
+        ? globalThis.Boolean(object.trinity_tracking_active)
+        : false,
     };
   },
 
@@ -940,6 +994,9 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     if (message.trackedObjects?.length) {
       obj.trackedObjects = message.trackedObjects.map((e) => JonGuiDataTrackedObject.toJSON(e));
     }
+    if (message.trinityTrackingActive !== false) {
+      obj.trinityTrackingActive = message.trinityTrackingActive;
+    }
     return obj;
   },
 
@@ -1005,6 +1062,7 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
       ? JonGuiDataTransform3D.fromPartial(object.cameraTransformHeat)
       : undefined;
     message.trackedObjects = object.trackedObjects?.map((e) => JonGuiDataTrackedObject.fromPartial(e)) || [];
+    message.trinityTrackingActive = object.trinityTrackingActive ?? false;
     return message;
   },
 };

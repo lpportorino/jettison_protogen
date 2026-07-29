@@ -11,7 +11,9 @@ type: message
 
 ## Description
 
-Disables vampire mode (sun avoidance) in the computer vision system, allowing cameras to look directly at bright light sources like the sun without automatic avoidance behavior. Sets cv.vampire_mode_enabled to false in the backend state.
+Disables vampire mode (sun avoidance) in the computer vision system, allowing cameras to look directly at bright light sources like the sun without automatic avoidance behavior. Paired with [[proto/cmd.CV.VampireModeEnable]]; the two back a single toggle rather than two independent buttons.
+
+The readback is `vampire_mode` (#19) on [[proto/ser.JonGuiDataSystem]], which goes `false` once this command is applied. That is the only vampire-mode flag in the schema — [[proto/ser.JonGuiDataCV]] carries none, so a consumer reflecting this toggle reads the SYSTEM state message and not the CV one.
 
 ## Fields
 

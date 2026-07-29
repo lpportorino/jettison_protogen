@@ -212,7 +212,14 @@ func (JonGuiDataCV_CvBridgeExitReason) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 2}
 }
 
-// CV Gateway state enrichment - autofocus metrics and sweep status
+// CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
+// plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
+// transforms, tracked objects, and whether the trinity tracker is running.
+//
+// Richer CV output — object detections, SAM tracking, the Ring-Trinity metric
+// pose — does NOT travel here. It rides JonGUIState.opaque_payloads as
+// ser.JonOpaquePayload entries and is decoded only by the consumers that handle
+// each payload type; the state plane does not parse them.
 type JonGuiDataCV struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Day channel autofocus
@@ -258,8 +265,34 @@ type JonGuiDataCV struct {
 	// Tracked objects (0 or more). Each object has UUID for joining with
 	// external data sources (labels, classifications, etc.)
 	TrackedObjects []*types.JonGuiDataTrackedObject `protobuf:"bytes,80,rep,name=tracked_objects,json=trackedObjects,proto3" json:"tracked_objects,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Whether the Ring-Trinity board tracker is RUNNING. It follows the tracker's
+	// actual run state, which cmd.CV.StartTrackTrinity and cmd.CV.StopTrackTrinity
+	// are what change.
+	//
+	// WHAT IT IS FOR: the toggle affordance. A consumer of this state message can
+	// enable, disable and reflect the trinity control from this field alone,
+	// without decoding an opaque payload — the state plane does not parse
+	// JonGUIState.opaque_payloads.
+	//
+	// THE POSE IS A DIFFERENT PLANE WITH A DIFFERENT CONSUMER, and this field does
+	// not serve it. ser.TrinityTracking (opaque/trinity_tracking.proto) travels in
+	// JonGUIState.opaque_payloads and is routed to the WASM OSD, which renders the
+	// metric pose as an overlay. That consumer needs the pose, the per-axis sigmas,
+	// the observability figures and the board identity; a bool would tell it
+	// nothing. Neither field is a copy of the other, and neither suppresses the
+	// other.
+	//
+	// IT COLLAPSES THE TRACKER'S STATES ON PURPOSE. LOCKED, SEARCHING, DEGRADED
+	// and BOARD_MISMATCH are all `true` here, because the button asks only whether
+	// tracking is RUNNING; TRINITY_TRACKING_STATUS_IDLE is `false`, as is the
+	// tracker not being up at all. A consumer that must tell those apart — is
+	// there a lock, is the pose valid, is this the board that was asked for —
+	// reads TrinityTracking.status (ser.TrinityTrackingStatus) from the opaque
+	// payload, which is the authoritative and richer value. This field cannot
+	// answer that and must not be read as though it could.
+	TrinityTrackingActive bool `protobuf:"varint,90,opt,name=trinity_tracking_active,json=trinityTrackingActive,proto3" json:"trinity_tracking_active,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCV) Reset() {
@@ -509,11 +542,18 @@ func (x *JonGuiDataCV) GetTrackedObjects() []*types.JonGuiDataTrackedObject {
 	return nil
 }
 
+func (x *JonGuiDataCV) GetTrinityTrackingActive() bool {
+	if x != nil {
+		return x.TrinityTrackingActive
+	}
+	return false
+}
+
 var File_jon_shared_data_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfb\x17\n" +
+	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb3\x18\n" +
 	"\fJonGuiDataCV\x12Z\n" +
 	"\x13autofocus_state_day\x18\x01 \x01(\x0e2 .ser.JonGuiDataCV.AutofocusStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\x11autofocusStateDay\x123\n" +
 	"\rsharpness_day\x18\x02 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\fsharpnessDay\x12<\n" +
@@ -549,7 +589,8 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\x14camera_transform_day\x18F \x01(\v2\x1a.ser.JonGuiDataTransform3DH\n" +
 	"R\x12cameraTransformDay\x88\x01\x01\x12S\n" +
 	"\x15camera_transform_heat\x18G \x01(\v2\x1a.ser.JonGuiDataTransform3DH\vR\x13cameraTransformHeat\x88\x01\x01\x12E\n" +
-	"\x0ftracked_objects\x18P \x03(\v2\x1c.ser.JonGuiDataTrackedObjectR\x0etrackedObjects\"\xc8\x01\n" +
+	"\x0ftracked_objects\x18P \x03(\v2\x1c.ser.JonGuiDataTrackedObjectR\x0etrackedObjects\x126\n" +
+	"\x17trinity_tracking_active\x18Z \x01(\bR\x15trinityTrackingActive\"\xc8\x01\n" +
 	"\x0eAutofocusState\x12\x1f\n" +
 	"\x1bAUTOFOCUS_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14AUTOFOCUS_STATE_IDLE\x10\x01\x12 \n" +

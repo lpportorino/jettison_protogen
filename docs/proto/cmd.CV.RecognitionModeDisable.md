@@ -11,7 +11,9 @@ type: message
 
 ## Description
 
-Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. The backend sets cv.recognition_mode_enabled to false and state is reflected in system.recognitionMode.
+Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. Paired with [[proto/cmd.CV.RecognitionModeEnable]]; the two back a single toggle rather than two independent buttons.
+
+The readback is `recognition_mode` (#23) on [[proto/ser.JonGuiDataSystem]], which goes `false` once this command is applied. That is the only recognition flag in the schema — [[proto/ser.JonGuiDataCV]] carries none, so a consumer reflecting this toggle reads the SYSTEM state message and not the CV one.
 
 ## Fields
 

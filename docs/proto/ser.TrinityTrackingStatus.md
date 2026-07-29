@@ -23,6 +23,13 @@ detected, instead of silently producing a pose against different geometry.
 
 **ABSENCE AND `IDLE` ARE DIFFERENT FACTS.** The payload is published whenever the tracker PROCESS is up, including when it is not tracking — that is what `IDLE` is for. `IDLE` present means the tracker is up and deliberately not tracking; the payload being ABSENT means the producer is down, has not published yet, or the payload was dropped. A consumer that reads "no payload" as "not tracking" reports a crashed tracker as a stopped one — one reading for two states that need opposite responses.
 
+**A consumer that only needs "is tracking on" never has to reach this enum.**
+`trinity_tracking_active` (#90) on [[proto/ser.JonGuiDataCV]] answers that on the STATE plane, with
+no opaque payload to decode: `LOCKED`, `SEARCHING`, `DEGRADED` and `BOARD_MISMATCH` are all `true`
+there and `IDLE` is `false`. It exists for the toggle affordance and is not a substitute — this
+enum remains the authoritative value for anything that must distinguish a lock from a search, a
+degraded solve, or a board mismatch.
+
 ## Values
 
 | # | Name | Description |

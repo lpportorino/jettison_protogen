@@ -44,6 +44,22 @@ Names which **kind** of board this is — for example `ring-trinity` — with `m
 `min-len: 1` rejects the empty string, so a board identity always names its family. Note that `major` and `minor` carry no constraint at all, which makes `0.0` a legal revision: `family` is the only part of the human-readable tuple the schema insists be populated, and `geometry_sha256` is what actually pins the dimensions.
 
 
+### major (#2)
+
+Major component of the board's revision within its `family` — the human-readable half of the identity, alongside `minor`.
+
+**The schema assigns NO semantics to the major/minor split.** Nothing in the proto states that a major bump means incompatible geometry, that equal majors imply interchangeable boards, or that ordering is meaningful at all. A consumer must therefore not derive a compatibility decision from this number: `geometry_sha256` is the only field that actually pins dimensions, and it is what a geometry check compares.
+
+`uint32` with no constraint, so `0` is legal and carries no special meaning — see `family`, which is the sole part of the tuple validation insists be populated. Use this for display, for logging which board a run assumed, and as part of the [[proto/cmd.CV.StartTrackTrinity]] `expect_board` request; do not use it as a guard.
+
+
+### minor (#3)
+
+Minor component of the board's revision within its `family`. Everything said for `major` applies unchanged: no schema-assigned semantics, no constraint, `0` legal and unremarkable, and no compatibility inference available from it.
+
+**The tuple can be silently wrong where the digest cannot.** A geometry manifest edited without bumping the revision produces a board whose `family`/`major`/`minor` are byte-identical to the previous one while its dimensions differ — and a pose solved against the wrong dimensions is wrong by a scale factor and looks entirely plausible. `geometry_sha256` necessarily changes in that case. That is the whole reason both forms of identity are carried, and it is why equality on this tuple is never a substitute for equality on the digest.
+
+
 ### geometry_sha256 (#4)
 
 sha256 of the board's geometry manifest (`boards/<board>.json`). That manifest is the one home for every board dimension, so hashing it pins the exact geometry a pose was computed against. A reprint from an edited manifest is a different board and this field says so, where the `family` / `major` / `minor` tuple would not — an edit that does not bump the revision is invisible to the tuple while necessarily changing the digest.

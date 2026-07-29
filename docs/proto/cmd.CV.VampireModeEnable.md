@@ -48,7 +48,7 @@ Enables vampire mode for computer vision processing
 
 ### Implementation Notes
 
-Vampire mode likely relates to low-light or nighttime CV processing optimization.
+The readback is `vampire_mode` (#19) on [[proto/ser.JonGuiDataSystem]], which goes `true` once this command is applied; [[proto/ser.JonGuiDataCV]] carries no vampire-mode flag, so the toggle reflects off the SYSTEM state message.
 
 
 

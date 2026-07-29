@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 292 messages, 27 enums, 883 fields
+**Statistics:** 292 messages, 27 enums, 884 fields
 
 ## Messages by Package
 
@@ -41,7 +41,9 @@ Gracefully shuts down the CV Bridge container. The bridge_status field will tran
 When the CV Bridge is stopped, fanout operates in bypass mode - state continues to flow but without CV enrichment (autofocus metrics will be stale/default).
 - [[proto/cmd.CV.DumpStart|DumpStart]] — Initiates recording of computer vision frame data to disk for debugging and analysis purposes. Only available in factory mode (URL parameter ui=factory). The state is tracked via data.System.cvDumping boolean field.
 - [[proto/cmd.CV.DumpStop|DumpStop]] — Stops the computer vision frame dumping process that was previously initiated with DumpStart, ceasing the export of CV data to disk. Sets the cvDumping state to false when processed.
-- [[proto/cmd.CV.RecognitionModeDisable|RecognitionModeDisable]] — Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. The backend sets cv.recognition_mode_enabled to false and state is reflected in system.recognitionMode.
+- [[proto/cmd.CV.RecognitionModeDisable|RecognitionModeDisable]] — Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. Paired with [[proto/cmd.CV.RecognitionModeEnable]]; the two back a single toggle rather than two independent buttons.
+
+The readback is `recognition_mode` (#23) on [[proto/ser.JonGuiDataSystem]], which goes `false` once this command is applied. That is the only recognition flag in the schema — [[proto/ser.JonGuiDataCV]] carries none, so a consumer reflecting this toggle reads the SYSTEM state message and not the CV one.
 - [[proto/cmd.CV.RecognitionModeEnable|RecognitionModeEnable]] — Enables AI-powered object recognition mode on the computer vision system, which activates detection and classification of objects in the video feed. UI displays a bracket icon with question mark and tooltip "Enable AI object recognition and tracking".
 - [[proto/cmd.CV.Root|Root]] — Container message for computer vision commands that provides object tracking, autofocus control, and various CV processing modes (vampire, stabilization, recognition) through a mutually-exclusive oneof command dispatch pattern.
 - [[proto/cmd.CV.SetAutoFocus|SetAutoFocus]] — Enables or disables computer vision-based automatic focus for either the day or thermal camera channel, routing the command through the CV pipeline for software-controlled focus management. Different from cmd.HeatCamera.SetAutoFocus which is a direct hardware command.
@@ -62,7 +64,9 @@ plausible.
 - [[proto/cmd.CV.StopTrackTrinity|StopTrackTrinity]] — Stop tracking the Ring-Trinity board.
 
 Symmetric with [[proto/cmd.CV.StopTrack]] for NDC tracking; takes no fields.
-- [[proto/cmd.CV.VampireModeDisable|VampireModeDisable]] — Disables vampire mode (sun avoidance) in the computer vision system, allowing cameras to look directly at bright light sources like the sun without automatic avoidance behavior. Sets cv.vampire_mode_enabled to false in the backend state.
+- [[proto/cmd.CV.VampireModeDisable|VampireModeDisable]] — Disables vampire mode (sun avoidance) in the computer vision system, allowing cameras to look directly at bright light sources like the sun without automatic avoidance behavior. Paired with [[proto/cmd.CV.VampireModeEnable]]; the two back a single toggle rather than two independent buttons.
+
+The readback is `vampire_mode` (#19) on [[proto/ser.JonGuiDataSystem]], which goes `false` once this command is applied. That is the only vampire-mode flag in the schema — [[proto/ser.JonGuiDataCV]] carries none, so a consumer reflecting this toggle reads the SYSTEM state message and not the CV one.
 - [[proto/cmd.CV.VampireModeEnable|VampireModeEnable]] — Enables vampire mode for the computer vision system, which causes the cameras to actively avoid looking at the sun to protect sensors and prevent image overexposure. When enabled, the system prevents cameras from pointing at bright light sources.
 
 
@@ -352,14 +356,22 @@ Symmetric with [[proto/cmd.CV.StopTrack]] for NDC tracking; takes no fields.
 - [[proto/ser.DetectionFrameMeta|DetectionFrameMeta]] — Frame metadata for temporal correlation between detection results and the video pipeline. Carried as a sub-message within `ObjectDetectionsDay` and `ObjectDetectionsHeat`, providing the timestamps, generation counter, and dimensions of the source frame that was analyzed by the inference engine. These fields originate from the CUDA IPC shared memory control structure (`CudaIpcControl`), where the pipeline producer writes them during each frame push under a seqlock. The bezoar native library reads these values via its `CudaIpcReader`, caches them in the detection batch, and encodes them into the nanopb output. Consumers use this metadata to correlate detection bounding boxes with the correct video frame and to verify that detection results match the expected frame dimensions for coordinate mapping.
 - [[proto/ser.JonGUIState|JonGUIState]] — Root protocol buffer message that aggregates telemetry and state from multiple subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, spatiotemporal data, power management, PMU, and heater. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
 - [[proto/ser.JonGuiDataActualSpaceTime|JonGuiDataActualSpaceTime]] — Encapsulates real-time spatial position and temporal information of the system, containing three-dimensional attitude angles (azimuth, elevation, bank), geographic coordinates (latitude, longitude, altitude), and a timestamp. Displayed across multiple UI widgets including the azimuth compass, altitude scale, and time widget.
-- [[proto/ser.JonGuiDataCV|JonGuiDataCV]] — CV Gateway state enrichment message containing autofocus metrics and sweep status for both day and heat camera channels.
+- [[proto/ser.JonGuiDataCV|JonGuiDataCV]] — CV Gateway state enrichment message: the CV subsystem's per-tick state as it appears on the STATE plane, for both day and heat camera channels.
 
 This message is populated by the CV Gateway and embedded in `JonGUIState` before being written to shared memory. It provides real-time visibility into:
 - Autofocus sweep progress and state
-- Current and best sharpness measurements
-- Region of interest (ROI) used for sharpness calculation
+- Current and best sharpness measurements, and the sharpness metrics carrying their temporal derivatives
+- The regions of interest each camera operation is using — focus, track, zoom, fx — per channel
+- CV bridge container status, exit reason, uptime and restart count
+- Camera 3D pose and velocity, per channel
+- Tracked objects, each carrying a UUID for joining against external data
+- Whether the Ring-Trinity board tracker is running
 
 The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1, where (0,0) is the center of the frame.
+
+**This message is the STATE plane, and it is not the whole CV surface.** The richer CV output — object detections ([[proto/ser.ObjectDetectionsDay]], [[proto/ser.ObjectDetectionsHeat]]), SAM tracking, the aggregated [[proto/ser.CvMeta]], and the Ring-Trinity metric pose [[proto/ser.TrinityTracking]] — does not travel here. It rides `JonGUIState.opaque_payloads` as [[proto/ser.JonOpaquePayload]] entries and is decoded only by the consumers that handle each payload type, the OSD overlay path among them. A consumer of this message does not parse those payloads.
+
+That split is why a fact an opaque payload already carries can also appear here, in the reduced form a state consumer can act on — `trinity_tracking_active` (#90) is exactly that shape. The two are different contracts with different consumers and different evolution boundaries; neither is a copy of the other, and neither suppresses the other.
 - [[proto/ser.JonGuiDataCameraDay|JonGuiDataCameraDay]] — Captures the complete operational state of the day camera, including normalized control positions (focus, zoom, iris), automatic control modes (auto-focus, auto-iris, auto-gain), field of view angles, and image processing parameters like CLAHE level and FX mode presets.
 - [[proto/ser.JonGuiDataCameraHeat|JonGuiDataCameraHeat]] — Represents the complete operational and configuration state of the thermal/infrared camera system, including optical parameters (zoom position, field-of-view, focus mode), image processing settings (AGC mode, filter selection, CLAHE enhancement, DDE dynamics enhancement), and operational status.
 - [[proto/ser.JonGuiDataCompass|JonGuiDataCompass]] — Represents the real-time orientation and calibration state of a compass sensor, containing directional measurements (azimuth, elevation, bank angles), calibration offsets, magnetic declination, and status flags for whether the compass is running and calibrating.
@@ -435,6 +447,15 @@ projection admits two poses that reprojection error cannot separate, so a payloa
 the chosen one is silently wrong about half the time at range. `alternate` carries the rejected
 solution and `ambiguity_resolved` says whether the fork was closed.
 
+**The activity question is answered on the other plane.** This payload rides
+`JonGUIState.opaque_payloads` and is decoded only by consumers that handle its type — the OSD
+overlay, which renders the pose. A consumer that only needs to know whether the tracker is RUNNING
+reads `trinity_tracking_active` (#90) on [[proto/ser.JonGuiDataCV]] instead, which sits on the
+STATE plane and needs no payload decode. That flag is a single bit: it collapses `LOCKED`,
+`SEARCHING`, `DEGRADED` and `BOARD_MISMATCH` to `true`, so `status` here stays the authoritative and
+richer value and nothing about it is superseded. The two are different contracts for different
+consumers, not two copies of one fact.
+
 
 
 ## Enums
@@ -481,4 +502,11 @@ force the consumer to trust both or neither.
 detected, instead of silently producing a pose against different geometry.
 
 **ABSENCE AND `IDLE` ARE DIFFERENT FACTS.** The payload is published whenever the tracker PROCESS is up, including when it is not tracking — that is what `IDLE` is for. `IDLE` present means the tracker is up and deliberately not tracking; the payload being ABSENT means the producer is down, has not published yet, or the payload was dropped. A consumer that reads "no payload" as "not tracking" reports a crashed tracker as a stopped one — one reading for two states that need opposite responses.
+
+**A consumer that only needs "is tracking on" never has to reach this enum.**
+`trinity_tracking_active` (#90) on [[proto/ser.JonGuiDataCV]] answers that on the STATE plane, with
+no opaque payload to decode: `LOCKED`, `SEARCHING`, `DEGRADED` and `BOARD_MISMATCH` are all `true`
+there and `IDLE` is `false`. It exists for the toggle affordance and is not a substitute — this
+enum remains the authoritative value for anything that must distinguish a lock from a search, a
+degraded solve, or a board mismatch.
 

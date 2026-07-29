@@ -59,7 +59,8 @@ inline constexpr JonGuiDataCV::Impl_::Impl_(
         bridge_status_{static_cast< ::ser::JonGuiDataCV_CvBridgeStatus >(0)},
         last_exit_reason_{static_cast< ::ser::JonGuiDataCV_CvBridgeExitReason >(0)},
         bridge_uptime_ms_{::int64_t{0}},
-        restart_count_{0} {}
+        restart_count_{0},
+        trinity_tracking_active_{false} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataCV::JonGuiDataCV(::_pbi::ConstantInitialized)
@@ -126,6 +127,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.camera_transform_day_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.camera_transform_heat_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.tracked_objects_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCV, _impl_.trinity_tracking_active_),
         ~0u,
         ~0u,
         ~0u,
@@ -157,11 +159,12 @@ const ::uint32_t
         10,
         11,
         ~0u,
+        ~0u,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 39, -1, sizeof(::ser::JonGuiDataCV)},
+        {0, 40, -1, sizeof(::ser::JonGuiDataCV)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataCV_default_instance_._instance,
@@ -170,7 +173,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcv_2eproto[] ABSL_ATT
     protodesc_cold) = {
     "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val"
     "idate/validate.proto\032\033jon_shared_data_ty"
-    "pes.proto\"\252\024\n\014JonGuiDataCV\022G\n\023autofocus_"
+    "pes.proto\"\313\024\n\014JonGuiDataCV\022G\n\023autofocus_"
     "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof"
     "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001"
     "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day"
@@ -209,35 +212,36 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcv_2eproto[] ABSL_ATT
     ".JonGuiDataTransform3DH\n\210\001\001\022>\n\025camera_tr"
     "ansform_heat\030G \001(\0132\032.ser.JonGuiDataTrans"
     "form3DH\013\210\001\001\0225\n\017tracked_objects\030P \003(\0132\034.s"
-    "er.JonGuiDataTrackedObject\"\310\001\n\016Autofocus"
-    "State\022\037\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030"
-    "\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_ST"
-    "ATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FI"
-    "NE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020"
-    "\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBrid"
-    "geStatus\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED"
-    "\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_B"
-    "RIDGE_STATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STA"
-    "TUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPI"
-    "NG\020\004\022\034\n\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV"
-    "_BRIDGE_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridge"
-    "ExitReason\022%\n!CV_BRIDGE_EXIT_REASON_UNSP"
-    "ECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_S"
-    "TARTED\020\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL"
-    "\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n C"
-    "V_BRIDGE_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_"
-    "BRIDGE_EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRI"
-    "DGE_EXIT_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_"
-    "REASON_TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASO"
-    "N_SIGNAL\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi_tra"
-    "ck_dayB\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_dayB\021"
-    "\n\017_roi_focus_heatB\021\n\017_roi_track_heatB\020\n\016"
-    "_roi_zoom_heatB\016\n\014_roi_fx_heatB\030\n\026_sharp"
-    "ness_metrics_dayB\031\n\027_sharpness_metrics_h"
-    "eatB\027\n\025_camera_transform_dayB\030\n\026_camera_"
-    "transform_heatBJZHgit-codecommit.eu-cent"
-    "ral-1.amazonaws.com/v1/repos/jettison/jo"
-    "np/data/cvb\006proto3"
+    "er.JonGuiDataTrackedObject\022\037\n\027trinity_tr"
+    "acking_active\030Z \001(\010\"\310\001\n\016AutofocusState\022\037"
+    "\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOF"
+    "OCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COA"
+    "RSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEE"
+    "P\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020\004\022\032\n\026AU"
+    "TOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBridgeStatu"
+    "s\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030C"
+    "V_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_S"
+    "TATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUN"
+    "NING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n"
+    "\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE"
+    "_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridgeExitRea"
+    "son\022%\n!CV_BRIDGE_EXIT_REASON_UNSPECIFIED"
+    "\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_STARTED\020"
+    "\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033C"
+    "V_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n CV_BRIDG"
+    "E_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_"
+    "EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXI"
+    "T_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_"
+    "TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASON_SIGNA"
+    "L\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi_track_dayB"
+    "\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_dayB\021\n\017_roi_"
+    "focus_heatB\021\n\017_roi_track_heatB\020\n\016_roi_zo"
+    "om_heatB\016\n\014_roi_fx_heatB\030\n\026_sharpness_me"
+    "trics_dayB\031\n\027_sharpness_metrics_heatB\027\n\025"
+    "_camera_transform_dayB\030\n\026_camera_transfo"
+    "rm_heatBJZHgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/data"
+    "/cvb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcv_2eproto_deps[2] =
     {
@@ -248,7 +252,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcv_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcv_2eproto = {
     false,
     false,
-    2778,
+    2811,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcv_2eproto,
     "jon_shared_data_cv.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcv_2eproto_once,
@@ -482,9 +486,9 @@ JonGuiDataCV::JonGuiDataCV(
                offsetof(Impl_, sharpness_day_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, sharpness_day_),
-           offsetof(Impl_, restart_count_) -
+           offsetof(Impl_, trinity_tracking_active_) -
                offsetof(Impl_, sharpness_day_) +
-               sizeof(Impl_::restart_count_));
+               sizeof(Impl_::trinity_tracking_active_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataCV)
 }
@@ -499,9 +503,9 @@ inline void JonGuiDataCV::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, roi_focus_day_),
            0,
-           offsetof(Impl_, restart_count_) -
+           offsetof(Impl_, trinity_tracking_active_) -
                offsetof(Impl_, roi_focus_day_) +
-               sizeof(Impl_::restart_count_));
+               sizeof(Impl_::trinity_tracking_active_));
 }
 JonGuiDataCV::~JonGuiDataCV() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataCV)
@@ -574,15 +578,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCV::GetClassData() cons
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 31, 13, 0, 11> JonGuiDataCV::_table_ = {
+const ::_pbi::TcParseTable<5, 32, 13, 0, 13> JonGuiDataCV::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_._has_bits_),
     0, // no _extensions_
-    80, 248,  // max_field_number, fast_idx_mask
+    90, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     528990688,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    31,  // num_field_entries
+    32,  // num_field_entries
     13,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -677,8 +681,8 @@ const ::_pbi::TcParseTable<5, 31, 13, 0, 11> JonGuiDataCV::_table_ = {
     {::_pbi::TcParser::FastV32S2,
      {504, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.last_exit_reason_)}},
   }}, {{
-    33, 0, 3,
-    63614, 17, 59361, 22, 32671, 28,
+    33, 0, 4,
+    63614, 17, 59361, 22, 32671, 28, 65023, 31,
     65535, 65535
   }}, {{
     // .ser.JonGuiDataCV.AutofocusState autofocus_state_day = 1 [(.buf.validate.field) = {
@@ -774,6 +778,9 @@ const ::_pbi::TcParseTable<5, 31, 13, 0, 11> JonGuiDataCV::_table_ = {
     // repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.tracked_objects_), -1, 12,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // bool trinity_tracking_active = 90;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.trinity_tracking_active_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataROI>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataROI>()},
@@ -854,8 +861,8 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
     }
   }
   ::memset(&_impl_.sharpness_day_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.restart_count_) -
-      reinterpret_cast<char*>(&_impl_.sharpness_day_)) + sizeof(_impl_.restart_count_));
+      reinterpret_cast<char*>(&_impl_.trinity_tracking_active_) -
+      reinterpret_cast<char*>(&_impl_.sharpness_day_)) + sizeof(_impl_.trinity_tracking_active_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -1097,6 +1104,13 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
                     target, stream);
           }
 
+          // bool trinity_tracking_active = 90;
+          if (this_._internal_trinity_tracking_active() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                90, this_._internal_trinity_tracking_active(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -1275,6 +1289,10 @@ PROTOBUF_NOINLINE void JonGuiDataCV::Clear() {
             if (this_._internal_restart_count() != 0) {
               total_size += 2 + ::_pbi::WireFormatLite::Int32Size(
                                               this_._internal_restart_count());
+            }
+            // bool trinity_tracking_active = 90;
+            if (this_._internal_trinity_tracking_active() != 0) {
+              total_size += 3;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1459,6 +1477,9 @@ void JonGuiDataCV::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   if (from._internal_restart_count() != 0) {
     _this->_impl_.restart_count_ = from._impl_.restart_count_;
   }
+  if (from._internal_trinity_tracking_active() != 0) {
+    _this->_impl_.trinity_tracking_active_ = from._impl_.trinity_tracking_active_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1477,8 +1498,8 @@ void JonGuiDataCV::InternalSwap(JonGuiDataCV* PROTOBUF_RESTRICT other) {
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.tracked_objects_.InternalSwap(&other->_impl_.tracked_objects_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.restart_count_)
-      + sizeof(JonGuiDataCV::_impl_.restart_count_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.trinity_tracking_active_)
+      + sizeof(JonGuiDataCV::_impl_.trinity_tracking_active_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataCV, _impl_.roi_focus_day_)>(
           reinterpret_cast<char*>(&_impl_.roi_focus_day_),
           reinterpret_cast<char*>(&other->_impl_.roi_focus_day_));
