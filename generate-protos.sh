@@ -17,6 +17,12 @@ DOCKER_IMAGE="jettison-proto-generator:latest"
 PROTO_SOURCE_DIR="${PROTO_SOURCE_DIR:-../proto}"
 OUTPUT_BASE_DIR="${OUTPUT_BASE_DIR:-./output}"
 
+# THE ONE HOME of the per-language list. CLAUDE.md ("Where things live") states
+# that this list has exactly one home and that re-enumerating it anywhere is what
+# kept getting it wrong — so every site below expands this array and none retypes
+# it. Adding a language is one edit here.
+LANGS=(c cpp go kotlin python typescript rust zig java json-descriptors typescript-validated)
+
 # Function to print colored output
 print_info() {
     echo -e "${GREEN}[INFO]${NC} $1"
@@ -74,7 +80,7 @@ fi
 
 # Create output directories with full permissions
 print_info "Creating output directories..."
-mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,kotlin,python,typescript,rust,zig,java,json-descriptors,typescript-validated}
+for lang in "${LANGS[@]}"; do mkdir -p "$OUTPUT_BASE_DIR/$lang"; done
 # Set directory permissions to 777
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
 
@@ -736,7 +742,7 @@ echo "Generated $(find /workspace/output -name "*_pb.ts" -type f | wc -l) TypeSc
 # Run all generations
 FAILED_LANGS=()
 
-for lang in c cpp go kotlin python typescript rust zig java json-descriptors typescript-validated; do
+for lang in "${LANGS[@]}"; do
     case $lang in
         c) script="$C_SCRIPT" ;;
         cpp) script="$CPP_SCRIPT" ;;
@@ -766,7 +772,7 @@ print_info "========== Generation Summary =========="
 print_info "Output directory: $OUTPUT_BASE_DIR"
 
 # Check what was generated
-for lang in c cpp go kotlin python typescript rust zig java json-descriptors typescript-validated; do
+for lang in "${LANGS[@]}"; do
     count=$(find "$OUTPUT_BASE_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "$lang: $count files generated"
