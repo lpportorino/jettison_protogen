@@ -208,7 +208,7 @@ hooks-status:
 #
 # lint-sh runs FIRST and cheaply: it is the gate that catches the class of bug
 # that has actually taken this repo down (see below).
-lint: lint-sh brief-check-test forks-release-test uber-chown-test fork-hazards fmt-clj lint-clj fmt-c
+lint: lint-sh lint-ci brief-check-test forks-release-test uber-chown-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
@@ -465,6 +465,44 @@ lint-sh:
 		| grep -vE ':[0-9]+:[[:space:]]*#' \
 		| grep -vE 'printf|echo '); then 		printf '\033[31m[lint-sh] FAIL\033[0m — bare `git -C` reachable from uber.sh:\n' >&2; 		printf '%s\n' "$$bad" >&2; 		printf '  GIT_DIR overrides -C in that container, so this answers about the\n' >&2; 		printf '  WRONG repo. Use: env -u GIT_DIR -u GIT_WORK_TREE git -C <repo> …\n' >&2; 		exit 1; 	fi
 	@printf '\033[32m[lint-sh]\033[0m no bare `git -C` (GIT_DIR would override it)\n'
+
+## lint-ci: actionlint over the GitHub Actions workflows
+#
+# WHY THIS GATE EXISTS AT ALL: a broken workflow does not fail loudly. It fails
+# by NOT RUNNING, which reads exactly like CI being green — and this repo's
+# release workflow fans out to ten consumer repositories behind path filters, so
+# a workflow that silently stops firing is a distribution outage nobody sees.
+#
+# SHELLCHECK IS DISABLED HERE DELIBERATELY, and the split is what makes this
+# adoptable. actionlint embeds shellcheck over every `run:` block; on this tree
+# that reports style/info findings (SC2035, SC2129, SC2012) while actionlint's
+# OWN checks — syntax, expression errors, action references, matrix shapes —
+# report ZERO. Wiring the two together would put a clean syntax gate behind a
+# pile of shell style findings, and it would never land. The shell half belongs
+# with the shell lane, over whole scripts, where its findings can be
+# dispositioned as a set.
+#
+# COMPOSITE ACTIONS ARE NOT COVERED, and cannot be by this tool: actionlint
+# parses whatever it is handed as a WORKFLOW, so `.github/actions/*/action.yml`
+# yields false `"jobs" section is missing` / `"on" section is missing` errors.
+# Measured, not assumed. Discovery below therefore names workflows only, and the
+# uncovered action file is a stated residual rather than an oversight.
+LINT_CI_FILES := $(shell git ls-files '.github/workflows/*.yml' '.github/workflows/*.yaml' 2>/dev/null)
+
+.PHONY: lint-ci
+lint-ci:
+# NON-VACUITY GUARD, the same class lint-sh carries. Bare `actionlint` discovers
+# its own files and exits 0 when it finds none, so a discovery failure reads as
+# a clean gate. Discovery is explicit here precisely so it can be guarded.
+	@if [ -z "$(strip $(LINT_CI_FILES))" ]; then \
+		printf '\033[31m[lint-ci] FAIL\033[0m — discovered ZERO workflow files.\n' >&2; \
+		printf '  This repo tracks GitHub Actions workflows, so an empty set means\n' >&2; \
+		printf '  DISCOVERY broke, not that there is nothing to check. The commonest\n' >&2; \
+		printf '  cause is git being unable to resolve this checkout — see lint-sh.\n' >&2; \
+		exit 1; \
+	fi
+	@actionlint -shellcheck= $(LINT_CI_FILES)
+	@printf '\033[32m[lint-ci]\033[0m actionlint clean over %s workflow(s)\n' "$(words $(LINT_CI_FILES))"
 
 ## fmt-c: clang-format DRIFT check over hand-authored C, one process per cpu
 # NOT `--dry-run --Werror`. That mode DISAGREES with `-i` under .clang-format's

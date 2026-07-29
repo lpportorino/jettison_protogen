@@ -34,7 +34,10 @@ on:
     - ".clj-kondo/**"
     - ".cljfmt.edn"
     - "lint.mk"
-    - ".github/workflows/lint.yml"
+    # Every workflow, not just this one: the actionlint step below judges them
+    # all, so a job that only fired on its own file could not see the breakage
+    # it exists to catch. Subsumes the previous lint.yml-only entry.
+    - ".github/workflows/**"
   pull_request:
     paths:
     - "**/*.clj"
@@ -45,7 +48,10 @@ on:
     - ".clj-kondo/**"
     - ".cljfmt.edn"
     - "lint.mk"
-    - ".github/workflows/lint.yml"
+    # Every workflow, not just this one: the actionlint step below judges them
+    # all, so a job that only fired on its own file could not see the breakage
+    # it exists to catch. Subsumes the previous lint.yml-only entry.
+    - ".github/workflows/**"
   workflow_dispatch: {}
 
 permissions:
@@ -81,6 +87,27 @@ jobs:
       # the commit that would break it.
       name: shell parse + payload-apostrophe check
       run: make -f lint.mk lint-sh
+
+    - # actionlint is a single static binary, so it installs in one step and
+      # needs no toolchain — which is why this sits ahead of the JDK setup
+      # below rather than after it.
+      #
+      # Pinned, like every other tool this workflow installs. Bumping it is a
+      # deliberate edit, not a floating `latest` that changes what the gate
+      # means between two runs of the same commit.
+      name: Install actionlint
+      run: |
+        curl -fsSL https://github.com/rhysd/actionlint/releases/download/v1.7.10/actionlint_1.7.10_linux_amd64.tar.gz \
+          | sudo tar -xz -C /usr/local/bin actionlint
+
+    - # WORKFLOW SYNTAX, not shell style — lint.mk's lint-ci runs actionlint with
+      # its embedded shellcheck disabled, and the recipe's comment carries why.
+      #
+      # The path filter above names .github/workflows/** so THIS job fires on the
+      # commit that would break a workflow. Without that, the one class of file
+      # whose breakage is invisible would be the one class this job could not see.
+      name: actionlint (workflow syntax + expressions)
+      run: make -f lint.mk lint-ci
 
     - # One setup-clojure invocation covers both tools. clj-kondo is a native
       # binary and needs no JVM, but cljfmt runs through the Clojure CLI, so
