@@ -83,15 +83,50 @@ clean: ## Remove all generated files (preserves proto directory)
 binary-dedup: generate ## Full generate + binary dedup tag map (use for standalone runs)
 
 .PHONY: binary-dedup-run
+# The tools directory is mounted READ-ONLY and copied into a container-local
+# working directory, rather than mounted read-write as the cwd. The Clojure CLI
+# writes its classpath cache to ./.cpcache beside any project deps.edn, and this
+# container runs as root — so a read-write mount leaves a root-owned .cpcache in
+# a tracked source tree, and lint.mk's docs-lint later runs `clojure` in exactly
+# that directory as an ordinary user.
+#
+# WHAT BREAKS IS A WRITE, NOT A READ, and the difference decides the fix. The
+# CLI's cache key folds in the PATHS of the config files it found, one of which
+# is $HOME/.clojure/deps.edn — so a run under a different HOME computes a
+# different key and must MINT its own .cp, into a directory it does not own. Its
+# only fallback tests whether the CWD is writable, which it is, so the
+# user-cache path is never taken. The cached entries naming this container's own
+# .m2 are real but INCIDENTAL: no other user can select that file to begin with.
+# Making those paths portable would therefore fix nothing.
+#
+# The read-only mount is what makes the write unrepresentable rather than merely
+# avoided. The copy set is deps.edn plus the :paths it declares, ENUMERATED
+# rather than a wholesale `cp -a /src/.` on purpose: copying everything would
+# drag in whatever .cpcache and target/ the host happens to carry, re-importing
+# the same problem from the other direction. `resources` is not optional —
+# protodoc.render calls (io/resource "templates") at namespace-load time, so
+# every invocation needs it on the classpath, this one included. Keep the set in
+# step with :paths.
+#
+# `--entrypoint bash` names the shell explicitly because the image's default
+# entrypoint dispatches on whether `clj <first-arg> --help` succeeds, which is a
+# heuristic this recipe should not depend on.
+#
+# THIS RECIPE IS NOT THE WHOLE CLASS. docs-docker-test still mounts the repo
+# read-write and runs as root with this same directory as its cwd, so it plants
+# the identical cache here; the docs-docker-generate/render legs mount docs/ the
+# same way. Fixing those is separate work — do not read this recipe as evidence
+# the directory is safe.
 binary-dedup-run: ## Generate binary dedup tag map (called automatically by generate)
 	@printf "$(GREEN)Generating binary dedup tag map...$(NC)\n"
 	@docker run --rm \
 		-v "$$(pwd)/output/json-descriptors:/data/descriptors:ro" \
 		-v "$$(pwd)/output/typescript:/data/output" \
-		-v "$$(pwd)/docs/.protodoc/tools:/app" \
+		-v "$$(pwd)/docs/.protodoc/tools:/src:ro" \
 		-w /app \
+		--entrypoint bash \
 		clojure:temurin-25-tools-deps-bookworm \
-		clojure -M:run binary-dedup --descriptor /data/descriptors/descriptor-set.json --output /data/output/binary_dedup_tags.ts
+		-c 'cp -a /src/deps.edn /src/src /src/resources /app/ && exec clojure -M:run binary-dedup --descriptor /data/descriptors/descriptor-set.json --output /data/output/binary_dedup_tags.ts'
 	@printf "$(GREEN)Binary dedup tag map generated$(NC)\n"
 
 .PHONY: clean-image
