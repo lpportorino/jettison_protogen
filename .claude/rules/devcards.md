@@ -164,7 +164,9 @@ obligation and the disposition rule). This section is how.
   states previously produced a CLEAN review, which is the whole defect: this
   pass is not a gate, so an empty or misdirected batch is indistinguishable from
   a surface that was looked at and found sound. `tools/ui-review-preflight-canary.sh`
-  is its canary — 11 arms, each asserting its own exit code.
+  is its canary — one arm per refusal reason, each asserting its own exit code.
+  It prints its own arm count on a green run, which is the number to read; a
+  tally here would rot on the next arm (`claude-md-policy.md`).
 - **Reuse the artifacts that exist; add no pipeline.** The inputs are the
   committed gallery images under **`tools/devcards/docs/widgets/<UNIT>/`** (one
   per family — see `gallery.clj` `family-renders`) and the per-card `dump_tree`

@@ -561,8 +561,10 @@ ever reached a consumer.
 - **Go uses `buf generate` with remote BSR plugins**, which is why it alone is
   subject to the budget above.
 - **JSON descriptors prefer `buf build`** because it preserves buf.validate
-  annotations with their CEL expressions; the protoc+Python fallback may not,
-  and says so when it runs.
+  annotations with their CEL expressions; the protoc+Python fallback may not.
+  It announces WHICH tool it took ("buf not found, using protoc…") but says
+  nothing about the annotations, so a reader of the log learns the path taken
+  and not the caveat — check the descriptor if that distinction matters.
 
 `PROTO_SOURCE_DIR`, `OUTPUT_BASE_DIR` and `REBUILD_IMAGE` override the input
 directory, output directory and forced image rebuild respectively.

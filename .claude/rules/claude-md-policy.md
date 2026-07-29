@@ -80,10 +80,12 @@ long as it carries what re-derives it. Three dispositions, no fourth:
 
 The tell for the first is a bare count sitting one clause away from prose saying
 the set is discovered at runtime — the pointer is already there, so the number
-is pure drift for nothing. Live instance: `CLAUDE.md`'s cross-engine mirror
-sentence pairs a comparison count with "discovered from the card directory so a
-new card joins by itself". It is accurate today, which is precisely not the
-property in question.
+is pure drift for nothing. `CLAUDE.md`'s cross-engine mirror sentence was the
+live instance and has since been repaired: it now says the comparison runs "over
+every card discovered from the card directory so a new one joins by itself" and
+names no number. Cited as the SHAPE to copy, not as an outstanding defect —
+which is itself the discipline, since leaving it described as live would be the
+same drift one level up.
 
 ### The same law reaches a literal list in CODE
 Where the members can be DERIVED — from a directory, a call, a schema — the
