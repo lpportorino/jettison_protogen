@@ -158,6 +158,49 @@ jobs:
     # a FRESHNESS question, not a lint one, and closing it here would require
     # running the docs generation inside this writer job. Do not read a green here
     # as "the docs match the protos"; it means "the docs that exist are complete".
+    #
+    # THE TOOLCHAIN BELOW IS WHAT THAT STEP RUNS ON, and it is not optional.
+    # `lint.mk`'s docs-lint recipe is a bare `clojure -M:run lint` — it runs on
+    # the RUNNER, not in either image this job builds. Every other step here is
+    # docker, python3 or shell, so nothing had ever put a JVM on this runner and
+    # the step exited 127 (`clojure: not found`) on every run since it landed.
+    # A 127 here is indistinguishable in the job's summary from a real finding,
+    # and because this is the LAST step before the fan-out, it also meant no
+    # consumer repo received a binding for as long as it stood.
+    #
+    # NOT `make docs-docker-lint`, which is the tempting one-line alternative:
+    # that target runs a SEPARATE `protodoc:latest` image this job never builds,
+    # and lint.mk's recipe comment records why the host path is deliberate —
+    # running the tools directory directly means a rule change takes effect
+    # without an image rebuild, and "a gate that silently runs a stale copy of
+    # itself is worse than none".
+    #
+    # The three pins match docs.yml, lint.yml, renderer.yml and devcards.yml
+    # exactly; that agreement is the point, so bump them together or not at all.
+    - name: Set up JDK 25 (LTS)
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: "25"
+
+    - name: Set up Clojure CLI
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        cli: "1.12.5.1654"
+
+    # Same key as docs.yml, so whichever workflow runs first warms it for the
+    # other. Keyed on protodoc's own deps.edn — the only dependency declaration
+    # the lint resolves.
+    - name: Cache Maven-resolved dependencies
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+        key: protodoc-m2-${{ hashFiles('docs/.protodoc/tools/deps.edn') }}
+        restore-keys: |
+          protodoc-m2-
+
     - name: Proto documentation lint
       run: make -f lint.mk docs-lint
 
