@@ -163,16 +163,37 @@ jobs:
       with:
         cli: "1.12.5.1654"
 
-    # Same key as docs.yml, so whichever workflow runs first warms it for the
-    # other. Keyed on protodoc's own deps.edn — the only dependency declaration
-    # the lint resolves.
+    # NOT the same exact key as docs.yml, and the reason is asymmetry rather than
+    # tidiness. This job resolves ONLY protodoc's base :deps (the lint leg).
+    # docs.yml resolves those PLUS the whole :test alias — the cognitect
+    # test-runner (a git dep, and the only reason ~/.gitlibs is in the path list
+    # at all), test.check, specter, jimfs, protobuf-java, protovalidate,
+    # test.chuck. A strict superset.
+    #
+    # actions/cache never saves after an exact-key hit and never overwrites an
+    # existing key — renderer.yml's cargo-cache comment records the same
+    # mechanism. So ONE shared exact key means whichever job saves FIRST freezes
+    # the entry for the whole life of that deps.edn hash: when this job wins,
+    # docs.yml gets an exact hit on a cache carrying no ~/.gitlibs and no test
+    # dependency, and can never replace it.
+    #
+    # The shared `protodoc-m2-` PREFIX keeps the useful half of the sharing —
+    # ~/.m2 is cumulative, so a prefix restore of docs.yml's superset followed by
+    # this job's own save under its own key converges both upward rather than
+    # starving either.
+    #
+    # NO ARCH TERM, on the record. This job is aarch64 and docs.yml is x86_64, so
+    # an arch term would delete the cross-warming entirely — and every artifact in
+    # both resolutions is a pure-JVM jar or a git source checkout today. RETIRES
+    # WHEN either resolution gains a native or classifier'd artifact: add
+    # `${{ runner.arch }}` to both keys and both prefixes then.
     - name: Cache Maven-resolved dependencies
       uses: actions/cache@v5
       with:
         path: |
           ~/.m2/repository
           ~/.gitlibs
-        key: protodoc-m2-${{ hashFiles('docs/.protodoc/tools/deps.edn') }}
+        key: protodoc-m2-lint-${{ hashFiles('docs/.protodoc/tools/deps.edn') }}
         restore-keys: |
           protodoc-m2-
 

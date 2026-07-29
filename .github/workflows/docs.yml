@@ -62,13 +62,21 @@ jobs:
       with:
         cli: "1.12.5.1654"
 
+    # `-full-`, because this job resolves the SUPERSET: the lint leg's base :deps
+    # plus the whole :test alias, including the one git dep that populates
+    # ~/.gitlibs. build-and-release.yml resolves only the base set and keys on
+    # `-lint-`. Sharing one exact key let whichever job saved first freeze the
+    # entry for that deps.edn hash — starving this job of every test dependency
+    # whenever it lost the race, with no way to replace the entry, because
+    # actions/cache does not save after an exact hit. The shared `protodoc-m2-`
+    # prefix keeps the warming; the distinct exact key keeps the saving.
     - name: Cache Maven-resolved dependencies
       uses: actions/cache@v5
       with:
         path: |
           ~/.m2/repository
           ~/.gitlibs
-        key: protodoc-m2-${{ hashFiles('docs/.protodoc/tools/deps.edn') }}
+        key: protodoc-m2-full-${{ hashFiles('docs/.protodoc/tools/deps.edn') }}
         restore-keys: |
           protodoc-m2-
 
