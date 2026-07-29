@@ -480,3 +480,5 @@ force the consumer to trust both or neither.
 `BOARD_MISMATCH` fires when `StartTrackTrinity.expect_board` was set and a different board was
 detected, instead of silently producing a pose against different geometry.
 
+**ABSENCE AND `IDLE` ARE DIFFERENT FACTS.** The payload is published whenever the tracker PROCESS is up, including when it is not tracking — that is what `IDLE` is for. `IDLE` present means the tracker is up and deliberately not tracking; the payload being ABSENT means the producer is down, has not published yet, or the payload was dropped. A consumer that reads "no payload" as "not tracking" reports a crashed tracker as a stopped one — one reading for two states that need opposite responses.
+

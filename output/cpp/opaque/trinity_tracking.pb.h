@@ -111,6 +111,7 @@ enum TrinityTrackingStatus : int {
   TRINITY_TRACKING_STATUS_SEARCHING = 2,
   TRINITY_TRACKING_STATUS_DEGRADED = 3,
   TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4,
+  TRINITY_TRACKING_STATUS_IDLE = 5,
   TrinityTrackingStatus_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   TrinityTrackingStatus_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -120,8 +121,8 @@ enum TrinityTrackingStatus : int {
 bool TrinityTrackingStatus_IsValid(int value);
 extern const uint32_t TrinityTrackingStatus_internal_data_[];
 constexpr TrinityTrackingStatus TrinityTrackingStatus_MIN = static_cast<TrinityTrackingStatus>(0);
-constexpr TrinityTrackingStatus TrinityTrackingStatus_MAX = static_cast<TrinityTrackingStatus>(4);
-constexpr int TrinityTrackingStatus_ARRAYSIZE = 4 + 1;
+constexpr TrinityTrackingStatus TrinityTrackingStatus_MAX = static_cast<TrinityTrackingStatus>(5);
+constexpr int TrinityTrackingStatus_ARRAYSIZE = 5 + 1;
 const ::google::protobuf::EnumDescriptor*
 TrinityTrackingStatus_descriptor();
 template <typename T>
@@ -134,7 +135,7 @@ const std::string& TrinityTrackingStatus_Name(T value) {
 template <>
 inline const std::string& TrinityTrackingStatus_Name(TrinityTrackingStatus value) {
   return ::google::protobuf::internal::NameOfDenseEnum<TrinityTrackingStatus_descriptor,
-                                                 0, 4>(
+                                                 0, 5>(
       static_cast<int>(value));
 }
 inline bool TrinityTrackingStatus_Parse(absl::string_view name, TrinityTrackingStatus* value) {

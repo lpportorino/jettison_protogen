@@ -19,6 +19,7 @@ class TrinityTrackingStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     TRINITY_TRACKING_STATUS_SEARCHING: _ClassVar[TrinityTrackingStatus]
     TRINITY_TRACKING_STATUS_DEGRADED: _ClassVar[TrinityTrackingStatus]
     TRINITY_TRACKING_STATUS_BOARD_MISMATCH: _ClassVar[TrinityTrackingStatus]
+    TRINITY_TRACKING_STATUS_IDLE: _ClassVar[TrinityTrackingStatus]
 TRINITY_RANGE_SOURCE_UNSPECIFIED: TrinityRangeSource
 TRINITY_RANGE_SOURCE_BOARD_EXTENT: TrinityRangeSource
 TRINITY_RANGE_SOURCE_LRF: TrinityRangeSource
@@ -28,6 +29,7 @@ TRINITY_TRACKING_STATUS_LOCKED: TrinityTrackingStatus
 TRINITY_TRACKING_STATUS_SEARCHING: TrinityTrackingStatus
 TRINITY_TRACKING_STATUS_DEGRADED: TrinityTrackingStatus
 TRINITY_TRACKING_STATUS_BOARD_MISMATCH: TrinityTrackingStatus
+TRINITY_TRACKING_STATUS_IDLE: TrinityTrackingStatus
 
 class TrinityTracking(_message.Message):
     __slots__ = ("board_version", "capture_time_ns", "status", "position_x_m", "position_y_m", "position_z_m", "quat_w", "quat_x", "quat_y", "quat_z", "sigma_position_m", "sigma_range_m", "sigma_orientation_mrad", "ambiguity_resolved", "alternate", "range_source", "anchors_seen", "board_extent_px", "reprojection_rms_px")

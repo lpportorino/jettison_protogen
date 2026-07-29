@@ -60,6 +60,21 @@ export function trinityRangeSourceToJSON(object: TrinityRangeSource): string {
   }
 }
 
+/**
+ * Tracker state. THE PAYLOAD IS PUBLISHED WHENEVER THE TRACKER PROCESS IS UP,
+ * including when it is not tracking — that is what IDLE is for, and it is the
+ * reason a consumer can answer "are we tracking?" without inferring anything
+ * from whether the payload arrived.
+ *
+ * ABSENCE AND IDLE ARE DIFFERENT FACTS, and conflating them is the failure this
+ * enum is shaped to prevent:
+ *   IDLE present  -> the tracker is up and deliberately not tracking.
+ *   payload absent -> the PRODUCER is down, or has not published yet, or the
+ *                     payload was dropped. It does NOT mean tracking is off.
+ * A consumer that treats "no payload" as "not tracking" will report a crashed
+ * tracker as a stopped one, which is the same reading for two states that need
+ * opposite responses.
+ */
 export enum TrinityTrackingStatus {
   TRINITY_TRACKING_STATUS_UNSPECIFIED = 0,
   /** TRINITY_TRACKING_STATUS_LOCKED - Tracking, pose fields valid. */
@@ -73,6 +88,13 @@ export enum TrinityTrackingStatus {
   TRINITY_TRACKING_STATUS_DEGRADED = 3,
   /** TRINITY_TRACKING_STATUS_BOARD_MISMATCH - Tracker running but the requested board version is not the one detected. */
   TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4,
+  /**
+   * TRINITY_TRACKING_STATUS_IDLE - Up, and NOT tracking — awaiting StartTrackTrinity, or stopped by
+   * StopTrackTrinity. Pose, sigma and observability fields are meaningless and
+   * MUST NOT be read; only board_version and capture_time_ns stay valid.
+   * This is the state a consumer polls to answer "are we tracking?".
+   */
+  TRINITY_TRACKING_STATUS_IDLE = 5,
   UNRECOGNIZED = -1,
 }
 
@@ -93,6 +115,9 @@ export function trinityTrackingStatusFromJSON(object: any): TrinityTrackingStatu
     case 4:
     case "TRINITY_TRACKING_STATUS_BOARD_MISMATCH":
       return TrinityTrackingStatus.TRINITY_TRACKING_STATUS_BOARD_MISMATCH;
+    case 5:
+    case "TRINITY_TRACKING_STATUS_IDLE":
+      return TrinityTrackingStatus.TRINITY_TRACKING_STATUS_IDLE;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -112,6 +137,8 @@ export function trinityTrackingStatusToJSON(object: TrinityTrackingStatus): stri
       return "TRINITY_TRACKING_STATUS_DEGRADED";
     case TrinityTrackingStatus.TRINITY_TRACKING_STATUS_BOARD_MISMATCH:
       return "TRINITY_TRACKING_STATUS_BOARD_MISMATCH";
+    case TrinityTrackingStatus.TRINITY_TRACKING_STATUS_IDLE:
+      return "TRINITY_TRACKING_STATUS_IDLE";
     case TrinityTrackingStatus.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

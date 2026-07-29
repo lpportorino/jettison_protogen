@@ -22,6 +22,19 @@ typedef enum _ser_TrinityRangeSource {
     ser_TrinityRangeSource_TRINITY_RANGE_SOURCE_FUSED = 3
 } ser_TrinityRangeSource;
 
+/* Tracker state. THE PAYLOAD IS PUBLISHED WHENEVER THE TRACKER PROCESS IS UP,
+ including when it is not tracking — that is what IDLE is for, and it is the
+ reason a consumer can answer "are we tracking?" without inferring anything
+ from whether the payload arrived.
+
+ ABSENCE AND IDLE ARE DIFFERENT FACTS, and conflating them is the failure this
+ enum is shaped to prevent:
+   IDLE present  -> the tracker is up and deliberately not tracking.
+   payload absent -> the PRODUCER is down, or has not published yet, or the
+                     payload was dropped. It does NOT mean tracking is off.
+ A consumer that treats "no payload" as "not tracking" will report a crashed
+ tracker as a stopped one, which is the same reading for two states that need
+ opposite responses. */
 typedef enum _ser_TrinityTrackingStatus {
     ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_UNSPECIFIED = 0,
     /* Tracking, pose fields valid. */
@@ -32,7 +45,12 @@ typedef enum _ser_TrinityTrackingStatus {
  approximate, orientation is NOT valid. */
     ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_DEGRADED = 3,
     /* Tracker running but the requested board version is not the one detected. */
-    ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4
+    ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4,
+    /* Up, and NOT tracking — awaiting StartTrackTrinity, or stopped by
+ StopTrackTrinity. Pose, sigma and observability fields are meaningless and
+ MUST NOT be read; only board_version and capture_time_ns stay valid.
+ This is the state a consumer polls to answer "are we tracking?". */
+    ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_IDLE = 5
 } ser_TrinityTrackingStatus;
 
 /* Struct definitions */
@@ -165,8 +183,8 @@ extern "C" {
 #define _ser_TrinityRangeSource_ARRAYSIZE ((ser_TrinityRangeSource)(ser_TrinityRangeSource_TRINITY_RANGE_SOURCE_FUSED+1))
 
 #define _ser_TrinityTrackingStatus_MIN ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_UNSPECIFIED
-#define _ser_TrinityTrackingStatus_MAX ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_BOARD_MISMATCH
-#define _ser_TrinityTrackingStatus_ARRAYSIZE ((ser_TrinityTrackingStatus)(ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_BOARD_MISMATCH+1))
+#define _ser_TrinityTrackingStatus_MAX ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_IDLE
+#define _ser_TrinityTrackingStatus_ARRAYSIZE ((ser_TrinityTrackingStatus)(ser_TrinityTrackingStatus_TRINITY_TRACKING_STATUS_IDLE+1))
 
 #define ser_TrinityTracking_status_ENUMTYPE ser_TrinityTrackingStatus
 #define ser_TrinityTracking_range_source_ENUMTYPE ser_TrinityRangeSource

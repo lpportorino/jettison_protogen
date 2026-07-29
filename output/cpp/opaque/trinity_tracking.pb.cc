@@ -259,15 +259,16 @@ const char descriptor_table_protodef_opaque_2ftrinity_5ftracking_2eproto[] ABSL_
     "angeSource\022$\n TRINITY_RANGE_SOURCE_UNSPE"
     "CIFIED\020\000\022%\n!TRINITY_RANGE_SOURCE_BOARD_E"
     "XTENT\020\001\022\034\n\030TRINITY_RANGE_SOURCE_LRF\020\002\022\036\n"
-    "\032TRINITY_RANGE_SOURCE_FUSED\020\003*\335\001\n\025Trinit"
+    "\032TRINITY_RANGE_SOURCE_FUSED\020\003*\377\001\n\025Trinit"
     "yTrackingStatus\022\'\n#TRINITY_TRACKING_STAT"
     "US_UNSPECIFIED\020\000\022\"\n\036TRINITY_TRACKING_STA"
     "TUS_LOCKED\020\001\022%\n!TRINITY_TRACKING_STATUS_"
     "SEARCHING\020\002\022$\n TRINITY_TRACKING_STATUS_D"
     "EGRADED\020\003\022*\n&TRINITY_TRACKING_STATUS_BOA"
-    "RD_MISMATCH\020\004BIZGgit-codecommit.eu-centr"
-    "al-1.amazonaws.com/v1/repos/jettison/jon"
-    "p/opaqueb\006proto3"
+    "RD_MISMATCH\020\004\022 \n\034TRINITY_TRACKING_STATUS"
+    "_IDLE\020\005BIZGgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/opaq"
+    "ueb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_opaque_2ftrinity_5ftracking_2eproto_deps[1] =
     {
@@ -277,7 +278,7 @@ static ::absl::once_flag descriptor_table_opaque_2ftrinity_5ftracking_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_opaque_2ftrinity_5ftracking_2eproto = {
     false,
     false,
-    1576,
+    1610,
     descriptor_table_protodef_opaque_2ftrinity_5ftracking_2eproto,
     "opaque/trinity_tracking.proto",
     &descriptor_table_opaque_2ftrinity_5ftracking_2eproto_once,
@@ -305,9 +306,9 @@ const ::google::protobuf::EnumDescriptor* TrinityTrackingStatus_descriptor() {
   return file_level_enum_descriptors_opaque_2ftrinity_5ftracking_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t TrinityTrackingStatus_internal_data_[] = {
-    327680u, 0u, };
+    393216u, 0u, };
 bool TrinityTrackingStatus_IsValid(int value) {
-  return 0 <= value && value <= 4;
+  return 0 <= value && value <= 5;
 }
 // ===================================================================
 

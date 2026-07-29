@@ -1298,6 +1298,19 @@ impl TrinityRangeSource {
         }
     }
 }
+/// Tracker state. THE PAYLOAD IS PUBLISHED WHENEVER THE TRACKER PROCESS IS UP,
+/// including when it is not tracking — that is what IDLE is for, and it is the
+/// reason a consumer can answer "are we tracking?" without inferring anything
+/// from whether the payload arrived.
+///
+/// ABSENCE AND IDLE ARE DIFFERENT FACTS, and conflating them is the failure this
+/// enum is shaped to prevent:
+///    IDLE present  -> the tracker is up and deliberately not tracking.
+///    payload absent -> the PRODUCER is down, or has not published yet, or the
+///                      payload was dropped. It does NOT mean tracking is off.
+/// A consumer that treats "no payload" as "not tracking" will report a crashed
+/// tracker as a stopped one, which is the same reading for two states that need
+/// opposite responses.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum TrinityTrackingStatus {
@@ -1311,6 +1324,11 @@ pub enum TrinityTrackingStatus {
     Degraded = 3,
     /// Tracker running but the requested board version is not the one detected.
     BoardMismatch = 4,
+    /// Up, and NOT tracking — awaiting StartTrackTrinity, or stopped by
+    /// StopTrackTrinity. Pose, sigma and observability fields are meaningless and
+    /// MUST NOT be read; only board_version and capture_time_ns stay valid.
+    /// This is the state a consumer polls to answer "are we tracking?".
+    Idle = 5,
 }
 impl TrinityTrackingStatus {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1324,6 +1342,7 @@ impl TrinityTrackingStatus {
             Self::Searching => "TRINITY_TRACKING_STATUS_SEARCHING",
             Self::Degraded => "TRINITY_TRACKING_STATUS_DEGRADED",
             Self::BoardMismatch => "TRINITY_TRACKING_STATUS_BOARD_MISMATCH",
+            Self::Idle => "TRINITY_TRACKING_STATUS_IDLE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -1334,6 +1353,7 @@ impl TrinityTrackingStatus {
             "TRINITY_TRACKING_STATUS_SEARCHING" => Some(Self::Searching),
             "TRINITY_TRACKING_STATUS_DEGRADED" => Some(Self::Degraded),
             "TRINITY_TRACKING_STATUS_BOARD_MISMATCH" => Some(Self::BoardMismatch),
+            "TRINITY_TRACKING_STATUS_IDLE" => Some(Self::Idle),
             _ => None,
         }
     }

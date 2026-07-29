@@ -190,6 +190,22 @@ public final class TrinityTrackingOuterClass {
   }
 
   /**
+   * <pre>
+   * Tracker state. THE PAYLOAD IS PUBLISHED WHENEVER THE TRACKER PROCESS IS UP,
+   * including when it is not tracking — that is what IDLE is for, and it is the
+   * reason a consumer can answer "are we tracking?" without inferring anything
+   * from whether the payload arrived.
+   *
+   * ABSENCE AND IDLE ARE DIFFERENT FACTS, and conflating them is the failure this
+   * enum is shaped to prevent:
+   * IDLE present  -&gt; the tracker is up and deliberately not tracking.
+   * payload absent -&gt; the PRODUCER is down, or has not published yet, or the
+   * payload was dropped. It does NOT mean tracking is off.
+   * A consumer that treats "no payload" as "not tracking" will report a crashed
+   * tracker as a stopped one, which is the same reading for two states that need
+   * opposite responses.
+   * </pre>
+   *
    * Protobuf enum {@code ser.TrinityTrackingStatus}
    */
   public enum TrinityTrackingStatus
@@ -231,6 +247,17 @@ public final class TrinityTrackingOuterClass {
      * <code>TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4;</code>
      */
     TRINITY_TRACKING_STATUS_BOARD_MISMATCH(4),
+    /**
+     * <pre>
+     * Up, and NOT tracking — awaiting StartTrackTrinity, or stopped by
+     * StopTrackTrinity. Pose, sigma and observability fields are meaningless and
+     * MUST NOT be read; only board_version and capture_time_ns stay valid.
+     * This is the state a consumer polls to answer "are we tracking?".
+     * </pre>
+     *
+     * <code>TRINITY_TRACKING_STATUS_IDLE = 5;</code>
+     */
+    TRINITY_TRACKING_STATUS_IDLE(5),
     UNRECOGNIZED(-1),
     ;
 
@@ -280,6 +307,17 @@ public final class TrinityTrackingOuterClass {
      * <code>TRINITY_TRACKING_STATUS_BOARD_MISMATCH = 4;</code>
      */
     public static final int TRINITY_TRACKING_STATUS_BOARD_MISMATCH_VALUE = 4;
+    /**
+     * <pre>
+     * Up, and NOT tracking — awaiting StartTrackTrinity, or stopped by
+     * StopTrackTrinity. Pose, sigma and observability fields are meaningless and
+     * MUST NOT be read; only board_version and capture_time_ns stay valid.
+     * This is the state a consumer polls to answer "are we tracking?".
+     * </pre>
+     *
+     * <code>TRINITY_TRACKING_STATUS_IDLE = 5;</code>
+     */
+    public static final int TRINITY_TRACKING_STATUS_IDLE_VALUE = 5;
 
 
     public final int getNumber() {
@@ -311,6 +349,7 @@ public final class TrinityTrackingOuterClass {
         case 2: return TRINITY_TRACKING_STATUS_SEARCHING;
         case 3: return TRINITY_TRACKING_STATUS_DEGRADED;
         case 4: return TRINITY_TRACKING_STATUS_BOARD_MISMATCH;
+        case 5: return TRINITY_TRACKING_STATUS_IDLE;
         default: return null;
       }
     }
@@ -5041,15 +5080,16 @@ public final class TrinityTrackingOuterClass {
       "angeSource\022$\n TRINITY_RANGE_SOURCE_UNSPE" +
       "CIFIED\020\000\022%\n!TRINITY_RANGE_SOURCE_BOARD_E" +
       "XTENT\020\001\022\034\n\030TRINITY_RANGE_SOURCE_LRF\020\002\022\036\n" +
-      "\032TRINITY_RANGE_SOURCE_FUSED\020\003*\335\001\n\025Trinit" +
+      "\032TRINITY_RANGE_SOURCE_FUSED\020\003*\377\001\n\025Trinit" +
       "yTrackingStatus\022\'\n#TRINITY_TRACKING_STAT" +
       "US_UNSPECIFIED\020\000\022\"\n\036TRINITY_TRACKING_STA" +
       "TUS_LOCKED\020\001\022%\n!TRINITY_TRACKING_STATUS_" +
       "SEARCHING\020\002\022$\n TRINITY_TRACKING_STATUS_D" +
       "EGRADED\020\003\022*\n&TRINITY_TRACKING_STATUS_BOA" +
-      "RD_MISMATCH\020\004BIZGgit-codecommit.eu-centr" +
-      "al-1.amazonaws.com/v1/repos/jettison/jon" +
-      "p/opaqueb\006proto3"
+      "RD_MISMATCH\020\004\022 \n\034TRINITY_TRACKING_STATUS" +
+      "_IDLE\020\005BIZGgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/opaq" +
+      "ueb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

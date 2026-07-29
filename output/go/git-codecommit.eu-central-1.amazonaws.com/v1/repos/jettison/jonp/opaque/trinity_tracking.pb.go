@@ -79,6 +79,21 @@ func (TrinityRangeSource) EnumDescriptor() ([]byte, []int) {
 	return file_opaque_trinity_tracking_proto_rawDescGZIP(), []int{0}
 }
 
+// Tracker state. THE PAYLOAD IS PUBLISHED WHENEVER THE TRACKER PROCESS IS UP,
+// including when it is not tracking — that is what IDLE is for, and it is the
+// reason a consumer can answer "are we tracking?" without inferring anything
+// from whether the payload arrived.
+//
+// ABSENCE AND IDLE ARE DIFFERENT FACTS, and conflating them is the failure this
+// enum is shaped to prevent:
+//
+//	IDLE present  -> the tracker is up and deliberately not tracking.
+//	payload absent -> the PRODUCER is down, or has not published yet, or the
+//	                  payload was dropped. It does NOT mean tracking is off.
+//
+// A consumer that treats "no payload" as "not tracking" will report a crashed
+// tracker as a stopped one, which is the same reading for two states that need
+// opposite responses.
 type TrinityTrackingStatus int32
 
 const (
@@ -92,6 +107,11 @@ const (
 	TrinityTrackingStatus_TRINITY_TRACKING_STATUS_DEGRADED TrinityTrackingStatus = 3
 	// Tracker running but the requested board version is not the one detected.
 	TrinityTrackingStatus_TRINITY_TRACKING_STATUS_BOARD_MISMATCH TrinityTrackingStatus = 4
+	// Up, and NOT tracking — awaiting StartTrackTrinity, or stopped by
+	// StopTrackTrinity. Pose, sigma and observability fields are meaningless and
+	// MUST NOT be read; only board_version and capture_time_ns stay valid.
+	// This is the state a consumer polls to answer "are we tracking?".
+	TrinityTrackingStatus_TRINITY_TRACKING_STATUS_IDLE TrinityTrackingStatus = 5
 )
 
 // Enum value maps for TrinityTrackingStatus.
@@ -102,6 +122,7 @@ var (
 		2: "TRINITY_TRACKING_STATUS_SEARCHING",
 		3: "TRINITY_TRACKING_STATUS_DEGRADED",
 		4: "TRINITY_TRACKING_STATUS_BOARD_MISMATCH",
+		5: "TRINITY_TRACKING_STATUS_IDLE",
 	}
 	TrinityTrackingStatus_value = map[string]int32{
 		"TRINITY_TRACKING_STATUS_UNSPECIFIED":    0,
@@ -109,6 +130,7 @@ var (
 		"TRINITY_TRACKING_STATUS_SEARCHING":      2,
 		"TRINITY_TRACKING_STATUS_DEGRADED":       3,
 		"TRINITY_TRACKING_STATUS_BOARD_MISMATCH": 4,
+		"TRINITY_TRACKING_STATUS_IDLE":           5,
 	}
 )
 
@@ -623,13 +645,14 @@ const file_opaque_trinity_tracking_proto_rawDesc = "" +
 	" TRINITY_RANGE_SOURCE_UNSPECIFIED\x10\x00\x12%\n" +
 	"!TRINITY_RANGE_SOURCE_BOARD_EXTENT\x10\x01\x12\x1c\n" +
 	"\x18TRINITY_RANGE_SOURCE_LRF\x10\x02\x12\x1e\n" +
-	"\x1aTRINITY_RANGE_SOURCE_FUSED\x10\x03*\xdd\x01\n" +
+	"\x1aTRINITY_RANGE_SOURCE_FUSED\x10\x03*\xff\x01\n" +
 	"\x15TrinityTrackingStatus\x12'\n" +
 	"#TRINITY_TRACKING_STATUS_UNSPECIFIED\x10\x00\x12\"\n" +
 	"\x1eTRINITY_TRACKING_STATUS_LOCKED\x10\x01\x12%\n" +
 	"!TRINITY_TRACKING_STATUS_SEARCHING\x10\x02\x12$\n" +
 	" TRINITY_TRACKING_STATUS_DEGRADED\x10\x03\x12*\n" +
-	"&TRINITY_TRACKING_STATUS_BOARD_MISMATCH\x10\x04B\x94\x01\n" +
+	"&TRINITY_TRACKING_STATUS_BOARD_MISMATCH\x10\x04\x12 \n" +
+	"\x1cTRINITY_TRACKING_STATUS_IDLE\x10\x05B\x94\x01\n" +
 	"\acom.serB\x14TrinityTrackingProtoP\x01ZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
