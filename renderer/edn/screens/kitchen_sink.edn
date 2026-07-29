@@ -83,11 +83,11 @@
      {:children [{:children [{:switch_props {:checked true} :tag :lv_switch}
                              {:switch_props {:checked false} :tag :lv_switch}
                              {:checkbox_props {:checked true}
-                              :class "text-fg-0 @caption"
+                              :class "@caption text-fg-0"
                               :tag :lv_checkbox
                               :text "On"}
                              {:checkbox_props {:checked false}
-                              :class "text-fg-0 @caption"
+                              :class "@caption text-fg-0"
                               :tag :lv_checkbox
                               :text "Off"}]
                   :class "flex flex-row gap-spacing-md w-content h-content"
@@ -112,13 +112,13 @@
     [;; Card: Buttons
      {:children
       [{:children
-        [{:children [{:class "text-accent-text @caption" :tag :lv_label :text "Primary"}]
+        [{:children [{:class "@caption text-accent-text" :tag :lv_label :text "Primary"}]
           :class "@btn-primary"
           :tag :lv_button}
-         {:children [{:class "text-fg-0 @caption" :tag :lv_label :text "Secondary"}]
+         {:children [{:class "@caption text-fg-0" :tag :lv_label :text "Secondary"}]
           :class "@btn-secondary"
           :tag :lv_button}
-         {:children [{:class "text-fg-2 @caption" :tag :lv_label :text "Disabled"}]
+         {:children [{:class "@caption text-fg-2" :tag :lv_label :text "Disabled"}]
           :class
           "w-content h-content p-spacing-sm
                   bg-surface-2 rounded-radius-button opa-disabled-opa

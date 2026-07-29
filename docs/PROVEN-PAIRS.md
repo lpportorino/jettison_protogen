@@ -16,31 +16,27 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 
 **The `as drawn` column is where a ratio stops being the whole story.** `composited (fill-opa)` means every context declaring that pair also fades the FILL (the `opa-` class prefix resolves to `bg-opa`, glyphs untouched), so the rendered pair is a token ink over a blend and the row's ratio is the AUTHORED one. `layer-opa` is the whole-widget fade, which re-composites both ends. Neither composite is computed here — the exact byte depends on the SW blend path, so it has to come from the dump. A row is marked only when EVERY context fades it; one un-faded context means the authored pair really is drawn somewhere and the ratio is exact there.
 
-## Token pairs (36 rows, 18 distinct pairs)
+## Token pairs (34 rows, 17 distinct pairs)
 
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
-| `fg-1` | `accent-bg` | dark | #9898B0 | #B18AF4 | 1.05 | **FAIL** | **FAIL** | — |
-| `fg-1` | `accent-bg` | light | #404050 | #5C14D7 | 1.23 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-warning` | dark | #E8E8F0 | #F59E0B | 1.76 | **FAIL** | **FAIL** | — |
 | `fg-0` | `accent-bg` | light | #1A1A28 | #5C14D7 | 2.08 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-success` | dark | #E8E8F0 | #10B981 | 2.08 | **FAIL** | **FAIL** | — |
 | `fg-0` | `accent-bg` | dark | #E8E8F0 | #B18AF4 | 2.21 | **FAIL** | **FAIL** | — |
-| `fg-1` | `pressed-accent` | dark | #9898B0 | #6B4FA0 | 2.29 | **FAIL** | **FAIL** | — |
-| `fg-1` | `pressed-accent` | light | #404050 | #8B5CF6 | 2.40 | **FAIL** | **FAIL** | — |
+| `accent-text` | `pressed-accent` | dark | #1A1A28 | #6B4FA0 | 2.66 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-error` | dark | #E8E8F0 | #EF4444 | 3.09 | **FAIL** | **FAIL** | — |
+| `accent-text` | `pressed-accent` | light | #E8E8F0 | #8B5CF6 | 3.47 | **FAIL** | **FAIL** | — |
 | `fg-0` | `pressed-accent` | light | #1A1A28 | #8B5CF6 | 4.06 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-error` | light | #1A1A28 | #EF4444 | 4.57 | PASS | **FAIL** | — |
-| `fg-1` | `pressed-surface` | dark | #9898B0 | #2A2A3E | 4.97 | PASS | **FAIL** | — |
+| `fg-2` | `surface-2` | dark | #8686A0 | #1E1E2E | 4.63 | PASS | **FAIL** | composited (fill-opa) |
+| `fg-2` | `surface-2` | light | #585846 | #D0D0C0 | 4.64 | PASS | **FAIL** | composited (fill-opa) |
 | `fg-2` | `surface-1` | dark | #8686A0 | #12121F | 5.24 | PASS | **FAIL** | — |
 | `fg-0` | `pressed-accent` | dark | #E8E8F0 | #6B4FA0 | 5.30 | PASS | **FAIL** | — |
 | `fg-2` | `surface-1` | light | #585846 | #E0E0D4 | 5.44 | PASS | **FAIL** | — |
-| `fg-1` | `pressed-surface` | light | #404050 | #C0C0A8 | 5.49 | PASS | **FAIL** | — |
-| `fg-1` | `surface-2` | dark | #9898B0 | #1E1E2E | 5.82 | PASS | **FAIL** | — |
 | `disabled-fg` | `surface-2` | dark | #9A9BB6 | #1E1E2E | 6.04 | PASS | PASS | — |
 | `surface-2` | `disabled-fg` | dark | #1E1E2E | #9A9BB6 | 6.04 | PASS | PASS | — |
 | `accent-text` | `accent-bg` | dark | #1A1A28 | #B18AF4 | 6.39 | PASS | PASS | — |
-| `fg-1` | `surface-2` | light | #404050 | #D0D0C0 | 6.51 | PASS | PASS | — |
 | `fg-1` | `surface-1` | dark | #9898B0 | #12121F | 6.58 | PASS | PASS | — |
 | `fg-0` | `status-success` | light | #1A1A28 | #10B981 | 6.77 | PASS | PASS | — |
 | `accent-text` | `accent-bg` | light | #E8E8F0 | #5C14D7 | 6.79 | PASS | PASS | — |
@@ -48,7 +44,9 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | `surface-2` | `disabled-fg` | light | #D0D0C0 | #3D3C2C | 7.16 | PASS | PASS | — |
 | `fg-1` | `surface-1` | light | #404050 | #E0E0D4 | 7.63 | PASS | PASS | — |
 | `fg-0` | `status-warning` | light | #1A1A28 | #F59E0B | 8.00 | PASS | PASS | — |
+| `fg-0` | `pressed-surface` | light | #1A1A28 | #C0C0A8 | 9.28 | PASS | PASS | — |
 | `fg-0` | `surface-2` | light | #1A1A28 | #D0D0C0 | 11.02 | PASS | PASS | — |
+| `fg-0` | `pressed-surface` | dark | #E8E8F0 | #2A2A3E | 11.49 | PASS | PASS | — |
 | `fg-0` | `surface-1` | light | #1A1A28 | #E0E0D4 | 12.91 | PASS | PASS | — |
 | `surface-1` | `fg-0` | light | #E0E0D4 | #1A1A28 | 12.91 | PASS | PASS | — |
 | `fg-0` | `surface-2` | dark | #E8E8F0 | #1E1E2E | 13.46 | PASS | PASS | — |
@@ -61,22 +59,21 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 
 | ink | fill | declared at |
 |---|---|---|
-| `accent-text` | `accent-bg` | `vr-fixtures:sm` |
+| `accent-text` | `accent-bg` | `kitchen_sink:sm`, `vr-fixtures:sm` |
+| `accent-text` | `pressed-accent` | `kitchen_sink:pressed+sm` |
 | `disabled-fg` | `surface-2` | `theme-style/disabled_fill:sm` |
 | `fg-0` | `accent-bg` | `vr-fixtures:disabled+xl[fill-opa]`, `vr-fixtures:sm`, `vr-fixtures:xl` |
 | `fg-0` | `pressed-accent` | `vr-fixtures:pressed+lg`, `vr-fixtures:pressed+md`, `vr-fixtures:pressed+sm`, `vr-fixtures:pressed+xl` |
+| `fg-0` | `pressed-surface` | `kitchen_sink:pressed+sm` |
 | `fg-0` | `status-error` | `vr-fixtures:disabled+sm[fill-opa]`, `vr-fixtures:pressed+sm`, `vr-fixtures:sm` |
 | `fg-0` | `status-success` | `vr-fixtures:disabled+lg[fill-opa]`, `vr-fixtures:lg`, `vr-fixtures:pressed+lg` |
 | `fg-0` | `status-warning` | `vr-fixtures:disabled+md[fill-opa]`, `vr-fixtures:md` |
 | `fg-0` | `surface-0` | `vr-fixtures:sm` |
 | `fg-0` | `surface-1` | `kitchen_sink:sm`, `theme-style/panel:sm`, `vr-fixtures:sm` |
-| `fg-0` | `surface-2` | `theme-style/btnm_items:sm`, `vr-fixtures:lg`, `vr-fixtures:sm` |
-| `fg-1` | `accent-bg` | `kitchen_sink:sm` |
-| `fg-1` | `pressed-accent` | `kitchen_sink:pressed+sm` |
-| `fg-1` | `pressed-surface` | `kitchen_sink:pressed+sm` |
+| `fg-0` | `surface-2` | `kitchen_sink:sm`, `theme-style/btnm_items:sm`, `vr-fixtures:lg`, `vr-fixtures:sm` |
 | `fg-1` | `surface-1` | `kitchen_sink:sm`, `vocabulary:sm` |
-| `fg-1` | `surface-2` | `kitchen_sink:sm`, `kitchen_sink:sm[fill-opa]` |
 | `fg-2` | `surface-1` | `kitchen_sink:sm` |
+| `fg-2` | `surface-2` | `kitchen_sink:sm[fill-opa]` |
 | `surface-1` | `fg-0` | `theme-style/roller_sel:sm` |
 | `surface-2` | `disabled-fg` | `theme-style/roller_sel_dis:sm` |
 
