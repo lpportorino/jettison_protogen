@@ -84,23 +84,30 @@ jobs:
     # ships to ten consumers should not carry undocumented constrained fields or
     # undocumented enum values. A WARNING FAILS THIS STEP.
     #
-    # IT RUNS BEFORE `make generate`, AND THAT ORDER IS LOAD-BEARING — do not
-    # "tidy" it back down beside the wire-contract step. Generation's last leg,
-    # `binary-dedup-run`, bind-mounts docs/.protodoc/tools into a container that
-    # runs as ROOT and invokes `clojure` with that mount as its working
-    # directory. The Clojure CLI always writes its classpath cache to
-    # ./.cpcache when a project deps.edn is present (CLJ_CACHE does not
-    # relocate it — measured), so generation leaves a ROOT-OWNED .cpcache in
-    # this lint's working directory whose cached classpath hardcodes
-    # /root/.m2/repository/... — paths that do not exist on the runner. The
-    # lint then runs as `runner` and cannot use or rewrite it.
+    # IT RUNS BEFORE `make generate`, and keep it there. This step's inputs are
+    # the COMMITTED proto-db.edn and the tools tree (see below), never anything
+    # generation produces, so nothing is lost by linting first — and a
+    # documentation finding then aborts the job before the long generate leg
+    # rather than after it.
     #
-    # That is why docs.yml runs the identical lint and is green: it never runs
-    # generation. Ordering this step ahead of generation makes the two
-    # invocations environmentally identical, which is the property being relied
-    # on here. The container writing machine-specific cache into a shared
-    # workspace is a separate defect and is still live — it is simply no longer
-    # upstream of anything.
+    # It was once MANDATORY here rather than merely preferable, and the hazard
+    # is worth knowing because re-creating it is easy. Generation's last leg,
+    # `binary-dedup-run`, used to bind-mount docs/.protodoc/tools READ-WRITE as
+    # the working directory of a container running as ROOT, and invoke
+    # `clojure` there — leaving a root-owned .cpcache in this step's working
+    # directory. What that breaks is a WRITE: the CLI's cache key folds in the
+    # PATHS of the config files it found, including $HOME/.clojure/deps.edn, so
+    # this step — whose HOME is the runner user's, not the container's root —
+    # computes a DIFFERENT key, cannot select the container's .cp at all, and
+    # must mint its own into a directory it does not own. The cached entries
+    # naming the container's .m2 are incidental; making them portable would fix
+    # nothing,
+    # and CLJ_CACHE does not relocate the cache (both measured).
+    #
+    # That is fixed at the source: the recipe now mounts the tools tree
+    # read-only and copies it into a container-local workdir, so generation
+    # writes nothing into this tree. Any new container leg that mounts a source
+    # directory read-write as root re-opens it.
     #
     # That is the whole point. `protodoc lint` used to exit 0 while printing its
     # findings, so both this pipeline and docs.yml stayed green while warnings
@@ -117,10 +124,11 @@ jobs:
     # as "the docs match the protos"; it means "the docs that exist are complete".
     #
     # THE TOOLCHAIN BELOW IS WHAT THAT STEP RUNS ON, and it is not optional.
-    # `lint.mk`'s docs-lint recipe is a bare `clojure -M:run lint` — it runs on
-    # the RUNNER, not in either image this job builds. Every other step here is
-    # docker, python3 or shell, so nothing had ever put a JVM on this runner and
-    # the step exited 127 (`clojure: not found`) on every run since it landed.
+    # `lint.mk`'s docs-lint recipe invokes `clojure` directly — it runs on the
+    # RUNNER, not in either image this job builds. No other step here installs
+    # a JVM (they are docker, python3, shell, or the checkout action), so
+    # nothing had ever put one on this runner and the step exited 127
+    # (`clojure: not found`) on every run since it landed.
     # A 127 here is indistinguishable in the job's summary from a real finding,
     # and because every fan-out step is gated behind it, no consumer repo
     # received a binding for as long as it stood.
@@ -132,8 +140,18 @@ jobs:
     # without an image rebuild, and "a gate that silently runs a stale copy of
     # itself is worse than none".
     #
-    # The three pins match docs.yml, lint.yml, renderer.yml and devcards.yml
-    # exactly; that agreement is the point, so bump them together or not at all.
+    # The java-version and both setup-clojure pins below are the ones docs.yml,
+    # lint.yml, renderer.yml and devcards.yml already carry; that agreement IS
+    # the point, so bump those together or not at all.
+    #
+    # The JDK PROVIDER is deliberately NOT uniform, and must not be "unified"
+    # to make the set look consistent. docs.yml and lint.yml take temurin
+    # through actions/setup-java, as this job does; renderer.yml and
+    # devcards.yml take GraalVM CE through graalvm/setup-graalvm because their
+    # legs run GraalWasm — the devcard corpus runner, and the cross-engine
+    # mirror that re-proves wasmtime and GraalWasm byte-identical. Swapping
+    # them to temurin for symmetry deletes the second wasm engine and the
+    # oracle that compares the two.
     - name: Set up JDK 25 (LTS)
       uses: actions/setup-java@v5
       with:
