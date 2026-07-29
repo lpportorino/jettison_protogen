@@ -1197,29 +1197,26 @@
      :prefer :closest-to-shipped
      :note "MODE-FORKED in tokens.edn: no single fill clears the 6:1 text shall, so each mode takes the pole that clears both the ink floor and button-vs-card. The asgard family bakes the per-mode value into the stock parent's color_primary. It was mode-invariant #7C3AED, and this mirror kept saying so after the fork — which made every solve here model the accent at a value that no longer shipped, and left :accent-text's proven-pair constraint proving against a fill that did not exist."
      :constraints [(non-text-pair :surface-1 :inferred)
-                   ;; HOSTS :accent-text ALONE. It used to claim fg-0 and fg-1
-                   ;; too, and the mode fork made that claim FALSE: the forked
-                   ;; fill hosts accent-text at 6.39:1 dark but fg-0 at 2.21
-                   ;; and fg-1 at 1.05. No single fill escapes it — hosting
-                   ;; fg-0 at the shall forces a DARK accent, which is what the
-                   ;; fork moved away from because it collapsed button-vs-card
-                   ;; in dark mode. So the three-ink claim was not merely
-                   ;; unmet, it was unmeetable, and a constraint that cannot be
-                   ;; satisfied by any value is a spec defect rather than a
-                   ;; finding about the palette.
+                   ;; HOSTS DROPS :fg-0 ONLY, matching the constraint deleted
+                   ;; from fg-0 below — and fg-1 STAYS, because fg-1 still
+                   ;; declares the pair from a shipped screen. The two halves
+                   ;; have to agree: a role declaring `(text-pair :accent-bg)`
+                   ;; while accent-bg's hosts set omits it is a contradiction
+                   ;; between two statements of one fact.
                    ;;
-                   ;; accent-text IS the sanctioned ink here — its own role
-                   ;; note says "Authored ONLY as ink on accent-bg", and every
-                   ;; authored accent surface pairs the two (the `vr_button`
-                   ;; fixture, and the consumer's `:tactical-btn` macro). A
-                   ;; theme-filled button gets the same ink from theme.c's
-                   ;; `accent_ink`, which no authored class has to spell.
-                   ;;
-                   ;; This NARROWS what the ladder REQUIRES; it hides nothing.
-                   ;; docs/PROVEN-PAIRS.md is generated from authored usage on
-                   ;; its own path, so an author who does put fg-0 on an accent
-                   ;; fill still gets a FAIL row there.
-                   (hosts :text-shall #{:accent-text} :proven-pairs)]}
+                   ;; KNOW WHAT THIS EDIT IS AND IS NOT. `:for-roles` is
+                   ;; written by the `hosts` helper and typed by the schema,
+                   ;; and READ BY NOTHING — `evaluate-constraint` asks only
+                   ;; whether SOME sRGB foreground clears the floor, and
+                   ;; `validate-spec`'s host-floor reads `:floor` alone. So
+                   ;; this set is documentation, and editing it changes no
+                   ;; verdict. It is corrected because a wrong document is
+                   ;; still wrong, not because a gate moved. Wiring
+                   ;; `:for-roles` into `validate-spec` — so a role declaring
+                   ;; a text pair against X while X's hosts omits it becomes a
+                   ;; spec finding — is what would make this self-enforcing,
+                   ;; and is not done here.
+                   (hosts :text-shall #{:accent-text :fg-1} :proven-pairs)]}
     {:role :pressed-accent
      :kind :solved
      :shipped {:dark "#6B4FA0" :light "#8B5CF6"}
@@ -1279,33 +1276,45 @@
      :constraints [(text-pair :surface-0 :proven-pairs)
                    (text-pair :surface-1 :proven-pairs)
                    (text-pair :surface-2 :proven-pairs)
-                   ;; NO `(text-pair :accent-bg ...)`, and this is the one place
-                   ;; the note's "every co-declared pair" rule is knowingly not
-                   ;; applied. PROVEN-PAIRS DOES co-declare fg-0 with accent-bg,
-                   ;; so the omission owes an argument rather than silence:
+                   ;; NO `(text-pair :accent-bg ...)`, and this is the one
+                   ;; place the note's "every co-declared pair" rule is
+                   ;; knowingly not applied, so the omission owes an argument.
                    ;;
-                   ;; the co-declaring fixtures (`vr_state_base`,
-                   ;; `vr_state_disabled`) are `lv_button`s carrying a label with
-                   ;; NO ink class. The resolver models AUTHORED classes only, so
-                   ;; it reports the inherited fg-0 — while at render time the
-                   ;; THEME supplies the ink (`accent_ink` in src/theme.c, fg-0's
-                   ;; opposite pole, 6.39:1 dark / 6.79:1 light). The pair the
-                   ;; resolver names is therefore not the pair that renders.
+                   ;; THE PAIR REALLY RENDERS — this is not a resolver
+                   ;; artifact. Verified by rendering on the pinned wasm and
+                   ;; reading `dump_tree`: `vr_state_base`'s label carries its
+                   ;; own `text-fg-0`, which beats the button's theme ink, and
+                   ;; comes out #E8E8F0 on #B18AF4 = 2.21:1 dark, 2.08:1 light.
+                   ;; `vr_mod_bg` (an `lv_obj`, so no theme ink at all) and the
+                   ;; `@hud-btn` fixtures at xl do the same.
                    ;;
-                   ;; Constraining it anyway made the spec UNSATISFIABLE once the
-                   ;; accent forked: fg-0 sits at 2.21:1 on the dark accent, and
-                   ;; no accent value fixes that without forcing a dark fill in
-                   ;; dark mode — which is what the fork moved away from. An
-                   ;; unsatisfiable-by-construction constraint reports a spec
-                   ;; defect as if it were a palette finding, and it took fg-1
-                   ;; down with it (blocked-upstream behind fg-0).
+                   ;; It is dropped because it is UNSATISFIABLE, and the
+                   ;; binding half is LIGHT mode, for any sRGB colour
+                   ;; whatsoever: fg-0 must sit at wcag-y <= 0.0622 to clear
+                   ;; 6:1 on light surface-2, while the accent must sit at
+                   ;; <= 0.2130 to clear 3:1 on light surface-1 (its lighter
+                   ;; branch needs y >= 2.317, off-scale) — and 6:1 BETWEEN
+                   ;; them needs one of the two at >= 0.25. Those bands are
+                   ;; disjoint, so no pair exists.
                    ;;
-                   ;; RESIDUAL, stated rather than hidden: `vr_mod_bg` puts a
-                   ;; child on an accent-filled `lv_obj` — NOT a button — so no
-                   ;; theme ink covers that one. It is a fixture, not shipped
-                   ;; content, and docs/PROVEN-PAIRS.md still scores the pair on
-                   ;; its own generated path, so an author who writes fg-0 on an
-                   ;; accent fill still gets a FAIL row there.
+                   ;; Dark mode alone WOULD be satisfiable, and saying
+                   ;; otherwise would be the easy overstatement: a band exists
+                   ;; at y in [0.11985, 0.125] — e.g. accent #744CB0 with fg-0
+                   ;; #FBFCFF at 6.015:1 — but it clears button-vs-card by
+                   ;; 0.006, forces accent-text to near-white, and has no
+                   ;; light-mode partner. (For scale, the retired #7C3AED sits
+                   ;; at 0.13426, just above that ceiling, which is exactly why
+                   ;; it maxed at 5.70:1.)
+                   ;;
+                   ;; This changes what the ladder REQUIRES and hides nothing:
+                   ;; docs/PROVEN-PAIRS.md derives the pair on its own path and
+                   ;; still prints it FAIL/FAIL in both modes.
+                   ;;
+                   ;; fg-1 KEEPS its identical constraint on purpose, and the
+                   ;; asymmetry is the point: fg-0's co-declarations are all
+                   ;; FIXTURES, while fg-1's is `kitchen_sink` — a SHIPPED
+                   ;; screen, rendering 1.05:1. Dropping fg-1 for symmetry
+                   ;; would delete the ladder's only edge onto a real defect.
                    (text-pair :pressed-accent :proven-pairs)
                    (text-pair :status-error :proven-pairs)
                    (text-pair :status-success :proven-pairs)

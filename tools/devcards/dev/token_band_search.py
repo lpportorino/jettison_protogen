@@ -14,16 +14,41 @@ Same WCAG arithmetic as tools/devcards/dev/palette-audit.py and
 dev/disabled_pair_probe.clj, so the numbers are comparable digit for digit.
 """
 
-TOKENS = {
-    "surface-1":     (0x12121F, 0xE0E0D4),
-    "surface-2":     (0x1E1E2E, 0xD0D0C0),
-    "edge-0":        (0x6B6B8A, 0x70705A),
-    "fg-0":          (0xE8E8F0, 0x1A1A28),
-    "accent":        (0x7C3AED, 0x7C3AED),
-    "focused-edge":  (0x22D3EE, 0x0891B2),
-    "checked":       (0x0E7490, 0x0E7490),
-    "disabled-fg":   (0x9A9BB6, 0x3D3C2C),
-}
+# DERIVED from the generated header, never hand-copied. A table mirroring a
+# header is a second source that diverges silently, and this one DID: it sat at
+# the pre-fork mode-invariant accent (0x7C3AED both modes) and carried no
+# surface-0 row, so it reported four survivors where the shipped tokens give
+# more — while being cited as the evidence for a "no token clears 6:1" argument
+# in renderer/src/theme.c. Reading the header is what makes that unrepresentable.
+import pathlib
+import re
+
+_HEADER = (pathlib.Path(__file__).resolve().parents[3]
+           / "renderer" / "generated" / "theme_tokens.h")
+
+
+def _load_tokens():
+    """{token-name: (dark, light)} parsed from the generated header.
+
+    Each colour token emits THEME_<NAME>_DARK / _LIGHT as hex literals; a token
+    present in only one pole is skipped rather than guessed at.
+    """
+    text = _HEADER.read_text()
+    found = {}
+    for name, pole, value in re.findall(
+            r"#define\s+THEME_([A-Z0-9_]+)_(DARK|LIGHT)\s+(0x[0-9A-Fa-f]{6})\b", text):
+        # THEME_SURFACE1 -> "surface-1", THEME_DISABLED_FG -> "disabled-fg":
+        # the header runs the digit onto the stem and uses _ between words.
+        key = re.sub(r"([A-Z]+?)(\d)$", r"\1-\2", name).lower().replace("_", "-")
+        found.setdefault(key, {})[pole.lower()] = int(value, 16)
+    return {k: (v["dark"], v["light"]) for k, v in sorted(found.items())
+            if "dark" in v and "light" in v}
+
+
+TOKENS = _load_tokens()
+if not TOKENS:
+    raise SystemExit(f"no colour tokens parsed from {_HEADER} — refusing to "
+                     f"report a survivor set over an empty table")
 MODES = ("dark", "light")
 
 

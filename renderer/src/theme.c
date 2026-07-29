@@ -321,8 +321,12 @@ static void style_init(asgard_theme_t *t) {
    * stock pairs color_primary with white. lv_theme_default's bg_color_primary
    * applies that pair at many sites, and fixing only the button is a half-fix
    * that reads as complete: the button measures 6.39:1 while the spinbox's
-   * edit CURSOR and a CHECKED buttonmatrix item still draw stock white on the
-   * light dark-mode accent, which measures 2.69:1. That regression is INVISIBLE
+   * edit CURSOR still drew stock white on the light dark-mode accent, which
+   * measures 2.69:1. (A CHECKED buttonmatrix item is NOT that pair — asgard
+   * overrides its fill with `checked_accent`, the cyan affordance, so it is
+   * white-on-cyan at 5.36:1, the residual §6.9 already records; and vanilla
+   * never sees the accent at all. 2.69:1 is the spinbox cursor alone.) That
+   * regression is INVISIBLE
    * to a golden (the hash moves either way, and a moved hash was the intended
    * outcome) and invisible to the palette census (white and the accent are both
    * declared tokens), so it is named here rather than left to be re-found. */
@@ -1098,16 +1102,27 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * AND THE ROLLER'S REPAIR DOES NOT PORT, which is why this waits.
      * Authoring both ends needs a (fill, glyph) pair clearing 3:1 vs the
      * card and 6:1 glyph-on-fill in both modes; over the closed table
-     * (generated/theme_tokens.h) the only survivors are fill fg-0 or
-     * disabled-fg under surface-1 or surface-2 glyphs — the roller band's
-     * hueless inversion tones, with disabled-fg already spoken for as the
-     * DISABLED ink. NO token in the closed table gives a checked BUTTON a
-     * state HUE that clears 6:1. That is the wall §6.8 already hits for this
-     * same button's DEFAULT label (white on accent, 5.70:1), and it
-     * prescribes the order: derive the fills, project the tokens, wire the
-     * theme, re-mint once. So the interim one-liner leaves the label exactly
-     * where the resting state already sits, and the full pair lands with
-     * that derivation. */
+     * (generated/theme_tokens.h) the survivors are enumerated by
+     * dev/token_band_search.py, which READS that header rather than copying
+     * it — run it; a count here would rot exactly as its own hand-copied
+     * table did.
+     *
+     * THE ACCENT FORK IN THIS COMMIT CHANGED THAT ANSWER, and the honest
+     * record is that it changed it in the direction that REMOVES this
+     * deferral's stated reason. The pre-fork mode-invariant accent gave a
+     * hueless survivor set — fg-0 or disabled-fg under surface glyphs, the
+     * roller band's inversion tones, with disabled-fg already spoken for as
+     * the DISABLED ink — so the argument was that no token in the closed
+     * table gives a checked BUTTON a state HUE clearing 6:1. The forked
+     * accent now DOES survive, against surface-0 and surface-1 glyphs.
+     *
+     * So the wall is gone on both halves: the DEFAULT label, which now takes
+     * the inverted fg-0 pole at 6.39:1, and the CHECKED hue, which now has a
+     * candidate. This change does NOT take that repair — it is a distinct
+     * behavioural change to a state the corpus does not yet cover, and
+     * bundling it here would land it unproven. It is deferred on SCOPE now,
+     * not on impossibility, and that distinction is the whole point of
+     * rewriting this note rather than leaving a stale argument standing. */
     add_interactive(t, obj);
     return;
   }

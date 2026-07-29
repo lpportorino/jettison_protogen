@@ -906,7 +906,7 @@ through to (`DARK_COLOR_TEXT` / `LIGHT_COLOR_TEXT` in
 |---|---:|---:|
 | dark body text on `surface-1` | 17.77:1 | 15.22:1 |
 | light body text on `surface-1` | 12.10:1 | 12.91:1 |
-| accent button label | **5.70:1** | **4.68:1** |
+| accent button label | **6.39:1** dark / **6.79:1** light | — |
 
 **THE ROLLER SELECTED BAND IS NO LONGER A ROW IN THIS TABLE, and the reason is
 the point.** It used to sit here at 5.36:1 because it took `checked_accent` and
@@ -927,11 +927,21 @@ comfortably over §6.2's governing 6:1 — while the dark mode loses up to 2.71
 points and the light mode gains under 1.1. The leak is a palette-OWNERSHIP
 defect. It must not be sold as a readability one.
 
-**The pairs that DO break the floor are the accent pairs, and the declared
-tokens make them worse.** `accent-text` resolves to the same near-white as dark
-`fg-0`, and white already MAXIMISES luminance against those fills, so no choice
-of text tone reaches 6:1 — the FILL's lightness is what has to move. The shipped
-surface measures better than its own token table says it should.
+**The accent pairs USED to break the floor, and the repair is recorded here
+because the reasoning that got there is the reusable part.** While `accent-bg`
+was one mode-invariant value, `accent-text` resolved to the same near-white as
+dark `fg-0`, and white already MAXIMISES luminance against that fill — so no
+choice of text tone reached 6:1 and the FILL's lightness was what had to move.
+It moved: `accent-bg` now forks per mode, each pole clearing both the ink floor
+and button-vs-card, and `accent-text` FORKS WITH IT, because the ink of a
+mode-forked fill cannot itself be mode-invariant. Measured 6.39:1 dark and
+6.79:1 light.
+
+Two things that cost real time are worth keeping. Darkening the fill alone
+would have satisfied the ink floor and DESTROYED button-vs-card on dark; both
+constraints have to be solved together. And moving the fill without moving the
+ink is a REGRESSION, not a partial fix — held mode-invariant across the fork,
+`accent-text` measured 2.21:1, worse than the 4.68:1 it started at.
 
 Know which way this fails. Acting on the arm alone re-mints every affected
 golden and gallery render, owes the mandatory VLM review, and buys a net
@@ -981,9 +991,9 @@ standard's *"an unjudged element is a FINDING, never a skip"* one level up.
 
 **Over-coverage is the half that wastes the reviewer.** The same construction
 scores `accent-text` against every surface, a combination nothing authors —
-`accent-text` is authored only as ink on `accent-bg` — so a mode-invariant white
-gets scored at 1.06:1 on a light surface and read as a catastrophic failure of
-a pair that cannot occur.
+`accent-text` is authored only as ink on `accent-bg` — so its light pole gets
+scored against a light surface and read as a catastrophic failure of a pair
+that cannot occur.
 
 **And a HALF-composited pair defeats the membership test itself — this is not
 §6's ban arriving from another direction, and reading it as one gets the
