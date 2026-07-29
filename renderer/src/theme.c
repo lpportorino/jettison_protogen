@@ -314,9 +314,9 @@ static void style_init(asgard_theme_t *t) {
    * LOSS. Measured on the pair: 6.39:1 dark / 6.79:1 light against §6.2's
    * governing 6:1, up from 4.68:1 mode-invariant. */
   if (!v)
-    lv_style_set_text_color(&s->btn,
-                            lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT,
-                                                  THEME_FG0_DARK)));
+    lv_style_set_text_color(
+        &s->btn,
+        lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT, THEME_FG0_DARK)));
   /* THE SAME INK, AS A REUSABLE STYLE — because `s->btn` is not the only place
    * stock pairs color_primary with white. lv_theme_default's bg_color_primary
    * applies that pair at many sites, and fixing only the button is a half-fix
@@ -332,9 +332,9 @@ static void style_init(asgard_theme_t *t) {
    * declared tokens), so it is named here rather than left to be re-found. */
   style_reset(&s->accent_ink, inited);
   if (!v)
-    lv_style_set_text_color(&s->accent_ink,
-                            lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT,
-                                                  THEME_FG0_DARK)));
+    lv_style_set_text_color(
+        &s->accent_ink,
+        lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT, THEME_FG0_DARK)));
   lv_style_set_radius(&s->btn,
                       pick_i32(v, stock_btn_radius(t), THEME_RADIUS_BUTTON));
   lv_style_set_pad_hor(&s->btn,
@@ -502,9 +502,9 @@ static void style_init(asgard_theme_t *t) {
      * lv_theme_default). Both are legible, so this is token conformance
      * rather than a contrast repair: a themed family should not paint values
      * its own catalogue does not declare. */
-    lv_style_set_text_color(&s->btnm_items,
-                            lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK,
-                                                  THEME_FG0_LIGHT)));
+    lv_style_set_text_color(
+        &s->btnm_items,
+        lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK, THEME_FG0_LIGHT)));
   }
   /* focus ring */
   style_reset(&s->focus, inited);

@@ -258,7 +258,7 @@
 ;; constraint is `text-pair :accent-bg` — cannot be solved at all.
 (def ^:private dead-band-pinned-proposal
   (pl/propose (pl/with-pinned (with-dead-band-accent pl/protogen-spec)
-                              #{:accent-bg})))
+                #{:accent-bg})))
 
 ;; FREE: the same dead band, but the solver may move accent-bg off it. This is
 ;; the DISCRIMINATOR for the test above — same role, same hue, same chroma
