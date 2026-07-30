@@ -893,6 +893,11 @@ jobs:
 
     # Commit updated outputs to main repository
     - name: Commit consolidated outputs
+      # `id` + the `moved` output below are what the release step reads. Every
+      # other writer in this job already asks "did my payload actually change?"
+      # before committing; the release step could not ask, because nothing
+      # published the answer.
+      id: consolidated
       run: |
         # Setup SSH key for pushing to main repo
         if [ -n "${{ secrets.SELF_PUSH }}" ]; then
@@ -912,6 +917,14 @@ jobs:
         git config user.email "actions@github.com"
 
         git add output/
+        # Recorded on both branches, unconditionally: a step output that is only
+        # written on the interesting path is indistinguishable, downstream, from
+        # a step that never ran.
+        if git diff --staged --quiet; then
+          echo "moved=false" >>"$GITHUB_OUTPUT"
+        else
+          echo "moved=true" >>"$GITHUB_OUTPUT"
+        fi
         git diff --staged --quiet || {
           git commit -m "Update generated proto bindings
 
@@ -941,7 +954,16 @@ jobs:
 
     # Create release
     - name: Create release
-      if: github.event_name == 'push' || github.event.inputs.release_tag != ''
+      # The AUTOMATIC arm is guarded on whether the bindings actually moved; the
+      # MANUAL arm (a dispatch naming a release_tag) is deliberately not, because
+      # cutting a named release of the current bytes is the whole point of asking.
+      #
+      # Measured before this guard existed: of 112 consecutive build-<sha>
+      # prereleases, 23 carried a byte-identical output/ payload (20.5%), and 19
+      # of the last 62 (30.6%). Each one also paid two cold docker image builds,
+      # ten consumer clones, and one unauthenticated BSR codegen request against
+      # a 10-per-hour-per-IP budget.
+      if: (github.event_name == 'push' && steps.consolidated.outputs.moved == 'true') || github.event.inputs.release_tag != ''
       run: |
         # Create tarballs for release
         mkdir -p release-artifacts
