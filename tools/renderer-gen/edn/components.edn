@@ -11,21 +11,21 @@
  :class-defs
  {:body "font-font-body text-fg-0"
   :btn-primary
-  "w-content h-content p-spacing-sm bg-accent-bg rounded-radius-button
+  "w-content h-content p-spacing-xs bg-accent-bg rounded-radius-button
                 pressed:bg-pressed-accent focused:border-color-focused-edge
-                focused:border-w-border-width-focus sm:p-spacing-xs"
+                focused:border-w-border-width-focus md:p-spacing-sm"
   :btn-secondary
-  "w-content h-content p-spacing-sm bg-surface-2 rounded-radius-button
+  "w-content h-content p-spacing-xs bg-surface-2 rounded-radius-button
                   border-edge-0 border-w-border-width-default pressed:bg-pressed-surface
                   focused:border-color-focused-edge focused:border-w-border-width-focus
-                  sm:p-spacing-xs"
+                  md:p-spacing-sm"
   :caption "font-font-caption text-fg-1"
   :card
-  "flex flex-col bg-surface-1 rounded-radius-card p-spacing-sm
-                border-edge-0 border-w-border-width-default sm:p-spacing-xs"
+  "flex flex-col bg-surface-1 rounded-radius-card p-spacing-xs
+                border-edge-0 border-w-border-width-default md:p-spacing-sm"
   :card-row
-  "flex flex-row bg-surface-1 rounded-radius-card p-spacing-sm
-                border-edge-0 border-w-border-width-default sm:p-spacing-xs"
+  "flex flex-row bg-surface-1 rounded-radius-card p-spacing-xs
+                border-edge-0 border-w-border-width-default md:p-spacing-sm"
   :data-value "text-fg-0 font-font-data"
   :heading "font-font-heading text-fg-0"
   :hud-btn
@@ -57,8 +57,8 @@
    :tree
    {:children [{:class "@caption" :tag :lv_label :text "$title"} {:slot :default}]
     :class
-    "@card gap-spacing-sm w-content h-content $extra-class
-                  sm:gap-spacing-xs"
+    "@card gap-spacing-xs w-content h-content $extra-class
+                  md:gap-spacing-sm"
     :tag :lv_obj}}
   :status-led {:params {:brightness {:default 255 :type :int}
                         :color {:required true :type :map}
