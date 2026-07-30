@@ -99,8 +99,22 @@ run_generation() {
 
     print_info "Generating $lang bindings..."
 
+    # ONE HOME FOR LEG STRICTNESS. Every payload re-arms a bare `set -e`, which
+    # clears NEITHER -u NOR -o pipefail, so prepending here reaches all of them and
+    # no payload needs editing — and a leg added later cannot forget it.
+    #
+    # It sits HERE rather than in the payloads because this assignment is
+    # DOUBLE-quoted: the single-quoted payloads carry an apostrophe-rebalancing
+    # hazard (tools/payload_apostrophes.awk) that this line does not touch.
+    #
+    # WHAT IT REPAIRS: the rust leg's `cargo build 2>&1 | tail -5` reported TAIL's
+    # status, so a broken build exited 0 and the leg printed "completed
+    # successfully". Without pipefail no leg can fail on the left of a pipe.
+    # Scope honestly: pipefail fixes that one live defect; -u is prophylactic —
+    # no payload references an unset variable today.
     # Modified script to set permissions inside container
-    local full_script="$script
+    local full_script="set -euo pipefail
+$script
 # Set permissions to 777 for all generated files
 find /workspace/output -type f -exec chmod 777 {} + 2>/dev/null || true
 find /workspace/output -type d -exec chmod 777 {} + 2>/dev/null || true"

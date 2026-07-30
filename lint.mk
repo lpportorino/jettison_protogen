@@ -285,7 +285,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a
@@ -648,6 +648,19 @@ brief-check-test:
 .PHONY: forks-release-test
 forks-release-test:
 	@bash tools/claude/forks_release_test.sh
+
+# generate-protos.sh's LEG STRICTNESS preamble — the one line that decides whether
+# a language leg can fail on the LEFT of a pipe. Every payload re-arms a bare
+# `set -e`, which clears neither -u nor pipefail, so the prepend at the dispatcher
+# reaches all eleven legs. It rides `lint` for the same reasons the two above do:
+# no rendered surface, and its cases are hermetic bash over synthetic payloads.
+#
+# It asserts BOTH directions and attributes the red: the mutant (pipefail silenced)
+# goes green while nounset STILL REFUSES on that same mutant — a control that merely
+# stayed green would be satisfied by a dead shell.
+.PHONY: leg-strictness-test
+leg-strictness-test:
+	@bash tools/leg_strictness_test.sh
 
 # tools/uber.sh's chown-back — the line that decides whether root-owned residue
 # in a checkout is REPORTED or silent. It rides `lint` for the same reasons the
