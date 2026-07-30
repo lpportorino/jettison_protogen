@@ -24,9 +24,8 @@ on:
       # directory, so every renderer.yml / devcards.yml / lint.yml edit ran the
       # fan-out. A run is still not a cheap no-op now that the ten "Push to …"
       # steps below commit only when a consumer's payload actually moved: it
-      # builds two docker images, runs `make generate` — which spends this
-      # repo's BSR code-generation quota on the Go leg — and the "Create
-      # release" step still cuts a prerelease unconditionally.
+      # builds two docker images, runs `make generate` across eleven legs, and
+      # the "Create release" step still cuts a prerelease unconditionally.
       #
       # Measured on this repo's own history (503 first-parent master commits,
       # per COMMIT — GitHub evaluates a push's whole range, so this is a lower
@@ -61,9 +60,9 @@ permissions:
 # stopped, which is exactly the cross-repo divergence CLAUDE.md's trunk-only
 # policy exists to prevent. Queueing instead makes the fan-out serial: at most
 # one run writing to any consumer repo at a time (today two stacked runs can
-# clone/rebase/push the same consumer concurrently), one `buf generate` against
-# the BSR at a time, and the newest push still wins because GitHub cancels the
-# PENDING run — never the running one — when a third arrives.
+# clone/rebase/push the same consumer concurrently), and the newest push still
+# wins because GitHub cancels the PENDING run — never the running one — when a
+# third arrives.
 concurrency:
   group: build-and-release-${{ github.ref }}
   cancel-in-progress: false
@@ -220,23 +219,17 @@ jobs:
         docker build -t jettison-proto-generator:latest -f Dockerfile .
 
     # Generate all proto bindings
+    #
+    # NO BSR CREDENTIAL. This step used to export `BUF_TOKEN` for the Go leg,
+    # whose buf.gen.yaml named two REMOTE plugins and therefore made a metered
+    # Buf Schema Registry codegen request (10/hour unauthenticated, 960 with a
+    # token; this step's own prior comment recorded the secret as never having
+    # been created, so the workflow ran on the small budget for its entire life
+    # — and that is now moot either way). The leg runs those plugins as LOCAL
+    # binaries pinned in Dockerfile.base, so there is no registry request, no
+    # budget to lift, and nothing for a token to do. A fork build and a repo
+    # build now take the identical path.
     - name: Generate all proto bindings
-      env:
-        # BSR AUTHENTICATION for the Go leg (the one generator that reaches the
-        # network — two REMOTE plugins in its buf.gen.yaml). Unauthenticated,
-        # BSR allows 10 code-generation requests/hour per IP; a token lifts that
-        # to 960. This workflow has been unauthenticated for its entire life.
-        #
-        # THE SECRET DOES NOT EXIST YET. To configure it: create a BSR token at
-        # https://buf.build/settings/user, add it as the repository secret
-        # `BUF_TOKEN`, and nothing else changes — generate-protos.sh forwards it
-        # into the go container only, and ONLY when non-empty.
-        #
-        # Until then this expands to the empty string, which the script treats
-        # as absent: it prints the unauthenticated warning and runs exactly as
-        # it does today. That is also what every fork build gets, since forks
-        # cannot read repository secrets — so this must never be a hard failure.
-        BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
       run: |
         # List proto files we're going to process
         echo "Proto files to process:"
@@ -1026,9 +1019,10 @@ jobs:
       #
       # Measured before this guard existed: of 112 consecutive build-<sha>
       # prereleases, 23 carried a byte-identical output/ payload (20.5%), and 19
-      # of the last 62 (30.6%). Each one also paid two cold docker image builds,
-      # ten consumer clones, and one unauthenticated BSR codegen request against
-      # a 10-per-hour-per-IP budget.
+      # of the last 62 (30.6%). Each one also paid two cold docker image builds
+      # and ten consumer clones. (Each also spent one unauthenticated BSR codegen
+      # request against a 10-per-hour-per-IP budget — that cost is retired: the
+      # Go leg runs local plugins now and contacts no registry.)
       if: (github.event_name == 'push' && steps.consolidated.outputs.moved == 'true') || github.event.inputs.release_tag != ''
       run: |
         # Create tarballs for release

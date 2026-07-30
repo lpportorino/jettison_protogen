@@ -79,6 +79,26 @@ clean: ## Remove all generated files (preserves proto directory)
 	@printf "$(GREEN)Generated files removed$(NC)\n"
 	@printf "$(GREEN)Proto files preserved$(NC)\n"
 
+# ── go leg reproducibility ────────────────────────────────────────────────────
+# NOT a prerequisite of `generate`, and NOT in any CI workflow. That is a
+# decision with a reason, not an omission:
+#   - AFTER `make generate` it is vacuous — generate has just written those exact
+#     bytes with that exact image, so the comparison cannot fail.
+#   - BEFORE `make generate` it is WRONG — the whole job of the release workflow
+#     is to regenerate, so it would red on every legitimate proto change.
+# The condition it actually catches is developer-local: a WARM image built from
+# older pins, which CI never has because CI builds cold. So it is an on-demand
+# check, and it lives here rather than nowhere so that it — and the canary that
+# proves it can fail — are discoverable and runnable. Both are host-only: they
+# drive docker, which tools/uber.sh's image does not carry.
+.PHONY: go-leg-repro
+go-leg-repro: ## Verify output/go is byte-identical to a fresh offline go-leg run
+	@./tools/go_leg_repro.sh
+
+.PHONY: go-leg-repro-canary
+go-leg-repro-canary: ## Prove the go-leg reproducibility check can FAIL
+	@./tools/go_leg_repro.sh --canary
+
 .PHONY: binary-dedup
 binary-dedup: generate ## Full generate + binary dedup tag map (use for standalone runs)
 

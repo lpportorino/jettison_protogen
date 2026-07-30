@@ -544,24 +544,36 @@ ONE mapping is NOT self-describing, so it is stated rather than pointed at:
 Each push needs a deploy key in repository secrets; `build-and-release.yml` is
 the one home of which secret feeds which step.
 
-**`BUF_TOKEN` is the one OPTIONAL secret and is not a deploy key.** It lifts the
-Go leg's BSR code-generation budget from 10 to 960 requests/hour.
-`generate-protos.sh` forwards it into the **go** container only, and only when
-non-empty — so an absent token (today's state, and every fork build, since forks
-cannot read repository secrets) prints an unauthenticated warning and runs
-exactly as before. Never a hard failure. Locally, `buf registry login` writes a
-`~/.netrc` the container never sees, so export `BUF_TOKEN` before
-`make generate` if you want the larger budget.
+**There is no BSR secret, and no leg reads one.** The Go leg used to name two
+REMOTE plugins in its `buf.gen.yaml`, which made `buf generate` a metered Buf
+Schema Registry codegen request — 10/hour unauthenticated, 960 with a
+`BUF_TOKEN` the workflow's own comment recorded as never created. It now runs
+the same two plugins as LOCAL binaries pinned in `Dockerfile.base`
+(`PROTOC_GEN_GO_VERSION`/`PROTOC_GEN_GO_GRPC_VERSION`), so the leg makes no
+registry request, needs no credential, and behaves identically in a repo build
+and a fork build. The switch was proved byte-neutral: a local run reproduced
+all 48 committed files exactly.
+
+**Because the pin decides the bytes, bumping it is a REGENERATION.**
+`protoc-gen-go` stamps its own version into every file header, so a plugin bump
+rewrites all 48 `.pb.go` files with no proto change behind it. Land the bump and
+the regenerated output together.
+
+**The Go leg is now fully offline; the whole target is not.**
+`TYPESCRIPT_SCRIPT` runs `npm install ts-proto` and `RUST_SCRIPT` runs
+`cargo build` against caret-ranged `prost`/`prost-build`, both of which fetch at
+generation time and neither of which is version-pinned. So `make generate` still
+needs a network — what it no longer needs is a CREDENTIAL, and no leg can now
+fail on somebody else's rate limit.
 
 **No retry, no backoff, and no `Retry-After` handling exists anywhere**, and
-that is a decision rather than an oversight: `buf`'s exit code does not
-distinguish a 429 from a deterministic failure, so a blind retry around
-`buf generate` would silently re-run the class of bug that has ACTUALLY reddened
-this workflow (a bad `bash -c` payload — see `lint.mk`'s `lint-sh` apostrophe
-check) while looking like throttle tolerance. A red here is loud and fails
-closed: the go leg checks for `*.pb.go`, `run_generation()` propagates into
-`FAILED_LANGS`, and every "Push to …" step is then skipped — nothing partial has
-ever reached a consumer.
+that is a decision rather than an oversight: a blind retry around a generation
+step would silently re-run the class of bug that has ACTUALLY reddened this
+workflow (a bad `bash -c` payload — see `lint.mk`'s `lint-sh` apostrophe check)
+while looking like throttle tolerance. A red is loud and fails closed: the go leg
+checks for `*.pb.go`, `run_generation()` propagates into `FAILED_LANGS`, and
+every "Push to …" step is then skipped — nothing partial has ever reached a
+consumer.
 
 ## Generation constraints that bite
 
@@ -576,8 +588,21 @@ ever reached a consumer.
   library, which is neither in the image nor in the generated output.
 - **Kotlin uses local `protoc --kotlin_out`, not `buf`**, so its proto package
   is respected without a prefix.
-- **Go uses `buf generate` with remote BSR plugins**, which is why it alone is
-  subject to the budget above.
+- **Go uses `buf generate` with LOCAL plugins** — `protoc-gen-go` and
+  `protoc-gen-go-grpc` off the image PATH, pinned in `Dockerfile.base`. It is the
+  only leg whose plugin versions are stamped into the generated files, so those
+  two pins are wire-visible in a way a compiler pin is not.
+  `make go-leg-repro` ([`tools/go_leg_repro.sh`](./tools/go_leg_repro.sh))
+  re-runs just that leg into a temp directory, offline, and fails if the result
+  is not byte-identical to `output/go`; `make go-leg-repro-canary` proves it can
+  fail. Both are HOST-ONLY — they drive docker, which the toolchain image does
+  not carry.
+  **It is in no CI workflow on purpose, and the reason is not "it needs
+  docker".** After `make generate` the comparison is vacuous (generate just wrote
+  those bytes with that image); before it, it is wrong (regenerating is the
+  workflow's whole job, so a proto change would red it). What it catches is a
+  developer's WARM image built from older pins — a condition CI, which builds
+  cold, never has.
 - **JSON descriptors prefer `buf build`** because it preserves buf.validate
   annotations with their CEL expressions; the protoc+Python fallback may not.
   It announces WHICH tool it took ("buf not found, using protoc…") but says
