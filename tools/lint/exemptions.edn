@@ -27,6 +27,10 @@
 ;; entry here is a claim that a check is WRONG about one specific case, and it must
 ;; argue that rather than assert it.
 {:docstrings []
+ ;; spec-presence is seeded so it is green with NO waivers, which is what makes
+ ;; the enrolment a scope declaration rather than a guess: a scope that still
+ ;; needed waivers on arrival would not have been measured, only hoped at.
+ :spec-presence []
  :spec-shape [{:file "tools/renderer-gen/src/lvgl_codegen/palette_ladder.clj"
                :name "scan-ambiguous-keys"
                :rationale "Its `walk` helper dispatches on map?/sequential?/else and recurses into whatever nesting the caller passes, with no assumption about the argument's shape - it is a generic EDN tree walker (its own docstring: 'Every banned key found anywhere in `x`'), not a function over one proposal shape. A narrower schema such as [:map-of :keyword :any] would be false: called on a bare scalar or vector it is equally well-defined and returns []."

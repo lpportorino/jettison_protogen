@@ -99,9 +99,10 @@ fixture() {
  :fn-size {:loc-block 9999 :nesting-block 9999 :decisions-block 9999
            :loc-warn 9998 :nesting-warn 9998 :decisions-warn 9998}
  :docstrings {:enrolled ["src"]}
- :spec-shape {:enrolled ["src"]}}
+ :spec-shape {:enrolled ["src"]}
+ :spec-presence {:enrolled ["fixture.s"]}}
 EDN
-	printf '{:docstrings []\n :spec-shape []}\n' > "$dir/tools/lint/exemptions.edn"
+	printf '{:docstrings []\n :spec-shape []\n :spec-presence []}\n' > "$dir/tools/lint/exemptions.edn"
 	printf '%s' "$dir"
 }
 
@@ -321,6 +322,306 @@ if mutate "$D2" specs.clj '(when (empty? specs)' '(when false'; then
 		'MUTANT: vacuity floor removed -> the vacuous GREEN it exists to refuse' \
 		--check spec-shape src
 fi
+
+# ===========================================================================
+# SPEC-PRESENCE. The population is FUNCTIONS (not specs, as spec-shape's is), the
+# scope is a set of NAMESPACES (not roots, as docstrings' is), and both of those
+# differences are places the check can silently stop judging — an enrolment that
+# names a namespace discovery cannot see scores perfectly over nothing, and a
+# population predicate that stops matching prints exactly what a clean tree does.
+banner 'SPEC-PRESENCE — a fully specced enrolled namespace passes'
+D="$(fixture pres_clean)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+(defn- g "Doc." [x] x)
+(m/=> g [:=> [:cat :int] :int])
+CLJ
+expect "$D" 0 'function(s) judged across' 'every enrolled defn carries a spec' \
+	--check spec-presence src
+
+banner 'SPEC-PRESENCE — THE KNOWN-BAD INPUT: a defn with no m/=> is a FINDING'
+D="$(fixture pres_missing)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn specced "Doc." [x] x)
+(m/=> specced [:=> [:cat :int] :int])
+(defn unspecced "Doc." [x] x)
+CLJ
+expect "$D" 1 'unspecced' 'a defn with no m/=> is a FINDING (exit 1)' \
+	--check spec-presence src
+expect "$D" 1 'with no m/=> in an enrolled namespace' \
+	'and the failure names the clause that refused' --check spec-presence src
+
+# ATTRIBUTION. Silence ONLY the presence predicate — the enrolment test, the two
+# vacuity floors, the reader and the unreadable-file clause are all untouched.
+D2="$(fixture pres_missing_mut)"
+cp "$D/src/fixture/s.clj" "$D2/src/fixture/s.clj"
+if mutate "$D2" presence.clj '(not (contains? specced (:name d)))' 'false'; then
+	expect "$D2" 0 'function(s) judged across' \
+		'MUTANT: presence predicate silenced -> clean (the red WAS that clause)' \
+		--check spec-presence src
+
+	# CONTROL 1, on that SAME mutant: a file the reader cannot handle must STILL
+	# be refused. A red here proves the mutation disabled one clause rather than
+	# the check's ability to reach a verdict at all.
+	printf '(ns fixture.broken)\n(defn oops [\n' > "$D2/src/fixture/broken.clj"
+	expect "$D2" 1 'UNREADABLE' \
+		'CONTROL: on the presence-dead mutant, the unreadable-file clause still refuses' \
+		--check spec-presence src
+	rm -f "$D2/src/fixture/broken.clj"
+
+	# CONTROL 2, same mutant, a DIFFERENT neighbour and a different exit class:
+	# delete the enrolled namespace's only file and the per-namespace floor must
+	# still refuse — and at 3, not 1, so a precondition failure stays
+	# distinguishable from a verdict even on a mutant.
+	rm -f "$D2/src/fixture/s.clj"
+	printf '(ns fixture.other)\n(defn h "Doc." [x] x)\n' > "$D2/src/fixture/other.clj"
+	expect "$D2" 3 'not found' \
+		'CONTROL: on the same mutant, the per-namespace floor still refuses (exit 3)' \
+		--check spec-presence src
+fi
+
+banner 'SPEC-PRESENCE — an UNENROLLED namespace is out of scope'
+# The scope is a DECLARATION, so a namespace outside it is not judged — that is
+# the property that makes this adoptable, and it has to be pinned or the check
+# could quietly be judging everything.
+D="$(fixture pres_unenrolled)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+CLJ
+cat > "$D/src/fixture/t.clj" <<'CLJ'
+(ns fixture.t)
+(defn bare-but-unenrolled "Doc." [x] x)
+CLJ
+expect "$D" 0 'function(s) judged across' 'a namespace outside :enrolled is not judged' \
+	--check spec-presence src
+expect "$D" 0 'UNJUDGED: 1 of 2' \
+	'and the unjudged remainder is REPORTED, so a green cannot over-claim' \
+	--check spec-presence src
+
+banner 'SPEC-PRESENCE — defn- IS in the population'
+# The widest of the available choices, matching lint-docstrings: a private helper
+# is exactly where a reader lands with no context.
+D="$(fixture pres_private)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+(defn- hidden "Doc." [x] x)
+CLJ
+expect "$D" 1 'hidden' 'an unspecced defn- is a FINDING too' --check spec-presence src
+
+banner 'SPEC-PRESENCE — defmacro is DELIBERATELY out of the population'
+# `m/=>` registers a FUNCTION schema over argument VALUES; a macro receives
+# unevaluated forms, so demanding one would manufacture a schema false by
+# construction. The mutation proves the exclusion is LIVE rather than accidental.
+D="$(fixture pres_macro)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+(defmacro mac "Doc." [x] `(inc ~x))
+CLJ
+expect "$D" 0 'function(s) judged across' 'a bare defmacro owes no m/=>' \
+	--check spec-presence src
+if mutate "$D" presence.clj '#{"defn" "defn-"})' '#{"defn" "defn-" "defmacro"})'; then
+	expect "$D" 1 'mac' \
+		'MUTANT: defmacro added to the population -> it goes red (exclusion is live)' \
+		--check spec-presence src
+fi
+
+banner 'SPEC-PRESENCE — NON-VACUITY: an enrolled namespace discovery cannot see'
+# The sharpest failure this check has: a renamed or moved namespace leaves the
+# enrolment naming nothing, and the check then scores a perfect run over an empty
+# population. Floored PER NAMESPACE, because any populated sibling satisfies a
+# union floor while this one sits dark.
+D="$(fixture pres_absent)"
+cat > "$D/tools/lint/gates.edn" <<'EDN'
+{:ns-size {:loc-block 9999 :publics-block 9999 :loc-warn 9998 :publics-warn 9998}
+ :fn-size {:loc-block 9999 :nesting-block 9999 :decisions-block 9999
+           :loc-warn 9998 :nesting-warn 9998 :decisions-warn 9998}
+ :docstrings {:enrolled ["src"]}
+ :spec-shape {:enrolled ["src"]}
+ :spec-presence {:enrolled ["fixture.s" "fixture.renamed-away"]}}
+EDN
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+CLJ
+expect "$D" 3 'fixture.renamed-away' \
+	'an enrolled namespace matching no file is CANNOT RUN, and is NAMED' \
+	--check spec-presence src
+
+D2="$(fixture pres_absent_mut)"
+cp "$D/tools/lint/gates.edn" "$D2/tools/lint/gates.edn"
+cp "$D/src/fixture/s.clj" "$D2/src/fixture/s.clj"
+if mutate "$D2" presence.clj '(let [absent (remove #(contains? by-ns %) enrolled)]' '(let [absent []]'; then
+	expect "$D2" 0 'function(s) judged across' \
+		'MUTANT: per-namespace floor removed -> the vacuous GREEN it exists to refuse' \
+		--check spec-presence src
+fi
+
+banner 'SPEC-PRESENCE — NON-VACUITY: an enrolled namespace with ZERO functions'
+# A SEPARATE failure from the one above, with a different cause and a different
+# fix: the file is there and the population collapsed. Collapsing the two would
+# report whichever was met first and hide the other — and the two clauses are
+# only separable because the second is restricted to namespaces that were FOUND.
+# THIS SUITE PROVED THAT: before that restriction, the `no functions` clause also
+# refused an ABSENT namespace, so the `not found` mutation above could not go
+# green and its clause was unattributable.
+D="$(fixture pres_nofns)"
+printf '(ns fixture.s)\n(def only-a-def 1)\n' > "$D/src/fixture/s.clj"
+expect "$D" 3 'no functions' 'an enrolled namespace defining nothing is CANNOT RUN' \
+	--check spec-presence src
+
+D2="$(fixture pres_nofns_mut)"
+printf '(ns fixture.s)\n(def only-a-def 1)\n' > "$D2/src/fixture/s.clj"
+if mutate "$D2" presence.clj '(empty? (mapcat :defns (get by-ns %)))' 'false'; then
+	expect "$D2" 0 'function(s) judged across' \
+		'MUTANT: zero-function floor removed -> the vacuous GREEN it exists to refuse' \
+		--check spec-presence src
+fi
+
+banner 'SPEC-PRESENCE — an EMPTY :enrolled is CANNOT RUN'
+D="$(fixture pres_noenrol)"
+cat > "$D/tools/lint/gates.edn" <<'EDN'
+{:ns-size {:loc-block 9999 :publics-block 9999 :loc-warn 9998 :publics-warn 9998}
+ :fn-size {:loc-block 9999 :nesting-block 9999 :decisions-block 9999
+           :loc-warn 9998 :nesting-warn 9998 :decisions-warn 9998}
+ :docstrings {:enrolled ["src"]}
+ :spec-shape {:enrolled ["src"]}
+ :spec-presence {:enrolled []}}
+EDN
+printf '(ns fixture.s)\n(defn f "Doc." [x] x)\n' > "$D/src/fixture/s.clj"
+expect "$D" 3 'no enrolled namespaces' \
+	'an empty declared scope refuses rather than judging nothing' --check spec-presence src
+
+banner 'SPEC-PRESENCE — an UNREADABLE file is a FINDING, never a skip'
+# It cannot be attributed to a namespace precisely BECAUSE it will not read, so
+# it can neither be ruled into the enrolled scope nor out of it. Reporting it is
+# the only honest answer; skipping it reports clean over the one broken file.
+D="$(fixture pres_unreadable)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+CLJ
+printf '(ns fixture.broken)\n(defn oops [\n' > "$D/src/fixture/broken.clj"
+expect "$D" 1 'UNREADABLE' 'a file the reader cannot handle is reported, not passed over' \
+	--check spec-presence src
+
+banner 'SPEC-PRESENCE — an auto-resolved ::alias/key does NOT read as broken'
+# MEASURED ON THE LIVE TREE: tools/devcards/dev/deadzone_census.clj carries
+# `::deadzone/reach`, which clojure.core/read cannot resolve from outside the
+# file. Without the shared normalize-source step this check would report a real
+# source file as UNREADABLE for a reason that has nothing to do with specs — a
+# false red, and the kind that gets a gate disabled.
+D="$(fixture pres_autoresolve)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn f "Doc." [x] x)
+(m/=> f [:=> [:cat :int] :int])
+CLJ
+cat > "$D/src/fixture/t.clj" <<'CLJ'
+(ns fixture.t (:require [fixture.s :as-alias fs]))
+(def k ::fs/reach)
+CLJ
+expect "$D" 0 'function(s) judged across' 'an ::alias/key file reads cleanly' \
+	--check spec-presence src
+
+banner 'SPEC-PRESENCE — the exemption contract is WIRED to this check too'
+# A check that forgot to call validate-exemptions! would silently accept a waiver
+# with no proof at all, so both directions are pinned in THIS lane rather than
+# inferred from spec-shape's.
+D="$(fixture pres_waiver)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn specced "Doc." [x] x)
+(m/=> specced [:=> [:cat :int] :int])
+(defn unspecced "Doc." [x] x)
+CLJ
+cat > "$D/tools/lint/exemptions.edn" <<EDN
+{:docstrings []
+ :spec-shape []
+ :spec-presence [{:file "src/fixture/s.clj" :name "unspecced"
+                  :rationale "A macro-generated arity the reader cannot see."
+                  :retires-when "the generator emits the spec alongside the defn"
+                  :owner "gate-port"
+                  :expires "$SOON"}]}
+EDN
+expect "$D" 0 '1 exemption(s) live' 'a four-field waiver suppresses its finding' \
+	--check spec-presence src
+
+D="$(fixture pres_waiver_bad)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn specced "Doc." [x] x)
+(m/=> specced [:=> [:cat :int] :int])
+(defn unspecced "Doc." [x] x)
+CLJ
+cat > "$D/tools/lint/exemptions.edn" <<EDN
+{:docstrings []
+ :spec-shape []
+ :spec-presence [{:file "src/fixture/s.clj" :name "unspecced"
+                  :rationale "r" :retires-when "w" :expires "$SOON"}]}
+EDN
+expect "$D" 3 'owner' 'a waiver missing :owner is refused in THIS lane' \
+	--check spec-presence src
+
+banner 'SPEC-PRESENCE — the SHIPPED enrolment is a ratchet that only GROWS'
+# THE ONE ABUSE PATH A SYNTHETIC FIXTURE CANNOT CLOSE. Every case above proves
+# the check refuses what it should; none of them can stop an author meeting a red
+# by DELETING the namespace from `:enrolled`, which is a coverage regression
+# wearing a config edit. So this reads the SHIPPED config and floors its size,
+# exactly as `lvgl-codegen.spec-coverage` pins its own list.
+#
+# READ-ONLY AND CONFIG-ONLY, which is what keeps it inside the
+# prefer-a-synthetic-fixture preference rather than against it: it perturbs
+# nothing, so it runs on a dirty checkout, and its expectation drifts only when
+# somebody edits the enrolment — which is the event it exists to catch. Raising
+# the floor with the enrolment is part of enrolling; lowering it is the bypass.
+PRESENCE_FLOOR=31
+SHIPPED_GATES="$SCRIPT_DIR/../gates.edn"
+if [ ! -f "$SHIPPED_GATES" ]; then
+	bad "enrolment ratchet: no shipped gates.edn at $SHIPPED_GATES"
+else
+	enrolled_n="$(cd "$SCRIPT_DIR" && clojure -J-XX:TieredStopAtLevel=1 -Sdeps '{}' -M -e \
+		'(require (quote clojure.edn)) (count (get-in (clojure.edn/read-string (slurp "../gates.edn")) [:spec-presence :enrolled]))' \
+		2> /dev/null | tail -1)"
+	case "$enrolled_n" in
+	'' | *[!0-9]*)
+		bad "enrolment ratchet: could not read :spec-presence :enrolled (got '$enrolled_n')"
+		;;
+	*)
+		if [ "$enrolled_n" -ge "$PRESENCE_FLOOR" ]; then
+			ok "the shipped enrolment holds $enrolled_n namespace(s), floor $PRESENCE_FLOOR"
+		else
+			bad "enrolment ratchet: $enrolled_n enrolled, below the floor of $PRESENCE_FLOOR — a namespace was DE-ENROLLED. Write the specs, do not shrink the scope."
+		fi
+		;;
+	esac
+fi
+
+banner 'SPEC-PRESENCE — a STALE waiver is itself a finding'
+D="$(fixture pres_waiver_stale)"
+cat > "$D/src/fixture/s.clj" <<'CLJ'
+(ns fixture.s (:require [malli.core :as m]))
+(defn specced "Doc." [x] x)
+(m/=> specced [:=> [:cat :int] :int])
+CLJ
+cat > "$D/tools/lint/exemptions.edn" <<EDN
+{:docstrings []
+ :spec-shape []
+ :spec-presence [{:file "src/fixture/s.clj" :name "unspecced"
+                  :rationale "r" :retires-when "w" :owner "o" :expires "$SOON"}]}
+EDN
+expect "$D" 3 'matched NO live finding' \
+	'a waiver whose finding is fixed must be DELETED' --check spec-presence src
 
 # ===========================================================================
 banner 'EXEMPTIONS — a well-formed waiver suppresses its own finding'

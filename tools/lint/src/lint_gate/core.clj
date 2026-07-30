@@ -27,6 +27,7 @@
    [clojure.string :as str]
    [lint-gate.docstrings :as docstrings]
    [lint-gate.fnsize :as fnsize]
+   [lint-gate.presence :as presence]
    [lint-gate.specs :as specs]
    [lint-gate.util :as u])
   (:import
@@ -139,6 +140,9 @@
    "spec-shape" (fn [{:keys [config exemptions now]}]
                   (specs/check (get-in config [:spec-shape :enrolled])
                                (:spec-shape exemptions) now))
+   "spec-presence" (fn [{:keys [config exemptions paths now]}]
+                     (presence/check paths (:spec-presence config)
+                                     (:spec-presence exemptions) now))
    "fn-size" (fn [{:keys [config paths]}]
                (fnsize/check paths (:fn-size config)))})
 
@@ -148,8 +152,15 @@
   Running clj-kondo for one of these would cost seconds and buy nothing — and,
   more importantly, `assert-analysis-ran!` floors NAMESPACES and VAR-DEFINITIONS,
   which is the wrong question for a check whose population is specs or functions.
-  Each of these floors its own population instead."
-  #{"spec-shape" "fn-size"})
+  Each of these floors its own population instead.
+
+  `spec-presence` is here for a second reason that is not a preference: the
+  analysis records that an `m/=>` was CALLED but not which function it
+  specifies. The spec appears as a var-usage `{:name => :to malli.core}` — once
+  per spec, measured — while the subject var is a separate entry sharing only
+  its `:row`. Attribution would therefore be positional inference; reading the
+  source form yields the subject directly."
+  #{"spec-shape" "fn-size" "spec-presence"})
 
 (defn- needs-analysis?
   "True when `check-name` reads clj-kondo's analysis."

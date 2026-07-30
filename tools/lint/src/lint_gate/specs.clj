@@ -1,13 +1,16 @@
 (ns lint-gate.specs
   "SPEC SHAPE — an `m/=>` argument or return position may not be a NAKED schema.
 
-  WHAT THIS IS NOT. It does not check that a spec EXISTS (presence is a different
-  and much larger question, and `.claude/rules/malli-schemas.md` records why it is
-  not gated here). It does not check that a spec is TRUE of its function — nothing
-  in this repo can, because no `instrument!` seam exists and clj-kondo maps
-  `malli.core/=>` to a literal no-op. **So a green here means every position names
-  a shape, never that any shape is correct.** A pass message that implied otherwise
-  would be the over-claim `docs/UI-QUALITY-CONTRACTS.md` §0 forbids everywhere.
+  WHAT THIS IS NOT. It does not check that a spec EXISTS — that is
+  `lint-gate.presence`, a separate check over a separate population (functions
+  rather than specs) and a separate declared scope (namespaces rather than roots).
+  It does not check that a spec is TRUE of its function: no LINTER can, since
+  clj-kondo maps `malli.core/=>` to a literal no-op, and the one runtime seam that
+  can — `lvgl-codegen.instrument/arm!`, wired as kaocha's `post-load` hook in
+  `tools/renderer-gen/tests.edn` — only reaches a spec on the calls that tree's
+  SUITE actually makes. **So a green here means every position names a shape,
+  never that any shape is correct.** A pass message that implied otherwise would
+  be the over-claim `docs/UI-QUALITY-CONTRACTS.md` §0 forbids everywhere.
 
   WHAT NAKED MEANS, and why the set is what it is. `:any` says nothing at all.
   Bare `:map` and bare `:string` say only the container, which for a codegen

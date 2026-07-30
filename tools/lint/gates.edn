@@ -125,4 +125,88 @@
  :spec-shape
  {:enrolled ["tools/renderer-gen/src"
              "docs/.protodoc/tools/src"
-             "tools/lint/src"]}}
+             "tools/lint/src"]}
+
+ ;; ── spec-presence ────────────────────────────────────────────────────────
+ ;;
+ ;; Enrolment is by NAMESPACE, not by root, and the measurement is why: NO ROOT
+ ;; QUALIFIES. Measured BY THE CODE THAT GATES IT (`lint-gate.presence/file-facts`
+ ;; over the ten gated paths, generated projections excluded): 1552 `defn`/`defn-`
+ ;; in 188 files, 0 unreadable; 324 carry an `m/=>` and 1228 do not, so presence
+ ;; across the gated corpus is 20.9%. All spec forms live in ONE root,
+ ;; `tools/renderer-gen/src` (380 functions, 324 specced = 85.3%); the other nine
+ ;; roots are at 0.0%. A root-grain enrolment would therefore have to be EMPTY,
+ ;; which this check's own floor refuses as a green tick over zero coverage.
+ ;;
+ ;; WHY THIS IS A SCOPE DECLARATION AND NOT A BASELINE, which is the whole
+ ;; question `.claude/rules/gate-enforcement.md` §1 asks. The refused shape is a
+ ;; list of individual findings each removed by one fix. This list names
+ ;; NAMESPACES the check JUDGES: no entry corresponds to a finding, no fix
+ ;; removes an entry, and fixing one missing spec in an un-enrolled namespace
+ ;; changes nothing here. It also runs the opposite way from a baseline — a
+ ;; baseline SHRINKS as the tree improves and can absorb a new miss, while this
+ ;; GROWS and cannot absorb anything, because a new `defn` in an enrolled
+ ;; namespace is a finding the day it lands. §1 names this move explicitly as the
+ ;; permitted one when a check cannot pass whole-tree: narrow the declared scope
+ ;; to a population where it does pass, say what was left out, and state the
+ ;; measured finding count. All three are done here.
+ ;;
+ ;; SEEDED AT THE NAMESPACES MEASURED AT 100% PRESENCE, so the gate is green on
+ ;; arrival with ZERO exemptions — the same seeding discipline the size ceilings
+ ;; use, and the same one `lvgl-codegen.spec-coverage/enrolled` uses for its own
+ ;; namespace-grain scope. 31 namespaces, 292 of the corpus's 1552 functions:
+ ;; this gate judges 18.8% of the gated tree and SAYS SO on every run, so a green
+ ;; from it can never be misread as a statement about the tree.
+ ;;
+ ;; NOT ENROLLED, by name, with the reason — never enrolled with a tolerated
+ ;; miss count:
+ ;;   lvgl-codegen.font-metrics        6/17 specced
+ ;;   lvgl-codegen.palette-ladder     22/43
+ ;;   lvgl-codegen.pdl-t0              4/13
+ ;;   renderer-gen.design-tokens-json  0/7
+ ;;   renderer-gen.renderer-caps-json  0/8
+ ;;     Not a scope question and not claimed as one: these five are the practising
+ ;;     root's remaining project. Each is enrolled the day it reaches 100%, and
+ ;;     the honest way to grow this list is to write the specs, never to widen it.
+ ;;   asgard.proto, asgard.video-config
+ ;;     A population reason rather than a debt: both define ZERO functions, and
+ ;;     enrolling a namespace with an empty population would trip this check's own
+ ;;     per-namespace floor. Enrollable the day either defines a function.
+ ;;   every other gated root (devcards src/dev/test, the test trees,
+ ;;   docs/.protodoc/tools, tools/lint/src)
+ ;;     0.0% presence, and for most of them that is a convention question rather
+ ;;     than a debt — they do not practise `m/=>` at all. tools/lint/src cannot:
+ ;;     the `:lint-gate` alias declares no dependencies on purpose, so malli is
+ ;;     not on its classpath.
+ :spec-presence
+ {:enrolled ["asgard.api.backend"
+             "asgard.manifest"
+             "asgard.proto.cmd"
+             "asgard.proto.state"
+             "asgard.schema"
+             "lvgl-codegen.component"
+             "lvgl-codegen.construct.emit"
+             "lvgl-codegen.construct.factory"
+             "lvgl-codegen.construct.lift"
+             "lvgl-codegen.construct.registry"
+             "lvgl-codegen.construct.schema"
+             "lvgl-codegen.core"
+             "lvgl-codegen.emit-proto"
+             "lvgl-codegen.expand"
+             "lvgl-codegen.fixtures"
+             "lvgl-codegen.gesture-thresholds"
+             "lvgl-codegen.json-schema"
+             "lvgl-codegen.morph-fixtures"
+             "lvgl-codegen.normalize"
+             "lvgl-codegen.patch"
+             "lvgl-codegen.pretty"
+             "lvgl-codegen.proto-schema"
+             "lvgl-codegen.proto-ser"
+             "lvgl-codegen.renderer-caps"
+             "lvgl-codegen.resolve"
+             "lvgl-codegen.schema"
+             "lvgl-codegen.style-props"
+             "lvgl-codegen.theme-tokens"
+             "uigen.cmd-spec"
+             "uigen.resolve"
+             "uigen.scales"]}}

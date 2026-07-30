@@ -48,6 +48,7 @@ the renderer battery instead.
 | `lint-fn-size` | function LOC, nesting depth, decision ARMS | lint | measured max (175/7/71), zero exemptions |
 | `lint-docstrings` | every `defn`/`defn-`/`defmacro` in an enrolled root | lint | declared scope, zero parked findings |
 | `lint-spec-shape` | no bare `:any`/`:map`/`:string` in an `m/=>` position | lint | total over specs that exist; 5 waivers |
+| `lint-spec-presence` | every `defn`/`defn-` in an enrolled namespace carries an `m/=>` | lint | declared scope, zero waivers; judged fraction printed every run |
 | `lint-md` | markdown frontmatter, code spans, path citations | lint | clean, 1 waiver |
 | `lint-ci` | workflow syntax, over staged AND unstaged files | lint | clean |
 | `spec-coverage` | every enrolled `m/=>` spec is EXERCISED and checked | battery | declared scope, 12/12 |

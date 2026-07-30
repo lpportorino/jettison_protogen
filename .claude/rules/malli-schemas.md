@@ -1,12 +1,12 @@
 ---
-description: The two Malli populations in this repo's hand-authored Clojure — function specs that nothing checks and value schemas that throw — how to tell them apart, and what looseness costs in each. Loads when editing renderer-gen or protodoc Clojure.
+description: The two Malli populations in this repo's hand-authored Clojure — function specs armed in one tree and prose everywhere else, and value schemas that throw — how to tell them apart, and what looseness costs in each. Loads when editing renderer-gen or protodoc Clojure.
 paths:
   - "tools/renderer-gen/**/*.clj"
   - "docs/.protodoc/tools/**/*.clj"
 ---
 <!-- LOAD-TEST: malli-schemas -->
 
-# Malli here is TWO populations — one throws, one is prose, and the source does not tell them apart
+# Malli here is TWO populations — one throws, one is armed in a single tree, and the source does not tell them apart
 
 This governs the INTERNAL Clojure schemas of these two trees. It does not reach
 the `.proto` wire surface: proto shapes are additive-first and
@@ -19,12 +19,29 @@ Both populations are written against `malli.core` and read alike at a glance.
 Their effect is opposite. Mistaking one for the other is how a review ends up
 citing a constraint that does not exist.
 
-## `m/=>` IS DOCUMENTATION — nothing checks it
+## `m/=>` IS ARMED IN ONE TREE AND PROSE EVERYWHERE ELSE — know which you read
 
-There is no arming seam. No `malli.instrument` / `instrument!` call exists
-anywhere in this repo, so no spec is ever installed on a var and no call is ever
-checked against one at runtime. Statically, `.clj-kondo/config.edn` maps
-`malli.core/=>` to `clojure.core/comment` — a literal no-op. The auto-import that
+**This section said the opposite until the claim was re-measured, so do not
+trust a remembered version of it.** It read "there is no arming seam. No
+`malli.instrument` / `instrument!` call exists anywhere in this repo" — and a
+seam had landed since, leaving the file arguing from a premise its own later
+sections contradict.
+
+AT RUNTIME there IS a seam, and it covers exactly one tree.
+`lvgl-codegen.instrument/arm!` calls `malli.instrument/instrument!` and is wired
+as kaocha's `post-load` hook in `tools/renderer-gen/tests.edn`, so that suite
+runs with every registered spec installed on its var;
+`lvgl-codegen.spec-coverage` arms a second time to drive its own join. Measured:
+`clojure -M:test` in `tools/renderer-gen` prints `[malli] armed 318 of 325
+specced var(s) (7 refused, primitive-hinted) from 325 registered schema(s)` and
+then `95 tests, 3755 assertions, 0 failures`. So inside that tree a spec is a
+contract something checks wherever the suite reaches the function — and nowhere
+else in this repo, because no other tree has a seam and no other tree carries a
+spec at all.
+
+STATICALLY nothing checks one, and that half is unchanged:
+`.clj-kondo/config.edn` maps `malli.core/=>` to `clojure.core/comment` — a
+literal no-op. The auto-import that
 would supposedly restore type checking cannot supply it either: malli's own
 exported clj-kondo config — the `config.edn` the malli jar ships as a
 `clj-kondo.exports` resource — carries a `:lint-as` for `malli.experimental/defn`
@@ -43,10 +60,15 @@ reports `error: Expected: number, received: string` and the run exits 3. So
 ran. Re-derive it that way before believing any claim that the spec population
 is checked; the control is the half that makes the null result mean anything.
 
-**So never cite, review or reason about an `m/=>` spec as if something checks
-it.** A wrong one reds nothing, which is precisely why it rots — and the reader
-who quotes it as a constraint becomes the defect's next carrier. When a spec is
-the evidence for a claim, go read the function body instead.
+**So never cite a spec as a STATIC constraint, and never cite one outside
+`tools/renderer-gen` as a constraint at all.** No linter reds a wrong spec
+anywhere, and outside that tree nothing reds one at runtime either — which is
+precisely why such a spec rots, and why the reader who quotes it becomes the
+defect's next carrier. Inside `tools/renderer-gen` the honest reading is
+narrower still: a spec is checked on the calls the SUITE makes, so a spec on a
+function no test exercises is checked by nothing. `lvgl-codegen.spec-coverage`
+is the gate for that half, and it is enrolled over four namespaces. When a spec
+is the evidence for a claim, go read the function body anyway.
 
 ## The ENFORCED population is a CALL SITE, not an annotation
 
@@ -155,35 +177,55 @@ than skipped, and the proof-carrying exemption contract with staleness.
 `:keyword` and `:int` are deliberately NOT refused. For a function whose argument
 genuinely is an arbitrary keyword, `:keyword` is the tight answer, and a gate that
 pushed authors toward something narrower would be manufacturing false schemas —
-which in a population nothing checks is the worst possible outcome.
+which in a population checked in only one tree, and there only where the suite
+reaches, is the worst possible outcome.
 
 **WHAT THE GATE STILL CANNOT SEE, and this is the important half.** It judges that
 a position NAMES a shape. It cannot judge whether the shape is TRUE of the
-function, and the measurement above is the proof that nothing here can: with no
-`instrument!` seam and `malli.core/=>` linted as a no-op, a spec that
-mis-describes its function reds nothing. **So a green spec-shape run means every
+function, and the measurement above is the proof that no GATE here can: outside
+the one instrumented tree there is no runtime seam at all, and inside it the
+check reaches only functions the suite actually calls — so a spec that
+mis-describes its function reds nothing that a gate reports. **So a green
+spec-shape run means every
 position says something, never that anything it says is correct.** Reading it as
 the latter is the false-green class `review-discipline.md` refuses, and it is the
 specific reason tightening a naked spec is a SOURCE change requiring the function
 body to be read — a precise-looking wrong schema is strictly worse than the honest
 `:any` it replaced, because the next reader believes it.
 
-Three things remain unenforced and are named rather than implied:
+**SPEC PRESENCE IS NOW A GATE TOO, over a declared scope.** This file used to
+record presence as "a project rather than a gate", on the ground that §1 refuses
+the baseline needed to adopt it incrementally. The first half of that is still
+right — a baseline, a percentage floor and a parked-findings list are all
+refused, and none of them is what landed. `make -f lint.mk lint-spec-presence`
+(`lint-gate.presence`) instead takes §1's OTHER permitted move: narrow the
+declared scope to a population where the check passes, say what was left out,
+and state the measured finding count. `:enrolled` in `tools/lint/gates.edn` names
+NAMESPACES rather than roots, because no root qualifies — measured, only
+`tools/renderer-gen/src` practises arrow specs at all (324 of 380 functions) and
+every other gated root is at 0.0%, so a root-grain scope would have to be empty.
+Inside an enrolled namespace the check is TOTAL with zero tolerated misses and
+zero waivers; it judges 292 of the gated tree's 1552 functions and prints that
+fraction on every run so a green cannot be misread as tree-wide.
+
+Three things still remain unenforced, and are named rather than implied:
 
 - **The enforced population's payload slots.** No gate reads a `m/validate` value
   schema for looseness, so the `[:tree [:map-of :keyword some?]]` class above is
   caught by review alone.
-- **Spec PRESENCE.** A function with no `m/=>` at all is not a finding anywhere.
-  That is a declared boundary, not an oversight: the count is large and
-  `gate-enforcement.md` §1 refuses the baseline that would be needed to adopt it
-  incrementally, so it is a project rather than a gate.
-- **Whether a docstring or a spec is HONEST.** `lint-spec-shape` and
-  `lint-docstrings` both check presence and shape. Neither can check truth, and a
-  pass message that implied otherwise would over-claim.
+- **Presence OUTSIDE the enrolled namespaces.** 1228 of 1552 gated functions
+  carry no `m/=>`, and 1260 sit outside the enrolled scope. That remainder is a
+  project, not a tolerated miss count — the difference is that no list of it
+  exists anywhere a gate reads, and the way to shrink it is to bring a namespace
+  to 100% and ENROL it, never to widen anything.
+- **Whether a docstring or a spec is HONEST.** `lint-spec-shape`,
+  `lint-spec-presence` and `lint-docstrings` check presence and shape. None can
+  check truth, and a pass message that implied otherwise would over-claim.
 
 For all three, the enforcement is the antagonistic review `CLAUDE.md` makes the
 push gate.
 
-The shorthand: **`m/=>` is prose and a call site is a gate; find the throw before
+The shorthand: **`m/=>` is armed in one tree and prose everywhere else, and a
+call site is a gate; find the throw before
 you call a schema enforced; and a slot that constrains nothing either says why or
 comes out.**

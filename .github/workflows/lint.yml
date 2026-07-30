@@ -190,3 +190,17 @@ jobs:
 
     - name: namespace-size ceiling
       run: make -f lint.mk lint-ns-size
+
+    - # A DECLARED-SCOPE check: every defn in an ENROLLED NAMESPACE carries an
+      # `m/=>`. Wired here as well as in the pre-push `lint` aggregate because
+      # `.claude/rules/gate-enforcement.md` §6 makes the two enforcement points
+      # complements rather than alternatives — the hook only protects whoever
+      # armed it, CI protects the consumer fleet regardless.
+      #
+      # THE PATH FILTER ABOVE ALREADY COVERS IT, and that is worth stating rather
+      # than assuming: this check's inputs are every `**/*.clj` under
+      # LINT_CLJ_PATHS plus `tools/lint/**` (its own source and its enrolment),
+      # and both are named in the trigger. A check whose filter excluded the files
+      # that can break it would be green for a structural reason.
+      name: spec presence (enrolled namespaces)
+      run: make -f lint.mk lint-spec-presence

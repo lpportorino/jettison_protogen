@@ -205,7 +205,7 @@ export LINT_SH_DISCOVERY_ERR
 .PHONY: lint lint-lanes lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
 	install-hooks hooks-status audit-clj-paths wire-contract docs-lint \
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
-	lint-fn-size lint-docstrings lint-spec-shape
+	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -285,7 +285,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-docstrings brief-check-test forks-release-test uber-chown-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a
@@ -377,16 +377,48 @@ lint-clj-gate-test:
 #   pass — and its non-vacuity floor is over SPECS, which is why it is not folded
 #   into the analysis-driven checks.
 #
-# WHAT NEITHER CAN SEE, so no caller over-reads a green: both check PRESENCE and
-# SHAPE. Neither can check TRUTH — there is no malli instrumentation seam in this
-# repo and clj-kondo lints `malli.core/=>` as a no-op, so a spec that mis-describes
-# its function reds nothing. `.claude/rules/malli-schemas.md` carries the argument.
-.PHONY: lint-docstrings lint-spec-shape
+# WHAT NONE OF THE THREE CAN SEE, so no caller over-reads a green: they check
+# PRESENCE and SHAPE, never TRUTH. No linter can judge truth — clj-kondo lints
+# `malli.core/=>` as a no-op — and the one runtime seam that can,
+# `lvgl-codegen.instrument/arm!` (kaocha post-load in tools/renderer-gen/tests.edn),
+# only reaches a spec on the calls that tree's SUITE makes. So a spec that
+# mis-describes a function nothing exercises still reds nothing.
+# `.claude/rules/malli-schemas.md` carries the argument.
+.PHONY: lint-docstrings lint-spec-shape lint-spec-presence
 lint-docstrings:
 	@clojure -M:lint-gate --check docstrings $(LINT_CLJ_PATHS)
 
 lint-spec-shape:
 	@clojure -M:lint-gate --check spec-shape $(LINT_CLJ_PATHS)
+
+## lint-spec-presence: every defn in an ENROLLED NAMESPACE carries an m/=>
+# THE THIRD DECLARED-SCOPE CHECK, and the one whose scope had to be finer than a
+# root. Measured: only tools/renderer-gen/src practises arrow specs at all (324
+# of its 380 functions), every other gated root is at 0.0%, and that root itself
+# is at 85.3% — so a root-grain enrolment would have to be EMPTY, which the
+# check's own floor refuses. Enrolment is therefore by NAMESPACE, seeded at the
+# 31 measured at 100%, which is the same grain `lvgl-codegen.spec-coverage`
+# already uses for its own scope rather than a second vocabulary.
+#
+# WHY THIS IS NOT THE BASELINE `.claude/rules/gate-enforcement.md` §1 REFUSES.
+# The refused shape enumerates individual findings that a fix removes one at a
+# time. `:enrolled` names the namespaces the check JUDGES: no entry is a finding,
+# no fix removes an entry, and the list GROWS as the tree improves where a
+# baseline shrinks. §1 names this move as the permitted one when a check cannot
+# pass whole-tree — narrow the declared scope, say what was left out, state the
+# measured finding count — and tools/lint/gates.edn does all three.
+#
+# IT JUDGES 18.8% OF THE GATED TREE AND PRINTS THAT EVERY RUN. §3's closing
+# clause is that a floor proves the population is non-empty, never that it is the
+# RIGHT one, so the unjudged remainder is reported rather than left for a reader
+# to assume away.
+#
+# READS SOURCE FORMS because the analysis cannot ATTRIBUTE a spec to its
+# function — not because it cannot see one. An `m/=>` DOES appear there, as a
+# var-usage naming malli.core, once per spec; what it lacks is the subject,
+# which is a separate entry sharing only its row.
+lint-spec-presence:
+	@clojure -M:lint-gate --check spec-presence $(LINT_CLJ_PATHS)
 
 ## lint-md / lint-md-test: markdown quality over HAND-AUTHORED .md
 # Delegated to lint-md.mk by SUB-MAKE, never by `include`. Make's default goal is
