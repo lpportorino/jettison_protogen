@@ -173,7 +173,7 @@ jobs:
       # never runs in CI.
       name: renderer/generated freshness (projection of output/c)
       run: |
-        docker run --rm -v "$PWD:/workspace" -w /workspace \
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f renderer.mk generated-projection
     - # The C half of the format gate lives HERE, not in lint.yml, because the
@@ -189,7 +189,7 @@ jobs:
       # formatting failure should not cost a full multi-minute wasm build first.
       name: clang-format (check, pinned WASI-SDK)
       run: |
-        docker run --rm -v "$PWD:/workspace" -w /workspace \
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f lint.mk fmt-c
     - # clang-tidy static analysis over hand-authored C, HERE for the same
@@ -254,7 +254,7 @@ jobs:
       # the cheap C lint lanes, before the wasm build.
       name: LVGL enum factory freshness + renderer-gen schema canaries
       run: |
-        docker run --rm -v "$PWD:/workspace" -w /workspace \
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f renderer.mk construct-bindings clj-schema-test
     - # A2: every published manifest must be byte-fresh vs a regen from its
@@ -279,7 +279,7 @@ jobs:
       # early.
       name: Manifest freshness (A2 — design-tokens + renderer-caps + theme/gesture headers + the proto-db manifests)
       run: |
-        docker run --rm -v "$PWD:/workspace" -w /workspace \
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f renderer.mk manifests
     - # `wasm-sha-record` RIDES THIS INVOCATION, and it is what turned this step
