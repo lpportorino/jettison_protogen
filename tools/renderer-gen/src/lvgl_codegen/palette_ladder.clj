@@ -1050,7 +1050,16 @@
 
 (defn scan-ambiguous-keys
   "Every banned key found anywhere in `x`, with the path it was found at.
-   Empty is the only acceptable result for an emitted proposal."
+   Empty is the only acceptable result for an emitted proposal.
+
+   `x` IS GENUINELY `:any` AND MUST STAY SO. This is a polymorphic recursive
+   walker: `walk` descends through maps and sequentials into values of every
+   shape, and nil is a legitimate node mid-recursion. Narrowing the argument
+   would either be false (it is not always a map — the recursion re-enters with
+   scalars) or would have to be widened straight back at the first nested value.
+   When the arrow-spec checker is hosted here it will flag this as a BLOCKING
+   weak arg-schema; the correct disposition is a proof-carrying allowlist entry
+   of the same class as the other lvgl_codegen walkers, NOT a tightening."
   [x]
   (letfn [(walk [node path]
             (cond
@@ -1522,4 +1531,4 @@
                   (or (seq (:spec-findings proposal)) (seq ambiguous)))
                 results)
       (System/exit 1))))
-(m/=> -main [:=> [:cat [:* :any]] :nil])
+(m/=> -main [:=> [:cat [:* :string]] :nil])
