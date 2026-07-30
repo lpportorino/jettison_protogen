@@ -34,6 +34,31 @@ GATE="$SCRIPT_DIR/../dead_c_externs.sh"
 	exit 3
 }
 
+# THE LIVE-TREE ARM RESOLVES ITS ROOT FROM GIT, SO GIT IS A PRECONDITION OF THIS
+# SUITE — refused up front, exactly as the gate refuses it, and for the sharper
+# reason that an unmet precondition here does not merely skip an arm.
+#
+# Measured in a linked-worktree checkout, where `tools/uber.sh` deliberately
+# declines to mount a gitdir that holds no objects: an unguarded
+# `git rev-parse --show-toplevel` left ROOT empty and this suite emitted
+# `make: *** Error 128` plus two FAILs whose messages named clauses that had not
+# run — including `MUTANT: expected exit 3 naming the empty root set, got 3`,
+# which is the right exit code arriving from the wrong clause. A canary suite
+# that reports FAIL for a reason unrelated to its clause is the false-gate shape
+# this file exists to refuse, wearing the other colour.
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+	printf '\033[31m[dead-c-externs-test] CANNOT RUN\033[0m — not inside a git checkout.\n' >&2
+	printf '  The live-tree arm resolves its root from git, so without it this\n' >&2
+	printf '  suite cannot tell a real FAIL from an unmet precondition.\n' >&2
+	exit 3
+}
+[ -n "$ROOT" ] || {
+	printf '\033[31m[dead-c-externs-test] CANNOT RUN\033[0m — git resolved an EMPTY root.\n' >&2
+	printf '  `git rev-parse --show-toplevel` succeeded with no output, which is not\n' >&2
+	printf '  a checkout this suite can judge.\n' >&2
+	exit 3
+}
+
 # The gate resolves llvm-nm the same way; the canary needs clang from the same SDK to
 # BUILD its fixtures. Absent tooling is a CANNOT RUN, never a silent skip.
 SDK="${WASI_SDK:-/opt/wasi-sdk}"
@@ -235,8 +260,9 @@ fi
 
 banner 'The LIVE tree is clean, and the per-target counts are printed'
 # The gate's real subject. Needs the real build present; if it is not, that is a
-# CANNOT RUN and must be visible rather than skipped.
-ROOT="$(git rev-parse --show-toplevel)"
+# CANNOT RUN and must be visible rather than skipped. ROOT is the guarded one
+# resolved at the top of this file — re-resolving it here unguarded is what let
+# an unresolvable checkout reach this arm with ROOT empty.
 if [ -d "$ROOT/renderer/build/release/src" ]; then
 	out="$(bash "$GATE" 2>&1)" && code=0 || code=$?
 	if [ "$code" != 0 ]; then

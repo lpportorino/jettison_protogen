@@ -401,8 +401,75 @@
               (pr-str (:scrollable_overflow p-1ax)) (pr-str (:scroll_dirs p-1ax))
               (pr-str (:coords p-1ax)))]]))
 
+(defn- scroll-axis-card
+  "A 200x200 parent at pad 0 with one oversized child. Pad 0 is deliberate:
+   `obj_has_no_content` and the inverted-axis masks are both OUT of the
+   attribution path, so a red here is the AXIS and nothing else. The
+   inverted-content-box case cannot double as this one for exactly that reason."
+  [cw ch tag]
+  (fixtures/build-authored-card
+   canvas
+   {:id (str "canary/scroll-axis-" tag)
+    :node {:type :WIDGET_OBJ
+           :bare true
+           :props {:w 800 :h 480 :pad-all 0 :border-width 0}
+           :children [{:type :WIDGET_OBJ
+                       :props {:w 200 :h 200 :pad-all 0 :border-width 0}
+                       :children [{:type :WIDGET_OBJ :props {:w cw :h ch}}]}]}}))
+
+(defn- scroll-axis-parent [tree]
+  (first (filter #(= [200 200] (let [[x1 y1 x2 y2] (:coords %)]
+                                 [(inc (- x2 x1)) (inc (- y2 y1))]))
+                 (node-seq tree))))
+
+(defn- axis-of [cw ch tag]
+  (:scroll_dirs (scroll-axis-parent (render-tree! (scroll-axis-card cw ch tag)))))
+
+(defn- declared-live
+  "Run one real dump's scrollable_overflow findings through the declaration
+   matcher with an entry declaring `axes`. Returns the LIVE invariants."
+  [cw ch tag axes]
+  (let [tree (render-tree! (scroll-axis-card cw ch tag))
+        found (invariants/tree-findings "canary/scroll-axis" tree {:vis-px? true})
+        entry {:invariant :scrollable_overflow :node "lv_obj" :families #{0}
+               :axes axes :kind :subject
+               :rationale "canary" :owner "canary"}]
+    (set (map :invariant
+              (:live (invariants/apply-designed-flags
+                      "canary/scroll-axis" [entry] found 0))))))
+
+(defn- scroll-axes-checks []
+  (let [hor (axis-of 400 10 "hor")
+        ver (axis-of 10 400 "ver")
+        both (axis-of 400 400 "both")]
+    [[(= "hor" hor) (format "wide child -> scroll_dirs=%s (want hor)" (pr-str hor))]
+     [(= "ver" ver) (format "tall child -> scroll_dirs=%s (want ver)" (pr-str ver))]
+     [(= "both" both) (format "oversized child -> scroll_dirs=%s (want both)"
+                              (pr-str both))]
+     ;; The DECLARATION half, on a REAL dump rather than a hand map: an entry
+     ;; naming ver absorbs the ver node and refuses the other two, which is
+     ;; where the axis stops being a published string and starts gating.
+     ;;
+     ;; :clipped SURVIVES IN EVERY ARM and is asserted rather than filtered out.
+     ;; The oversized child really does escape its parent's content box, so the
+     ;; clip is a true finding — and its presence is what shows the declaration
+     ;; absorbing ONLY the flag it names. Filtering it would have made these
+     ;; arms agree with a matcher that swallowed everything on the card.
+     [(= #{:clipped} (declared-live 10 400 "ver" #{:ver}))
+      (format "ver entry absorbs the ver SCROLL flag and leaves the clip -> %s"
+              (pr-str (declared-live 10 400 "ver" #{:ver})))]
+     [(= #{:scrollable_overflow :clipped :stale-designed-flag}
+         (declared-live 400 10 "hor" #{:ver}))
+      (format "CONTROL: ver entry does NOT absorb the hor node -> live %s"
+              (pr-str (declared-live 400 10 "hor" #{:ver})))]
+     [(= #{:scrollable_overflow :clipped :stale-designed-flag}
+         (declared-live 400 400 "both" #{:ver}))
+      (format "CONTROL: ver entry does NOT absorb the both node -> live %s"
+              (pr-str (declared-live 400 400 "both" #{:ver})))]]))
+
 (def ^:private cases
   {"overflow-visible" overflow-visible-checks
+   "scroll-axes" scroll-axes-checks
    "truncated" truncated-checks
    "text-wrapped" text-wrapped-checks
    "inverted-content-box" inverted-content-box-checks})

@@ -1649,11 +1649,24 @@ static bool obj_clipped(const lv_obj_t *obj, const lv_area_t *coords) {
  * or a designed scroller is decided by the SCROLLABLE flag at the emit site:
  * overflow (clipped away) vs scrollable_overflow (reachable by scroll).
  *
- * The AXES are reported separately (obj_overflow_dirs) so a consumer's
- * "this card is a deliberate scroller" declaration can be scoped to the
- * direction it actually designed. A single boolean would make such a
- * declaration a per-card mute for every axis at once, which is the blanket
- * scoping the invariant exemptions are forbidden from having. */
+ * The AXES are reported separately (obj_overflow_dirs) so a "this card is a
+ * deliberate scroller" declaration CAN be scoped to the direction it actually
+ * designed — a single boolean would make such a declaration a per-card mute for
+ * every axis at once.
+ *
+ * AND THE SCOPING IS EXERCISED, not merely available: `devcards.invariants`
+ * decodes this string into an axis SET (`scroll-axis-spellings`) and a
+ * `:designed-flags` entry for `scrollable_overflow` MUST name its axes, matched
+ * by equality. So an entry declaring "ver" on a node that starts reporting
+ * "both" matches nothing — the flag stays live and the entry is reported
+ * mis-scoped. Both of protogen's own such entries carry `:axes #{:ver}`, and
+ * their wrapper's horizontal slack is exactly zero (content box 176 - 2*8 = 160
+ * = the textarea's own width), which is the regression that narrowing exists to
+ * catch.
+ *
+ * NOTE WHICH SPELLING IS NOT A VOCABULARY WORD: three strings, two axes. "both"
+ * decodes to the set of the other two and can never be named by a declaration,
+ * or it would be an axis no single-axis node could ever equal. */
 #define OVERFLOW_DIR_HOR 1u
 #define OVERFLOW_DIR_VER 2u
 /* An object with NOTHING to scroll to: no self content and no visible child.

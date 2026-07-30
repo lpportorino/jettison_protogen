@@ -59,14 +59,46 @@ impossibility.** git refuses a container-mounted worktree as dubiously owned
 because the container runs as root over files owned by the invoking user.
 `tools/uber.sh` DECLARES `safe.directory` for the workspace, so git works
 normally under it — which is what makes `dead-c-externs-test`, and therefore
-`check-renderer`, runnable locally. MEASURED ON A STANDALONE CHECKOUT (a real
-`.git` DIRECTORY), which is the only shape verified: in the SUBMODULE shape the
-wrapper also mounts the gitdir and exports `GIT_DIR=/gitdir`, a second path git
-ownership-checks and which this declaration does NOT name. Whether that shape
-needs its own entry is untested, and the consumer fleet vendors this repo
-exactly that way — so treat the claim as scoped to standalone until someone
-runs `tools/uber.sh 'make -f renderer.mk dead-c-externs-test'` from a gitfile
-checkout and reads the verdict.
+`check-renderer`, runnable locally.
+
+**IT IS LOAD-BEARING ON THE STANDALONE SHAPE AND INERT ON THE SUBMODULE ONE,
+and the reason is not the one the shapes suggest.** Measured in the pinned
+image, container uid 0 over files at uid 1000, four runs differing in one
+variable each:
+
+| shape | `GIT_DIR` | `safe.directory` | `git ls-files` |
+|---|---|---|---|
+| standalone | unset | none | `fatal: detected dubious ownership`, rc 128 |
+| standalone | unset | `$WORKSPACE` | 54 files, rc 0 |
+| standalone | set explicitly | none | 54 files, rc 0 |
+| submodule | `/gitdir` | none | 54 files, rc 0 |
+
+The third row is the one that explains the rest: naming `GIT_DIR` does not add a
+second checked path, it takes git off the check entirely. `ensure_valid_ownership`
+is called only from the DISCOVERY walk; an explicit `GIT_DIR` takes
+`setup_explicit_git_dir` and never validates. So the gitfile branch — which sets
+`GIT_DIR=/gitdir` — was never at risk, and the declaration that rescues the
+standalone path does nothing there. `/gitdir` IS checkable in principle: mounted
+and discovered as a bare repo it refuses by name. It is simply never reached.
+
+**Do not "harden" this with a second `safe.directory` entry for `/gitdir`.** It
+is inert by measurement, and no input can make the check fire on the explicit-
+`GIT_DIR` path — so nothing in this repo could ever prove the line does
+anything, which is a claim wearing the shape of a guard.
+
+And note which way the standalone failure went: `git ls-files` printed ZERO and
+exited ZERO under the refusal. A lane discovering its corpus that way reports a
+clean run over nothing, which is why every such lane owes the non-vacuity floor
+`gate-enforcement.md` §3 demands.
+
+**THE SHAPE THAT DOES REFUSE IS THE LINKED WORKTREE, for a different reason and
+by design.** Its private gitdir holds no objects and its common dir is a host
+path, so `uber.sh` declines to mount it (the `GITDIR = COMMONDIR` test) and
+leaves git unavailable rather than half-supporting it. Lanes then refuse
+correctly — `dead_c_externs.sh` exits 3 naming the cause. What did NOT refuse
+correctly was its canary SUITE, which re-resolved its own root unguarded and so
+emitted FAILs from clauses that had never run; it now refuses up front with its
+own CANNOT RUN, which is the shape any suite with a git precondition owes.
 
 **CI IS NOT BLOCKED BY THIS EITHER**, and it is worth stating because the
 obvious inference is wrong: `renderer.yml`'s shellcheck lane already passes the

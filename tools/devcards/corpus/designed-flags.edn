@@ -508,6 +508,20 @@
   ;; but outside that content box. Same fit-not-clip reading as CLASS 1, plus the
   ;; wrapper reporting vertical scroll extent from the same excess — so the same
   ;; retiring event applies.
+  ;;
+  ;; THE AXIS IS NAMED, and the margin it guards is zero rather than small.
+  ;; Both entries measured scroll_dirs "ver" and only "ver" on both declared
+  ;; families, so both declare :axes #{:ver}. The wrapper's horizontal slack is
+  ;; exactly nil: spec.edn authors it :w 176 :pad-all 8 against a :w 160
+  ;; textarea, so the content box is 176 - 2*8 = 160 = the textarea's own width
+  ;; and lv_obj_get_scroll_right returns 0. One pixel of widening flips the axis
+  ;; to "both", which these entries no longer match — the flag goes live and
+  ;; they are reported mis-scoped.
+  ;;
+  ;; WHY THAT IS WORTH A KEY when the pixel goldens would red on a widening
+  ;; anyway: the scroll EXTENT is not a drawn quantity. A vendored LVGL change
+  ;; to whether the border counts toward `lv_obj_get_style_space_*` flips the
+  ;; axis at ZERO pixel movement, and the goldens are structurally blind to it.
   "lv_textarea/focus-key/medium"
   [{:invariant :clipped :node "lv_textarea" :families #{1 2}
     :kind :false-positive
@@ -521,6 +535,11 @@
     :expires "2026-10-20"
     :owner "jaremko"}
     {:invariant :scrollable_overflow :node "lv_obj" :families #{1 2}
+    ;; MEASURED "ver" and only "ver" on both declared families. The axis is
+    ;; mandatory for this flag, so this entry cannot mute a horizontal
+    ;; regression it was never shown — which the wrapper is one pixel away from
+    ;; producing (content box 176 - 2*8 = 160 = the textarea's own width).
+    :axes #{:ver}
     :kind :false-positive
     :rationale
      "the wrapper's vertical scroll extent is the same content-box excess as the
@@ -545,6 +564,11 @@
     :expires "2026-10-20"
     :owner "jaremko"}
     {:invariant :scrollable_overflow :node "lv_obj" :families #{1 2}
+    ;; MEASURED "ver" and only "ver" on both declared families. The axis is
+    ;; mandatory for this flag, so this entry cannot mute a horizontal
+    ;; regression it was never shown — which the wrapper is one pixel away from
+    ;; producing (content box 176 - 2*8 = 160 = the textarea's own width).
+    :axes #{:ver}
     :kind :false-positive
     :rationale
      "the wrapper's vertical scroll extent is the same content-box excess as the

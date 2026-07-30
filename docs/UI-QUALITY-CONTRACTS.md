@@ -93,6 +93,19 @@ prediction:
   clause makes the list shrink; it does not bound GROWTH, so the count of
   entries in force is reported with the run's other counts.
 
+  **A declaration for a flag that has an AXIS must name it**, and is matched by
+  equality. `scrollable_overflow` is the one such flag today: the dump carries
+  `scroll_dirs`, so an entry declares `:axes #{:ver}` rather than muting the
+  flag on every axis at once. Equality is what makes an over-broad entry
+  self-refuting — declare both axes on a node that only ever reports one and the
+  entry matches nothing, so it goes stale AND the flag stays live. Neither an
+  intersection reading (which would swallow the axis you were never shown) nor a
+  subset reading (which would let one blanket entry match everything) has that
+  property. The axis key is mandatory where it applies rather than
+  optional-with-a-default, because both available defaults are wrong and neither
+  failure would be visible: every-axis is the blanket, no-axis is instant
+  staleness.
+
 A consumer's obligation is unchanged and was never narrower: every theme family
 shipped as a product surface runs the applicable producers.
 

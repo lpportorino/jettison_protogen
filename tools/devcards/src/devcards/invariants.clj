@@ -161,7 +161,24 @@
    scrolls by its own border inset (content box = w - 2*border < the col
    span). A real table-geometry regression still lands in the pixel
    goldens. Closed set — extend deliberately, with the class's design
-   argument, never to silence a finding."
+   argument, never to silence a finding.
+
+   IT MATCHES ZERO NODES IN THIS CORPUS, and that is worth stating rather than
+   discovering. Measured across all six lv_table cards and all three theme
+   families: none emits :overflow or :scrollable_overflow at all. The reason is
+   in the cards, not in the argument above — `corpus/spec.edn` gives them no
+   :w/:h on purpose, so LV_SIZE_CONTENT hugs the grid and there is nothing to
+   scroll to. The class argument stays correct for a table that IS sized, which
+   is why this is recorded rather than deleted: a consumer whose corpus sizes
+   its tables exercises it immediately.
+
+   WHAT THAT COSTS, said plainly: this is a hardcoded exemption with NO STALE
+   CLAUSE. `corpus/designed-flags.edn` entries are punished when they stop
+   matching; this set is not, so an entry here can outlive its justification
+   silently — the one thing `gate-enforcement.md` §1 refuses of a concession,
+   living somewhere the machinery cannot reach. Anything ADDED here inherits
+   that, which is the real reason to extend it deliberately: prefer a per-card
+   declaration, which does ratchet."
   #{"lv_table"})
 
 (defn- h-within?
@@ -268,6 +285,15 @@
   "Is `flag` on this annotated node one of the designed-geometry cases the
    ns docstring sanctions? Anything else is a live finding."
   [{:keys [node parent hidden-under? snapped-under? tabview-content?]} flag]
+  ;; The tabview arm is the one that actually fires here: measured, 18 node
+  ;; renders across the five lv_tabview cards plus the tabview kitchen sink, and
+  ;; every one reports scroll_dirs "hor" — the page carousel scrolling
+  ;; horizontally, which is exactly what it is for. An axis-scoped form of this
+  ;; exemption was considered and is NOT warranted: the counter-case was built
+  ;; (a tabview whose active page content is 900px tall) and the vertical
+  ;; overflow landed on the PAGE node, which is not `tabview-content?` and is
+  ;; already reported today. Claiming an axis would catch something here without
+  ;; a case that reaches it is the unfounded kind of narrowing this file refuses.
   (or (and (= flag :scrollable_overflow)
            (or (contains? designed-scroll-classes (:type node)) tabview-content?))
       ;; BOTH flags — drum-label-escape? is the one term proven for :offscreen:
@@ -294,6 +320,47 @@
 ;; (wrong: it expires, so a permanent property would be re-authored every 90
 ;; days forever, which is the "permanent waiver carrying a date" shape
 ;; `waiver-horizon-days` refuses) or widening the check (forbidden outright).
+
+(def scroll-axis-spellings
+  "`scroll_dirs` wire strings -> the AXIS SET each denotes.
+
+   THREE STRINGS, TWO AXES, and the asymmetry is the whole reason this table
+   exists rather than a keyword cast. \"both\" is a SPELLING, never a vocabulary
+   word: a declaration that could name `:both` would carry a value no single
+   axis ever equals, so it would be unmatchable on a hor-only or ver-only node
+   and would read as a third axis that does not exist. Decoding to a SET makes
+   the declaration and the observation the same kind of thing, which is what
+   lets them be compared by equality.
+
+   `dump_obj` emits `scroll_dirs` only beside `scrollable_overflow`, so a lookup
+   miss here is the renderer contract being violated rather than a node with no
+   axis — `scroll-axes` refuses instead of defaulting."
+  {"hor" #{:hor} "ver" #{:ver} "both" #{:hor :ver}})
+
+(def axis-bearing-flags
+  "The defect flags whose findings carry `:axes`, and on which a declaration
+   MUST name them. One entry today; a set rather than an `=` so a second
+   axis-bearing key adds itself here and nowhere else."
+  #{:scrollable_overflow})
+
+(defn scroll-axes
+  "The axis set for a node reporting `:scrollable_overflow`.
+
+   THROWS on an absent or unrecognised `scroll_dirs`, and that is the point:
+   the alternative is a default, and BOTH defaults are wrong in a way nothing
+   downstream could see. Defaulting to every axis makes each declaration a
+   blanket; defaulting to none makes every declaration stale. An absence here is
+   an interpreter that emitted the flag without its axis, which is a contract
+   violation and owes a loud failure rather than a guess."
+  [node]
+  (let [spelling (:scroll_dirs node)]
+    (or (get scroll-axis-spellings spelling)
+        (throw (ex-info (str "scrollable_overflow with no usable scroll_dirs: "
+                             (pr-str spelling) " — dump_obj emits the axis beside"
+                             " the flag, so this is a renderer contract"
+                             " violation, not a node without an axis")
+                        {:node (:type node) :scroll_dirs spelling
+                         :known (vec (sort (keys scroll-axis-spellings)))})))))
 
 (def designed-flag-keys
   "Every key a `:designed-flags` entry may carry. Closed, so a typo is refused
@@ -358,7 +425,8 @@
    with the run's other counts so that growth is at least visible; the committed
    file is the record of WHAT was absorbed, and every entry in it is proven
    still-live by the stale clause."
-  #{:invariant :node :families :kind :rationale :retires-when :owner :expires})
+  #{:invariant :node :families :axes :kind :rationale :retires-when :owner
+    :expires})
 
 (def designed-flag-kinds
   "The two dispositions, and which proof each owes. See `designed-flag-keys`."
@@ -414,6 +482,27 @@
            (bad! ":families must be a non-empty set of theme-family numbers"))
          (when (and (contains? e :node) (not (string? (:node e))))
            (bad! ":node, when present, must be the node label string"))
+         ;; :axes is MANDATORY-WHEN-APPLICABLE, never optional-with-a-default.
+         ;; Both defaults are wrong and neither failure would be visible:
+         ;; absent-reads-as-all-axes makes every entry the per-card blanket
+         ;; `obj_overflow_dirs` refuses, and absent-reads-as-no-axes makes every
+         ;; entry instantly stale. Requiring it is also what stops this field
+         ;; landing INERT — an existing declaration for an axis-bearing flag
+         ;; fails to LOAD until it names its axes, so the migration cannot be
+         ;; skipped and then forgotten.
+         (if (contains? axis-bearing-flags (:invariant e))
+           (when-not (and (set? (:axes e))
+                          (seq (:axes e))
+                          (every? #{:hor :ver} (:axes e)))
+             (bad! (str ":axes is REQUIRED for " (:invariant e)
+                        " and must be a non-empty subset of #{:hor :ver}."
+                        " There is no :both — that is a WIRE SPELLING for"
+                        " #{:hor :ver}, and naming it would be an axis no node"
+                        " can ever equal")))
+           (when (contains? e :axes)
+             (bad! (str ":axes is meaningless for " (:invariant e) " — only "
+                        (vec (sort axis-bearing-flags)) " carry an axis, so an"
+                        " entry naming one here could never match"))))
          (when-not (contains? designed-flag-kinds (:kind e))
            (bad! (str ":kind must be one of " (vec (sort designed-flag-kinds))
                       " — it selects which proof the entry owes, so it cannot"
@@ -438,11 +527,23 @@
 
 (defn- designed-entry-matches?
   "Does `entry` declare `finding` on `family`? Conjunctive over the axes the
-   entry names; an absent :node matches any node."
+   entry names; an absent :node matches any node.
+
+   `:axes` COMPARES BY EQUALITY, never by subset or intersection, and each
+   rejected reading fails in its own direction:
+     - INTERSECTION would let `#{:ver}` absorb a node reporting BOTH, which is
+       the horizontal regression the declaration was never shown.
+     - SUBSET would let `#{:hor :ver}` be written once as a blanket that
+       matches everything and that the stale clause can never punish.
+   Equality makes an over-broad entry SELF-REFUTING through machinery that
+   already exists: declare `#{:hor :ver}` on a card that only reports `ver` and
+   it matches nothing, so the entry goes stale AND the underlying flag stays
+   live. Both, loudly, with no new clause."
   [entry finding family]
   (and (= (:invariant entry) (:invariant finding))
        (contains? (:families entry) family)
-       (or (not (contains? entry :node)) (= (:node entry) (:node finding)))))
+       (or (not (contains? entry :node)) (= (:node entry) (:node finding)))
+       (= (:axes entry) (:axes finding))))
 
 (defn apply-designed-flags
   "Split `findings` against a card's `:designed-flags` declaration for the
@@ -478,9 +579,30 @@
                     {:card card-id
                      :invariant :stale-designed-flag
                      :node (or (:node e) "(any)")
-                     :detail (str "declares " (:invariant e) " on family " family
-                                  " and nothing matched — the flag it declares"
-                                  " is gone, so the entry must go too")}))})))
+                     ;; NAMES WHAT WAS OBSERVED, because "the flag is gone" is
+                     ;; a wrong diagnosis the moment :axes exists: the flag may
+                     ;; be firing on a DIFFERENT axis, which is a narrowing to
+                     ;; re-take rather than an entry to delete. A red that
+                     ;; misnames its own clause is the failure this file
+                     ;; refuses everywhere else.
+                     :detail (let [seen (->> findings
+                                             (filter #(= (:invariant e)
+                                                         (:invariant %)))
+                                             (keep :axes)
+                                             distinct
+                                             vec)]
+                               (str "declares " (:invariant e)
+                                    (when (:axes e)
+                                      (str " axes "
+                                           (pr-str (vec (sort (:axes e))))))
+                                    " on family " family " and nothing matched"
+                                    (if (seq seen)
+                                      (str " — the flag fired with axes "
+                                           (pr-str (mapv #(vec (sort %)) seen))
+                                           ", so the entry is mis-scoped rather"
+                                           " than obsolete")
+                                      (str " — the flag it declares is gone, so"
+                                           " the entry must go too"))))}))})))
 
 (defn truncation-findings
   "The HARD :dump-truncated clause, on its own so every caller shares one copy.
@@ -521,13 +643,22 @@
    (let [annotated (or annotated (annotate-tree root))]
      (-> []
          (into (truncation-findings card-id root))
+         ;; An axis-bearing flag carries its AXES onto the finding. Read here
+         ;; rather than inside the declaration matcher on purpose: this is the
+         ;; "what did the dump say" step, and `apply-designed-flags` stays a
+         ;; step that judges findings without re-reading the tree.
          (into (for [entry annotated
                      flag defect-flags
-                     :when (and (get (:node entry) flag) (not (designed-flag? entry flag)))]
-                 {:card card-id
-                  :invariant flag
-                  :node (node-label (:node entry))
-                  :detail (str "layout defect flag " (name flag))}))
+                     :when (and (get (:node entry) flag) (not (designed-flag? entry flag)))
+                     :let [axes (when (contains? axis-bearing-flags flag)
+                                  (scroll-axes (:node entry)))]]
+                 (cond-> {:card card-id
+                          :invariant flag
+                          :node (node-label (:node entry))
+                          :detail (str "layout defect flag " (name flag)
+                                       (when axes
+                                         (str " on " (pr-str (vec (sort axes))))))}
+                   axes (assoc :axes axes))))
          (into (for [node (walk-nodes root)
                      :let [[w h] (node-area node)]
                      :when (and w (or (zero? w) (zero? h)) (not (:hidden node)))]

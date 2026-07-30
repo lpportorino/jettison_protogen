@@ -912,3 +912,115 @@
               refusal keys on its own defect rather than on the fixture"
       (is (nil? (msg #(v [wrap-entry]))))
       (is (nil? (msg #(v [stock-entry])))))))
+
+;; ── the axis narrowing on a scroll declaration ──────────────────────────
+;;
+;; The subject here is the MATCHER, so hand maps are legitimate: a finding's
+;; :axes is put there by `tree-findings` from the dump's `scroll_dirs`, and the
+;; real-render half of that is `dump_contract_probe`'s `scroll-axes` case. What
+;; these pin is that an entry narrowed to one axis absorbs THAT axis and refuses
+;; every other reading of the same node.
+
+(def ^:private ver-entry
+  {:invariant :scrollable_overflow :node "lv_obj" :families #{1}
+   :axes #{:ver}
+   :kind :false-positive
+   :rationale "the wrapper scrolls vertically under stock padding"
+   :retires-when "the fit verdict is split from the visible-clip verdict"
+   :expires (days-out 60)
+   :owner "jaremko"})
+
+(defn- scroll-finding [axes]
+  {:card "c" :invariant :scrollable_overflow :node "lv_obj" :axes axes :detail "d"})
+
+(deftest an-axis-declaration-absorbs-only-the-axis-it-names
+  (testing "the declared axis is absorbed, and it is RECORDED — :live empty is
+            the same value as nothing-ran, so the declared side is what makes
+            this assertion non-vacuous"
+    (let [{:keys [live declared]} (inv/apply-designed-flags
+                                   "c" [ver-entry] [(scroll-finding #{:ver})] 1
+                                   pinned-today)]
+      (is (empty? live))
+      (is (= [:scrollable_overflow] (mapv :invariant declared)))))
+  (testing "CONTROL: the SAME node reporting BOTH axes is NOT absorbed. This is
+            the whole point of comparing by equality — an intersection reading
+            would swallow the horizontal regression the entry was never shown.
+            REVERT-TO-BREAK: change the `:axes` conjunct in
+            `designed-entry-matches?` from `=` to a `clojure.set/subset?` or an
+            intersection test."
+    (is (= #{:scrollable_overflow :stale-designed-flag}
+           (live-invariants [ver-entry] [(scroll-finding #{:hor :ver})] 1))))
+  (testing "and the other axis alone is refused too"
+    (is (= #{:scrollable_overflow :stale-designed-flag}
+           (live-invariants [ver-entry] [(scroll-finding #{:hor})] 1))))
+  (testing "an OVER-BROAD entry is self-refuting rather than a silent blanket:
+            declaring both axes on a node that reports one matches nothing, so
+            the entry goes stale AND the flag stays live — the ratchet comes
+            from machinery that already existed"
+    (is (= #{:scrollable_overflow :stale-designed-flag}
+           (live-invariants [(assoc ver-entry :axes #{:hor :ver})]
+                            [(scroll-finding #{:ver})] 1)))))
+
+(deftest a-mis-scoped-entry-is-diagnosed-as-mis-scoped
+  (testing "the stale detail must NAME THE OBSERVED AXES when the flag fired on
+            a different one. 'the flag it declares is gone' is a wrong diagnosis
+            there — the entry is a narrowing to re-take, not an entry to delete,
+            and a red that misnames its own clause is what this file refuses.
+            REVERT-TO-BREAK: drop the `seen` branch from the :detail in
+            `apply-designed-flags`."
+    (let [d (->> (:live (inv/apply-designed-flags
+                         "c" [ver-entry] [(scroll-finding #{:hor})] 1
+                         pinned-today))
+                 (filter #(= :stale-designed-flag (:invariant %)))
+                 first
+                 :detail)]
+      (is (str/includes? d "mis-scoped"))
+      (is (str/includes? d ":hor"))))
+  (testing "CONTROL: with the flag genuinely absent the detail says so instead,
+            so the assertion above keys on the observation and not on the wording
+            always being present"
+    (let [d (->> (:live (inv/apply-designed-flags "c" [ver-entry] [] 1 pinned-today))
+                 (filter #(= :stale-designed-flag (:invariant %)))
+                 first
+                 :detail)]
+      (is (str/includes? d "is gone"))
+      (is (not (str/includes? d "mis-scoped"))))))
+
+(deftest the-axis-key-is-mandatory-where-it-applies-and-refused-where-it-does-not
+  (let [v (fn [entries] (inv/validate-designed-flags! "c" entries pinned-today))]
+    (testing ":axes is REQUIRED on an axis-bearing flag. Absent-with-a-default
+              is what would let this field land inert: every existing entry would
+              keep loading, and the default would silently be either a blanket or
+              instant staleness.
+              REVERT-TO-BREAK: make the axis-bearing branch a `when (contains?
+              e :axes)` instead of a `when-not`."
+      (is (str/includes? (str (msg #(v [(dissoc ver-entry :axes)])))
+                         ":axes is REQUIRED")))
+    (testing "and it is REFUSED on a flag that carries no axis, because such an
+              entry could never match"
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :axes #{:ver})])))
+                         "meaningless")))
+    (testing ":both is not spellable — it is a WIRE string for #{:hor :ver}, and
+              an entry naming it would be an axis no node ever equals"
+      (is (str/includes? (str (msg #(v [(assoc ver-entry :axes #{:both})])))
+                         ":axes is REQUIRED")))
+    (testing "an empty axis set is refused"
+      (is (str/includes? (str (msg #(v [(assoc ver-entry :axes #{})])))
+                         ":axes is REQUIRED")))
+    (testing "CONTROL: the well-formed axis entry passes every clause above"
+      (is (nil? (msg #(v [ver-entry])))))))
+
+(deftest the-wire-spelling-decodes-to-an-axis-set
+  (testing "three strings, two axes — `both` is a spelling and must decode to
+            the SET, or a declaration could never equal it"
+    (is (= #{:hor} (inv/scroll-axes {:scroll_dirs "hor"})))
+    (is (= #{:ver} (inv/scroll-axes {:scroll_dirs "ver"})))
+    (is (= #{:hor :ver} (inv/scroll-axes {:scroll_dirs "both"}))))
+  (testing "an absent or unknown spelling THROWS rather than defaulting. Both
+            defaults are wrong and invisible: every-axis makes each declaration a
+            blanket, no-axis makes each one stale. An absence here is the
+            interpreter emitting the flag without its axis.
+            REVERT-TO-BREAK: give `scroll-axes` an `(or ... #{:hor :ver})`."
+    (is (str/includes? (str (msg #(inv/scroll-axes {}))) "renderer contract"))
+    (is (str/includes? (str (msg #(inv/scroll-axes {:scroll_dirs "sideways"})))
+                       "renderer contract"))))
