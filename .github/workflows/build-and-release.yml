@@ -353,8 +353,14 @@ jobs:
 
             git add -A
             git commit -m "Update C bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -410,8 +416,14 @@ jobs:
 
             git add -A
             git commit -m "Update C++ bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -471,8 +483,14 @@ jobs:
 
             git add -A
             git commit -m "Update Go bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -529,8 +547,14 @@ jobs:
 
             git add -A
             git commit -m "Update Python bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -590,8 +614,14 @@ jobs:
 
             git add -A
             git commit -m "Update TypeScript bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -650,8 +680,14 @@ jobs:
 
             git add -A
             git commit -m "Update TypeScript validated bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -718,8 +754,14 @@ jobs:
 
             git add -A
             git commit -m "Update Rust bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -773,8 +815,14 @@ jobs:
 
             git add -A
             git commit -m "Update Java bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -828,8 +876,14 @@ jobs:
 
             git add -A
             git commit -m "Update Kotlin bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -883,8 +937,14 @@ jobs:
 
             git add -A
             git commit -m "Update JSON descriptors from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           fi
         else
@@ -944,8 +1004,14 @@ jobs:
         Commit: ${{ github.sha }}"
 
           if [ -n "${{ secrets.SELF_PUSH }}" ]; then
-            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git pull --rebase || true
+            # Pull before pushing. A brand-new consumer repository has no upstream
+            # branch yet; that one case is benign and is now detected explicitly.
+            # Anything else — a rebase conflict, an auth or network failure — ABORTS
+            # here instead of being swallowed and resurfacing below as a confusing
+            # non-fast-forward rejection from the push.
+            if GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git ls-remote --exit-code --heads origin >/dev/null 2>&1; then
+              GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git pull --rebase
+            fi
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git push
           else
             echo "Warning: SELF_PUSH not configured, cannot push to main repo"
