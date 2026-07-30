@@ -63,8 +63,11 @@ static bool subject_overflow = false;
  * only LOG_WARN + skip: a pool exhausted (scale-text / bg-image), an event/
  * observer malloc failed, or a binding resolves to a NEVER-DECLARED subject.
  * Each such site LOG_ERRORs its specifics; this flag carries the load-fail
- * signal so controls_load_ui returns -1 instead of a silently degraded screen
- * (state-honesty). Reset per load alongside the pool counts. */
+ * signal so the load reports LOAD_ERR_DEFECTIVE instead of presenting a
+ * silently degraded screen as a clean one (state-honesty). DEFECTIVE and not
+ * ABORTED, deliberately: every site that latches this flag LOG_WARNs and
+ * RETURNS, so the decode runs to completion and the tree is complete — the
+ * caller must leave the screen up. Reset per load alongside the pool counts. */
 static bool load_resource_error = false;
 static void reset_subject_registry(void) {
   /* Deinit all subjects AFTER widgets are destroyed (lv_obj_clean) */
