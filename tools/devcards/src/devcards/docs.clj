@@ -50,10 +50,15 @@
    It is authored English with no source of truth — the one honest gap the
    split surfaces rather than papers over.
 
-   Cross-link fact (documented not guessed): the ui_ast.proto and
-   protodoc-index links are written for the protogen root layout
-   (docs/widgets/<WIDGET>/ sits 3 segments below the repo root). The per-card
-   images and inter-page links are colocated and resolve everywhere.
+   Cross-link fact, now MEASURED rather than asserted: a widget page is written
+   to tools/devcards/docs/widgets/<WIDGET>/, which is FIVE segments below the
+   protogen root, so the ui_ast.proto and protodoc-index hrefs carry five `../`.
+   They were previously written for a docs/widgets/<WIDGET>/ layout — three
+   segments — that this tree has never had, and both resolved to nothing on all
+   22 pages. The old note claimed `documented not guessed` for exactly the
+   pair that was guessed; the depth is now derived from the real output path and
+   checked by test/devcards/docs_links_test.clj. The per-card images and
+   inter-page links are colocated and resolve everywhere.
 
    Shapes are closed and hand-validated (no malli dependency); the
    descriptor subset is walked string-keyed — protobuf's JSON descriptor
@@ -465,8 +470,14 @@
                           "None recorded in the corpus spec for this class."
                           (:notes widget))}]
           :page/cross-links
-          [{:link/text "`ui_ast.proto`" :link/href "../../../proto/ui/ui_ast.proto"}
-           {:link/text "protodoc index" :link/href "../../index.md"}
+          ;; FIVE `../`, not three. A widget page is written to
+          ;; tools/devcards/docs/widgets/<WIDGET>/README.md — five segments below
+          ;; the protogen root, not three. Both hrefs were computed for a
+          ;; docs/widgets/<WIDGET>/ layout this tree has never had, so they
+          ;; resolved to tools/devcards/proto/... and tools/devcards/docs/index.md,
+          ;; neither of which exists. 22 pages shipped both dead.
+          [{:link/text "`ui_ast.proto`" :link/href "../../../../../proto/ui/ui_ast.proto"}
+           {:link/text "protodoc index" :link/href "../../../../../docs/index.md"}
            {:link/text "widget gallery index" :link/href "../README.md"}]
           :index/group "widgets"
           :index/heading nil

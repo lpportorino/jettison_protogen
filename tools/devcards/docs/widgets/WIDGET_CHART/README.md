@@ -46,4 +46,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 Default state only (stock chart arm adds no state styles — a disabled cell would be a pixel-identical duplicate). BAR type at small tier is a PNG-only blind spot: block_gap(10px) x 7 groups can degenerate bar width toward 0 with zero DOM flags.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

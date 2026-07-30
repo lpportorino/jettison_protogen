@@ -55,4 +55,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 The :value variant cells are default-state content variants (typed text present), not an LVGL state. Sample texts are calibrated to fit each tier's post-override content box so the zero-defect assertion tests the THEME, not adversarial text.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

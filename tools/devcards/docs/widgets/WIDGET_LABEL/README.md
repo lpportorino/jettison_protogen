@@ -52,4 +52,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 No LVGL state axis exists for lv_label (stock's only label arm fires for textarea-internal SELECTED, unreachable here) — the behavioral axis is label_props.long_mode x width. long_mode-tier fonts are set as raw font-name strings because the sample texts are calibrated to those metrics (wrap/fit is the assertion). WRAP cells omit :h (content height); DOTS/CLIP cells fix a 1-line height.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

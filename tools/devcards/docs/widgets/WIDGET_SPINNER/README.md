@@ -43,4 +43,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 pressed/checked unreachable (CLICKABLE removed at construction; no toggle semantics). Disabled cells are inertness parity pins (no stock disabled arm, and none proposed). Animation is deterministic under the pinned 3-tick render budget.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

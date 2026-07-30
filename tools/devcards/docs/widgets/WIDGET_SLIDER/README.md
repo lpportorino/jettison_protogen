@@ -62,4 +62,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 checked is N/A (no CHECKED wiring for WIDGET_SLIDER in stock or renderer). edited is encoder-only (touch-unreachable) — collapsed to one size per survey. Every cell nests in a padded wrapper card for knob/outline bleed.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

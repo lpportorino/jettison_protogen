@@ -57,4 +57,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 Height left to content-fit sizing on purpose (an explicit h would hide a real text_clipped regression behind a generous box). The popup LIST is a separate LVGL class with no cell here — out of the survey's scope, recorded so it isn't silently dropped from a future gallery.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

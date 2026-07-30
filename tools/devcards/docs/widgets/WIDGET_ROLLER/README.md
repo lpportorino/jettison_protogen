@@ -62,4 +62,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 pressed is confirmatory-only under stock (no pressed style in the stock roller arm) and sampled at small+medium only per survey; the manifest commits it distinct under the asgard theme.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

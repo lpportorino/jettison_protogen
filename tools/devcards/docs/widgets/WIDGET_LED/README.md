@@ -45,4 +45,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 off/dim/on are BRIGHTNESS variants (led_props.brightness), not LVGL states. All cells stay square (LV_RADIUS_CIRCLE clamps to min(w,h)/2 — an LED is meant to render as a dot). led_props.color is a per-node wire prop, not theme vocabulary.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

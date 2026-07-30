@@ -52,4 +52,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 Every button carries an explicit child WIDGET_LABEL (builder law: renderer builds an EMPTY lv_button; text is a separate child). Label text held constant per size so state is the single variable.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

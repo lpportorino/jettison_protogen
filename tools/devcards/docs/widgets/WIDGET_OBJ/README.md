@@ -40,4 +40,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 WIDGET_OBJ is the renderer's default/fallback create case; a standalone lv_obj takes exactly the stock card+scrollbar fallthrough arm. The disabled cells are inertness parity pins: stock adds NO state style for plain lv_obj, so they MUST hash equal to their default twins.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

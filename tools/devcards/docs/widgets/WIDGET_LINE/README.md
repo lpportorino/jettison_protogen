@@ -40,4 +40,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): renderer.c never decodes ui_LineProps, the WIDGET_LINE case only creates the object, so NO LINE IS DRAWN — every cell in the gallery sheets shows an empty box, and that is the renderer gap, not a theme or fixture defect. The cards stay authored so the decode fix lands against ready fixtures (T2.3 carries the per-card proof-carrying exemption). Explicit finite w/h is MANDATORY for this class: with points undecoded, LV_SIZE_CONTENT collapses to a 0x0 vacuously-passing box. The disabled cell is an inertness parity pin (stock has no line state arm).
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

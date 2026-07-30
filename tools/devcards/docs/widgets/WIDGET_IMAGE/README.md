@@ -45,4 +45,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 No stock theme arm exists for lv_image; pressed/checked are omitted per survey (CLICKABLE stripped at construction, and no style would change anyway). The disabled cells are inertness parity pins. Explicit w/h always set so the box never depends on decoded asset metadata.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

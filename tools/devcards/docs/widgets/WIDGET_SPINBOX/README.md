@@ -59,4 +59,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 Explicit h always set: an unstyled spinbox inherits textarea's 160px height_def — unrepresentative of any real screen. Every cell nests in a padded wrapper (pad-all 8, border-width 0 — the slider-wrapper idiom): the edited/focus-key outline ring draws OUTSIDE the widget box (measured 4px past the bbox) and at the harness origin its left+top halves clipped at the CANVAS edge — a gallery crop margin cannot restore never-rendered pixels, so the standoff is render-side. The wrapper is uniform across ALL cells (baseline included) so the distinctness/inertness hash comparisons stay content-identical.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

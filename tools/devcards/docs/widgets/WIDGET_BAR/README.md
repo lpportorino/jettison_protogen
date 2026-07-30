@@ -51,4 +51,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 Declared as '9 cards in one composite gallery'; atomized here (one card per cell) — same 9 cells. Stock draws outline_primary/secondary on focus-key/edited, so the conventions manifest commits WIDGET_BAR to [:default :disabled :focus-key :edited] and those cells render visually distinct under the asgard theme.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

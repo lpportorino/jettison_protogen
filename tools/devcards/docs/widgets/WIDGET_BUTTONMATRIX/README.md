@@ -40,4 +40,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 Default state only: per-item pressed/checked/disabled are NOT wire-reachable today (renderer decodes only map_str + one_check; no set_btn_ctrl / set_selected_button), and whole-widget :states produce zero stock delta. The small cell's per-button rect inversion is INVISIBLE to dump_tree (buttons are not child objects) — the PNG oracle is the only backstop; assertion note recorded per cell.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

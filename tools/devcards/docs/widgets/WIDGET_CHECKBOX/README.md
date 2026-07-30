@@ -50,4 +50,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 lv_checkbox self-sizes (width_def/height_def both LV_SIZE_CONTENT); its size axis is label length, not w/h. CHECKED arrives via checkbox_props. DISP_LARGE note: the theme tier is recomputed from the live display resolution — this corpus's 800x480 canvas keeps greater_res>=720 so RADIUS_DEFAULT=12/DISP_LARGE is what renders (the survey flagged the 400x300 harness default as silently validating the WRONG tier).
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

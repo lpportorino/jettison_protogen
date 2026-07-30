@@ -55,4 +55,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 CHECKED arrives via switch_props {:checked true} (the production wire path), not node.states — those cards carry states-bits 0 (or 512 for the disabled combos). The medium tier deliberately carries no w/h props.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

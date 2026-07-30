@@ -47,4 +47,4 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 No LVGL state axis (falls through the generic lv_obj card arm; no state styles attach). apply_host_proxy now OWNS the default look in C: transparent fill, control-tier pad, panel-tier radius, with the BORDER left to the active theme (edge tone per family/mode) — the former stock/themed preview axis retired with it (the previews stood in for this default in radius + edge border; the shipped pad is the control-tier 4, not the previews' 0). Affordance children (glass/handles/cells) are theme-immune by construction. proxy_id 'px' is a placeholder id per the corpus secret-scan.
 
 ---
-Cross-links: [`ui_ast.proto`](../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../index.md) &middot; [widget gallery index](../README.md)
+Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)
