@@ -275,7 +275,13 @@ jobs:
       # the cheap C lint lanes, before the wasm build.
       name: LVGL enum factory freshness + renderer-gen schema canaries
       run: |
-        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
+        # READ-WRITE, and not by oversight: clj-schema-test now depends on
+        # proto-classes, which javac WRITES into target/. This step was :ro while
+        # that suite needed no classes; the dependency arrived later and the two
+        # were incompatible without either being wrong alone. A :ro mount here
+        # fails with "Read-only file system" from rm, which reads like a
+        # permissions bug rather than a missing write mount.
+        docker run --rm -v "$PWD:/workspace" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f renderer.mk construct-bindings clj-schema-test
     - # A2: every published manifest must be byte-fresh vs a regen from its

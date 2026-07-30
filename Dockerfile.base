@@ -361,13 +361,31 @@ RUN cd /prefetch/devcards \
 # then some: the release tarball's sha256 is verified before extraction, so a
 # retagged or substituted asset fails the build instead of silently shipping.
 ARG SHELLCHECK_VERSION=0.11.0
-ARG SHELLCHECK_SHA256=8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198
-RUN wget -q "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" \
-    && printf '%s  %s\n' "${SHELLCHECK_SHA256}" "shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" >sc.sha256 \
+# PER-ARCH, because this image is built on BOTH architectures and the first
+# version of this layer was not. build-and-release runs on a native
+# ubuntu-22.04-arm runner, so a hardcoded x86_64 asset installed cleanly, passed
+# its checksum, and then died with "Exec format error" on the ARM leg. The buf
+# layer below already solved this and this one did not copy it — the checksum was
+# multi-arch-blind in exactly the way a single digest always is.
+#
+# Digests are per-asset rather than fetched from a manifest: shellcheck publishes
+# no combined sha256 file, so each is pinned literally and the unsupported-arch
+# arm FAILS rather than falling through to a guess.
+ARG SHELLCHECK_SHA256_X86_64=8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198
+ARG SHELLCHECK_SHA256_AARCH64=12b331c1d2db6b9eb13cfca64306b1b157a86eb69db83023e261eaa7e7c14588
+RUN SC_ARCH="$(uname -m)" \
+    && case "$SC_ARCH" in \
+      x86_64) SC_SHA="${SHELLCHECK_SHA256_X86_64}" ;; \
+      aarch64) SC_SHA="${SHELLCHECK_SHA256_AARCH64}" ;; \
+      *) echo "shellcheck: unsupported architecture '$SC_ARCH'" >&2; exit 1 ;; \
+    esac \
+    && SC_TAR="shellcheck-v${SHELLCHECK_VERSION}.linux.${SC_ARCH}.tar.xz" \
+    && wget -q "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/${SC_TAR}" \
+    && printf '%s  %s\n' "$SC_SHA" "$SC_TAR" >sc.sha256 \
     && sha256sum -c sc.sha256 \
-    && tar -xJf "shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" \
+    && tar -xJf "$SC_TAR" \
     && install -m 0755 "shellcheck-v${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/shellcheck \
-    && rm -rf "shellcheck-v${SHELLCHECK_VERSION}" "shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" sc.sha256 \
+    && rm -rf "shellcheck-v${SHELLCHECK_VERSION}" "$SC_TAR" sc.sha256 \
     && shellcheck --version
 
 # No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>

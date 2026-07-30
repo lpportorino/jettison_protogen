@@ -1161,7 +1161,11 @@ ui-review-preflight-canary:
 # an 18s hermetic lane wait on a 32.5s javac for a dependency it does not have;
 # if such a require appears, declare `proto-classes` here and delete this
 # paragraph.
-clj-schema-test: construct-bindings
+# proto-classes is load-bearing here and its absence was invisible locally: the
+# suite needs pronto.ProtoMap, and `check-renderer` happens to build the classes
+# earlier in its chain, so this target passed for as long as nothing invoked it
+# alone. renderer.yml does exactly that, and got ClassNotFoundException.
+clj-schema-test: proto-classes construct-bindings
 	cd $(RGEN) && clojure -M:test
 
 # ── The battery ─────────────────────────────────────────────────────────────
