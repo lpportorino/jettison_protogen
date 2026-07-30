@@ -501,6 +501,24 @@ lint-ci:
 		printf '  cause is git being unable to resolve this checkout — see lint-sh.\n' >&2; \
 		exit 1; \
 	fi
+# TOOL-PRESENCE GUARD. actionlint is REQUIRED, and without this the recipe invoked a
+# missing binary and make reported `actionlint: No such file or directory` followed by
+# `Error 127` — which names the tool but nothing else: not that it is required rather
+# than optional, not where the gate expects to find it, not how to get it. This gate
+# is reached from the host-side `lint` aggregate, and actionlint is NOT part of any
+# host toolchain here, so a developer meets that 127 on a clean machine the first time
+# they push. It is a HARD FAIL and not a skip: skipping a check because its tool is
+# absent is a bypass vector (fail-fast.md), and a workflow syntax error would then
+# reach CI unjudged.
+	@command -v actionlint >/dev/null 2>&1 || { \
+		printf '\033[31m[lint-ci] FAIL\033[0m — actionlint is REQUIRED and not on PATH.\n' >&2; \
+		printf '  This gate judges workflow syntax; skipping it would let a broken\n' >&2; \
+		printf '  workflow reach CI unchecked, so it fails rather than passing.\n' >&2; \
+		printf '  Install the pinned version (same one .github/workflows/lint.yml uses):\n' >&2; \
+		printf '    curl -fsSL https://github.com/rhysd/actionlint/releases/download/v1.7.10/actionlint_1.7.10_linux_amd64.tar.gz \\\n' >&2; \
+		printf '      | tar -xz -C ~/.local/bin actionlint\n' >&2; \
+		exit 1; \
+	}
 	@actionlint -shellcheck= $(LINT_CI_FILES)
 	@printf '\033[32m[lint-ci]\033[0m actionlint clean over %s workflow(s)\n' "$(words $(LINT_CI_FILES))"
 
