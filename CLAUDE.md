@@ -321,7 +321,17 @@ Rules:
   CLICKABLE, `disabled` absent means enabled, and a rule that reads absence as
   "no information" supplies neither. `text` is sharper: only an exact `lv_label`
   emits it, so the `lv_roller_label` subclass draws glyphs while both `text` and
-  `text_clipped` stay absent. The RELATED trap is a key you never consult at all,
+  `text_clipped` stay absent.
+  **`text_wrapped` is the trap in the OTHER direction — a rule that reads the two
+  older text flags and stops has a blind spot no absence convention warns it
+  about.** A WRAP-long-mode label reflowed onto more lines than its own text asks
+  for GROWS rather than clipping, so `text_clipped` (CLIP mode only) and
+  `text_truncated` (dot_begin) are both correctly absent while the reader gets a
+  mid-word break — and it fires on EVERY theme family, because growing needs no
+  padding to go wrong. `scroll_dirs` is the companion on the scroll side, and its
+  absence is the ordinary conditional kind: emitted only BESIDE
+  `scrollable_overflow`, so absent means that flag did not fire, never "no axis".
+  The RELATED trap is a key you never consult at all,
   and it sits inside the very lane this section tells you to arm:
   `click_area` is emitted only when it DIFFERS from coords, so a rule that
   measures coords and never reads it UNDER-reports reach — while

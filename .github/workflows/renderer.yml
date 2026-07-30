@@ -374,16 +374,25 @@ jobs:
       # All four roots are already in this workflow's `paths:`.
       #
       # dump-contracts IS DIFFERENT and the difference is not covered by the
-      # sentence above. Its renderer-side halves — the descend_gate emission
-      # and the truncation sentinel, both in renderer/src/** — do trigger this
-      # workflow. Its probe and the membrane it asserts against live under
+      # sentence above. Its renderer-side clauses — the descend_gate emission,
+      # the truncation sentinel, label_text_wrapped, and the inverted-content-box
+      # decline in obj_clipped/obj_overflow_dirs, all in renderer/src/** — do
+      # trigger this workflow, so a change to any of them runs its canary.
+      #
+      # THE PROBE ITSELF DOES NOT. dev/dump_contract_probe.clj lives under
       # tools/devcards/**, which this workflow's `paths:` does NOT name, so a
-      # push touching only that root never starts this job. That gap is closed
-      # on the other side rather than by widening the filter (which would run
-      # the whole battery on every corpus edit): devcards.host/normalize-dump
-      # is a pure fn gated by devcards.host-test under devcards.yml's
-      # devcards-test, which does fire on tools/devcards/**. Read this lane as
-      # proof the two SIDES agree — not as the only gate on either one.
+      # push weakening one of its ASSERTIONS — deleting the escaping-child
+      # control, or the one-axis arm — starts no job here. Widening the filter is
+      # refused because it would run the whole battery on every corpus edit.
+      #
+      # HOW MUCH IS CLOSED ON THE OTHER SIDE, precisely, because it is not all of
+      # it: the truncation case has a Clojure twin (devcards.host/normalize-dump,
+      # gated by devcards.host-test under devcards.yml's devcards-test, which
+      # does fire on tools/devcards/**). The other three clauses are C with NO
+      # Clojure twin, so for those this is the only gate and the probe's own
+      # assertions are guarded by review alone. Read this lane as proof the two
+      # SIDES agree where both exist — never as the only gate on either one, and
+      # never as coverage of the probe's assertions.
       name: Harness suite + oracles + reload-cycle + decode-limits + dump contracts
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \

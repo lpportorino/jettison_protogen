@@ -139,13 +139,12 @@
            :classes table
            :thresholds {:deadzone/gap-px 0}
            :producers [deadzone/producer]}))
-        atomic (lanes/atomic-findings "c" :judged tree)
+        atomic (lanes/atomic-findings "c" :judged tree 0 nil)
         composition
         (lanes/composition-findings
-         "c"
-         tree
+         "c" :judged          tree
          {:dark {:commands [] :reports [] :events []}
-          :light {:commands [] :reports [] :events []}})
+          :light {:commands [] :reports [] :events []}} 0 nil)
         armed? (fn [fs]
                  (contains? (invariants-of fs)
                             :disabled-covers-ancestor))]
@@ -207,14 +206,13 @@
   (testing "the exact atomic entry point carries ARM 1"
     (is (contains?
          (invariants-of
-          (lanes/atomic-findings "c" :judged disabled-over-enabled))
+          (lanes/atomic-findings "c" :judged disabled-over-enabled 0 nil))
          :disabled-dead-zone)))
   (testing "the exact composition entry point carries ARM 1 too"
     (is (contains?
          (invariants-of
           (lanes/composition-findings
-           "c"
-           disabled-over-enabled
+           "c" :judged            disabled-over-enabled
            {:dark {:commands [] :reports [] :events []}
-            :light {:commands [] :reports [] :events []}}))
+            :light {:commands [] :reports [] :events []}} 0 nil))
          :disabled-dead-zone))))

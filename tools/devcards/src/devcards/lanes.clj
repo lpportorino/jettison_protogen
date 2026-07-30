@@ -89,21 +89,41 @@
    reaches the arm at all, so the `[]` described here is the reply to a tree
    that was read and declined, never to one that was never read."
   {:id :tree-by-expect
-   :requires #{:tree :caps :expect}
-   :fn (fn [{:keys [card-id tree nodes caps expect]}]
-         (or (seq (invariants/truncation-findings card-id tree))
-             (case expect
-               :probe-pixel-only []
-               :probe-defect (if (some (fn [node]
-                                         (some #(get node %) invariants/defect-flags))
-                                       (tree-seq #(seq (:children %)) :children tree))
-                               []
-                               [{:card card-id
-                                 :invariant :probe-defect-absent
-                                 :detail (str "cell exists to EXHIBIT a defect flag; "
-                                              "none present")}])
-               ;; nil expect (kitchen sinks) and every judged expect → full lane
-               (invariants/tree-findings card-id tree caps nodes))))})
+   :requires #{:tree :caps :expect :declaration :family}
+   :fn (fn [{:keys [card-id tree nodes caps expect declaration family]}]
+         ;; :family is stamped on EVERY arm's output, at the one seam all three
+         ;; leave through. Stamping inside the judged arm alone was the first
+         ;; cut and it was wrong in a way no test caught: the truncation
+         ;; short-circuit and the :probe-defect-absent arm both return before
+         ;; it, so a card that overflowed the dump buffer under stock reported a
+         ;; finding that named no render. A per-render verdict that cannot say
+         ;; WHICH render is unactionable, and two of the three arms were emitting
+         ;; exactly that.
+         (mapv
+          #(assoc % :family family)
+          (or (seq (invariants/truncation-findings card-id tree))
+              (case expect
+                :probe-pixel-only []
+                :probe-defect (if (some (fn [node]
+                                          (some #(get node %) invariants/defect-flags))
+                                        (tree-seq #(seq (:children %)) :children tree))
+                                []
+                                [{:card card-id
+                                  :invariant :probe-defect-absent
+                                  :detail (str "cell exists to EXHIBIT a defect flag; "
+                                               "none present")}])
+               ;; nil expect (kitchen sinks) and every judged expect → full lane.
+               ;; The designed-flag declaration is applied HERE rather than
+               ;; inside `tree-findings`, so the flag producer stays a pure
+               ;; "what did the dump say" function and the "what did the corpus
+               ;; declare" question is one composable step a consumer can read.
+               ;; Every finding carries :family — a per-render verdict that
+               ;; cannot name its render is not actionable.
+                (:live (invariants/apply-designed-flags
+                        card-id
+                        (:designed-flags declaration)
+                        (invariants/tree-findings card-id tree caps nodes)
+                        family))))))})
 
 (def overlap-classes
   "The classification table the overlap lane judges this corpus with: the
@@ -231,10 +251,22 @@
   [tree-producer overlap/producer deadzone/producer opa/producer])
 
 (def composition-producers
-  "The producers that judge a COMPOSITION card. The DOM producer is selected
-   BY NAME — `(first builtin-producers)` reads the same today and silently
-   judges with a different rule the moment that vector is reordered or grown."
-  [(findings/builtin-producer :tree)
+  "The producers that judge a COMPOSITION card.
+
+   THE DOM PRODUCER IS `tree-producer`, THE SAME ONE THE ATOMIC LANE USES, and
+   sharing it is load-bearing rather than tidiness. This vector held the plain
+   `(findings/builtin-producer :tree)` while `composition-findings` threaded
+   `:family` and `:declaration` into the context — and the plain builtin reads
+   NEITHER. The registry refuses an ABSENT required key, never a SUPPLIED
+   unread one, so nothing failed: composition findings simply carried no
+   `:family`, and a `:designed-flags` entry naming a composition card would
+   have been silently inert while its flag stayed live. Two lanes, two DOM
+   rules, and no gate able to notice them diverging.
+
+   The `:expect` router costs nothing here: a composition's `:expect` is
+   `:composition` or `:inert-prop`, neither of which the router names, so both
+   take the default arm — the full lane — exactly as the plain builtin did."
+  [tree-producer
    findings/emission-by-mode-producer
    overlap/producer
    deadzone/producer
@@ -272,12 +304,19 @@
   "This gate's GLOBAL exemption list, and it is EMPTY.
 
    The emptiness is a CLAIM, not an omission — the registry's own
-   supplied-but-empty/absent distinction applied to the gate itself. protogen's
-   corpus is exemption-free on purpose: the overlap lane reached zero by the
-   interpreter DECLARING its own proxy composition and by clearing CLICKABLE on
-   two decorative widgets, never by a waiver (see `overlap/producer`). Passing
-   it EXPLICITLY below rather than letting `card-findings` default it is what
-   makes that a statement a reader can check.
+   supplied-but-empty/absent distinction applied to the gate itself. The overlap
+   lane reached zero by the interpreter DECLARING its own proxy composition and
+   by clearing CLICKABLE on two decorative widgets, never by a waiver (see
+   `overlap/producer`). Passing it EXPLICITLY below rather than letting
+   `card-findings` default it is what makes that a statement a reader can check.
+
+   IT IS NOT A CLAIM THAT NOTHING IS CONCEDED ANYWHERE, and it stopped being one
+   the day `corpus/designed-flags.edn` landed. THIS list is empty; that file
+   holds per-card, per-family declarations, and its `:kind :false-positive`
+   entries run through `outcome/check-proof!` — the waiver validator — so they
+   are waivers in everything but which vector they live in. The two are separate
+   because an exemption cannot match on FAMILY (`exemption-match-keys` has no
+   such axis), not because one kind of concession is absent.
 
    It is GLOBAL — one list for both lanes — which is the fact that makes the
    reason vocabulary the ARMED set's rather than any one lane's; see
@@ -292,12 +331,20 @@
    registry treats a nil value as ABSENT and would refuse the call: a nil
    would not fall through to a lenient lane, it would throw at
    `check-requires!`. The kitchen sinks must be JUDGED, so the default has
-   to be a real value."
-  [id expect tree]
+   to be a real value.
+
+   `family` is the theme family the tree was dumped from, and `designed` the
+   card's `:designed-flags` declaration (nil when it declares none). Both are
+   REQUIRED ARGUMENTS rather than defaulted: a family defaulted to 0 would
+   silently judge every render as though it were the shipped theme, which is
+   the exact blindness this arity exists to remove."
+  [id expect tree family designed]
   (:live (findings/card-findings {:card-id (str id)
                                   :tree tree
                                   :caps {:vis-px? true}
                                   :expect (or expect :judged)
+                                  :family family
+                                  :declaration {:designed-flags designed}
                                   :classes overlap-classes
                                   :thresholds producer-thresholds
                                   :producers atomic-producers
@@ -307,11 +354,20 @@
 (defn composition-findings
   "The live findings for ONE composition card — the exact call the gate
    makes. A composition is rendered in both modes, so the emission lane is
-   the by-mode producer rather than the `:emission` builtin."
-  [id tree emissions-by-mode]
+   the by-mode producer rather than the `:emission` builtin.
+
+   `expect`, `family` and `designed` carry the same contract as
+   `atomic-findings`' — and they are CONSUMED here for the same reason, because
+   both lanes now run the same DOM producer. `expect` is defaulted to `:judged`
+   on the same argument that arity makes: the registry treats nil as ABSENT and
+   would refuse the call, so a nil would throw rather than fall through."
+  [id expect tree emissions-by-mode family designed]
   (:live (findings/card-findings {:card-id (str id)
                                   :tree tree
                                   :caps {:vis-px? true}
+                                  :expect (or expect :judged)
+                                  :family family
+                                  :declaration {:designed-flags designed}
                                   :host-proxy? false
                                   :emissions-by-mode emissions-by-mode
                                   :classes overlap-classes

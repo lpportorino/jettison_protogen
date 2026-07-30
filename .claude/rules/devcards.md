@@ -57,9 +57,12 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
   `gallery-prebuilt`. A green local battery therefore says NOTHING about
   `docs/` in either direction — not that the sheets are fresh, and not that no
   orphan is shipping. Run `gallery-prebuilt` yourself to reach the orphan half.
-  The content half has no make TARGET — it exists only as a workflow step, and
-  cannot be a battery lane because git cannot resolve this checkout inside the
-  container — but you reach the same assertion by hand, and doing so before a
+  The content half has no make TARGET — it exists only as a workflow step,
+  because CI runs the container through a raw `docker run` where git refuses the
+  mounted worktree as dubiously owned (`tools/uber.sh` declares safe.directory,
+  so the refusal is an invocation-path fact rather than an absolute — see
+  `.claude/rules/uber-container.md`) — but you reach the same assertion by hand,
+  and doing so before a
   push is the operator's job: re-mint in the PINNED CONTAINER
   (`tools/uber.sh 'make -f renderer.mk gallery-prebuilt'`; a host run rewrites
   every sheet through a different JPEG encoder) and then run

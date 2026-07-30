@@ -100,8 +100,10 @@
                 {:gate :coverage :card (:tag w) :detail "widget class has ZERO cards"})))))
 
 (defn state-contract-findings
-  "DISTINCTNESS + INERTNESS over one family's hashes (the asgard family is
-   the styled one the contract judges)."
+  "DISTINCTNESS + INERTNESS over one family's hashes — the asgard family,
+   because it is the one this repo STYLES and the state contract is a claim
+   about that styling. Not because it is the only family judged: the DOM lane
+   judges every family the run renders."
   [spec hashes]
   (let [idx (card-index spec)]
     (vec

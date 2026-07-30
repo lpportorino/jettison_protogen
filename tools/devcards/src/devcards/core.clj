@@ -3,13 +3,15 @@
 
    `generate` renders the FULL corpus (every atomic card + kitchen sink)
    across the three theme families × dark/light, then:
-   - family 0 (asgard, the shipped look): invariants over the dump trees
-     with the spec's :expect routing — :probe-defect cells must EXHIBIT at
-     least one defect flag, :probe-pixel-only cells are dump-blind and
-     skipped, everything else runs the full lanes — plus the golden
-     manifests (dark + light). This is the only DOM-judged family
-     DELIBERATELY: it is the product surface whose rendered quality protogen
-     claims and whose findings protogen can repair.
+   - EVERY family the run renders is DOM-judged, from its DARK tree, with the
+     spec's :expect routing — :probe-defect cells must EXHIBIT at least one
+     defect flag, :probe-pixel-only cells are dump-blind and skipped,
+     everything else runs the full lanes — and every finding carries :family.
+     Family 0 (asgard, the shipped look) additionally carries the golden
+     manifests (dark + light).
+     THE MODE AXIS IS STILL ONE PER FAMILY: light renders are hashed, never
+     dumped, so a light-only DOM defect is invisible here. That is a narrower
+     boundary than the family-0-only one it replaces, but it is still one.
    - families 1/2 (vanilla/stock): per-card hash equality, BOTH modes (the
      vanilla arms carry dark-conditional stock colors — light must hold
      too), PLUS golden manifests for family 2 (manifest-stock-*). Equality
@@ -17,16 +19,20 @@
      families by the same delta, which is every change to the substrate they
      share. The stock manifests pin family 2 absolutely and family 1 follows
      transitively — see `golden-manifest-paths` for why no vanilla manifest
-     is committed. These remain differential reference controls, not
-     alternate quality-certified surfaces: stock LVGL is vendored upstream
-     and vanilla is required to reproduce it. Running the DOM lanes over
-     either would turn reference-control behaviour outside the product
-     contract into local findings and a permanent exemption ratchet. Their
-     DOM is therefore explicitly UNJUDGED, never implied clean; the pixels
-     are pinned, the tree is not.
+     is committed. They remain differential reference controls for PIXELS —
+     stock LVGL is vendored upstream and vanilla is required to reproduce it —
+     but their DOM is judged like any other family, which is how the
+     composition legos' theme-dependence was found: chrome sized in px with its
+     padding, border and gap inherited from whichever theme was loaded.
+     The case for leaving them unjudged was that upstream behaviour would
+     become a permanent exemption ratchet. Measured, it split three ways: some
+     findings were artifacts of the FLAGS (fixed in the interpreter, so no
+     longer emitted), most were protogen's own legos (fixed), and the residue is
+     DECLARED per family in `corpus/designed-flags.edn`, where a :subject entry
+     owes no expiry and a :false-positive entry owes a waiver's full proof.
    - the state-contract lanes (distinctness/inertness) over family-0 dark.
    - the AUTHORED-COMPOSITION lane (corpus/composition.edn via
-     devcards.composition): the same family-0 invariants + goldens
+     devcards.composition): the same per-family invariants + goldens
      (manifest-composition-{dark,light}.edn) + vanilla≡stock over the
      public-lego cards, plus the :inert-prop pixel-inertness pin and the
      GraalWasm interaction lane (devcards.interaction); every card's
@@ -89,6 +95,7 @@
             [clojure.pprint :as pp]
             [clojure.string :as str]
             [devcards.composition :as composition]
+            [devcards.designed :as designed]
             [devcards.docgen :as docgen]
             [devcards.docs :as docs]
             [devcards.fixtures :as fixtures]
@@ -222,32 +229,74 @@
   (when (empty? built) (throw (ex-info "empty corpus — refusing a vacuous run" {})))
   (let [t0 (System/nanoTime)
         f0 (into {}
-                 (map (fn [{:keys [id expect] ^bytes pb :bytes}]
+                 (map (fn [{:keys [id expect designed-flags] ^bytes pb :bytes}]
                         (let [dark (render-one! pb {:family 0 :dark true :dump? true})
                               light (render-one! pb {:family 0 :dark false})]
                           [(str id)
-                           {:dark-hash (golden/sha256-hex (:fb dark))
+                           {:hash (golden/sha256-hex (:fb dark))
                             :light-hash (golden/sha256-hex (:fb light))
                             :expect expect
+                            :designed-flags designed-flags
                             :tree (:tree dark)}])))
                  built)
-        fam-hashes (fn [family dark]
+        ;; DARK renders DUMP, light renders do not — the per-family DOM is
+        ;; judged from the dark tree, matching the choice family 0 already
+        ;; made. Light-mode DOM stays unjudged, and that is a boundary this
+        ;; change does not move: it widened the FAMILY axis from one to three
+        ;; and left the MODE axis at one.
+        fam-render (fn [family dark]
                      (into {}
                            (map
-                            (fn [{:keys [id] ^bytes pb :bytes}]
-                              [(str id)
-                               (golden/sha256-hex
-                                (:fb (render-one! pb {:family family :dark dark})))]))
+                            (fn [{:keys [id expect designed-flags] ^bytes pb :bytes}]
+                              (let [r (render-one! pb {:family family
+                                                       :dark dark
+                                                       :dump? dark})]
+                                [(str id)
+                                 {:hash (golden/sha256-hex (:fb r))
+                                  :expect expect
+                                  :designed-flags designed-flags
+                                  :tree (:tree r)}])))
                            built))
-        f1d (fam-hashes 1 true)
-        f2d (fam-hashes 2 true)
-        f1l (fam-hashes 1 false)
-        f2l (fam-hashes 2 false)
-        inv (vec (mapcat (fn [[id {:keys [expect tree]}]]
-                           (lanes/atomic-findings id expect tree))
-                         f0))
-        gate-res (gates/run-gates spec {0 (update-vals f0 :dark-hash) 1 f1d 2 f2d})
-        vs-light (mapv #(assoc % :mode :light) (gates/vanilla-stock-findings f1l f2l))
+        f1d (fam-render 1 true)
+        f2d (fam-render 2 true)
+        f1l (fam-render 1 false)
+        f2l (fam-render 2 false)
+        hashes (fn [m] (update-vals m :hash))
+        ;; EVERY family the run renders is judged, not family 0 alone. Families
+        ;; 1 and 2 were hashed for pixels and never dumped, so a layout defect
+        ;; living only under another theme's padding reported byte-identically
+        ;; to a clean card — measured at 148 findings across 27 cards on the run
+        ;; that first looked, none of them visible to any lane before it.
+        judge (fn [family by-id]
+                (mapcat (fn [[id {:keys [expect designed-flags tree]}]]
+                          (lanes/atomic-findings id expect tree family designed-flags))
+                        by-id))
+        inv (vec (concat (judge 0 f0) (judge 1 f1d) (judge 2 f2d)))
+        gate-res (gates/run-gates spec {0 (hashes f0) 1 (hashes f1d) 2 (hashes f2d)})
+        ;; A declaration filed under a MISSPELLED card id is invisible to the
+        ;; stale clause, which is only ever asked about cards the run judged. So
+        ;; the key set is checked against the ids that exist — over BOTH lanes,
+        ;; because one file serves both and an id valid in the other lane must
+        ;; not read as a typo here.
+        ;; The composition ids come from the INVENTORY, never from build-all:
+        ;; that arity materialises every lego and serialises it to Screen bytes,
+        ;; which is a second full build of the composition corpus inside the
+        ;; ATOMIC run just to read ten strings — and it would make this run's
+        ;; success depend on the composition corpus being buildable, which it
+        ;; otherwise does not.
+        orphan-declarations
+        (for [id (designed/unknown-card-ids
+                  (designed/load-declarations)
+                  (concat (map :id built)
+                          (map :id (:cards (composition/load-inventory)))))]
+          {:card id
+           :invariant :unknown-declared-card
+           :node "(declaration)"
+           :detail (str "corpus/designed-flags.edn declares this card id and no"
+                        " card has it — a typo'd id is dead AND invisible to the"
+                        " stale clause, which only asks about cards that ran")})
+        vs-light (mapv #(assoc % :mode :light)
+                       (gates/vanilla-stock-findings (hashes f1l) (hashes f2l)))
         findings (-> (:findings gate-res)
                      (into vs-light)
                      ;; the kitchen sinks' RENDERED trees are authored here in
@@ -257,20 +306,27 @@
                      (into (gates/corpus-secret-findings
                             (map (fn [[id tree]] {:id id :node tree})
                                  fixtures/kitchen-sink-trees)))
+                     (into orphan-declarations)
                      (into inv))]
     {:findings findings
      :counts (assoc (:counts gate-res)
                     :renders (* (count built) 6)
                     :invariant-findings (count inv)
+                    ;; Reported so GROWTH in the declaration list is visible: the
+                    ;; stale clause bounds removal only, and a green run would
+                    ;; otherwise read identically whether nothing or everything
+                    ;; was absorbed.
+                    :designed-flag-entries
+                    (reduce + 0 (map count (vals (designed/load-declarations))))
                     :elapsed-s (/ (- (System/nanoTime) t0) 1e9))
      ;; :stock-* are the SAME family-2 hashes the equality lane above judged,
      ;; minted as manifests so family 2 is pinned absolutely and not only
      ;; relative to family 1. No extra render is paid: f2d/f2l already exist
      ;; because the equality lane needs them.
-     :manifests {:dark (manifest-of (update-vals f0 :dark-hash))
+     :manifests {:dark (manifest-of (hashes f0))
                  :light (manifest-of (update-vals f0 :light-hash))
-                 :stock-dark (manifest-of f2d)
-                 :stock-light (manifest-of f2l)}}))
+                 :stock-dark (manifest-of (hashes f2d))
+                 :stock-light (manifest-of (hashes f2l))}}))
 
 (defn- persist-bytes!
   "Write `b` at `path` (parents created). Returns the path — the composition
@@ -350,7 +406,7 @@
   (let [geometry-artifact (persist-geometry-declaration! inventory)
         t0 (System/nanoTime)
         f0 (into {}
-                 (map (fn [{:keys [id] ^bytes pb :bytes}]
+                 (map (fn [{:keys [id expect designed-flags] ^bytes pb :bytes}]
                         (let [dark (render-one! pb {:family 0 :dark true :dump? true})
                               light (render-one! pb {:family 0 :dark false})]
                           [(str id)
@@ -370,26 +426,47 @@
                                                   "_dark0.raw")
                                              (:fb light))]
                             :inv (lanes/composition-findings
-                                  id (:tree dark)
+                                  id expect (:tree dark)
                                   {:dark (:emissions dark)
-                                   :light (:emissions light)})}])))
+                                   :light (:emissions light)}
+                                  0
+                                  designed-flags)}])))
                  built)
-        fam-hashes (fn [family dark]
+        ;; Same widening as `run-generate`: the dark render of every family
+        ;; DUMPS and is judged. A lego authors its own geometry and promises
+        ;; "proven geometry at dpi 160" — a promise that was only ever checked
+        ;; under the shipped theme, where the dock's chrome constants happened
+        ;; to match the padding they had been measured against.
+        fam-render (fn [family dark]
                      (into {}
-                           (map (fn [{:keys [id] ^bytes pb :bytes}]
-                                  [(str id)
-                                   (golden/sha256-hex
-                                    (:fb (render-one! pb
-                                                      {:family family :dark dark})))]))
+                           (map (fn [{:keys [id expect designed-flags] ^bytes pb :bytes}]
+                                  (let [r (render-one! pb {:family family
+                                                           :dark dark
+                                                           :dump? dark})]
+                                    [(str id)
+                                     {:hash (golden/sha256-hex (:fb r))
+                                      :expect expect
+                                      :designed-flags designed-flags
+                                      :emissions (:emissions r)
+                                      :tree (:tree r)}])))
                            built))
-        f1d (fam-hashes 1 true)
-        f2d (fam-hashes 2 true)
-        f1l (fam-hashes 1 false)
-        f2l (fam-hashes 2 false)
-        inv-findings (vec (mapcat (comp :inv val) (sort-by key f0)))
-        vs (-> (vec (gates/vanilla-stock-findings f1d f2d))
+        f1d (fam-render 1 true)
+        f2d (fam-render 2 true)
+        f1l (fam-render 1 false)
+        f2l (fam-render 2 false)
+        hashes (fn [m] (update-vals m :hash))
+        judge (fn [family by-id]
+                (mapcat (fn [[id {:keys [expect designed-flags emissions tree]}]]
+                          (lanes/composition-findings id expect tree
+                                                      {:dark emissions}
+                                                      family designed-flags))
+                        by-id))
+        inv-findings (vec (concat (mapcat (comp :inv val) (sort-by key f0))
+                                  (judge 1 f1d)
+                                  (judge 2 f2d)))
+        vs (-> (vec (gates/vanilla-stock-findings (hashes f1d) (hashes f2d)))
                (into (mapv #(assoc % :mode :light)
-                           (gates/vanilla-stock-findings f1l f2l))))
+                           (gates/vanilla-stock-findings (hashes f1l) (hashes f2l)))))
         inert (-> (vec (gates/inert-prop-findings built (update-vals f0 :dark-hash)))
                   (into (mapv #(assoc % :mode :light)
                               (gates/inert-prop-findings built
@@ -416,8 +493,8 @@
      ;; cards, so leaving them relative-only would leave a hole this size.
      :manifests {:dark (manifest-of (update-vals f0 :dark-hash))
                  :light (manifest-of (update-vals f0 :light-hash))
-                 :stock-dark (manifest-of f2d)
-                 :stock-light (manifest-of f2l)}}))
+                 :stock-dark (manifest-of (hashes f2d))
+                 :stock-light (manifest-of (hashes f2l))}}))
 
 (defn -main
   "CLI: `generate` renders, judges, writes and audits goldens/composition;
@@ -508,6 +585,12 @@
         (println (:line composition-audit))
         (println "renders:" (:renders counts)
                  " elapsed:" (format "%.1fs" (double (:elapsed-s counts))))
+        ;; PRINTED so growth in the declaration list is visible. The stale clause
+        ;; bounds REMOVAL only — an entry that stops matching reds — and nothing
+        ;; bounds addition, so without this line a green run reads identically
+        ;; whether the corpus absorbed nothing or absorbed everything.
+        (println "designed-flag declarations in force:"
+                 (:designed-flag-entries counts))
         (println "composition renders:" (:composition-renders (:counts comp-run))
                  " cards:" (:composition-cards (:counts comp-run))
                  " elapsed:" (format "%.1fs" (double (:elapsed-s (:counts comp-run)))))

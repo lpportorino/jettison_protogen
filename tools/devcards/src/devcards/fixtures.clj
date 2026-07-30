@@ -59,7 +59,8 @@
    UiAst.java references `build.buf.validate.ValidateProto` while building
    its file descriptor, before any validation is ever invoked."
   (:require [clojure.edn :as edn]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [devcards.designed :as designed])
   (:import [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
             UiAst$ChartAxis UiAst$ChartProps UiAst$ChartSeries UiAst$ChartType
             UiAst$CheckboxProps UiAst$Color UiAst$DropdownProps UiAst$EventBinding
@@ -129,7 +130,8 @@
    function of the card (golden-hash prerequisite). Slots + flavors mirror
    the conventions manifest `:style-prop-slots` table verbatim."
   [[:w "PROP_WIDTH" :uint] [:h "PROP_HEIGHT" :uint] [:x "PROP_X" :int] [:y "PROP_Y" :int]
-   [:pad-all "PROP_PAD_ALL" :uint] [:radius "PROP_RADIUS" :uint]
+   [:pad-all "PROP_PAD_ALL" :uint] [:pad-gap "PROP_PAD_GAP" :uint]
+   [:radius "PROP_RADIUS" :uint]
    [:border-width "PROP_BORDER_WIDTH" :uint] [:border-color "PROP_BORDER_COLOR" :color]
    [:text-color "PROP_TEXT_COLOR" :color] [:text-font "PROP_TEXT_FONT" :string]
    [:text-align "PROP_TEXT_ALIGN" :text-align]])
@@ -766,6 +768,10 @@
 
 ;; ── Card -> Screen bytes ────────────────────────────────────────────────
 (def ^:private card-keys
+  "Every key an atomic card may carry. :designed-flags is deliberately NOT one:
+   a card's designed-flag declaration lives in `corpus/designed-flags.edn`
+   (`devcards.designed`) and nowhere else. Two spellings of one declaration is
+   two places for it to drift, and no gate here could notice them disagreeing."
   #{:id :state :states-bits :size :props :children :wrapper :expect :notes :text :value
     :variant})
 
@@ -1089,14 +1095,24 @@
 
 (defn build-all
   "Build the WHOLE corpus: every atomic card + every kitchen sink, in spec
-   order. Returns a vector of {:kind :id :widget :expect :bytes}. Throws on
-   the first failing entry (callers wanting per-card error collection walk
-   `entries` + `build-entry` themselves — the smoke does)."
+   order. Returns a vector of {:kind :id :widget :expect :designed-flags
+   :bytes}. Throws on the first failing entry (callers wanting per-card error
+   collection walk `entries` + `build-entry` themselves — the smoke does).
+
+   `:designed-flags` is attached here from `corpus/designed-flags.edn` rather
+   than read off the card: it is a judging DECLARATION, never wire content, so
+   nothing about it reaches the Screen bytes. It is attached at this seam
+   because it is the one place every card already passes through, and the
+   loader REFUSES a missing file so a lost declaration cannot read as a corpus
+   that declares nothing."
   ([] (build-all (load-spec)))
   ([spec]
-   (mapv (fn [e]
-           (assoc (select-keys e [:kind :id :widget :expect]) :bytes (build-entry spec e)))
-         (entries spec))))
+   (let [declared (designed/load-declarations)]
+     (mapv (fn [e]
+             (assoc (select-keys e [:kind :id :widget :expect])
+                    :designed-flags (designed/for-card declared (:id e))
+                    :bytes (build-entry spec e)))
+           (entries spec)))))
 
 (defn write-pbs!
   "Write built entries to `<dir>/<id>.pb` (ids contain '/': subdirs are

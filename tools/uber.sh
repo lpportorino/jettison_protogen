@@ -199,9 +199,30 @@ exit $rc
 UBER_INNER
 )"
 
+# git's OWNERSHIP check refuses the mounted worktree, and it refuses it for a
+# reason that cannot be satisfied by mounting anything: the container runs as
+# root while every file under $WORKSPACE is owned by the invoking user, so git
+# sees a repository owned by somebody else and aborts with "detected dubious
+# ownership". That check exists to stop a repo owned by another user from
+# executing ITS config and hooks as you — a real hazard on a shared host, and
+# not one that exists here, where the mount IS the caller's own checkout.
+#
+# Declared through GIT_CONFIG_* rather than by writing a global config inside
+# the container: the env form is ephemeral, needs no writable HOME, and cannot
+# leak a permissive setting into an image layer. Without it, any battery lane
+# that discovers its corpus from git reports CANNOT RUN — `dead-c-externs-test`
+# does exactly that, and it takes `check-renderer` down with it, so the
+# documented battery entry is unrunnable locally rather than merely degraded.
+GIT_OWNERSHIP=(
+  -e GIT_CONFIG_COUNT=1
+  -e GIT_CONFIG_KEY_0=safe.directory
+  -e GIT_CONFIG_VALUE_0="$WORKSPACE"
+)
+
 exec docker run --rm --platform "$PLATFORM" --entrypoint bash \
   -v "$ROOT:$WORKSPACE" -w "$WORKSPACE" \
   ${GIT_MOUNT[@]+"${GIT_MOUNT[@]}"} \
+  "${GIT_OWNERSHIP[@]}" \
   -e CARGO_HOME="$WORKSPACE/.cargo-home" \
   -e UBER_CMD="$*" -e UBER_UID="$(id -u)" -e UBER_GID="$(id -g)" \
   -e UBER_WORKSPACE="$WORKSPACE" \

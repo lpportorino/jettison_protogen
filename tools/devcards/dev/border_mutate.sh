@@ -14,9 +14,11 @@
 # — restore, and print the tally. A canary is credited only on a FAIL: an
 # ERROR is a broken harness wearing the right colour, not a caught defect.
 #
-# Runs INSIDE the pinned container (tools/uber.sh 'bash .fork-scratch/…'), so
-# it restores by `cp` rather than by git: the container is root and git refuses
-# this checkout for dubious ownership.
+# Runs INSIDE the pinned container (tools/uber.sh 'bash .fork-scratch/…') and
+# restores by `cp` rather than by git. NOT because git is unavailable there —
+# uber.sh declares safe.directory, so it works — but because a `cp` restore of
+# two named files needs no index, no clean tree and no assumptions about what
+# else the checkout has in flight, which is what a mutation harness wants.
 set -uo pipefail
 # tools/devcards/dev/ -> repo root is three levels up; the depth is part of the path.
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"

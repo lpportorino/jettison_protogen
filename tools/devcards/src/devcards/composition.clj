@@ -19,6 +19,7 @@
    (devcards.interaction)."
   (:require [clojure.edn :as edn]
             [clojure.walk :as walk]
+            [devcards.designed :as designed]
             [devcards.fixtures :as fixtures]
             [devcards.legos :as legos]))
 
@@ -31,6 +32,9 @@
 (def ^:private inventory-keys #{:builder :canvas :cards :lane})
 
 (def ^:private card-keys
+  "Every key a composition card may carry. :designed-flags is deliberately NOT
+   one — see `fixtures/card-keys`: the declaration lives in
+   `corpus/designed-flags.edn` and nowhere else."
   #{:base-card :expect :id :lego :notes :opts :placement :transform})
 
 (def ^:private placement-keys #{:x :y})
@@ -135,15 +139,17 @@
   "Build the whole composition corpus to Screen bytes through the
    authored lane, in inventory order (deterministic output order is part
    of the contract, matching the atomic build). Returns a vector of
-   {:id :expect :base-card :lego :bytes}."
+   {:id :expect :base-card :lego :designed-flags :bytes}."
   ([] (build-all (load-inventory)))
   ([inventory]
-   (let [canvas (:canvas inventory)]
+   (let [canvas (:canvas inventory)
+         declared (designed/load-declarations)]
      (mapv (fn [{:keys [id expect base-card lego] :as card}]
              {:id id
               :expect expect
               :base-card base-card
               :lego lego
+              :designed-flags (designed/for-card declared id)
               :bytes (fixtures/build-authored-card canvas
                                                    {:id id :node (materialize card)})})
            (:cards inventory)))))

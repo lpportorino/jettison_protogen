@@ -1055,21 +1055,35 @@ STANDARD_BRIEF := .claude/skills/ui-standard-review/STANDARD.md
 #
 # WHY THE OBVIOUS REPAIR IS REFUSED. Swapping this lane for `standard-brief`
 # would red every containerised battery on a repo-shape problem instead of a
-# standard problem — git cannot resolve this checkout inside Dockerfile.base, and
+# standard problem — under CI's RAW `docker run` git refuses this checkout as
+# dubiously owned (see the scoping note below the recipe), and
 # that target's own first guard turns "cannot look" into a hard failure, exactly
 # as it should. The block below records that decision; this note records what it
 # costs, which is the half that was missing.
 standard-brief-generate:
 	cd tools/devcards && clojure -M -m devcards.standard-brief
 
-# The FRESHNESS half is deliberately a SEPARATE target, and it is not a
-# check-renderer lane. It shells out to git, and git cannot resolve this
-# checkout from inside the toolchain container (`detected dubious ownership`),
-# so a git-based gate wired into the battery can never go green there — it
-# would fail every run while looking like a real finding. This mirrors how the
+# The FRESHNESS half is a SEPARATE target and not a check-renderer lane. It
+# shells out to git, and under a RAW `docker run` git refuses the mounted
+# worktree as dubiously owned (`detected dubious ownership`), so a git-based
+# battery lane fails every run there while looking like a real finding. That is
+# how CI invokes the container, and CI is the authority. This mirrors how the
 # goldens/gallery freshness check is armed: generation runs in the container,
 # the git comparison runs on the runner afterwards
 # (.github/workflows/renderer.yml "Golden manifest + gallery freshness").
+#
+# NOT AN ABSOLUTE, and CI IS NOT THE OBSTACLE — say so plainly, because the
+# first draft of this note claimed it was and that claim is refuted three lines
+# of YAML away. `tools/uber.sh` declares `safe.directory` for the workspace, and
+# `.github/workflows/renderer.yml`'s shellcheck lane ALREADY passes the same
+# GIT_CONFIG_* env to a raw `docker run`, with its own measurement recorded
+# beside it. So the capability exists on both paths and is demonstrated.
+#
+# What keeps this out of `check-renderer` is therefore a DECISION and not a
+# blocker: a freshness check compares the working tree against the index, which
+# is a different kind of assertion from the rest of the battery, and arming it
+# means adding the env to the battery's own docker invocations too. Recorded
+# this way so the next author does not re-derive an obstacle that is not there.
 standard-brief: standard-brief-generate
 	@git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { \
 		echo "FATAL: git cannot resolve this checkout, so freshness is UNKNOWN, not" >&2; \
@@ -1097,7 +1111,7 @@ standard-brief: standard-brief-generate
 #
 # DELIBERATELY NOT A check-renderer PREREQUISITE, and the reason is semantic
 # rather than mechanical — unlike `standard-brief`, which is kept out because git
-# cannot resolve this checkout inside the container. These two need no git, no
+# refuses this checkout under CI's raw `docker run`. These two need no git, no
 # wasm and no network and would run fine there. They stay out because
 # `check-renderer` IS the gate, and a gate whose green included "the review's
 # inputs resolve" invites reading that green as evidence about the review — the

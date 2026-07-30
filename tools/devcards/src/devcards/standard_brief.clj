@@ -234,8 +234,11 @@
    and the semantics get a canary of their own in `standard_brief_test`:
    a derived LIST does not carry what its members MEAN."
   ^String []
-  (str "Every finding is dispositioned before the push: FIXED, or EXEMPTED "
-       "with the same proof-carrying entry any other exemption owes — "
+  (str "Every finding is dispositioned before the push: FIXED, DECLARED, or "
+       "EXEMPTED. DECLARED is the narrow one and it is spelled out below the "
+       "waiver rules, because reading only the waiver half of this paragraph "
+       "and meeting a no-expiry declaration in the corpus is how an agent "
+       "concludes the two disagree. EXEMPTED owes "
        (kw-list invariants/exemption-proof-keys)
        ", each a non-blank string. An entry is a WAIVER and not a disabled "
        "rule: `:owner` names who to ask, and `:expires` is an ISO-8601 date "
@@ -245,7 +248,20 @@
        "date. `:retires-when` stays beside it and carries what no machine "
        "can evaluate: the EVENT that makes the entry unnecessary, where the "
        "date only says when the decision must be re-taken regardless. "
-       "An entry MATCHES on "
+       "DECLARED is the third disposition and it is NOT a waiver: a card whose "
+       "SUBJECT is a flag — a label card that exists to render wrapping, a box "
+       "sized to probe a padding floor — declares it per THEME FAMILY through "
+       "`devcards.designed`, and its `:kind` selects its proof. "
+       "`:kind :subject` owes "
+       (kw-list invariants/designed-subject-proof-keys)
+       " and NO expiry, because no event retires it short of deleting the "
+       "card; what ratchets it is that an entry matching no finding on a "
+       "family it names is a HARD failure, so the list can only shrink. "
+       "`:kind :false-positive` — the CHECK is wrong about this case — owes "
+       "the full waiver proof above, through the same validator, because "
+       "splitting the mistaken check IS its retiring event. Reach for "
+       "`:subject` only when the check is RIGHT and the card is the exception. "
+       "An exemption entry MATCHES on "
        (kw-list invariants/exemption-match-keys)
        ". `:card` and `:invariant` are mandatory. `:node` matches ANY node "
        "when absent. `:act/outcome` and `:act/test-mode` are optional too "

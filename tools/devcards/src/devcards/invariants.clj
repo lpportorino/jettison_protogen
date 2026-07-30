@@ -6,9 +6,18 @@
 
    The invariant set (the corpus contract):
    - NO layout-defect flag on any node: text_truncated / text_clipped /
-     clipped / overflow / scrollable_overflow / offscreen / squished. A card
-     exists to show a widget correctly; a defect flag is the renderer saying
-     it could not.
+     text_wrapped / clipped / overflow / scrollable_overflow / offscreen /
+     squished. A card exists to show a widget correctly; a defect flag is the
+     renderer saying it could not. `text_wrapped` is the one no other flag can
+     stand in for — a WRAP-mode label GROWS instead of clipping, so both other
+     text flags stay absent while the reader gets a mid-word break.
+   - EXCEPT where the card DECLARES the flag (`designed-flag-keys`,
+     `apply-designed-flags`). The declaration is PER-FAMILY and its :kind
+     selects its proof: a :subject entry (the flag is what the card renders)
+     owes :rationale + :owner and no expiry, because no event retires it; a
+     :false-positive entry (the CHECK is wrong here) owes the full waiver proof
+     including :expires, because one does. Either way an entry matching nothing
+     on a family it names is itself a HARD finding, so the list only shrinks.
    - NO zero-area node (coords collapse to w=0 or h=0).
    - NO zero-visible-area node (`vis_px` 0 = fully occluded/clipped away —
      the field is emitted only when visible < total, so 0 is the occlusion
@@ -50,8 +59,8 @@
      difference of degree from :clipped, where the parent's content box
      excludes the hidden child BY CONSTRUCTION and the noise is therefore
      structural. The flags that do not depend on the
-     parent's extent (:overflow, :text_truncated, :text_clipped, :squished)
-     stay judged; the SHOWN state is proven by the consumer's own
+     parent's extent (:overflow, :text_truncated, :text_clipped, :text_wrapped,
+     :squished) stay judged; the SHOWN state is proven by the consumer's own
      driven-subject variants, not by this lane;
    - lv_tabview's content child is a scroll-snap page carousel: the content
      may carry :scrollable_overflow, and a page fully snapped outside the
@@ -64,11 +73,16 @@
    ratchet-down. `exemption-proof-keys` is the mandatory proof; an exemption
    that matches NO finding is itself a finding (:stale-exemption) so the list
    can only shrink, and one whose :expires has passed is a HARD failure so it
-   cannot outlive its own decision. No entry is currently live: the
-   anticipated lv_line class (renderer has no line_props decode arm) yields
-   ZERO findings because its cards mandate explicit finite w/h — an empty box,
-   not a collapsed or flagged one — so the corpus runs exemption-free until a
-   real unsolvable arrives.
+   cannot outlive its own decision. No entry is currently live in
+   `lanes/gate-exemptions`: the anticipated lv_line class (renderer has no
+   line_props decode arm) yields ZERO findings because its cards mandate
+   explicit finite w/h — an empty box, not a collapsed or flagged one.
+
+   THAT IS A STATEMENT ABOUT THAT VECTOR, NOT ABOUT THE CORPUS. Concessions do
+   live in `corpus/designed-flags.edn`, and its `:kind :false-positive` entries
+   owe and are checked against the SAME four proof keys through the same
+   `outcome/check-proof!`. They sit apart only because an exemption cannot match
+   on theme FAMILY.
 
    AN EXEMPTION HERE IS THE UPSTREAM STANDARD'S \"WAIVER\"; the two words name
    one object and this ns does not rename the older one, because the word is
@@ -100,16 +114,24 @@
                               tree must put the slug in :rationale prose
                               rather than in a field something could
                               resolve."
-  (:require [devcards.outcome :as outcome])
+  (:require [clojure.string :as str]
+            [devcards.outcome :as outcome])
   (:import (java.time LocalDate)
            (java.time.temporal ChronoUnit)))
 
 (set! *warn-on-reflection* true)
 
 (def defect-flags
-  "Layout-defect keys the dump emits only when set (main.c dump_obj)."
-  [:text_truncated :text_clipped :clipped :overflow :scrollable_overflow :offscreen
-   :squished])
+  "Layout-defect keys the dump emits only when set (main.c dump_obj).
+
+   `:text_wrapped` is the one that cannot be reached from the other two text
+   flags: a WRAP-mode label GROWS instead of clipping, so `:text_clipped`
+   (CLIP-mode only) and `:text_truncated` (dot_begin) both stay absent while
+   the reader gets a mid-word break. It is also the only text flag that
+   survives a theme change — growing needs no padding to go wrong — so it
+   fires identically on every family."
+  [:text_truncated :text_clipped :text_wrapped :clipped :overflow
+   :scrollable_overflow :offscreen :squished])
 
 (defn- node-area
   "[w h] from a dumped node's coords [x1 y1 x2 y2] (inclusive), or nil."
@@ -263,6 +285,202 @@
       (and (= flag :clipped)
            (or (:hidden node) hidden-under? snapped-under?))
       (and (= flag :overflow) (roller-drum-overflow? node))))
+
+;; ── Designed-flag declarations ──────────────────────────────────────────
+;; A card whose SUBJECT is a defect flag — a label card named `wrap` that
+;; exists to render wrapping, a textarea that scrolls because scrolling is
+;; what a textarea does, a 40px box that documents a theme's padding floor —
+;; needs a way to say so. Without one, the only dispositions are a WAIVER
+;; (wrong: it expires, so a permanent property would be re-authored every 90
+;; days forever, which is the "permanent waiver carrying a date" shape
+;; `waiver-horizon-days` refuses) or widening the check (forbidden outright).
+
+(def designed-flag-keys
+  "Every key a `:designed-flags` entry may carry. Closed, so a typo is refused
+   rather than silently widening what the entry covers.
+
+   :invariant and :families are MANDATORY and are what it matches on; :node
+   matches ANY node when absent, exactly as `exemption-match-keys` does — the
+   same axis words, so a reader who knows one knows the other.
+
+   :families IS MANDATORY AND HAS NO 'ALL' SPELLING, deliberately. The whole
+   value of this declaration over a waiver is that it is per-render: a card can
+   be clean under the shipped theme and a documented floor under stock, and
+   `#{1 2}` says exactly that while keeping family 0 enforced. An `:all` would
+   let one keystroke excuse a family-0 regression on a card that was only ever
+   meant to concede the others.
+
+   :kind IS MANDATORY AND IT SELECTS THE PROOF, because two genuinely different
+   dispositions were briefly conflated here and only one of them may skip an
+   expiry:
+
+     :subject         the flag IS what the card exists to render. A label card
+                      named for wrapping wraps; a box sized to probe a padding
+                      floor is clipped by that floor. There is no retiring
+                      EVENT short of deleting the card, so :retires-when could
+                      only be filled with a fiction and :expires would be
+                      re-authored forever — which is the permanent-waiver-
+                      carrying-a-date shape `waiver-horizon-days` refuses.
+                      Proof: :rationale + :owner.
+
+     :false-positive  the CHECK is wrong about this case. `:clipped` conflates
+                      \"does not fit the content box\" with \"is drawn outside
+                      and clipped\", and a widget whose label overruns a
+                      stock-padded content box while staying inside its coords
+                      trips the first while the render is complete. That has a
+                      retiring event — the key being split into a fit verdict
+                      and a visible-clip verdict — so it owes the FULL
+                      `outcome/proof-keys`, checked by `outcome/check-proof!`,
+                      exactly as a waiver does.
+
+   Conflating them let entries whose own rationale said \"the check is wrong
+   here\" ride the no-expiry path — review found them, and the corpus file is
+   the enumeration, so no count is kept here to rot. The stale clause below is
+   a real ratchet but it only bounds REMOVAL; it says nothing about a
+   concession that should have carried an end date and did not.
+
+   WHY THIS IS NOT ROUTED THROUGH `gate-exemptions`, which is the existing
+   four-key waiver mechanism and would otherwise be the obvious home: its match
+   axes are `exemption-match-keys`, and FAMILY is not one of them. An exemption
+   therefore cannot say \"stock only\", so it would excuse the shipped family
+   too — and the axis machinery's \"absent reads the DEFAULT on both sides\"
+   rule is the wrong semantics to bolt family onto, since absent would then mean
+   family 0 rather than any family. Giving the exemption axes a family is the
+   better end state and is a change to `outcome/axis-keys` owing its own
+   canaries; this is recorded as the reason rather than left as a silence.
+
+   WHAT THE STALE CLAUSE DOES AND DOES NOT BOUND. It makes the list shrink: an
+   entry matching nothing on a family it names is a HARD finding, so an entry
+   cannot outlive the flag it declares, and unlike an expiry it cannot be
+   satisfied by re-authoring a later date. It does NOT bound ADDITION — no
+   ceiling, no watchlist tier — so a future author who breaks a widget under
+   stock can add an entry and go green. The count of entries in force is printed
+   with the run's other counts so that growth is at least visible; the committed
+   file is the record of WHAT was absorbed, and every entry in it is proven
+   still-live by the stale clause."
+  #{:invariant :node :families :kind :rationale :retires-when :owner :expires})
+
+(def designed-flag-kinds
+  "The two dispositions, and which proof each owes. See `designed-flag-keys`."
+  #{:subject :false-positive})
+
+(def designed-subject-proof-keys
+  "The proof a `:kind :subject` entry owes: why this flag IS the card's subject,
+   and who to ask. See `designed-flag-keys` for why the expiry pair is absent
+   for this kind and MANDATORY for the other. Sorted, so a multi-defect entry
+   always names the same key first.
+
+   PUBLIC because `devcards.standard-brief` splices it into the generated
+   STANDARD.md rather than typing the two keys — the same reason that file
+   splices the waiver set: a derived list cannot silently disagree with the
+   clause that enforces it, and a typed one can. There is deliberately no
+   private twin of this vector; two literals of one list is the second
+   silently divergent source this repo refuses everywhere else."
+  [:owner :rationale])
+
+(defn validate-designed-flags!
+  "Assert every `:designed-flags` entry on one card is well-formed. Throws on
+   the first problem, naming the card and the entry.
+
+   REFUSES AN EMPTY ENTRY VECTOR for the reason the producer registry refuses
+   an empty producer set: `[]` and \"this card declares nothing\" are the same
+   value, so a card that MEANT to declare something and typo'd the key would
+   read as a card that declared nothing — and its findings would then be live,
+   which is the safe direction, but the author would get no signal at all. A
+   card with nothing to declare omits the key."
+  ([card-id entries] (validate-designed-flags! card-id entries (outcome/today)))
+  ([card-id entries ^LocalDate now]
+   (when (some? entries)
+     (when-not (and (vector? entries) (seq entries))
+       (throw (ex-info (str "card " (pr-str card-id)
+                            ": :designed-flags must be a NON-EMPTY vector — omit"
+                            " the key rather than declaring nothing")
+                       {:card card-id :entries entries})))
+     (doseq [e entries]
+       (let [bad! #(throw (ex-info (str "card " (pr-str card-id)
+                                        " :designed-flags entry: " %)
+                                   {:card card-id :entry e}))]
+         (when-not (map? e) (bad! "must be a map"))
+         (when-let [extra (seq (remove designed-flag-keys (keys e)))]
+           (bad! (str "unknown keys " (vec extra) " (closed shape); allowed "
+                      (vec (sort designed-flag-keys)))))
+         (when-not (contains? (set defect-flags) (:invariant e))
+           (bad! (str ":invariant must be one of " (vec defect-flags)
+                      " — a declaration for a clause that cannot fire is an"
+                      " entry nothing will ever match")))
+         (when-not (and (set? (:families e))
+                        (seq (:families e))
+                        (every? nat-int? (:families e)))
+           (bad! ":families must be a non-empty set of theme-family numbers"))
+         (when (and (contains? e :node) (not (string? (:node e))))
+           (bad! ":node, when present, must be the node label string"))
+         (when-not (contains? designed-flag-kinds (:kind e))
+           (bad! (str ":kind must be one of " (vec (sort designed-flag-kinds))
+                      " — it selects which proof the entry owes, so it cannot"
+                      " be omitted")))
+         ;; The proof is a function of :kind, and the :false-positive arm is the
+         ;; SAME `outcome/check-proof!` a waiver runs — one home, so the two acts
+         ;; cannot drift about how long a concession may live.
+         (if (= :false-positive (:kind e))
+           (outcome/check-proof! e now bad! "designed-flag false positive")
+           (doseq [k designed-subject-proof-keys]
+             (when-not (and (string? (get e k)) (not (str/blank? (get e k))))
+               (bad! (str k " must be a non-blank string — the proof a :subject"
+                          " declaration owes is mandatory")))))
+         ;; A :subject entry carrying an expiry is refused rather than ignored:
+         ;; it means the author believed the concession ends, which is the
+         ;; :false-positive disposition wearing the wrong label.
+         (when (and (= :subject (:kind e))
+                    (or (contains? e :expires) (contains? e :retires-when)))
+           (bad! (str ":kind :subject must NOT carry :expires or :retires-when —"
+                      " a card's subject has no retiring event, and naming one"
+                      " means this is a :false-positive entry"))))))))
+
+(defn- designed-entry-matches?
+  "Does `entry` declare `finding` on `family`? Conjunctive over the axes the
+   entry names; an absent :node matches any node."
+  [entry finding family]
+  (and (= (:invariant entry) (:invariant finding))
+       (contains? (:families entry) family)
+       (or (not (contains? entry :node)) (= (:node entry) (:node finding)))))
+
+(defn apply-designed-flags
+  "Split `findings` against a card's `:designed-flags` declaration for the
+   render at `family`.
+
+   Returns {:live [..] :declared [..]}. `:live` is what the gate fails on;
+   `:declared` is the record of what a declaration absorbed. Every entry that
+   matched NOTHING contributes a HARD :stale-designed-flag finding to `:live`
+   — that clause is what makes the list a ratchet instead of an accumulator,
+   and it is the reason this declaration needs no expiry date.
+
+   THE STALE CLAUSE IS SCOPED TO THE FAMILIES THE ENTRY NAMES. An entry
+   declaring `#{1 2}` is judged stale only on a run that actually rendered
+   family 1 or 2; asked about family 0 it is neither matched nor stale, because
+   a run that never rendered its families has no evidence either way. Without
+   that scoping, judging one family at a time would report every other
+   family's entries stale on every card — findings that are pure artifacts of
+   the caller's loop."
+  ([card-id entries findings family]
+   (apply-designed-flags card-id entries findings family (outcome/today)))
+  ([card-id entries findings family ^LocalDate now]
+   (validate-designed-flags! card-id entries now)
+   (let [entries (or entries [])
+         declared? (fn [f] (some #(designed-entry-matches? % f family) entries))
+         {declared true live false} (group-by (comp boolean declared?) findings)
+         in-scope (filter #(contains? (:families %) family) entries)
+         matched (filter (fn [e] (some #(designed-entry-matches? e % family) findings))
+                         in-scope)
+         stale (remove (set matched) in-scope)]
+     {:declared (vec declared)
+      :live (into (vec live)
+                  (for [e stale]
+                    {:card card-id
+                     :invariant :stale-designed-flag
+                     :node (or (:node e) "(any)")
+                     :detail (str "declares " (:invariant e) " on family " family
+                                  " and nothing matched — the flag it declares"
+                                  " is gone, so the entry must go too")}))})))
 
 (defn truncation-findings
   "The HARD :dump-truncated clause, on its own so every caller shares one copy.

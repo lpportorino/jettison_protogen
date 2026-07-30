@@ -1108,8 +1108,16 @@
                                 :class "w-120 h-40 text-fg-0 font-font-body"
                                 :label_props {:long_mode :dots}
                                 :text "Short"})
-   ;; NEGATIVE: a WRAP-mode label (content-sized height) grows to fit its
-   ;; text — no truncation, no overflow.
+   ;; POSITIVE for `text_wrapped`, negative for everything else: a WRAP-mode
+   ;; label (content-sized height) GROWS to fit its text — no truncation, no
+   ;; clipping, no overflow, and every glyph drawn.
+   ;;
+   ;; It was filed as a pure negative while no dump key could express a reflow.
+   ;; `text_wrapped` now can, and this fixture is the clean POSITIVE case for
+   ;; it: the author sized a width, asked for WRAP and let the height grow, so
+   ;; the reflow is intended. The flag reports that a reflow HAPPENED; whether
+   ;; that is a defect is the corpus's to declare, which is why
+   ;; `devcards.invariants/designed-flag-keys` has a `:subject` kind at all.
    "vc_wrap" (make-screen {:tag :lv_label
                            :style vc-no-box
                            :class "w-120 h-content text-fg-0 font-font-body"

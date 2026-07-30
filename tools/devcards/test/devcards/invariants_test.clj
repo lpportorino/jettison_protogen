@@ -751,3 +751,164 @@
                                                 :expires "whenever")]
                                         pinned-today)))
          "could not be parsed"))))
+
+;; ── designed-flag declarations ───────────────────────────────────────────
+;;
+;; A declaration absorbs a finding on the families it names and NOWHERE else,
+;; and an entry that absorbs nothing is itself a finding. Every case below
+;; carries a CONTROL, because "correctly declared" and "the lane returned
+;; nothing" are the same empty vector.
+
+(def ^:private wrap-entry
+  "A :subject entry: the flag IS what the card renders, so no expiry."
+  {:invariant :text_wrapped :node "lv_label" :families #{0 1 2}
+   :kind :subject
+   :rationale "the card exists to render a wrap" :owner "jaremko"})
+
+(def ^:private stock-entry
+  "A :false-positive entry: the CHECK is wrong here, so it owes the full waiver
+   proof. `:expires` is pinned relative to `pinned-today` rather than to the real
+   clock, so this fixture cannot start failing the horizon clause with time."
+  {:invariant :clipped :node "lv_button" :families #{1 2}
+   :kind :false-positive
+   :rationale "stock content-box fit only"
+   :retires-when "the :clipped key is split into fit and visible-clip verdicts"
+   :expires (days-out 60)
+   :owner "jaremko"})
+
+(defn- wrap-finding
+  ([] (wrap-finding :text_wrapped "lv_label"))
+  ([inv node] {:card "c" :invariant inv :node node :detail "d"}))
+
+(defn- live-invariants
+  "Judged at `pinned-today`, never at the live clock: a :false-positive fixture
+   validated against the real date would expire on some future run and red this
+   namespace for a reason none of these tests is about."
+  [entries findings family]
+  (set (map :invariant
+            (:live (inv/apply-designed-flags "c" entries findings family
+                                             pinned-today)))))
+
+;; `apply-designed-flags` validates through the real clock, so a :false-positive
+;; fixture would expire on a future run. Every case below that carries one
+;; validates against `pinned-today` explicitly instead.
+
+(deftest a-declaration-absorbs-only-the-family-it-names
+  (testing "the declared family is absorbed"
+    (is (empty? (live-invariants [stock-entry] [(wrap-finding :clipped "lv_button")] 1))))
+  (testing "CONTROL: the SAME finding on a family the entry does not name stays
+            LIVE. This is the whole reason :families is mandatory and has no
+            'all' spelling — a card conceding stock must still be enforced under
+            the shipped theme.
+            REVERT-TO-BREAK: delete the `contains? (:families entry) family`
+            conjunct in `designed-entry-matches?`."
+    (is (= #{:clipped}
+           (live-invariants [stock-entry] [(wrap-finding :clipped "lv_button")] 0))))
+  (testing "CONTROL: a DIFFERENT invariant on the declared family stays live, so
+            an entry cannot mute a card wholesale. The entry then matches
+            nothing and is ALSO reported stale, which is the two clauses
+            agreeing rather than interfering — asserted with `contains?` and
+            pinned exactly on the next line.
+            REVERT-TO-BREAK: delete the `:invariant` conjunct."
+    (is (contains? (live-invariants [stock-entry]
+                                    [(wrap-finding :overflow "lv_button")] 1)
+                   :overflow))
+    (is (= #{:overflow :stale-designed-flag}
+           (live-invariants [stock-entry] [(wrap-finding :overflow "lv_button")] 1))))
+  (testing "CONTROL: a different NODE on the declared family+invariant stays
+            live. :node narrows, and absent it would match any node.
+            REVERT-TO-BREAK: delete the `:node` conjunct."
+    (is (contains? (live-invariants [stock-entry]
+                                    [(wrap-finding :clipped "lv_label")] 1)
+                   :clipped))))
+
+(deftest an-entry-matching-nothing-is-itself-a-finding
+  (testing "the STALE clause is what makes this list a ratchet rather than an
+            accumulator, and it is why the declaration owes no :expires: an
+            entry cannot outlive the flag it declares.
+            REVERT-TO-BREAK: return `{:declared … :live (vec live)}` from
+            `apply-designed-flags` without the `stale` term."
+    (is (= #{:stale-designed-flag} (live-invariants [wrap-entry] [] 0))))
+  (testing "CONTROL: the same entry with a MATCHING finding is not stale, so the
+            assertion above keys on the match and not on the entry existing"
+    (is (empty? (live-invariants [wrap-entry] [(wrap-finding)] 0))))
+  (testing "an entry is NOT judged stale on a family it does not name — a run
+            that never rendered family 1 has no evidence about a #{1 2} entry,
+            and without this scoping judging one family at a time would report
+            every other family's entries stale on every card.
+            REVERT-TO-BREAK: drop the `in-scope` filter and use `entries`."
+    (is (empty? (live-invariants [stock-entry] [] 0))))
+  (testing "CONTROL: on a family it DOES name, with nothing matching, it is stale"
+    (is (= #{:stale-designed-flag} (live-invariants [stock-entry] [] 1)))))
+
+(deftest a-declared-finding-is-recorded-rather-than-discarded
+  (testing "an absorbed finding rides :declared, so a reader can see WHAT a
+            declaration covered instead of inferring it from an absence"
+    (let [{:keys [declared live]} (inv/apply-designed-flags
+                                   "c" [wrap-entry] [(wrap-finding)] 0
+                                   pinned-today)]
+      (is (empty? live))
+      (is (= [:text_wrapped] (mapv :invariant declared))))))
+
+(deftest a-malformed-declaration-is-refused-naming-its-clause
+  ;; `msg` is the ns-level helper above, deliberately reused rather than
+  ;; redefined: a local shadow would be a second copy of "what did it throw",
+  ;; free to catch a narrower class than the canaries around it.
+  (let [v (fn [entries] (inv/validate-designed-flags! "c" entries pinned-today))]
+    (testing "an EMPTY vector is refused — [] and 'declares nothing' are the
+              same value, so a typo'd key would read as a card that declared
+              nothing and the author would get no signal"
+      (is (str/includes? (str (msg #(v []))) "NON-EMPTY")))
+    (testing "nil is fine: that IS the spelling of 'declares none'"
+      (is (nil? (msg #(v nil)))))
+    (testing "an unknown key is refused rather than silently widening the entry"
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :severity :minor)])))
+                         "unknown keys")))
+    (testing "an :invariant that names no defect flag is refused — a declaration
+              for a clause that cannot fire is an entry nothing will ever match,
+              which would then read as permanently stale"
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :invariant :not-a-flag)])))
+                         ":invariant must be one of")))
+    (testing ":families must be a non-empty set of family numbers"
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :families #{})])))
+                         ":families"))
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :families [1 2])])))
+                         ":families")))
+    (testing "the two proof keys are mandatory and non-blank"
+      (is (str/includes? (str (msg #(v [(dissoc wrap-entry :rationale)])))
+                         ":rationale"))
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :owner "  ")])))
+                         ":owner")))
+    (testing ":kind is mandatory, because it is what selects the proof"
+      (is (str/includes? (str (msg #(v [(dissoc wrap-entry :kind)]))) ":kind must be one of")))
+    (testing "a :false-positive entry owes the FULL waiver proof, not the two
+              keys a :subject owes — this is the clause whose absence let every
+              entry whose own rationale said 'the check is wrong here' ride the
+              no-expiry path.
+              REVERT-TO-BREAK: make the :kind branch in
+              `validate-designed-flags!` run `subject-proof-keys` for both kinds."
+      (is (str/includes? (str (msg #(v [(dissoc stock-entry :expires)]))) ":expires"))
+      (is (str/includes? (str (msg #(v [(dissoc stock-entry :retires-when)])))
+                         ":retires-when")))
+    (testing "and its :expires is judged like any waiver's — an expired entry and
+              one beyond the horizon are separate failures, so neither masks the
+              other"
+      ;; Asserted on the message's OWN words, not on `some?`: both clauses throw,
+      ;; so `some?` cannot tell the expiry failure from the horizon failure, and
+      ;; the whole point is that neither masks the other.
+      (is (str/includes? (str (msg #(v [(assoc stock-entry :expires (days-out -1))])))
+                         "EXPIRED"))
+      (is (str/includes? (str (msg #(v [(assoc stock-entry :expires (days-out 5000))])))
+                         "horizon")))
+    (testing "a :subject entry carrying an expiry is REFUSED rather than ignored:
+              naming a retiring event means it is a :false-positive wearing the
+              wrong label, and silently dropping the key would let the weaker
+              proof stand"
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :expires "2026-10-20")])))
+                         "must NOT carry"))
+      (is (str/includes? (str (msg #(v [(assoc wrap-entry :retires-when "never")])))
+                         "must NOT carry")))
+    (testing "CONTROL: both well-formed entries pass every clause above, so each
+              refusal keys on its own defect rather than on the fixture"
+      (is (nil? (msg #(v [wrap-entry]))))
+      (is (nil? (msg #(v [stock-entry])))))))

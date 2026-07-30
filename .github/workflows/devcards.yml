@@ -270,9 +270,11 @@ jobs:
       # the generated page itself.
       #
       # A runner step rather than a check-renderer lane because it shells out
-      # to git, which cannot resolve the checkout from inside the toolchain
-      # container — the same reason the goldens freshness check above is a
-      # runner step.
+      # to git, and this workflow invokes the toolchain container through a RAW
+      # `docker run`, where git refuses the mounted worktree as dubiously owned.
+      # (`tools/uber.sh` declares safe.directory and so does NOT hit this; CI
+      # does not go through it.) Same reason the goldens freshness check above
+      # is a runner step.
       name: UI-standard briefing freshness
       run: make -f renderer.mk standard-brief
     - name: Upload gallery + golden manifest (debug artifact, not published)

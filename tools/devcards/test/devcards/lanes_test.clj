@@ -51,13 +51,22 @@
    :children [{:type "lv_label" :coords [0 0 49 9] :clipped true :children []}]})
 
 (defn- judge
-  "Run the DOM lane through the registry exactly as the gate does."
-  [expect tree]
-  (:live (findings/card-findings {:card-id "c"
-                                  :tree tree
-                                  :caps {:vis-px? true}
-                                  :expect expect
-                                  :producers [lanes/tree-producer]})))
+  "Run the DOM lane through the registry exactly as the gate does.
+
+   `:family` and `:declaration` are supplied because the producer REQUIRES
+   them: the registry treats an absent key as an oversight and refuses the
+   call, which is how this helper caught its own omission when the lane grew a
+   per-family verdict. `{:designed-flags nil}` is the honest claim 'this card
+   declares no designed flag', not a placeholder."
+  ([expect tree] (judge expect tree 0 nil))
+  ([expect tree family designed]
+   (:live (findings/card-findings {:card-id "c"
+                                   :tree tree
+                                   :caps {:vis-px? true}
+                                   :expect expect
+                                   :family family
+                                   :declaration {:designed-flags designed}
+                                   :producers [lanes/tree-producer]}))))
 
 (defn- invariants-of [fs] (set (map :invariant fs)))
 
@@ -94,38 +103,49 @@
                                           :producers [lanes/tree-producer]}))))
   (testing "and through the entry point core.clj actually calls, a nil
             :expect is judged — the defect flag is reported"
-    (is (contains? (invariants-of (lanes/atomic-findings "c" nil defective-tree))
+    (is (contains? (invariants-of (lanes/atomic-findings "c" nil defective-tree 0 nil))
                    :clipped)))
   (testing "CONTROL: the same entry point is silent on a clean tree, so the
             assertion above keys on the flag and not on the call succeeding"
-    (is (empty? (lanes/atomic-findings "c" nil clean-tree))))
+    (is (empty? (lanes/atomic-findings "c" nil clean-tree 0 nil))))
   (testing "and a DECLARED expect still routes — nil is a default, not an
             override that swallows the card's own declaration"
-    (is (empty? (lanes/atomic-findings "c" :probe-defect defective-tree)))
+    (is (empty? (lanes/atomic-findings "c" :probe-defect defective-tree 0 nil)))
     (is (= #{:probe-defect-absent}
-           (invariants-of (lanes/atomic-findings "c" :probe-defect clean-tree))))))
+           (invariants-of (lanes/atomic-findings "c" :probe-defect clean-tree 0 nil))))))
 
 (deftest the-composition-lane-runs-BOTH-producers-over-BOTH-modes
   (testing "the entry point core.clj calls must judge the DOM and every
             mode's emissions. If it dropped either producer the corpus would
             still render identically, so only a direct call can tell."
     (let [live (lanes/composition-findings
-                "c" defective-tree
+                "c" :judged defective-tree
                 {:dark {:commands [] :reports [] :events []}
-                 :light {:commands [{:id "c1"}] :reports [] :events []}})]
+                 :light {:commands [{:id "c1"}] :reports [] :events []}} 0 nil)]
       (testing "the DOM producer fired"
         (is (contains? (invariants-of live) :clipped)))
       (testing "the by-mode emission producer fired, and named WHICH mode"
         (is (contains? (invariants-of live) :unexpected-emission))
         (is (= :light (:mode (first (filter #(= :unexpected-emission (:invariant %))
-                                            live))))))))
+                                            live))))))
+      (testing "and the DOM finding NAMES ITS RENDER. This lane held the plain
+                `:tree` builtin while its entry point threaded :family and
+                :declaration — and the builtin reads neither, so the values were
+                supplied and silently unread: no family on any composition
+                finding, and a composition-card declaration inert while its flag
+                stayed live. The registry cannot catch that, because it refuses
+                an ABSENT required key and never a SUPPLIED unread one.
+                REVERT-TO-BREAK: put `(findings/builtin-producer :tree)` back at
+                the head of `composition-producers`. Only this assertion reds;
+                the two above it are the control and stay green."
+        (is (= 0 (:family (first (filter #(= :clipped (:invariant %)) live))))))))
   (testing "CONTROL: a clean tree with nothing captured in either mode is
             silent, so the assertions above key on the inputs and not on the
             producers merely being present"
     (is (empty? (lanes/composition-findings
-                 "c" clean-tree
+                 "c" :judged clean-tree
                  {:dark {:commands [] :reports [] :events []}
-                  :light {:commands [] :reports [] :events []}})))))
+                  :light {:commands [] :reports [] :events []}} 0 nil)))))
 
 ;; ── the inverted arm: absence of the defect is the finding ───────────────
 
@@ -210,8 +230,8 @@
                 a positional selection would pick the decoy and go silent"
         (is (contains? (invariants-of
                         (lanes/composition-findings
-                         "c" defective-tree
-                         {:dark {:commands [] :reports [] :events []}}))
+                         "c" :judged defective-tree
+                         {:dark {:commands [] :reports [] :events []}} 0 nil))
                        :clipped))))))
 
 ;; ── the verdict policy this gate runs under ─────────────────────────────
@@ -226,7 +246,7 @@
             nothing: that fn has no production caller, so forcing :exit 0 in
             the gate's own computation left this green.
             REVERT-TO-BREAK: `:exit 0` in `lanes/run-verdict`."
-    (let [live (lanes/atomic-findings "c" nil defective-tree)]
+    (let [live (lanes/atomic-findings "c" nil defective-tree 0 nil)]
       (is (seq live))
       (is (= 1 (:exit (lanes/run-verdict live))))))
   (testing "CONTROL: a clean run through the SAME fn exits zero, so the one
@@ -241,7 +261,7 @@
             callers, which stayed green through a mutation of what the gate
             actually ran. This fn is now that whole computation: after each
             core arm calls it, only `doseq println` and `System/exit` remain."
-    (let [live (lanes/atomic-findings "c" nil defective-tree)
+    (let [live (lanes/atomic-findings "c" nil defective-tree 0 nil)
           {:keys [lines exit blocking]} (lanes/run-verdict live)]
       (is (= 1 exit))
       (is (= (vec live) (vec blocking)))
@@ -531,11 +551,11 @@
             `:act/outcome` onto such a finding. What keeps the artifact stable
             is that a :cantTell BLOCKS — so the shape only changes on a run
             that is already red, never quietly on a green one."
-    (let [live (into (lanes/atomic-findings "c" nil defective-tree)
+    (let [live (into (lanes/atomic-findings "c" nil defective-tree 0 nil)
                      (lanes/composition-findings
-                      "c" defective-tree
+                      "c" :judged defective-tree
                       {:dark {:commands [] :reports [] :events []}
-                       :light {:commands [{:id "c1"}] :reports [] :events []}}))]
+                       :light {:commands [{:id "c1"}] :reports [] :events []}} 0 nil))]
       (is (seq live) "the CONTROL — an empty vector would satisfy the next
                       two assertions vacuously")
       (is (every? (fn [f] (empty? (filter #(contains? f %) outcome/axis-keys)))
@@ -550,7 +570,7 @@
             counts, the policy line and the NOT-EXERCISED line are computed
             in the same total step as the exit code, so nothing between the
             persisted vector and System/exit can throw"
-    (let [live (lanes/atomic-findings "c" nil defective-tree)
+    (let [live (lanes/atomic-findings "c" nil defective-tree 0 nil)
           v (lanes/run-verdict live)]
       (is (= 1 (:exit v)))
       (is (empty? (:malformed v)))
@@ -567,7 +587,7 @@
             admission must not appear: the armed set IS supplied here.
             REVERT-TO-BREAK: drop `{:producers armed-producers}` from
             `run-verdict`."
-    (let [v (lanes/run-verdict (lanes/atomic-findings "c" nil defective-tree))]
+    (let [v (lanes/run-verdict (lanes/atomic-findings "c" nil defective-tree 0 nil))]
       (is (= #{:failed :cantTell} (:emittable v)))
       (is (= [:cantTell] (:not-exercised v)))
       (is (some #(re-find #"NOT EXERCISED: :cantTell 0" %) (:lines v)))
@@ -576,7 +596,7 @@
   (testing "CONTROL: the SAME findings under a policy fed a producer that
             also declares :untested name BOTH, so the single-word line above
             is the armed set's shape and not the line having been truncated"
-    (let [v (outcome/verdict (lanes/atomic-findings "c" nil defective-tree)
+    (let [v (outcome/verdict (lanes/atomic-findings "c" nil defective-tree 0 nil)
                              lanes/verdict-policy
                              {:producers [{:id :contrast
                                            :outcomes #{:failed :cantTell
@@ -607,23 +627,23 @@
               vocabulary off `producers` in `card-findings`."
       (with-redefs [lanes/armed-producers (conj lanes/armed-producers contrast)
                     lanes/gate-exemptions exemption]
-        (is (contains? (invariants-of (lanes/atomic-findings "c" nil defective-tree))
+        (is (contains? (invariants-of (lanes/atomic-findings "c" nil defective-tree 0 nil))
                        :clipped))
         (is (contains? (invariants-of
                         (lanes/composition-findings
-                         "c" defective-tree
-                         {:dark {:commands [] :reports [] :events []}}))
+                         "c" :judged defective-tree
+                         {:dark {:commands [] :reports [] :events []}} 0 nil))
                        :clipped))))
     (testing "CONTROL: the SAME exemption with the armed set UNCHANGED — where
               nothing anywhere declares :noise-band — throws on BOTH lanes. So
               the pass above is the armed set doing the work, and the door is
               still shut on a reason no producer declares at all"
       (with-redefs [lanes/gate-exemptions exemption]
-        (is (thrown? Exception (lanes/atomic-findings "c" nil defective-tree)))
+        (is (thrown? Exception (lanes/atomic-findings "c" nil defective-tree 0 nil)))
         (is (thrown? Exception
                      (lanes/composition-findings
-                      "c" defective-tree
-                      {:dark {:commands [] :reports [] :events []}})))))
+                      "c" :judged defective-tree
+                      {:dark {:commands [] :reports [] :events []}} 0 nil)))))
     (testing "and the armed set the lanes hand over IS `armed-producers` — the
               vector derived from what the lanes actually pass, so the
               vocabulary cannot drift from the rules that run"

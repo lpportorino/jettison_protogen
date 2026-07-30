@@ -1,25 +1,32 @@
 (ns stockarm-scope-probe
-  "Empirical probe: if the DOM invariant lanes judged the vanilla (1) and stock
-   (2) theme families, WHAT WOULD THEY REPORT — and is a glyph missing from a
-   vanilla render absent from the DOM or merely invisible in it?
+  "Empirical probe: what the DOM invariant lanes report on the vanilla (1) and
+   stock (2) theme families, and whether a glyph missing from a vanilla render
+   is absent from the DOM or merely invisible in it.
 
-   Exists because `devcards.core` runs the invariant lanes over family 0 only;
-   families 1/2 get per-card hash EQUALITY to each other and nothing else. The
-   argument for leaving it that way is that the stock arm's defects belong to
-   vendored upstream and would become a permanent exemption ratchet. That is a
-   claim about a COUNT, and a count nobody has taken is not evidence. This is
-   how it gets taken — the same role `opa_text_probe` plays for the opacity
-   clause and `class_census` for the overlap lane.
+   THE SCOPE QUESTION THIS PROBE WAS BUILT TO ANSWER IS ANSWERED, AND THE PROBE
+   OUTLIVES IT. It was written while `devcards.core` judged family 0 alone,
+   against the argument that judging the reference families would become a
+   permanent exemption ratchet — an argument about a COUNT nobody had taken.
+   The count was taken, the arming landed, and `core` now judges every family it
+   renders. So this is no longer a counterfactual: it is a second, INDEPENDENT
+   path to the same numbers, useful for exactly the reason `class_census` is
+   useful beside the armed overlap lane — it slices per family and per invariant
+   in ways the gate's pass/fail does not.
+
+   WHAT IT DOES NOT MATCH is the gate's verdict, and the difference is not a
+   bug in either: this probe passes `designed = nil`, so it reports the RAW flag
+   set with no declaration applied. The gate subtracts
+   `corpus/designed-flags.edn`. Read a count here as what the DUMP says, never
+   as what would RED.
 
    THREE ARMS, because the scope decision needs three different answers.
 
-   `census` (default) is the ARMING measurement. It runs the REAL
-   `lanes/atomic-findings` over every atomic card in all three families and
-   prints per-family, per-invariant counts. The question is not `does the stock
-   arm have defects` but `would arming report anything protogen can act on`, so
-   it also prints the NOVEL set: findings in family 1/2 whose [card invariant
-   node] key has no family-0 twin. That is precisely the set a consumer would
-   have to fix or exempt, and its size is what decides scope.
+   `census` (default) is the raw measurement. It runs
+   `lanes/atomic-findings` over every atomic card in all three families —
+   with no declaration, per above — and prints per-family, per-invariant
+   counts. It also prints the NOVEL set: findings in family 1/2 whose
+   [card invariant node] key has no family-0 twin. That set is what a consumer
+   arming this on its own corpus would have to fix or declare.
 
    `dom <substring>...` is the DIAGNOSIS. For each matching card it renders all
    three families and prints every `lv_roller`/`lv_roller_label`/`lv_label`
@@ -119,7 +126,8 @@
                   (vec (mapcat
                         (fn [{:keys [id expect] ^bytes pb :bytes}]
                           (lanes/atomic-findings
-                           id expect (:tree (render+dump! pb fam true))))
+                           id expect (:tree (render+dump! pb fam true))
+                           fam nil))
                         built))}]))]
 
     (println (format "\n%.1fs elapsed" (/ (- (System/nanoTime) t0) 1e9)))
@@ -133,7 +141,7 @@
                                      (update-vals (group-by :invariant findings)
                                                   count))))))
 
-    (println "\n== WHAT ARMING WOULD ADD — findings with NO family-0 twin ==")
+    (println "\n== NOVEL — findings with NO family-0 twin ==")
     (println "(keyed by [card invariant node]: the set a consumer would have")
     (println " to fix or exempt, and the number that decides the scope call)")
     (let [key-of (juxt :card :invariant :node)
@@ -238,7 +246,8 @@
                                            (filter first ink)))))))
           (println (format "    lanes/atomic-findings: %s"
                            (pr-str (mapv (juxt :invariant :node)
-                                         (lanes/atomic-findings id expect tree))))))))
+                                         (lanes/atomic-findings id expect tree
+                                                                0 nil))))))))
     (println (str "\nink runs are GLYPH scanlines inside the roller's coords box.\n"
                   "No band ink plus no LIVE lane finding is the case at issue:\n"
                   "the DOM cannot distinguish same-colour text from a post-draw\n"

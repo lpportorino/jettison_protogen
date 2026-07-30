@@ -114,7 +114,18 @@
    `devcards.layers` reads `(:layers declaration)`. One context key per rule
    is how a closed set stops being one."
   #{:tree :nodes :emissions :emissions-by-mode :host-proxy? :caps :classes
-    :declaration :proxy-rects :expect :framebuffer})
+    :declaration :proxy-rects :expect :framebuffer :family})
+
+;; :family IS AN OBSERVATION, and it is the one that makes a per-render verdict
+;; expressible. A runner that renders one card under several theme families has
+;; several DOMs to judge, and a finding that cannot say WHICH render it came
+;; from is unactionable — worse, a lane that judges only the first render
+;; reports the others clean without looking, which is byte-identical to having
+;; looked. It sits beside :framebuffer rather than under :declaration because
+;; it is a fact about the render the caller performed, never an intent: nothing
+;; about family 1 is a claim, it is which theme was loaded. A producer that
+;; matches a consumer's per-family DECLARATION reads both — the observation
+;; here, the intent from (:designed-flags declaration).
 
 (def framebuffer-bytes-per-pixel
   "RGBA8888 — the ONE framebuffer layout this runner admits, which is what

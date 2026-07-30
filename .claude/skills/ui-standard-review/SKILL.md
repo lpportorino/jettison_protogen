@@ -298,14 +298,23 @@ whose empty answer you can tell apart from a broken one: `Read` or `Glob` on the
 full path, `git ls-tree` at the commit under review, or a lister you have
 confirmed listed something else.
 
-That dismissal was expensive rather than merely wrong. Invariants run over
-family 0 only; families 1/2 get per-card hash equality *to each other*, and
-`core.clj` says their DOM is "explicitly UNJUDGED, never implied clean". The
-distinctness gate likewise judges "one family's hashes (the asgard family is the
-styled one the contract judges)" (`gates.clj`), where those two roller cards DO
-differ. So a state that collapses only under vanilla is green everywhere — the
-discarded finding was in a class no deterministic oracle here judges, which is
-the only class this pass exists to reach.
+That dismissal was expensive rather than merely wrong, and WHY it was expensive
+has since changed — read the current shape, not the story.
+
+The DOM lane now judges EVERY theme family the run renders, and stamps each
+finding with the family it came from, so a geometry defect that appears only
+under vanilla is no longer invisible to a deterministic oracle. What is still
+family-blind is the PIXEL side: families 1/2 are pinned by hash equality *to
+each other* plus absolute stock manifests, and the distinctness gate judges one
+family's hashes — the asgard family, because that is the one this repo STYLES
+(`gates.clj`). Those two roller cards DO differ there.
+
+So the class this pass uniquely reaches is narrower than it was and has not
+closed: a state that collapses only under vanilla in a way the DOM cannot
+express — a colour, a contrast, a glyph that renders as a blank of the right
+size — is still green on every deterministic lane. Geometry is not that class
+any more. Do not dismiss a vanilla-only finding on the ground that some oracle
+must have caught it; check WHICH oracle, and whether it can see what you saw.
 
 **The mandate is unchanged.** Still mandatory to run, still mandatory to
 disposition; this adds a step before a finding is acted on and removes nothing.

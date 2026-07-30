@@ -1469,9 +1469,10 @@ uint32_t controls_fb_bpp(void) { return 4u; }
  * NUL-terminated string from the returned pointer. This is the PRIMARY oracle
  * of the visual differential: the reference path and the proto path each dump
  * a tree and a JSON-Patch diff explains any divergence. The layout-defect
- * flags (clipped / overflow / scrollable_overflow / text_truncated) are
- * derived from resolved geometry, so both oracles agree on them. Resolved
- * STYLE (colour + opacity) rides alongside — see the block comment above
+ * flags (clipped / overflow / scrollable_overflow / text_truncated /
+ * text_wrapped) are derived from resolved geometry, so both oracles agree on
+ * them. Resolved STYLE (colour + opacity) rides alongside — see the block
+ * comment above
  * obj_effective_opa, which is also where each key's absence is defined,
  * because they do not all mean the same thing when missing. */
 #define TREE_BUF_SIZE 131072u
@@ -1574,15 +1575,67 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
   host_event_seq++;
   return host_event((uint32_t)(uintptr_t)buf, out.pos);
 }
-/* clipped: a child whose resolved box escapes the parent's content area is
- * clipped by it. Geometry only — fires even on scrollable parents, where
- * scrollable_overflow is the "fine, it scrolls" companion signal. */
+/* An INVERTED content box: padding (plus border) exceeds the widget's own
+ * size, so lv_obj_get_content_coords returns x1 > x2 or y1 > y2. It is not a
+ * rectangle, and every geometry comparison against it yields nonsense in the
+ * SAME direction — everything looks outside it, because there is no inside.
+ *
+ * Reachable rather than theoretical, and the threshold is PER WIDGET CLASS
+ * because the space is pad PLUS border and the stock theme pads the two axes
+ * differently. For an lv_obj the card style is PAD_DEF 24 + BORDER_WIDTH 2, so
+ * the space is 26 and any box under 52px in a dimension inverts. Measured on
+ * lv_obj/default/small under family 1: a 40x40 parent whose content box comes
+ * back [26 26 13 13].
+ *
+ * A BUTTON IS NOT THE EXAMPLE TO REACH FOR, though it is the tempting one.
+ * lv_theme_default sets pad_hor = PAD_DEF but pad_ver = PAD_SMALL, so
+ * lv_button/default/medium at [0 0 79 35] has content box [24 14 55 21] —
+ * VALID, not inverted. Its label at [24 14 61 31] overruns that box while
+ * staying inside the button's coords, which is a content-box FIT failure this
+ * function never sees and never should: the corpus declares it.
+ *
+ * ONE CALLER ONLY, and that is deliberate: `obj_clipped`, to choose its
+ * comparison box. It is NOT used to decline a verdict — `obj_overflow_dirs`
+ * carries the argument for why an inverted box must not suppress an overflow
+ * report, and the guard that once did so there was removed.
+ *
+ * THE INVERSION ITSELF IS A REAL AND CURRENTLY UNREPORTED FACT — a widget
+ * whose padding exceeds its size has no room for content by construction, and
+ * no dump key says so. That is a NAMED GAP rather than something this predicate
+ * closes: it only stops one comparison from being made against a box that has
+ * no inside. Emitting it is a separate change owing its own evidence, and the
+ * cards that would fire cannot fix it: authoring pad on the widget under test
+ * would defeat the theme fallthrough that IS the object under test.
+ * corpus/spec.edn's unstyled law does permit raw pad-all slots, so it is the
+ * fallthrough and not the law that forbids it here. */
+static bool content_box_inverted(const lv_area_t *content) {
+  return content->x1 > content->x2 || content->y1 > content->y2;
+}
+/* clipped: a child whose resolved box escapes the box its parent would clip it
+ * to. Geometry only — fires even on scrollable parents, where
+ * scrollable_overflow is the "fine, it scrolls" companion signal.
+ *
+ * The comparison box is the parent's CONTENT area, which is the layout-fit
+ * question and the stricter of the two available boxes — EXCEPT when that box
+ * is inverted, where it answers nothing and the parent's own coords are used
+ * instead. Coords are what LVGL actually clips a child to (the same box
+ * `descend_gate` documents for the pointer path, absent
+ * LV_OBJ_FLAG_OVERFLOW_VISIBLE), so the fallback is this key's own name rather
+ * than a weaker approximation of it.
+ *
+ * Scoped to the inverted case ON PURPOSE: on any parent whose content box IS a
+ * box, the comparison is exactly what it was, so this cannot relax the clause
+ * on a well-formed tree. The dock's real defect — a 30px icon button whose
+ * glyph label ran to x2 133 against the button's own x2 123 — escapes COORDS
+ * and still fires under the fallback. */
 static bool obj_clipped(const lv_obj_t *obj, const lv_area_t *coords) {
   const lv_obj_t *parent = lv_obj_get_parent(obj);
   if (parent == NULL)
     return false;
   lv_area_t pc;
   lv_obj_get_content_coords(parent, &pc);
+  if (content_box_inverted(&pc))
+    pc = parent->coords;
   if (coords->x1 < pc.x1 || coords->y1 < pc.y1)
     return true;
   if (coords->x2 > pc.x2 || coords->y2 > pc.y2)
@@ -1594,13 +1647,108 @@ static bool obj_clipped(const lv_obj_t *obj, const lv_area_t *coords) {
  * content) — already padding/border-aware, so it does not false-fire on a
  * child that merely sits near the padded edge. Whether the overflow is a defect
  * or a designed scroller is decided by the SCROLLABLE flag at the emit site:
- * overflow (clipped away) vs scrollable_overflow (reachable by scroll). */
-static bool obj_content_overflows(const lv_obj_t *obj) {
+ * overflow (clipped away) vs scrollable_overflow (reachable by scroll).
+ *
+ * The AXES are reported separately (obj_overflow_dirs) so a consumer's
+ * "this card is a deliberate scroller" declaration can be scoped to the
+ * direction it actually designed. A single boolean would make such a
+ * declaration a per-card mute for every axis at once, which is the blanket
+ * scoping the invariant exemptions are forbidden from having. */
+#define OVERFLOW_DIR_HOR 1u
+#define OVERFLOW_DIR_VER 2u
+/* An object with NOTHING to scroll to: no self content and no visible child.
+ *
+ * This guard exists because LVGL's extent goes POSITIVE on such a node purely
+ * from an inverted content box, and the result is not evidence of anything.
+ * lv_obj_get_scroll_bottom (lv_obj_scroll.c) returns
+ * LV_MAX(child_extent, self_h) where
+ *   self_h = lv_obj_get_self_height(obj) - (height - space_top - space_bottom)
+ * With no visible children the child term is LV_COORD_MIN, so the extent IS
+ * the self term; and for a plain lv_obj self height is 0, because the base
+ * class implements no get_self_size. Once the theme's SPACE exceeds the box the
+ * parenthesised height goes NEGATIVE and subtracting it yields a positive
+ * extent on an EMPTY node.
+ *
+ * SPACE, not pad: `lv_obj_get_style_space_*` adds the border, so the threshold
+ * is per widget class rather than one number. A card-styled lv_obj takes
+ * PAD_DEF 24 + BORDER_WIDTH 2 = 26 a side and inverts under 52px; a button's
+ * vertical axis takes pad_ver PAD_SMALL 14 and inverts under 28px. Measured:
+ * the childless 20x20 chip in lv_obj/default/small reports 32px of scroll
+ * extent under families 1 and 2 — 0 - (20 - 26 - 26) — and none under family 0.
+ *
+ * Scoped to nodes with no content on purpose, so it removes the artifact and
+ * nothing else. The self-size term is REAL for classes that compute one —
+ * lv_label from its text, lv_table from its cells, lv_roller from its drum —
+ * so those keep reporting; and a node WITH a visible child keeps reporting
+ * too, because a child outside an inverted content box really is drawn outside
+ * its parent and really is clipped. What is suppressed is only the case where
+ * there is provably nothing on the other side of the scroll. */
+static bool obj_has_no_content(const lv_obj_t *obj) {
+  if (lv_obj_get_self_width(obj) > 0 || lv_obj_get_self_height(obj) > 0)
+    return false;
+  uint32_t n = lv_obj_get_child_count(obj);
+  for (uint32_t i = 0; i < n; i++) {
+    const lv_obj_t *child = lv_obj_get_child(obj, i);
+    if (!lv_obj_has_flag_any(child, LV_OBJ_FLAG_HIDDEN | LV_OBJ_FLAG_FLOATING))
+      return false;
+  }
+  return true;
+}
+static unsigned obj_overflow_dirs(const lv_obj_t *obj) {
+  unsigned dirs = 0u;
+  if (obj_has_no_content(obj))
+    return dirs;
   if (lv_obj_get_scroll_top(obj) > 0 || lv_obj_get_scroll_bottom(obj) > 0)
-    return true;
+    dirs |= OVERFLOW_DIR_VER;
   if (lv_obj_get_scroll_left(obj) > 0 || lv_obj_get_scroll_right(obj) > 0)
-    return true;
-  return false;
+    dirs |= OVERFLOW_DIR_HOR;
+  /* ON AN INVERTED AXIS THIS FUNCTION DECLINES TO ANSWER, and that is a
+   * DECLARED DECLINE rather than a silent suppression — read the whole of this
+   * before removing it, because both the guard and its absence have been
+   * measured and each is wrong in one direction.
+   *
+   * `lv_obj_get_scroll_bottom` returns LV_MAX of TWO terms and an inverted
+   * content box corrupts BOTH, which is why neither can be read here:
+   *   self_h    = self_height - (height - space_top - space_bottom). The
+   *               parenthesis goes negative, so subtracting it ADDS.
+   *   child_res = child.y2 - (obj.coords.y2 - space_bottom), where the
+   *               subtrahend is pulled INSIDE the box by the same padding.
+   * Measured on a 40x40 parent at pad 24 holding a 10x10 child at [24 24 33 33],
+   * entirely within the parent's [0 0 39 39]: the self term yields 8, the child
+   * term 18, and the function returns 18 — for content with no scroll position
+   * that would reveal anything. That is an artifact, and quoting only the self
+   * term would misattribute the number this fixture actually produces.
+   *
+   * BUT THE SAME ARITHMETIC ALSO COMES OUT POSITIVE WHEN CONTENT REALLY IS
+   * CLIPPED AWAY — a 30x30 child in that same parent reaches [24 24 53 53],
+   * 14px past the parent's own coords — and nothing in the extent number tells
+   * the two apart. So there is no reading of it that is right in both cases,
+   * and declining is the only answer that never asserts something false.
+   *
+   * WHAT MAKES THE DECLINE SAFE IS THAT THE DEFECT IS STILL REPORTED, from the
+   * child's side: `obj_clipped` compares each child against the parent's coords
+   * on exactly this inverted-box path and fires on the 30x30 child. The
+   * canary asserts that pairing (dev/dump_contract_probe.clj,
+   * "inverted-content-box") so the decline cannot quietly become a hole. What
+   * is given up is the container's-eye duplicate of a fact the child already
+   * carries; what is NOT given up is any defect.
+   *
+   * PER AXIS, not per box. `content_box_inverted` is a whole-box predicate and
+   * using it here would kill the vertical answer for a box inverted only
+   * horizontally — precisely the precision `scroll_dirs` exists to supply, and
+   * reachable under stock on any tall narrow lv_obj. */
+  {
+    lv_area_t cc;
+    lv_obj_get_content_coords(obj, &cc);
+    if (cc.y1 > cc.y2)
+      dirs &= ~(unsigned)OVERFLOW_DIR_VER;
+    if (cc.x1 > cc.x2)
+      dirs &= ~(unsigned)OVERFLOW_DIR_HOR;
+  }
+  return dirs;
+}
+static bool obj_content_overflows(const lv_obj_t *obj) {
+  return obj_overflow_dirs(obj) != 0u;
 }
 /* text_clipped: a CLIP-long-mode label whose text does not fit its content
  * box. CLIP keeps the box size and clips the glyphs out of it (no ellipsis,
@@ -1637,13 +1785,80 @@ static bool label_text_clipped(const lv_obj_t *obj) {
     return true;
   return false;
 }
+/* text_wrapped: a WRAP-long-mode label reflowed onto MORE lines than its text
+ * declares. WRAP keeps the object width and grows its HEIGHT, so no glyph is
+ * ever clipped or ellipsized — which is exactly why neither neighbouring
+ * clause can see it: label_text_clipped returns early on any non-CLIP mode,
+ * and dot_begin stays at its sentinel because nothing ellipsized. A grown
+ * label is still a layout defect (the author sized a column narrower than the
+ * string, and the reader gets a mid-word break), and it is the one that
+ * survives a theme change, since growing needs no padding to go wrong.
+ *
+ * Exact, and it computes no line height of its own: measure the same text
+ * twice through the widget's OWN font and spacing — once unconstrained
+ * (LV_COORD_MAX + LV_TEXT_FLAG_EXPAND, whose height is the line count the
+ * TEXT asks for through its own newlines) and once at the content-box width
+ * (what LVGL actually laid out). A taller laid-out extent means the box forced
+ * a break the text did not write. Deriving it from the label's coords instead
+ * would need a line-height constant on the Clojure side, and the compiled font
+ * tables are the only source of truth for that (.claude/rules/renderer.md) —
+ * so the measurement belongs HERE, next to the font.
+ *
+ * Scoped to WRAP deliberately, and each exclusion has its own reporter: DOTS
+ * reflows too but announces itself through dot_begin, the SCROLL modes keep
+ * one line and translate it, and CLIP is label_text_clipped's case.
+ *
+ * The residue, named rather than papered over: a content box narrower than
+ * 1px has no defined wrap answer at all, so this clause declines it. :squished
+ * does not reliably cover it — obj_squished needs a flex or grid parent, and
+ * then fires only on an explicit min_width/min_height violation or on a
+ * flex-grown child whose width or height is non-positive — nor does :zero-area
+ * always, since padding can eat the content box while the label's own coords
+ * stay non-zero. A label crushed that far reports nothing here. */
+static bool label_text_wrapped(const lv_obj_t *obj) {
+  if (!lv_obj_check_type(obj, &lv_label_class))
+    return false;
+  if (lv_label_get_long_mode(obj) != LV_LABEL_LONG_MODE_WRAP)
+    return false;
+  const char *text = lv_label_get_text(obj);
+  if (text == NULL || text[0] == '\0')
+    return false;
+  const lv_font_t *font = lv_obj_get_style_text_font(obj, LV_PART_MAIN);
+  if (font == NULL)
+    return false;
+  lv_area_t cc;
+  lv_obj_get_content_coords(obj, &cc);
+  int32_t cw = lv_area_get_width(&cc);
+  if (cw <= 0)
+    return false;
+  int32_t letter_space = lv_obj_get_style_text_letter_space(obj, LV_PART_MAIN);
+  int32_t line_space = lv_obj_get_style_text_line_space(obj, LV_PART_MAIN);
+  lv_point_t natural = {0, 0};
+  lv_text_get_size(&natural, text, font, letter_space, line_space, LV_COORD_MAX,
+                   LV_TEXT_FLAG_EXPAND);
+  lv_point_t laid_out = {0, 0};
+  lv_text_get_size(&laid_out, text, font, letter_space, line_space, cw,
+                   LV_TEXT_FLAG_NONE);
+  return laid_out.y > natural.y;
+}
 /* A scroll container reveals offscreen children by scrolling, so an object
  * sitting outside the display because a scrollable ancestor has it scrolled
  * away (or scroll-snaps to it — tabview inactive pages) is DESIGNED, not a
  * defect. Walk ancestors: any SCROLLABLE one with live scroll extent, or any
  * scroll-snap container whose child is SNAPPABLE, designs the off-display
  * placement. This is the exclusion that keeps `offscreen` off the tabview
- * inactive pages (see test_inactive_tab_content_offscreen). */
+ * inactive pages (see test_inactive_tab_content_offscreen).
+ *
+ * IT READS obj_content_overflows, SO THE TWO EXTENT GUARDS REACH `offscreen`
+ * TOO — a third clause, named here because the diff that added them otherwise
+ * mentions only the two they were written for. Both make the extent answer
+ * FALSE more often, so fewer ancestors qualify as scroll regions and FEWER
+ * nodes are excused from `offscreen`. That is the safe direction: it over-fires
+ * into a red gate rather than hiding a defect, the same asymmetry
+ * `devcards.invariants` accepts knowingly for its hidden-node rule. Measured on
+ * the full corpus across all three families at zero new `offscreen` findings —
+ * an ancestor that genuinely scrolls has a valid content box and is untouched
+ * by either guard. */
 static bool obj_in_scroll_region(const lv_obj_t *obj) {
   const lv_obj_t *child = obj;
   const lv_obj_t *parent = lv_obj_get_parent(child);
@@ -1726,6 +1941,16 @@ static bool obj_squished(const lv_obj_t *obj, const lv_area_t *coords) {
  *                        exact lv_label emits it; lv_roller_label is a label
  *                        subclass that draws glyphs but fails that exact-type
  *                        check, so both text and text_clipped stay absent.
+ *   text_wrapped         absent => NOT "this label fits on one line." It means
+ *                        this label did not GROW past the line count its own
+ *                        text asks for — which is also what a CLIP, DOTS or
+ *                        SCROLL label reports, since the clause is scoped to
+ *                        WRAP. A truncated DOTS label and a one-line WRAP
+ *                        label are therefore indistinguishable HERE; read
+ *                        text_truncated and text_clipped for those. Absent
+ *                        also on a content box under 1px, where the wrap has
+ *                        no defined answer (label_text_wrapped names that
+ *                        residue).
  *   text_color           absent => THE NEAREST ANCESTOR THAT EMITTED ONE.
  *                        LV_STYLE_TEXT_COLOR is inheritable, so emitting it
  *                        everywhere would repeat the screen's colour on almost
@@ -1754,6 +1979,16 @@ static bool obj_squished(const lv_obj_t *obj, const lv_area_t *coords) {
  *                        walk terminates here rather than inheriting a face
  *                        that was overridden. Absent alongside text_font =>
  *                        nothing changed at this node.
+ *   scroll_dirs          absent => NOT "this node does not scroll." It is
+ *                        emitted ONLY beside scrollable_overflow, so absence
+ *                        means that flag did not fire — which covers both a
+ *                        node with nothing to scroll AND a node whose overflow
+ *                        is clipped away rather than reachable (that one is
+ *                        `overflow`). Present => "hor", "ver" or "both", the
+ *                        axes LVGL reports live scroll extent on. A reader
+ *                        that treats absence as "no axis" and a declaration
+ *                        that treats it as "every axis" would disagree about
+ *                        the same node.
  *   text_on              absent => this node's text, if any, rides on MAIN.
  *   text_on.font         absent => the part draws with the face the text_font
  *                        chain resolves for this node. Present => the part
@@ -2153,17 +2388,36 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
        * text against the content box (V-C3). */
     if (label_text_clipped(obj))
       tree_append(",\"text_clipped\":true");
+    /* WRAP long-mode reflow: the label GREW rather than clipping, so neither
+       * flag above can fire (see label_text_wrapped). */
+    if (label_text_wrapped(obj))
+      tree_append(",\"text_wrapped\":true");
   }
   /* Layout-defect flags, emitted only when set (the hidden/checked
    * convention). Derived from resolved geometry, so both oracles agree. */
   if (!is_root && obj_clipped(obj, &a))
     tree_append(",\"clipped\":true");
-  bool overflows = obj_content_overflows(obj);
+  /* One local for the AXES and none for "did it overflow at all": the boolean
+     * was a second name for `overflow_dirs != 0`, and dump_obj sits AT
+     * clang-tidy's readability-function-size variable threshold, so adding a
+     * name here costs a real gate red rather than nothing. */
+  unsigned overflow_dirs = obj_overflow_dirs(obj);
   bool scrollable = lv_obj_has_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-  if (overflows && !scrollable)
+  if (overflow_dirs != 0u && !scrollable)
     tree_append(",\"overflow\":true");
-  if (overflows && scrollable)
+  if (overflow_dirs != 0u && scrollable) {
     tree_append(",\"scrollable_overflow\":true");
+    /* The AXES, emitted only alongside the flag they qualify, so a deliberate
+       * scroller can be declared per direction rather than per card. */
+    tree_append(",\"scroll_dirs\":\"");
+    if (overflow_dirs == (OVERFLOW_DIR_HOR | OVERFLOW_DIR_VER))
+      tree_append("both");
+    else if ((overflow_dirs & OVERFLOW_DIR_HOR) != 0u)
+      tree_append("hor");
+    else
+      tree_append("ver");
+    tree_append("\"");
+  }
   /* V-C3 geometry/measurement flags (emitted only when set). */
   if (!is_root && obj_offscreen(obj, &a))
     tree_append(",\"offscreen\":true");

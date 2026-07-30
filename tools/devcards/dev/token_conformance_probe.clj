@@ -76,7 +76,8 @@
    the palette against the wrong half of the table.
 
    ONLY THE ASGARD FAMILY IS RENDERED, matching what the DOM lane actually
-   judges (`core.clj` runs the invariant lanes over family 0). The vanilla and
+   judges (the family this repo STYLES; the DOM lane itself judges every family
+   `core.clj` renders). The vanilla and
    stock arms draw stock colours by construction and would report a large,
    uninteresting non-conformance that says nothing about our theme.
 

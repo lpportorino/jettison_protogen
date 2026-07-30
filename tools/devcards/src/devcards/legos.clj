@@ -318,10 +318,13 @@
   [{:keys [transport transport-event-name playing?]} width]
   (let [{:keys [btn-w btn-h transport-h]} scrubber-rich-chrome]
     {:type :WIDGET_OBJ
-     ;; main-place CENTER over abundant width: the theme owns the inter-button
-     ;; gap and a lego cannot pin it, so instead of sizing to an exact sum (which
-     ;; clipped the buttons) the group is given horizontal slack and centered
-     ;; inside it. Overflow becomes structurally impossible.
+     ;; main-place CENTER over abundant width: rather than sizing to an exact
+     ;; sum (which clipped the buttons) the group is given horizontal slack and
+     ;; centred inside it, so overflow is structurally impossible whatever the
+     ;; gap is. The gap IS authorable now — `:pad-gap`, added with the wire's
+     ;; existing PROP_PAD_GAP — so this is a choice rather than the necessity
+     ;; this comment used to claim; slack plus centring survives a theme whose
+     ;; gap we did not predict, which an exact sum does not.
      ;; Transparent + borderless: a themed lv_obj would draw a panel box around
      ;; the buttons, which reads as chrome the scrubber does not have.
      :styles [{:part :main
@@ -330,9 +333,18 @@
      :layout {:flow :row :main-place :center
               :cross-place :center :track-place :center}
      :flags-clear [:scrollable]
+     ;; :pad-all 0 + explicit centring, the same reason the dock's
+     ;; `icon-button` carries: a button whose box the lego SIZES must own its
+     ;; padding too. Inherited, the content box is btn-w minus twice the
+     ;; theme's pad — negative under any theme padding wider than half the
+     ;; button — and the glyph is then laid out outside its own button
+     ;; (:overflow on the button, :clipped on the label, on every transport
+     ;; card under families 1 and 2 while family 0 stayed clean).
      :children (mapv (fn [k]
                        {:type :WIDGET_BUTTON
-                        :props {:w btn-w :h btn-h}
+                        :props {:w btn-w :h btn-h :pad-all 0}
+                        :layout {:flow :row :main-place :center
+                                 :cross-place :center :track-place :center}
                         :event {:name (str transport-event-name "-" (name k))
                                 :trigger :clicked}
                         :children [{:type :WIDGET_LABEL
@@ -445,10 +457,14 @@
         y-readout (+ t-h base-h k-h)
         wrapper-w (+ (long width) (* 2 halo))]
     ;; The vertical stack is positioned ABSOLUTELY, deliberately not with a
-    ;; column flex: flex's inter-child gap comes from the THEME and is not
-    ;; settable from the authored vocabulary (no pad-row), so any exact height
-    ;; a lego computes under-measures and trips the :overflow invariant. With
-    ;; explicit :y the arithmetic here IS the layout, in every theme family.
+    ;; column flex, so the arithmetic here IS the layout in every theme family.
+    ;; The original reason was that the inter-child gap came from the THEME with
+    ;; no way to author it; that is no longer true (`:pad-gap` now carries the
+    ;; wire's PROP_PAD_GAP), so the absolute placement is a CHOICE. It is kept
+    ;; because these :y values are already the contract the goldens and the
+    ;; interaction geometry pin, and because absolute placement needs no
+    ;; agreement with a gap at all — the dock stack, which does use flex, has
+    ;; to keep `stack-h` and `:pad-gap` in step by hand.
     {:type :WIDGET_OBJ
      ;; Same shape as the embedded scrubber's own wrapper, and for the same
      ;; reason: an lv_obj left to the theme picks up a BORDER (and bg), and the
@@ -494,18 +510,29 @@
    :row-w 272
    :header-h 46
    :caption-h 48
-   ;; The stage-name label's width inside the 272px caption row. The row is
-   ;; AT capacity — MEASURED TWICE: 76 and 58 BOTH overflowed it, clipping
-   ;; the delete button (76 also lost its event; invariant + interaction
-   ;; lanes fired). At the 12px face's ~8px advance a 7-char name needs
-   ;; ~56px, which this row cannot give — so a long stage name WRAPS BY
-   ;; DESIGN, and the caption row centers it on the cross axis so it reads
-   ;; as centered, not clipped. Consumers with longer names size their own
-   ;; dock (the lego's chrome constants are theirs to override).
-   :caption-label-w 52
-   ;; Small caption face: not a one-line guarantee (the column cannot fit
-   ;; one — see :caption-label-w) but it fits more characters before the
-   ;; wrap than the 16px default and reads cleaner wrapped.
+   ;; The stage-name label's width inside the 272px caption row.
+   ;;
+   ;; IT USED TO BE 52 AND A 7-CHARACTER NAME WRAPPED MID-WORD ("Sharpe/n").
+   ;; That was recorded here as wrapping BY DESIGN, on the evidence that 76
+   ;; and 58 had both been tried and both overflowed the row. The evidence was
+   ;; real and the conclusion was wrong: every attempt had spent the row's
+   ;; slack the same way, on FOUR INTER-CHILD GAPS AT :flex-gap. The row holds
+   ;; 64 (switch) + 3*30 (icons) = 154px of fixed chrome in a 266px content
+   ;; box (272 less the 3px space a side: :pad-all 2 plus :border-w 1), so the
+   ;; gap is the only free variable, and :caption-gap below buys 16px of it back
+   ;; for the label at no cost to anything else.
+   ;; 68px fits a 7-char name at the 12px face with margin, so the wrap is
+   ;; gone rather than centred. Consumers with longer names still size their
+   ;; own dock — but they now inherit a row that does not wrap by default.
+   :caption-label-w 68
+   ;; The CAPTION row's inter-child gap, tighter than :flex-gap on purpose:
+   ;; the 16px difference is exactly what :caption-label-w spends. Set
+   ;; EXPLICITLY on the row (never inherited) for the reason `icon-button`
+   ;; carries — an inherited gap makes the label width theme-dependent, and
+   ;; the wrap would come back on any theme whose gap is wider.
+   :caption-gap 10
+   ;; Small caption face: it fits more characters per px than the 16px
+   ;; default, which is what lets a 7-char name fit :caption-label-w at all.
    :caption-font "b612mono_bold_12"
    :body-h 46
    :card-collapsed-h 64
@@ -520,7 +547,24 @@
    :badge-w 34
    :badge-h 26
    :flex-gap 14
+   ;; :panel-pad IS THE SPACE, NOT THE PAD — the whole inset from the box edge
+   ;; to the content box, which for LVGL is pad PLUS border
+   ;; (lv_obj_get_style_space_top). `stack-h` needs the space, and the value
+   ;; was measured as one: asgard's pad 8 + border 1.
+   ;;
+   ;; The distinction is worth a paragraph because collapsing it costs exactly
+   ;; one pixel per edge and that pixel is a FINDING. Authoring `:pad-all 9`
+   ;; makes the space 10, the stack's children then miss the content box by 1
+   ;; at each end, and the rail dumps :clipped on its first button, :clipped on
+   ;; its badge and :scrollable_overflow on itself — measured, on family 0,
+   ;; where the rail had been clean.
    :panel-pad 9
+   ;; Authored EXPLICITLY on every container the lego sizes, for the same
+   ;; reason as the pad and the gap: the border is part of the space, so an
+   ;; inherited one makes every derived height theme-dependent. 1 is asgard's,
+   ;; so family 0 geometry is unchanged and the other families are brought into
+   ;; line with it rather than the reverse.
+   :border-w 1
    :dropdown-h 50})
 
 (defn- card-h
@@ -529,10 +573,12 @@
    ANCHORED on the two committed constants rather than rebuilt from parts:
    n=0 is :card-collapsed-h and n=1 is :card-expanded-h exactly, so adding
    multi-row support cannot perturb the single-row cards the goldens already
-   pin. Each row beyond the first costs :body-h PLUS :flex-gap, because the
-   theme owns the inter-child gap and a card sized to the bare content sum
-   overflows — measured: deriving the increment as (expanded - collapsed)
-   omitted that gap and tripped :overflow + :clipped on the two-row card."
+   pin. Each row beyond the first costs :body-h PLUS :flex-gap — measured:
+   deriving the increment as (expanded - collapsed) omitted that gap and
+   tripped :overflow + :clipped on the two-row card. The gap is now AUTHORED
+   on the card (`stage-card` sets :pad-gap), so this arithmetic is exact
+   rather than an estimate of the theme's; it WAS the theme's when that
+   measurement was taken, which is what made an omitted gap a real defect."
   [n]
   (let [{:keys [card-collapsed-h card-expanded-h body-h flex-gap]} dock-chrome
         n (long n)]
@@ -559,10 +605,25 @@
       (throw (ex-info "dock-panel: stage :id values must be distinct" {:ids ids})))))
 
 (defn- icon-button
-  "A 30x30 symbol button; `event` (optional) is the authored event map."
+  "A 30x30 symbol button; `event` (optional) is the authored event map.
+
+   :pad-all 0 AND AN EXPLICIT CENTRING LAYOUT, because 30px is SMALLER THAN
+   SOME THEMES' OWN BUTTON PADDING and the failure is silent under the one
+   theme we look at. Left to inherit, the content box is 30 minus twice the
+   theme's pad — comfortably positive under asgard, NEGATIVE under stock — and
+   a degenerate content box puts the glyph label outside its own button
+   (measured: the label at x 118..133 inside a button spanning 94..123, which
+   dumps :overflow on the button and :clipped on the label under families 1
+   and 2 while family 0 stayed clean). Sizing the box and inheriting the pad
+   is what makes a lego theme-dependent; the box is ours, so the pad is too.
+   `badge-node` carries the same argument for the same reason."
   [glyph event]
   (cond-> {:type :WIDGET_BUTTON
-           :props {:w (:icon-btn dock-chrome) :h (:icon-btn dock-chrome)}
+           :props {:w (:icon-btn dock-chrome)
+                   :h (:icon-btn dock-chrome)
+                   :pad-all 0}
+           :layout {:flow :row :main-place :center
+                    :cross-place :center :track-place :center}
            :children [{:type :WIDGET_LABEL :text glyph}]}
     event (assoc :event event)))
 
@@ -592,7 +653,11 @@
    in the single-value envelope, so it is deliberately NOT included)."
   [{:keys [id label enabled?]} idx]
   {:type :WIDGET_OBJ
-   :props {:w (:row-w dock-chrome) :h (:caption-h dock-chrome) :pad-all 2}
+   :props {:w (:row-w dock-chrome)
+           :h (:caption-h dock-chrome)
+           :pad-all 2
+           :pad-gap (:caption-gap dock-chrome)
+           :border-width (:border-w dock-chrome)}
    ;; BOTH cross knobs, and they are not the same knob (see `centering-note`):
    ;; :cross-place centres the shorter children against the tall switch;
    ;; :track-place is what centres that whole band inside the 48px row.
@@ -631,7 +696,11 @@
    label-disabled arm."
   [nodes disabled?]
   {:type :WIDGET_OBJ
-   :props {:w (:row-w dock-chrome) :h (:body-h dock-chrome) :pad-all 2}
+   :props {:w (:row-w dock-chrome)
+           :h (:body-h dock-chrome)
+           :pad-all 2
+           :pad-gap (:flex-gap dock-chrome)
+           :border-width (:border-w dock-chrome)}
    ;; :track-place centres the content BAND vertically (the knob :cross-place
    ;; cannot reach — see `centering-note`); :main-place centres it
    ;; horizontally, because a row narrower than its box otherwise pools every
@@ -657,7 +726,14 @@
     {:type :WIDGET_OBJ
      :props {:w (:card-w dock-chrome)
              :h (card-h (count rows))
-             :pad-all 4}
+             :pad-all 4
+             ;; `card-h` derives the height from :flex-gap, so the gap it
+             ;; assumes is set here rather than inherited — otherwise the
+             ;; derivation is correct only under the theme it was measured on.
+             ;; Same for the border: :card-expanded-h 118 is exactly
+             ;; 48 + 14 + 46 + 2*(4+1), so the 1 is part of the arithmetic.
+             :pad-gap (:flex-gap dock-chrome)
+             :border-width (:border-w dock-chrome)}
      ;; main-place CENTER: the card box is a fixed height from dock-chrome, so
      ;; whatever it holds is shorter than the box — flex's default START pins
      ;; that content to the top edge and pools all the slack underneath, which
@@ -673,7 +749,11 @@
   "The panel header: fold toggle (`dock-fold`) + title + badge."
   [badge]
   {:type :WIDGET_OBJ
-   :props {:w (:card-w dock-chrome) :h (:header-h dock-chrome) :pad-all 2}
+   :props {:w (:card-w dock-chrome)
+           :h (:header-h dock-chrome)
+           :pad-all 2
+           :pad-gap (:flex-gap dock-chrome)
+           :border-width (:border-w dock-chrome)}
    ;; a 30px icon, a text label and a 26px badge in a 46px row: :cross-place
    ;; evens the three heights against each other, :track-place drops the
    ;; resulting band into the middle of the row, :main-place centres it
@@ -687,10 +767,32 @@
               {:type :WIDGET_LABEL :text "STAGES"} (badge-node badge)]})
 
 (defn- stack-h
-  "Height of a column-flex stack: children + inter-child gaps + pads."
+  "Height of a column-flex stack: children + inter-child gaps + pads.
+
+   EXACT rather than an estimate, but only because both terms it reads are
+   now SET on the stack it measures (`stack-props` below) instead of being
+   the theme's. Inherited, :flex-gap and :panel-pad were an assumption about
+   asgard: under families 1 and 2 the real gap and pad differ, the computed
+   height came out short, and the panel's own content overflowed it — which
+   is a SCROLLING panel with two scrollbars, dumped as :scrollable_overflow
+   and invisible to a lane that only ever judged family 0."
   [child-hs]
   (let [{:keys [flex-gap panel-pad]} dock-chrome]
     (+ (reduce + 0 child-hs) (* flex-gap (dec (count child-hs))) (* 2 panel-pad))))
+
+(defn- stack-props
+  "The space + gap `stack-h` measures, as PROPS on the stack rather than as an
+   assumption about the theme. One home so the arithmetic and the authored
+   value cannot drift: a `stack-h` caller that forgot these is back to
+   measuring a box whose real gap it does not know.
+
+   :pad-all is :panel-pad MINUS the border, because :panel-pad is the SPACE
+   and LVGL adds the border to the pad to get there — see the constant's own
+   note for the pixel this arithmetic buys."
+  []
+  {:pad-all (- (:panel-pad dock-chrome) (:border-w dock-chrome))
+   :pad-gap (:flex-gap dock-chrome)
+   :border-width (:border-w dock-chrome)})
 
 (defn- expanded-panel
   [{:keys [badge stages]}]
@@ -710,13 +812,15 @@
      ;; construction is what the standard requires; a per-card exemption is the
      ;; ratchet it refuses.
      :flags-clear [:clickable]
-     :props {:w (:panel-w dock-chrome) :h (stack-h heights)}
+     :props (assoc (stack-props)
+                   :w (:panel-w dock-chrome)
+                   :h (stack-h heights))
      ;; A column's CROSS axis is horizontal, and it defaults to START: the
      ;; 288px cards inside a 320px panel would sit hard against the left edge
      ;; with every pixel of slack pooled on the right. main-place CENTER for
-     ;; the same reason vertically — `stack-h` assumes the theme's inter-child
-     ;; gap (:flex-gap), and any error in that estimate pools at the bottom
-     ;; under START instead of splitting evenly.
+     ;; the same reason vertically — and it stays CENTER now that `stack-h` is
+     ;; exact, because centring is what keeps a rounding pixel from pooling as
+     ;; a visible gap at one edge.
      :layout {:flow :column :main-place :center
               :cross-place :center :track-place :center}
      :children (-> [(dock-header badge)]
@@ -743,7 +847,9 @@
      ;; Same reasoning as `expanded-panel`: a layout box, and every rail event
      ;; belongs to a leaf button (`dock-fold`, the per-stage buttons).
      :flags-clear [:clickable]
-     :props {:w (:rail-w dock-chrome) :h (stack-h heights)}
+     :props (assoc (stack-props)
+                   :w (:rail-w dock-chrome)
+                   :h (stack-h heights))
      ;; same as the expanded panel: the rail mixes a 30px icon button, 36px
      ;; letter buttons and a 34px badge, so cross-START would align their LEFT
      ;; edges and let the differing widths ragged-edge on the right.
@@ -752,8 +858,17 @@
      :children (-> [(icon-button sym-list {:name "dock-fold"})]
                    (into (for [s stages]
                            (cond-> {:type :WIDGET_BUTTON
+                                    ;; :pad-all 0 + explicit centring for the
+                                    ;; reason `icon-button` carries: a 36x34
+                                    ;; box that inherits the theme's button pad
+                                    ;; is theme-dependent, and the letter
+                                    ;; escaped it under families 1 and 2.
                                     :props {:w (:rail-btn-w dock-chrome)
-                                            :h (:rail-btn-h dock-chrome)}
+                                            :h (:rail-btn-h dock-chrome)
+                                            :pad-all 0}
+                                    :layout {:flow :row :main-place :center
+                                             :cross-place :center
+                                             :track-place :center}
                                     :children [{:type :WIDGET_LABEL
                                                 :text (str/upper-case
                                                        (subs (:label s) 0 1))}]}

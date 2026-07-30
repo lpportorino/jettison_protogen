@@ -51,11 +51,34 @@ TEXT, **and the gallery JPEGs**.
 The proof is CI's own freshness step, and it is NOT a battery lane: after the
 containerised regen, `renderer.yml` and `devcards.yml` run
 `git diff --exit-code tools/devcards/goldens tools/devcards/docs` on the
-RUNNER. It has to be there — git cannot resolve this checkout from inside the
-container (`detected dubious ownership`), the same reason `standard-brief`'s
-freshness half is a separate non-battery target — and `check-renderer`'s
-`fixtures` lane covers only HALF of what that diff spans. Write the boundary,
-because it moved: the lane now READS each committed `goldens/manifest-*.edn`
+RUNNER, and `check-renderer`'s `fixtures` lane covers only HALF of what that
+diff spans.
+
+**WHY IT IS ON THE RUNNER IS NOW AN INVOCATION-PATH FACT, not a flat
+impossibility.** git refuses a container-mounted worktree as dubiously owned
+because the container runs as root over files owned by the invoking user.
+`tools/uber.sh` DECLARES `safe.directory` for the workspace, so git works
+normally under it — which is what makes `dead-c-externs-test`, and therefore
+`check-renderer`, runnable locally. MEASURED ON A STANDALONE CHECKOUT (a real
+`.git` DIRECTORY), which is the only shape verified: in the SUBMODULE shape the
+wrapper also mounts the gitdir and exports `GIT_DIR=/gitdir`, a second path git
+ownership-checks and which this declaration does NOT name. Whether that shape
+needs its own entry is untested, and the consumer fleet vendors this repo
+exactly that way — so treat the claim as scoped to standalone until someone
+runs `tools/uber.sh 'make -f renderer.mk dead-c-externs-test'` from a gitfile
+checkout and reads the verdict.
+
+**CI IS NOT BLOCKED BY THIS EITHER**, and it is worth stating because the
+obvious inference is wrong: `renderer.yml`'s shellcheck lane already passes the
+same GIT_CONFIG_* env to a raw `docker run`, with its own measurement recorded
+beside it. So a "git cannot resolve the checkout in the container" claim in this
+repo is scoped to an invocation that has not declared safe.directory — never to
+a capability. `standard-brief`'s freshness half and CI's goldens/docs diff are
+consequently ARMABLE on both paths; they stay unarmed as a decision, and this
+sentence exists so the gap is a decision rather than a stale belief.
+
+Write the boundary of what the battery DOES assert, because it moved: the
+`fixtures` lane now READS each committed `goldens/manifest-*.edn`
 before the mint overwrites it and fails on any drifted, missing or new card
 (`gates/golden-drift-findings`), so a green in-container battery DOES assert the
 goldens are fresh. It asserts nothing about `tools/devcards/docs` — the JPEG

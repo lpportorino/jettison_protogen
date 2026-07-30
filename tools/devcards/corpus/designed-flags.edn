@@ -1,0 +1,557 @@
+;; DESIGNED-FLAG DECLARATIONS — per card, per invariant, per theme family.
+;;
+;; `devcards.invariants/designed-flag-keys` is the shape and the argument. The
+;; one thing to know before reading: :kind selects the proof.
+;;
+;;   :kind :subject         the flag IS what the card exists to render. No
+;;                          retiring event exists short of deleting the card, so
+;;                          :rationale + :owner and no expiry. The ratchet is the
+;;                          STALE clause — an entry matching no finding on a
+;;                          family it names is a HARD failure.
+;;   :kind :false-positive  the CHECK is wrong about this case. That HAS a
+;;                          retiring event, so it owes the full waiver proof
+;;                          (:rationale :retires-when :owner :expires) through
+;;                          the same `outcome/check-proof!` a waiver runs.
+;;
+;; Getting that split wrong is the defect this file was reviewed for: the CLASS 1
+;; and CLASS 4 entries say in their own rationale that the check is wrong here,
+;; and they rode the no-expiry path until :kind was introduced.
+;;
+;; :families IS THE POINT — CLASS 1, 3 and 4 name only #{1 2}, so a family-0
+;; regression on those same cards still reds the gate. Only CLASS 2 names family
+;; 0, because a wrap needs no padding to go wrong. There is deliberately no
+;; "all families" spelling.
+;;
+;; WHY A SEPARATE FILE rather than a key on each card in spec.edn: spec.edn does
+;; not round-trip through a pretty-printer, so adding a key to 26 cards
+;; programmatically would reformat the whole corpus and bury the change. Both
+;; corpus lanes — atomic and composition — read this one file, keyed by card id.
+{:doc
+ "Cards whose subject is a layout-defect flag, or whose flag is an artifact of a
+  check that conflates two questions, keyed by card id. Loaded by
+  devcards.designed and applied by devcards.invariants/apply-designed-flags."
+
+ :cards
+ {  ;; ── CLASS 1 (:false-positive) — the label overruns the button's CONTENT box
+  ;; under stock padding while staying inside its COORDS.
+  ;;
+  ;; Measured on lv_button/default/medium, family 1: button [0 0 79 35], stock
+  ;; content box [24 14 55 21] — pad_hor PAD_DEF 24, pad_ver PAD_SMALL 14, so a
+  ;; VALID rect and not the inverted case `content_box_inverted` handles — and
+  ;; label [24 14 61 31]. The label's x2 61 and y2 31 both pass the content box.
+  ;;
+  ;; NOTHING IS VISUALLY CLIPPED, verified by eye on the committed vanilla
+  ;; renders: "Save" is centred and complete, because LVGL clips a child to the
+  ;; parent's COORDS and padding is a layout inset rather than a clip. So the
+  ;; check is answering the content-box FIT question under a name that reads as a
+  ;; visible clip — which is why these are :false-positive with a retiring event
+  ;; rather than a declared subject.
+  ;;
+  ;; The card cannot author its way out: authoring pad on the widget under test
+  ;; defeats the theme fallthrough that IS the object under test. spec.edn's
+  ;; unstyled law does permit raw pad-all slots, so it is the fallthrough and not
+  ;; the law that forbids it here. Family 0 is enforced and clean at every size.
+  "lv_button/default/medium"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/pressed/medium"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/checked/medium"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/disabled/medium"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/hovered/medium"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/focus-key/medium"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/default/large"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/pressed/large"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/checked/large"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/disabled/large"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the label overruns the button's stock CONTENT box while staying inside its
+     coords, so nothing is drawn outside the button (CLASS 1)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  ;; The SMALL buttons carry :overflow ONLY, and the asymmetry is the two guards
+  ;; working rather than an omission: a 36x36 button's content box is x [24 11] —
+  ;; INVERTED, so `obj_clipped` falls back to the parent's coords and the label
+  ;; is inside them, no :clipped — while y [14 21] stays a valid span, so the
+  ;; vertical extent is real and :overflow fires. These eight findings appeared
+  ;; only once the whole-box extent decline was narrowed to a per-axis one, and
+  ;; they were PREDICTED from the numbers above before being observed.
+  "lv_button/default/small"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/pressed/small"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/checked/small"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_button/disabled/small"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the button's reported scroll extent is the same content-box excess as its
+     :clipped entry, seen from the container's side; nothing is drawn outside"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  ;; The kitchen sinks compose the same stock-padded buttons, so they inherit
+  ;; CLASS 1 verbatim. Their trees are authored in Clojure
+  ;; (fixtures/kitchen-sink-trees) rather than in spec.edn, which changes nothing
+  ;; about the verdict.
+  "kitchen-sink/form-row"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "CLASS 1, via the sink's composed lv_button"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "CLASS 1, via the sink's composed lv_button"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "kitchen-sink/hud-overlay"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "CLASS 1, via the sink's composed lv_button"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "CLASS 1, via the sink's composed lv_button"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "kitchen-sink/tabview-with-content"
+  [{:invariant :overflow :node "lv_button" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "CLASS 1, via the sink's composed lv_button"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :clipped :node "lv_label" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "CLASS 1, via the sink's composed lv_button"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  ;; ── CLASS 2 (:subject) — the card's SUBJECT is text reflow.
+  ;;
+  ;; :text_wrapped fires on EVERY family, family 0 included, because a WRAP-mode
+  ;; label grows rather than clipping and growing needs no padding to go wrong.
+  ;; These are the only entries here that name family 0, and they name it because
+  ;; the wrap is the card, not a theme artifact.
+  "lv_label/default/medium/wrap"
+  [{:invariant :text_wrapped :node "lv_label" :families #{0 1 2}
+    :kind :subject
+    :rationale
+     "the card exists to render LV_LABEL_LONG_MODE_WRAP at a width its text exceeds
+     — the reflow IS the subject, and removing it would delete what the card proves"
+    :owner "jaremko"}]
+
+  "lv_label/default/large/wrap"
+  [{:invariant :text_wrapped :node "lv_label" :families #{0 1 2}
+    :kind :subject
+    :rationale
+     "the card exists to render LV_LABEL_LONG_MODE_WRAP at a width its text exceeds
+     — the reflow IS the subject"
+    :owner "jaremko"}]
+
+  "lv_label/default/medium/symbols"
+  [{:invariant :text_wrapped :node "lv_label" :families #{0 1 2}
+    :kind :subject
+    :rationale
+     "a glyph-subset proof card: its subject is which non-ASCII glyphs the compiled
+     face carries, and the string is longer than the size's label width, so it
+     reflows. Every glyph is drawn, which is the whole assertion"
+    :owner "jaremko"}]
+
+  "lv_textarea/default/large/value"
+  [{:invariant :text_wrapped :node "lv_label" :families #{0 1 2}
+    :kind :subject
+    :rationale
+     "lv_textarea reflows its value inside its own box by contract; the wrapped node
+     is the textarea's internal label. A textarea that did not wrap would be the
+     defect"
+    :owner "jaremko"}]
+
+  "lv_textarea/disabled/large"
+  [{:invariant :text_wrapped :node "lv_label" :families #{0 1 2}
+    :kind :subject
+    :rationale
+     "the disabled twin of lv_textarea/default/large/value, content-identical by the
+     inertness contract, so it reflows identically"
+    :owner "jaremko"}]
+
+  ;; ── CLASS 3 (:subject) — the card IS the padding-floor probe, and under stock
+  ;; the chip really is cut off.
+  ;;
+  ;; Unlike CLASS 1 this one IS visibly clipped, verified on the committed
+  ;; vanilla render: the inner chip sits at the bottom-right of its parent with
+  ;; its far edges outside it. Measured family 1 — parent [0 0 39 39], chip
+  ;; [26 26 45 45], so x2/y2 45 escape the parent's COORDS, not merely its
+  ;; content box. The content origin is 26 rather than 24 because a card-styled
+  ;; lv_obj adds BORDER_WIDTH 2 to PAD_DEF 24 and `lv_obj_get_style_space_*`
+  ;; counts the border.
+  ;;
+  ;; That is the card's declared purpose: spec.edn's own :sizes note calls :small
+  ;; "the RADIUS_DEFAULT=12 + PAD_DEF=24 defect probe". Before this declaration
+  ;; the probe's purpose was prose nothing checked; now the corpus asserts the
+  ;; probe still probes, which is why it is a :subject and not a concession.
+  "lv_obj/default/small"
+  [{:invariant :clipped :node "lv_obj" :families #{1 2}
+    :kind :subject
+    :rationale
+     "the declared padding-floor probe: stock's space leaves a 40px box no content
+     area, so the 20px chip is drawn past its parent's coords. Visibly clipped,
+     and that IS the probe's result"
+    :owner "jaremko"}]
+
+  "lv_obj/disabled/small"
+  [{:invariant :clipped :node "lv_obj" :families #{1 2}
+    :kind :subject
+    :rationale
+     "the inert twin of lv_obj/default/small, content-identical by the inertness
+     contract, so it probes the same floor identically"
+    :owner "jaremko"}]
+
+  ;; ── CLASS 4 (:false-positive) — lv_textarea's wrapper does not fit it under
+  ;; stock padding.
+  ;;
+  ;; Measured family 1 on lv_textarea/focus-key/medium: wrapper [0 0 175 63] with
+  ;; a valid stock content box, textarea [8 8 167 57] inside the wrapper's COORDS
+  ;; but outside that content box. Same fit-not-clip reading as CLASS 1, plus the
+  ;; wrapper reporting vertical scroll extent from the same excess — so the same
+  ;; retiring event applies.
+  "lv_textarea/focus-key/medium"
+  [{:invariant :clipped :node "lv_textarea" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the textarea overruns its wrapper's stock content box while staying inside the
+     wrapper's coords; nothing is drawn outside (CLASS 4)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :scrollable_overflow :node "lv_obj" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the wrapper's vertical scroll extent is the same content-box excess as the
+     :clipped entry above, reported from the parent's side (CLASS 4)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]
+
+  "lv_textarea/edited/medium"
+  [{:invariant :clipped :node "lv_textarea" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the textarea overruns its wrapper's stock content box while staying inside the
+     wrapper's coords; nothing is drawn outside (CLASS 4)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}
+    {:invariant :scrollable_overflow :node "lv_obj" :families #{1 2}
+    :kind :false-positive
+    :rationale
+     "the wrapper's vertical scroll extent is the same content-box excess as the
+     :clipped entry above, reported from the parent's side (CLASS 4)"
+    :retires-when
+     "the :clipped / :overflow content-box FIT verdict is split from the
+      visible-clip verdict, so a widget whose label overruns a stock-padded
+      content box while staying inside its coords stops being reported at all"
+    :expires "2026-10-20"
+    :owner "jaremko"}]}}

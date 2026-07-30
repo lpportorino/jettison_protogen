@@ -5271,12 +5271,22 @@ mod vc_layout_gate {
         // on the real screens + every clean vr_* fixture across all bp/theme
         // (see flag_sets_match / clean_fixture_has_no_false_positives), so they
         // join the EXACT-set assertion rather than ship report-only.
+        //
+        // THIS LIST IS HAND-KEPT AND THE "EXACT SET" CLAIM ABOVE DEPENDS ON IT
+        // BEING EXHAUSTIVE. A key `dump_obj` emits that is missing here does not
+        // weaken the assertion visibly — it makes the gate BLIND to that flag
+        // while still reporting "these present, every other absent", which is a
+        // green earned by not looking. `text_wrapped` was added to the dump and
+        // missed here, on a corpus that includes a WRAP fixture; the mirror of
+        // this list is `devcards.invariants/defect-flags`, and the two are kept
+        // in step by hand because nothing spans Rust and Clojure to derive it.
         for key in [
             "clipped",
             "overflow",
             "scrollable_overflow",
             "text_truncated",
             "text_clipped",
+            "text_wrapped",
             "offscreen",
             "squished",
         ] {
@@ -5309,7 +5319,11 @@ mod vc_layout_gate {
             ("vc_scroll", 0, &["clipped", "scrollable_overflow"]),
             ("vc_dots", 0, &["scrollable_overflow", "text_truncated"]),
             ("vc_dots_fits", 0, &[]),
-            ("vc_wrap", 0, &[]),
+            // Its whole subject is the reflow, so `text_wrapped` is the
+            // CORRECT set here rather than an empty one. It read as `&[]` only
+            // while the collector above could not see that key — the fixture
+            // emitted it the whole time.
+            ("vc_wrap", 0, &["text_wrapped"]),
             ("vc_empty", 0, &[]),
             // V-C3: CLIP-mode label wider than its box. CLIP keeps the box and
             // clips glyphs (no ellipsis → no text_truncated); the box's own

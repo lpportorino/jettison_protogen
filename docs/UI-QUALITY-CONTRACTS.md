@@ -8,9 +8,10 @@ tell you.** This text is embedded VERBATIM into
 followed by a regeneration leaves the review skill briefing its agent from
 superseded text — the one reader that acts on it. What catches it is
 `make -f renderer.mk standard-brief`, which is deliberately NOT a
-`check-renderer` lane (it shells out to git, which cannot resolve the checkout
-from inside the container), so it runs only in CI and **a green local battery
-says nothing about it**. Regenerate in the pinned container
+`check-renderer` lane (it shells out to git, and CI invokes the container
+through a raw `docker run` where git refuses the mounted worktree as dubiously
+owned), so it runs only in CI and **a green local battery says nothing about
+it**. Regenerate in the pinned container
 (`tools/uber.sh 'make -f renderer.mk standard-brief-generate'`) and commit the
 result in the SAME change.
 
@@ -37,13 +38,63 @@ The rules here are enforced by finding-producers in
 
 ### Protogen's theme-family boundary
 
-Protogen's own corpus gate applies the DOM finding-producers to the shipped
-Asgard family. The vanilla and stock families are differential reference
-controls: stock LVGL is vendored upstream, and vanilla exists to prove that the
-child theme can reproduce it. Their per-card framebuffer equality proves that
-the child theme is inert; it does **not** certify either render as usable,
-legible, or free of layout defects. Goldens likewise prove stability rather
-than correctness.
+Protogen's own corpus gate applies the DOM finding-producers to **every theme
+family it renders**. The vanilla and stock families remain differential
+reference controls — stock LVGL is vendored upstream, and vanilla exists to
+prove the child theme can reproduce it — so their per-card framebuffer equality
+proves the child theme is inert and does **not** certify either render as usable
+or legible. Goldens likewise prove stability rather than correctness. Their
+GEOMETRY, though, is judged: framebuffer equality is not a reason to leave it
+unexamined.
+
+**Two axes, and only one of them is covered.** The FAMILY axis is judged and the
+DOM lane's findings carry the family they came from. The MODE axis is not: the
+dump is taken from the DARK render of each family, so a light-mode-only DOM
+defect is invisible. Nor is the family stamped by every producer — it is the DOM
+lane that carries it, so a consumer joining findings across producers should not
+assume the key is present on all of them.
+
+**Judging reference controls was argued against, and the argument was
+one-third right.** The case was that a DOM lane over vendored behaviour would
+turn upstream quirks into local findings followed by permanent exemptions.
+Findings did appear, on about a tenth of the corpus and entirely under the
+reference families. They then split three ways, and only the third resembles the
+prediction:
+
+- Some were **artifacts of the flags themselves**, not behaviour of any theme.
+  LVGL's scroll extent goes positive on a childless node whose space exceeds its
+  box, and a content box inverted the same way makes a geometry comparison
+  against it report escape for content that is wholly inside. Those are fixed in
+  the interpreter — `content_box_inverted` and `obj_has_no_content`, reached
+  through `obj_clipped` and `obj_overflow_dirs` — so they are no longer emitted,
+  rather than exempted.
+- Most were **protogen's own composition legos being theme-dependent**: chrome
+  sized in px while its padding, border and flex gap were inherited from
+  whichever theme happened to be loaded. A lego that promises proven geometry
+  and only holds under one theme is a defect in the lego, and the reference
+  families are what proved it. Fixed by authoring the space the arithmetic
+  already assumed.
+- The residue is **declared, per family**, and the declaration's `:kind` says
+  which of two things it is — a distinction worth more than the declaration
+  itself:
+  - **`:subject`** — the flag IS what the card renders. A label card whose
+    purpose is to render wrapping; a box sized to probe a padding floor. There
+    is no event that retires such an entry short of deleting the card, so it
+    owes a rationale and an owner and no expiry, and pretending otherwise would
+    produce a permanent concession carrying a date.
+  - **`:false-positive`** — the CHECK is wrong here. A button whose label
+    overruns a stock-padded content box while staying inside its coords trips a
+    key that conflates "does not fit" with "is drawn outside and clipped". That
+    HAS a retiring event — splitting the key — so it owes a waiver's full proof,
+    including an expiry, through the same validator a waiver uses.
+
+  Both name the families they cover, so the shipped family stays enforced, and
+  an entry matching no finding on a family it names is a hard failure. That
+  clause makes the list shrink; it does not bound GROWTH, so the count of
+  entries in force is reported with the run's other counts.
+
+A consumer's obligation is unchanged and was never narrower: every theme family
+shipped as a product surface runs the applicable producers.
 
 **Equality is no longer their only pin, and the difference matters.** Family 2
 (stock) now also carries ABSOLUTE golden manifests, so a change that moves
@@ -54,13 +105,6 @@ only fire when vanilla differs from asgard, which already implies that either
 the equality lane or the stock pin has fired. Pinning it would buy nothing and
 double the churn. Stock is the one pinned because it is the vendored upstream,
 so an LVGL bump reds against the family whose name says why.
-
-This is a deliberate boundary, not the accidental absence of a loop. A general
-DOM lane over those controls would turn reference behaviour outside protogen's
-product contract into local findings, followed by permanent exemptions. Their
-DOM is therefore explicitly **unjudged**, never reported clean. This does not
-narrow a consumer's obligation: every theme family a consumer ships as a
-product surface must run the standard's applicable producers over that surface.
 
 No family-crossing clause based only on `text_on.color != text_on.bg` closes
 that boundary. The comparison proves that the declared colours differ, not that
@@ -612,6 +656,55 @@ key**, and **throws when two producers collide on one key**, so neither a typo
 nor a naming clash can quietly relax the gate it names.
 
 ---
+
+## 4b. Text that REFLOWS is a finding, and no older flag can see it
+
+A label in `LV_LABEL_LONG_MODE_WRAP` that does not fit its width keeps that
+width and **grows its height**. Nothing is clipped and nothing is ellipsised, so
+the two flags a reader reaches for are both correctly silent: `text_clipped` is
+scoped to CLIP mode, and `text_truncated` reads `dot_begin`, which only a DOTS
+label ever sets. The reader gets a mid-word break — `Sharpe` on one line and `n`
+on the next — and every oracle that is not looking for growth reports clean.
+
+`text_wrapped` is the positive declaration that closes it. The interpreter
+measures the same string twice through the widget's own font and spacing: once
+unconstrained, whose height is the line count the TEXT asks for through its own
+newlines, and once at the content-box width, which is what LVGL laid out. A
+taller laid-out extent means the box forced a break the author did not write.
+
+Three properties worth stating because each is a place a consumer's rule could
+go wrong:
+
+- **The measurement belongs to the interpreter, not to the rule.** A producer
+  computing line counts from a label's coords needs a line height, and the only
+  source of truth for that is the compiled font table — not the TTF on disk,
+  which disagrees with it in both directions. So the arithmetic lives beside the
+  font and the rule reads a boolean.
+- **It fires on every theme family**, unlike the padding-driven flags, because
+  growing needs no padding to go wrong. A wrap is the same defect under every
+  theme, which is what makes it the one flag whose declarations legitimately
+  name family 0.
+- **Absence is not "this label fits on one line."** It means the label did not
+  grow past its own text's line count — which is also what a CLIP, DOTS or
+  SCROLL label reports, since the clause is scoped to WRAP.
+
+A card whose SUBJECT is reflow declares it `:kind :subject`, per family, with a
+rationale and an owner and no expiry: a label card named for wrapping will wrap
+for as long as it exists, and there is no event short of deleting the card that
+would retire the entry. What keeps that from being an unbounded excuse is that
+**an entry matching no finding on a family it names is itself a hard failure**,
+so the list ratchets down on the corpus rather than on the calendar — and unlike
+an expiry it cannot be satisfied by re-authoring the same entry with a later
+date.
+
+**Do not reach for that kind when the check is what is wrong.** A waiver says
+the check is mistaken about this case and carries the event that retires it; a
+`:subject` declaration says the check is right and the card is the exception.
+Wrapping is the second — the reflow is real and intended. A widget whose label
+overruns a stock-padded content box while staying inside its coords is the
+FIRST, and it declares `:kind :false-positive` with a waiver's full proof.
+Conflating the two is how a concession that should have carried an end date
+stops carrying one.
 
 ## 5. Evolving this document
 
