@@ -144,7 +144,7 @@ user-prompt)
     rest="${m#*|}"
     recipe="${rest%%|*}"
     why="${rest#*|}"
-    body="$body[WARN] $n monitor NOT armed — arm it now: $recipe — $why
+    body="${body}[WARN] $n monitor NOT armed — arm it now: $recipe — $why
 "
   done
   emit UserPromptSubmit "$body"

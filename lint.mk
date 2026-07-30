@@ -147,6 +147,14 @@ FMT_C_FILES := $(shell find renderer/src -maxdepth 1 \
 LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push
 LINT_SH_FILES := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
+
+# The shellcheck subset: first-party only. renderer/lvgl/ is VENDORED (pinned by
+# renderer/lvgl/.ported-from.edn) and third-party code is never policed here —
+# and the distinction is not cosmetic. Measured over the full tracked set there
+# are five ERROR-level findings; FOUR of them are SC2068 inside upstream LVGL's
+# own add_lvgl_if.sh scripts. Including the vendored tree would have made the
+# gate look like it needed four fixes we must not make.
+LINT_SC_FILES := $(filter-out renderer/lvgl/%,$(LINT_SH_FILES))
 LINT_SH_DISCOVERY_ERR := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>&1 >/dev/null)
 # EXPORTED so the guard can read it as a SHELL variable instead of interpolating
 # it into shell text. That is this lane's OWN bug class, living in this lane's
@@ -554,6 +562,42 @@ fmt-c:
 		| xargs -P $(NPROC) -I{} sh -c \
 		'$(CLANG_FORMAT) --style=file "$$1" | diff -u "$$1" - > /dev/null \
 		 || { echo "clang-format drift: $$1" >&2; exit 1; }' _ {}
+
+## lint-sh-shellcheck: shellcheck over first-party shell, at ERROR severity
+# CONTAINER-ONLY, and deliberately NOT in the `lint` aggregate — same reasoning
+# as lint-c-tidy above. `lint` runs on a plain runner whose shellcheck version is
+# whatever the runner image happens to ship, and a gate whose findings depend on
+# an unpinned tool is not reproducible. The pinned one is in Dockerfile.base
+# (SHELLCHECK_VERSION, checksum-verified), so the lane runs where that pin lives.
+#
+# -S error is the ENTRY of a ratchet, not the destination. Measured over the 45
+# first-party scripts at adoption: 1 error, 21 warnings, 66 notes. The single
+# error (SC1087, an unbraced $body followed by a literal bracket) was fixed in
+# the same change that added this lane, so the gate lands GREEN and every future
+# error is a real regression. Raising to -S warning is 21 fixes and is the next
+# rung; do not lower it.
+#
+# A missing tool HARD-FAILS with the container hint rather than skipping: a
+# skipped check reports the same green as a clean one.
+.PHONY: lint-sh-shellcheck
+lint-sh-shellcheck:
+	@command -v shellcheck >/dev/null 2>&1 || { \
+		printf '\033[31m[lint-sh-shellcheck]\033[0m cannot run: shellcheck is not on PATH.\n' >&2; \
+		printf '  It is pinned in Dockerfile.base, so run this in the image:\n' >&2; \
+		printf '  container: tools/uber.sh '\''make -f lint.mk lint-sh-shellcheck'\''\n' >&2; exit 1; }
+# NON-VACUITY GUARD, for the same reason lint-sh carries one: with an empty file
+# list shellcheck checks nothing and exits 0, which is indistinguishable from a
+# clean tree. Discovery through `git ls-files` is exactly what breaks inside a
+# container that cannot resolve the checkout, so this is the live failure mode.
+	@if [ -z "$(strip $(LINT_SC_FILES))" ]; then \
+		printf '\033[31m[lint-sh-shellcheck] FAIL\033[0m — discovered ZERO first-party scripts.\n' >&2; \
+		printf '  This repo tracks shell scripts, so an empty set means DISCOVERY broke.\n' >&2; \
+		printf '  See lint-sh above for the usual cause (git cannot resolve the checkout).\n' >&2; \
+		exit 1; \
+	fi
+	@printf '\033[32m[lint-sh-shellcheck]\033[0m %s (%s first-party scripts, -S error)\n' \
+		"$$(shellcheck --version | awk '/^version:/{print $$2}')" "$(words $(LINT_SC_FILES))"
+	@shellcheck -S error $(LINT_SC_FILES)
 
 ## lint-c-tidy: clang-tidy static analysis over hand-authored C
 # CONTAINER-ONLY (like fmt-c): needs the pinned WASI-SDK clang-tidy AND a

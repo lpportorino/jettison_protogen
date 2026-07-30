@@ -192,6 +192,27 @@ jobs:
         docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \
           make -f lint.mk fmt-c
+    - # shellcheck over first-party shell, HERE rather than in lint.yml's
+      # `lint-sh` because the pinned shellcheck lives in THIS image. lint.yml
+      # runs on a bare runner whose shellcheck version is whatever the runner
+      # image ships, and a gate whose findings depend on an unpinned tool is not
+      # reproducible.
+      #
+      # THE safe.directory ENV IS LOAD-BEARING, not boilerplate. The lane
+      # discovers its files with `git ls-files`, and the checkout is owned by the
+      # runner uid while the container runs as root, so git refuses the
+      # repository as dubiously-owned and discovery returns EMPTY. Measured on a
+      # local clone reproducing this exact invocation: without the env the lane
+      # fails its non-vacuity guard; with it, 45 scripts are checked. The guard
+      # is what turns that into a red instead of a silent green over zero files.
+      name: shellcheck (first-party, pinned)
+      run: |
+        docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
+          -e GIT_CONFIG_COUNT=1 \
+          -e GIT_CONFIG_KEY_0=safe.directory \
+          -e GIT_CONFIG_VALUE_0=/workspace \
+          jettison-proto-generator-base:latest \
+          make -f lint.mk lint-sh-shellcheck
     - # clang-tidy static analysis over hand-authored C, HERE for the same
       # reason as clang-format: the pinned clang-tidy is the WASI-SDK's, and the
       # compile database it needs is emitted from THIS image's build flags

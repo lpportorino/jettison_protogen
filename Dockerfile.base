@@ -325,6 +325,26 @@ RUN cd /prefetch/devcards \
     && test -n "$(ls -A /root/.gitlibs/_repos)" \
     && test -n "$(ls -A /root/.m2/repository)"
 
+# ── shellcheck (lint only) ────────────────────────────────────────────────────
+# Placed AFTER the dependency prewarm on purpose. shellcheck takes part in no
+# build and no generation — it only lints — so nothing below it depends on it,
+# and putting it here means a version bump costs one 16 MB layer instead of
+# invalidating the multi-minute Clojure prefetch above. CI builds this image
+# cold on every run, so the position costs CI nothing either way.
+#
+# PINNED WITH A CHECKSUM, matching how every other tool here is fetched, and
+# then some: the release tarball's sha256 is verified before extraction, so a
+# retagged or substituted asset fails the build instead of silently shipping.
+ARG SHELLCHECK_VERSION=0.11.0
+ARG SHELLCHECK_SHA256=8c3be12b05d5c177a04c29e3c78ce89ac86f1595681cab149b65b97c4e227198
+RUN wget -q "https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" \
+    && printf '%s  %s\n' "${SHELLCHECK_SHA256}" "shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" >sc.sha256 \
+    && sha256sum -c sc.sha256 \
+    && tar -xJf "shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" \
+    && install -m 0755 "shellcheck-v${SHELLCHECK_VERSION}/shellcheck" /usr/local/bin/shellcheck \
+    && rm -rf "shellcheck-v${SHELLCHECK_VERSION}" "shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" sc.sha256 \
+    && shellcheck --version
+
 # No ENTRYPOINT on the base image: `docker run <img> <cmd>` must run <cmd>
 # directly (make, protoc, …) — that is exactly what the renderer battery and any
 # hand-rolled base run depend on. ubuntu:24.04's default CMD ["/bin/bash"] still
