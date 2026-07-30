@@ -196,9 +196,34 @@ RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
 RUN git clone https://github.com/bufbuild/protovalidate.git /opt/protovalidate
 
 # Install buf CLI
-RUN curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/buf && \
-    chmod +x /usr/local/bin/buf
+# PINNED. This was `releases/latest`, which is a floating dependency in the one
+# file that is meant to be the version pin for every toolchain — and buf is not
+# an incidental tool here: it drives the Go leg's codegen and the JSON-descriptor
+# build (preferred over protoc precisely because it preserves buf.validate
+# annotations), so a silent buf change can move generated output that ten
+# consumer repositories vendor.
+#
+# VERIFIED AGAINST THE RELEASE'S OWN sha256.txt RATHER THAN A LITERAL, because
+# this image is built on BOTH architectures — renderer/devcards/lint on x86_64,
+# build-and-release on a native ubuntu-22.04-arm runner — and a single hardcoded
+# digest would break one of them. The manifest is per-version and therefore
+# immutable in practice, and it covers both assets.
+#
+# `-f` matters: without it curl writes an HTTP error body to the output path, so
+# a bad URL yields an executable "buf" that is an HTML page. The checksum would
+# catch it, but failing at the fetch names the actual problem.
+ARG BUF_VERSION=1.72.0
+RUN BUF_ASSET="buf-$(uname -s)-$(uname -m)" \
+    && curl -fsSL -o /usr/local/bin/buf \
+       "https://github.com/bufbuild/buf/releases/download/v${BUF_VERSION}/${BUF_ASSET}" \
+    && curl -fsSL -o /tmp/buf.sha256 \
+       "https://github.com/bufbuild/buf/releases/download/v${BUF_VERSION}/sha256.txt" \
+    && awk -v a="$BUF_ASSET" '$2 == a { print $1 "  /usr/local/bin/buf"; found = 1 } END { exit !found }' \
+       /tmp/buf.sha256 >/tmp/buf.check \
+    && sha256sum -c /tmp/buf.check \
+    && rm -f /tmp/buf.sha256 /tmp/buf.check \
+    && chmod +x /usr/local/bin/buf \
+    && buf --version
 
 # Create buf configuration for Java generation with protovalidate
 RUN mkdir -p /workspace/buf-config && \
