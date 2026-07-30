@@ -41,7 +41,7 @@
 (m/=> screen->ir
       [:=>
        [:cat schema/tokens-schema [:map-of [:string {:min 1}] map?]
-        [:map [:tree [:map [:tag :keyword]]]]] :map])
+        [:map [:tree [:map [:tag :keyword]]]]] [:map [:root map?]]])
 
 ;; -- Fixture screens (authored against the real edn/tokens.edn) --
 (defn- scr
@@ -93,6 +93,9 @@
 (m/=> keyed-row [:=> [:cat [:* [:string {:min 1}]]] [:map [:tag :keyword]]])
 
 (defn- chart-screen
+  "Single-lv_chart screen carrying the given line series — the morph axis for
+   the chart_values (in-place value edit) and chart_replace (series-count
+   change) synthetic cases."
   [series]
   (scr {:tag :lv_obj
         :class "w-320 h-220"
@@ -101,9 +104,15 @@
                     :class "w-280 h-160"
                     :chart_props
                     {:type :line :point_count 4 :div_lines [2 2] :series series}}]}))
-(m/=> chart-screen [:=> [:cat [:vector map?]] :map])
+(m/=> chart-screen [:=> [:cat [:vector map?]] schema/screen-schema])
 
 (defn- tabview-screen
+  "Two-tab tabview screen with `active` as the selected tab index — the
+   tabview_replace morph pair, and the update_replace_only_type degenerate
+   case's base/valid pair (a raw UPDATE_PROPS claiming WIDGET_TABVIEW, which
+   the renderer refuses outright as a replace-only type regardless of
+   payload — renderer.c's UPDATE handler rejects that type before it even
+   looks at the props carried)."
   [active]
   (scr
    {:tag :lv_obj
@@ -115,9 +124,11 @@
       :children
       [{:tag :lv_obj :id "p1" :children [{:tag :lv_label :id "l1" :text "page one"}]}
        {:tag :lv_obj :id "p2" :children [{:tag :lv_label :id "l2" :text "page two"}]}]}]}))
-(m/=> tabview-screen [:=> [:cat nat-int?] :map])
+(m/=> tabview-screen [:=> [:cat nat-int?] schema/screen-schema])
 
 (defn- proxy-screen
+  "Anchor label plus an optional lv_host_proxy sibling — the proxy_insert
+   (with-proxy? false→true) / proxy_remove (true→false) morph pair."
   [with-proxy?]
   (scr {:tag :lv_obj
         :class "w-320 h-220"
@@ -129,20 +140,31 @@
                                        :class "w-160 h-100"
                                        :host_proxy_props {:proxy_id "px"
                                                           :mode :draggable}}))}))
-(m/=> proxy-screen [:=> [:cat :boolean] :map])
+(m/=> proxy-screen [:=> [:cat :boolean] schema/screen-schema])
 
 ;; -- Keyed node helpers (the combo/storm/degenerate playground) --
-(defn- node-lbl [id text] {:tag :lv_label :id id :text text})
+(defn- node-lbl
+  "A keyed lv_label node — the primitive the combo/storm/degenerate/raw-chain
+   cases below assemble rows from, swap, and re-key to drive insert/remove/
+   move/update op coverage."
+  [id text]
+  {:tag :lv_label :id id :text text})
 (m/=> node-lbl [:=> [:cat [:string {:min 1}] [:string {:min 1}]] [:map [:tag :keyword]]])
 
-(defn- node-btn [id] {:tag :lv_button :id id :class "w-60 h-30"})
+(defn- node-btn
+  "A keyed lv_button node (fixed size, no label) — used where a case swaps a
+   node's TYPE (label→button) to exercise a differ REPLACE, e.g.
+   pair_update_replace / pair_replace_insert, or inserts a new button
+   alongside label churn (full_mix)."
+  [id]
+  {:tag :lv_button :id id :class "w-60 h-30"})
 (m/=> node-btn [:=> [:cat [:string {:min 1}]] [:map [:tag :keyword]]])
 
 (defn- row-scr
   "Keyed-row screen whose children are explicit node maps."
   [kids]
   (scr {:tag :lv_obj :id "row" :class "w-300 h-60" :layout :flex-row :children (vec kids)}))
-(m/=> row-scr [:=> [:cat [:sequential [:map [:tag :keyword]]]] :map])
+(m/=> row-scr [:=> [:cat [:sequential [:map [:tag :keyword]]]] schema/screen-schema])
 
 (defn- event-btn-scr
   "Screen holding a cmd-emitting button (fixed coords — the rs P0 test clicks
@@ -168,7 +190,7 @@
                :notify-host true
                :cmd (cmd-spec/cmd-spec "cmd.DayCamera.SetZoomTableValue"
                                        :PATCH_KIND_WIDGET_VALUE)}}))
-(m/=> event-btn-scr [:=> [:cat [:string {:min 1}]] :map])
+(m/=> event-btn-scr [:=> [:cat [:string {:min 1}]] schema/screen-schema])
 
 (def ^:private synthetic-cases
   "name → [base-screen target-screen] (op-kind + mutability coverage)."
@@ -838,4 +860,4 @@
                     " morph fixture pair(s) + " (count degenerate-cases)
                     " degenerate(s) + full-load dup-uid + grid-pool screens → "
                     out-dir)))))
-(m/=> -main [:=> [:cat [:* [:string {:min 1}]]] :any])
+(m/=> -main [:=> [:cat [:* [:string {:min 1}]]] :nil])

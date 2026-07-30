@@ -1227,6 +1227,55 @@ graal-check:
 # of both and have therefore already finished.
 BATTERY_JOBS ?= 4
 
+## spec-coverage: THE JOIN — every ENROLLED m/=> spec is exercised by the suite
+# Line coverage says a line ran; it cannot say a CONTRACT was checked. This asks the
+# sharper question — for each function carrying an `m/=>`, was it CALLED, and did its
+# contract hold — over a DECLARED SCOPE of namespaces, total inside it with ZERO
+# tolerated misses.
+#
+# NOT A PERCENTAGE AND NOT A CEILING. A count of unexercised specs would be a list of
+# individual findings wearing a number: each entry is one function with one unambiguous
+# fix, so a committed total is parked findings, which gate-enforcement.md §1 refuses.
+# Enrolment is the sanctioned shape, exactly as lint-docstrings is scoped.
+#
+# IT DRIVES ITS OWN RUN rather than hooking kaocha, and that is a correction:
+# `:kaocha.hooks/post-run` was MEASURED NOT TO FIRE — a namespace enrolled at 0%
+# exercised left the suite green, i.e. the gate silently checked nothing. post-load
+# does fire, which is why the malli arming seam still uses it.
+#
+# SCOPE, stated so a green is not over-read: it sees what `clojure -M:test` sees. The
+# E2E generator legs this makefile drives take exercised specs from 50 to 165 of 318,
+# so a wider enrolment is possible but needs a driver that runs those legs too. The
+# namespace's docstring carries both measurements.
+spec-coverage: proto-classes
+	cd $(RGEN) && clojure -M:spec-coverage
+
+## dead-c-externs: no hand-authored C symbol is externally linked yet unreachable
+# `-Wunused-function -Werror` already makes an unused `static` a hard build failure,
+# so dead INTERNAL C cannot exist here. It says nothing about a symbol with EXTERNAL
+# linkage: the linker must keep it, the compiler has no complaint, and no caller can
+# reach it. clang-tidy cannot answer it either — it is PER TRANSLATION UNIT and cannot
+# know whether another object uses the symbol.
+#
+# THE VERDICT IS AN INTERSECTION over the two link targets, which never link together
+# (eight symbols are defined in BOTH renderer.c and reference_ui.c). Six symbols
+# currently look dead in the reference link alone and are LIVE in controls; a union
+# would report all six. The gate's header carries the argument.
+#
+# WHY IT LIVES HERE AND NOT IN `lint.mk lint`: it reads COMPILED OBJECTS and needs
+# llvm-nm from the pinned WASI-SDK, so it cannot run on the plain lint runner. Its
+# prerequisites are `wasm` and `reference` — both link targets' objects must exist, and
+# reading only one would silently judge half the question.
+.PHONY: dead-c-externs dead-c-externs-test
+dead-c-externs: wasm reference
+	@bash tools/lint/dead_c_externs.sh
+
+# Its canaries ride the battery for the same reason every other canary suite does: a
+# gate whose canaries are never RUN is a gate nobody has checked since it landed. They
+# build their own synthetic two-object corpora, so they perturb no tracked file.
+dead-c-externs-test:
+	@bash tools/lint/test/dead_c_externs_test.sh
+
 check-renderer:
 	@$(MAKE) --no-print-directory -f renderer.mk -j$(BATTERY_JOBS) check-renderer-lanes
 
@@ -1238,5 +1287,5 @@ check-renderer:
 # devcards.yml and cannot live here (git does not resolve inside the container).
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test standard-brief-generate wasm reference fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

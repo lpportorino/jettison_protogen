@@ -30,11 +30,26 @@
    [:bp {:optional true} [:maybe keyword?]] [:state {:optional true} [:maybe keyword?]]
    [:part {:optional true} [:maybe keyword?]]])
 
+(def ^:private resolved-value-shape
+  "The value shapes a resolved property value can carry once it is known to
+   be non-nil: pixel int, hex/font string, a themed/shadow map, or an
+   emit-xform keyword literal (e.g. :align's :right-mid, which emit-proto
+   translates)."
+  [:or int? [:string {:min 1}] :keyword [:map-of :keyword some?]])
+
 (def ^:private resolved-value
-  "A resolved property value: pixel int, hex/font string, a themed/shadow
-   map, or an emit-xform keyword literal (e.g. :align's :right-mid, which
-   emit-proto translates); may be nil when a token does not resolve."
-  [:maybe [:or int? [:string {:min 1}] :keyword [:map-of :keyword some?]]])
+  "A resolved property value (resolved-value-shape), or nil when a token
+   does not resolve."
+  [:maybe resolved-value-shape])
+
+(def ^:private expanded-widget-node
+  "A widget node as expand-widget returns it: the authoring schema/widget-node
+   shape minus :class/:event/:style/:cell (desugared away here) plus :layout,
+   :style-groups, a resolved :event map and a baked :color-when when present —
+   this is the shape lvgl-codegen.emit-proto's own `expanded-widget` schema
+   names on the consuming side. Always keeps :tag; every other key stays
+   optional and value-heterogeneous, so the map is open beyond :tag."
+  [:map [:tag keyword?]])
 
 ;; Special size value matching LVGL 9's LV_SIZE_CONTENT.
 ;; LV_COORD_TYPE_SHIFT=29, LV_COORD_MAX=(1<<29)-1, LV_SIZE_CONTENT=LV_COORD_SET_SPEC(LV_COORD_MAX)
@@ -478,7 +493,11 @@
         [:enum :color :font :spacing :radius :shadow :opacity :border-width] :keyword]
        [:map [:dark some?] [:light some?]]])
 
-(m/=> resolve-prop-value [:=> [:cat schema/tokens-schema parsed-token] :any])
+;; resolve-prop-value throws rather than returning nil (a token that fails to
+;; resolve is a build error, never a nil that rides the wire — see its own
+;; body), so its return is resolved-value-shape, not the nil-admitting
+;; resolved-value the arg schemas below use.
+(m/=> resolve-prop-value [:=> [:cat schema/tokens-schema parsed-token] resolved-value-shape])
 
 (m/=> resolve-color-when
       [:=> [:cat schema/tokens-schema [:map [:color :keyword]]]
@@ -487,11 +506,18 @@
 (m/=> expand->variants
       [:=> [:cat schema/tokens-schema [:sequential parsed-token]] [:sequential :map]])
 
-(m/=> expand-widget [:=> [:cat schema/tokens-schema events-schema schema/widget-node] :map])
+(m/=> expand-widget
+      [:=> [:cat schema/tokens-schema events-schema schema/widget-node] expanded-widget-node])
 
 (m/=> expand-screen
       [:=>
        [:cat schema/tokens-schema
-        [:map [:tree schema/widget-node] [:events {:optional true} events-schema]]] :map])
+        [:map [:tree schema/widget-node] [:events {:optional true} events-schema]]]
+       [:map [:tree expanded-widget-node]]])
 
-(m/=> themed-value [:=> [:cat resolved-value keyword?] :any])
+;; themed-value either passes its arg through unchanged or picks one theme's
+;; entry out of a themed map — both cases stay inside the same value domain,
+;; so arg and return share resolved-value (nil included: a themed map's
+;; per-theme entry is not itself guaranteed non-nil the way
+;; resolve-prop-value's overall result is).
+(m/=> themed-value [:=> [:cat resolved-value keyword?] resolved-value])

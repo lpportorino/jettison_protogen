@@ -12,6 +12,17 @@
 
 (def ^:private semantic-key keyword?)
 
+(def ^:private shadow-value
+  "A concrete shadow-token value as tokens.edn's own :shadows category carries
+   it — {:opa <0-255> :width <px> :spread <px>}, every field a plain int.
+   Narrower than schema/shadow-def on purpose: this namespace only ever reads
+   the pinned tokens.edn (`.claude/rules/renderer-gen.md`'s seam has no
+   consumer-private path into resolve-shadow), and that file's :shadows
+   entries never carry offset-x/offset-y — schema/shadow-def is the broader
+   manifest-entry shape a private OVERLAY may supply post-resolution, a
+   different stage this namespace does not touch."
+  [:map [:opa [:int {:min 0 :max 255}]] [:width nat-int?] [:spread nat-int?]])
+
 (defn- primitive!
   "The second (semantic -> primitive) hop must also resolve — a nil here
    would ride to pronto as a nil prop value with zero EDN context."
@@ -87,7 +98,10 @@
       (lookup s-ref))))
 
 (defn resolve-opacity
-  "Resolve a semantic opacity token to integer (0-255)."
+  "Resolve a semantic opacity token to an integer (0-255): the semantic
+   layer's {:dark/:light} themed ref resolves to a themed {:dark N :light N}
+   pair, a bare keyword ref resolves to a single 0-255 integer (mirrors
+   resolve-shadow's themed/invariant split)."
   [tokens sem-key]
   (let [o-ref (get-in tokens [:semantic sem-key])]
     (when-not o-ref
@@ -117,13 +131,19 @@
 
 (m/=> resolve-radius [:=> [:cat tokens-map semantic-key] [:maybe int?]])
 
-(m/=> resolve-shadow [:=> [:cat tokens-map semantic-key] :any])
+(m/=> resolve-shadow
+      [:=> [:cat tokens-map semantic-key]
+       [:or [:map [:dark shadow-value] [:light shadow-value]] shadow-value]])
 
 (m/=> primitive!
       [:=>
        [:cat [:maybe [:or int? [:string {:min 1}] [:map-of :keyword some?]]] keyword?
         [:or keyword? int?] [:string {:min 1}]] some?])
 
-(m/=> resolve-opacity [:=> [:cat tokens-map semantic-key] :any])
+(m/=> resolve-opacity
+      [:=> [:cat tokens-map semantic-key]
+       [:or
+        [:map [:dark [:int {:min 0 :max 255}]] [:light [:int {:min 0 :max 255}]]]
+        [:int {:min 0 :max 255}]]])
 
 (m/=> resolve-border-width [:=> [:cat tokens-map semantic-key] [:maybe int?]])

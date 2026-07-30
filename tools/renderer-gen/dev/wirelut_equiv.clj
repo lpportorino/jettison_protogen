@@ -1,7 +1,15 @@
-;; Exhaustive behavioural equivalence of the OLD inline `case` (copied verbatim
-;; from HEAD:tools/renderer-gen/src/lvgl_codegen/emit_proto.clj) against the NEW
-;; map lookup, over the whole domain emit-widget can hand it.
-(require '[lvgl-codegen.emit-proto :as ep])
+(ns wirelut-equiv
+  "Exhaustive behavioural equivalence of the OLD inline `case` against the NEW map
+  lookup in `lvgl-codegen.emit-proto`, over the whole domain `emit-widget` can hand
+  it.
+
+  Run: cd tools/renderer-gen && clojure -Sdeps '{:aliases {:p {:extra-paths [\"dev\"]}}}' -M:p dev/wirelut_equiv.clj
+
+  A PROBE, NOT A GATE. `lvgl-codegen.wire-lut-test` is the standing static check
+  over that vocabulary and rides `check-renderer`; this file only records the
+  one-time equivalence argument for the rewrite, and nothing gates on its output."
+  (:require
+   [lvgl-codegen.emit-proto :as ep]))
 (defn old-case [layout]
   (case layout
     :flex-row :FLEX_FLOW_ROW

@@ -20,7 +20,8 @@ static void double_le_bytes(uint8_t *out, double d) {
   for (int i = 0; i < 8; i++)
     out[i] = (uint8_t)((bits >> (8 * i)) & 0xff);
 }
-void cmd_patch_padded_varint(uint8_t *out, uint32_t width, int64_t value) {
+static void cmd_patch_padded_varint(uint8_t *out, uint32_t width,
+                                    int64_t value) {
   /* Mirror uigen.cmd-spec/padded-varint: r starts as value, each low group
    * carries 7 value bits with bit-7 set (continuation); the final byte clears
    * bit-7. The shift is the unsigned >>> of a 64-bit pattern, so we carry the

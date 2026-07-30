@@ -360,7 +360,7 @@
    validate-screen -> resolve-components -> expand-screen)."
   [:map [:tree map?]])
 
-(m/=> load-edn [:=> [:cat file-path] :map])
+(m/=> load-edn [:=> [:cat file-path] [:map-of :keyword :any]])
 
 (m/=> load-private-tokens [:=> [:cat [:maybe file-path]] resolved-token-map])
 
@@ -375,7 +375,7 @@
        [:=> [:cat file-path [:maybe file-path]] :map]
        [:=> [:cat file-path file-path [:maybe file-path]] :map]])
 
-(m/=> join-class-vectors [:=> [:cat resolvable-screen] :map])
+(m/=> join-class-vectors [:=> [:cat resolvable-screen] resolvable-screen])
 
 (m/=> validate-class-defs! [:=> [:cat schema/tokens-schema] :nil])
 
@@ -393,4 +393,4 @@
       [:=> [:cat schema/tokens-schema loaded-components resolvable-screen file-path]
        nat-int?])
 
-(m/=> -main [:=> [:cat [:* file-path]] :any])
+(m/=> -main [:=> [:cat [:* file-path]] :nil])

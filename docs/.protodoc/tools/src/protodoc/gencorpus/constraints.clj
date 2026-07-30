@@ -46,10 +46,19 @@
      "build.buf.validate.ValidateProto" "registerAllExtensions" (object-array [reg]))
     reg))
 
-(defn- field-ext []
+(defn- field-ext
+  "The buf.validate `[buf.validate.field]` extension field object
+   (`ValidateProto/field`), fetched via reflection since it is not imported —
+   `extract` passes it to `hasExtension`/`getExtension` to read each field's
+   FieldRules off its FieldOptions."
+  []
   (clojure.lang.Reflector/getStaticField "build.buf.validate.ValidateProto" "field"))
 
-(defn- rule->kw [^Descriptors$FieldDescriptor fd]
+(defn- rule->kw
+  "A buf.validate rule sub-message field's snake_case wire name as the
+   proto-db-shaped keyword `submsg->constraints` keys the constraints map with
+   (`min_len` → `:min-len`)."
+  [^Descriptors$FieldDescriptor fd]
   (keyword (str/replace (Descriptors$FieldDescriptor/.getName fd) "_" "-")))
 
 (defn- submsg->constraints

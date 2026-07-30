@@ -91,7 +91,9 @@
                          (:children node)
                          segs)]
       (cond-> (assoc node :uid uid) (seq children) (assoc :children children)))))
-(m/=> assign-uids* [:=> [:cat [:map [:tag keyword?]] [:string {:min 1}] some?] :map])
+(m/=> assign-uids*
+      [:=> [:cat [:map [:tag keyword?]] [:string {:min 1}] some?]
+       [:map [:tag keyword?] [:uid int?]]])
 
 (defn assign-uids
   "Assign a stable :uid to every node of an expanded widget tree —
@@ -100,7 +102,8 @@
    never a runtime surprise)."
   [tree]
   (assign-uids* tree (first (child-segments [tree])) (atom {})))
-(m/=> assign-uids [:=> [:cat [:map [:tag keyword?]]] :map])
+(m/=> assign-uids
+      [:=> [:cat [:map [:tag keyword?]]] [:map [:tag keyword?] [:uid int?]]])
 
 (defn- encode-grid-track
   "Encode one authoring grid track (px int | :content | [:fr n]) to the LVGL
@@ -223,7 +226,7 @@
                  m))
              props
              (get props-enum-fields props-key {})))
-(m/=> resolve-props-enums [:=> [:cat :keyword map?] :map])
+(m/=> resolve-props-enums [:=> [:cat :keyword map?] [:map-of :keyword :any]])
 
 (defn- resolve-chart-series
   "Translate one chart series' :axis authoring keyword to its proto member
@@ -239,7 +242,7 @@
                                     (sort (keys gen-enums/chart-axis-keyword->member)))
                                {:props :chart_props :field :axis :value axis}))))
     series))
-(m/=> resolve-chart-series [:=> [:cat map?] :map])
+(m/=> resolve-chart-series [:=> [:cat map?] [:map-of :keyword :any]])
 
 (defn- resolve-chart-props
   "Translate a :chart_props authoring map to its proto-IR shape: :type via
@@ -268,7 +271,7 @@
                            :vdiv_count (second dl))))
             p)]
     (cond-> p (seq (:series p)) (update :series #(mapv resolve-chart-series %)))))
-(m/=> resolve-chart-props [:=> [:cat map?] :map])
+(m/=> resolve-chart-props [:=> [:cat map?] [:map-of :keyword :any]])
 
 ;; -- File-local argument schemas for arrow-spec tightening --
 (def ^:private style-property-pair
@@ -427,7 +430,7 @@
     ;; int value index-selects among (bool-set/on-off/enum egress).
     (:cmd event) (assoc :cmd (emit-cmd-spec (:cmd event)))
     (:cmd-by-value event) (assoc :cmd_by_value (mapv emit-cmd-spec (:cmd-by-value event)))))
-(m/=> emit-event-binding [:=> [:cat [:map [:name keyword?]]] :map])
+(m/=> emit-event-binding [:=> [:cat [:map [:name keyword?]]] [:map-of :keyword :any]])
 
 (defn emit-widget
   "Convert an expanded widget node to proto WidgetNode map."
@@ -598,15 +601,15 @@
 
 (m/=> hex->color [:=> [:cat string?] [:map [:r int?] [:g int?] [:b int?]]])
 
-(m/=> emit-style-property [:=> [:cat style-property-pair] :map])
+(m/=> emit-style-property [:=> [:cat style-property-pair] [:map-of :keyword :any]])
 
-(m/=> emit-style-group [:=> [:cat expanded-style-group] :map])
+(m/=> emit-style-group [:=> [:cat expanded-style-group] [:map-of :keyword :any]])
 
-(m/=> emit-widget [:=> [:cat expanded-widget] :map])
+(m/=> emit-widget [:=> [:cat expanded-widget] [:map-of :keyword :any]])
 
 ;; emit-screen tolerates :subjects as either a map or a seq of [name decl]
 ;; tuples across callers (its body iterates `(for [[k v] subjects] …)`), so the
 ;; screen arg is map? — the proto encoding validates the real structure.
-(m/=> emit-screen [:=> [:cat map?] :map])
+(m/=> emit-screen [:=> [:cat map?] [:map-of :keyword :any]])
 
-(m/=> emit-subject [:=> [:cat subject-entry] :map])
+(m/=> emit-subject [:=> [:cat subject-entry] [:map-of :keyword :any]])

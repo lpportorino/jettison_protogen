@@ -1,0 +1,114 @@
+# WHOLE-TREE HYGIENE SCANS — the gates whose input set is the entire checkout.
+#
+# WHY THIS IS A SEPARATE WORKFLOW AND NOT A STEP IN lint.yml. Every other gate in
+# this repo is handed a positive allowlist of hand-authored paths, so lint.yml can
+# fire on a path filter naming those file types and be complete. The scans here
+# ask a question about the WHOLE TREE, and a path filter over a tree-wide scan is
+# a false skip by construction: a `/home/<user>/…` leak landing in a `.md`, a
+# `.toml`, a `Dockerfile` or a `.gitattributes` matches none of lint.yml's
+# patterns, so the job would never fire on the very commit it exists to catch.
+#
+# The alternative — widening lint.yml's filter until it covers every extension a
+# leak could land in — is a list that rots, and it would also make cljfmt,
+# clj-kondo and a JDK setup run on doc-only pushes. Splitting the tree-wide scans
+# out costs one extra job that needs nothing but the bash and git already on the
+# runner, and it is the same reasoning that makes the scans themselves scope by
+# EXCLUSION rather than by allowlist.
+#
+# THERE IS DELIBERATELY NO `paths:` FILTER BELOW. That absence is the whole point
+# of the file; do not add one. If a future scan here is genuinely path-scoped, it
+# belongs in lint.yml instead.
+name: Hygiene
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hygiene-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  whole-tree:
+    name: leak bans (whole tree)
+    runs-on: ubuntu-latest
+    steps:
+    - # FULL history is NOT needed — every scan here reads the WORKING TREE via
+      # `git ls-files`, not a commit range. The default shallow checkout is
+      # therefore complete for this job, and saying so beats a reader wondering
+      # whether a missing `fetch-depth: 0` is an oversight.
+      name: Checkout
+      uses: actions/checkout@v5
+
+    - # The canaries FIRST, and this ordering is load-bearing rather than tidy.
+      # The gate below has several clauses that can each refuse the same input, so
+      # a red from it does not say WHICH clause fired; the suite settles that by
+      # mutation (silence one clause, require green; then require a neighbouring
+      # clause still red on that same mutant). Running it here means CI re-earns
+      # that proof on every push instead of trusting the day it was written.
+      #
+      # It needs bash, git and python3 — all present on the runner image, none
+      # installed by this workflow.
+      name: leak-ban canaries (mutation-proven clause attribution)
+      run: make -f lint.mk lint-no-host-paths-test
+
+    - # THE MARKDOWN LANE IS CLOJURE NOW, so this job needs a JDK and the Clojure
+      # CLI where it previously needed neither. Without them the lane does not
+      # report a finding — it dies `clojure: command not found`, which is an ERROR
+      # wearing a gate's colour and says nothing about the tree.
+      #
+      # PINS ARE THE ONES lint.yml AND devcards.yml ALREADY USE, deliberately: two
+      # toolchain versions gating one tree disagree eventually, and these are
+      # known-good on a runner rather than merely plausible. Verify any change
+      # against https://github.com/clojure/brew-install/releases — an invented tag
+      # kills the job at setup, before a single gate runs.
+      name: Set up JDK 25 (LTS)
+      uses: actions/setup-java@v5
+      with:
+        distribution: temurin
+        java-version: "25"
+
+    - name: Set up Clojure CLI
+      uses: DeLaGuardo/setup-clojure@13.6.1
+      with:
+        cli: "1.12.5.1654"
+
+    - # Cache on the ROOT deps.edn — the `:lint-gate` alias declares no
+      # `:extra-deps`, so a warm run resolves nothing, but the Clojure CLI still
+      # wants its tools cache and a cold miss costs a fetch per job.
+      name: Cache Maven-resolved deps
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+        key: hygiene-m2-${{ hashFiles('deps.edn') }}
+        restore-keys: hygiene-m2-
+
+    - # MARKDOWN, and it belongs in THIS workflow for a sharper reason than the
+      # leak ban does. Two of its clauses resolve citations against the whole
+      # TRACKED UNIVERSE, so its verdict depends on files that are not markdown at
+      # all — deleting a cited `.c` file changes the answer with no `.md` touched.
+      # A `**/*.md` path filter over it would therefore be a false skip by
+      # construction, and that was proved by running it rather than argued: with
+      # three non-markdown files removed from the universe the gate reports a dead
+      # citation glob, control clean.
+      #
+      # Canaries first, same ordering argument as the leak ban below.
+      name: markdown-gate canaries (mutation-proven clause attribution)
+      run: make -f lint.mk lint-md-test
+
+    - name: markdown quality (hand-authored .md)
+      run: make -f lint.mk lint-md
+
+    - # The ban itself: no `/home/<user>/…` and no `~/<dir>/…` in a checked-in
+      # file. protogen is public, so such a path is wrong for every reader whose
+      # clone root differs — and when it names a private sibling checkout it also
+      # leaks that the sibling exists.
+      name: no operator-host paths
+      run: make -f lint.mk lint-no-host-paths

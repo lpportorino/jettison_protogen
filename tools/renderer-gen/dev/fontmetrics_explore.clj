@@ -1,9 +1,20 @@
-;; .fork-scratch/fontmetrics_explore.clj — exploratory only (fork scratch).
-;; Computes, for each vendored TTF, the line_height / base_line lv_tiny_ttf
-;; WOULD produce at each compiled size, so the compiled-vs-TTF disagreement can
-;; be seen before any assertion is written.
-;; Run: tools/uber.sh 'cd tools/renderer-gen && clojure -M dev/fontmetrics_explore.clj'
-(require '[clojure.java.io :as io])
+(ns fontmetrics-explore
+  "Computes, for each vendored TTF, the line_height / base_line lv_tiny_ttf WOULD
+  produce at each compiled size — so the compiled-vs-TTF disagreement can be seen
+  before any assertion is written. `.claude/rules/renderer.md` carries what that
+  disagreement means and which way its sign flips.
+
+  Run from tools/renderer-gen, inside the pinned container (tools/uber.sh), with
+  `dev` on the classpath: clojure -M:p dev/fontmetrics_explore.clj where :p is a
+  throw-away alias adding :extra-paths [\"dev\"].
+
+  THE PATH THIS FILE USED TO NAME ITSELF BY WAS WRONG. Its banner cited
+  `.fork-scratch/fontmetrics_explore.clj` — a scratch location it no longer
+  occupies — which is exactly the hazard `CLAUDE.md` names: name the file that does
+  the work, never the phrase a file chose for itself. It lives here, tracked, because
+  a number with no re-runnable probe is recall rather than evidence."
+  (:require
+   [clojure.java.io :as io]))
 
 (def repo-root "../..")
 

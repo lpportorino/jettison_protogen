@@ -209,6 +209,18 @@
     [:cmd-by-value {:optional true} [:vector {:min 1 :max 16} cmd-spec-edn]]]
    [:fn {:error/message ":set and :toggle are mutually exclusive — use one or the other"}
     (fn [m] (not (and (contains? m :set) (contains? m :toggle))))]
+   ;; :to NAMES NO SUBJECT ON ITS OWN, and without this clause `{:to 5}` validated
+   ;; clean and produced a control that silently did something else. The emitter
+   ;; writes set_value=5 with an EMPTY set_subject; renderer.c then skips the
+   ;; mutation outright (`if (data->set_subject[0] != '\0')`) and the very next
+   ;; branch (`set_subject[0] == '\0' || notify_host`) reclassifies the press as a
+   ;; HOST event. So the authored intent — mutate this subject to this value — is
+   ;; dropped and replaced by a host notification, with no error at either end.
+   ;;
+   ;; The docstring above has always read ":set/:to" as a PAIR. This makes the
+   ;; pairing checkable instead of conventional.
+   [:fn {:error/message ":to needs :set — a value with no subject to write it to is dropped by the renderer and the press degrades to a host event"}
+    (fn [m] (not (and (contains? m :to) (not (contains? m :set)))))]
    [:fn
     {:error/message
      ":cmd and :cmd-by-value are mutually exclusive — a widget value either patches ONE template or index-selects among fixed ones"}
@@ -385,6 +397,28 @@
       (swap! errors conj
              {:type :in-tab-bar-outside-tabview :parent (:tag widget) :child (:tag child)}))))
 
+(def reactive-state-bindings
+  "Each REACTIVE state binding paired with the create-time `:states` bit it
+  competes with, as `[binding-key state-bit error-type]`.
+
+  A TABLE, NOT TWO CLAUSES, and that is the fix rather than an implementation
+  detail. The `:checked-when` conflict was checked and `:enabled-when` was not,
+  even though renderer.c documents the latter as \"the reactive sibling of
+  checked_when with INVERTED polarity\" — two clauses hand-written from one contract
+  drift, and the missing one is invisible because nothing enumerates the pair set.
+  Keyed on the abstraction, a new `*-when` binding added without an entry here is a
+  visible omission instead of a silent one.
+
+  WHY THE COMBINATION IS REJECTED RATHER THAN ORDERED. Both sources write the same
+  state bit and the reactive one WINS by construction: create-time states are applied
+  while the node is built (`lv_obj_add_state(obj, node->states)`), whereas
+  `apply_checked_when` / `apply_enabled_when` run in a DEFERRED post-subjects pass, so
+  the observer's first evaluation immediately overwrites whatever the author asked
+  for. Silently. There is no ordering an author could rely on, so the pairing is an
+  authoring error and not a precedence question."
+  [[:checked-when :checked :checked-when-states-conflict]
+   [:enabled-when :disabled :enabled-when-states-conflict]])
+
 (defn- check-host-proxy-node!
   "Host-proxy cross-field contract, collected into the errors atom:
    an :lv_host_proxy node carries :host_proxy_props with a non-empty
@@ -400,8 +434,10 @@
     (when (and props (not proxy?))
       (swap! errors conj
              {:type :host-proxy-props-outside-host-proxy :widget (:tag widget)}))
-    (when (and (:checked-when widget) (contains? (:states widget) :checked))
-      (swap! errors conj {:type :checked-when-states-conflict :widget (:tag widget)}))))
+    (doseq [[binding-key state-bit err-type] reactive-state-bindings
+            :when (and (binding-key widget) (contains? (:states widget) state-bit))]
+      (swap! errors conj {:type err-type :widget (:tag widget)
+                          :binding binding-key :state state-bit}))))
 
 (defn- check-identity-node!
   "Tree-patch identity contract, collected into the errors atom:
@@ -558,31 +594,32 @@
   (when-not (m/validate screen-schema screen) (m/explain screen-schema screen)))
 
 ;; -- Function schema registrations --
-(m/=> walk-widgets [:=> [:cat map? ifn?] :any])
+(m/=> walk-widgets [:=> [:cat map? ifn?] :nil])
 
-(m/=> check-tabview-node! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+(m/=> check-tabview-node! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :nil])
 
 (m/=> check-host-proxy-node!
-      [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+      [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] [:maybe [:vector map?]]])
 
-(m/=> check-identity-node! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+(m/=> check-identity-node!
+      [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] [:maybe [:vector map?]]])
 
 (m/=> content-sizing-dimensions [:=> [:cat [:maybe string?]] [:set :keyword]])
 
-(m/=> check-leaf-sizing! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :any])
+(m/=> check-leaf-sizing! [:=> [:cat [:map [:tag {:optional true} keyword?]] some?] :nil])
 
 (m/=> check-conditional-binding!
       [:=>
        [:cat [:map [:tag {:optional true} keyword?]] [:maybe [:map [:subject keyword?]]]
         [:maybe [:map-of keyword? [:map [:type {:optional true} keyword?]]]] :keyword
-        :keyword some?] :any])
+        :keyword some?] [:maybe [:vector map?]]])
 
 (m/=> supported-bind-keys [:=> [:cat [:maybe :keyword]] [:set :keyword]])
 
 (m/=> validate-screen-semantics [:=> [:cat map?] [:maybe [:sequential :any]]])
 
-(m/=> validate-tokens [:=> [:cat map?] :any])
+(m/=> validate-tokens [:=> [:cat map?] [:maybe map?]])
 
-(m/=> validate-screen [:=> [:cat map?] :any])
+(m/=> validate-screen [:=> [:cat map?] [:maybe map?]])
 
-(m/=> validate-components-file [:=> [:cat map?] :any])
+(m/=> validate-components-file [:=> [:cat map?] [:maybe map?]])

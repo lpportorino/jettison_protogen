@@ -57,7 +57,11 @@
   (let [proto-obj (UiAst$ScreenPatch/parseFrom pb-bytes)
         proto-map (pronto/proto->proto-map lvgl-proto-mapper proto-obj)]
     (pronto/proto-map->clj-map proto-map)))
-(m/=> bytes->patch [:=> [:cat bytes?] :map])
+(m/=> bytes->patch
+      [:=>
+       [:cat bytes?]
+       [:map [:base_hash int?] [:target_hash int?]
+        [:ops [:sequential [:map [:kind :keyword]]]]]])
 
 ;; -- Deserialization (bytes → screen IR) --
 (defn bytes->screen
@@ -99,4 +103,4 @@
 ;; -- Function schema registrations --
 (m/=> ir->bytes [:=> [:cat map?] bytes?])
 
-(m/=> bytes->screen [:=> [:cat bytes?] :map])
+(m/=> bytes->screen [:=> [:cat bytes?] proto-schema/screen])

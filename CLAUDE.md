@@ -27,6 +27,18 @@ Rules:
 - **A proto change is ONE coordinated event:** edit → `make generate` → commit to
   `master` → push (CI fans out) → every active consumer bumps its pin + regenerates
   + gates, in lockstep. Never leave the fleet pinned across divergent commits.
+- **AN IMPORTED NO-LEGACY OR FEATURE-BRANCH POSTURE IS REFUSED HERE, and this is the
+  one file that can carry the refusal.** A superproject that vendors protogen may hold
+  rules mandating no backward compatibility and licensing a feature branch when
+  convenient. Both are incompatible with the two paragraphs above, for the reason
+  already stated in them: ten consumer repos rebuild from this pin, so a renamed field
+  breaks all of them and a non-`master` pin fragments the fleet. Neither posture
+  travels into this repo, whatever its authority upstream.
+  Why HERE rather than in a rule: `.claude/` resolves from the PROJECT ROOT and never
+  from a submodule mount, so protogen's rules cannot be co-loaded with a
+  superproject's — but a subdirectory CLAUDE.md IS read when files under it are read.
+  This file is therefore the only protogen surface where the two rule sets can meet,
+  which makes it the only place the refusal can be stated.
 
 ## Fixing protogen from a consumer (MANDATORY — fix at the source, robustly)
 
@@ -510,18 +522,14 @@ prose copy, which can only lag.
 CI generates every language in one job, then pushes each to its own repository,
 then commits generated output back here.
 
-| Language | Repository |
-|----------|------------|
-| C (nanopb) | [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c) |
-| C++ | [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp) |
-| Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) |
-| Kotlin | [jettison_proto_kotlin](https://github.com/lpportorino/jettison_proto_kotlin) |
-| Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) |
-| TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) |
-| TypeScript (validated) | [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es) |
-| Rust | [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust) |
-| Java | [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java) |
-| JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors) |
+**WHICH LANGUAGE LANDS IN WHICH REPOSITORY has exactly one home:
+`.github/workflows/build-and-release.yml`**, whose ten `Push to <repo>` steps name it
+directly. A table here would be a second copy of a list that workflow already
+advertises — the drift-prone enumeration `.claude/rules/claude-md-policy.md` bans — and
+the repo names are self-describing (`jettison_proto_go` is the Go binding).
+
+ONE mapping is NOT self-describing, so it is stated rather than pointed at:
+`jettison_protovalidate_es` is the VALIDATED TypeScript output, not a separate language.
 
 Each push needs a deploy key in repository secrets; `build-and-release.yml` is
 the one home of which secret feeds which step.

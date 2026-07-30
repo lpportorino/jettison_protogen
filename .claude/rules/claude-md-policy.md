@@ -43,10 +43,21 @@ must not be imported into these docs.
 - **Agent** — a LAUNCHER for work that must run in its own context, with its own
   model tier and tool set. Pair it with a skill rather than inlining the
   playbook: the agent body says which model, what to load and what to return;
-  the skill stays the single copy of the content. `model:` belongs here (agent
-  and command frontmatter), never in a skill, which has no such key. Use the
-  stable ALIAS (`sonnet`, `opus`), never a pinned version string — a version is
-  the drift-prone form this file bans everywhere else.
+  the skill stays the single copy of the content. Use the stable ALIAS
+  (`sonnet`, `opus`), never a pinned version string — a version is the
+  drift-prone form this file bans everywhere else.
+
+  **`model:` GOES ON THE AGENT HERE, AND THAT IS A POLICY RATHER THAN A
+  CAPABILITY.** `model` IS a documented SKILL frontmatter key — verified against
+  code.claude.com/docs/en/skills, whose frontmatter reference lists it ("Model to
+  use when this skill is active"), alongside `effort`, `context`, `agent`,
+  `background`, `hooks`, `paths`, `user-invocable` and `disable-model-invocation`.
+  This file previously asserted the key did not exist, and `lint-md`'s
+  `skill-model-key` clause repeated that as its diagnostic — a gate stating an
+  untrue fact, which is worse than an unexplained ban because a reader who checks
+  it loses trust in every other clause. The RULE stands on its own reasoning: a
+  tier set in both places can disagree, and the agent is the launcher, so the
+  agent owns it.
 
 ## No drift-prone enumerations
 Anything a source of truth already advertises MUST NOT be re-stated in prose —
@@ -151,10 +162,46 @@ this gets fixed: change the source, regenerate.
 ## `paths:` frontmatter discipline
 - Shape is the YAML list above; anchor globs to the repo root; one rule, one
   scope theme (don't union unrelated globs).
+- **`**/` IS AN OPTIONAL SEGMENT, so `<root>/**/*.ext` DOES match a bare
+  `<root>/file.ext`.** `lint-gate.md/glob-re` special-cases the three-character
+  sequence before the general one: `**/` becomes `(?:.*/)?` and only a bare `**`
+  becomes `.*`. So `docs/.protodoc/tools/**/*.clj` matches
+  `docs/.protodoc/tools/build.clj`, and `malli-schemas.md` does load there.
+  **AN EARLIER REVISION OF THIS BULLET CLAIMED THE OPPOSITE**, on a probe that
+  re-implemented the translation and omitted the `**/` case — so it required a
+  directory that the real matcher makes optional. READ `glob-re`; do not
+  reimplement it. A hand-rolled matcher agrees with the real one on the common
+  cases and diverges on exactly the edge you are writing the bullet about.
+- **DO NOT VERIFY A GLOB WITH `git ls-files -- '<glob>'`.** Git pathspecs let `*` cross
+  `/`, so git reports MORE matches than the harness will ever load — a scope check that
+  passes while the scope is wrong. Measured: `git ls-files -- '*.mk'` returns six files
+  including two under `renderer/lvgl/`, where the harness matches three at the repo
+  root. Reason from `glob-re`'s semantics instead.
 - No prose `**Scope:**` block when `paths:` exists — the frontmatter IS the scope.
 - Every path-scoped rule embeds `<!-- LOAD-TEST: <rule-name> -->` immediately
-  after the frontmatter, so loading is smoke-testable ("Which LOAD-TEST
-  sentinels do you see in context?").
+  after the frontmatter — as a HUMAN-FACING marker and a name check, NOT as a
+  loading test.
+
+  **THE SENTINEL CANNOT BE SEEN FROM INSIDE A SESSION, so do not ask.** Block-level
+  HTML comments are stripped before instruction content is injected, so "which
+  LOAD-TEST sentinels do you see in context?" answers *none* for a loaded rule and
+  an unloaded rule ALIKE — the two outputs are the same string, which is exactly
+  what `review-discipline.md` refuses as evidence everywhere else. This bullet
+  promised that test for as long as it existed. Confirmed three ways: the published
+  memory doc states the stripping; and twice first-hand, where
+  `monitor-discipline.md` begins with its sentinel on disk and the injected text
+  begins at the `#` heading.
+
+  WHAT THE SENTINEL IS STILL WORTH: it is visible when the file is opened with Read,
+  and `load-test-name-mismatch` catches a sentinel copy-pasted from another rule —
+  a real defect class, cheaply caught. That is the whole of its value; keep it for
+  that and expect nothing more.
+
+  **TO ACTUALLY OBSERVE LOADING**, use an `InstructionsLoaded` hook in
+  `.claude/settings.json`, which reports the file AND why it loaded. That is strictly
+  more than the sentinel could ever have shown, and this repo already ships
+  `.claude/hooks/` with a settings file to put it in. Not yet wired — named here so
+  the gap is a decision rather than a silence.
 
 ## Naming
 kebab-case `<concept>.md`; a language/scope split keeps the base name and suffixes

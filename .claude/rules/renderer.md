@@ -4,6 +4,13 @@ paths:
   - "renderer/**"
   - "renderer.mk"
   - "tools/renderer-gen/**"
+  # The determinism contract below enumerates FOUR homes of the pinned render
+  # protocol and only one (wasm_harness/src/lib.rs) was inside these globs. An
+  # all-or-none obligation that does not load where three of its four homes are
+  # edited is the exact shape of a silent partial change.
+  - "tools/devcards/src/devcards/core.clj"
+  - "tools/devcards/src/devcards/host.clj"
+  - "tools/devcards/goldens/**"
 ---
 <!-- LOAD-TEST: renderer -->
 

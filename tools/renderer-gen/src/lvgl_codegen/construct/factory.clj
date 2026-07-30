@@ -244,7 +244,11 @@
                                :expected #{"--enums" "--bindings-out" "--luts-out"}}))))
           {}
           (partition 2 args)))
-(m/=> parse-args [:=> [:cat [:sequential [:string {:min 1}]]] :map])
+(m/=> parse-args
+      [:=> [:cat [:sequential [:string {:min 1}]]]
+       [:map [:enums {:optional true} [:string {:min 1}]]
+        [:bindings-out {:optional true} [:string {:min 1}]]
+        [:luts-out {:optional true} [:string {:min 1}]]]])
 
 (defn -main
   "Emit BOTH committed projections from one extraction: the Clojure bindings ns

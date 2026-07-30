@@ -95,14 +95,26 @@
    inexpressible by re-applying props in place (F7's one-way doors) ⇒
    REPLACE. Fields NOT listed are applied unconditionally (absolute
    setters), so any transition is morphable."
-  {:slider_props #{:mode}
+  ;; :value ON SLIDER, ARC AND SPINBOX — each mirrors a real
+  ;; `if (!morph_in_progress || p->value != 0)` in renderer.c
+  ;; (slider, arc and spinbox in apply_widget_props). Omitting them meant an
+  ;; ordinary update that regressed an authored value to exactly 0 was classified
+  ;; UPDATE_PROPS, the renderer then SKIPPED applying the 0, and the live widget kept
+  ;; a stale value with no error anywhere.
+  ;;
+  ;; BAR IS DELIBERATELY DIFFERENT and must not be "made consistent": its
+  ;; `lv_bar_set_value` is UNCONDITIONAL, so a bar value is morphable at every
+  ;; transition. Only its `:start_value` is guarded, and only that is listed. The
+  ;; asymmetry is the C source's, not an oversight here — check the guard before
+  ;; adding a field.
+  {:slider_props #{:mode :value}
    :bar_props #{:mode :start_value}
-   :arc_props #{:mode :rotation}
+   :arc_props #{:mode :rotation :value}
    :label_props #{:long_mode}
    :dropdown_props #{:options :selected :direction}
    :roller_props #{:options :selected :visible_row_count :mode}
    :textarea_props #{:placeholder :max_length}
-   :spinbox_props #{:step :digit_count :separator_position}
+   :spinbox_props #{:step :digit_count :separator_position :value}
    :spinner_props #{:spin_time :arc_length}
    :led_props #{:color :brightness}
    :image_props #{:src :has_pivot :rotation}

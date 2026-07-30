@@ -94,8 +94,16 @@ static inline bool cmd_patch_slot_in_bounds(uint32_t byte_offset,
  * value is treated as a 64-bit pattern shifted right 7 bits per group (the
  * Clojure unsigned-bit-shift-right), so a negative int32 fans out to its
  * full-width two's-complement varint — the renderer never produces a delta
- * outside int32 range, but the encoding is total. Exposed for unit reach. */
-void cmd_patch_padded_varint(uint8_t *out, uint32_t width, int64_t value);
+ * outside int32 range, but the encoding is total.
+ *
+ * NOT DECLARED HERE ANY MORE — it is `static` in cmd_patch.c. It said "Exposed
+ * for unit reach" and nothing reached it: the symbol is not a wasm export, so no
+ * harness test could call it even in principle, and the external linkage bought a
+ * seam that did not exist. The MIRROR is still only half asserted —
+ * `uigen.cmd-spec/padded-varint` is pinned by
+ * tools/renderer-gen/test/uigen/cmd_spec_test.clj, this side by nothing — and
+ * closing that needs a deliberate export or probe entry point, which is an ABI
+ * change and a coordinated event, not a linkage tweak. */
 /* Emit the command described by `spec`, patched with the live values:
  *   - NDC_X slots ← `x` (8 LE double bytes, verbatim)
  *   - NDC_Y slots ← `y` (8 LE double bytes, verbatim)

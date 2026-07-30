@@ -160,7 +160,10 @@
 
 ;; ── the compiled C table ────────────────────────────────────────────────────
 
-(defn- defines-symbol? [txt sym]
+(defn- defines-symbol?
+  "True when `txt` contains a top-level `lv_font_t <sym> = {` DEFINITION
+   (the public table object), not merely a declaration or a reference."
+  [txt sym]
   (boolean (re-find (re-pattern (str "lv_font_t\\s+" (Pattern/quote (str sym)) "\\s*=\\s*\\{"))
                     txt)))
 
@@ -403,7 +406,11 @@
         (keyword? x) (name x)
         :else x))
 
-(defn- parse-args [args]
+(defn- parse-args
+  "Parse `--flag value` CLI pairs into {:repo-root :tokens :output}, defaulting
+   :repo-root/:tokens when their flags are absent. Throws on an odd arg count
+   or an unrecognized flag rather than silently dropping either."
+  [args]
   (when (odd? (count args))
     (throw (ex-info "flags must come in --flag value pairs" {:args (vec args)})))
   (reduce (fn [acc [flag value]]

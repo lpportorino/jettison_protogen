@@ -468,7 +468,11 @@
         (keyword? x) (name x)
         :else x))
 
-(defn- parse-args [args]
+(defn- parse-args
+  "Parse `--flag value` CLI pairs into {:repo-root :tokens :output}, defaulting
+   :repo-root/:tokens when their flags are absent. Throws on an odd arg count
+   or an unrecognized flag rather than silently dropping either."
+  [args]
   (when (odd? (count args))
     (throw (ex-info "flags must come in --flag value pairs" {:args (vec args)})))
   (reduce (fn [acc [flag value]]

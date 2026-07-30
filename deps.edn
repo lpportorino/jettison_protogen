@@ -14,4 +14,19 @@
         :main-opts ["-m" "cljfmt.main"]}
   ;; splint — idiomatic-pattern linting, reads .splint.edn if present.
   :splint {:extra-deps {io.github.noahtheduke/splint {:mvn/version "1.24.0"}}
-           :main-opts ["-m" "noahtheduke.splint"]}}}
+           :main-opts ["-m" "noahtheduke.splint"]}
+
+  ;; lint-gate — the structural gates over hand-authored Clojure (namespace size
+  ;; today). DECLARES NO :extra-deps, and that is the point rather than an
+  ;; omission: it reads clj-kondo's `--analysis` output as EDN, which
+  ;; `clojure.edn` parses from the standard library. A quality gate that drags in
+  ;; a library becomes one more thing to keep resolving, and this one needs
+  ;; nothing.
+  ;;
+  ;; Its source sits under tools/lint/src, which is IN LINT_CLJ_PATHS — so the
+  ;; gate is judged by cljfmt, by clj-kondo at the zero-warning floor, and by its
+  ;; own namespace-size ceiling. That self-gating is why it is Clojure and not a
+  ;; script: nothing in this repo lints a script language, so the gates would
+  ;; otherwise be the least gated code in the tree.
+  :lint-gate {:extra-paths ["tools/lint/src"]
+              :main-opts ["-m" "lint-gate.core"]}}}

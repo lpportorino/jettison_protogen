@@ -300,3 +300,86 @@
             about emptiness and not about the widget existing"
     (is (= [] (gates/coverage-findings (spec-of {"lv_led" ["lv_led/default/small"]})
                                        {"lv_led/default/small" "aa"})))))
+
+;; ═══════════════════════════════════════════════════════════════════════════
+;; THE SECRET SCAN — the corpus's only leak gate, and it had NO test at all
+;;
+;; `corpus-secret-findings` is the sole secret scanner for a PUBLIC corpus that
+;; every consumer clones forever. It was validated by hand-trace and by the fact
+;; that it fires on SOME input; nothing enumerated the realistic VARIANT shapes of
+;; its own threat model. Two were missed, both found by executing the regex rather
+;; than reading it:
+;;
+;;   - a JSON/EDN-quoted credential key — {"password": "x"} — where the closing
+;;     quote sits exactly where the pattern required ':' or '='. This is the single
+;;     most likely shape of a pasted credential blob.
+;;   - /usr/, /data/ and /boot/ absolute paths, simply absent from the directory
+;;     alternation. An absent entry is a silent miss, not a weaker match.
+;;
+;; So the shape list below IS the artifact under review, not incidental fixture
+;; data. Adding a threat shape here is how this gate's coverage grows; a shape
+;; nobody wrote down is one nobody checked.
+
+(defn- scan
+  "Findings for a single card carrying `s` in its prose."
+  [s]
+  (gates/corpus-secret-findings [{:id "c" :node {:notes s}}]))
+
+(deftest secret-scan-catches-every-credential-shape-in-its-threat-model
+  (testing "bare key/value, both delimiters"
+    (is (seq (scan "password: hunter2")))
+    (is (seq (scan "password=hunter2")))
+    (is (seq (scan "api_key = AAAA"))))
+  ;; REVERT-TO-BREAK: drop the [\"']? from credential-re. Every assertion in this
+  ;; block must go red while the block above stays GREEN — that pairing is what
+  ;; attributes the red to the quoted-key clause rather than to the whole regex.
+  (testing "QUOTED keys — the shape a pasted JSON or EDN blob actually has"
+    (is (seq (scan "{\"password\": \"hunter2\"}")))
+    (is (seq (scan "{\"api_key\":\"AAAA\"}")))
+    (is (seq (scan "\"secret\" : \"x\"")))
+    (is (seq (scan "{\"access_token\": \"abc\"}"))))
+  (testing "known token shapes"
+    (is (seq (scan "ghp_abcdefghij0123456789xyz")))
+    (is (seq (scan "AKIAIOSFODNN7EXAMPLE")))
+    (is (seq (scan "xoxb-1234567890-abcdef")))))
+
+(deftest secret-scan-does-not-cry-wolf
+  ;; The CONTROL, and it is not optional: widening a scanner until it matches
+  ;; everything protects nothing, because the lane gets disabled. ui_ast carries a
+  ;; password_mode prop, so a textarea card will legitimately render the WORD.
+  (testing "a bare credential WORD with no assignment is not a finding"
+    (is (empty? (scan "Password")))
+    (is (empty? (scan "password_mode")))
+    (is (empty? (scan "Enter your password to continue"))))
+  (testing "the corpus's LVGL drive-letter convention is not an absolute path"
+    (is (empty? (scan "P:icons/x.svg")))
+    (is (empty? (scan "P:fonts/b612mono_bold.ttf"))))
+  (testing "a multi-line authored value is not a path"
+    (is (empty? (scan "Auto\nManual\nOff")))))
+
+(deftest secret-scan-catches-every-system-dir-in-its-threat-model
+  (testing "the directories that were already covered"
+    (doseq [d ["home" "users" "root" "etc" "var" "opt" "mnt" "srv" "tmp"
+               "dev" "proc" "sys" "media" "run"]]
+      (is (seq (scan (str "written to /" d "/thing"))) (str "/" d "/"))))
+  ;; REVERT-TO-BREAK: remove usr|data|boot from abs-path-re. Only this block may
+  ;; go red; the block above must stay GREEN.
+  (testing "the three that were MISSING, each measured as a nil match"
+    (is (seq (scan "/usr/local/jettison/keys.pem")))
+    (is (seq (scan "/data/device/serial.json")))
+    (is (seq (scan "/boot/config.txt"))))
+  (testing "mid-string, because a path is rarely at position 0"
+    ;; ASSEMBLED, not written literally, and this is not fussiness: `lint-no-host-paths`
+    ;; bans an operator-home path in ANY checked-in file and it caught this exact
+    ;; line. A waiver would have been the wrong repair — the fixture only needs the
+    ;; SHAPE, so building it from segments removes the special case instead of
+    ;; excusing it. The directory loop above assembles its paths for the same reason.
+    (is (seq (scan (str "dump written to /" "home" "/operator/x.log"))))))
+
+(deftest secret-scan-refuses-a-non-placeholder-proxy-id
+  ;; The third clause of the same gate, pinned here because it shares the lane and
+  ;; would otherwise be the one arm with no case at all.
+  (testing "the sanctioned placeholder passes"
+    (is (empty? (gates/corpus-secret-findings [{:id "c" :node {:proxy_id "px"}}]))))
+  (testing "anything else is a finding"
+    (is (seq (gates/corpus-secret-findings [{:id "c" :node {:proxy_id "cam-serial-4471"}}])))))

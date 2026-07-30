@@ -309,8 +309,15 @@
    /home/…\") and the corpus authors multi-line values (dropdown :options
    \"Auto\\nManual\\nOff\"), so a start-of-STRING anchor would miss both. The
    leading boundary keeps the corpus's LVGL drive-letter convention
-   (\"P:icons/x.svg\") out — it has no /systemdir/ segment at all."
-  #"(?im)(?:^|[^\w])/(home|users|root|etc|var|opt|mnt|srv|tmp|dev|proc|sys|media|run)/")
+   (\"P:icons/x.svg\") out — it has no /systemdir/ segment at all.
+
+   THE DIRECTORY LIST IS THE WHOLE COVERAGE, so an absent entry is a silent miss
+   rather than a weaker match. `usr`, `data` and `boot` were absent and are the
+   ones a device landmark most plausibly lands in — measured by executing this
+   regex against `/usr/local/keys.pem` and `/data/device/serial.json`, both of
+   which it returned nil for. Adding a directory here is cheap; discovering the
+   omission from a published corpus is not."
+  #"(?im)(?:^|[^\w])/(home|users|root|etc|var|opt|mnt|srv|tmp|dev|proc|sys|media|run|usr|data|boot)/")
 
 (def ^:private credential-re
   "A credential ASSIGNMENT (key: value / key=value) or a known token shape.
@@ -318,8 +325,16 @@
    (ui_ast carries a password_mode prop, so a textarea card will one day render
    it) and flagging it would make the gate cry wolf — the disable-it-and-protect
    -nothing failure this lane exists to avoid. The token shapes are the ones a
-   real leak looks like."
-  #"(?i)(\b(?:secret|password|passwd|api[-_]?key|access[-_]?token|bearer|credential)s?\s*[:=]\s*\S|\bghp_[A-Za-z0-9]{20,}|\bAKIA[0-9A-Z]{16}\b|\bxox[baprs]-[A-Za-z0-9-]{10,})")
+   real leak looks like.
+
+   THE OPTIONAL CLOSING QUOTE BEFORE THE DELIMITER IS LOAD-BEARING. A JSON or
+   EDN object puts a quote between the key and its colon — `{\"password\": \"x\"}`
+   — and without `[\"']?` the alternative fails at exactly that character, so the
+   single most likely shape of a pasted credential blob was missed entirely.
+   Measured by executing this regex: `password: hunter2` matched,
+   `{\"password\": \"hunter2\"}` returned nil. A scanner that catches only the
+   unquoted spelling reports a JSON leak as clean."
+  #"(?i)(\b(?:secret|password|passwd|api[-_]?key|access[-_]?token|bearer|credential)s?[\"']?\s*[:=]\s*\S|\bghp_[A-Za-z0-9]{20,}|\bAKIA[0-9A-Z]{16}\b|\bxox[baprs]-[A-Za-z0-9-]{10,})")
 
 (def ^:private proxy-placeholder
   "The ONE sanctioned host_proxy id: a placeholder, never a real device id."

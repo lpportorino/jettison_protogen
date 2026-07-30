@@ -95,8 +95,6 @@ typedef struct {
   double last_tap_y;
   int32_t last_tap_t;
 } gesture_recognizer_t;
-/** Euclidean distance between two NDC points. */
-double gesture_ndc_dist(double ax, double ay, double bx, double by);
 /** Reset the recognizer to its initial idle state (mirrors reset()). */
 void gesture_reset(gesture_recognizer_t *g);
 /**

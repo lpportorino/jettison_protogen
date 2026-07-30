@@ -10,6 +10,7 @@
             [lvgl-codegen.component :as component]
             [lvgl-codegen.core :as core]
             [lvgl-codegen.proto-ser :as proto-ser]
+            [lvgl-codegen.schema :as schema]
             [malli.core :as m]
             [uigen.cmd-spec :as cmd-spec]
             [uigen.resolve :as res]))
@@ -1269,7 +1270,7 @@
       (binding [*out* *err*] (println "Usage: --tokens <path> --output <dir>"))
       (System/exit 1))
     (generate-all! tokens-path output-dir)))
-(m/=> -main [:=> [:cat [:* [:string {:min 1}]]] :any])
+(m/=> -main [:=> [:cat [:* [:string {:min 1}]]] :nil])
 
 ;; -- Function schema registrations --
 ;;
@@ -1281,8 +1282,8 @@
   "Authoring widget node (a :tag map, children optional)."
   [:map [:tag :keyword]])
 
-(m/=> make-screen [:=> [:cat [:or widget-tree [:vector widget-tree]]] :map])
+(m/=> make-screen [:=> [:cat [:or widget-tree [:vector widget-tree]]] schema/screen-schema])
 
-(m/=> make-screen-raw [:=> [:cat widget-tree] :map])
+(m/=> make-screen-raw [:=> [:cat widget-tree] schema/screen-schema])
 
 (m/=> generate-all! [:=> [:cat [:string {:min 1}] [:string {:min 1}]] :nil])

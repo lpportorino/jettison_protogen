@@ -139,7 +139,11 @@
 ;; sRGB <-> linear light <-> WCAG relative luminance
 ;; ═══════════════════════════════════════════════════════════════════════════
 
-(defn- clamp01 ^double [^double x]
+(defn- clamp01
+  "Floor/ceiling a linear-light value into [0.0, 1.0] so a value that drifted
+   fractionally outside range from floating-point error never reaches an sRGB
+   encode or a luminance sum."
+  ^double [^double x]
   (cond (< x 0.0) 0.0 (> x 1.0) 1.0 :else x))
 
 (defn srgb8->linear
@@ -210,20 +214,24 @@
   (when-not (and (string? hex) (re-matches hex-pattern hex))
     (throw (ex-info "not a canonical #RRGGBB hex" {:value hex})))
   (mapv #(Long/parseLong (subs hex % (+ % 2)) 16) [1 3 5]))
-(m/=> hex->rgb8 [:=> [:cat :string] [:vector :int]])
+(m/=> hex->rgb8 [:=> [:cat [:re hex-pattern]] [:vector :int]])
 
 (defn rgb8->hex
   "[18 18 31] -> \"#12121F\", upper case, which is the canonical form every
    token table and every dump comparison in this repo uses."
   [rgb]
   (str "#" (str/upper-case (str/join (map #(format "%02x" (long %)) rgb)))))
-(m/=> rgb8->hex [:=> [:cat [:sequential :int]] :string])
+(m/=> rgb8->hex [:=> [:cat [:sequential :int]] [:re hex-pattern]])
 
 ;; ═══════════════════════════════════════════════════════════════════════════
 ;; OKLab / OKLCH  (Bjorn Ottosson's matrices, matching dev/palette-audit.py)
 ;; ═══════════════════════════════════════════════════════════════════════════
 
-(defn- linear-rgb->oklab [[^double r ^double g ^double b]]
+(defn- linear-rgb->oklab
+  "Linear sRGB -> OKLab, Bjorn Ottosson's published LMS matrices and cube-root
+   nonlinearity — the forward half of the OKLCH round trip every hue, chroma
+   and lightness in this namespace is expressed through."
+  [[^double r ^double g ^double b]]
   (let [l (+ (* 0.4122214708 r) (* 0.5363325363 g) (* 0.0514459929 b))
         m (+ (* 0.2119034982 r) (* 0.6806995451 g) (* 0.1073969566 b))
         s (+ (* 0.0883024619 r) (* 0.2817188376 g) (* 0.6299787005 b))
@@ -234,7 +242,11 @@
      (+ (* 1.9779984951 l') (* -2.4285922050 m') (* 0.4505937099 s'))
      (+ (* 0.0259040371 l') (* 0.7827717662 m') (* -0.8086757660 s'))]))
 
-(defn- oklab->linear-rgb [[^double lightness ^double a ^double b]]
+(defn- oklab->linear-rgb
+  "OKLab -> linear sRGB, the inverse of `linear-rgb->oklab`. Components may land
+   outside [0,1]; `in-gamut?` / `gamut-map-chroma` are what test for that, not
+   this function."
+  [[^double lightness ^double a ^double b]]
   (let [l' (+ lightness (* 0.3963377774 a) (* 0.2158037573 b))
         m' (- lightness (* 0.1055613458 a) (* 0.0638541728 b))
         s' (- lightness (* 0.0894841775 a) (* 1.2914855480 b))
@@ -260,7 +272,7 @@
    copied into source."
   [hex]
   (rgb8->oklch (hex->rgb8 hex)))
-(m/=> hex->oklch [:=> [:cat :string] [:map-of :keyword :double]])
+(m/=> hex->oklch [:=> [:cat [:re hex-pattern]] [:map-of :keyword :double]])
 
 (defn oklch->linear-rgb
   "The UNQUANTISED linear-light triple for an OKLCH coordinate. Components may
@@ -289,7 +301,11 @@
    admitted here rounds into range rather than being clamped meaningfully."
   1.0e-9)
 
-(defn- in-gamut? [[^double r ^double g ^double b]]
+(defn- in-gamut?
+  "True when a linear-light RGB triple is representable in sRGB, to within
+   `gamut-epsilon` — the predicate `gamut-map-chroma`'s bisection narrows
+   against."
+  [[^double r ^double g ^double b]]
   (let [ok? (fn [^double v] (and (>= v (- gamut-epsilon)) (<= v (+ 1.0 gamut-epsilon))))]
     (and (ok? r) (ok? g) (ok? b))))
 
@@ -380,7 +396,7 @@
      :oklch-l-actual (:oklch-l actual)
      :oklch-c-actual (:oklch-c actual)
      :oklch-h-actual (:oklch-h actual)}))
-(m/=> realize-hex [:=> [:cat :string] [:map-of :keyword :any]])
+(m/=> realize-hex [:=> [:cat [:re hex-pattern]] [:map-of :keyword :any]])
 
 (def default-lightness-seed
   "Uniform OKLCH-lightness samples `candidates` STARTS from before refining
@@ -678,7 +694,7 @@
       (or (get s mode)
           (throw (ex-info "role has no shipped value for this mode"
                           {:role (:role role) :mode mode}))))))
-(m/=> shipped-hex [:=> [:cat [:map-of :keyword :any] :keyword] :string])
+(m/=> shipped-hex [:=> [:cat [:map-of :keyword :any] :keyword] [:re hex-pattern]])
 
 ;; ═══════════════════════════════════════════════════════════════════════════
 ;; The dependency graph
@@ -694,7 +710,10 @@
     :dimmer-than #{(:against c) (:than c)}
     :hosts-foreground #{}))
 
-(defn- role-dependencies [role]
+(defn- role-dependencies
+  "Every role key `role`'s own constraints read, feeding `topological-order`'s
+   dependency graph — a role with no constraints depends on nothing."
+  [role]
   (into #{} (mapcat constraint-references) (:constraints role)))
 
 (defn topological-order
@@ -792,6 +811,10 @@
   #{:pinned :solved :solved-chroma-reduced})
 
 (defn- preference-key
+  "The sort key `solve-cell` orders feasible candidates by, one per `:prefer`
+   strategy: the tightest achieved ratio for `:least-separation`, its negation
+   for `:most-separation`, or OKLCH-lightness distance from the shipped tone
+   for `:closest-to-shipped`."
   [prefer shipped-oklch-l evaluations candidate]
   (case prefer
     :least-separation (reduce min Double/MAX_VALUE (map :wcag-ratio evaluations))
@@ -808,7 +831,7 @@
     :contrast-min (str "min " (name (:floor c)) " vs " (name (:against c)))
     :hosts-foreground (str "hosts " (name (:floor c)))
     :dimmer-than (str "dimmer than " (name (:than c)) " on " (name (:against c)))))
-(m/=> constraint-label [:=> [:cat [:map-of :keyword :any]] :string])
+(m/=> constraint-label [:=> [:cat [:map-of :keyword :any]] [:string {:min 1}]])
 
 (defn- maximal-satisfiable-subset
   "For a `:reference-conflict`, the INDICES of the largest set of constraints
@@ -1154,17 +1177,33 @@
    :contracts-doc "Stated in docs/UI-QUALITY-CONTRACTS.md."
    :inferred "Neither co-declared nor documented - this derivation's own reading of the role. Weakest tier."})
 
-(defn- text-pair [against provenance-key & {:keys [modes]}]
+(defn- text-pair
+  "A `:contrast-min` constraint at the `:text-shall` floor against `against`,
+   optionally scoped to a mode subset — the shape every ink-vs-fill edge in
+   `protogen-spec` is declared through."
+  [against provenance-key & {:keys [modes]}]
   (cond-> {:kind :contrast-min :against against :floor :text-shall :provenance provenance-key}
     modes (assoc :modes modes)))
 
-(defn- non-text-pair [against provenance-key]
+(defn- non-text-pair
+  "A `:contrast-min` constraint at the `:non-text` floor against `against` —
+   the shape every chrome/border edge in `protogen-spec` is declared through."
+  [against provenance-key]
   {:kind :contrast-min :against against :floor :non-text :provenance provenance-key})
 
-(defn- hosts [floor for-roles provenance-key]
+(defn- hosts
+  "A `:hosts-foreground` constraint declaring that `floor` is met by some sRGB
+   foreground. `for-roles` documents which dependents rely on this but is read
+   by nothing (see the call-site comment on `:accent-bg` in `protogen-spec`) —
+   only `:floor` drives `evaluate-constraint` and `validate-spec`."
+  [floor for-roles provenance-key]
   {:kind :hosts-foreground :floor floor :for-roles for-roles :provenance provenance-key})
 
-(defn- rung-under [than against provenance-key]
+(defn- rung-under
+  "A `:dimmer-than` constraint: the role that declares this must measure
+   strictly dimmer than `than`, both against the same `against` reference —
+   one ladder rung, expressed as data instead of a comment."
+  [than against provenance-key]
   {:kind :dimmer-than :against against :than than :provenance provenance-key})
 
 (def protogen-spec
@@ -1483,4 +1522,4 @@
                   (or (seq (:spec-findings proposal)) (seq ambiguous)))
                 results)
       (System/exit 1))))
-(m/=> -main [:=> [:cat [:* :any]] :any])
+(m/=> -main [:=> [:cat [:* :any]] :nil])

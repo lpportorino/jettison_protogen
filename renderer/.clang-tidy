@@ -1,10 +1,15 @@
 # clang-tidy for the renderer's HAND-AUTHORED C (renderer/src/*.c, *.h).
 #
-# The check set is adopted from ~/git/cc/jettison/.clang-tidy — the fleet's
-# proven, WarningsAsErrors:'*' posture, actually gating every native build over
-# there. Adopting it verbatim keeps the fleet's C analysis in step the same way
-# .clang-format now does; the deltas below are all repo-specific and each says
-# why.
+# The check set is adopted from the `.clang-tidy` at the root of the fleet's
+# jettison checkout — its proven, WarningsAsErrors:'*' posture, actually gating
+# every native build over there. Adopting it verbatim keeps the fleet's C
+# analysis in step the same way .clang-format now does; the deltas below are all
+# repo-specific and each says why.
+#
+# The sibling is named, never PATH-cited: it is a private checkout at an
+# operator-chosen location, so an absolute path here would be wrong for every
+# other reader of this public tree and would leak one operator's layout.
+# `tools/lint/no_host_paths.sh` gates that, and this line is why it exists.
 #
 # HOW IT IS DRIVEN. clang-tidy needs a real compile command per file, or it
 # reconstructs one badly and reports diagnostics the compiler never sees. The
@@ -19,6 +24,15 @@
 # would analyse all of them to lint 17 of our own. Scoped to renderer/src so a
 # diagnostic in our OWN headers still surfaces while lvgl/ and generated/ stay
 # silent. (renderer/lvgl/src does not match `renderer/src/`.)
+#
+# THE `-readability-*` ENTRIES BELOW ARE INERT, and the list used to read as
+# though they were live exclusions. `Checks:` enables bugprone / cert / four
+# clang-analyzer sub-namespaces / performance / concurrency / misc — it does NOT
+# enable `readability-*`, so disabling a readability check subtracts nothing.
+# They are retained as a DECLARATION: each records a judgement already made, so
+# that enabling the family later starts from those decisions rather than
+# re-litigating them. `readability-function-size` is enabled INDIVIDUALLY above
+# for the same reason — naming one check keeps the family off.
 #
 # DELTA 2 — WHAT WE ADD to jettison's exclusion list, each proven noise on THIS
 # tree by the mining pass, not guessed:
@@ -85,7 +99,8 @@ Checks: >
   -readability-uppercase-literal-suffix,
   -readability-implicit-bool-conversion,
   -readability-isolate-declaration,
-  -bugprone-narrowing-conversions
+  -bugprone-narrowing-conversions,
+  readability-function-size
 
 WarningsAsErrors: '*'
 
@@ -96,3 +111,35 @@ FormatStyle: file
 CheckOptions:
   bugprone-unsafe-functions.ReportMoreUnsafeFunctions: 'true'
   bugprone-assert-side-effect.AssertMacros: 'assert'
+
+  # readability-function-size — SIZE AND COMPLEXITY PER FUNCTION, six axes.
+  #
+  # EVERY THRESHOLD IS SEEDED AT THIS TREE'S MEASURED MAXIMUM, so the check is
+  # green on arrival with ZERO exemptions and nothing may become worse than
+  # today's worst. They only ever move DOWN; raising one is a gate bypass in
+  # source form. Same contract as the Clojure namespace-size ceilings, and
+  # `.claude/rules/gate-enforcement.md` §1 carries the enumerability test that
+  # makes a metric ceiling legitimate where a list of parked findings is not.
+  #
+  # MEASURED, and re-derivable — run clang-tidy with the axis under test set to 1
+  # and every other axis to 9999, which reports the real figure per function:
+  #   lines      821  build_ui_from_proto_raw
+  #   statements 554  build_ui_from_proto_raw
+  #   branches   110  build_ui_from_proto_raw
+  #   nesting      8  (bisected: threshold 7 reports one function, 8 reports none)
+  #   variables   44
+  #   parameters   6
+  #
+  # THE HONEST LIMIT, because these numbers are large and a reader should not take
+  # the green for more than it is: clang-tidy supports ONE threshold set per run,
+  # so unlike the Clojure ceiling there is no second DEGRADED tier reported
+  # alongside. A stricter bar — around 100 lines / 60 statements / 20 branches —
+  # is where this would sit if the tree were refactored to it, and that is the
+  # direction of travel rather than an enforced watchlist. Re-running with those
+  # values is how to see the distance; on this tree it reports nineteen functions.
+  readability-function-size.LineThreshold: '821'
+  readability-function-size.StatementThreshold: '554'
+  readability-function-size.BranchThreshold: '110'
+  readability-function-size.NestingThreshold: '8'
+  readability-function-size.VariableThreshold: '44'
+  readability-function-size.ParameterThreshold: '6'

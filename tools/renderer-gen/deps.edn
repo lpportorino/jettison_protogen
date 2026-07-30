@@ -49,6 +49,12 @@
            ;; Kaocha unit suite (test/) — the schema guard tests. Lib-minimal:
            ;; the guard tests are plain clojure.test over schema/, so kaocha is
            ;; the only added dep (no generators / test.check). Config: tests.edn.
+           ;; The JOIN gate: runs the suite with instrumentation + hit recording and
+           ;; fails on any unexercised ENROLLED spec. Its own driver rather than a
+           ;; kaocha hook — see lvgl-codegen.spec-coverage's docstring for why.
+           :spec-coverage {:extra-paths ["test"]
+                           :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+                           :main-opts ["-m" "lvgl-codegen.spec-coverage"]}
            :test {:extra-paths ["test"]
                   :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
                   :main-opts ["-m" "kaocha.runner"]}}

@@ -217,9 +217,27 @@
                             (subs (name node) 1)
                             " after expansion")
                        {:component tag-name :param (keyword (subs (name node) 1))})))
+     ;; EVERY KEY, not just :text and :class. Listing two keys made the firewall
+     ;; exactly as wide as the substitution it guards, so the keys substitution
+     ;; SKIPS were also the keys the firewall could not see — and `:style` is one of
+     ;; them (it sits in substitute-widget-props' structural-keys, and resolve-tree's
+     ;; cond-> chain has no clause for it). So `:style {:bg-image-src "$icon"}`
+     ;; substituted to nothing and passed the firewall, shipping the literal string
+     ;; "$icon" with no diagnostic at either end.
+     ;;
+     ;; A `:$param` KEYWORD in the same position was always caught, by the postwalk
+     ;; clause above — only the STRING form leaked, which is why this was invisible:
+     ;; the keyword spelling is the one an author is more likely to try first.
+     ;;
+     ;; Currency is safe by construction: `param-ref-pattern` requires a LETTER after
+     ;; the `$`, so "$722" is not a reference and never was.
+     ;;
+     ;; REMAINING GAP, named rather than implied: a `$param` inside a VECTOR of plain
+     ;; strings (a dropdown's `:options`, say) is visited by postwalk as a bare
+     ;; string, not as a map value, so it is not reached here. Closing that costs the
+     ;; key name in the diagnostic, which is the more useful half.
      (when (map? node)
-       (doseq [k [:text :class]
-               :let [s (get node k)]
+       (doseq [[k s] node
                :when (string? s)]
          (when-let [[residue pname] (re-find param-ref-pattern s)]
            (throw
@@ -358,17 +376,17 @@
 
 (m/=> scan-residue! [:=> [:cat some? [:string {:min 1}]] :nil])
 
-(m/=> substitute-value [:=> [:cat [:maybe some?] props-schema] :any])
+(m/=> substitute-value [:=> [:cat [:maybe some?] props-schema] [:maybe some?]])
 
 (m/=> substitute-map-vals
       [:=> [:cat [:maybe [:map-of :keyword [:maybe some?]]] props-schema] [:maybe :map]])
 
-(m/=> substitute-widget-props [:=> [:cat widget-schema props-schema] :map])
+(m/=> substitute-widget-props [:=> [:cat widget-schema props-schema] widget-schema])
 
 (m/=> resolve-tree
       [:=>
-       [:cat :any props-schema [:maybe [:sequential :any]] components-schema
-        [:set [:string {:min 1}]]] :any])
+       [:cat [:maybe some?] props-schema [:maybe [:sequential :any]] components-schema
+        [:set [:string {:min 1}]]] [:maybe some?]])
 
 (m/=> contains-stateful-widget? [:=> [:cat [:maybe some?]] :boolean])
 
@@ -377,6 +395,8 @@
 (m/=> resolve-component-usage
       [:=> [:cat widget-schema components-schema [:set [:string {:min 1}]]] some?])
 
-(m/=> resolve-components [:=> [:cat components-schema [:map [:tree map?]]] :map])
+(m/=> resolve-components
+      [:=> [:cat components-schema [:map [:tree map?]]] [:map [:tree map?]]])
 
-(m/=> load-components [:=> [:cat [:maybe [:map-of :keyword component-schema]]] :map])
+(m/=> load-components
+      [:=> [:cat [:maybe [:map-of :keyword component-schema]]] components-schema])

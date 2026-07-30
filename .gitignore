@@ -56,8 +56,20 @@ renderer/compile_commands.json
 # clang-tidy gate scratch output
 .tidy-*.txt
 
+# Python bytecode, ANYWHERE. Scoped to one directory it was a per-location
+# entry that had to be remembered for each new python tool, and it was not: the
+# lint gates under tools/lint/ produced an un-ignored __pycache__ the moment they
+# were first run.
+#
+# It is not merely untidy. A .pyc EMBEDS THE ABSOLUTE PATH of the source it was
+# compiled from, so an un-ignored one is an operator-host path leak that
+# tools/lint/no_host_paths.sh reports — correctly, and in a file nobody would
+# think to look in. Ignoring it globally is what makes that report impossible
+# rather than routine, which is the difference between a gate people read and one
+# they learn to skip.
+__pycache__/
+
 # PDL-R measurement scratch (the reference + harness are committed; runs are not)
-tools/devcards/pdl-r-reference/__pycache__/
 tools/devcards/pdl-r-reference/frozen_corpus_result.json
 
 # The donation harness's per-fork scratch area (tools/claude/forks.sh). It is

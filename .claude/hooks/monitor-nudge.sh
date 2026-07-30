@@ -144,6 +144,9 @@ user-prompt)
     rest="${m#*|}"
     recipe="${rest%%|*}"
     why="${rest#*|}"
+    # `${body}` braced: bare `$body[WARN]` is the array-subscript spelling, so a
+    # reader (and shellcheck, at error level) cannot tell it from an indexing
+    # attempt. It happens to expand correctly for a scalar; the braces say so.
     body="${body}[WARN] $n monitor NOT armed — arm it now: $recipe — $why
 "
   done

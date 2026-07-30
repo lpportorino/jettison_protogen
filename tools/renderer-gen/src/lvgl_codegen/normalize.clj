@@ -74,7 +74,7 @@
    schema. Recursive — walks [:ref ::widget-node] automatically.
    Alternative to canonicalize (no serialization roundtrip needed)."
   (m/decoder proto-schema/screen
-             (mt/default-value-transformer {::mt/add-optional-keys true})))
+             (mt/default-value-transformer {:malli.transform/add-optional-keys true})))
 
 ;; -- Canonical roundtrip normalization --
 (defn canonicalize
@@ -112,10 +112,10 @@
 ;; sanitizing/canonicalizing/reconciling shape is their JOB, and pronto-deser
 ;; output need not strictly match the schema — so their honest arg is map?
 ;; (a non-map still fails: the instrumentation canary is preserved).
-(m/=> sanitize-for-proto [:=> [:cat map?] :map])
+(m/=> sanitize-for-proto [:=> [:cat map?] map?])
 
-(m/=> normalize-with-schema [:=> [:cat proto-schema/screen] :map])
+(m/=> normalize-with-schema [:=> [:cat proto-schema/screen] proto-schema/screen])
 
-(m/=> canonicalize [:=> [:cat map?] :map])
+(m/=> canonicalize [:=> [:cat map?] proto-schema/screen])
 
 (m/=> normalize-for-comparison [:=> [:cat map? map?] [:tuple :map :map]])

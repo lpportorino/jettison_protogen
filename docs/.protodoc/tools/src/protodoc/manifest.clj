@@ -302,6 +302,29 @@
                     group-path (str parent-path "/" group-kebab)]
                 (for [gf (:fields child)
                       :let [leaf (get msgs (:type-ref gf))]
+                      ;; FAIL LOUD ON DEPTH THIS RESOLVER CANNOT EXPRESS. The
+                      ;; recursion is ONE level, so a group reached THROUGH a group
+                      ;; has no branch here — and the `:when` below would simply
+                      ;; filter it out, dropping every leaf command beneath it from
+                      ;; the manifest with no diagnostic. A command that silently
+                      ;; does not exist is worse than a build that stops.
+                      ;;
+                      ;; NOT fixed by recursing, deliberately: recursion would start
+                      ;; emitting endpoints at paths nobody designed, silently
+                      ;; changing a TRACKED manifest. A throw forces the path scheme
+                      ;; to be decided by a person when the proto actually nests.
+                      ;;
+                      ;; Measured: ZERO groups sit at depth >= 2 relative to any of
+                      ;; the 14 subsystem roots in the current tree, so this is
+                      ;; latent and the guard costs nothing today. `Lrf_calib` is NOT
+                      ;; an instance — `resolve-lrf-calib-commands` exists for a
+                      ;; different ROOT SHAPE (channel dispatch), at the same depth.
+                      :let [_ (when (and leaf (group-message? leaf))
+                                (throw (ex-info "command group nested deeper than resolve-leaf-commands recurses; its leaf commands would be dropped from the manifest"
+                                                {:root (:id root-msg)
+                                                 :group (:id child)
+                                                 :nested-group (:id leaf)
+                                                 :field (:name gf)})))]
                       :when (and leaf (not (routing-container? leaf)))]
                   {:id (:id leaf)
                    :subsystem subsystem-kebab

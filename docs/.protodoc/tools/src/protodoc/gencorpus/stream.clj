@@ -336,7 +336,12 @@
 
 ;; ── output (.bin files + stream-manifest.edn) ─────────────────────────────
 
-(defn- safe-name [s] (str/replace s #"[^A-Za-z0-9._-]" "_"))
+(defn- safe-name
+  "`s` (a fully-qualified proto message name) with every character unsafe for a
+   filename replaced by `_`, so it can anchor a `.bin` file stem — mirrors
+   `gencorpus/safe-name` for this namespace's own output filenames."
+  [s]
+  (str/replace s #"[^A-Za-z0-9._-]" "_"))
 
 (defn entry
   "One stream manifest entry for step `i`: the corpus contract keys
@@ -411,14 +416,21 @@
 
 ;; ── CLI ────────────────────────────────────────────────────────────────────
 
-(defn- parse-args [args]
+(defn- parse-args
+  "Parse gen-stream's flat `--flag value ...` CLI args into a keyword-keyed
+   options map. `--list-profiles` is the one boolean-only flag — it does not
+   consume the next token as a value, unlike every other flag here."
+  [args]
   (loop [opts {} [k v & more] args]
     (cond
       (nil? k) opts
       (= k "--list-profiles") (recur (assoc opts :list-profiles true) (cons v more))
       :else (recur (assoc opts (keyword (subs k 2)) v) more))))
 
-(defn- profile-list-str []
+(defn- profile-list-str
+  "Comma-joined display string of the registered profile names, for
+   `--list-profiles` output and the usage/unknown-profile error messages."
+  []
   (str/join ", " (map name (profile-names))))
 
 (defn -main

@@ -1,3 +1,24 @@
+---
+description: The format/lint lanes over hand-authored Clojure, C, shell and workflows — where each runs, why the split, and the never-suppress rule. Loads when editing gated source or the gate config itself.
+paths:
+  # No "**/*.cljc" entry: this repo tracks zero .cljc files, and the md gate
+  # refuses a glob that matches nothing — a dead glob is a rule that can never load.
+  - "**/*.clj"
+  - "**/*.sh"
+  - "renderer/src/**"
+  - "renderer/config/**"
+  - "renderer/.clang-tidy"
+  - ".clang-format"
+  - ".clj-kondo/**"
+  - ".cljfmt.edn"
+  - ".splint.edn"
+  - "tools/lint/**"
+  - ".githooks/**"
+  - ".github/workflows/**"
+  - "*.mk"
+---
+<!-- LOAD-TEST: lint-gates -->
+
 # The format/lint gate — auto-fix what is mechanical, block so it gets committed
 
 Hand-authored Clojure and C are gated on formatting and lint. The gate is ARMED:
@@ -29,8 +50,24 @@ Two guards you will meet:
 
 | lane | runs | why |
 |---|---|---|
-| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes) | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt needs only the CLI |
+| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, the structural Clojure checks | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the structural gate need only the CLI |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags |
+| the WHOLE-TREE scans | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
+
+**THE THIRD WORKFLOW IS NOT A TIDINESS SPLIT.** Every lane in the first row is
+handed a positive allowlist, so a path filter naming those file types is complete
+for it. A whole-tree scan is the opposite: its input set is the checkout, and its
+verdict can turn on a file of any type. A leak landing in a `.toml`, a
+`.gitattributes` or a `Dockerfile` matches none of `lint.yml`'s patterns, so that
+job would never fire on the commit it exists to catch — and the markdown gate is
+sharper still, because two of its clauses resolve citations against the whole
+tracked universe, so deleting a cited `.c` file changes its answer with no markdown
+touched at all.
+
+Widening `lint.yml`'s filter instead would be a list that rots AND would drag a JDK
+setup, cljfmt and clj-kondo onto doc-only pushes. `hygiene.yml` therefore carries
+no filter, and that absence is load-bearing: **do not add one.** A future scan that
+is genuinely path-scoped belongs in `lint.yml` rather than there.
 
 ## `lint-sh` proves the payload PARSES — not that it FAILS when it should
 
@@ -89,9 +126,15 @@ while every other lane runs there happily.
 No `#_:clj-kondo/ignore`, no `:config-in-ns`, no widening an ignore list to make
 a finding go away. Scoping is a POSITIVE allowlist — lint.mk hands each tool an
 explicit list of hand-authored paths and no tool walks the tree, so generated and
-vendored code is excluded by never being passed in. If a rule is genuinely wrong
-for this repo, disable the RULE with its reasoning in the config (see
-`.splint.edn`), which is a decision on the record rather than a silenced symptom.
+vendored TREES are excluded by never being passed in. Not every generated FILE is:
+one emitter projection sits under a gated `src` root and IS linted on purpose,
+because a projection must stay canonical and lint-clean and regenerating it
+satisfies both. The structural lanes hold it out instead, by a derived path
+predicate rather than a list — `lint.mk`'s header carries which file and why.
+
+If a rule is genuinely wrong for this repo, disable the RULE with its reasoning in
+the config (see `.splint.edn`), which is a decision on the record rather than a
+silenced symptom.
 
 ## splint is report-only, and that was measured
 

@@ -581,7 +581,7 @@
    Emitted IR is legitimately SPARSE (proto3 absent == default); the
    schema keeps defaulted keys required so generators always produce
    complete maps — validation therefore normalizes first."
-  (m/decoder screen (mt/default-value-transformer {::mt/add-optional-keys true})))
+  (m/decoder screen (mt/default-value-transformer {:malli.transform/add-optional-keys true})))
 
 (defn explain-proto-ir
   "Explain a (default-normalized) proto IR map against the Screen schema.
@@ -589,4 +589,7 @@
   [screen-map]
   (let [normalized (fill-defaults screen-map)]
     (when-not (m/validate screen normalized) (m/explain screen normalized))))
-(m/=> explain-proto-ir [:=> [:cat map?] :any])
+(m/=> explain-proto-ir
+      [:=>
+       [:cat map?]
+       [:maybe [:map [:schema :any] [:value :any] [:errors [:sequential :any]]]]])

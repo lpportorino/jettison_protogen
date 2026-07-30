@@ -1,0 +1,128 @@
+;; Per-check config for the structural Clojure gates (lint-gate.*).
+;;
+;; THE ns-size NUMBERS ONLY EVER MOVE DOWN.
+;;
+;; Each :*-block value was SEEDED AT THIS TREE'S MEASURED MAXIMUM, so the gate is
+;; green on arrival with ZERO exemptions and nothing may become worse than today's
+;; worst. Raising one is a gate bypass in source form. Lowering one is the
+;; intended direction and needs no ceremony beyond the refactor that earns it.
+;;
+;; The :*-warn values are a WATCHLIST: reported every run, never blocking, so the
+;; distance between today's worst and where the bar should be stays visible
+;; instead of a seeded ceiling quietly redefining the current maximum as fine.
+;;
+;; WHY EACH NUMBER CARRIES ITS PROVENANCE. Without the measurement beside it, a
+;; seeded ceiling and an arbitrary one are indistinguishable — and the next author
+;; raises it. `.claude/rules/gate-enforcement.md` §1 makes that a condition of a
+;; metric ratchet being legitimate at all.
+{:ns-size
+ {;; Measured maximum: tools/renderer-gen/src/lvgl_codegen/fixtures.clj at 950
+  ;; code-LOC. BLOCK is strictly-greater-than, so that file sits AT the ceiling
+  ;; rather than over it.
+  ;;
+  ;; RE-SEEDED DOWNWARD from 1219, by a METRIC FIX rather than a refactor.
+  ;; `code-loc` used to count DOCSTRINGS as code, which put two gates in direct
+  ;; conflict: `lint-docstrings` requires a docstring on every function in an
+  ;; enrolled root, and this ceiling then charged the namespace for it — so
+  ;; satisfying one gate could break the other. IT DID: adding the docstrings this
+  ;; repo's own gate demanded pushed the then-largest namespace 39 lines past a
+  ;; ceiling seeded at its own previous size.
+  ;;
+  ;; Excluding prose is what "narration is FREE" always claimed and did not do.
+  ;; Measured: palette_ladder.clj is 1258 raw and carries 442 docstring lines, so it
+  ;; drops to 816 net — from the largest namespace in the tree to the fifth. The old
+  ;; number was ranking DOCUMENTATION, not behaviour.
+  ;;
+  ;; A ceiling only ever moves DOWN, and this is down.
+  :loc-block 950
+
+  ;; Measured maximum: tools/renderer-gen/src/lvgl_codegen/proto_schema.clj at
+  ;; 66 public vars.
+  :publics-block 66
+
+  ;; Watchlist thresholds, adopted from the surveyed donor repository verbatim
+  ;; rather than invented here.
+  :loc-warn 400
+  :publics-warn 25}
+
+ ;; ── fn-size ──────────────────────────────────────────────────────────────
+ ;;
+ ;; Function-grain size, three axes, same two-tier ratchet as :ns-size above.
+ ;; Measured by `lint-gate.fnsize`, which is the SAME code this gate runs — so a
+ ;; seeded ceiling cannot disagree with the gate enforcing it. Population: 1483
+ ;; functions in 175 files across every gated root, generated projections
+ ;; excluded, 0 unparseable.
+ :fn-size
+ {;; Measured maximum: `brief-md` at tools/devcards/src/devcards/standard_brief.clj:312
+  ;; — 175 code lines over rows 312-508 (185 non-blank non-comment, less a 10-line
+  ;; docstring). It is a flat string-assembly function: nesting 0, decisions 0.
+  :loc-block 175
+
+  ;; Measured maximum: `parse-frontmatter` at tools/lint/src/lint_gate/md.clj:394.
+  ;; Its chain is if-not -> if-let -> fn -> cond -> if -> fn -> if, counted by hand.
+  :nesting-block 7
+
+  ;; Measured maximum: `emit-widget` at
+  ;; tools/renderer-gen/src/lvgl_codegen/emit_proto.clj:435 — a 71-arm dispatch.
+  ;; This is the number a HEAD-counting metric scores as 1, which is exactly why
+  ;; `lint-gate.fnsize/decisions` counts arms instead.
+  :decisions-block 71
+
+  ;; ── the watchlist. Non-blocking, reported every run. ──
+  ;;
+  ;; :loc-warn is the donor repository's own bound and IS comparable — lines are
+  ;; lines. One disclosure: this metric subtracts docstrings and the donor's does
+  ;; not, so at equal prose this reads slightly lower. 19 functions sit over it.
+  :loc-warn 60
+
+  ;; :nesting-warn is THIS TREE'S p99, NOT the donor's 5, even though the two
+  ;; numbers coincide — and the coincidence is the trap worth naming. The donor
+  ;; counts `do`, `let` and `fn` as nesting heads; this metric counts branching and
+  ;; iteration only. Same digit, different quantity, so borrowing it would have
+  ;; been wrong for a reason no reader could have seen from the number.
+  :nesting-warn 5
+
+  ;; :decisions-warn is McCabe's own moderate-risk bar of 10, mapped onto this
+  ;; metric: cyclomatic complexity is decision outcomes PLUS ONE, so CC 10 is 9
+  ;; decisions. It is comparable here precisely because this metric counts ARMS,
+  ;; which is the quantity McCabe calibrated 10 against — the donor applies that
+  ;; same 10 to a HEAD count, which measures something else and under-reports.
+  :decisions-warn 9}
+
+ ;; ── docstrings ───────────────────────────────────────────────────────────
+ ;;
+ ;; `:enrolled` is a DECLARED SCOPE, not a baseline, and the difference is what
+ ;; makes this check legitimate at all under .claude/rules/gate-enforcement.md §1:
+ ;; a list of individual grandfathered findings is refused, while declaring WHICH
+ ;; POPULATION a check judges is permitted PROVIDED the check is total inside it.
+ ;; So every function under an enrolled root owes a docstring, with zero parked
+ ;; findings — and a root that is not ready is left OUT here, by name, with the
+ ;; reason, rather than enrolled with a tolerated miss count.
+ ;;
+ ;; NOT ENROLLED, and each for its own reason rather than for convenience:
+ ;;   tools/devcards/src      the largest population still owing docstrings. A
+ ;;                           real project, measured, and not a scope question —
+ ;;                           it is enrolled the day it is clean.
+ ;;   tools/devcards/dev      research probes. Their value is the measurement, not
+ ;;   tools/renderer-gen/dev  an API a reader navigates.
+ ;;   */test                  a test is a VERIFICATION surface, not a contract
+ ;;                           surface: its name and its assertions ARE its
+ ;;                           documentation, and a docstring on a fixture adds
+ ;;                           noise without catching drift.
+ :docstrings
+ {:enrolled ["docs/.protodoc/tools/src"
+             "tools/renderer-gen/src"
+             "tools/lint/src"]}
+
+ ;; ── spec-shape ───────────────────────────────────────────────────────────
+ ;;
+ ;; Enrolled where arrow specs are actually PRACTISED. Every other gated tree
+ ;; carries no `m/=>` at all, so enrolling it would add a vacuous root — and the
+ ;; check's own non-vacuity floor is over SPECS, so an enrolled root with none
+ ;; contributes nothing but a chance for the floor to be satisfied by a neighbour.
+ ;; tools/lint/src is enrolled so this gate's own specs, if it ever grows any, are
+ ;; judged by it.
+ :spec-shape
+ {:enrolled ["tools/renderer-gen/src"
+             "docs/.protodoc/tools/src"
+             "tools/lint/src"]}}

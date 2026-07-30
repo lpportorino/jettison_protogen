@@ -6,6 +6,7 @@
    violating path (bug #4's violating half) confirmed REJECTED by the oracle."
   (:require [clojure.test :refer [deftest is testing]]
             [malli.core :as m]
+            [protodoc.gencorpus :as gencorpus]
             [protodoc.gencorpus.oracle :as oracle]
             [protodoc.gencorpus.pool :as pool]
             [protodoc.manifest :as manifest])
@@ -49,3 +50,58 @@
         (is (oracle/valid? valid) "a finite in-range ObjectDetection is valid")
         (is (not (oracle/valid? nan)) "NaN violates the [-1,1] float bound")
         (is (not (oracle/valid? inf)) "+Inf violates the [-1,1] float bound")))))
+
+;; ═══════════════════════════════════════════════════════════════════════════
+;; A TWO-SIDED bound owes a violation on BOTH sides
+;;
+;; `bad-numeric` returns ONE value through a `cond`, so handing it the whole
+;; constraint map for a two-sided bound yields only the first branch that matches.
+;; `violating-entries` did exactly that, so for `{:lt 360 :gt -360}` — the shape
+;; cmd.RotaryPlatform.SetPlatformAzimuth.value carries — the `:lt` arm fired and the
+;; LOWER bound was never exercised. Negative coverage for the whole gt/lt-together
+;; class was half-blind, and silently: the corpus still had an entry for the field,
+;; just never one testing the floor.
+;;
+;; The committed goldens do NOT sample such a field, which is exactly why nothing
+;; caught it — this pins the arithmetic directly rather than through a corpus that
+;; happens not to reach it.
+;;
+;; WHAT THESE PINS DO NOT COVER, named because a mutation proved it rather than
+;; because it was foreseen: they assert `bad-numerics`, i.e. the ARITHMETIC, not the
+;; CALL SITE. Pointing `violating-entries`' numeric arms back at the singular
+;; `bad-numeric` — the exact defect that shipped — leaves every assertion here GREEN.
+;; So the wiring is guarded by nothing but review. Closing it needs a constrained
+;; two-sided FieldDescriptor driven through `violating-entries` and its entry count
+;; asserted; the probe is available (this namespace already loads the descriptor set
+;; at `binpb`) and is not written. Disclosed rather than implied, per
+;; `.claude/rules/renderer.md`'s convention for a gap that is named but not closed.
+
+(def ^:private bad-numeric #'protodoc.gencorpus/bad-numeric)
+(def ^:private bad-numerics #'protodoc.gencorpus/bad-numerics)
+
+(deftest two-sided-bounds-violate-on-both-sides
+  (testing "exclusive gt/lt together — one value per SIDE, not one per field"
+    (is (= [-360.0 360.0] (vec (bad-numerics :double {:lt 360 :gt -360}))))
+    (is (= [-360 360] (vec (bad-numerics :int32 {:lt 360 :gt -360})))))
+  (testing "inclusive gte/lte together — one step past each boundary"
+    (is (= [-1.0 101.0] (vec (bad-numerics :double {:lte 100 :gte 0}))))
+    (is (= [0 101] (vec (bad-numerics :int32 {:lte 100 :gte 1})))))
+  ;; REVERT-TO-BREAK: point `violating-entries`' numeric arms back at the singular
+  ;; `bad-numeric`. This deftest must go red; `one-sided-bounds-are-unchanged` below
+  ;; must stay GREEN, which is what attributes the red to the two-sided split rather
+  ;; than to the boundary arithmetic itself.
+  (testing "and the singular form is what was wrong — it drops a side"
+    (is (= 360.0 (bad-numeric :double {:lt 360 :gt -360}))
+        "the singular form returns ONE value, which is the defect this pins")))
+
+(deftest one-sided-bounds-are-unchanged
+  ;; THE CONTROL against over-generation: splitting per side must not invent a
+  ;; violation for a bound that does not exist.
+  (testing "upper-only and lower-only each yield exactly one"
+    (is (= [360.0] (vec (bad-numerics :double {:lt 360}))))
+    (is (= [-360.0] (vec (bad-numerics :double {:gt -360}))))
+    (is (= [101.0] (vec (bad-numerics :double {:lte 100}))))
+    (is (= [-1.0] (vec (bad-numerics :double {:gte 0})))))
+  (testing "an unconstrained field yields none"
+    (is (empty? (bad-numerics :double {})))
+    (is (empty? (bad-numerics :int32 {})))))

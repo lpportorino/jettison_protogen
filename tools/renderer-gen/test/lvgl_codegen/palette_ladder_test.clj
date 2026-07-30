@@ -17,6 +17,7 @@
    suite reads it; neither writes `edn/tokens.edn` or the generated header."
   (:require [clojure.set :as set]
             [clojure.test :refer [deftest is testing]]
+            [lvgl-codegen.instrument :as inst]
             [lvgl-codegen.palette-ladder :as pl]))
 
 (set! *warn-on-reflection* true)
@@ -59,10 +60,29 @@
     (is (= [18 18 31] (pl/hex->rgb8 "#12121F")))
     (is (= "#12121F" (pl/rgb8->hex [18 18 31])))
     (is (= "#12121F" (pl/rgb8->hex (pl/hex->rgb8 "#12121f")))))
-  (testing "a non-canonical input is refused rather than guessed at"
-    (is (thrown? clojure.lang.ExceptionInfo (pl/hex->rgb8 "12121F")))
-    (is (thrown? clojure.lang.ExceptionInfo (pl/hex->rgb8 "#12F")))
-    (is (thrown? clojure.lang.ExceptionInfo (pl/hex->rgb8 nil)))))
+  ;; TWO THINGS ARE NEEDED HERE AND NEITHER IS OPTIONAL.
+  ;;
+  ;; THE ESCAPE, because `m/=>` instrumentation is ARMED for this suite
+  ;; (tests.edn's post-load hook) and `hex->rgb8`'s input schema refuses these
+  ;; three values BEFORE the body runs. Called through the var, malli would answer
+  ;; and the guard under test would never execute.
+  ;;
+  ;; THE MESSAGE MATCH, because malli's refusal is ALSO a
+  ;; clojure.lang.ExceptionInfo — so a bare `thrown?` cannot tell the function's
+  ;; own guard from malli's wrapper, and would keep passing with the
+  ;; `when-not … throw` DELETED from the function body. That is a green proving the
+  ;; opposite of what it claims.
+  ;;
+  ;; Together they make this a test of the GUARD. Drop either and it silently
+  ;; becomes a test of malli.
+  (testing "a non-canonical input is refused BY THIS FUNCTION, not guessed at"
+    (let [raw (inst/uninstrumented #'pl/hex->rgb8)]
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"not a canonical #RRGGBB hex"
+                            (raw "12121F")))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"not a canonical #RRGGBB hex"
+                            (raw "#12F")))
+      (is (thrown-with-msg? clojure.lang.ExceptionInfo #"not a canonical #RRGGBB hex"
+                            (raw nil))))))
 
 ;; ═══════════════════════════════════════════════════════════════════════════
 ;; 2. max-hostable-ratio is a TIGHT bound — the whole :reference-infeasible case

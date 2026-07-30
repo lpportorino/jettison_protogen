@@ -1,0 +1,59 @@
+;; WAIVERS for the structural Clojure gates — one key per check.
+;;
+;; AN EXEMPTION IS A WAIVER FOR A TRUE FALSE POSITIVE, never a disabled rule, and
+;; the four mandatory fields are what separate the two:
+;;
+;;   :rationale     why this specific case is NOT a defect
+;;   :retires-when  the EVENT that makes the entry unnecessary — no date can
+;;                  express a condition, which is why this survives :expires
+;;   :owner         who to ask. The check is `non-blank string`, so this buys a
+;;                  name to route the expiry failure to, never verification
+;;   :expires       ISO-8601, at most 90 days out. Expiry and horizon are separate
+;;                  hard failures so neither masks the other
+;;
+;; A STALE ENTRY — one matching no live finding — IS ITSELF A HARD FAILURE. That is
+;; the down-only half of the ratchet: without it an entry outlives the finding it
+;; excused, silently widening the unchecked surface, and an offender can be fixed
+;; while its excuse stays behind. So deleting a waiver is part of fixing the thing
+;; it waived.
+;;
+;; The key set is CLOSED. A typo is refused rather than silently widening what the
+;; entry swallows.
+;;
+;; MATCHING IS :file AND :name TOGETHER. Either alone would turn one entry into a
+;; whole-file skip, or into a licence for a same-named var anywhere in the tree.
+;;
+;; EMPTY IS THE INTENDED STATE. Both checks are green with no waivers at all; an
+;; entry here is a claim that a check is WRONG about one specific case, and it must
+;; argue that rather than assert it.
+{:docstrings []
+ :spec-shape [{:file "tools/renderer-gen/src/lvgl_codegen/palette_ladder.clj"
+               :name "scan-ambiguous-keys"
+               :rationale "Its `walk` helper dispatches on map?/sequential?/else and recurses into whatever nesting the caller passes, with no assumption about the argument's shape - it is a generic EDN tree walker (its own docstring: 'Every banned key found anywhere in `x`'), not a function over one proposal shape. A narrower schema such as [:map-of :keyword :any] would be false: called on a bare scalar or vector it is equally well-defined and returns []."
+               :retires-when "scan-ambiguous-keys is narrowed to only ever accept a `propose`-shaped proposal map, at which point its argument schema can name that shape instead of arbitrary EDN."
+               :owner "gate-port"
+               :expires "2026-09-30"}
+              {:file "tools/renderer-gen/src/lvgl_codegen/normalize.clj"
+               :name "proto3-default?"
+               :rationale "Recursive predicate consulted by strip-defaults at every depth of a proto-IR EDN walk: the value it is handed can be nil, a number, a string, a boolean, a vector, a map, or an enum-zero keyword, all at the same call site across recursive calls. The file's own comment above this m/=> states the argument is 'genuinely any-incl-nil' and that tightening it would make thrower-mode instrumentation reject legitimate recursive calls; a narrower schema would be false for most of what strip-defaults actually passes it."
+               :retires-when "proto3-default? is no longer called generically from strip-defaults' arbitrary-EDN recursion (e.g. if the two are split so this predicate only ever sees one fixed scalar type)."
+               :owner "gate-port"
+               :expires "2026-09-30"}
+              {:file "tools/renderer-gen/src/lvgl_codegen/normalize.clj"
+               :name "strip-defaults"
+               :rationale "A recursive tree walker over arbitrary proto-IR EDN: it recurses through its own var onto every map value, every vector element, and every scalar leaf at any depth (including nil), so both its argument and its return are genuinely any-shaped EDN by construction — the file's own comment beside this m/=> says so explicitly. A narrower schema would misdescribe the non-map/non-vector branch, which the recursion reaches constantly."
+               :retires-when "strip-defaults is rewritten to operate over one fixed, already-validated IR shape instead of walking arbitrary nested EDN."
+               :owner "gate-port"
+               :expires "2026-09-30"}
+              {:file "tools/renderer-gen/src/lvgl_codegen/pretty.clj"
+               :name "sort-map-keys"
+               :rationale "A generic deterministic-printing helper that recursively sorts map keys through arbitrary EDN: maps, vectors, other sequentials, and every scalar type all fall through this cond, with `:else data` returning non-collection values unchanged. Its only caller, pp-str, exists to pretty-print 'any EDN value' (its own docstring) for diff-friendly comparison across whatever screen/fixture/test shape is under test, so a schema naming one shape would be false for the rest of pp-str's callers."
+               :retires-when "pp-str/sort-map-keys are narrowed to compare only one fixed IR shape instead of arbitrary EDN diff targets."
+               :owner "gate-port"
+               :expires "2026-09-30"}
+              {:file "tools/renderer-gen/src/lvgl_codegen/pretty.clj"
+               :name "pp-str"
+               :rationale "Its own docstring is 'Pretty-print any EDN value to a canonical string' — the diff-friendly printer this namespace exists to provide is invoked across the corpus on whatever EDN shape a screen, fixture or test result happens to be, so a narrower argument schema would be false for most of its callers."
+               :retires-when "pp-str's callers are restricted to one fixed diff-target IR shape instead of arbitrary EDN screens/fixtures."
+               :owner "gate-port"
+               :expires "2026-09-30"}]}

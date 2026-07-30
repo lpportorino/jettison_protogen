@@ -10,7 +10,12 @@
 #include <math.h>
 /* px -> NDC: 1 NDC unit = 100px. */
 static double px_to_ndc(double px) { return px / 100.0; }
-double gesture_ndc_dist(double ax, double ay, double bx, double by) {
+/* Euclidean distance between two NDC points.
+ * STATIC: used only within this translation unit. It carried external
+ * linkage with no cross-TU reference and no export, which is a symbol the
+ * linker must keep and no caller can reach — `misc-use-internal-linkage`'s
+ * class, found by an llvm-nm sweep over the whole link set. */
+static double gesture_ndc_dist(double ax, double ay, double bx, double by) {
   double dx = ax - bx;
   double dy = ay - by;
   return hypot(dx, dy);

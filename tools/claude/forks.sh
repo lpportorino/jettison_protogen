@@ -670,7 +670,22 @@ print_residue() {
 }
 
 preserve_scratch_scripts() {
-  local fork="$1" preserve_dir="$2" scratch="$fork/.fork-scratch"
+  # THREE `local`s, NOT ONE, and the split is load-bearing. Bash expands EVERY
+  # word of a `local` before performing any of its assignments, so
+  # `local fork="$1" scratch="$fork/.fork-scratch"` reads `fork` while this
+  # function's own `fork` is still unassigned. It resolved anyway — to
+  # `cmd_release`'s `local fork`, visible here through bash's dynamic scoping and
+  # holding the same value that arrives as `$1`. So the line was correct BY
+  # ACCIDENT, and the accident is the caller's choice of variable NAME.
+  #
+  # It breaks two ways, both silent. Called with a first argument differing from
+  # the caller's `fork`, it preserves from the WRONG tree and reports success;
+  # called from a scope with no `fork` at all, `set -u` aborts release with
+  # `fork: unbound variable`. The release canary suite cannot see either, because
+  # every case it drives satisfies the accident.
+  local fork="$1"
+  local preserve_dir="$2"
+  local scratch="$fork/.fork-scratch"
   local source relative destination
   PRESERVED_SCRIPT_COUNT=0
   # `return 0`, never a bare `return`: a bare one propagates the FAILED test's

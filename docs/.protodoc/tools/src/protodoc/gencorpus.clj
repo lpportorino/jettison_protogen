@@ -116,6 +116,22 @@
                                           (and gte (> gte 0)) (dec' gte))
     nil))
 
+(defn- bad-numerics
+  "EVERY single-field bound violation for a constrained numeric — one per SIDE.
+
+  `bad-numeric` returns ONE value through a `cond`, so handing it a two-sided
+  exclusive bound yields only the first branch that matches. Measured: for
+  `{:lt 360 :gt -360}` the `:lt` arm fires and the lower bound is never exercised,
+  so the negative coverage for the whole gt/lt-together shape was half-blind.
+
+  Splitting per side with `select-keys` is what `constrained-extremes` already did
+  correctly; this is that split hoisted so BOTH callers share it. Two copies of one
+  contract is how they came to disagree in the first place."
+  [type-kw c]
+  (filter some?
+          [(when (or (:gte c) (:gt c)) (bad-numeric type-kw (select-keys c [:gte :gt])))
+           (when (or (:lte c) (:lt c)) (bad-numeric type-kw (select-keys c [:lte :lt])))]))
+
 (defn- bad-strings
   "Single-field string violations: too-short (< min_len), too-long (> max_len,
    capped to keep the .bin small), and pattern-mismatch — each oracle-rejected."
@@ -145,11 +161,11 @@
                      (not (= :message type-kw)))
           bad (cond
                 (#{:double :float} type-kw)
-                (filter some? [(bad-numeric type-kw c)
-                               (when (or (:gte c) (:lte c) (:gt c) (:lt c))
-                                 Double/NaN)])
+                (filter some? (concat (bad-numerics type-kw c)
+                                      [(when (or (:gte c) (:lte c) (:gt c) (:lt c))
+                                         Double/NaN)]))
                 (#{:int32 :uint32 :int64 :uint64} type-kw)
-                (filter some? [(bad-numeric type-kw c)])
+                (bad-numerics type-kw c)
                 (= :enum type-kw)
                 (when (or (:defined-only c) (:not-in c))
                   (let [defined (set (assemble/enum-numbers f nil))]
@@ -191,9 +207,7 @@
    whichever are declared. Each is the SAME wire value `violating-entries` emits
    for that side (same bytes, two oracles: protovalidate-reject + Oracle-1 clamp)."
   [type-kw c]
-  (filter some?
-          [(when (or (:gte c) (:gt c)) (bad-numeric type-kw (select-keys c [:gte :gt])))
-           (when (or (:lte c) (:lt c)) (bad-numeric type-kw (select-keys c [:lte :lt])))]))
+  (bad-numerics type-kw c))
 
 (defn clamp-entries
   "Per-field CLAMP+LOG beyond-range injection over EVERY numeric field — the
@@ -269,7 +283,11 @@
 
 ;; ── output (.bin files + manifest.edn) ────────────────────────────────
 
-(defn- safe-name [s] (str/replace s #"[^A-Za-z0-9._-]" "_"))
+(defn- safe-name
+  "`s` (a fully-qualified proto message name) with every character unsafe for a
+   filename replaced by `_`, so it can anchor a `.bin` file stem."
+  [s]
+  (str/replace s #"[^A-Za-z0-9._-]" "_"))
 
 (defn write-corpus!
   "Write `entries` as `.bin` files + a `manifest.edn` index under `dir`. The
@@ -327,7 +345,12 @@
 
 ;; ── CLI ───────────────────────────────────────────────────────────────
 
-(defn- parse-args [args]
+(defn- parse-args
+  "Parse gen-corpus's flat `--flag value --flag2 value2 ...` CLI args into a
+   keyword-keyed options map. Every flag consumes exactly the next token as its
+   value — there is no boolean-only flag here (contrast `gencorpus.stream`'s
+   `--list-profiles`)."
+  [args]
   (loop [opts {} [k v & more] args]
     (if k (recur (assoc opts (keyword (subs k 2)) v) more) opts)))
 

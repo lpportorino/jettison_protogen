@@ -7,7 +7,8 @@
    Hermetic: each test builds a screen map in-memory and calls
    `validate-screen-semantics` directly — no I/O, no fixtures, no sleep."
   (:require [clojure.test :refer [deftest is testing]]
-            [lvgl-codegen.schema :as schema]))
+            [lvgl-codegen.schema :as schema]
+            [malli.core :as m]))
 
 (set! *warn-on-reflection* true)
 
@@ -83,3 +84,118 @@
                                     {:tag :lv_led :class "w-24 h-24"}]}}]
       (is (nil? (schema/validate-screen-semantics screen))
           "explicit-sized leaves under a content-sized container produce no error"))))
+
+;; ═══════════════════════════════════════════════════════════════════════════
+;; event-def: :to NEEDS :set, because the renderer drops a valueless subject
+;;
+;; `{:to 5}` with no `:set` used to validate clean. The emitter then writes
+;; set_value=5 with an EMPTY set_subject; renderer.c skips the mutation entirely
+;; (`if (data->set_subject[0] != '\0')`) and the very next branch
+;; (`set_subject[0] == '\0' || notify_host`) reclassifies the press as a HOST
+;; event. So the authored intent was silently replaced by a different behaviour,
+;; with no error at either end.
+;;
+;; NOTHING IN THE CORPUS EXERCISES THIS PATH — no authored screen uses `:to` at
+;; all — so no pixel oracle, no golden and no parity lane could ever have found
+;; it. Only a schema assertion can.
+
+(defn- event-valid?
+  "Does `evt` satisfy `schema/event-def`?"
+  [evt]
+  (m/validate schema/event-def evt))
+
+(deftest to-without-set-is-refused
+  (testing ":to alone names no subject, so it must not validate"
+    (is (not (event-valid? {:to 5})))
+    (is (not (event-valid? {:to 0})))
+    (is (not (event-valid? {:trigger :value-changed :to 7 :notify-host true}))))
+  ;; REVERT-TO-BREAK: delete the `:to needs :set` [:fn …] clause from
+  ;; schema/event-def. Every assertion above must go red while the CONTROL block
+  ;; below stays GREEN — that pairing is what attributes the red to this clause
+  ;; rather than to the map schema or to the :set/:toggle clause beside it.
+  (testing "CONTROL: the pairing is what is refused, not :to itself"
+    (is (event-valid? {:set :x :to 5}))
+    (is (event-valid? {:set :x :to 0}))))
+
+(deftest the-neighbouring-clauses-still-refuse-and-still-permit
+  ;; The control for the mutation above, and the guard against a fix that
+  ;; over-refuses: these must be unaffected by the new clause.
+  (testing ":set alone is legitimate — it writes the default 0"
+    (is (event-valid? {:set :x})))
+  (testing "a bare event is legitimate — 'send my name on click'"
+    (is (event-valid? {})))
+  (testing ":toggle alone is legitimate"
+    (is (event-valid? {:toggle :x})))
+  (testing ":set and :toggle together are still mutually exclusive"
+    (is (not (event-valid? {:set :x :toggle :y})))))
+
+;; ═══════════════════════════════════════════════════════════════════════════
+;; A REACTIVE state binding and the create-time :states bit it competes with
+;;
+;; `:checked-when` + `:states #{:checked}` was rejected. `:enabled-when` +
+;; `:states #{:disabled}` was NOT, even though renderer.c calls enabled_when "the
+;; reactive sibling of checked_when with INVERTED polarity" and binds
+;; LV_STATE_DISABLED through the same machinery.
+;;
+;; WHY THE PAIRING IS AN ERROR AND NOT A PRECEDENCE QUESTION: the reactive source
+;; WINS by construction. Create-time states are applied while the node is built
+;; (`lv_obj_add_state(obj, node->states)`); apply_checked_when / apply_enabled_when
+;; run in a DEFERRED post-subjects pass, so the observer's first evaluation
+;; overwrites whatever the author asked for — silently. No ordering an author could
+;; rely on exists.
+;;
+;; The repair is the TABLE, not the second clause: two clauses hand-written from one
+;; contract drift, and the missing one is invisible because nothing enumerates the
+;; pair set.
+
+(defn- semantic-error-types
+  "The `:type`s `validate-screen-semantics` reports for a one-widget screen."
+  [widget]
+  (set (map :type (schema/validate-screen-semantics
+                   {:type :screen :subjects {:s {:type :int}} :events {}
+                    :tree widget}))))
+
+(deftest reactive-state-binding-conflicts-are-total-over-the-table
+  ;; TOTALITY over the abstraction. Every entry must be enforced, so an entry added
+  ;; without a check — or a check deleted — fails here rather than by omission.
+  (testing "every [binding state error] row is actually rejected"
+    (doseq [[binding-key state-bit err-type] schema/reactive-state-bindings]
+      (let [types (semantic-error-types
+                   {:tag :lv_button :id "b" :class "w-12 h-12"
+                    :states #{state-bit}
+                    binding-key {:subject :s :value 1}})]
+        (is (contains? types err-type)
+            (format "%s paired with :states #{%s} must report %s"
+                    binding-key state-bit err-type)))))
+  (testing "the table is non-empty and covers both known bindings"
+    ;; A floor, because a table emptied by a bad edit would make the loop above
+    ;; vacuous and it would still pass.
+    (is (>= (count schema/reactive-state-bindings) 2))
+    (is (= #{:checked-when :enabled-when}
+           (set (map first schema/reactive-state-bindings))))))
+
+(deftest neither-binding-alone-is-an-error
+  ;; THE CRY-WOLF CONTROL. A reactive binding on its own is the whole point of the
+  ;; feature; only the PAIRING with a competing create-time bit is rejected.
+  (testing "a reactive binding with no competing :states bit is clean"
+    (doseq [[binding-key _ err-type] schema/reactive-state-bindings]
+      (is (not (contains? (semantic-error-types
+                           {:tag :lv_button :id "b" :class "w-12 h-12"
+                            binding-key {:subject :s :value 1}})
+                          err-type))
+          (str binding-key " alone must not be an error"))))
+  (testing "the competing :states bit with no binding is clean"
+    (doseq [[_ state-bit err-type] schema/reactive-state-bindings]
+      (is (not (contains? (semantic-error-types
+                           {:tag :lv_button :id "b" :class "w-12 h-12"
+                            :states #{state-bit}})
+                          err-type))
+          (str ":states #{" state-bit "} alone must not be an error"))))
+  (testing "and a binding paired with the OTHER binding's state bit is clean"
+    ;; :checked-when with :disabled writes two DIFFERENT bits, so there is no
+    ;; conflict — this is what stops the table's loop from over-refusing.
+    (is (not (contains? (semantic-error-types
+                         {:tag :lv_button :id "b" :class "w-12 h-12"
+                          :states #{:disabled}
+                          :checked-when {:subject :s :value 1}})
+                        :checked-when-states-conflict)))))

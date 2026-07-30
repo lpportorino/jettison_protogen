@@ -210,6 +210,9 @@
     (vec (or (seq allowed) all))))
 
 (defn- enum-number-gen
+  "test.check generator drawing a defined enum NUMBER for field `f` (never a
+   name — see the ns docstring's bug #8), honoring any `:not-in` exclusion via
+   `enum-numbers`."
   [^Descriptors$FieldDescriptor f constraints]
   (gen/elements (enum-numbers f constraints)))
 
@@ -364,7 +367,11 @@
 ;; smallest positive float32 subnormal (~1.4e-45) — a float32-distinct edge.
 (def ^:private flt-subnormal (double Float/MIN_VALUE))
 
-(defn- int-type-bounds [type-kw]
+(defn- int-type-bounds
+  "The representable `[min max]` for wire integer type `type-kw`
+   (:int32/:uint32/:int64) — the TYPE-level endpoints `field-boundaries` clamps
+   any declared constraint range against."
+  [type-kw]
   (case type-kw
     :int32 [int32-min int32-max]
     :uint32 [0 uint32-max]

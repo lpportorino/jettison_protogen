@@ -538,3 +538,71 @@
       (doseq [d [dir-a dir-b]]
         (doseq [ff (.listFiles (io/file d))] (.delete ff))
         (.delete (io/file d))))))
+
+;; ============================================================================
+;; resolve-leaf-commands RECURSES ONE LEVEL — deeper nesting must FAIL LOUD
+;;
+;; The nested-group branch walks a group's fields and filters out anything that is
+;; itself a routing container. So a group reached THROUGH a group had no branch and
+;; was silently dropped, taking every leaf command beneath it out of the manifest
+;; with no diagnostic. A command that silently does not exist is worse than a build
+;; that stops.
+;;
+;; MEASURED LATENT, NOT LIVE: zero groups sit at depth >= 2 relative to any of the 14
+;; subsystem roots in the current proto tree, so the guard costs nothing today and
+;; the tracked manifest cannot move — the guard only throws, it adds no data path.
+;; `Lrf_calib` is NOT an instance of this: `resolve-lrf-calib-commands` exists for a
+;; different ROOT SHAPE (channel dispatch), at the same depth.
+;;
+;; NOT fixed by recursing, deliberately: recursion would begin emitting endpoints at
+;; paths nobody designed, silently changing a TRACKED manifest. The throw forces the
+;; path scheme to be decided by a person on the day the proto actually nests.
+;;
+;; SYNTHETIC because the real tree cannot express it — which is the whole point: a
+;; fixture one level deeper than anything in the corpus is the only way to reach this
+;; branch (the audit's own recommendation for the class).
+
+(def ^:private resolve-leaf-commands #'protodoc.manifest/resolve-leaf-commands)
+
+(defn- msg
+  "A minimal proto-db message. A `cmd` oneof makes it a GROUP; no oneofs and a
+  non-Root name makes it a LEAF."
+  [id nm fields oneofs]
+  {:id id :name nm :fields fields :oneofs oneofs :package "cmd" :source "t.proto"})
+
+(defn- field [nm type-ref] {:name nm :type :message :type-ref type-ref})
+
+(deftest one-level-nesting-resolves
+  ;; CONTROL, and it must come first: the guard must not have broken the depth the
+  ;; resolver DOES support. Root -> group -> leaf.
+  (let [msgs {"cmd.S.Root" (msg "cmd.S.Root" "Root" [(field "grp" "cmd.S.Grp")] [{:name "cmd"}])
+              "cmd.S.Grp" (msg "cmd.S.Grp" "Grp" [(field "go" "cmd.S.Go")] [{:name "cmd"}])
+              "cmd.S.Go" (msg "cmd.S.Go" "Go" [] [])}
+        out (resolve-leaf-commands msgs (get msgs "cmd.S.Root") "s" "cmd/s")]
+    (testing "a leaf under one group level is collected"
+      (is (= 1 (count out)))
+      (is (= "cmd.S.Go" (:id (first out))))
+      (is (= "cmd/s/grp/go" (:path (first out)))))))
+
+(deftest two-level-nesting-throws-instead-of-dropping
+  ;; Root -> group -> GROUP -> leaf. Before the guard this returned EMPTY: the inner
+  ;; group was filtered by the routing-container? test and its leaf vanished.
+  ;;
+  ;; REVERT-TO-BREAK: delete the `:let [_ (when (and leaf (group-message? leaf)) …)]`
+  ;; guard from resolve-leaf-commands' nested-group branch. This deftest must go red;
+  ;; `one-level-nesting-resolves` above must stay GREEN, which attributes the red to
+  ;; the guard rather than to the resolver generally.
+  (let [msgs {"cmd.S.Root" (msg "cmd.S.Root" "Root" [(field "outer" "cmd.S.Outer")] [{:name "cmd"}])
+              "cmd.S.Outer" (msg "cmd.S.Outer" "Outer" [(field "inner" "cmd.S.Inner")] [{:name "cmd"}])
+              "cmd.S.Inner" (msg "cmd.S.Inner" "Inner" [(field "go" "cmd.S.Go")] [{:name "cmd"}])
+              "cmd.S.Go" (msg "cmd.S.Go" "Go" [] [])}]
+    (testing "the unsupported depth is refused, naming what would have been dropped"
+      (is (thrown-with-msg?
+           clojure.lang.ExceptionInfo #"nested deeper than resolve-leaf-commands recurses"
+           (doall (resolve-leaf-commands msgs (get msgs "cmd.S.Root") "s" "cmd/s")))))
+    (testing "and the diagnosis names the root, the group and the nested group"
+      (let [d (try (doall (resolve-leaf-commands msgs (get msgs "cmd.S.Root") "s" "cmd/s"))
+                   (catch clojure.lang.ExceptionInfo e (ex-data e)))]
+        (is (= "cmd.S.Root" (:root d)))
+        (is (= "cmd.S.Outer" (:group d)))
+        (is (= "cmd.S.Inner" (:nested-group d)))))))

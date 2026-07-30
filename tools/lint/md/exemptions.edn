@@ -1,0 +1,28 @@
+;; Exemptions for lint-gate.md. THIS LIST CAN ONLY SHRINK.
+;;
+;; Every entry is a WAIVER, not a disabled rule. All four proof fields
+;; (:rationale, :retires-when, :owner, :expires) are mandatory non-blank strings —
+;; the same contract as `exemption-proof-keys` in
+;; tools/devcards/src/devcards/invariants.clj. `:expires` is ISO-8601, must not be
+;; in the past, and must not be further out than 90 days: expiry and horizon are
+;; SEPARATE hard failures so neither masks the other. `:retires-when` carries the
+;; EVENT that retires the entry, which no date can express.
+;;
+;; An entry matching NO live finding is STALE and fails the gate. `:check` is the
+;; clause id; `:file` is a glob over the citing path; `:match` is an optional
+;; substring of the finding detail, which is how an entry stays narrower than a
+;; whole file.
+;;
+;; THIS FILE IS DATA, ON PURPOSE. An allowlist living inside the gate's source can
+;; be widened in the same commit as the check it excuses, which is the move the
+;; no-suppression rule forbids; a data diff is visible. It is EDN rather than JSON
+;; because EDN is this repo's config format, `clojure.edn` parses it with no
+;; dependency, and `**/*.edn` path filters then reach it.
+{:exemptions
+ [{:check "dead-path-citation"
+   :file "docs/INTERFACE-CONTRACTS.md"
+   :match "ui/zoom_controls.pb"
+   :rationale "ARCHIVE-INTERNAL path, not a repo path. The surrounding prose describes the layout INSIDE controls.tar ('`ui/{screen}.pb` — one or more UI-AST screen protobufs'), so `ui/zoom_controls.pb` names a member of a distributed tarball. It correctly resolves nowhere in this checkout, and no resolution rule can tell an archive member from a repo file without being told."
+   :retires-when "docs/INTERFACE-CONTRACTS.md stops citing tar-internal members in backticked path form, or the citation gains a prefix that distinguishes it from a repo path."
+   :owner "gate-port"
+   :expires "2026-10-27"}]}

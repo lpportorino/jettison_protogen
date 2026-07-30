@@ -1,2 +1,17 @@
 #kaocha/v1
-{:tests [{:id :unit :source-paths ["src"] :test-paths ["test"]}]}
+;; :kaocha.hooks/post-load ARMS malli `m/=>` instrumentation for the whole run.
+;;
+;; post-load, not pre-run and not pre-load: `m/=>` registers at LOAD time and
+;; `instrument!` only covers what is registered when it is called, so arming
+;; before the namespaces load silently instruments nothing while printing exactly
+;; what success prints. lvgl-codegen.instrument/arm! carries the argument, the
+;; non-vacuity floor and the proof that vars were measurably replaced;
+;; lvgl-codegen.instrument-test is its canary and names what to revert to break it.
+{:tests [{:id :unit :source-paths ["src"] :test-paths ["test"]}]
+ ;; The hooks PLUGIN is what reads :kaocha.hooks/* — without it the key is
+ ;; inert config and the seam never fires, which the canary caught.
+ :plugins [:kaocha.plugin/hooks]
+ ;; spec-coverage is NOT a hook here: `:kaocha.hooks/post-run` was measured NOT TO
+ ;; FIRE (a namespace enrolled at 0% left the suite green), so it drives its own run
+ ;; via `clojure -M:spec-coverage`. post-load works, which is why arming still uses it.
+ :kaocha.hooks/post-load [lvgl-codegen.instrument/arm!]}

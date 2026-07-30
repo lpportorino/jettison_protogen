@@ -9,7 +9,9 @@
 # WHAT IS GATED — a positive allowlist, never an ignore list: lint.mk hands each
 # tool an explicit list of hand-authored paths and no tool ever walks the tree,
 # so generated bindings (output/**), vendored LVGL, nanopb projections and
-# generated fonts are excluded by never being passed in.
+# generated fonts are excluded by never being passed in. One emitter projection
+# under a gated `src` root IS linted, deliberately — lint.mk's header is the one
+# home for which file and why, so it is not restated here.
 #
 # WHERE IS THE C LANE? In `renderer.yml`, as a step in the job that already
 # builds the pinned toolchain image. clang-format REWRITES committed source, so
@@ -34,6 +36,14 @@ on:
     - ".clj-kondo/**"
     - ".cljfmt.edn"
     - "lint.mk"
+    # The gate SOURCES and their config, not just the code they judge. A gate's
+    # own source is one of its inputs: editing tools/lint/src/** or
+    # tools/lint/ceilings.edn changes what this job MEANS, so a filter that fired
+    # only on the judged files would let a gate be weakened by a commit this job
+    # never saw. (The `**/*.clj` and `**/*.edn` entries above already cover both
+    # today; this stays explicit so moving the gate out of those extensions
+    # cannot silently un-arm the job.)
+    - "tools/lint/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -48,6 +58,14 @@ on:
     - ".clj-kondo/**"
     - ".cljfmt.edn"
     - "lint.mk"
+    # The gate SOURCES and their config, not just the code they judge. A gate's
+    # own source is one of its inputs: editing tools/lint/src/** or
+    # tools/lint/ceilings.edn changes what this job MEANS, so a filter that fired
+    # only on the judged files would let a gate be weakened by a commit this job
+    # never saw. (The `**/*.clj` and `**/*.edn` entries above already cover both
+    # today; this stays explicit so moving the gate out of those extensions
+    # cannot silently un-arm the job.)
+    - "tools/lint/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -157,3 +175,18 @@ jobs:
       # cache entry makes the next lint emit phantom unresolved-symbol findings.
       name: clj-kondo
       run: make -f lint.mk lint-clj
+
+    - # STRUCTURAL checks over the same corpus, from the same clj-kondo the step
+      # above installed — it reads `--analysis` output rather than parsing source,
+      # so it needs no extra tool and no JVM. The canaries run FIRST, and that
+      # ordering is load-bearing rather than tidy: the gate has clauses that can
+      # each refuse the same input, so a red from it does not on its own say WHICH
+      # clause fired. The suite settles that by mutation (silence one clause,
+      # require green; then require a neighbouring clause still red on that same
+      # mutant), and running it here means CI re-earns the proof on every push
+      # instead of trusting the day it was written.
+      name: clj-gate canaries (mutation-proven clause attribution)
+      run: make -f lint.mk lint-clj-gate-test
+
+    - name: namespace-size ceiling
+      run: make -f lint.mk lint-ns-size

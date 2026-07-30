@@ -167,6 +167,35 @@ exiting 0 with every test body suppressed. All three deleted canaries used raw
 `throw` rather than `is`, so they contributed ZERO assertions to the tally the run
 is judged by. Read the assertion COUNT, not the colour.
 
+**AND `clojure -M:<alias> -e '<form>'` DOES NOT EVALUATE THE FORM when the alias
+declares `:main-opts`.** Trailing tokens after `-M:<alias>` are APPENDED as ARGV to
+that alias's `-m` main, so the form is handed to a test runner as an argument
+instead of being evaluated. A probe written that way never existed, and what the
+run reports is whatever the runner did with an unknown flag.
+
+**The two runners in this tree behave OPPOSITELY, so checking one proves nothing
+about the other** — which is what makes this worth writing down rather than
+learning twice. Measured, from each tree's own root:
+
+- `tools/renderer-gen` (`:test` → `kaocha.runner`) REFUSES the unknown flag: it
+  prints its help and exits 255. Loud, and harmless.
+- `docs/.protodoc/tools` (`:test` → `cognitect test-runner`) IGNORES it: the whole
+  suite ran, printed `Ran 236 tests containing 23659 assertions. 0 failures, 0
+  errors.` and exited **0**, while the `-e` form never printed. A perfect green
+  over a probe that did not run.
+
+So a reviewer who tests the hazard against kaocha concludes it is safe, and is
+wrong about the other tree. The tell is structural rather than empirical: check
+whether the alias declares `:main-opts`. `docs/.protodoc/tools/aot.sh`'s
+`clojure -M:aot -e "(require 'protodoc.core)"` DOES evaluate, precisely because
+`:aot` declares none — and the `Makefile`'s `clojure -M:aot:run generate …` is the
+legitimate use of the append behaviour, not a bug.
+
+The safe forms are already in this tree and are what to copy: a throw-away alias
+via `clojure -Sdeps '{:aliases {:probe {:extra-paths ["dev"]}}}' -M:probe <file>`
+(the devcards and renderer-gen probe drivers), or `CP="$(clojure -Spath)"` and a
+direct `java` invocation (`compile-bindings.sh`, `compile-protos.sh`).
+
 **A canary aimed one layer off PASSES**, and its green is indistinguishable from
 the green of one that reached the code the way callers do — it tests your MODEL
 of the fix. Two tells, either alone sufficient: it asserts on a value it
