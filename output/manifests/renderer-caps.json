@@ -25,6 +25,14 @@
       "define": "MAX_GRID_TEMPLATES",
       "cap": 64
     },
+    "line-point-pool": {
+      "define": "MAX_LINE_POINT_POOL",
+      "cap": 16
+    },
+    "line-points": {
+      "define": "MAX_LINE_POINTS",
+      "cap": 32
+    },
     "pending-bindings": {
       "define": "MAX_PENDING_BINDINGS",
       "cap": 64

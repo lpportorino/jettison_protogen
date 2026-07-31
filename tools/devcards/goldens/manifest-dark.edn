@@ -572,22 +572,27 @@
    :h 480},
   "lv_line/default/large"
   {:sha256
-   "bbea6916cfc1560d702e5912c59182e49876b6274556dccdd4020231ba8d3a8f",
+   "03fb0bf16fd2149d736af856a23fda282a9ec8a86d15289581cd7fc23de7fb97",
    :w 800,
    :h 480},
   "lv_line/default/medium"
   {:sha256
-   "bbea6916cfc1560d702e5912c59182e49876b6274556dccdd4020231ba8d3a8f",
+   "dda345c684038ab79f2fd9d6f18ea0503e28e1ec175ffe0f0459b44645449913",
+   :w 800,
+   :h 480},
+  "lv_line/default/medium/y-invert"
+  {:sha256
+   "0615ef90d0c3ad737841c3f36db768a0d63da5a8eeda0cd114d4f6d84bc92a88",
    :w 800,
    :h 480},
   "lv_line/default/small"
   {:sha256
-   "bbea6916cfc1560d702e5912c59182e49876b6274556dccdd4020231ba8d3a8f",
+   "dd764a586efe374c8855868c61b1d86b28f6c010ae19a974fa284f826a77ea8d",
    :w 800,
    :h 480},
   "lv_line/disabled/medium"
   {:sha256
-   "bbea6916cfc1560d702e5912c59182e49876b6274556dccdd4020231ba8d3a8f",
+   "dda345c684038ab79f2fd9d6f18ea0503e28e1ec175ffe0f0459b44645449913",
    :w 800,
    :h 480},
   "lv_obj/default/large"

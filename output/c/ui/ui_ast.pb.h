@@ -555,11 +555,6 @@ typedef struct _ui_SpinnerProps {
     uint32_t arc_length;
 } ui_SpinnerProps;
 
-typedef struct _ui_LineProps {
-    pb_callback_t points;
-    bool y_invert;
-} ui_LineProps;
-
 typedef struct _ui_ButtonMatrixProps {
     char map_str[1024];
     bool one_check;
@@ -619,6 +614,12 @@ typedef struct _ui_Point {
     int32_t x;
     int32_t y;
 } ui_Point;
+
+typedef struct _ui_LineProps {
+    pb_size_t points_count;
+    ui_Point points[32];
+    bool y_invert;
+} ui_LineProps;
 
 typedef struct _ui_EventBinding {
     /* event keyword — IS the command identifier. Budget 127 for parity with
@@ -1193,7 +1194,7 @@ extern "C" {
 #define ui_SpinboxProps_init_default             {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_default             {0, 0}
 #define ui_LedProps_init_default                 {false, ui_Color_init_default, 0}
-#define ui_LineProps_init_default                {{{NULL}, NULL}, 0}
+#define ui_LineProps_init_default                {0, {ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default, ui_Point_init_default}, 0}
 #define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, {ui_ScaleSection_init_default, ui_ScaleSection_init_default, ui_ScaleSection_init_default, ui_ScaleSection_init_default}}
 #define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0, false, ui_Color_init_default, 0}
 #define ui_ButtonMatrixProps_init_default        {"", 0}
@@ -1239,7 +1240,7 @@ extern "C" {
 #define ui_SpinboxProps_init_zero                {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_zero                {0, 0}
 #define ui_LedProps_init_zero                    {false, ui_Color_init_zero, 0}
-#define ui_LineProps_init_zero                   {{{NULL}, NULL}, 0}
+#define ui_LineProps_init_zero                   {0, {ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero, ui_Point_init_zero}, 0}
 #define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, {ui_ScaleSection_init_zero, ui_ScaleSection_init_zero, ui_ScaleSection_init_zero, ui_ScaleSection_init_zero}}
 #define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0, false, ui_Color_init_zero, 0}
 #define ui_ButtonMatrixProps_init_zero           {"", 0}
@@ -1325,8 +1326,6 @@ extern "C" {
 #define ui_SpinboxProps_separator_position_tag   6
 #define ui_SpinnerProps_spin_time_tag            1
 #define ui_SpinnerProps_arc_length_tag           2
-#define ui_LineProps_points_tag                  1
-#define ui_LineProps_y_invert_tag                2
 #define ui_ButtonMatrixProps_map_str_tag         1
 #define ui_ButtonMatrixProps_one_check_tag       2
 #define ui_TableProps_row_count_tag              1
@@ -1346,6 +1345,8 @@ extern "C" {
 #define ui_HostProxyProps_z_tag                  8
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
+#define ui_LineProps_points_tag                  1
+#define ui_LineProps_y_invert_tag                2
 #define ui_EventBinding_name_tag                 1
 #define ui_EventBinding_trigger_tag              2
 #define ui_EventBinding_int_value_tag            3
@@ -1731,9 +1732,9 @@ X(a, STATIC,   SINGULAR, UINT32,   brightness,        2)
 #define ui_LedProps_color_MSGTYPE ui_Color
 
 #define ui_LineProps_FIELDLIST(X, a) \
-X(a, CALLBACK, REPEATED, MESSAGE,  points,            1) \
+X(a, STATIC,   REPEATED, MESSAGE,  points,            1) \
 X(a, STATIC,   SINGULAR, BOOL,     y_invert,          2)
-#define ui_LineProps_CALLBACK pb_default_field_callback
+#define ui_LineProps_CALLBACK NULL
 #define ui_LineProps_DEFAULT NULL
 #define ui_LineProps_points_MSGTYPE ui_Point
 
@@ -2029,7 +2030,6 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_WidgetNode_size depends on runtime parameters */
 /* ui_TreePatchOp_size depends on runtime parameters */
 /* ui_ScreenPatch_size depends on runtime parameters */
-/* ui_LineProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_StyleVariant_size depends on runtime parameters */
@@ -2052,6 +2052,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_LabelProps_size                       2
 #define ui_Layout_size                           8
 #define ui_LedProps_size                         26
+#define ui_LineProps_size                        770
 #define ui_ObjProps_size                         0
 #define ui_Point_size                            22
 #define ui_RollerProps_size                      528

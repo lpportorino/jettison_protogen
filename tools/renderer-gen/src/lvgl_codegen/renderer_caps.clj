@@ -158,6 +158,27 @@
   [nodes]
   (count (remove #(str/blank? (get-in % [:buttonmatrix_props :map_str])) nodes)))
 
+(defn- line-points-max
+  "The most POINTS any one line node declares — the renderer's per-line
+   MAX_LINE_POINTS bound, which is also the wire's max_count for
+   ui.LineProps.points. Mirrors apply_line_points, which copies every
+   declared point into one pool slot."
+  [nodes]
+  (transduce (comp (keep #(get-in % [:line_props :points]))
+                   (map count))
+             max
+             0
+             nodes))
+
+(defn- line-point-pool-count
+  "The number of line nodes carrying at least ONE point — each consumes one
+   apply_line_points pool slot (MAX_LINE_POINT_POOL). Matches the renderer,
+   which applies nothing for an empty points list (LVGL's own empty line
+   stands). Distinct from line-points-max, which bounds the points WITHIN
+   one line (MAX_LINE_POINTS)."
+  [nodes]
+  (count (filter #(seq (get-in % [:line_props :points])) nodes)))
+
 (defn- tree-depth
   "Deepest widget nesting of the emitted screen (root = 0, each child level +1)
    — the same measure the renderer's per-node `depth` bounds by MAX_DECODE_DEPTH."
@@ -183,6 +204,8 @@
      :bg-image-srcs (bg-image-src-count nodes)
      :btnmatrix-map-entries (btnmatrix-map-entries-max nodes)
      :btnmatrix-map-pool (btnmatrix-map-pool-count nodes)
+     :line-points (line-points-max nodes)
+     :line-point-pool (line-point-pool-count nodes)
      :pending-bindings (count (filter #(seq (:bindings %)) nodes))
      :decode-depth (tree-depth ir)}))
 
@@ -243,6 +266,10 @@
 (m/=> btnmatrix-map-entries-max [:=> [:cat [:sequential ir-node]] nat-int?])
 
 (m/=> btnmatrix-map-pool-count [:=> [:cat [:sequential ir-node]] nat-int?])
+
+(m/=> line-points-max [:=> [:cat [:sequential ir-node]] nat-int?])
+
+(m/=> line-point-pool-count [:=> [:cat [:sequential ir-node]] nat-int?])
 
 (m/=> tree-depth [:=> [:cat screen-ir] nat-int?])
 

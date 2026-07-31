@@ -484,8 +484,9 @@
 
 (defn- line-props
   ^UiAst$LineProps [m]
-  (assert-closed "line_props" #{:points} m)
+  (assert-closed "line_props" #{:points :y_invert} m)
   (let [b (UiAst$LineProps/newBuilder)]
+    (when-some [v (:y_invert m)] (.setYInvert b (boolean v)))
     (doseq [p (:points m)]
       (assert-closed "line point" #{:x :y} p)
       (.addPoints b

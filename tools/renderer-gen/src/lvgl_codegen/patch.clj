@@ -46,7 +46,17 @@
 (def replace-on-change-arms
   "*_props arms with no morph path in the renderer: scale allocates
    write-once pool slots (text_src, section styles); buttonmatrix/table
-   are renderer-deferred; line has no apply path."
+   are renderer-deferred; line allocates a write-once points slot that
+   LVGL holds BY POINTER and never copies.
+
+   Honest limit of the line rationale: apply_line_points runs on the
+   UPDATE path as well as the REPLACE path, so the slot cost does NOT
+   discriminate between them — both consume a fresh slot and neither
+   reclaims the old one (the pool resets per LOAD only). Line stays
+   listed here because nothing exercises in-place line morphing: the
+   wasmtime morph-parity suite carries no line coverage, so replace-only
+   is the arm with an oracle behind it. Moving line out of this set is a
+   real option, and it earns a morph-parity card first."
   #{:scale_props :buttonmatrix_props :table_props :line_props})
 
 (def morph-invariant-keys

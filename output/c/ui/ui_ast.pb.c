@@ -78,7 +78,7 @@ PB_BIND(ui_SpinnerProps, ui_SpinnerProps, AUTO)
 PB_BIND(ui_LedProps, ui_LedProps, AUTO)
 
 
-PB_BIND(ui_LineProps, ui_LineProps, AUTO)
+PB_BIND(ui_LineProps, ui_LineProps, 2)
 
 
 PB_BIND(ui_ScaleProps, ui_ScaleProps, 2)

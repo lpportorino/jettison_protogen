@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 230
+ :card-count 231
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -2465,7 +2465,7 @@
      :w 240}]
    :tag "lv_textarea"
    :type :WIDGET_TEXTAREA}
-  {:authored-count 4
+  {:authored-count 5
    :cards
    [{:expect :baseline
      :id "lv_line/default/small"
@@ -2479,6 +2479,33 @@
      :size :medium
      :state :default
      :states-bits 0}
+    {:expect :baseline
+     :id "lv_line/default/medium/y-invert"
+     :notes
+     "The ONLY card exercising LineProps.y_invert — without it the renderer's
+      lv_line_set_y_invert call is only ever reached with false and the arm
+      ships unproven. :baseline is the correct lane and NOT an oversight, but
+      the reason is the STATE segment and not the variant: baseline-id replaces
+      a card id's state segment with `default`, so for a :state :default card
+      the baseline resolves to ITSELF and :distinct could only ever report a
+      vacuous IDENTICAL. (Variant alone does not force :baseline — a variant
+      card in a non-default state can legitimately be :distinct.)
+
+      What actually proves the arm, measured rather than gated: this card's
+      golden differs from lv_line/default/medium's in every manifest, so
+      y_invert demonstrably reaches LVGL and moves pixels. NO LANE ASSERTS
+      THAT, and the reason is precise — the state-contract lane relates cards
+      across the STATE axis only, so a pair differing on SIZE or on VARIANT is
+      never compared. Read this card's value as a committed golden that reddens
+      if y_invert handling ever changes, not as a live inequality check."
+     :props {:h 48
+             :line_props {:points [{:x 0 :y 48} {:x 60 :y 0} {:x 120 :y 48}]
+                          :y_invert true}
+             :w 120}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :y-invert}
     {:expect :baseline
      :id "lv_line/default/large"
      :props {:h 96 :line_props {:points [{:x 0 :y 96} {:x 120 :y 0} {:x 240 :y 96}]} :w 240}
@@ -2494,7 +2521,7 @@
    :committed-states [:default]
    :declared-count 4
    :notes
-   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): renderer.c never decodes ui_LineProps, the WIDGET_LINE case only creates the object, so NO LINE IS DRAWN — every cell in the gallery sheets shows an empty box, and that is the renderer gap, not a theme or fixture defect. The cards stay authored so the decode fix lands against ready fixtures (T2.3 carries the per-card proof-carrying exemption). Explicit finite w/h is MANDATORY for this class: with points undecoded, LV_SIZE_CONTENT collapses to a 0x0 vacuously-passing box. The disabled cell is an inertness parity pin (stock has no line state arm)."
+   "Points reach LVGL through a per-screen pool, not the decoded node: lv_line_set_points KEEPS THE ARRAY BY POINTER and never copies it, so renderer.c's apply_line_points copies each point into line_point_pool (MAX_LINE_POINT_POOL slots of MAX_LINE_POINTS, reset per load) and hands LVGL that. Three things these cards exist to pin. FIRST, the wire field is a STATIC array (max_count:32), never FT_CALLBACK. Be precise about why, because the tempting story is wrong: this widget shipped drawing nothing because NO decode callback was ever installed and no apply arm existed — nanopb treats a null funcs.decode as 'success, but didn't do anything', so the points were dropped while the decode reported success. That is an omission. What the oneof DOES change is the repair: LineProps is a `oneof widget_props` arm, and nanopb zeroes a oneof submessage on arrival specifically to NULL any callback inside it, so retro-fitting a callback needs the `submsg_callback` option nothing here uses — which is why the static array is the fix rather than a callback. SECOND, a point-less line applies nothing and LVGL's own empty line stands, so a card that means to prove a LINE must carry points. Explicit finite w/h is still MANDATORY for this class, now for the ordinary reason rather than a vacuous one: LV_SIZE_CONTENT on a line sizes to the point extent, so a fixed box is what makes the three size cells comparable. THIRD, and this is the coverage fact worth carrying: the state-contract lane resolves a card's baseline by replacing the STATE segment of its id (gates.clj/baseline-id), so it relates cards across the STATE axis ONLY. Two cards differing on SIZE or on VARIANT are never compared to each other by any lane. That is how three lv_line sizes once carried one identical hash while the fourth card's :inert equality pin was satisfied by the very same emptiness — every lane was green and none of them could see it. The disabled cell is that inertness parity pin (stock has no line state arm), and it is meaningful only while the default cell it mirrors is itself non-empty."
    :sizes [{:h 24 :id :small :w 60} {:h 48 :id :medium :w 120} {:h 96 :id :large :w 240}]
    :tag "lv_line"
    :type :WIDGET_LINE}

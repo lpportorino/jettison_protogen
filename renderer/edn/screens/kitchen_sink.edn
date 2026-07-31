@@ -145,11 +145,18 @@
                   :roller_props {:options "One\nTwo\nThree" :visible_row_count 2}
                   :tag :lv_roller}
                  {:class "w-120 h-content" :id "textarea" :tag :lv_textarea :text "Edit me"}
-                 ;; led / line / image are childless leaves: w/h-content has
-                 ;; nothing to measure and collapses to ~0px — explicit sizes
-                 ;; (and a real src for the image) keep the coverage card honest.
+                 ;; led / image are childless leaves: w/h-content has nothing to
+                 ;; measure and collapses to ~0px — explicit sizes (and a real
+                 ;; src for the image) keep the coverage card honest. lv_line is
+                 ;; NOT in that group: it self-sizes from its own point bbox once
+                 ;; points decode, so its explicit box is for comparability, not
+                 ;; to rescue a collapse.
                  {:class "w-24 h-24" :tag :lv_led}
-                 ;; explicit stroke — an unstyled lv_line draws 0-width/invisible
+                 ;; Explicit stroke for LEGIBILITY at card scale, not because an
+                 ;; unstyled line is invisible: stock's theme gives every
+                 ;; lv_line_class object line_width 1 in color_text, and the
+                 ;; asgard theme is installed as a CHILD of stock, so the parent
+                 ;; applies first and that 1px reaches the widget in every family.
                  {:class "w-80 h-24"
                   :line_props {:points [{:x 0 :y 20} {:x 40 :y 0} {:x 80 :y 20}]}
                   :style {:line-color :fg-0 :line-width 3}

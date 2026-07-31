@@ -62,6 +62,16 @@
    ;; apply_buttonmatrix_map call consumes a pool slot).
    :btnmatrix-map-entries {:define "MAX_BTNMATRIX_BUTTONS" :cap 32}
    :btnmatrix-map-pool {:define "MAX_BTNMATRIX_MAP_POOL" :cap 4}
+   ;; Two DISTINCT line bounds (renderer.c apply_line_points), the third
+   ;; instance of the scale/buttonmatrix pair shape: line-points is the max
+   ;; POINTS within one line (and is simultaneously the wire's max_count for
+   ;; ui.LineProps.points — a _Static_assert in renderer.c ties the #define to
+   ;; the generated array, so the two cannot drift); line-point-pool is the max
+   ;; NUMBER of point-carrying lines per screen, each consuming one pool slot.
+   ;; The pool slot is write-once for the widget's lifetime because
+   ;; lv_line_set_points keeps the array BY POINTER and never copies it.
+   :line-points {:define "MAX_LINE_POINTS" :cap 32}
+   :line-point-pool {:define "MAX_LINE_POINT_POOL" :cap 16}
    :pending-bindings {:define "MAX_PENDING_BINDINGS" :cap 64}
    ;; Not a pool — the decoder's max widget-tree nesting (children_decode_cb
    ;; recurses the C stack). The headroom rule doubles as a codegen guard: a

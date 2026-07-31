@@ -1061,6 +1061,59 @@ static const char *persist_bg_image_src(const char *src) {
   (void)snprintf(dst, sizeof(bg_image_src_pool[0]), "%s", src);
   return dst;
 }
+/* Line points: lv_line_set_points STORES THE ARRAY POINTER AND DOES NOT COPY
+ * (lv_line.c line_set_points -> line->point_array.constant = points), so the
+ * points must outlive the stack-local ui_WidgetNode they decoded into — the
+ * apply_buttonmatrix_map / persist_bg_image_src situation exactly. Bounded
+ * pool, reset per load.
+ *
+ * The wire carries int32 x/y (ui_Point) and LVGL wants lv_point_precise_t,
+ * which is `float` under LV_USE_FLOAT (lv_types.h). Authored coordinates are
+ * small integer pixel offsets, and every int32 up to 2^24 is exactly
+ * representable as a float — four orders of magnitude past any canvas this
+ * renderer targets — so the widening is lossless and stays bit-identical
+ * across engines. A coordinate large enough to lose precision here would have
+ * to be off-screen by a factor of thousands. */
+#define MAX_LINE_POINTS 32
+#define MAX_LINE_POINT_POOL 16
+/* The pool's width and the wire's max_count are ONE fact; keep them one.
+ * Raising max_count in proto/ui/ui_ast.options without raising the define
+ * would silently truncate every long line, so make it a build failure. */
+_Static_assert(MAX_LINE_POINTS ==
+                   sizeof(((ui_LineProps *)0)->points) / sizeof(ui_Point),
+               "MAX_LINE_POINTS must equal max_count for ui.LineProps.points "
+               "(protogen/proto/ui/ui_ast.options)");
+static lv_point_precise_t line_point_pool[MAX_LINE_POINT_POOL][MAX_LINE_POINTS];
+static int line_point_count;
+static void apply_line_points(lv_obj_t *obj, const ui_LineProps *p) {
+  /* Zero points applies nothing, leaving LVGL's own empty line — the
+   * dropdown/roller/buttonmatrix convention (apply only what the proto
+   * states). A single point is harmless: lv_line's draw handler early-returns
+   * on `point_num < 2 || point_array.constant == NULL` before any draw reaches
+   * the layer, so it draws nothing rather than relying on a loop bound. (It
+   * fetches the layer pointer one line earlier, but that is a pure getter and
+   * writes nothing.) */
+  if (p->points_count == 0) {
+    return;
+  }
+  if (line_point_count >= MAX_LINE_POINT_POOL) {
+    /* The 17th+ line would render point-less. The codegen headroom gate
+     * (renderer-caps :line-point-pool) catches this at generation; this is
+     * the fail-loud belt for an untrusted/crafted .pb. */
+    LOG_ERROR("line point pool exhausted (%d max)", MAX_LINE_POINT_POOL);
+    load_resource_error = true;
+    return;
+  }
+  lv_point_precise_t *pts = line_point_pool[line_point_count++];
+  /* points_count is bounded by nanopb at MAX_LINE_POINTS on decode — a
+   * crafted .pb with more entries fails the decode, it does not arrive
+   * here oversized. */
+  for (pb_size_t i = 0; i < p->points_count; i++) {
+    pts[i].x = (lv_value_precise_t)p->points[i].x;
+    pts[i].y = (lv_value_precise_t)p->points[i].y;
+  }
+  lv_line_set_points(obj, pts, p->points_count);
+}
 /* Colored scale section (demo analytics scales). */
 static void apply_scale_section(lv_obj_t *obj, const ui_ScaleSection *sec) {
   lv_scale_section_t *section = lv_scale_add_section(obj);
@@ -1404,6 +1457,15 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
     if (!morph_in_progress || p->brightness != 0) {
       lv_led_set_brightness(obj, p->brightness);
     }
+    break;
+  }
+  case ui_WidgetNode_line_props_tag: {
+    const ui_LineProps *p = &node->widget_props.line_props;
+    /* y_invert first: it only flips a flag + invalidates, whereas
+     * lv_line_set_points also runs refresh_self_size, so the points call
+     * settles the geometry against the final orientation. */
+    lv_line_set_y_invert(obj, p->y_invert);
+    apply_line_points(obj, p);
     break;
   }
   case ui_WidgetNode_spinbox_props_tag: {
@@ -4212,6 +4274,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   scale_text_count = 0;
   bg_image_src_count = 0;
   btnmatrix_map_count = 0;
+  line_point_count = 0;
   proxy_count = 0;
   uid_count = 0;
   dropdown_value_map_count = 0;
@@ -4383,6 +4446,22 @@ static bool patch_pools_low(void) {
   if (scale_text_count >= MAX_SCALE_TEXT_POOL)
     low = true;
   if (bg_image_src_count >= MAX_BG_IMAGE_SRCS)
+    low = true;
+  /* Line points are write-once like the scale-text pool: apply_line_points
+   * runs on the UPDATE path as well as REPLACE, and the pool resets per LOAD
+   * only, so every patch touching a line consumes a fresh slot and reclaims
+   * none. Guarded here (the scale precedent) rather than left to the runtime
+   * wall, so the op is refused BEFORE it mutates the tree.
+   *
+   * KNOW WHICH OPS THIS ACTUALLY REACHES. patch_pools_low has three callers:
+   * INSERT and REPLACE consult it unconditionally, but the UPDATE_PROPS caller
+   * sits inside `if (style_n > 0)`, so a STYLE-LESS UPDATE carrying line_props
+   * never consults it and still hits the runtime wall in apply_line_points
+   * (fail-loud, but only after the node is touched). That gap is narrow rather
+   * than absent because :line_props is replace-on-change, so a conforming
+   * differ sends every line change as REPLACE — which is guarded. A
+   * non-conforming or crafted patch is what reaches the wall. */
+  if (line_point_count >= MAX_LINE_POINT_POOL)
     low = true;
   /* A REPLACE/INSERT that adds nodes/fonts consumes uid-registry + binfont
    * slots reclaimed only by a full reload — refuse before exhaustion so the op

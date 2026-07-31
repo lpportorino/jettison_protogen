@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_LINE
 
-`lv_line` — 4 atomic corpus cards (state × size[/value], ids `lv_line/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_line` — 5 atomic corpus cards (state × size[/value], ids `lv_line/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -17,6 +17,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 |---|---|---|---|
 | `default/small` | ![default/small vanilla](./WIDGET_LINE-default_small-vanilla.jpg) | ![default/small asgard-dark](./WIDGET_LINE-default_small-asgard-dark.jpg) | ![default/small asgard-light](./WIDGET_LINE-default_small-asgard-light.jpg) |
 | `default/medium` | ![default/medium vanilla](./WIDGET_LINE-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_LINE-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_LINE-default_medium-asgard-light.jpg) |
+| `default/medium/y-invert` | ![default/medium/y-invert vanilla](./WIDGET_LINE-default_medium_y-invert-vanilla.jpg) | ![default/medium/y-invert asgard-dark](./WIDGET_LINE-default_medium_y-invert-asgard-dark.jpg) | ![default/medium/y-invert asgard-light](./WIDGET_LINE-default_medium_y-invert-asgard-light.jpg) |
 | `default/large` | ![default/large vanilla](./WIDGET_LINE-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_LINE-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_LINE-default_large-asgard-light.jpg) |
 | `disabled/medium` | ![disabled/medium vanilla](./WIDGET_LINE-disabled_medium-vanilla.jpg) | ![disabled/medium asgard-dark](./WIDGET_LINE-disabled_medium-asgard-dark.jpg) | ![disabled/medium asgard-light](./WIDGET_LINE-disabled_medium-asgard-light.jpg) |
 
@@ -37,7 +38,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 ## Known limitations
 
-KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): renderer.c never decodes ui_LineProps, the WIDGET_LINE case only creates the object, so NO LINE IS DRAWN — every cell in the gallery sheets shows an empty box, and that is the renderer gap, not a theme or fixture defect. The cards stay authored so the decode fix lands against ready fixtures (T2.3 carries the per-card proof-carrying exemption). Explicit finite w/h is MANDATORY for this class: with points undecoded, LV_SIZE_CONTENT collapses to a 0x0 vacuously-passing box. The disabled cell is an inertness parity pin (stock has no line state arm).
+Points reach LVGL through a per-screen pool, not the decoded node: lv_line_set_points KEEPS THE ARRAY BY POINTER and never copies it, so renderer.c's apply_line_points copies each point into line_point_pool (MAX_LINE_POINT_POOL slots of MAX_LINE_POINTS, reset per load) and hands LVGL that. Three things these cards exist to pin. FIRST, the wire field is a STATIC array (max_count:32), never FT_CALLBACK. Be precise about why, because the tempting story is wrong: this widget shipped drawing nothing because NO decode callback was ever installed and no apply arm existed — nanopb treats a null funcs.decode as 'success, but didn't do anything', so the points were dropped while the decode reported success. That is an omission. What the oneof DOES change is the repair: LineProps is a `oneof widget_props` arm, and nanopb zeroes a oneof submessage on arrival specifically to NULL any callback inside it, so retro-fitting a callback needs the `submsg_callback` option nothing here uses — which is why the static array is the fix rather than a callback. SECOND, a point-less line applies nothing and LVGL's own empty line stands, so a card that means to prove a LINE must carry points. Explicit finite w/h is still MANDATORY for this class, now for the ordinary reason rather than a vacuous one: LV_SIZE_CONTENT on a line sizes to the point extent, so a fixed box is what makes the three size cells comparable. THIRD, and this is the coverage fact worth carrying: the state-contract lane resolves a card's baseline by replacing the STATE segment of its id (gates.clj/baseline-id), so it relates cards across the STATE axis ONLY. Two cards differing on SIZE or on VARIANT are never compared to each other by any lane. That is how three lv_line sizes once carried one identical hash while the fourth card's :inert equality pin was satisfied by the very same emptiness — every lane was green and none of them could see it. The disabled cell is that inertness parity pin (stock has no line state arm), and it is meaningful only while the default cell it mirrors is itself non-empty.
 
 ---
 Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

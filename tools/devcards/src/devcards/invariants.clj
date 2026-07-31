@@ -74,9 +74,10 @@
    that matches NO finding is itself a finding (:stale-exemption) so the list
    can only shrink, and one whose :expires has passed is a HARD failure so it
    cannot outlive its own decision. No entry is currently live in
-   `lanes/gate-exemptions`: the anticipated lv_line class (renderer has no
-   line_props decode arm) yields ZERO findings because its cards mandate
-   explicit finite w/h — an empty box, not a collapsed or flagged one.
+   `lanes/gate-exemptions`, and the lv_line class this docstring once
+   anticipated is gone rather than exempted: the renderer decodes LineProps
+   now, so those cards draw a line inside their mandated finite w/h. Their zero
+   findings are a real pass, not the vacuous one an empty box used to give.
 
    THAT IS A STATEMENT ABOUT THAT VECTOR, NOT ABOUT THE CORPUS. Concessions do
    live in `corpus/designed-flags.edn`, and its `:kind :false-positive` entries

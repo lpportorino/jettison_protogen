@@ -42,7 +42,58 @@ ui.DropdownProps.option_values   max_count:16
 ui.RollerProps.options           max_size:512
 ui.TextareaProps.placeholder     max_size:256
 ui.ButtonMatrixProps.map_str     max_size:1024
-ui.LineProps.points              type:FT_CALLBACK
+
+# LineProps.points is a STATIC ARRAY, and it should not go back to FT_CALLBACK.
+#
+# WHAT ACTUALLY WENT WRONG, stated precisely because the tempting story is
+# wrong: this field was FT_CALLBACK and NO decode callback was ever installed
+# for it, and no apply arm ever read it. nanopb's pb_common.c treats a null
+# funcs.decode as "success, but didn't do anything" — it consumes the field and
+# returns true — so the points were dropped while the decode reported success
+# and the widget rendered empty. That is an OMISSION, not a subtlety.
+#
+# WHY THE OBVIOUS REPAIR (install a callback) IS NOT THE ONE TAKEN. LineProps is
+# a `oneof widget_props` arm, and pb_decode.c's PB_HTYPE_ONEOF memsets the whole
+# submessage to zero on arrival expressly so that "any callbacks are set to NULL
+# ... because the callbacks might otherwise have values from some other union
+# field". So a funcs.decode pre-set on node.widget_props.line_props.points is
+# erased before the arm is read, UNLESS the caller has already set which_props
+# to this tag. nanopb's own remedy is the `submsg_callback` option, which
+# nothing in this tree uses. Of the ten FT_CALLBACK fields this file declared,
+# this was the only one inside a oneof arm; the remaining nine are direct fields
+# on their own message, which is why a callback works for them and is awkward
+# here.
+#
+# THE STATIC ARRAY IS FREE. `widget_props` is a union whose floor is set by
+# ui_ChartProps: union 1244 B, ChartProps 1244 B, ui_Point 8 B, so LineProps at
+# 32 points is 264 B — a fifth of a floor it cannot raise, and zero added bytes
+# on the recursive decode stack that bounds the nine max_size:64 fields below
+# (ui_WidgetNode is 2252 B on wasm32 both before and after; on x86-64 it went
+# 2336 -> 2328, i.e. the change SHRANK the host struct).
+#
+# MEASURE ON THE TARGET — with the specific reason, because a slogan here was
+# twice wrong. Sizes, measured on the pinned headers both ways:
+#   pb_callback_t   8 B (align 4) wasm32 | 16 B (align 8) x86-64
+#   ui_LineProps   12 B           wasm32 | 24 B           x86-64   (PRE-fix)
+#   union        1244 B           wasm32 | 1248 B         x86-64   (PRE-fix)
+# So while the field was FT_CALLBACK the union differed across ABIs, and the
+# cause is pb_callback_t's ALIGNMENT (8 on the host) rounding 1244 up to 1248 —
+# not its size. That 1248 is what an earlier host-side measurement of this
+# comment reported as if it were the target's number. With the static array
+# both ABIs agree at 1244, so the figures above now reproduce either way; the
+# discipline still binds the next person who changes a field's type.
+#
+# The cap is 32 for parity with ChartSeries.values, not because the union
+# forces it: the free ceiling is about 154 points, and SEVEN other union
+# members sit above LineProps (ChartProps 1244, DropdownProps 1100,
+# ButtonMatrixProps 1025, RollerProps 524, ScaleProps 484, TabviewProps 276,
+# ImageProps 272) with TextareaProps tied at 264 — so it could not become the
+# dominator even if ChartProps shrank.
+#
+# NOTE the codegen headroom gate fires at 80% of a cap, not at it: with
+# max_count 32, an authored line of 26 points already fails emit, so the
+# effective authoring ceiling is 25.
+ui.LineProps.points              max_count:32
 
 # ── The nine max_size:64 bounds stay 64. Measured; do not re-litigate. ─────
 # A uniform widen of all nine to 256 was proposed and REFUSED on measurement:
