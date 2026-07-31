@@ -147,25 +147,18 @@
                     :PROP_WIDTH :uint_value
                     :PROP_X :int_value
                     :PROP_Y :int_value}
+ ;; NOT AUTHORED HERE, and the loader refuses them if they appear:
+ ;; :state-selectors (lv_state_t) and :obj-flags (lv_obj_flag_t) are DERIVED
+ ;; from lvgl-codegen.generated.enums, whose bytes `make -f renderer.mk
+ ;; construct-bindings` asserts equal to a live extraction of the vendored LVGL
+ ;; headers. They reach the JSON projection through devcards.conventions.
+ ;; :part-selectors has no such generated table — lv_part_t is carried by
+ ;; lvgl-codegen.style-props and guarded against the same extraction by
+ ;; construct.factory/lvgl-mirrored-constants, which does not reach this file.
  :part-selectors {:cursor 393216
                   :indicator 131072
                   :items 327680
                   :knob 196608
                   :main 0
                   :scrollbar 65536
-                  :selected 262144}
- :state-selectors {:alt 1
-                   :any 65535
-                   :checked 4
-                   :default 0
-                   :disabled 512
-                   :edited 32
-                   :focus-key 16
-                   :focused 8
-                   :hovered 64
-                   :pressed 128
-                   :scrolled 256
-                   :user-1 4096
-                   :user-2 8192
-                   :user-3 16384
-                   :user-4 32768}}
+                  :selected 262144}}

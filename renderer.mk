@@ -43,7 +43,7 @@ RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures dump-contracts harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
-	generated-projection construct-bindings \
+	generated-projection construct-bindings conventions-projection \
 	devcards-test reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
@@ -984,6 +984,49 @@ construct-bindings:
 	[ "$$rc" -eq 0 ] && echo "construct-bindings: fresh (enums.clj + ui_luts.h vs a live LVGL extraction)"; \
 	exit "$$rc"
 
+# ── The conventions manifest projection: the CONSUMER-FACING export ─────────
+# tools/devcards/conventions/ui-style-conventions.json is what a downstream
+# producer vendors to spell lv_state_t, lv_part_t and lv_obj_flag_t — none of
+# which travel on the wire as anything but raw ints. Its two homes are the
+# authored EDN beside it and lvgl-codegen.generated.enums (which
+# `construct-bindings` above holds to a live header extraction), so this lane
+# asserts the committed JSON equals what those two produce TODAY.
+#
+# WHY IT EXISTS. The file called itself a generated projection with a stated
+# determinism contract, and no target, workflow or test ran its generator — so
+# for as long as it has been committed, nothing could have told you whether it
+# still matched. It did not: the committed bytes and a fresh emit carried
+# IDENTICAL data in a different layout, which is precisely the state a
+# projection with no producer decays into. Same shape as `manifests`,
+# `construct-bindings` and `generated-projection`: emit to a temp dir, cmp,
+# rewrite in place on drift and go red.
+#
+# NO PREREQUISITE ON `construct-bindings`, deliberately, and the battery runs
+# these concurrently. This lane reads the COMMITTED enums.clj; whether that file
+# is itself fresh is the OTHER lane's subject, and it fails on its own. What
+# makes the concurrency safe is $(INSTALL_ATOMIC): a rewrite there lands by
+# rename, so a reader here sees the old inode or the new one, never a torn one.
+#
+# HOST-RUNNABLE. Pure Clojure over two committed text files — no wasm, no
+# bindings, no proto classes.
+CONVENTIONS_JSON := tools/devcards/conventions/ui-style-conventions.json
+
+conventions-projection:
+	@tmp="$$(mktemp -d)"; \
+	( cd tools/devcards && clojure -M -m devcards.conventions "$$tmp/projection.json" ) \
+	  || { rm -rf "$$tmp"; echo "FATAL: conventions projection emit failed" >&2; exit 1; }; \
+	$(INSTALL_ATOMIC) \
+	rc=0; \
+	if ! cmp -s "$(CONVENTIONS_JSON)" "$$tmp/projection.json"; then \
+	  install_atomic "$$tmp/projection.json" "$(CONVENTIONS_JSON)" \
+	    || { rm -rf "$$tmp"; echo "FATAL: installing $(CONVENTIONS_JSON) failed" >&2; exit 1; }; \
+	  echo "FATAL: $(CONVENTIONS_JSON) was STALE vs a fresh projection — regenerated in place; review and commit it." >&2; \
+	  rc=1; \
+	fi; \
+	rm -rf "$$tmp"; \
+	[ "$$rc" -eq 0 ] && echo "conventions-projection: fresh ($(CONVENTIONS_JSON) vs the authored EDN + the generated LVGL bindings)"; \
+	exit "$$rc"
+
 # ── Devcards unit suite ─────────────────────────────────────────────────────
 # The pure-helper tests (tools/devcards/test — dump-tree reductions, image
 # math). No wasm / proto-classes needed, so it runs early and fails cheap.
@@ -1305,5 +1348,5 @@ check-renderer:
 # devcards.yml and cannot live here (git does not resolve inside the container).
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings manifests devcards-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

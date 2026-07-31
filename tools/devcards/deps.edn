@@ -124,4 +124,22 @@
         build.buf/protovalidate {:mvn/version "1.2.2"}
         ;; dump_tree DOM parsing + golden manifests
         org.clojure/data.json {:mvn/version "2.5.1"}}
- :paths ["src"]}
+ ;; `../renderer-gen/src` carries ONE namespace this tool reads:
+ ;; `lvgl-codegen.generated.enums`, the generated LVGL-mirror bindings whose
+ ;; bytes `make -f renderer.mk construct-bindings` asserts equal to a live
+ ;; extraction of the vendored headers. devcards.conventions projects two of its
+ ;; tables into the consumer-facing JSON manifest and devcards.fixtures ORs one
+ ;; of them into obj_flags; mirroring either here would fork the vocabulary from
+ ;; the one the renderer is actually built with. The borrow is the same one the
+ ;; :proven-pairs alias already makes for the authoring grammar, moved to :paths
+ ;; because these two namespaces load under every alias, not one.
+ ;;
+ ;; DEPENDENCY-LEAN IS PRESERVED. This is a source PATH, not a `:local/root` on
+ ;; ../renderer-gen — that would drag malli, specter, pronto (a git dep) and
+ ;; jsonista into a tool that deliberately carries none of them. The one
+ ;; namespace read has zero requires of its own.
+ ;;
+ ;; The Clojure CLI prints "Use of :paths external to the project has been
+ ;; deprecated" for this and for :proven-pairs alike; it is a pre-existing
+ ;; condition of the borrow, not a new one.
+ :paths ["src" "../renderer-gen/src"]}

@@ -75,6 +75,32 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
   `corpus/composition.edn`, the conventions manifests, or the generator ns —
   never the output.
 
+## The conventions manifest — TWO homes, ONE export, split by provenance
+
+- `conventions/ui-style-conventions.json` is the CONSUMER-FACING export and is
+  GENERATED, DO-NOT-EDIT. It is what a downstream producer vendors to spell
+  `lv_state_t`, `lv_part_t` and `lv_obj_flag_t`, none of which travel on the
+  wire as anything but raw ints — a vocabulary missing from it is authored
+  downstream as magic numbers, which is a defect of the EXPORT and not of the
+  consumer.
+- A section whose members are LVGL HEADER FACTS is DERIVED from
+  `lvgl-codegen.generated.enums`, whose own bytes `construct-bindings` holds to
+  a live extraction of the vendored headers. `devcards.conventions`
+  `lvgl-derived-sections` is the one home of which sections those are; the
+  loader REFUSES a derived section hand-carried in the authored EDN rather than
+  merging over it, because two tables agreeing by luck diverge in silence.
+- Everything else — the render protocol, the proto slot table, the per-widget
+  state commitments, `:part-selectors` — is authored in
+  `conventions/ui-render-conventions.edn`. `lv_part_t` has NO generated table;
+  it is hand-carried in `lvgl-codegen.style-props` and guarded against the same
+  extraction by `construct.factory` `lvgl-mirrored-constants`, which does not
+  reach the manifest. That guard covers the CONSTANTS, never the manifest's copy
+  of them.
+- `make -f renderer.mk conventions-projection` is the freshness lane: emit to a
+  temp dir, byte-compare, rewrite in place on drift and go red. It rides
+  `check-renderer`. Read a red there exactly as `construct-bindings`' red — the
+  corrected file is already in the tree; review it and commit it.
+
 ## The gate lanes (`corpus/spec.edn` `:expect`)
 - coverage · state-contract (`:distinct` hash ≠ its `default` baseline; `:inert`
   hash == baseline) · vanilla≡stock (theme family equality, PLUS absolute

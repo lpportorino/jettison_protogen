@@ -60,7 +60,8 @@
    its file descriptor, before any validation is ever invoked."
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [devcards.designed :as designed])
+            [devcards.designed :as designed]
+            [lvgl-codegen.generated.enums :as enums])
   (:import [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
             UiAst$ChartAxis UiAst$ChartProps UiAst$ChartSeries UiAst$ChartType
             UiAst$CheckboxProps UiAst$Color UiAst$DropdownProps UiAst$EventBinding
@@ -343,18 +344,23 @@
    would be a new deliberate entry."
   {0 :row 1 :column})
 
-(def ^:private obj-flags
-  "LV_OBJ_FLAG_* authoring keywords -> LVGL header values (mirrors the
-   codegen seam's `obj-flag-keyword->int`; only the flags the corpus uses).
-   Both wire fields are direct-cast by renderer.c: `obj_flags` through
-   `lv_obj_add_flag`, `obj_flags_clear` through `lv_obj_remove_flag`."
-  {:hidden 1 :clickable 2 :scrollable 16 :overflow-visible 1048576})
-
 (defn- obj-flag-bits
   "OR a node's flag-keyword collection into an LVGL bitmask; an unknown
-   keyword throws naming the node context and the key that carried it."
+   keyword throws naming the node context and the key that carried it.
+
+   The vocabulary is `lvgl-codegen.generated.enums/obj-flag-keyword->int` READ
+   DIRECTLY — the generated projection of the vendored LVGL headers, whose
+   bytes `make -f renderer.mk construct-bindings` asserts equal to a live
+   extraction. A local subset would agree with it only until the next LVGL
+   bump, and nothing would compare the two. Both wire fields are direct-cast by
+   renderer.c: `obj_flags` through `lv_obj_add_flag`, `obj_flags_clear` through
+   `lv_obj_remove_flag`, so every flag the headers declare is expressible."
   ^long [ctx node-key ks]
-  (reduce (fn [acc k] (bit-or acc (long (enum-of obj-flags k (str ctx " " node-key))))) 0 ks))
+  (reduce (fn [acc k]
+            (bit-or acc (long (enum-of enums/obj-flag-keyword->int k
+                                       (str ctx " " node-key)))))
+          0
+          ks))
 
 ;; ── Widget-props messages (closed per-message field sets) ───────────────
 ;; Each builder accepts exactly the fields the corpus spec uses — a spec
