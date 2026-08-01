@@ -503,9 +503,17 @@ After changing any `.proto`:
    from, so it runs FIRST.
 2. `make docs-docker-generate` — never instead of step 1; linting docs rendered
    from the previous descriptor set proves nothing.
-3. Write descriptions for new messages and fields in the generated markdown.
+3. Write descriptions for new messages and fields in the generated markdown, then
+   re-run step 2 — extraction is what folds that prose into `proto-db.edn`, and
+   the lint below reads the db rather than the pages.
 4. `make docs-docker-lint`.
-5. Commit everything together.
+5. `make docs-docker-manifests` — regenerates `output/manifests/` from the FINAL
+   `proto-db.edn`, so it runs after step 3's prose has been extracted. **Do not
+   skip it because the steps above went green.** `make generate` does not write
+   these (they are tracked and are NOT a binding output), no local gate reads
+   them, and the drift surfaces only as `renderer.yml`'s manifest-freshness step
+   — i.e. after the push has already fanned out.
+6. Commit everything together.
 
 If the change touches a cross-language WIRE surface — stream framing, the
 codec/transport headers, the `cmd.*`/state/enrichment encoding, or the

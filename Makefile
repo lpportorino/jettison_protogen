@@ -305,6 +305,26 @@ docs-docker-generate: ## Generate docs using Docker
 		--output-dir /data/docs \
 		--db-path /data/docs/.protodoc/proto-db.edn
 
+# The containerized twin of docs-manifests. It exists because the docs chain is
+# otherwise fully runnable without a host toolchain, and this one step was not:
+# output/manifests/ is tracked, is NOT a binding output, and `make generate`
+# does not write it — so a proto change that followed the documented chain left
+# the manifests stale and reddened renderer.yml's manifest-freshness step, which
+# is the only place that drift surfaces.
+.PHONY: docs-docker-manifests
+docs-docker-manifests: ## Generate output/manifests/ from proto-db.edn via Docker
+	@printf "$(GREEN)Generating proto manifests via Docker...$(NC)\n"
+	@docker run --rm --network=host \
+		-v $$(pwd)/docs:/data/docs \
+		-v $$(pwd)/output/manifests:/data/manifests \
+		protodoc:latest \
+		-M:run manifest \
+		--db-path /data/docs/.protodoc/proto-db.edn \
+		--config-path /data/docs/.protodoc/manifest-config.edn \
+		--output-dir /data/manifests \
+		--git-sha "$$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
+	@printf "$(GREEN)Manifests written to output/manifests/$(NC)\n"
+
 .PHONY: docs-docker-render
 docs-docker-render: ## Render markdown from proto-db.edn via Docker (no parsing)
 	@printf "$(GREEN)Rendering proto docs via Docker...$(NC)\n"
