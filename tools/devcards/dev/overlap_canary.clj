@@ -20,7 +20,7 @@
    OVERFLOW_VISIBLE ancestor gate. That key is therefore deliberately absent
    here; this file covers the clauses that probe does not reach.
 
-   THE FIVE CLAUSES, and the conditionally-emitted key each one turns on:
+   THE CLAUSES, and the conditionally-emitted key each one turns on:
 
    - SIBLINGS. Two independently-placed controls sharing pixels fire; the
      same pair moved clear does not. No conditional key — the base case,
@@ -28,15 +28,25 @@
 
    - CLICK AREA (`click_area`, emitted only when it differs from coords).
      A slider with `seek_on_press` takes the renderer's LV_DPX(24) ext click
-     area (renderer.c SLIDER_SEEK_EXT_CLICK_PX); a plain slider keeps the
-     stock LV_DPX(8). Both cards place the same neighbour in the same place,
-     DRAWN clear of the slider. The seek twin must fire and the plain twin
-     must not, so the verdict turns on the EMITTED VALUE of the key — not on
-     its presence (both sliders emit it) and not on the class (both are
-     lv_slider). A rule reading coords is silent on both; a rule assuming a
-     per-class pad fires on both. The two cards are also asserted to render
-     BYTE-IDENTICAL framebuffers, which is the whole reason this rule exists:
-     no pixel oracle can tell them apart.
+     area (renderer.c SLIDER_SEEK_EXT_CLICK_PX); a plain slider takes the
+     renderer's default of zero, so it emits the key not at all. Both cards
+     place the same neighbour in the same place, DRAWN clear of the slider.
+     The seek twin must fire and the plain twin must not, so the verdict
+     turns on a PER-INSTANCE fact and never on the class (both are
+     lv_slider): one wire prop is the entire difference. A rule reading
+     coords is silent on both and so fails the seek half; a rule assuming a
+     per-class pad fires on both and so fails the plain half. The two cards
+     are also asserted to render BYTE-IDENTICAL framebuffers, which is the
+     whole reason this rule exists: no pixel oracle can tell them apart.
+
+   - LAYOUT GAP (`click_area` again, but read for its ABSENCE). Two rows of a
+     generated column, separated by the smallest non-zero spacing token this
+     repo publishes — the tightest gap a layout can produce. Measures whether
+     a stock interactive widget's reach stays inside its drawn box, so that a
+     gap the author honoured is still a gap the POINTER honours. The
+     `seek_on_press` twin at the identical geometry is the non-vacuity guard:
+     a deliberately widened hit box must still fire there, so a silent plain
+     twin cannot be a dead check.
 
    - NESTING. A control inside an interactive container overlaps it by
      construction. The container and the child must not fire against each
@@ -127,6 +137,23 @@
    :props {:w 120 :h 20
            :slider_props (cond-> {:min_value 0 :max_value 100 :value 50}
                            seek? (assoc :seek_on_press true))}})
+
+(defn- stacked-slider
+  "A 120x16 slider, the thin-track shape a form column produces."
+  [x y seek?]
+  {:type :WIDGET_SLIDER
+   :x x :y y
+   :props {:w 120 :h 16
+           :slider_props (cond-> {:min_value 0 :max_value 100 :value 50}
+                           seek? (assoc :seek_on_press true))}})
+
+(defn- dropdown-below
+  "The next interactive row in the column."
+  [x y]
+  {:type :WIDGET_DROPDOWN
+   :x x :y y
+   :props {:w 176 :h 48
+           :dropdown_props {:options "Auto\nManual\nOff" :selected 1}}})
 
 (defn- proxy-at
   [x y mode]
@@ -237,11 +264,19 @@
     [[(= (:coords seek-sl) (:coords plain-sl))
       (format "controlled pair: both sliders DRAW the same box — %s vs %s"
               (pr-str (:coords seek-sl)) (pr-str (:coords plain-sl)))]
-     [(and (some? (:click_area seek-sl))
-           (some? (:click_area plain-sl))
-           (not= (:click_area seek-sl) (:click_area plain-sl)))
-      (format "dump_obj emits click_area on both (it differs from coords on both) with DIFFERENT values: seek %s, plain %s"
-              (pr-str (:click_area seek-sl)) (pr-str (:click_area plain-sl)))]
+     [(and (some? (:click_area seek-sl)) (nil? (:click_area plain-sl)))
+      (format "one wire prop apart, the two sliders REACH differently: seek emits click_area %s, plain emits none (so its hit box is its drawn box)"
+              (pr-str (:click_area seek-sl)))]
+     ;; Derived from the dump, never restated from the C constant: a
+     ;; restated number agrees with the renderer only until one of them
+     ;; moves. What is asserted is the SHAPE ext_click_pad must have —
+     ;; one value, grown on all four sides.
+     [(let [[cx1 cy1 cx2 cy2] (:coords seek-sl)
+            [kx1 ky1 kx2 ky2] (:click_area seek-sl)
+            grow [(- cx1 kx1) (- cy1 ky1) (- kx2 cx2) (- ky2 cy2)]]
+        (and (apply = grow) (pos? (long (first grow)))))
+      (format "…and that widening is one uniform pad on all four sides, as ext_click_pad is: coords %s -> click_area %s"
+              (pr-str (:coords seek-sl)) (pr-str (:click_area seek-sl)))]
      [(nil? (:click_area seek-sw))
       (format "the neighbour emits NO click_area, so absence really is the ordinary case here: %s"
               (pr-str (:click_area seek-sw)))]
@@ -265,6 +300,74 @@
      [(Arrays/equals ^bytes (:fb seek) ^bytes (:fb plain))
       (format "the two cards render BYTE-IDENTICAL framebuffers (%d bytes) — no pixel oracle can see this hazard, which is why the geometry rule has to"
               (alength ^bytes (:fb seek)))]]))
+
+(def ^:private smallest-spacing-gap
+  "The smallest NON-ZERO spacing token this repo publishes, read from the
+   manifest rather than restated, so a token change cannot leave this canary
+   proving a gap the design system no longer offers. That token is the
+   tightest gap a generated column can put between two rows, so it is the
+   gap a hit box must not cross."
+  (->> (get (json/read-str (slurp "../../output/manifests/design-tokens.json")
+                           :key-fn keyword)
+            :tokens)
+       (keep (fn [[_ v]] (when (= "spacing" (:kind v)) (:dark v))))
+       (filter pos?)
+       (reduce min)))
+
+(defn- layout-gap-checks
+  "THE REGRESSION CASE. A generated column puts a thin slider one spacing
+   token above the next interactive row. Nothing in that layout is
+   misbehaving — the gap is honoured exactly — so if the slider is reachable
+   inside its neighbour, the reach came from the widget and not from the
+   author, and the neighbour's top band is dead: `lv_indev_search_obj`
+   returns the FIRST hit in reverse child order, so exactly one of the two
+   takes a press there.
+
+   The twin is the non-vacuity guard and it is the whole reason this case can
+   be trusted: `seek_on_press` is the one wire route to a DELIBERATELY
+   widened hit box, and that twin must still FIRE at the identical geometry.
+   A silent plain twin therefore means the stock reach was withdrawn, never
+   that the rule stopped looking."
+  []
+  (let [plain-id "canary/overlap-layout-gap-plain"
+        seek-id "canary/overlap-layout-gap-seek"
+        row-x 27
+        slider-y 136
+        ;; the next row starts one spacing token below the slider's last pixel
+        drop-y (+ slider-y 16 smallest-spacing-gap)
+        plain (render! (card plain-id [(stacked-slider row-x slider-y false)
+                                       (dropdown-below row-x drop-y)]))
+        seek (render! (card seek-id [(stacked-slider row-x slider-y true)
+                                     (dropdown-below row-x drop-y)]))
+        plain-fs (findings-of plain-id (:tree plain))
+        seek-fs (findings-of seek-id (:tree seek))
+        p-sl (node-at (:tree plain) [0 0 0])
+        p-dd (node-at (:tree plain) [0 0 1])
+        s-sl (node-at (:tree seek) [0 0 0])
+        s-dd (node-at (:tree seek) [0 0 1])
+        drawn-sep (geometry/separation (:coords p-sl) (:coords p-dd))
+        seek-hit-sep (geometry/separation (or (:click_area s-sl) (:coords s-sl))
+                                          (:coords s-dd))]
+    [[(= (long drawn-sep) (long smallest-spacing-gap))
+      (format "control geometry: the two rows are DRAWN exactly one spacing token apart — separation %d, smallest spacing token %d"
+              drawn-sep smallest-spacing-gap)]
+     [(nil? (:click_area p-sl))
+      (format "a plain slider emits NO click_area, so its hit box IS its drawn box and the drawn gap above is also the REACH gap — click_area %s, coords %s"
+              (pr-str (:click_area p-sl)) (pr-str (:coords p-sl)))]
+     [(empty? plain-fs)
+      (format "the column reports nothing — a layout that honours the smallest spacing token is reachable as authored: %s"
+              (pr-str (mapv (juxt :invariant :node) plain-fs)))]
+     [(and (some? (:click_area s-sl)) (neg? (long seek-hit-sep)))
+      (format "NON-VACUITY: the seek twin DOES emit a widened click_area %s and it crosses the same gap — separation %d"
+              (pr-str (:click_area s-sl)) seek-hit-sep)]
+     [(and (= #{:overlap} (invariants-of seek-fs))
+           (= 1 (count seek-fs))
+           (= "lv_slider vs lv_dropdown" (:node (first seek-fs))))
+      (format "…and the rule still FIRES on it, so the silence above is a withdrawn reach and not a dead check: %s"
+              (pr-str (mapv (juxt :invariant :node) seek-fs)))]
+     [(Arrays/equals ^bytes (:fb plain) ^bytes (:fb seek))
+      (format "the two columns render BYTE-IDENTICAL framebuffers (%d bytes) — the entire difference is reach, which no pixel oracle can see"
+              (alength ^bytes (:fb plain)))]]))
 
 (defn- nesting-checks
   []
@@ -364,6 +467,7 @@
    green as one that ran."
   {:siblings siblings-checks
    :click-area click-area-checks
+   :layout-gap layout-gap-checks
    :nesting nesting-checks
    :proxy proxy-checks})
 

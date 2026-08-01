@@ -23,6 +23,64 @@
  * silently truncated a command-id on the name chain could otherwise recur here
  * the first time a trigger name outgrows the cap. */
 #define UI_EVENT_TRIGGER_CHARS 16
+/* ── EXT CLICK AREA — a widget's hit box is its drawn box ──────────────
+ * lv_obj_hit_test tests the pointer against lv_obj_get_click_area, which is
+ * the drawn box GROWN by ext_click_pad — never the drawn box. A widget with
+ * a non-zero pad is therefore reachable outside the rectangle it paints,
+ * while a layout engine reserves space by the PAINTED box and cannot see the
+ * growth. Any inherited pad thus bleeds into whatever the author placed
+ * beside it, and in LVGL that bleed is not cosmetic: lv_indev_search_obj
+ * walks children in REVERSE order and returns the FIRST hit, so in the
+ * overlapped band exactly one of the two widgets takes the press and the
+ * other is dead there. No pixel differs and no event fires, so neither a
+ * framebuffer oracle nor an event log can see it.
+ *
+ * TWO vendored constructors set a pad of their own, and neither value is a
+ * decision this interpreter ever made:
+ *   lv_slider_constructor  LV_DPX(8)        — SCALES with display DPI
+ *   lv_arc_constructor     LV_DPI_DEF / 10  — a FIXED 13px that does not
+ * Both widgets also ship an LV_EVENT_HIT_TEST handler that would narrow the
+ * reach back to the knob / the ring, and both handlers are DEAD CODE here:
+ * lv_obj_hit_test consults them only under LV_OBJ_FLAG_ADV_HITTEST, which
+ * neither widget sets. The full grown rectangle hit-tests, so the pad is
+ * pure bleed. Setting that flag is NOT the repair — the narrowing lives in
+ * an event handler, so lv_obj_get_click_area (and therefore dump_obj, and
+ * therefore any geometry rule downstream) keeps reporting the UNnarrowed
+ * box; the reported reach would not move while the real one silently would,
+ * which is worse than the defect. It would also delete stationary track-tap
+ * seek for every slider, since update_knob_pos runs from the RELEASED arm
+ * with check_drag=false, and it would make a slider's reach depend on its
+ * current VALUE, because the knob area moves.
+ *
+ * So both render paths set the pad EXPLICITLY on those two classes rather
+ * than inheriting it. Zero means a widget's hit box IS its drawn box — the
+ * only reach a layout can reason about, and the only one a wire-authored
+ * screen can predict, because the wire carries no ext-click vocabulary and
+ * an inherited pad is therefore something no author can see, set, or opt
+ * out of.
+ *
+ * A DELIBERATE widening remains available, and the one that exists shows
+ * the pattern the stock pads lack: SLIDER_SEEK_EXT_CLICK_PX (renderer.c)
+ * widens a press-seek slider AND the composition that uses it reserves that
+ * much clear space around the track, so the wider reach lands on space
+ * nothing else claims. Widen a hit box only together with the space it will
+ * occupy. If a control is hard to hit, grow the CONTROL — that growth is
+ * the kind a layout can see.
+ *
+ * THESE LIVE HERE, IN THE SHARED HEADER, FOR THE REASON UI_EVENT_NAME_BUF
+ * DOES. renderer.c and reference_ui.c are deliberately independent
+ * implementations of this interface, and the coverage matrix tree-diffs
+ * them — so a pad spelled separately on each side is two literals that
+ * drift, and the drift surfaces as a matrix divergence blamed on the proto
+ * representation. One home governs both. What the matrix therefore does NOT
+ * check is the VALUE itself, which it never could; that is pinned by the
+ * overlap rule's real-render canary (tools/devcards/dev/overlap_canary.clj).
+ *
+ * Design pixels: LV_DPX_CALC special-cases n == 0, so LV_DPX(0) is exactly 0
+ * at every DPI, and a future non-zero value here would scale as the
+ * press-seek one does. */
+#define SLIDER_EXT_CLICK_PX 0
+#define ARC_EXT_CLICK_PX 0
 /* ── Full loads (controls_load_ui) ─────────────────────────────────────
  * A failed load has two SEMANTICALLY DIFFERENT outcomes, and a bare -1
  * could not tell them apart. The distinction is not cosmetic: it decides

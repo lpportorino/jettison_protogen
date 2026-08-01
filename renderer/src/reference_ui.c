@@ -149,12 +149,18 @@ static lv_obj_t *make_widget(lv_obj_t *parent, uint8_t kind) {
     break;
   case 3:
     w = lv_slider_create(parent);
+    /* The ext-click contract is the INTERFACE's, not stock LVGL's, so a
+     * literal-lv_* implementation of that interface honours it too — same
+     * reason the setter ORDER below mirrors renderer.c. Constant shared via
+     * renderer.h so the two paths cannot spell it differently. */
+    lv_obj_set_ext_click_area(w, LV_DPX(SLIDER_EXT_CLICK_PX));
     break;
   case 4:
     w = lv_image_create(parent);
     break;
   case 5:
     w = lv_arc_create(parent);
+    lv_obj_set_ext_click_area(w, LV_DPX(ARC_EXT_CLICK_PX)); /* see case 3 */
     break;
   case 6:
     w = lv_bar_create(parent);
@@ -501,6 +507,8 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
     lv_obj_t *arc = lv_arc_create(parent);
     if (arc == NULL)
       return -1;
+    /* The interface's ext-click contract — see make_widget case 3. */
+    lv_obj_set_ext_click_area(arc, LV_DPX(ARC_EXT_CLICK_PX));
     lv_obj_set_size(arc, 60, 60);
     lv_obj_align(arc, LV_ALIGN_CENTER, 0, 0);
     /* Setter ORDER mirrors renderer.c's arc_props application. */

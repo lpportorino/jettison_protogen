@@ -689,6 +689,52 @@ consults something the dump omits.
   consumer that re-adds CLICKABLE to an image would see an OVER-report, because
   the answer lives in an event handler no dump can serialise.
 
+### 2.5 What that box actually IS — the renderer's hit-box contract
+
+§2.4 says the rule judges the click area. This says what the click area IS on
+this interpreter, because a consumer laying out a screen has to be able to
+predict it before anything renders.
+
+**A widget's hit box is its drawn box.** The renderer sets `ext_click_pad`
+explicitly on every widget whose class would otherwise inherit one, so nothing
+is reachable outside the rectangle it paints unless the WIRE asked for that.
+Two vendored constructors do set a pad of their own — `lv_slider` at `LV_DPX(8)`
+and `lv_arc` at a fixed `LV_DPI_DEF / 10` — and `renderer.c`'s ext-click block
+overrides both at creation, with the full reasoning. Neither pad was a decision
+this interpreter made, neither is expressible on the wire, and a layout engine
+reserves space by the PAINTED box, so an inherited pad can only ever bleed into
+the neighbour the author placed next to it.
+
+**The one widening is asked for on the wire.** `SliderProps.seek_on_press`
+takes `LV_DPX(24)`, because a press-seek target reachable only over its drawn
+track misses the taps the behaviour exists to catch. It is the only route to a
+non-zero pad on an authored node, and the composition that uses it reserves
+that much clear space around the track — which is the pattern to copy. Widen a
+hit box only together with the space it will occupy; if a control is hard to
+hit, grow the CONTROL, because that growth is the kind a layout can see.
+
+**The minimum safe gap between two interactive siblings** is
+`pad(a) + pad(b)`, where `pad` is the node's `ext_click_pad`. Below that the
+two share reachable pixels, `lv_indev_search_obj` returns the later sibling,
+and the other is dead in the overlap band. So:
+
+| the pair | minimum clear gap | scales with DPI? |
+|---|---|---|
+| any two ordinary authored nodes | **0** — they may touch | n/a, the pads are zero |
+| either one is a `seek_on_press` slider | **`LV_DPX(24)`** | yes |
+
+`LV_DPX_CALC(dpi, n)` is `n == 0 ? 0 : max((dpi * n + 80) / 160, 1)`, so that
+second row is 20px at DPI 130, 24 at 160, 36 at 240 and 48 at 320. The first
+row has no DPI axis at all, which is the property that makes it authorable: a
+spacing token is a fixed integer and cannot track a runtime DPI, so a contract
+that required it to would be unimplementable by any consumer.
+
+Two caveats, neither an exception to the table. `ext_click_pad` is one value
+for all four sides, so a widening is never one-directional. And the corner
+handles inside a resizable `host_proxy` carry a renderer-computed pad of their
+own; they are renderer-built affordances with no uid, and §2.3's designed-proxy
+exclusion is what covers them.
+
 ---
 
 ## 3. Classification
