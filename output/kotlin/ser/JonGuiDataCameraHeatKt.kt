@@ -338,6 +338,81 @@ public object JonGuiDataCameraHeatKt {
     public fun clearCaptureMonotonicUs() {
       _builder.clearCaptureMonotonicUs()
     }
+
+    /**
+     * ```
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * ```
+     *
+     * `optional double delivered_fps = 17 [(.buf.validate.field) = { ... }`
+     */
+    public var deliveredFps: kotlin.Double
+      @JvmName("getDeliveredFps")
+      get() = _builder.deliveredFps
+      @JvmName("setDeliveredFps")
+      set(value) {
+        _builder.deliveredFps = value
+      }
+    /**
+     * ```
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * ```
+     *
+     * `optional double delivered_fps = 17 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearDeliveredFps() {
+      _builder.clearDeliveredFps()
+    }
+    /**
+     * ```
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * ```
+     *
+     * `optional double delivered_fps = 17 [(.buf.validate.field) = { ... }`
+     * @return Whether the deliveredFps field is set.
+     */
+    public fun hasDeliveredFps(): kotlin.Boolean {
+      return _builder.hasDeliveredFps()
+    }
+
+    /**
+     * `optional double content_fps = 18 [(.buf.validate.field) = { ... }`
+     */
+    public var contentFps: kotlin.Double
+      @JvmName("getContentFps")
+      get() = _builder.contentFps
+      @JvmName("setContentFps")
+      set(value) {
+        _builder.contentFps = value
+      }
+    /**
+     * `optional double content_fps = 18 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearContentFps() {
+      _builder.clearContentFps()
+    }
+    /**
+     * `optional double content_fps = 18 [(.buf.validate.field) = { ... }`
+     * @return Whether the contentFps field is set.
+     */
+    public fun hasContentFps(): kotlin.Boolean {
+      return _builder.hasContentFps()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

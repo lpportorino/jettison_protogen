@@ -40,6 +40,15 @@ export interface JonGuiDataCameraDay {
     | undefined;
   /** CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM */
   captureMonotonicUs: Long;
+  /**
+   * Measured video rates for this channel, in frames per second. Absent until
+   * the producer has two samples to difference; zero when present means
+   * nothing is arriving, which is a measurement rather than an absence.
+   * delivered_fps counts frames handed on, content_fps only frames whose
+   * content changed. Every other frame rate on this system reports the former.
+   */
+  deliveredFps?: number | undefined;
+  contentFps?: number | undefined;
 }
 
 function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
@@ -63,6 +72,8 @@ function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
     sensorGain: undefined,
     exposure: undefined,
     captureMonotonicUs: Long.UZERO,
+    deliveredFps: undefined,
+    contentFps: undefined,
   };
 }
 
@@ -124,6 +135,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     }
     if (!message.captureMonotonicUs.equals(Long.UZERO)) {
       writer.uint32(152).uint64(message.captureMonotonicUs.toString());
+    }
+    if (message.deliveredFps !== undefined) {
+      writer.uint32(161).double(message.deliveredFps);
+    }
+    if (message.contentFps !== undefined) {
+      writer.uint32(169).double(message.contentFps);
     }
     return writer;
   },
@@ -287,6 +304,22 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
           message.captureMonotonicUs = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
+        case 20: {
+          if (tag !== 161) {
+            break;
+          }
+
+          message.deliveredFps = reader.double();
+          continue;
+        }
+        case 21: {
+          if (tag !== 169) {
+            break;
+          }
+
+          message.contentFps = reader.double();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -385,6 +418,16 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
         : isSet(object.capture_monotonic_us)
         ? Long.fromValue(object.capture_monotonic_us)
         : Long.UZERO,
+      deliveredFps: isSet(object.deliveredFps)
+        ? globalThis.Number(object.deliveredFps)
+        : isSet(object.delivered_fps)
+        ? globalThis.Number(object.delivered_fps)
+        : undefined,
+      contentFps: isSet(object.contentFps)
+        ? globalThis.Number(object.contentFps)
+        : isSet(object.content_fps)
+        ? globalThis.Number(object.content_fps)
+        : undefined,
     };
   },
 
@@ -447,6 +490,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     if (!message.captureMonotonicUs.equals(Long.UZERO)) {
       obj.captureMonotonicUs = (message.captureMonotonicUs || Long.UZERO).toString();
     }
+    if (message.deliveredFps !== undefined) {
+      obj.deliveredFps = message.deliveredFps;
+    }
+    if (message.contentFps !== undefined) {
+      obj.contentFps = message.contentFps;
+    }
     return obj;
   },
 
@@ -478,6 +527,8 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     message.captureMonotonicUs = (object.captureMonotonicUs !== undefined && object.captureMonotonicUs !== null)
       ? Long.fromValue(object.captureMonotonicUs)
       : Long.UZERO;
+    message.deliveredFps = object.deliveredFps ?? undefined;
+    message.contentFps = object.contentFps ?? undefined;
     return message;
   },
 };

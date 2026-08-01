@@ -33,6 +33,22 @@ Represents the complete operational and configuration state of the thermal/infra
 | 14 | is_started | bool | - |
 | 15 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 | 16 | capture_monotonic_us | uint64 | - |
+| 17 | delivered_fps | double | >= 0 |
+| 18 | content_fps | double | >= 0 |
+
+
+## Oneofs
+
+
+### _delivered_fps
+
+Fields: #17
+
+
+### _content_fps
+
+Fields: #18
+
 
 
 
@@ -148,6 +164,36 @@ CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM i
 
 - **Semantic Type:** :timestamp
 - **Unit:** us
+
+
+### delivered_fps (#17)
+
+Rate at which the heat channel's CUDA IPC producer hands frames on, measured by eutropia by differencing successive `generation` counter values against their capture timestamps. Absent until two samples exist to difference, so a freshly attached reader publishes nothing rather than a fabricated zero. Zero when present is a measurement — nothing is arriving — and carrying presence is what keeps that distinct from "not yet known".
+
+The thermal interface delivers at a steady rate that is largely insensitive to whether the core produced a new image, so on this channel a healthy `delivered_fps` is weak evidence about the picture. Pair it with `content_fps`.
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** fps
+
+
+### content_fps (#18)
+
+Rate at which frame CONTENT actually changes, measured by eutropia from the producer's content-novelty counter over the same interval as `delivered_fps`. This is the field to read when the question is whether the thermal core is really producing pictures.
+
+**On this channel the two rates differ under healthy operation, and that is expected rather than a fault.** The thermal core re-serves each image several times over its steady delivery rate — measured between two and four times, and which factor applies is state-dependent — so `delivered_fps` can sit at its nominal value while `content_fps` is a half or a quarter of it. A single rate could not carry both facts, which is why these are two fields and not one.
+
+The consequence for any consumer: a per-delivery loop on heat processes the same image two to four times over, and a fixed-stride sampler that happens to straddle a duplicate pair sees an exactly identical frame — indistinguishable from a static scene, and actively wrong during motion. Gate such work on content advancing, never on delivery.
+
+A `content_fps` that falls to zero while `delivered_fps` holds is the invisible-freeze case: the interface is still handing on frames, but every one of them is the same picture.
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** fps
 
 
 

@@ -44,6 +44,8 @@ inline constexpr JonGuiDataCameraHeat::Impl_::Impl_(
         horizontal_fov_degrees_{0},
         vertical_fov_degrees_{0},
         capture_monotonic_us_{::uint64_t{0u}},
+        delivered_fps_{0},
+        content_fps_{0},
         fx_mode_{static_cast< ::ser::JonGuiDataFxModeHeat >(0)} {}
 
 template <typename>
@@ -97,6 +99,8 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraHeat, _impl_.is_started_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraHeat, _impl_.meteo_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraHeat, _impl_.capture_monotonic_us_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraHeat, _impl_.delivered_fps_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraHeat, _impl_.content_fps_),
         ~0u,
         ~0u,
         ~0u,
@@ -113,11 +117,13 @@ const ::uint32_t
         ~0u,
         0,
         ~0u,
+        1,
+        2,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 24, -1, sizeof(::ser::JonGuiDataCameraHeat)},
+        {0, 26, -1, sizeof(::ser::JonGuiDataCameraHeat)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataCameraHeat_default_instance_._instance,
@@ -126,7 +132,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fheat_2eproto
     protodesc_cold) = {
     "\n!jon_shared_data_camera_heat.proto\022\003ser"
     "\032\033buf/validate/validate.proto\032\033jon_share"
-    "d_data_types.proto\"\261\005\n\024JonGuiDataCameraH"
+    "d_data_types.proto\"\251\006\n\024JonGuiDataCameraH"
     "eat\022)\n\010zoom_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000"
     "\000\000\000\000\000\000\022E\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDat"
     "aVideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n"
@@ -143,7 +149,10 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fheat_2eproto
     "\000\000\000\000\000\000\000\000\0225\n\024vertical_fov_degrees\030\r \001(\001B\027"
     "\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022\022\n\nis_started\030\016 "
     "\001(\010\022#\n\005meteo\030\017 \001(\0132\024.ser.JonGuiDataMeteo"
-    "\022\034\n\024capture_monotonic_us\030\020 \001(\004BSZQgit-co"
+    "\022\034\n\024capture_monotonic_us\030\020 \001(\004\022*\n\rdelive"
+    "red_fps\030\021 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\000\210\001\001\022(\n\013co"
+    "ntent_fps\030\022 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\001\210\001\001B\020\n\016"
+    "_delivered_fpsB\016\n\014_content_fpsBSZQgit-co"
     "decommit.eu-central-1.amazonaws.com/v1/r"
     "epos/jettison/jonp/data/camera_heatb\006pro"
     "to3"
@@ -157,7 +166,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcamera_5fheat_2e
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcamera_5fheat_2eproto = {
     false,
     false,
-    883,
+    1003,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fheat_2eproto,
     "jon_shared_data_camera_heat.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcamera_5fheat_2eproto_once,
@@ -290,15 +299,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCameraHeat::GetClassDat
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 16, 1, 0, 2> JonGuiDataCameraHeat::_table_ = {
+const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataCameraHeat::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_._has_bits_),
     0, // no _extensions_
-    16, 120,  // max_field_number, fast_idx_mask
+    18, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294901760,  // skipmap
+    4294705152,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    16,  // num_field_entries
+    18,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -308,9 +317,7 @@ const ::_pbi::TcParseTable<4, 16, 1, 0, 2> JonGuiDataCameraHeat::_table_ = {
     ::_pbi::TcParser::GetTable<::ser::JonGuiDataCameraHeat>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // uint64 capture_monotonic_us = 16;
-    {::_pbi::TcParser::FastV64S2,
-     {384, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.capture_monotonic_us_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double zoom_pos = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.zoom_pos_)}},
@@ -356,6 +363,28 @@ const ::_pbi::TcParseTable<4, 16, 1, 0, 2> JonGuiDataCameraHeat::_table_ = {
     // .ser.JonGuiDataMeteo meteo = 15;
     {::_pbi::TcParser::FastMtS1,
      {122, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.meteo_)}},
+    // uint64 capture_monotonic_us = 16;
+    {::_pbi::TcParser::FastV64S2,
+     {384, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.capture_monotonic_us_)}},
+    // optional double delivered_fps = 17 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF64S2,
+     {393, 1, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.delivered_fps_)}},
+    // optional double content_fps = 18 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF64S2,
+     {401, 2, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.content_fps_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -407,6 +436,12 @@ const ::_pbi::TcParseTable<4, 16, 1, 0, 2> JonGuiDataCameraHeat::_table_ = {
     // uint64 capture_monotonic_us = 16;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.capture_monotonic_us_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // optional double delivered_fps = 17 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.delivered_fps_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
+    // optional double content_fps = 18 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.content_fps_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
   }}, {{
@@ -426,8 +461,14 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
     _impl_.meteo_->Clear();
   }
   ::memset(&_impl_.zoom_pos_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.fx_mode_) -
-      reinterpret_cast<char*>(&_impl_.zoom_pos_)) + sizeof(_impl_.fx_mode_));
+      reinterpret_cast<char*>(&_impl_.capture_monotonic_us_) -
+      reinterpret_cast<char*>(&_impl_.zoom_pos_)) + sizeof(_impl_.capture_monotonic_us_));
+  if (cached_has_bits & 0x00000006u) {
+    ::memset(&_impl_.delivered_fps_, 0, static_cast<::size_t>(
+        reinterpret_cast<char*>(&_impl_.content_fps_) -
+        reinterpret_cast<char*>(&_impl_.delivered_fps_)) + sizeof(_impl_.content_fps_));
+  }
+  _impl_.fx_mode_ = 0;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -560,6 +601,20 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
                 16, this_._internal_capture_monotonic_us(), target);
           }
 
+          // optional double delivered_fps = 17 [(.buf.validate.field) = {
+          if (cached_has_bits & 0x00000002u) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                17, this_._internal_delivered_fps(), target);
+          }
+
+          // optional double content_fps = 18 [(.buf.validate.field) = {
+          if (cached_has_bits & 0x00000004u) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                18, this_._internal_content_fps(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -655,6 +710,18 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
               total_size += 2 + ::_pbi::WireFormatLite::UInt64Size(
                                               this_._internal_capture_monotonic_us());
             }
+          }
+          if (cached_has_bits & 0x00000006u) {
+            // optional double delivered_fps = 17 [(.buf.validate.field) = {
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 10;
+            }
+            // optional double content_fps = 18 [(.buf.validate.field) = {
+            if (cached_has_bits & 0x00000004u) {
+              total_size += 10;
+            }
+          }
+           {
             // .ser.JonGuiDataFxModeHeat fx_mode = 9 [(.buf.validate.field) = {
             if (this_._internal_fx_mode() != 0) {
               total_size += 1 +
@@ -725,6 +792,14 @@ void JonGuiDataCameraHeat::MergeImpl(::google::protobuf::MessageLite& to_msg, co
   }
   if (from._internal_capture_monotonic_us() != 0) {
     _this->_impl_.capture_monotonic_us_ = from._impl_.capture_monotonic_us_;
+  }
+  if (cached_has_bits & 0x00000006u) {
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.delivered_fps_ = from._impl_.delivered_fps_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.content_fps_ = from._impl_.content_fps_;
+    }
   }
   if (from._internal_fx_mode() != 0) {
     _this->_impl_.fx_mode_ = from._impl_.fx_mode_;

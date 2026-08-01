@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 292 messages, 27 enums, 884 fields
+**Statistics:** 292 messages, 27 enums, 888 fields
 
 ## Messages by Package
 

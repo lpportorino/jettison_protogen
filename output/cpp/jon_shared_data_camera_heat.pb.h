@@ -231,6 +231,8 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     kHorizontalFovDegreesFieldNumber = 12,
     kVerticalFovDegreesFieldNumber = 13,
     kCaptureMonotonicUsFieldNumber = 16,
+    kDeliveredFpsFieldNumber = 17,
+    kContentFpsFieldNumber = 18,
     kFxModeFieldNumber = 9,
   };
   // .ser.JonGuiDataMeteo meteo = 15;
@@ -388,6 +390,28 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_capture_monotonic_us(::uint64_t value);
 
   public:
+  // optional double delivered_fps = 17 [(.buf.validate.field) = {
+  bool has_delivered_fps() const;
+  void clear_delivered_fps() ;
+  double delivered_fps() const;
+  void set_delivered_fps(double value);
+
+  private:
+  double _internal_delivered_fps() const;
+  void _internal_set_delivered_fps(double value);
+
+  public:
+  // optional double content_fps = 18 [(.buf.validate.field) = {
+  bool has_content_fps() const;
+  void clear_content_fps() ;
+  double content_fps() const;
+  void set_content_fps(double value);
+
+  private:
+  double _internal_content_fps() const;
+  void _internal_set_content_fps(double value);
+
+  public:
   // .ser.JonGuiDataFxModeHeat fx_mode = 9 [(.buf.validate.field) = {
   void clear_fx_mode() ;
   ::ser::JonGuiDataFxModeHeat fx_mode() const;
@@ -403,7 +427,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 16, 1,
+      5, 18, 1,
       0, 2>
       _table_;
 
@@ -438,6 +462,8 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     double horizontal_fov_degrees_;
     double vertical_fov_degrees_;
     ::uint64_t capture_monotonic_us_;
+    double delivered_fps_;
+    double content_fps_;
     int fx_mode_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -880,6 +906,62 @@ inline ::uint64_t JonGuiDataCameraHeat::_internal_capture_monotonic_us() const {
 inline void JonGuiDataCameraHeat::_internal_set_capture_monotonic_us(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.capture_monotonic_us_ = value;
+}
+
+// optional double delivered_fps = 17 [(.buf.validate.field) = {
+inline bool JonGuiDataCameraHeat::has_delivered_fps() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline void JonGuiDataCameraHeat::clear_delivered_fps() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.delivered_fps_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline double JonGuiDataCameraHeat::delivered_fps() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.delivered_fps)
+  return _internal_delivered_fps();
+}
+inline void JonGuiDataCameraHeat::set_delivered_fps(double value) {
+  _internal_set_delivered_fps(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.delivered_fps)
+}
+inline double JonGuiDataCameraHeat::_internal_delivered_fps() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.delivered_fps_;
+}
+inline void JonGuiDataCameraHeat::_internal_set_delivered_fps(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.delivered_fps_ = value;
+}
+
+// optional double content_fps = 18 [(.buf.validate.field) = {
+inline bool JonGuiDataCameraHeat::has_content_fps() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline void JonGuiDataCameraHeat::clear_content_fps() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.content_fps_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline double JonGuiDataCameraHeat::content_fps() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.content_fps)
+  return _internal_content_fps();
+}
+inline void JonGuiDataCameraHeat::set_content_fps(double value) {
+  _internal_set_content_fps(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.content_fps)
+}
+inline double JonGuiDataCameraHeat::_internal_content_fps() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.content_fps_;
+}
+inline void JonGuiDataCameraHeat::_internal_set_content_fps(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.content_fps_ = value;
 }
 
 #ifdef __GNUC__

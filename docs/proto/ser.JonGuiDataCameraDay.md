@@ -36,6 +36,8 @@ Captures the complete operational state of the day camera, including normalized 
 | 17 | sensor_gain | double | >= 0, <= 1 |
 | 18 | exposure | double | >= 0, <= 1 |
 | 19 | capture_monotonic_us | uint64 | - |
+| 20 | delivered_fps | double | >= 0 |
+| 21 | content_fps | double | >= 0 |
 
 
 ## Oneofs
@@ -49,6 +51,16 @@ Fields: #17
 ### _exposure
 
 Fields: #18
+
+
+### _delivered_fps
+
+Fields: #20
+
+
+### _content_fps
+
+Fields: #21
 
 
 
@@ -239,6 +251,32 @@ CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM i
 
 - **Semantic Type:** :timestamp
 - **Unit:** us
+
+
+### delivered_fps (#20)
+
+Rate at which the day channel's CUDA IPC producer hands frames on, measured by eutropia by differencing successive `generation` counter values against their capture timestamps. Absent until two samples exist to difference, so a freshly attached reader publishes nothing rather than a fabricated zero. Zero when present is a measurement — nothing is arriving — and carrying presence is what keeps that distinct from "not yet known"; collapsing the two would make a starting reader indistinguishable from a dead pipeline.
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** fps
+
+
+### content_fps (#21)
+
+Rate at which frame CONTENT actually changes, measured by eutropia from the producer's content-novelty counter over the same interval as `delivered_fps`. This is the field to read when the question is whether the camera is really producing pictures.
+
+Every other frame rate this system exposes — the health pools, jdiscover, jprobe, the encoder statistics — is sampled downstream of `videorate`, which runs `drop-only=false` and therefore FABRICATES duplicate frames to fill slots the source missed. Those surfaces report the encoder's rate, which is held at its nominal value by the duplicates themselves. Measured on the day channel: 858 fabricated frames against 300 genuine ones, so roughly two of every three frames leaving the pipeline carried no new image, while jprobe reported 30.4 fps and every health pool stayed green. `content_fps` is derived from a producer-side content comparison, so a duplicate cannot inflate it.
+
+`delivered_fps` minus `content_fps` is therefore the duplication the pipeline is manufacturing. On this channel the two should track closely; a sustained gap means frames are being synthesized over a starving source.
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** fps
 
 
 

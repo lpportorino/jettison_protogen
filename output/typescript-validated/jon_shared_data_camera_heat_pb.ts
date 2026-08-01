@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_camera_heat.proto.
  */
 export const file_jon_shared_data_camera_heat: GenFile = /*@__PURE__*/
-  fileDesc("CiFqb25fc2hhcmVkX2RhdGFfY2FtZXJhX2hlYXQucHJvdG8SA3NlciKxBQoUSm9uR3VpRGF0YUNhbWVyYUhlYXQSKQoIem9vbV9wb3MYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEkUKCGFnY19tb2RlGAIgASgOMicuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0QUdDTW9kZXNCCrpIB4IBBBABIAASQgoGZmlsdGVyGAMgASgOMiYuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0RmlsdGVyc0IKukgHggEEEAEgABISCgphdXRvX2ZvY3VzGAQgASgIEh8KDnpvb21fdGFibGVfcG9zGAUgASgFQge6SAQaAigAEiMKEnpvb21fdGFibGVfcG9zX21heBgGIAEoBUIHukgEGgIoABIdCglkZGVfbGV2ZWwYByABKAVCCrpIBxoFGIAEKAASEwoLZGRlX2VuYWJsZWQYCCABKAgSNAoHZnhfbW9kZRgJIAEoDjIZLnNlci5Kb25HdWlEYXRhRnhNb2RlSGVhdEIIukgFggECEAESKgoSZGlnaXRhbF96b29tX2xldmVsGAogASgBQg66SAsSCSkAAAAAAADwPxIsCgtjbGFoZV9sZXZlbBgLIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASNwoWaG9yaXpvbnRhbF9mb3ZfZGVncmVlcxgMIAEoAUIXukgUEhIRAAAAAACAdkApAAAAAAAAAAASNQoUdmVydGljYWxfZm92X2RlZ3JlZXMYDSABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEhIKCmlzX3N0YXJ0ZWQYDiABKAgSIwoFbWV0ZW8YDyABKAsyFC5zZXIuSm9uR3VpRGF0YU1ldGVvEhwKFGNhcHR1cmVfbW9ub3RvbmljX3VzGBAgASgEQlNaUWdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvZGF0YS9jYW1lcmFfaGVhdGIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("CiFqb25fc2hhcmVkX2RhdGFfY2FtZXJhX2hlYXQucHJvdG8SA3NlciKpBgoUSm9uR3VpRGF0YUNhbWVyYUhlYXQSKQoIem9vbV9wb3MYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEkUKCGFnY19tb2RlGAIgASgOMicuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0QUdDTW9kZXNCCrpIB4IBBBABIAASQgoGZmlsdGVyGAMgASgOMiYuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0RmlsdGVyc0IKukgHggEEEAEgABISCgphdXRvX2ZvY3VzGAQgASgIEh8KDnpvb21fdGFibGVfcG9zGAUgASgFQge6SAQaAigAEiMKEnpvb21fdGFibGVfcG9zX21heBgGIAEoBUIHukgEGgIoABIdCglkZGVfbGV2ZWwYByABKAVCCrpIBxoFGIAEKAASEwoLZGRlX2VuYWJsZWQYCCABKAgSNAoHZnhfbW9kZRgJIAEoDjIZLnNlci5Kb25HdWlEYXRhRnhNb2RlSGVhdEIIukgFggECEAESKgoSZGlnaXRhbF96b29tX2xldmVsGAogASgBQg66SAsSCSkAAAAAAADwPxIsCgtjbGFoZV9sZXZlbBgLIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASNwoWaG9yaXpvbnRhbF9mb3ZfZGVncmVlcxgMIAEoAUIXukgUEhIRAAAAAACAdkApAAAAAAAAAAASNQoUdmVydGljYWxfZm92X2RlZ3JlZXMYDSABKAFCF7pIFBISEQAAAAAAgHZAKQAAAAAAAAAAEhIKCmlzX3N0YXJ0ZWQYDiABKAgSIwoFbWV0ZW8YDyABKAsyFC5zZXIuSm9uR3VpRGF0YU1ldGVvEhwKFGNhcHR1cmVfbW9ub3RvbmljX3VzGBAgASgEEioKDWRlbGl2ZXJlZF9mcHMYESABKAFCDrpICxIJKQAAAAAAAAAASACIAQESKAoLY29udGVudF9mcHMYEiABKAFCDrpICxIJKQAAAAAAAAAASAGIAQFCEAoOX2RlbGl2ZXJlZF9mcHNCDgoMX2NvbnRlbnRfZnBzQlNaUWdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvZGF0YS9jYW1lcmFfaGVhdGIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataCameraHeat
@@ -100,6 +100,23 @@ export type JonGuiDataCameraHeat = Message<"ser.JonGuiDataCameraHeat"> & {
    * @generated from field: uint64 capture_monotonic_us = 16;
    */
   captureMonotonicUs: bigint;
+
+  /**
+   * Measured video rates for this channel, in frames per second. Absent until
+   * the producer has two samples to difference; zero when present means
+   * nothing is arriving, which is a measurement rather than an absence.
+   * delivered_fps counts frames handed on, content_fps only frames whose
+   * content changed. On this channel the two differ under healthy operation,
+   * because the thermal core re-serves each image several times.
+   *
+   * @generated from field: optional double delivered_fps = 17;
+   */
+  deliveredFps?: number | undefined;
+
+  /**
+   * @generated from field: optional double content_fps = 18;
+   */
+  contentFps?: number | undefined;
 };
 
 /**

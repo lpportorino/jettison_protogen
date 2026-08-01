@@ -2166,6 +2166,8 @@ pub const JonGuiDataCameraDay = struct {
     sensor_gain: ?f64 = null,
     exposure: ?f64 = null,
     capture_monotonic_us: u64 = 0,
+    delivered_fps: ?f64 = null,
+    content_fps: ?f64 = null,
 
     pub const _desc_table = .{
         .focus_pos = fd(1, .{ .scalar = .double }),
@@ -2187,6 +2189,8 @@ pub const JonGuiDataCameraDay = struct {
         .sensor_gain = fd(17, .{ .scalar = .double }),
         .exposure = fd(18, .{ .scalar = .double }),
         .capture_monotonic_us = fd(19, .{ .scalar = .uint64 }),
+        .delivered_fps = fd(20, .{ .scalar = .double }),
+        .content_fps = fd(21, .{ .scalar = .double }),
     };
 
     /// Encodes the message to the writer
@@ -2270,6 +2274,8 @@ pub const JonGuiDataCameraHeat = struct {
     is_started: bool = false,
     meteo: ?JonGuiDataMeteo = null,
     capture_monotonic_us: u64 = 0,
+    delivered_fps: ?f64 = null,
+    content_fps: ?f64 = null,
 
     pub const _desc_table = .{
         .zoom_pos = fd(1, .{ .scalar = .double }),
@@ -2288,6 +2294,8 @@ pub const JonGuiDataCameraHeat = struct {
         .is_started = fd(14, .{ .scalar = .bool }),
         .meteo = fd(15, .submessage),
         .capture_monotonic_us = fd(16, .{ .scalar = .uint64 }),
+        .delivered_fps = fd(17, .{ .scalar = .double }),
+        .content_fps = fd(18, .{ .scalar = .double }),
     };
 
     /// Encodes the message to the writer

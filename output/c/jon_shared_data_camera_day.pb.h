@@ -36,6 +36,15 @@ typedef struct _ser_JonGuiDataCameraDay {
     double exposure;
     /* CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM */
     uint64_t capture_monotonic_us;
+    /* Measured video rates for this channel, in frames per second. Absent until
+ the producer has two samples to difference; zero when present means
+ nothing is arriving, which is a measurement rather than an absence.
+ delivered_fps counts frames handed on, content_fps only frames whose
+ content changed. Every other frame rate on this system reports the former. */
+    bool has_delivered_fps;
+    double delivered_fps;
+    bool has_content_fps;
+    double content_fps;
 } ser_JonGuiDataCameraDay;
 
 
@@ -44,8 +53,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, false, 0, false, 0, 0}
-#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, false, 0, false, 0, 0}
+#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, false, 0, false, 0, 0, false, 0, false, 0}
+#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, false, 0, false, 0, 0, false, 0, false, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCameraDay_focus_pos_tag    1
@@ -67,6 +76,8 @@ extern "C" {
 #define ser_JonGuiDataCameraDay_sensor_gain_tag  17
 #define ser_JonGuiDataCameraDay_exposure_tag     18
 #define ser_JonGuiDataCameraDay_capture_monotonic_us_tag 19
+#define ser_JonGuiDataCameraDay_delivered_fps_tag 20
+#define ser_JonGuiDataCameraDay_content_fps_tag  21
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraDay_FIELDLIST(X, a) \
@@ -88,7 +99,9 @@ X(a, STATIC,   SINGULAR, BOOL,     auto_gain,        15) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            16) \
 X(a, STATIC,   OPTIONAL, DOUBLE,   sensor_gain,      17) \
 X(a, STATIC,   OPTIONAL, DOUBLE,   exposure,         18) \
-X(a, STATIC,   SINGULAR, UINT64,   capture_monotonic_us,  19)
+X(a, STATIC,   SINGULAR, UINT64,   capture_monotonic_us,  19) \
+X(a, STATIC,   OPTIONAL, DOUBLE,   delivered_fps,    20) \
+X(a, STATIC,   OPTIONAL, DOUBLE,   content_fps,      21)
 #define ser_JonGuiDataCameraDay_CALLBACK NULL
 #define ser_JonGuiDataCameraDay_DEFAULT NULL
 #define ser_JonGuiDataCameraDay_meteo_MSGTYPE ser_JonGuiDataMeteo
@@ -100,7 +113,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraDay_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_DAY_PB_H_MAX_SIZE ser_JonGuiDataCameraDay_size
-#define ser_JonGuiDataCameraDay_size             159
+#define ser_JonGuiDataCameraDay_size             179
 
 #ifdef __cplusplus
 } /* extern "C" */

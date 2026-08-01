@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataCameraHeat(_message.Message):
-    __slots__ = ("zoom_pos", "agc_mode", "filter", "auto_focus", "zoom_table_pos", "zoom_table_pos_max", "dde_level", "dde_enabled", "fx_mode", "digital_zoom_level", "clahe_level", "horizontal_fov_degrees", "vertical_fov_degrees", "is_started", "meteo", "capture_monotonic_us")
+    __slots__ = ("zoom_pos", "agc_mode", "filter", "auto_focus", "zoom_table_pos", "zoom_table_pos_max", "dde_level", "dde_enabled", "fx_mode", "digital_zoom_level", "clahe_level", "horizontal_fov_degrees", "vertical_fov_degrees", "is_started", "meteo", "capture_monotonic_us", "delivered_fps", "content_fps")
     ZOOM_POS_FIELD_NUMBER: _ClassVar[int]
     AGC_MODE_FIELD_NUMBER: _ClassVar[int]
     FILTER_FIELD_NUMBER: _ClassVar[int]
@@ -23,6 +23,8 @@ class JonGuiDataCameraHeat(_message.Message):
     IS_STARTED_FIELD_NUMBER: _ClassVar[int]
     METEO_FIELD_NUMBER: _ClassVar[int]
     CAPTURE_MONOTONIC_US_FIELD_NUMBER: _ClassVar[int]
+    DELIVERED_FPS_FIELD_NUMBER: _ClassVar[int]
+    CONTENT_FPS_FIELD_NUMBER: _ClassVar[int]
     zoom_pos: float
     agc_mode: _jon_shared_data_types_pb2.JonGuiDataVideoChannelHeatAGCModes
     filter: _jon_shared_data_types_pb2.JonGuiDataVideoChannelHeatFilters
@@ -39,4 +41,6 @@ class JonGuiDataCameraHeat(_message.Message):
     is_started: bool
     meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
     capture_monotonic_us: int
-    def __init__(self, zoom_pos: _Optional[float] = ..., agc_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannelHeatAGCModes, str]] = ..., filter: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannelHeatFilters, str]] = ..., auto_focus: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., dde_level: _Optional[int] = ..., dde_enabled: bool = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeHeat, str]] = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., capture_monotonic_us: _Optional[int] = ...) -> None: ...
+    delivered_fps: float
+    content_fps: float
+    def __init__(self, zoom_pos: _Optional[float] = ..., agc_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannelHeatAGCModes, str]] = ..., filter: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannelHeatFilters, str]] = ..., auto_focus: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., dde_level: _Optional[int] = ..., dde_enabled: bool = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeHeat, str]] = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., capture_monotonic_us: _Optional[int] = ..., delivered_fps: _Optional[float] = ..., content_fps: _Optional[float] = ...) -> None: ...

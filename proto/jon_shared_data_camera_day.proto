@@ -62,4 +62,12 @@ message JonGuiDataCameraDay {
 
   // CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
   uint64 capture_monotonic_us = 19;
+
+  // Measured video rates for this channel, in frames per second. Absent until
+  // the producer has two samples to difference; zero when present means
+  // nothing is arriving, which is a measurement rather than an absence.
+  // delivered_fps counts frames handed on, content_fps only frames whose
+  // content changed. Every other frame rate on this system reports the former.
+  optional double delivered_fps = 20 [(buf.validate.field).double.gte = 0.0];
+  optional double content_fps = 21 [(buf.validate.field).double.gte = 0.0];
 }

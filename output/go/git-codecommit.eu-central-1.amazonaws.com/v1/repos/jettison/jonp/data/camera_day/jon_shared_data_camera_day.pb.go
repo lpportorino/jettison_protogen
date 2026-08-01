@@ -46,8 +46,15 @@ type JonGuiDataCameraDay struct {
 	Exposure   *float64 `protobuf:"fixed64,18,opt,name=exposure,proto3,oneof" json:"exposure,omitempty"`
 	// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
 	CaptureMonotonicUs uint64 `protobuf:"varint,19,opt,name=capture_monotonic_us,json=captureMonotonicUs,proto3" json:"capture_monotonic_us,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// Measured video rates for this channel, in frames per second. Absent until
+	// the producer has two samples to difference; zero when present means
+	// nothing is arriving, which is a measurement rather than an absence.
+	// delivered_fps counts frames handed on, content_fps only frames whose
+	// content changed. Every other frame rate on this system reports the former.
+	DeliveredFps  *float64 `protobuf:"fixed64,20,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
+	ContentFps    *float64 `protobuf:"fixed64,21,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCameraDay) Reset() {
@@ -213,11 +220,25 @@ func (x *JonGuiDataCameraDay) GetCaptureMonotonicUs() uint64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraDay) GetDeliveredFps() float64 {
+	if x != nil && x.DeliveredFps != nil {
+		return *x.DeliveredFps
+	}
+	return 0
+}
+
+func (x *JonGuiDataCameraDay) GetContentFps() float64 {
+	if x != nil && x.ContentFps != nil {
+		return *x.ContentFps
+	}
+	return 0
+}
+
 var File_jon_shared_data_camera_day_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfc\a\n" +
+	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x8e\t\n" +
 	"\x13JonGuiDataCameraDay\x124\n" +
 	"\tfocus_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\bfocusPos\x122\n" +
 	"\bzoom_pos\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x122\n" +
@@ -242,9 +263,14 @@ const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\vsensor_gain\x18\x11 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x00R\n" +
 	"sensorGain\x88\x01\x01\x128\n" +
 	"\bexposure\x18\x12 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x01R\bexposure\x88\x01\x01\x120\n" +
-	"\x14capture_monotonic_us\x18\x13 \x01(\x04R\x12captureMonotonicUsB\x0e\n" +
+	"\x14capture_monotonic_us\x18\x13 \x01(\x04R\x12captureMonotonicUs\x128\n" +
+	"\rdelivered_fps\x18\x14 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x02R\fdeliveredFps\x88\x01\x01\x124\n" +
+	"\vcontent_fps\x18\x15 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x03R\n" +
+	"contentFps\x88\x01\x01B\x0e\n" +
 	"\f_sensor_gainB\v\n" +
-	"\t_exposureB\xa4\x01\n" +
+	"\t_exposureB\x10\n" +
+	"\x0e_delivered_fpsB\x0e\n" +
+	"\f_content_fpsB\xa4\x01\n" +
 	"\acom.serB\x1bJonSharedDataCameraDayProtoP\x01ZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_day\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

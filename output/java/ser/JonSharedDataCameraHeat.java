@@ -152,6 +152,46 @@ public final class JonSharedDataCameraHeat {
      * @return The captureMonotonicUs.
      */
     long getCaptureMonotonicUs();
+
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the deliveredFps field is set.
+     */
+    boolean hasDeliveredFps();
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+     * @return The deliveredFps.
+     */
+    double getDeliveredFps();
+
+    /**
+     * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the contentFps field is set.
+     */
+    boolean hasContentFps();
+    /**
+     * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+     * @return The contentFps.
+     */
+    double getContentFps();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraHeat}
@@ -410,6 +450,62 @@ public final class JonSharedDataCameraHeat {
       return captureMonotonicUs_;
     }
 
+    public static final int DELIVERED_FPS_FIELD_NUMBER = 17;
+    private double deliveredFps_ = 0D;
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the deliveredFps field is set.
+     */
+    @java.lang.Override
+    public boolean hasDeliveredFps() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. On this channel the two differ under healthy operation,
+     * because the thermal core re-serves each image several times.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+     * @return The deliveredFps.
+     */
+    @java.lang.Override
+    public double getDeliveredFps() {
+      return deliveredFps_;
+    }
+
+    public static final int CONTENT_FPS_FIELD_NUMBER = 18;
+    private double contentFps_ = 0D;
+    /**
+     * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the contentFps field is set.
+     */
+    @java.lang.Override
+    public boolean hasContentFps() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+     * @return The contentFps.
+     */
+    @java.lang.Override
+    public double getContentFps() {
+      return contentFps_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -471,6 +567,12 @@ public final class JonSharedDataCameraHeat {
       }
       if (captureMonotonicUs_ != 0L) {
         output.writeUInt64(16, captureMonotonicUs_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeDouble(17, deliveredFps_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeDouble(18, contentFps_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -545,6 +647,14 @@ public final class JonSharedDataCameraHeat {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(16, captureMonotonicUs_);
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(17, deliveredFps_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(18, contentFps_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -597,6 +707,18 @@ public final class JonSharedDataCameraHeat {
       }
       if (getCaptureMonotonicUs()
           != other.getCaptureMonotonicUs()) return false;
+      if (hasDeliveredFps() != other.hasDeliveredFps()) return false;
+      if (hasDeliveredFps()) {
+        if (java.lang.Double.doubleToLongBits(getDeliveredFps())
+            != java.lang.Double.doubleToLongBits(
+                other.getDeliveredFps())) return false;
+      }
+      if (hasContentFps() != other.hasContentFps()) return false;
+      if (hasContentFps()) {
+        if (java.lang.Double.doubleToLongBits(getContentFps())
+            != java.lang.Double.doubleToLongBits(
+                other.getContentFps())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -651,6 +773,16 @@ public final class JonSharedDataCameraHeat {
       hash = (37 * hash) + CAPTURE_MONOTONIC_US_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCaptureMonotonicUs());
+      if (hasDeliveredFps()) {
+        hash = (37 * hash) + DELIVERED_FPS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getDeliveredFps()));
+      }
+      if (hasContentFps()) {
+        hash = (37 * hash) + CONTENT_FPS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getContentFps()));
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -808,6 +940,8 @@ public final class JonSharedDataCameraHeat {
           meteoBuilder_ = null;
         }
         captureMonotonicUs_ = 0L;
+        deliveredFps_ = 0D;
+        contentFps_ = 0D;
         return this;
       }
 
@@ -893,6 +1027,14 @@ public final class JonSharedDataCameraHeat {
         if (((from_bitField0_ & 0x00008000) != 0)) {
           result.captureMonotonicUs_ = captureMonotonicUs_;
         }
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.deliveredFps_ = deliveredFps_;
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.contentFps_ = contentFps_;
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -955,6 +1097,12 @@ public final class JonSharedDataCameraHeat {
         }
         if (other.getCaptureMonotonicUs() != 0L) {
           setCaptureMonotonicUs(other.getCaptureMonotonicUs());
+        }
+        if (other.hasDeliveredFps()) {
+          setDeliveredFps(other.getDeliveredFps());
+        }
+        if (other.hasContentFps()) {
+          setContentFps(other.getContentFps());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1064,6 +1212,16 @@ public final class JonSharedDataCameraHeat {
                 bitField0_ |= 0x00008000;
                 break;
               } // case 128
+              case 137: {
+                deliveredFps_ = input.readDouble();
+                bitField0_ |= 0x00010000;
+                break;
+              } // case 137
+              case 145: {
+                contentFps_ = input.readDouble();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 145
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1757,6 +1915,122 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
 
+      private double deliveredFps_ ;
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. On this channel the two differ under healthy operation,
+       * because the thermal core re-serves each image several times.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the deliveredFps field is set.
+       */
+      @java.lang.Override
+      public boolean hasDeliveredFps() {
+        return ((bitField0_ & 0x00010000) != 0);
+      }
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. On this channel the two differ under healthy operation,
+       * because the thermal core re-serves each image several times.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+       * @return The deliveredFps.
+       */
+      @java.lang.Override
+      public double getDeliveredFps() {
+        return deliveredFps_;
+      }
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. On this channel the two differ under healthy operation,
+       * because the thermal core re-serves each image several times.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+       * @param value The deliveredFps to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeliveredFps(double value) {
+
+        deliveredFps_ = value;
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. On this channel the two differ under healthy operation,
+       * because the thermal core re-serves each image several times.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 17 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeliveredFps() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        deliveredFps_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double contentFps_ ;
+      /**
+       * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the contentFps field is set.
+       */
+      @java.lang.Override
+      public boolean hasContentFps() {
+        return ((bitField0_ & 0x00020000) != 0);
+      }
+      /**
+       * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+       * @return The contentFps.
+       */
+      @java.lang.Override
+      public double getContentFps() {
+        return contentFps_;
+      }
+      /**
+       * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+       * @param value The contentFps to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContentFps(double value) {
+
+        contentFps_ = value;
+        bitField0_ |= 0x00020000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional double content_fps = 18 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContentFps() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        contentFps_ = 0D;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraHeat)
     }
 
@@ -1824,7 +2098,7 @@ public final class JonSharedDataCameraHeat {
     java.lang.String[] descriptorData = {
       "\n!jon_shared_data_camera_heat.proto\022\003ser" +
       "\032\033buf/validate/validate.proto\032\033jon_share" +
-      "d_data_types.proto\"\261\005\n\024JonGuiDataCameraH" +
+      "d_data_types.proto\"\251\006\n\024JonGuiDataCameraH" +
       "eat\022)\n\010zoom_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
       "\000\000\000\000\000\000\022E\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDat" +
       "aVideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n" +
@@ -1841,7 +2115,10 @@ public final class JonSharedDataCameraHeat {
       "\000\000\000\000\000\000\000\000\0225\n\024vertical_fov_degrees\030\r \001(\001B\027" +
       "\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022\022\n\nis_started\030\016 " +
       "\001(\010\022#\n\005meteo\030\017 \001(\0132\024.ser.JonGuiDataMeteo" +
-      "\022\034\n\024capture_monotonic_us\030\020 \001(\004BSZQgit-co" +
+      "\022\034\n\024capture_monotonic_us\030\020 \001(\004\022*\n\rdelive" +
+      "red_fps\030\021 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\000\210\001\001\022(\n\013co" +
+      "ntent_fps\030\022 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000H\001\210\001\001B\020\n\016" +
+      "_delivered_fpsB\016\n\014_content_fpsBSZQgit-co" +
       "decommit.eu-central-1.amazonaws.com/v1/r" +
       "epos/jettison/jonp/data/camera_heatb\006pro" +
       "to3"
@@ -1857,7 +2134,7 @@ public final class JonSharedDataCameraHeat {
     internal_static_ser_JonGuiDataCameraHeat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraHeat_descriptor,
-        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "CaptureMonotonicUs", });
+        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "CaptureMonotonicUs", "DeliveredFps", "ContentFps", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

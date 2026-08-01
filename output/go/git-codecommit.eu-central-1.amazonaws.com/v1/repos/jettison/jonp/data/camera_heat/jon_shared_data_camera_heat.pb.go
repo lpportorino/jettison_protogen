@@ -42,8 +42,16 @@ type JonGuiDataCameraHeat struct {
 	Meteo                *types.JonGuiDataMeteo                   `protobuf:"bytes,15,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
 	CaptureMonotonicUs uint64 `protobuf:"varint,16,opt,name=capture_monotonic_us,json=captureMonotonicUs,proto3" json:"capture_monotonic_us,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	// Measured video rates for this channel, in frames per second. Absent until
+	// the producer has two samples to difference; zero when present means
+	// nothing is arriving, which is a measurement rather than an absence.
+	// delivered_fps counts frames handed on, content_fps only frames whose
+	// content changed. On this channel the two differ under healthy operation,
+	// because the thermal core re-serves each image several times.
+	DeliveredFps  *float64 `protobuf:"fixed64,17,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
+	ContentFps    *float64 `protobuf:"fixed64,18,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCameraHeat) Reset() {
@@ -188,11 +196,25 @@ func (x *JonGuiDataCameraHeat) GetCaptureMonotonicUs() uint64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraHeat) GetDeliveredFps() float64 {
+	if x != nil && x.DeliveredFps != nil {
+		return *x.DeliveredFps
+	}
+	return 0
+}
+
+func (x *JonGuiDataCameraHeat) GetContentFps() float64 {
+	if x != nil && x.ContentFps != nil {
+		return *x.ContentFps
+	}
+	return 0
+}
+
 var File_jon_shared_data_camera_heat_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
-	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x81\a\n" +
+	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x93\b\n" +
 	"\x14JonGuiDataCameraHeat\x122\n" +
 	"\bzoom_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x12N\n" +
 	"\bagc_mode\x18\x02 \x01(\x0e2'.ser.JonGuiDataVideoChannelHeatAGCModesB\n" +
@@ -217,7 +239,12 @@ const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
 	"is_started\x18\x0e \x01(\bR\tisStarted\x12*\n" +
 	"\x05meteo\x18\x0f \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x120\n" +
-	"\x14capture_monotonic_us\x18\x10 \x01(\x04R\x12captureMonotonicUsB\xa6\x01\n" +
+	"\x14capture_monotonic_us\x18\x10 \x01(\x04R\x12captureMonotonicUs\x128\n" +
+	"\rdelivered_fps\x18\x11 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x00R\fdeliveredFps\x88\x01\x01\x124\n" +
+	"\vcontent_fps\x18\x12 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00H\x01R\n" +
+	"contentFps\x88\x01\x01B\x10\n" +
+	"\x0e_delivered_fpsB\x0e\n" +
+	"\f_content_fpsB\xa6\x01\n" +
 	"\acom.serB\x1cJonSharedDataCameraHeatProtoP\x01ZQgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -257,6 +284,7 @@ func file_jon_shared_data_camera_heat_proto_init() {
 	if File_jon_shared_data_camera_heat_proto != nil {
 		return
 	}
+	file_jon_shared_data_camera_heat_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

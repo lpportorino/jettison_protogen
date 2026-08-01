@@ -1716,6 +1716,15 @@ pub struct JonGuiDataCameraDay {
     /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
     #[prost(uint64, tag = "19")]
     pub capture_monotonic_us: u64,
+    /// Measured video rates for this channel, in frames per second. Absent until
+    /// the producer has two samples to difference; zero when present means
+    /// nothing is arriving, which is a measurement rather than an absence.
+    /// delivered_fps counts frames handed on, content_fps only frames whose
+    /// content changed. Every other frame rate on this system reports the former.
+    #[prost(double, optional, tag = "20")]
+    pub delivered_fps: ::core::option::Option<f64>,
+    #[prost(double, optional, tag = "21")]
+    pub content_fps: ::core::option::Option<f64>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCameraHeat {
@@ -1752,6 +1761,16 @@ pub struct JonGuiDataCameraHeat {
     /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
     #[prost(uint64, tag = "16")]
     pub capture_monotonic_us: u64,
+    /// Measured video rates for this channel, in frames per second. Absent until
+    /// the producer has two samples to difference; zero when present means
+    /// nothing is arriving, which is a measurement rather than an absence.
+    /// delivered_fps counts frames handed on, content_fps only frames whose
+    /// content changed. On this channel the two differ under healthy operation,
+    /// because the thermal core re-serves each image several times.
+    #[prost(double, optional, tag = "17")]
+    pub delivered_fps: ::core::option::Option<f64>,
+    #[prost(double, optional, tag = "18")]
+    pub content_fps: ::core::option::Option<f64>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataRecOsd {

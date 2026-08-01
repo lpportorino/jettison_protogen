@@ -178,6 +178,44 @@ public final class JonSharedDataCameraDay {
      * @return The captureMonotonicUs.
      */
     long getCaptureMonotonicUs();
+
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. Every other frame rate on this system reports the former.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the deliveredFps field is set.
+     */
+    boolean hasDeliveredFps();
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. Every other frame rate on this system reports the former.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+     * @return The deliveredFps.
+     */
+    double getDeliveredFps();
+
+    /**
+     * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the contentFps field is set.
+     */
+    boolean hasContentFps();
+    /**
+     * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+     * @return The contentFps.
+     */
+    double getContentFps();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraDay}
@@ -477,6 +515,60 @@ public final class JonSharedDataCameraDay {
       return captureMonotonicUs_;
     }
 
+    public static final int DELIVERED_FPS_FIELD_NUMBER = 20;
+    private double deliveredFps_ = 0D;
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. Every other frame rate on this system reports the former.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the deliveredFps field is set.
+     */
+    @java.lang.Override
+    public boolean hasDeliveredFps() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <pre>
+     * Measured video rates for this channel, in frames per second. Absent until
+     * the producer has two samples to difference; zero when present means
+     * nothing is arriving, which is a measurement rather than an absence.
+     * delivered_fps counts frames handed on, content_fps only frames whose
+     * content changed. Every other frame rate on this system reports the former.
+     * </pre>
+     *
+     * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+     * @return The deliveredFps.
+     */
+    @java.lang.Override
+    public double getDeliveredFps() {
+      return deliveredFps_;
+    }
+
+    public static final int CONTENT_FPS_FIELD_NUMBER = 21;
+    private double contentFps_ = 0D;
+    /**
+     * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the contentFps field is set.
+     */
+    @java.lang.Override
+    public boolean hasContentFps() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+     * @return The contentFps.
+     */
+    @java.lang.Override
+    public double getContentFps() {
+      return contentFps_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -547,6 +639,12 @@ public final class JonSharedDataCameraDay {
       }
       if (captureMonotonicUs_ != 0L) {
         output.writeUInt64(19, captureMonotonicUs_);
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeDouble(20, deliveredFps_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeDouble(21, contentFps_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -633,6 +731,14 @@ public final class JonSharedDataCameraDay {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(19, captureMonotonicUs_);
       }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(20, deliveredFps_);
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(21, contentFps_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -703,6 +809,18 @@ public final class JonSharedDataCameraDay {
       }
       if (getCaptureMonotonicUs()
           != other.getCaptureMonotonicUs()) return false;
+      if (hasDeliveredFps() != other.hasDeliveredFps()) return false;
+      if (hasDeliveredFps()) {
+        if (java.lang.Double.doubleToLongBits(getDeliveredFps())
+            != java.lang.Double.doubleToLongBits(
+                other.getDeliveredFps())) return false;
+      }
+      if (hasContentFps() != other.hasContentFps()) return false;
+      if (hasContentFps()) {
+        if (java.lang.Double.doubleToLongBits(getContentFps())
+            != java.lang.Double.doubleToLongBits(
+                other.getContentFps())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -773,6 +891,16 @@ public final class JonSharedDataCameraDay {
       hash = (37 * hash) + CAPTURE_MONOTONIC_US_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCaptureMonotonicUs());
+      if (hasDeliveredFps()) {
+        hash = (37 * hash) + DELIVERED_FPS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getDeliveredFps()));
+      }
+      if (hasContentFps()) {
+        hash = (37 * hash) + CONTENT_FPS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getContentFps()));
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -933,6 +1061,8 @@ public final class JonSharedDataCameraDay {
         sensorGain_ = 0D;
         exposure_ = 0D;
         captureMonotonicUs_ = 0L;
+        deliveredFps_ = 0D;
+        contentFps_ = 0D;
         return this;
       }
 
@@ -1029,6 +1159,14 @@ public final class JonSharedDataCameraDay {
         if (((from_bitField0_ & 0x00040000) != 0)) {
           result.captureMonotonicUs_ = captureMonotonicUs_;
         }
+        if (((from_bitField0_ & 0x00080000) != 0)) {
+          result.deliveredFps_ = deliveredFps_;
+          to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00100000) != 0)) {
+          result.contentFps_ = contentFps_;
+          to_bitField0_ |= 0x00000010;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1100,6 +1238,12 @@ public final class JonSharedDataCameraDay {
         }
         if (other.getCaptureMonotonicUs() != 0L) {
           setCaptureMonotonicUs(other.getCaptureMonotonicUs());
+        }
+        if (other.hasDeliveredFps()) {
+          setDeliveredFps(other.getDeliveredFps());
+        }
+        if (other.hasContentFps()) {
+          setContentFps(other.getContentFps());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1224,6 +1368,16 @@ public final class JonSharedDataCameraDay {
                 bitField0_ |= 0x00040000;
                 break;
               } // case 152
+              case 161: {
+                deliveredFps_ = input.readDouble();
+                bitField0_ |= 0x00080000;
+                break;
+              } // case 161
+              case 169: {
+                contentFps_ = input.readDouble();
+                bitField0_ |= 0x00100000;
+                break;
+              } // case 169
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2003,6 +2157,118 @@ public final class JonSharedDataCameraDay {
         return this;
       }
 
+      private double deliveredFps_ ;
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. Every other frame rate on this system reports the former.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the deliveredFps field is set.
+       */
+      @java.lang.Override
+      public boolean hasDeliveredFps() {
+        return ((bitField0_ & 0x00080000) != 0);
+      }
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. Every other frame rate on this system reports the former.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+       * @return The deliveredFps.
+       */
+      @java.lang.Override
+      public double getDeliveredFps() {
+        return deliveredFps_;
+      }
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. Every other frame rate on this system reports the former.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+       * @param value The deliveredFps to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeliveredFps(double value) {
+
+        deliveredFps_ = value;
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Measured video rates for this channel, in frames per second. Absent until
+       * the producer has two samples to difference; zero when present means
+       * nothing is arriving, which is a measurement rather than an absence.
+       * delivered_fps counts frames handed on, content_fps only frames whose
+       * content changed. Every other frame rate on this system reports the former.
+       * </pre>
+       *
+       * <code>optional double delivered_fps = 20 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeliveredFps() {
+        bitField0_ = (bitField0_ & ~0x00080000);
+        deliveredFps_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double contentFps_ ;
+      /**
+       * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the contentFps field is set.
+       */
+      @java.lang.Override
+      public boolean hasContentFps() {
+        return ((bitField0_ & 0x00100000) != 0);
+      }
+      /**
+       * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+       * @return The contentFps.
+       */
+      @java.lang.Override
+      public double getContentFps() {
+        return contentFps_;
+      }
+      /**
+       * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+       * @param value The contentFps to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContentFps(double value) {
+
+        contentFps_ = value;
+        bitField0_ |= 0x00100000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional double content_fps = 21 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContentFps() {
+        bitField0_ = (bitField0_ & ~0x00100000);
+        contentFps_ = 0D;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraDay)
     }
 
@@ -2070,7 +2336,7 @@ public final class JonSharedDataCameraDay {
     java.lang.String[] descriptorData = {
       "\n jon_shared_data_camera_day.proto\022\003ser\032" +
       "\033buf/validate/validate.proto\032\033jon_shared" +
-      "_data_types.proto\"\206\006\n\023JonGuiDataCameraDa" +
+      "_data_types.proto\"\376\006\n\023JonGuiDataCameraDa" +
       "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000" +
       "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
       "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
@@ -2089,7 +2355,10 @@ public final class JonSharedDataCameraDay {
       "sensor_gain\030\021 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000" +
       "\000\000H\000\210\001\001\022.\n\010exposure\030\022 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360" +
       "?)\000\000\000\000\000\000\000\000H\001\210\001\001\022\034\n\024capture_monotonic_us\030" +
-      "\023 \001(\004B\016\n\014_sensor_gainB\013\n\t_exposureBRZPgi" +
+      "\023 \001(\004\022*\n\rdelivered_fps\030\024 \001(\001B\016\272H\013\022\t)\000\000\000\000" +
+      "\000\000\000\000H\002\210\001\001\022(\n\013content_fps\030\025 \001(\001B\016\272H\013\022\t)\000\000" +
+      "\000\000\000\000\000\000H\003\210\001\001B\016\n\014_sensor_gainB\013\n\t_exposure" +
+      "B\020\n\016_delivered_fpsB\016\n\014_content_fpsBRZPgi" +
       "t-codecommit.eu-central-1.amazonaws.com/" +
       "v1/repos/jettison/jonp/data/camera_dayb\006" +
       "proto3"
@@ -2105,7 +2374,7 @@ public final class JonSharedDataCameraDay {
     internal_static_ser_JonGuiDataCameraDay_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraDay_descriptor,
-        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "AutoGain", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "SensorGain", "Exposure", "CaptureMonotonicUs", });
+        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "AutoGain", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "SensorGain", "Exposure", "CaptureMonotonicUs", "DeliveredFps", "ContentFps", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
