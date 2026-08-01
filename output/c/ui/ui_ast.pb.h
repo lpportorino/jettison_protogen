@@ -463,16 +463,20 @@ typedef struct _ui_SliderProps {
     int32_t max_value;
     int32_t value;
     ui_BarMode mode;
-    /* Scrubber contract — one prop, two coupled renderer behaviors. When set,
- the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
- pressed point to a value with the stock update_knob_pos math (stock LVGL
- seeks a stationary track tap only at RELEASE), and (b) widens the ext
- click area to LV_DPX(24) — the measured finger envelope; the stock ctor
- sets LV_DPX(8). The widening rides this prop because the wire carries no
- ext-click vocabulary; a slider without the prop keeps full stock
- behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
- press-seeks: which knob a press adjusts is the two-knob proximity
- contract, and jumping a knob on DOWN would preempt it. */
+    /* Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+ value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+ track tap only at RELEASE, so this changes WHEN the value moves, and
+ nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+ adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+ would preempt it.
+
+ THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+ LV_DPX(24), because the wire had nowhere else to put a touch affordance
+ — so a scrubber could not ask for the envelope without the seek, or the
+ seek without the envelope, and no other widget could ask for either.
+ WidgetNode.hit_slop now carries that, for every widget; a press-seek
+ slider that wants the envelope sets both, and its author owes hit_slop's
+ reserve-the-space duty. */
     bool seek_on_press;
 } ui_SliderProps;
 
@@ -940,6 +944,30 @@ typedef struct _ui_WidgetNode {
  recolors while its value is out of range. */
     bool has_color_when;
     ui_ColorBinding color_when;
+    /* Touch affordance: grow this node's HIT box beyond its drawn box by this
+ many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+ is one value per object — LVGL has no per-side form, so neither does
+ this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+ at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+ IS the drawn box.
+
+ This is an lv_obj_t FIELD, not a style property, which is why it sits on
+ the node rather than in a StyleGroup — it cannot be varied per state and
+ it does not cascade.
+
+ AUTHORING DUTY, and it is the whole reason this is explicit rather than
+ a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+ grid parent reserves space by the DRAWN box, so slop bleeds into
+ whatever sits next to this node, and lv_indev_search_obj returns the
+ FIRST hit walking children in REVERSE — so in the overlapped band one
+ sibling silently takes every press and the other is dead there, with no
+ pixel and no event to show for it. Reserve the space you claim: keep at
+ least this many clear pixels to every interactive sibling, or wrap the
+ node in a transparent container that owns the margin. Prefer growing the
+ CONTROL where the design allows it, because that growth is the kind a
+ layout can see. renderer/src/renderer.h carries the full contract and
+ docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic. */
+    uint32_t hit_slop;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -1174,7 +1202,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {"", 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0}
 #define ui_WidgetNode_BindingsEntry_init_default {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
@@ -1220,7 +1248,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {"", 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0}
 #define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
@@ -1457,6 +1485,7 @@ extern "C" {
 #define ui_WidgetNode_gestures_tag               44
 #define ui_WidgetNode_enabled_when_tag           45
 #define ui_WidgetNode_color_when_tag             46
+#define ui_WidgetNode_hit_slop_tag               47
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_TreePatchOp_kind_tag                  1
@@ -1552,7 +1581,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42) \
 X(a, STATIC,   SINGULAR, UINT32,   uid,              43) \
 X(a, POINTER,  REPEATED, MESSAGE,  gestures,         44) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  enabled_when,     45) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46)
+X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46) \
+X(a, STATIC,   SINGULAR, UINT32,   hit_slop,         47)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry

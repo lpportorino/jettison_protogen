@@ -10754,6 +10754,7 @@ class WidgetNode final : public ::google::protobuf::Message
     kBareFieldNumber = 37,
     kInTabBarFieldNumber = 39,
     kUidFieldNumber = 43,
+    kHitSlopFieldNumber = 47,
     kObjPropsFieldNumber = 10,
     kButtonPropsFieldNumber = 11,
     kLabelPropsFieldNumber = 12,
@@ -11098,6 +11099,16 @@ class WidgetNode final : public ::google::protobuf::Message
   private:
   ::uint32_t _internal_uid() const;
   void _internal_set_uid(::uint32_t value);
+
+  public:
+  // uint32 hit_slop = 47 [(.buf.validate.field) = {
+  void clear_hit_slop() ;
+  ::uint32_t hit_slop() const;
+  void set_hit_slop(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_hit_slop() const;
+  void _internal_set_hit_slop(::uint32_t value);
 
   public:
   // .ui.ObjProps obj_props = 10;
@@ -11549,7 +11560,7 @@ class WidgetNode final : public ::google::protobuf::Message
   inline void clear_has_widget_props();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 46, 33,
+      5, 47, 33,
       86, 7>
       _table_;
 
@@ -11601,6 +11612,7 @@ class WidgetNode final : public ::google::protobuf::Message
     bool bare_;
     bool in_tab_bar_;
     ::uint32_t uid_;
+    ::uint32_t hit_slop_;
     union WidgetPropsUnion {
       constexpr WidgetPropsUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
@@ -15718,6 +15730,28 @@ inline void WidgetNode::set_allocated_color_when(::ui::ColorBinding* value) {
 
   _impl_.color_when_ = reinterpret_cast<::ui::ColorBinding*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.color_when)
+}
+
+// uint32 hit_slop = 47 [(.buf.validate.field) = {
+inline void WidgetNode::clear_hit_slop() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hit_slop_ = 0u;
+}
+inline ::uint32_t WidgetNode::hit_slop() const {
+  // @@protoc_insertion_point(field_get:ui.WidgetNode.hit_slop)
+  return _internal_hit_slop();
+}
+inline void WidgetNode::set_hit_slop(::uint32_t value) {
+  _internal_set_hit_slop(value);
+  // @@protoc_insertion_point(field_set:ui.WidgetNode.hit_slop)
+}
+inline ::uint32_t WidgetNode::_internal_hit_slop() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.hit_slop_;
+}
+inline void WidgetNode::_internal_set_hit_slop(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.hit_slop_ = value;
 }
 
 // uint32 uid = 43;

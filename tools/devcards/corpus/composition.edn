@@ -23,6 +23,10 @@
 ;;     slider_props after the lego builds the node (the lego itself sets the
 ;;     prop unconditionally — press-seek is the scrubber CONTRACT, so the
 ;;     prop-absent shape exists only as this declared corpus surgery).
+;;   :strip-hit-slop — dissoc :hit-slop from the scrubber slider node, same
+;;     shape and same reason. Separate from the above because the two used to
+;;     be ONE fused flag: one card stripping both could not tell which of the
+;;     two is the pixel-inert one, and now each can be varied alone.
 ;;
 ;; Scrubber placement arithmetic: :placement positions the lego's HIT-HALO
 ;; WRAPPER (devcards.legos/scrubber-halo = 24px per side); the TRACK rect
@@ -56,6 +60,16 @@
    {:buffered 85 :height 20 :max 100 :min 0 :seek-event-name "seek" :value 40 :width 600}
    :placement {:x 76 :y 176}
    :transform :strip-seek-on-press}
+  {:base-card "lego/scrubber"
+   :expect :inert-prop
+   :id "lego/scrubber-noslop"
+   :lego :scrubber
+   :notes
+   "hit_slop pixel-inertness pin: raw FB must equal lego/scrubber byte-for-byte in both dark and light. WidgetNode.hit_slop grows the HIT box only — ext_click_pad is read by lv_obj_get_click_area and by the two dead ADV_HITTEST handlers, and by nothing that draws — so a widened tap target must move zero pixels. The sibling pin above does the same for seek_on_press; the two are separate cards because the props used to be one fused flag."
+   :opts
+   {:buffered 85 :height 20 :max 100 :min 0 :seek-event-name "seek" :value 40 :width 600}
+   :placement {:x 76 :y 176}
+   :transform :strip-hit-slop}
   {:expect :composition
    :id "lego/scrubber-rich-full"
    :lego :scrubber-rich

@@ -57,7 +57,23 @@
    #(if (and (map? %) (contains? % :seek_on_press)) (dissoc % :seek_on_press) %)
    node))
 
-(def ^:private transforms {:strip-seek-on-press strip-seek-on-press})
+(defn- strip-hit-slop
+  "The :strip-hit-slop corpus transform — dissoc `:hit-slop` wherever a node
+   carries it. The scrubber lego declares it UNCONDITIONALLY (the widened tap
+   target is the scrubber contract), so the slop-absent shape exists only as
+   this declared corpus surgery, for the :inert-prop pixel-inertness pin.
+
+   Worth pinning separately from `:strip-seek-on-press` even though both
+   scrub the same widget: the two USED TO BE ONE FLAG, and the whole point of
+   separating them is that each can now be varied alone. A single card could
+   not tell 'hit_slop moves no pixels' from 'seek_on_press moves no pixels'."
+  [node]
+  (walk/postwalk
+   #(if (and (map? %) (contains? % :hit-slop)) (dissoc % :hit-slop) %)
+   node))
+
+(def ^:private transforms {:strip-seek-on-press strip-seek-on-press
+                           :strip-hit-slop strip-hit-slop})
 
 (defn- assert-closed
   "Throw unless every key of `m` is in `allowed` — the same closed-shape

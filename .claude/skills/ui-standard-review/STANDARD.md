@@ -705,29 +705,47 @@ this interpreter made, neither is expressible on the wire, and a layout engine
 reserves space by the PAINTED box, so an inherited pad can only ever bleed into
 the neighbour the author placed next to it.
 
-**The one widening is asked for on the wire.** `SliderProps.seek_on_press`
-takes `LV_DPX(24)`, because a press-seek target reachable only over its drawn
-track misses the taps the behaviour exists to catch. It is the only route to a
-non-zero pad on an authored node, and the composition that uses it reserves
-that much clear space around the track — which is the pattern to copy. Widen a
-hit box only together with the space it will occupy; if a control is hard to
-hit, grow the CONTROL, because that growth is the kind a layout can see.
+**A widening is ASKED FOR, by `WidgetNode.hit_slop`.** It is design pixels on
+all four sides (LVGL has no per-side form), `LV_DPX`-scaled, bounded at 64, and
+available to every widget. It used to be reachable only as a side effect of
+`SliderProps.seek_on_press`, which fused a behaviour and an affordance into one
+flag because the wire had nowhere else to put the second; that fusion is gone,
+so a press-seek slider that wants the envelope sets both.
+
+**Whoever sets `hit_slop` owes the space.** The slop is invisible to layout — a
+flex or grid parent reserves by the DRAWN box — so it lands on whatever sits
+beside the node unless the author reserves for it. The shipped scrubber is the
+pattern to copy: it declares `hit_slop` and wraps the track in a transparent
+band of exactly the same size, from one constant. Prefer growing the CONTROL
+where the design allows it, because that growth is the kind a layout can see.
 
 **The minimum safe gap between two interactive siblings** is
-`pad(a) + pad(b)`, where `pad` is the node's `ext_click_pad`. Below that the
-two share reachable pixels, `lv_indev_search_obj` returns the later sibling,
-and the other is dead in the overlap band. So:
+`LV_DPX(hit_slop(a)) + LV_DPX(hit_slop(b))`. Below that the two share
+reachable pixels, `lv_indev_search_obj` returns the later sibling, and the
+other is dead in the overlap band. So:
 
 | the pair | minimum clear gap | scales with DPI? |
 |---|---|---|
-| any two ordinary authored nodes | **0** — they may touch | n/a, the pads are zero |
-| either one is a `seek_on_press` slider | **`LV_DPX(24)`** | yes |
+| neither declares `hit_slop` | **0** — they may touch | n/a, both pads are zero |
+| one declares `hit_slop: n` | **`LV_DPX(n)`** | yes |
+| both declare it | **the sum of the two** | yes |
 
-`LV_DPX_CALC(dpi, n)` is `n == 0 ? 0 : max((dpi * n + 80) / 160, 1)`, so that
-second row is 20px at DPI 130, 24 at 160, 36 at 240 and 48 at 320. The first
+`LV_DPX_CALC(dpi, n)` is `n == 0 ? 0 : max((dpi * n + 80) / 160, 1)`, so a
+declared 24 is 20px at DPI 130, 24 at 160, 36 at 240 and 48 at 320. The first
 row has no DPI axis at all, which is the property that makes it authorable: a
 spacing token is a fixed integer and cannot track a runtime DPI, so a contract
-that required it to would be unimplementable by any consumer.
+that required every gap to would be unimplementable by any consumer. That is
+also why the default is zero rather than a small constant — a default slop
+would put every generated layout back under a DPI-dependent minimum gap that
+no design system could express.
+
+**`LV_DPX` resolves when the widget is BUILT, not continuously.** The scale
+above is applied at the `lv_obj_set_ext_click_area` call, so the pad a node
+carries reflects the DPI current at its construction. `controls_set_dpi` after
+a build changes what the NEXT build resolves and leaves live widgets alone —
+so a host that changes DPI reloads the screen, exactly as it already must for
+a breakpoint or theme change. A consumer computing a gap needs the DPI its
+screens are built at, which is not necessarily the one they are read at.
 
 Two caveats, neither an exception to the table. `ext_click_pad` is one value
 for all four sides, so a widening is never one-directional. And the corner

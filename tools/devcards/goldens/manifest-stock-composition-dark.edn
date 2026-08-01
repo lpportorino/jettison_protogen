@@ -30,6 +30,11 @@
    "22e57052bd148a30d43a89ea02742f4dbdcdad0a3796c54b175594f6df2ef0de",
    :w 800,
    :h 480},
+  "lego/scrubber-noslop"
+  {:sha256
+   "22e57052bd148a30d43a89ea02742f4dbdcdad0a3796c54b175594f6df2ef0de",
+   :w 800,
+   :h 480},
   "lego/scrubber-plain"
   {:sha256
    "9780c9135140d83c1395eb636a478bc48d7bc8ab881aacf00aa72e1c59be7d34",

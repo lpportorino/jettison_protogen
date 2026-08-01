@@ -2341,6 +2341,30 @@ type WidgetNode struct {
 	// ops use a custom observer. Drives reactive fault-coloring — a readout that
 	// recolors while its value is out of range.
 	ColorWhen *ColorBinding `protobuf:"bytes,46,opt,name=color_when,json=colorWhen,proto3" json:"color_when,omitempty"`
+	// Touch affordance: grow this node's HIT box beyond its drawn box by this
+	// many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+	// is one value per object — LVGL has no per-side form, so neither does
+	// this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+	// at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+	// IS the drawn box.
+	//
+	// This is an lv_obj_t FIELD, not a style property, which is why it sits on
+	// the node rather than in a StyleGroup — it cannot be varied per state and
+	// it does not cascade.
+	//
+	// AUTHORING DUTY, and it is the whole reason this is explicit rather than
+	// a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+	// grid parent reserves space by the DRAWN box, so slop bleeds into
+	// whatever sits next to this node, and lv_indev_search_obj returns the
+	// FIRST hit walking children in REVERSE — so in the overlapped band one
+	// sibling silently takes every press and the other is dead there, with no
+	// pixel and no event to show for it. Reserve the space you claim: keep at
+	// least this many clear pixels to every interactive sibling, or wrap the
+	// node in a transparent container that owns the margin. Prefer growing the
+	// CONTROL where the design allows it, because that growth is the kind a
+	// layout can see. renderer/src/renderer.h carries the full contract and
+	// docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+	HitSlop uint32 `protobuf:"varint,47,opt,name=hit_slop,json=hitSlop,proto3" json:"hit_slop,omitempty"`
 	// Stable node identity for tree patching: FNV-1a-32 of the node's
 	// root→node identity path (author :id segments, else type#ordinal among
 	// unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -2745,6 +2769,13 @@ func (x *WidgetNode) GetColorWhen() *ColorBinding {
 		return x.ColorWhen
 	}
 	return nil
+}
+
+func (x *WidgetNode) GetHitSlop() uint32 {
+	if x != nil {
+		return x.HitSlop
+	}
+	return 0
 }
 
 func (x *WidgetNode) GetUid() uint32 {
@@ -3163,16 +3194,20 @@ type SliderProps struct {
 	MaxValue int32                  `protobuf:"varint,2,opt,name=max_value,json=maxValue,proto3" json:"max_value,omitempty"`
 	Value    int32                  `protobuf:"varint,3,opt,name=value,proto3" json:"value,omitempty"`
 	Mode     BarMode                `protobuf:"varint,4,opt,name=mode,proto3,enum=ui.BarMode" json:"mode,omitempty"`
-	// Scrubber contract — one prop, two coupled renderer behaviors. When set,
-	// the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-	// pressed point to a value with the stock update_knob_pos math (stock LVGL
-	// seeks a stationary track tap only at RELEASE), and (b) widens the ext
-	// click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-	// sets LV_DPX(8). The widening rides this prop because the wire carries no
-	// ext-click vocabulary; a slider without the prop keeps full stock
-	// behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-	// press-seeks: which knob a press adjusts is the two-knob proximity
-	// contract, and jumping a knob on DOWN would preempt it.
+	// Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+	// value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+	// track tap only at RELEASE, so this changes WHEN the value moves, and
+	// nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+	// adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+	// would preempt it.
+	//
+	// THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+	// LV_DPX(24), because the wire had nowhere else to put a touch affordance
+	// — so a scrubber could not ask for the envelope without the seek, or the
+	// seek without the envelope, and no other widget could ask for either.
+	// WidgetNode.hit_slop now carries that, for every widget; a press-seek
+	// slider that wants the envelope sets both, and its author owes hit_slop's
+	// reserve-the-space duty.
 	SeekOnPress   bool `protobuf:"varint,5,opt,name=seek_on_press,json=seekOnPress,proto3" json:"seek_on_press,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -5721,7 +5756,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xe3\x11\n" +
+	"\x05_root\"\x87\x12\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
@@ -5782,7 +5817,8 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x128\n" +
 	"\fenabled_when\x18- \x01(\v2\x15.ui.VisibilityBindingR\venabledWhen\x12/\n" +
 	"\n" +
-	"color_when\x18. \x01(\v2\x10.ui.ColorBindingR\tcolorWhen\x12\x10\n" +
+	"color_when\x18. \x01(\v2\x10.ui.ColorBindingR\tcolorWhen\x12\"\n" +
+	"\bhit_slop\x18/ \x01(\rB\a\xbaH\x04*\x02\x18@R\ahitSlop\x12\x10\n" +
 	"\x03uid\x18+ \x01(\rR\x03uid\x125\n" +
 	"\bgestures\x18, \x03(\v2\x0f.ui.GestureSpecB\b\xbaH\x05\x92\x01\x02\x10\x05R\bgestures\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +

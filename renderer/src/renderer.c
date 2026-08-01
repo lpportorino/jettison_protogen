@@ -823,15 +823,6 @@ static void proxy_apply_default_style(lv_obj_t *obj) {
   }
   lv_obj_add_style(obj, &proxy_default_style, 0);
 }
-/* seek_on_press (SliderProps.seek_on_press): the scrubber behavior pair. The
- * widened ext click area rides the same prop — the wire carries no ext-click
- * vocabulary, and a press-seek target reachable only over its drawn track
- * would miss the taps the widening exists to catch. A slider without the
- * prop keeps SLIDER_EXT_CLICK_PX (renderer.h, which carries the whole
- * ext-click contract). Applied in apply_widget_props; PROTO-PATH ONLY, so it
- * stays here rather than in the shared header — the reference oracle decodes
- * no wire props and has no press-seek case to mirror. */
-#define SLIDER_SEEK_EXT_CLICK_PX 24
 /* ================================================================
  * Lazy widget creation
  *
@@ -1399,7 +1390,6 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
        * the slider-value idiom above), so there is no un-set arm. */
       lv_obj_remove_event_cb(obj, slider_press_seek_cb);
       lv_obj_add_event_cb(obj, slider_press_seek_cb, LV_EVENT_PRESSED, NULL);
-      lv_obj_set_ext_click_area(obj, LV_DPX(SLIDER_SEEK_EXT_CLICK_PX));
     }
     break;
   }
@@ -2706,6 +2696,21 @@ static void finalize_widget(widget_ctx_t *ctx) {
     lv_obj_add_state(obj, (lv_state_t)node->states);
   if (node->scroll_dir != 0)
     lv_obj_set_scroll_dir(obj, (lv_dir_t)node->scroll_dir);
+  /* Touch affordance (WidgetNode.hit_slop) — the ONE wire route to a hit box
+   * larger than the drawn box, and it reaches ANY widget rather than riding a
+   * per-class prop. Guarded on != 0 for two independent reasons, both real:
+   * lv_obj_set_ext_click_area calls lv_obj_allocate_spec_attr, so an
+   * unconditional apply would allocate that struct on EVERY node of every
+   * tree; and under an UPDATE_PROPS morph a zero means "unchanged" because
+   * the differ strips defaults — the same idiom the slider value and the
+   * event bindings already use here.
+   *
+   * The guard is only SAFE because the two classes whose vendored
+   * constructors set a pad of their own are zeroed at creation (renderer.h,
+   * applied in ensure_widget). Without that, a node asking for no slop would
+   * silently keep the inherited halo and this guard would be the bug. */
+  if (node->hit_slop != 0)
+    lv_obj_set_ext_click_area(obj, LV_DPX((int32_t)node->hit_slop));
   if (node->grid_col_dsc_count > 0 && node->grid_row_dsc_count > 0) {
     /* cols + rows are allocated as a consecutive PAIR (each grid container
      * costs exactly two slots, and nanopb caps each track list at 12 so the

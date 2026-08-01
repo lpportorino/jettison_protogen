@@ -1642,6 +1642,75 @@ public object WidgetNodeKt {
 
     /**
      * ```
+     * Touch affordance: grow this node's HIT box beyond its drawn box by this
+     * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+     * is one value per object — LVGL has no per-side form, so neither does
+     * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+     * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+     * IS the drawn box.
+     *
+     * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+     * the node rather than in a StyleGroup — it cannot be varied per state and
+     * it does not cascade.
+     *
+     * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+     * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+     * grid parent reserves space by the DRAWN box, so slop bleeds into
+     * whatever sits next to this node, and lv_indev_search_obj returns the
+     * FIRST hit walking children in REVERSE — so in the overlapped band one
+     * sibling silently takes every press and the other is dead there, with no
+     * pixel and no event to show for it. Reserve the space you claim: keep at
+     * least this many clear pixels to every interactive sibling, or wrap the
+     * node in a transparent container that owns the margin. Prefer growing the
+     * CONTROL where the design allows it, because that growth is the kind a
+     * layout can see. renderer/src/renderer.h carries the full contract and
+     * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+     * ```
+     *
+     * `uint32 hit_slop = 47 [(.buf.validate.field) = { ... }`
+     */
+    public var hitSlop: kotlin.Int
+      @JvmName("getHitSlop")
+      get() = _builder.hitSlop
+      @JvmName("setHitSlop")
+      set(value) {
+        _builder.hitSlop = value
+      }
+    /**
+     * ```
+     * Touch affordance: grow this node's HIT box beyond its drawn box by this
+     * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+     * is one value per object — LVGL has no per-side form, so neither does
+     * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+     * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+     * IS the drawn box.
+     *
+     * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+     * the node rather than in a StyleGroup — it cannot be varied per state and
+     * it does not cascade.
+     *
+     * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+     * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+     * grid parent reserves space by the DRAWN box, so slop bleeds into
+     * whatever sits next to this node, and lv_indev_search_obj returns the
+     * FIRST hit walking children in REVERSE — so in the overlapped band one
+     * sibling silently takes every press and the other is dead there, with no
+     * pixel and no event to show for it. Reserve the space you claim: keep at
+     * least this many clear pixels to every interactive sibling, or wrap the
+     * node in a transparent container that owns the margin. Prefer growing the
+     * CONTROL where the design allows it, because that growth is the kind a
+     * layout can see. renderer/src/renderer.h carries the full contract and
+     * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+     * ```
+     *
+     * `uint32 hit_slop = 47 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearHitSlop() {
+      _builder.clearHitSlop()
+    }
+
+    /**
+     * ```
      * Stable node identity for tree patching: FNV-1a-32 of the node's
      * root→node identity path (author :id segments, else type#ordinal among
      * unkeyed same-type siblings), assigned + collision-checked by codegen.

@@ -59,11 +59,13 @@
  * an inherited pad is therefore something no author can see, set, or opt
  * out of.
  *
- * A DELIBERATE widening remains available, and the one that exists shows
- * the pattern the stock pads lack: SLIDER_SEEK_EXT_CLICK_PX (renderer.c)
- * widens a press-seek slider AND the composition that uses it reserves that
- * much clear space around the track, so the wider reach lands on space
- * nothing else claims. Widen a hit box only together with the space it will
+ * A DELIBERATE widening is ASKED FOR ON THE WIRE, by WidgetNode.hit_slop,
+ * and it reaches any widget. It used to be reachable only as a side effect
+ * of SliderProps.seek_on_press, which fused a behaviour and an affordance
+ * into one flag precisely because the wire had nowhere else to put the
+ * second; that fusion is gone. The composition that uses the widening
+ * reserves that much clear space around its track, which is the pattern the
+ * stock pads lacked: widen a hit box only together with the space it will
  * occupy. If a control is hard to hit, grow the CONTROL — that growth is
  * the kind a layout can see.
  *

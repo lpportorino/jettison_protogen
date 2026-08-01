@@ -10380,6 +10380,38 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
+     * Touch affordance: grow this node's HIT box beyond its drawn box by this
+     * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+     * is one value per object — LVGL has no per-side form, so neither does
+     * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+     * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+     * IS the drawn box.
+     *
+     * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+     * the node rather than in a StyleGroup — it cannot be varied per state and
+     * it does not cascade.
+     *
+     * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+     * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+     * grid parent reserves space by the DRAWN box, so slop bleeds into
+     * whatever sits next to this node, and lv_indev_search_obj returns the
+     * FIRST hit walking children in REVERSE — so in the overlapped band one
+     * sibling silently takes every press and the other is dead there, with no
+     * pixel and no event to show for it. Reserve the space you claim: keep at
+     * least this many clear pixels to every interactive sibling, or wrap the
+     * node in a transparent container that owns the margin. Prefer growing the
+     * CONTROL where the design allows it, because that growth is the kind a
+     * layout can see. renderer/src/renderer.h carries the full contract and
+     * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+     * </pre>
+     *
+     * <code>uint32 hit_slop = 47 [(.buf.validate.field) = { ... }</code>
+     * @return The hitSlop.
+     */
+    int getHitSlop();
+
+    /**
+     * <pre>
      * Stable node identity for tree patching: FNV-1a-32 of the node's
      * root→node identity path (author :id segments, else type#ordinal among
      * unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -12142,6 +12174,43 @@ java.lang.String defaultValue) {
       return colorWhen_ == null ? ui.UiAst.ColorBinding.getDefaultInstance() : colorWhen_;
     }
 
+    public static final int HIT_SLOP_FIELD_NUMBER = 47;
+    private int hitSlop_ = 0;
+    /**
+     * <pre>
+     * Touch affordance: grow this node's HIT box beyond its drawn box by this
+     * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+     * is one value per object — LVGL has no per-side form, so neither does
+     * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+     * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+     * IS the drawn box.
+     *
+     * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+     * the node rather than in a StyleGroup — it cannot be varied per state and
+     * it does not cascade.
+     *
+     * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+     * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+     * grid parent reserves space by the DRAWN box, so slop bleeds into
+     * whatever sits next to this node, and lv_indev_search_obj returns the
+     * FIRST hit walking children in REVERSE — so in the overlapped band one
+     * sibling silently takes every press and the other is dead there, with no
+     * pixel and no event to show for it. Reserve the space you claim: keep at
+     * least this many clear pixels to every interactive sibling, or wrap the
+     * node in a transparent container that owns the margin. Prefer growing the
+     * CONTROL where the design allows it, because that growth is the kind a
+     * layout can see. renderer/src/renderer.h carries the full contract and
+     * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+     * </pre>
+     *
+     * <code>uint32 hit_slop = 47 [(.buf.validate.field) = { ... }</code>
+     * @return The hitSlop.
+     */
+    @java.lang.Override
+    public int getHitSlop() {
+      return hitSlop_;
+    }
+
     public static final int UID_FIELD_NUMBER = 43;
     private int uid_ = 0;
     /**
@@ -12410,6 +12479,9 @@ java.lang.String defaultValue) {
       if (((bitField0_ & 0x00000020) != 0)) {
         output.writeMessage(46, getColorWhen());
       }
+      if (hitSlop_ != 0) {
+        output.writeUInt32(47, hitSlop_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12634,6 +12706,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(46, getColorWhen());
       }
+      if (hitSlop_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(47, hitSlop_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12710,6 +12786,8 @@ java.lang.String defaultValue) {
         if (!getColorWhen()
             .equals(other.getColorWhen())) return false;
       }
+      if (getHitSlop()
+          != other.getHitSlop()) return false;
       if (getUid()
           != other.getUid()) return false;
       if (!getGesturesList()
@@ -12888,6 +12966,8 @@ java.lang.String defaultValue) {
         hash = (37 * hash) + COLOR_WHEN_FIELD_NUMBER;
         hash = (53 * hash) + getColorWhen().hashCode();
       }
+      hash = (37 * hash) + HIT_SLOP_FIELD_NUMBER;
+      hash = (53 * hash) + getHitSlop();
       hash = (37 * hash) + UID_FIELD_NUMBER;
       hash = (53 * hash) + getUid();
       if (getGesturesCount() > 0) {
@@ -13286,6 +13366,7 @@ java.lang.String defaultValue) {
           colorWhenBuilder_.dispose();
           colorWhenBuilder_ = null;
         }
+        hitSlop_ = 0;
         uid_ = 0;
         if (gesturesBuilder_ == null) {
           gestures_ = java.util.Collections.emptyList();
@@ -13293,7 +13374,7 @@ java.lang.String defaultValue) {
           gestures_ = null;
           gesturesBuilder_.clear();
         }
-        bitField1_ = (bitField1_ & ~0x00002000);
+        bitField1_ = (bitField1_ & ~0x00004000);
         widgetPropsCase_ = 0;
         widgetProps_ = null;
         return this;
@@ -13350,9 +13431,9 @@ java.lang.String defaultValue) {
           result.styleGroups_ = styleGroupsBuilder_.build();
         }
         if (gesturesBuilder_ == null) {
-          if (((bitField1_ & 0x00002000) != 0)) {
+          if (((bitField1_ & 0x00004000) != 0)) {
             gestures_ = java.util.Collections.unmodifiableList(gestures_);
-            bitField1_ = (bitField1_ & ~0x00002000);
+            bitField1_ = (bitField1_ & ~0x00004000);
           }
           result.gestures_ = gestures_;
         } else {
@@ -13452,6 +13533,9 @@ java.lang.String defaultValue) {
           to_bitField0_ |= 0x00000020;
         }
         if (((from_bitField1_ & 0x00001000) != 0)) {
+          result.hitSlop_ = hitSlop_;
+        }
+        if (((from_bitField1_ & 0x00002000) != 0)) {
           result.uid_ = uid_;
         }
         result.bitField0_ |= to_bitField0_;
@@ -13692,6 +13776,9 @@ java.lang.String defaultValue) {
         if (other.hasColorWhen()) {
           mergeColorWhen(other.getColorWhen());
         }
+        if (other.getHitSlop() != 0) {
+          setHitSlop(other.getHitSlop());
+        }
         if (other.getUid() != 0) {
           setUid(other.getUid());
         }
@@ -13699,7 +13786,7 @@ java.lang.String defaultValue) {
           if (!other.gestures_.isEmpty()) {
             if (gestures_.isEmpty()) {
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00002000);
+              bitField1_ = (bitField1_ & ~0x00004000);
             } else {
               ensureGesturesIsMutable();
               gestures_.addAll(other.gestures_);
@@ -13712,7 +13799,7 @@ java.lang.String defaultValue) {
               gesturesBuilder_.dispose();
               gesturesBuilder_ = null;
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00002000);
+              bitField1_ = (bitField1_ & ~0x00004000);
               gesturesBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getGesturesFieldBuilder() : null;
@@ -14150,7 +14237,7 @@ java.lang.String defaultValue) {
               } // case 338
               case 344: {
                 uid_ = input.readUInt32();
-                bitField1_ |= 0x00001000;
+                bitField1_ |= 0x00002000;
                 break;
               } // case 344
               case 354: {
@@ -14180,6 +14267,11 @@ java.lang.String defaultValue) {
                 bitField1_ |= 0x00000800;
                 break;
               } // case 370
+              case 376: {
+                hitSlop_ = input.readUInt32();
+                bitField1_ |= 0x00001000;
+                break;
+              } // case 376
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -20082,6 +20174,116 @@ java.lang.String defaultValue) {
         return colorWhenBuilder_;
       }
 
+      private int hitSlop_ ;
+      /**
+       * <pre>
+       * Touch affordance: grow this node's HIT box beyond its drawn box by this
+       * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+       * is one value per object — LVGL has no per-side form, so neither does
+       * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+       * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+       * IS the drawn box.
+       *
+       * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+       * the node rather than in a StyleGroup — it cannot be varied per state and
+       * it does not cascade.
+       *
+       * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+       * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+       * grid parent reserves space by the DRAWN box, so slop bleeds into
+       * whatever sits next to this node, and lv_indev_search_obj returns the
+       * FIRST hit walking children in REVERSE — so in the overlapped band one
+       * sibling silently takes every press and the other is dead there, with no
+       * pixel and no event to show for it. Reserve the space you claim: keep at
+       * least this many clear pixels to every interactive sibling, or wrap the
+       * node in a transparent container that owns the margin. Prefer growing the
+       * CONTROL where the design allows it, because that growth is the kind a
+       * layout can see. renderer/src/renderer.h carries the full contract and
+       * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+       * </pre>
+       *
+       * <code>uint32 hit_slop = 47 [(.buf.validate.field) = { ... }</code>
+       * @return The hitSlop.
+       */
+      @java.lang.Override
+      public int getHitSlop() {
+        return hitSlop_;
+      }
+      /**
+       * <pre>
+       * Touch affordance: grow this node's HIT box beyond its drawn box by this
+       * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+       * is one value per object — LVGL has no per-side form, so neither does
+       * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+       * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+       * IS the drawn box.
+       *
+       * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+       * the node rather than in a StyleGroup — it cannot be varied per state and
+       * it does not cascade.
+       *
+       * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+       * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+       * grid parent reserves space by the DRAWN box, so slop bleeds into
+       * whatever sits next to this node, and lv_indev_search_obj returns the
+       * FIRST hit walking children in REVERSE — so in the overlapped band one
+       * sibling silently takes every press and the other is dead there, with no
+       * pixel and no event to show for it. Reserve the space you claim: keep at
+       * least this many clear pixels to every interactive sibling, or wrap the
+       * node in a transparent container that owns the margin. Prefer growing the
+       * CONTROL where the design allows it, because that growth is the kind a
+       * layout can see. renderer/src/renderer.h carries the full contract and
+       * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+       * </pre>
+       *
+       * <code>uint32 hit_slop = 47 [(.buf.validate.field) = { ... }</code>
+       * @param value The hitSlop to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHitSlop(int value) {
+
+        hitSlop_ = value;
+        bitField1_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Touch affordance: grow this node's HIT box beyond its drawn box by this
+       * many design pixels, on all four sides (lv_obj_set_ext_click_area, which
+       * is one value per object — LVGL has no per-side form, so neither does
+       * this). DPI-scaled through LV_DPX, so 24 here is 24px at DPI 160 and 48
+       * at 320; 0 (the default) is exactly 0 at every DPI and means the hit box
+       * IS the drawn box.
+       *
+       * This is an lv_obj_t FIELD, not a style property, which is why it sits on
+       * the node rather than in a StyleGroup — it cannot be varied per state and
+       * it does not cascade.
+       *
+       * AUTHORING DUTY, and it is the whole reason this is explicit rather than
+       * a per-widget-class default. The slop is INVISIBLE to layout: a flex or
+       * grid parent reserves space by the DRAWN box, so slop bleeds into
+       * whatever sits next to this node, and lv_indev_search_obj returns the
+       * FIRST hit walking children in REVERSE — so in the overlapped band one
+       * sibling silently takes every press and the other is dead there, with no
+       * pixel and no event to show for it. Reserve the space you claim: keep at
+       * least this many clear pixels to every interactive sibling, or wrap the
+       * node in a transparent container that owns the margin. Prefer growing the
+       * CONTROL where the design allows it, because that growth is the kind a
+       * layout can see. renderer/src/renderer.h carries the full contract and
+       * docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
+       * </pre>
+       *
+       * <code>uint32 hit_slop = 47 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHitSlop() {
+        bitField1_ = (bitField1_ & ~0x00001000);
+        hitSlop_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int uid_ ;
       /**
        * <pre>
@@ -20117,7 +20319,7 @@ java.lang.String defaultValue) {
       public Builder setUid(int value) {
 
         uid_ = value;
-        bitField1_ |= 0x00001000;
+        bitField1_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -20135,7 +20337,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearUid() {
-        bitField1_ = (bitField1_ & ~0x00001000);
+        bitField1_ = (bitField1_ & ~0x00002000);
         uid_ = 0;
         onChanged();
         return this;
@@ -20144,9 +20346,9 @@ java.lang.String defaultValue) {
       private java.util.List<ui.UiAst.GestureSpec> gestures_ =
         java.util.Collections.emptyList();
       private void ensureGesturesIsMutable() {
-        if (!((bitField1_ & 0x00002000) != 0)) {
+        if (!((bitField1_ & 0x00004000) != 0)) {
           gestures_ = new java.util.ArrayList<ui.UiAst.GestureSpec>(gestures_);
-          bitField1_ |= 0x00002000;
+          bitField1_ |= 0x00004000;
          }
       }
 
@@ -20384,7 +20586,7 @@ java.lang.String defaultValue) {
       public Builder clearGestures() {
         if (gesturesBuilder_ == null) {
           gestures_ = java.util.Collections.emptyList();
-          bitField1_ = (bitField1_ & ~0x00002000);
+          bitField1_ = (bitField1_ & ~0x00004000);
           onChanged();
         } else {
           gesturesBuilder_.clear();
@@ -20517,7 +20719,7 @@ java.lang.String defaultValue) {
           gesturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder>(
                   gestures_,
-                  ((bitField1_ & 0x00002000) != 0),
+                  ((bitField1_ & 0x00004000) != 0),
                   getParentForChildren(),
                   isClean());
           gestures_ = null;
@@ -23771,16 +23973,20 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-     * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-     * pressed point to a value with the stock update_knob_pos math (stock LVGL
-     * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-     * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-     * sets LV_DPX(8). The widening rides this prop because the wire carries no
-     * ext-click vocabulary; a slider without the prop keeps full stock
-     * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-     * press-seeks: which knob a press adjusts is the two-knob proximity
-     * contract, and jumping a knob on DOWN would preempt it.
+     * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+     * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+     * track tap only at RELEASE, so this changes WHEN the value moves, and
+     * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+     * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+     * would preempt it.
+     *
+     * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+     * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+     * — so a scrubber could not ask for the envelope without the seek, or the
+     * seek without the envelope, and no other widget could ask for either.
+     * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+     * slider that wants the envelope sets both, and its author owes hit_slop's
+     * reserve-the-space duty.
      * </pre>
      *
      * <code>bool seek_on_press = 5;</code>
@@ -23881,16 +24087,20 @@ java.lang.String defaultValue) {
     private boolean seekOnPress_ = false;
     /**
      * <pre>
-     * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-     * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-     * pressed point to a value with the stock update_knob_pos math (stock LVGL
-     * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-     * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-     * sets LV_DPX(8). The widening rides this prop because the wire carries no
-     * ext-click vocabulary; a slider without the prop keeps full stock
-     * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-     * press-seeks: which knob a press adjusts is the two-knob proximity
-     * contract, and jumping a knob on DOWN would preempt it.
+     * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+     * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+     * track tap only at RELEASE, so this changes WHEN the value moves, and
+     * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+     * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+     * would preempt it.
+     *
+     * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+     * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+     * — so a scrubber could not ask for the envelope without the seek, or the
+     * seek without the envelope, and no other widget could ask for either.
+     * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+     * slider that wants the envelope sets both, and its author owes hit_slop's
+     * reserve-the-space duty.
      * </pre>
      *
      * <code>bool seek_on_press = 5;</code>
@@ -24438,16 +24648,20 @@ java.lang.String defaultValue) {
       private boolean seekOnPress_ ;
       /**
        * <pre>
-       * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-       * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-       * pressed point to a value with the stock update_knob_pos math (stock LVGL
-       * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-       * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-       * sets LV_DPX(8). The widening rides this prop because the wire carries no
-       * ext-click vocabulary; a slider without the prop keeps full stock
-       * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-       * press-seeks: which knob a press adjusts is the two-knob proximity
-       * contract, and jumping a knob on DOWN would preempt it.
+       * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+       * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+       * track tap only at RELEASE, so this changes WHEN the value moves, and
+       * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+       * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+       * would preempt it.
+       *
+       * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+       * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+       * — so a scrubber could not ask for the envelope without the seek, or the
+       * seek without the envelope, and no other widget could ask for either.
+       * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+       * slider that wants the envelope sets both, and its author owes hit_slop's
+       * reserve-the-space duty.
        * </pre>
        *
        * <code>bool seek_on_press = 5;</code>
@@ -24459,16 +24673,20 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-       * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-       * pressed point to a value with the stock update_knob_pos math (stock LVGL
-       * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-       * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-       * sets LV_DPX(8). The widening rides this prop because the wire carries no
-       * ext-click vocabulary; a slider without the prop keeps full stock
-       * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-       * press-seeks: which knob a press adjusts is the two-knob proximity
-       * contract, and jumping a knob on DOWN would preempt it.
+       * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+       * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+       * track tap only at RELEASE, so this changes WHEN the value moves, and
+       * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+       * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+       * would preempt it.
+       *
+       * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+       * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+       * — so a scrubber could not ask for the envelope without the seek, or the
+       * seek without the envelope, and no other widget could ask for either.
+       * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+       * slider that wants the envelope sets both, and its author owes hit_slop's
+       * reserve-the-space duty.
        * </pre>
        *
        * <code>bool seek_on_press = 5;</code>
@@ -24484,16 +24702,20 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-       * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-       * pressed point to a value with the stock update_knob_pos math (stock LVGL
-       * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-       * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-       * sets LV_DPX(8). The widening rides this prop because the wire carries no
-       * ext-click vocabulary; a slider without the prop keeps full stock
-       * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-       * press-seeks: which knob a press adjusts is the two-knob proximity
-       * contract, and jumping a knob on DOWN would preempt it.
+       * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+       * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+       * track tap only at RELEASE, so this changes WHEN the value moves, and
+       * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+       * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+       * would preempt it.
+       *
+       * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+       * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+       * — so a scrubber could not ask for the envelope without the seek, or the
+       * seek without the envelope, and no other widget could ask for either.
+       * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+       * slider that wants the envelope sets both, and its author owes hit_slop's
+       * reserve-the-space duty.
        * </pre>
        *
        * <code>bool seek_on_press = 5;</code>
@@ -54910,7 +55132,7 @@ java.lang.String defaultValue) {
       "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va" +
       "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN" +
       "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD" +
-      "eclarationB\007\n\005_root\"\313\r\n\nWidgetNode\022&\n\004ty" +
+      "eclarationB\007\n\005_root\"\346\r\n\nWidgetNode\022&\n\004ty" +
       "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\t\n\001x\030" +
       "\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\026\n\004text\030\004 \001(\tB\010\272H\005r\003\030\377\001" +
       "\022.\n\010bindings\030\005 \003(\0132\034.ui.WidgetNode.Bindi" +
@@ -54949,289 +55171,290 @@ java.lang.String defaultValue) {
       "\n\nin_tab_bar\030\' \001(\010\022+\n\014checked_when\030* \001(\013" +
       "2\025.ui.VisibilityBinding\022+\n\014enabled_when\030" +
       "- \001(\0132\025.ui.VisibilityBinding\022$\n\ncolor_wh" +
-      "en\030. \001(\0132\020.ui.ColorBinding\022\013\n\003uid\030+ \001(\r\022" +
-      "+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272H\005\222" +
-      "\001\002\020\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va" +
-      "lue\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003key" +
-      "\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_prop" +
-      "s\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.Pat" +
-      "chOpKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022" +
-      "\n\nparent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004nod" +
-      "e\030\005 \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n" +
-      "\013ScreenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013targe" +
-      "t_hash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatch" +
-      "Op\"\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelPr" +
-      "ops\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongMod" +
-      "eB\010\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030" +
-      "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022" +
-      "#\n\004mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\r" +
-      "seek_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src" +
-      "\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007p" +
-      "ivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotatio" +
-      "n\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001(" +
-      "\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002" +
-      "\022 \n\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg" +
-      "_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005" +
-      " \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020" +
-      "\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022" +
-      "\r\n\005value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030" +
-      "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022" +
-      "\023\n\013start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui." +
-      "BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007chec" +
-      "ked\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 " +
-      "\001(\010\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(\tB\010" +
-      "\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030" +
-      "\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_value" +
-      "s\030\004 \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007opti" +
-      "ons\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n" +
-      "\021visible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016" +
-      ".ui.RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProp" +
-      "s\022\035\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_" +
-      "length\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpasswo" +
-      "rd_mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_va" +
-      "lue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 " +
-      "\001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032" +
-      "\n\022separator_position\030\006 \001(\r\"5\n\014SpinnerPro" +
-      "ps\022\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(" +
-      "\r\"B\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022" +
-      "\034\n\nbrightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLinePro" +
-      "ps\022\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_inver" +
-      "t\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.u" +
-      "i.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_coun" +
-      "t\030\002 \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\nlab" +
-      "el_show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_" +
-      "value\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_r" +
-      "ange\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010" +
-      "\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030" +
-      "\013 \003(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014Sc" +
-      "aleSection\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_m" +
-      "ax\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005wi" +
-      "dth\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color" +
-      "\022\022\n\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixProp" +
-      "s\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_chec" +
-      "k\030\002 \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r" +
-      "\022\024\n\014column_count\030\002 \001(\r\"\244\001\n\014TabviewProps\022" +
-      "!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014ta" +
-      "b_bar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001(\r\022+" +
-      "\n\020tab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001" +
-      "\002\020\001\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013ChartSe" +
-      "ries\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002" +
-      " \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030" +
-      "\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004type\030\001" +
-      " \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_c" +
-      "ount\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\nhdi" +
-      "v_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 " +
-      "\001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.Chart" +
-      "SeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016" +
-      "HostProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020" +
-      "\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002" +
-      "\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_" +
-      "w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size\030\007 " +
-      "\001(\r\022\t\n\001z\030\010 \001(\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030" +
-      "\002 \001(\005\"\242\002\n\014EventBinding\022\027\n\004name\030\001 \001(\tB\t\272H" +
-      "\006r\004\020\001\030\177\022+\n\007trigger\030\002 \001(\0162\020.ui.EventTrigg" +
-      "erB\010\272H\005\202\001\002\020\001\022\021\n\tint_value\030\003 \001(\005\022\034\n\024inclu" +
-      "de_widget_value\030\004 \001(\010\022\034\n\013set_subject\030\005 \001" +
-      "(\tB\007\272H\004r\002\030?\022\021\n\tset_value\030\006 \001(\005\022\016\n\006toggle" +
-      "\030\007 \001(\010\022\023\n\013notify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\013" +
-      "2\013.ui.CmdSpec\022+\n\014cmd_by_value\030\n \003(\0132\013.ui" +
-      ".CmdSpecB\010\272H\005\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte" +
-      "_offset\030\001 \001(\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kin" +
-      "d\030\003 \001(\0162\r.ui.PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire" +
-      "_scale\030\004 \001(\021\"h\n\007CmdSpec\022\033\n\ncommand_id\030\001 " +
-      "\001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_template\030\002 \001(\014\022)\n\007p" +
-      "atches\030\003 \003(\0132\016.ui.FieldPatchB\010\272H\005\222\001\002\020\004\"P" +
-      "\n\013GestureSpec\022\'\n\004kind\030\001 \001(\0162\017.ui.Gesture" +
-      "KindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec" +
-      "\"l\n\021VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t" +
-      "\272H\006r\004\020\001\030?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030" +
-      "\003 \001(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorB" +
-      "inding\022#\n\004when\030\001 \001(\0132\025.ui.VisibilityBind" +
-      "ing\022\030\n\005color\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout" +
-      "\022$\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+" +
-      "\n\nmain_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001" +
-      "\002\020\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB" +
-      "\010\272H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.Flex" +
-      "AlignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_s" +
-      "elector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.Sty" +
-      "leVariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n" +
-      "\rvariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\npropert" +
-      "ies\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStylePr" +
-      "operty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyT" +
-      "ypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\ti" +
-      "nt_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t." +
-      "ui.ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030" +
-      "?H\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBun" +
-      "dleH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*" +
-      "\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H" +
-      "\005*\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n" +
-      "\010offset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spr" +
-      "ead\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013Subj" +
-      "ectType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRI" +
-      "NG\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_" +
-      "PROPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PA" +
-      "TCH_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_" +
-      "NODE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\256\003\n\nWidge" +
-      "tType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001" +
-      "\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n" +
-      "\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGE" +
-      "T_BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHE" +
-      "CKBOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_R" +
-      "OLLER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_S" +
-      "PINBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_L" +
-      "ED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022" +
-      "\027\n\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE" +
-      "\020\022\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024" +
-      "\022\025\n\021WIDGET_HOST_PROXY\020\025*p\n\tProxyMode\022\025\n\021" +
-      "PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_DRAGGA" +
-      "BLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024PROXY" +
-      "_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023\n\017TRI" +
-      "GGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANGED\020" +
-      "\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*\264\001\n\tPatchKin" +
-      "d\022\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PATCH_K" +
-      "IND_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PAT" +
-      "CH_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGET_VAL" +
-      "UE\020\004\022\025\n\021PATCH_KIND_NDC_X2\020\005\022\025\n\021PATCH_KIN" +
-      "D_NDC_Y2\020\006*\266\001\n\013GestureKind\022\031\n\025GESTURE_KI" +
-      "ND_PAN_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022" +
-      "\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TR" +
-      "ACK\020\003\022\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE" +
-      "_KIND_WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*q\n\tC" +
-      "ompareOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_" +
-      "EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n" +
-      "\nCOMPARE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexF" +
-      "low\022\022\n\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW" +
-      "\020\001\022\024\n\020FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_RO" +
-      "W_WRAP\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032F" +
-      "LEX_FLOW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW" +
-      "_COLUMN_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVER" +
-      "SE\020\007\022!\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*" +
-      "\244\001\n\tFlexAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016F" +
-      "LEX_ALIGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033" +
-      "\n\027FLEX_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIG" +
-      "N_SPACE_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BET" +
-      "WEEN\020\005*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START" +
-      "\020\000\022\025\n\021GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_" +
-      "END\020\002\022\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_AL" +
-      "IGN_SPACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_A" +
-      "ROUND\020\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n" +
-      "\tTextAlign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_" +
-      "ALIGN_LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020T" +
-      "EXT_ALIGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_D" +
-      "ECOR_NONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n" +
-      "\030TEXT_DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMod" +
-      "e\022\025\n\021BLEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_A" +
-      "DDITIVE\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n" +
-      "\023BLEND_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIF" +
-      "FERENCE\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020" +
-      "\n\014BASE_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020B" +
-      "ASE_DIR_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n" +
-      "\007GradDir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_" +
-      "VER\020\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINE" +
-      "AR\020\003\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CO" +
-      "NICAL\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT" +
-      "\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BO" +
-      "TTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_" +
-      "ALL\020\017*\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016AL" +
-      "IGN_TOP_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALI" +
-      "GN_TOP_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n" +
-      "\020ALIGN_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGH" +
-      "T\020\006\022\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_M" +
-      "ID\020\010\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_" +
-      "LEFT\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_O" +
-      "UT_TOP_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020" +
-      "\r\022\030\n\024ALIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT" +
-      "_BOTTOM_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022" +
-      "\026\n\022ALIGN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEF" +
-      "T_BOTTOM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023A" +
-      "LIGN_OUT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_" +
-      "BOTTOM\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_N" +
-      "ONE\020\000\022\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_" +
-      "SIDE_TOP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORD" +
-      "ER_SIDE_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n" +
-      "\024BORDER_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMod" +
-      "e\022\030\n\024LABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LON" +
-      "G_MODE_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020" +
-      "\002\022#\n\037LABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030" +
-      "\n\024LABEL_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017B" +
-      "AR_MODE_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL" +
-      "\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC" +
-      "_MODE_NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001" +
-      "\022\024\n\020ARC_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022" +
-      "ROLLER_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFI" +
-      "NITE\020\001*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZ" +
-      "ONTAL_TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOT" +
-      "TOM\020\001\022\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031S" +
-      "CALE_MODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE" +
-      "_ROUND_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER" +
-      "\020\020*\217\001\n\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n" +
-      "\017CHART_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002" +
-      "\022\022\n\016CHART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACK" +
-      "ED\020\004\022\026\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxi" +
-      "s\022\030\n\024CHART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXI" +
-      "S_SECONDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020" +
-      "\002\022\032\n\026CHART_AXIS_SECONDARY_X\020\004*\273\022\n\021StyleP" +
-      "ropertyType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_B" +
-      "G_OPA\020\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEX" +
-      "T_FONT\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_" +
-      "BORDER_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_" +
-      "PAD_ALL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDT" +
-      "H\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n" +
-      "\014PROP_PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PRO" +
-      "P_MARGIN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016P" +
-      "ROP_MIN_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017P" +
-      "ROP_MIN_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n" +
-      "\013PROP_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016" +
-      "\n\nPROP_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030" +
-      "\022\031\n\025PROP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRAN" +
-      "SLATE_X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_" +
-      "SCALE_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTA" +
-      "TION\020\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y" +
-      "\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014" +
-      "PROP_PAD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rP" +
-      "ROP_PAD_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PR" +
-      "OP_PAD_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PRO" +
-      "P_MARGIN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024" +
-      "\n\020PROP_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGH" +
-      "T\020,\022\026\n\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_G" +
-      "RAD_DIR\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP" +
-      "_BG_GRAD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n" +
-      "\020PROP_BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC" +
-      "\0203\022\025\n\021PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMA" +
-      "GE_RECOLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OP" +
-      "A\0206\022\027\n\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BOR" +
-      "DER_SIDE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP" +
-      "_OUTLINE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;" +
-      "\022\024\n\020PROP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_P" +
-      "AD\020=\022\025\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHAD" +
-      "OW_OFFSET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022" +
-      "\026\n\022PROP_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_C" +
-      "OLOR\020B\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAG" +
-      "E_OPA\020D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_" +
-      "IMAGE_RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G" +
-      "\022\030\n\024PROP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_" +
-      "DASH_GAP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PRO" +
-      "P_LINE_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PRO" +
-      "P_ARC_WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016P" +
-      "ROP_ARC_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPRO" +
-      "P_TEXT_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R" +
-      "\022\030\n\024PROP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_" +
-      "DECOR\020T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLI" +
-      "P_CORNER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAY" +
-      "ERED\020X\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PRO" +
-      "P_ANIM_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021" +
-      "\n\rPROP_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITI" +
-      "VITY\020]\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_" +
-      "MAIN_PLACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022" +
-      "\031\n\025PROP_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_" +
-      "GROW\020b\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PR" +
-      "OP_GRID_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_CO" +
-      "LUMN_POS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036" +
-      "\n\032PROP_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_G" +
-      "RID_CELL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_A" +
-      "LIGN\020i\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCg" +
-      "it-codecommit.eu-central-1.amazonaws.com" +
-      "/v1/repos/jettison/jonp/uib\006proto3"
+      "en\030. \001(\0132\020.ui.ColorBinding\022\031\n\010hit_slop\030/" +
+      " \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001(\r\022+\n\010gestures\030," +
+      " \003(\0132\017.ui.GestureSpecB\010\272H\005\222\001\002\020\005\032/\n\rBindi" +
+      "ngsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
+      "\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val" +
+      "ue\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231\001\n\013TreePat" +
+      "chOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchOpKindB\010\272H\005" +
+      "\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\nparent_uid\030" +
+      "\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005 \001(\0132\016.ui." +
+      "WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013ScreenPatch\022" +
+      "\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_hash\030\002 \001(\r\022" +
+      "\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"\n\n\010ObjProp" +
+      "s\"\r\n\013ButtonProps\"<\n\nLabelProps\022.\n\tlong_m" +
+      "ode\030\001 \001(\0162\021.ui.LabelLongModeB\010\272H\005\202\001\002\020\001\"~" +
+      "\n\013SliderProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_" +
+      "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004mode\030\004 \001(\016" +
+      "2\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rseek_on_press" +
+      "\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 \001(\tB\010\272H\005r\003" +
+      "\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivot_x\030\003 \001(\005\022" +
+      "\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005 \001(\005\"\364\001\n\010A" +
+      "rcProps\022\035\n\013start_angle\030\001 \001(\rB\010\272H\005*\003\030\350\002\022\033" +
+      "\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n\016bg_start_" +
+      "angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_end_angle\030\004 " +
+      "\001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001(\005\022#\n\004mode\030" +
+      "\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021\n\tmin_valu" +
+      "e\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005value\030\t \001(" +
+      "\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_" +
+      "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013start_valu" +
+      "e\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.BarModeB\010\272H\005\202" +
+      "\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked\030\001 \001(\010\" \n\r" +
+      "CheckboxProps\022\017\n\007checked\030\001 \001(\010\"\203\001\n\rDropd" +
+      "ownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010s" +
+      "elected\030\002 \001(\r\022$\n\tdirection\030\003 \001(\0162\007.ui.Di" +
+      "rB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004 \003(\005B\010\272H\005\222" +
+      "\001\002\020\020\"}\n\013RollerProps\022\031\n\007options\030\001 \001(\tB\010\272H" +
+      "\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021visible_row_" +
+      "count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui.RollerMod" +
+      "eB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035\n\013placehol" +
+      "der\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022" +
+      "\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010" +
+      "\"\202\001\n\014SpinboxProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\t" +
+      "max_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004" +
+      " \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022separator_p" +
+      "osition\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspin_ti" +
+      "me\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B\n\010LedProps" +
+      "\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\nbrightness" +
+      "\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031\n\006points\030" +
+      "\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nS" +
+      "caleProps\022%\n\004mode\030\001 \001(\0162\r.ui.ScaleModeB\010" +
+      "\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002 \001(\r\022\030\n\020ma" +
+      "jor_tick_every\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010" +
+      "\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020" +
+      "\n\010rotation\030\007 \001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272" +
+      "H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tp" +
+      "ost_draw\030\n \001(\010\022,\n\010sections\030\013 \003(\0132\020.ui.Sc" +
+      "aleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n" +
+      "\trange_min\030\001 \001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005c" +
+      "olor\030\003 \001(\0132\t.ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\n" +
+      "main_color\030\005 \001(\0132\t.ui.Color\022\022\n\nmain_widt" +
+      "h\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031\n\007map_str\030" +
+      "\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTa" +
+      "bleProps\022\021\n\trow_count\030\001 \001(\r\022\024\n\014column_co" +
+      "unt\030\002 \001(\r\"\244\001\n\014TabviewProps\022!\n\ttab_names\030" +
+      "\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 " +
+      "\001(\005\022\024\n\014active_index\030\003 \001(\r\022+\n\020tab_bar_pos" +
+      "ition\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_ba" +
+      "r_pad_left\030\005 \001(\005\"h\n\013ChartSeries\022\030\n\005color" +
+      "\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002 \001(\0162\r.ui.Cha" +
+      "rtAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002" +
+      "\020 \"\331\001\n\nChartProps\022%\n\004type\030\001 \001(\0162\r.ui.Cha" +
+      "rtTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n" +
+      "\rhas_div_lines\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\r" +
+      "B\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001" +
+      "\022)\n\006series\030\006 \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001" +
+      "\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016HostProxyProp" +
+      "s\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002" +
+      " \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003" +
+      " \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005ma" +
+      "x_h\030\006 \001(\005\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(" +
+      "\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014Eve" +
+      "ntBinding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007tr" +
+      "igger\030\002 \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022" +
+      "\021\n\tint_value\030\003 \001(\005\022\034\n\024include_widget_val" +
+      "ue\030\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021" +
+      "\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013not" +
+      "ify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec" +
+      "\022+\n\014cmd_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005" +
+      "\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r" +
+      "\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui." +
+      "PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"" +
+      "h\n\007CmdSpec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022" +
+      "\025\n\rroot_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132" +
+      "\016.ui.FieldPatchB\010\272H\005\222\001\002\020\004\"P\n\013GestureSpec" +
+      "\022\'\n\004kind\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020" +
+      "\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021Visibilit" +
+      "yBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\t" +
+      "ref_value\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.Co" +
+      "mpareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004whe" +
+      "n\030\001 \001(\0132\025.ui.VisibilityBinding\022\030\n\005color\030" +
+      "\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(" +
+      "\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030" +
+      "\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_" +
+      "place\030\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013" +
+      "track_place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002" +
+      "\020\001\"T\n\nStyleGroup\022\026\n\016state_selector\030\001 \001(\r" +
+      "\022.\n\010variants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H" +
+      "\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rvariant_inde" +
+      "x\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.u" +
+      "i.StyleProperty\"\337\001\n\rStyleProperty\022-\n\004typ" +
+      "e\030\001 \001(\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001" +
+      "\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(" +
+      "\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n" +
+      "\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow" +
+      "_value\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005valu" +
+      "e\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001" +
+      "(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014Sha" +
+      "dowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001" +
+      "(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003" +
+      "opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SU" +
+      "BJECT_INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013Patc" +
+      "hOpKind\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PA" +
+      "TCH_OP_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT" +
+      "_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PAT" +
+      "CH_OP_MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDG" +
+      "ET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LA" +
+      "BEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE" +
+      "\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWI" +
+      "DGET_SWITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WI" +
+      "DGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WI" +
+      "DGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016W" +
+      "IDGET_SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGE" +
+      "T_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUT" +
+      "TONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_" +
+      "TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HO" +
+      "ST_PROXY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_ST" +
+      "ATIC\020\000\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROX" +
+      "Y_MODE_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNAB" +
+      "LE\020\003*X\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020" +
+      "\000\022\031\n\025TRIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_" +
+      "LONG_PRESSED\020\002*\264\001\n\tPatchKind\022\032\n\026PATCH_KI" +
+      "ND_UNSPECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024" +
+      "\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA" +
+      "\020\003\022\033\n\027PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH" +
+      "_KIND_NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006*\266\001" +
+      "\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000" +
+      "\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GESTURE_KI" +
+      "ND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022GEST" +
+      "URE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005" +
+      "\022\024\n\020GESTURE_KIND_ROI\020\006*q\n\tCompareOp\022\016\n\nC" +
+      "OMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPA" +
+      "RE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004" +
+      "\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_F" +
+      "LOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FL" +
+      "OW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025F" +
+      "LEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_" +
+      "WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020" +
+      "\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_" +
+      "FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign" +
+      "\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END" +
+      "\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_" +
+      "SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUN" +
+      "D\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGr" +
+      "idAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_AL" +
+      "IGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID" +
+      "_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVE" +
+      "NLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GR" +
+      "ID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n" +
+      "\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022" +
+      "\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIG" +
+      "HT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030" +
+      "\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_S" +
+      "TRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MO" +
+      "DE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026" +
+      "BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_M" +
+      "ULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007" +
+      "BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RT" +
+      "L\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTR" +
+      "AL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rG" +
+      "RAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD" +
+      "_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_" +
+      "DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Di" +
+      "r\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIG" +
+      "HT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR" +
+      "_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Ali" +
+      "gn\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020" +
+      "\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020" +
+      "\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM" +
+      "_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_" +
+      "LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN" +
+      "_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALI" +
+      "GN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020" +
+      "\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OU" +
+      "T_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT" +
+      "\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_" +
+      "LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n" +
+      "\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGH" +
+      "T_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\n" +
+      "BorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORD" +
+      "ER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n" +
+      "\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT" +
+      "\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_" +
+      "INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LO" +
+      "NG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001" +
+      "\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LO" +
+      "NG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_" +
+      "MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMA" +
+      "L\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MOD" +
+      "E_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020" +
+      "\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_" +
+      "REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_N" +
+      "ORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tSc" +
+      "aleMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 " +
+      "\n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCAL" +
+      "E_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VER" +
+      "TICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020" +
+      "\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChartT" +
+      "ype\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_L" +
+      "INE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYP" +
+      "E_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART" +
+      "_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AX" +
+      "IS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y" +
+      "\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AX" +
+      "IS_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022\021" +
+      "\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PR" +
+      "OP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021P" +
+      "ROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020" +
+      "\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014" +
+      "PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_H" +
+      "EIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR" +
+      "\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020" +
+      "\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH" +
+      "\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGH" +
+      "T\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020" +
+      "\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020" +
+      "\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRAN" +
+      "SFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020" +
+      "PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014" +
+      "PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PRO" +
+      "P_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SK" +
+      "EW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020" +
+      "#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020" +
+      "%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022" +
+      "\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020" +
+      ")\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN" +
+      "_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_B" +
+      "G_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021" +
+      "PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP" +
+      "\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD" +
+      "_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG" +
+      "_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022" +
+      "\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_B" +
+      "G_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n" +
+      "\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WIDT" +
+      "H\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTL" +
+      "INE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_" +
+      "SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?" +
+      "\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADO" +
+      "W_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PRO" +
+      "P_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PR" +
+      "OP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR" +
+      "_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE" +
+      "_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n" +
+      "\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020" +
+      "K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M" +
+      "\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR" +
+      "\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022" +
+      "\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT" +
+      "_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PR" +
+      "OP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n" +
+      "\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PRO" +
+      "P_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATI" +
+      "ON\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_D" +
+      "IR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PRO" +
+      "P_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022" +
+      "\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_" +
+      "TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PRO" +
+      "P_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_A" +
+      "LIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n" +
+      "\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_C" +
+      "ELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_" +
+      "POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PRO" +
+      "P_GRID_CELL_ROW_SPAN\020jBEZCgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -55267,7 +55490,7 @@ java.lang.String defaultValue) {
     internal_static_ui_WidgetNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_descriptor,
-        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "ColorWhen", "Uid", "Gestures", "WidgetProps", });
+        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "ColorWhen", "HitSlop", "Uid", "Gestures", "WidgetProps", });
     internal_static_ui_WidgetNode_BindingsEntry_descriptor =
       internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(0);
     internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable = new

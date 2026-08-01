@@ -108,14 +108,22 @@
    :knob (tokens/color :media-knob)})
 
 (def scrubber-halo
-  "The wrapper's transparent hit-halo band, px per side — equal to the
-   renderer's seek_on_press ext-click widening (LV_DPX(24) at the pinned
-   dpi 160). LVGL's indev search descends into children only when the
-   point is ON the parent's coords (lv_indev_search_obj), so an exact-fit
-   wrapper structurally erases the slider's widened click area (measured:
-   every tap 1px past the wrapper missed). The wrapper therefore extends
-   `scrubber-halo` px beyond the track on every side; its boundary then
-   coincides exactly with the slider's ext-click boundary."
+  "The scrubber's hit affordance, px per side. ONE home for two things that
+   must be equal and used to be authored separately: the slider's
+   `hit_slop` (the widened hit box) and the wrapper's transparent band (the
+   layout space that widening is allowed to occupy). It was previously the
+   wrapper alone, kept equal BY HAND to a renderer-side constant; hit_slop
+   put the widening on the wire, so the same number now drives both and the
+   two cannot drift.
+
+   Both halves are load-bearing. LVGL's indev search descends into children
+   only when the point is ON the parent's coords (lv_indev_search_obj), so
+   an exact-fit wrapper structurally erases the widened click area
+   (measured: every tap 1px past the wrapper missed). And a widening with
+   no reserved band is exactly the hazard `hit_slop`'s authoring duty names
+   — it would bleed into whatever sits beside the scrubber. The wrapper
+   therefore extends `scrubber-halo` px beyond the track on every side, and
+   its boundary coincides with the slider's hit boundary."
   24)
 
 (def ^:private scrubber-keys #{:min :max :value :buffered :width :height :seek-event-name})
@@ -125,12 +133,13 @@
    bar underlay carries the track, else MAIN is the track itself.
 
    `seek_on_press` is set UNCONDITIONALLY: press-seek is the scrubber's
-   contract (a media scrubber seeks the moment the finger lands), and the
-   renderer couples the widened tap target (ext_click_area, LV_DPX(24)) to
-   the same prop. The prop is pixel-inert — the scrubber's look never
-   depends on it."
+   contract — a media scrubber seeks the moment the finger lands. It is
+   BEHAVIOUR ONLY; the widened tap target is `:hit-slop` below, which the
+   two used to share as one fused flag. Both are pixel-inert — the
+   scrubber's look never depends on either."
   [{mn :min mx :max :keys [value width height seek-event-name]} buffered?]
   {:type :WIDGET_SLIDER
+   :hit-slop scrubber-halo
    :props {:slider_props {:min_value mn :max_value mx :value value :seek_on_press true}}
    :event {:name seek-event-name :trigger :value-changed :include-widget-value true}
    :styles (into [(if buffered?

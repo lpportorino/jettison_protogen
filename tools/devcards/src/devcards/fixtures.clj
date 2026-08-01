@@ -665,9 +665,11 @@
 ;;    :flags [:hidden]           ; obj_flags bits (lv_obj_add_flag)
 ;;    :flags-clear [:scrollable] ; obj_flags_clear bits (lv_obj_remove_flag)
 ;;    :states-bits 512           ; wire lv_state_t bitmask, verbatim
+;;    :hit-slop 24               ; WidgetNode.hit_slop, design px per side
 ;;    :layout {:flow :row}}      ; the Layout message (kitchen sinks)
 (def ^:private node-keys
-  #{:type :props :text :children :bare :flags :flags-clear :states-bits :layout})
+  #{:type :props :text :children :bare :flags :flags-clear :states-bits :hit-slop
+    :layout})
 
 (def ^:private authored-node-keys
   "The authored-lane node shape: the atomic keys plus absolute position,
@@ -770,6 +772,16 @@
         (throw (ex-info (str ctx ": :states-bits outside lv_state_t range")
                         {:ctx ctx :states-bits s})))
       (.setStates b (int s)))
+    ;; hit_slop: the wire's only route to a hit box larger than the drawn box.
+    ;; Bounded here at the proto's own buf.validate ceiling, because the C leg
+    ;; strips those annotations (scripts/proto_cleanup.awk) and nothing else
+    ;; would refuse an out-of-range corpus value before the renderer saw it.
+    (when-some [hs (:hit-slop node)]
+      (when-not (<= 0 hs 64)
+        (throw (ex-info (str ctx ": :hit-slop outside the ui.WidgetNode"
+                             " hit_slop range (0..64)")
+                        {:ctx ctx :hit-slop hs})))
+      (.setHitSlop b (int hs)))
     (doseq [c (:children node)] (.addChildren b (build-node ctx c)))
     (.build b)))
 

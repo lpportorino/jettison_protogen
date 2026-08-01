@@ -27,25 +27,26 @@
      present so the rest are not the only thing proving the rule runs at all.
 
    - CLICK AREA (`click_area`, emitted only when it differs from coords).
-     A slider with `seek_on_press` takes the renderer's LV_DPX(24) ext click
-     area (renderer.c SLIDER_SEEK_EXT_CLICK_PX); a plain slider takes the
-     renderer's default of zero, so it emits the key not at all. Both cards
-     place the same neighbour in the same place, DRAWN clear of the slider.
-     The seek twin must fire and the plain twin must not, so the verdict
-     turns on a PER-INSTANCE fact and never on the class (both are
-     lv_slider): one wire prop is the entire difference. A rule reading
-     coords is silent on both and so fails the seek half; a rule assuming a
-     per-class pad fires on both and so fails the plain half. The two cards
-     are also asserted to render BYTE-IDENTICAL framebuffers, which is the
-     whole reason this rule exists: no pixel oracle can tell them apart.
+     THREE cards, same neighbour in the same place, DRAWN clear of the
+     slider. A slider with `WidgetNode.hit_slop` takes LV_DPX of it and must
+     FIRE; a slider asking for nothing emits the key at all and must not;
+     and a slider carrying `SliderProps.seek_on_press` and NO hit_slop must
+     ALSO not, which is what pins the two as unfused — that flag used to
+     carry a 24px widening as a side effect, so neither behaviour could be
+     had alone. The verdict therefore turns on a PER-INSTANCE fact and never
+     on the class (all three are lv_slider). A rule reading coords is silent
+     on all three and so fails the slop half; a rule assuming a per-class
+     pad fires on all three and so fails the other two. The slop and plain
+     cards are also asserted to render BYTE-IDENTICAL framebuffers, which is
+     the whole reason this rule exists: no pixel oracle can tell them apart.
 
    - LAYOUT GAP (`click_area` again, but read for its ABSENCE). Two rows of a
      generated column, separated by the smallest non-zero spacing token this
      repo publishes — the tightest gap a layout can produce. Measures whether
      a stock interactive widget's reach stays inside its drawn box, so that a
      gap the author honoured is still a gap the POINTER honours. The
-     `seek_on_press` twin at the identical geometry is the non-vacuity guard:
-     a deliberately widened hit box must still fire there, so a silent plain
+     `hit_slop` twin at the identical geometry is the non-vacuity guard: a
+     deliberately widened hit box must still fire there, so a silent plain
      twin cannot be a dead check.
 
    - NESTING. A control inside an interactive container overlaps it by
@@ -128,24 +129,35 @@
   {:type :WIDGET_SWITCH :x x :y y :props {:w 80 :h 40}})
 
 (defn- slider-at
-  "A slider at a fixed place. `seek?` rides SliderProps.seek_on_press, which
-   is the ONLY wire route to a widened ext click area — the wire carries no
-   ext-click vocabulary of its own."
-  [x y seek?]
-  {:type :WIDGET_SLIDER
-   :x x :y y
-   :props {:w 120 :h 20
-           :slider_props (cond-> {:min_value 0 :max_value 100 :value 50}
-                           seek? (assoc :seek_on_press true))}})
+  "A slider at a fixed place. `slop` rides WidgetNode.hit_slop, the wire's
+   only route to a hit box larger than the drawn box; 0 omits the key so the
+   node asks for nothing."
+  [x y slop]
+  (cond-> {:type :WIDGET_SLIDER
+           :x x :y y
+           :props {:w 120 :h 20
+                   :slider_props {:min_value 0 :max_value 100 :value 50}}}
+    (pos? (long slop)) (assoc :hit-slop slop)))
 
 (defn- stacked-slider
   "A 120x16 slider, the thin-track shape a form column produces."
-  [x y seek?]
+  [x y slop]
+  (cond-> {:type :WIDGET_SLIDER
+           :x x :y y
+           :props {:w 120 :h 16
+                   :slider_props {:min_value 0 :max_value 100 :value 50}}}
+    (pos? (long slop)) (assoc :hit-slop slop)))
+
+(defn- seek-slider-at
+  "A slider carrying SliderProps.seek_on_press and NO hit_slop. The prop used
+   to fuse press-seek behaviour with a 24px hit widening; this node is what
+   proves the two are separable."
+  [x y]
   {:type :WIDGET_SLIDER
    :x x :y y
-   :props {:w 120 :h 16
-           :slider_props (cond-> {:min_value 0 :max_value 100 :value 50}
-                           seek? (assoc :seek_on_press true))}})
+   :props {:w 120 :h 20
+           :slider_props {:min_value 0 :max_value 100 :value 50
+                          :seek_on_press true}}})
 
 (defn- dropdown-below
   "The next interactive row in the column."
@@ -250,14 +262,19 @@
 
 (defn- click-area-checks
   []
-  (let [seek-id "canary/overlap-click-area-seek"
+  (let [seek-id "canary/overlap-click-area-slop"
         plain-id "canary/overlap-click-area-plain"
-        seek (render! (card seek-id [(slider-at 100 100 true) (switch-at 230 100)]))
-        plain (render! (card plain-id [(slider-at 100 100 false) (switch-at 230 100)]))
+        unfused-id "canary/overlap-click-area-seek-unfused"
+        seek (render! (card seek-id [(slider-at 100 100 24) (switch-at 230 100)]))
+        plain (render! (card plain-id [(slider-at 100 100 0) (switch-at 230 100)]))
+        unfused (render! (card unfused-id
+                               [(seek-slider-at 100 100) (switch-at 230 100)]))
         seek-fs (findings-of seek-id (:tree seek))
         plain-fs (findings-of plain-id (:tree plain))
+        unfused-fs (findings-of unfused-id (:tree unfused))
         seek-sl (node-at (:tree seek) [0 0 0])
         plain-sl (node-at (:tree plain) [0 0 0])
+        unfused-sl (node-at (:tree unfused) [0 0 0])
         seek-sw (node-at (:tree seek) [0 0 1])
         drawn-sep (geometry/separation (:coords seek-sl) (:coords seek-sw))
         hit-sep (geometry/separation (:click_area seek-sl) (:coords seek-sw))]
@@ -265,8 +282,18 @@
       (format "controlled pair: both sliders DRAW the same box — %s vs %s"
               (pr-str (:coords seek-sl)) (pr-str (:coords plain-sl)))]
      [(and (some? (:click_area seek-sl)) (nil? (:click_area plain-sl)))
-      (format "one wire prop apart, the two sliders REACH differently: seek emits click_area %s, plain emits none (so its hit box is its drawn box)"
+      (format "one wire field apart, the two sliders REACH differently: the hit_slop twin emits click_area %s, the plain one emits none (so its hit box is its drawn box)"
               (pr-str (:click_area seek-sl)))]
+     ;; THE UNFUSING PIN. seek_on_press once carried the widening as a side
+     ;; effect, so a scrubber could not ask for the seek without the
+     ;; envelope or the envelope without the seek, and no other widget could
+     ;; ask for either. A refusal to widen is the whole assertion.
+     [(nil? (:click_area unfused-sl))
+      (format "seek_on_press with NO hit_slop widens NOTHING — the flag is behaviour only: click_area %s, coords %s"
+              (pr-str (:click_area unfused-sl)) (pr-str (:coords unfused-sl)))]
+     [(and (empty? unfused-fs) (= (:coords unfused-sl) (:coords seek-sl)))
+      (format "…so at the geometry where the hit_slop twin fires, the press-seek slider is silent: %s"
+              (pr-str (mapv (juxt :invariant :node) unfused-fs)))]
      ;; Derived from the dump, never restated from the C constant: a
      ;; restated number agrees with the renderer only until one of them
      ;; moves. What is asserted is the SHAPE ext_click_pad must have —
@@ -335,9 +362,9 @@
         slider-y 136
         ;; the next row starts one spacing token below the slider's last pixel
         drop-y (+ slider-y 16 smallest-spacing-gap)
-        plain (render! (card plain-id [(stacked-slider row-x slider-y false)
+        plain (render! (card plain-id [(stacked-slider row-x slider-y 0)
                                        (dropdown-below row-x drop-y)]))
-        seek (render! (card seek-id [(stacked-slider row-x slider-y true)
+        seek (render! (card seek-id [(stacked-slider row-x slider-y 24)
                                      (dropdown-below row-x drop-y)]))
         plain-fs (findings-of plain-id (:tree plain))
         seek-fs (findings-of seek-id (:tree seek))

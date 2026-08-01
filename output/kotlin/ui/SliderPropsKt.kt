@@ -105,16 +105,20 @@ public object SliderPropsKt {
 
     /**
      * ```
-     * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-     * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-     * pressed point to a value with the stock update_knob_pos math (stock LVGL
-     * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-     * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-     * sets LV_DPX(8). The widening rides this prop because the wire carries no
-     * ext-click vocabulary; a slider without the prop keeps full stock
-     * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-     * press-seeks: which knob a press adjusts is the two-knob proximity
-     * contract, and jumping a knob on DOWN would preempt it.
+     * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+     * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+     * track tap only at RELEASE, so this changes WHEN the value moves, and
+     * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+     * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+     * would preempt it.
+     *
+     * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+     * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+     * — so a scrubber could not ask for the envelope without the seek, or the
+     * seek without the envelope, and no other widget could ask for either.
+     * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+     * slider that wants the envelope sets both, and its author owes hit_slop's
+     * reserve-the-space duty.
      * ```
      *
      * `bool seek_on_press = 5;`
@@ -128,16 +132,20 @@ public object SliderPropsKt {
       }
     /**
      * ```
-     * Scrubber contract — one prop, two coupled renderer behaviors. When set,
-     * the slider (a) seeks immediately on press: LV_EVENT_PRESSED maps the
-     * pressed point to a value with the stock update_knob_pos math (stock LVGL
-     * seeks a stationary track tap only at RELEASE), and (b) widens the ext
-     * click area to LV_DPX(24) — the measured finger envelope; the stock ctor
-     * sets LV_DPX(8). The widening rides this prop because the wire carries no
-     * ext-click vocabulary; a slider without the prop keeps full stock
-     * behavior (release-seek + the 8 px halo). BAR_MODE_RANGE never
-     * press-seeks: which knob a press adjusts is the two-knob proximity
-     * contract, and jumping a knob on DOWN would preempt it.
+     * Seek immediately on press: LV_EVENT_PRESSED maps the pressed point to a
+     * value with the stock update_knob_pos math. Stock LVGL seeks a stationary
+     * track tap only at RELEASE, so this changes WHEN the value moves, and
+     * nothing else. BAR_MODE_RANGE never press-seeks: which knob a press
+     * adjusts is the two-knob proximity contract, and jumping a knob on DOWN
+     * would preempt it.
+     *
+     * THIS PROP IS BEHAVIOUR ONLY. It used to also widen the ext click area to
+     * LV_DPX(24), because the wire had nowhere else to put a touch affordance
+     * — so a scrubber could not ask for the envelope without the seek, or the
+     * seek without the envelope, and no other widget could ask for either.
+     * WidgetNode.hit_slop now carries that, for every widget; a press-seek
+     * slider that wants the envelope sets both, and its author owes hit_slop's
+     * reserve-the-space duty.
      * ```
      *
      * `bool seek_on_press = 5;`

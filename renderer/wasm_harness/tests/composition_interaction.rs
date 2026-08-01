@@ -360,19 +360,24 @@ fn scrubber_press_drag_stream() {
 /// no VALUE_CHANGED and would fake a miss.
 ///
 /// WHAT A GREEN HERE DOES NOT MEAN. The boundary is the MINIMUM of two
-/// independently-authored widenings kept equal at 24: the renderer's
-/// seek_on_press ext-click area (`SLIDER_SEEK_EXT_CLICK_PX`, `LV_DPX(24)`)
-/// and the lego's transparent halo wrapper (`devcards.legos/scrubber-halo`).
-/// LVGL descends into a child only when the point is on the PARENT's coords,
-/// so the wrapper clips first and the smaller wins. MEASURED across three
-/// sha-distinct wasm builds: renderer 24 -> 48, wrapper unchanged, stays
-/// GREEN — the widening is invisible; renderer 24 -> 12 goes RED at
+/// widenings: the slider's `WidgetNode.hit_slop` and the lego's transparent
+/// halo wrapper. LVGL descends into a child only when the point is on the
+/// PARENT's coords, so the wrapper clips first and the smaller wins.
+/// MEASURED across three sha-distinct wasm builds, back when the widening
+/// was a renderer-side constant: 24 -> 48 with the wrapper unchanged stays
+/// GREEN — the widening is invisible; 24 -> 12 goes RED at
 /// `dy 16 ... expected HIT`. So this pins the boundary DOWNWARD ONLY: it
 /// catches either side SHRINKING below the declared value and is blind to
 /// either side GROWING. Read a green as "nothing narrowed the reachable
-/// halo", never as "the renderer's ext-click area is still 24". The value
-/// itself is DERIVED from the corpus declaration rather than copied, so the
-/// number above is provenance, not a second source of truth.
+/// halo", never as "the hit slop is still 24". The value itself is DERIVED
+/// from the corpus declaration rather than copied.
+///
+/// Those two are no longer INDEPENDENTLY authored, which is what that
+/// measurement was warning about: `devcards.legos/scrubber-halo` is now the
+/// single source for both the wrapper band and the slider's `hit_slop`, so
+/// the drift this docstring described cannot be introduced by editing one
+/// side. The downward-only limit still stands — it is a property of the
+/// sweep, not of where the number came from.
 #[test]
 fn scrubber_ext_click_envelope() {
     let g = geometry();
