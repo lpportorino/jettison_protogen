@@ -699,7 +699,10 @@ predict it before anything renders.
 explicitly on every widget whose class would otherwise inherit one, so nothing
 is reachable outside the rectangle it paints unless the WIRE asked for that.
 Two vendored constructors do set a pad of their own — `lv_slider` at `LV_DPX(8)`
-and `lv_arc` at a fixed `LV_DPI_DEF / 10` — and `renderer.c`'s ext-click block
+and `lv_arc` at a fixed `LV_DPI_DEF / 10`, which is 16px because this build
+sets `LV_DPI_DEF` to 160 in `renderer/lv_conf.h` (the upstream TEMPLATE ships
+130, so that number must be read from the config and never from the template)
+— and `renderer.c`'s ext-click block
 overrides both at creation, with the full reasoning. Neither pad was a decision
 this interpreter made, neither is expressible on the wire, and a layout engine
 reserves space by the PAINTED box, so an inherited pad can only ever bleed into

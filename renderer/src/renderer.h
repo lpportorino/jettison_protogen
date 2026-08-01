@@ -38,7 +38,16 @@
  * TWO vendored constructors set a pad of their own, and neither value is a
  * decision this interpreter ever made:
  *   lv_slider_constructor  LV_DPX(8)        — SCALES with display DPI
- *   lv_arc_constructor     LV_DPI_DEF / 10  — a FIXED 13px that does not
+ *   lv_arc_constructor     LV_DPI_DEF / 10  — a FIXED 16px that does NOT,
+ *                                             LV_DPI_DEF being a
+ *                                             compile-time constant this
+ *                                             build sets to 160 in
+ *                                             renderer/lv_conf.h. Read it
+ *                                             THERE: lv_conf_template.h
+ *                                             ships 130, so a reader who
+ *                                             takes the number from the
+ *                                             template computes 13 and is
+ *                                             wrong by 3px for this tree.
  * Both widgets also ship an LV_EVENT_HIT_TEST handler that would narrow the
  * reach back to the knob / the ring, and both handlers are DEAD CODE here:
  * lv_obj_hit_test consults them only under LV_OBJ_FLAG_ADV_HITTEST, which
