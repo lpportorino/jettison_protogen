@@ -46,8 +46,13 @@ type JonGuiDataCameraHeat struct {
 	// the producer has two samples to difference; zero when present means
 	// nothing is arriving, which is a measurement rather than an absence.
 	// delivered_fps counts frames handed on, content_fps only frames whose
-	// content changed. On this channel the two differ under healthy operation,
-	// because the thermal core re-serves each image several times.
+	// content changed.
+	//
+	// DIVERGENCE IS THE SIGNAL, NOT THE BASELINE. A healthy idle heat channel
+	// reads the two rates EQUAL: the 2:1 ingress drop ahead of the GPU upload
+	// cancels the thermal core's idle re-serve exactly. Do not read a 1:1 heat
+	// channel as a broken counter. Content falls below delivery under scan
+	// load, not at rest.
 	DeliveredFps  *float64 `protobuf:"fixed64,17,opt,name=delivered_fps,json=deliveredFps,proto3,oneof" json:"delivered_fps,omitempty"`
 	ContentFps    *float64 `protobuf:"fixed64,18,opt,name=content_fps,json=contentFps,proto3,oneof" json:"content_fps,omitempty"`
 	unknownFields protoimpl.UnknownFields

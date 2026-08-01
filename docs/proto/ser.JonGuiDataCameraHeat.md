@@ -170,7 +170,9 @@ CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM i
 
 Rate at which the heat channel's CUDA IPC producer hands frames on, measured by eutropia by differencing successive `generation` counter values against their capture timestamps. Absent until two samples exist to difference, so a freshly attached reader publishes nothing rather than a fabricated zero. Zero when present is a measurement — nothing is arriving — and carrying presence is what keeps that distinct from "not yet known".
 
-The thermal interface delivers at a steady rate that is largely insensitive to whether the core produced a new image, so on this channel a healthy `delivered_fps` is weak evidence about the picture. Pair it with `content_fps`.
+This is NOT the thermal interface's own rate. A 2:1 ingress drop runs ahead of the GPU upload, so the CUDA IPC tap sees about half what the interface delivers, and this field reports the tap.
+
+The interface delivers at a steady rate that is largely insensitive to whether the core produced a new image, so on this channel a healthy `delivered_fps` is weak evidence about the picture. Pair it with `content_fps`.
 
 
 #### Metadata
@@ -183,11 +185,13 @@ The thermal interface delivers at a steady rate that is largely insensitive to w
 
 Rate at which frame CONTENT actually changes, measured by eutropia from the producer's content-novelty counter over the same interval as `delivered_fps`. This is the field to read when the question is whether the thermal core is really producing pictures.
 
-**On this channel the two rates differ under healthy operation, and that is expected rather than a fault.** The thermal core re-serves each image several times over its steady delivery rate — measured between two and four times, and which factor applies is state-dependent — so `delivered_fps` can sit at its nominal value while `content_fps` is a half or a quarter of it. A single rate could not carry both facts, which is why these are two fields and not one.
+**DIVERGENCE IS THE SIGNAL, NOT THE BASELINE — and on this channel that is easy to get backwards.** A healthy IDLE heat channel reads the two rates EQUAL, because the 2:1 ingress drop ahead of the GPU upload cancels the thermal core's idle re-serve almost exactly. Measured on a bench target over a 20.34 s window: 508 deliveries against 508 content transitions, both near 25 Hz, dup-factor 1.000. **Do not read a 1:1 heat channel as a broken counter.**
 
-The consequence for any consumer: a per-delivery loop on heat processes the same image two to four times over, and a fixed-stride sampler that happens to straddle a duplicate pair sees an exactly identical frame — indistinguishable from a static scene, and actively wrong during motion. Gate such work on content advancing, never on delivery.
+Content falls below delivery under SCAN load rather than at rest. A rotary-scan clip decoded 61% of consecutive frames bit-identical, implying content refresh near 13 Hz against 25 fps of delivery. That figure is derived from clip analysis rather than measured on the current pipeline, so treat the healthy content band as roughly 13-25 Hz and state-dependent. This is also why no fixed content threshold works here: the two counters are meant to be compared against each other, never against a constant.
 
-A `content_fps` that falls to zero while `delivered_fps` holds is the invisible-freeze case: the interface is still handing on frames, but every one of them is the same picture.
+The consequence for any consumer: whenever content does lag delivery, a per-delivery loop reprocesses the same image, and a fixed-stride sampler that straddles a duplicate pair sees an exactly identical frame — indistinguishable from a static scene, and actively wrong during motion. Gate such work on content advancing, never on delivery.
+
+The pair's real value is a failure nothing else reports. `content_fps` at zero while `delivered_fps` holds is a content freeze: frames keep arriving and every one is the same picture. BOTH at zero is a delivery stop — and there the shared control block stays CRC-clean, untorn and parseable, the producer process stays alive, and systemd stays green, so these two counters are the only surface that shows it.
 
 
 #### Metadata
