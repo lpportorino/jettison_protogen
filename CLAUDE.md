@@ -483,6 +483,45 @@ device meta nodes stay in consumer repos, which reuse this runner via their
 protogen pin. Device-specific screen AUTHORING stays in the private
 consumers; this repo defines how interfaces work, not what any product's
 screens contain.
+
+## The scratch devcard — a hot render surface for iteration
+
+`tools/scratchcard/bin/scratchcard regenerate --file <screen.edn>` renders an
+authored screen across the theme/resolution matrix, judges every cell with the
+armed devcards lanes, and writes a run directory of PNGs, `dump_tree` JSON,
+stats and findings that a later run can be diffed against. It exists for a
+NON-HUMAN author: the reader is a model, and the report is written for one.
+
+Three things about it are non-obvious and easy to get wrong in the dangerous
+direction:
+
+- **IT GATES NOTHING ABOUT A SCREEN'S CONTENT.** `check-renderer` is the gate.
+  Two lanes gate the TOOL (`scratchcard-test`, `scratchcard-lane`); nothing
+  gates what a user writes with it, and a clean run is information, not a pass.
+- **ITS OUTPUT IS GITIGNORED BY CONTRACT**, under `.protogen/`. The battery
+  reads the working tree as it runs, so a daemon writing into tracked space
+  would produce results describing no commit that ever existed. Do not
+  relocate it into the tree.
+- **EVERY FORK RUNS ITS OWN DAEMON AND CONTAINER**, keyed by a hash of the
+  worktree root, with no TCP ports at all — so a second checkout is never a
+  conflict.
+
+**USE IT WHEN AUTHORING OR FIXING A WIDGET OR A SCREEN.** Not as a courtesy —
+because the alternative is guessing. A ui_ast surface has three things a reader
+cannot get from the source: what it actually RENDERS, what its `dump_tree`
+says, and what the armed geometry lanes make of it. Reasoning about a layout
+from the EDN alone is how a screen ships with `:clipped` on every label, which
+is exactly what the shipped example did until the tool was pointed at it. Write
+the screen, regenerate, read the verdict, fix, regenerate. The loop is about a
+second.
+
+The operational detail is `.claude/rules/scratch-devcard.md`; the task playbook
+is the `scratch-devcard` skill, which carries the dump-key absence table —
+where an absent key means a DEFAULT rather than "no information".
+`.claude/rules/scratch-devcard-api.md` is GENERATED from the live code (ops,
+typed error codes, the full manifest schema, the armed lanes, the default
+matrix) and its freshness is gated, so it cannot document a tool that moved.
+
 ## What protogen is
 
 A Docker-based protocol-buffer code generator producing per-language bindings —
@@ -505,6 +544,7 @@ ui_ast reference interpreter above.
 - `tools/devcards/` — the devcard corpus runner (GraalWasm): fixtures, golden
   manifests, invariants, the JPEG gallery and per-widget docs.
 - `tools/renderer-gen/` — the renderer vocabulary/fixture codegen seam.
+- `tools/scratchcard/` — the scratch-devcard warm render daemon and its client.
 - `docs/` — the Obsidian vault of generated per-message and per-enum markdown.
   Implementation lives in `docs/.protodoc/`; user-written descriptions survive
   regeneration by roundtrip extraction.

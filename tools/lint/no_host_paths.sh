@@ -180,8 +180,17 @@ scanned=$(printf '%s\n' "$files" | wc -l | tr -d ' ')
 # ── scan ──────────────────────────────────────────────────────────────────
 # Two greps rather than one alternation, so each pattern's hits can be
 # reported under its own heading with its own fix advice.
-raw_home="$(printf '%s\n' "$files" | tr '\n' '\0' | xargs -0 grep -nE '/home/[a-z]' 2>/dev/null || true)"
-raw_tilde="$(printf '%s\n' "$files" | tr '\n' '\0' | xargs -0 grep -nE '~/[A-Za-z0-9_]' 2>/dev/null || true)"
+# `-H` IS NOT OPTIONAL. grep prints the filename prefix only when it is given
+# MORE THAN ONE file operand; hand it exactly one and the output is `line:text`
+# with no path. `xargs` batches by total argv length, so whether any batch ends
+# up holding a single file depends on how many files there are and how long
+# their paths are — i.e. it changes as the tree changes, and the LAST batch is
+# the one that varies. Everything downstream parses `file:line:text`: the
+# allowlist matches on BOTH path and substring, and the report groups by file.
+# Without `-H` an unlucky batch silently loses attribution, which surfaces as a
+# gate that refuses correctly while its diagnosis names no clause.
+raw_home="$(printf '%s\n' "$files" | tr '\n' '\0' | xargs -0 grep -HnE '/home/[a-z]' 2>/dev/null || true)"
+raw_tilde="$(printf '%s\n' "$files" | tr '\n' '\0' | xargs -0 grep -HnE '~/[A-Za-z0-9_]' 2>/dev/null || true)"
 
 # ── allowlist application, and its staleness check ────────────────────────
 #

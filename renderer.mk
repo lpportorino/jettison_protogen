@@ -422,6 +422,78 @@ deadzone-canary-prebuilt: wasm-present bindings
 # `-j` cannot start it before the artifact exists; CI takes the prebuilt form,
 # which consumes the uploaded artifact on a runner with no WASI-SDK. The guard
 # stays in both, and $(1) names the target the CALLER can actually run.
+## scratchcard-lane: the scratch-devcard pipeline against the real wasm.
+#
+# GATES FOUR CLAUSES, and the last one is why the first three mean anything:
+# the shipped example renders CLEAN across the whole default matrix, the matrix
+# is EXACTLY its expected size (never merely non-empty), vanilla == stock
+# bit-identically, and a PLANTED defect is CAUGHT. Without that last clause a
+# clean run would prove only that the lanes are quiet, not that they are awake.
+#
+# The lane exits 3 for CANNOT RUN and 1 for a real verdict, so a red says which
+# it was. NOTE the guard below is the ordinary make-level wasm-present check
+# copied from the canary lanes and exits 1; the lane's own exit-3 path covers a
+# wasm that vanishes after the guard passes.
+#
+# The scratchcard DAEMON is deliberately NOT exercised here: it drives docker,
+# which this image does not carry. That half is host-only, like go-leg-repro.
+define scratchcard-lane-suite
+@test -f $(R)/output/controls.wasm || { 	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; 	exit 1; }
+cd tools/scratchcard && clojure -M:render-lane
+endef
+
+.PHONY: scratchcard-lane scratchcard-lane-prebuilt
+scratchcard-lane: wasm bindings proto-classes
+	$(call scratchcard-lane-suite,scratchcard-lane)
+
+scratchcard-lane-prebuilt: wasm-present bindings proto-classes
+	$(call scratchcard-lane-suite,scratchcard-lane-prebuilt)
+
+## scratchcard-e2e: the daemon and its socket, end to end. HOST-ONLY.
+#
+# DELIBERATELY NOT IN `check-renderer-lanes`, and the exclusion is recorded
+# HERE — beside the aggregate it is excluded from — rather than left for a
+# reader to infer coverage this battery does not have. It drives `docker`
+# directly and the toolchain image carries no docker CLI, which is the same
+# capability fact that makes `go-leg-repro` host-only.
+#
+# It is also in no CI workflow, for the same reason: a runner would need
+# docker-in-docker. What CI DOES cover is `scratchcard-lane`, the render half.
+# The transport half is proven here, by hand, on a host.
+.PHONY: scratchcard-e2e
+scratchcard-e2e:
+	@bash tools/scratchcard/test/daemon_e2e.sh
+
+## scratchcard-lane-canary: proves each scratchcard-lane clause fails for ITS
+## OWN reason. HOST-ONLY (it drives tools/uber.sh, which drives docker), and
+## excluded from check-renderer-lanes for that reason — recorded here, beside
+## the target, rather than left for a reader to infer.
+SCRATCHCARD_BRIEF := .claude/rules/scratch-devcard-api.md
+
+## scratchcard-brief-generate: rewrite the generated API rule from live code.
+## GENERATOR ONLY — always exits 0. The freshness GATE is the target below.
+.PHONY: scratchcard-brief-generate
+scratchcard-brief-generate: proto-classes
+	cd tools/scratchcard && clojure -M:brief "$$(pwd)/../.."
+
+## scratchcard-brief: the freshness gate. Regenerates, then refuses a diff.
+#
+# Modelled on `standard-brief`, including its two guards, because both failure
+# modes are silent: git cannot resolve a container-mounted checkout (so
+# freshness would be UNKNOWN rather than fresh), and `git diff` says NOTHING
+# about an untracked path (so the check would pass green over a page nothing
+# has ever received).
+.PHONY: scratchcard-brief
+scratchcard-brief: scratchcard-brief-generate
+	@git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { 		echo "FATAL: git cannot resolve this checkout, so freshness is UNKNOWN, not" >&2; 		echo "  fresh. Run this target on the host or a CI runner." >&2; 		exit 1; }
+	@git ls-files --error-unmatch $(SCRATCHCARD_BRIEF) >/dev/null 2>&1 || { 		echo "FATAL: $(SCRATCHCARD_BRIEF) is NOT TRACKED — git diff says nothing about" >&2; 		echo "  an untracked path, so this check would pass green over a page nothing" >&2; 		echo "  has received. Add it: git add $(SCRATCHCARD_BRIEF)" >&2; 		exit 1; }
+	@git diff --exit-code HEAD -- $(SCRATCHCARD_BRIEF) || { 		echo "FATAL: $(SCRATCHCARD_BRIEF) was STALE vs a fresh generation — regenerated" >&2; 		echo "  in place; review the diff above and commit it. An author loads this" >&2; 		echo "  page as the tool's API, so a stale one documents a tool that moved." >&2; 		exit 1; }
+	@echo "scratchcard-brief: fresh ($(SCRATCHCARD_BRIEF) vs the live ops, error codes, manifest schema, armed lanes and default matrix)"
+
+.PHONY: scratchcard-lane-canary
+scratchcard-lane-canary:
+	@bash tools/scratchcard/test/lane_canary.sh
+
 define overlap-canary-suite
 @test -f $(R)/output/controls.wasm || { \
 	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
@@ -1030,6 +1102,20 @@ conventions-projection:
 # ── Devcards unit suite ─────────────────────────────────────────────────────
 # The pure-helper tests (tools/devcards/test — dump-tree reductions, image
 # math). No wasm / proto-classes needed, so it runs early and fails cheap.
+## scratchcard-test: the scratchcard pure unit suite (no wasm, no daemon).
+#
+# NEEDS `proto-classes`, and the omission was caught by the battery rather than
+# by hand. tools/scratchcard reaches renderer-gen and devcards as :local/root
+# deps, so it inherits renderer-gen's `target/proto-classes` path — the javac
+# output of output/java PLUS pronto's Java sources. Without that edge this lane
+# races the compile under `-j` and dies on `ClassNotFoundException:
+# pronto.ProtoMap`. It passes by hand on any tree where an earlier lane already
+# compiled them, which is exactly why a missing prerequisite here survives
+# manual testing and only fails cold.
+.PHONY: scratchcard-test
+scratchcard-test: proto-classes
+	cd tools/scratchcard && clojure -M:test
+
 devcards-test:
 	cd tools/devcards && clojure -M:test
 
@@ -1356,5 +1442,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

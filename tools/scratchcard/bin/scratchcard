@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# scratchcard — the entry point. Resolves a pinned bb, then runs the client.
+#
+# INVOKE IT TREE-LOCALLY. `readlink -f` resolves through any symlink to this
+# file's real location, so the worktree — and therefore the per-fork hash, the
+# container name and the socket — is always computed from where the wrapper
+# physically lives.
+#
+# DO NOT CREATE A GLOBAL PATH SYMLINK. It would hardcode ONE worktree hash and
+# break the per-fork isolation that lets several protogen clones run
+# concurrently on one machine. For a bare `scratchcard`, add a git-root
+# resolving function to your shell profile instead:
+#
+#   scratchcard() { "$(git rev-parse --show-toplevel)/tools/scratchcard/bin/scratchcard" "$@"; }
+
+set -euo pipefail
+
+self="$(readlink -f "${BASH_SOURCE[0]}")"
+here="$(cd "$(dirname "$self")" && pwd)"
+
+# A MISSING TOOL IS A HARD FAILURE WITH AN INSTALL HINT, never a skip: a client
+# that silently did nothing would be indistinguishable from a clean run.
+bb="$("$here/ensure-bb.sh")" || {
+  echo "scratchcard: FATAL: could not resolve babashka (see above)." >&2
+  exit 4
+}
+
+exec "$bb" "$here/scratchcard.bb" "$@"

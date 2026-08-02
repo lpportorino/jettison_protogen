@@ -70,6 +70,11 @@ on:
     branches: [main, master]
     paths:
     - "tools/devcards/**"
+    # tools/scratchcard drives the SAME renderer and the SAME armed quality
+    # lanes, so a change there can break the jobs below. Without this entry
+    # they would be armed in name only — never firing on the commit that broke
+    # them, which is the structural-green failure this repo refuses.
+    - "tools/scratchcard/**"
     - "output/manifests/**"
     - "proto/ui/**"
     - "renderer.mk"
@@ -88,6 +93,11 @@ on:
   pull_request:
     paths:
     - "tools/devcards/**"
+    # tools/scratchcard drives the SAME renderer and the SAME armed quality
+    # lanes, so a change there can break the jobs below. Without this entry
+    # they would be armed in name only — never firing on the commit that broke
+    # them, which is the structural-green failure this repo refuses.
+    - "tools/scratchcard/**"
     - "output/manifests/**"
     - "proto/ui/**"
     - "renderer.mk"
@@ -243,7 +253,7 @@ jobs:
       # from renderer/src/main.c, which matches renderer.yml's and none of
       # this one's. Neither file alone arms it over both halves.
       name: Corpus gate + gallery + interaction + dead-zone + overlap canaries (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt scratchcard-test scratchcard-lane-prebuilt
     - # B3a: a devcards-path change that shifts pixels re-mints the goldens AND
       # the gallery/doc pages inside the runner; without this assertion it would
       # exit green (the pass value == the nothing-ran value, fail-fast.md). The

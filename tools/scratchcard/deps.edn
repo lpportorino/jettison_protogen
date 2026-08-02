@@ -1,0 +1,70 @@
+;; tools/scratchcard — the scratch-devcard warm render daemon.
+;;
+;; A non-human iteration surface: write a screen, call regenerate, get a run
+;; directory of renders + DOM dumps + stats + quality findings that a VLM can
+;; read and that a later run can be diffed against. It GATES NOTHING; its
+;; output is gitignored by contract (.protogen/scratch/).
+;;
+;; WHY BOTH SIBLINGS ARE :local/root, AND WHY THAT IS NOT A COPY OF devcards.
+;; tools/devcards deliberately reaches ../renderer-gen/src as a bare :paths
+;; entry and says why: a :local/root edge "would drag malli/specter/pronto/
+;; jsonista in", and the corpus runner wants none of them. This tool wants
+;; ALL of them — the authoring pipeline it drives (lvgl-codegen.core/
+;; process-screen) is built out of exactly those libraries. So the edge
+;; devcards declines is the edge this project needs, and taking it keeps ONE
+;; home for each sibling's dependency list rather than a third copy here that
+;; can drift out of step with both.
+;;
+;; What each edge supplies:
+;;   renderer-gen — the EDN screen dialect and its seven validation stages
+;;                  (Malli schema, component resolve, semantic validate, asset
+;;                  paths, token expand, font-ref resolution, proto IR), plus
+;;                  resources/ and target/proto-classes on the classpath.
+;;   devcards     — devcards.host (the shared GraalWasm Engine, the content-
+;;                  keyed Source cache, the pinned render protocol) and the
+;;                  armed quality lanes (devcards.lanes / devcards.findings).
+;;
+;; CWD HAZARD, carried here because it decides daemon design: renderer-gen's
+;; :codegen alias states "CWD must be tools/renderer-gen: the pipeline reads
+;; edn/ + assets/ (symlink) CWD-relative." A long-lived daemon cannot lean on
+;; per-request process cwd, so the render path must resolve those roots
+;; explicitly rather than inherit them.
+;;
+;; --sun-misc-unsafe-memory-access=allow mirrors every renderer-gen alias; the
+;; codegen pipeline needs it.
+{:paths ["src"]
+
+ :deps {org.clojure/clojure {:mvn/version "1.12.5"}
+        protogen/renderer-gen {:local/root "../renderer-gen"}
+        protogen/devcards {:local/root "../devcards"}}
+
+ :aliases
+ {;; The warm render daemon. Spawned by bin/scratchcard inside the pinned
+  ;; container; the CLIENT owns the socket path and passes it by env.
+  :daemon {:jvm-opts ["--sun-misc-unsafe-memory-access=allow"
+                      "-XX:+ExitOnOutOfMemoryError"]
+           :main-opts ["-m" "scratchcard.daemon"]}
+
+  ;; Regenerates .claude/rules/scratch-devcard-api.md from the live code.
+  ;; Freshness is gated by `make -f renderer.mk scratchcard-brief`.
+  :brief {:jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+          :main-opts ["-m" "scratchcard.brief"]}
+
+  ;; The Tier-2 gate: the pipeline against the real wasm. Exit 0 pass,
+  ;; 1 fail, 3 CANNOT RUN. Wired into renderer.mk.
+  :render-lane {:extra-paths ["dev"]
+                :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+                :main-opts ["-m" "render-lane"]}
+
+  ;; Hand-run probe against the real wasm. GraalVM only — devcards.host
+  ;; refuses a stock JDK, so this is a container invocation:
+  ;;   tools/uber.sh 'cd tools/scratchcard && clojure -M:live-probe'
+  :live-probe {:extra-paths ["dev"]
+               :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+               :main-opts ["-m" "live-probe"]}
+
+  :test {:extra-paths ["test"]
+         :extra-deps {io.github.cognitect-labs/test-runner
+                      {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+         :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+         :main-opts ["-m" "cognitect.test-runner"]}}}

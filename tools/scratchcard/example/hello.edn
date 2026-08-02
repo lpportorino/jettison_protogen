@@ -1,0 +1,47 @@
+;; hello.edn — the smallest complete scratch screen.
+;;
+;; COPY THIS to start. It is the renderer-gen authoring dialect, the same
+;; vocabulary renderer/edn/screens/*.edn uses:
+;;
+;;   :tag     the widget       (:lv_label, :lv_slider, :lv_button, :lv_obj …)
+;;   :class   a class string   (tokens + breakpoint prefixes, tailwind-shaped)
+;;   :text    label content
+;;   :children  nesting
+;;   :<widget>_props  the widget's own arm (:slider_props, :bar_props, …)
+;;
+;; NOT the devcards node shape — `{:type :WIDGET_SLIDER}` is a different
+;; vocabulary for the same widgets and this pipeline will refuse it.
+;;
+;; Seven validation stages run before a byte is emitted: schema, component
+;; resolution, semantic validation, asset-path existence, token expansion,
+;; font-reference resolution, and proto IR validation. A typo in a class
+;; string or a font name is caught by name, not by looking wrong on screen.
+{:type :screen
+ :events {}
+
+ ;; `bp` and `theme_dark` are the two subjects the renderer drives; the
+ ;; composite style variant is bp*2 + theme_dark. Every screen declares them.
+ :subjects {:bp {:type :int}
+            :theme_dark {:type :int}}
+
+ ;; `flex-col` on the root is LOAD-BEARING, not styling. Without a layout the
+ ;; children lay out at default positions, overflow the content box, and the
+ ;; quality lanes report :clipped on every text node plus :scrollable_overflow
+ ;; on the root — which is exactly what this file did before it carried one.
+ ;; `w-content h-content` makes the root measure its children rather than
+ ;; assume a size, so the same screen is clean at every canvas in the matrix.
+ :tree
+ {:tag :lv_obj
+  :class "flex-col w-content h-content"
+  :children
+  [{:tag :lv_label
+    :class "font-font-heading text-fg-0"
+    :text "hello, scratchcard"}
+
+   {:tag :lv_label
+    :class "font-font-body text-fg-0"
+    :text "edit this file and regenerate"}
+
+   {:tag :lv_slider
+    :class "w-120"
+    :slider_props {:min_value 0 :max_value 100 :value 65}}]}}

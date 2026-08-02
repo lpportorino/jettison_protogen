@@ -98,10 +98,32 @@ LINT_CLJ_PATHS := tools/devcards/src \
 	tools/renderer-gen/src \
 	tools/renderer-gen/test \
 	tools/renderer-gen/dev \
+	tools/scratchcard/src \
+	tools/scratchcard/test \
+	tools/scratchcard/dev \
 	docs/.protodoc/tools/src \
 	docs/.protodoc/tools/test \
 	docs/.protodoc/tools/build.clj \
 	tools/lint/src
+
+# HAND-AUTHORED CLOJURE JUDGED BY clj-kondo AND cljfmt BUT NOT BY THE
+# STRUCTURAL GATES. `LINT_CLJ_PATHS` above is what every lane receives; this
+# list is added to the two lanes that are file-shaped rather than
+# namespace-shaped.
+#
+# tools/scratchcard/bin/scratchcard.bb — the babashka client. It is the only
+# tracked `.bb` in the repo, and it IS hand-authored first-party source, so it
+# belongs in a lane. It cannot go in LINT_CLJ_PATHS: the structural gates floor
+# each configured root INDIVIDUALLY and a lone script is a root of one file
+# they cannot populate, so `lint-fn-size` refuses with CANNOT RUN (exit 3) —
+# the per-root floor working exactly as designed, not a bug to route around.
+# clj-kondo and cljfmt take a file argument happily, so it is gated by both,
+# and it earned that immediately: the first run found `rest` shadowing
+# `clojure.core/rest` in the client's own `-main`.
+#
+# RETIRES WHEN: the structural gates grow a file-grain root, or the client
+# grows into a directory of namespaces.
+LINT_CLJ_FILES := tools/scratchcard/bin/scratchcard.bb
 
 # THE ONE HELD-OUT TREE — on the record, never silently absent:
 #
@@ -176,7 +198,11 @@ FMT_C_FILES := $(shell { find renderer/src -maxdepth 1 \
 # One invocation is run twice rather than two different invocations once each,
 # because make's $(shell) yields one stream per call; what matters is that both
 # calls ask the identical question.
-LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push
+# `tools/scratchcard/bin/scratchcard` is named without an extension ON PURPOSE
+# — it is the command a user types — so the '*.sh' glob cannot see it and it is
+# listed explicitly, exactly as .githooks/pre-push is. A shell entry point that
+# no lane parses is the least-checked code in the tree.
+LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push tools/scratchcard/bin/scratchcard
 LINT_SH_FILES := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
 
@@ -536,8 +562,9 @@ cpus:
 audit-clj-paths:
 	@t=$$(mktemp) && g=$$(mktemp) && \
 	git ls-files '*.clj' '*.cljc' '*.bb' | sort > "$$t"; \
-	for p in $(LINT_CLJ_PATHS); do git ls-files "$$p"; done \
-		| sed -n '/\.\(clj\|cljc\|bb\)$$/p' | sort > "$$g"; \
+	{ for p in $(LINT_CLJ_PATHS); do git ls-files "$$p"; done; \
+	  for f in $(LINT_CLJ_FILES); do git ls-files "$$f"; done; } \
+		| sed -n '/\.\(clj\|cljc\|bb\)$$/p' | sort -u > "$$g"; \
 	rc=0; \
 	if [ ! -s "$$t" ] || [ ! -s "$$g" ]; then \
 		printf '\033[31m[audit-clj-paths] FAIL\033[0m — a side of the diff is EMPTY\n' >&2; \
@@ -549,7 +576,9 @@ audit-clj-paths:
 	elif comm -23 "$$t" "$$g" | grep -q .; then \
 		printf '\033[33m[audit-clj-paths]\033[0m UNGATED — tracked and hand-authored, in no lane:\n'; \
 		comm -23 "$$t" "$$g" | sed 's/^/  /'; \
-		printf '  Add each to LINT_CLJ_PATHS, or hold it out ON THE RECORD beside it.\n'; \
+		printf '  Add each to LINT_CLJ_PATHS (or LINT_CLJ_FILES for a lone\n'; \
+		printf '  file the structural gates cannot root), or hold it out ON THE\n'; \
+		printf '  RECORD beside it.\n'; \
 	else \
 		printf '\033[32m[audit-clj-paths]\033[0m every tracked Clojure file sits in a lane\n'; \
 	fi; \
@@ -565,12 +594,12 @@ audit-clj-paths:
 #   "unresolved symbol" findings.
 lint-clj:
 	@printf '\033[32m[lint-clj]\033[0m clj-kondo (parallel, %s cpus)\n' "$(NPROC)"
-	@clj-kondo --parallel --cache false --fail-level warning --lint $(LINT_CLJ_PATHS)
+	@clj-kondo --parallel --cache false --fail-level warning --lint $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
 
 ## fmt-clj: cljfmt check (fails if any file would be rewritten)
 fmt-clj:
 	@printf '\033[32m[fmt-clj]\033[0m cljfmt check\n'
-	@clojure -M:fmt check $(LINT_CLJ_PATHS)
+	@clojure -M:fmt check $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
 
 ## splint-clj: idiomatic-pattern lint — REPORT-ONLY, deliberately not in `lint`
 # Measured, so the exclusion is a decision rather than an omission:
