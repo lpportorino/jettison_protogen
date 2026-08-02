@@ -2840,6 +2840,18 @@ static void finalize_widget(widget_ctx_t *ctx) {
       lv_obj_add_style(obj, ctx->added_styles[i].style,
                        ctx->added_styles[i].selector);
     apply_node_layout(obj, node);
+    /* POSITION IS A LOCAL STYLE TOO, so the strip above erased the
+     * lv_obj_set_pos applied a few lines earlier — the same mechanism the
+     * layout re-apply exists for. lv_obj_set_x/set_y write LV_STYLE_X/Y
+     * into the object's local style, and lv_obj_remove_style_all is
+     * lv_obj_remove_style(obj, NULL, LV_PART_ANY | LV_STATE_ANY), which
+     * removes local styles as well as theme ones. Without this a `bare`
+     * node silently rendered at the origin while carrying a position on the
+     * wire, which is the declared contract inverted: bare strips THEME
+     * styles, and everything declared on the node still applies. */
+    if (node->x != 0 || node->y != 0) {
+      lv_obj_set_pos(obj, node->x, node->y);
+    }
   }
   /* LVGL flag/state bitmasks — direct-cast (values parity-gated) */
   if (node->obj_flags != 0)
