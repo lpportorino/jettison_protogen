@@ -32,6 +32,32 @@ on:
     - "**/*.cljc"
     - "**/*.edn"
     - "**/*.sh"
+    # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries:
+    #   tools/scratchcard/bin/**  covers BOTH scratchcard (extensionless ON
+    #                             PURPOSE, listed literally in LINT_SH_FILES)
+    #                             and scratchcard.bb (the only tracked .bb, in
+    #                             LINT_CLJ_FILES -> cljfmt + clj-kondo).
+    #   **/*.awk                  covers tools/payload_apostrophes.awk, which is
+    #                             not an input to a lane — it IS one, the half
+    #                             `bash -n` structurally cannot see. It also
+    #                             catches scripts/proto_cleanup.awk, which no
+    #                             lane judges; harmless, and cheaper than a
+    #                             single-file entry that would rot on a rename.
+    # No `**/*.bb` entry: the only tracked .bb is under the bin/** prefix above,
+    # so it would be a no-op today. Stated rather than added, because this file
+    # deletes subsumed entries when it knows they are subsumed.
+    - "**/*.awk"
+    - "tools/scratchcard/bin/**"
+    # THE OTHER THREE FILES `lint-sh` GREPS. Its bare-`git -C` clause scans
+    # `$(LINT_SH_FILES) renderer/wasm.mk renderer.mk Makefile lint.mk`, and
+    # `lint-sh` runs in THIS workflow only. `lint.mk` was already listed; these
+    # three were not, so a bare `git -C` introduced into any of them started no
+    # job that greps it and the drift landed on whoever next touched a `.sh`.
+    # Same argument as `.clang-format` in renderer.yml: a gate's INPUT set is
+    # part of its trigger, not just the files it is nominally "about".
+    - "Makefile"
+    - "renderer.mk"
+    - "renderer/wasm.mk"
     - ".githooks/**"
     - ".clj-kondo/**"
     - ".cljfmt.edn"
@@ -54,6 +80,32 @@ on:
     - "**/*.cljc"
     - "**/*.edn"
     - "**/*.sh"
+    # TWO HOLES THE EXTENSION GLOBS ABOVE LEAVE OPEN, closed by two entries:
+    #   tools/scratchcard/bin/**  covers BOTH scratchcard (extensionless ON
+    #                             PURPOSE, listed literally in LINT_SH_FILES)
+    #                             and scratchcard.bb (the only tracked .bb, in
+    #                             LINT_CLJ_FILES -> cljfmt + clj-kondo).
+    #   **/*.awk                  covers tools/payload_apostrophes.awk, which is
+    #                             not an input to a lane — it IS one, the half
+    #                             `bash -n` structurally cannot see. It also
+    #                             catches scripts/proto_cleanup.awk, which no
+    #                             lane judges; harmless, and cheaper than a
+    #                             single-file entry that would rot on a rename.
+    # No `**/*.bb` entry: the only tracked .bb is under the bin/** prefix above,
+    # so it would be a no-op today. Stated rather than added, because this file
+    # deletes subsumed entries when it knows they are subsumed.
+    - "**/*.awk"
+    - "tools/scratchcard/bin/**"
+    # THE OTHER THREE FILES `lint-sh` GREPS. Its bare-`git -C` clause scans
+    # `$(LINT_SH_FILES) renderer/wasm.mk renderer.mk Makefile lint.mk`, and
+    # `lint-sh` runs in THIS workflow only. `lint.mk` was already listed; these
+    # three were not, so a bare `git -C` introduced into any of them started no
+    # job that greps it and the drift landed on whoever next touched a `.sh`.
+    # Same argument as `.clang-format` in renderer.yml: a gate's INPUT set is
+    # part of its trigger, not just the files it is nominally "about".
+    - "Makefile"
+    - "renderer.mk"
+    - "renderer/wasm.mk"
     - ".githooks/**"
     - ".clj-kondo/**"
     - ".cljfmt.edn"

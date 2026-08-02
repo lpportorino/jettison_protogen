@@ -40,8 +40,51 @@
 # Arm with:  make -f lint.mk install-hooks   (sets core.hooksPath)
 set -uo pipefail
 
-root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
-cd "$root" || exit 0
+# FAIL CLOSED ON THE PRECONDITION. Both branches below used to `exit 0` with
+# stderr discarded: git could not resolve the checkout, not one gate ran, and
+# the push proceeded with nothing printed. That is the exact shape
+# `.claude/rules/gate-enforcement.md` §4 refuses — a gate reporting success
+# because it could not RUN, whose green is indistinguishable from a real one.
+# The captured stderr is printed rather than swallowed, because when discovery
+# breaks the reason IS the diagnosis (§3).
+# THE VALUE AND THE DIAGNOSIS ARE READ SEPARATELY, never with one `2>&1`.
+# git can write to stderr while exiting 0 — `GIT_TRACE=1` in the environment is
+# the everyday case — so folding stderr into the captured value corrupts a
+# perfectly good root, and the `cd` then fails naming the trace line as the
+# path. `lint.mk`'s own discovery does it this way for the same reason
+# (LINT_SH_DISCOVERY_ARGS / LINT_SH_DISCOVERY_ERR).
+#
+# THE SCRUB AND THE CONTAINMENT CHECK MATCH tools/scratchcard/bin/scratchcard.
+# It is GIT_DIR that takes git off directory discovery — measured: GIT_DIR alone,
+# from a directory outside any checkout, makes `rev-parse --show-toplevel` exit 0
+# and return THE CWD. GIT_WORK_TREE alone does not do this; from outside a
+# checkout it still fails, because it overrides the REPORTED worktree only once a
+# gitdir has been discovered. Both are scrubbed because either can be inherited,
+# and the containment check is what catches a wrong-but-successful answer.
+#
+# AND IT FAILS CLOSED. These used to be `|| exit 0` with stderr discarded: git
+# could not resolve the checkout, NOT ONE gate ran, nothing was printed, and the
+# push proceeded — a green indistinguishable from a real one.
+# THE TRAILING SLASH IS THE CONTAINMENT CHECK. A bare prefix test accepts
+# root=/work against PWD=/workspace — which is exactly the case both Clojure
+# homes append a separator to prevent, and a first draft of this hook had the
+# bug. Comparing "$PWD/" against "$root"/* makes /work/ fail to match
+# /workspace/ while still accepting root == PWD (the glob matches empty).
+root="$(env -u GIT_DIR -u GIT_WORK_TREE git rev-parse --show-toplevel 2>/dev/null)"
+contained=0
+case "$PWD/" in "$root"/*) [ -n "$root" ] && contained=1 ;; esac
+if [ "$contained" = 0 ]; then
+  err="$(env -u GIT_DIR -u GIT_WORK_TREE git rev-parse --show-toplevel 2>&1 >/dev/null)"
+  printf '\033[31m[pre-push] CANNOT RUN\033[0m — cannot resolve a worktree containing %s, so NO gate has run.\n' "$PWD" >&2
+  [ -n "$root" ] && printf '  git answered: %s (which does not contain the cwd)\n' "$root" >&2
+  [ -n "$err" ] && printf '  git said: %s\n' "$err" >&2
+  printf '  Push refused. Run from inside the worktree, or pass --no-verify deliberately.\n' >&2
+  exit 1
+fi
+if ! cd "$root"; then
+  printf '\033[31m[pre-push] CANNOT RUN\033[0m — cannot enter %s, so NO gate has run.\n' "$root" >&2
+  exit 1
+fi
 
 printf '\033[36m[pre-push]\033[0m format + lint gates\n'
 

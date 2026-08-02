@@ -40,6 +40,24 @@ on:
     - "renderer/**"
     - "renderer.mk"
     - "Dockerfile.base"
+    # THE C FORMAT GATE'S OWN CONFIG AND ITS DRIVER. `fmt-c` runs
+    # `clang-format --style=file`, so `.clang-format` decides its verdict over
+    # every hand-authored C file — and `lint.mk` defines FMT_C_FILES,
+    # CLANG_FORMAT and the shellcheck population this workflow also runs. Same
+    # reasoning as the gate-source entries in lint.yml: a filter that fired only
+    # on the judged files would let the gate be redefined by a commit no job
+    # ever saw, and the drift would then land on whoever next touched
+    # renderer/**, attributed to their change.
+    #
+    # THE PRICE IS STATED RATHER THAN HIDDEN, in the house style of the
+    # proto-db entry below: `lint.mk` is edited far more often than the other
+    # inputs here, and every such edit now pays this workflow's full image
+    # build + wasm + harness + oracles. It is accepted because the alternative
+    # is worse — `hygiene.yml` is the only filter-less workflow and it runs none
+    # of `fmt-c`, `lint-sh-shellcheck` or `lint-c-tidy`, so there is no cheap
+    # home for a C-format verdict.
+    - ".clang-format"
+    - "lint.mk"
     - "tools/renderer-gen/**"
     - "output/manifests/**"
     # renderer/generated/** is a PROJECTION of output/c (renderer.mk's
@@ -79,6 +97,24 @@ on:
     - "renderer/**"
     - "renderer.mk"
     - "Dockerfile.base"
+    # THE C FORMAT GATE'S OWN CONFIG AND ITS DRIVER. `fmt-c` runs
+    # `clang-format --style=file`, so `.clang-format` decides its verdict over
+    # every hand-authored C file — and `lint.mk` defines FMT_C_FILES,
+    # CLANG_FORMAT and the shellcheck population this workflow also runs. Same
+    # reasoning as the gate-source entries in lint.yml: a filter that fired only
+    # on the judged files would let the gate be redefined by a commit no job
+    # ever saw, and the drift would then land on whoever next touched
+    # renderer/**, attributed to their change.
+    #
+    # THE PRICE IS STATED RATHER THAN HIDDEN, in the house style of the
+    # proto-db entry below: `lint.mk` is edited far more often than the other
+    # inputs here, and every such edit now pays this workflow's full image
+    # build + wasm + harness + oracles. It is accepted because the alternative
+    # is worse — `hygiene.yml` is the only filter-less workflow and it runs none
+    # of `fmt-c`, `lint-sh-shellcheck` or `lint-c-tidy`, so there is no cheap
+    # home for a C-format verdict.
+    - ".clang-format"
+    - "lint.mk"
     - "tools/renderer-gen/**"
     - "output/manifests/**"
     - "output/c/**"

@@ -252,7 +252,10 @@ hooks-status:
 
 ## lint: the check-only lanes the PRE-PUSH HOOK runs — not all of them
 # WHO CALLS THIS, precisely, because the answer used to be written down wrong.
-# `.githooks/pre-push` (line 86) is the SOLE caller. No CI job invokes it: CI
+# `.githooks/pre-push` is the SOLE caller — its `make -f lint.mk lint` line. The
+# line NUMBER is deliberately not quoted here: it was, it said 86, and the next
+# edit to the hook moved it. A citation into a file that grows above the cited
+# line rots on the first commit that touches it, so anchor on the invocation. No CI job invokes it: CI
 # runs the lanes INDIVIDUALLY — lint.yml calls `lint-sh`, `fmt-clj`, `lint-clj`
 # as three steps, and renderer.yml calls `fmt-c` and `lint-c-tidy` inside the
 # pinned image. So this target is LIVE and local, and the comment that called it
