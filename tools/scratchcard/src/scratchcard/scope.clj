@@ -92,18 +92,37 @@
   `GIT_DIR`/`GIT_WORK_TREE` from the environment, and an explicit
   `GIT_WORK_TREE` takes git off directory DISCOVERY entirely — it then answers
   about THAT worktree from any cwd, so `:dir` stops being consulted at all.
-  Every directory on the host therefore resolves to one root, every fork hashes
-  identically, and the container name, socket and lock that are supposed to
-  isolate forks all collide. That is not hypothetical: the pinned toolchain
-  container exports both variables, so the failure is live for every fork
-  whose battery runs inside it, and the shell side of the same tree already
-  scrubs them with `env -u` for exactly this reason.
+  Every directory then resolves to one root, every checkout hashes identically,
+  and the container name, socket and lock that are supposed to isolate them all
+  collide.
+
+  WHERE IT IS LIVE IS NARROWER THAN \"ANY FORK\", and the difference is worth
+  carrying because it decides whether a green run proves anything. The variables
+  come from `tools/uber.sh`, which sets them ONLY inside `if [ -f \"$ROOT/.git\" ]`
+  — a GITFILE — and then only when the gitdir equals the common dir. So:
+  a SUBMODULE exports them and is live, which is the shape every consumer
+  vendoring this repo runs; a linked worktree fails the equality test and is
+  not; and a standalone clone never reaches the test at all, because its `.git`
+  is a real directory. A fork from `tools/claude/forks.sh` is an ordinary
+  `git clone`, so it is in that last group — not live VIA `uber.sh`, and run the
+  battery in a standalone checkout and this guard is never exercised.
+
+  THAT SCOPING IS ABOUT `uber.sh`, NOT ABOUT THE HAZARD. A `GIT_WORK_TREE`
+  already in the CALLER's environment collapses this in any shape whatever,
+  which is why `uber.sh` and `tools/claude/forks.sh` both prefix their own git
+  calls with `env -u GIT_DIR -u GIT_WORK_TREE`. The containment check is what
+  makes this function safe against that too, rather than only against the
+  container.
 
   Verifying that the answer CONTAINS `dir` fixes it without touching the
-  environment, which matters because the exported `GIT_DIR` is also the only
-  thing that makes git resolve the workspace at all in that container: scrubbing
-  it would trade a wrong answer for no answer. In an ordinary environment git
-  always returns an ancestor of `dir`, so this check is a no-op there."
+  environment, which matters ON THE GITFILE BRANCH: there the exported `GIT_DIR`
+  is the only thing that makes git resolve the workspace at all — a submodule's
+  `.git` is a FILE naming a host path that does not exist in the container — so
+  scrubbing would trade a wrong answer for no answer. That reasoning is scoped to
+  that branch and does NOT generalise: a standalone checkout gets no `GIT_DIR`
+  and resolves the workspace perfectly well through ordinary discovery plus the
+  `safe.directory` declaration. In an ordinary environment git always returns an
+  ancestor of `dir`, so this check is a no-op there."
   [dir]
   (let [{:keys [exit out]} (shell/sh "git" "rev-parse" "--show-toplevel" :dir dir)]
     (when (zero? exit)
