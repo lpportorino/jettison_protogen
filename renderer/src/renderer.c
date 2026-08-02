@@ -1559,7 +1559,22 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
   }
   case ui_WidgetNode_spinbox_props_tag: {
     ui_SpinboxProps *p = &node->widget_props.spinbox_props;
-    lv_spinbox_set_range(obj, p->min_value, p->max_value);
+    /* An ABSENT max_value arrives as proto3 zero, and passing that straight
+     * to set_range makes the widget increment-dead: lv_spinbox_increment
+     * tests `v + step <= range_max`, so with range_max 0 every step falls to
+     * the else arm and — rollover being off by default — snaps the value
+     * back to range_max. An open-ended number input would therefore refuse
+     * every press while rendering perfectly, which no golden can catch.
+     * Zero is never a meaningful max for a spinbox whose min is >= 0, so it
+     * is read as absent; a proto3 scalar cannot distinguish the two, and the
+     * producer omits the field precisely for min-only endpoints.
+     * set_min_value leaves range_max at the widget's own 99999 default,
+     * which is the open-ended behaviour the endpoint asked for. */
+    if (p->max_value != 0) {
+      lv_spinbox_set_range(obj, p->min_value, p->max_value);
+    } else {
+      lv_spinbox_set_min_value(obj, p->min_value);
+    }
     /* Morph value guard — see the slider note. */
     if (!morph_in_progress || p->value != 0) {
       lv_spinbox_set_value(obj, p->value);
