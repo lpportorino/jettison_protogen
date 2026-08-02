@@ -3335,7 +3335,17 @@ static void apply_bindings(const pending_bindings_t *p) {
                  p->wtype);
       }
     } else {
-      LOG_WARN("unknown binding key '%s'", key);
+      /* A binding key this interpreter does not implement is a DEAD BINDING:
+       * the widget is created, the screen renders clean, and the value it was
+       * authored to track never arrives. That is indistinguishable from a
+       * working screen until someone watches the wrong number sit still, so it
+       * fails the load for the same reason a binding to an unknown subject
+       * already does — see apply_patch_subject. Warning and continuing let a
+       * mis-authored key ship as a screen nobody could tell was broken. */
+      LOG_ERROR("unknown binding key '%s' — the widget would render clean and "
+                "never update",
+                key);
+      load_resource_error = true;
     }
   }
 }
