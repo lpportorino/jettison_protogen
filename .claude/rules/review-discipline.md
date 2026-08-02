@@ -307,15 +307,23 @@ is required, its absence would leave workflow syntax unjudged, so the recipe fai
 with an install hint rather than skipping — absence changes a claim, so absence
 fails.
 
-The live COUNTER-example is `generate-protos.sh`'s rust leg, which prints
-`WARNING: Skipping Rust generation` and `exit 0` when cargo is absent or its
-directories are unwritable. The run then reports success while `output/rust` was
-never regenerated, so "this run regenerated the bindings" is false and nothing
-says so. It is the same leg whose `cargo build 2>&1 | tail -5` reports `tail`'s
+The COUNTER-example was `generate-protos.sh`'s rust leg, and both halves of it
+are now closed — which is worth keeping precisely because the SHAPE recurs and
+the fix is the reusable part. It printed `WARNING: Skipping Rust generation` and
+`exit 0` when cargo was absent, so the run reported success while `output/rust`
+was never regenerated; and its `cargo build 2>&1 | tail -5` reported `tail`'s
 status rather than the build's, because each leg is dispatched as a quoted script
-into a fresh shell that re-arms `set -e` alone — no `pipefail`, no `nounset`. Two
-independent ways for one leg to pass having done nothing. Naming it is the
-requirement, not having closed it.
+into a fresh shell. Two independent ways for one leg to pass having done nothing.
+The repair in each case was the same move: ONE seam that classifies, rather than
+a branch per condition — a caller can forget and a seam cannot.
+
+**What is NOT closed, and is the honest form of this warning today:** only five
+of the eleven legs carry a "verify files were generated" assertion at all, and
+for those five the pass value still EQUALS the nothing-ran value, because
+`/workspace/output` is a bind mount of the TRACKED output tree that no leg
+empties first. The summary loop likewise prints `No files generated` as a
+warning without entering `FAILED_LANGS` — a live instance of §1's "a warning IS
+a failure", in the same file.
 
 Two more ways a red or green misattributes itself:
 

@@ -414,22 +414,9 @@ mkdir -p /workspace/output
 # Set PATH to include cargo - try multiple locations
 export PATH="/opt/rust/bin:/root/.cargo/bin:/usr/local/bin:$PATH"
 
-# Check cargo availability
-
-# If cargo is not accessible, try to find it
-if ! command -v cargo &> /dev/null; then
-    if [ -f "/root/.cargo/bin/cargo" ]; then
-        if /root/.cargo/bin/cargo --version &> /dev/null; then
-            export PATH="/root/.cargo/bin:$PATH"
-        else
-            echo "WARNING: Skipping Rust generation due to permission issues with cargo"
-            exit 0
-        fi
-    else
-        echo "WARNING: Skipping Rust generation - cargo not installed"
-        exit 0
-    fi
-fi
+# Cargo availability is classified by ONE seam, below. There is deliberately no
+# probe here: the PATH export above already carries every location cargo could
+# be at, so any block testing those same paths is unreachable by construction.
 
 # Create a Rust project for generation
 cd /tmp/rust_gen
@@ -438,8 +425,28 @@ cd /tmp/rust_gen
 export CARGO_HOME="/tmp/.cargo"
 mkdir -p "$CARGO_HOME"
 
-# Verify cargo is working
-cargo --version &> /dev/null || { echo "ERROR: cargo not working"; exit 1; }
+# THE ONE SEAM THAT CLASSIFIES A MISSING OR BROKEN CARGO, and the only one.
+# Reached whether cargo is absent, unexecutable, or present-but-failing, so
+# there is no path on which this leg reports success without having run.
+#
+# It replaced two `exit 0` branches — "cargo not installed" and "permission
+# issues with cargo" — which BOTH REPORTED SUCCESS HAVING GENERATED NOTHING:
+# exit 0 propagates out of the docker run, run_generation prints "rust
+# generation completed successfully", rust never enters FAILED_LANGS, and the
+# summary then counts the TRACKED leftovers in output/rust as evidence the leg
+# ran. A missing tool is a hard failure with an install hint, never a skip.
+#
+# THE HINT NAMES REBUILD_IMAGE, NOT uber.sh. This leg runs in the DERIVED image
+# built from Dockerfile, and build_image() is skipped whenever that image merely
+# EXISTS — so rebuilding only the base leaves the identical broken derived image
+# in play. Rust is installed system-wide at /opt/rust by Dockerfile.base.
+cargo --version &> /dev/null || {
+    echo "ERROR: cargo is not usable in this image — the rust leg cannot run."
+    echo "  Rust lives at /opt/rust in Dockerfile.base. To rebuild the image"
+    echo "  this leg actually runs in:"
+    echo "    REBUILD_IMAGE=true make generate"
+    exit 1
+}
 
 cat > Cargo.toml << EOF
 [package]
@@ -524,7 +531,11 @@ protoc --plugin=protoc-gen-zig=/opt/zig-protobuf/zig-out/bin/protoc-gen-zig \
     $PROTO_FILES
 
 # Verify files were generated
-if [ -z "$(find /workspace/output -name "*.zig" -o -name "*.pb.zig" -type f 2>/dev/null)" ]; then
+# `\( … \)` IS LOAD-BEARING: find binds -a tighter than -o, so the ungrouped
+# form parses as `(-name "*.zig") OR (-name "*.pb.zig" AND -type f)` — the first
+# alternative then matches DIRECTORIES, and a stray directory alone satisfies
+# the assertion.
+if [ -z "$(find /workspace/output \( -name "*.zig" -o -name "*.pb.zig" \) -type f 2>/dev/null)" ]; then
     echo "ERROR: No Zig files were generated!"
     exit 1
 fi
@@ -747,7 +758,9 @@ cat > /workspace/output/package.json << "PKG_EOF"
 PKG_EOF
 
 # Verify files were generated
-if [ -z "$(find /workspace/output -name "*_pb.js" -o -name "*_pb.ts" -type f 2>/dev/null)" ]; then
+# Grouped for the same reason as the zig leg above: ungrouped, `-type f` binds
+# only to the second -name, so a directory matching the first satisfies it.
+if [ -z "$(find /workspace/output \( -name "*_pb.js" -o -name "*_pb.ts" \) -type f 2>/dev/null)" ]; then
     echo "ERROR: No TypeScript files were generated!"
     exit 1
 fi
