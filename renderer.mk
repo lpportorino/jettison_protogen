@@ -464,6 +464,14 @@ scratchcard-lane-prebuilt: wasm-present bindings proto-classes
 scratchcard-e2e:
 	@bash tools/scratchcard/test/daemon_e2e.sh
 
+## scratchcard-lane-canary: proves each scratchcard-lane clause fails for ITS
+## OWN reason. HOST-ONLY (it drives tools/uber.sh, which drives docker), and
+## excluded from check-renderer-lanes for that reason — recorded here, beside
+## the target, rather than left for a reader to infer.
+.PHONY: scratchcard-lane-canary
+scratchcard-lane-canary:
+	@bash tools/scratchcard/test/lane_canary.sh
+
 define overlap-canary-suite
 @test -f $(R)/output/controls.wasm || { \
 	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
