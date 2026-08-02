@@ -167,12 +167,39 @@
 
   Reports the count, the breakdown by invariant, and — separately — how many
   findings mean COULD NOT LOOK rather than FOUND SOMETHING. Collapsing those
-  two into one number is how a gate reports clean over what it never judged."
+  two into one number is how a gate reports clean over what it never judged.
+
+  `:clean?` IS THREE-VALUED, and `nil` means UNANSWERABLE rather than false.
+  Findings are lanes over SUCCESSFUL renders, so a cell that failed contributes
+  none — and a run in which every cell failed therefore yields an empty findings
+  vector, which is byte-identical to the one a flawless screen yields. Reading
+  cleanliness off that vector alone prints a green over zero coverage: the
+  vacuous value is the PASSING one, exactly the shape
+  `.claude/rules/gate-enforcement.md` §3 refuses. It is reachable on the first
+  call in a fresh clone — with `renderer/output/controls.wasm` absent every cell
+  fails `RENDER_FAILED` and nothing is judged at all.
+
+  THIS NAMESPACE ALREADY REFUSED THAT ONE LEVEL DOWN. Its `unjudged` count
+  exists so a node the lane could not classify is not reported as a node it
+  found nothing wrong with; the cell axis is the same distinction, and `clean?`
+  was the one place the distinction was not drawn. `nil` rather than `false`
+  because `false` asserts THIS SCREEN HAS FINDINGS, which a run that judged
+  nothing cannot see either — and a verdict may not imply more than its
+  measurement covers. It is falsey in Clojure and `null` in the JSON reply, so
+  a caller that branches on it plainly still takes the not-clean path.
+
+  `:judged-cells` is the denominator, carried POSITIVELY so the third answer is
+  a fact in this block rather than an absence a reader must reconstruct by
+  joining against `:renders`. It counts cell results whose `:status` is `:ok`,
+  which is what `run/render-cell-guarded!` sets on the cells that produced a
+  tree; `:status` is therefore required on every result handed here."
   [cell-results]
   (let [live (into [] (mapcat :live) cell-results)
         stale (into [] (mapcat :stale-exemptions) cell-results)
-        unjudged (unjudged-findings live)]
+        unjudged (unjudged-findings live)
+        judged (count (filter #(= :ok (:status %)) cell-results))]
     {:count (count live)
+     :judged-cells judged
      :by-invariant (into (sorted-map) (frequencies (map :invariant live)))
      :by-cell (into (sorted-map)
                     (for [{:keys [cell live]} cell-results
@@ -185,17 +212,29 @@
      ;; skimmed, and the skim is what the reader acts on.
      :live-sample (into [] (take max-report-findings) live)
      :truncated-sample? (> (count live) max-report-findings)
-     :clean? (and (zero? (count live)) (zero? (count stale)))}))
+     :clean? (when (pos? judged)
+               (and (zero? (count live)) (zero? (count stale))))}))
 
 (defn describe
   "A one-line human summary of a `summarise` result.
+
+  THREE BRANCHES, matching `summarise`'s three-valued `:clean?`. The
+  unanswerable one is written out rather than folded into the findings branch:
+  that branch would print `lanes: 0 finding(s) — ` for a run that rendered
+  nothing, which reads as a measurement and is the absence of one.
 
   Destructures to `n-findings` rather than `count`: binding `count` would
   shadow `clojure.core/count`, which this repo has been bitten by twice — the
   linter stays green and a missed reference dies at runtime."
   ^String [{:keys [unjudged clean? by-invariant] n-findings :count}]
-  (if clean?
+  (cond
+    (nil? clean?)
+    "lanes: NOT ANSWERED — no cell rendered, so no cell was judged"
+
+    clean?
     "lanes: clean"
+
+    :else
     (str "lanes: " n-findings " finding(s) — "
          (str/join ", " (map (fn [[k v]] (str (name k) " x" v)) by-invariant))
          (when (pos? (long unjudged))

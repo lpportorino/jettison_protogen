@@ -115,8 +115,8 @@
   (let [unjudgeable (judge-live (root (node "lv_totally_made_up" [10 10 110 60])))
         real (judge-live (root (node "lv_button" [10 10 110 60])
                                (node "lv_button" [50 30 150 80])))
-        s (lanes/summarise [{:cell "a" :live unjudgeable :stale-exemptions []}
-                            {:cell "b" :live real :stale-exemptions []}])]
+        s (lanes/summarise [{:cell "a" :status :ok :live unjudgeable :stale-exemptions []}
+                            {:cell "b" :status :ok :live real :stale-exemptions []}])]
     (is (= (+ (count unjudgeable) (count real)) (:count s)))
     (is (pos? (:unjudged s)) "an unclassified type must count as COULD-NOT-JUDGE")
     (is (false? (:clean? s)))
@@ -127,11 +127,43 @@
       (is (re-find #"COULD-NOT-JUDGE" (lanes/describe s))))))
 
 (deftest a-clean-run-summarises-cleanly
-  (let [s (lanes/summarise [{:cell "a" :live [] :stale-exemptions []}])]
+  (let [s (lanes/summarise [{:cell "a" :status :ok :live [] :stale-exemptions []}])]
     (is (true? (:clean? s)))
+    (is (= 1 (:judged-cells s)))
     (is (zero? (:count s)))
     (is (zero? (:unjudged s)))
     (is (= "lanes: clean" (lanes/describe s)))))
+
+(deftest cleanliness-is-UNANSWERABLE-when-no-cell-was-judged
+  ;; Findings are lanes over SUCCESSFUL renders, so a run whose every cell
+  ;; failed produces the same empty vector a flawless screen produces. Deciding
+  ;; cleanliness from that vector alone prints a green over zero coverage — the
+  ;; vacuous value being the PASSING one, which `gate-enforcement.md` §3
+  ;; refuses. It is not hypothetical: a fresh clone with no
+  ;; `renderer/output/controls.wasm` fails every cell on the first call.
+  ;;
+  ;; REVERT-TO-BREAK: `(when (pos? judged) …)` in `scratchcard.lanes/summarise`.
+  ;; Reverted to the bare `(and (zero? …) (zero? …))`, the first assertion below
+  ;; goes red on `true` while `a-clean-run-summarises-cleanly` stays green — so
+  ;; the red is attributable to this clause and not to a neighbour.
+  (testing "every cell failed"
+    (let [s (lanes/summarise
+             [{:cell "a" :status :error :live [] :stale-exemptions []}
+              {:cell "b" :status :error :live [] :stale-exemptions []}])]
+      (is (nil? (:clean? s))
+          "no cell was judged, so cleanliness is unanswerable — never true")
+      (is (zero? (:judged-cells s)))
+      (is (re-find #"NOT ANSWERED" (lanes/describe s)))))
+  (testing "the run failed before it rendered anything"
+    (let [s (lanes/summarise [])]
+      (is (nil? (:clean? s)))
+      (is (zero? (:judged-cells s)))))
+  (testing "one surviving cell is enough to answer it"
+    (let [s (lanes/summarise
+             [{:cell "a" :status :error :live [] :stale-exemptions []}
+              {:cell "b" :status :ok :live [] :stale-exemptions []}])]
+      (is (true? (:clean? s)) "a partial matrix is a legitimate, reportable result")
+      (is (= 1 (:judged-cells s))))))
 
 (deftest the-descriptor-carries-what-a-diff-needs
   (let [d (lanes/descriptor)]

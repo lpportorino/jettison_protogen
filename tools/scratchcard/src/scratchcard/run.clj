@@ -252,7 +252,12 @@
          :run run-id
          :cells (count results)
          :failed failed
-         :findings (select-keys (:findings mf) [:count :unjudged :by-invariant :clean?])
+         ;; `:judged-cells` rides with `:clean?` and is not optional trimming.
+         ;; `:clean?` is nil when nothing was judged, and a reader handed the
+         ;; nil without its denominator cannot tell an unanswerable verdict
+         ;; from a missing key.
+         :findings (select-keys (:findings mf)
+                                [:count :unjudged :by-invariant :clean? :judged-cells])
          :elapsed-ms (ms-since t0)
          ;; Same isolation: a prune failure must not turn a good run into a
          ;; failed one, and must not reach the catch below.
