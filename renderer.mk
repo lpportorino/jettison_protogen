@@ -466,6 +466,16 @@ scratchcard-lane-prebuilt: wasm-present bindings proto-classes
 scratchcard-e2e:
 	@bash tools/scratchcard/test/daemon_e2e.sh
 
+## scratchcard-e2e-canary: proves each of scratchcard-e2e's EXIT-STATUS arms
+## fails for ITS OWN reason. HOST-ONLY (it runs that suite, which drives
+## docker), and excluded from check-renderer-lanes for that reason — recorded
+## here, beside the target, rather than left for a reader to infer coverage the
+## battery does not have. Same shape and same exclusion as
+## scratchcard-lane-canary below.
+.PHONY: scratchcard-e2e-canary
+scratchcard-e2e-canary:
+	@bash tools/scratchcard/test/e2e_canary.sh
+
 ## scratchcard-lane-canary: proves each scratchcard-lane clause fails for ITS
 ## OWN reason. HOST-ONLY (it drives tools/uber.sh, which drives docker), and
 ## excluded from check-renderer-lanes for that reason — recorded here, beside

@@ -20,6 +20,8 @@
 #   - a DEAD socket file is reclaimed; a LIVE one is refused
 #   - a card slug cannot escape the scratch root over the wire
 #   - the daemon reports STALENESS rather than silently running old code
+#   - the client's EXIT STATUS, read BARE (see the arm's own note for the hole
+#     that was measured before it existed)
 #
 # It leaves the daemon RUNNING on success — it is a warm daemon by design, and
 # tearing it down would make the next interactive call pay a cold boot.
@@ -306,6 +308,53 @@ if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -q '"ok":true'; then
 else
 	bad "the restored prerequisite did not render (rc=$rc)" "$out"
 fi
+# ── arm 12: the client's EXIT STATUS, read BARE ────────────────────────────
+# MOST ARMS ABOVE ASSERT A SUBSTRING OF STDOUT AND LITTLE ELSE — arm 8 is the
+# exception, and it reads a render-level failure's status. The gap this arm
+# closes is measured rather than stylistic. Driven against a client mutated to
+# exit 7 unconditionally, four of those arms stayed GREEN — `out="$("$CLIENT" …)"`
+# discards the status into the assignment — while the two that pipe into `grep`
+# went red only by ACCIDENT, through `pipefail`, and then reported the cause as
+# "the daemon did not answer ping": a client exit-code defect wearing a transport
+# failure's message, which is worse than no signal.
+#
+# The status is what a CALLER branches on — a make recipe, a shell wrapper, an
+# agent driving the loop — so it is a contract, and it is asserted here in both
+# directions: a code that must be zero and codes that must not be.
+#
+# READ IT BARE. `$?` is taken straight from the invocation with stdout redirected
+# to a FILE; a pipeline or a command substitution would report something else's
+# status, which is the same defect this arm exists to catch.
+TMPOUT="$(mktemp)"
+
+expect_rc() {
+	local want="$1" name="$2"
+	shift 2
+	"$CLIENT" "$@" >"$TMPOUT" 2>&1
+	rc=$?
+	if [ "$rc" = "$want" ]; then
+		ok "$name (exit $rc)"
+	else
+		bad "$name: expected exit $want, got $rc" "$(cat "$TMPOUT")"
+	fi
+}
+
+# The CLEAN direction. A suite that only asserts refusals cannot catch a client
+# that fails on everything, and that client is equally useless.
+expect_rc 0 'a successful ping exits 0' ping
+
+# Argument handling, which reaches no socket and no daemon.
+expect_rc 2 'no subcommand prints usage and exits 2'
+expect_rc 2 'an odd option count is refused with exit 2' regenerate --card
+
+# A daemon-side REFUSAL must reach the caller as a status, not only as JSON.
+# Arm 5 proves the daemon refused the slug; this proves the client SAID SO to
+# whatever invoked it. The two are independent: the refusal was already correct
+# while every caller saw success.
+expect_rc 1 'a refused card slug exits non-zero' \
+	regenerate --card ../../escape --res 800x480
+
+rm -f -- "$TMPOUT"
 
 # ── verdict ────────────────────────────────────────────────────────────────
 "$CLIENT" restart >/dev/null 2>&1
