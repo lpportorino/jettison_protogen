@@ -144,6 +144,10 @@
         (update :exempted stamp)
         (update :stale-exemptions stamp))))
 
+(def max-report-findings
+  "How many findings the digest inlines before deferring to findings.edn."
+  40)
+
 (defn- unjudged-findings
   "The THIRD ANSWER: nodes the lane could not classify.
 
@@ -173,6 +177,11 @@
                       [cell (count live)]))
      :unjudged (count unjudged)
      :stale-exemptions (count stale)
+     ;; A BOUNDED sample for the human/model-facing report. The full vector
+     ;; goes to findings.edn; a report that inlined 400 findings would be
+     ;; skimmed, and the skim is what the reader acts on.
+     :live-sample (into [] (take max-report-findings) live)
+     :truncated-sample? (> (count live) max-report-findings)
      :clean? (and (zero? (count live)) (zero? (count stale)))}))
 
 (defn describe

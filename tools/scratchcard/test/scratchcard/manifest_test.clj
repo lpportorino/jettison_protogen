@@ -37,7 +37,8 @@
            :caps {:vis-px? true}
            :classes-sha "jkl"
            :declined [:layers :palette :border]}
-   :renders [{:family 0 :dark 1 :w 800 :h 480 :bp 0
+   :renders [{:cell "asgard-dark-800x480"
+              :family 0 :dark 1 :w 800 :h 480 :bp 0
               :disp-tier "DISP_LARGE" :status :ok :fb-sha256 sha64}]
    :findings {:count 0 :by-invariant {}}})
 

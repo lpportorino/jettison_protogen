@@ -51,6 +51,10 @@
 
 (def ^:private render-schema
   [:map {:closed true}
+   ;; The cell label is what every other artefact is keyed by — the PNG
+   ;; filename, the findings stamp, the report row. Without it a reader has to
+   ;; reconstruct it from four fields and hope the recipe matches.
+   [:cell [:string {:min 1}]]
    [:family [:enum 0 1 2]]
    [:dark [:enum 0 1]]
    [:w pos-int?]
