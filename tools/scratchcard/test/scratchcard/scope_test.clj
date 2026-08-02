@@ -211,4 +211,19 @@
             "the client must share scope/runtime-base's /tmp fallback")
         (is (str/includes? body "\"protogen\"")
             "the client must share scope's `protogen` path segment"))
-      (is (str/includes? (:runtime-dir s) "/protogen/")))))
+      (is (str/includes? (:runtime-dir s) "/protogen/")))
+    (testing "the client refuses a repo root that does not contain its cwd"
+      ;; NOT "the same way the JVM does" — the containment check mirrors `scope`,
+      ;; the env scrub deliberately does NOT exist there, and conflating the two
+      ;; is what an earlier version of this label did.
+      ;;
+      ;; ANCHORED ON CODE SHAPE, NOT PROSE, and note WHY that works here: this
+      ;; clause applies no comment-stripping (unlike the runtime-dir clause
+      ;; above), so what keeps it off the client's English is that both anchors
+      ;; are quote-bearing forms prose cannot contain. Verify that property holds
+      ;; before adding a third anchor — a bare word would match the docstring.
+      (let [src @client-source]
+        (is (str/includes? src "\"env\" \"-u\" \"GIT_DIR\" \"-u\" \"GIT_WORK_TREE\"")
+            "the client must scrub GIT_DIR/GIT_WORK_TREE, as uber.sh and forks.sh do — NOT as scope does, which deliberately declines to touch the environment because in-container GIT_DIR is what resolves the workspace")
+        (is (str/includes? src "(contains-dir? root cwd)")
+            "the client must verify git's answer CONTAINS its cwd — the fallback fires only when git fails, never when git lies")))))

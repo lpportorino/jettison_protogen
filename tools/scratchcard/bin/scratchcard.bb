@@ -34,7 +34,60 @@
        (map #(format "%02x" (bit-and % 0xff)))
        (apply str)))
 
-(def repo-root (or (sh-out "git" "rev-parse" "--show-toplevel") (str (fs/cwd))))
+(defn- contains-dir?
+  "Whether `root` is `dir` or an ancestor of it, on CANONICAL paths.
+  Mirrors `scratchcard.scope/contains-dir?`. The separator is appended so
+  /work is not read as an ancestor of /workspace."
+  [^String root ^String dir]
+  (let [canon #(.getCanonicalPath (java.io.File. ^String %))
+        r (canon root) d (canon dir)]
+    (or (= r d) (str/starts-with? d (str r java.io.File/separator)))))
+
+(def repo-root
+  "The worktree root CONTAINING this client's cwd, or a refusal.
+
+  THREE THINGS HERE ARE DELIBERATE, and the previous one-liner had none of them.
+
+  `env -u GIT_DIR -u GIT_WORK_TREE` — and GIT_DIR is the one that matters, which
+  is worth stating because the obvious guess is wrong. MEASURED: GIT_DIR alone,
+  from a directory outside any checkout, makes `rev-parse --show-toplevel` exit 0
+  and return THE CWD. GIT_WORK_TREE alone does NOT — from outside a checkout it
+  still fails, because it overrides the REPORTED worktree only once a gitdir has
+  been discovered. Both are scrubbed because either can be inherited. Every name
+  below is keyed by sha256(repo-root), so one stray variable collapses two
+  checkouts onto one container, one socket and one lock. `tools/uber.sh` and
+  `tools/claude/forks.sh` scrub for the same reason.
+
+  THE CONTAINMENT CHECK — because the fallback below fires only when git FAILS,
+  never when git LIES. It mirrors `scratchcard.scope/discover-repo-root`, which
+  was hardened for that case while this client was left behind.
+
+  THE SCRUB HAS NO JVM COUNTERPART, DELIBERATELY, so do not restore symmetry
+  here. `scope` declines to touch the environment because inside the toolchain
+  container the exported GIT_DIR is the only thing that resolves the workspace at
+  all. This client runs on the HOST, where nothing needs it. The residue is worth
+  knowing: containment ALONE cannot catch GIT_DIR-only, because git then returns
+  the cwd and the check passes trivially — so the scrub is what closes that here,
+  and the JVM home is still open to it.
+
+  REFUSING RATHER THAN FALLING BACK TO CWD. The old fallback handed out a hash
+  for a non-repository, and every name derived from it looked valid while
+  belonging to nothing — which `scratchcard.scope`'s own docstring forbids in
+  as many words. A daemon keyed to nothing is worse than a clear refusal."
+  (let [cwd (str (fs/cwd))
+        root (sh-out "env" "-u" "GIT_DIR" "-u" "GIT_WORK_TREE"
+                     "git" "rev-parse" "--show-toplevel")]
+    (if (and root (seq root) (contains-dir? root cwd))
+      root
+      (binding [*out* *err*]
+        (println (str "scratchcard: refusing to derive a per-fork key — "
+                      (if (and root (seq root))
+                        (str "git answered " root ", which does not contain " cwd
+                             " (a stray GIT_DIR/GIT_WORK_TREE, or a bare repo)")
+                        (str cwd " is not inside a git checkout"))))
+        (println "  Every container, socket and lock name is keyed by the repo root,")
+        (println "  so a wrong root silently shares another checkout's daemon.")
+        (System/exit 4)))))
 (def worktree-hash (subs (sha256-hex repo-root) 0 16))
 (def container-name (str "protogen-render-" worktree-hash))
 (def image-tag (or (System/getenv "PROTOGEN_IMAGE_TAG")
