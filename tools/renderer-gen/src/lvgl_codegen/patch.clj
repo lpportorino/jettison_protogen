@@ -124,7 +124,7 @@
    :dropdown_props #{:options :selected :direction}
    :roller_props #{:options :selected :visible_row_count :mode}
    :textarea_props #{:placeholder :max_length}
-   :spinbox_props #{:step :digit_count :separator_position :value}
+   :spinbox_props #{:step :digit_count :separator_position :value :max_value}
    :spinner_props #{:spin_time :arc_length}
    :led_props #{:color :brightness}
    :image_props #{:src :has_pivot :rotation}

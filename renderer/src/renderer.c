@@ -1570,7 +1570,13 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
      * producer omits the field precisely for min-only endpoints.
      * set_min_value leaves range_max at the widget's own 99999 default,
      * which is the open-ended behaviour the endpoint asked for. */
-    if (p->max_value != 0) {
+    /* min_value < 0 is the case the "zero is never a meaningful max" reasoning
+     * above does NOT cover: a legitimate range like [-50, 0] has a real max of
+     * zero, and treating it as absent would silently discard the maximum and
+     * leave range_max at 99999. Latent at this pin (no endpoint declares a
+     * maximum of zero) but negative minima are common, so the guard tests both
+     * rather than matching only the comment's stated case. */
+    if (p->max_value != 0 || p->min_value < 0) {
       lv_spinbox_set_range(obj, p->min_value, p->max_value);
     } else {
       lv_spinbox_set_min_value(obj, p->min_value);

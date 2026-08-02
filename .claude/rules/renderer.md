@@ -28,7 +28,12 @@ language bindings, not a hand-maintained app.
   `/check-renderer` skill. The lanes and their order are the `check-renderer`
   target in `renderer.mk`. CI never invokes that target: `renderer.yml`
   DECOMPOSES it into individual steps and `devcards.yml` runs others, so the set
-  CI covers is a SUBSET — a lane omitted from both workflows runs only locally.
+  CI covers is NOT a subset of the local one, and the local one is not a subset
+  of CI — **NEITHER SET CONTAINS THE OTHER.** A lane omitted from both workflows
+  runs only locally; and `lint-c-tidy` plus the goldens/docs runner diff run in
+  CI and NOT in the local battery, so a green local push has genuinely not run
+  them. Reading this as "local green implies CI green" is how a clang-tidy
+  finding reached the trunk red.
 - CI's fixtures/gallery jobs consume an ALREADY-BUILT `controls.wasm` (the
   `*-prebuilt` targets, guarded by `wasm-present`) — a missing wasm is a
   sequencing bug, never a skip.
