@@ -241,9 +241,17 @@
   [tokens prop want ref-key]
   (let [entry (get-in tokens [:tokens ref-key])]
     (when-not entry
+      ;; The overlay is named by ROLE, never by a path. This message used to
+      ;; carry one consumer's literal filename, which was wrong twice over: it
+      ;; put a consumer-private path in a PUBLIC repository, and it falsified a
+      ;; claim `core.clj/load-ui-defs` makes in its own docstring — that
+      ;; protogen "hosts the merge mechanism but never names a consumer-private
+      ;; file". It was also simply unhelpful to anyone else: the overlay path is
+      ;; CALLER-SUPPLIED, so a second consumer was told to look in a file it
+      ;; does not have.
       (throw (ex-info (str "Unknown design token: " (name ref-key)
                            " — in neither the pinned design-tokens manifest nor"
-                           " the private overlay (edn/tokens_private.edn)")
+                           " the caller-supplied private token overlay")
                       {:prop prop :ref ref-key})))
     (when-not (= want (:kind entry))
       (throw (ex-info (str "Token kind mismatch: " (name ref-key)
