@@ -39,7 +39,14 @@
         protogen/devcards {:local/root "../devcards"}}
 
  :aliases
- {:test {:extra-paths ["test"]
+ {;; Hand-run probe against the real wasm. GraalVM only — devcards.host
+  ;; refuses a stock JDK, so this is a container invocation:
+  ;;   tools/uber.sh 'cd tools/scratchcard && clojure -M:live-probe'
+  :live-probe {:extra-paths ["dev"]
+               :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+               :main-opts ["-m" "live-probe"]}
+
+  :test {:extra-paths ["test"]
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
          :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]

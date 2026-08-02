@@ -100,6 +100,7 @@ LINT_CLJ_PATHS := tools/devcards/src \
 	tools/renderer-gen/dev \
 	tools/scratchcard/src \
 	tools/scratchcard/test \
+	tools/scratchcard/dev \
 	docs/.protodoc/tools/src \
 	docs/.protodoc/tools/test \
 	docs/.protodoc/tools/build.clj \
