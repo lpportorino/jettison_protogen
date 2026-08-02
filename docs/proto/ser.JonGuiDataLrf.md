@@ -78,7 +78,7 @@ See related enum for valid values
 
 ### is_started (#9)
 
-GPS receiver started state
+Whether the LRF is started.
 
 
 ### meteo (#10)

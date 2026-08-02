@@ -204,7 +204,7 @@ Current draw in amperes
 
 ### is_started (#18)
 
-GPS receiver started state
+Whether the rotary platform is started.
 
 
 ### meteo (#19)

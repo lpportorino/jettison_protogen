@@ -224,7 +224,7 @@ Vertical field of view in degrees
 
 ### is_started (#14)
 
-GPS receiver started state
+Whether the day camera is started.
 
 
 ### meteo (#16)

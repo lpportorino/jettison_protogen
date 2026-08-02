@@ -104,7 +104,7 @@ Magnetic declination correction in degrees
 
 ### is_started (#8)
 
-GPS receiver started state
+Whether the compass is started.
 
 
 ### meteo (#9)
