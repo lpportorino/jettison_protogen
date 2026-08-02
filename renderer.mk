@@ -468,6 +468,28 @@ scratchcard-e2e:
 ## OWN reason. HOST-ONLY (it drives tools/uber.sh, which drives docker), and
 ## excluded from check-renderer-lanes for that reason — recorded here, beside
 ## the target, rather than left for a reader to infer.
+SCRATCHCARD_BRIEF := .claude/rules/scratch-devcard-api.md
+
+## scratchcard-brief-generate: rewrite the generated API rule from live code.
+## GENERATOR ONLY — always exits 0. The freshness GATE is the target below.
+.PHONY: scratchcard-brief-generate
+scratchcard-brief-generate: proto-classes
+	cd tools/scratchcard && clojure -M:brief "$$(pwd)/../.."
+
+## scratchcard-brief: the freshness gate. Regenerates, then refuses a diff.
+#
+# Modelled on `standard-brief`, including its two guards, because both failure
+# modes are silent: git cannot resolve a container-mounted checkout (so
+# freshness would be UNKNOWN rather than fresh), and `git diff` says NOTHING
+# about an untracked path (so the check would pass green over a page nothing
+# has ever received).
+.PHONY: scratchcard-brief
+scratchcard-brief: scratchcard-brief-generate
+	@git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { 		echo "FATAL: git cannot resolve this checkout, so freshness is UNKNOWN, not" >&2; 		echo "  fresh. Run this target on the host or a CI runner." >&2; 		exit 1; }
+	@git ls-files --error-unmatch $(SCRATCHCARD_BRIEF) >/dev/null 2>&1 || { 		echo "FATAL: $(SCRATCHCARD_BRIEF) is NOT TRACKED — git diff says nothing about" >&2; 		echo "  an untracked path, so this check would pass green over a page nothing" >&2; 		echo "  has received. Add it: git add $(SCRATCHCARD_BRIEF)" >&2; 		exit 1; }
+	@git diff --exit-code HEAD -- $(SCRATCHCARD_BRIEF) || { 		echo "FATAL: $(SCRATCHCARD_BRIEF) was STALE vs a fresh generation — regenerated" >&2; 		echo "  in place; review the diff above and commit it. An author loads this" >&2; 		echo "  page as the tool's API, so a stale one documents a tool that moved." >&2; 		exit 1; }
+	@echo "scratchcard-brief: fresh ($(SCRATCHCARD_BRIEF) vs the live ops, error codes, manifest schema, armed lanes and default matrix)"
+
 .PHONY: scratchcard-lane-canary
 scratchcard-lane-canary:
 	@bash tools/scratchcard/test/lane_canary.sh
@@ -1420,5 +1442,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

@@ -495,10 +495,21 @@ direction:
   worktree root, with no TCP ports at all — so a second checkout is never a
   conflict.
 
-The operational detail is `.claude/rules/scratch-devcard.md` (path-scoped to
-`tools/scratchcard/**`) and the `scratch-devcard` skill, which carries the
-dump-key absence table — where an absent key means a DEFAULT rather than "no
-information".
+**USE IT WHEN AUTHORING OR FIXING A WIDGET OR A SCREEN.** Not as a courtesy —
+because the alternative is guessing. A ui_ast surface has three things a reader
+cannot get from the source: what it actually RENDERS, what its `dump_tree`
+says, and what the armed geometry lanes make of it. Reasoning about a layout
+from the EDN alone is how a screen ships with `:clipped` on every label, which
+is exactly what the shipped example did until the tool was pointed at it. Write
+the screen, regenerate, read the verdict, fix, regenerate. The loop is about a
+second.
+
+The operational detail is `.claude/rules/scratch-devcard.md`; the task playbook
+is the `scratch-devcard` skill, which carries the dump-key absence table —
+where an absent key means a DEFAULT rather than "no information".
+`.claude/rules/scratch-devcard-api.md` is GENERATED from the live code (ops,
+typed error codes, the full manifest schema, the armed lanes, the default
+matrix) and its freshness is gated, so it cannot document a tool that moved.
 
 ## What protogen is
 

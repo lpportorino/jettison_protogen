@@ -45,6 +45,11 @@
                       "-XX:+ExitOnOutOfMemoryError"]
            :main-opts ["-m" "scratchcard.daemon"]}
 
+  ;; Regenerates .claude/rules/scratch-devcard-api.md from the live code.
+  ;; Freshness is gated by `make -f renderer.mk scratchcard-brief`.
+  :brief {:jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+          :main-opts ["-m" "scratchcard.brief"]}
+
   ;; The Tier-2 gate: the pipeline against the real wasm. Exit 0 pass,
   ;; 1 fail, 3 CANNOT RUN. Wired into renderer.mk.
   :render-lane {:extra-paths ["dev"]
