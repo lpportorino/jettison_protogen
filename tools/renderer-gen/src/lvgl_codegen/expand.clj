@@ -137,7 +137,29 @@
                                   prefixes))
                    1)
             (throw (ex-info (str "Multiple breakpoint prefixes in token \"" token-str "\"")
-                            {:token token-str})))]
+                            {:token token-str})))
+        ;; A PREFIXED LAYOUT DIRECTIVE IS UNREPRESENTABLE, and silence was the
+        ;; old answer. `ui.Layout` carries a flow and three aligns — no
+        ;; breakpoint variants and no state variants — while STYLE props carry
+        ;; both, so a reader who has seen `md:p-spacing-sm` work reasonably
+        ;; expects `md:flex-col` to. It did not merely fail to apply at other
+        ;; sizes: the token fell between the two halves of parsing and selected
+        ;; NOTHING. The base IS a layout directive, so the style parser below
+        ;; diverts it; `extract-layout` matches RAW tokens and never strips a
+        ;; prefix, so it does not see it either. No error, no layout, a class
+        ;; string that still parses clean — and the unprefixed sibling works,
+        ;; which is what kept it invisible.
+        _ (when (and (layout-directives base) (or bp-prefix state-prefix))
+            (throw (ex-info (str "Prefixed layout directive \"" token-str
+                                 "\" — a layout flow cannot vary by breakpoint or"
+                                 " state (ui.Layout has no such variants, unlike"
+                                 " style props). Author the flow unprefixed, or"
+                                 " express the responsive difference with style"
+                                 " props, which do carry breakpoints.")
+                            {:token token-str
+                             :base base
+                             :bp bp-prefix
+                             :state state-prefix})))]
     ;; Parse the base: layout directive → exact shorthand → registry prefix.
     (when-not (layout-directives base)
       (if-let [exact (get exact-base-tokens base)]
