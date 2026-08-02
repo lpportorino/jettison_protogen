@@ -127,7 +127,20 @@
   [path]
   (let [f (io/file path)]
     (when-not (.isFile ^File f)
-      (fail! "INPUT_MISSING" (str "no screen file at " path) {:path (str path)}))
+      ;; NAME THE LIKELY CAUSE, not just the symptom. The daemon sees the
+      ;; repository and its runtime dir and nothing else, so a path outside the
+      ;; checkout is invisible to it EVEN THOUGH IT EXISTS on the host that
+      ;; sent the request. "no screen file at /tmp/x.edn" is true and useless
+      ;; when the caller can see /tmp/x.edn perfectly well.
+      (fail! "INPUT_MISSING"
+             (str "no screen file at " path
+                  (when-not (re-find #"^/(home|workspace|srv|opt)?" (str path))
+                    "")
+                  " — the daemon can only see files INSIDE the checkout it was"
+                  " started for; a path elsewhere on the host is not mounted"
+                  " into it. Put the screen under the repo (anywhere, including"
+                  " gitignored .protogen/) and pass that path.")
+             {:path (str path)}))
     (try
       (with-open [r (PushbackReader. (io/reader f))]
         (edn/read r))

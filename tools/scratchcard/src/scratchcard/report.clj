@@ -84,8 +84,25 @@
   "The digest. `manifest` is the validated run manifest."
   ^String [{:keys [run protogen wasm lanes renders findings input] :as manifest}]
   (let [failed (count (remove #(= :ok (:status %)) renders))
-        finding-rows (for [{:keys [cell invariant node detail]} (:live-sample findings)]
-                       [cell invariant (or node "") (or detail "")])
+        ;; GROUPED BY (invariant, node), not one row per cell. A defect in a
+        ;; screen is almost always present in EVERY cell — the same
+        ;; :clipped label at 42 resolutions is one defect, not 42 — and a
+        ;; table that repeats it 42 times buries the second, different
+        ;; finding underneath it. The cells are listed in their own column,
+        ;; because WHICH cells is the diagnostic: a defect in 42 of 42 is a
+        ;; layout bug, and the same defect in 14 of 42 is a THEME bug.
+        finding-rows (for [[[invariant node] group]
+                           (sort-by key (group-by (juxt :invariant :node)
+                                                  (:live-sample findings)))
+                           :let [cells (sort (distinct (keep :cell group)))]]
+                       [invariant (or node "")
+                        (str (count group)
+                             (when (seq cells)
+                               (str " — " (if (> (count cells) 4)
+                                            (str (first cells) " …and "
+                                                 (dec (count cells)) " more")
+                                            (str/join ", " cells)))))
+                        (or (:detail (first group)) "")])
         render-rows (for [r renders]
                       [(:cell r) (:disp-tier r) (:status r)
                        (or (some-> (:fb-sha256 r) (subs 0 12)) "-")
@@ -105,7 +122,11 @@
                    "- elapsed " (:elapsed-ms run) " ms")
 
               (when (seq finding-rows)
-                (str "## Findings\n\n" (md-table ["cell" "invariant" "node" "detail"] finding-rows)))
+                (str "## Findings\n\n"
+                     (md-table ["invariant" "node" "count — cells" "detail"] finding-rows)
+                     (when (:truncated-sample? findings)
+                       (str "\n\n_Sample only — the full vector is in `"
+                            findings-name "`._"))))
 
               (str "## Renders\n\n"
                    (md-table ["cell" "tier" "status" "fb sha" "ms"] render-rows))
