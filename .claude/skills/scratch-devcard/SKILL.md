@@ -68,16 +68,29 @@ renders/<cell>.png and <cell>.dump.json
 
 ## Diffing two runs — attribute the change before hunting
 
-A changed pixel has exactly three possible causes, and the manifest separates
-them. Check in this order:
+```bash
+tools/scratchcard/bin/scratchcard diff [--card C] [--from previous|latest|N] [--to ...]
+```
 
-1. **the input changed** → `:input :sha256` differs
-2. **the renderer changed** → `:wasm :sha256` or `:protogen :sha` differs
-3. **the judgement changed** → `:lanes :thresholds` or `:lanes :classes-sha`
-   differs
+Defaults to previous-vs-latest — "what did my last edit change". It returns
+`:causes`, and that is the field to read first:
 
-A diff that reports "3 cells moved" without saying which of the three is
-responsible sends you hunting in the wrong place.
+| cause | means |
+|---|---|
+| `:input` | the screen file differs |
+| `:renderer` | a different wasm, or a different protogen sha |
+| `:judgement` | different producers, thresholds, or class table |
+| `:unexplained` | **pixels moved and nothing upstream did** |
+
+`:causes` is a SET — two things can change at once, and picking one to report
+would be a guess presented as a finding. `:unexplained` is the most
+interesting answer in the vocabulary: it means the renderer is not
+deterministic under any input this archive can see.
+
+`:judgement` is the one a naive diff omits, and omitting it makes a threshold
+edit read as a pixel regression. A cell present in only one run appears under
+`:only-in-to` rather than `:moved` — adding a resolution is a matrix change,
+not a rendering regression.
 
 ## READING THE DUMP — absence is NOT neutral
 

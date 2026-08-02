@@ -34,6 +34,7 @@
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
+   [scratchcard.diff :as diff]
    [scratchcard.digest :as digest]
    [scratchcard.protocol :as proto]
    [scratchcard.retention :as retention]
@@ -171,6 +172,17 @@
                                    :usage (retention/total-usage
                                            (str (:workspace ctx) "/.protogen/scratch"))
                                    :staleness (staleness (:workspace ctx))))
+      "diff" (let [{:keys [card from to]} args
+                   root (str (:workspace ctx) "/.protogen/scratch")
+                   ;; `as-ref`, not `ref` — binding `ref` would shadow
+                   ;; `clojure.core/ref`.
+                   as-ref (fn [v d] (cond (nil? v) d
+                                          (= "latest" v) :latest
+                                          (int? v) v
+                                          (re-matches #"\d+" (str v)) (parse-long (str v))
+                                          :else (str v)))]
+               (proto/ok id (diff/diff root (or card "hello")
+                                       (as-ref from :previous) (as-ref to :latest))))
       "stop" (proto/ok id "stopping")
       ;; STALENESS RIDES THE REGENERATE RESPONSE, not only `status`. A warning
       ;; a caller has to ASK for is a warning they will not see: the moment it

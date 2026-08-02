@@ -88,7 +88,11 @@
    "status" #{}
    "stop" #{}
    "regenerate" #{:file :card :resolutions :families :modes :bp-from-canvas?
-                  :keep :timeout-ms}})
+                  :keep :timeout-ms}
+   ;; The archive exists to be COMPARED. Without this op the docs' central
+   ;; promise — "a manifest a later run can be diffed against" — is a manual
+   ;; filesystem walk.
+   "diff" #{:card :from :to}})
 
 ;; ── envelopes ──────────────────────────────────────────────────────────────
 

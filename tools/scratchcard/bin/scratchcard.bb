@@ -218,8 +218,16 @@
                                           (get opts "--card") (assoc :card (get opts "--card"))
                                           (get opts "--res") (assoc :resolutions
                                                                     (parse-resolutions (get opts "--res")))))))
+      "diff" (do (ensure-daemon!)
+                 (emit! (request! "diff"
+                                  (cond-> {}
+                                    (get opts "--card") (assoc :card (get opts "--card"))
+                                    (get opts "--from") (assoc :from (get opts "--from"))
+                                    (get opts "--to") (assoc :to (get opts "--to"))))))
       "ping" (do (ensure-daemon!) (emit! (request! "ping" {})))
-      (do (println "usage: scratchcard <ping|status|up|stop|restart|regenerate> [--file P] [--card C] [--res 800x480,390x844]")
+      (do (println "usage: scratchcard <ping|status|up|stop|restart|regenerate|diff>")
+          (println "  regenerate [--file P] [--card C] [--res 800x480,390x844]")
+          (println "  diff       [--card C] [--from latest|previous|N] [--to ...]")
           (println (str "  worktree " repo-root))
           (println (str "  hash     " worktree-hash))
           (println (str "  socket   " socket-path))
