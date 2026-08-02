@@ -1345,7 +1345,15 @@ check-renderer:
 # was fresh or stale, so the battery cannot go red on briefing staleness and a
 # green here says nothing about it. It earns its slot by proving the generator
 # still RUNS; the freshness comparison is `standard-brief`, which is armed in
-# devcards.yml and cannot live here (git does not resolve inside the container).
+# devcards.yml and is NOT armed here — a DECISION, not an impossibility. The
+# older reason ("git does not resolve inside the container") was measured and
+# retired: `tools/uber.sh` declares safe.directory for the workspace, so git
+# resolves normally under it, which is exactly what makes `dead-c-externs-test`
+# — and therefore this battery — runnable locally at all. See
+# .claude/rules/uber-container.md, which states outright that this target's
+# freshness half is armable on both paths and stays unarmed by choice. Keeping
+# the retired reason would tell a reader the check CANNOT be run here, which is
+# the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
 check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
