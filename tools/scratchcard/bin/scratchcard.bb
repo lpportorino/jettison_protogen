@@ -279,6 +279,21 @@
               {:w (parse-long w) :h (parse-long h)}))
           (str/split s #","))))
 
+(defn- absolute-screen-path
+  "A `--file` argument as an ABSOLUTE path, resolved against the CALLER's cwd.
+
+  ONLY THE CLIENT CAN DO THIS. The daemon's cwd is `tools/scratchcard` inside
+  the container — a directory the caller never chose and cannot see — so a
+  relative path sent over the wire resolved somewhere meaningless and came
+  back as INPUT_MISSING blaming the MOUNT, for a file sitting in the checkout.
+  The documented first step hands you exactly such a path: copy the example,
+  then `--file tools/scratchcard/example/hello.edn`.
+
+  Resolution only; existence is still the daemon's call, so a path genuinely
+  outside the checkout keeps its own refusal and that message stays true."
+  [s]
+  (str (.toAbsolutePath (npath s))))
+
 (defn- parse-ints
   "A comma-separated index list — `--families 0,2`, `--modes 1`.
 
@@ -345,8 +360,9 @@
                     (emit! {:ok true :daemon "restarted" :socket socket-path}))
       "regenerate" (do (ensure-daemon!)
                        (emit! (request! "regenerate"
-                                        (cond-> {:file (or (get opts "--file")
-                                                           (str repo-root "/tools/scratchcard/example/hello.edn"))}
+                                        (cond-> {:file (if-let [f (get opts "--file")]
+                                                         (absolute-screen-path f)
+                                                         (str repo-root "/tools/scratchcard/example/hello.edn"))}
                                           (get opts "--card") (assoc :card (get opts "--card"))
                                           (get opts "--res") (assoc :resolutions
                                                                     (parse-resolutions (get opts "--res")))

@@ -233,6 +233,42 @@ else
 	bad 'bp was not 0 without bp-from-canvas'
 fi
 
+# ── arm 10: a RELATIVE --file resolves against the CALLER's cwd ────────────
+# The skill's step 1 is "copy tools/scratchcard/example/hello.edn and edit it",
+# and its one command takes `--file <screen.edn>` — so a repo-relative path is
+# the documented shape. The daemon's cwd is tools/scratchcard, nowhere the
+# caller can see, and the refusal blamed the MOUNT ("a path elsewhere on the
+# host is not mounted into it") for a file sitting inside the checkout.
+out="$(cd "$ROOT" && "$CLIENT" regenerate --file tools/scratchcard/example/hello.edn \
+	--res 800x480 --families 0 --modes 1 2>&1)"
+rc=$?
+if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -q '"ok":true'; then
+	ok 'a repo-relative --file resolves'
+else
+	bad "a repo-relative --file did not resolve (rc=$rc)" "$out"
+fi
+
+# From a SUBDIRECTORY, which is what makes this the CALLER's cwd rather than a
+# join against the repo root — the two are indistinguishable from $ROOT alone.
+out="$(cd "$ROOT/tools" && "$CLIENT" regenerate --file scratchcard/example/hello.edn \
+	--res 800x480 --families 0 --modes 1 2>&1)"
+rc=$?
+if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -q '"ok":true'; then
+	ok 'and it resolves against the caller cwd, not the repo root'
+else
+	bad "a subdirectory-relative --file did not resolve (rc=$rc)" "$out"
+fi
+
+# A path genuinely outside the checkout must STILL be refused, or the fix
+# above has simply stopped the daemon from seeing anything it cannot reach.
+out="$("$CLIENT" regenerate --file /tmp/e2e-outside-the-checkout.edn 2>&1)"
+rc=$?
+if [ "$rc" -ne 0 ] && printf '%s' "$out" | grep -q 'INPUT_MISSING'; then
+	ok 'a path outside the checkout is still refused'
+else
+	bad "a path outside the checkout was not refused (rc=$rc)" "$out"
+fi
+
 # ── verdict ────────────────────────────────────────────────────────────────
 "$CLIENT" restart >/dev/null 2>&1
 printf '\n'
