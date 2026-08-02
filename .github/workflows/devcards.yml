@@ -75,6 +75,31 @@ on:
     # they would be armed in name only — never firing on the commit that broke
     # them, which is the structural-green failure this repo refuses.
     - "tools/scratchcard/**"
+    # THE TWO INPUTS OF THE FRESHNESS STEP BELOW THAT NOTHING ELSE HERE MATCHES.
+    # A gate whose trigger excludes what it guards is armed in name only, which
+    # is the defect this workflow step was added to close — so it must not be
+    # reintroduced by the filter.
+    #   generated/**  `conventions-projection` DERIVES its LVGL sections from
+    #                 `lvgl-codegen.generated.enums`, so an enum regeneration
+    #                 stales the consumer-facing JSON export with nothing under
+    #                 tools/devcards/** touched.
+    #   the api rule  `scratchcard-brief` guards a TRACKED generated page. Its
+    #                 sources live under tools/scratchcard/** (covered), but a
+    #                 HAND EDIT to the page itself matches nothing above — and a
+    #                 hand edit is exactly what the "DO NOT EDIT" banner exists
+    #                 to catch.
+    - "tools/renderer-gen/src/lvgl_codegen/generated/**"
+    - ".claude/rules/scratch-devcard-api.md"
+    # And the dependency pins. The generated page embeds
+    # `(m/form manifest/schema)` and pretty-prints it, so its bytes are produced
+    # by malli and clojure.pprint rather than by this repo — and malli is pinned
+    # in renderer-gen's deps.edn, reaching scratchcard through a :local/root
+    # edge. That a bump WOULD move those bytes is argued from where they come
+    # from, not measured against a second pin; the entry fails safe either way,
+    # since an over-broad filter costs runner minutes while a missing one ships
+    # the drift.
+    - "tools/renderer-gen/deps.edn"
+    - "tools/scratchcard/deps.edn"
     - "output/manifests/**"
     - "proto/ui/**"
     - "renderer.mk"
@@ -98,6 +123,31 @@ on:
     # they would be armed in name only — never firing on the commit that broke
     # them, which is the structural-green failure this repo refuses.
     - "tools/scratchcard/**"
+    # THE TWO INPUTS OF THE FRESHNESS STEP BELOW THAT NOTHING ELSE HERE MATCHES.
+    # A gate whose trigger excludes what it guards is armed in name only, which
+    # is the defect this workflow step was added to close — so it must not be
+    # reintroduced by the filter.
+    #   generated/**  `conventions-projection` DERIVES its LVGL sections from
+    #                 `lvgl-codegen.generated.enums`, so an enum regeneration
+    #                 stales the consumer-facing JSON export with nothing under
+    #                 tools/devcards/** touched.
+    #   the api rule  `scratchcard-brief` guards a TRACKED generated page. Its
+    #                 sources live under tools/scratchcard/** (covered), but a
+    #                 HAND EDIT to the page itself matches nothing above — and a
+    #                 hand edit is exactly what the "DO NOT EDIT" banner exists
+    #                 to catch.
+    - "tools/renderer-gen/src/lvgl_codegen/generated/**"
+    - ".claude/rules/scratch-devcard-api.md"
+    # And the dependency pins. The generated page embeds
+    # `(m/form manifest/schema)` and pretty-prints it, so its bytes are produced
+    # by malli and clojure.pprint rather than by this repo — and malli is pinned
+    # in renderer-gen's deps.edn, reaching scratchcard through a :local/root
+    # edge. That a bump WOULD move those bytes is argued from where they come
+    # from, not measured against a second pin; the entry fails safe either way,
+    # since an over-broad filter costs runner minutes while a missing one ships
+    # the drift.
+    - "tools/renderer-gen/deps.edn"
+    - "tools/scratchcard/deps.edn"
     - "output/manifests/**"
     - "proto/ui/**"
     - "renderer.mk"
@@ -198,6 +248,21 @@ jobs:
       # early slot in check-renderer (CI ≡ local).
       name: Devcards unit suite (pure helpers — cheap, fails before the corpus)
       run: make -f renderer.mk devcards-test
+    - # Same slot and same reason as the suite above: pure Clojure over two text
+      # files, no wasm, no bindings, no proto classes (its own recipe says so),
+      # so it fails in seconds rather than after a full corpus render.
+      #
+      # WHY IT NEEDS A CI HOME AT ALL: it is in `check-renderer-lanes`, and NO
+      # workflow runs `check-renderer`. That made it reachable only by a human
+      # typing the target — unarmed, per `gate-enforcement.md` §6.
+      #
+      # WHAT IT ADDS OVER WHAT WAS ALREADY HERE, precisely: the unit suite above
+      # already asserts the committed JSON equals a fresh `load-conventions`, so
+      # the manifest's DATA was covered. This holds it to the generator BYTE for
+      # byte — the layout half, which is the historical defect (identical data,
+      # different layout) and the half no test reached.
+      name: Conventions projection freshness (consumer-facing JSON export)
+      run: make -f renderer.mk conventions-projection
     - # B3b: compile the ui bindings via the ONE script (compile-bindings.sh,
       # invoked by renderer.mk's `bindings` prereq) — never a second inline
       # javac. The inline form had no -sourcepath (UiNodes.java references
@@ -279,14 +344,40 @@ jobs:
       # tools/devcards/**, and its `on:` now also carries the contract doc and
       # the generated page itself.
       #
-      # A runner step rather than a check-renderer lane because it shells out
-      # to git, and this workflow invokes the toolchain container through a RAW
-      # `docker run`, where git refuses the mounted worktree as dubiously owned.
-      # (`tools/uber.sh` declares safe.directory and so does NOT hit this; CI
-      # does not go through it.) Same reason the goldens freshness check above
-      # is a runner step.
+      # A step here rather than a check-renderer lane because `standard-brief`
+      # is DELIBERATELY excluded from `check-renderer-lanes` (renderer.mk says
+      # so at its definition), so CI is its only home.
+      #
+      # This comment used to add "and this workflow invokes the toolchain
+      # container through a RAW `docker run`, where git refuses the mounted
+      # worktree as dubiously owned". That is false OF THIS FILE and is struck
+      # rather than reworded: this job has no `container:` and no `docker run`
+      # at all — see the header above, which says so — and provisions the
+      # toolchain with `setup-graalvm` on a stock runner. Every step here is
+      # already a runner step, so it is not a choice being exercised. The
+      # dubious-ownership argument belongs to `renderer.yml`, which does use
+      # raw `docker run`, and `renderer.mk` states it correctly there.
       name: UI-standard briefing freshness
       run: make -f renderer.mk standard-brief
+    - # The other freshness gate that had no authoritative half: it too is in
+      # `check-renderer-lanes`, and no workflow runs `check-renderer`.
+      # It guards .claude/rules/scratch-devcard-api.md, the page an author loads
+      # as the tool's API, so a stale one documents a tool that moved.
+      #
+      # LATE, unlike the conventions gate above, because it genuinely needs
+      # `proto-classes` — and that is a PHONY prerequisite in a separate `make`
+      # invocation, so it recompiles the java bindings rather than reusing the
+      # corpus step's. Seconds, not free.
+      #
+      # ITS OWN STEP rather than sharing one, for ATTRIBUTION and PLACEMENT —
+      # not for failure isolation, which a first draft claimed and which does
+      # not exist: Actions skips every later step once one fails, exactly as
+      # `make` stops at the first failing target. A drift in the conventions
+      # gate hides this one either way. What the split does buy is a named step
+      # in the CI UI, and the freedom to put the cheap gate early and this one
+      # after `proto-classes` is warm.
+      name: Scratchcard API rule freshness
+      run: make -f renderer.mk scratchcard-brief
     - name: Upload gallery + golden manifest (debug artifact, not published)
       if: always()
       uses: actions/upload-artifact@v6
