@@ -457,7 +457,7 @@ jobs:
 
           # Initialize go module if needed
           if [ ! -f go.mod ]; then
-            go mod init github.com/lpportorico/jettison_proto_go
+            go mod init github.com/lpportorino/jettison_proto_go
           fi
           go mod tidy || echo "Warning: go mod tidy failed, continuing..."
 
@@ -589,7 +589,7 @@ jobs:
           # Create package.json if needed
           if [ ! -f package.json ]; then
             npm init -y
-            npm pkg set name="@lpportorico/jettison-proto-typescript"
+            npm pkg set name="@lpportorino/jettison-proto-typescript"
           fi
 
           cp ../LICENSE .
@@ -1046,17 +1046,17 @@ jobs:
         **Target Platform:** NVIDIA Jetson AGX Orin (BSP 6.2)
 
         ## Available Languages
-        - C (nanopb) - [jettison_proto_c](https://github.com/lpportorico/jettison_proto_c)
-        - C++ (with buf.validate) - [jettison_proto_cpp](https://github.com/lpportorico/jettison_proto_cpp)
-        - Go (with buf.validate) - [jettison_proto_go](https://github.com/lpportorico/jettison_proto_go)
-        - Kotlin (with buf.validate) - [jettison_proto_kotlin](https://github.com/lpportorico/jettison_proto_kotlin)
-        - Python - [jettison_proto_python](https://github.com/lpportorico/jettison_proto_python)
-        - TypeScript - [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript)
-        - TypeScript (validated) - [jettison_protovalidate_es](https://github.com/lpportorico/jettison_protovalidate_es)
-        - Rust - [jettison_proto_rust](https://github.com/lpportorico/jettison_proto_rust)
+        - C (nanopb) - [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c)
+        - C++ (with buf.validate) - [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp)
+        - Go (with buf.validate) - [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go)
+        - Kotlin (with buf.validate) - [jettison_proto_kotlin](https://github.com/lpportorino/jettison_proto_kotlin)
+        - Python - [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python)
+        - TypeScript - [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript)
+        - TypeScript (validated) - [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es)
+        - Rust - [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust)
         - Zig (zig-protobuf)
-        - Java (with buf.validate) - [jettison_proto_java](https://github.com/lpportorico/jettison_proto_java)
-        - JSON Descriptors - [jettison_proto_json-descriptors](https://github.com/lpportorico/jettison_proto_json-descriptors)" \
+        - Java (with buf.validate) - [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java)
+        - JSON Descriptors - [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors)" \
           ${{ github.event.inputs.release_tag == '' && '--prerelease' || '' }} \
           release-artifacts/*.tar.gz
       env:
