@@ -197,6 +197,42 @@ else
 	bad "a render-level failure exited $rc — a scripted caller cannot tell" "$out"
 fi
 
+# ── arm 9: the matrix axes the daemon accepts are REACHABLE from the CLI ───
+# The daemon's regenerate takes families, modes, keep, timeout-ms and
+# bp-from-canvas?, and the generated API page lists all of them. Forwarding
+# only file/card/resolutions made the rest unreachable from the documented
+# entry point, and bp-from-canvas? is the costly one: without it every cell
+# renders at bp 0, so a `md:`/`lg:`/`xl:` prefixed style cannot be seen to
+# apply at all — an authoring axis with no way to exercise it.
+out="$("$CLIENT" regenerate --res 800x480 --families 0 --modes 1 2>&1)"
+rc=$?
+if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -q '"cells":1'; then
+	ok 'families and modes narrow the matrix'
+else
+	bad "families/modes did not narrow the matrix (rc=$rc)" "$out"
+fi
+
+# bp is asserted in the MANIFEST, not the reply: the reply counts cells and
+# would read identically whether the flag reached the matrix builder or not.
+out="$("$CLIENT" regenerate --card e2ebp --res 1920x1080 --families 0 --modes 1 \
+	--bp-from-canvas true 2>&1)"
+rc=$?
+bpman="$ROOT/.protogen/scratch/e2ebp/latest/manifest.edn"
+if [ "$rc" -eq 0 ] && grep -q ':bp 3' "$bpman" 2>/dev/null; then
+	ok 'bp-from-canvas reaches the matrix and lifts bp off 0'
+else
+	bad "bp-from-canvas did not reach the matrix (rc=$rc)" "$out"
+fi
+
+# The other direction: without the flag the same canvas must still pin bp 0,
+# or the arm above is satisfied by a matrix that ignores the flag entirely.
+"$CLIENT" regenerate --card e2ebp0 --res 1920x1080 --families 0 --modes 1 >/dev/null 2>&1
+if grep -q ':bp 0' "$ROOT/.protogen/scratch/e2ebp0/latest/manifest.edn" 2>/dev/null; then
+	ok 'and without it the same canvas still pins bp 0'
+else
+	bad 'bp was not 0 without bp-from-canvas'
+fi
+
 # ── verdict ────────────────────────────────────────────────────────────────
 "$CLIENT" restart >/dev/null 2>&1
 printf '\n'

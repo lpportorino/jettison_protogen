@@ -263,7 +263,8 @@
 
   Keep in step with the `case` below; a flag added there and not here is
   refused, which is the safe direction to be wrong in."
-  {"regenerate" #{"--file" "--card" "--res"}
+  {"regenerate" #{"--file" "--card" "--res" "--families" "--modes"
+                  "--keep" "--timeout-ms" "--bp-from-canvas"}
    "diff" #{"--card" "--from" "--to"}
    "status" #{}
    "up" #{}
@@ -277,6 +278,31 @@
             (let [[w h] (str/split tok #"x")]
               {:w (parse-long w) :h (parse-long h)}))
           (str/split s #","))))
+
+(defn- parse-ints
+  "A comma-separated index list — `--families 0,2`, `--modes 1`.
+
+  A token that is not an integer becomes nil rather than throwing here, and
+  the daemon's own schema refuses the resulting list by name. One refusal, at
+  the seam that owns the vocabulary, beats a second copy of it in this client."
+  [s]
+  (when (seq s)
+    (mapv parse-long (str/split s #","))))
+
+(defn- parse-bool
+  "`true`/`false` for a flag the daemon takes as a boolean.
+
+  Anything else is REFUSED here rather than coerced: `--bp-from-canvas 0` read
+  as truthy would silently sweep the breakpoint tiers, which is the opposite
+  of what the caller typed, and the whole point of the flag is that it changes
+  what the render means."
+  [flag s]
+  (case s
+    "true" true
+    "false" false
+    (do (binding [*out* *err*]
+          (println (str "scratchcard: " flag " takes true or false; got " (pr-str s))))
+        (System/exit 2))))
 
 (defn -main [& args]
   ;; `argv`, not `rest` — binding `rest` would shadow `clojure.core/rest`, the
@@ -323,7 +349,19 @@
                                                            (str repo-root "/tools/scratchcard/example/hello.edn"))}
                                           (get opts "--card") (assoc :card (get opts "--card"))
                                           (get opts "--res") (assoc :resolutions
-                                                                    (parse-resolutions (get opts "--res")))))))
+                                                                    (parse-resolutions (get opts "--res")))
+                                          (get opts "--families") (assoc :families
+                                                                         (parse-ints (get opts "--families")))
+                                          (get opts "--modes") (assoc :modes
+                                                                      (parse-ints (get opts "--modes")))
+                                          (get opts "--keep") (assoc :keep
+                                                                     (parse-long (get opts "--keep")))
+                                          (get opts "--timeout-ms") (assoc :timeout-ms
+                                                                           (parse-long (get opts "--timeout-ms")))
+                                          (get opts "--bp-from-canvas")
+                                          (assoc :bp-from-canvas?
+                                                 (parse-bool "--bp-from-canvas"
+                                                             (get opts "--bp-from-canvas")))))))
       "diff" (do (ensure-daemon!)
                  (emit! (request! "diff"
                                   (cond-> {}
@@ -333,6 +371,12 @@
       "ping" (do (ensure-daemon!) (emit! (request! "ping" {})))
       (do (println "usage: scratchcard <ping|status|up|stop|restart|regenerate|diff>")
           (println "  regenerate [--file P] [--card C] [--res 800x480,390x844]")
+          (println "             [--families 0,1,2]   0 asgard, 1 vanilla, 2 stock")
+          (println "             [--modes 0,1]        0 light, 1 dark")
+          (println "             [--bp-from-canvas true|false]")
+          (println "                                  default false: EVERY cell renders at")
+          (println "                                  bp 0, so md:/lg:/xl: styles never apply")
+          (println "             [--keep N] [--timeout-ms N]")
           (println "  diff       [--card C] [--from latest|previous|N] [--to ...]")
           (println (str "  worktree " repo-root))
           (println (str "  hash     " worktree-hash))
