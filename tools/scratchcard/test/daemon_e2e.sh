@@ -269,6 +269,44 @@ else
 	bad "a path outside the checkout was not refused (rc=$rc)" "$out"
 fi
 
+# ── arm 11: a MISSING BUILD PREREQUISITE fails fast and names its target ───
+# On a fresh clone neither generated tree exists, the daemon dies at boot on
+# `ClassNotFoundException: pronto.ProtoMap`, and --rm erases the container —
+# so the client waited its full 180s and then pointed at `docker logs` for a
+# container that no longer existed. Nothing in the skill, the rule or the API
+# page names a prerequisite, so the first run of the documented command is the
+# thing that discovers them.
+#
+# IT MOVES A REAL ARTIFACT ASIDE, so it restores it and PROVES the restore in
+# the same invocation. Both are gitignored build outputs; a rename is used
+# rather than a delete so nothing has to be rebuilt.
+WASM="$ROOT/renderer/output/controls.wasm"
+"$CLIENT" stop >/dev/null 2>&1
+mv "$WASM" "$WASM.e2ebak"
+started=$(date +%s)
+out="$("$CLIENT" regenerate --res 800x480 2>&1)"
+rc=$?
+elapsed=$(($(date +%s) - started))
+mv "$WASM.e2ebak" "$WASM"
+if [ ! -f "$WASM" ]; then
+	bad 'the canary did not restore renderer/output/controls.wasm'
+elif [ "$rc" -ne 0 ] && [ "$elapsed" -lt 60 ] &&
+	printf '%s' "$out" | grep -q 'renderer.mk wasm'; then
+	ok "a missing prerequisite fails in ${elapsed}s and names its make target"
+else
+	bad "missing-prerequisite handling (rc=$rc, ${elapsed}s)" "$out"
+fi
+
+# The other direction: with the artifact back, the same call must succeed —
+# or the check above is satisfied by a client that refuses unconditionally.
+out="$("$CLIENT" regenerate --res 800x480 --families 0 --modes 1 2>&1)"
+rc=$?
+if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -q '"ok":true'; then
+	ok 'and with the prerequisite present the same call renders'
+else
+	bad "the restored prerequisite did not render (rc=$rc)" "$out"
+fi
+
 # ── verdict ────────────────────────────────────────────────────────────────
 "$CLIENT" restart >/dev/null 2>&1
 printf '\n'

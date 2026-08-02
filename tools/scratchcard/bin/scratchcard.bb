@@ -136,61 +136,152 @@
         (Thread/sleep 100)
         (recur (inc tries))))))
 
+(defn- shell-quote
+  "An argv as a line a shell will re-split the same way.
+
+  The last argument is a whole `bash -lc` payload containing spaces and `&&`;
+  printed bare it looks like several arguments, and a reader who pastes it
+  runs something else."
+  [argv]
+  (str/join " "
+            (map (fn [a]
+                   (if (re-matches #"[A-Za-z0-9_@%+=:,./-]+" a)
+                     a
+                     (str "'" (str/replace a "'" "'\\''") "'")))
+                 argv)))
+
+(defn- docker-argv
+  "The daemon's `docker run` argv. `mode` is `:daemon` or `:foreground`.
+
+  ONE BUILDER FOR BOTH, because the foreground form exists to REPRODUCE the
+  daemon boot for a human to read, and a hand-written copy of it reproduces
+  something else. Written by hand first and it did exactly that: it carried no
+  `-v`, so the command printed after a dead boot died on `cd: No such file or
+  directory` — a second, invented failure standing where the real cause should
+  have been. The two forms differ only in detachment and naming."
+  [mode]
+  (let [uid (str/trim (:out (p/sh "id" "-u")))
+        gid (str/trim (:out (p/sh "id" "-g")))]
+    (concat ["docker" "run" "--rm" "--restart=no" "--stop-timeout" "10"]
+            (when (= mode :daemon) ["-d" "--name" container-name])
+            ["--user" (str uid ":" gid)
+             ;; IDENTITY MOUNT: host path == container path, so the client and
+             ;; the in-container JVM rendezvous on one string and every error
+             ;; message names a path the operator can reach directly.
+             "-v" (str runtime-dir ":" runtime-dir)
+             ;; The repo under BOTH path views — the canonical /workspace AND
+             ;; the host's own absolute path. This is the fleet's cvgpu
+             ;; pattern and it removes path translation entirely: a caller on
+             ;; the host passes host paths, a caller inside passes container
+             ;; paths, and neither needs to know which side it is on. Without
+             ;; it the client must rewrite every path it sends, and every
+             ;; path it forgets becomes a "No such file or directory" whose
+             ;; cause is invisible from the message.
+             "-v" (str repo-root ":/workspace")
+             "-v" (str repo-root ":" repo-root)
+             ;; Per-fork dependency cache, gitignored and in-tree — the same
+             ;; move sych makes. The container runs as the CALLING uid so it
+             ;; cannot use the image's root-owned ~/.m2, and without this the
+             ;; daemon re-resolves every dependency on each cold boot.
+             "-e" (str "HOME=" repo-root "/.protogen/home")
+             "-e" (str "PROTOGEN_RENDER_SOCKET=" socket-path)
+             "-e" (str "PROTOGEN_WORKSPACE=" repo-root)
+             "-e" (str "PROTOGEN_WORKTREE_HASH=" worktree-hash)
+             "-e" (str "PROTOGEN_CONTAINER=" container-name)
+             "-e" (str "PROTOGEN_IMAGE_TAG=" image-tag)
+             "--label" "protogen.role=render-daemon"
+             "--label" (str "protogen.worktree=" repo-root)
+             "--entrypoint" "bash"
+             image-tag
+             "-lc" (str "cd " repo-root "/tools/scratchcard && exec clojure -M:daemon")])))
+
 (defn- spawn! []
   (fs/create-dirs runtime-dir)
   ;; owner-only: on the /tmp fallback this would otherwise be world-traversable,
   ;; and the socket accepts render requests.
   (fs/set-posix-file-permissions runtime-dir "rwx------")
   (docker-rm!)
-  (let [uid (str/trim (:out (p/sh "id" "-u")))
-        gid (str/trim (:out (p/sh "id" "-g")))
-        argv ["docker" "run" "-d" "--rm" "--restart=no" "--stop-timeout" "10"
-              "--name" container-name
-              "--user" (str uid ":" gid)
-              ;; IDENTITY MOUNT: host path == container path, so the client and
-              ;; the in-container JVM rendezvous on one string and every error
-              ;; message names a path the operator can reach directly.
-              "-v" (str runtime-dir ":" runtime-dir)
-              ;; The repo under BOTH path views — the canonical /workspace AND
-              ;; the host's own absolute path. This is the fleet's cvgpu
-              ;; pattern and it removes path translation entirely: a caller on
-              ;; the host passes host paths, a caller inside passes container
-              ;; paths, and neither needs to know which side it is on. Without
-              ;; it the client must rewrite every path it sends, and every
-              ;; path it forgets becomes a "No such file or directory" whose
-              ;; cause is invisible from the message.
-              "-v" (str repo-root ":/workspace")
-              "-v" (str repo-root ":" repo-root)
-              ;; Per-fork dependency cache, gitignored and in-tree — the same
-              ;; move sych makes. The container runs as the CALLING uid so it
-              ;; cannot use the image's root-owned ~/.m2, and without this the
-              ;; daemon re-resolves every dependency on each cold boot.
-              "-e" (str "HOME=" repo-root "/.protogen/home")
-              "-e" (str "PROTOGEN_RENDER_SOCKET=" socket-path)
-              "-e" (str "PROTOGEN_WORKSPACE=" repo-root)
-              "-e" (str "PROTOGEN_WORKTREE_HASH=" worktree-hash)
-              "-e" (str "PROTOGEN_CONTAINER=" container-name)
-              "-e" (str "PROTOGEN_IMAGE_TAG=" image-tag)
-              "--label" "protogen.role=render-daemon"
-              "--label" (str "protogen.worktree=" repo-root)
-              "--entrypoint" "bash"
-              image-tag
-              "-lc" (str "cd " repo-root "/tools/scratchcard && exec clojure -M:daemon")]
-        {:keys [err exit]} (apply p/sh argv)]
+  (let [{:keys [err exit]} (apply p/sh (docker-argv :daemon))]
     (when-not (zero? exit)
       (binding [*out* *err*]
         (println (str "scratchcard: docker run failed (exit " exit "): " (str/trim (str err)))))
       (System/exit 5))))
 
-(defn- wait-up [ms]
+(defn- container-running? []
+  (seq (str/trim (str (:out (p/sh "docker" "ps" "-q"
+                                  "--filter" (str "name=^" container-name "$")))))))
+
+(defn- wait-up
+  "Wait for the daemon to bind. `:up`, `:dead` (its container exited), or
+  `:timeout`.
+
+  A CONTAINER THAT HAS EXITED WILL NEVER BIND, so waiting out the rest of the
+  cap buys nothing but the wait. Measured on a boot that died immediately: the
+  client sat for the full 180s and then named `docker logs` for a container
+  `--rm` had already erased — three minutes to reach a hint that could not
+  work.
+
+  `:dead` needs TWO consecutive misses because `docker ps` can briefly fail to
+  list a container `run -d` has only just started; one miss would turn a slow
+  start into a false death."
+  [ms]
   (let [deadline (+ (System/currentTimeMillis) ms)]
-    (loop []
-      (cond (daemon-up?) true
-            (> (System/currentTimeMillis) deadline) false
-            :else (do (Thread/sleep 250) (recur))))))
+    (loop [misses 0]
+      (cond (daemon-up?) :up
+            (> (System/currentTimeMillis) deadline) :timeout
+            (>= misses 2) :dead
+            :else (do (Thread/sleep 250)
+                      (recur (if (container-running?) 0 (inc misses))))))))
+
+(def ^:private build-prerequisites
+  "Generated trees the daemon needs, each with the target that produces it.
+
+  NOT A GUESS — each was established by removing it and watching what broke:
+
+    tools/renderer-gen/target/proto-classes
+      absent, the daemon dies at BOOT on `ClassNotFoundException:
+      pronto.ProtoMap`. `--rm` then erases the container, so the 180s wait
+      ended by naming `docker logs` for something that no longer existed.
+
+    renderer/output/controls.wasm
+      absent, the daemon boots and EVERY cell fails; the run reports
+      `failed: N` with no wasm sha and no statement of what is missing.
+
+  Neither is mentioned by the skill, the rule or the API page, so a fresh
+  clone discovers them by running the documented command and failing. The
+  make targets already declare them — `scratchcard-test`, `scratchcard-lane`
+  and `scratchcard-brief-generate` all list `proto-classes` — but the
+  interactive client is not a make target and inherited none of that.
+
+  devcards' own `target/proto-classes` is deliberately NOT here: the daemon
+  runs without it, checked by rendering the full matrix with it absent. A
+  prerequisite that is not one would send an author to run a build they do
+  not need."
+  [["tools/renderer-gen/target/proto-classes" "make -f renderer.mk proto-classes"]
+   ["renderer/output/controls.wasm" "make -f renderer.mk wasm"]])
+
+(defn- check-prerequisites!
+  "Refuse to spawn when a generated tree the daemon needs is absent.
+
+  Checked before `spawn!` rather than after a failed boot, because the
+  evidence does not survive the failure: the container carries `--rm`, so by
+  the time the socket wait gives up there is nothing left to read logs from."
+  []
+  (let [missing (for [[path target] build-prerequisites
+                      :when (not (fs/exists? (str repo-root "/" path)))]
+                  [path target])]
+    (when (seq missing)
+      (binding [*out* *err*]
+        (println "scratchcard: the render daemon needs generated trees that are not built yet:")
+        (doseq [[path target] missing]
+          (println (str "  missing  " path))
+          (println (str "  build it  " target)))
+        (println "scratchcard: nothing was started."))
+      (System/exit 5))))
 
 (defn ensure-daemon! []
   (when-not (daemon-up?)
+    (check-prerequisites!)
     (fs/create-dirs runtime-dir)
     ;; flock so concurrent invocations do not double-spawn. No explicit
     ;; .release — bb's SCI sandbox blocks FileLockImpl.release; with-open
@@ -204,11 +295,24 @@
         (binding [*out* *err*]
           (println "scratchcard: starting warm daemon (cold boot ~10-30s)…"))
         (spawn!)
-        (when-not (wait-up 180000)
-          (binding [*out* *err*]
-            (println (str "scratchcard: daemon did not bind " socket-path
-                          " in 180s — see `docker logs " container-name "`")))
-          (System/exit 5))))))
+        (case (wait-up 180000)
+          :up nil
+          ;; `--rm` has already erased the container, so `docker logs` cannot
+          ;; answer — the only thing that still can is the same boot run in the
+          ;; foreground, so that is what gets printed instead of a dead hint.
+          :dead (do (binding [*out* *err*]
+                      (println
+                       (str "scratchcard: the daemon container exited before binding "
+                            socket-path
+                            "\nscratchcard: --rm removed it, so its logs are gone."
+                            " Re-run that boot in the foreground to see why:\n  "
+                            (shell-quote (docker-argv :foreground)))))
+                    (System/exit 5))
+          :timeout (do (binding [*out* *err*]
+                         (println (str "scratchcard: daemon did not bind " socket-path
+                                       " in 180s — its container is still running;"
+                                       " `docker logs " container-name "`")))
+                       (System/exit 5)))))))
 
 (def ^:private reply-timeout-ms
   ;; STRICTLY WIDER than any server-side deadline, so the daemon's richer typed
