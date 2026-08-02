@@ -15,6 +15,37 @@ tools/scratchcard/bin/scratchcard regenerate --file <screen.edn>
 Warm, that is around a second for the full default matrix. The first call after a
 cold boot pays ~10-30s for the container and JVM; every call after is warm.
 
+## Build the two artifacts FIRST — a fresh clone has neither
+
+The daemon needs a compiled Java proto classpath and a built wasm, and neither is
+committed. Build both once, in the toolchain container:
+
+```bash
+tools/uber.sh 'make -f renderer.mk proto-classes'   # tools/renderer-gen/target/proto-classes
+tools/uber.sh 'make -f renderer.mk wasm'            # renderer/output/controls.wasm
+```
+
+**Nothing checks them before the call**, so each absence reaches you as a symptom
+that does not name what is missing — and the two arrive in this order, because
+the first stops the daemon booting at all and the second only stops it rendering:
+
+| missing | what you actually get |
+|---|---|
+| `tools/renderer-gen/target/proto-classes` | `starting warm daemon`, then a block until the client's spawn deadline (`wait-up 180000` in `bin/scratchcard.bb`) expires — three minutes of nothing. The refusal then points at `docker logs <container>`, which answers `No such container`: the daemon is spawned `--rm`, so the one hint it offers has already been reaped. The boot died on `ClassNotFoundException: pronto.ProtoMap`. |
+| `renderer/output/controls.wasm` | the daemon boots and answers in seconds, and EVERY cell fails — `failed` equals the cell count, each with `RENDER_FAILED` and `controls.wasm (No such file or directory)`. |
+
+Neither is a scratchcard bug to work around. `proto-classes` compiles
+`output/java` plus pronto's Java helpers; `wasm` is the reference interpreter
+this tool renders through. Both are `renderer.mk` targets the render lanes
+already depend on.
+
+**On such a run `findings.clean?` is `null`, not `true`.** Findings are lanes
+over SUCCESSFUL renders, so a matrix in which everything failed yields the same
+empty vector a flawless screen yields; `null` means the question was not
+answered, and `findings.judged-cells` beside it is the denominator that says
+why. Read `ok` and `failed` too — a screen is sound only when cells were
+actually judged and none of them complained.
+
 ## The workflow
 
 1. Copy `tools/scratchcard/example/hello.edn` and edit it.
