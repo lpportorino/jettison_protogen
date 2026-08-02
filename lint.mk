@@ -179,7 +179,11 @@ FMT_C_FILES := $(shell { find renderer/src -maxdepth 1 \
 # One invocation is run twice rather than two different invocations once each,
 # because make's $(shell) yields one stream per call; what matters is that both
 # calls ask the identical question.
-LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push
+# `tools/scratchcard/bin/scratchcard` is named without an extension ON PURPOSE
+# — it is the command a user types — so the '*.sh' glob cannot see it and it is
+# listed explicitly, exactly as .githooks/pre-push is. A shell entry point that
+# no lane parses is the least-checked code in the tree.
+LINT_SH_DISCOVERY_ARGS := --cached --others --exclude-standard '*.sh' .githooks/pre-push tools/scratchcard/bin/scratchcard
 LINT_SH_FILES := $(shell git ls-files $(LINT_SH_DISCOVERY_ARGS) 2>/dev/null \
 	| grep -v '^renderer/lvgl/' | sort)
 

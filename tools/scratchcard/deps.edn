@@ -39,7 +39,13 @@
         protogen/devcards {:local/root "../devcards"}}
 
  :aliases
- {;; Hand-run probe against the real wasm. GraalVM only — devcards.host
+ {;; The warm render daemon. Spawned by bin/scratchcard inside the pinned
+  ;; container; the CLIENT owns the socket path and passes it by env.
+  :daemon {:jvm-opts ["--sun-misc-unsafe-memory-access=allow"
+                      "-XX:+ExitOnOutOfMemoryError"]
+           :main-opts ["-m" "scratchcard.daemon"]}
+
+  ;; Hand-run probe against the real wasm. GraalVM only — devcards.host
   ;; refuses a stock JDK, so this is a container invocation:
   ;;   tools/uber.sh 'cd tools/scratchcard && clojure -M:live-probe'
   :live-probe {:extra-paths ["dev"]
