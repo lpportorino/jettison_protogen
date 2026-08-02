@@ -62,19 +62,55 @@
   ^String [^String s]
   (digest/of-string s))
 
+(defn- contains-dir?
+  "Whether `root` is `dir` or an ancestor of it, compared on CANONICAL paths.
+
+  Canonicalising both sides is what makes the comparison mean anything: `/tmp`
+  is a symlink on some hosts, and a prefix test over raw paths would answer
+  differently depending on which name the caller arrived by — the same
+  two-identities-for-one-worktree failure the namespace docstring refuses for
+  the hash itself. The separator is appended so `/work` is not read as an
+  ancestor of `/workspace`."
+  [^String root ^String dir]
+  (let [canon #(.getCanonicalPath (java.io.File. ^String %))
+        r (canon root)
+        d (canon dir)]
+    (or (= r d)
+        (str/starts-with? d (str r java.io.File/separator)))))
+
 (defn discover-repo-root
-  "The canonical worktree root of `dir` per git, or nil when `dir` is not in a
-  git checkout.
+  "The canonical worktree root CONTAINING `dir` per git, or nil when `dir` is
+  not in a git checkout.
 
   Deliberately returns nil rather than falling back to `dir`: a fallback would
   hand out a hash for a non-repository, and every name derived from it would
   look valid while belonging to nothing. Callers decide what to do with the
-  refusal."
+  refusal.
+
+  THE CONTAINMENT CHECK IS LOAD-BEARING, AND ITS ABSENCE BROKE THE ONE
+  GUARANTEE THIS NAMESPACE EXISTS FOR. `git rev-parse --show-toplevel` reads
+  `GIT_DIR`/`GIT_WORK_TREE` from the environment, and an explicit
+  `GIT_WORK_TREE` takes git off directory DISCOVERY entirely — it then answers
+  about THAT worktree from any cwd, so `:dir` stops being consulted at all.
+  Every directory on the host therefore resolves to one root, every fork hashes
+  identically, and the container name, socket and lock that are supposed to
+  isolate forks all collide. That is not hypothetical: the pinned toolchain
+  container exports both variables, so the failure is live for every fork
+  whose battery runs inside it, and the shell side of the same tree already
+  scrubs them with `env -u` for exactly this reason.
+
+  Verifying that the answer CONTAINS `dir` fixes it without touching the
+  environment, which matters because the exported `GIT_DIR` is also the only
+  thing that makes git resolve the workspace at all in that container: scrubbing
+  it would trade a wrong answer for no answer. In an ordinary environment git
+  always returns an ancestor of `dir`, so this check is a no-op there."
   [dir]
   (let [{:keys [exit out]} (shell/sh "git" "rev-parse" "--show-toplevel" :dir dir)]
     (when (zero? exit)
       (let [root (str/trim out)]
-        (when-not (str/blank? root) root)))))
+        (when (and (not (str/blank? root))
+                   (contains-dir? root dir))
+          root)))))
 
 (defn worktree-hash
   "The per-fork key: the first `hash-length` hex characters of the repo root's
