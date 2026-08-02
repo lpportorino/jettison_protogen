@@ -6,6 +6,51 @@ the name, and what to do with a finding that arrives outside one.
 `.claude/rules/fork-isolation.md` §"Lifting" applies the same discipline
 to work coming back from a fork; it is not a different standard.
 
+## THE REVIEW GATES THE PUSH — IT DOES NOT GATE THE WORK
+
+`CLAUDE.md` makes the antagonistic review the push gate, and that is a statement
+about ONE boundary. It is not a precondition for authoring, for regenerating, or
+for committing. Read it as one and a session stalls with a clean tree and nothing
+landing, which is strictly worse than the same tree with the work done and one
+debt recorded against it.
+
+The failure is worth naming because it is not obviously a failure from inside:
+every individual decision to wait looks like discipline. Measured elsewhere in
+this fleet — a session lost roughly fifteen iterations to it, reporting the same
+unavailability each time while a one-line fix with a proven root cause sat
+unwritten. Nothing about the missing reviewer made that fix harder.
+
+**When no reviewer can be dispatched at all** — not a transient overload, but the
+mechanism itself unavailable, which takes any lighter substitute with it, since
+the substitute is the same mechanism:
+
+- **Author, regenerate, verify and COMMIT as normal.** The debt attaches to the
+  push and to nothing else. A commit here is local and amendable; only the push
+  reaches the fleet.
+- **Run every deterministic check the change can reach, and say what they
+  ESTABLISH.** This repo is unusually well supplied with them — the corpus lanes,
+  the golden verify read BEFORE a re-mint, the invariant producers, the canaries.
+  Each answers a question the reviewer would otherwise have to guess at, and none
+  needs a dispatch.
+- **Then say what they STRUCTURALLY CANNOT answer.** That residue is the review's
+  real subject. A pixel oracle proves a render happened and that no invariant
+  broke; it never proves the result READS correctly. Naming the residue makes the
+  eventual review sharper rather than merely later, and it is the difference
+  between a deferred review and an unscoped one.
+- **Declare the shortfall in the commit body** — self-performed, why no dispatch
+  was available, what remains unexamined. An undeclared self-review reads as a
+  non-self one to every later reader, which is the message-honesty failure this
+  file refuses everywhere else.
+- **Re-TEST the unavailability before reporting it again.** A capability read as
+  absent from one earlier observation is a remembered fact, and a remembered fact
+  is not evidence. One real attempt settles it; a real refusal is then a
+  measurement worth citing, and repeating an untested one across iterations makes
+  a stale reading look corroborated.
+
+What does NOT change: the push still owes the review, and a fix that reaches the
+fleet unreviewed is the failure `CLAUDE.md` is guarding against. The debt is
+deferred, never cancelled.
+
 ## A TAPER IS NOT CONVERGENCE
 
 Measured on one commit: three successive rounds by one reviewer returned 4, then
