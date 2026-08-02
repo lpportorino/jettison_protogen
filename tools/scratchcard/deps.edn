@@ -45,6 +45,12 @@
                       "-XX:+ExitOnOutOfMemoryError"]
            :main-opts ["-m" "scratchcard.daemon"]}
 
+  ;; The Tier-2 gate: the pipeline against the real wasm. Exit 0 pass,
+  ;; 1 fail, 3 CANNOT RUN. Wired into renderer.mk.
+  :render-lane {:extra-paths ["dev"]
+                :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
+                :main-opts ["-m" "render-lane"]}
+
   ;; Hand-run probe against the real wasm. GraalVM only — devcards.host
   ;; refuses a stock JDK, so this is a container invocation:
   ;;   tools/uber.sh 'cd tools/scratchcard && clojure -M:live-probe'

@@ -422,6 +422,31 @@ deadzone-canary-prebuilt: wasm-present bindings
 # `-j` cannot start it before the artifact exists; CI takes the prebuilt form,
 # which consumes the uploaded artifact on a runner with no WASI-SDK. The guard
 # stays in both, and $(1) names the target the CALLER can actually run.
+## scratchcard-lane: the scratch-devcard pipeline against the real wasm.
+#
+# GATES FOUR CLAUSES, and the last one is why the first three mean anything:
+# the shipped example renders CLEAN across the whole default matrix, the matrix
+# is EXACTLY its expected size (never merely non-empty), vanilla == stock
+# bit-identically, and a PLANTED defect is CAUGHT. Without that last clause a
+# clean run would prove only that the lanes are quiet, not that they are awake.
+#
+# Exit codes SEPARATE a verdict (1) from CANNOT RUN (3), so a missing wasm or a
+# non-optimizing runtime cannot be read as a caught defect.
+#
+# The scratchcard DAEMON is deliberately NOT exercised here: it drives docker,
+# which this image does not carry. That half is host-only, like go-leg-repro.
+define scratchcard-lane-suite
+@test -f $(R)/output/controls.wasm || { 	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; 	exit 1; }
+cd tools/scratchcard && clojure -M:render-lane
+endef
+
+.PHONY: scratchcard-lane scratchcard-lane-prebuilt
+scratchcard-lane: wasm bindings
+	$(call scratchcard-lane-suite,scratchcard-lane)
+
+scratchcard-lane-prebuilt: wasm-present bindings
+	$(call scratchcard-lane-suite,scratchcard-lane-prebuilt)
+
 define overlap-canary-suite
 @test -f $(R)/output/controls.wasm || { \
 	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
@@ -1030,6 +1055,11 @@ conventions-projection:
 # ── Devcards unit suite ─────────────────────────────────────────────────────
 # The pure-helper tests (tools/devcards/test — dump-tree reductions, image
 # math). No wasm / proto-classes needed, so it runs early and fails cheap.
+## scratchcard-test: the scratchcard pure unit suite (no wasm, no daemon).
+.PHONY: scratchcard-test
+scratchcard-test:
+	cd tools/scratchcard && clojure -M:test
+
 devcards-test:
 	cd tools/devcards && clojure -M:test
 
@@ -1356,5 +1386,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

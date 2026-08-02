@@ -24,8 +24,15 @@
  :subjects {:bp {:type :int}
             :theme_dark {:type :int}}
 
+ ;; `flex-col` on the root is LOAD-BEARING, not styling. Without a layout the
+ ;; children lay out at default positions, overflow the content box, and the
+ ;; quality lanes report :clipped on every text node plus :scrollable_overflow
+ ;; on the root — which is exactly what this file did before it carried one.
+ ;; `w-content h-content` makes the root measure its children rather than
+ ;; assume a size, so the same screen is clean at every canvas in the matrix.
  :tree
  {:tag :lv_obj
+  :class "flex-col w-content h-content"
   :children
   [{:tag :lv_label
     :class "font-font-heading text-fg-0"
