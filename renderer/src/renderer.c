@@ -1713,9 +1713,52 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
      * `glyph-classes` and theme.c's arm moves off `disabled_flat`. */
     break;
   }
-  /* ObjProps, ButtonProps: empty — nothing to apply */
-  /* TabviewProps: handled by apply_tabview (needs the widget ctx) */
+  /* The four arms with nothing to do HERE are named individually rather than
+   * left to the default, so the default can mean one thing: an arm this
+   * renderer does not know. A bare `default: break` conflated the two, and the
+   * unknown case is exactly the one that must not be silent — the producer's
+   * props would simply vanish and the widget would render at its defaults,
+   * with no error and no pixel to show for it. */
+  case 0:
+    /* NO widget_props at all — nanopb's unset value for a oneof, and the
+     * COMMON case: every container, label wrapper and layout node carries
+     * none. It is spelled 0 rather than a named constant because nanopb emits
+     * no tag for "unset"; the generated tags start at 10, so nothing else can
+     * collide with it. Listing it is load-bearing, not tidiness: without it an
+     * unset oneof falls to the default below and every prop-less node in every
+     * screen fails the load. */
+    break;
+  case ui_WidgetNode_obj_props_tag:
+  case ui_WidgetNode_button_props_tag:
+    /* Genuinely empty messages — nothing to apply. */
+    break;
+  case ui_WidgetNode_tabview_props_tag:
+    /* Applied by apply_tabview, which needs the widget ctx this does not have. */
+    break;
+  case ui_WidgetNode_host_proxy_props_tag:
+    /* Applied during finalize, after the children it composes exist. That arm
+     * carries its own refusal for the inverse mistake (a host_proxy node
+     * WITHOUT these props), so both directions are loud. */
+    break;
   default:
+    /* Reachable when ui_ast grows a widget_props arm and THIS switch is not
+     * extended in the same change. Note which mechanism does and does not
+     * produce it: a NEWER PRODUCER's unknown field cannot, because nanopb
+     * decodes against this build's own descriptor and simply skips a tag it
+     * does not know, leaving `which_` at 0 (the case above). What DOES produce
+     * it is regenerating the bindings — the new tag becomes known, nanopb sets
+     * `which_` to it, and this switch has no arm. So the default is a forcing
+     * function on the regeneration, which is exactly when the omission is
+     * cheap to fix.
+     *
+     * Refuse the load rather than render a widget stripped of the props its
+     * author wrote: a silently default-rendered control is indistinguishable
+     * from one that was authored that way. */
+    LOG_ERROR(
+        "unknown widget_props arm %u — add its case to apply_widget_props "
+        "in the same change that added the arm to ui_ast",
+        (unsigned)node->which_widget_props);
+    load_resource_error = true;
     break;
   }
 }
