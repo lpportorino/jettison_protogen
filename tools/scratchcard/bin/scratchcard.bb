@@ -40,7 +40,13 @@
 (def image-tag (or (System/getenv "PROTOGEN_IMAGE_TAG")
                    "jettison-proto-generator-base:latest"))
 (def runtime-dir
-  (str (fs/path (or (System/getenv "XDG_RUNTIME_DIR") "/tmp") "protogen" worktree-hash)))
+  ;; `not-empty` MIRRORS `scratchcard.scope/runtime-base`, and the difference is
+  ;; not cosmetic: `""` is truthy in Clojure, so a bare `or` would take an
+  ;; XDG_RUNTIME_DIR that is set-but-empty and build a RELATIVE socket path here
+  ;; while the JVM built one under /tmp. The client would then bind a socket the
+  ;; daemon never looks at, which presents as a daemon that will not start.
+  (str (fs/path (or (not-empty (System/getenv "XDG_RUNTIME_DIR")) "/tmp")
+                "protogen" worktree-hash)))
 (def socket-path (str (fs/path runtime-dir "render.sock")))
 (def lock-path (str (fs/path runtime-dir "render.lock")))
 

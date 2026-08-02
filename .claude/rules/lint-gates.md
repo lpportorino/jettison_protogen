@@ -50,9 +50,26 @@ Two guards you will meet:
 
 | lane | runs | why |
 |---|---|---|
-| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, the structural Clojure checks | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the structural gate need only the CLI |
+| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, and cljfmt and the two structural lanes named here need only the CLI |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
 | the WHOLE-TREE scans | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
+
+**THREE STRUCTURAL CHECKS AND FIVE FORK/LEG CANARIES ARE HOOK-ONLY, NOT
+CI-ENFORCED, and that is a gap rather than a documented decision.**
+`lint-fn-size`, `lint-docstrings` and `lint-spec-shape` — plus `fork-hazards`,
+`brief-check-test`, `forks-release-test`, `leg-strictness-test` and
+`uber-chown-test` — all sit in `lint.mk`'s `lint-lanes` aggregate, so
+`.githooks/pre-push` runs every one of them. No workflow calls any of the
+eight: `lint.yml` runs only `lint-ns-size` and `lint-spec-presence` from the
+structural family, `hygiene.yml` covers the whole-tree scans, and neither
+touches the rest. `.claude/rules/gate-enforcement.md` §6 makes local and CI
+enforcement complements rather than alternatives precisely because a
+client-side hook only protects whoever armed it — `--no-verify` bypasses it
+outright, by that hook's own header — so these eight currently have no
+authoritative half. Read any collective phrase for this family — "the
+structural checks", "the structural gates", "the structural lanes" — as naming
+all five; which of them CI runs is the enumeration above, not something a name
+carries.
 
 **THE THIRD WORKFLOW IS NOT A TIDINESS SPLIT.** Every lane in the first row is
 handed a positive allowlist, so a path filter naming those file types is complete
@@ -131,6 +148,20 @@ one emitter projection sits under a gated `src` root and IS linted on purpose,
 because a projection must stay canonical and lint-clean and regenerating it
 satisfies both. The structural lanes hold it out instead, by a derived path
 predicate rather than a list — `lint.mk`'s header carries which file and why.
+
+A hand-authored file can be held out of the structural lanes for a DIFFERENT
+reason than that one — not because no finding against it could ever be
+satisfied, but because those lanes never DISCOVER it. `lint-gate.util/clj-files`
+matches `\.clj[cs]?$`, so an extension outside that set yields no file however
+it is configured. It is not about being a lone file: a bare
+`docs/.protodoc/tools/build.clj` sits in `LINT_CLJ_PATHS` and is judged
+normally. `tools/scratchcard/bin/scratchcard.bb` is the instance: cljfmt and
+clj-kondo take it, so `lint.mk`'s `LINT_CLJ_FILES` gates it with both, while
+`lint-ns-size`, `lint-fn-size`, `lint-docstrings`, `lint-spec-shape` and
+`lint-spec-presence` never see it at all. It is not a suppression — nothing
+excuses a finding a `LINT_CLJ_FILES` member produces under either tool — it is
+a narrower judgment, on the record at `LINT_CLJ_FILES`'s declaration in
+`lint.mk`.
 
 If a rule is genuinely wrong for this repo, disable the RULE with its reasoning in
 the config (see `.splint.edn`), which is a decision on the record rather than a

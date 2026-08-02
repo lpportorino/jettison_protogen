@@ -30,7 +30,9 @@ new one. `tools/uber.sh --build` is what closes it; nothing else will.
 Run the toolchain directly (`make -f renderer.mk …`, `make docs-generate`,
 `clojure`, `cargo`, `protoc`). Targets that themselves orchestrate docker
 (`make generate`, `docs-docker-*`, `binary-dedup`) can't run in here — the base
-image ships no docker CLI; those stay on the host.
+image ships no docker CLI; those stay on the host, and so does
+`tools/scratchcard/bin/scratchcard`: its whole job is spawning a second
+container from the host, on the invocation path described below.
 
 Do NOT run `clojure` / `javac` / `protoc` / `make` on the host to produce a
 committed artifact — the host's toolchain versions (JDK, WASI-SDK, protoc) differ
@@ -137,6 +139,66 @@ renderer.mk …`). A bare `docker run <base>` still opens a shell (ubuntu's defa
 `CMD`). `tools/uber.sh` passes a `-lc "…"` script string, so it names the shell
 explicitly via `--entrypoint bash`. The MAIN image (`Dockerfile`) keeps its own
 bash ENTRYPOINT for `generate-protos.sh`'s `-c` flow — leave that one in place.
+
+## A second invoker of the same image: `tools/scratchcard`
+
+`tools/scratchcard/bin/scratchcard.bb` runs its own `docker run` — it does not
+go through `tools/uber.sh`, and the docker-orchestrating exclusion just above
+is exactly why: the daemon's whole purpose is spawning a container from the
+host, so it cannot itself run inside one. It targets the SAME image
+(`jettison-proto-generator-base:latest`, overridable by `PROTOGEN_IMAGE_TAG`,
+the identical default `uber.sh` hardcodes as `IMG`) with the SAME
+`--entrypoint bash … -lc "…"` convention this file describes above — a
+property of `Dockerfile.base` having no ENTRYPOINT, not of `uber.sh`. Past
+that the two invocations diverge on purpose, because a long-lived daemon and a
+one-shot command want different things from the same image:
+
+- **It runs `--user <uid>:<gid>` — the calling user, not root.** `uber.sh`
+  runs as root (the image's Maven/Clojure caches live under `/root`) and
+  chowns the workspace back when the command exits; a daemon that stays up for
+  a whole session has no such exit to hang a chown off, so it runs as the
+  caller directly and points `HOME` at a per-fork `.protogen/home` instead.
+  There is no chown-back anywhere in `scratchcard.bb`, because running as the
+  caller leaves nothing for one to repair.
+- **It declares none of the `GIT_DIR` / `safe.directory` handling above, and
+  does not need to.** `scratchcard.provenance/git-stamp` runs `git` from
+  inside the container against the same mounted checkout, and the ownership
+  check this file spends most of its length on never fires there — not
+  because `scratchcard.bb` reimplements the workaround, but because that check
+  exists to catch a container UID that does not own the files it reads, and
+  here the container's UID IS the host's. Do not "port" `GIT_CONFIG_*` into
+  `scratchcard.bb`; there is nothing there for it to fix.
+  One gap the identity mount below does NOT close: it carries only the
+  checkout root, so a `.git` gitfile pointing outside that root resolves to
+  nothing in-container. `uber.sh`'s `GIT_MOUNT` serves the SUBMODULE half of
+  that shape and refuses the linked-worktree half by design — the
+  `GITDIR = COMMONDIR` test above, which a linked worktree fails because its
+  common dir is elsewhere. `scratchcard.bb` has no equivalent either way:
+  `scratchcard.provenance` degrades those fields to absent rather than failing
+  loud, by its own design (its docstring: "DEGRADES RATHER THAN THROWS").
+- **It mounts the repo under BOTH `/workspace` and its own host path**
+  (`-v <repo>:/workspace -v <repo>:<repo>`), not `uber.sh`'s single
+  `$WORKSPACE` alias, so a client speaking host paths and a daemon speaking
+  container paths need no translation between them — see
+  `.claude/rules/scratch-devcard.md` for why.
+- **It passes no `--platform`.** `uber.sh` detects the host arch and pins it
+  on every `docker run`, specifically to catch a buildx default that would
+  otherwise cross-build or cross-run a binary that "cannot execute";
+  `scratchcard.bb`'s `docker run` carries no equivalent flag, so that failure
+  mode is unguarded on this path.
+
+None of this forks the IMAGE — same tag, same `Dockerfile.base`, same pins.
+What forks is the INVOCATION, and each divergence above answers a question
+this file already asks about `uber.sh`'s own invocation, with the opposite
+answer for a daemon's needs rather than a one-shot command's. What still goes
+through `uber.sh`, unchanged: the targets that GATE the tool sit in
+`check-renderer-lanes` like every other lane and run inside the same container
+battery this file describes throughout. Only the DAEMON drives docker itself —
+and that half is exercised by `scratchcard-e2e`, which is deliberately in no
+aggregate and no workflow because it needs a docker CLI the toolchain image does
+not carry. So "no aggregate reaches the daemon" is the accurate claim; "nothing
+tests it" is not (`renderer.mk`'s own comment beside `scratchcard-lane-suite`
+records the same boundary from the Makefile side).
 
 ## Shared with CI, not a fork of it
 `renderer.yml` runs the same battery in this same base image, and the consumer

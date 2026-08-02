@@ -148,7 +148,6 @@
   [r]
   (cond-> (select-keys r [:cell :family :dark :w :h :bp :disp-tier :status
                           :fb-sha256 :png :dump :stats])
-    true (dissoc :runtime)
     (:error r) (assoc :error (:error r))))
 
 (defn- write-run!
@@ -166,7 +165,7 @@
                                  :status status :elapsed-ms elapsed-ms}
                           error (assoc :error error))
                    :matrix matrix-opts
-                   :input (dissoc input-info :runtime)
+                   :input input-info
                    :lanes (lanes/descriptor)
                    :renders (mapv manifest-render cells)
                    :findings summary})]

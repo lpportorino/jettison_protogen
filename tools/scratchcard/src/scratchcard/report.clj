@@ -86,11 +86,13 @@
   (let [failed (count (remove #(= :ok (:status %)) renders))
         ;; GROUPED BY (invariant, node), not one row per cell. A defect in a
         ;; screen is almost always present in EVERY cell — the same
-        ;; :clipped label at 42 resolutions is one defect, not 42 — and a
-        ;; table that repeats it 42 times buries the second, different
-        ;; finding underneath it. The cells are listed in their own column,
-        ;; because WHICH cells is the diagnostic: a defect in 42 of 42 is a
-        ;; layout bug, and the same defect in 14 of 42 is a THEME bug.
+        ;; :clipped label at every resolution is one defect, not one per
+        ;; cell — and a table that repeats it once per cell buries the
+        ;; second, different finding underneath it. The cells are listed in
+        ;; their own column, because WHICH cells is the diagnostic: the same
+        ;; defect in every cell of the matrix is a layout bug, and the same
+        ;; defect confined to the cells sharing one theme family or mode is a
+        ;; THEME bug.
         finding-rows (for [[[invariant node] group]
                            (sort-by key (group-by (juxt :invariant :node)
                                                   (:live-sample findings)))

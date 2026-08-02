@@ -139,6 +139,25 @@ four things:
   tools for this: a multi-line anchor handed to a line-matcher tests each line as
   a separate alternative, so the assertion succeeds on any surviving fragment.
 
+**A CLAUSE CAN BE LEGITIMATELY UNATTRIBUTABLE, and that is a gap to NAME, never
+a licence to fake the canary.** A defense-in-depth guard upstream of the clause
+under test can refuse every input that would also trip the clause, so nothing
+ever reaches it on its own — attribution then has no input left to demonstrate
+it with. `tools/scratchcard/test/lane_canary.sh`'s matrix-size clause is the
+measured instance: shrinking the resolution list leaves the lane green (that
+clause checks internal consistency between two derived counts, not a fixed
+cell count), and diverging the two counts it compares does redden the lane —
+but through `run/regenerate!`'s own `EMPTY_MATRIX` guard, with every clause
+degrading together, never through the clause under test alone. The correct
+disposition is the one that suite takes: record the gap, in the suite, with the
+reason — not a canary that shows a red observed rather than attributed. And
+record BOTH ways out, because the pair is what keeps the gap from reading as
+permanent: removing the upstream guard (worse), or giving the clause a property
+the orchestrator does not already enforce. That second path is the live one
+here — the clause's own message claims the matrix is "EXACTLY 42 cells" while
+it can only see two derived counts agreeing, which is a §3 over-claim awaiting
+the same repair.
+
 **Prefer a synthetic fixture to the live tree.** A canary that perturbs tracked
 files cannot run on a dirty checkout, entangles itself with whatever else is in
 flight, and has expectations that drift whenever the repo moves.
@@ -208,7 +227,7 @@ What is judged here, and therefore what a gate may be written in:
 
 | language | what judges it |
 |---|---|
-| Clojure | cljfmt, clj-kondo at a zero-warning floor, the namespace-size ceiling |
+| Clojure | cljfmt, clj-kondo at a zero-warning floor, the structural gates (namespace/function-size ceilings, docstring/spec presence and shape) — but check WHICH of them CI runs before leaning on one, per `lint-gates.md`; three are hook-only today, and §6 calls a hook-only gate unarmed |
 | shell | `bash -n` and the payload-apostrophe check, over discovered scripts |
 | C | clang-format drift-compare and clang-tidy, both pinned |
 | GitHub Actions | actionlint |
@@ -217,7 +236,25 @@ Any other language is judged by NOTHING, and a syntax floor is not a linter — 
 gate that merely parses is not thereby checked. Prefer Clojure for anything with
 structure and shell for anything that is mostly discovery and process plumbing;
 place the source where the lane can reach it, which for Clojure means inside
-`LINT_CLJ_PATHS` and not merely somewhere under `tools/`.
+`LINT_CLJ_PATHS` — the path set `lint.mk` hands every Clojure lane — and not
+merely somewhere under `tools/`. Being handed a path is necessary rather than
+sufficient: some lanes narrow it further against a declared scope of their own
+(`:enrolled` in `tools/lint/gates.edn`), so read each lane's own floor message
+rather than assuming the path set is the population.
+
+**THE EXTENSION DECIDES, NOT THE GRAIN — and getting that backwards is how a
+gate looks unreachable when it is merely misnamed.** A lone FILE is a perfectly
+good root: `docs/.protodoc/tools/build.clj` is one, sits in `LINT_CLJ_PATHS`,
+and `lint-fn-size` judges it (2 functions, exit 0). What the structural lanes
+cannot see is an extension they do not discover — `lint-gate.util/clj-files`
+matches `\.clj[cs]?$`, so a `.bb` yields no file at all and the lane refuses
+with CANNOT RUN (exit 3) rather than passing silently. `lint.mk`'s
+`LINT_CLJ_FILES` is the list for that case
+(`tools/scratchcard/bin/scratchcard.bb`, the only tracked `.bb`, is its one
+member): cljfmt and clj-kondo take it happily, so an entry there IS judged by
+both, while the structural lanes never see it. A gate shipped under an
+undiscovered extension therefore meets a NARROWER bar than this section asks
+for — and the remedy is the extension, not a directory.
 
 **Self-gating is a real property, not a gesture, and it earns its keep
 immediately**: the first clj-kondo run over a gate moved into that set reported a

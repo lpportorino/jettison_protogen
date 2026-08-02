@@ -2,6 +2,12 @@
 description: Working rules for the devcards corpus runner — golden manifests, DOM/emission invariants, and the committed JPEG gallery. Loads when editing tools/devcards.
 paths:
   - "tools/devcards/**"
+  # scratchcard.lanes is an external caller of devcards.findings/devcards.lanes
+  # — the registry's "declare every input you read", "select a builtin by id"
+  # and "builtin-producers is the DEFAULT, not the armed set" rules bind it
+  # exactly as they bind devcards.lanes itself, so this rule owes it the same
+  # load.
+  - "tools/scratchcard/src/scratchcard/lanes.clj"
 ---
 <!-- LOAD-TEST: devcards -->
 
@@ -159,11 +165,22 @@ them) and `gallery` (write the committed JPEG doc tree). Run via
   is not advice this repo exempts itself from: `core.clj` judges every card via
   `findings/card-findings`. The two lanes it passes live in `devcards.lanes` —
   `atomic-findings` (the `:expect` routing, including the INVERTED
-  `:probe-defect` arm) and `composition-findings` (the `:tree` builtin plus
+  `:probe-defect` arm) and `composition-findings` (`tree-producer` — the SAME
+  DOM producer the atomic lane uses, not the plain `:tree` builtin, which reads
+  neither `:family` nor `:declaration` — plus
   `findings/emission-by-mode-producer`). They live there rather than in
   `core.clj` for a testability reason worth keeping: core loads the generated
   bindings, so nothing requiring it runs under the `:test` alias, and a lane
   that cannot be named in a test cannot be pinned by one.
+- **The plain `:emission` entry in `builtin-producers` is armed by NEITHER
+  lane above** — `atomic-findings` never names it, and `composition-findings`
+  uses the different by-mode `emission-by-mode-producer` instead — so reading
+  `devcards.lanes` alone makes it look unused. It has a real caller outside
+  this corpus: `scratchcard.lanes` arms it, through this same registry
+  (`findings/builtin-producer :emission`), for a scratch author's live render,
+  which captures the host emission lanes the atomic corpus lane does not
+  consult. That is the registry doing its job for a second consumer, not dead
+  code to prune.
 - Select a builtin with `findings/builtin-producer`, never by position —
   `(first builtin-producers)` silently repoints the lane when that vector is
   reordered or grown.

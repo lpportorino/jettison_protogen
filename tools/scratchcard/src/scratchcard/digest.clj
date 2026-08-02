@@ -8,9 +8,14 @@
   other, and a manifest hash that disagrees with a golden hash is worse than
   no hash at all.
 
-  THE HEX LOOP IS THE SUBTLE PART. A JVM `byte` is SIGNED, so the obvious
-  `(format \"%02x\" b)` yields `ffffffc3` for any byte with the high bit set.
-  Masking to `0xff` first is what keeps a digest 64 characters wide.
+  THE HEX LOOP IS THE SUBTLE PART. A JVM `byte` is SIGNED, and widening it to
+  an `int` before hexing sign-extends: `(Integer/toHexString b)` on an
+  unmasked byte yields `ffffffc3` for any byte with the high bit set, not
+  `c3` — exactly the function this loop calls below. TWO steps keep a digest 64
+  characters wide, and `Integer/toHexString` supplies neither: the mask to
+  `0xff` stops the sign extension, and the explicit zero-pad below
+  (`(when (< b 0x10) …)`) restores the leading nibble it drops for any byte
+  under `0x10`. Masking alone would still emit `5` for `0x05`.
 
   FRAMEBUFFER HASHES DELIBERATELY USE `devcards.golden/sha256-hex` INSTEAD —
   not this namespace. That is the function the committed goldens were minted
@@ -26,9 +31,10 @@
 (def ^:private buffer-bytes 65536)
 
 (defn hex
-  "Lowercase hex of `bytes`.
+  "Lowercase hex of `bytes`, exactly two characters per byte.
 
-  Masks each byte to 0xff — see the namespace docstring."
+  Masks each byte to 0xff AND zero-pads anything below 0x10 — both steps are
+  load-bearing, for the reasons in the namespace docstring."
   ^String [^bytes bs]
   (let [sb (StringBuilder. (* 2 (alength bs)))]
     (dotimes [i (alength bs)]

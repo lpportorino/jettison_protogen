@@ -1,10 +1,12 @@
 (ns scratchcard.stats
   "Per-render measurements — the half of a scratch run that is not a picture.
 
-  NONE OF THIS EXISTS IN THE SHIPPED LANES. The corpus gate measures one
-  aggregate `:elapsed-s` across ~1,400 renders, prints it, and drops it. That
-  is the right economy for a gate and useless for an author asking why one
-  screen got slower or bigger.
+  NONE OF THIS EXISTS IN THE SHIPPED LANES. The corpus gate keeps a per-run
+  `:elapsed-s` — one for the atomic pass and a separate one for the composition
+  pass, each printed beside its own render count under `elapsed:` and neither
+  spanning the whole corpus — prints them, and drops them. That is the right
+  economy for a gate and useless for an author asking why one screen got slower
+  or bigger.
 
   WHAT IS DELIBERATELY NOT MEASURED, and why the gap is named rather than
   quietly filled: the PER-TICK FLUSH COUNT. `devcards.host/render-card!` is

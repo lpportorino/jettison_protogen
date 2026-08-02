@@ -67,7 +67,7 @@ Rules:
   CONTRACT is wrong — fix the contract.
 - **Regenerate and revalidate before it lands.** `make generate` rebuilds the
   bindings AND the descriptor set the docs are rendered from, so it runs first
-  and the docs leg of `## Common Operations` (`make docs-docker-generate` →
+  and the docs leg of `## Regenerating` below (`make docs-docker-generate` →
   descriptions → `make docs-docker-lint`) runs after it, never instead of it —
   linting docs rendered from the previous descriptor set proves nothing. A fix
   that touches a wire surface must then still round-trip the

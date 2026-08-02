@@ -2,6 +2,11 @@
 description: The renderer-gen fixture/codegen seam — the relocated asgard.*/uigen/lvgl_codegen closure, why its namespace names are provenance not private leaks, and what a real leak looks like there. Loads when editing tools/renderer-gen.
 paths:
   - "tools/renderer-gen/**"
+  # scratchcard.input is the seam's second in-process caller of
+  # lvgl-codegen.core/process-screen — see "A second caller, outside the CLI
+  # aliases" below. It depends on this seam's CWD contract exactly as
+  # fixtures.clj and -main do, so an editor of it owes this rule too.
+  - "tools/scratchcard/src/scratchcard/input.clj"
 ---
 <!-- LOAD-TEST: renderer-gen -->
 
@@ -62,3 +67,24 @@ state-decode path, and the runtime command backends are inert in this tree,
 carried by the relocate-whole decision and retired when the seam converges onto
 `tools/devcards`' public UiAst builder. `renderer.md` covers the C interpreter +
 battery contract this seam feeds.
+
+## A second caller, outside the CLI aliases
+
+`tools/scratchcard` reaches `lvgl-codegen.core/process-screen` (plus
+`load-ui-defs` / `validate-class-defs!` / `component/load-components`)
+in-process, not through `:codegen` / `:fixtures` / `:morph-fixtures` — its
+`deps.edn` takes `protogen/renderer-gen` as a `:local/root` edge and calls the
+namespace directly. It is a caller of the SAME reachable subset above, over an
+author-supplied screen rather than the committed `renderer/edn/screens/`
+corpus, never a wider one. Two invocation shapes reach it: `scratchcard-lane`,
+inside `check-renderer`, renders the shipped example; the live per-fork daemon,
+gated by nothing, renders whatever an author points it at
+(`.claude/rules/scratch-devcard.md` covers that side).
+
+This is why the `:codegen` alias's CWD contract — `edn/` + `assets/` resolved
+against the process's own working directory — is now load-bearing for two
+invocation shapes rather than one. A long-lived daemon has no meaningful
+per-request CWD, so this caller cannot inherit it: `scratchcard.input` resolves
+every path absolutely instead. Anyone changing what this seam assumes about its
+working directory now has every in-process call site to satisfy — `core.clj`'s
+own `-main`, `fixtures.clj`, and `scratchcard.input` — not the first two alone.

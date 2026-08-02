@@ -153,6 +153,25 @@ wasmtime and GraalWasm byte-identical, so there is no tolerance band for a
 difference to be absorbed into: non-determinism there is a defect with no second
 reading, and re-running until green destroys the only evidence it existed.
 
+**A GATE CAN BE TREE-DEPENDENT WITHOUT BEING NON-DETERMINISTIC, and that reads
+as flakiness from the outside.** `tools/lint/no_host_paths.sh` (the leak-ban
+gate) intermittently reddened. `grep` prints its `file:` prefix only when handed
+MORE THAN ONE file operand, so whichever `xargs -0` batch held exactly one file
+lost the path out of `file:line:text` — and everything downstream parses that
+string, both consumers of `ALLOWLIST` anchoring on `path:` at position 1. An
+allowlisted finding therefore stopped being dropped AND its entry was reported
+stale: two refusals, from one lost prefix. `-H` makes the output shape invariant
+in operand count.
+
+The lesson is about the SHAPE of the intermittency, not about non-determinism.
+For a fixed file list `xargs` batches deterministically; what moved was the
+TREE — the canary suite plants and removes fixtures, so which batch holds
+exactly one file changes between runs. So "flaky" was the wrong disposition for
+the same reason it is wrong above: there was a mechanism, and re-running until
+green would have destroyed the evidence rather than found it. When a gate's
+verdict depends on its own input set, reach for the input set before reaching
+for chance.
+
 ## DEFECTS HIDE INSIDE THE PREVIOUS ROUND'S REPAIRS
 
 Every round here has found defects the round before it introduced. A round that
@@ -198,6 +217,14 @@ message that names it"**, plus a control proving the neighbours stayed green.
 Where the guard's own diagnosis can be wrong — an internal error mistaken for a
 clean verdict — the canary must distinguish those too: exit codes that separate
 FAIL from ERROR are how, and a suite asserting only non-zero cannot.
+
+Occasionally that demand has no answer, legitimately — a clause can sit behind
+an upstream guard that refuses every input before the clause under test is ever
+reached, so no mutation exercises it alone.
+`.claude/rules/gate-enforcement.md` §2 carries the disposition (name the gap in
+the suite, on the record; never fake the attribution), and
+`tools/scratchcard/test/lane_canary.sh`'s matrix-size clause is the measured
+instance.
 
 **Require a FAIL, not an ERROR.** A mutation that breaks compilation or the
 namespace load reds the whole file while executing nothing, so the red carries no

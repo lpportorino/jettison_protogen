@@ -18,8 +18,9 @@ cold boot pays ~10-30s for the container and JVM; every call after is warm.
 ## The workflow
 
 1. Copy `tools/scratchcard/example/hello.edn` and edit it.
-2. `regenerate`. Read the returned JSON: `ok`, `dir`, `cells`, `failed`,
-   `findings`.
+2. `regenerate`. Read the returned JSON: `ok`, `dir`, `run`, `cells`,
+   `failed`, `findings`. `run` is the run's numeric id — the `N` the diff
+   command below takes.
 3. **Read `<dir>/report.md` FIRST.** The verdict is the line under the title.
 4. Look at `<dir>/renders/<cell>.png` for the cells you care about.
 5. Fix, regenerate, and compare against the previous run.
@@ -72,7 +73,12 @@ renders/<cell>.png and <cell>.dump.json
 tools/scratchcard/bin/scratchcard diff [--card C] [--from previous|latest|N] [--to ...]
 ```
 
-Defaults to previous-vs-latest — "what did my last edit change". It returns
+Defaults to previous-vs-latest — "what did my last edit change". **`--card`
+defaults to the literal `hello`, never to what you last regenerated**, and the
+common way to trip this is step 1 above rather than an explicit `--card`:
+rendering `--file mycopy.edn` derives the slug from the FILENAME (`mycopy`), so
+a bare `diff` afterwards silently compares the shipped example instead. Pass
+`--card` whatever your screen file is named. It returns
 `:causes`, and that is the field to read first:
 
 | cause | means |
@@ -128,8 +134,9 @@ Its findings are owed a disposition, never a pass/fail verdict.
 
 Container, socket and lock are keyed by `sha256(repo-root)[0:16]`, and there
 are **no TCP ports**. Several protogen clones run concurrently on one machine
-without contending. `status` reports the socket, the workspace, uptime, the
-run count and disk usage; the container name rides its `logs` hint.
+without contending. `status` reports the socket, the workspace, when it
+booted, the run count and disk usage; the container name rides its `logs`
+hint.
 
 Never create a global PATH symlink to `bin/scratchcard` — it would hardcode one
 worktree's hash. Use a shell function instead:

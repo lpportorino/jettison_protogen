@@ -1,19 +1,28 @@
 ---
-description: The two Malli populations in this repo's hand-authored Clojure — function specs armed in one tree and prose everywhere else, and value schemas that throw — how to tell them apart, and what looseness costs in each. Loads when editing renderer-gen or protodoc Clojure.
+description: The two Malli populations in this repo's hand-authored Clojure — function specs armed in one tree and prose everywhere else, and value schemas that throw — how to tell them apart, and what looseness costs in each. Loads when editing renderer-gen, protodoc, or scratchcard Clojure.
 paths:
   - "tools/renderer-gen/**/*.clj"
   - "docs/.protodoc/tools/**/*.clj"
+  - "tools/scratchcard/**/*.clj"
 ---
 <!-- LOAD-TEST: malli-schemas -->
 
 # Malli here is TWO populations — one throws, one is armed in a single tree, and the source does not tell them apart
 
-This governs the INTERNAL Clojure schemas of these two trees. It does not reach
-the `.proto` wire surface: proto shapes are additive-first and
+This governs the INTERNAL Clojure schemas of these three trees. It does not
+reach the `.proto` wire surface: proto shapes are additive-first and
 backward-compatible by contract (`CLAUDE.md`), no Malli schema constrains them,
 and nothing here licenses touching them. `tools/devcards` declares itself
 malli-free in its own docstrings and is deliberately outside the frontmatter
 above — do not widen the scope to it.
+
+The three trees do not all carry both populations. `tools/renderer-gen` is the
+only one with `m/=>` arrow specs at all, and the only one instrumented — see
+below. `docs/.protodoc/tools` and `tools/scratchcard` carry the ENFORCED
+population only: an explicit `m/validate` / `m/explain` call site that throws,
+with no arrow specs anywhere in either tree. A rule read from the
+`tools/renderer-gen` sections below about arrow specs or instrumentation does
+not transfer to the other two; the ENFORCED-population sections do.
 
 Both populations are written against `malli.core` and read alike at a glance.
 Their effect is opposite. Mistaking one for the other is how a review ends up
@@ -79,6 +88,19 @@ shape is a validator that returns the explain data and a pipeline entry point
 that turns it into an `ex-info`. A validator whose own body only returns is still
 enforced when its caller throws, and is enforced by nothing when the caller
 merely logs. Check which before calling a schema a gate.
+
+`tools/scratchcard` is the clean illustration of the difference, in two files
+that look alike at a glance and are not. `scratchcard.manifest/schema` is
+`m/explain`ed and thrown on inside `validate!`, called before every manifest
+write and on every read — a real, single-tree ENFORCED call site, added by
+this tree and belonging to it. `scratchcard.input`, by contrast, never calls
+`m/validate` or `m/explain` at all: it requires `malli.error` only to
+`humanize` an explain map that a DIFFERENT tree already produced —
+`lvgl-codegen.schema/validate-screen` in `tools/renderer-gen`, reached through
+`lvgl-codegen.core/process-screen`. Reading `scratchcard.input`'s malli import
+as a second enforced population in this tree would be the "trusting a list"
+mistake the paragraph above warns against; grep for where `m/validate` /
+`m/explain` is actually CALLED, not for where `malli.*` is required.
 
 ## Looseness is a different defect in each population
 
@@ -200,24 +222,38 @@ right — a baseline, a percentage floor and a parked-findings list are all
 refused, and none of them is what landed. `make -f lint.mk lint-spec-presence`
 (`lint-gate.presence`) instead takes §1's OTHER permitted move: narrow the
 declared scope to a population where the check passes, say what was left out,
-and state the measured finding count. `:enrolled` in `tools/lint/gates.edn` names
-NAMESPACES rather than roots, because no root qualifies — measured, only
-`tools/renderer-gen/src` practises arrow specs at all (324 of 380 functions) and
-every other gated root is at 0.0%, so a root-grain scope would have to be empty.
-Inside an enrolled namespace the check is TOTAL with zero tolerated misses and
-zero waivers; it judges 292 of the gated tree's 1552 functions and prints that
-fraction on every run so a green cannot be misread as tree-wide.
+and state the measured finding count — which the GATE states, on every run.
+`:enrolled` in `tools/lint/gates.edn` names NAMESPACES rather than roots,
+because no root qualifies: only `tools/renderer-gen/src` practises arrow specs
+at all, it is not itself at 100%, and every other gated root —
+`tools/scratchcard/src` now among them — is at 0.0%, so a root-grain scope would
+have to be empty. No fraction is quoted here on purpose; the two obvious
+candidates are not even the same quantity (`spec-presence` counts FUNCTIONS
+carrying a spec, `spec-shape` counts `m/=>` FORMS it can read), so a pair copied
+into prose reads verified while comparing different denominators. Inside an
+enrolled namespace the
+check is TOTAL with zero tolerated misses and zero waivers, and it prints the
+judged fraction of the whole gated corpus (`LINT_CLJ_PATHS` in `lint.mk`) on
+every run so a green cannot be misread as tree-wide. That corpus grows on its
+own schedule — three new gated paths landed with `tools/scratchcard` and none
+of them practise `m/=>` — so read the fraction from the gate's own output
+rather than from a count frozen here.
 
 Three things still remain unenforced, and are named rather than implied:
 
 - **The enforced population's payload slots.** No gate reads a `m/validate` value
   schema for looseness, so the `[:tree [:map-of :keyword some?]]` class above is
   caught by review alone.
-- **Presence OUTSIDE the enrolled namespaces.** 1228 of 1552 gated functions
-  carry no `m/=>`, and 1260 sit outside the enrolled scope. That remainder is a
-  project, not a tolerated miss count — the difference is that no list of it
-  exists anywhere a gate reads, and the way to shrink it is to bring a namespace
-  to 100% and ENROL it, never to widen anything.
+- **Presence OUTSIDE the enrolled namespaces.** Every specced function sits in
+  `tools/renderer-gen/src`, and the enrolled namespaces above account for only
+  part of even that root, so most of the gated corpus is unspecced AND
+  unenrolled at once. `make -f lint.mk lint-spec-presence` prints the exact
+  split on every run; a count frozen here would already be wrong, because the
+  gated corpus (`LINT_CLJ_PATHS` in `lint.mk`) grows independently of the
+  specced one — `tools/scratchcard` joined it carrying zero `m/=>` forms. That
+  remainder is a project, not a tolerated miss count — the difference is that
+  no list of it exists anywhere a gate reads, and the way to shrink it is to
+  bring a namespace to 100% and ENROL it, never to widen anything.
 - **Whether a docstring or a spec is HONEST.** `lint-spec-shape`,
   `lint-spec-presence` and `lint-docstrings` check presence and shape. None can
   check truth, and a pass message that implied otherwise would over-claim.

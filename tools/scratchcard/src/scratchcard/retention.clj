@@ -3,9 +3,11 @@
 
   UNBOUNDED GROWTH HERE IS STRUCTURAL, NOT ACCIDENTAL. Every invocation
   creates a new run directory by design — that is the feature — and the
-  default matrix is six theme states across seven canvases, so a single run
-  carries dozens of PNGs, dumps and stat files. Nothing reclaims that unless
-  something is written to.
+  default matrix (`scratchcard.matrix/expand`) renders every theme family and
+  mode across the whole default canvas set, so a single run writes a PNG and a
+  dump_tree JSON per cell — dozens of files, with the per-cell stats folded
+  into the one manifest rather than written out separately. Nothing reclaims
+  that unless something is written to.
 
   THE PRUNE NEVER TOUCHES THE RUN A READER IS ABOUT TO COMPARE AGAINST. The
   newest runs are kept, `latest` is kept whatever its age, and callers can
@@ -17,12 +19,20 @@
   that never happened. Every call returns the deleted names and the reclaimed
   bytes, for the caller to surface.
 
-  IT CANNOT REACH ANYTHING BUT ITS OWN RUNS. `.protogen/` is shared with other
-  machinery — the fork lifecycle keeps state there too — so this only ever
-  walks `<scratch-root>/<card>/runs/` and only ever deletes directories whose
-  names match the allocator's own `NNNN-stamp` shape. Two tools sharing a
-  parent directory with different lifecycles is precisely how one deletes the
-  other's data."
+  IT CANNOT REACH ANYTHING BUT ITS OWN RUNS, for two independent reasons.
+  `.protogen/` is shared with other machinery — the fork lifecycle keeps state
+  there too — so this only ever walks `<scratch-root>/<card>/runs/` and only
+  ever deletes directories whose names match the allocator's own `NNNN-stamp`
+  shape. And `<card>` itself cannot walk this out of `<scratch-root>` in the
+  first place: every DELETING path here reaches disk through
+  `scratchcard.runs/runs-dir` or `runs/card-dir`, which validate the slug
+  (`runs/validate-slug!`) before it becomes a path segment — the same seam that
+  closed the traversal `:card` was under when it arrived unvalidated over the
+  socket. `total-usage` is the one function that opens `<scratch-root>` itself,
+  and it only ENUMERATES: it reads names, never joins one, and screens each
+  against `runs/slug-pattern` before handing it on. Two tools sharing a parent
+  directory with different lifecycles is precisely how one deletes the other's
+  data."
   (:require
    [clojure.java.io :as io]
    [scratchcard.runs :as runs])
@@ -111,8 +121,9 @@
 (defn card-usage
   "Total bytes and run count for `card-slug`.
 
-  Surfaced by the daemon's status op so growth is visible BEFORE it becomes a
-  disk problem."
+  The per-card unit `total-usage` sums — it cannot itself be what the daemon's
+  status op surfaces, because status has no card name to give it. See
+  `total-usage`."
   [^String scratch-root ^String card-slug]
   (let [dir (runs/runs-dir scratch-root card-slug)
         rs (filter run-dir? (or (.listFiles dir) []))]
@@ -125,11 +136,23 @@
   `card-usage` needs a card name, and the status op has none to give: its
   declared arg set is EMPTY, so a `(:card args)` lookup there is unreachable
   and whatever default it fell back to reported zero for every real card.
-  Growth has to be visible without naming anything."
+  Growth has to be visible without naming anything.
+
+  A DIRECTORY WHOSE NAME IS NOT A SLUG IS COUNTED, NEVER WALKED. `scratch-root`
+  is on disk where anything may be dropped, and a name handed on to `card-dir`
+  meets `validate-slug!`, which THROWS `INVALID_CARD`. Passing every directory
+  through would therefore let one stray entry kill the whole `status` response
+  instead of the single card it describes — the same hazard `runs/run-id`
+  already reasons about one level down, where a stray file must not make a card
+  unallocatable. Reporting `:unrecognised` rather than dropping it silently is
+  the other half: a skip nobody can see reads exactly like a clean sum."
   [^String scratch-root]
-  (let [cards (filter #(.isDirectory ^File %)
-                      (or (.listFiles (io/file scratch-root)) []))
+  (let [dirs (filter #(.isDirectory ^File %)
+                     (or (.listFiles (io/file scratch-root)) []))
+        slug? #(some? (re-matches runs/slug-pattern (.getName ^File %)))
+        cards (filterv slug? dirs)
         per (mapv #(card-usage scratch-root (.getName ^File %)) cards)]
     {:cards (count cards)
+     :unrecognised (- (count dirs) (count cards))
      :runs (reduce + 0 (map :runs per))
      :bytes (reduce + 0 (map :bytes per))}))
