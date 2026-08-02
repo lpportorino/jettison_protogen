@@ -441,10 +441,10 @@ cd tools/scratchcard && clojure -M:render-lane
 endef
 
 .PHONY: scratchcard-lane scratchcard-lane-prebuilt
-scratchcard-lane: wasm bindings
+scratchcard-lane: wasm bindings proto-classes
 	$(call scratchcard-lane-suite,scratchcard-lane)
 
-scratchcard-lane-prebuilt: wasm-present bindings
+scratchcard-lane-prebuilt: wasm-present bindings proto-classes
 	$(call scratchcard-lane-suite,scratchcard-lane-prebuilt)
 
 define overlap-canary-suite
@@ -1056,8 +1056,17 @@ conventions-projection:
 # The pure-helper tests (tools/devcards/test — dump-tree reductions, image
 # math). No wasm / proto-classes needed, so it runs early and fails cheap.
 ## scratchcard-test: the scratchcard pure unit suite (no wasm, no daemon).
+#
+# NEEDS `proto-classes`, and the omission was caught by the battery rather than
+# by hand. tools/scratchcard reaches renderer-gen and devcards as :local/root
+# deps, so it inherits renderer-gen's `target/proto-classes` path — the javac
+# output of output/java PLUS pronto's Java sources. Without that edge this lane
+# races the compile under `-j` and dies on `ClassNotFoundException:
+# pronto.ProtoMap`. It passes by hand on any tree where an earlier lane already
+# compiled them, which is exactly why a missing prerequisite here survives
+# manual testing and only fails cold.
 .PHONY: scratchcard-test
-scratchcard-test:
+scratchcard-test: proto-classes
 	cd tools/scratchcard && clojure -M:test
 
 devcards-test:
