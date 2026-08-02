@@ -21,10 +21,24 @@
    [scratchcard.matrix :as matrix]
    [scratchcard.png :as png]
    [scratchcard.provenance :as prov]
+   [scratchcard.scope :as scope]
    [scratchcard.stats :as stats]))
 
 (def ^:private workspace
-  (or (System/getenv "UBER_WORKSPACE") "/workspace"))
+  "The repo root, DERIVED rather than assumed.
+
+  This previously defaulted to `/workspace` — the path `tools/uber.sh` mounts
+  the repo at. That is correct in the container and WRONG everywhere else, and
+  CI runs this probe on a plain runner where the checkout lives under
+  $GITHUB_WORKSPACE. The probe then looked for the wasm in a directory that does
+  not exist and exited 3 CANNOT RUN, while the make-level `wasm-present` guard
+  — which uses a relative path — had already passed.
+
+  `scope/discover-repo-root` asks git, so it is right in the container, on a
+  runner, and in any clone. The env var stays as an explicit override."
+  (or (System/getenv "UBER_WORKSPACE")
+      (scope/discover-repo-root (System/getProperty "user.dir"))
+      "/workspace"))
 
 (defn- button
   "A button with its child label.

@@ -32,11 +32,26 @@
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
+   [devcards.host :as host]
    [scratchcard.matrix :as matrix]
-   [scratchcard.run :as run]))
+   [scratchcard.run :as run]
+   [scratchcard.scope :as scope]))
 
 (def ^:private workspace
-  (or (System/getenv "UBER_WORKSPACE") "/workspace"))
+  "The repo root, DERIVED rather than assumed.
+
+  This previously defaulted to `/workspace` — the path `tools/uber.sh` mounts
+  the repo at. That is correct in the container and WRONG everywhere else, and
+  CI runs this lane on a plain runner where the checkout lives under
+  $GITHUB_WORKSPACE. The lane then looked for the wasm in a directory that does
+  not exist and exited 3 CANNOT RUN, while the make-level `wasm-present` guard
+  — which uses a relative path — had already passed.
+
+  `scope/discover-repo-root` asks git, so it is right in the container, on a
+  runner, and in any clone. The env var stays as an explicit override."
+  (or (System/getenv "UBER_WORKSPACE")
+      (scope/discover-repo-root (System/getProperty "user.dir"))
+      "/workspace"))
 
 (defn- fail! [msg] (println "  FAIL:" msg) false)
 (defn- pass! [msg] (println "  ok:  " msg) true)
@@ -113,6 +128,19 @@
     (println "CANNOT RUN: renderer/output/controls.wasm is missing —"
              "build it with `make -f renderer.mk wasm`")
     (System/exit 3))
+  ;; A NON-OPTIMIZING RUNTIME IS A PRECONDITION FAILURE, NOT A VERDICT. The
+  ;; docstring above has always promised exit 3 for it; without this probe a
+  ;; stock JDK instead failed every cell and exited 1, so a missing GraalVM
+  ;; read as "the shipped example is defective" — a broken harness wearing a
+  ;; verdict's colour, which is the exact confusion the exit codes exist to
+  ;; prevent. Probed with the cheapest possible context.
+  (try
+    (host/close! (host/start! {:wasm (str workspace "/renderer/output/controls.wasm")
+                               :assets (str workspace "/renderer/assets")
+                               :w 8 :h 8}))
+    (catch Exception e
+      (println "CANNOT RUN:" (ex-message e))
+      (System/exit 3)))
   (println "render-lane: scratchcard against the real wasm")
   (let [result (run/regenerate!
                 {:repo-root workspace

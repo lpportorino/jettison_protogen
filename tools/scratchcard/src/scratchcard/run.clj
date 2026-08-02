@@ -38,6 +38,7 @@
    [scratchcard.report :as report]
    [scratchcard.retention :as retention]
    [scratchcard.runs :as runs]
+   [scratchcard.scope :as scope]
    [scratchcard.stats :as stats])
   (:import
    (java.io File)
@@ -188,7 +189,9 @@
     :or {matrix-opts {} timeout-ms default-cell-timeout-ms}}]
   (let [t0 (System/nanoTime)
         instant (Instant/now)
-        scratch-root (str repo-root "/.protogen/scratch")
+        ;; From `scratchcard.scope`, not inlined. A third spelling of this
+        ;; path would be a third silently divergent source of the same fact.
+        scratch-root (:scratch-root (scope/scope repo-root))
         card-slug (or card (-> (io/file screen-path) .getName
                                (.replaceAll "\\.edn$" "")))
         run-dir (runs/allocate! scratch-root card-slug instant)

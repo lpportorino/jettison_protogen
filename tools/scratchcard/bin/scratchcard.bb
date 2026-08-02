@@ -44,6 +44,23 @@
 (def socket-path (str (fs/path runtime-dir "render.sock")))
 (def lock-path (str (fs/path runtime-dir "render.lock")))
 
+(def sun-path-max
+  "Bytes available for an AF_UNIX path, including the trailing NUL — 108 on
+  Linux (`sun_path[108]` in <sys/un.h>).
+
+  MIRRORS `scratchcard.scope/sun-path-max`, and `scope_test` asserts the two
+  agree. The guard lives HERE as well because THIS file is what constructs the
+  path handed to `bind`: a check that ran only in the JVM would sit downstream
+  of the failure it exists to prevent."
+  108)
+
+(when (>= (count (.getBytes ^String socket-path "UTF-8")) sun-path-max)
+  (binding [*out* *err*]
+    (println (str "scratchcard: the socket path is " (count (.getBytes ^String socket-path "UTF-8"))
+                  " bytes and AF_UNIX allows " (dec sun-path-max)
+                  " plus NUL — this worktree is nested too deeply: " socket-path)))
+  (System/exit 4))
+
 (defn- npath [^String s] (Paths/get s (make-array String 0)))
 
 (defn daemon-up? []
