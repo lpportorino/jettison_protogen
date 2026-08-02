@@ -1719,6 +1719,12 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
    * unknown case is exactly the one that must not be silent — the producer's
    * props would simply vanish and the widget would render at its defaults,
    * with no error and no pixel to show for it. */
+  /* ONE branch, five labels — deliberately not five branches with identical
+   * `break` bodies, which clang-tidy's bugprone-branch-clone refuses (and is
+   * right to: separate arms doing the same thing are usually a copy-paste
+   * defect). The per-label reasons differ and are kept beside their labels, so
+   * naming them still costs the reader nothing and `default` still means
+   * exactly one thing. */
   case 0:
     /* NO widget_props at all — nanopb's unset value for a oneof, and the
      * COMMON case: every container, label wrapper and layout node carries
@@ -1727,14 +1733,11 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
      * collide with it. Listing it is load-bearing, not tidiness: without it an
      * unset oneof falls to the default below and every prop-less node in every
      * screen fails the load. */
-    break;
   case ui_WidgetNode_obj_props_tag:
   case ui_WidgetNode_button_props_tag:
     /* Genuinely empty messages — nothing to apply. */
-    break;
   case ui_WidgetNode_tabview_props_tag:
     /* Applied by apply_tabview, which needs the widget ctx this does not have. */
-    break;
   case ui_WidgetNode_host_proxy_props_tag:
     /* Applied during finalize, after the children it composes exist. That arm
      * carries its own refusal for the inverse mistake (a host_proxy node
