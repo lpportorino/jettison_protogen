@@ -31,9 +31,14 @@ language bindings, not a hand-maintained app.
   CI covers is NOT a subset of the local one, and the local one is not a subset
   of CI — **NEITHER SET CONTAINS THE OTHER.** A lane omitted from both workflows
   runs only locally; and `lint-c-tidy` plus the goldens/docs runner diff run in
-  CI and NOT in the local battery, so a green local push has genuinely not run
-  them. Reading this as "local green implies CI green" is how a clang-tidy
-  finding reached the trunk red.
+  CI and NOT in this battery. Reading that as "local green implies CI green" is
+  how a clang-tidy finding reached the trunk red.
+  **THE BATTERY AND THE PUSH ARE NOW DIFFERENT QUESTIONS, and only the battery
+  half of that sentence still stands.** `.githooks/pre-push` calls `lint-c-tidy`
+  separately and docker-gated, so a green local PUSH has run it; a green
+  `check-renderer` still has not, because the target does not list it. The
+  goldens/docs diff has no such second path and is unchanged: nothing local runs
+  it at all.
 - CI's fixtures/gallery jobs consume an ALREADY-BUILT `controls.wasm` (the
   `*-prebuilt` targets, guarded by `wasm-present`) — a missing wasm is a
   sequencing bug, never a skip.

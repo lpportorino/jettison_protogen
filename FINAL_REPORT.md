@@ -451,10 +451,13 @@ from here — it does not describe the one that is.
 
 ## 8. OPEN DEFECTS — carried forward, none fixed here
 
-1. **`lint-c-tidy` has no canary suite and rides neither the `lint` aggregate nor the
-   hook.** The one lane a green local push has genuinely not run. Mutation shape is known:
-   set one axis to 1 and the rest to 9999, require a FAIL naming that axis, plus a control
-   proving the neighbours stayed quiet.
+1. **`lint-c-tidy` has no canary suite.** Mutation shape is known: set one axis to 1 and
+   the rest to 9999, require a FAIL naming that axis, plus a control proving the
+   neighbours stayed quiet. The wiring half of this item — that it rode neither the
+   `lint` aggregate nor the hook, and was "the one lane a green local push has genuinely
+   not run" — is CLOSED: the pre-push hook now calls it separately and docker-gated. It
+   stays out of the `lint` aggregate on purpose, since `lint` is invoked bare and a
+   container-only lane there would hard-fail every push from a machine without the image.
 2. **`renderer/.clang-tidy`'s provenance comment misattributes at least one of six
    measured maxima.** Thresholds are correct; attribution needs re-deriving. Provenance is
    what stops a later author raising a number.

@@ -51,7 +51,7 @@ Two guards you will meet:
 | lane | runs | why |
 |---|---|---|
 | `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, the structural Clojure checks | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the structural gate need only the CLI |
-| `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags |
+| `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
 | the WHOLE-TREE scans | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
 
 **THE THIRD WORKFLOW IS NOT A TIDINESS SPLIT.** Every lane in the first row is

@@ -97,6 +97,39 @@ EOF
   exit 1
 fi
 
+# CLANG-TIDY over the hand-authored C. Separate from `lint` for a MECHANICAL
+# reason rather than a semantic one: it is the only lane that cannot run on the
+# host at all. It needs run-clang-tidy from the pinned WASI-SDK plus a compile
+# database emitted from the build's own flags, so folding it into `lint-lanes`
+# would hard-fail every push from a machine without the image — and `lint` is
+# invoked bare above, not through tools/uber.sh.
+#
+# It ran in renderer.yml ALONE before this step existed, which made it "the one
+# lane a green local push has genuinely not run" — a gap that surfaced only
+# after the push had already fanned out to the fleet. Running it here closes
+# that, at the cost of a container start on every push that has docker.
+#
+# NO DOCKER IS A DECLINE, NOT A SKIP: it prints what did not run and says so,
+# because a hook that stayed silent would let the reader believe the C was
+# judged. CI still runs it authoritatively either way.
+if command -v docker >/dev/null 2>&1; then
+  if ! tools/uber.sh 'make -f lint.mk lint-c-tidy'; then
+    cat >&2 <<'EOF'
+
+[pre-push] BLOCKED — clang-tidy findings in hand-authored C.
+
+  see the findings :  tools/uber.sh 'make -f lint.mk lint-c-tidy'
+
+WarningsAsErrors is '*' by design (renderer/.clang-tidy). A finding is FIXED or
+the RULE is declined in that config with its reasoning — never a per-site
+NOLINT, which is a silenced symptom rather than a decision on the record.
+EOF
+    exit 1
+  fi
+else
+  printf '\033[33m[pre-push]\033[0m no docker — clang-tidy NOT RUN over hand-authored C (CI will run it)\n' >&2
+fi
+
 # The one PROTO-AWARE check in this hook. It is called separately rather than
 # folded into `lint` because `lint` means formatting and lint over
 # hand-authored code, and a green `lint` should keep meaning exactly that.

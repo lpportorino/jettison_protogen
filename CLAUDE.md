@@ -450,14 +450,18 @@ sets are kept in step by hand.
 **NEITHER SET CONTAINS THE OTHER, and reading the containment one way is how a
 red reaches the trunk.** CI decomposes the battery's lanes, so it omits some;
 but CI ALSO RUNS LANES THE BATTERY DOES NOT, and those are the ones a local
-green says nothing about. `lint.mk` names the sharpest itself — `lint-c-tidy`
-is in neither the `lint` aggregate nor the push hook, runs in `renderer.yml`
-alone, and is "the one lane a green local push has genuinely not run". The
-goldens/docs freshness diff is a second: it runs on the RUNNER after the
-containerised regen, and `check-renderer` covers only half of what it spans.
-So a green `check-renderer` DOES NOT imply a green CI. Run the lane that owns
-your change — for hand-authored C that means `make -f lint.mk lint-c-tidy`
-explicitly, since nothing on the local path will.
+green says nothing about. The goldens/docs freshness diff is the live one: it
+runs on the RUNNER after the containerised regen, and `check-renderer` covers
+only half of what it spans. So a green `check-renderer` DOES NOT imply a green
+CI. Run the lane that owns your change.
+`lint-c-tidy` USED TO BE THE SHARPEST CASE AND NO LONGER IS — a distinction
+worth keeping precise, because the battery and the push are different
+questions. It is still in neither `check-renderer` nor the `lint` aggregate,
+for the mechanical reason `lint.mk` records: it needs the pinned WASI-SDK and a
+compile database, and `lint` is invoked bare rather than through
+`tools/uber.sh`. But `.githooks/pre-push` now calls it SEPARATELY and
+docker-gated, so a green local PUSH has run it. Without docker the hook prints
+that it did not run rather than staying silent, and CI runs it either way.
 The vocabulary/fixture generators live in `tools/renderer-gen/`.
 
 The interpreter is the same artifact class as the bindings: a generated

@@ -260,18 +260,26 @@ hooks-status:
 # the one that does exist depends on it — the exact reading under which someone
 # deletes a target the local gate needs.
 #
-# NOR IS IT "every gate", and the two it omits are omitted for DIFFERENT
-# reasons — which is why neither belongs in a headline that says "every":
-#   lint-c-tidy    not in this aggregate and NOT in the hook either. It is
-#                  container-only (it needs a compile database emitted from the
-#                  build's own flags) and runs in renderer.yml alone, so it is
-#                  the one lane a green local push has genuinely not run.
+# NOR IS IT "every gate", and the lanes it omits are omitted for DIFFERENT
+# reasons — which is why none of them belongs in a headline that says "every":
+#   lint-c-tidy    omitted for a MECHANICAL reason, not a semantic one. It needs
+#                  run-clang-tidy from the pinned WASI-SDK plus a compile
+#                  database emitted from the build's own flags, and `lint` is
+#                  invoked BARE by the hook rather than through tools/uber.sh —
+#                  so folding it in here would hard-fail every push from a
+#                  machine without the image. The hook therefore calls it
+#                  SEPARATELY and docker-gated. It used to run in renderer.yml
+#                  ALONE, which made it "the one lane a green local push has
+#                  genuinely not run"; that is no longer true where docker is
+#                  present, and the hook says out loud when it is not.
 #   wire-contract  a different KIND of gate — a generated artifact contradicting
 #                  a hand-written contract, see below — deliberately kept out of
 #                  `lint` so a green `lint` keeps meaning "formatting and lint
-#                  over hand-authored code". The hook calls it SEPARATELY
-#                  (.githooks/pre-push:109), so the hook's gate set is wider
-#                  than this target by exactly that one lane.
+#                  over hand-authored code".
+#   docs-lint      proto-aware in the same way, and separate for the same reason.
+# So the HOOK's gate set is strictly wider than this target, by those three
+# lanes. Read the hook for what a push actually runs; this list is what `lint`
+# means, which is a narrower question.
 # WHAT A GREEN `lint` COVERS is the prerequisite line below, read directly. No
 # count is given here on purpose: this comment claimed "four" for as long as it
 # took someone to add a fifth, and a stale tally beside a live list is worse than

@@ -58,10 +58,15 @@ the renderer battery instead.
 Two things about that table are worth carrying forward rather than rediscovering.
 **The C lane has no DEGRADED tier and cannot have one** — clang-tidy takes one
 threshold set per run — so it meets two of `gate-enforcement.md` §1's three
-conditions and the third is a standing, disclosed exception. And **`lint-c-tidy` is
-in neither the `lint` aggregate nor the hook**, so a C size regression lands locally
-green and reddens only in CI; it also has no runnable canary suite, only a
-hand-executed proof recorded in its commit message. Both are gaps, not decisions.
+conditions and the third is a standing, disclosed exception. And **`lint-c-tidy`
+has no runnable canary suite** — only a hand-executed proof recorded in its commit
+message. That is a gap, not a decision.
+The gap that sat beside it is CLOSED: it used to be in neither the `lint`
+aggregate nor the hook, so a C size regression landed locally green and reddened
+only in CI. `.githooks/pre-push` now calls it separately and docker-gated. It
+stays out of the `lint` aggregate deliberately, because `lint` is invoked bare
+and folding a container-only lane in would hard-fail every push from a machine
+without the image.
 
 ## STEP 0 — MEASURED. The numbers below are what the rest of this plan is built on.
 
@@ -488,11 +493,14 @@ a consumer, not from this repo.
 
 ## Open defects, carried forward
 
-- **`lint-c-tidy` has no canary suite and is in neither the `lint` aggregate nor the
-  pre-push hook.** The C size check's proof exists only as a hand-executed sequence
-  in its commit message. `gate-enforcement.md` §2 wants it in a runnable suite; the
-  mutation shape is known (set one axis to 1 and the rest to 9999, require a FAIL
-  naming that axis, plus a control proving the neighbours stayed quiet).
+- **`lint-c-tidy` has no canary suite.** The C size check's proof exists only as a
+  hand-executed sequence in its commit message. `gate-enforcement.md` §2 wants it in
+  a runnable suite; the mutation shape is known (set one axis to 1 and the rest to
+  9999, require a FAIL naming that axis, plus a control proving the neighbours
+  stayed quiet). The wiring half of this defect is closed — the pre-push hook now
+  calls the lane, docker-gated — which makes the missing canary the sharper of the
+  two rather than the lesser: a lane that now runs on every push is a lane whose
+  ability to fail nobody has demonstrated.
 - **The C provenance comment in `renderer/.clang-tidy` attributes all six measured
   maxima to one function, and at least one attribution is wrong** — the named
   function spans far fewer lines than the recorded figure. The THRESHOLDS are
