@@ -41,7 +41,8 @@
    [scratchcard.stats :as stats])
   (:import
    (java.io File)
-   (java.time Instant)))
+   (java.time Instant)
+   (org.graalvm.polyglot Context)))
 
 (def default-cell-timeout-ms
   "Per-cell deadline.
@@ -54,78 +55,92 @@
 (defn- ms-since [t0] (/ (- (System/nanoTime) t0) 1e6))
 
 (defn- render-one!
-  "Render, dump, encode and judge ONE cell. Returns a cell result.
+  "Render, dump, encode and judge ONE cell using an ALREADY-STARTED host.
 
-  Opens and closes its own context — the hermeticity that makes a failure
-  local."
-  [{:keys [wasm assets run-dir card-id ^bytes pb]} {:keys [family dark w h bp] :as cell}]
-  (let [label (matrix/cell-label cell)
-        h* (host/start! {:wasm wasm :assets assets :w w :h h})]
-    (try
-      (when (pos? (long family)) (host/set-theme-family! h* family))
-      (let [t0 (System/nanoTime)
-            fb (host/render-card! h* {:pb pb :bp bp :dark dark})
-            render-ms (ms-since t0)
-            dump (host/dump-tree! h*)
-            tree (json/read-str dump :key-fn keyword)
-            t1 (System/nanoTime)
-            png-file (png/write! (io/file run-dir "renders" (str label ".png")) fb w h)
-            encode-ms (ms-since t1)
-            dump-file (io/file run-dir "renders" (str label ".dump.json"))
-            _ (spit dump-file dump)
-            t2 (System/nanoTime)
-            judged (lanes/judge {:card-id card-id :tree tree
-                                 :emissions (some-> (:captured h*) deref)
-                                 :family family :cell label})
-            st (stats/collect {:host h* :framebuffer fb :pb-bytes (alength pb)
-                               :dump-bytes (count dump) :w w :h h
-                               :timings {:render-ms render-ms
-                                         :encode-ms encode-ms
-                                         :judge-ms (ms-since t2)}})]
-        (merge (select-keys cell [:family :dark :w :h :bp :disp-tier])
-               {:cell label
-                :status :ok
-                ;; Facts only a LIVE host can answer. Carried out of the cell
+  DOES NOT own the host's lifecycle. The caller starts and closes it, because
+  the caller is the only party that can still act when this function is wedged
+  inside a guest call — see `render-cell-guarded!`."
+  [{:keys [run-dir card-id ^bytes pb]} h* {:keys [family dark w h] :as cell} bp]
+  (let [label (matrix/cell-label cell)]
+    (when (pos? (long family)) (host/set-theme-family! h* family))
+    (let [t0 (System/nanoTime)
+          fb (host/render-card! h* {:pb pb :bp bp :dark dark})
+          render-ms (ms-since t0)
+          dump (host/dump-tree! h*)
+          tree (json/read-str dump :key-fn keyword)
+          t1 (System/nanoTime)
+          png-file (png/write! (io/file run-dir "renders" (str label ".png")) fb w h)
+          encode-ms (ms-since t1)
+          dump-file (io/file run-dir "renders" (str label ".dump.json"))
+          _ (spit dump-file dump)
+          t2 (System/nanoTime)
+          judged (lanes/judge {:card-id card-id :tree tree
+                               :emissions (some-> (:captured h*) deref)
+                               :family family :cell label})
+          st (stats/collect {:host h* :framebuffer fb :pb-bytes (alength pb)
+                             :dump-bytes (count dump) :w w :h h
+                             :timings {:render-ms render-ms
+                                       :encode-ms encode-ms
+                                       :judge-ms (ms-since t2)}})]
+      (merge (select-keys cell [:family :dark :w :h :bp :disp-tier])
+             {:cell label
+              :status :ok
+                ;; Facts only a LIVE host can answer, carried out of the cell
                 ;; because provenance is collected after every context is
-                ;; closed, and a manifest recording `abi: nil` cannot tell a
-                ;; reader whether the module was old or merely unasked.
-                ;; What a LIVE host can answer. `:fb-format` and
-                ;; `:engine-impl` are NOT here because `devcards.host/start!`
-                ;; exposes neither — claiming them would be a manifest field
-                ;; that is structurally always nil. What IS derivable: the
-                ;; render happened, and `assert-optimizing-runtime!` hard-fails
-                ;; on a non-optimizing runtime, so reaching this line proves it.
-                :runtime {:abi (:abi h*) :optimizing-runtime? true}
-                :fb-sha256 (get-in st [:framebuffer :sha256])
-                :png (str "renders/" (.getName ^File png-file))
-                :dump (str "renders/" (.getName dump-file))
-                :stats st
-                :live (:live judged)
-                :stale-exemptions (:stale-exemptions judged)}))
-      (finally (host/close! h*)))))
+                ;; closed. `:fb-format` and `:engine-impl` are NOT here:
+                ;; `devcards.host/start!` exposes neither, and claiming them
+                ;; would be a manifest field that is structurally always nil.
+                ;; What IS derivable is that the render happened, and
+                ;; `assert-optimizing-runtime!` hard-fails on a non-optimizing
+                ;; runtime — so reaching this line proves it.
+              :runtime {:abi (:abi h*) :optimizing-runtime? true}
+              :fb-sha256 (get-in st [:framebuffer :sha256])
+              :png (str "renders/" (.getName ^File png-file))
+              :dump (str "renders/" (.getName dump-file))
+              :stats st
+              :live (:live judged)
+              :stale-exemptions (:stale-exemptions judged)}))))
+
+(defn- cancel-context!
+  "Force a polyglot context closed, CANCELLING any guest code still running.
+
+  `devcards.host/close!` is the graceful path: it calls `controls_destroy` and
+  then a plain `.close`, both of which BLOCK while the guest is executing. On
+  the timeout path the guest is precisely what is not returning, so the
+  graceful close would hang the thread that is trying to clean up.
+
+  `Context.close(true)` is the only thing that cancels executing guest code.
+  `future-cancel` cannot: it is `Thread.interrupt()`, and a Truffle guest call
+  ignores interrupts. Without this the wedged thread AND its context — 8 MiB of
+  linear memory minimum — leak permanently in a process designed never to
+  restart, while the run reports the cell as merely timed out."
+  [{:keys [^Context ctx]}]
+  (try (.close ctx true) (catch Exception _ nil)))
 
 (defn- render-cell-guarded!
-  "`render-one!` with a deadline and failure isolation.
+  "Render ONE cell with a deadline and failure isolation.
 
-  A failure becomes a cell whose `:status` is `:error` — never an exception
-  that takes the other cells with it."
-  [ctx cell timeout-ms]
+  OWNS THE CONTEXT so that a wedged guest can actually be cancelled. A failure
+  becomes a cell whose `:status` is `:error` — never an exception that takes
+  the other cells with it."
+  [{:keys [wasm assets] :as ctx} {:keys [w h bp] :as cell} timeout-ms]
   (let [label (matrix/cell-label cell)
         base (merge (select-keys cell [:family :dark :w :h :bp :disp-tier])
-                    {:cell label})]
+                    {:cell label})
+        fail (fn [code msg] (assoc base :status :error :live [] :stale-exemptions []
+                                   :error {:code code :message msg}))]
     (try
-      (let [f (future (render-one! ctx cell))
+      (let [h* (host/start! {:wasm wasm :assets assets :w w :h h})
+            f (future (render-one! ctx h* cell bp))
             r (deref f timeout-ms ::timeout)]
         (if (= ::timeout r)
           (do (future-cancel f)
-              (assoc base :status :error :live [] :stale-exemptions []
-                     :error {:code "RENDER_TIMEOUT"
-                             :message (str "no render within " timeout-ms "ms")}))
-          r))
+              ;; MUST cancel the context, not merely the future.
+              (cancel-context! h*)
+              (fail "RENDER_TIMEOUT" (str "no render within " timeout-ms "ms")))
+          (do (host/close! h*) r)))
       (catch Exception e
-        (assoc base :status :error :live [] :stale-exemptions []
-               :error {:code (or (:error (ex-data e)) "RENDER_FAILED")
-                       :message (str (ex-message e))})))))
+        (fail (or (:error (ex-data e)) "RENDER_FAILED") (str (ex-message e)))))))
 
 (defn- manifest-render
   "A cell result reduced to its manifest entry — no framebuffers, no findings."
@@ -182,15 +197,17 @@
               :utc (runs/utc-stamp instant) :repo-root repo-root
               :image-tag image-tag :matrix-opts matrix-opts}]
     (try
-      ;; The verbatim input copy is what makes a run self-contained: the
-      ;; archive must answer "what exactly was rendered" without depending on
-      ;; the working tree, which will have moved on. io/copy does not create
-      ;; parents.
-      (let [copy (io/file run-dir "input" "screen.edn")]
-        (io/make-parents copy)
-        (io/copy (io/file screen-path) copy))
       (let [built (input/build! {:repo-root repo-root :screen-path screen-path
                                  :out-pb (str (io/file run-dir "input" "screen.pb"))})
+            ;; The verbatim input copy is what makes a run self-contained: the
+            ;; archive must answer "what exactly was rendered" without
+            ;; depending on the working tree, which will have moved on. Taken
+            ;; AFTER the build accepted it, so an arbitrary unreadable-as-EDN
+            ;; file cannot be copied into the archive merely by naming it.
+            ;; io/copy does not create parents.
+            _ (let [copy (io/file run-dir "input" "screen.edn")]
+                (io/make-parents copy)
+                (io/copy (io/file screen-path) copy))
             cells (matrix/expand matrix-opts)
             _ (when (not= (count cells) (matrix/expected-count matrix-opts))
                 (throw (ex-info "matrix expansion did not produce the expected cell count"

@@ -60,10 +60,36 @@
   (.format stamp-format (.atZone (.truncatedTo instant ChronoUnit/SECONDS)
                                  java.time.ZoneOffset/UTC)))
 
+(def slug-pattern
+  "What a card slug may be.
+
+  DELIBERATELY NARROW. A slug becomes a PATH SEGMENT, and `io/file` performs no
+  normalisation — so an unvalidated one is a directory-traversal primitive for
+  anything that can reach the daemon socket: `../../..` yields arbitrary
+  directory creation, deletion of any path named `latest`, appends to an
+  arbitrary `index.ednl`, and a recursive delete of any directory matching the
+  run-name shape. Same-uid and behind a 0700 socket dir is a blast RADIUS, not
+  confinement."
+  #"[A-Za-z0-9][A-Za-z0-9._-]{0,63}")
+
+(defn validate-slug!
+  "Return `card-slug`, or throw.
+
+  CHECKED AT THE SEAM WHERE A SLUG BECOMES A PATH, never at each call site: a
+  caller can forget, a seam cannot. Every path helper below goes through
+  `card-dir`, so this is the one gate they all pass."
+  ^String [^String card-slug]
+  (when-not (and card-slug (re-matches slug-pattern card-slug))
+    (throw (ex-info (str "invalid card slug " (pr-str card-slug)
+                         " — must match " slug-pattern
+                         " (a slug becomes a path segment)")
+                    {:error "INVALID_CARD" :card card-slug})))
+  card-slug)
+
 (defn card-dir
   "The directory holding every run of `card-slug`."
   ^File [^String scratch-root ^String card-slug]
-  (io/file scratch-root card-slug))
+  (io/file scratch-root (validate-slug! card-slug)))
 
 (defn runs-dir
   "The directory holding `card-slug`'s numbered run directories."

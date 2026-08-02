@@ -124,6 +124,33 @@
       (is (= (.getCanonicalPath ^File first-run)
              (.getCanonicalPath ^File (runs/resolve-run root "demo" :latest)))))))
 
+(deftest a-card-slug-cannot-escape-the-scratch-root
+  ;; A slug becomes a PATH SEGMENT and `io/file` does not normalise, so an
+  ;; unvalidated one is a directory-traversal primitive for anything that can
+  ;; reach the daemon socket: arbitrary directory creation, deletion of any
+  ;; path named `latest`, and a recursive delete of any directory matching the
+  ;; run-name shape. Same-uid behind a 0700 socket dir is a blast RADIUS, not
+  ;; confinement.
+  (let [root (temp-root)]
+    (testing "traversal spellings are refused"
+      (doseq [bad ["../../.." ".." "a/../../b" "/etc" "./x" "a/b"]]
+        (let [e (is (thrown? clojure.lang.ExceptionInfo
+                             (runs/card-dir root bad))
+                    (str "slug " (pr-str bad) " must be refused"))]
+          (is (= "INVALID_CARD" (:error (ex-data e)))))))
+    (testing "nil, empty and over-long are refused"
+      (doseq [bad [nil "" (str/join (repeat 200 "x"))]]
+        (is (thrown? clojure.lang.ExceptionInfo (runs/card-dir root bad)))))
+    (testing "a leading dot is refused — it would hide the directory"
+      (is (thrown? clojure.lang.ExceptionInfo (runs/card-dir root ".hidden"))))
+    (testing "ordinary slugs still work, so the guard is not simply a wall"
+      (doseq [good ["demo" "hello" "lego_scrubber" "a.b-c" "X9"]]
+        (is (.isAbsolute ^File (runs/card-dir root good)))))
+    (testing "and every path helper goes through the same seam"
+      (is (thrown? clojure.lang.ExceptionInfo (runs/runs-dir root "../x")))
+      (is (thrown? clojure.lang.ExceptionInfo (runs/roster-file root "../x")))
+      (is (thrown? clojure.lang.ExceptionInfo (runs/allocate! root "../x" fixed-instant))))))
+
 (deftest scratch-tree-holds-no-tracked-files
   ;; TRAP T4: a directory NAMED for scratch is not scratch if the base tree
   ;; commits files into it. Three independent workers hit that class in one

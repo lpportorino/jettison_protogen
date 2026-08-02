@@ -58,7 +58,12 @@
 
 (def protocol-errors
   "Refusals attributable to the request itself, not to its payload."
-  #{"MALFORMED_REQUEST" "MISSING_OP" "UNKNOWN_OP" "UNKNOWN_ARGUMENT"})
+  ;; `INVALID_CARD` belongs HERE rather than with the input errors: a card slug
+  ;; is a REQUEST argument, not part of the screen file. It becomes a path
+  ;; segment, so an unvalidated one is a traversal primitive — refused at the
+  ;; seam in `scratchcard.runs/card-dir`.
+  #{"MALFORMED_REQUEST" "MISSING_OP" "UNKNOWN_OP" "UNKNOWN_ARGUMENT"
+    "INVALID_CARD"})
 
 (def client-errors
   "Raised by the CLIENT, never sent by the daemon.
