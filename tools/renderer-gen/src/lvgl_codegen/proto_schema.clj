@@ -541,6 +541,15 @@
       [:obj_flags_clear {:optional true :default 0} uint32]
       [:states {:optional true :default 0} uint32]
       [:scroll_dir {:optional true :default 0} uint32]
+      ;; Touch affordance in design px, DPI-scaled through LV_DPX at render
+      ;; time. The proto additionally bounds it at 64 via buf.validate; that
+      ;; constraint is the renderer's to enforce and is deliberately not
+      ;; restated here, exactly as the other uint32 wire scalars leave theirs.
+      ;; What IS load-bearing here is the :default — a widget-node schema
+      ;; missing a wire field cannot fill that field's proto3 zero, so
+      ;; schema-driven normalization and a proto roundtrip disagree on every
+      ;; node, which is how this omission was found.
+      [:hit_slop {:optional true :default 0} uint32]
       [:grid_col_dsc {:optional true :default []} [:vector {:max 12} int32]]
       [:grid_row_dsc {:optional true :default []} [:vector {:max 12} int32]]
       [:bare {:optional true :default false} boolean?]
