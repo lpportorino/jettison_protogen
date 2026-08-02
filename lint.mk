@@ -231,7 +231,8 @@ export LINT_SH_DISCOVERY_ERR
 .PHONY: lint lint-lanes lint-clj fmt-clj splint-clj fmt-c lint-sh fmt-fix fmt-clj-fix fmt-c-fix cpus \
 	install-hooks hooks-status audit-clj-paths wire-contract docs-lint \
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
-	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence
+	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
+	lint-file-size lint-file-size-test
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -322,7 +323,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a
@@ -509,6 +510,37 @@ lint-no-host-paths:
 
 lint-no-host-paths-test:
 	@bash tools/lint/test/no_host_paths_test.sh
+
+## lint-file-size: SIZE CEILING over the hand-authored population
+# protogen is PUBLIC, so a large file committed here is materialised in every
+# consumer's checkout, in every Docker build context and in the corpus every
+# whole-tree gate reads — and deleting it later does NOT remove it from history.
+# The cost is permanent from the moment it lands. This gate exists because that
+# already happened: a 23,515,423-byte JSON schema sat at the repository root for
+# a year, referenced by nothing.
+#
+# WHOLE-TREE, so it is NOT scoped by LINT_CLJ_PATHS — the same shape as
+# lint-no-host-paths above, and for the same reason: its input set is the
+# checkout, and it reduces scope with EXCLUSIONS rather than an allowlist.
+#
+# SIZE x SCOPE, NOT SIZE x REACHABILITY, and the gate's header carries the
+# measurement behind that choice. Briefly: a reachability predicate must decide
+# by NAME, and in this tree that is unsound both ways — the motivating file's
+# basename was a strict SUFFIX of a neighbour's, so a substring scan credited it
+# with the neighbour's referrers, while the genuinely large legitimate files are
+# consumed at DIRECTORY granularity and would all read as unreferenced.
+# Provenance is decidable here and reference count is not.
+#
+# THE TWO NUMBERS ARE DOWN-ONLY RATCHETS with their measured provenance recorded
+# at the top of the script. Raising either is a gate bypass in source form; the
+# canary suite pins both to literals so it cannot be a silent one-line change.
+#
+# The canary runs BEFORE the gate, same ordering argument as the leak ban.
+lint-file-size:
+	@bash tools/lint/file_size_ceiling.sh
+
+lint-file-size-test:
+	@bash tools/lint/test/file_size_ceiling_test.sh
 
 ## wire-contract: assert docs/INTERFACE-CONTRACTS.md against the descriptor set
 # DELIBERATELY NOT IN THE `lint` AGGREGATE. `lint` means "formatting and lint
