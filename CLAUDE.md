@@ -445,8 +445,19 @@ labelled one, and its self-description reads exactly like a gate's.
 The battery entry is `make -f renderer.mk check-renderer` from the
 repo root, inside the toolchain container built from `Dockerfile.base`. No
 workflow invokes that entry: `.github/workflows/renderer.yml` and
-`devcards.yml` DECOMPOSE it into individual `renderer.mk` targets, so what CI
-covers is a SUBSET of the local battery and the two are kept in step by hand.
+`devcards.yml` DECOMPOSE it into individual `renderer.mk` targets, and the two
+sets are kept in step by hand.
+**NEITHER SET CONTAINS THE OTHER, and reading the containment one way is how a
+red reaches the trunk.** CI decomposes the battery's lanes, so it omits some;
+but CI ALSO RUNS LANES THE BATTERY DOES NOT, and those are the ones a local
+green says nothing about. `lint.mk` names the sharpest itself — `lint-c-tidy`
+is in neither the `lint` aggregate nor the push hook, runs in `renderer.yml`
+alone, and is "the one lane a green local push has genuinely not run". The
+goldens/docs freshness diff is a second: it runs on the RUNNER after the
+containerised regen, and `check-renderer` covers only half of what it spans.
+So a green `check-renderer` DOES NOT imply a green CI. Run the lane that owns
+your change — for hand-authored C that means `make -f lint.mk lint-c-tidy`
+explicitly, since nothing on the local path will.
 The vocabulary/fixture generators live in `tools/renderer-gen/`.
 
 The interpreter is the same artifact class as the bindings: a generated
