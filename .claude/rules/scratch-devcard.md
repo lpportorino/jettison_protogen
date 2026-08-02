@@ -89,6 +89,23 @@ is deliberate; do not "restore" it for symmetry.
 Detection is LAZY: every call begins with a connect probe. There is no
 supervisor and no restart policy, deliberately.
 
+**A DAEMON RUNNING STALE CODE REPORTS ITSELF, and never auto-restarts.** It
+digests every `.clj` under the trees it executes (`scratchcard/src` and
+`devcards/src` — devcards supplies the render host and the armed lanes) at
+boot, and compares on every `status` AND on every `regenerate` response. The
+regenerate half is the load-bearing one: a warning a caller has to ASK for is a
+warning they will not see, and the moment it matters is the moment they are
+reading a result produced by the old code and concluding their edit did
+nothing.
+
+Measured, and it is why this exists: a path-traversal fix was verified against
+a warm daemon still running the pre-fix code. The traversal succeeded and wrote
+a run directory outside the scratch root, and the only symptom was a security
+fix appearing not to work.
+
+It REPORTS rather than recovers. Silent self-recovery would hide the very fact
+the operator needs — that their edit was not in effect.
+
 **A STALE SOCKET IS DETECTED BY CONNECTING, never by `exists?`.** That is the
 only correct staleness test for a unix socket — a leftover file from a killed
 daemon is indistinguishable from a live one by any filesystem property. A live

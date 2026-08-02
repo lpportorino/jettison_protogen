@@ -34,11 +34,12 @@
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
+   [scratchcard.digest :as digest]
    [scratchcard.protocol :as proto]
    [scratchcard.retention :as retention]
    [scratchcard.run :as run])
   (:import
-   (java.io BufferedReader InputStreamReader PrintWriter)
+   (java.io BufferedReader File InputStreamReader PrintWriter)
    (java.net StandardProtocolFamily UnixDomainSocketAddress)
    (java.nio.channels Channels ServerSocketChannel SocketChannel)
    (java.nio.file Files LinkOption Path Paths)))
@@ -48,6 +49,52 @@
 
 (defonce ^:private started-at (atom nil))
 (defonce ^:private run-count (atom 0))
+(defonce ^:private booted-src-sha (atom nil))
+
+(def source-roots
+  "The trees whose code this daemon EXECUTES.
+
+  Both, deliberately: scratchcard is the tool and devcards supplies the render
+  host and the armed quality lanes, so an edit to either changes what a warm
+  daemon does while the daemon carries on running the old bytes."
+  ["tools/scratchcard/src" "tools/devcards/src"])
+
+(defn source-sha
+  "A digest over every Clojure source file the daemon runs.
+
+  Sorted by path so the digest is a function of CONTENT, not of directory
+  iteration order — otherwise a daemon would look stale to itself on a
+  filesystem that enumerates differently between calls."
+  ^String [^String workspace]
+  (let [files (->> source-roots
+                   (mapcat #(file-seq (io/file workspace %)))
+                   (filter #(and (.isFile ^File %)
+                                 (re-find #"\.clj[cs]?$" (.getName ^File %))))
+                   (sort-by #(.getPath ^File %)))]
+    (digest/of-string
+     (str/join "\n" (map #(str (.getPath ^File %) " " (digest/of-file %)) files)))))
+
+(defn staleness
+  "Whether the daemon is running code that no longer matches the tree.
+
+  REPORTS, NEVER AUTO-RESTARTS. Silent self-recovery of a running process is
+  the class this fleet refuses: it hides the fact that the operator's edit was
+  not in effect, which is exactly the confusion this exists to end.
+
+  MEASURED, and it is why this is here at all: a security fix was verified
+  against a warm daemon still running the pre-fix code, and the only symptom
+  was the fix appearing not to work."
+  [^String workspace]
+  (let [booted @booted-src-sha
+        current (try (source-sha workspace) (catch Exception _ nil))]
+    (cond
+      (or (nil? booted) (nil? current)) {:stale? false :known? false}
+      (= booted current) {:stale? false :known? true}
+      :else {:stale? true
+             :known? true
+             :booted (subs booted 0 12)
+             :on-disk (subs current 0 12)
+             :remediation "source changed since this daemon booted — `scratchcard restart` to adopt it"})))
 
 (defn- as-path ^Path [^String s] (Paths/get s (make-array String 0)))
 
@@ -122,9 +169,16 @@
       ;; caller naming anything.
       "status" (proto/ok id (assoc (op-status ctx)
                                    :usage (retention/total-usage
-                                           (str (:workspace ctx) "/.protogen/scratch"))))
+                                           (str (:workspace ctx) "/.protogen/scratch"))
+                                   :staleness (staleness (:workspace ctx))))
       "stop" (proto/ok id "stopping")
-      "regenerate" (proto/ok id (op-regenerate ctx args))
+      ;; STALENESS RIDES THE REGENERATE RESPONSE, not only `status`. A warning
+      ;; a caller has to ASK for is a warning they will not see: the moment it
+      ;; matters is the moment they are reading a result produced by the old
+      ;; code and concluding their edit did nothing.
+      "regenerate" (let [v (op-regenerate ctx args)
+                         st (staleness (:workspace ctx))]
+                     (proto/ok id (cond-> v (:stale? st) (assoc :stale st))))
       (proto/err id "UNKNOWN_OP" (str "unhandled op " op)))
     (catch Exception e
       (proto/err id (or (:error (ex-data e)) "RENDER_FAILED")
@@ -161,6 +215,10 @@
   [{:keys [socket-path] :as ctx}]
   (clear-stale-socket! socket-path)
   (reset! started-at (str (java.time.Instant/now)))
+  ;; Recorded BY THE PROCESS IT DESCRIBES, in memory rather than in a file, so
+  ;; the marker cannot outlive its writer — the failure mode of a marker
+  ;; nothing rewrites when the daemon dies.
+  (reset! booted-src-sha (try (source-sha (:workspace ctx)) (catch Exception _ nil)))
   (let [shutdown (promise)
         addr (UnixDomainSocketAddress/of (as-path socket-path))]
     (io/make-parents (io/file socket-path))
