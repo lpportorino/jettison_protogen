@@ -426,9 +426,19 @@ the wasmtime harness's visual-regression suite, dual-oracle morph parity,
 the coverage matrix, and demo parity — plus the devcard corpus; the
 cross-engine MIRROR, `composition_cross_engine_fb` in
 `renderer/wasm_harness/tests/composition_interaction.rs`, re-proves wasmtime ≡
-GraalWasm on every build by asserting each composition card's raw framebuffer
+GraalWasm on every build by asserting each card's raw framebuffer
 byte-identical to the GraalWasm dump of the same `.pb`, over every card
-discovered from the card directory so a new one joins by itself).
+discovered from the card directory so a new one joins by itself. That
+directory holds the composition lane's cards PLUS a small named set of
+SVG-sourced atomic ones (`cross-engine-atomic-ids` in
+`tools/devcards/src/devcards/core.clj`), and that split is load-bearing
+rather than incidental: every composition card is an integer blit of rects,
+borders and glyph bitmaps, so the vector cards are what put floating-point
+path filling under the mirror at all — two engines agreeing bit-for-bit on
+blits implies nothing about their agreeing on a curve. It is NOT the whole
+atomic corpus, which would cost two full-canvas raw framebuffers per card, so
+read a green here as covering those two classes and never as a corpus-wide
+equivalence proof).
 NAME THE FILE THAT DOES THE WORK, never the phrase a file chose for itself:
 `tools/devcards/dev/spike_r22.clj` is a dev spike, unwired and correctly
 labelled one, and its self-description reads exactly like a gate's.
