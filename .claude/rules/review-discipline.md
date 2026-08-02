@@ -218,13 +218,18 @@ Where the guard's own diagnosis can be wrong — an internal error mistaken for 
 clean verdict — the canary must distinguish those too: exit codes that separate
 FAIL from ERROR are how, and a suite asserting only non-zero cannot.
 
-Occasionally that demand has no answer, legitimately — a clause can sit behind
-an upstream guard that refuses every input before the clause under test is ever
-reached, so no mutation exercises it alone.
-`.claude/rules/gate-enforcement.md` §2 carries the disposition (name the gap in
-the suite, on the record; never fake the attribution), and
-`tools/scratchcard/test/lane_canary.sh`'s matrix-size clause is the measured
-instance.
+Occasionally that demand genuinely has no answer — a clause CAN sit behind an
+upstream guard that refuses every input before it is reached, and
+`.claude/rules/gate-enforcement.md` §2 carries the disposition: name the gap in
+the suite, never fake the attribution.
+
+**But be far slower to conclude it than this file was.** It cited a clause as
+the measured instance of exactly that, on the strength of two mutations that
+failed to isolate it — and the clause was reachable all along, by an input
+neither mutation tried, because the upstream guard and the clause were reading
+DIFFERENT arguments. Failed mutations are evidence about the mutations. The
+verdict "nothing can reach this alone" is a claim about the predicate, and it is
+only ever settled by reading the predicate.
 
 **Require a FAIL, not an ERROR.** A mutation that breaks compilation or the
 namespace load reds the whole file while executing nothing, so the red carries no

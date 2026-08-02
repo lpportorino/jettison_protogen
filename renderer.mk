@@ -424,11 +424,13 @@ deadzone-canary-prebuilt: wasm-present bindings
 # stays in both, and $(1) names the target the CALLER can actually run.
 ## scratchcard-lane: the scratch-devcard pipeline against the real wasm.
 #
-# GATES FOUR CLAUSES, and the last one is why the first three mean anything:
-# the shipped example renders CLEAN across the whole default matrix, the matrix
-# is EXACTLY its expected size (never merely non-empty), vanilla == stock
-# bit-identically, and a PLANTED defect is CAUGHT. Without that last clause a
+# GATES FIVE ASSERTIONS, and the last is why the other four mean anything: the
+# run covered the DEFAULT matrix (never merely a non-empty one), every cell
+# rendered, the shipped example is CLEAN across that whole matrix, vanilla ==
+# stock bit-identically, and a PLANTED defect is CAUGHT. Without that last one a
 # clean run would prove only that the lanes are quiet, not that they are awake.
+# They sit in three `clause-` fns rather than five, which is why a count taken
+# from the function list and one taken from the output disagree.
 #
 # The lane exits 3 for CANNOT RUN and 1 for a real verdict, so a red says which
 # it was. NOTE the guard below is the ordinary make-level wasm-present check

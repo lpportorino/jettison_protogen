@@ -139,24 +139,31 @@ four things:
   tools for this: a multi-line anchor handed to a line-matcher tests each line as
   a separate alternative, so the assertion succeeds on any surviving fragment.
 
-**A CLAUSE CAN BE LEGITIMATELY UNATTRIBUTABLE, and that is a gap to NAME, never
-a licence to fake the canary.** A defense-in-depth guard upstream of the clause
-under test can refuse every input that would also trip the clause, so nothing
-ever reaches it on its own — attribution then has no input left to demonstrate
-it with. `tools/scratchcard/test/lane_canary.sh`'s matrix-size clause is the
-measured instance: shrinking the resolution list leaves the lane green (that
-clause checks internal consistency between two derived counts, not a fixed
-cell count), and diverging the two counts it compares does redden the lane —
-but through `run/regenerate!`'s own `EMPTY_MATRIX` guard, with every clause
-degrading together, never through the clause under test alone. The correct
-disposition is the one that suite takes: record the gap, in the suite, with the
-reason — not a canary that shows a red observed rather than attributed. And
-record BOTH ways out, because the pair is what keeps the gap from reading as
-permanent: removing the upstream guard (worse), or giving the clause a property
-the orchestrator does not already enforce. That second path is the live one
-here — the clause's own message claims the matrix is "EXACTLY 42 cells" while
-it can only see two derived counts agreeing, which is a §3 over-claim awaiting
-the same repair.
+**"NO INPUT REACHES THIS CLAUSE ALONE" IS A CLAIM ABOUT THE CODE, AND FAILED
+MUTATIONS ARE NOT EVIDENCE FOR IT.** An upstream defense-in-depth guard really
+can shadow a clause, and where it does the gap is named rather than faked. But
+the inference that usually produces that verdict is invalid, and it was made
+here, in this repo, and shipped into this file before being caught.
+
+The measured case is `tools/scratchcard/dev/render_lane.clj`'s matrix clause.
+Two mutations failed to attribute it — shrinking `default-resolutions` left the
+lane green (both sides derive from that list), and diverging the counts reddened
+it through `run/regenerate!`'s `EMPTY_MATRIX` guard with every clause degrading
+together. From those two the conclusion drawn was that the orchestrator shadows
+the clause entirely. **It does not.** The two guards do not share a predicate:
+`regenerate!` compares expansion against `expected-count` for the opts IT WAS
+HANDED, while the lane's `expected` is `(matrix/expected-count {})`, hardcoded
+to the DEFAULT spec. So narrowing the caller's matrix satisfies the orchestrator
+and contradicts the lane — a FAIL with its own message and green neighbours,
+now `lane_canary.sh`'s first case.
+
+Two rules fall out. **Read the predicate, do not infer it from reds**: a pair of
+mutations that fail to isolate a clause is evidence about those mutations, and
+promoting it to a property of the clause is how a false structural claim gets
+written down with "measured" beside it. And **an over-claiming MESSAGE and an
+unattributable CLAUSE are different defects** — the first is fixable by writing
+what the check sees, the second is not fixable by wording at all — so repairing
+one must never be recorded as closing the other.
 
 **Prefer a synthetic fixture to the live tree.** A canary that perturbs tracked
 files cannot run on a dirty checkout, entangles itself with whatever else is in

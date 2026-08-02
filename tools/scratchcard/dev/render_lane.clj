@@ -20,8 +20,22 @@
     clause is a regression guard on a real defect: the example once produced
     154 findings because its root carried no layout.
 
-  - the matrix is EXACTLY the expected size, never merely non-empty. A
-    discovery collapse and a clean small run print the same reassuring number.
+  - the run covered the DEFAULT matrix, not merely a non-empty one. A discovery
+    collapse and a clean small run print the same reassuring number, and this is
+    what separates them: `expected` is `(matrix/expected-count {})`, hardcoded to
+    the DEFAULT spec rather than to the opts the run was given. So a narrowed run
+    reds HERE while `run/regenerate!`'s own EMPTY_MATRIX guard stays satisfied —
+    that guard compares expand against expected-count for the opts IT was handed,
+    and those agree. Two different predicates, which is exactly what makes this
+    clause attributable; `test/lane_canary.sh` demonstrates it rather than
+    asserting it. What it CANNOT see is `default-resolutions` changing size, since
+    both sides move together then — `scratchcard-brief` covers that, refusing the
+    diff when the generated canvas table drifts.
+
+  - EVERY CELL RENDERED — `:failed` is zero. Distinct from the count above: the
+    matrix can be the right size with cells in it that errored, and the clean
+    check below reads findings, which a failed cell does not produce. Without
+    this a cell that never rendered would be silently absent from both.
 
   - VANILLA and STOCK framebuffers are BIT-IDENTICAL at every canvas and mode.
     Family 1 restates the stock formulas, so any divergence is a theme defect —
@@ -60,7 +74,7 @@
   [result]
   (let [expected (matrix/expected-count {})]
     (and (if (= expected (:cells result))
-           (pass! (str "matrix is EXACTLY " expected " cells"))
+           (pass! (str "cell count matches the matrix spec: " expected))
            (fail! (str "expected " expected " cells, got " (:cells result))))
          (if (zero? (:failed result))
            (pass! "every cell rendered")

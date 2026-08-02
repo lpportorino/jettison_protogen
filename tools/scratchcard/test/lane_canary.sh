@@ -6,7 +6,7 @@
 # the commonest way a gate dies is by silently checking nothing, and that state
 # emits exactly the output a clean run does.
 #
-# A RED IS NOT ENOUGH; IT MUST NAME ITS CLAUSE. The lane has four clauses and
+# A RED IS NOT ENOUGH; IT MUST NAME ITS CLAUSE. The lane has several clauses and
 # several of them would refuse some of the same inputs, so a bare red is
 # compatible with the clause under test being DEAD. Each case below therefore:
 #
@@ -48,6 +48,18 @@ command -v docker >/dev/null 2>&1 ||
 	cannot_run "docker is not on PATH" "This suite runs the lane inside the pinned image."
 [ -f "$ROOT/renderer/output/controls.wasm" ] ||
 	cannot_run "renderer/output/controls.wasm is missing" "Build it: make -f renderer.mk wasm"
+
+# THE FILES THIS SUITE MUTATES MUST BE CLEAN vs HEAD, because `restore` verifies
+# the put-back with `git diff --quiet`. On a dirty checkout that check reports a
+# FAIL for a file this suite restored PERFECTLY — a precondition failure wearing
+# a verdict's colour, which is the one thing the exit codes above exist to
+# prevent. Measured: it fired while the lane's own docstring was being edited,
+# printing a red beside two passing cases. Refuse up front instead.
+for _f in tools/scratchcard/dev/render_lane.clj tools/scratchcard/src/scratchcard/run.clj; do
+	env -u GIT_DIR -u GIT_WORK_TREE git -C "$ROOT" diff --quiet -- "$_f" ||
+		cannot_run "$_f has uncommitted changes" \
+			"This suite mutates it and checks the restore against HEAD. Commit or stash first."
+done
 
 run_lane() {
 	(cd "$ROOT" && timeout 900 tools/uber.sh 'cd tools/scratchcard && clojure -M:render-lane' 2>&1)
@@ -117,29 +129,47 @@ case_attributed() {
 
 printf '[lane-canary] proving each clause fails for its own reason\n'
 
-# ── THE MATRIX-SIZE CLAUSE IS NOT ATTRIBUTABLE, and that is a finding ─────
+# ── THE MATRIX CLAUSE IS ATTRIBUTABLE, AND TWO EARLIER MUTATIONS SAID IT WAS
+# ── NOT. The wrong ones are worth keeping, because both are the same mistake.
 #
-# It has no case here, deliberately, and the reason belongs on the record
-# rather than as a silent omission.
+# SHRINKING `default-resolutions` leaves the lane GREEN: `expand` and
+# `expected-count` both derive from that list, so both sides move together.
+# Making `expand` diverge from `expected-count` DOES redden the lane, but not
+# via this clause — `run/regenerate!` throws EMPTY_MATRIX first and every clause
+# degrades together, which the neighbour check correctly reported as an
+# unattributed red.
 #
-# Two mutations were tried. SHRINKING `default-resolutions` leaves the lane
-# GREEN, because `expand` and `expected-count` both derive from that list — the
-# clause checks internal consistency, not that the default set has any
-# particular size, so its wording ("matrix is EXACTLY 42 cells") implies more
-# than it can see. Making `expand` diverge from `expected-count` instead does
-# turn the lane red, but NOT via this clause: `run/regenerate!` refuses a
-# mismatched matrix first and throws EMPTY_MATRIX, so the whole run fails and
-# EVERY clause degrades together. The neighbour check caught that — the red was
-# unattributed.
+# From those two the conclusion drawn was "no input reaches this clause that the
+# orchestrator has not already rejected". That is FALSE, and it was reached by
+# assuming the two guards share a predicate. They do not:
 #
-# That upstream guard is defence in depth and is correct. The consequence is
-# that this clause is SHADOWED: no input reaches it that the orchestrator has
-# not already rejected. A canary here would be a red observed rather than
-# attributed, which `.claude/rules/gate-enforcement.md` §2 refuses.
+#   run.clj        (matrix/expected-count matrix-opts)   <- the CALLER's opts
+#   render_lane.clj (matrix/expected-count {})           <- hardcoded DEFAULT
 #
-# Naming the gap is the requirement; closing it would mean either removing the
-# upstream guard (worse) or giving the clause a property the orchestrator does
-# not already enforce.
+# So narrowing the caller's matrix satisfies the orchestrator (expand and
+# expected-count agree at the narrowed size) while contradicting the lane, whose
+# `expected` never moved. That is CASE 1 below, and it exits FAIL with its own
+# message and green neighbours.
+#
+# The lesson is not about this clause. Two mutations failing to attribute a
+# clause is evidence about the MUTATIONS; concluding the clause is unreachable
+# needs an argument about its predicate, and that argument has to be read off
+# the code rather than inferred from a pair of reds.
+
+# ── CASE 1: the matrix-size clause ─────────────────────────────────────────
+# Narrow the CALLER's matrix so the run covers 6 cells instead of the default
+# 42. `run/regenerate!`'s own EMPTY_MATRIX guard does NOT fire — it compares
+# expand against expected-count for the opts IT WAS HANDED, and those agree at
+# 6 — so the red can only come from the lane clause, whose `expected` is
+# `(matrix/expected-count {})`, hardcoded to the DEFAULT spec. That difference
+# in argument is the whole reason this clause is attributable.
+case_attributed \
+	'matrix-covers-the-default-spec' \
+	"$ROOT/tools/scratchcard/dev/render_lane.clj" \
+	':card "render-lane-example"})' \
+	':card "render-lane-example" :matrix-opts {:resolutions [{:w 800 :h 480}]}})' \
+	'FAIL: expected 42 cells, got 6' \
+	'vanilla == stock'
 
 # ── CASE 2: the vanilla==stock clause ──────────────────────────────────────
 # Make family 1 render as family 0. vanilla != stock must fire; the matrix-size
@@ -150,7 +180,7 @@ case_attributed \
 	'(when (pos? (long family)) (host/set-theme-family! h* family))' \
 	'(when (> (long family) 1) (host/set-theme-family! h* family))' \
 	'FAIL: vanilla != stock' \
-	'matrix is EXACTLY'
+	'cell count matches the matrix spec'
 
 printf '\n'
 if [ "$FAIL" -eq 0 ]; then
