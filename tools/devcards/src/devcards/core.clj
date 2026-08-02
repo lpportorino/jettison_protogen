@@ -364,6 +364,55 @@
    beside the `.pb` cards it already consumes."
   (str composition-out-dir "/interaction-geometry.json"))
 
+(def cross-engine-atomic-ids
+  "ATOMIC card ids whose `.pb` + raw framebuffers are persisted into the
+   COMPOSITION out-dir so the wasmtime harness's cross-engine byte-identity
+   loop picks them up — it DISCOVERS its roster by `read_dir` over that tree
+   (renderer/wasm_harness/tests/composition_interaction.rs `card_slugs`), so a
+   card written there is compared with no Rust change. That loop is the ONLY
+   byte-identity assertion between GraalWasm and wasmtime; every other atomic
+   card is judged by GraalWasm alone.
+
+   VECTOR FIRST, and that is the whole reason this set exists rather than a
+   general widening. SVG rasterization is floating-point path filling, so two
+   wasm engines agreeing bit-for-bit on integer blits says nothing about their
+   agreeing on a curve — vector is the likeliest divergence and was the one
+   class the gate could not see.
+
+   A NAMED SET rather than the whole atomic corpus, deliberately: persisting
+   all of it would write two full-canvas raw framebuffers PER CARD, hundreds
+   per run against the composition lane's 22. Grow this on purpose."
+  #{"lv_image/default/large" "lv_image/disabled/large"})
+
+(defn- persist-cross-engine-atomic!
+  "Re-render each `cross-engine-atomic-ids` card and persist its `.pb` and both
+   raw framebuffers into the composition out-dir, returning the written paths
+   so the caller folds them into the audit's CLAIMED set — the reconciliation
+   compares that tree against what a generator claimed, so an unclaimed write
+   is itself a finding.
+
+   REFUSES a set that matches fewer cards than it names. A renamed or deleted
+   card would otherwise persist nothing, and the cross-engine loop would go
+   GREEN over one fewer card with no signal at all — the vacuous pass
+   gate-enforcement.md refuses, and the one this set exists to prevent."
+  [built]
+  (let [wanted (filterv #(contains? cross-engine-atomic-ids (str (:id %))) built)]
+    (when-not (= (count wanted) (count cross-engine-atomic-ids))
+      (throw (ex-info "cross-engine atomic set matched fewer cards than it names"
+                      {:named cross-engine-atomic-ids
+                       :matched (mapv (comp str :id) wanted)})))
+    (into []
+          (mapcat (fn [{:keys [id] ^bytes pb :bytes}]
+                    (let [dark (render-one! pb {:family 0 :dark true})
+                          light (render-one! pb {:family 0 :dark false})
+                          slug (comp-slug id)]
+                      [(persist-bytes! (str composition-out-dir "/cards/" slug ".pb") pb)
+                       (persist-bytes! (str composition-out-dir "/fb/" slug "_dark1.raw")
+                                       (:fb dark))
+                       (persist-bytes! (str composition-out-dir "/fb/" slug "_dark0.raw")
+                                       (:fb light))])))
+          wanted)))
+
 (defn- persist-geometry-declaration!
   "Emit `interaction/geometry-declaration` as JSON.
 
@@ -519,6 +568,8 @@
             inventory (composition/load-inventory)
             comp-built (composition/build-all inventory)
             comp-run (run-composition inventory comp-built)
+            comp-run (update comp-run :artifacts into
+                             (persist-cross-engine-atomic! built))
             ;; The label→(committed, fresh) pairing. It lives here because the
             ;; fresh maps do, and this ns cannot be loaded by a test — which is
             ;; why `gates/golden-drift-findings` refuses an empty side rather
