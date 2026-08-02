@@ -57,28 +57,34 @@
 
 (defn- verdict-line
   [{:keys [run findings]} cell-count failed-count]
-  (let [{:keys [status]} run]
-    (cond
-      (= :error status)
-      (str "**FAILED — " (get-in run [:error :code]) "**: "
-           (get-in run [:error :message]))
+  (cond
+    ;; The error MAP, not the status, because they do not always travel
+    ;; together. A run whose cells all failed carries `:status :error` and no
+    ;; `:error` key — that is written only for a run-level refusal such as
+    ;; INPUT_MISSING — so keying on the status alone rendered
+    ;; `**FAILED — **: `, an empty reason and a dangling colon, and hid the
+    ;; per-cell branch below that had the counts. Observed on a real run with
+    ;; renderer/output/controls.wasm absent.
+    (:error run)
+    (str "**FAILED — " (get-in run [:error :code]) "**: "
+         (get-in run [:error :message]))
 
-      (pos? (long failed-count))
-      (str "**" (- (long cell-count) (long failed-count)) "/" cell-count
-           " cells rendered; " failed-count " FAILED**")
+    (pos? (long failed-count))
+    (str "**" (- (long cell-count) (long failed-count)) "/" cell-count
+         " cells rendered; " failed-count " FAILED**")
 
-      (:clean? findings)
-      (str "**CLEAN — " cell-count " cells rendered, no findings**")
+    (:clean? findings)
+    (str "**CLEAN — " cell-count " cells rendered, no findings**")
 
-      :else
-      ;; NOT "OK". Every cell rendering is not the same claim as the screen
-      ;; being sound, and a verdict that conflates them trains a reader to
-      ;; skip the findings table underneath it.
-      (str "**RENDERED, WITH FINDINGS — " cell-count " cells, "
-           (:count findings) " finding(s)"
-           (when (pos? (long (:unjudged findings 0)))
-             (str ", " (:unjudged findings) " of which mean COULD-NOT-JUDGE"))
-           "**"))))
+    :else
+    ;; NOT "OK". Every cell rendering is not the same claim as the screen
+    ;; being sound, and a verdict that conflates them trains a reader to
+    ;; skip the findings table underneath it.
+    (str "**RENDERED, WITH FINDINGS — " cell-count " cells, "
+         (:count findings) " finding(s)"
+         (when (pos? (long (:unjudged findings 0)))
+           (str ", " (:unjudged findings) " of which mean COULD-NOT-JUDGE"))
+         "**")))
 
 (defn report-md
   "The digest. `manifest` is the validated run manifest."
