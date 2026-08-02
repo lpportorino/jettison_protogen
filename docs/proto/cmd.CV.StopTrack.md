@@ -41,7 +41,7 @@ Stops active video tracking
 
 ### Implementation Notes
 
-Not implemented in current frontend version
+Implemented. It is generated as its own action screen.
 
 
 

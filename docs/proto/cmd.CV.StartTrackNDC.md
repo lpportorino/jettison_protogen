@@ -46,7 +46,9 @@ Starts video tracking at normalized device coordinates
 
 ### Implementation Notes
 
-Not implemented in current frontend version
+Implemented. This is the command the ROI rubber-band gesture sends: it is
+pre-encoded into the gesture-surface template on every overlay screen, with the
+two corner NDC pairs patched into fixed-width slots at fire time.
 
 
 

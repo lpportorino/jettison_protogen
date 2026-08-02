@@ -43,7 +43,9 @@ Disables vampire mode in computer vision
 
 ### Implementation Notes
 
-Not implemented in current frontend version
+Implemented. This command is one pole of a generated toggle screen — the
+Enable/Disable pair collapses into a single control whose two states send the
+two commands.
 
 
 
