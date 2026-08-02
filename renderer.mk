@@ -449,6 +449,21 @@ scratchcard-lane: wasm bindings proto-classes
 scratchcard-lane-prebuilt: wasm-present bindings proto-classes
 	$(call scratchcard-lane-suite,scratchcard-lane-prebuilt)
 
+## scratchcard-e2e: the daemon and its socket, end to end. HOST-ONLY.
+#
+# DELIBERATELY NOT IN `check-renderer-lanes`, and the exclusion is recorded
+# HERE — beside the aggregate it is excluded from — rather than left for a
+# reader to infer coverage this battery does not have. It drives `docker`
+# directly and the toolchain image carries no docker CLI, which is the same
+# capability fact that makes `go-leg-repro` host-only.
+#
+# It is also in no CI workflow, for the same reason: a runner would need
+# docker-in-docker. What CI DOES cover is `scratchcard-lane`, the render half.
+# The transport half is proven here, by hand, on a host.
+.PHONY: scratchcard-e2e
+scratchcard-e2e:
+	@bash tools/scratchcard/test/daemon_e2e.sh
+
 define overlap-canary-suite
 @test -f $(R)/output/controls.wasm || { \
 	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
