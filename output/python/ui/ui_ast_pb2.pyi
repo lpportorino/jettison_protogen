@@ -66,6 +66,14 @@ class PatchKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PATCH_KIND_WIDGET_VALUE: _ClassVar[PatchKind]
     PATCH_KIND_NDC_X2: _ClassVar[PatchKind]
     PATCH_KIND_NDC_Y2: _ClassVar[PatchKind]
+    PATCH_KIND_SUBJECT_VALUE: _ClassVar[PatchKind]
+
+class PatchEncoding(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    PATCH_ENCODING_UNSPECIFIED: _ClassVar[PatchEncoding]
+    PATCH_ENCODING_PADDED_VARINT: _ClassVar[PatchEncoding]
+    PATCH_ENCODING_DOUBLE_LE: _ClassVar[PatchEncoding]
+    PATCH_ENCODING_FLOAT_LE: _ClassVar[PatchEncoding]
 
 class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -403,6 +411,11 @@ PATCH_KIND_DELTA: PatchKind
 PATCH_KIND_WIDGET_VALUE: PatchKind
 PATCH_KIND_NDC_X2: PatchKind
 PATCH_KIND_NDC_Y2: PatchKind
+PATCH_KIND_SUBJECT_VALUE: PatchKind
+PATCH_ENCODING_UNSPECIFIED: PatchEncoding
+PATCH_ENCODING_PADDED_VARINT: PatchEncoding
+PATCH_ENCODING_DOUBLE_LE: PatchEncoding
+PATCH_ENCODING_FLOAT_LE: PatchEncoding
 GESTURE_KIND_PAN_MOVE: GestureKind
 GESTURE_KIND_PAN_END: GestureKind
 GESTURE_KIND_TAP: GestureKind
@@ -1126,16 +1139,20 @@ class EventBinding(_message.Message):
     def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ..., cmd_by_value: _Optional[_Iterable[_Union[CmdSpec, _Mapping]]] = ...) -> None: ...
 
 class FieldPatch(_message.Message):
-    __slots__ = ("byte_offset", "byte_width", "kind", "wire_scale")
+    __slots__ = ("byte_offset", "byte_width", "kind", "wire_scale", "subject", "encoding")
     BYTE_OFFSET_FIELD_NUMBER: _ClassVar[int]
     BYTE_WIDTH_FIELD_NUMBER: _ClassVar[int]
     KIND_FIELD_NUMBER: _ClassVar[int]
     WIRE_SCALE_FIELD_NUMBER: _ClassVar[int]
+    SUBJECT_FIELD_NUMBER: _ClassVar[int]
+    ENCODING_FIELD_NUMBER: _ClassVar[int]
     byte_offset: int
     byte_width: int
     kind: PatchKind
     wire_scale: int
-    def __init__(self, byte_offset: _Optional[int] = ..., byte_width: _Optional[int] = ..., kind: _Optional[_Union[PatchKind, str]] = ..., wire_scale: _Optional[int] = ...) -> None: ...
+    subject: str
+    encoding: PatchEncoding
+    def __init__(self, byte_offset: _Optional[int] = ..., byte_width: _Optional[int] = ..., kind: _Optional[_Union[PatchKind, str]] = ..., wire_scale: _Optional[int] = ..., subject: _Optional[str] = ..., encoding: _Optional[_Union[PatchEncoding, str]] = ...) -> None: ...
 
 class CmdSpec(_message.Message):
     __slots__ = ("command_id", "root_template", "patches")

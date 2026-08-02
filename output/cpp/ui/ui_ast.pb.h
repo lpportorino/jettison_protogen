@@ -402,6 +402,7 @@ enum PatchKind : int {
   PATCH_KIND_WIDGET_VALUE = 4,
   PATCH_KIND_NDC_X2 = 5,
   PATCH_KIND_NDC_Y2 = 6,
+  PATCH_KIND_SUBJECT_VALUE = 7,
   PatchKind_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   PatchKind_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -411,8 +412,8 @@ enum PatchKind : int {
 bool PatchKind_IsValid(int value);
 extern const uint32_t PatchKind_internal_data_[];
 constexpr PatchKind PatchKind_MIN = static_cast<PatchKind>(0);
-constexpr PatchKind PatchKind_MAX = static_cast<PatchKind>(6);
-constexpr int PatchKind_ARRAYSIZE = 6 + 1;
+constexpr PatchKind PatchKind_MAX = static_cast<PatchKind>(7);
+constexpr int PatchKind_ARRAYSIZE = 7 + 1;
 const ::google::protobuf::EnumDescriptor*
 PatchKind_descriptor();
 template <typename T>
@@ -425,12 +426,47 @@ const std::string& PatchKind_Name(T value) {
 template <>
 inline const std::string& PatchKind_Name(PatchKind value) {
   return ::google::protobuf::internal::NameOfDenseEnum<PatchKind_descriptor,
-                                                 0, 6>(
+                                                 0, 7>(
       static_cast<int>(value));
 }
 inline bool PatchKind_Parse(absl::string_view name, PatchKind* value) {
   return ::google::protobuf::internal::ParseNamedEnum<PatchKind>(
       PatchKind_descriptor(), name, value);
+}
+enum PatchEncoding : int {
+  PATCH_ENCODING_UNSPECIFIED = 0,
+  PATCH_ENCODING_PADDED_VARINT = 1,
+  PATCH_ENCODING_DOUBLE_LE = 2,
+  PATCH_ENCODING_FLOAT_LE = 3,
+  PatchEncoding_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  PatchEncoding_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool PatchEncoding_IsValid(int value);
+extern const uint32_t PatchEncoding_internal_data_[];
+constexpr PatchEncoding PatchEncoding_MIN = static_cast<PatchEncoding>(0);
+constexpr PatchEncoding PatchEncoding_MAX = static_cast<PatchEncoding>(3);
+constexpr int PatchEncoding_ARRAYSIZE = 3 + 1;
+const ::google::protobuf::EnumDescriptor*
+PatchEncoding_descriptor();
+template <typename T>
+const std::string& PatchEncoding_Name(T value) {
+  static_assert(std::is_same<T, PatchEncoding>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to PatchEncoding_Name().");
+  return PatchEncoding_Name(static_cast<PatchEncoding>(value));
+}
+template <>
+inline const std::string& PatchEncoding_Name(PatchEncoding value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<PatchEncoding_descriptor,
+                                                 0, 3>(
+      static_cast<int>(value));
+}
+inline bool PatchEncoding_Parse(absl::string_view name, PatchEncoding* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PatchEncoding>(
+      PatchEncoding_descriptor(), name, value);
 }
 enum GestureKind : int {
   GESTURE_KIND_PAN_MOVE = 0,
@@ -5567,11 +5603,29 @@ class FieldPatch final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kSubjectFieldNumber = 5,
     kByteOffsetFieldNumber = 1,
     kByteWidthFieldNumber = 2,
     kKindFieldNumber = 3,
     kWireScaleFieldNumber = 4,
+    kEncodingFieldNumber = 6,
   };
+  // string subject = 5 [(.buf.validate.field) = {
+  void clear_subject() ;
+  const std::string& subject() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_subject(Arg_&& arg, Args_... args);
+  std::string* mutable_subject();
+  PROTOBUF_NODISCARD std::string* release_subject();
+  void set_allocated_subject(std::string* value);
+
+  private:
+  const std::string& _internal_subject() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_subject(
+      const std::string& value);
+  std::string* _internal_mutable_subject();
+
+  public:
   // uint32 byte_offset = 1;
   void clear_byte_offset() ;
   ::uint32_t byte_offset() const;
@@ -5612,13 +5666,23 @@ class FieldPatch final : public ::google::protobuf::Message
   void _internal_set_wire_scale(::int32_t value);
 
   public:
+  // .ui.PatchEncoding encoding = 6 [(.buf.validate.field) = {
+  void clear_encoding() ;
+  ::ui::PatchEncoding encoding() const;
+  void set_encoding(::ui::PatchEncoding value);
+
+  private:
+  ::ui::PatchEncoding _internal_encoding() const;
+  void _internal_set_encoding(::ui::PatchEncoding value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ui.FieldPatch)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
-      0, 2>
+      3, 6, 0,
+      29, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -5635,10 +5699,12 @@ class FieldPatch final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const FieldPatch& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr subject_;
     ::uint32_t byte_offset_;
     ::uint32_t byte_width_;
     int kind_;
     ::int32_t wire_scale_;
+    int encoding_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -19469,6 +19535,76 @@ inline void FieldPatch::_internal_set_wire_scale(::int32_t value) {
   _impl_.wire_scale_ = value;
 }
 
+// string subject = 5 [(.buf.validate.field) = {
+inline void FieldPatch::clear_subject() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.subject_.ClearToEmpty();
+}
+inline const std::string& FieldPatch::subject() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.FieldPatch.subject)
+  return _internal_subject();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void FieldPatch::set_subject(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.subject_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.FieldPatch.subject)
+}
+inline std::string* FieldPatch::mutable_subject() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_subject();
+  // @@protoc_insertion_point(field_mutable:ui.FieldPatch.subject)
+  return _s;
+}
+inline const std::string& FieldPatch::_internal_subject() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.subject_.Get();
+}
+inline void FieldPatch::_internal_set_subject(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.subject_.Set(value, GetArena());
+}
+inline std::string* FieldPatch::_internal_mutable_subject() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.subject_.Mutable( GetArena());
+}
+inline std::string* FieldPatch::release_subject() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.FieldPatch.subject)
+  return _impl_.subject_.Release();
+}
+inline void FieldPatch::set_allocated_subject(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.subject_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.subject_.IsDefault()) {
+    _impl_.subject_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.FieldPatch.subject)
+}
+
+// .ui.PatchEncoding encoding = 6 [(.buf.validate.field) = {
+inline void FieldPatch::clear_encoding() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoding_ = 0;
+}
+inline ::ui::PatchEncoding FieldPatch::encoding() const {
+  // @@protoc_insertion_point(field_get:ui.FieldPatch.encoding)
+  return _internal_encoding();
+}
+inline void FieldPatch::set_encoding(::ui::PatchEncoding value) {
+  _internal_set_encoding(value);
+  // @@protoc_insertion_point(field_set:ui.FieldPatch.encoding)
+}
+inline ::ui::PatchEncoding FieldPatch::_internal_encoding() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ui::PatchEncoding>(_impl_.encoding_);
+}
+inline void FieldPatch::_internal_set_encoding(::ui::PatchEncoding value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.encoding_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // CmdSpec
@@ -20848,6 +20984,12 @@ struct is_proto_enum<::ui::PatchKind> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ui::PatchKind>() {
   return ::ui::PatchKind_descriptor();
+}
+template <>
+struct is_proto_enum<::ui::PatchEncoding> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ui::PatchEncoding>() {
+  return ::ui::PatchEncoding_descriptor();
 }
 template <>
 struct is_proto_enum<::ui::GestureKind> : std::true_type {};

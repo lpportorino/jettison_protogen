@@ -381,10 +381,13 @@
     (when-some [v (:min_value m)] (.setMinValue b (int v)))
     (when-some [v (:max_value m)] (.setMaxValue b (int v)))
     (when-some [v (:value m)] (.setValue b (int v)))
-    ;; seek_on_press (field 5): press-seek + the renderer-coupled LV_DPX(24)
-    ;; ext-click widening ride this one bool; pixel-inert by contract (the
-    ;; corpus goldens must not move when it lands). False = omit (the differ
-    ;; strips defaults; the renderer treats absent as stock).
+    ;; seek_on_press (field 5): press-seek ONLY. It once also carried an
+    ;; LV_DPX(24) ext-click widening, because the wire had nowhere else to put
+    ;; a touch affordance; WidgetNode.hit_slop carries that now, for every
+    ;; widget, so a card wanting the envelope sets hit_slop too. Still
+    ;; pixel-inert by contract (the corpus goldens must not move when it
+    ;; lands). False = omit (the differ strips defaults; the renderer treats
+    ;; absent as stock).
     (when (:seek_on_press m) (.setSeekOnPress b true))
     (.build b)))
 

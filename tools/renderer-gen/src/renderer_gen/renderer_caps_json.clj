@@ -140,6 +140,17 @@
     codegen sums — and unreachable from authored EDN besides, since
     validate-screen-semantics rejects an undeclared :set/:toggle subject before
     emit (:undeclared-event-subject)."
+   "MAX_PENDING_PATCH_SUBJECT"
+   "transient load-time deferral queue, the exact sibling of
+    MAX_PENDING_EVENT_SUBJECT: a cmd patch's SUBJECT_VALUE slot names a subject
+    that cannot be looked up while the spec is copied (Screen.subjects streams
+    after the tree), so the RESOLVABILITY check is queued and drained at the
+    batch end. Drained during the build, so it is not a screen pool the codegen
+    sums. Overflow is reported and fails the load DEFECTIVE rather than skipping
+    a check silently. Unlike its sibling it is NOT yet unreachable from authored
+    EDN: no screen-semantics rule rejects a patch naming an undeclared subject
+    before emit, so the renderer's load-time check is currently the only thing
+    standing between a mistyped form field and a dead Apply button."
    "MAX_PROXIES"
    "host_proxy pool — a screen aggregate, but small and uncontended (the busiest
     live screen, host_proxy_demo, mounts 3 of a max 8); allowlisted pending a

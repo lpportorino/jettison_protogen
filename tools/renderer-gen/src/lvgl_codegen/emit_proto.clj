@@ -372,8 +372,11 @@
   "Convert an R5a CmdSpec IR map ({:command-id :root-template :patches [...]},
    built by uigen.cmd-spec) to the proto CmdSpec map: the deterministic cmd.Root
    template bytes + the fixed-width slot FieldPatch descriptors the renderer
-   overwrites. The patch :kind is already the proto enum keyword; :byte-offset/
-   :byte-width/:wire-scale carry verbatim."
+   overwrites. The patch :kind and :encoding are already proto enum keywords;
+   :byte-offset/:byte-width/:wire-scale carry verbatim. :subject defaults to \"\"
+   — the wire contract is that a name is present exactly on a SUBJECT_VALUE
+   slot, and the renderer refuses both halves of that mismatch, so an emitter
+   that forgets one is caught rather than silently producing a dead slot."
   [{:keys [command-id root-template patches]}]
   {:command_id command-id
    ;; pronto's bytes field wants a ByteString (the proto wire carrier).
@@ -382,7 +385,9 @@
                     {:byte_offset (:byte-offset p)
                      :byte_width (:byte-width p)
                      :kind (:kind p)
-                     :wire_scale (:wire-scale p)})
+                     :wire_scale (:wire-scale p)
+                     :subject (or (:subject p) "")
+                     :encoding (or (:encoding p) :PATCH_ENCODING_UNSPECIFIED)})
                   patches)})
 (m/=> emit-cmd-spec
       [:=>

@@ -339,6 +339,41 @@ fn as_day_set_zoom_table_value(bytes: &[u8]) -> Option<i32> {
         _ => None,
     }
 }
+/// The `SetAlertThreshold` leaf of a captured POWER command, or `None`. The
+/// multi-field FORM egress: both leaves are patched from DIFFERENT named
+/// subjects, so this is what proves N slots carry N INDEPENDENT values.
+fn as_power_set_alert_threshold(bytes: &[u8]) -> Option<cmd::power::SetAlertThreshold> {
+    match decode_cmd(bytes).payload {
+        Some(cmd::root::Payload::Power(p)) => match p.cmd {
+            Some(cmd::power::root::Cmd::SetAlertThreshold(v)) => Some(v),
+            _ => None,
+        },
+        _ => None,
+    }
+}
+/// The `SetManualPosition` leaf of a captured GPS command, or `None`. Its
+/// leaves are DOUBLES, so this is the oracle for the DOUBLE_LE encoding and
+/// for the wire-scale being applied in the recovering (dividing) direction.
+fn as_gps_set_manual_position(bytes: &[u8]) -> Option<cmd::gps::SetManualPosition> {
+    match decode_cmd(bytes).payload {
+        Some(cmd::root::Payload::Gps(g)) => match g.cmd {
+            Some(cmd::gps::root::Cmd::SetManualPosition(v)) => Some(v),
+            _ => None,
+        },
+        _ => None,
+    }
+}
+/// The `SetHeating` leaf of a captured HEATER command, or `None`. Its leaves
+/// are FLOATS (fixed32) — the oracle for the FLOAT_LE encoding.
+fn as_heater_set_heating(bytes: &[u8]) -> Option<cmd::heater::SetHeating> {
+    match decode_cmd(bytes).payload {
+        Some(cmd::root::Payload::Heater(h)) => match h.cmd {
+            Some(cmd::heater::root::Cmd::SetHeating(v)) => Some(v),
+            _ => None,
+        },
+        _ => None,
+    }
+}
 /// The `FocusRoi` leaf of a captured DAY-camera command, or `None`. Walks
 /// cmd.Root → DayCamera payload → FocusRoi. The R5b ROI rubber-band egress: a
 /// completed drag over an ROI-mode gesture surface relays this 4-NDC command
@@ -2244,6 +2279,107 @@ mod controller_bindings {
         );
     }
     #[test]
+    fn test_subject_form_ships_two_independent_values() {
+        // The gap this vocabulary existed to close: a submit control with NO
+        // value of its own, sending a form with TWO fields. Each slot names its
+        // own subject, so the two carry INDEPENDENT values — which no
+        // widget-value patch can do, since one widget contributes one number.
+        // Both sliders are driven to DIFFERENT positions first; a single
+        // Apply click must then ship both live values in one command.
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_event_subject_form");
+        let _ = host.take_host_commands();
+        let sliders = all_widget_coords(&mut host, "lv_slider");
+        assert_eq!(sliders.len(), 2, "the form fixture authors two sliders");
+        // Left slider ~25% of its track, right slider ~75% — deliberately
+        // unequal, so a patcher that wrote ONE value into both slots (the
+        // pre-existing single-scalar emit shape) cannot pass this.
+        press_release_at_frac(&mut host, sliders[0], 0.25);
+        press_release_at_frac(&mut host, sliders[1], 0.75);
+        let _ = host.take_host_commands();
+        let (bx, by) = widget_center(&mut host, "lv_button");
+        click(&mut host, bx, by);
+        let commands = host.take_host_commands();
+        let leaf = commands
+            .iter()
+            .find_map(|c| as_power_set_alert_threshold(c))
+            .expect("Apply must relay a SetAlertThreshold read from the subjects");
+        assert!(
+            leaf.channel < leaf.threshold_ma,
+            "the two slots must carry the two DIFFERENT subject values \
+             (got channel={} threshold_ma={}) — equal values would mean one \
+             number was written into both slots",
+            leaf.channel,
+            leaf.threshold_ma
+        );
+        println!(
+            "subject-form: channel={} threshold_ma={} (independent)",
+            leaf.channel, leaf.threshold_ma
+        );
+    }
+    #[test]
+    fn test_subject_form_double_applies_wire_scale() {
+        // DOUBLE_LE: the subjects hold 1e7-scaled geo ints (555000000 /
+        // 373000000) and the leaves are protobuf doubles, so the renderer must
+        // DIVIDE by the wire-scale and write 8 verbatim IEEE-754 bytes. The
+        // encoding that did not exist before: written as a padded varint over
+        // the same fixed64 slot, 55.5 decoded as ~2.9e-306.
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_event_subject_form_double");
+        let _ = host.take_host_commands();
+        let (bx, by) = widget_center(&mut host, "lv_button");
+        click(&mut host, bx, by);
+        let commands = host.take_host_commands();
+        let leaf = commands
+            .iter()
+            .find_map(|c| as_gps_set_manual_position(c))
+            .expect("the click must relay a SetManualPosition");
+        assert!(
+            (leaf.latitude - 55.5).abs() < 1e-9,
+            "latitude must be the 1e7-scaled subject recovered as 55.5, got {}",
+            leaf.latitude
+        );
+        assert!(
+            (leaf.longitude - 37.3).abs() < 1e-9,
+            "longitude must be the 1e7-scaled subject recovered as 37.3, got {}",
+            leaf.longitude
+        );
+        println!(
+            "subject-form double: lat={} lon={}",
+            leaf.latitude, leaf.longitude
+        );
+    }
+    #[test]
+    fn test_subject_form_float_applies_wire_scale() {
+        // FLOAT_LE: deci-degree temperature subjects (235 / 191) into fixed32
+        // float leaves — 23.5 °C and 19.1 °C. A float32 cannot represent 23.5
+        // exactly to double precision, so the tolerance is float-sized.
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_event_subject_form_float");
+        let _ = host.take_host_commands();
+        let (bx, by) = widget_center(&mut host, "lv_button");
+        click(&mut host, bx, by);
+        let commands = host.take_host_commands();
+        let leaf = commands
+            .iter()
+            .find_map(|c| as_heater_set_heating(c))
+            .expect("the click must relay a SetHeating");
+        assert!(
+            (leaf.target_0 - 23.5).abs() < 1e-4,
+            "target_0 must be the deci-degree subject recovered as 23.5, got {}",
+            leaf.target_0
+        );
+        assert!(
+            (leaf.target_1 - 19.1).abs() < 1e-4,
+            "target_1 must be the deci-degree subject recovered as 19.1, got {}",
+            leaf.target_1
+        );
+        println!(
+            "subject-form float: t0={} t1={}",
+            leaf.target_0, leaf.target_1
+        );
+    }
+    #[test]
     fn test_value_changed_ships_widget_value() {
         // R5b cmd-out: a VALUE_CHANGED slider click relays a SetZoomTableValue
         // whose WIDGET_VALUE slot carries the live slider value (the padded
@@ -2267,6 +2403,37 @@ mod controller_bindings {
     /// Full coords (x1,y1,x2,y2) of the first widget of `wtype` — for pressing
     /// an lv_slider at a fraction of its track (widget_center only gives the
     /// midpoint; the cmd_by_value index tests need the left/right thirds).
+    /// Coords of EVERY widget of `wtype`, in pre-order. `widget_coords` returns
+    /// the FIRST match only, which cannot express the form tests' requirement:
+    /// two sliders driven to DIFFERENT positions, so that a patcher writing one
+    /// number into both slots is distinguishable from one reading two subjects.
+    fn all_widget_coords(host: &mut ControlsHost, wtype: &str) -> Vec<(i32, i32, i32, i32)> {
+        fn walk(node: &serde_json::Value, wtype: &str, out: &mut Vec<(i32, i32, i32, i32)>) {
+            if node["type"] == wtype {
+                if let Some(c) = node["coords"].as_array() {
+                    let v = |i: usize| c[i].as_i64().expect("coord") as i32;
+                    out.push((v(0), v(1), v(2), v(3)));
+                }
+            }
+            if let Some(kids) = node["children"].as_array() {
+                for k in kids {
+                    walk(k, wtype, out);
+                }
+            }
+        }
+        let root = tree(host);
+        let mut out = Vec::new();
+        walk(&root, wtype, &mut out);
+        out
+    }
+    /// Click a horizontal slider at `frac` of its track width, so the widget
+    /// takes a known-unequal value and writes it through its bound subject.
+    fn press_release_at_frac(host: &mut ControlsHost, c: (i32, i32, i32, i32), frac: f64) {
+        let (x1, y1, x2, y2) = c;
+        let x = x1 + (f64::from(x2 - x1) * frac).round() as i32;
+        let y = (y1 + y2) / 2;
+        click(host, x, y);
+    }
     fn widget_coords(host: &mut ControlsHost, wtype: &str) -> (i32, i32, i32, i32) {
         fn find<'a>(node: &'a serde_json::Value, wtype: &str) -> Option<&'a serde_json::Value> {
             if node["type"] == wtype {
@@ -5183,29 +5350,16 @@ mod cmd_spec_decode_guard {
             "a 129-byte template is past the PB_BYTES_ARRAY_T(128) cap — nanopb rejects"
         );
     }
-    /// The patch count cap is the nanopb `patches[4]` static array: four patches
-    /// decode (the max — an NDC x/y pair plus an ROI rubber-band's x2/y2 pair), a
-    /// fifth is an "array overflow" nanopb REJECT (-2). Proves the untrusted
-    /// `.pb` cannot smuggle extra patches past the static cap (widened 2→4 for
-    /// the ROI rubber-band's four NDC slots).
+    /// The patch count cap is the nanopb `patches[8]` static array: eight
+    /// patches decode (the max), a ninth is an "array overflow" nanopb REJECT
+    /// (-2). Proves the untrusted `.pb` cannot smuggle extra patches past the
+    /// static cap. Widened 2→4 for the ROI rubber-band's four NDC slots, then
+    /// 4→8 for a multi-field FORM: the rotary scan-node commands carry seven
+    /// operator-facing fields, so a form for one needs seven slots.
     #[test]
-    fn rejects_more_than_four_patches_at_nanopb_cap() {
+    fn rejects_more_than_eight_patches_at_nanopb_cap() {
         let mut host = new_host();
-        let four = cmd_spec(
-            &[0u8; 16],
-            &[
-                (0, 4, NDC_X, 1),
-                (4, 4, NDC_X, 1),
-                (8, 4, NDC_X, 1),
-                (12, 4, NDC_X, 1),
-            ],
-        );
-        assert_eq!(
-            host.cmd_spec_decode_probe(&four).expect("probe"),
-            0,
-            "four in-bounds patches are the max — accepted"
-        );
-        let five = cmd_spec(
+        let eight = cmd_spec(
             &[0u8; 16],
             &[
                 (0, 2, NDC_X, 1),
@@ -5213,12 +5367,34 @@ mod cmd_spec_decode_guard {
                 (4, 2, NDC_X, 1),
                 (6, 2, NDC_X, 1),
                 (8, 2, NDC_X, 1),
+                (10, 2, NDC_X, 1),
+                (12, 2, NDC_X, 1),
+                (14, 2, NDC_X, 1),
             ],
         );
         assert_eq!(
-            host.cmd_spec_decode_probe(&five).expect("probe"),
+            host.cmd_spec_decode_probe(&eight).expect("probe"),
+            0,
+            "eight in-bounds patches are the max — accepted"
+        );
+        let nine = cmd_spec(
+            &[0u8; 16],
+            &[
+                (0, 1, NDC_X, 1),
+                (1, 1, NDC_X, 1),
+                (2, 1, NDC_X, 1),
+                (3, 1, NDC_X, 1),
+                (4, 1, NDC_X, 1),
+                (5, 1, NDC_X, 1),
+                (6, 1, NDC_X, 1),
+                (7, 1, NDC_X, 1),
+                (8, 1, NDC_X, 1),
+            ],
+        );
+        assert_eq!(
+            host.cmd_spec_decode_probe(&nine).expect("probe"),
             -2,
-            "a fifth patch overflows the static patches[4] array — nanopb rejects"
+            "a ninth patch overflows the static patches[8] array — nanopb rejects"
         );
     }
     /// A crafted byte_offset near UINT32_MAX: a NAIVE `byte_offset + byte_width >

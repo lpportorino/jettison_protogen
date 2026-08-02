@@ -9,6 +9,7 @@
   (:require [clojure.java.io :as io]
             [lvgl-codegen.component :as component]
             [lvgl-codegen.core :as core]
+            [lvgl-codegen.egress-fixtures :as egress]
             [lvgl-codegen.proto-ser :as proto-ser]
             [lvgl-codegen.schema :as schema]
             [malli.core :as m]
@@ -48,38 +49,6 @@
    frame-timestamp stamping jettison applies is a named follow-on, not wired
    here (the root_template bakes 0)."
   (cmd-spec/cmd-spec "cmd.DayCamera.FocusROI" :PATCH_KIND_NDC_X))
-
-;; R5a cmd-by-value: EventBinding.cmd_by_value carries a vector of FIXED
-;; templates (patch_count 0) the widget's INT value index-selects among — the
-;; :bool-set / :enum / :action egress shapes. The renderer memcpy-relays the
-;; selected template verbatim; an out-of-range index emits nothing (fail-loud).
-(def ^:private auto-focus-by-value
-  "cmd.CV.SetAutoFocus [false, true] FIXED templates (channel DAY), index-selected
-   by an lv_switch's checked state (0→false, 1→true) — the :bool-set egress."
-  (let [ch (res/video-channel-value "DAY")]
-    [(cmd-spec/fixed-cmd-spec {:command-id "cmd.CV.SetAutoFocus"
-                               :field "value"
-                               :raw-value false
-                               :fixed {:channel ch}})
-     (cmd-spec/fixed-cmd-spec {:command-id "cmd.CV.SetAutoFocus"
-                               :field "value"
-                               :raw-value true
-                               :fixed {:channel ch}})]))
-
-(def ^:private fx-mode-by-value
-  "cmd.DayCamera.SetFxMode [A,B,C] FIXED templates — the first 3 enum options in
-   dropdown-option order (res/enum-options is the single source), index-selected
-   by a slider position (value i → option i's enum number) — the :enum egress."
-  (let [cid "cmd.DayCamera.SetFxMode"
-        mode-field (first (filter #(= "mode" (:name %)) (res/all-fields cid)))]
-    (mapv (fn [{:keys [value]}]
-            (cmd-spec/fixed-cmd-spec {:command-id cid :field "mode" :raw-value value}))
-          (take 3 (res/enum-options cid mode-field)))))
-
-(def ^:private measure-action-cmd
-  "cmd.Lrf.Measure — a parameterless :action baked as a FIXED template (patches [];
-   the renderer emits it verbatim via the existing single-cmd path)."
-  (cmd-spec/fixed-cmd-spec {:command-id "cmd.Lrf.Measure"}))
 
 (defn- make-screen
   "Wrap a widget tree in a minimal valid screen with a fullscreen root container.
@@ -617,190 +586,192 @@
 ;; with the su_* StateUpdate payloads below)
 ;; ═══════════════════════════════════════════════════════════════════
 (def ^:private controller-binding-fixtures
-  {"vr_bind_slider" {:type :screen
-                     :subjects {:volume {:type :int :default 30}}
-                     :events {}
-                     :tree {:tag :lv_obj
-                            :class "w-pct-100 h-pct-100 bg-surface-0"
-                            :children [{:tag :lv_slider
-                                        :bind {:value :volume}
-                                        :style {:width 200 :height 20 :align :center}}]}}
+  (merge
+   egress/form-screens
+   {"vr_bind_slider" {:type :screen
+                      :subjects {:volume {:type :int :default 30}}
+                      :events {}
+                      :tree {:tag :lv_obj
+                             :class "w-pct-100 h-pct-100 bg-surface-0"
+                             :children [{:tag :lv_slider
+                                         :bind {:value :volume}
+                                         :style {:width 200 :height 20 :align :center}}]}}
    ;; A value-bound spinbox: lv_spinbox has no lv_*_bind_value, so the subject
    ;; must drive lv_spinbox_set_value through a custom observer (mirroring the
    ;; bar arm). Regression fixture for that binding arm — the subject default
    ;; (30) differs from the widget default (0), so a state update visibly moves
    ;; the rendered digits only when the observer is actually wired.
-   "vr_bind_spinbox" {:type :screen
-                      :subjects {:volume {:type :int :default 30}}
-                      :events {}
-                      :tree {:tag :lv_obj
-                             :class "w-pct-100 h-pct-100 bg-surface-0"
-                             :children [{:tag :lv_spinbox
-                                         :id "spinbox"
-                                         :bind {:value :volume}
-                                         :spinbox_props {:min_value 0 :max_value 999 :digit_count 3}
-                                         :style {:width 200 :height 40 :align :center}}]}}
-   "vr_bind_label_fmt" {:type :screen
-                        :subjects {:volume {:type :int :default 30}}
-                        :events {}
-                        :tree {:tag :lv_obj
-                               :class "w-pct-100 h-pct-100 bg-surface-0"
-                               :children [{:tag :lv_label
-                                           :bind {:text :volume}
-                                           :bind-fmt {:text "Vol %d%%"}
-                                           :style {:width 200 :align :center}}]}}
+    "vr_bind_spinbox" {:type :screen
+                       :subjects {:volume {:type :int :default 30}}
+                       :events {}
+                       :tree {:tag :lv_obj
+                              :class "w-pct-100 h-pct-100 bg-surface-0"
+                              :children [{:tag :lv_spinbox
+                                          :id "spinbox"
+                                          :bind {:value :volume}
+                                          :spinbox_props {:min_value 0 :max_value 999 :digit_count 3}
+                                          :style {:width 200 :height 40 :align :center}}]}}
+    "vr_bind_label_fmt" {:type :screen
+                         :subjects {:volume {:type :int :default 30}}
+                         :events {}
+                         :tree {:tag :lv_obj
+                                :class "w-pct-100 h-pct-100 bg-surface-0"
+                                :children [{:tag :lv_label
+                                            :bind {:text :volume}
+                                            :bind-fmt {:text "Vol %d%%"}
+                                            :style {:width 200 :align :center}}]}}
    ;; Bindings on the SCREEN ROOT node itself: the root finalizes AFTER
    ;; streaming decode (children finalize during it), so the deferred
    ;; binding flush must run after the root's finalize — a flush placed
    ;; before it attaches to a half-initialized widget. Regression fixture
    ;; for that ordering.
-   "vr_root_bind" {:type :screen
-                   :subjects {:volume {:type :int :default 30}}
-                   :events {}
-                   :tree {:tag :lv_label
-                          :bind {:text :volume}
-                          :bind-fmt {:text "Root %d"}
-                          :style {:width 200 :align :center}}}
-   "vr_show_when" {:type :screen
-                   :subjects {:show {:type :int :default 1}}
-                   :events {}
-                   :tree {:tag :lv_obj
-                          :class "w-pct-100 h-pct-100 bg-surface-0"
-                          :children [{:tag :lv_label :text "anchor" :x 10 :y 10}
-                                     {:tag :lv_obj
-                                      :show-when {:subject :show :eq 1}
-                                      :class "bg-status-error"
-                                      :style {:width 120 :height 60 :align :center}}]}}
+    "vr_root_bind" {:type :screen
+                    :subjects {:volume {:type :int :default 30}}
+                    :events {}
+                    :tree {:tag :lv_label
+                           :bind {:text :volume}
+                           :bind-fmt {:text "Root %d"}
+                           :style {:width 200 :align :center}}}
+    "vr_show_when" {:type :screen
+                    :subjects {:show {:type :int :default 1}}
+                    :events {}
+                    :tree {:tag :lv_obj
+                           :class "w-pct-100 h-pct-100 bg-surface-0"
+                           :children [{:tag :lv_label :text "anchor" :x 10 :y 10}
+                                      {:tag :lv_obj
+                                       :show-when {:subject :show :eq 1}
+                                       :class "bg-status-error"
+                                       :style {:width 120 :height 60 :align :center}}]}}
    ;; A button at FIXED coords (clicked via controls_host_message at its
    ;; center, 110/70) that sets a subject a formatted label displays.
-   "vr_event_set"
-   {:type :screen
-    :subjects {:val {:type :int :default 0}}
-    :events {:bump {:set :val :to 7}}
-    :tree {:tag :lv_obj
-           :class "w-pct-100 h-pct-100 bg-surface-0"
-           :children
-           [{:tag :lv_button
-             :event :bump
-             :x 60
-             :y 50
-             :style {:width 100 :height 40}
-             :children [{:tag :lv_label :text "Go"}]}
-            {:tag :lv_label :bind {:text :val} :bind-fmt {:text "v=%d"} :x 60 :y 120}]}}
+    "vr_event_set"
+    {:type :screen
+     :subjects {:val {:type :int :default 0}}
+     :events {:bump {:set :val :to 7}}
+     :tree {:tag :lv_obj
+            :class "w-pct-100 h-pct-100 bg-surface-0"
+            :children
+            [{:tag :lv_button
+              :event :bump
+              :x 60
+              :y 50
+              :style {:width 100 :height 40}
+              :children [{:tag :lv_label :text "Go"}]}
+             {:tag :lv_label :bind {:text :val} :bind-fmt {:text "v=%d"} :x 60 :y 120}]}}
    ;; Toggle 0↔1 wired to a show-when box — two clicks must round-trip
    ;; the screen back to its initial pixels.
-   "vr_event_toggle" {:type :screen
-                      :subjects {:flag {:type :int :default 1}}
-                      :events {:flip {:toggle :flag}}
-                      :tree {:tag :lv_obj
-                             :class "w-pct-100 h-pct-100 bg-surface-0"
-                             :children [{:tag :lv_button
-                                         :event :flip
-                                         :x 60
-                                         :y 50
-                                         :style {:width 100 :height 40}
-                                         :children [{:tag :lv_label :text "Flip"}]}
-                                        {:tag :lv_obj
-                                         :show-when {:subject :flag :eq 1}
-                                         :class "bg-status-error"
-                                         :style {:width 120 :height 60 :align :center}}]}}
+    "vr_event_toggle" {:type :screen
+                       :subjects {:flag {:type :int :default 1}}
+                       :events {:flip {:toggle :flag}}
+                       :tree {:tag :lv_obj
+                              :class "w-pct-100 h-pct-100 bg-surface-0"
+                              :children [{:tag :lv_button
+                                          :event :flip
+                                          :x 60
+                                          :y 50
+                                          :style {:width 100 :height 40}
+                                          :children [{:tag :lv_label :text "Flip"}]}
+                                         {:tag :lv_obj
+                                          :show-when {:subject :flag :eq 1}
+                                          :class "bg-status-error"
+                                          :style {:width 120 :height 60 :align :center}}]}}
    ;; Subject mutation that ALSO notifies the host: the click mutates :val AND
    ;; relays a SetZoomTableValue cmd carrying the static int-value (3) via
    ;; host_command (R5b cmd-out — the harness decodes the OPAQUE bytes).
-   "vr_event_notify"
-   {:type :screen
-    :subjects {:val {:type :int :default 0}}
-    :events {:ping {:set :val :to 3 :notify-host true :int-value 3 :cmd zoom-value-cmd}}
-    :tree {:tag :lv_obj
-           :class "w-pct-100 h-pct-100 bg-surface-0"
-           :children [{:tag :lv_button
-                       :event :ping
-                       :x 60
-                       :y 50
-                       :style {:width 100 :height 40}
-                       :children [{:tag :lv_label :text "Ping"}]}]}}
+    "vr_event_notify"
+    {:type :screen
+     :subjects {:val {:type :int :default 0}}
+     :events {:ping {:set :val :to 3 :notify-host true :int-value 3 :cmd zoom-value-cmd}}
+     :tree {:tag :lv_obj
+            :class "w-pct-100 h-pct-100 bg-surface-0"
+            :children [{:tag :lv_button
+                        :event :ping
+                        :x 60
+                        :y 50
+                        :style {:width 100 :height 40}
+                        :children [{:tag :lv_label :text "Ping"}]}]}}
    ;; A slider whose VALUE_CHANGED event ships the widget's current value to
    ;; the host (include-value): clicking the track sets a value, fires the
    ;; event, and relays a SetZoomTableValue cmd whose WIDGET_VALUE slot carries
    ;; the live slider value (R5b cmd-out — the harness decodes the bytes).
-   "vr_event_widget_value"
-   {:type :screen
-    :subjects {}
-    :events {:vol {:trigger :value-changed :include-value true :cmd zoom-value-cmd}}
-    :tree {:tag :lv_obj
-           :class "w-pct-100 h-pct-100 bg-surface-0"
-           :children
-           [{:tag :lv_slider :event :vol :x 60 :y 60 :style {:width 200 :height 20}}]}}
+    "vr_event_widget_value"
+    {:type :screen
+     :subjects {}
+     :events {:vol {:trigger :value-changed :include-value true :cmd zoom-value-cmd}}
+     :tree {:tag :lv_obj
+            :class "w-pct-100 h-pct-100 bg-surface-0"
+            :children
+            [{:tag :lv_slider :event :vol :x 60 :y 60 :style {:width 200 :height 20}}]}}
    ;; R5a cmd-by-value :bool-set — an lv_switch whose VALUE_CHANGED relays the
    ;; FIXED template its checked state index-selects: unchecked(0)→SetAutoFocus
    ;; {value false}, checked(1)→{value true}, both channel DAY. The harness
    ;; clicks the switch and decodes the OPAQUE bytes (include-value → the
    ;; checked state IS the index).
-   "vr_event_by_value_bool"
-   {:type :screen
-    :subjects {}
-    :events {:af {:trigger :value-changed
-                  :include-value true
-                  :notify-host true
-                  :cmd-by-value auto-focus-by-value}}
-    :tree {:tag :lv_obj
-           :class "w-pct-100 h-pct-100 bg-surface-0"
-           :children
-           [{:tag :lv_switch :event :af :x 60 :y 60 :style {:width 80 :height 40}}]}}
+    "vr_event_by_value_bool"
+    {:type :screen
+     :subjects {}
+     :events {:af {:trigger :value-changed
+                   :include-value true
+                   :notify-host true
+                   :cmd-by-value egress/auto-focus-by-value}}
+     :tree {:tag :lv_obj
+            :class "w-pct-100 h-pct-100 bg-surface-0"
+            :children
+            [{:tag :lv_switch :event :af :x 60 :y 60 :style {:width 80 :height 40}}]}}
    ;; R5a cmd-by-value :enum — an lv_slider (0..2) standing in for a dropdown
    ;; index (the C path only reads the widget int; driving a real lv_dropdown
    ;; via synthetic pointer is fragile). Value i relays the i-th SetFxMode
    ;; option's FIXED template (value 0→mode A, 1→mode B, 2→mode C).
-   "vr_event_by_value_index" {:type :screen
-                              :subjects {}
-                              :events {:fx {:trigger :value-changed
-                                            :include-value true
-                                            :notify-host true
-                                            :cmd-by-value fx-mode-by-value}}
-                              :tree {:tag :lv_obj
-                                     :class "w-pct-100 h-pct-100 bg-surface-0"
-                                     :children [{:tag :lv_slider
-                                                 :event :fx
-                                                 :x 60
-                                                 :y 60
-                                                 :style {:width 200 :height 20}
-                                                 :slider_props
-                                                 {:min_value 0 :max_value 2 :value 1}}]}}
+    "vr_event_by_value_index" {:type :screen
+                               :subjects {}
+                               :events {:fx {:trigger :value-changed
+                                             :include-value true
+                                             :notify-host true
+                                             :cmd-by-value egress/fx-mode-by-value}}
+                               :tree {:tag :lv_obj
+                                      :class "w-pct-100 h-pct-100 bg-surface-0"
+                                      :children [{:tag :lv_slider
+                                                  :event :fx
+                                                  :x 60
+                                                  :y 60
+                                                  :style {:width 200 :height 20}
+                                                  :slider_props
+                                                  {:min_value 0 :max_value 2 :value 1}}]}}
    ;; R5a cmd-by-value OUT-OF-RANGE — an lv_slider (0..5) with only 3 templates.
    ;; Driving it to value 4 selects a non-existent index → the renderer emits
    ;; NOTHING and does NOT trap (the bounds-check fail-loud). The harness asserts
    ;; an empty host-command channel and a completed (non-panicking) run.
-   "vr_event_by_value_oob" {:type :screen
-                            :subjects {}
-                            :events {:fx {:trigger :value-changed
-                                          :include-value true
-                                          :notify-host true
-                                          :cmd-by-value fx-mode-by-value}}
-                            :tree {:tag :lv_obj
-                                   :class "w-pct-100 h-pct-100 bg-surface-0"
-                                   :children [{:tag :lv_slider
-                                               :event :fx
-                                               :x 60
-                                               :y 60
-                                               :style {:width 200 :height 20}
-                                               :slider_props
-                                               {:min_value 0 :max_value 5 :value 1}}]}}
+    "vr_event_by_value_oob" {:type :screen
+                             :subjects {}
+                             :events {:fx {:trigger :value-changed
+                                           :include-value true
+                                           :notify-host true
+                                           :cmd-by-value egress/fx-mode-by-value}}
+                             :tree {:tag :lv_obj
+                                    :class "w-pct-100 h-pct-100 bg-surface-0"
+                                    :children [{:tag :lv_slider
+                                                :event :fx
+                                                :x 60
+                                                :y 60
+                                                :style {:width 200 :height 20}
+                                                :slider_props
+                                                {:min_value 0 :max_value 5 :value 1}}]}}
    ;; R5a :action fixed template — a parameterless Lrf.Measure baked at gen time
    ;; (patches []) and relayed verbatim on click via the existing single-cmd
    ;; path. Proves fixed-cmd-spec end-to-end through the renderer's cmd_patch
    ;; patch_count-0 emit.
-   "vr_event_action_fixed" {:type :screen
-                            :subjects {}
-                            :events {:measure {:notify-host true :cmd measure-action-cmd}}
-                            :tree {:tag :lv_obj
-                                   :class "w-pct-100 h-pct-100 bg-surface-0"
-                                   :children [{:tag :lv_button
-                                               :event :measure
-                                               :x 60
-                                               :y 50
-                                               :style {:width 100 :height 40}
-                                               :children [{:tag :lv_label
-                                                           :text "Measure"}]}]}}})
+    "vr_event_action_fixed" {:type :screen
+                             :subjects {}
+                             :events {:measure {:notify-host true :cmd egress/measure-action-cmd}}
+                             :tree {:tag :lv_obj
+                                    :class "w-pct-100 h-pct-100 bg-surface-0"
+                                    :children [{:tag :lv_button
+                                                :event :measure
+                                                :x 60
+                                                :y 50
+                                                :style {:width 100 :height 40}
+                                                :children [{:tag :lv_label
+                                                            :text "Measure"}]}]}}}))
 
 ;; ═══════════════════════════════════════════════════════════════════
 ;; Host proxy: registry + reports + gestures + mode radio (consumed by

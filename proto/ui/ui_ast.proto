@@ -581,25 +581,69 @@ message EventBinding {
 // are pre-encoded as a NON-MINIMAL padded varint of fixed max width so the
 // slot stays a clean fixed offset (value-identity holds for varint leaves).
 
-// Which gesture/value the patcher writes into a slot, and how to encode it.
+// WHERE the patcher reads the value it writes into a slot. This is the SOURCE
+// axis only; how the value is written is PatchEncoding below.
 enum PatchKind {
   PATCH_KIND_UNSPECIFIED = 0;
   PATCH_KIND_NDC_X = 1; // gesture NDC x → a double slot (verbatim, no recast)
   PATCH_KIND_NDC_Y = 2; // gesture NDC y → a double slot (verbatim, no recast)
-  PATCH_KIND_DELTA = 3; // pinch/wheel ±1 step → a padded-varint int slot
-  PATCH_KIND_WIDGET_VALUE = 4; // widget int value → a padded-varint int slot
+  PATCH_KIND_DELTA = 3; // pinch/wheel ±1 step → an int slot
+  PATCH_KIND_WIDGET_VALUE = 4; // the emitting widget's int value → an int slot
   PATCH_KIND_NDC_X2 = 5; // ROI rubber-band 2nd-corner NDC x → a double slot (verbatim)
   PATCH_KIND_NDC_Y2 = 6; // ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
+  // The current int of the NAMED local subject in FieldPatch.subject. The one
+  // source that is neither a pointer gesture nor the emitting widget's own
+  // value, which is what lets a multi-field FORM be sent by a control that has
+  // no value of its own: each slot names its own subject, so N slots carry N
+  // independent values without the emit call gaining N arguments.
+  PATCH_KIND_SUBJECT_VALUE = 7;
+}
+
+// HOW the patcher writes a value-sourced slot. Separate from PatchKind because
+// the two are genuinely orthogonal: ONE integer source targets three different
+// wire shapes, so folding them into one enum needs a cross product that grows
+// multiplicatively with every new source.
+//
+// MEANINGFUL ONLY FOR THE VALUE-SOURCED KINDS — DELTA, WIDGET_VALUE and
+// SUBJECT_VALUE, each of which must set a defined encoding. The four NDC kinds
+// ARE 8-byte verbatim doubles by definition, so they carry UNSPECIFIED and the
+// renderer REFUSES a set encoding on them: the fact lives in exactly one field
+// rather than in two that can disagree.
+enum PatchEncoding {
+  PATCH_ENCODING_UNSPECIFIED = 0; // the NDC kinds; refused on a value kind
+  // Non-minimal padded varint of (value × wire_scale), byte_width bytes wide.
+  PATCH_ENCODING_PADDED_VARINT = 1;
+  // 8 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 8.
+  PATCH_ENCODING_DOUBLE_LE = 2;
+  // 4 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 4.
+  PATCH_ENCODING_FLOAT_LE = 3;
 }
 
 // One fixed-width slot in a CmdSpec.root_template the renderer overwrites.
 message FieldPatch {
   uint32 byte_offset = 1; // start of the slot in root_template
-  uint32 byte_width = 2; // slot width (8 for a double, 5/10 for a padded varint)
+  uint32 byte_width = 2; // slot width (8 double, 4 float, 5/10 padded varint)
   PatchKind kind = 3 [(buf.validate.field).enum = {defined_only: true}];
-  // gen-time wire-scale (uigen.scales): the runtime value × scale is the
-  // wire int for a varint leaf; 1 for a verbatim double (NDC).
+  // gen-time fixed-point factor (uigen.scales), whose ONE definition is
+  // `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+  // ride. The float/double encodings therefore DIVIDE by it to recover the
+  // proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+  // int is already in the proto's own unit and its scale is 1. A wire_scale
+  // ≤ 0 is refused rather than applied — it can only come from a malformed
+  // producer, and both directions would silently corrupt the slot.
   sint32 wire_scale = 4;
+  // The local subject whose current int this slot reads. REQUIRED when kind is
+  // PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+  // renderer refuses both violations. Bounded at 63 like every other subject
+  // reference (SubjectDeclaration.name, VisibilityBinding.subject,
+  // EventBinding.set_subject), so a name legal to DECLARE is always legal to
+  // reference here. A NAME rather than a registry index deliberately: the
+  // renderer's registry order is a decode-time implementation detail that a
+  // dropped or reordered declaration silently shifts, so an index would
+  // resolve to the WRONG subject and send a plausible wrong value, while an
+  // unresolvable name fails loud at load.
+  string subject = 5 [(buf.validate.field).string = {max_len: 63}];
+  PatchEncoding encoding = 6 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 // A pre-encoded cmd.Root template + the slots the renderer overwrites.
@@ -610,9 +654,13 @@ message CmdSpec {
   // the full deterministic cmd.Root protobuf (envelope + leaf in its
   // fixed-width slot, leaf written at a SENTINEL the gen-time patch located).
   bytes root_template = 2;
-  // the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-  // ROI rubber-band's 2nd-corner x2/y2 pair).
-  repeated FieldPatch patches = 3 [(buf.validate.field).repeated = {max_items: 4}];
+  // The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+  // this vocabulary must be able to send in one shot: the rotary scan-node
+  // commands carry 7 operator-facing fields (an index, two zoom-table values,
+  // azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+  // The gesture shapes that set the previous bound of 4 are unaffected — an
+  // NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
+  repeated FieldPatch patches = 3 [(buf.validate.field).repeated = {max_items: 8}];
 }
 
 // A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a

@@ -171,9 +171,10 @@
    :seek-event-name}` (all required ints except optional :buffered;
    :seek-event-name a non-empty string). Emits ONE host-event identity:
    `seek-event-name` with the slider's value — fired the moment the
-   pointer lands (seek_on_press: press-seek + the renderer's LV_DPX(24)
-   ext-click widening), then per value change during a drag, with no
-   duplicate at release.
+   pointer lands (seek_on_press, which is press-seek BEHAVIOUR only), then
+   per value change during a drag, with no duplicate at release. The
+   widened tap target is a separate `hit_slop` on the slider node; the two
+   used to be one fused flag.
 
    With :buffered — a bar underlay (track + buffered band) under a
    transparent-track slider overlay (played band + knob), overlapping on

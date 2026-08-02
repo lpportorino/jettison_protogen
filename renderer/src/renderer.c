@@ -69,7 +69,17 @@ static bool subject_overflow = false;
  * RETURNS, so the decode runs to completion and the tree is complete — the
  * caller must leave the screen up. Reset per load alongside the pool counts. */
 static bool load_resource_error = false;
+/* Defined beside the CmdSpec copy that needs it, below; declared here because
+ * reset_subject_registry installs it and runs first. */
+static bool renderer_subject_int(const char *name, int32_t *out);
 static void reset_subject_registry(void) {
+  /* Install the cmd patcher's subject reader beside the registry's own
+   * lifecycle, so the two can never be out of step: this runs at the head of
+   * every load, before any CmdSpec is decoded and long before any emit. The
+   * patcher lives in a translation unit shared with reference.wasm, which owns
+   * no registry — see cmd_patch.h for why the seam is a registered pointer
+   * rather than a direct call. */
+  cmd_patch_set_subject_reader(renderer_subject_int);
   /* Deinit all subjects AFTER widgets are destroyed (lv_obj_clean) */
   for (int i = 0; i < subject_count; i++) {
     lv_subject_deinit(&subject_registry[i].subject);
@@ -550,6 +560,36 @@ static void unregister_dropdown_value_map(const lv_obj_t *obj) {
     }
   }
 }
+/* Resolve a subject NAME and read its current int — the one seam through which
+ * cmd_patch.c (which does not include LVGL) reaches the registry. False when
+ * the name names nothing, or names a STRING subject: a string cannot become a
+ * numeric wire leaf, so the caller refuses the emit rather than substituting a
+ * default. Mirrors the INT-only restriction every other binding already has
+ * (visibility / checked_when / enabled_when all decline a STRING subject). */
+static bool renderer_subject_int(const char *name, int32_t *out) {
+  if (!name || name[0] == '\0' || !out)
+    return false;
+  subject_entry_t *entry = find_subject(name);
+  if (!entry || entry->type != 0)
+    return false;
+  *out = lv_subject_get_int(&entry->subject);
+  return true;
+}
+/* A cmd patch's SUBJECT_VALUE slot resolves against the SAME registry as every
+ * other subject reference, so it meets the SAME ordering: Screen.subjects is
+ * field 2 and streams after the tree, so the name cannot be looked up while the
+ * spec is being copied. Only the RESOLVABILITY check is deferred here — the
+ * stored slot owns its copy of the name and resolves at fire time, exactly as
+ * pending_event_subject does for EventBinding.set_subject. Without this check a
+ * form wired to a misspelled subject would present as a perfectly healthy
+ * screen whose Apply button silently refuses on every press. */
+#define MAX_PENDING_PATCH_SUBJECT 32
+typedef struct {
+  char subject[64];
+  char command_id[64]; /* truncated for the diagnostic only — names the form */
+} pending_patch_subject_t;
+static pending_patch_subject_t pending_patch_subject[MAX_PENDING_PATCH_SUBJECT];
+static int pending_patch_subject_count;
 /* ================================================================
  * R5b cmd-out: copy a decoded CmdSpec into PERSISTENT storage.
  *
@@ -590,13 +630,66 @@ static int cmd_spec_copy_from_proto(cmd_spec_t *dst, const ui_CmdSpec *src) {
       memset(dst, 0, sizeof(*dst));
       return -1;
     }
+    /* The kind/subject contract, BOTH directions. A SUBJECT_VALUE slot with no
+     * name can only ever refuse at emit; a non-subject slot carrying one is a
+     * producer that believes it wired a form field and did not. Neither is
+     * recoverable by guessing, and both are silent at every other layer. */
+    bool is_subject_kind =
+        src->patches[i].kind == ui_PatchKind_PATCH_KIND_SUBJECT_VALUE;
+    bool has_name = src->patches[i].subject[0] != '\0';
+    if (is_subject_kind != has_name) {
+      LOG_ERROR("cmd spec slot %u: kind %u %s a subject name (cmd %s)",
+                (unsigned)i, (unsigned)src->patches[i].kind,
+                is_subject_kind ? "requires" : "must not carry",
+                src->command_id);
+      memset(dst, 0, sizeof(*dst));
+      return -1;
+    }
     dst->patches[i].byte_offset = src->patches[i].byte_offset;
     dst->patches[i].byte_width = src->patches[i].byte_width;
     dst->patches[i].kind = (uint32_t)src->patches[i].kind;
     dst->patches[i].wire_scale = src->patches[i].wire_scale;
+    dst->patches[i].encoding = (uint32_t)src->patches[i].encoding;
+    if (has_name) {
+      strncpy(dst->patches[i].subject, src->patches[i].subject,
+              sizeof(dst->patches[i].subject) - 1);
+      dst->patches[i].subject[sizeof(dst->patches[i].subject) - 1] = '\0';
+      /* Queue the resolvability check; the registry is not populated yet. A
+       * full queue is itself a defect rather than a reason to skip silently. */
+      if (pending_patch_subject_count >= MAX_PENDING_PATCH_SUBJECT) {
+        LOG_ERROR("pending patch-subject queue full (%d) — cannot verify '%s'",
+                  MAX_PENDING_PATCH_SUBJECT, dst->patches[i].subject);
+        load_resource_error = true;
+      } else {
+        pending_patch_subject_t *q =
+            &pending_patch_subject[pending_patch_subject_count++];
+        strncpy(q->subject, dst->patches[i].subject, sizeof(q->subject) - 1);
+        q->subject[sizeof(q->subject) - 1] = '\0';
+        strncpy(q->command_id, src->command_id, sizeof(q->command_id) - 1);
+        q->command_id[sizeof(q->command_id) - 1] = '\0';
+      }
+    }
   }
   dst->present = true;
   return 0;
+}
+/* The deferred half of the check above, run once the registry is populated. A
+ * cmd patch naming a never-declared (or non-INT) subject is a dead form field:
+ * the screen renders, the Apply button enables, and every press refuses. Fail
+ * the load DEFECTIVE, exactly as a binding to an unknown subject already does,
+ * rather than presenting it as clean. */
+static void apply_patch_subject(const pending_patch_subject_t *q) {
+  subject_entry_t *entry = find_subject(q->subject);
+  if (!entry) {
+    LOG_ERROR("cmd patch references unknown subject '%s' (cmd %s)", q->subject,
+              q->command_id);
+    load_resource_error = true;
+  } else if (entry->type != 0) {
+    LOG_ERROR("cmd patch subject '%s' is not INT — a cmd slot cannot read a "
+              "STRING subject (cmd %s)",
+              q->subject, q->command_id);
+    load_resource_error = true;
+  }
 }
 /* Harness-only: run a crafted CmdSpec `.pb` through the untrusted decode
  * boundary (nanopb + cmd_spec_copy_from_proto) and report which layer
@@ -4280,6 +4373,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_enabled_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
+  pending_patch_subject_count = 0;
   pending_tabview_count = 0;
   grid_template_count = 0;
   scale_text_count = 0;
@@ -4360,12 +4454,16 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   for (int i = 0; i < pending_event_subject_count; i++) {
     apply_event_subject(&pending_event_subject[i]);
   }
+  for (int i = 0; i < pending_patch_subject_count; i++) {
+    apply_patch_subject(&pending_patch_subject[i]);
+  }
   pending_bindings_count = 0;
   pending_visibility_count = 0;
   pending_checked_count = 0;
   pending_enabled_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
+  pending_patch_subject_count = 0;
   /* Every node (root included) is finalized and every style group is
    * attached — activate tabs against FINAL geometry (set_active calls
    * lv_obj_update_layout itself; see the pending_tabview queue note). */
@@ -4911,6 +5009,7 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_enabled_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
+  pending_patch_subject_count = 0;
   pending_tabview_count = 0;
   pb_istream_t stream = pb_istream_from_buffer(data, len);
   if (!pb_decode(&stream, ui_ScreenPatch_fields, &patch)) {
@@ -4939,12 +5038,15 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
     apply_color_when(pending_color[i].obj, &pending_color[i].bind);
   for (int i = 0; i < pending_event_subject_count; i++)
     apply_event_subject(&pending_event_subject[i]);
+  for (int i = 0; i < pending_patch_subject_count; i++)
+    apply_patch_subject(&pending_patch_subject[i]);
   pending_bindings_count = 0;
   pending_visibility_count = 0;
   pending_checked_count = 0;
   pending_enabled_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
+  pending_patch_subject_count = 0;
   for (int i = 0; i < pending_tabview_count; i++) {
     lv_tabview_set_active(pending_tabview[i].tabview,
                           pending_tabview[i].active_index, LV_ANIM_OFF);

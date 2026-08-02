@@ -94,8 +94,12 @@ public object CmdSpecKt {
     public class PatchesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -107,8 +111,12 @@ public object CmdSpecKt {
       )
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -121,8 +129,12 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -136,8 +148,12 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -150,8 +166,12 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -165,8 +185,12 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`
@@ -180,8 +204,12 @@ public object CmdSpecKt {
     }
     /**
      * ```
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * ```
      *
      * `repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }`

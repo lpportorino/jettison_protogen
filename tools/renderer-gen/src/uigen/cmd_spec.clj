@@ -100,6 +100,19 @@
     (.array bb)))
 (m/=> double->le-bytes [:=> [:cat :double] bytes?])
 
+(defn float->le-bytes
+  "The 4 little-endian wire bytes of a protobuf float (wire-type 5, fixed32) —
+   the float counterpart of double->le-bytes, for locating a form's float slot.
+   Mirrors the renderer's float_le_bytes (cmd_patch.c)."
+  ;; NOT a ^float param hint: Clojure supports only long/double primitive hints
+  ;; on a fn arg, so the cast happens at the putFloat call instead.
+  ^bytes [f]
+  (let [bb (ByteBuffer/allocate 4)]
+    (.order bb ByteOrder/LITTLE_ENDIAN)
+    (.putFloat bb (float f))
+    (.array bb)))
+(m/=> float->le-bytes [:=> [:cat number?] bytes?])
+
 ;; ── sentinel doubles (NDC x/y) ──────────────────────────────────────────────
 ;; Distinctive bit patterns (qNaN payloads) so the 8 wire bytes are unique in
 ;; the template and never collide with the envelope or each other. They exist
@@ -259,16 +272,27 @@
                 :patch-fields (conj patch-fields
                                     {:name fname
                                      :kind (:kind (ndc-double-leaves fname))
+                                     ;; An NDC slot's encoding IS its kind — see
+                                     ;; PatchEncoding; naming one here would be
+                                     ;; the same fact in two fields, and the
+                                     ;; renderer refuses that.
+                                     :encoding :PATCH_ENCODING_UNSPECIFIED
                                      :width double-width
                                      :wire-scale 1
                                      :slot :ndc-double})}
-               ;; the non-NDC `double` VALUE slider leaf (WIDGET_VALUE): the patcher
-               ;; writes the widget int / wire-scale as the verbatim 8-byte double.
+               ;; The non-NDC `double` VALUE slider leaf. It is a fixed64 slot,
+               ;; so it takes the DOUBLE_LE encoding — the widget int DIVIDED by
+               ;; the wire-scale, written as 8 verbatim IEEE-754 bytes. Before
+               ;; PatchEncoding existed this slot was emitted with the only
+               ;; encoding the kind could imply, a padded varint, which the
+               ;; receiving decoder read as a fixed64 double: a 50% iris
+               ;; (widget 500, scale 1000) arrived as 2.94e-306 instead of 0.5.
                (and (= "double" ftype) (= value-field fname))
                {:params (assoc params fkw value-double-sentinel)
                 :patch-fields (conj patch-fields
                                     {:name fname
                                      :kind varint-kind
+                                     :encoding :PATCH_ENCODING_DOUBLE_LE
                                      :width double-width
                                      :wire-scale (varint-wire-scale f)
                                      :slot :value-double})}
@@ -277,6 +301,7 @@
                 :patch-fields (conj patch-fields
                                     {:name fname
                                      :kind varint-kind
+                                     :encoding :PATCH_ENCODING_PADDED_VARINT
                                      :width int32-varint-width
                                      :wire-scale (varint-wire-scale f)
                                      :slot :value-varint})}
@@ -331,14 +356,15 @@
                                             (backend/cmd-path->map cmd-path params))
          patches
          (mapv
-          (fn [{fname :name :keys [kind width wire-scale slot]}]
+          (fn [{fname :name :keys [kind width wire-scale slot encoding]}]
             (let [^bytes needle (case slot
                                   :ndc-double (double->le-bytes (:sentinel
                                                                  (ndc-double-leaves fname)))
                                   :value-double (double->le-bytes value-double-sentinel)
                                   :value-varint (varint-le-bytes int32-max-sentinel))
                   offset (find-slot! template needle {:command-id command-id :field fname})]
-              {:byte-offset offset :byte-width width :kind kind :wire-scale wire-scale}))
+              {:byte-offset offset :byte-width width :kind kind :wire-scale wire-scale
+               :encoding encoding}))
           patch-fields)]
      {:command-id command-id :root-template template :patches patches})))
 (m/=> cmd-spec
@@ -489,3 +515,129 @@
 (m/=> patchable?
       [:function [:=> [:cat s/ne-string] :boolean]
        [:=> [:cat s/ne-string s/ne-string] :boolean]])
+
+;; ── subject-sourced pre-encode — the multi-field FORM egress ────────────────
+;; A form's submit control has no value of its own and the form has N fields,
+;; so neither `cmd-spec` (one widget value) nor `fixed-cmd-spec` (a gen-time
+;; constant) can express it. Each field instead names the SUBJECT its input
+;; widget writes, and the renderer reads each slot's own subject at emit — so N
+;; slots carry N independent values without the emit growing an argument each.
+
+(defn- form-sentinel
+  "A DISTINCT locator sentinel for form field `i` of `ftype`. Distinctness is
+   the whole requirement: `find-slot!` refuses an ambiguous needle, so two
+   fields sharing a sentinel would be a build error rather than a mis-patch —
+   but a form has many same-typed fields, so they must differ by construction.
+   Doubles/floats take qNaN payloads keyed by index; integers take values near
+   (but below) the int32 max, every one of which still encodes to the FULL
+   5-byte varint so the slot stays pre-sized for the widest patch."
+  [ftype i]
+  (case ftype
+    "double" (Double/longBitsToDouble (bit-or 0x7ff8d00000000000 (long i)))
+    "float" (Float/intBitsToFloat (unchecked-int (bit-or 0x7fc0d000 (long i))))
+    ("int32" "uint32") (- int32-max-sentinel i)
+    (throw (ex-info (str "uigen.cmd-spec: no form sentinel for proto type " ftype)
+                    {:type ftype :index i}))))
+(m/=> form-sentinel [:=> [:cat s/ne-string :int] some?])
+
+(def ^:private form-encoding
+  "proto scalar type → the slot encoding that writes it. A `double` leaf is
+   wire-type 1 and a `float` leaf wire-type 5, so each takes its own verbatim
+   IEEE-754 encoding; only a genuine varint leaf takes the padded varint."
+  {"double" :PATCH_ENCODING_DOUBLE_LE
+   "float" :PATCH_ENCODING_FLOAT_LE
+   "int32" :PATCH_ENCODING_PADDED_VARINT
+   "uint32" :PATCH_ENCODING_PADDED_VARINT})
+
+(def ^:private form-width
+  "Slot width per proto scalar type: 8 for a fixed64 double, 4 for a fixed32
+   float, and the max-width 5 for an int32/uint32 padded varint."
+  {"double" 8 "float" 4 "int32" int32-varint-width "uint32" int32-varint-width})
+
+(defn subject-form-cmd-spec
+  "Build the CmdSpec IR for a multi-field FORM submit: `field->subject` maps a
+   proto field NAME to the local subject name whose current int carries that
+   field's operator-entered value.
+
+   Every named field becomes a PATCH_KIND_SUBJECT_VALUE slot located by its own
+   distinct sentinel and encoded for its own proto type; every field NOT named
+   is pinned exactly as `fixed-cmd-spec` pins one (`:fixed` for an enum leaf
+   with no live source, 0 for a scalar), so a partially-wired form fails at
+   GENERATION rather than shipping a slot nobody writes. Fail-loud on a field
+   the endpoint does not have, and on an enum leaf left unpinned.
+
+   The scale rides each patch and the renderer DIVIDES by it, because
+   uigen.scales defines `proto value x scale = the ABI int` the widgets and
+   subjects ride — so a 1e7-scaled geo subject at 555000000 is the wire's 55.5
+   degrees."
+  [{:keys [command-id field->subject fixed]}]
+  (let [{:keys [subsystem cmd-path]} (subsystem+cmd-path command-id)
+        fields (res/all-fields command-id)
+        fixed* (or fixed {})
+        by-name (into {} (map (juxt :name identity)) fields)]
+    (doseq [fname (keys field->subject)]
+      (when-not (contains? by-name fname)
+        (throw (ex-info (str "uigen.cmd-spec/subject-form-cmd-spec: " command-id
+                             " has no field named `" fname "`")
+                        {:command-id command-id :field fname
+                         :fields (mapv :name fields)}))))
+    (let [;; Index the patched fields in PROTO ORDER, not map order, so the
+          ;; sentinel assignment is deterministic across runs (a map's seq
+          ;; order is not a contract, and a non-deterministic template would
+          ;; break byte-for-byte artifact comparison).
+          patched (filterv #(contains? field->subject (:name %)) fields)
+          indexed (map-indexed vector patched)
+          params (reduce
+                  (fn [p f]
+                    (let [fname (:name f)
+                          fkw (field-key fname)
+                          ftype (:type f)]
+                      (cond
+                        (contains? field->subject fname)
+                        (let [i (first (first (filter #(= fname (:name (second %)))
+                                                      indexed)))]
+                          (assoc p fkw (form-sentinel ftype i)))
+                        (contains? fixed* fkw) (assoc p fkw (get fixed* fkw))
+                        (= "enum" ftype)
+                        (throw (ex-info
+                                (str "uigen.cmd-spec/subject-form-cmd-spec: " command-id
+                                     " has an unpinned enum leaf `" fname
+                                     "` — pass it in :fixed (no silent default)")
+                                {:command-id command-id :field fname}))
+                        (#{"uint64" "uint32" "int64" "int32"} ftype) (assoc p fkw 0)
+                        (= "double" ftype) (assoc p fkw 0.0)
+                        (= "float" ftype) (assoc p fkw (float 0.0))
+                        :else p)))
+                  {}
+                  fields)
+          ^bytes template (pcmd/wrap-in-root subsystem
+                                             (backend/cmd-path->map cmd-path params))
+          tlen (byte-len template)
+          _ (when (> tlen template-byte-cap)
+              (throw (ex-info (str "uigen.cmd-spec/subject-form-cmd-spec: " command-id
+                                   " template " tlen "B exceeds cap " template-byte-cap)
+                              {:command-id command-id :len tlen})))
+          patches
+          (mapv (fn [[i f]]
+                  (let [fname (:name f)
+                        ftype (:type f)
+                        sentinel (form-sentinel ftype i)
+                        ^bytes needle (case ftype
+                                        "double" (double->le-bytes sentinel)
+                                        "float" (float->le-bytes sentinel)
+                                        ("int32" "uint32") (varint-le-bytes sentinel))
+                        offset (find-slot! template needle
+                                           {:command-id command-id :field fname})]
+                    {:byte-offset offset
+                     :byte-width (form-width ftype)
+                     :kind :PATCH_KIND_SUBJECT_VALUE
+                     :wire-scale (varint-wire-scale f)
+                     :encoding (form-encoding ftype)
+                     :subject (get field->subject fname)}))
+                indexed)]
+      {:command-id command-id :root-template template :patches patches})))
+(m/=> subject-form-cmd-spec
+      [:=> [:cat [:map [:command-id s/ne-string]
+                  [:field->subject [:map-of s/ne-string s/ne-string]]
+                  [:fixed {:optional true} [:map-of :keyword :int]]]]
+       cmd-spec-ir])

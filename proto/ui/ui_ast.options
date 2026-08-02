@@ -31,7 +31,30 @@ ui.EventBinding.set_subject         max_size:64
 # deep trees. buf.validate max_items still bounds each at validate time (5 / 16).
 ui.CmdSpec.command_id               max_size:128
 ui.CmdSpec.root_template            max_size:128
-ui.CmdSpec.patches                  max_count:4
+ui.CmdSpec.patches                  max_count:8
+# FieldPatch.subject names the local subject a PATCH_KIND_SUBJECT_VALUE slot
+# reads. 64 matches buf.validate max_len:63 + NUL, and matches every other
+# subject-name bound in this file, so a name legal to DECLARE is always legal
+# to reference and a longer one is refused LOUDLY by nanopb rather than
+# truncated into a lookup that would miss.
+#
+# IT COSTS NO DECODE STACK, which is the budget the nine max_size:64 bounds
+# below are rationed against. FieldPatch lives only inside CmdSpec, and every
+# CmdSpec on the wire hangs off an FT_POINTER field (EventBinding.cmd,
+# EventBinding.cmd_by_value, WidgetNode.gestures), so it is malloc'd rather
+# than placed in the recursive ui_WidgetNode frame. sizeof(ui_WidgetNode) is
+# therefore unmoved by this field AND by the patches bound going 4 -> 8; the
+# `generated-projection` lane's header records how to re-measure it.
+#
+# THE RENDERER DOES MIRROR THIS ONE, in cmd_patch_field_t.subject, so it is a
+# real static cost there and not only a decode-buffer cost. Resolving to a
+# pointer at copy time instead was tried and is UNSOUND: Screen.subjects is
+# field 2 and streams after the tree, and both destinations are unstable
+# anyway — the cmd_by_value array is freed if a later entry fails to copy, and
+# gesture specs are staged in a caller's local array. So this follows
+# EventBinding.set_subject exactly: the name is mirrored, the emit resolves at
+# fire time, and a deferred queue checks resolvability once at load.
+ui.FieldPatch.subject               max_size:64
 ui.WidgetNode.gestures              type:FT_POINTER
 ui.EventBinding.cmd                 type:FT_POINTER
 ui.EventBinding.cmd_by_value        type:FT_POINTER

@@ -270,10 +270,22 @@
 
 ;; -- R5a cmd-out pre-encode (CmdSpec / FieldPatch / GestureSpec) --
 (def patch-kind
-  "Which gesture/value the patcher writes into a slot, and how to encode it.
-   NDC_X2/NDC_Y2 carry an ROI rubber-band's 2nd corner (verbatim double slots)."
+  "WHERE the patcher reads the value it writes into a slot — the SOURCE axis
+   only; `patch-encoding` carries how it is written. NDC_X2/NDC_Y2 carry an ROI
+   rubber-band's 2nd corner (verbatim double slots). SUBJECT_VALUE reads the
+   named local subject in the patch's `:subject`, which is what lets a control
+   with no value of its own send a multi-field form."
   [:enum :PATCH_KIND_UNSPECIFIED :PATCH_KIND_NDC_X :PATCH_KIND_NDC_Y :PATCH_KIND_DELTA
-   :PATCH_KIND_WIDGET_VALUE :PATCH_KIND_NDC_X2 :PATCH_KIND_NDC_Y2])
+   :PATCH_KIND_WIDGET_VALUE :PATCH_KIND_NDC_X2 :PATCH_KIND_NDC_Y2
+   :PATCH_KIND_SUBJECT_VALUE])
+
+(def ^:private patch-encoding
+  "HOW a value-sourced slot is written. Orthogonal to `patch-kind` because ONE
+   integer source targets three different wire shapes. UNSPECIFIED belongs to
+   the four NDC kinds, whose encoding IS their kind; every value-sourced kind
+   must name one, and the renderer refuses the mismatch either way."
+  [:enum :PATCH_ENCODING_UNSPECIFIED :PATCH_ENCODING_PADDED_VARINT
+   :PATCH_ENCODING_DOUBLE_LE :PATCH_ENCODING_FLOAT_LE])
 
 (def gesture-kind
   "Recognized gesture kind, mirroring gesture_kind_t (src/gesture.h). ROI is a
@@ -283,10 +295,14 @@
 
 (def field-patch
   "One fixed-width slot in a CmdSpec.root_template the renderer overwrites:
-   byte-offset + width + the patch kind + the gen-time wire-scale (sint32)."
+   byte-offset + width + the patch SOURCE (`:kind`) + the gen-time wire-scale
+   (sint32) + the slot ENCODING +, for a SUBJECT_VALUE slot only, the name of
+   the subject it reads."
   [:map [:byte_offset {:default 0} uint32] [:byte_width {:default 0} uint32]
    [:kind {:default :PATCH_KIND_UNSPECIFIED} patch-kind]
-   [:wire_scale {:optional true :default 0} int32]])
+   [:wire_scale {:optional true :default 0} int32]
+   [:subject {:optional true :default ""} :string]
+   [:encoding {:optional true :default :PATCH_ENCODING_UNSPECIFIED} patch-encoding]])
 
 (def byte-string
   "A protobuf ByteString — the wire carrier emit-cmd-spec wraps the cmd.Root
@@ -301,9 +317,12 @@
 (def cmd-spec
   "A pre-encoded cmd.Root template + the slots the renderer overwrites: the
    source command-id, the deterministic cmd.Root bytes (ByteString), and up to
-   4 FieldPatch slots (an NDC x/y pair, plus an ROI rubber-band's x2/y2 pair)."
+   8 FieldPatch slots — bounded by the widest command this vocabulary must send
+   in one shot (the rotary scan-node commands carry 7 operator-facing fields).
+   The gesture shapes that set the earlier bound of 4 are unaffected: an NDC x/y
+   pair is 2, an ROI rubber-band's two corners are 4."
   [:map [:command_id {:default ""} string?] [:root_template byte-string]
-   [:patches {:optional true :default []} [:vector {:max 4} field-patch]]])
+   [:patches {:optional true :default []} [:vector {:max 8} field-patch]]])
 
 (def gesture-spec
   "One gesture → its pre-encoded cmd template, keyed by GestureKind."

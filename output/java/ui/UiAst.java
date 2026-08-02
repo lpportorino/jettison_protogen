@@ -956,7 +956,8 @@ public final class UiAst {
 
   /**
    * <pre>
-   * Which gesture/value the patcher writes into a slot, and how to encode it.
+   * WHERE the patcher reads the value it writes into a slot. This is the SOURCE
+   * axis only; how the value is written is PatchEncoding below.
    * </pre>
    *
    * Protobuf enum {@code ui.PatchKind}
@@ -985,7 +986,7 @@ public final class UiAst {
     PATCH_KIND_NDC_Y(2),
     /**
      * <pre>
-     * pinch/wheel ±1 step → a padded-varint int slot
+     * pinch/wheel ±1 step → an int slot
      * </pre>
      *
      * <code>PATCH_KIND_DELTA = 3;</code>
@@ -993,7 +994,7 @@ public final class UiAst {
     PATCH_KIND_DELTA(3),
     /**
      * <pre>
-     * widget int value → a padded-varint int slot
+     * the emitting widget's int value → an int slot
      * </pre>
      *
      * <code>PATCH_KIND_WIDGET_VALUE = 4;</code>
@@ -1015,6 +1016,18 @@ public final class UiAst {
      * <code>PATCH_KIND_NDC_Y2 = 6;</code>
      */
     PATCH_KIND_NDC_Y2(6),
+    /**
+     * <pre>
+     * The current int of the NAMED local subject in FieldPatch.subject. The one
+     * source that is neither a pointer gesture nor the emitting widget's own
+     * value, which is what lets a multi-field FORM be sent by a control that has
+     * no value of its own: each slot names its own subject, so N slots carry N
+     * independent values without the emit call gaining N arguments.
+     * </pre>
+     *
+     * <code>PATCH_KIND_SUBJECT_VALUE = 7;</code>
+     */
+    PATCH_KIND_SUBJECT_VALUE(7),
     UNRECOGNIZED(-1),
     ;
 
@@ -1049,7 +1062,7 @@ public final class UiAst {
     public static final int PATCH_KIND_NDC_Y_VALUE = 2;
     /**
      * <pre>
-     * pinch/wheel ±1 step → a padded-varint int slot
+     * pinch/wheel ±1 step → an int slot
      * </pre>
      *
      * <code>PATCH_KIND_DELTA = 3;</code>
@@ -1057,7 +1070,7 @@ public final class UiAst {
     public static final int PATCH_KIND_DELTA_VALUE = 3;
     /**
      * <pre>
-     * widget int value → a padded-varint int slot
+     * the emitting widget's int value → an int slot
      * </pre>
      *
      * <code>PATCH_KIND_WIDGET_VALUE = 4;</code>
@@ -1079,6 +1092,18 @@ public final class UiAst {
      * <code>PATCH_KIND_NDC_Y2 = 6;</code>
      */
     public static final int PATCH_KIND_NDC_Y2_VALUE = 6;
+    /**
+     * <pre>
+     * The current int of the NAMED local subject in FieldPatch.subject. The one
+     * source that is neither a pointer gesture nor the emitting widget's own
+     * value, which is what lets a multi-field FORM be sent by a control that has
+     * no value of its own: each slot names its own subject, so N slots carry N
+     * independent values without the emit call gaining N arguments.
+     * </pre>
+     *
+     * <code>PATCH_KIND_SUBJECT_VALUE = 7;</code>
+     */
+    public static final int PATCH_KIND_SUBJECT_VALUE_VALUE = 7;
 
 
     public final int getNumber() {
@@ -1112,6 +1137,7 @@ public final class UiAst {
         case 4: return PATCH_KIND_WIDGET_VALUE;
         case 5: return PATCH_KIND_NDC_X2;
         case 6: return PATCH_KIND_NDC_Y2;
+        case 7: return PATCH_KIND_SUBJECT_VALUE;
         default: return null;
       }
     }
@@ -1166,6 +1192,186 @@ public final class UiAst {
     }
 
     // @@protoc_insertion_point(enum_scope:ui.PatchKind)
+  }
+
+  /**
+   * <pre>
+   * HOW the patcher writes a value-sourced slot. Separate from PatchKind because
+   * the two are genuinely orthogonal: ONE integer source targets three different
+   * wire shapes, so folding them into one enum needs a cross product that grows
+   * multiplicatively with every new source.
+   *
+   * MEANINGFUL ONLY FOR THE VALUE-SOURCED KINDS — DELTA, WIDGET_VALUE and
+   * SUBJECT_VALUE, each of which must set a defined encoding. The four NDC kinds
+   * ARE 8-byte verbatim doubles by definition, so they carry UNSPECIFIED and the
+   * renderer REFUSES a set encoding on them: the fact lives in exactly one field
+   * rather than in two that can disagree.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.PatchEncoding}
+   */
+  public enum PatchEncoding
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * the NDC kinds; refused on a value kind
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_UNSPECIFIED = 0;</code>
+     */
+    PATCH_ENCODING_UNSPECIFIED(0),
+    /**
+     * <pre>
+     * Non-minimal padded varint of (value × wire_scale), byte_width bytes wide.
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_PADDED_VARINT = 1;</code>
+     */
+    PATCH_ENCODING_PADDED_VARINT(1),
+    /**
+     * <pre>
+     * 8 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 8.
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_DOUBLE_LE = 2;</code>
+     */
+    PATCH_ENCODING_DOUBLE_LE(2),
+    /**
+     * <pre>
+     * 4 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 4.
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_FLOAT_LE = 3;</code>
+     */
+    PATCH_ENCODING_FLOAT_LE(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        PatchEncoding.class.getName());
+    }
+    /**
+     * <pre>
+     * the NDC kinds; refused on a value kind
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_UNSPECIFIED = 0;</code>
+     */
+    public static final int PATCH_ENCODING_UNSPECIFIED_VALUE = 0;
+    /**
+     * <pre>
+     * Non-minimal padded varint of (value × wire_scale), byte_width bytes wide.
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_PADDED_VARINT = 1;</code>
+     */
+    public static final int PATCH_ENCODING_PADDED_VARINT_VALUE = 1;
+    /**
+     * <pre>
+     * 8 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 8.
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_DOUBLE_LE = 2;</code>
+     */
+    public static final int PATCH_ENCODING_DOUBLE_LE_VALUE = 2;
+    /**
+     * <pre>
+     * 4 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 4.
+     * </pre>
+     *
+     * <code>PATCH_ENCODING_FLOAT_LE = 3;</code>
+     */
+    public static final int PATCH_ENCODING_FLOAT_LE_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static PatchEncoding valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static PatchEncoding forNumber(int value) {
+      switch (value) {
+        case 0: return PATCH_ENCODING_UNSPECIFIED;
+        case 1: return PATCH_ENCODING_PADDED_VARINT;
+        case 2: return PATCH_ENCODING_DOUBLE_LE;
+        case 3: return PATCH_ENCODING_FLOAT_LE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<PatchEncoding>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        PatchEncoding> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<PatchEncoding>() {
+            public PatchEncoding findValueByNumber(int number) {
+              return PatchEncoding.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(6);
+    }
+
+    private static final PatchEncoding[] VALUES = values();
+
+    public static PatchEncoding valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private PatchEncoding(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.PatchEncoding)
   }
 
   /**
@@ -1373,7 +1579,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(6);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
     }
 
     private static final GestureKind[] VALUES = values();
@@ -1578,7 +1784,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
     }
 
     private static final CompareOp[] VALUES = values();
@@ -1758,7 +1964,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
     }
 
     private static final FlexFlow[] VALUES = values();
@@ -1911,7 +2117,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
     }
 
     private static final FlexAlign[] VALUES = values();
@@ -2073,7 +2279,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
     }
 
     private static final GridAlign[] VALUES = values();
@@ -2208,7 +2414,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
     }
 
     private static final TextAlign[] VALUES = values();
@@ -2334,7 +2540,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
     }
 
     private static final TextDecor[] VALUES = values();
@@ -2478,7 +2684,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
     }
 
     private static final BlendMode[] VALUES = values();
@@ -2622,7 +2828,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
     }
 
     private static final BaseDir[] VALUES = values();
@@ -2775,7 +2981,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
     }
 
     private static final GradDir[] VALUES = values();
@@ -2946,7 +3152,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
     }
 
     private static final Dir[] VALUES = values();
@@ -3243,7 +3449,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
     }
 
     private static final Align[] VALUES = values();
@@ -3405,7 +3611,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
     }
 
     private static final BorderSide[] VALUES = values();
@@ -3549,7 +3755,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
     }
 
     private static final LabelLongMode[] VALUES = values();
@@ -3675,7 +3881,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
     }
 
     private static final BarMode[] VALUES = values();
@@ -3801,7 +4007,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
     }
 
     private static final ArcMode[] VALUES = values();
@@ -3918,7 +4124,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
     }
 
     private static final RollerMode[] VALUES = values();
@@ -4071,7 +4277,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
     }
 
     private static final ScaleMode[] VALUES = values();
@@ -4224,7 +4430,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
     }
 
     private static final ChartType[] VALUES = values();
@@ -4359,7 +4565,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
     }
 
     private static final ChartAxis[] VALUES = values();
@@ -5557,7 +5763,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(27);
     }
 
     private static final StylePropertyType[] VALUES = values();
@@ -45262,7 +45468,7 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * slot width (8 for a double, 5/10 for a padded varint)
+     * slot width (8 double, 4 float, 5/10 padded varint)
      * </pre>
      *
      * <code>uint32 byte_width = 2;</code>
@@ -45283,14 +45489,68 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-     * wire int for a varint leaf; 1 for a verbatim double (NDC).
+     * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+     * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+     * ride. The float/double encodings therefore DIVIDE by it to recover the
+     * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+     * int is already in the proto's own unit and its scale is 1. A wire_scale
+     * ≤ 0 is refused rather than applied — it can only come from a malformed
+     * producer, and both directions would silently corrupt the slot.
      * </pre>
      *
      * <code>sint32 wire_scale = 4;</code>
      * @return The wireScale.
      */
     int getWireScale();
+
+    /**
+     * <pre>
+     * The local subject whose current int this slot reads. REQUIRED when kind is
+     * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+     * renderer refuses both violations. Bounded at 63 like every other subject
+     * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+     * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+     * reference here. A NAME rather than a registry index deliberately: the
+     * renderer's registry order is a decode-time implementation detail that a
+     * dropped or reordered declaration silently shifts, so an index would
+     * resolve to the WRONG subject and send a plausible wrong value, while an
+     * unresolvable name fails loud at load.
+     * </pre>
+     *
+     * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The subject.
+     */
+    java.lang.String getSubject();
+    /**
+     * <pre>
+     * The local subject whose current int this slot reads. REQUIRED when kind is
+     * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+     * renderer refuses both violations. Bounded at 63 like every other subject
+     * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+     * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+     * reference here. A NAME rather than a registry index deliberately: the
+     * renderer's registry order is a decode-time implementation detail that a
+     * dropped or reordered declaration silently shifts, so an index would
+     * resolve to the WRONG subject and send a plausible wrong value, while an
+     * unresolvable name fails loud at load.
+     * </pre>
+     *
+     * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for subject.
+     */
+    com.google.protobuf.ByteString
+        getSubjectBytes();
+
+    /**
+     * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for encoding.
+     */
+    int getEncodingValue();
+    /**
+     * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The encoding.
+     */
+    ui.UiAst.PatchEncoding getEncoding();
   }
   /**
    * <pre>
@@ -45319,6 +45579,8 @@ java.lang.String defaultValue) {
     }
     private FieldPatch() {
       kind_ = 0;
+      subject_ = "";
+      encoding_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -45353,7 +45615,7 @@ java.lang.String defaultValue) {
     private int byteWidth_ = 0;
     /**
      * <pre>
-     * slot width (8 for a double, 5/10 for a padded varint)
+     * slot width (8 double, 4 float, 5/10 padded varint)
      * </pre>
      *
      * <code>uint32 byte_width = 2;</code>
@@ -45386,8 +45648,13 @@ java.lang.String defaultValue) {
     private int wireScale_ = 0;
     /**
      * <pre>
-     * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-     * wire int for a varint leaf; 1 for a verbatim double (NDC).
+     * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+     * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+     * ride. The float/double encodings therefore DIVIDE by it to recover the
+     * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+     * int is already in the proto's own unit and its scale is 1. A wire_scale
+     * ≤ 0 is refused rather than applied — it can only come from a malformed
+     * producer, and both directions would silently corrupt the slot.
      * </pre>
      *
      * <code>sint32 wire_scale = 4;</code>
@@ -45396,6 +45663,89 @@ java.lang.String defaultValue) {
     @java.lang.Override
     public int getWireScale() {
       return wireScale_;
+    }
+
+    public static final int SUBJECT_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object subject_ = "";
+    /**
+     * <pre>
+     * The local subject whose current int this slot reads. REQUIRED when kind is
+     * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+     * renderer refuses both violations. Bounded at 63 like every other subject
+     * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+     * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+     * reference here. A NAME rather than a registry index deliberately: the
+     * renderer's registry order is a decode-time implementation detail that a
+     * dropped or reordered declaration silently shifts, so an index would
+     * resolve to the WRONG subject and send a plausible wrong value, while an
+     * unresolvable name fails loud at load.
+     * </pre>
+     *
+     * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The subject.
+     */
+    @java.lang.Override
+    public java.lang.String getSubject() {
+      java.lang.Object ref = subject_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        subject_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * The local subject whose current int this slot reads. REQUIRED when kind is
+     * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+     * renderer refuses both violations. Bounded at 63 like every other subject
+     * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+     * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+     * reference here. A NAME rather than a registry index deliberately: the
+     * renderer's registry order is a decode-time implementation detail that a
+     * dropped or reordered declaration silently shifts, so an index would
+     * resolve to the WRONG subject and send a plausible wrong value, while an
+     * unresolvable name fails loud at load.
+     * </pre>
+     *
+     * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for subject.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSubjectBytes() {
+      java.lang.Object ref = subject_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        subject_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ENCODING_FIELD_NUMBER = 6;
+    private int encoding_ = 0;
+    /**
+     * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for encoding.
+     */
+    @java.lang.Override public int getEncodingValue() {
+      return encoding_;
+    }
+    /**
+     * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The encoding.
+     */
+    @java.lang.Override public ui.UiAst.PatchEncoding getEncoding() {
+      ui.UiAst.PatchEncoding result = ui.UiAst.PatchEncoding.forNumber(encoding_);
+      return result == null ? ui.UiAst.PatchEncoding.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -45424,6 +45774,12 @@ java.lang.String defaultValue) {
       if (wireScale_ != 0) {
         output.writeSInt32(4, wireScale_);
       }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(subject_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 5, subject_);
+      }
+      if (encoding_ != ui.UiAst.PatchEncoding.PATCH_ENCODING_UNSPECIFIED.getNumber()) {
+        output.writeEnum(6, encoding_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -45449,6 +45805,13 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeSInt32Size(4, wireScale_);
       }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(subject_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(5, subject_);
+      }
+      if (encoding_ != ui.UiAst.PatchEncoding.PATCH_ENCODING_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, encoding_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -45471,6 +45834,9 @@ java.lang.String defaultValue) {
       if (kind_ != other.kind_) return false;
       if (getWireScale()
           != other.getWireScale()) return false;
+      if (!getSubject()
+          .equals(other.getSubject())) return false;
+      if (encoding_ != other.encoding_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -45490,6 +45856,10 @@ java.lang.String defaultValue) {
       hash = (53 * hash) + kind_;
       hash = (37 * hash) + WIRE_SCALE_FIELD_NUMBER;
       hash = (53 * hash) + getWireScale();
+      hash = (37 * hash) + SUBJECT_FIELD_NUMBER;
+      hash = (53 * hash) + getSubject().hashCode();
+      hash = (37 * hash) + ENCODING_FIELD_NUMBER;
+      hash = (53 * hash) + encoding_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -45629,6 +45999,8 @@ java.lang.String defaultValue) {
         byteWidth_ = 0;
         kind_ = 0;
         wireScale_ = 0;
+        subject_ = "";
+        encoding_ = 0;
         return this;
       }
 
@@ -45674,6 +46046,12 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.wireScale_ = wireScale_;
         }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.subject_ = subject_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.encoding_ = encoding_;
+        }
       }
 
       @java.lang.Override
@@ -45699,6 +46077,14 @@ java.lang.String defaultValue) {
         }
         if (other.getWireScale() != 0) {
           setWireScale(other.getWireScale());
+        }
+        if (!other.getSubject().isEmpty()) {
+          subject_ = other.subject_;
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        if (other.encoding_ != 0) {
+          setEncodingValue(other.getEncodingValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -45746,6 +46132,16 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00000008;
                 break;
               } // case 32
+              case 42: {
+                subject_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 48: {
+                encoding_ = input.readEnum();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -45810,7 +46206,7 @@ java.lang.String defaultValue) {
       private int byteWidth_ ;
       /**
        * <pre>
-       * slot width (8 for a double, 5/10 for a padded varint)
+       * slot width (8 double, 4 float, 5/10 padded varint)
        * </pre>
        *
        * <code>uint32 byte_width = 2;</code>
@@ -45822,7 +46218,7 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * slot width (8 for a double, 5/10 for a padded varint)
+       * slot width (8 double, 4 float, 5/10 padded varint)
        * </pre>
        *
        * <code>uint32 byte_width = 2;</code>
@@ -45838,7 +46234,7 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * slot width (8 for a double, 5/10 for a padded varint)
+       * slot width (8 double, 4 float, 5/10 padded varint)
        * </pre>
        *
        * <code>uint32 byte_width = 2;</code>
@@ -45907,8 +46303,13 @@ java.lang.String defaultValue) {
       private int wireScale_ ;
       /**
        * <pre>
-       * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-       * wire int for a varint leaf; 1 for a verbatim double (NDC).
+       * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+       * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+       * ride. The float/double encodings therefore DIVIDE by it to recover the
+       * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+       * int is already in the proto's own unit and its scale is 1. A wire_scale
+       * ≤ 0 is refused rather than applied — it can only come from a malformed
+       * producer, and both directions would silently corrupt the slot.
        * </pre>
        *
        * <code>sint32 wire_scale = 4;</code>
@@ -45920,8 +46321,13 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-       * wire int for a varint leaf; 1 for a verbatim double (NDC).
+       * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+       * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+       * ride. The float/double encodings therefore DIVIDE by it to recover the
+       * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+       * int is already in the proto's own unit and its scale is 1. A wire_scale
+       * ≤ 0 is refused rather than applied — it can only come from a malformed
+       * producer, and both directions would silently corrupt the slot.
        * </pre>
        *
        * <code>sint32 wire_scale = 4;</code>
@@ -45937,8 +46343,13 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-       * wire int for a varint leaf; 1 for a verbatim double (NDC).
+       * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+       * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+       * ride. The float/double encodings therefore DIVIDE by it to recover the
+       * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+       * int is already in the proto's own unit and its scale is 1. A wire_scale
+       * ≤ 0 is refused rather than applied — it can only come from a malformed
+       * producer, and both directions would silently corrupt the slot.
        * </pre>
        *
        * <code>sint32 wire_scale = 4;</code>
@@ -45947,6 +46358,196 @@ java.lang.String defaultValue) {
       public Builder clearWireScale() {
         bitField0_ = (bitField0_ & ~0x00000008);
         wireScale_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object subject_ = "";
+      /**
+       * <pre>
+       * The local subject whose current int this slot reads. REQUIRED when kind is
+       * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+       * renderer refuses both violations. Bounded at 63 like every other subject
+       * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+       * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+       * reference here. A NAME rather than a registry index deliberately: the
+       * renderer's registry order is a decode-time implementation detail that a
+       * dropped or reordered declaration silently shifts, so an index would
+       * resolve to the WRONG subject and send a plausible wrong value, while an
+       * unresolvable name fails loud at load.
+       * </pre>
+       *
+       * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The subject.
+       */
+      public java.lang.String getSubject() {
+        java.lang.Object ref = subject_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          subject_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The local subject whose current int this slot reads. REQUIRED when kind is
+       * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+       * renderer refuses both violations. Bounded at 63 like every other subject
+       * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+       * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+       * reference here. A NAME rather than a registry index deliberately: the
+       * renderer's registry order is a decode-time implementation detail that a
+       * dropped or reordered declaration silently shifts, so an index would
+       * resolve to the WRONG subject and send a plausible wrong value, while an
+       * unresolvable name fails loud at load.
+       * </pre>
+       *
+       * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for subject.
+       */
+      public com.google.protobuf.ByteString
+          getSubjectBytes() {
+        java.lang.Object ref = subject_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          subject_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * The local subject whose current int this slot reads. REQUIRED when kind is
+       * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+       * renderer refuses both violations. Bounded at 63 like every other subject
+       * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+       * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+       * reference here. A NAME rather than a registry index deliberately: the
+       * renderer's registry order is a decode-time implementation detail that a
+       * dropped or reordered declaration silently shifts, so an index would
+       * resolve to the WRONG subject and send a plausible wrong value, while an
+       * unresolvable name fails loud at load.
+       * </pre>
+       *
+       * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The subject to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSubject(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        subject_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The local subject whose current int this slot reads. REQUIRED when kind is
+       * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+       * renderer refuses both violations. Bounded at 63 like every other subject
+       * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+       * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+       * reference here. A NAME rather than a registry index deliberately: the
+       * renderer's registry order is a decode-time implementation detail that a
+       * dropped or reordered declaration silently shifts, so an index would
+       * resolve to the WRONG subject and send a plausible wrong value, while an
+       * unresolvable name fails loud at load.
+       * </pre>
+       *
+       * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSubject() {
+        subject_ = getDefaultInstance().getSubject();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The local subject whose current int this slot reads. REQUIRED when kind is
+       * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+       * renderer refuses both violations. Bounded at 63 like every other subject
+       * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+       * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+       * reference here. A NAME rather than a registry index deliberately: the
+       * renderer's registry order is a decode-time implementation detail that a
+       * dropped or reordered declaration silently shifts, so an index would
+       * resolve to the WRONG subject and send a plausible wrong value, while an
+       * unresolvable name fails loud at load.
+       * </pre>
+       *
+       * <code>string subject = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for subject to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSubjectBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        subject_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+
+      private int encoding_ = 0;
+      /**
+       * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for encoding.
+       */
+      @java.lang.Override public int getEncodingValue() {
+        return encoding_;
+      }
+      /**
+       * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for encoding to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEncodingValue(int value) {
+        encoding_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+       * @return The encoding.
+       */
+      @java.lang.Override
+      public ui.UiAst.PatchEncoding getEncoding() {
+        ui.UiAst.PatchEncoding result = ui.UiAst.PatchEncoding.forNumber(encoding_);
+        return result == null ? ui.UiAst.PatchEncoding.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+       * @param value The encoding to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEncoding(ui.UiAst.PatchEncoding value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000020;
+        encoding_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEncoding() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        encoding_ = 0;
         onChanged();
         return this;
       }
@@ -46041,8 +46642,12 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46051,8 +46656,12 @@ java.lang.String defaultValue) {
         getPatchesList();
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46060,8 +46669,12 @@ java.lang.String defaultValue) {
     ui.UiAst.FieldPatch getPatches(int index);
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46069,8 +46682,12 @@ java.lang.String defaultValue) {
     int getPatchesCount();
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46079,8 +46696,12 @@ java.lang.String defaultValue) {
         getPatchesOrBuilderList();
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46202,8 +46823,12 @@ java.lang.String defaultValue) {
     private java.util.List<ui.UiAst.FieldPatch> patches_;
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46214,8 +46839,12 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46227,8 +46856,12 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46239,8 +46872,12 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46251,8 +46888,12 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-     * ROI rubber-band's 2nd-corner x2/y2 pair).
+     * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+     * this vocabulary must be able to send in one shot: the rotary scan-node
+     * commands carry 7 operator-facing fields (an index, two zoom-table values,
+     * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+     * The gesture shapes that set the previous bound of 4 are unaffected — an
+     * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
      * </pre>
      *
      * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46814,8 +47455,12 @@ java.lang.String defaultValue) {
 
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46829,8 +47474,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46844,8 +47493,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46859,8 +47512,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46881,8 +47538,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46900,8 +47561,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46921,8 +47586,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46943,8 +47612,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46962,8 +47635,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -46981,8 +47658,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47001,8 +47682,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47019,8 +47704,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47037,8 +47726,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47049,8 +47742,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47064,8 +47761,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47080,8 +47781,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47092,8 +47797,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -47105,8 +47814,12 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * the slot(s) to overwrite at runtime (up to 4 — an NDC x/y pair, plus the
-       * ROI rubber-band's 2nd-corner x2/y2 pair).
+       * The slot(s) to overwrite at runtime. Bounded at 8 by the WIDEST command
+       * this vocabulary must be able to send in one shot: the rotary scan-node
+       * commands carry 7 operator-facing fields (an index, two zoom-table values,
+       * azimuth, elevation, linger and speed), so a form for one needs 7 slots.
+       * The gesture shapes that set the previous bound of 4 are unaffected — an
+       * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
        * </pre>
        *
        * <code>repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = { ... }</code>
@@ -55258,203 +55971,209 @@ java.lang.String defaultValue) {
       "\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013not" +
       "ify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec" +
       "\022+\n\014cmd_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005" +
-      "\222\001\002\020\020\"p\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r" +
-      "\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui." +
-      "PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\"" +
-      "h\n\007CmdSpec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022" +
-      "\025\n\rroot_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132" +
-      "\016.ui.FieldPatchB\010\272H\005\222\001\002\020\004\"P\n\013GestureSpec" +
-      "\022\'\n\004kind\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020" +
-      "\001\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021Visibilit" +
-      "yBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\t" +
-      "ref_value\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.Co" +
-      "mpareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004whe" +
-      "n\030\001 \001(\0132\025.ui.VisibilityBinding\022\030\n\005color\030" +
-      "\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(" +
-      "\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030" +
-      "\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_" +
-      "place\030\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013" +
-      "track_place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002" +
-      "\020\001\"T\n\nStyleGroup\022\026\n\016state_selector\030\001 \001(\r" +
-      "\022.\n\010variants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H" +
-      "\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rvariant_inde" +
-      "x\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.u" +
-      "i.StyleProperty\"\337\001\n\rStyleProperty\022-\n\004typ" +
-      "e\030\001 \001(\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001" +
-      "\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(" +
-      "\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n" +
-      "\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow" +
-      "_value\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005valu" +
-      "e\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001" +
-      "(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014Sha" +
-      "dowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001" +
-      "(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003" +
-      "opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SU" +
-      "BJECT_INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013Patc" +
-      "hOpKind\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PA" +
-      "TCH_OP_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT" +
-      "_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PAT" +
-      "CH_OP_MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDG" +
-      "ET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LA" +
-      "BEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE" +
-      "\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWI" +
-      "DGET_SWITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WI" +
-      "DGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WI" +
-      "DGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016W" +
-      "IDGET_SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGE" +
-      "T_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUT" +
-      "TONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_" +
-      "TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HO" +
-      "ST_PROXY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_ST" +
-      "ATIC\020\000\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROX" +
-      "Y_MODE_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNAB" +
-      "LE\020\003*X\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020" +
-      "\000\022\031\n\025TRIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_" +
-      "LONG_PRESSED\020\002*\264\001\n\tPatchKind\022\032\n\026PATCH_KI" +
-      "ND_UNSPECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024" +
-      "\n\020PATCH_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA" +
-      "\020\003\022\033\n\027PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH" +
-      "_KIND_NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006*\266\001" +
-      "\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000" +
-      "\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GESTURE_KI" +
-      "ND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022GEST" +
-      "URE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005" +
-      "\022\024\n\020GESTURE_KIND_ROI\020\006*q\n\tCompareOp\022\016\n\nC" +
-      "OMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPA" +
-      "RE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004" +
-      "\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_F" +
-      "LOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FL" +
-      "OW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025F" +
-      "LEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_" +
-      "WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020" +
-      "\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_" +
-      "FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign" +
-      "\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END" +
-      "\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_" +
-      "SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUN" +
-      "D\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGr" +
-      "idAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_AL" +
-      "IGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID" +
-      "_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVE" +
-      "NLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GR" +
-      "ID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n" +
-      "\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022" +
-      "\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIG" +
-      "HT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030" +
-      "\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_S" +
-      "TRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MO" +
-      "DE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026" +
-      "BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_M" +
-      "ULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007" +
-      "BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RT" +
-      "L\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTR" +
-      "AL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rG" +
-      "RAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD" +
-      "_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_" +
-      "DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Di" +
-      "r\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIG" +
-      "HT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR" +
-      "_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Ali" +
-      "gn\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020" +
-      "\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020" +
-      "\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM" +
-      "_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_" +
-      "LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN" +
-      "_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALI" +
-      "GN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020" +
-      "\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OU" +
-      "T_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT" +
-      "\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_" +
-      "LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n" +
-      "\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGH" +
-      "T_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\n" +
-      "BorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORD" +
-      "ER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n" +
-      "\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT" +
-      "\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_" +
-      "INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LO" +
-      "NG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001" +
-      "\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LO" +
-      "NG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_" +
-      "MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMA" +
-      "L\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MOD" +
-      "E_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020" +
-      "\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_" +
-      "REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_N" +
-      "ORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tSc" +
-      "aleMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 " +
-      "\n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCAL" +
-      "E_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VER" +
-      "TICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020" +
-      "\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChartT" +
-      "ype\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_L" +
-      "INE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYP" +
-      "E_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART" +
-      "_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AX" +
-      "IS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y" +
-      "\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AX" +
-      "IS_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022\021" +
-      "\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PR" +
-      "OP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021P" +
-      "ROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020" +
-      "\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014" +
-      "PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_H" +
-      "EIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR" +
-      "\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020" +
-      "\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH" +
-      "\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGH" +
-      "T\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020" +
-      "\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020" +
-      "\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRAN" +
-      "SFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020" +
-      "PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014" +
-      "PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PRO" +
-      "P_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SK" +
-      "EW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020" +
-      "#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020" +
-      "%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022" +
-      "\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020" +
-      ")\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN" +
-      "_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_B" +
-      "G_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021" +
-      "PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP" +
-      "\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD" +
-      "_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG" +
-      "_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022" +
-      "\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_B" +
-      "G_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n" +
-      "\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WIDT" +
-      "H\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTL" +
-      "INE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_" +
-      "SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?" +
-      "\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADO" +
-      "W_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PRO" +
-      "P_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PR" +
-      "OP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR" +
-      "_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE" +
-      "_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n" +
-      "\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020" +
-      "K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M" +
-      "\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR" +
-      "\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022" +
-      "\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT" +
-      "_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PR" +
-      "OP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n" +
-      "\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PRO" +
-      "P_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATI" +
-      "ON\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_D" +
-      "IR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PRO" +
-      "P_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022" +
-      "\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_" +
-      "TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PRO" +
-      "P_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_A" +
-      "LIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n" +
-      "\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_C" +
-      "ELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_" +
-      "POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PRO" +
-      "P_GRID_CELL_ROW_SPAN\020jBEZCgit-codecommit" +
-      ".eu-central-1.amazonaws.com/v1/repos/jet" +
-      "tison/jonp/uib\006proto3"
+      "\222\001\002\020\020\"\271\001\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(" +
+      "\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui" +
+      ".PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021" +
+      "\022\030\n\007subject\030\005 \001(\tB\007\272H\004r\002\030?\022-\n\010encoding\030\006" +
+      " \001(\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007Cmd" +
+      "Spec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroo" +
+      "t_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.F" +
+      "ieldPatchB\010\272H\005\222\001\002\020\010\"P\n\013GestureSpec\022\'\n\004ki" +
+      "nd\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003c" +
+      "md\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBindi" +
+      "ng\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_va" +
+      "lue\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareO" +
+      "pB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004when\030\001 \001(" +
+      "\0132\025.ui.VisibilityBinding\022\030\n\005color\030\002 \001(\0132" +
+      "\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui" +
+      ".FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162" +
+      "\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030" +
+      "\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_" +
+      "place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\n" +
+      "StyleGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010va" +
+      "riants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001" +
+      "\020\010\"U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(" +
+      "\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.Styl" +
+      "eProperty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(" +
+      "\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nui" +
+      "nt_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n" +
+      "\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014strin" +
+      "g_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value" +
+      "\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005C" +
+      "olor\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H" +
+      "\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBun" +
+      "dle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010" +
+      "offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 " +
+      "\001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_" +
+      "INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKin" +
+      "d\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP" +
+      "_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020" +
+      "\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_" +
+      "MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ" +
+      "\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022" +
+      "\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\n" +
+      "WIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_S" +
+      "WITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_D" +
+      "ROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_T" +
+      "EXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_" +
+      "SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE" +
+      "\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMAT" +
+      "RIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIE" +
+      "W\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PRO" +
+      "XY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000" +
+      "\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE" +
+      "_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X" +
+      "\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025T" +
+      "RIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_P" +
+      "RESSED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNS" +
+      "PECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATC" +
+      "H_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027" +
+      "PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIND_" +
+      "NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PATCH" +
+      "_KIND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncoding\022" +
+      "\036\n\032PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PATCH" +
+      "_ENCODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENCOD" +
+      "ING_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOAT_" +
+      "LE\020\003*\266\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN" +
+      "_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GES" +
+      "TURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022" +
+      "\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_" +
+      "WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*q\n\tCompare" +
+      "Op\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016" +
+      "\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPA" +
+      "RE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n" +
+      "\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020" +
+      "FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP" +
+      "\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FL" +
+      "OW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUM" +
+      "N_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!" +
+      "\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFl" +
+      "exAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_AL" +
+      "IGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX" +
+      "_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPAC" +
+      "E_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005" +
+      "*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021" +
+      "GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022" +
+      "\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SP" +
+      "ACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020" +
+      "\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextA" +
+      "lign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_" +
+      "LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_AL" +
+      "IGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_N" +
+      "ONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_" +
+      "DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021B" +
+      "LEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIV" +
+      "E\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND" +
+      "_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENC" +
+      "E\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE" +
+      "_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DI" +
+      "R_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradD" +
+      "ir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022" +
+      "\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023" +
+      "\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020" +
+      "\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\t" +
+      "DIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010" +
+      "\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*" +
+      "\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TO" +
+      "P_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP" +
+      "_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN" +
+      "_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n" +
+      "\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020" +
+      "\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n" +
+      "\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP" +
+      "_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024A" +
+      "LIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTO" +
+      "M_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALI" +
+      "GN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTT" +
+      "OM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_O" +
+      "UT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM" +
+      "\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022" +
+      "\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_T" +
+      "OP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SID" +
+      "E_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDE" +
+      "R_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024L" +
+      "ABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE" +
+      "_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037L" +
+      "ABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABE" +
+      "L_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MOD" +
+      "E_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016" +
+      "BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_" +
+      "NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020AR" +
+      "C_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER" +
+      "_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001" +
+      "*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_" +
+      "TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022" +
+      "\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_M" +
+      "ODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND" +
+      "_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n" +
+      "\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART" +
+      "_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CH" +
+      "ART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026" +
+      "\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024C" +
+      "HART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECO" +
+      "NDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026C" +
+      "HART_AXIS_SECONDARY_X\020\004*\273\022\n\021StylePropert" +
+      "yType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020" +
+      "\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT" +
+      "\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER" +
+      "_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_AL" +
+      "L\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n" +
+      "\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_" +
+      "PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARG" +
+      "IN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MI" +
+      "N_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MI" +
+      "N_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_" +
+      "LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP" +
+      "_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PR" +
+      "OP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_" +
+      "X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_" +
+      "X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036" +
+      "\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013" +
+      "PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_P" +
+      "AD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PA" +
+      "D_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD" +
+      "_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARG" +
+      "IN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP" +
+      "_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n" +
+      "\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DI" +
+      "R\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GR" +
+      "AD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_" +
+      "BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021" +
+      "PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_REC" +
+      "OLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n" +
+      "\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SI" +
+      "DE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLI" +
+      "NE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PR" +
+      "OP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025" +
+      "\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFF" +
+      "SET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PRO" +
+      "P_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B" +
+      "\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020" +
+      "D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_" +
+      "RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PR" +
+      "OP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_G" +
+      "AP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE" +
+      "_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_" +
+      "WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_AR" +
+      "C_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT" +
+      "_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PR" +
+      "OP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020" +
+      "T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORN" +
+      "ER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X" +
+      "\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM" +
+      "_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP" +
+      "_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]" +
+      "\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_P" +
+      "LACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PRO" +
+      "P_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b" +
+      "\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRI" +
+      "D_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_P" +
+      "OS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP" +
+      "_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CE" +
+      "LL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i" +
+      "\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-cod" +
+      "ecommit.eu-central-1.amazonaws.com/v1/re" +
+      "pos/jettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -55676,7 +56395,7 @@ java.lang.String defaultValue) {
     internal_static_ui_FieldPatch_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_FieldPatch_descriptor,
-        new java.lang.String[] { "ByteOffset", "ByteWidth", "Kind", "WireScale", });
+        new java.lang.String[] { "ByteOffset", "ByteWidth", "Kind", "WireScale", "Subject", "Encoding", });
     internal_static_ui_CmdSpec_descriptor =
       getDescriptor().getMessageTypes().get(34);
     internal_static_ui_CmdSpec_fieldAccessorTable = new

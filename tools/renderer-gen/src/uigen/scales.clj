@@ -2,9 +2,13 @@
   "The single home for `semantic-type → wire-scale`: the fixed-point factor
    mapping a proto numeric value to the INTEGER the controls.wasm ABI and the
    slider widgets ride (LVGL values are int-only). R5b carries the wire-scale on
-   each CmdSpec FieldPatch; the renderer multiplies the live widget/gesture int
-   by it before the padded-varint patch (value × wire-scale = the wire int), so
-   the cmd.* bytes controls.wasm relays via `host_command` are already scaled. Display units
+   each CmdSpec FieldPatch, and the renderer applies it in the direction that
+   RECOVERS the proto value: the DOUBLE_LE/FLOAT_LE encodings DIVIDE the live
+   int by it (proto value = ABI int ÷ scale, the inverse of this table's own
+   definition), while PADDED_VARINT multiplies — which is identity in practice,
+   because an integer leaf's ABI int is already in the proto's own unit and
+   every int leaf in this vocabulary carries a scale of 1. So the cmd.* bytes
+   controls.wasm relays via `host_command` are already in proto units. Display units
    (the `%`/`°` shown in labels, precision, display-format) are a SEPARATE
    emit-time concern read from the endpoint's :unit / :precision /
    :display-format — deliberately NOT this table.

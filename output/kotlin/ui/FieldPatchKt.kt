@@ -59,7 +59,7 @@ public object FieldPatchKt {
 
     /**
      * ```
-     * slot width (8 for a double, 5/10 for a padded varint)
+     * slot width (8 double, 4 float, 5/10 padded varint)
      * ```
      *
      * `uint32 byte_width = 2;`
@@ -73,7 +73,7 @@ public object FieldPatchKt {
       }
     /**
      * ```
-     * slot width (8 for a double, 5/10 for a padded varint)
+     * slot width (8 double, 4 float, 5/10 padded varint)
      * ```
      *
      * `uint32 byte_width = 2;`
@@ -108,8 +108,13 @@ public object FieldPatchKt {
 
     /**
      * ```
-     * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-     * wire int for a varint leaf; 1 for a verbatim double (NDC).
+     * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+     * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+     * ride. The float/double encodings therefore DIVIDE by it to recover the
+     * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+     * int is already in the proto's own unit and its scale is 1. A wire_scale
+     * ≤ 0 is refused rather than applied — it can only come from a malformed
+     * producer, and both directions would silently corrupt the slot.
      * ```
      *
      * `sint32 wire_scale = 4;`
@@ -123,14 +128,86 @@ public object FieldPatchKt {
       }
     /**
      * ```
-     * gen-time wire-scale (uigen.scales): the runtime value × scale is the
-     * wire int for a varint leaf; 1 for a verbatim double (NDC).
+     * gen-time fixed-point factor (uigen.scales), whose ONE definition is
+     * `proto value × wire_scale = the ABI int` the LVGL widgets and subjects
+     * ride. The float/double encodings therefore DIVIDE by it to recover the
+     * proto value; the padded varint MULTIPLIES, because an integer leaf's ABI
+     * int is already in the proto's own unit and its scale is 1. A wire_scale
+     * ≤ 0 is refused rather than applied — it can only come from a malformed
+     * producer, and both directions would silently corrupt the slot.
      * ```
      *
      * `sint32 wire_scale = 4;`
      */
     public fun clearWireScale() {
       _builder.clearWireScale()
+    }
+
+    /**
+     * ```
+     * The local subject whose current int this slot reads. REQUIRED when kind is
+     * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+     * renderer refuses both violations. Bounded at 63 like every other subject
+     * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+     * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+     * reference here. A NAME rather than a registry index deliberately: the
+     * renderer's registry order is a decode-time implementation detail that a
+     * dropped or reordered declaration silently shifts, so an index would
+     * resolve to the WRONG subject and send a plausible wrong value, while an
+     * unresolvable name fails loud at load.
+     * ```
+     *
+     * `string subject = 5 [(.buf.validate.field) = { ... }`
+     */
+    public var subject: kotlin.String
+      @JvmName("getSubject")
+      get() = _builder.subject
+      @JvmName("setSubject")
+      set(value) {
+        _builder.subject = value
+      }
+    /**
+     * ```
+     * The local subject whose current int this slot reads. REQUIRED when kind is
+     * PATCH_KIND_SUBJECT_VALUE and MUST be empty for every other kind; the
+     * renderer refuses both violations. Bounded at 63 like every other subject
+     * reference (SubjectDeclaration.name, VisibilityBinding.subject,
+     * EventBinding.set_subject), so a name legal to DECLARE is always legal to
+     * reference here. A NAME rather than a registry index deliberately: the
+     * renderer's registry order is a decode-time implementation detail that a
+     * dropped or reordered declaration silently shifts, so an index would
+     * resolve to the WRONG subject and send a plausible wrong value, while an
+     * unresolvable name fails loud at load.
+     * ```
+     *
+     * `string subject = 5 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearSubject() {
+      _builder.clearSubject()
+    }
+
+    /**
+     * `.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }`
+     */
+    public var encoding: ui.UiAst.PatchEncoding
+      @JvmName("getEncoding")
+      get() = _builder.encoding
+      @JvmName("setEncoding")
+      set(value) {
+        _builder.encoding = value
+      }
+    public var encodingValue: kotlin.Int
+      @JvmName("getEncodingValue")
+      get() = _builder.encodingValue
+      @JvmName("setEncodingValue")
+      set(value) {
+        _builder.encodingValue = value
+      }
+    /**
+     * `.ui.PatchEncoding encoding = 6 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearEncoding() {
+      _builder.clearEncoding()
     }
   }
 }

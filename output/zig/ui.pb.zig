@@ -74,6 +74,16 @@ pub const PatchKind = enum(i32) {
    PATCH_KIND_WIDGET_VALUE = 4,
    PATCH_KIND_NDC_X2 = 5,
    PATCH_KIND_NDC_Y2 = 6,
+   PATCH_KIND_SUBJECT_VALUE = 7,
+    _,
+};
+
+
+pub const PatchEncoding = enum(i32) {
+   PATCH_ENCODING_UNSPECIFIED = 0,
+   PATCH_ENCODING_PADDED_VARINT = 1,
+   PATCH_ENCODING_DOUBLE_LE = 2,
+   PATCH_ENCODING_FLOAT_LE = 3,
     _,
 };
 
@@ -3239,12 +3249,16 @@ pub const FieldPatch = struct {
     byte_width: u32 = 0,
     kind: PatchKind = @enumFromInt(0),
     wire_scale: i32 = 0,
+    subject: []const u8 = &.{},
+    encoding: PatchEncoding = @enumFromInt(0),
 
     pub const _desc_table = .{
         .byte_offset = fd(1, .{ .scalar = .uint32 }),
         .byte_width = fd(2, .{ .scalar = .uint32 }),
         .kind = fd(3, .@"enum"),
         .wire_scale = fd(4, .{ .scalar = .sint32 }),
+        .subject = fd(5, .{ .scalar = .string }),
+        .encoding = fd(6, .@"enum"),
     };
 
     /// Encodes the message to the writer
