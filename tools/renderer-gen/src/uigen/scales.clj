@@ -16,7 +16,7 @@
    Scales are deliberate per-semantic-type choices, NOT derivable from the
    proto `precision` field (which drifts within a semantic-type — two
    `:angle` fields at precision 0 vs 2, `:normalized` at 0 vs 2). They are
-   overridable per-command later via the node-config tuning layer (plan §6).
+   overridable per-command later via the node-config tuning layer.
    Resolved per research agent abef6d82 (decision 1)."
   (:require [asgard.schema :as s]
             [malli.core :as m]))
