@@ -169,8 +169,18 @@
           (str/split s #","))))
 
 (defn -main [& args]
-  (let [[cmd & rest] args
-        opts (apply hash-map rest)]
+  ;; `argv`, not `rest` — binding `rest` would shadow `clojure.core/rest`, the
+  ;; rename hazard this repo has been bitten by twice: the linter stays green
+  ;; and a missed reference dies at runtime.
+  (let [[cmd & argv] args
+        ;; An ODD argument count would throw a bare stack trace out of
+        ;; `hash-map`; usage is the useful answer.
+        _ (when (odd? (count argv))
+            (binding [*out* *err*]
+              (println "scratchcard: options must come in --flag value pairs; got"
+                       (pr-str argv)))
+            (System/exit 2))
+        opts (apply hash-map argv)]
     (case (or cmd "help")
       "status" (emit! (if (daemon-up?)
                         (request! "status" {})
