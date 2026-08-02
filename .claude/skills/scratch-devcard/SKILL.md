@@ -12,7 +12,7 @@ One command. It blocks, then returns paths and counts.
 tools/scratchcard/bin/scratchcard regenerate --file <screen.edn>
 ```
 
-Warm, that is ~1.2s for the full 42-cell default matrix. The first call after a
+Warm, that is around a second for the full default matrix. The first call after a
 cold boot pays ~10-30s for the container and JVM; every call after is warm.
 
 ## The workflow
@@ -20,7 +20,7 @@ cold boot pays ~10-30s for the container and JVM; every call after is warm.
 1. Copy `tools/scratchcard/example/hello.edn` and edit it.
 2. `regenerate`. Read the returned JSON: `ok`, `dir`, `cells`, `failed`,
    `findings`.
-3. **Read `<dir>/report.md` FIRST.** The verdict is the first line.
+3. **Read `<dir>/report.md` FIRST.** The verdict is the line under the title.
 4. Look at `<dir>/renders/<cell>.png` for the cells you care about.
 5. Fix, regenerate, and compare against the previous run.
 
@@ -44,14 +44,15 @@ Other commands: `status`, `up`, `stop`, `restart`, `ping`.
 same widgets; this pipeline speaks the first and will refuse the second.
 
 **Give containers a layout.** A root with no `flex-col`/`flex-row` lays its
-children out at default positions and overflows — the shipped example itself
-produced 154 findings until it carried one.
+children out at default positions and overflows, which the geometry lanes
+report as `:clipped` on every text node plus `:scrollable_overflow` on the
+root.
 
-Seven validation stages run before a byte is emitted, and each has its own
-error code: `INPUT_SCHEMA_INVALID`, `INPUT_COMPONENT_UNRESOLVED`,
-`INPUT_SEMANTICS_INVALID`, `INPUT_ASSET_MISSING`, `INPUT_EXPAND_FAILED`,
-`INPUT_FONT_UNRESOLVED`, `INPUT_IR_INVALID`. The code tells you WHICH stage
-rejected the screen.
+The authoring pipeline validates at every stage before a byte is emitted, and
+each stage has its own error code: `INPUT_SCHEMA_INVALID`,
+`INPUT_COMPONENT_UNRESOLVED`, `INPUT_SEMANTICS_INVALID`, `INPUT_ASSET_MISSING`,
+`INPUT_EXPAND_FAILED`, `INPUT_FONT_UNRESOLVED`, `INPUT_CAPACITY_EXCEEDED`,
+`INPUT_IR_INVALID`. The code tells you WHICH stage rejected the screen.
 
 ## What a run directory holds
 
@@ -114,7 +115,8 @@ Its findings are owed a disposition, never a pass/fail verdict.
 
 Container, socket and lock are keyed by `sha256(repo-root)[0:16]`, and there
 are **no TCP ports**. Several protogen clones run concurrently on one machine
-without contending. `status` reports the socket, the container and disk usage.
+without contending. `status` reports the socket, the workspace, uptime, the
+run count and disk usage; the container name rides its `logs` hint.
 
 Never create a global PATH symlink to `bin/scratchcard` — it would hardcode one
 worktree's hash. Use a shell function instead:

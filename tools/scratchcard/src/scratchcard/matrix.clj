@@ -103,9 +103,9 @@
 
   COVERAGE NOTE, stated rather than left for a reader to discover: this set
   spans DISP_LARGE and DISP_MEDIUM but never reaches DISP_SMALL, whose
-  threshold is a greater axis of 320 or less. The small tier halves the
-  scrollbar radius and drops PAD_TINY from 8 to 2, so a screen that must work
-  there needs a canvas named explicitly."
+  threshold is a greater axis of 320 or less. That tier drops PAD_TINY from 8
+  to 2 (`lv_theme_default.c` PAD_TINY), so a screen that must work there needs
+  a canvas named explicitly."
   [{:w 1920 :h 1080 :note "1080p"}
    {:w 1280 :h 720}
    {:w 1024 :h 600}

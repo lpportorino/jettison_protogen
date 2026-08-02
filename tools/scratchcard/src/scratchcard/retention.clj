@@ -118,3 +118,18 @@
         rs (filter run-dir? (or (.listFiles dir) []))]
     {:runs (count rs)
      :bytes (reduce + 0 (map dir-bytes rs))}))
+
+(defn total-usage
+  "Runs and bytes across EVERY card under `scratch-root`.
+
+  `card-usage` needs a card name, and the status op has none to give: its
+  declared arg set is EMPTY, so a `(:card args)` lookup there is unreachable
+  and whatever default it fell back to reported zero for every real card.
+  Growth has to be visible without naming anything."
+  [^String scratch-root]
+  (let [cards (filter #(.isDirectory ^File %)
+                      (or (.listFiles (io/file scratch-root)) []))
+        per (mapv #(card-usage scratch-root (.getName ^File %)) cards)]
+    {:cards (count cards)
+     :runs (reduce + 0 (map :runs per))
+     :bytes (reduce + 0 (map :bytes per))}))

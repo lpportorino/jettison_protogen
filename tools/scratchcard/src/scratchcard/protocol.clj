@@ -37,10 +37,11 @@
 (def input-errors
   "Refusals attributable to the caller's screen file.
 
-  One code PER VALIDATION STAGE rather than a single BUILD_FAILED: the
-  authoring pipeline runs seven distinct checks, and collapsing them would
-  throw away the tool's most useful property — telling the author WHICH stage
-  rejected the screen."
+  One code per stage rather than a single BUILD_FAILED: the authoring pipeline
+  refuses at several distinct points, and collapsing them would throw away the
+  tool's most useful property — telling the author WHICH stage rejected the
+  screen. Two of these (`INPUT_MISSING`, `INPUT_READ_FAILED`) are pre-pipeline
+  rather than stages."
   #{"INPUT_MISSING"
     "INPUT_READ_FAILED"
     "INPUT_SCHEMA_INVALID"
@@ -49,7 +50,8 @@
     "INPUT_ASSET_MISSING"
     "INPUT_EXPAND_FAILED"
     "INPUT_FONT_UNRESOLVED"
-    "INPUT_IR_INVALID"})
+    "INPUT_IR_INVALID"
+    "INPUT_CAPACITY_EXCEEDED"})
 
 (def render-errors
   #{"RENDER_FAILED" "RENDER_TIMEOUT" "LANE_FAILED" "WRITE_FAILED"})

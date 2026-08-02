@@ -12,13 +12,18 @@
   devcards node shape (`{:type :WIDGET_SLIDER}`). Two vocabularies exist for
   the same widgets; this is the one with a validating pipeline behind it.
 
-  WHY THAT DIALECT WAS CHOSEN: `lvgl-codegen.core/process-screen` runs SEVEN
-  validation stages before a byte is emitted — schema, component resolution,
+  WHY THAT DIALECT WAS CHOSEN: `lvgl-codegen.core/process-screen` validates
+  at every stage before a byte is emitted — schema, component resolution,
   semantic validation, asset-path existence, token expansion, font-reference
-  resolution, and proto IR validation. The font stage alone catches a class
-  that would otherwise fall back silently to a default face and be visible
-  only as 'the text looks wrong'. The devcards builder has closed-key asserts
-  and nothing else.
+  resolution, renderer-capacity headroom, and proto IR validation. The font
+  stage alone catches a class that would otherwise fall back silently to a
+  default face and be visible only as 'the text looks wrong'. The devcards
+  builder has closed-key asserts and nothing else.
+
+  The stage list is NOT re-counted here: `process-screen` is the one home and
+  a number in this docstring would drift the moment a stage is added — which
+  is exactly what happened once, when a headroom check was missing from
+  `stage-classification` and its refusals landed on the fallback code.
 
   THE PIPELINE IS CALLED, NOT REIMPLEMENTED. Running its stages individually
   here would give exact error attribution and would be a second copy of a
@@ -56,7 +61,12 @@
    [#"(?i)font reference" "INPUT_FONT_UNRESOLVED" "font-reference resolution"]
    [#"(?i)proto ir failed" "INPUT_IR_INVALID" "proto IR validation"]
    [#"(?i)class-defs macro" "INPUT_EXPAND_FAILED" "token/class expansion"]
-   [#"(?i)component" "INPUT_COMPONENT_UNRESOLVED" "component resolution"]])
+   [#"(?i)component" "INPUT_COMPONENT_UNRESOLVED" "component resolution"]
+   ;; `renderer-caps/check-headroom!` — a CAPACITY refusal, not a schema one.
+   ;; Without this row it landed on `fallback-code` and was reported as
+   ;; INPUT_SCHEMA_INVALID, sending an author to look at their schema for a
+   ;; screen that is simply too big.
+   [#"(?i)headroom|renderer-caps" "INPUT_CAPACITY_EXCEEDED" "renderer-capacity headroom"]])
 
 (def fallback-code
   "Used when no pattern matches. A generic code with the real message beats a

@@ -89,8 +89,21 @@
     (let [r (run/regenerate! {:repo-root workspace :screen-path (str f)
                               :card "planted-defect"
                               :matrix-opts {:resolutions [{:w 800 :h 480}]}})]
-      (if (get-in r [:findings :clean?])
+      ;; THE RUN MUST HAVE SUCCEEDED FIRST. `regenerate!`'s failure return
+      ;; carries NO `:findings` key, so `(get-in r [:findings :clean?])` is nil
+      ;; — falsey — and a screen that failed to BUILD would have printed
+      ;; "planted defect caught: nil" and passed. That is a precondition
+      ;; failure wearing a green, which is the one thing this clause exists to
+      ;; make impossible.
+      (cond
+        (not (:ok r))
+        (fail! (str "the planted screen did not render at all (" (:error r)
+                    ") — this clause proves nothing about the lanes"))
+
+        (get-in r [:findings :clean?])
         (fail! "a screen with no root layout reported CLEAN — the lanes are asleep")
+
+        :else
         (pass! (str "planted defect caught: "
                     (pr-str (get-in r [:findings :by-invariant]))))))))
 
@@ -105,9 +118,14 @@
                 {:repo-root workspace
                  :screen-path (str workspace "/tools/scratchcard/example/hello.edn")
                  :card "render-lane-example"})
-        ok (and (clause-clean-example result)
-                (clause-vanilla-equals-stock result)
-                (clause-planted-defect-is-caught))]
+        ;; EVALUATED, not short-circuited. `and` would skip every later clause
+        ;; on the first failure — including the awake-check, which is the
+        ;; diagnosis you most want when the example has suddenly grown
+        ;; findings. Collect all the booleans, then reduce.
+        results [(clause-clean-example result)
+                 (clause-vanilla-equals-stock result)
+                 (clause-planted-defect-is-caught)]
+        ok (every? true? results)]
     (println (if ok "render-lane: GREEN" "render-lane: RED"))
     (shutdown-agents)
     (System/exit (if ok 0 1))))

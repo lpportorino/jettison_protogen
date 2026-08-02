@@ -116,10 +116,13 @@
   (try
     (case op
       "ping" (proto/ok id "pong")
+      ;; `status` declares an EMPTY arg set, so `(:card args)` was unreachable
+      ;; and its fallback reported zero bytes for every real card. Usage is
+      ;; summed across all cards instead — growth must be visible without the
+      ;; caller naming anything.
       "status" (proto/ok id (assoc (op-status ctx)
-                                   :usage (retention/card-usage
-                                           (str (:workspace ctx) "/.protogen/scratch")
-                                           (or (:card args) "hello"))))
+                                   :usage (retention/total-usage
+                                           (str (:workspace ctx) "/.protogen/scratch"))))
       "stop" (proto/ok id "stopping")
       "regenerate" (proto/ok id (op-regenerate ctx args))
       (proto/err id "UNKNOWN_OP" (str "unhandled op " op)))

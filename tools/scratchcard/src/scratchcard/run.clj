@@ -13,8 +13,8 @@
 
   SO THERE IS DELIBERATELY NO OPS LOCK. The sibling fleet's GPU worker
   serialises every op because a GPU is one resource; a renderer here is not,
-  and copying that lock would triple the wall time of the matrix for no
-  correctness gain. Do not 'restore' it for symmetry.
+  and copying that lock would serialise a matrix that currently renders
+  concurrently, for no correctness gain. Do not 'restore' it for symmetry.
 
   ONE BAD CELL IS ONE BAD CELL. Each render gets a fresh context, so a trap, a
   timeout or a decode failure kills that context and nothing else; the other
@@ -89,7 +89,13 @@
                 ;; because provenance is collected after every context is
                 ;; closed, and a manifest recording `abi: nil` cannot tell a
                 ;; reader whether the module was old or merely unasked.
-                :runtime {:abi (:abi h*)}
+                ;; What a LIVE host can answer. `:fb-format` and
+                ;; `:engine-impl` are NOT here because `devcards.host/start!`
+                ;; exposes neither — claiming them would be a manifest field
+                ;; that is structurally always nil. What IS derivable: the
+                ;; render happened, and `assert-optimizing-runtime!` hard-fails
+                ;; on a non-optimizing runtime, so reaching this line proves it.
+                :runtime {:abi (:abi h*) :optimizing-runtime? true}
                 :fb-sha256 (get-in st [:framebuffer :sha256])
                 :png (str "renders/" (.getName ^File png-file))
                 :dump (str "renders/" (.getName dump-file))
@@ -205,11 +211,23 @@
                                   :input-info (assoc built :path (str screen-path))
                                   :cells results
                                   :status (if (pos? failed) :error :ok)))]
-        (runs/latest-link! scratch-root card-slug run-dir)
-        (runs/append-roster! scratch-root card-slug
-                             {:run run-id :utc (:utc base) :status (get-in mf [:run :status])
-                              :cells (count results) :failed failed
-                              :findings (get-in mf [:findings :count])})
+        ;; BOOKKEEPING IS ISOLATED FROM THE RUN'S VERDICT. `write-run!` has
+        ;; already written findings.edn, manifest.edn and report.md. If the
+        ;; roster append or the symlink then threw, the outer catch would call
+        ;; write-run! AGAIN with `:cells []` and `:status :error` — overwriting
+        ;; a correct manifest with one claiming zero renders, while 42 PNGs sat
+        ;; on disk beside it. The archive would permanently misdescribe a run
+        ;; that succeeded.
+        (try
+          (runs/latest-link! scratch-root card-slug run-dir)
+          (runs/append-roster! scratch-root card-slug
+                               {:run run-id :utc (:utc base) :status (get-in mf [:run :status])
+                                :cells (count results) :failed failed
+                                :findings (get-in mf [:findings :count])})
+          (catch Exception e
+            (binding [*out* *err*]
+              (println "scratchcard: roster bookkeeping failed (the run itself stands):"
+                       (ex-message e)))))
         {:ok (zero? failed)
          :dir (str run-dir)
          :run run-id
@@ -217,9 +235,13 @@
          :failed failed
          :findings (select-keys (:findings mf) [:count :unjudged :by-invariant :clean?])
          :elapsed-ms (ms-since t0)
-         :retention (retention/prune! scratch-root card-slug
-                                      {:keep (or keep-runs retention/default-keep)
-                                       :protect [(.getName ^File run-dir)]})})
+         ;; Same isolation: a prune failure must not turn a good run into a
+         ;; failed one, and must not reach the catch below.
+         :retention (try (retention/prune! scratch-root card-slug
+                                           {:keep (or keep-runs retention/default-keep)
+                                            :protect [(.getName ^File run-dir)]})
+                         (catch Exception e
+                           {:error "PRUNE_FAILED" :message (str (ex-message e))}))})
       (catch Exception e
         ;; The run directory still gets a manifest — a failure that leaves no
         ;; trace cannot be compared against the last success.

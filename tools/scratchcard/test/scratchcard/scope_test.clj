@@ -19,8 +19,13 @@
    (java.nio.file.attribute FileAttribute)))
 
 (def ^:private known-root
-  "A fixed absolute path standing in for a checkout. Never touched on disk."
-  "/home/example/git/jettison_protogen")
+  "A fixed absolute path standing in for a checkout. Never touched on disk.
+
+  NOT under /home: `tools/lint/no_host_paths.sh` bans an operator-home path in
+  any checked-in file, and it does not care that this one is fictional — the
+  ban is on the SHAPE, because a real one bakes one operator's layout into a
+  tree every consumer clones."
+  "/srv/example/git/jettison_protogen")
 
 (deftest sha256-hex-matches-known-vectors
   (testing "the empty string's sha256 — the standard vector"
@@ -39,8 +44,8 @@
   (testing "deterministic across calls"
     (is (= (scope/worktree-hash known-root) (scope/worktree-hash known-root))))
   (testing "two forks with the SAME basename get different keys — the whole point"
-    (let [a "/home/example/a/jettison_protogen"
-          b "/home/example/b/jettison_protogen"]
+    (let [a "/srv/example/a/jettison_protogen"
+          b "/srv/example/b/jettison_protogen"]
       (is (not= (scope/worktree-hash a) (scope/worktree-hash b))))))
 
 (deftest scope-derives-every-name-from-the-key

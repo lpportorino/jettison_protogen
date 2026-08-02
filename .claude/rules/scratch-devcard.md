@@ -71,15 +71,16 @@ separate threads over the shared engine is what `devcards.docs/generate!`
 already does for the committed gallery.
 
 The sibling fleet's GPU worker serialises every op because a GPU is one
-resource. **A renderer is not**, and copying that lock would multiply the
-matrix's wall time for no correctness gain. This divergence is deliberate; do
-not "restore" it for symmetry.
+resource. **A renderer is not**, and copying that lock would serialise a matrix
+that currently renders concurrently, for no correctness gain. This divergence
+is deliberate; do not "restore" it for symmetry.
 
 ## Recovery ladder — each rung reachable without the one above
 
 | condition | outcome |
 |---|---|
-| wedged op | client `DAEMON_TIMEOUT`; the server's ceiling fires first with the richer error |
+| wedged cell | the per-cell deadline in `run/default-cell-timeout-ms` fails THAT cell |
+| wedged whole request | client `DAEMON_TIMEOUT`. NOTE there is no whole-request server ceiling, so on a low-core host a long matrix can outlast the client cap — the client's error is then the only one, and it is the poorer of the two |
 | wedged daemon | `scratchcard restart` discards it — disposable by design |
 | dead daemon | the next call's connect-probe respawns it inside the flock |
 | OOM | `ExitOnOutOfMemoryError` + `--rm` ⇒ container vanishes; next call respawns |
@@ -99,21 +100,27 @@ use"*. The client polls `docker ps -aq` name-anchored until it clears.
 
 ## babashka is vendored, pinned, and NOT committed
 
-A ~66 MB statically-linked, **platform-specific** binary. The sibling repos
-fetch x86-64 and aarch64 builds of the same version, so committing one would
-pin this repo to a single architecture — defeating portability rather than
-helping it — and would put 66 MB into the history of a submodule ten consumer
-repos clone. `bin/ensure-bb.sh` fetches the pin into gitignored `.protogen/bin`.
+A large statically-linked, **platform-specific** binary. The sibling repos
+fetch x86-64 and aarch64 builds, so committing one would pin this repo to a
+single architecture — defeating portability rather than helping it — and would
+put the binary into the history of a submodule ten consumer repos clone.
+`bin/ensure-bb.sh` fetches the pin into gitignored `.protogen/bin`.
 
-The pin matches both siblings, so one bb version serves the machine. A floating
-version would let two forks differ silently and leave a client regression with
-no bisect.
+The pin matches the version the siblings predominantly use. A floating version
+would let two forks differ silently and leave a client regression with no
+bisect.
+
+**The installer itself is fetched from a moving ref and is not checksummed** —
+only the resulting `--version` is checked. That is a real gap, recorded here
+rather than left implicit.
 
 ## What the lanes judge, and what they cannot
 
-The tool runs `devcards.lanes`' armed producers verbatim plus the `:emission`
-builtin. `:layers`, `:palette` and `:border` are DECLINED and named in every
-report, so silence is never mistakable for coverage.
+The tool runs `devcards.lanes/atomic-producers` verbatim plus the `:emission`
+builtin (NOT `armed-producers`, which also carries the by-mode emission
+producer this tool does not arm). `:layers`, `:palette` and `:border` are
+DECLINED and named in every report, so silence is never mistakable for
+coverage.
 
 **No report may imply readability, contrast or legibility under any lighting or
 panel condition.** Those are properties of a PANEL and an OPERATOR, governed

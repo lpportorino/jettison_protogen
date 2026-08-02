@@ -430,8 +430,10 @@ deadzone-canary-prebuilt: wasm-present bindings
 # bit-identically, and a PLANTED defect is CAUGHT. Without that last clause a
 # clean run would prove only that the lanes are quiet, not that they are awake.
 #
-# Exit codes SEPARATE a verdict (1) from CANNOT RUN (3), so a missing wasm or a
-# non-optimizing runtime cannot be read as a caught defect.
+# The lane exits 3 for CANNOT RUN and 1 for a real verdict, so a red says which
+# it was. NOTE the guard below is the ordinary make-level wasm-present check
+# copied from the canary lanes and exits 1; the lane's own exit-3 path covers a
+# wasm that vanishes after the guard passes.
 #
 # The scratchcard DAEMON is deliberately NOT exercised here: it drives docker,
 # which this image does not carry. That half is host-only, like go-leg-repro.

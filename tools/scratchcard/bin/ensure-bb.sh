@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 # ensure-bb.sh — resolve a pinned babashka for the scratchcard client.
 #
-# WHY VENDOR RATHER THAN COMMIT. bb is a ~66 MB statically-linked binary and it
+# WHY VENDOR RATHER THAN COMMIT. bb is a large statically-linked binary and it
 # is PLATFORM-SPECIFIC: the sibling repos in this fleet fetch x86-64 and
-# aarch64 builds of the same version. Committing one would pin this repo to a
-# single architecture — which defeats portability rather than helping it — and
-# would put 66 MB into the history of a submodule that ten consumer repos
-# clone. Fetching per platform is the portable answer.
+# aarch64 builds. Committing one would pin this repo to a single architecture —
+# which defeats portability rather than helping it — and would put the binary
+# into the history of a submodule that ten consumer repos clone. Fetching per
+# platform is the portable answer.
 #
-# WHY PINNED RATHER THAN LATEST. Both sibling repos pin the SAME version, so
-# matching it means one bb across the machine. A floating version lets two
-# forks differ silently, and a client regression then has no bisect. bb gates
-# nothing here, so a floating version would be survivable — the cost is
-# debuggability — but a pin costs one constant.
+# WHY PINNED RATHER THAN LATEST. The sibling repos pin this version in most of
+# their own homes, so matching it keeps the machine close to one bb. (They are
+# not perfectly self-consistent, which is an argument FOR pinning rather than
+# against it.) A floating version lets two forks differ silently, and a client
+# regression then has no bisect. bb gates nothing here, so floating would be
+# survivable — the cost is debuggability — but a pin costs one constant.
+#
+# KNOWN GAP: the installer is fetched from a MOVING ref and neither it nor the
+# resulting binary is checksummed; only the reported version is verified.
 #
 # The install target is GITIGNORED (.protogen/bin). Nothing here is tracked.
 #

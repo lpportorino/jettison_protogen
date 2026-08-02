@@ -32,8 +32,11 @@
     :layers  — its declaration is uid-keyed, and renderer-built affordances
                are permanently uid-free, so it can judge authored nodes and
                never a proxy's internals.
-    :palette — its `:draw-palette` context key is not in the registry's closed
-               `context-keys`, so the registry would refuse the call.
+    :palette — it needs the draw-stream observation, which this tool does not
+               collect. It would RUN if armed (its `:requires` is only
+               `#{:tree}`, precisely because `:draw-palette` cannot be
+               declared) and would emit `cantTell` findings for every card,
+               which is noise rather than signal here.
     :border  — its thresholds are per-TARGET contour declarations, which a
                scratch screen does not carry."
   (:require

@@ -525,7 +525,7 @@
    plain, single-mode form. NOT protogen's armed set: its gate names its own
    producers in `devcards.lanes` (`tree-producer` for atomic cards, the
    `:tree` builtin plus `emission-by-mode-producer` for compositions), so the
-   `:emission` entry below is run by nothing in this repo.
+   `:emission` entry below is run by no DEVCARDS lane in this repo (`scratchcard.lanes` arms it).
 
    Both declare EVERY input they read, and neither defaults a missing one.
    An earlier shape had `:tree` require only `:tree` and fall back to

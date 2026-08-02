@@ -112,7 +112,8 @@
   owns the clock because only it knows where one phase ends and the next
   begins."
   [{:keys [host ^bytes framebuffer pb-bytes dump-bytes timings w h]}]
-  (let [expected (* (long w) (long h) 4)]
+  (let [expected (* (long w) (long h) 4)
+        rect (dirty-rect host)]
     (cond-> {:timings-ms timings
              :load-average (prov/load-average)
              :framebuffer {:bytes (alength framebuffer)
@@ -130,4 +131,9 @@
              :wasm {:memory-bytes (memory-bytes host)}
              ;; Named, not omitted — see the namespace docstring.
              :flush-count-available? false}
-      (dirty-rect host) (assoc :dirty-rect (dirty-rect host)))))
+      ;; `controls_get_dirty_rect` is READ-AND-RESET: main.c clears dirty_valid
+      ;; before returning 1. A `cond->` test-then-form would call it TWICE —
+      ;; the first call consumes the rect and reports dirty, the second sees a
+      ;; cleared flag and returns nil — so the key was assoc'd as nil exactly
+      ;; when a rect existed. Read it ONCE into a binding.
+      (some? rect) (assoc :dirty-rect rect))))
