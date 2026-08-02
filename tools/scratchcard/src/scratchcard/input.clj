@@ -60,7 +60,18 @@
    [#"(?i)asset reference" "INPUT_ASSET_MISSING" "asset-path existence"]
    [#"(?i)font reference" "INPUT_FONT_UNRESOLVED" "font-reference resolution"]
    [#"(?i)proto ir failed" "INPUT_IR_INVALID" "proto IR validation"]
-   [#"(?i)class-defs macro" "INPUT_EXPAND_FAILED" "token/class expansion"]
+   ;; `lvgl-codegen.expand` — the class-string stage, and the one an author
+   ;; meets most, because a class string is where a screen's shape is legal but
+   ;; its VOCABULARY is not. Matching only "class-defs macro" left every other
+   ;; throw in that namespace on `fallback-code`, so the two commonest first
+   ;; rejections — a numeric spacing value where the tokens are named, and a
+   ;; breakpoint prefix on a layout flow — both reported INPUT_SCHEMA_INVALID
+   ;; over a screen Malli had already accepted, and named no stage at all.
+   ;; The alternates are the expander's distinctive nouns rather than a single
+   ;; loose word: it sits ABOVE the `component` row, so a pattern broad enough
+   ;; to catch a component message would silently annex that stage.
+   [#"(?i)class token|class prefix|class macro|class-defs macro|design token|token kind mismatch|layout directive|breakpoint prefix"
+    "INPUT_EXPAND_FAILED" "token/class expansion"]
    [#"(?i)component" "INPUT_COMPONENT_UNRESOLVED" "component resolution"]
    ;; `renderer-caps/check-headroom!` — a CAPACITY refusal, not a schema one.
    ;; Without this row it landed on `fallback-code` and was reported as

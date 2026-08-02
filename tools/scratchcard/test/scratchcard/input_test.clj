@@ -103,6 +103,32 @@
     (testing "the pipeline's own message is carried through verbatim"
       (is (str/includes? (str (:pipeline-message d)) "validation failed")))))
 
+(deftest a-class-string-failure-is-attributed-to-the-EXPANSION-stage
+  "The two rejections a screen author actually meets first, both from
+  `lvgl-codegen.expand`. Neither is a schema failure: the screen's SHAPE is
+  legal and Malli passes it. Reporting them as INPUT_SCHEMA_INVALID sends the
+  author to re-read a schema that is fine, and `unattributed` names no stage at
+  all — while the tool's own docs promise the code says WHICH stage refused.
+
+  Driven through `build!`, so this pins the classification against the
+  expander's REAL messages rather than against a copy of them here."
+  (testing "a numeric spacing value where the token vocabulary is named"
+    (let [d (build-error {:type :screen :events {}
+                          :subjects {:bp {:type :int} :theme_dark {:type :int}}
+                          :tree {:tag :lv_obj :class "flex flex-col gap-8"}})]
+      (is (= "INPUT_EXPAND_FAILED" (:error d)))
+      (is (= "token/class expansion" (:stage d)))
+      (testing "and the expander's own message survives verbatim"
+        (is (str/includes? (str (:pipeline-message d)) "Unknown design token")))))
+  (testing "a breakpoint prefix on a layout flow, which ui.Layout cannot carry"
+    (let [d (build-error {:type :screen :events {}
+                          :subjects {:bp {:type :int} :theme_dark {:type :int}}
+                          :tree {:tag :lv_obj :class "flex flex-row sm:flex-col"}})]
+      (is (= "INPUT_EXPAND_FAILED" (:error d)))
+      (is (= "token/class expansion" (:stage d)))
+      (testing "the message already says what to do instead — keep it intact"
+        (is (str/includes? (str (:pipeline-message d)) "unprefixed"))))))
+
 (deftest every-error-carries-a-code-from-the-declared-vocabulary
   (let [d (build-error {:type :screen :events {} :subjects {} :tree {:tag :lv_nope}})]
     (is (string? (:error d)))
