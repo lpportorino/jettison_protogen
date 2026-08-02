@@ -233,9 +233,43 @@
            :message (str "daemon closed without a reply — `docker logs " container-name "`")}
           :else (json/parse-string line true))))))
 
+(defn- failed?
+  "Did the CALLER's request fail — at either level?
+
+  A reply carries TWO ok flags and they answer different questions. The OUTER
+  one is transport: did the daemon accept and answer the request at all. The
+  INNER `:value :ok` is the RENDER: did the screen build and draw. Reading only
+  the outer flag answers \"did the socket round trip work\", which is never the
+  question the caller asked, so every input rejection — a missing screen, a bad
+  class token — exited 0 and reported success to anything checking `$?`."
+  [resp]
+  (and (map? resp)
+       (or (false? (:ok resp))
+           (false? (:ok (:value resp))))))
+
 (defn- emit! [resp]
   (println (json/generate-string resp))
-  (System/exit (if (and (map? resp) (false? (:ok resp))) 1 0)))
+  (System/exit (if (failed? resp) 1 0)))
+
+(def accepted-flags
+  "The flags each command accepts, mirroring the daemon's CLOSED arg sets.
+
+  The daemon refuses an unknown argument with UNKNOWN_ARGUMENT and names the
+  accepted set. That guarantee ends at this client unless the client keeps it:
+  the request map was built by pulling known keys out of `opts`, so anything
+  else was dropped before the daemon could see it. A typo'd `--fil screen.edn`
+  therefore rendered the DEFAULT example and reported it CLEAN — a green
+  verdict about a file the author never named.
+
+  Keep in step with the `case` below; a flag added there and not here is
+  refused, which is the safe direction to be wrong in."
+  {"regenerate" #{"--file" "--card" "--res"}
+   "diff" #{"--card" "--from" "--to"}
+   "status" #{}
+   "up" #{}
+   "stop" #{}
+   "restart" #{}
+   "ping" #{}})
 
 (defn- parse-resolutions [s]
   (when (seq s)
@@ -256,7 +290,20 @@
               (println "scratchcard: options must come in --flag value pairs; got"
                        (pr-str argv)))
             (System/exit 2))
-        opts (apply hash-map argv)]
+        opts (apply hash-map argv)
+        ;; An unknown flag is REFUSED, never dropped — the client half of the
+        ;; daemon's closed-arg contract. An empty set is truthy, so a command
+        ;; taking no flags still refuses one.
+        _ (when-let [accepted (accepted-flags cmd)]
+            (when-let [unknown (seq (sort (remove accepted (keys opts))))]
+              (binding [*out* *err*]
+                (println (str "scratchcard: unknown flag(s) for `" cmd "`: "
+                              (str/join " " unknown)
+                              " — accepted: "
+                              (if (seq accepted)
+                                (str/join " " (sort accepted))
+                                "(none)"))))
+              (System/exit 2)))]
     (case (or cmd "help")
       "status" (emit! (if (daemon-up?)
                         (request! "status" {})

@@ -154,6 +154,49 @@ else
 	bad 'the daemon did not report staleness after a source change' "$out"
 fi
 
+# ── arm 7: an UNKNOWN FLAG is refused, never silently dropped ──────────────
+# The daemon's arg sets are CLOSED and it answers UNKNOWN_ARGUMENT naming the
+# accepted set. That guarantee is worth nothing if the CLIENT drops what it
+# does not recognise before the request is built: `--fil screen.edn` then
+# renders the SHIPPED EXAMPLE and reports it CLEAN — a green verdict about a
+# file the author never named, with no warning anywhere.
+out="$("$CLIENT" regenerate --fil "$ROOT/tools/scratchcard/example/hello.edn" 2>&1)"
+rc=$?
+if [ "$rc" -ne 0 ] && printf '%s' "$out" | grep -q -- '--fil'; then
+	ok 'an unknown flag is refused, and the refusal names it'
+else
+	bad "an unknown flag was not refused (rc=$rc)" "$out"
+fi
+
+# The other direction: the flags that ARE accepted must still work, or the
+# check above is satisfied by a client that refuses everything.
+out="$("$CLIENT" regenerate --res 800x480 2>&1)"
+rc=$?
+if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -q '"ok":true'; then
+	ok 'an accepted flag set still renders and exits 0'
+else
+	bad "an accepted flag set was refused (rc=$rc)" "$out"
+fi
+
+# ── arm 8: a FAILED render EXITS NON-ZERO ─────────────────────────────────
+# The reply envelope carries TWO ok flags: the outer one is transport, the
+# inner one is the render. Exiting on the outer flag answers "did the socket
+# round trip work", which is not the question a caller asks — so every input
+# rejection exited 0 and a scripted author saw success.
+#
+# THE FILENAME MUST NOT START WITH A DOT, and that is why it is spelled out
+# here. A dot-leading name is refused as a card SLUG, which is a PROTOCOL
+# refusal carrying outer ok:false — so it exits non-zero already and this arm
+# would pass without ever reaching the render-level flag it exists to pin.
+# Measured while writing it: the arm went green over the unfixed client.
+out="$("$CLIENT" regenerate --file "$ROOT/e2e-no-such-screen.edn" 2>&1)"
+rc=$?
+if [ "$rc" -ne 0 ] && printf '%s' "$out" | grep -q 'INPUT_MISSING'; then
+	ok 'a render-level failure exits non-zero'
+else
+	bad "a render-level failure exited $rc — a scripted caller cannot tell" "$out"
+fi
+
 # ── verdict ────────────────────────────────────────────────────────────────
 "$CLIENT" restart >/dev/null 2>&1
 printf '\n'
