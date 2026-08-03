@@ -144,7 +144,7 @@ expect() {
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
 	fi
-	if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+	if [ -n "$needle" ] && ! contains "$out" "$needle"; then
 		bad "$label — exit $code was right but the diagnosis never named the clause"
 		printf '       | wanted substring: %s\n' "$needle" >&2
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
@@ -157,7 +157,7 @@ expect() {
 refute() {
 	local repo="$1" needle="$2" label="$3" out
 	out="$(run_gate "$repo")" || true
-	if printf '%s' "$out" | grep -qF -- "$needle"; then
+	if contains "$out" "$needle"; then
 		bad "$label — output still contained: $needle"
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
@@ -215,6 +215,20 @@ if mutate_selftest "$WORK/_selftest"; then
 	PASS=$((PASS + 7))
 else
 	bad 'the mutation primitive failed its own self-test — every proof below is void'
+fi
+
+# ---------------------------------------------------------------------------
+banner 'THE SUBSTRING PRIMITIVE ITSELF — and the pipe form it replaces'
+# Every case below reads a diagnosis with `contains`, so the same argument applies
+# a second time: a primitive that always returned 0 would make each needle
+# assertion vacuous while the suite printed green. Its last case additionally
+# forces the SIGPIPE/pipefail race that the retired `printf … | grep -q …` form
+# is subject to, so the reason this suite no longer uses that form stays proven
+# rather than remembered.
+if contains_selftest "$WORK/_selftest"; then
+	PASS=$((PASS + 7))
+else
+	bad 'the substring primitive failed its own self-test — every needle assertion is void'
 fi
 
 # ---------------------------------------------------------------------------

@@ -129,7 +129,7 @@ expect() {
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
 	fi
-	if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+	if [ -n "$needle" ] && ! contains "$out" "$needle"; then
 		bad "$label — exit $code was right but the diagnosis never named the clause"
 		printf '       | wanted: %s\n' "$needle" >&2
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
@@ -164,6 +164,20 @@ if mutate_selftest "$WORK/_selftest"; then
 	PASS=$((PASS + 7))
 else
 	bad 'the mutation primitive failed its own self-test — every proof below is void'
+fi
+
+# ---------------------------------------------------------------------------
+banner 'THE SUBSTRING PRIMITIVE ITSELF — and the pipe form it replaces'
+# Every case below reads a diagnosis with `contains`, so the same argument applies
+# a second time: a primitive that always returned 0 would make each needle
+# assertion vacuous while the suite printed green. Its last case additionally
+# forces the SIGPIPE/pipefail race that the retired `printf … | grep -q …` form
+# is subject to, so the reason this suite no longer uses that form stays proven
+# rather than remembered.
+if contains_selftest "$WORK/_selftest"; then
+	PASS=$((PASS + 7))
+else
+	bad 'the substring primitive failed its own self-test — every needle assertion is void'
 fi
 
 # ---------------------------------------------------------------------------
@@ -275,13 +289,13 @@ D2="$(fixture empty_mut 50 10)"
 # the exit code stays 3.
 if mutate "$D2" util.clj '(when (or (empty? nsd) (empty? vds))' '(when false'; then
 	out="$(run_gate "$D2" --check ns-size src)" && code=0 || code=$?
-	if [ "$code" = 3 ] && printf '%s' "$out" | grep -qF 'no hand-authored namespaces'; then
+	if [ "$code" = 3 ] && contains "$out" 'no hand-authored namespaces'; then
 		ok 'MUTANT: analysis guard silenced -> the SECOND guard refuses (exit 3, its own message)'
 	else
 		bad "MUTANT: analysis guard silenced -> expected exit 3 from the second guard, got $code"
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 	fi
-	if printf '%s' "$out" | grep -qF 'analysis is EMPTY'; then
+	if contains "$out" 'analysis is EMPTY'; then
 		bad 'the silenced guard still printed its own diagnosis'
 	else
 		ok 'MUTANT: and the silenced guard no longer prints "analysis is EMPTY"'

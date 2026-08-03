@@ -128,7 +128,7 @@ expect() {
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
 	fi
-	if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+	if [ -n "$needle" ] && ! contains "$out" "$needle"; then
 		bad "$label — exit $code was right but the diagnosis never named the clause"
 		printf '       | wanted: %s\n' "$needle" >&2
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
@@ -153,6 +153,20 @@ if mutate_selftest "$WORK/_selftest"; then
 	PASS=$((PASS + 7))
 else
 	bad 'the mutation primitive failed its own self-test — every proof below is void'
+fi
+
+# ---------------------------------------------------------------------------
+banner 'THE SUBSTRING PRIMITIVE ITSELF — and the pipe form it replaces'
+# Every case below reads a diagnosis with `contains`, so the same argument applies
+# a second time: a primitive that always returned 0 would make each needle
+# assertion vacuous while the suite printed green. Its last case additionally
+# forces the SIGPIPE/pipefail race that the retired `printf … | grep -q …` form
+# is subject to, so the reason this suite no longer uses that form stays proven
+# rather than remembered.
+if contains_selftest "$WORK/_selftest"; then
+	PASS=$((PASS + 7))
+else
+	bad 'the substring primitive failed its own self-test — every needle assertion is void'
 fi
 
 # ===========================================================================
@@ -748,7 +762,10 @@ cat > "$D/tools/lint/exemptions.edn" <<EDN
                :retires-when "w" :owner "o" :expires "$SOON"}]}
 EDN
 out="$(run_gate "$D" --check spec-shape src)" && code=0 || code=$?
-if [ "$code" = 1 ] && printf '%s' "$out" | grep -q ' g ' && ! printf '%s' "$out" | grep -qE '^\s+\S+  +f '; then
+# The second clause is a REGEX, so `contains` cannot express it. A here-string
+# rather than a pipe: a one-element pipeline has no writer process for SIGPIPE to
+# reach, which is the hazard `lib_mutate.sh` documents.
+if [ "$code" = 1 ] && contains "$out" ' g ' && ! grep -qE '^\s+\S+  +f ' <<< "$out"; then
 	ok 'the waiver excuses f alone; g is still a finding'
 else
 	bad "per-name scoping: expected g reported and f excused, got exit $code"
@@ -798,7 +815,7 @@ if mutate "$D" specs.clj '(when (seq dark)' '(when false'; then
 		'MUTANT: dark-root report silenced -> still green, so the report was the only loss' \
 		--check spec-shape src
 	out="$(run_gate "$D" --check spec-shape src 2>&1)" || true
-	if printf '%s' "$out" | grep -qF 'UNMEASURED'; then
+	if contains "$out" 'UNMEASURED'; then
 		bad 'MUTANT still printed UNMEASURED — the mutation did not reach the report'
 	else
 		ok 'MUTANT: UNMEASURED is gone (the clause under test is the reporting one)'

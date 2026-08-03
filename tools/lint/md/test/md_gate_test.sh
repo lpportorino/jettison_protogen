@@ -77,6 +77,18 @@ case "$BASE_CP" in
 		;;
 esac
 
+# THE SHARED PRIMITIVES, from the sibling suite family. One home rather than a
+# local copy: `contains` looks trivial, but the quoting inside its `case` pattern
+# is the whole correctness property, and a second copy is how one of them quietly
+# stops being literal. Absent, this suite could only report cases it did not run.
+PRIMITIVES="$REPO_ROOT/tools/lint/test/lib_mutate.sh"
+[ -f "$PRIMITIVES" ] || {
+	printf 'ERROR: missing shared primitives at %s\n' "$PRIMITIVES" >&2
+	exit 2
+}
+# shellcheck source=tools/lint/test/lib_mutate.sh
+. "$PRIMITIVES"
+
 # The pinned date every exemption fixture below is written against.
 PINNED_TODAY=2026-06-15
 
@@ -93,6 +105,20 @@ green() { printf '\033[32m%s\033[0m\n' "$1"; }
 
 ok()   { PASS=$((PASS + 1)); printf '  \033[32mPASS\033[0m %s\n' "$1"; }
 bad()  { FAIL=$((FAIL + 1)); printf '  \033[31mFAIL\033[0m %s\n' "$1"; }
+
+# --------------------------------------------------- the substring primitive
+# Every assertion below reads a diagnosis with `contains`, so a primitive that
+# always returned 0 would make each of them vacuous while this suite printed
+# green. Its last case additionally forces the SIGPIPE/pipefail race the retired
+# `printf … | grep -q …` form is subject to — the race that made this lane one of
+# the two the parallel lint aggregate flaked on — so the reason this suite no
+# longer uses that form stays proven rather than remembered.
+printf '\n%s\n' "$(green 'md_gate canaries — the substring primitive and the pipe form it replaces')"
+if contains_selftest "$WORK/_selftest"; then
+	PASS=$((PASS + 7))
+else
+	bad 'the substring primitive failed its own self-test — every assertion below is void'
+fi
 
 # ---------------------------------------------------------------- fixture tree
 # Every fixture tree carries a BASELINE that satisfies the gate's own floors:
@@ -204,7 +230,7 @@ expect_only() {
 		printf '%s\n' "$OUT" | sed 's/^/       | /'
 		return
 	fi
-	if ! printf '%s\n' "$OUT" | grep -qF "$clause"; then
+	if ! contains "$OUT" "$clause"; then
 		bad "$label: exit 1 but clause '$clause' never named"
 		printf '%s\n' "$OUT" | sed 's/^/       | /'
 		return
@@ -227,7 +253,7 @@ expect_rc() {
 		printf '%s\n' "$OUT" | sed 's/^/       | /'
 		return
 	fi
-	if [ -n "$needle" ] && ! printf '%s\n' "$OUT" | grep -qF "$needle"; then
+	if [ -n "$needle" ] && ! contains "$OUT" "$needle"; then
 		bad "$label: exit $want but message lacks '$needle'"
 		printf '%s\n' "$OUT" | sed 's/^/       | /'
 		return
@@ -370,7 +396,7 @@ clause_case() {
 	fi
 
 	run_gate "$ctl" "$copy"
-	if [ "$RC" -eq 1 ] && printf '%s\n' "$OUT" | grep -qF "$ctl_clause"; then
+	if [ "$RC" -eq 1 ] && contains "$OUT" "$ctl_clause"; then
 		ok "control[$clause]: neighbour '$ctl_clause' still fires under the mutation"
 	else
 		bad "control[$clause]: neighbour '$ctl_clause' stopped firing (rc=$RC) — the mutation was not surgical"
@@ -724,7 +750,7 @@ run_gate "$root"
 expect_only "positive[unreadable-file]" "unreadable-file"
 if mutate unreadable-file '"unreadable-file" path 1' '"unreadable-RENAMED" path 1'; then
 	run_gate "$root" "$MUTANT"
-	if [ "$RC" -eq 1 ] && ! printf '%s\n' "$OUT" | grep -qF "unreadable-file"; then
+	if [ "$RC" -eq 1 ] && ! contains "$OUT" "unreadable-file"; then
 		ok "mutation[unreadable-file]: id renamed -> the fixture no longer reports it"
 	else
 		bad "mutation[unreadable-file]: id still reported after rename (rc=$RC)"
@@ -753,7 +779,7 @@ if mutate crash-trap '(subs s 0 (min (long n) (count s))))' \
 	expect_rc "crash trap: an uncaught exception exits 2, not 1" 2 \
 		"the gate itself crashed"
 	run_gate "$WORK/fx_non_kebab" "$MUTANT"
-	if [ "$RC" -eq 1 ] && printf '%s\n' "$OUT" | grep -qF non-kebab-name; then
+	if [ "$RC" -eq 1 ] && contains "$OUT" non-kebab-name; then
 		ok "control[crash-trap]: a fixture that never formats through the crash still reports exit 1"
 	else
 		bad "control[crash-trap]: the mutation was not surgical (rc=$RC)"
@@ -910,8 +936,8 @@ cat > "$root3/.exemptions.edn" <<-EDNEOF
 	  :retires-when "never" :owner "gate-port" :expires "$soon"}]}
 EDNEOF
 run_gate "$root3"
-if [ "$RC" -eq 1 ] && printf '%s\n' "$OUT" | grep -qF "src/also_gone.clj" \
-	&& ! printf '%s\n' "$OUT" | grep -qF "src/renamed_away.clj"; then
+if [ "$RC" -eq 1 ] && contains "$OUT" "src/also_gone.clj" \
+	&& ! contains "$OUT" "src/renamed_away.clj"; then
 	ok "exemption: a narrow 'match' excuses only its own citation (exit 1)"
 else
 	bad "exemption: narrow match leaked or over-excused (rc=$RC)"

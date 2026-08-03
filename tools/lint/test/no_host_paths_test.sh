@@ -126,7 +126,7 @@ expect() {
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
 	fi
-	if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+	if [ -n "$needle" ] && ! contains "$out" "$needle"; then
 		bad "$label — exit $code was right but the diagnosis never named the clause"
 		printf '       | wanted substring: %s\n' "$needle" >&2
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
@@ -177,6 +177,20 @@ if mutate_selftest "$WORK/_selftest"; then
 	PASS=$((PASS + 7))
 else
 	bad 'the mutation primitive failed its own self-test — every proof below is void'
+fi
+
+# ---------------------------------------------------------------------------
+banner 'THE SUBSTRING PRIMITIVE ITSELF — and the pipe form it replaces'
+# Every case below reads a diagnosis with `contains`, so the same argument applies
+# a second time: a primitive that always returned 0 would make each needle
+# assertion vacuous while the suite printed green. Its last case additionally
+# forces the SIGPIPE/pipefail race that the retired `printf … | grep -q …` form
+# is subject to, so the reason this suite no longer uses that form stays proven
+# rather than remembered.
+if contains_selftest "$WORK/_selftest"; then
+	PASS=$((PASS + 7))
+else
+	bad 'the substring primitive failed its own self-test — every needle assertion is void'
 fi
 
 # ---------------------------------------------------------------------------
@@ -307,7 +321,7 @@ create_empty_repo "$R2"
 if mutate "$R2" "$NEUTER_GUARD_OLD" "$NEUTER_GUARD_NEW"; then
 	expect "$R2" 1 'STALE allowlist' 'MUTANT: guard neutered -> the CANNOT-RUN verdict is gone (clause 3 owned it)'
 	out="$(run_gate "$R2")" || true
-	if printf '%s' "$out" | grep -qF 'discovered ZERO files'; then
+	if contains "$out" 'discovered ZERO files'; then
 		bad 'clause 3 canary: the guard was neutered yet still produced its own diagnosis'
 	else
 		ok 'MUTANT: and the neutered guard no longer prints "discovered ZERO files"'
@@ -362,8 +376,8 @@ expect "$R" 1 '~/<dir> references' 'the allowlisted substring is NOT excused in 
 
 # And prove the finding is the OTHER file, not the allowlisted one.
 out="$(run_gate "$R")" || true
-if printf '%s' "$out" | grep -qF 'renderer/.clang-tidy' &&
-	! printf '%s' "$out" | grep -qF 'action.yml'; then
+if contains "$out" 'renderer/.clang-tidy' &&
+	! contains "$out" 'action.yml'; then
 	ok 'the report names the unexcused file and still excuses the allowlisted one'
 else
 	bad 'clause 5 fired but named the wrong file(s)'

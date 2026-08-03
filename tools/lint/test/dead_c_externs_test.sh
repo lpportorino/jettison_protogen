@@ -34,6 +34,17 @@ GATE="$SCRIPT_DIR/../dead_c_externs.sh"
 	exit 3
 }
 
+# THE SHARED PRIMITIVES. Absent, this suite could only report cases it did not
+# run — and that report is indistinguishable from a green one, so the sourcing
+# is never allowed to fail soft.
+PRIMITIVES="$SCRIPT_DIR/lib_mutate.sh"
+[ -f "$PRIMITIVES" ] || {
+	printf '\033[31mFAIL\033[0m — missing shared primitives at %s\n' "$PRIMITIVES" >&2
+	exit 3
+}
+# shellcheck source=tools/lint/test/lib_mutate.sh
+. "$PRIMITIVES"
+
 # THE LIVE-TREE ARM RESOLVES ITS ROOT FROM GIT, SO GIT IS A PRECONDITION OF THIS
 # SUITE — refused up front, exactly as the gate refuses it, and for the sharper
 # reason that an unmet precondition here does not merely skip an arm.
@@ -86,6 +97,19 @@ bad() {
 }
 banner() { printf '\n== %s\n' "$*"; }
 
+# ---------------------------------------------------------------------------
+banner 'THE SUBSTRING PRIMITIVE ITSELF — and the pipe form it replaces'
+# Every case below reads a diagnosis with `contains`, so a primitive that always
+# returned 0 would make each needle assertion vacuous while this suite printed
+# green. Its last case additionally forces the SIGPIPE/pipefail race the retired
+# `printf … | grep -q …` form is subject to, so the reason this suite no longer
+# uses that form stays proven rather than remembered.
+if contains_selftest "$WORK/_selftest"; then
+	PASS=$((PASS + 7))
+else
+	bad 'the substring primitive failed its own self-test — every needle assertion is void'
+fi
+
 CFLAGS=(--target=wasm32-wasip1 --sysroot="$SDK/share/wasi-sysroot" -O0 -c)
 
 # fixture <name> — an OBJ_DIR with src/, echoing its path.
@@ -113,7 +137,7 @@ expect() {
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
 	fi
-	if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+	if [ -n "$needle" ] && ! contains "$out" "$needle"; then
 		bad "$label — exit $code was right but the output never named '$needle'"
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
@@ -131,7 +155,7 @@ expect_absent() {
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
 	fi
-	if printf '%s' "$out" | grep -qF -- "$needle"; then
+	if contains "$out" "$needle"; then
 		bad "$label — '$needle' was reported and must not have been"
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
 		return
@@ -174,7 +198,7 @@ compile "$D" a 'static int canary_static_unused(void) { return 1; }
 int canary_uses_it(void) { return canary_static_unused(); }'
 compile "$D" b 'int canary_other(void) { return 2; }'
 out="$(OBJ_DIR="$D" bash "$GATE" 2>&1)" || true
-if printf '%s' "$out" | grep -qF 'canary_static_unused'; then
+if contains "$out" 'canary_static_unused'; then
 	bad 'a static symbol was reported; -Wunused-function owns that class'
 else
 	ok 'a static symbol is not reported (the compiler owns dead statics)'
@@ -226,7 +250,7 @@ done
 out="$(OBJ_DIR="$D" LLVM_NM=/nonexistent/llvm-nm WASI_SDK=/nonexistent PATH="$BIN" bash "$GATE" 2>&1)" && code=0 || code=$?
 if [ "$code" != 3 ]; then
 	bad "a missing llvm-nm must exit 3, got $code"
-elif ! printf '%s' "$out" | grep -qF 'WASI-SDK'; then
+elif ! contains "$out" 'WASI-SDK'; then
 	bad 'the missing-tool diagnosis must say where to get it'
 else
 	ok 'a missing llvm-nm refuses with an install hint'
@@ -250,7 +274,7 @@ else
 	out="$(OBJ_DIR="$D" bash "$MUT" 2>&1)" && code=0 || code=$?
 	# With no roots derived, the gate must refuse at its own root-set floor (3)
 	# rather than silently treating every symbol as dead (1).
-	if [ "$code" = 3 ] && printf '%s' "$out" | grep -qF 'ZERO exported symbols'; then
+	if [ "$code" = 3 ] && contains "$out" 'ZERO exported symbols'; then
 		ok 'MUTANT: an empty export root set refuses instead of condemning everything'
 	else
 		bad "MUTANT: expected exit 3 naming the empty root set, got $code"
@@ -268,7 +292,7 @@ if [ -d "$ROOT/renderer/build/release/src" ]; then
 	if [ "$code" != 0 ]; then
 		bad "the live tree must be clean, got exit $code"
 		printf '%s\n' "$out" | sed 's/^/       | /' >&2
-	elif ! printf '%s' "$out" | grep -qF 'per link target'; then
+	elif ! contains "$out" 'per link target'; then
 		bad 'the per-link-target counts must be printed on every run'
 	else
 		ok 'the live tree is clean and reports its per-target counts'
