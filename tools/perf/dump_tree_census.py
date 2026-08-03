@@ -40,18 +40,23 @@ def node_self_bytes(node):
     Serialised with the dump's own separator-free compact form, then the
     children array's contents removed, which is exactly the split a
     per-node cost claim is making implicitly.
+
+    Measured in BYTES, not characters, because the buffer this is a census
+    of is a byte array — `ensure_ascii=False` then a UTF-8 encode, so a
+    non-ASCII label costs what it costs the renderer.
     """
     shallow = {k: v for k, v in node.items() if k != "children"}
     # `{...}` minus the braces, plus the `,"children":[]}` tail dump_obj
     # always writes.
-    body = json.dumps(shallow, separators=(",", ":"))
-    return len(body) - 1 + len(',"children":[]}')
+    body = json.dumps(shallow, separators=(",", ":"), ensure_ascii=False)
+    return len(body.encode("utf-8")) - 1 + len(',"children":[]}')
 
 
 def census(path):
-    text = open(path, encoding="utf-8").read()
+    raw = open(path, "rb").read()
+    text = raw.decode("utf-8")
     if text.endswith(SENTINEL):
-        print(f"{path}: TRUNCATED ({len(text)} bytes) — refusing to census fragments")
+        print(f"{path}: TRUNCATED ({len(raw)} bytes) — refusing to census fragments")
         return
     root = json.loads(text)
     nodes = list(walk(root))
@@ -65,9 +70,12 @@ def census(path):
         size = node_self_bytes(node)
         sizes.append(size)
         by_type[node["type"]].append(size)
-    total = len(text)
+    total = len(raw)
     print(f"{path}")
-    print(f"  bytes={total} nodes={len(nodes)} mean_self={total / len(nodes):.1f}")
+    print(
+        f"  bytes={total} nodes={len(nodes)} "
+        f"mean_bytes_per_node={total / len(nodes):.1f}"
+    )
     print("  per-type self-bytes (min/median/max, count):")
     for typ, vals in sorted(by_type.items()):
         vals.sort()

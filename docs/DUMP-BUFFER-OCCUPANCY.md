@@ -36,8 +36,12 @@ better failure than truncation — it is loud and it is early — but it is a
 different number and a different design.
 
 The 255 an operator asked for is comfortably inside all three ceilings for every
-element shape measured here. At 255 elements the dump sits at 42–68% of the
-buffer depending on the element, and the uid registry at 50%.
+element shape measured here. At 255 elements the dump sits between 18.2% of the
+buffer (an element with no text child) and 67.5% (an element with a 64-byte
+label) — 41.7% for the element shape the question is actually about — and the
+uid registry at 49.8% for a pool with a uid on every node. That the range is a
+factor of 3.7 wide at a FIXED count is the whole reason a single "bytes per box"
+number cannot size this.
 
 ## The ceiling, read from source
 
@@ -63,7 +67,7 @@ repository's own authored screens at 960x540, bp0/light:
 |---|---|---|---|
 | `renderer/edn/screens/tabview_demo.edn` | 3395 | — | — |
 | `renderer/edn/screens/kitchen_sink.edn` | 9521 | 70 | 136.0 |
-| `renderer/edn/screens/demo_widgets.edn` | 21062 | 153 | 137.6 |
+| `renderer/edn/screens/demo_widgets.edn` | 21062 | 153 | 137.7 |
 
 A pool's budget is therefore 131071 MINUS whatever the rest of the screen costs
 — on the order of 3–21 KB for screens of this repository's own size, and a real
@@ -131,9 +135,15 @@ Two of the levers are worth naming:
 - **The text child dominates.** Dropping it more than doubles the capacity
   (578 → 1251), because the label node carries `text`, `clickable:false` and
   `backdrop_unresolved:true` on top of its own type and coords.
-- **Label text is capped at 64 characters** by `tree_append_json_str`, and the
+- **Label text is capped at 64 INPUT BYTES** by `tree_append_json_str`, and the
   cap is real: a 96-character label produced a dump 2 bytes larger than the
-  64-character one at the same count, not 32 bytes per node larger.
+  64-character one at the same count, not 32 bytes per node larger. The cap
+  counts bytes, not codepoints — `json_append_str` indexes `s[i]` — so a label
+  of non-ASCII glyphs reaches it sooner than its character count suggests, and
+  an escaped control character can expand to six output bytes from one input
+  byte. Both directions matter when estimating from a string's length: the
+  dump buffer counts BYTES throughout. This repository's own `demo_widgets`
+  dump is 21062 bytes against 21056 characters, from 9 non-ASCII bytes.
 
 The exact literal costs of the keys that move, for reference when estimating a
 different element:
