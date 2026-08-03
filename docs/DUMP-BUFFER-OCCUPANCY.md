@@ -306,3 +306,28 @@ The probe prints one TSV row per sample point. `COUNTS` and `VARIANTS`
 environment variables select the sweep; the variant arms are listed in the
 script. `tools/perf/dump_tree_census.py` takes any dumped `*.tree.json` and
 reports the per-node distribution and key frequencies behind the tables above.
+
+### The sample points behind these tables
+
+Every figure above is one harness invocation; none is interpolated, and no
+edge is extrapolated — each last-good / first-bad pair is two adjacent counts,
+both run.
+
+| sweep | counts | variants | invocations |
+|---|---|---|---|
+| primary | 26 | 3 | 78 |
+| shape variants | 30 | 5 | 150 |
+| ceiling neighbourhood | 20 | 3 | 60 |
+| dump-edge bisect, round 1 | 9 | 3 | 27 |
+| per-variant bisect, round 2 | 10+8+7+7+6 | 1 each | 38 |
+| per-variant bisect, round 3 | 7+1+6+6+5 | 1 each | 25 |
+| hidden vs visible, absolute | 7 | 2 | 14 |
+| style-pool probe | 6+4 | 1 | 10 |
+| smoke / arm check | 3+9 | 3 and 9 | 9 |
+
+411 in total, which the probe leaves countable rather than asking to be
+believed: it writes one `<variant>_<count>.log` per sample under its
+`SCRATCH` directory, so `ls "$SCRATCH"/out/*.log | wc -l` is the accounting.
+A handful of further invocations sit outside that: the three authored-screen
+dumps in the baseline table, and one dual-theme run behind the
+theme-does-not-matter claim.
