@@ -1,0 +1,171 @@
+=== GATE sha256 BEFORE ===
+      f0e72d1735ef7bc201c065d3005d8204b3670bba30fc4d952ffba8edff4dce6f  /workspace/tools/devcards/src/devcards/state_mirror.clj
+=== BASELINE (unmutated) ===
+      Ran 20 tests containing 85 assertions.
+
+### A · the MEMBERSHIP clause (state-mirror/pair-finding)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-membership-difference-is-attributed-to-its-own-clause
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:103)
+      expected: (= [:committed-states-differ] (kinds v))
+        actual: (not (= [:committed-states-differ] [:committed-states-reordered]))
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:107)
+      expected: (str/includes? d "only in conventions [:disabled]")
+        actual: (not (str/includes? "same states, different ORDER: conventions [:default :disabled] vs corpus [:default] ? the manifest header calls this an ORDERED list and devcards.docs publishes it in order, so the order is part of the mirror" "only in conventions [:disabled]"))
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:108)
+      expected: (str/includes? d "only in corpus []")
+        actual: (not (str/includes? "same states, different ORDER: conventions [:default :disabled] vs corpus [:default] ? the manifest header calls this an ORDERED list and devcards.docs publishes it in order, so the order is part of the mirror" "only in corpus []"))
+      Ran 1 tests containing 5 assertions.
+    CONTROL an-order-only-difference-is-its-own-clause-not-a-membership-one
+      Ran 1 tests containing 3 assertions.
+    whole namespace:
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:103)
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:107)
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:108)
+      FAIL in (every-finding-clause-is-reachable-and-they-do-not-mask-each-other) (state_mirror_test.clj:153)
+      FAIL in (the-real-manifest-narrowed-by-one-row-is-caught) (state_mirror_test.clj:254)
+      Ran 20 tests containing 85 assertions.
+
+### B · the EMPTY-conventions refusal (state-mirror/conventions-side)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  an-empty-conventions-side-is-a-refusal-never-a-pass
+      FAIL in (an-empty-conventions-side-is-a-refusal-never-a-pass) (state_mirror_test.clj:166)
+      expected: (= mirror/exit-cannot-run (:exit v))
+        actual: (not (= 3 1))
+      FAIL in (an-empty-conventions-side-is-a-refusal-never-a-pass) (state_mirror_test.clj:167)
+      expected: (= [] (:findings v))
+        actual: (not (= [] [{:kind :class-absent-from-conventions, :widget :WIDGET_A, :direction "corpus -> conventions", :detail "the corpus spec declares [:default :disabled], and the conventions manifest has no :widget-states row for it"} {:kind :class-absent-from-conventions, :widget :WIDGET_B, :direction "corpus -> conventions", :detail "the corpus spec declares [:default], and the conventions manifest has no :widget-states row for it"}]))
+      FAIL in (an-empty-conventions-side-is-a-refusal-never-a-pass) (state_mirror_test.clj:175)
+      expected: (str/includes? (refusal (run-pair (assoc conv-ok :widget-states {}) corpus-ok)) ":widget-states is EMPTY")
+        actual: (not (str/includes? "[state-mirror] FAIL ? 2 finding(s); 0 class(es) compared (conventions 0, corpus 2)" ":widget-states is EMPTY"))
+      Ran 1 tests containing 4 assertions.
+    CONTROL an-empty-corpus-side-is-a-refusal-never-a-pass
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (an-empty-conventions-side-is-a-refusal-never-a-pass) (state_mirror_test.clj:166)
+      FAIL in (an-empty-conventions-side-is-a-refusal-never-a-pass) (state_mirror_test.clj:167)
+      FAIL in (an-empty-conventions-side-is-a-refusal-never-a-pass) (state_mirror_test.clj:175)
+      Ran 20 tests containing 85 assertions.
+
+### C · the conventions->corpus DIRECTION arm (state-mirror/findings)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-class-only-in-the-conventions-file-names-that-direction
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:119)
+      expected: (= mirror/exit-findings (:exit v))
+        actual: (not (= 1 0))
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:120)
+      expected: (= [:class-absent-from-corpus] (kinds v))
+        actual: (not (= [:class-absent-from-corpus] []))
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:121)
+      expected: (= [:WIDGET_B] (widgets v))
+        actual: (not (= [:WIDGET_B] []))
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:122)
+      expected: (= "conventions -> corpus" (:direction (first (:findings v))))
+        actual: (not (= "conventions -> corpus" nil))
+      Ran 1 tests containing 4 assertions.
+    CONTROL a-class-only-in-the-corpus-names-the-other-direction
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (every-finding-clause-is-reachable-and-they-do-not-mask-each-other) (state_mirror_test.clj:153)
+      FAIL in (every-finding-clause-is-reachable-and-they-do-not-mask-each-other) (state_mirror_test.clj:159)
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:119)
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:120)
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:121)
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:122)
+      Ran 20 tests containing 85 assertions.
+
+### D · the FINDINGS exit code (state-mirror/verdict)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-membership-difference-is-attributed-to-its-own-clause
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:102)
+      expected: (= mirror/exit-findings (:exit v))
+        actual: (not (= 1 0))
+      Ran 1 tests containing 5 assertions.
+    CONTROL an-empty-conventions-side-is-a-refusal-never-a-pass
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (a-corpus-class-declaring-no-list-is-a-finding-not-a-skip) (state_mirror_test.clj:133)
+      FAIL in (an-order-only-difference-is-its-own-clause-not-a-membership-one) (state_mirror_test.clj:113)
+      FAIL in (a-class-only-in-the-corpus-names-the-other-direction) (state_mirror_test.clj:126)
+      FAIL in (a-membership-difference-is-attributed-to-its-own-clause) (state_mirror_test.clj:102)
+      FAIL in (every-finding-clause-is-reachable-and-they-do-not-mask-each-other) (state_mirror_test.clj:152)
+      FAIL in (the-real-manifest-narrowed-by-one-row-is-caught) (state_mirror_test.clj:253)
+      FAIL in (a-class-only-in-the-conventions-file-names-that-direction) (state_mirror_test.clj:119)
+      Ran 20 tests containing 85 assertions.
+
+### E · the COMPARED count (state-mirror/verdict)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=5 (want >=1)
+    CANARY  an-agreeing-pair-passes-and-reports-what-it-compared
+      FAIL in (an-agreeing-pair-passes-and-reports-what-it-compared) (state_mirror_test.clj:80)
+      expected: (= 2 (:compared v))
+        actual: (not (= 2 0))
+      FAIL in (an-agreeing-pair-passes-and-reports-what-it-compared) (state_mirror_test.clj:81)
+      expected: (str/includes? (first (:lines v)) "2 class(es) compared")
+        actual: (not (str/includes? "[state-mirror] OK ? 0 class(es) compared (conventions 2, corpus 2); :widget-states == :committed-states" "2 class(es) compared"))
+      Ran 1 tests containing 4 assertions.
+    CONTROL a-membership-difference-is-attributed-to-its-own-clause
+      Ran 1 tests containing 5 assertions.
+    whole namespace:
+      FAIL in (an-agreeing-pair-passes-and-reports-what-it-compared) (state_mirror_test.clj:80)
+      FAIL in (an-agreeing-pair-passes-and-reports-what-it-compared) (state_mirror_test.clj:81)
+      FAIL in (the-real-manifest-narrowed-by-one-row-is-caught) (state_mirror_test.clj:256)
+      FAIL in (the-committed-tree-agrees) (state_mirror_test.clj:95)
+      FAIL in (the-committed-tree-agrees) (state_mirror_test.clj:96)
+      Ran 20 tests containing 85 assertions.
+
+### F · the UNDECLARED sentinel (state-mirror/corpus-side)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-corpus-class-declaring-no-list-is-a-finding-not-a-skip
+      FAIL in (a-corpus-class-declaring-no-list-is-a-finding-not-a-skip) (state_mirror_test.clj:134)
+      expected: (= [:committed-states-undeclared] (kinds v))
+        actual: (not (= [:committed-states-undeclared] [:committed-states-differ]))
+      Ran 1 tests containing 3 assertions.
+    CONTROL a-membership-difference-is-attributed-to-its-own-clause
+      Ran 1 tests containing 5 assertions.
+    whole namespace:
+      FAIL in (a-corpus-class-declaring-no-list-is-a-finding-not-a-skip) (state_mirror_test.clj:134)
+      FAIL in (every-finding-clause-is-reachable-and-they-do-not-mask-each-other) (state_mirror_test.clj:153)
+      Ran 20 tests containing 85 assertions.
+
+### G · the DUPLICATE-type refusal (state-mirror/corpus-side)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:166)
+      expected: (= mirror/exit-cannot-run (:exit v))
+        actual: (not (= 3 1))
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:167)
+      expected: (= [] (:findings v))
+        actual: (not (= [] [{:kind :committed-states-differ, :widget :WIDGET_A, :direction "both", :detail "conventions [:default :disabled] vs corpus [:default]; only in conventions [:disabled], only in corpus []"}]))
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:168)
+      expected: (zero? (:compared v))
+        actual: (not (zero? 2))
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:198)
+      expected: (str/includes? (refusal (run-pair conv-ok (update corpus-ok :widgets conj {:type :WIDGET_A, :committed-states [:default]}))) "declares a WidgetType twice: WIDGET_A")
+        actual: (not (str/includes? "[state-mirror] FAIL ? 1 finding(s); 2 class(es) compared (conventions 2, corpus 2)" "declares a WidgetType twice: WIDGET_A"))
+      Ran 1 tests containing 4 assertions.
+    CONTROL an-untyped-corpus-class-is-a-refusal-never-a-dropped-row
+      Ran 1 tests containing 4 assertions.
+    whole namespace:
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:166)
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:167)
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:168)
+      FAIL in (a-duplicated-corpus-type-is-a-refusal-never-a-silent-collapse) (state_mirror_test.clj:198)
+      Ran 20 tests containing 85 assertions.
+
+### H · the CLI's exit code (state-mirror/-main)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  main-prints-and-exits-with-exactly-what-run-returned
+      FAIL in (main-prints-and-exits-with-exactly-what-run-returned) (state_mirror_test.clj:300)
+      expected: found?
+        actual: false
+      Ran 1 tests containing 2 assertions.
+    CONTROL the-committed-tree-agrees
+      Ran 1 tests containing 3 assertions.
+    whole namespace:
+      FAIL in (main-prints-and-exits-with-exactly-what-run-returned) (state_mirror_test.clj:300)
+      Ran 20 tests containing 85 assertions.
+
+=== RESTORED ===
+      Ran 20 tests containing 85 assertions.
+=== GATE sha256 AFTER (must equal BEFORE) ===
+      f0e72d1735ef7bc201c065d3005d8204b3670bba30fc4d952ffba8edff4dce6f  /workspace/tools/devcards/src/devcards/state_mirror.clj

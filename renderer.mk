@@ -44,7 +44,7 @@ RGEN := tools/renderer-gen
 .PHONY: wasm reference proto-classes bindings fixtures dump-contracts harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection construct-bindings conventions-projection \
-	devcards-test reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
+	devcards-test state-mirror reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
 	interaction-prebuilt \
@@ -1185,6 +1185,48 @@ scratchcard-test: proto-classes
 devcards-test:
 	cd tools/devcards && clojure -M:test
 
+# ── The conventions/corpus MIRROR gate ──────────────────────────────────────
+# conventions/ui-render-conventions.edn's `:widget-states` and corpus/spec.edn's
+# per-widget `:committed-states` are two authored copies of one fact —
+# corpus/README.md calls them MIRRORS — and NOTHING compared them. Measured
+# before this lane existed: three classes declared `[:default]` in the manifest
+# while the corpus declared `[:default :disabled]` and carried five
+# `:expect :distinct` disabled cards whose committed goldens differ from their
+# baselines in both asgard families. `devcards.docs` publishes the MANIFEST's
+# copy on every widget page and `devcards.conventions` projects it into the
+# consumer-facing JSON export, so the understatement had reached both published
+# surfaces and no gate could see it.
+#
+# WHY IT IS NOT A PROJECTION. Neither list is derivable from the other: the
+# corpus copy rides beside the cards that prove it, the manifest copy beside the
+# render protocol a consumer vendors. What is available is the EQUALITY, so the
+# equality is what is asserted.
+#
+# EXIT CODES: 0 clean, 1 FINDINGS (a verdict about the tree), 3 CANNOT RUN (a
+# missing/unreadable file, an EMPTY side, an untyped or duplicated corpus
+# class). It prints the COUNT it compared in every colour, so a collapsed run is
+# visible without reading the exit code.
+#
+# HOST-RUNNABLE. Pure Clojure over two committed text files — no wasm, no
+# bindings, no proto classes — and its namespace requires nothing outside
+# `clojure.*` on purpose, so a require cannot throw before -main and exit 1
+# wearing the FINDINGS colour.
+#
+# WHERE ITS ARMING ACTUALLY LIVES, stated rather than assumed. THIS target is a
+# battery lane and an operator entry point; no workflow runs `check-renderer`,
+# so the target alone would be reachable only by a human typing it — unarmed,
+# per .claude/rules/gate-enforcement.md §6. What carries it in CI is
+# `devcards-test` above, which devcards.yml runs and which contains
+# `devcards.state-mirror-test`: that suite drives the REAL verdict over the
+# committed pair AND over a planted disagreement per clause. Both of this
+# gate's inputs live under tools/devcards/**, which is that workflow's own
+# trigger path, so the trigger covers what can break it. Arming this target in
+# CI too is one step in .github/workflows/devcards.yml beside the
+# `conventions-projection` step — the same slot and the same reasoning — and is
+# left undone here only because that file is outside this change's scope.
+state-mirror:
+	cd tools/devcards && clojure -M -m devcards.state-mirror
+
 # ── UI-standard review briefing freshness ───────────────────────────────────
 # .claude/skills/ui-standard-review/STANDARD.md is GENERATED, by
 # tools/devcards/src/devcards/standard_brief.clj, from the standard's canonical
@@ -1508,5 +1550,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"
