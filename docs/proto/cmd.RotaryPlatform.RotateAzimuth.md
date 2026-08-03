@@ -54,7 +54,7 @@ Movement speed (0.0=stopped, 1.0=maximum)
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :normalized
 
 
 ### direction (#2)
