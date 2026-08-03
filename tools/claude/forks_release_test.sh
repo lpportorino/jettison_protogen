@@ -320,7 +320,7 @@ verdict_is() {
     *) bad "verdict_is called with an unknown kind '$kind'"; return 1 ;;
   esac
   [ "$RUN_CODE" -eq "$want" ] || return 1
-  printf '%s\n' "$RUN_OUT" | grep -q -- "\[forks\] $kind — $clause"
+  grep -q -- "\[forks\] $kind — $clause" <<< "$RUN_OUT"
 }
 
 # Which half disagreed, so a red says what moved rather than only that something did.
@@ -345,7 +345,7 @@ expect_refusal() {
   local label="$1" clause="$2"
   if verdict_is FAIL "$clause"; then
     ok "$label -> FAIL $clause"
-    printf '       %s\n' "$(printf '%s\n' "$RUN_OUT" | grep -m1 -- "FAIL — $clause")"
+    printf '       %s\n' "$(grep -m1 -- "FAIL — $clause" <<< "$RUN_OUT")"
     return 0
   fi
   bad "$label: not a clean refusal — $(verdict_diagnosis FAIL "$clause")"
@@ -361,7 +361,7 @@ expect_error() {
   local label="$1" clause="$2"
   if verdict_is ERROR "$clause"; then
     ok "$label -> ERROR $clause"
-    printf '       %s\n' "$(printf '%s\n' "$RUN_OUT" | grep -m1 -- "ERROR — $clause")"
+    printf '       %s\n' "$(grep -m1 -- "ERROR — $clause" <<< "$RUN_OUT")"
     return 0
   fi
   bad "$label: not a clean breakage — $(verdict_diagnosis ERROR "$clause")"
@@ -490,7 +490,7 @@ elif claim_fork "$SUT_SITED"; then
   else
     bad "scratch was partially destroyed before release refused"
   fi
-  if printf '%s\n' "$RUN_OUT" | grep -q 'tools/uber.sh true'; then
+  if grep -q 'tools/uber.sh true' <<< "$RUN_OUT"; then
     ok "the refusal names the preferred command to run"
   else
     bad "the refusal says what is wrong but not what to run"
@@ -513,9 +513,9 @@ elif claim_fork "$SUT_SITED"; then
   plant_unwritable_dir "$NOUBER_FORK" ".fork-scratch/mut"
   run_release "$SUT_SITED" "$NOUBER_FORK"
   expect_refusal "fork without uber.sh" "unclearable-residue"
-  if printf '%s\n' "$RUN_OUT" | grep -q 'tools/uber.sh true'; then
+  if grep -q 'tools/uber.sh true' <<< "$RUN_OUT"; then
     bad "the refusal told the operator to run a script this fork does not have"
-  elif printf '%s\n' "$RUN_OUT" | grep -q 'ships no tools/uber.sh'; then
+  elif grep -q 'ships no tools/uber.sh' <<< "$RUN_OUT"; then
     ok "the refusal says so, and falls back to chmod/chown advice"
   else
     bad "the refusal neither offered uber.sh nor explained its absence"
@@ -542,8 +542,13 @@ elif claim_fork "$SUT_SITED"; then
   else
     bad "control failed: the fixture is porcelain-visible, so this case is vacuous"
   fi
-  if git_at "$FORK" check-ignore -v "buildout/obj/controls.wasm.bak" 2>/dev/null \
-    | grep -q ':/buildout/'; then
+  # Captured, not piped: `grep -q` quits on its first match without draining, so
+  # check-ignore can die of SIGPIPE and `pipefail` then reports the whole thing
+  # non-zero — a false `bad` about the fixture rather than a verdict about the
+  # ignore rule. check-ignore prints nothing when it does not match, so an empty
+  # capture reaches the same else branch the failing pipeline used to.
+  CHECK_IGNORE_OUT="$(git_at "$FORK" check-ignore -v "buildout/obj/controls.wasm.bak" 2>/dev/null || true)"
+  if grep -q ':/buildout/' <<< "$CHECK_IGNORE_OUT"; then
     ok "control: it is the /buildout/ rule hiding it, not some other pattern"
   else
     bad "control failed: something OTHER than /buildout/ is hiding the fixture"
@@ -565,7 +570,7 @@ fi
 
 if [ -n "$MUTANT_A" ] && [ "$HAZARD" -eq 1 ] && [ -n "$CLEARABILITY_FORK" ] && [ -d "$CLEARABILITY_FORK" ]; then
   run_release "$MUTANT_A" "$CLEARABILITY_FORK"
-  if printf '%s\n' "$RUN_OUT" | grep -q 'unclearable-residue'; then
+  if grep -q 'unclearable-residue' <<< "$RUN_OUT"; then
     bad "mutant still emits unclearable-residue — the mutation did not silence the clause"
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
   else
@@ -628,15 +633,15 @@ if [ -n "$MUTANT_B" ] && [ "$HAZARD" -eq 1 ] && claim_fork "$MUTANT_B"; then
   # over a guard that spoke perfectly clearly, just in the other class.
   if [ "$RUN_CODE" -eq 0 ]; then
     bad "mutant B released a fork it could not delete — worse than either red"
-  elif printf '%s\n' "$RUN_OUT" | grep -q -- 'scratch-cleanup-failed'; then
+  elif grep -q -- 'scratch-cleanup-failed' <<< "$RUN_OUT"; then
     bad "mutant B still names scratch-cleanup-failed — the revert did not take"
-  elif printf '%s\n' "$RUN_OUT" | grep -qE '\[forks\] (FAIL|ERROR)'; then
+  elif grep -qE '\[forks\] (FAIL|ERROR)' <<< "$RUN_OUT"; then
     bad "mutant B emitted some other [forks] verdict line; attribution is unclear"
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
   else
     ok "mutant B: NO '[forks] FAIL' and no '[forks] ERROR' line at all — the pre-fix silent abort, restored"
     printf '       release stopped carrying only rm own words: %s\n' \
-      "$(printf '%s\n' "$RUN_OUT" | grep -m1 'Permission denied' || echo '(none)')"
+      "$(grep -m1 'Permission denied' <<< "$RUN_OUT" || echo '(none)')"
   fi
   chmod -R u+rwX -- "$BARE_FORK" 2>/dev/null || true
 elif [ "$HAZARD" -eq 0 ] && [ -n "$MUTANT_B" ]; then
@@ -720,7 +725,7 @@ banner "CONTROL: the same gate REFUSING is still a FAIL — 1 and 3 are not merg
 stub_gate_root "refuses" 0 1
 run_claim "$STUB_SUT"
 expect_refusal "brief-check exits 1 on check" "brief-check REFUSED"
-if printf '%s\n' "$RUN_OUT" | grep -q '\[forks\] ERROR'; then
+if grep -q '\[forks\] ERROR' <<< "$RUN_OUT"; then
   bad "a clean refusal also emitted an ERROR line"
 else
   ok "the refusal carried no ERROR line"
@@ -732,7 +737,7 @@ banner "ERROR: the ship list broke — zero lines is not an empty ship list"
 stub_gate_root "shiplist" 3 0
 run_claim "$STUB_SUT"
 expect_error "brief-check ship-list exits 3" "ship-list-failed"
-if printf '%s\n' "$RUN_OUT" | grep -q 'CLAIMED'; then
+if grep -q 'CLAIMED' <<< "$RUN_OUT"; then
   bad "claim reported CLAIMED after its ship list broke"
 else
   ok "claim did not report CLAIMED"
@@ -744,7 +749,7 @@ if [ -d "$FORK" ]; then
   SHIPFAIL_FORK="$FORK"
   RUN_CODE=0
   RUN_OUT="$("$STUB_SUT" list 2>&1)" || RUN_CODE=$?
-  if printf '%s\n' "$RUN_OUT" | grep -q "OWNED.*$SHIPFAIL_FORK"; then
+  if grep -q "OWNED.*$SHIPFAIL_FORK" <<< "$RUN_OUT"; then
     bad "the ERROR still recorded the fork OWNED"
   else
     ok "no OWNED record was written for a fork the ERROR abandoned"
@@ -828,7 +833,7 @@ if [ -n "$MUTANT_C" ] && claim_fork "$MUTANT_C"; then
   expect_error "clearability scan died" "clearability-scan-failed"
   # ATTRIBUTION, and it is the reason the id was split. A grep for the refusal's
   # own clause must find nothing here.
-  if printf '%s\n' "$RUN_OUT" | grep -q 'unclearable-residue'; then
+  if grep -q 'unclearable-residue' <<< "$RUN_OUT"; then
     bad "the broken scan still reported 'unclearable-residue' — the two clauses are still merged"
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
   else

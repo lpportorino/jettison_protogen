@@ -573,7 +573,7 @@ check_declared_assertions() {
         hits="$(resolve_entry "$arg")"
         if [ -n "$hits" ]; then
           finding assert-absent-violated \
-            "the brief asserts '$arg' is absent, but the base tree tracks it: $(printf '%s' "$hits" | head -n 3 | tr '\n' ' ')"
+            "the brief asserts '$arg' is absent, but the base tree tracks it: $(head -n 3 <<< "$hits" | tr '\n' ' ')"
         elif exists_on_disk "$root" "$arg"; then
           finding assert-absent-violated \
             "the brief asserts '$arg' is absent, but it exists on disk in $root"
@@ -596,7 +596,7 @@ check_declared_assertions() {
         hits="$(git_at "$root" grep -n --fixed-strings -- "$sym" $spec 2>/dev/null || true)"
         if [ -n "$hits" ]; then
           finding assert-no-callers-violated \
-            "the brief asserts nothing references '$sym', but the base tree has $(printf '%s\n' "$hits" | wc -l) hit(s), e.g. $(printf '%s\n' "$hits" | head -n 1)"
+            "the brief asserts nothing references '$sym', but the base tree has $(wc -l <<< "$hits") hit(s), e.g. $(head -n 1 <<< "$hits")"
         fi
         ;;
     esac

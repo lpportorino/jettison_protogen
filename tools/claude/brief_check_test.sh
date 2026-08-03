@@ -107,17 +107,17 @@ expect_fail() {
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
     return 0
   fi
-  if ! printf '%s\n' "$RUN_OUT" | grep -q "FAIL — $clause:"; then
+  if ! grep -q "FAIL — $clause:" <<< "$RUN_OUT"; then
     bad "$label: exit 1 but no finding named '$clause' — the refusal is NOT attributed"
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
     return 0
   fi
-  if printf '%s\n' "$RUN_OUT" | grep -q 'ERROR —'; then
+  if grep -q 'ERROR —' <<< "$RUN_OUT"; then
     bad "$label: an internal ERROR was emitted alongside the finding"
     return 0
   fi
   ok "$label -> FAIL $clause"
-  printf '       %s\n' "$(printf '%s\n' "$RUN_OUT" | grep -m1 "FAIL — $clause:")"
+  printf '       %s\n' "$(grep -m1 "FAIL — $clause:" <<< "$RUN_OUT")"
 }
 
 expect_pass() {
@@ -315,9 +315,9 @@ else
   ok "stale-table mutation landed (standard-brief-generate removed from check-renderer)"
   RUN_CODE=0
   RUN_OUT="$("$SUT" check "$B/c5.md" --root "$STALE" 2>&1)" || RUN_CODE=$?
-  if [ "$RUN_CODE" -eq 3 ] && printf '%s\n' "$RUN_OUT" | grep -q 'write table is STALE'; then
+  if [ "$RUN_CODE" -eq 3 ] && grep -q 'write table is STALE' <<< "$RUN_OUT"; then
     ok "stale write table -> exit 3 ERROR, not a pass"
-    printf '       %s\n' "$(printf '%s\n' "$RUN_OUT" | grep -m1 'STALE')"
+    printf '       %s\n' "$(grep -m1 'STALE' <<< "$RUN_OUT")"
   else
     bad "stale write table should ERROR (exit 3); got $RUN_CODE"
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
@@ -347,8 +347,8 @@ expect_pass "check6 negative ((NEW) marker present)" \
 banner "the UNJUDGED block exists and names what could not be seen"
 RUN_CODE=0
 RUN_OUT="$("$SUT" check "$B/c3a.md" --root "$ROOT" 2>&1)" || RUN_CODE=$?
-if printf '%s\n' "$RUN_OUT" | grep -q 'UNJUDGED — what this gate could NOT see' &&
-  printf '%s\n' "$RUN_OUT" | grep -q 'no sibling brief was supplied'; then
+if grep -q 'UNJUDGED — what this gate could NOT see' <<< "$RUN_OUT" &&
+  grep -q 'no sibling brief was supplied' <<< "$RUN_OUT"; then
   ok "a brief with nothing to compare against reports UNJUDGED, not clean"
 else
   bad "UNJUDGED block missing; 'clean' and 'I could not look' are indistinguishable"
@@ -372,11 +372,11 @@ cp -- "$B/c2.md" "$E2E/bad.brief"
 RUN_CODE=0
 RUN_OUT="$("$E2E/repo/tools/claude/forks.sh" claim "$E2E/badfork" t1 tester "$E2E/bad.brief" 2>&1)" || RUN_CODE=$?
 if [ "$RUN_CODE" -eq 1 ] &&
-  printf '%s\n' "$RUN_OUT" | grep -q 'owned-forbidden-conflict' &&
-  printf '%s\n' "$RUN_OUT" | grep -q 'nothing was cloned' &&
+  grep -q 'owned-forbidden-conflict' <<< "$RUN_OUT" &&
+  grep -q 'nothing was cloned' <<< "$RUN_OUT" &&
   [ ! -e "$E2E/badfork" ]; then
   ok "claim refused the defective brief; no path was created"
-  printf '       %s\n' "$(printf '%s\n' "$RUN_OUT" | grep -m1 'FAIL — owned-forbidden-conflict')"
+  printf '       %s\n' "$(grep -m1 'FAIL — owned-forbidden-conflict' <<< "$RUN_OUT")"
 else
   bad "claim should have refused the defective brief (exit=$RUN_CODE, path exists=$([ -e "$E2E/badfork" ] && echo yes || echo no))"
   printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
@@ -425,7 +425,7 @@ if [ -d "$E2E/goodfork" ]; then
   RUN_OUT="$("$E2E/repo/tools/claude/forks.sh" release "$E2E/goodfork" --owner-signalled done 2>&1)" || RUN_CODE=$?
   if [ "$RUN_CODE" -eq 0 ] && [ ! -e "$E2E/goodfork" ]; then
     ok "release completed with shipped sources present"
-    printf '       %s\n' "$(printf '%s\n' "$RUN_OUT" | grep -m1 'shipped sources excluded')"
+    printf '       %s\n' "$(grep -m1 'shipped sources excluded' <<< "$RUN_OUT")"
   else
     bad "release refused a fork whose only untracked content was shipped in by claim (exit=$RUN_CODE)"
     printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
@@ -487,7 +487,7 @@ else
   RUN_CODE=0
   RUN_OUT="$("$E2E/repo/tools/claude/forks.sh" release "$E2E/gf3" --owner-signalled done 2>&1)" || RUN_CODE=$?
   if [ "$RUN_CODE" -eq 1 ] && [ -d "$E2E/gf3" ] &&
-    printf '%s\n' "$RUN_OUT" | grep -q 'worker-residue.md'; then
+    grep -q 'worker-residue.md' <<< "$RUN_OUT"; then
     ok "release still refuses genuine worker residue beside a shipped source"
   else
     bad "residue guard was WEAKENED: release did not refuse worker residue (exit=$RUN_CODE)"
@@ -631,7 +631,7 @@ The fix belongs in `docs/nope.md`, next to the existing code.
 EOF
 RUN_CODE=0
 RUN_OUT="$("$SUT" check "$B/bigbad.md" --root "$SMALLROOT" 2>&1)" || RUN_CODE=$?
-if [ "$RUN_CODE" -eq 1 ] && printf '%s\n' "$RUN_OUT" | grep -q 'FAIL — cited-path-missing:'; then
+if [ "$RUN_CODE" -eq 1 ] && grep -q 'FAIL — cited-path-missing:' <<< "$RUN_OUT"; then
   ok "control: the brief IS defective — the small root refuses it with cited-path-missing"
 else
   bad "control failed: the brief is not refused even at a small payload (exit=$RUN_CODE), so it cannot show a missed refusal"
@@ -639,7 +639,7 @@ else
 fi
 RUN_CODE=0
 RUN_OUT="$("$SUT" check "$B/bigbad.md" --root "$BIGROOT" 2>&1)" || RUN_CODE=$?
-if [ "$RUN_CODE" -eq 1 ] && printf '%s\n' "$RUN_OUT" | grep -q 'FAIL — cited-path-missing:'; then
+if [ "$RUN_CODE" -eq 1 ] && grep -q 'FAIL — cited-path-missing:' <<< "$RUN_OUT"; then
   ok "the same defective brief is still refused when TOP_LEVEL outruns the pipe buffer"
 else
   bad "a DEFECTIVE brief passed at exit $RUN_CODE: the cited path was filed UNJUDGED instead of judged, so the gate went green over the defect it exists to catch"
