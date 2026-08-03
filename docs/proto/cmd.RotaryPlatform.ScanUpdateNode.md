@@ -111,7 +111,7 @@ Dwell time at this scan node in seconds
 #### Metadata
 
 - **Semantic Type:** :duration
-- **Unit:** ms
+- **Unit:** s
 
 
 ### speed (#7)
