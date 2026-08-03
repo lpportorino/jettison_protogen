@@ -6531,3 +6531,324 @@ mod token_mirrors {
         }
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// Style-pool exhaustion reached through apply_scale_section
+// ═══════════════════════════════════════════════════════════════════
+/// `alloc_style` has three reach points in `renderer/src/renderer.c`. The one
+/// in `properties_decode_cb` returns `false`, which stops nanopb and surfaces
+/// as `LOAD_ERR_ABORTED`. The other two are in `apply_scale_section`, a `void`
+/// function reached from `apply_widget_props`' `scale_props` arm — so a NULL
+/// there can only be a bare `return`, and the load must therefore latch the
+/// degraded status the way `apply_scale_text_src`, `apply_buttonmatrix_map`
+/// and `apply_line_points` already do for their own pools. Without the latch
+/// the load reports 0: a screen that renders with its scale styling silently
+/// missing, indistinguishable from a clean load.
+///
+/// The screens here are prost-built because no authored screen comes near the
+/// ceiling — that is exactly what makes the arm invisible to the fixture
+/// corpus, and why it needs a synthetic driver.
+///
+/// EVERY style these screens allocate is allocated BY `apply_scale_section`:
+/// no node carries a style group, so `properties_decode_cb` — the reach point
+/// that aborts — is never entered, and the failing allocation cannot be
+/// anything but the scale one. That is what keeps the DEFECTIVE verdict
+/// attributable to this arm rather than to some earlier refusal.
+mod scale_section_style_pool {
+    use super::*;
+
+    /// Mirrors `MAX_STYLES` in `renderer/src/renderer.c`. Duplicated here
+    /// deliberately, the `decode_limits` convention: the test's job is to hold
+    /// the C constant to its promise, so reading the promise from the same
+    /// place that makes it would assert nothing.
+    const MAX_STYLES: usize = 2048;
+
+    /// Sections per scale — the nanopb `max_count` on `ui.ScaleProps.sections`
+    /// (`repeated = {max_items: 4}` in `proto/ui/ui_ast.proto`). A fifth entry
+    /// fails the decode outright, so this is a ceiling, not a taste.
+    const SECTIONS_PER_SCALE: usize = 4;
+
+    /// Styles one FULL section costs: `apply_scale_section` allocates one
+    /// unconditionally for the INDICATOR/ITEMS style, then a second only when
+    /// `has_main_color || main_width != 0`. `full_section` sets both, so both
+    /// allocations run.
+    const STYLES_PER_FULL_SECTION: usize = 2;
+
+    /// Styles one MINIMAL section costs — the unconditional one only.
+    const STYLES_PER_MINIMAL_SECTION: usize = 1;
+
+    /// Scales whose full sections consume the pool EXACTLY, with no slot left
+    /// over and none short: 2048 / (4 × 2).
+    const SCALES_AT_CEILING: usize = MAX_STYLES / (SECTIONS_PER_SCALE * STYLES_PER_FULL_SECTION);
+
+    const LOAD_ERR_DEFECTIVE: i32 = -2;
+
+    /// A section that costs TWO pool styles: colour+width for the
+    /// INDICATOR/ITEMS style and main_colour+main_width for the MAIN one.
+    fn full_section(i: usize) -> ui::ScaleSection {
+        let band = u32::try_from(i).expect("section index fits u32");
+        ui::ScaleSection {
+            range_min: 0,
+            range_max: 10,
+            color: Some(ui::Color { r: 200, g: 30, b: 30 }),
+            width: 2 + band,
+            main_color: Some(ui::Color { r: 30, g: 200, b: 30 }),
+            main_width: 3 + band,
+        }
+    }
+
+    /// A section that costs ONE pool style: no MAIN colour and a zero MAIN
+    /// width, so `apply_scale_section` skips its second allocation.
+    fn minimal_section(i: usize) -> ui::ScaleSection {
+        ui::ScaleSection {
+            main_color: None,
+            main_width: 0,
+            ..full_section(i)
+        }
+    }
+
+    /// A scale node carrying `full` full sections then `minimal` minimal ones
+    /// — so a screen can be built to land on ANY pool count, odd ones
+    /// included, which is what lets the MAIN-style arm be driven separately
+    /// from the tick-style one. No uid (so nothing registers and no
+    /// duplicate-uid defect can be latched), no style group (so
+    /// `properties_decode_cb` never allocates), no binding.
+    fn scale_node(full: usize, minimal: usize) -> ui::WidgetNode {
+        assert!(
+            full + minimal <= SECTIONS_PER_SCALE,
+            "ui.ScaleProps.sections holds at most {SECTIONS_PER_SCALE}; a fifth \
+             entry fails the nanopb decode outright"
+        );
+        let sections = (0..full)
+            .map(full_section)
+            .chain((full..full + minimal).map(minimal_section))
+            .collect();
+        ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetScale as i32,
+            widget_props: Some(ui::widget_node::WidgetProps::ScaleProps(ui::ScaleProps {
+                min_value: 0,
+                max_value: 100,
+                sections,
+                ..Default::default()
+            })),
+            ..Default::default()
+        }
+    }
+
+    /// Sibling scales under a bare `lv_obj` root, one `(full, minimal)` pair
+    /// per scale. The ROOT carries no style group either, and that is
+    /// load-bearing rather than tidiness: `style_groups` is field 9 and
+    /// `children` field 8, so a root style group decodes AFTER every child —
+    /// against an already-exhausted pool it would fail inside
+    /// `properties_decode_cb` and abort the whole decode, turning a DEFECTIVE
+    /// verdict into an ABORTED one.
+    fn scale_screen(scales: &[(usize, usize)]) -> Vec<u8> {
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                children: scales
+                    .iter()
+                    .map(|&(full, minimal)| scale_node(full, minimal))
+                    .collect(),
+                ..Default::default()
+            }),
+            subjects: vec![],
+        }
+        .encode_to_vec()
+    }
+
+    /// Pool styles `scales` costs — the arithmetic the whole module turns on,
+    /// written once so a case states its intent rather than a magic number.
+    fn styles_cost(scales: &[(usize, usize)]) -> usize {
+        scales
+            .iter()
+            .map(|&(full, minimal)| {
+                full * STYLES_PER_FULL_SECTION + minimal * STYLES_PER_MINIMAL_SECTION
+            })
+            .sum()
+    }
+
+    /// Scales consuming exactly `styles` pool slots, as full scales plus a
+    /// remainder of minimal sections. Used to park the pool one slot short of
+    /// its ceiling so the NEXT section's first allocation still succeeds.
+    fn scales_costing(styles: usize) -> Vec<(usize, usize)> {
+        let per_full_scale = SECTIONS_PER_SCALE * STYLES_PER_FULL_SECTION;
+        let mut scales: Vec<(usize, usize)> = (0..styles / per_full_scale)
+            .map(|_| (SECTIONS_PER_SCALE, 0))
+            .collect();
+        let mut rest = styles % per_full_scale;
+        while rest > 0 {
+            let take = rest.min(SECTIONS_PER_SCALE);
+            scales.push((0, take));
+            rest -= take;
+        }
+        assert_eq!(
+            styles_cost(&scales),
+            styles,
+            "filler arithmetic is wrong — the pool would not be parked where the case says"
+        );
+        scales
+    }
+
+    /// Live `lv_scale` objects in the dumped tree. Counted off the RAW dump
+    /// string rather than parsed JSON so a truncated dump cannot silently
+    /// become a parse failure that reads like an unrelated defect; the caller
+    /// asserts the dump is whole separately.
+    fn live_scale_count(host: &mut ControlsHost) -> usize {
+        host.dump_tree()
+            .expect("dump_tree")
+            .matches("\"type\":\"lv_scale\"")
+            .count()
+    }
+
+    /// The pool is a POOL: filling it exactly is not a failure. This is the
+    /// lower half of the non-vacuity pin — if a full section cost fewer than
+    /// `STYLES_PER_FULL_SECTION` styles, the screen one scale past this would
+    /// still be under the ceiling and the exhaustion cases below would pass for
+    /// the wrong reason.
+    #[test]
+    fn scales_filling_the_style_pool_exactly_load_clean() {
+        let mut host = new_host();
+        let scales = vec![(SECTIONS_PER_SCALE, 0); SCALES_AT_CEILING];
+        assert_eq!(
+            styles_cost(&scales),
+            MAX_STYLES,
+            "the ceiling case must sit ON the ceiling, not near it"
+        );
+        let status = host
+            .load_ui_raw(&scale_screen(&scales))
+            .expect("load_ui trapped at the style-pool ceiling");
+        assert_eq!(
+            status, 0,
+            "{SCALES_AT_CEILING} scales allocate exactly MAX_STYLES ({MAX_STYLES}) \
+             pool styles — a pool filled to its ceiling has failed nothing, so the \
+             load must report 0; got {status}"
+        );
+        assert_eq!(
+            live_scale_count(&mut host),
+            SCALES_AT_CEILING,
+            "non-vacuity: the ceiling screen did not build every scale, so the \
+             sections it is credited with never ran"
+        );
+    }
+
+    /// The widget COUNT is not what degrades the load. Same node count as the
+    /// exhausting screen below, sections costing one style each instead of
+    /// two, so the pool stays well under its ceiling — this must load clean,
+    /// which is what makes that DEFECTIVE verdict attributable to the POOL and
+    /// not to "that many scales".
+    #[test]
+    fn the_same_scale_count_below_the_ceiling_loads_clean() {
+        let mut host = new_host();
+        let scales = vec![(0, SECTIONS_PER_SCALE); SCALES_AT_CEILING + 1];
+        assert!(
+            styles_cost(&scales) < MAX_STYLES,
+            "control is not a control: {} styles is not below the {MAX_STYLES} ceiling",
+            styles_cost(&scales)
+        );
+        let status = host
+            .load_ui_raw(&scale_screen(&scales))
+            .expect("load_ui trapped below the style-pool ceiling");
+        assert_eq!(
+            status, 0,
+            "{} scales costing {} pool styles are within MAX_STYLES ({MAX_STYLES}) \
+             — the load must report 0; got {status}",
+            scales.len(),
+            styles_cost(&scales)
+        );
+    }
+
+    /// The FIRST of `apply_scale_section`'s two allocations — the one that is
+    /// unconditional, so it is what a section past the ceiling hits first. One
+    /// scale past the ceiling: the pool is exhausted by earlier
+    /// `apply_scale_section` calls, this scale's first section gets NULL back
+    /// from `alloc_style`, and its tick styling is silently dropped. The tree
+    /// still decodes whole, so the verdict is DEFECTIVE (the screen keeps
+    /// rendering — teardown stays scoped to ABORTED) and never 0.
+    #[test]
+    fn a_scale_section_that_cannot_allocate_its_tick_style_degrades_the_load() {
+        let mut host = new_host();
+        let scales = vec![(SECTIONS_PER_SCALE, 0); SCALES_AT_CEILING + 1];
+        let status = host
+            .load_ui_raw(&scale_screen(&scales))
+            .expect("load_ui trapped past the style-pool ceiling");
+        assert_eq!(
+            status, LOAD_ERR_DEFECTIVE,
+            "a scale section that could not allocate its tick style rendered \
+             unstyled and the load still reported {status} — a silently degraded \
+             screen presented as a clean one. apply_scale_section must latch \
+             load_resource_error the way apply_scale_text_src, \
+             apply_buttonmatrix_map and apply_line_points already do"
+        );
+
+        // Non-vacuity, both halves. The dump must be WHOLE (a truncated one
+        // would undercount), and every scale must be in it — including the one
+        // whose allocation failed, which proves the decode reached
+        // apply_scale_section rather than stopping at some earlier refusal.
+        let dump = host.dump_tree().expect("dump_tree");
+        assert!(
+            !dump.ends_with(",\"truncated\":true"),
+            "the dump flooded the renderer's tree buffer, so the scale count below \
+             is a floor rather than a count — shrink the screen"
+        );
+        assert_eq!(
+            dump.matches("\"type\":\"lv_scale\"").count(),
+            scales.len(),
+            "non-vacuity: the degraded load did not build all {} scales, so the \
+             failing allocation cannot be attributed to the last one",
+            scales.len()
+        );
+    }
+
+    /// The SECOND allocation — the MAIN-part style, reached only when the
+    /// section carries `main_color`/`main_width`. It needs its own case
+    /// because the case above can never reach it: there the FIRST allocation
+    /// already failed and returned.
+    ///
+    /// The pool is parked ONE SLOT SHORT of its ceiling, so the target
+    /// section's tick style takes the last slot and only the MAIN allocation
+    /// can fail. `the_last_pool_slot_is_genuinely_available` is the control
+    /// that makes that attribution hold rather than merely sound plausible: it
+    /// proves the slot this case is relying on is really there.
+    #[test]
+    fn a_scale_section_that_cannot_allocate_its_main_style_degrades_the_load() {
+        let mut host = new_host();
+        let mut scales = scales_costing(MAX_STYLES - 1);
+        scales.push((1, 0)); // one FULL section: tick style, then MAIN style
+        let status = host
+            .load_ui_raw(&scale_screen(&scales))
+            .expect("load_ui trapped with the pool one slot short");
+        assert_eq!(
+            status, LOAD_ERR_DEFECTIVE,
+            "a scale section whose MAIN-part style could not allocate rendered \
+             its band unstyled and the load still reported {status} — the second \
+             of apply_scale_section's two allocations latches nothing"
+        );
+    }
+
+    /// The control for the case above, and the whole of its attribution. With
+    /// the pool parked one slot short, a section needing exactly ONE style
+    /// must still load clean — proving slot `MAX_STYLES` is genuinely
+    /// available, so the DEFECTIVE verdict above can only come from the
+    /// SECOND allocation. Without this the first allocation might have been
+    /// the failing one and the test above would prove nothing new.
+    #[test]
+    fn the_last_pool_slot_is_genuinely_available() {
+        let mut host = new_host();
+        let mut scales = scales_costing(MAX_STYLES - 1);
+        scales.push((0, 1)); // one MINIMAL section: tick style only
+        assert_eq!(
+            styles_cost(&scales),
+            MAX_STYLES,
+            "the control must land exactly ON the ceiling"
+        );
+        let status = host
+            .load_ui_raw(&scale_screen(&scales))
+            .expect("load_ui trapped on the last pool slot");
+        assert_eq!(
+            status, 0,
+            "the last pool slot was not available, so the MAIN-style case above \
+             cannot be attributed to its second allocation; got {status}"
+        );
+    }
+}

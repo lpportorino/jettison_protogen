@@ -60,12 +60,13 @@ static int subject_count = 0;
 static bool subject_overflow = false;
 /* Latched by any DEEP load-time site that has no widget_ctx in scope (prop /
  * binding / style application) when it hits a silent failure it could otherwise
- * only LOG_WARN + skip: a pool exhausted (scale-text / bg-image), an event/
- * observer malloc failed, or a binding resolves to a NEVER-DECLARED subject.
+ * only LOG_WARN + skip: a pool exhausted (scale-text / scale-section /
+ * bg-image), an event/observer malloc failed, or a binding resolves to a
+ * NEVER-DECLARED subject.
  * Each such site LOG_ERRORs its specifics; this flag carries the load-fail
  * signal so the load reports LOAD_ERR_DEFECTIVE instead of presenting a
  * silently degraded screen as a clean one (state-honesty). DEFECTIVE and not
- * ABORTED, deliberately: every site that latches this flag LOG_WARNs and
+ * ABORTED, deliberately: every site that latches this flag LOG_ERRORs and
  * RETURNS, so the decode runs to completion and the tree is complete — the
  * caller must leave the screen up. Reset per load alongside the pool counts. */
 static bool load_resource_error = false;
@@ -1220,6 +1221,15 @@ static void apply_scale_section(lv_obj_t *obj, const ui_ScaleSection *sec) {
   lv_scale_set_section_range(obj, section, sec->range_min, sec->range_max);
   lv_style_t *style = alloc_style();
   if (!style) {
+    /* The section keeps its RANGE and loses its colouring — a band that reads
+     * as ordinary scale. This is a void function called from a props arm, so
+     * NULL can only be a bare return; latching is what stops the load
+     * reporting a clean 0 over it, exactly as apply_scale_text_src /
+     * apply_buttonmatrix_map / apply_line_points already do for their pools.
+     * alloc_style has LOG_ERRORed the ceiling; this names what it cost. */
+    LOG_ERROR("scale section [%d,%d] has no tick style — style pool exhausted",
+              (int)sec->range_min, (int)sec->range_max);
+    load_resource_error = true;
     return;
   }
   if (sec->has_color) {
@@ -1237,6 +1247,13 @@ static void apply_scale_section(lv_obj_t *obj, const ui_ScaleSection *sec) {
   if (sec->has_main_color || sec->main_width != 0) {
     lv_style_t *main_style = alloc_style();
     if (!main_style) {
+      /* The indicator/items style above did allocate, so the section is
+       * PARTLY styled and the missing arc/line band is the only thing a
+       * reader could mistake for authored intent. Latch for the same reason. */
+      LOG_ERROR(
+          "scale section [%d,%d] has no main style — style pool exhausted",
+          (int)sec->range_min, (int)sec->range_max);
+      load_resource_error = true;
       return;
     }
     if (sec->has_main_color) {
