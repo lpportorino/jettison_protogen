@@ -496,6 +496,157 @@ else
 fi
 
 # ---------------------------------------------------------------------------
+# THE SCOPE TEST — a WRONG ANSWER AT EXIT 0, which is why these cases assert the
+# ANSWER and not the status.
+#
+# `in_scope` answers "is this token's first segment a real top-level entry of the
+# base tree?". Asked through `printf | grep -qxF`, it can answer NO about an
+# entry that is plainly there: `grep -q` exits on its first match WITHOUT
+# draining stdin, `printf` then dies of SIGPIPE, and `pipefail` promotes 141 over
+# grep's 0. Both callers absorb that silently — `ship-list` does
+# `in_scope || continue` and still exits 0 with a short list, and `check` files
+# the entry as UNJUDGED instead of judging it. So a canary asserting a non-zero
+# exit would see nothing at all here: the exit status IS the thing that lies.
+#
+# THE RATE IS A FUNCTION OF HOW MUCH THE WRITER STILL HAS TO WRITE when the
+# reader quits, so the root below carries a TOP_LEVEL far past one pipe buffer
+# and the race stops being a one-in-thousands flake. That is a property of the
+# FIXTURE, so it is asserted rather than assumed: if the payload no longer
+# outruns the buffer, these cases go quiet instead of going wrong, and a quiet
+# case is exactly what this suite refuses to count as coverage.
+# ---------------------------------------------------------------------------
+banner "the scope test answers wrongly at exit 0 when TOP_LEVEL outruns a pipe buffer"
+
+PIPE_BUF_FLOOR=65536 # Linux default pipe capacity; the writer must outrun it.
+BIGROOT="$WORK/bigroot"
+BIGTL=""
+build_big_root() {
+  local pad i
+  mkdir -p "$BIGROOT/docs"
+  printf '# tracked\n' > "$BIGROOT/tracked.md"
+  # Untracked on purpose: this is precisely what ship-list exists to find.
+  printf '# evidence\n' > "$BIGROOT/docs/evidence.md"
+  # Padding that sorts AFTER `docs`, so the reader is satisfied by an early line
+  # and the writer still has the whole tail in hand.
+  printf -v pad '%0200d' 0
+  pad="${pad//0/z}"
+  for ((i = 0; i < 500; i++)); do : > "$BIGROOT/zz${i}_$pad"; done
+  git_at "$BIGROOT" init --quiet -b master
+  git_at "$BIGROOT" add tracked.md
+  git_at "$BIGROOT" -c user.name=t -c user.email=t@localhost commit --quiet -m base
+  # Enumerated exactly as load_top_level does it.
+  BIGTL="$(
+    {
+      git_at "$BIGROOT" ls-tree --name-only HEAD
+      ls -A -- "$BIGROOT"
+    } | sort -u
+  )"
+}
+build_big_root
+
+# --- fixture floors, all four, before any verdict is read from this root ------
+BIGTAIL=$'\n'"$BIGTL"$'\n'
+case "$BIGTAIL" in
+  *$'\n'docs$'\n'*)
+    ok "control: 'docs' IS a top-level entry of the base tree, so it is genuinely in scope"
+    ;;
+  *)
+    bad "control failed: 'docs' is not in the enumerated TOP_LEVEL; the case cannot distinguish a bug from a correct exclusion"
+    ;;
+esac
+BIGTAIL="${BIGTAIL#*$'\n'docs$'\n'}"
+if [ "${#BIGTAIL}" -gt "$PIPE_BUF_FLOOR" ]; then
+  ok "control: ${#BIGTAIL} bytes remain to be written after the matching line (> $PIPE_BUF_FLOOR)"
+else
+  bad "control failed: only ${#BIGTAIL} bytes follow the match, so the writer never blocks and this case is vacuous"
+fi
+if [ -f "$BIGROOT/docs/evidence.md" ]; then
+  ok "control: the cited source exists on disk, so ship-list is obliged to list it"
+else
+  bad "control failed: the cited source does not exist, so its absence from the list would be correct"
+fi
+if [ -z "$(git_at "$BIGROOT" ls-files -- docs)" ]; then
+  ok "control: the cited source is UNTRACKED, so a clone could not carry it and ship-list must"
+else
+  bad "control failed: the cited source is tracked, so ship-list is right to omit it"
+fi
+
+cat > "$B/big.md" <<'EOF'
+# BRIEF
+Your evidence base is `docs/evidence.md`.
+
+## FILES YOU OWN
+  tracked.md
+  FINAL_REPORT.md
+EOF
+
+# --- the wrong answer -------------------------------------------------------
+RUN_CODE=0
+RUN_OUT="$("$SUT" ship-list "$B/big.md" --root "$BIGROOT" 2> "$WORK/big.err")" || RUN_CODE=$?
+if [ "$RUN_CODE" -ne 0 ]; then
+  bad "ship-list on the big root exited $RUN_CODE; this case is about a WRONG ANSWER AT 0, so a non-zero exit means something else broke"
+  sed 's/^/       /' -- "$WORK/big.err" >&2
+else
+  case $'\n'"$RUN_OUT"$'\n' in
+    *$'\n'docs/evidence.md$'\n'*)
+      ok "ship-list listed the cited untracked source (exit 0, answer correct)"
+      ;;
+    *)
+      bad "ship-list exited 0 and DROPPED 'docs/evidence.md' — a short list is byte-identical to 'this brief cites nothing', so claim would ship it into no fork and dispatch a worker without its evidence"
+      printf '       stdout was: %q\n' "$RUN_OUT" >&2
+      ;;
+  esac
+fi
+
+# CONTROL: the same brief and the same code against a root whose TOP_LEVEL fits
+# in one pipe buffer. Without this arm the case above cannot tell a pipe defect
+# from a brief the extractor never understood in the first place.
+SMALLROOT="$WORK/smallroot"
+mkdir -p "$SMALLROOT/docs"
+printf '# tracked\n' > "$SMALLROOT/tracked.md"
+printf '# evidence\n' > "$SMALLROOT/docs/evidence.md"
+git_at "$SMALLROOT" init --quiet -b master
+git_at "$SMALLROOT" add tracked.md
+git_at "$SMALLROOT" -c user.name=t -c user.email=t@localhost commit --quiet -m base
+RUN_CODE=0
+RUN_OUT="$("$SUT" ship-list "$B/big.md" --root "$SMALLROOT" 2>&1)" || RUN_CODE=$?
+if [ "$RUN_CODE" -eq 0 ] && [ "$RUN_OUT" = "docs/evidence.md" ]; then
+  ok "control: the identical brief against a small root lists it, so payload size is the only variable"
+else
+  bad "control failed: the small root did not list the source either (exit=$RUN_CODE), so the case above is not about the pipe"
+  printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
+fi
+
+# --- the other direction: a DEFECTIVE brief passing ------------------------
+# The same dropped answer under `check` does not shorten a list, it retires the
+# entry into UNJUDGED — so a brief citing a path that does not exist comes back
+# clean. This is the dangerous half: the gate goes green over the defect it was
+# built to catch.
+cat > "$B/bigbad.md" <<'EOF'
+# BRIEF
+The fix belongs in `docs/nope.md`, next to the existing code.
+
+## FILES YOU OWN
+  tracked.md
+EOF
+RUN_CODE=0
+RUN_OUT="$("$SUT" check "$B/bigbad.md" --root "$SMALLROOT" 2>&1)" || RUN_CODE=$?
+if [ "$RUN_CODE" -eq 1 ] && printf '%s\n' "$RUN_OUT" | grep -q 'FAIL — cited-path-missing:'; then
+  ok "control: the brief IS defective — the small root refuses it with cited-path-missing"
+else
+  bad "control failed: the brief is not refused even at a small payload (exit=$RUN_CODE), so it cannot show a missed refusal"
+  printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
+fi
+RUN_CODE=0
+RUN_OUT="$("$SUT" check "$B/bigbad.md" --root "$BIGROOT" 2>&1)" || RUN_CODE=$?
+if [ "$RUN_CODE" -eq 1 ] && printf '%s\n' "$RUN_OUT" | grep -q 'FAIL — cited-path-missing:'; then
+  ok "the same defective brief is still refused when TOP_LEVEL outruns the pipe buffer"
+else
+  bad "a DEFECTIVE brief passed at exit $RUN_CODE: the cited path was filed UNJUDGED instead of judged, so the gate went green over the defect it exists to catch"
+  printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
+fi
+
+# ---------------------------------------------------------------------------
 printf '\n== summary\n'
 printf '  passed: %s\n' "$PASS"
 printf '  failed: %s\n' "$FAIL"
