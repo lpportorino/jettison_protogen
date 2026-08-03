@@ -17,31 +17,61 @@ breakdowns from `tools/perf/dump_tree_census.py`.
 
 ## The short answer
 
-**There are THREE ceilings, not one, and which one binds depends on the shape of
-the pooled element — not on its count alone.** Two of the three refuse the load
-outright; only one truncates.
+**There are FOUR ceilings, not one, and which one binds depends on the shape of
+the pooled element — not on its count alone.** Exactly ONE of them refuses the
+load outright. Two return a nonzero status and leave the screen RENDERING with
+degraded nodes. One truncates the dump and touches nothing else.
 
 | ceiling | value | where | what happens | last good / first bad element count |
 |---|---|---|---|---|
-| uid registry | 1024 uid-bearing nodes | `renderer/src/renderer.c` `MAX_UID_NODES` | `controls_load_ui` returns `-2`, screen NOT built | 512 / 513, at 2 uid nodes per element |
+| subject registry | 32 declarations | `renderer/src/renderer.c` `MAX_SUBJECTS` | `controls_load_ui` returns `-2`; screen RENDERS, surplus subjects dropped and every binding to one is dead | not swept — read from source |
+| uid registry | 1024 uid-bearing nodes | `renderer/src/renderer.c` `MAX_UID_NODES` | `controls_load_ui` returns `-2`; screen RENDERS, surplus nodes unidentified | 512 / 513, at 2 uid nodes per element |
 | dump buffer | 131072 bytes | `renderer/src/main.c` `TREE_BUF_SIZE` | dump TRUNCATES, load and render unaffected | 578 / 579, with no uids |
-| style pool | 2048 styles | `renderer/src/renderer.c` `MAX_STYLES` | `controls_load_ui` returns `-1`, screen NOT built | 2047 / 2048, at 1 style group per element |
+| style pool | 2048 styles | `renderer/src/renderer.c` `MAX_STYLES` | `controls_load_ui` returns `-1`; the partial tree is TORN DOWN, screen not built | 2047 / 2048, at 1 style group per element |
+
+`-1` and `-2` are not two spellings of failure. `renderer/src/renderer.h`
+defines `LOAD_ERR_ABORTED` as `-1` and `LOAD_ERR_DEFECTIVE` as `-2`, and its
+header block states the difference decides whether the caller may leave the
+screen up: ABORTED means a decode callback returned false, so the tree is
+truncated at the fault and nothing usable was built; DEFECTIVE means the decode
+ran to completion, so the tree is COMPLETE and renderable with individual nodes
+degraded. `controls_load_ui` in `renderer/src/main.c` acts on exactly that
+split — its `lv_obj_clean(lv_screen_active())` is scoped to `LOAD_ERR_ABORTED`
+alone.
 
 So the claim *"the dump buffer is the binding constraint"* is **true only for a
 pool whose nodes carry no uid**. `ui.WidgetNode.uid` is described in
 `proto/ui/ui_ast.proto` as assigned by codegen, and the renderer registers every
-NONZERO uid; a pool whose nodes are all codegen-identified therefore hits a HARD
-REFUSAL at 512 two-node elements, before the dump is ever consulted. That is a
-better failure than truncation — it is loud and it is early — but it is a
-different number and a different design.
+NONZERO uid; a pool whose nodes are all codegen-identified therefore reaches the
+uid registry at 512 two-node elements, before the dump is ever consulted.
 
-The 255 an operator asked for is comfortably inside all three ceilings for every
-element shape measured here. At 255 elements the dump sits between 18.2% of the
-buffer (an element with no text child) and 67.5% (an element with a 64-byte
-label) — 41.7% for the element shape the question is actually about — and the
-uid registry at 49.8% for a pool with a uid on every node. That the range is a
-factor of 3.7 wide at a FIXED count is the whole reason a single "bytes per box"
-number cannot size this.
+**That is the WORST of the three outcomes for a pool design, not the safest.**
+The screen comes up looking correct while the surplus elements have no identity,
+so the failure is invisible at the point it occurs and surfaces later, somewhere
+else: a `ScreenPatch` op addressing one of those elements cannot find it and
+returns `PATCH_ERR_UNKNOWN_UID`, and — being an abort other than the
+pre-mutation base-hash refusal — latches the tree INDETERMINATE, so
+every subsequent patch refuses with `PATCH_ERR_INDETERMINATE` until a full
+`controls_load_ui`. A truncated dump costs a consumer its view of the tree; an
+overrun uid registry costs it the ability to update the tree at all, from a
+screen that gave no sign of being over the line.
+
+The 255 an operator asked for is comfortably inside the three MEASURED ceilings
+for every element shape swept here. At 255 elements the dump sits between 18.2%
+of the buffer (an element with no text child) and 67.5% (an element with a
+64-byte label) — 41.7% for the element shape the question is actually about —
+and the uid registry at 49.8% for a pool with a uid on every node. That the
+range is a factor of 3.7 wide at a FIXED count is the whole reason a single
+"bytes per box" number cannot size this.
+
+**The subject registry is the exception, and it is not close.** Every element
+swept here is statically valued, so none of them declares a subject and no sweep
+touched that ceiling. It is 32 declarations for the WHOLE screen, shared with
+everything else on it, so a pool whose elements each carry their own reactive
+value is over the line at the 33rd element, and sooner by however many the rest
+of the screen already declares — more than an order of magnitude below every
+other number in this document. A pool of that shape has to bind its elements to
+a shared subject, or index into one, or not be reactive at all.
 
 ## The ceiling, read from source
 
@@ -127,7 +157,7 @@ is the LAST count whose dump is whole.
 | uid on the container only | 550 | 130826 | 551 |
 | no uid, flex, 16-char label | 430 | 130990 | 431 |
 | no uid, flex, 64-char label | 372 | 130832 | 373 |
-| uid on every node | 512 | 127445 | never — REFUSED at 513 |
+| uid on every node | 512 | 127445 | never — the load goes DEFECTIVE at 513 |
 
 **A 3.4x spread between the cheapest and dearest element**, from content alone.
 Two of the levers are worth naming:
@@ -167,17 +197,61 @@ extra digit.
 
 ## The overflow count and the failure mode
 
-**Failure mode 1 — hard REFUSAL, when the uid registry or the style pool
-fills.** `controls_load_ui` returns non-zero and the screen is not built at all.
-Bisected exactly:
+There are THREE failure modes across the four ceilings, and they are not ordered
+by severity the way their return values suggest. The nonzero status is what
+distinguishes them, so read the status, never merely `!= 0`.
 
-- 512 elements with a uid on both nodes load; 513 do not. The log names it
-  (`uid registry full (1024 max)`) once per offending node and the call returns
-  `-2`.
-- 2047 elements each carrying one style group load; 2048 do not
-  (`style pool exhausted (2048 max)`), return `-1`.
+**Failure mode 1 — hard REFUSAL, when the style pool fills.** This is the only
+ceiling here that stops the decode. `alloc_style` returns NULL,
+`properties_decode_cb` returns false, nanopb stops mid-stream, `pb_decode`
+fails and `build_ui_from_proto_raw` returns `LOAD_ERR_ABORTED` (`-1`);
+`controls_load_ui` then cleans the screen. Bisected exactly: 2047 elements each
+carrying one style group load; 2048 do not (`style pool exhausted (2048 max)`),
+return `-1`.
 
-**Failure mode 2 — TRUNCATION, when the dump buffer fills.** The load succeeds,
+One arm of style-pool exhaustion does NOT behave this way, and it was read from
+source rather than swept: `apply_scale_section` calls `alloc_style` and on NULL
+simply returns, latching nothing. Every neighbouring pool site in that file —
+`apply_scale_text_src`, `apply_buttonmatrix_map`, `apply_line_points` — sets
+`load_resource_error` on exhaustion; this one does not, so a scale section that
+loses its style is the one overflow in this document that can end at status `0`.
+It is out of reach of a pool of plain boxes and is recorded because "the style
+pool always refuses" is the kind of generalisation this document exists to stop.
+
+**Failure mode 2 — DEFECTIVE, when the uid registry or the subject registry
+fills.** `controls_load_ui` returns `LOAD_ERR_DEFECTIVE` (`-2`) and **the screen
+is built and RENDERS.** Nothing is torn down, and that follows from the control
+flow rather than from a policy choice at the call site: neither overflow stops
+nanopb. `subjects_decode_cb` drains the element it cannot store and returns
+true; a uid overflow latches `ctx->error` inside `finalize_widget` and
+`children_decode_cb` latches it upward and returns true as well — deliberately,
+because that same latch carries the duplicate-uid case, which is contracted to
+stay renderable, so aborting on it would truncate the tree at every collision.
+The decode therefore runs to completion, the tree is whole, and the surplus
+nodes are degraded rather than absent. Bisected exactly for the uid case: 512
+elements with a uid on both nodes load clean; at 513 the log names it (`uid
+registry full (1024 max)`) once per offending node, the call returns `-2`, and
+the screen comes up with those nodes unidentified.
+
+**This is the mode to design against, and its shape is what makes it
+dangerous.** It is not loud where the operator is looking — the render is
+correct — and it is not early, because it surfaces at the first patch that
+addresses a node past the line. `register_uid` refuses the surplus node, which
+then behaves exactly as a legitimately unidentified (`uid == 0`) one; a later
+`ScreenPatch` op naming that uid finds nothing and returns
+`PATCH_ERR_UNKNOWN_UID`, which `controls_apply_patch` treats as a
+possibly-mutating abort and latches the tree INDETERMINATE. Every further patch
+then refuses with `PATCH_ERR_INDETERMINATE` until a full `controls_load_ui`. So
+the cost of crossing this ceiling is not a blank screen; it is a screen that
+looks right and has silently lost the ability to be updated.
+
+A consumer that treats any nonzero load status as "screen not built" therefore
+gets this backwards in the expensive direction, and so does one that tears the
+screen down on `-2`: that blanks a working screen over a defect confined to a
+few nodes. `renderer/src/main.c` scopes its own teardown to `LOAD_ERR_ABORTED`
+alone, and a consumer's recovery policy has to make the same split.
+
+**Failure mode 3 — TRUNCATION, when the dump buffer fills.** The load succeeds,
 the render is correct, and only the dump is damaged. It is not a crash and it is
 not a refusal. Characterised on the first truncating count of the no-uid sweep
 (579 elements):
@@ -273,9 +347,13 @@ gets larger, which is precisely when the estimate is being trusted.
 ## What this does not establish
 
 - **It measures a pool ALONE**, above a two-node root. A real screen's other
-  widgets take their share of the same 131071 bytes and their own share of the
-  1024 uid slots; the baseline table above is the closest this repository can
-  come to that, from its own authored screens.
+  widgets take their share of the same 131071 bytes, of the 1024 uid slots and
+  of the 32 subject declarations; the baseline table above is the closest this
+  repository can come to that, from its own authored screens.
+- **The subject registry was never swept.** No element shape here declares a
+  subject, so `MAX_SUBJECTS` is read from source and stated, not measured, and
+  no last-good / first-bad pair for it exists. It is the one ceiling in the
+  summary table carrying no bisection behind it.
 - **The element is a MINIMAL one.** It carries one style group, a one-character
   label by default, no event binding, no bindings map and no visibility binding.
   Real authored nodes in this repository's own screens average 136–138 dump
@@ -283,8 +361,8 @@ gets larger, which is precisely when the estimate is being trusted.
   DEARER than the numbers here, not cheaper.
 - **The LVGL heap was never reached.** `renderer/lv_conf.h` sets
   `LV_MEM_SIZE` to 2 MiB; no sweep here exhausted it, because one of the three
-  ceilings above always arrived first. A pool of heavier widgets could reorder
-  that.
+  MEASURED ceilings above always arrived first. A pool of heavier widgets could
+  reorder that.
 - **Only bp0 / 960x540 was swept.** Theme was checked and does not matter: the
   same 255-element pool dumps to 54608 bytes in both light and dark. Breakpoint
   tier was not swept, and it moves resolved geometry, so it moves coordinate
