@@ -189,7 +189,7 @@
   "WIDGET_HOST_PROXY":["default"],
   "WIDGET_IMAGE":["default"],
   "WIDGET_LABEL":["default"],
-  "WIDGET_LED":["default"],
+  "WIDGET_LED":["default", "disabled"],
   "WIDGET_LINE":["default"],
   "WIDGET_OBJ":["default"],
   "WIDGET_ROLLER":
@@ -202,7 +202,7 @@
   "WIDGET_SPINNER":["default"],
   "WIDGET_SWITCH":
   ["default", "hovered", "checked", "disabled", "focus-key"],
-  "WIDGET_TABLE":["default"],
-  "WIDGET_TABVIEW":["default"],
+  "WIDGET_TABLE":["default", "disabled"],
+  "WIDGET_TABVIEW":["default", "disabled"],
   "WIDGET_TEXTAREA":
   ["default", "hovered", "focused", "focus-key", "edited", "disabled"]}}

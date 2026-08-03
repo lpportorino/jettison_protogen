@@ -26,6 +26,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 The asgard theme commits to rendering each state below **visually distinct** from `default` (gate-held: distinctness). Any state *not* listed renders identical to `default` (inertness — hovered-on-a-label is the canonical probe).
 
 - `default`
+- `disabled`
 
 ## Props schema — `TabviewProps` (`ui.TabviewProps`)
 
