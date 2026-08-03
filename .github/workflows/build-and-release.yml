@@ -261,6 +261,80 @@ jobs:
     - name: Validate the wire contract against the generated descriptors
       run: make -f lint.mk wire-contract
 
+    # THE PROJECTION THIS JOB MOVES WITHOUT CARRYING, until now.
+    #
+    # renderer/generated/** is a byte projection of output/c/** — the nanopb
+    # runtime plus four bindings, flattened, with two symlink shims
+    # (renderer.mk's `generated-projection` owns the list and the reasoning).
+    # `make generate` above rewrites the SOURCE side, and the "Commit
+    # consolidated outputs" step stages `git add output/`, so the projection is
+    # outside this job's pathspec BY CONSTRUCTION and cannot ride along.
+    #
+    # renderer.yml then fires on `output/c/**` — deliberately, so its freshness
+    # gate can see the source side move — which means this job's own commit is
+    # what RUNS the gate that this job's own pathspec guaranteed it could not
+    # satisfy. It is not a race and not a rare interleaving: it is armed by every
+    # such commit, and stays armed until a human notices a red trunk and
+    # refreshes the projection by hand.
+    #
+    # MEASURED, on this repo's history: `renderer/generated` has been tracked
+    # since it landed, and of the bot commits since then that touched a projected
+    # source, EVERY ONE left the projection stale. The gate landed later and the
+    # first armed bot commit after it reddened master.
+    #
+    # SO THE HEAL BELONGS TO THE WRITER, not to the gate that catches it. The
+    # lane's own regenerate-then-diff already produces exactly the right bytes;
+    # all that was missing was running it where the commit is made.
+    #
+    # HERE, and not in the commit step, because the fan-out to the consumer
+    # repositories begins immediately below and a structural failure must abort
+    # BEFORE any consumer is written — a half-completed fan-out is the split
+    # fleet this workflow's concurrency block exists to prevent.
+    #
+    # `--user` IS LOAD-BEARING. tools/uber.sh runs the image as root and chowns
+    # the workspace back afterwards; there is no such chown here, so a root-owned
+    # rewrite would land in the checkout that the later `git add`/`git commit`
+    # steps operate on as the runner user. Running as the caller leaves nothing
+    # to repair. The lane needs no toolchain — bash, make and coreutils — but it
+    # runs in the pinned image anyway, because it PRODUCES a committed artifact
+    # and .claude/rules/uber-container.md admits no exception for a cheap one.
+    #
+    # THE RE-RUN IS THE DISCRIMINATOR, and it is not laziness. `generated-
+    # projection` separates a staleness VERDICT (1) from a precondition it could
+    # not judge (3), but MAKE NORMALISES EVERY RECIPE FAILURE TO 2 — so a caller
+    # reaching the lane through make cannot read the split from an exit status,
+    # and one that tried would take the wrong branch silently. The lane is
+    # idempotent on a tree it has healed, so a second run answers the same
+    # question robustly: green means the first run's rewrite WAS the fix, and
+    # non-green means something is wrong that regenerating cannot repair.
+    - name: Refresh the renderer/generated projection of output/c
+      run: |
+        set -euo pipefail
+        lane() {
+          docker run --rm --user "$(id -u):$(id -g)" \
+            -v "$PWD:/workspace" -w /workspace \
+            jettison-proto-generator-base:latest \
+            make -f renderer.mk generated-projection
+        }
+        if lane; then
+          echo "renderer/generated was already fresh; nothing to stage."
+          exit 0
+        fi
+        echo "--- the lane refused; re-running to see whether its rewrite was the fix ---"
+        if out="$(lane 2>&1)"; then
+          printf '%s\n' "$out"
+          echo "renderer/generated was STALE and has been refreshed from output/c."
+          echo "The 'Commit consolidated outputs' step stages it with the bindings."
+          exit 0
+        fi
+        printf '%s\n' "$out" >&2
+        echo "FATAL: renderer/generated could not be brought fresh by regenerating." >&2
+        echo "  A CANNOT RUN line above names a projection source or destination that" >&2
+        echo "  is gone; that is a tracked-file problem this job must not paper over," >&2
+        echo "  and it aborts here rather than fanning a payload out to the consumer" >&2
+        echo "  repositories first." >&2
+        exit 1
+
     # THE TEN FAN-OUT STEPS BELOW SHARE ONE ORDERING RULE: DECIDE, THEN STAMP.
     #
     # Each writes a consumer README carrying two lines that vary on every run —
@@ -978,6 +1052,15 @@ jobs:
         else
           echo "moved=true" >>"$GITHUB_OUTPUT"
         fi
+        # STAGED AFTER `moved` IS DECIDED, and the order is the whole point.
+        # renderer/generated is a projection of output/c that the refresh step
+        # above brings into line; it belongs in this commit, because the commit
+        # that moves the source is the only one that can carry it. But `moved`
+        # means "the BINDINGS moved" — it gates the release below, and the
+        # measured cost of getting that wrong is a prerelease cut over a
+        # byte-identical payload. A projection refreshed without its source
+        # moving (a human left it stale) must not read as a binding change.
+        git add renderer/generated/
         git diff --staged --quiet || {
           git commit -m "Update generated proto bindings
 

@@ -1051,9 +1051,21 @@ manifests-proto-db:
 #                 look at part of its population must not report the part it did
 #                 look at as the whole answer.
 #
-# That split is what lets a CALLER heal deliberately rather than by hoping: 1
-# means "the rewrite this lane just performed is the fix", 3 means "stop".
-# `.github/workflows/build-and-release.yml` is the caller that depends on it.
+# ITS CONSUMER IS THE CANARY, AND SAYING SO MATTERS more than it looks.
+# tools/generated-projection-canary.sh asserts the exact code per clause, so a
+# clause that started answering the wrong class would be caught — which is the
+# whole reason gate-enforcement.md §2 asks for the split. What CANNOT read it is
+# a caller reaching this lane through `make`: MAKE NORMALISES EVERY RECIPE
+# FAILURE TO 2 and does not propagate the recipe's status, so the code survives
+# only in make's own `*** [file:line: generated-projection] Error N` line. A
+# caller that branched on make's exit expecting 3 would take the wrong branch
+# every time, silently.
+#
+# So a caller that must tell "healed" from "cannot be healed" RE-RUNS the lane
+# instead: this lane is idempotent on a tree it has just rewritten, so a green
+# second run means the rewrite WAS the fix.
+# `.github/workflows/build-and-release.yml` does exactly that, and its step
+# records why.
 GENERATED_DIR := $(R)/generated
 
 # The nanopb RUNTIME (copied verbatim from /opt/nanopb by generate-protos.sh)
