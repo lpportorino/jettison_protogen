@@ -100,6 +100,37 @@ sample() {
 # the overflow point is OBSERVED rather than extrapolated.
 COUNTS="${COUNTS:-1 2 3 4 8 16 24 32 48 64 96 128 160 192 224 255 320 384 448 512 640 768 896 1024 1280 1536}"
 
-for n in $COUNTS; do sample uid "$n" --uids; done
-for n in $COUNTS; do sample hidden "$n" --uids --hidden; done
-for n in $COUNTS; do sample nouid "$n"; done
+# VARIANTS is a space-separated list of variant names; each names one arm
+# below. Default runs the three that answer the brief's questions; the rest
+# are separable-cause arms, run by naming them.
+VARIANTS="${VARIANTS:-uid hidden nouid}"
+
+for variant in $VARIANTS; do
+  for n in $COUNTS; do
+    case "$variant" in
+      uid) sample uid "$n" --uid-scope all ;;
+      hidden) sample hidden "$n" --uid-scope all --hidden ;;
+      nouid) sample nouid "$n" ;;
+      boxuid) sample boxuid "$n" --uid-scope container ;;
+      nolabel) sample nolabel "$n" --no-label ;;
+      text16) sample text16 "$n" --label-text 0123456789abcdef ;;
+      text64) sample text64 "$n" --label-text \
+        0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef ;;
+      text96) sample text96 "$n" --label-text \
+        0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef ;;
+      absolute) sample absolute "$n" --absolute ;;
+      hiddenonly) sample hiddenonly "$n" --hidden ;;
+      # The hidden/visible pair under ABSOLUTE placement. Under flex, hiding a
+      # child removes it from layout, so every hidden box collapses onto one
+      # position and its coordinate digits shrink — which flatters hiding for a
+      # reason that has nothing to do with the dump. Absolute placement holds
+      # the coordinates fixed, so this pair isolates what hiding costs in the
+      # dump alone.
+      hiddenabs) sample hiddenabs "$n" --absolute --hidden ;;
+      *)
+        echo "dump_buffer_probe: unknown variant '$variant'" >&2
+        exit 2
+        ;;
+    esac
+  done
+done

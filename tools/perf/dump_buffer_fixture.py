@@ -23,9 +23,17 @@ was the stated hazard:
                `hidden` key AND a `vis_px` key when a node is not fully
                visible, so the hypothesis "hidden is cheaper" has to beat
                a mechanism that makes it DEARER.
-  --uids       assign node uids. Codegen assigns these to authored nodes,
-               so a realistic pool has them, and each one is dump bytes.
-  --label-text the label's string, capped by the dump at 64 chars.
+  --uid-scope  which nodes carry a uid: none / container / all. This is not
+               a cosmetic knob — the renderer registers every NONZERO uid in
+               a fixed 1024-slot table and REFUSES the whole load when it
+               fills, so uid density decides whether the dump buffer is the
+               binding ceiling at all.
+  --label-text the label's string. The dump caps an emitted string at 64
+               chars, so this separates "text length costs bytes" from
+               "text length costs bytes without limit".
+  --no-label   omit the text child, halving nodes per element — the cheapest
+               way to show that a per-ELEMENT cost is a per-NODE cost in
+               disguise.
   --absolute   place boxes at explicit x/y instead of flex-wrapping them,
                so coordinate MAGNITUDE (decimal digit count) is separable
                from layout.
@@ -97,14 +105,15 @@ def make_box(index, args, uid_base):
         box.y = (index // cols) * (args.box_h + 4)
     if args.hidden:
         box.obj_flags = LV_OBJ_FLAG_HIDDEN
-    if args.uids:
+    if args.uid_scope in ("container", "all"):
         box.uid = uid_base
 
-    label = ast.WidgetNode(type=ast.WIDGET_LABEL)
-    label.text = args.label_text
-    if args.uids:
-        label.uid = uid_base + 1
-    box.children.append(label)
+    if not args.no_label:
+        label = ast.WidgetNode(type=ast.WIDGET_LABEL)
+        label.text = args.label_text
+        if args.uid_scope == "all":
+            label.uid = uid_base + 1
+        box.children.append(label)
     return box
 
 
@@ -135,7 +144,10 @@ def main():
     ap.add_argument("--count", type=int, required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--hidden", action="store_true")
-    ap.add_argument("--uids", action="store_true")
+    ap.add_argument(
+        "--uid-scope", choices=("none", "container", "all"), default="none"
+    )
+    ap.add_argument("--no-label", action="store_true")
     ap.add_argument("--absolute", action="store_true")
     ap.add_argument("--label-text", default="B")
     ap.add_argument("--box-w", type=int, default=60)

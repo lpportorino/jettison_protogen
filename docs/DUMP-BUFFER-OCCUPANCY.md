@@ -1,0 +1,298 @@
+# Dump-buffer occupancy — what actually caps a pooled widget, measured
+
+> **PUBLIC-REPO GUARDRAIL.** This document describes this repository's own
+> renderer and harness. It names no deployment, no host, no operator path and no
+> consuming project.
+
+This is a MEASUREMENT DOCUMENT. It changes no `.proto`, no `.options` and
+nothing under `renderer/src/`. It exists because a consumer of this renderer
+wants a statically-allocated pool of overlay boxes and needs a number to size it
+with, and every candidate number so far has been an argument rather than a
+measurement.
+
+Everything below was produced by driving the real `controls.wasm` through the
+wasmtime harness. Reproduce it with `tools/perf/dump_buffer_probe.sh`; the
+fixtures come from `tools/perf/dump_buffer_fixture.py` and the per-node
+breakdowns from `tools/perf/dump_tree_census.py`.
+
+## The short answer
+
+**There are THREE ceilings, not one, and which one binds depends on the shape of
+the pooled element — not on its count alone.** Two of the three refuse the load
+outright; only one truncates.
+
+| ceiling | value | where | what happens | reached at (this element shape) |
+|---|---|---|---|---|
+| uid registry | 1024 uid-bearing nodes | `renderer/src/renderer.c` `MAX_UID_NODES` | `controls_load_ui` returns `-2`, screen NOT built | 512 elements (2 uid nodes each) |
+| dump buffer | 131072 bytes | `renderer/src/main.c` `TREE_BUF_SIZE` | dump TRUNCATES, load unaffected | 579 elements (no uids) |
+| style pool | 2048 styles | `renderer/src/renderer.c` `MAX_STYLES` | `controls_load_ui` returns `-1`, screen NOT built | 2048 elements (1 style group each) |
+
+So the claim *"the dump buffer is the binding constraint"* is **true only for a
+pool whose nodes carry no uid**. `ui.WidgetNode.uid` is described in
+`proto/ui/ui_ast.proto` as assigned by codegen, and the renderer registers every
+NONZERO uid; a pool whose nodes are all codegen-identified therefore hits a HARD
+REFUSAL at 512 two-node elements, before the dump is ever consulted. That is a
+better failure than truncation — it is loud and it is early — but it is a
+different number and a different design.
+
+The 255 an operator asked for is comfortably inside all three ceilings for every
+element shape measured here. At 255 elements the dump sits at 42–68% of the
+buffer depending on the element, and the uid registry at 50%.
+
+## The ceiling, read from source
+
+`renderer/src/main.c` declares:
+
+```c
+#define TREE_BUF_SIZE 131072u
+static char tree_buf[TREE_BUF_SIZE];
+...
+static json_out_t tree_out = {tree_buf, TREE_BUF_SIZE, 0, false};
+```
+
+The usable payload is `TREE_BUF_SIZE - 1` = **131071 bytes**, because
+`json_append` reserves the NUL. Every truncated dump measured here is exactly
+131071 bytes long, which is the check that the source reading and the artifact
+agree about the same constant.
+
+The buffer is SCREEN-WIDE. `controls_dump_tree` walks `lv_screen_active()`, so a
+pool shares the buffer with everything else on the screen. Measured against this
+repository's own authored screens at 960x540, bp0/light:
+
+| screen | dump bytes | nodes | bytes/node |
+|---|---|---|---|
+| `renderer/edn/screens/tabview_demo.edn` | 3395 | — | — |
+| `renderer/edn/screens/kitchen_sink.edn` | 9521 | 70 | 136.0 |
+| `renderer/edn/screens/demo_widgets.edn` | 21062 | 153 | 137.6 |
+
+A pool's budget is therefore 131071 MINUS whatever the rest of the screen costs
+— on the order of 3–21 KB for screens of this repository's own size, and a real
+instrument screen carrying a pool as well as its ordinary controls would sit at
+the upper end or past it.
+
+## What one pooled element costs
+
+The element measured is the one the question is about: a container carrying a
+background fill and a border, holding one text child. **That is TWO `lv_obj`
+nodes**, and treating it as one is the first thing a per-element estimate gets
+wrong.
+
+**The border costs nothing in the dump.** `dump_obj` emits no border key at all,
+so the "background and border" in the element description contributes exactly
+the 21 bytes of `,"bg_color":"#203040"` and nothing more. Every other key it
+emits is conditional.
+
+### The cost is not a per-node constant
+
+`dump_obj` emits most keys only when the value DIFFERS from an inherited or
+default one, so a node's cost depends on where it sits and what it holds. Census
+of two real dumps of the same element shape, no uids, flex-wrapped:
+
+| | 16 elements | 512 elements |
+|---|---|---|
+| nodes | 34 | 1026 |
+| dump bytes | 3249 | 115337 |
+| mean bytes/node | 95.6 | 112.4 |
+| `lv_label` self-bytes (min/median/max) | 110 / 113 / 114 | 110 / 127 / 129 |
+| `lv_obj` self-bytes (min/median/max) | 73 / 76 / 145 | 73 / 106 / 145 |
+| nodes emitting `vis_px` | 0 | 764 |
+| nodes emitting `clipped` | 0 | 382 |
+
+The same node shape costs 18% more per node once the pool overflows the visible
+area, because two keys start firing that were silent before. Marginal bytes per
+ELEMENT, read off successive sample points of the same sweep:
+
+| element index range | bytes per element |
+|---|---|
+| 2 → 4 | 187 … 190 |
+| 8 → 16 | 189.6 |
+| 96 → 128 | 195.4 |
+| 128 → 160 | 231.3 |
+| 448 → 512 | 236.3 |
+
+### And it is not a constant across element shapes either
+
+Every row below is the same sweep against a different element shape; the count
+is the LAST count whose dump is whole.
+
+| element shape | last whole count | bytes there | first truncated |
+|---|---|---|---|
+| no uid, no text child | 1251 | 131062 | 1252 |
+| no uid, absolute placement, 1-char label | 587 | 130867 | 588 |
+| no uid, flex, 1-char label | 578 | 130934 | 579 |
+| uid on the container only | 550 | 130826 | 551 |
+| no uid, flex, 16-char label | 430 | 130990 | 431 |
+| no uid, flex, 64-char label | 372 | 130832 | 373 |
+| uid on every node | 512 | 127445 | never — REFUSED at 513 |
+
+**A 3.4x spread between the cheapest and dearest element**, from content alone.
+Two of the levers are worth naming:
+
+- **The text child dominates.** Dropping it more than doubles the capacity
+  (578 → 1251), because the label node carries `text`, `clickable:false` and
+  `backdrop_unresolved:true` on top of its own type and coords.
+- **Label text is capped at 64 characters** by `tree_append_json_str`, and the
+  cap is real: a 96-character label produced a dump 2 bytes larger than the
+  64-character one at the same count, not 32 bytes per node larger.
+
+The exact literal costs of the keys that move, for reference when estimating a
+different element:
+
+| emitted fragment | bytes |
+|---|---|
+| `{"type":"lv_obj","coords":[` | 27 |
+| `{"type":"lv_label","coords":[` | 29 |
+| `,"children":[` + `]}` | 15 |
+| `,"bg_color":"#203040"` | 21 |
+| `,"backdrop_unresolved":true` | 27 |
+| `,"clickable":false` | 18 |
+| `,"clipped":true` | 15 |
+| `,"hidden":true` | 14 |
+| `,"vis_px":0` | 11 |
+| `,"uid":1000` | 11 |
+
+Coordinates are decimal, so a node's cost also grows with the MAGNITUDE of its
+resolved position — a pool that scrolls past y=999 pays a byte per node per
+extra digit.
+
+## The overflow count and the failure mode
+
+**Failure mode 1 — hard REFUSAL, when the uid registry or the style pool
+fills.** `controls_load_ui` returns non-zero and the screen is not built at all.
+Bisected exactly:
+
+- 512 elements with a uid on both nodes load; 513 do not. The log names it
+  (`uid registry full (1024 max)`) once per offending node and the call returns
+  `-2`.
+- 2047 elements each carrying one style group load; 2048 do not
+  (`style pool exhausted (2048 max)`), return `-1`.
+
+**Failure mode 2 — TRUNCATION, when the dump buffer fills.** The load succeeds,
+the render is correct, and only the dump is damaged. It is not a crash and it is
+not a refusal. Characterised on the first truncating count of the no-uid sweep
+(579 elements):
+
+- the artifact is exactly **131071 bytes**, every time, for every count past the
+  edge;
+- it **always ends with `,"truncated":true`** — `controls_dump_tree` overwrites
+  the tail with that sentinel expressly so the damage is detectable;
+- it is **NOT a prefix of the whole dump**. `json_append` DROPS an append that
+  will not fit and returns, but it does not latch shut, so a later SMALLER
+  append still lands. The measured tail reads
+  `..."children":[,"vis_px":0,"text","truncated":true` — a `[` immediately
+  followed by `,` cannot occur in any prefix of a complete dump, because
+  `dump_obj` writes that separator only BETWEEN children;
+- it is structurally unbalanced (1159 `{` against 1156 `}`) and does not parse.
+
+**The two hosts in this repository disagree about what to do with it, and a
+consumer copying either inherits its behaviour.**
+
+- `tools/devcards/src/devcards/host.clj` has a truncation membrane
+  (`normalize-dump`): it checks the sentinel and replaces the WHOLE dump with
+  `{"truncated":true,"children":[]}`. On overflow a devcards consumer therefore
+  loses the ENTIRE tree, not merely the tail.
+- `renderer/wasm_harness/src/wasm_host.rs` `dump_tree` does NOT check the
+  sentinel. It returns the cut string as-is, and the CLI writes it to disk and
+  logs a byte count with no warning.
+
+For a pool design that means: crossing the dump ceiling does not degrade the
+overlay's rendering, but it blinds every consumer that reads the tree — for the
+Clojure host, completely and at once.
+
+## Do hidden children still cost? Yes — and they cost MORE
+
+`dump_obj` ends with
+
+```c
+uint32_t n = lv_obj_get_child_count(obj);
+for (uint32_t i = 0; i < n; i++) { ... dump_obj(lv_obj_get_child(obj, i), false); }
+```
+
+with no visibility test anywhere in the recursion. So the design pass's premise
+holds. The measurement sharpens it in the direction that matters for a static
+pool: **hiding is not merely free of savings, it is a surcharge.** A hidden
+container adds `,"hidden":true` (14 bytes), and a not-fully-visible node adds
+`,"vis_px":0` (11 bytes) — which fires on the container AND on its text child.
+
+Measured under ABSOLUTE placement, where the coordinates are held fixed so the
+comparison isolates the dump:
+
+| elements | visible | hidden | hidden surcharge |
+|---|---|---|---|
+| 4 | 972 | 1116 | +14.8% |
+| 16 | 3248 | 3824 | +17.7% |
+| 64 | 12540 | 14844 | +18.4% |
+| 128 | 25048 | 29656 | +18.4% |
+| 255 | 52735 | 62723 | +18.9% |
+| 384 | 82882 | 99062 | +19.5% |
+| 512 | 113137 | TRUNCATED | — |
+
+**A trap worth recording, because it points the wrong way.** Under FLEX layout
+the hidden pool looks cheaper in bulk — 124969 bytes against 127445 at 512
+elements. That saving is not the dump's. LVGL's flex layout skips hidden
+children, so all 512 hidden boxes resolve to the same coordinates
+(`[1,1,60,40]`, verified in the artifact) and their coordinate digits collapse,
+while the visible ones spread to four-digit y values and pick up `clipped`. The
+absolute-placement pair above removes that confound and the crossover disappears
+at every count.
+
+## Does the measured curve agree with what the source implies?
+
+**In the on-screen regime, to the byte. Past it, no — and a formula fitted there
+oversizes the pool by 19%.**
+
+For this element shape the source implies a per-element cost of
+`172 + digits(container coords) + digits(label coords)`, from the fragments
+tabulated above. Checked against the artifact at 3 elements: element 2 sits at
+`[75,1,134,40]` with its label at `[79,5,90,22]`, so 172+8+7 = 187, and the
+measured marginal from 1→2 elements is 592-405 = **187**. Element 3 sits at
+`[149,1,208,40]` with its label at `[153,5,164,22]`, so 172+9+9 = 190, and the
+measured marginal is 782-592 = **190**. Exact, twice.
+
+The disagreement starts where the conditional keys do. A naive constant model
+fitted on those same early points — `bytes(N) = 405 + 190·(N−1)` — predicts the
+buffer fills at **688** elements. The measured answer is **578**. The naive
+model oversizes the pool by 110 elements, **19%**, and it fails in the unsafe
+direction: it would authorise a pool that truncates in the field.
+
+Nothing about that is exotic. It is `vis_px` and `clipped` firing on nodes that
+leave the visible area, plus a byte per extra coordinate digit — three effects a
+per-node constant cannot express, and all three of which get WORSE as the pool
+gets larger, which is precisely when the estimate is being trusted.
+
+## What this does not establish
+
+- **It measures a pool ALONE**, above a two-node root. A real screen's other
+  widgets take their share of the same 131071 bytes and their own share of the
+  1024 uid slots; the baseline table above is the closest this repository can
+  come to that, from its own authored screens.
+- **The element is a MINIMAL one.** It carries one style group, a one-character
+  label by default, no event binding, no bindings map and no visibility binding.
+  Real authored nodes in this repository's own screens average 136–138 dump
+  bytes each against this element's 95–112, so a realistic pooled element is
+  DEARER than the numbers here, not cheaper.
+- **The LVGL heap was never reached.** `renderer/lv_conf.h` sets
+  `LV_MEM_SIZE` to 2 MiB; no sweep here exhausted it, because one of the three
+  ceilings above always arrived first. A pool of heavier widgets could reorder
+  that.
+- **Only bp0 / 960x540 was swept.** Theme was checked and does not matter: the
+  same 255-element pool dumps to 54608 bytes in both light and dark. Breakpoint
+  tier was not swept, and it moves resolved geometry, so it moves coordinate
+  digits.
+- **Nothing here says what the renderer SHOULD do.** Raising `TREE_BUF_SIZE`,
+  making the dump skip hidden subtrees, or giving the Rust host the membrane the
+  Clojure host has are all changes to a contract a fleet of consumers pins, and
+  each is a separate decision.
+
+## Reproducing
+
+```
+tools/uber.sh 'make -f renderer.mk wasm'
+tools/uber.sh 'cd renderer/wasm_harness && cargo build --release'
+tools/uber.sh 'bash tools/perf/dump_buffer_probe.sh'
+```
+
+The probe prints one TSV row per sample point. `COUNTS` and `VARIANTS`
+environment variables select the sweep; the variant arms are listed in the
+script. `tools/perf/dump_tree_census.py` takes any dumped `*.tree.json` and
+reports the per-node distribution and key frequencies behind the tables above.
