@@ -128,7 +128,7 @@ LINT_CLJ_FILES := tools/scratchcard/bin/scratchcard.bb
 # THE ONE HELD-OUT TREE — on the record, never silently absent:
 #
 # docs/.protodoc/scripts/ — the `#!/usr/bin/env bb` slash-command backends
-# (proto-search, proto-coverage, doc-next, proto-lint, patch-lint). Hand-authored
+# (proto-search, proto-coverage, doc-next, proto-lint). Hand-authored
 # and first-party, so they BELONG in the list above. They are held out because
 # none of them carries an `ns` form: clj-kondo then treats the whole directory as
 # one implicit `user` namespace, and CROSS-FILE collisions — Shadowed var,

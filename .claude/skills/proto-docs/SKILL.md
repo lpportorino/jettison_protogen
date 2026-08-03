@@ -44,8 +44,7 @@ docs/                           # Obsidian vault (output)
 │   │   ├── proto-search.clj   # Search command
 │   │   ├── proto-coverage.clj # Coverage report
 │   │   ├── doc-next.clj       # Next undocumented message
-│   │   ├── proto-lint.clj     # Documentation linting
-│   │   └── patch-lint.clj     # Batch lint fixes
+│   │   └── proto-lint.clj     # Documentation linting
 │   └── tools/                 # Clojure tooling
 │       ├── src/protodoc/      # Core modules
 │       ├── test/protodoc/     # Tests
