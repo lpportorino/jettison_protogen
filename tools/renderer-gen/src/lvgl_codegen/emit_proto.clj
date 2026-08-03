@@ -636,8 +636,17 @@
 ;; literal here would be a second copy of `tag->widget-type` free to disagree
 ;; with it, and the disagreement would be invisible until a tag was added to
 ;; one and not the other.
+;; The INPUT is `keyword?`, not the tag enum, and that is load-bearing rather
+;; than loose. This fn's whole contract is to REFUSE an unrecognised tag with a
+;; diagnostic naming every legal one, and its caller `emit-widget` declares
+;; `[:map [:tag keyword?]]` — so an unknown tag legitimately reaches here. An
+;; enum input made the two specs contradict: under instrumentation malli
+;; rejected the tag at the boundary, the documented refusal arm became
+;; unreachable, and a caller got `:malli.core/invalid-input` instead of the
+;; message that names the valid tags. The RETURN stays closed; it genuinely
+;; only ever yields a known member.
 (m/=> widget-type-of
-      [:=> [:cat (into [:enum] (sort (keys tag->widget-type)))]
+      [:=> [:cat keyword?]
        (into [:enum] (sort (vals tag->widget-type)))])
 
 (m/=> emit-widget [:=> [:cat expanded-widget] [:map-of :keyword :any]])

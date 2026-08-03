@@ -21,6 +21,7 @@
   seam rather than to a broken tree."
   (:require
    [clojure.test :refer [deftest is testing]]
+   [lvgl-codegen.emit-proto :as emit-proto]
    [lvgl-codegen.instrument :as inst]
    [lvgl-codegen.palette-ladder :as pl]
    [malli.core :as m]))
@@ -56,3 +57,24 @@
     (is (>= (reduce + 0 (map (comp count val) (m/function-schemas)))
             inst/spec-floor)
         "fewer registered schemas than the floor means arming judged almost nothing")))
+
+(deftest unknown-widget-tag-reaches-its-own-refusal
+  (testing "an unrecognised tag gets emit-proto's diagnostic, not a malli input error"
+    ;; REGRESSION. `widget-type-of` exists to refuse an unknown tag by NAME, and
+    ;; its caller `emit-widget` accepts `[:map [:tag keyword?]]` — so an unknown
+    ;; tag is a value this code is written to meet. Its spec once declared the
+    ;; input as the closed tag enum, which under instrumentation refused the tag
+    ;; at the boundary and made that arm unreachable: the caller saw
+    ;; `:malli.core/invalid-input` and never the message listing the legal tags.
+    ;;
+    ;; This asserts through the REAL var with instrumentation LIVE (the seam this
+    ;; namespace's first test proves is armed), so it fails if the input schema
+    ;; is ever narrowed back to the enum.
+    (is (thrown-with-msg?
+         clojure.lang.ExceptionInfo
+         #"Unknown widget type: :lv_definitely_not_a_widget"
+         (emit-proto/emit-widget {:tag :lv_definitely_not_a_widget})))
+    (testing "and the diagnostic still names the legal tags"
+      (is (re-find #"Valid LVGL tags: "
+                   (try (emit-proto/emit-widget {:tag :lv_definitely_not_a_widget})
+                        (catch clojure.lang.ExceptionInfo e (ex-message e))))))))
