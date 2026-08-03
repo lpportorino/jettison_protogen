@@ -98,29 +98,28 @@
 # that a clause fired. `tools/lint/test/file_size_ceiling_test.sh` asserts the
 # exact code AND a substring of the diagnosis that names the clause.
 #
-# ── ARMING — HOOK-ONLY TODAY, AND THAT IS A DECLARED GAP ───────────────────
+# ── ARMING — BOTH HALVES, AND THE PLACEMENT ARGUMENT THAT DECIDED IT ───────
 #
 # `lint.mk`'s `lint-lanes` aggregate runs this, so `.githooks/pre-push` runs it.
-# NOTHING IN CI DOES. `.claude/rules/gate-enforcement.md` §6 makes local and CI
-# enforcement complements rather than alternatives — a client-side hook only
-# protects whoever armed it and `--no-verify` bypasses it — so this gate has no
-# authoritative half yet, exactly like the eight lanes `.claude/rules/
-# lint-gates.md` already names as a gap.
+# CI runs it too, in `hygiene.yml`, canary first. `.claude/rules/
+# gate-enforcement.md` §6 makes local and CI enforcement complements rather than
+# alternatives — a client-side hook only protects whoever armed it, and
+# `--no-verify` bypasses it — so both halves are needed and both now exist.
 #
-# It is stated here rather than left for a reader to discover because the fix is
-# one step, and the workflow that should carry it already exists. This gate's
-# input set is the whole checkout, so it belongs in `hygiene.yml` — the
-# no-`paths:`-filter workflow built for exactly that — and NOT in `lint.yml`,
-# whose path filter would be a false skip by construction. Two steps, canary
-# first, matching the ordering argument hygiene.yml already carries:
+# THE WORKFLOW CHOICE IS PART OF THE GATE, not a deployment detail. This gate's
+# input set is the WHOLE CHECKOUT: discovery is `git ls-files --cached --others
+# --exclude-standard` minus the declared generated and vendored trees, so the
+# verdict turns on files of ANY extension. It therefore belongs in `hygiene.yml`
+# — the no-`paths:`-filter workflow built for exactly that — and NOT in
+# `lint.yml`, whose filter would be a false skip by construction: the multi-MiB
+# root-level `.json` that motivated this gate matches none of that filter's
+# patterns, so a path-scoped arming would have been armed in name only.
 #
-#     - name: file-size canaries (mutation-proven clause attribution)
-#       run: make -f lint.mk lint-file-size-test
+# It runs AHEAD of any toolchain setup, for a reason worth keeping: it needs
+# bash and git alone, and running before any step can write into the workspace
+# keeps `--others` measuring the checkout AS PUSHED rather than a build's
+# output.
 #
-#     - name: file size ceiling (hand-authored tree)
-#       run: make -f lint.mk lint-file-size
-#
-# They need bash and git only — both already on the runner, nothing to install.
 set -euo pipefail
 
 # ── the two ceilings (down-only; see the header for provenance) ────────────
