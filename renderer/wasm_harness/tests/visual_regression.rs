@@ -6852,3 +6852,213 @@ mod scale_section_style_pool {
         );
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// tabview_authored_size — an authored W×H must reach the tabview root
+// ═══════════════════════════════════════════════════════════════════
+// Authored PROP_WIDTH / PROP_HEIGHT become an lv_style_t attached with
+// lv_obj_add_style. lv_tabview's constructor calls lv_obj_set_size(obj,
+// LV_PCT(100), LV_PCT(100)), and lv_obj_set_width/height write a LOCAL
+// style — which get_prop_core reaches before any added style and returns
+// on an exact state match. So an authored size on a tabview decoded
+// cleanly and was then discarded, with no diagnostic anywhere. Same
+// hazard the host-proxy default deliberately avoids by using an ADDED
+// style (renderer.c, proxy_apply_default_style).
+mod tabview_authored_size {
+    use super::*;
+    use lvgl_harness::proto::ui::style_property::Value;
+
+    /// The authored size under test. Differs from the canvas in BOTH axes, so
+    /// LV_PCT(100) of the root can never coincide with it and a pass cannot be
+    /// an accident of the parent's geometry.
+    const AUTHORED_W: u32 = 220;
+    const AUTHORED_H: u32 = 140;
+
+    /// Explicit W×H style group (px) for a prost-built widget — the same
+    /// authoring shape every other prost-built screen in this file uses.
+    fn size_group(w: u32, h: u32) -> ui::StyleGroup {
+        ui::StyleGroup {
+            variants: vec![ui::StyleVariant {
+                properties: vec![
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropWidth as i32,
+                        value: Some(Value::UintValue(w)),
+                    },
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropHeight as i32,
+                        value: Some(Value::UintValue(h)),
+                    },
+                ],
+                ..Default::default()
+            }],
+            ..Default::default()
+        }
+    }
+
+    /// A themed root of `root_w` × `root_h` wrapping exactly ONE `subject`
+    /// child. Only the child's TYPE and props differ between the control and
+    /// the subject, so a size difference is attributable to the arm alone.
+    fn one_child_screen_sized(subject: ui::WidgetNode, root_w: u32, root_h: u32) -> Vec<u8> {
+        let root = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetObj as i32,
+            uid: 100,
+            children: vec![subject],
+            style_groups: vec![size_group(root_w, root_h)],
+            ..Default::default()
+        };
+        ui::Screen { root: Some(root), subjects: vec![] }.encode_to_vec()
+    }
+
+    /// The same, with the root at the full canvas.
+    fn one_child_screen(subject: ui::WidgetNode) -> Vec<u8> {
+        one_child_screen_sized(subject, WIDTH, HEIGHT)
+    }
+
+    /// A one-tab tabview carrying `style_groups` verbatim. `tab_names` must
+    /// zip 1:1 with the content children or apply_tabview fails the load, so
+    /// the page child is load-bearing rather than decoration.
+    fn tabview_node_with(style_groups: Vec<ui::StyleGroup>) -> ui::WidgetNode {
+        ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetTabview as i32,
+            uid: 42,
+            widget_props: Some(ui::widget_node::WidgetProps::TabviewProps(ui::TabviewProps {
+                tab_names: vec!["A".into()],
+                ..Default::default()
+            })),
+            children: vec![ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetLabel as i32,
+                uid: 43,
+                text: "page".into(),
+                ..Default::default()
+            }],
+            style_groups,
+            ..Default::default()
+        }
+    }
+
+    /// The tabview under test — one that authors an explicit size.
+    fn tabview_node() -> ui::WidgetNode {
+        tabview_node_with(vec![size_group(AUTHORED_W, AUTHORED_H)])
+    }
+
+    /// A button carrying the SAME authored size — the positive control. Its
+    /// LVGL class sets no local size, so it is an arm the authored-size path
+    /// is known to reach. A button rather than a plain container because the
+    /// root is itself a `WIDGET_OBJ`, so `lv_obj` could not name the child
+    /// unambiguously in the dump.
+    fn control_node() -> ui::WidgetNode {
+        ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetButton as i32,
+            uid: 42,
+            style_groups: vec![size_group(AUTHORED_W, AUTHORED_H)],
+            ..Default::default()
+        }
+    }
+
+    /// Load raw Screen bytes, asserting the load was ACCEPTED before any
+    /// geometry is read — a refused load leaves a tree whose measurements
+    /// would mean nothing.
+    fn load(host: &mut ControlsHost, pb: &[u8]) {
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        let status = host.load_ui_raw(pb).expect("load_ui trapped");
+        assert_eq!(status, 0, "the screen under test must load clean; got {status}");
+        for _ in 0..RENDER_TICKS {
+            let _ = host.tick(TICK_MS).expect("tick");
+        }
+    }
+
+    /// The first dumped node whose LVGL class name is `class`.
+    fn find<'a>(node: &'a serde_json::Value, class: &str) -> Option<&'a serde_json::Value> {
+        if node["type"] == class {
+            return Some(node);
+        }
+        node["children"]
+            .as_array()?
+            .iter()
+            .find_map(|child| find(child, class))
+    }
+
+    /// Rendered (width, height) of the first `class` node, from the live
+    /// dump_tree coords — never from pixels, so padding and theme cannot
+    /// blur the verdict.
+    fn measured(host: &mut ControlsHost, class: &str) -> (i64, i64) {
+        let root = tree(host);
+        let node = find(&root, class)
+            .unwrap_or_else(|| panic!("no {class} in the dumped tree — the node never built"));
+        let coords = node["coords"].as_array().expect("coords");
+        let value = |i: usize| coords[i].as_i64().expect("coord");
+        (value(2) - value(0) + 1, value(3) - value(1) + 1)
+    }
+
+    /// The positive control, and the whole of the attribution below. A button
+    /// given the SAME style group must measure the authored size — proving
+    /// `size_group`, the decode path and `measured` all work, so a red on the
+    /// tabview can only come from the tabview arm.
+    #[test]
+    fn authored_size_reaches_the_control_widget() {
+        let mut host = new_host();
+        load(&mut host, &one_child_screen(control_node()));
+        assert_eq!(
+            measured(&mut host, "lv_button"),
+            (i64::from(AUTHORED_W), i64::from(AUTHORED_H)),
+            "an authored W×H must reach an ordinary widget"
+        );
+    }
+
+    /// The subject. A tabview authoring an explicit size must render at it,
+    /// not at the constructor's LV_PCT(100) of its parent.
+    #[test]
+    fn authored_size_reaches_the_tabview() {
+        let mut host = new_host();
+        load(&mut host, &one_child_screen(tabview_node()));
+        // Non-vacuity: the node genuinely built AND apply_tabview ran — a
+        // tabview that never assembled would carry no page child, and the
+        // size assertion below would then be measuring an unfinished object.
+        let dumped = tree(&mut host);
+        let tv = find(&dumped, "lv_tabview").expect("no lv_tabview in the dumped tree");
+        assert!(
+            find(tv, "lv_label").is_some(),
+            "apply_tabview did not zip the page child — the arm under test never completed"
+        );
+        assert_eq!(
+            measured(&mut host, "lv_tabview"),
+            (i64::from(AUTHORED_W), i64::from(AUTHORED_H)),
+            "an authored W×H must reach the tabview root, not be outranked by \
+             the constructor's LV_PCT(100) local style"
+        );
+    }
+
+    /// The other half of the contract, and the guard on the FIX's own risk:
+    /// dropping the constructor's local must not change what an UNAUTHORED
+    /// tabview resolves to. `lv_tabview_class` carries width_def = height_def
+    /// = LV_PCT(100), so the class default takes over and the size still
+    /// TRACKS the parent one-for-one.
+    ///
+    /// Asserted as a DELTA rather than against a pinned pixel pair, because a
+    /// pinned pair could be satisfied by a size that merely happened to match
+    /// at one root size — a fixed size, or LV_SIZE_CONTENT over this exact
+    /// page child, would both hold still while a percentage moves.
+    #[test]
+    fn an_unauthored_tabview_still_tracks_its_parent() {
+        let shrink_w = 100;
+        let shrink_h = 100;
+        let mut big = new_host();
+        load(&mut big, &one_child_screen_sized(tabview_node_with(vec![]), WIDTH, HEIGHT));
+        let (big_w, big_h) = measured(&mut big, "lv_tabview");
+        let mut small = new_host();
+        load(
+            &mut small,
+            &one_child_screen_sized(tabview_node_with(vec![]), WIDTH - shrink_w, HEIGHT - shrink_h),
+        );
+        let (small_w, small_h) = measured(&mut small, "lv_tabview");
+        assert_eq!(
+            (big_w - small_w, big_h - small_h),
+            (i64::from(shrink_w), i64::from(shrink_h)),
+            "an unauthored tabview must still fill its parent: shrinking the root by \
+             {shrink_w}×{shrink_h} must shrink it by exactly as much \
+             (got {big_w}×{big_h} then {small_w}×{small_h})"
+        );
+    }
+}

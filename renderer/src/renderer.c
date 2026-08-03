@@ -920,6 +920,29 @@ static void proxy_apply_default_style(lv_obj_t *obj) {
   }
   lv_obj_add_style(obj, &proxy_default_style, 0);
 }
+/* Hand the tabview root's SIZE back to the wire — the same local-versus-added
+ * hazard proxy_apply_default_style avoids above, met from the other side.
+ * lv_tabview's constructor calls lv_obj_set_size(obj, LV_PCT(100),
+ * LV_PCT(100)), and lv_obj_set_width/height write LOCAL styles; a local sits
+ * ahead of every added style in the object's style array and returns on an
+ * exact state match, so an authored PROP_WIDTH/PROP_HEIGHT — decoded, checked
+ * and attached like any other — was resolved past and silently discarded.
+ *
+ * REMOVING the local rather than re-applying a size at finalize is what keeps
+ * the unauthored case bit-identical: lv_tabview_class carries width_def =
+ * height_def = LV_PCT(100), and the class default is exactly what LVGL falls
+ * back to for WIDTH/HEIGHT once no style supplies them. So a tabview that
+ * authors no size still resolves LV_PCT(100), while one that authors a size
+ * now wins with it. It also needs no knowledge of WHICH props were authored,
+ * which the create-time seam does not have.
+ *
+ * Scoped to the ROOT: the bar and content children carry their own locals
+ * from lv_tabview_set_tab_bar_position/size, which are the mechanism
+ * TabviewProps drives, not something the wire styles directly. */
+static void tabview_release_local_size(lv_obj_t *obj) {
+  (void)lv_obj_remove_local_style_prop(obj, LV_STYLE_WIDTH, 0);
+  (void)lv_obj_remove_local_style_prop(obj, LV_STYLE_HEIGHT, 0);
+}
 /* ================================================================
  * Lazy widget creation
  *
@@ -984,6 +1007,8 @@ static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
     break;
   case ui_WidgetType_WIDGET_TABVIEW:
     ctx->self = lv_tabview_create(ctx->parent);
+    if (ctx->self)
+      tabview_release_local_size(ctx->self);
     break;
   case ui_WidgetType_WIDGET_CHART:
     ctx->self = lv_chart_create(ctx->parent);

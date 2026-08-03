@@ -22,7 +22,7 @@
    :h 480},
   "kitchen-sink/tabview-with-content"
   {:sha256
-   "b00b0add563b7a4e2b8a9290860bf0e1a7a38d11bddc4f473fba08e39d5bff9e",
+   "49d83154d5467c437b8de6a8bd308cb543d5c4ae8d7529ee0aa33367ba5f4b39",
    :w 800,
    :h 480},
   "kitchen-sink/toolbar-strip"
@@ -1102,27 +1102,27 @@
    :h 480},
   "lv_tabview/default/large"
   {:sha256
-   "e5254905c0f88c1476822f7ee62a6420700fa342910fa4903adc1aad6903dcbe",
+   "d0e27050bdeb67374892874ff6458ae1dbb5da3325a9c79935f6d6d69157d307",
    :w 800,
    :h 480},
   "lv_tabview/default/medium"
   {:sha256
-   "ff93695216967cd4dbbdfdfb568c6443cc88f0ea794841467e69be45a8521507",
+   "f40d1b6104394b53ae76012e8acde7887e606bd5f777515197a40547d6e34a2f",
    :w 800,
    :h 480},
   "lv_tabview/default/medium/active-last"
   {:sha256
-   "8987ba492cbc188ab1a90e762cf962aeaa7265bd12dc494232c9a48d6ab2e8ed",
+   "c55f0c14ff24a225c312a1619605ca7bbd351ec775512c154cd439626e94a706",
    :w 800,
    :h 480},
   "lv_tabview/default/small"
   {:sha256
-   "f4687753ffea63319cad2c8b662137639b8a2324733f9133f1f81ad9acccb350",
+   "fa5ef3344dbbc7361c8e998db2bafad907ea7c9cba82c89261316a03b944a974",
    :w 800,
    :h 480},
   "lv_tabview/disabled/medium"
   {:sha256
-   "ff93695216967cd4dbbdfdfb568c6443cc88f0ea794841467e69be45a8521507",
+   "f40d1b6104394b53ae76012e8acde7887e606bd5f777515197a40547d6e34a2f",
    :w 800,
    :h 480},
   "lv_textarea/default/large"
