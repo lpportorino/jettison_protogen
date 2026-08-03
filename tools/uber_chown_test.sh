@@ -151,7 +151,11 @@ ok "captured the -lc payload uber.sh hands docker ($(wc -c <"$PAYLOAD") bytes)"
 printf '\ncase mount-single-source\n'
 ARGV="$WORK/prod.argv"
 WS_DECLARED="$(awk '/^-e$/ { want=1; next } want { if ($0 ~ /^UBER_WORKSPACE=/) { sub(/^UBER_WORKSPACE=/, "", $0); print; exit } want=0 }' "$ARGV")"
-MOUNT_DEST="$(awk '/^-v$/ { getline v; n=split(v, p, ":"); if (p[n] !~ /^(ro|rw)$/) print p[n]; else print p[n-1] }' "$ARGV" | head -1)"
+# `exit` after the first -v rather than `| head -1`: head quits on line one and
+# SIGPIPEs an awk that still holds the remaining mounts, `pipefail` promotes 141,
+# and in an assignment that trips `errexit` and kills this canary rather than
+# failing a case. The two neighbouring extractions already use this form.
+MOUNT_DEST="$(awk '/^-v$/ { getline v; n=split(v, p, ":"); if (p[n] !~ /^(ro|rw)$/) print p[n]; else print p[n-1]; exit }' "$ARGV")"
 WORKDIR="$(awk '/^-w$/ { getline; print; exit }' "$ARGV")"
 if [ -n "$WS_DECLARED" ] && [ "$WS_DECLARED" = "$MOUNT_DEST" ] && [ "$WS_DECLARED" = "$WORKDIR" ]; then
   ok "UBER_WORKSPACE=$WS_DECLARED equals the mount destination and -w"

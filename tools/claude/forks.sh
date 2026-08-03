@@ -876,7 +876,13 @@ cmd_release() {
     fail "refusing to release the coordinator repository itself"
   [ -f "$fork/DONATION_OWNER.md" ] ||
     fail "owner marker is missing; nothing was deleted: $fork"
-  marker_owner="$(sed -n 's/^owner: //p' "$fork/DONATION_OWNER.md" | head -n 1)"
+  # ONE PROCESS, NOT A PIPE. `sed ... | head -n 1` makes head quit on the first
+  # line while sed may still have more to write; sed then dies of SIGPIPE and
+  # `pipefail` promotes 141 — and a 141 command substitution in an ASSIGNMENT is
+  # not a wrong value, it trips `errexit` and kills release outright, between the
+  # ownership checks and the residue scan. awk answers the same question by
+  # exiting after the first match, so nothing is left holding an unread tail.
+  marker_owner="$(awk '/^owner: / { sub(/^owner: /, ""); print; exit }' "$fork/DONATION_OWNER.md")"
   [ "$marker_owner" = "$RECORD_OWNER" ] ||
     fail "owner marker ($marker_owner) disagrees with manifest owner ($RECORD_OWNER)"
 
