@@ -57,6 +57,41 @@ jobs:
       name: leak-ban canaries (mutation-proven clause attribution)
       run: make -f lint.mk lint-no-host-paths-test
 
+    - # THE SIZE CEILING'S CANARY, and it runs before the ceiling itself for the
+      # ordering reason the leak ban above states: that gate has several clauses
+      # that can each refuse the same input, so a red does not on its own say
+      # which one fired, and the suite settles it by mutation.
+      #
+      # bash and git only — nothing this workflow installs, and nothing the two
+      # steps below need either.
+      name: file-size canaries (mutation-proven clause attribution)
+      run: make -f lint.mk lint-file-size-test
+
+    - # THE SIZE CEILING, and it belongs in THIS workflow for the reason the
+      # header gives for the leak ban: ITS INPUT SET IS THE CHECKOUT. It
+      # measures every path outside the declared generated and vendored trees,
+      # so its verdict can turn on a file of any extension whatever — the
+      # 23,515,423-byte `.json` that sat at the repository root and motivated
+      # the gate matches none of lint.yml's patterns, so that job would never
+      # have fired on the commit that landed it. A `paths:` filter over this
+      # scan is a false skip by construction, which is precisely what this
+      # workflow's missing filter exists to avoid.
+      #
+      # AHEAD OF THE JDK SETUP BELOW, for two reasons rather than tidiness.
+      # First, it installs nothing, so a finding is reported in seconds instead
+      # of after a toolchain provision. Second — and this is the load-bearing
+      # half — its discovery is `git ls-files --cached --others
+      # --exclude-standard`, which counts UNTRACKED files ON PURPOSE, because
+      # the failure it prevents is a generator redirected into the tree and
+      # committed without looking. Running it before any later step can write
+      # into the workspace keeps the population equal to the checkout as pushed;
+      # a scan placed after a build step would measure that build's output too.
+      #
+      # The default shallow checkout is complete for it — like every other scan
+      # here it reads the working tree, never a commit range.
+      name: file size ceiling (hand-authored tree)
+      run: make -f lint.mk lint-file-size
+
     - # THE MARKDOWN LANE IS CLOJURE NOW, so this job needs a JDK and the Clojure
       # CLI where it previously needed neither. Without them the lane does not
       # report a finding — it dies `clojure: command not found`, which is an ERROR

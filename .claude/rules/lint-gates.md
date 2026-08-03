@@ -52,7 +52,7 @@ Two guards you will meet:
 |---|---|---|
 | `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, and cljfmt and the two structural lanes named here need only the CLI |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
-| the WHOLE-TREE scans | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
+| the WHOLE-TREE scans — the leak ban, the markdown gate, the file-size ceiling | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
 
 **THREE STRUCTURAL CHECKS AND SIX FORK/LEG/BUILD CANARIES ARE HOOK-ONLY, NOT
 CI-ENFORCED, and that is a gap rather than a documented decision.**
