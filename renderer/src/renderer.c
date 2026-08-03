@@ -3297,7 +3297,11 @@ static void apply_bindings(const pending_bindings_t *p) {
     if (!entry) {
       /* B7/ITEM-8b: a binding to a never-declared subject is a dead
            * control (never reacts to state). Latch the load failure and skip
-           * this binding; the load returns -1 rather than half-wired. */
+           * this binding; the load returns LOAD_ERR_DEFECTIVE rather than
+           * reporting a half-wired screen as clean. DEFECTIVE, not ABORTED —
+           * this runs in the post-decode pending drain, so the tree is already
+           * complete and the caller must leave the screen up (main.c scopes its
+           * teardown to LOAD_ERR_ABORTED). */
       LOG_ERROR("binding '%s' references unknown subject '%s'", key,
                 subject_name);
       load_resource_error = true;
