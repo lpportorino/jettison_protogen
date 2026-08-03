@@ -19,9 +19,15 @@ public inline fun targetOverlayProps(block: ui.TargetOverlayPropsKt.Dsl.() -> ko
  * underneath it, which is the failure LV_STATE_DISABLED stacking already
  * demonstrates elsewhere.
  *
- * Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
- * overlay's uid; there is no per-box subject binding, because the box list is
- * a structure and StateUpdate carries only ints and strings.
+ * Live detections arrive as a ScreenPatch op against the overlay's uid; there
+ * is no per-box subject binding, because the box list is a structure and
+ * StateUpdate carries only ints and strings. The op is a
+ * PATCH_OP_REPLACE_NODE, never PATCH_OP_UPDATE_PROPS: the renderer appends one
+ * LVGL object per box, so the live subtree does not mirror the node's own
+ * children and re-applying these props in place would stack a second set of
+ * boxes over the first. That puts this widget in the same replace-only class
+ * as WIDGET_TABVIEW and WIDGET_HOST_PROXY, and the renderer refuses an
+ * UPDATE_PROPS naming it.
  * ```
  *
  * Protobuf type `ui.TargetOverlayProps`

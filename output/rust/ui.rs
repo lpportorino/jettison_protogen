@@ -637,12 +637,14 @@ pub struct TargetBox {
     pub w: i32,
     #[prost(int32, tag = "4")]
     pub h: i32,
-    /// Caption drawn inside the box's top-left corner. Empty = no caption. The
-    /// caption inherits the OVERLAY's text style, which is what makes it
-    /// authorable: LVGL treats text color/font/opa as inheritable, so a
-    /// PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
-    /// reaches every caption, while the boxes themselves are renderer-built and
-    /// carry no wire style of their own.
+    /// Caption drawn inside the box's top-left corner. Empty = no caption. It
+    /// takes its text color and font from the OVERLAY node, so a PROP_TEXT_COLOR
+    /// or PROP_TEXT_FONT in the overlay's style_groups is a screen's one handle on
+    /// every caption — the boxes and captions are renderer-built and no StyleGroup
+    /// addresses them directly. The renderer carries those two values down
+    /// EXPLICITLY: LVGL's own style inheritance does not reach that far, because
+    /// the box object between overlay and caption re-resolves the theme's own text
+    /// color and inheritance stops at the first ancestor that resolves.
     #[prost(string, tag = "5")]
     pub label: ::prost::alloc::string::String,
     /// Box stroke color. Absent = the theme's border color for the overlay's own
@@ -660,9 +662,15 @@ pub struct TargetBox {
 /// underneath it, which is the failure LV_STATE_DISABLED stacking already
 /// demonstrates elsewhere.
 ///
-/// Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
-/// overlay's uid; there is no per-box subject binding, because the box list is
-/// a structure and StateUpdate carries only ints and strings.
+/// Live detections arrive as a ScreenPatch op against the overlay's uid; there
+/// is no per-box subject binding, because the box list is a structure and
+/// StateUpdate carries only ints and strings. The op is a
+/// PATCH_OP_REPLACE_NODE, never PATCH_OP_UPDATE_PROPS: the renderer appends one
+/// LVGL object per box, so the live subtree does not mirror the node's own
+/// children and re-applying these props in place would stack a second set of
+/// boxes over the first. That puts this widget in the same replace-only class
+/// as WIDGET_TABVIEW and WIDGET_HOST_PROXY, and the renderer refuses an
+/// UPDATE_PROPS naming it.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TargetOverlayProps {
     /// The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits

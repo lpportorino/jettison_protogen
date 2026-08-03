@@ -123,12 +123,14 @@ public object TargetBoxKt {
 
     /**
      * ```
-     * Caption drawn inside the box's top-left corner. Empty = no caption. The
-     * caption inherits the OVERLAY's text style, which is what makes it
-     * authorable: LVGL treats text color/font/opa as inheritable, so a
-     * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
-     * reaches every caption, while the boxes themselves are renderer-built and
-     * carry no wire style of their own.
+     * Caption drawn inside the box's top-left corner. Empty = no caption. It
+     * takes its text color and font from the OVERLAY node, so a PROP_TEXT_COLOR
+     * or PROP_TEXT_FONT in the overlay's style_groups is a screen's one handle on
+     * every caption — the boxes and captions are renderer-built and no StyleGroup
+     * addresses them directly. The renderer carries those two values down
+     * EXPLICITLY: LVGL's own style inheritance does not reach that far, because
+     * the box object between overlay and caption re-resolves the theme's own text
+     * color and inheritance stops at the first ancestor that resolves.
      * ```
      *
      * `string label = 5 [(.buf.validate.field) = { ... }`
@@ -142,12 +144,14 @@ public object TargetBoxKt {
       }
     /**
      * ```
-     * Caption drawn inside the box's top-left corner. Empty = no caption. The
-     * caption inherits the OVERLAY's text style, which is what makes it
-     * authorable: LVGL treats text color/font/opa as inheritable, so a
-     * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
-     * reaches every caption, while the boxes themselves are renderer-built and
-     * carry no wire style of their own.
+     * Caption drawn inside the box's top-left corner. Empty = no caption. It
+     * takes its text color and font from the OVERLAY node, so a PROP_TEXT_COLOR
+     * or PROP_TEXT_FONT in the overlay's style_groups is a screen's one handle on
+     * every caption — the boxes and captions are renderer-built and no StyleGroup
+     * addresses them directly. The renderer carries those two values down
+     * EXPLICITLY: LVGL's own style inheritance does not reach that far, because
+     * the box object between overlay and caption re-resolves the theme's own text
+     * color and inheritance stops at the first ancestor that resolves.
      * ```
      *
      * `string label = 5 [(.buf.validate.field) = { ... }`

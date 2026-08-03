@@ -4877,12 +4877,14 @@ type TargetBox struct {
 	Y int32 `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
 	W int32 `protobuf:"varint,3,opt,name=w,proto3" json:"w,omitempty"`
 	H int32 `protobuf:"varint,4,opt,name=h,proto3" json:"h,omitempty"`
-	// Caption drawn inside the box's top-left corner. Empty = no caption. The
-	// caption inherits the OVERLAY's text style, which is what makes it
-	// authorable: LVGL treats text color/font/opa as inheritable, so a
-	// PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
-	// reaches every caption, while the boxes themselves are renderer-built and
-	// carry no wire style of their own.
+	// Caption drawn inside the box's top-left corner. Empty = no caption. It
+	// takes its text color and font from the OVERLAY node, so a PROP_TEXT_COLOR
+	// or PROP_TEXT_FONT in the overlay's style_groups is a screen's one handle on
+	// every caption — the boxes and captions are renderer-built and no StyleGroup
+	// addresses them directly. The renderer carries those two values down
+	// EXPLICITLY: LVGL's own style inheritance does not reach that far, because
+	// the box object between overlay and caption re-resolves the theme's own text
+	// color and inheritance stops at the first ancestor that resolves.
 	Label string `protobuf:"bytes,5,opt,name=label,proto3" json:"label,omitempty"`
 	// Box stroke color. Absent = the theme's border color for the overlay's own
 	// class, which is what makes an unstyled box theme-correct in both families
@@ -4973,9 +4975,15 @@ func (x *TargetBox) GetColor() *Color {
 // underneath it, which is the failure LV_STATE_DISABLED stacking already
 // demonstrates elsewhere.
 //
-// Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
-// overlay's uid; there is no per-box subject binding, because the box list is
-// a structure and StateUpdate carries only ints and strings.
+// Live detections arrive as a ScreenPatch op against the overlay's uid; there
+// is no per-box subject binding, because the box list is a structure and
+// StateUpdate carries only ints and strings. The op is a
+// PATCH_OP_REPLACE_NODE, never PATCH_OP_UPDATE_PROPS: the renderer appends one
+// LVGL object per box, so the live subtree does not mirror the node's own
+// children and re-applying these props in place would stack a second set of
+// boxes over the first. That puts this widget in the same replace-only class
+// as WIDGET_TABVIEW and WIDGET_HOST_PROXY, and the renderer refuses an
+// UPDATE_PROPS naming it.
 type TargetOverlayProps struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
