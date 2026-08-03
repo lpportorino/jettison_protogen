@@ -43,7 +43,8 @@
 (def valid-widget-tags
   #{:lv_obj :lv_label :lv_button :lv_image :lv_slider :lv_arc :lv_bar :lv_switch
     :lv_checkbox :lv_spinner :lv_led :lv_scale :lv_spinbox :lv_dropdown :lv_roller
-    :lv_textarea :lv_line :lv_buttonmatrix :lv_table :lv_tabview :lv_chart :lv_host_proxy})
+    :lv_textarea :lv_line :lv_buttonmatrix :lv_table :lv_tabview :lv_chart :lv_host_proxy
+    :lv_target_overlay})
 
 (def stateful-widget-tags
   "Widget tags carrying RUNTIME user state a tree patch must not churn
@@ -309,6 +310,7 @@
       [:scale_props {:optional true} map?] [:buttonmatrix_props {:optional true} map?]
       [:table_props {:optional true} map?] [:tabview_props {:optional true} map?]
       [:chart_props {:optional true} map?] [:host_proxy_props {:optional true} map?]
+      [:target_overlay_props {:optional true} map?]
       ;; R5a: pre-encoded gesture→cmd templates on the
       ;; gesture-surface host-proxy (one GestureSpec per
       ;; device gesture with a fixed-width slot).

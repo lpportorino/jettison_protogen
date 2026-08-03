@@ -73,7 +73,8 @@
     "MAX_STYLES_PER_WIDGET": "per-NODE cap (a single widget's attached-style count); the renderer's own guard fails loud on overflow (state-honesty), not a screen pool the codegen sums \u2014 styles counts the screen-wide slot total separately.",
     "MAX_TABLE_COLS": "per-NODE ceiling on ONE table's declared column_count; see MAX_TABLE_ROWS.",
     "MAX_TABLE_ROWS": "per-NODE ceiling on ONE table's declared row_count (it bounds that table's own allocation), not a screen pool the codegen sums; the renderer refuses an over-cap table loudly.",
-    "MAX_TABVIEW_CHILDREN": "per-NODE cap (one tabview's tab count), not a screen aggregate."
+    "MAX_TABVIEW_CHILDREN": "per-NODE cap (one tabview's tab count), not a screen aggregate.",
+    "MAX_TARGET_BOXES": "per-NODE ceiling on ONE target overlay's decoded boxes_count, not a screen pool the codegen sums. It is also the only DECODER-side bound that field has: ui.TargetOverlayProps.boxes is FT_POINTER, so nanopb allocates whatever the stream declares and buf.validate max_items:32 binds a conforming producer only \u2014 this is what refuses a crafted .pb, loudly and without drawing a partial frame."
   },
   "compiled-in-fonts": [
     "b612mono_bold_12",

@@ -789,6 +789,38 @@ struct ArcPropsDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ArcPropsDefaultTypeInternal _ArcProps_default_instance_;
 
+inline constexpr TargetBox::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        label_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        color_{nullptr},
+        x_{0},
+        y_{0},
+        w_{0},
+        h_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR TargetBox::TargetBox(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct TargetBoxDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TargetBoxDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TargetBoxDefaultTypeInternal() {}
+  union {
+    TargetBox _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TargetBoxDefaultTypeInternal _TargetBox_default_instance_;
+
 inline constexpr StyleProperty::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : type_{static_cast< ::ui::StylePropertyType >(0)},
@@ -1007,6 +1039,33 @@ struct ChartSeriesDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ChartSeriesDefaultTypeInternal _ChartSeries_default_instance_;
+
+inline constexpr TargetOverlayProps::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : boxes_{},
+        border_width_{0u},
+        hide_labels_{false},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR TargetOverlayProps::TargetOverlayProps(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct TargetOverlayPropsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TargetOverlayPropsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TargetOverlayPropsDefaultTypeInternal() {}
+  union {
+    TargetOverlayProps _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TargetOverlayPropsDefaultTypeInternal _TargetOverlayProps_default_instance_;
 
 inline constexpr StyleVariant::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -1444,6 +1503,7 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.visibility_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.bind_formats_),
         PROTOBUF_FIELD_OFFSET(::ui::WidgetNode, _impl_.obj_flags_),
@@ -1468,6 +1528,7 @@ const ::uint32_t
         ~0u,
         0,
         1,
+        ~0u,
         ~0u,
         ~0u,
         ~0u,
@@ -1835,6 +1896,37 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ui::HostProxyProps, _impl_.max_h_),
         PROTOBUF_FIELD_OFFSET(::ui::HostProxyProps, _impl_.handle_size_),
         PROTOBUF_FIELD_OFFSET(::ui::HostProxyProps, _impl_.z_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_.x_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_.y_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_.w_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_.h_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_.label_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetBox, _impl_.color_),
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        0,
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::ui::TargetOverlayProps, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ui::TargetOverlayProps, _impl_.boxes_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetOverlayProps, _impl_.border_width_),
+        PROTOBUF_FIELD_OFFSET(::ui::TargetOverlayProps, _impl_.hide_labels_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ui::Point, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -2014,46 +2106,48 @@ static const ::_pbi::MigrationSchema
         {34, 44, -1, sizeof(::ui::Screen)},
         {46, 56, -1, sizeof(::ui::WidgetNode_BindingsEntry_DoNotUse)},
         {58, 68, -1, sizeof(::ui::WidgetNode_BindFormatsEntry_DoNotUse)},
-        {70, 126, -1, sizeof(::ui::WidgetNode)},
-        {173, 186, -1, sizeof(::ui::TreePatchOp)},
-        {191, -1, -1, sizeof(::ui::ScreenPatch)},
-        {202, -1, -1, sizeof(::ui::ObjProps)},
-        {210, -1, -1, sizeof(::ui::ButtonProps)},
-        {218, -1, -1, sizeof(::ui::LabelProps)},
-        {227, -1, -1, sizeof(::ui::SliderProps)},
-        {240, -1, -1, sizeof(::ui::ImageProps)},
-        {253, -1, -1, sizeof(::ui::ArcProps)},
-        {270, -1, -1, sizeof(::ui::BarProps)},
-        {283, -1, -1, sizeof(::ui::SwitchProps)},
-        {292, -1, -1, sizeof(::ui::CheckboxProps)},
-        {301, -1, -1, sizeof(::ui::DropdownProps)},
-        {313, -1, -1, sizeof(::ui::RollerProps)},
-        {325, -1, -1, sizeof(::ui::TextareaProps)},
-        {337, -1, -1, sizeof(::ui::SpinboxProps)},
-        {351, -1, -1, sizeof(::ui::SpinnerProps)},
-        {361, 371, -1, sizeof(::ui::LedProps)},
-        {373, -1, -1, sizeof(::ui::LineProps)},
-        {383, -1, -1, sizeof(::ui::ScaleProps)},
-        {402, 416, -1, sizeof(::ui::ScaleSection)},
-        {422, -1, -1, sizeof(::ui::ButtonMatrixProps)},
-        {432, -1, -1, sizeof(::ui::TableProps)},
-        {442, -1, -1, sizeof(::ui::TabviewProps)},
-        {455, 466, -1, sizeof(::ui::ChartSeries)},
-        {469, -1, -1, sizeof(::ui::ChartProps)},
-        {484, -1, -1, sizeof(::ui::HostProxyProps)},
-        {500, -1, -1, sizeof(::ui::Point)},
-        {510, 528, -1, sizeof(::ui::EventBinding)},
-        {538, -1, -1, sizeof(::ui::FieldPatch)},
-        {552, -1, -1, sizeof(::ui::CmdSpec)},
-        {563, 573, -1, sizeof(::ui::GestureSpec)},
-        {575, -1, -1, sizeof(::ui::VisibilityBinding)},
-        {586, 596, -1, sizeof(::ui::ColorBinding)},
-        {598, -1, -1, sizeof(::ui::Layout)},
-        {610, -1, -1, sizeof(::ui::StyleGroup)},
-        {620, -1, -1, sizeof(::ui::StyleVariant)},
-        {630, -1, -1, sizeof(::ui::StyleProperty)},
-        {645, -1, -1, sizeof(::ui::Color)},
-        {656, -1, -1, sizeof(::ui::ShadowBundle)},
+        {70, 127, -1, sizeof(::ui::WidgetNode)},
+        {175, 188, -1, sizeof(::ui::TreePatchOp)},
+        {193, -1, -1, sizeof(::ui::ScreenPatch)},
+        {204, -1, -1, sizeof(::ui::ObjProps)},
+        {212, -1, -1, sizeof(::ui::ButtonProps)},
+        {220, -1, -1, sizeof(::ui::LabelProps)},
+        {229, -1, -1, sizeof(::ui::SliderProps)},
+        {242, -1, -1, sizeof(::ui::ImageProps)},
+        {255, -1, -1, sizeof(::ui::ArcProps)},
+        {272, -1, -1, sizeof(::ui::BarProps)},
+        {285, -1, -1, sizeof(::ui::SwitchProps)},
+        {294, -1, -1, sizeof(::ui::CheckboxProps)},
+        {303, -1, -1, sizeof(::ui::DropdownProps)},
+        {315, -1, -1, sizeof(::ui::RollerProps)},
+        {327, -1, -1, sizeof(::ui::TextareaProps)},
+        {339, -1, -1, sizeof(::ui::SpinboxProps)},
+        {353, -1, -1, sizeof(::ui::SpinnerProps)},
+        {363, 373, -1, sizeof(::ui::LedProps)},
+        {375, -1, -1, sizeof(::ui::LineProps)},
+        {385, -1, -1, sizeof(::ui::ScaleProps)},
+        {404, 418, -1, sizeof(::ui::ScaleSection)},
+        {424, -1, -1, sizeof(::ui::ButtonMatrixProps)},
+        {434, -1, -1, sizeof(::ui::TableProps)},
+        {444, -1, -1, sizeof(::ui::TabviewProps)},
+        {457, 468, -1, sizeof(::ui::ChartSeries)},
+        {471, -1, -1, sizeof(::ui::ChartProps)},
+        {486, -1, -1, sizeof(::ui::HostProxyProps)},
+        {502, 516, -1, sizeof(::ui::TargetBox)},
+        {522, -1, -1, sizeof(::ui::TargetOverlayProps)},
+        {533, -1, -1, sizeof(::ui::Point)},
+        {543, 561, -1, sizeof(::ui::EventBinding)},
+        {571, -1, -1, sizeof(::ui::FieldPatch)},
+        {585, -1, -1, sizeof(::ui::CmdSpec)},
+        {596, 606, -1, sizeof(::ui::GestureSpec)},
+        {608, -1, -1, sizeof(::ui::VisibilityBinding)},
+        {619, 629, -1, sizeof(::ui::ColorBinding)},
+        {631, -1, -1, sizeof(::ui::Layout)},
+        {643, -1, -1, sizeof(::ui::StyleGroup)},
+        {653, -1, -1, sizeof(::ui::StyleVariant)},
+        {663, -1, -1, sizeof(::ui::StyleProperty)},
+        {678, -1, -1, sizeof(::ui::Color)},
+        {689, -1, -1, sizeof(::ui::ShadowBundle)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_SubjectDeclaration_default_instance_._instance,
@@ -2089,6 +2183,8 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_ChartSeries_default_instance_._instance,
     &::ui::_ChartProps_default_instance_._instance,
     &::ui::_HostProxyProps_default_instance_._instance,
+    &::ui::_TargetBox_default_instance_._instance,
+    &::ui::_TargetOverlayProps_default_instance_._instance,
     &::ui::_Point_default_instance_._instance,
     &::ui::_EventBinding_default_instance_._instance,
     &::ui::_FieldPatch_default_instance_._instance,
@@ -2116,7 +2212,7 @@ const char descriptor_table_protodef_ui_2fui_5fast_2eproto[] ABSL_ATTRIBUTE_SECT
     "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va"
     "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN"
     "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD"
-    "eclarationB\007\n\005_root\"\346\r\n\nWidgetNode\022&\n\004ty"
+    "eclarationB\007\n\005_root\"\236\016\n\nWidgetNode\022&\n\004ty"
     "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\t\n\001x\030"
     "\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\026\n\004text\030\004 \001(\tB\010\272H\005r\003\030\377\001"
     "\022.\n\010bindings\030\005 \003(\0132\034.ui.WidgetNode.Bindi"
@@ -2146,305 +2242,313 @@ const char descriptor_table_protodef_ui_2fui_5fast_2eproto[] ABSL_ATTRIBUTE_SECT
     "iew_props\030& \001(\0132\020.ui.TabviewPropsH\000\022%\n\013c"
     "hart_props\030( \001(\0132\016.ui.ChartPropsH\000\022.\n\020ho"
     "st_proxy_props\030) \001(\0132\022.ui.HostProxyProps"
-    "H\000\022)\n\nvisibility\030\035 \001(\0132\025.ui.VisibilityBi"
-    "nding\0225\n\014bind_formats\030\036 \003(\0132\037.ui.WidgetN"
-    "ode.BindFormatsEntry\022\021\n\tobj_flags\030\037 \001(\r\022"
-    "\027\n\017obj_flags_clear\030  \001(\r\022\016\n\006states\030! \001(\r"
-    "\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014grid_col_dsc\030# \003"
-    "(\005\022\024\n\014grid_row_dsc\030$ \003(\005\022\014\n\004bare\030% \001(\010\022\022"
-    "\n\nin_tab_bar\030\' \001(\010\022+\n\014checked_when\030* \001(\013"
-    "2\025.ui.VisibilityBinding\022+\n\014enabled_when\030"
-    "- \001(\0132\025.ui.VisibilityBinding\022$\n\ncolor_wh"
-    "en\030. \001(\0132\020.ui.ColorBinding\022\031\n\010hit_slop\030/"
-    " \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001(\r\022+\n\010gestures\030,"
-    " \003(\0132\017.ui.GestureSpecB\010\272H\005\222\001\002\020\005\032/\n\rBindi"
-    "ngsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001"
-    "\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val"
-    "ue\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231\001\n\013TreePat"
-    "chOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchOpKindB\010\272H\005"
-    "\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\nparent_uid\030"
-    "\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005 \001(\0132\016.ui."
-    "WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013ScreenPatch\022"
-    "\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_hash\030\002 \001(\r\022"
-    "\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"\n\n\010ObjProp"
-    "s\"\r\n\013ButtonProps\"<\n\nLabelProps\022.\n\tlong_m"
-    "ode\030\001 \001(\0162\021.ui.LabelLongModeB\010\272H\005\202\001\002\020\001\"~"
-    "\n\013SliderProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_"
-    "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004mode\030\004 \001(\016"
-    "2\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rseek_on_press"
-    "\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 \001(\tB\010\272H\005r\003"
-    "\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivot_x\030\003 \001(\005\022"
-    "\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005 \001(\005\"\364\001\n\010A"
-    "rcProps\022\035\n\013start_angle\030\001 \001(\rB\010\272H\005*\003\030\350\002\022\033"
-    "\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n\016bg_start_"
-    "angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_end_angle\030\004 "
-    "\001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001(\005\022#\n\004mode\030"
-    "\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021\n\tmin_valu"
-    "e\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005value\030\t \001("
-    "\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_"
-    "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013start_valu"
-    "e\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.BarModeB\010\272H\005\202"
-    "\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked\030\001 \001(\010\" \n\r"
-    "CheckboxProps\022\017\n\007checked\030\001 \001(\010\"\203\001\n\rDropd"
-    "ownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010s"
-    "elected\030\002 \001(\r\022$\n\tdirection\030\003 \001(\0162\007.ui.Di"
-    "rB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004 \003(\005B\010\272H\005\222"
-    "\001\002\020\020\"}\n\013RollerProps\022\031\n\007options\030\001 \001(\tB\010\272H"
-    "\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021visible_row_"
-    "count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui.RollerMod"
-    "eB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035\n\013placehol"
-    "der\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022"
-    "\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010"
-    "\"\202\001\n\014SpinboxProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\t"
-    "max_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004"
-    " \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022separator_p"
-    "osition\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspin_ti"
-    "me\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B\n\010LedProps"
-    "\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\nbrightness"
-    "\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031\n\006points\030"
-    "\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nS"
-    "caleProps\022%\n\004mode\030\001 \001(\0162\r.ui.ScaleModeB\010"
-    "\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002 \001(\r\022\030\n\020ma"
-    "jor_tick_every\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010"
-    "\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020"
-    "\n\010rotation\030\007 \001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272"
-    "H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tp"
-    "ost_draw\030\n \001(\010\022,\n\010sections\030\013 \003(\0132\020.ui.Sc"
-    "aleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n"
-    "\trange_min\030\001 \001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005c"
-    "olor\030\003 \001(\0132\t.ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\n"
-    "main_color\030\005 \001(\0132\t.ui.Color\022\022\n\nmain_widt"
-    "h\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031\n\007map_str\030"
-    "\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTa"
-    "bleProps\022\021\n\trow_count\030\001 \001(\r\022\024\n\014column_co"
-    "unt\030\002 \001(\r\"\244\001\n\014TabviewProps\022!\n\ttab_names\030"
-    "\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 "
-    "\001(\005\022\024\n\014active_index\030\003 \001(\r\022+\n\020tab_bar_pos"
-    "ition\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_ba"
-    "r_pad_left\030\005 \001(\005\"h\n\013ChartSeries\022\030\n\005color"
-    "\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002 \001(\0162\r.ui.Cha"
-    "rtAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002"
-    "\020 \"\331\001\n\nChartProps\022%\n\004type\030\001 \001(\0162\r.ui.Cha"
-    "rtTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n"
-    "\rhas_div_lines\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\r"
-    "B\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001"
-    "\022)\n\006series\030\006 \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001"
-    "\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016HostProxyProp"
-    "s\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030\?\022%\n\004mode\030\002"
-    " \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003"
-    " \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005ma"
-    "x_h\030\006 \001(\005\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001("
-    "\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014Eve"
-    "ntBinding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007tr"
-    "igger\030\002 \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022"
-    "\021\n\tint_value\030\003 \001(\005\022\034\n\024include_widget_val"
-    "ue\030\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030\?\022\021"
-    "\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013not"
-    "ify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec"
-    "\022+\n\014cmd_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005"
-    "\222\001\002\020\020\"\271\001\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001("
-    "\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui"
-    ".PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021"
-    "\022\030\n\007subject\030\005 \001(\tB\007\272H\004r\002\030\?\022-\n\010encoding\030\006"
-    " \001(\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007Cmd"
-    "Spec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroo"
-    "t_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.F"
-    "ieldPatchB\010\272H\005\222\001\002\020\010\"P\n\013GestureSpec\022\'\n\004ki"
-    "nd\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003c"
-    "md\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBindi"
-    "ng\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030\?\022\021\n\tref_va"
-    "lue\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareO"
-    "pB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004when\030\001 \001("
-    "\0132\025.ui.VisibilityBinding\022\030\n\005color\030\002 \001(\0132"
-    "\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui"
-    ".FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162"
-    "\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030"
-    "\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_"
-    "place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\n"
-    "StyleGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010va"
-    "riants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001"
-    "\020\010\"U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001("
-    "\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.Styl"
-    "eProperty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001("
-    "\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nui"
-    "nt_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n"
-    "\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014strin"
-    "g_value\030\005 \001(\tB\007\272H\004r\002\030\?H\000\022(\n\014shadow_value"
-    "\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005C"
-    "olor\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H"
-    "\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBun"
-    "dle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010"
-    "offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 "
-    "\001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_"
-    "INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKin"
-    "d\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP"
-    "_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020"
-    "\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_"
-    "MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ"
-    "\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022"
-    "\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\n"
-    "WIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_S"
-    "WITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_D"
-    "ROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_T"
-    "EXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_"
-    "SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE"
-    "\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMAT"
-    "RIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIE"
-    "W\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PRO"
-    "XY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000"
-    "\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE"
-    "_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X"
-    "\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025T"
-    "RIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_P"
-    "RESSED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNS"
-    "PECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATC"
-    "H_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027"
-    "PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIND_"
-    "NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PATCH"
-    "_KIND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncoding\022"
-    "\036\n\032PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PATCH"
-    "_ENCODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENCOD"
-    "ING_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOAT_"
-    "LE\020\003*\266\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN"
-    "_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GES"
-    "TURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022"
-    "\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_"
-    "WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*q\n\tCompare"
-    "Op\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016"
-    "\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPA"
-    "RE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n"
-    "\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020"
-    "FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP"
-    "\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FL"
-    "OW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUM"
-    "N_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!"
-    "\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFl"
-    "exAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_AL"
-    "IGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX"
-    "_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPAC"
-    "E_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005"
-    "*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021"
-    "GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022"
-    "\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SP"
-    "ACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020"
-    "\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextA"
-    "lign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_"
-    "LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_AL"
-    "IGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_N"
-    "ONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_"
-    "DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021B"
-    "LEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIV"
-    "E\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND"
-    "_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENC"
-    "E\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE"
-    "_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DI"
-    "R_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradD"
-    "ir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022"
-    "\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023"
-    "\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020"
-    "\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\t"
-    "DIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010"
-    "\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*"
-    "\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TO"
-    "P_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP"
-    "_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN"
-    "_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n"
-    "\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020"
-    "\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n"
-    "\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP"
-    "_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024A"
-    "LIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTO"
-    "M_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALI"
-    "GN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTT"
-    "OM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_O"
-    "UT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM"
-    "\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022"
-    "\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_T"
-    "OP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SID"
-    "E_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDE"
-    "R_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024L"
-    "ABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE"
-    "_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037L"
-    "ABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABE"
-    "L_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MOD"
-    "E_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016"
-    "BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_"
-    "NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020AR"
-    "C_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER"
-    "_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001"
-    "*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_"
-    "TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022"
-    "\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_M"
-    "ODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND"
-    "_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n"
-    "\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART"
-    "_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CH"
-    "ART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026"
-    "\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024C"
-    "HART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECO"
-    "NDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026C"
-    "HART_AXIS_SECONDARY_X\020\004*\273\022\n\021StylePropert"
-    "yType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020"
-    "\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT"
-    "\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER"
-    "_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_AL"
-    "L\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n"
-    "\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_"
-    "PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARG"
-    "IN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MI"
-    "N_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MI"
-    "N_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_"
-    "LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP"
-    "_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PR"
-    "OP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_"
-    "X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_"
-    "X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036"
-    "\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013"
-    "PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_P"
-    "AD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PA"
-    "D_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD"
-    "_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARG"
-    "IN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP"
-    "_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n"
-    "\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DI"
-    "R\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GR"
-    "AD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_"
-    "BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021"
-    "PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_REC"
-    "OLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n"
-    "\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SI"
-    "DE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLI"
-    "NE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PR"
-    "OP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025"
-    "\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFF"
-    "SET_X\020\?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PRO"
-    "P_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B"
-    "\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020"
-    "D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_"
-    "RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PR"
-    "OP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_G"
-    "AP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE"
-    "_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_"
-    "WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_AR"
-    "C_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT"
-    "_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PR"
-    "OP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020"
-    "T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORN"
-    "ER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X"
-    "\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM"
-    "_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP"
-    "_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]"
-    "\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_P"
-    "LACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PRO"
-    "P_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b"
-    "\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRI"
-    "D_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_P"
-    "OS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP"
-    "_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CE"
-    "LL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i"
-    "\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-cod"
-    "ecommit.eu-central-1.amazonaws.com/v1/re"
-    "pos/jettison/jonp/uib\006proto3"
+    "H\000\0226\n\024target_overlay_props\0300 \001(\0132\026.ui.Ta"
+    "rgetOverlayPropsH\000\022)\n\nvisibility\030\035 \001(\0132\025"
+    ".ui.VisibilityBinding\0225\n\014bind_formats\030\036 "
+    "\003(\0132\037.ui.WidgetNode.BindFormatsEntry\022\021\n\t"
+    "obj_flags\030\037 \001(\r\022\027\n\017obj_flags_clear\030  \001(\r"
+    "\022\016\n\006states\030! \001(\r\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014"
+    "grid_col_dsc\030# \003(\005\022\024\n\014grid_row_dsc\030$ \003(\005"
+    "\022\014\n\004bare\030% \001(\010\022\022\n\nin_tab_bar\030\' \001(\010\022+\n\014ch"
+    "ecked_when\030* \001(\0132\025.ui.VisibilityBinding\022"
+    "+\n\014enabled_when\030- \001(\0132\025.ui.VisibilityBin"
+    "ding\022$\n\ncolor_when\030. \001(\0132\020.ui.ColorBindi"
+    "ng\022\031\n\010hit_slop\030/ \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001"
+    "(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272"
+    "H\005\222\001\002\020\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n"
+    "\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003"
+    "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_p"
+    "rops\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui."
+    "PatchOpKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001("
+    "\r\022\022\n\nparent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004"
+    "node\030\005 \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node"
+    "\"S\n\013ScreenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013ta"
+    "rget_hash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePa"
+    "tchOp\"\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabe"
+    "lProps\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLong"
+    "ModeB\010\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_val"
+    "ue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001"
+    "(\005\022#\n\004mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022"
+    "\025\n\rseek_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003"
+    "src\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017"
+    "\n\007pivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rota"
+    "tion\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001"
+    " \001(\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003"
+    "\030\350\002\022 \n\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n"
+    "\014bg_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotatio"
+    "n\030\005 \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202"
+    "\001\002\020\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001"
+    "(\005\022\r\n\005value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_val"
+    "ue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001"
+    "(\005\022\023\n\013start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013."
+    "ui.BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007c"
+    "hecked\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked"
+    "\030\001 \001(\010\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001("
+    "\tB\010\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirecti"
+    "on\030\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_va"
+    "lues\030\004 \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007o"
+    "ptions\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r"
+    "\022\031\n\021visible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001("
+    "\0162\016.ui.RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaP"
+    "rops\022\035\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nm"
+    "ax_length\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpas"
+    "sword_mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin"
+    "_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value"
+    "\030\003 \001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001("
+    "\r\022\032\n\022separator_position\030\006 \001(\r\"5\n\014Spinner"
+    "Props\022\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002"
+    " \001(\r\"B\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Col"
+    "or\022\034\n\nbrightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLine"
+    "Props\022\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_in"
+    "vert\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162"
+    "\r.ui.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_c"
+    "ount\030\002 \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\n"
+    "label_show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tm"
+    "ax_value\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angl"
+    "e_range\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001("
+    "\tB\010\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sectio"
+    "ns\030\013 \003(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n"
+    "\014ScaleSection\022\021\n\trange_min\030\001 \001(\005\022\021\n\trang"
+    "e_max\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n"
+    "\005width\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Co"
+    "lor\022\022\n\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixP"
+    "rops\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_c"
+    "heck\030\002 \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 "
+    "\001(\r\022\024\n\014column_count\030\002 \001(\r\"\244\001\n\014TabviewPro"
+    "ps\022!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n"
+    "\014tab_bar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001("
+    "\r\022+\n\020tab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H"
+    "\005\202\001\002\020\001\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013Char"
+    "tSeries\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axi"
+    "s\030\002 \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006valu"
+    "es\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004typ"
+    "e\030\001 \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013poin"
+    "t_count\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\n"
+    "hdiv_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count"
+    "\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.Ch"
+    "artSeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260"
+    "\001\n\016HostProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006"
+    "r\004\020\001\030\?\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005"
+    "\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005m"
+    "ax_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size"
+    "\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"i\n\tTargetBox\022\t\n\001x\030\001 \001("
+    "\005\022\t\n\001y\030\002 \001(\005\022\t\n\001w\030\003 \001(\005\022\t\n\001h\030\004 \001(\005\022\026\n\005la"
+    "bel\030\005 \001(\tB\007\272H\004r\002\030\037\022\030\n\005color\030\006 \001(\0132\t.ui.C"
+    "olor\"p\n\022TargetOverlayProps\022&\n\005boxes\030\001 \003("
+    "\0132\r.ui.TargetBoxB\010\272H\005\222\001\002\020 \022\035\n\014border_wid"
+    "th\030\002 \001(\rB\007\272H\004*\002\030\020\022\023\n\013hide_labels\030\003 \001(\010\"\035"
+    "\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventB"
+    "inding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007trigg"
+    "er\030\002 \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\t"
+    "int_value\030\003 \001(\005\022\034\n\024include_widget_value\030"
+    "\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030\?\022\021\n\ts"
+    "et_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify"
+    "_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n"
+    "\014cmd_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002"
+    "\020\020\"\271\001\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022"
+    "\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.Pa"
+    "tchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\022\030\n"
+    "\007subject\030\005 \001(\tB\007\272H\004r\002\030\?\022-\n\010encoding\030\006 \001("
+    "\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007CmdSpe"
+    "c\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_t"
+    "emplate\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fiel"
+    "dPatchB\010\272H\005\222\001\002\020\010\"P\n\013GestureSpec\022\'\n\004kind\030"
+    "\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030"
+    "\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBinding\022"
+    "\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030\?\022\021\n\tref_value"
+    "\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOpB\010"
+    "\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004when\030\001 \001(\0132\025"
+    ".ui.VisibilityBinding\022\030\n\005color\030\002 \001(\0132\t.u"
+    "i.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui.Fl"
+    "exFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162\r.u"
+    "i.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001"
+    "(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_pla"
+    "ce\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\nSty"
+    "leGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010varia"
+    "nts\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001\020\010\""
+    "U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(\rB\007"
+    "\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.StylePr"
+    "operty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(\0162\025"
+    ".ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_"
+    "value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013co"
+    "lor_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014string_v"
+    "alue\030\005 \001(\tB\007\272H\004r\002\030\?H\000\022(\n\014shadow_value\030\006 "
+    "\001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005Colo"
+    "r\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003"
+    "\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle"
+    "\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010off"
+    "set_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\r"
+    "B\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_INT"
+    "\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKind\022\031"
+    "\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP_RE"
+    "PLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020\002\022\030"
+    "\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_MOV"
+    "E_NODE\020\004*\311\003\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022"
+    "\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\r"
+    "WIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWID"
+    "GET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWIT"
+    "CH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROP"
+    "DOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXT"
+    "AREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPI"
+    "NNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022"
+    "\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX"
+    "\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023"
+    "\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PROXY\020"
+    "\025\022\031\n\025WIDGET_TARGET_OVERLAY\020\026*p\n\tProxyMod"
+    "e\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_D"
+    "RAGGABLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024"
+    "PROXY_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023"
+    "\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHA"
+    "NGED\020\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*\322\001\n\tPat"
+    "chKind\022\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PA"
+    "TCH_KIND_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024"
+    "\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGE"
+    "T_VALUE\020\004\022\025\n\021PATCH_KIND_NDC_X2\020\005\022\025\n\021PATC"
+    "H_KIND_NDC_Y2\020\006\022\034\n\030PATCH_KIND_SUBJECT_VA"
+    "LUE\020\007*\214\001\n\rPatchEncoding\022\036\n\032PATCH_ENCODIN"
+    "G_UNSPECIFIED\020\000\022 \n\034PATCH_ENCODING_PADDED"
+    "_VARINT\020\001\022\034\n\030PATCH_ENCODING_DOUBLE_LE\020\002\022"
+    "\033\n\027PATCH_ENCODING_FLOAT_LE\020\003*\266\001\n\013Gesture"
+    "Kind\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTU"
+    "RE_KIND_PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022"
+    "\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_"
+    "PINCH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005\022\024\n\020GESTU"
+    "RE_KIND_ROI\020\006*q\n\tCompareOp\022\016\n\nCOMPARE_EQ"
+    "\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017"
+    "\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPA"
+    "RE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020"
+    "\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN"
+    "\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_"
+    "ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVE"
+    "RSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX"
+    "_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLU"
+    "MN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_"
+    "ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLE"
+    "X_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVE"
+    "NLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FL"
+    "EX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024"
+    "\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTE"
+    "R\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_ST"
+    "RETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027"
+    "GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_"
+    "SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALI"
+    "GN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_A"
+    "LIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tT"
+    "extDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DE"
+    "COR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHRO"
+    "UGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL"
+    "\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MOD"
+    "E_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003"
+    "\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020"
+    "\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBA"
+    "SE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rB"
+    "ASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_N"
+    "ONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020"
+    "\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIA"
+    "L\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_"
+    "NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007D"
+    "IR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n"
+    "\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALI"
+    "GN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIG"
+    "N_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIG"
+    "N_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n"
+    "\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020"
+    "\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t"
+    "\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TO"
+    "P_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIG"
+    "N_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_"
+    "MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALI"
+    "GN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020"
+    "\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OU"
+    "T_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032"
+    "\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSid"
+    "e\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_B"
+    "OTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_S"
+    "IDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BOR"
+    "DER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020"
+    "\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LONG_MODE_W"
+    "RAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL"
+    "_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_S"
+    "CROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP"
+    "\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BA"
+    "R_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002"
+    "*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_"
+    "MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002"
+    "*>\n\nRollerMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030"
+    "\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035"
+    "\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_M"
+    "ODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VE"
+    "RTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIG"
+    "HT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCAL"
+    "E_MODE_ROUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CH"
+    "ART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020"
+    "CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026"
+    "\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCA"
+    "TTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMAR"
+    "Y_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHA"
+    "RT_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECOND"
+    "ARY_X\020\004*\273\022\n\021StylePropertyType\022\021\n\rPROP_BG"
+    "_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_C"
+    "OLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDE"
+    "R_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP"
+    "_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_"
+    "GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017"
+    "\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PRO"
+    "P_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP"
+    "_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PRO"
+    "P_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PR"
+    "OP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP"
+    "_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP"
+    "_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEI"
+    "GHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRAN"
+    "SLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCAL"
+    "E_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X"
+    "\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n"
+    "\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP"
+    "_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP"
+    "_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_P"
+    "AD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP"
+    "_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025"
+    "\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_CO"
+    "LOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_M"
+    "AIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PRO"
+    "P_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n"
+    "\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OP"
+    "A\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_B"
+    "G_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_T"
+    "ILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BOR"
+    "DER_POST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PR"
+    "OP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<"
+    "\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WI"
+    "DTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020\?\022\030\n\024PROP_"
+    "SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020"
+    "A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_"
+    "OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_"
+    "RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n"
+    "\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WID"
+    "TH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LIN"
+    "E_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP"
+    "_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_"
+    "ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PRO"
+    "P_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_T"
+    "EXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPA"
+    "CE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_A"
+    "LIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA"
+    "\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_F"
+    "ILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017P"
+    "ROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027P"
+    "ROP_ROTARY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FL"
+    "OW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_F"
+    "LEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLA"
+    "CE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_CO"
+    "LUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n"
+    "\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRI"
+    "D_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUM"
+    "N_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026"
+    "PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CE"
+    "LL_ROW_SPAN\020jBEZCgit-codecommit.eu-centr"
+    "al-1.amazonaws.com/v1/repos/jettison/jon"
+    "p/uib\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fast_2eproto_deps[1] =
     {
@@ -2454,13 +2558,13 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fast_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fast_2eproto = {
     false,
     false,
-    13588,
+    13892,
     descriptor_table_protodef_ui_2fui_5fast_2eproto,
     "ui/ui_ast.proto",
     &descriptor_table_ui_2fui_5fast_2eproto_once,
     descriptor_table_ui_2fui_5fast_2eproto_deps,
     1,
-    46,
+    48,
     schemas,
     file_default_instances,
     TableStruct_ui_2fui_5fast_2eproto::offsets,
@@ -2491,9 +2595,9 @@ const ::google::protobuf::EnumDescriptor* WidgetType_descriptor() {
   return file_level_enum_descriptors_ui_2fui_5fast_2eproto[2];
 }
 PROTOBUF_CONSTINIT const uint32_t WidgetType_internal_data_[] = {
-    1441792u, 0u, };
+    1507328u, 0u, };
 bool WidgetType_IsValid(int value) {
-  return 0 <= value && value <= 21;
+  return 0 <= value && value <= 22;
 }
 const ::google::protobuf::EnumDescriptor* ProxyMode_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_ui_2fui_5fast_2eproto);
@@ -4446,6 +4550,19 @@ void WidgetNode::set_allocated_host_proxy_props(::ui::HostProxyProps* host_proxy
   }
   // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.host_proxy_props)
 }
+void WidgetNode::set_allocated_target_overlay_props(::ui::TargetOverlayProps* target_overlay_props) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_widget_props();
+  if (target_overlay_props) {
+    ::google::protobuf::Arena* submessage_arena = target_overlay_props->GetArena();
+    if (message_arena != submessage_arena) {
+      target_overlay_props = ::google::protobuf::internal::GetOwnedMessage(message_arena, target_overlay_props, submessage_arena);
+    }
+    set_has_target_overlay_props();
+    _impl_.widget_props_.target_overlay_props_ = target_overlay_props;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.target_overlay_props)
+}
 WidgetNode::WidgetNode(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -4580,6 +4697,9 @@ WidgetNode::WidgetNode(
         break;
       case kHostProxyProps:
         _impl_.widget_props_.host_proxy_props_ = ::google::protobuf::Message::CopyConstruct<::ui::HostProxyProps>(arena, *from._impl_.widget_props_.host_proxy_props_);
+        break;
+      case kTargetOverlayProps:
+        _impl_.widget_props_.target_overlay_props_ = ::google::protobuf::Message::CopyConstruct<::ui::TargetOverlayProps>(arena, *from._impl_.widget_props_.target_overlay_props_);
         break;
   }
 
@@ -4812,6 +4932,14 @@ void WidgetNode::clear_widget_props() {
       }
       break;
     }
+    case kTargetOverlayProps: {
+      if (GetArena() == nullptr) {
+        delete _impl_.widget_props_.target_overlay_props_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.widget_props_.target_overlay_props_);
+      }
+      break;
+    }
     case WIDGET_PROPS_NOT_SET: {
       break;
     }
@@ -4900,16 +5028,16 @@ const ::google::protobuf::internal::ClassData* WidgetNode::GetClassData() const 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
+const ::_pbi::TcParseTable<5, 48, 34, 94, 7> WidgetNode::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_._has_bits_),
     0, // no _extensions_
-    47, 248,  // max_field_number, fast_idx_mask
+    48, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     0,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    47,  // num_field_entries
-    33,  // num_aux_entries
+    48,  // num_field_entries
+    34,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -4994,7 +5122,7 @@ const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
      {504, 63, 0, PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.obj_flags_)}},
   }}, {{
     33, 0, 1,
-    32768, 32,
+    0, 32,
     65535, 65535
   }}, {{
     // .ui.WidgetType type = 1 [(.buf.validate.field) = {
@@ -5010,7 +5138,7 @@ const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.text_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
     // map<string, string> bindings = 5;
-    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bindings_), -1, 31,
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bindings_), -1, 32,
     (0 | ::_fl::kFcRepeated | ::_fl::kMap)},
     // .ui.EventBinding event = 6;
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.event_), _Internal::kHasBitsOffset + 0, 0,
@@ -5085,7 +5213,7 @@ const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.visibility_), _Internal::kHasBitsOffset + 2, 23,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // map<string, string> bind_formats = 30;
-    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bind_formats_), -1, 32,
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.bind_formats_), -1, 33,
     (0 | ::_fl::kFcRepeated | ::_fl::kMap)},
     // uint32 obj_flags = 31;
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.obj_flags_), -1, 0,
@@ -5138,6 +5266,9 @@ const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
     // uint32 hit_slop = 47 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.hit_slop_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // .ui.TargetOverlayProps target_overlay_props = 48;
+    {PROTOBUF_FIELD_OFFSET(WidgetNode, _impl_.widget_props_.target_overlay_props_), _Internal::kOneofCaseOffset + 0, 31,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ui::EventBinding>()},
     {::_pbi::TcParser::GetTable<::ui::Layout>()},
@@ -5170,6 +5301,7 @@ const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
     {::_pbi::TcParser::GetTable<::ui::GestureSpec>()},
     {::_pbi::TcParser::GetTable<::ui::VisibilityBinding>()},
     {::_pbi::TcParser::GetTable<::ui::ColorBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::TargetOverlayProps>()},
     {::_pbi::TcParser::GetMapAuxInfo<
         decltype(WidgetNode()._impl_.bindings_)>(
         1, 0, 0, 9,
@@ -5179,7 +5311,7 @@ const ::_pbi::TcParseTable<5, 47, 33, 86, 7> WidgetNode::_table_ = {
         1, 0, 0, 9,
         9)},
   }}, {{
-    "\15\0\0\0\4\10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
+    "\15\0\0\0\4\10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
     "ui.WidgetNode"
     "text"
     "bindings"
@@ -5638,6 +5770,13 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
                 47, this_._internal_hit_slop(), target);
           }
 
+          // .ui.TargetOverlayProps target_overlay_props = 48;
+          if (this_.widget_props_case() == kTargetOverlayProps) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                48, *this_._impl_.widget_props_.target_overlay_props_, this_._impl_.widget_props_.target_overlay_props_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -5945,6 +6084,12 @@ PROTOBUF_NOINLINE void WidgetNode::Clear() {
             case kHostProxyProps: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.widget_props_.host_proxy_props_);
+              break;
+            }
+            // .ui.TargetOverlayProps target_overlay_props = 48;
+            case kTargetOverlayProps: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.widget_props_.target_overlay_props_);
               break;
             }
             case WIDGET_PROPS_NOT_SET: {
@@ -6274,6 +6419,15 @@ void WidgetNode::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
               ::google::protobuf::Message::CopyConstruct<::ui::HostProxyProps>(arena, *from._impl_.widget_props_.host_proxy_props_);
         } else {
           _this->_impl_.widget_props_.host_proxy_props_->MergeFrom(from._internal_host_proxy_props());
+        }
+        break;
+      }
+      case kTargetOverlayProps: {
+        if (oneof_needs_init) {
+          _this->_impl_.widget_props_.target_overlay_props_ =
+              ::google::protobuf::Message::CopyConstruct<::ui::TargetOverlayProps>(arena, *from._impl_.widget_props_.target_overlay_props_);
+        } else {
+          _this->_impl_.widget_props_.target_overlay_props_->MergeFrom(from._internal_target_overlay_props());
         }
         break;
       }
@@ -14114,6 +14268,707 @@ void HostProxyProps::InternalSwap(HostProxyProps* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata HostProxyProps::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class TargetBox::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<TargetBox>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(TargetBox, _impl_._has_bits_);
+};
+
+TargetBox::TargetBox(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ui.TargetBox)
+}
+inline PROTOBUF_NDEBUG_INLINE TargetBox::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ui::TargetBox& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        label_(arena, from.label_) {}
+
+TargetBox::TargetBox(
+    ::google::protobuf::Arena* arena,
+    const TargetBox& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  TargetBox* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.color_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ui::Color>(
+                              arena, *from._impl_.color_)
+                        : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, x_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, x_),
+           offsetof(Impl_, h_) -
+               offsetof(Impl_, x_) +
+               sizeof(Impl_::h_));
+
+  // @@protoc_insertion_point(copy_constructor:ui.TargetBox)
+}
+inline PROTOBUF_NDEBUG_INLINE TargetBox::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        label_(arena) {}
+
+inline void TargetBox::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, color_),
+           0,
+           offsetof(Impl_, h_) -
+               offsetof(Impl_, color_) +
+               sizeof(Impl_::h_));
+}
+TargetBox::~TargetBox() {
+  // @@protoc_insertion_point(destructor:ui.TargetBox)
+  SharedDtor(*this);
+}
+inline void TargetBox::SharedDtor(MessageLite& self) {
+  TargetBox& this_ = static_cast<TargetBox&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.label_.Destroy();
+  delete this_._impl_.color_;
+  this_._impl_.~Impl_();
+}
+
+inline void* TargetBox::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) TargetBox(arena);
+}
+constexpr auto TargetBox::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(TargetBox),
+                                            alignof(TargetBox));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull TargetBox::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_TargetBox_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &TargetBox::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<TargetBox>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &TargetBox::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<TargetBox>(), &TargetBox::ByteSizeLong,
+            &TargetBox::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(TargetBox, _impl_._cached_size_),
+        false,
+    },
+    &TargetBox::kDescriptorMethods,
+    &descriptor_table_ui_2fui_5fast_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* TargetBox::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 6, 1, 26, 2> TargetBox::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(TargetBox, _impl_._has_bits_),
+    0, // no _extensions_
+    6, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967232,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    6,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ui::TargetBox>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // int32 x = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(TargetBox, _impl_.x_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.x_)}},
+    // int32 y = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(TargetBox, _impl_.y_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.y_)}},
+    // int32 w = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(TargetBox, _impl_.w_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.w_)}},
+    // int32 h = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(TargetBox, _impl_.h_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.h_)}},
+    // string label = 5 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.label_)}},
+    // .ui.Color color = 6;
+    {::_pbi::TcParser::FastMtS1,
+     {50, 0, 0, PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.color_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 x = 1;
+    {PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.x_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // int32 y = 2;
+    {PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.y_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // int32 w = 3;
+    {PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.w_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // int32 h = 4;
+    {PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.h_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // string label = 5 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.label_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .ui.Color color = 6;
+    {PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.color_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ui::Color>()},
+  }}, {{
+    "\14\0\0\0\0\5\0\0"
+    "ui.TargetBox"
+    "label"
+  }},
+};
+
+PROTOBUF_NOINLINE void TargetBox::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.TargetBox)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.label_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.color_ != nullptr);
+    _impl_.color_->Clear();
+  }
+  ::memset(&_impl_.x_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.h_) -
+      reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.h_));
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* TargetBox::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const TargetBox& this_ = static_cast<const TargetBox&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* TargetBox::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const TargetBox& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ui.TargetBox)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 x = 1;
+          if (this_._internal_x() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_x(), target);
+          }
+
+          // int32 y = 2;
+          if (this_._internal_y() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<2>(
+                    stream, this_._internal_y(), target);
+          }
+
+          // int32 w = 3;
+          if (this_._internal_w() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<3>(
+                    stream, this_._internal_w(), target);
+          }
+
+          // int32 h = 4;
+          if (this_._internal_h() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<4>(
+                    stream, this_._internal_h(), target);
+          }
+
+          // string label = 5 [(.buf.validate.field) = {
+          if (!this_._internal_label().empty()) {
+            const std::string& _s = this_._internal_label();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ui.TargetBox.label");
+            target = stream->WriteStringMaybeAliased(5, _s, target);
+          }
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ui.Color color = 6;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                6, *this_._impl_.color_, this_._impl_.color_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ui.TargetBox)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t TargetBox::ByteSizeLong(const MessageLite& base) {
+          const TargetBox& this_ = static_cast<const TargetBox&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t TargetBox::ByteSizeLong() const {
+          const TargetBox& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ui.TargetBox)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // string label = 5 [(.buf.validate.field) = {
+            if (!this_._internal_label().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_label());
+            }
+          }
+           {
+            // .ui.Color color = 6;
+            cached_has_bits = this_._impl_._has_bits_[0];
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.color_);
+            }
+          }
+           {
+            // int32 x = 1;
+            if (this_._internal_x() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_x());
+            }
+            // int32 y = 2;
+            if (this_._internal_y() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_y());
+            }
+            // int32 w = 3;
+            if (this_._internal_w() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_w());
+            }
+            // int32 h = 4;
+            if (this_._internal_h() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_h());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void TargetBox::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<TargetBox*>(&to_msg);
+  auto& from = static_cast<const TargetBox&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.TargetBox)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_label().empty()) {
+    _this->_internal_set_label(from._internal_label());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(from._impl_.color_ != nullptr);
+    if (_this->_impl_.color_ == nullptr) {
+      _this->_impl_.color_ =
+          ::google::protobuf::Message::CopyConstruct<::ui::Color>(arena, *from._impl_.color_);
+    } else {
+      _this->_impl_.color_->MergeFrom(*from._impl_.color_);
+    }
+  }
+  if (from._internal_x() != 0) {
+    _this->_impl_.x_ = from._impl_.x_;
+  }
+  if (from._internal_y() != 0) {
+    _this->_impl_.y_ = from._impl_.y_;
+  }
+  if (from._internal_w() != 0) {
+    _this->_impl_.w_ = from._impl_.w_;
+  }
+  if (from._internal_h() != 0) {
+    _this->_impl_.h_ = from._impl_.h_;
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TargetBox::CopyFrom(const TargetBox& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.TargetBox)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void TargetBox::InternalSwap(TargetBox* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.label_, &other->_impl_.label_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.h_)
+      + sizeof(TargetBox::_impl_.h_)
+      - PROTOBUF_FIELD_OFFSET(TargetBox, _impl_.color_)>(
+          reinterpret_cast<char*>(&_impl_.color_),
+          reinterpret_cast<char*>(&other->_impl_.color_));
+}
+
+::google::protobuf::Metadata TargetBox::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class TargetOverlayProps::_Internal {
+ public:
+};
+
+TargetOverlayProps::TargetOverlayProps(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ui.TargetOverlayProps)
+}
+inline PROTOBUF_NDEBUG_INLINE TargetOverlayProps::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ui::TargetOverlayProps& from_msg)
+      : boxes_{visibility, arena, from.boxes_},
+        _cached_size_{0} {}
+
+TargetOverlayProps::TargetOverlayProps(
+    ::google::protobuf::Arena* arena,
+    const TargetOverlayProps& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  TargetOverlayProps* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, border_width_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, border_width_),
+           offsetof(Impl_, hide_labels_) -
+               offsetof(Impl_, border_width_) +
+               sizeof(Impl_::hide_labels_));
+
+  // @@protoc_insertion_point(copy_constructor:ui.TargetOverlayProps)
+}
+inline PROTOBUF_NDEBUG_INLINE TargetOverlayProps::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : boxes_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void TargetOverlayProps::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, border_width_),
+           0,
+           offsetof(Impl_, hide_labels_) -
+               offsetof(Impl_, border_width_) +
+               sizeof(Impl_::hide_labels_));
+}
+TargetOverlayProps::~TargetOverlayProps() {
+  // @@protoc_insertion_point(destructor:ui.TargetOverlayProps)
+  SharedDtor(*this);
+}
+inline void TargetOverlayProps::SharedDtor(MessageLite& self) {
+  TargetOverlayProps& this_ = static_cast<TargetOverlayProps&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* TargetOverlayProps::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) TargetOverlayProps(arena);
+}
+constexpr auto TargetOverlayProps::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.boxes_) +
+          decltype(TargetOverlayProps::_impl_.boxes_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(TargetOverlayProps), alignof(TargetOverlayProps), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&TargetOverlayProps::PlacementNew_,
+                                 sizeof(TargetOverlayProps),
+                                 alignof(TargetOverlayProps));
+  }
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull TargetOverlayProps::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_TargetOverlayProps_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &TargetOverlayProps::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<TargetOverlayProps>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &TargetOverlayProps::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<TargetOverlayProps>(), &TargetOverlayProps::ByteSizeLong,
+            &TargetOverlayProps::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_._cached_size_),
+        false,
+    },
+    &TargetOverlayProps::kDescriptorMethods,
+    &descriptor_table_ui_2fui_5fast_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* TargetOverlayProps::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 1, 0, 2> TargetOverlayProps::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ui::TargetOverlayProps>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastMtR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.boxes_)}},
+    // uint32 border_width = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(TargetOverlayProps, _impl_.border_width_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.border_width_)}},
+    // bool hide_labels = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(TargetOverlayProps, _impl_.hide_labels_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.hide_labels_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.boxes_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // uint32 border_width = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.border_width_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // bool hide_labels = 3;
+    {PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.hide_labels_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ui::TargetBox>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void TargetOverlayProps::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.TargetOverlayProps)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.boxes_.Clear();
+  ::memset(&_impl_.border_width_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.hide_labels_) -
+      reinterpret_cast<char*>(&_impl_.border_width_)) + sizeof(_impl_.hide_labels_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* TargetOverlayProps::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const TargetOverlayProps& this_ = static_cast<const TargetOverlayProps&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* TargetOverlayProps::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const TargetOverlayProps& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ui.TargetOverlayProps)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = {
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_boxes_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_boxes().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    1, repfield, repfield.GetCachedSize(),
+                    target, stream);
+          }
+
+          // uint32 border_width = 2 [(.buf.validate.field) = {
+          if (this_._internal_border_width() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                2, this_._internal_border_width(), target);
+          }
+
+          // bool hide_labels = 3;
+          if (this_._internal_hide_labels() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                3, this_._internal_hide_labels(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ui.TargetOverlayProps)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t TargetOverlayProps::ByteSizeLong(const MessageLite& base) {
+          const TargetOverlayProps& this_ = static_cast<const TargetOverlayProps&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t TargetOverlayProps::ByteSizeLong() const {
+          const TargetOverlayProps& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ui.TargetOverlayProps)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = {
+            {
+              total_size += 1UL * this_._internal_boxes_size();
+              for (const auto& msg : this_._internal_boxes()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+              }
+            }
+          }
+           {
+            // uint32 border_width = 2 [(.buf.validate.field) = {
+            if (this_._internal_border_width() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_border_width());
+            }
+            // bool hide_labels = 3;
+            if (this_._internal_hide_labels() != 0) {
+              total_size += 2;
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void TargetOverlayProps::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<TargetOverlayProps*>(&to_msg);
+  auto& from = static_cast<const TargetOverlayProps&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.TargetOverlayProps)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_boxes()->MergeFrom(
+      from._internal_boxes());
+  if (from._internal_border_width() != 0) {
+    _this->_impl_.border_width_ = from._impl_.border_width_;
+  }
+  if (from._internal_hide_labels() != 0) {
+    _this->_impl_.hide_labels_ = from._impl_.hide_labels_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TargetOverlayProps::CopyFrom(const TargetOverlayProps& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.TargetOverlayProps)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void TargetOverlayProps::InternalSwap(TargetOverlayProps* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.boxes_.InternalSwap(&other->_impl_.boxes_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.hide_labels_)
+      + sizeof(TargetOverlayProps::_impl_.hide_labels_)
+      - PROTOBUF_FIELD_OFFSET(TargetOverlayProps, _impl_.border_width_)>(
+          reinterpret_cast<char*>(&_impl_.border_width_),
+          reinterpret_cast<char*>(&other->_impl_.border_width_));
+}
+
+::google::protobuf::Metadata TargetOverlayProps::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

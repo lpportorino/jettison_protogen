@@ -33,6 +33,7 @@
   :WIDGET_SWITCH [:default :hovered :checked :disabled :focus-key]
   :WIDGET_TABLE [:default :disabled]
   :WIDGET_TABVIEW [:default :disabled]
+  :WIDGET_TARGET_OVERLAY [:default]
   :WIDGET_TEXTAREA [:default :hovered :focused :focus-key :edited :disabled]}
  :render-protocol {:call-order [:set-breakpoint :set-theme-dark :set-dpi :load-ui
                                 :tick*render-ticks :read-framebuffer]

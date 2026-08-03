@@ -1125,6 +1125,51 @@
    "f40d1b6104394b53ae76012e8acde7887e606bd5f777515197a40547d6e34a2f",
    :w 800,
    :h 480},
+  "lv_target_overlay/default/large"
+  {:sha256
+   "1967fe9040bbf0344b0b24104168185c7f22c239559faef697d3da6d7b94c8b5",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium"
+  {:sha256
+   "2720031c29769d1fae4253dc7a6495c653e183391b0e7d72733f77b315bc5c49",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium/authored"
+  {:sha256
+   "cb87b38ff9c8b8237fb2e724c5a3dee2447002204aa82cb3351261856bd0c29b",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium/empty"
+  {:sha256
+   "0dec0776e917f2cb47a633b6a4787db1e0368bc9f6885deaf25b251c247bef8a",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium/hidden-labels"
+  {:sha256
+   "1eb07e7fe9597a09ca24dcb6309f837002100cfc92d8b0b6b10cfbafab0ffb0e",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium/overlapping"
+  {:sha256
+   "ec1db0b374cbf192431fce1b7bb8bc657542e00c1953784bea05cc4fcf112ef6",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium/thick"
+  {:sha256
+   "b23cf4cecbd52ca9761bb2b640ef80f0e1f21016992b40d326496dc8c853ca11",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/medium/tinted"
+  {:sha256
+   "b0bc5f4695bc090d1029e0e9fd5d7ee2da47b73a14952bfb1cf8bd3fb8f4842c",
+   :w 800,
+   :h 480},
+  "lv_target_overlay/default/small"
+  {:sha256
+   "687d3eb980e68987c652eb835e141dc45f6c9818e3e2d6d89ae7aaaac8504d94",
+   :w 800,
+   :h 480},
   "lv_textarea/default/large"
   {:sha256
    "2a4cc57a590d60c2a3741aa45fa5e4cca7991a24807f98e4d5f687369a425c2a",

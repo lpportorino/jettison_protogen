@@ -39,9 +39,11 @@
   "Widget types whose OWN change (any key) forces REPLACE_NODE: their
    live LVGL subtree does not mirror the IR (tabview zips children into
    pages/bar; host-proxy appends renderer-owned affordances and carries
-   registry state), so in-place morphing of the node itself is off the
+   registry state; target-overlay appends one renderer-owned object per
+   TargetBox, so re-applying its props in place stacks a second set of boxes
+   over the first), so in-place morphing of the node itself is off the
    table. Descendants inside them are still patchable by uid."
-  #{:WIDGET_TABVIEW :WIDGET_HOST_PROXY})
+  #{:WIDGET_TABVIEW :WIDGET_HOST_PROXY :WIDGET_TARGET_OVERLAY})
 
 (def replace-on-change-arms
   "*_props arms with no morph path in the renderer: scale allocates
@@ -143,7 +145,7 @@
   #{:obj_props :button_props :label_props :slider_props :image_props :arc_props :bar_props
     :switch_props :checkbox_props :dropdown_props :roller_props :textarea_props
     :spinbox_props :spinner_props :led_props :line_props :scale_props :buttonmatrix_props
-    :table_props :tabview_props :chart_props :host_proxy_props})
+    :table_props :tabview_props :chart_props :host_proxy_props :target_overlay_props})
 
 ;; ═══════════════════════════════════════════════════════════════════
 ;; File-local schemas

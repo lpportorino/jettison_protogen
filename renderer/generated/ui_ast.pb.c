@@ -105,6 +105,12 @@ PB_BIND(ui_ChartProps, ui_ChartProps, 2)
 PB_BIND(ui_HostProxyProps, ui_HostProxyProps, AUTO)
 
 
+PB_BIND(ui_TargetBox, ui_TargetBox, AUTO)
+
+
+PB_BIND(ui_TargetOverlayProps, ui_TargetOverlayProps, AUTO)
+
+
 PB_BIND(ui_Point, ui_Point, AUTO)
 
 

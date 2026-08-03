@@ -424,6 +424,10 @@ public final class UiAst {
      * <code>WIDGET_HOST_PROXY = 21;</code>
      */
     WIDGET_HOST_PROXY(21),
+    /**
+     * <code>WIDGET_TARGET_OVERLAY = 22;</code>
+     */
+    WIDGET_TARGET_OVERLAY(22),
     UNRECOGNIZED(-1),
     ;
 
@@ -524,6 +528,10 @@ public final class UiAst {
      * <code>WIDGET_HOST_PROXY = 21;</code>
      */
     public static final int WIDGET_HOST_PROXY_VALUE = 21;
+    /**
+     * <code>WIDGET_TARGET_OVERLAY = 22;</code>
+     */
+    public static final int WIDGET_TARGET_OVERLAY_VALUE = 22;
 
 
     public final int getNumber() {
@@ -572,6 +580,7 @@ public final class UiAst {
         case 19: return WIDGET_TABVIEW;
         case 20: return WIDGET_CHART;
         case 21: return WIDGET_HOST_PROXY;
+        case 22: return WIDGET_TARGET_OVERLAY;
         default: return null;
       }
     }
@@ -10259,6 +10268,21 @@ java.lang.String defaultValue);
     ui.UiAst.HostProxyPropsOrBuilder getHostProxyPropsOrBuilder();
 
     /**
+     * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+     * @return Whether the targetOverlayProps field is set.
+     */
+    boolean hasTargetOverlayProps();
+    /**
+     * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+     * @return The targetOverlayProps.
+     */
+    ui.UiAst.TargetOverlayProps getTargetOverlayProps();
+    /**
+     * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+     */
+    ui.UiAst.TargetOverlayPropsOrBuilder getTargetOverlayPropsOrBuilder();
+
+    /**
      * <pre>
      * Conditional visibility binding (show/hide based on subject value)
      * </pre>
@@ -10788,6 +10812,7 @@ java.lang.String defaultValue);
       TABVIEW_PROPS(38),
       CHART_PROPS(40),
       HOST_PROXY_PROPS(41),
+      TARGET_OVERLAY_PROPS(48),
       WIDGETPROPS_NOT_SET(0);
       private final int value;
       private WidgetPropsCase(int value) {
@@ -10827,6 +10852,7 @@ java.lang.String defaultValue);
           case 38: return TABVIEW_PROPS;
           case 40: return CHART_PROPS;
           case 41: return HOST_PROXY_PROPS;
+          case 48: return TARGET_OVERLAY_PROPS;
           case 0: return WIDGETPROPS_NOT_SET;
           default: return null;
         }
@@ -11913,6 +11939,37 @@ java.lang.String defaultValue) {
       return ui.UiAst.HostProxyProps.getDefaultInstance();
     }
 
+    public static final int TARGET_OVERLAY_PROPS_FIELD_NUMBER = 48;
+    /**
+     * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+     * @return Whether the targetOverlayProps field is set.
+     */
+    @java.lang.Override
+    public boolean hasTargetOverlayProps() {
+      return widgetPropsCase_ == 48;
+    }
+    /**
+     * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+     * @return The targetOverlayProps.
+     */
+    @java.lang.Override
+    public ui.UiAst.TargetOverlayProps getTargetOverlayProps() {
+      if (widgetPropsCase_ == 48) {
+         return (ui.UiAst.TargetOverlayProps) widgetProps_;
+      }
+      return ui.UiAst.TargetOverlayProps.getDefaultInstance();
+    }
+    /**
+     * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.TargetOverlayPropsOrBuilder getTargetOverlayPropsOrBuilder() {
+      if (widgetPropsCase_ == 48) {
+         return (ui.UiAst.TargetOverlayProps) widgetProps_;
+      }
+      return ui.UiAst.TargetOverlayProps.getDefaultInstance();
+    }
+
     public static final int VISIBILITY_FIELD_NUMBER = 29;
     private ui.UiAst.VisibilityBinding visibility_;
     /**
@@ -12688,6 +12745,9 @@ java.lang.String defaultValue) {
       if (hitSlop_ != 0) {
         output.writeUInt32(47, hitSlop_);
       }
+      if (widgetPropsCase_ == 48) {
+        output.writeMessage(48, (ui.UiAst.TargetOverlayProps) widgetProps_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12916,6 +12976,10 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(47, hitSlop_);
       }
+      if (widgetPropsCase_ == 48) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(48, (ui.UiAst.TargetOverlayProps) widgetProps_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -13087,6 +13151,10 @@ java.lang.String defaultValue) {
         case 41:
           if (!getHostProxyProps()
               .equals(other.getHostProxyProps())) return false;
+          break;
+        case 48:
+          if (!getTargetOverlayProps()
+              .equals(other.getTargetOverlayProps())) return false;
           break;
         case 0:
         default:
@@ -13268,6 +13336,10 @@ java.lang.String defaultValue) {
         case 41:
           hash = (37 * hash) + HOST_PROXY_PROPS_FIELD_NUMBER;
           hash = (53 * hash) + getHostProxyProps().hashCode();
+          break;
+        case 48:
+          hash = (37 * hash) + TARGET_OVERLAY_PROPS_FIELD_NUMBER;
+          hash = (53 * hash) + getTargetOverlayProps().hashCode();
           break;
         case 0:
         default:
@@ -13543,6 +13615,9 @@ java.lang.String defaultValue) {
         if (hostProxyPropsBuilder_ != null) {
           hostProxyPropsBuilder_.clear();
         }
+        if (targetOverlayPropsBuilder_ != null) {
+          targetOverlayPropsBuilder_.clear();
+        }
         visibility_ = null;
         if (visibilityBuilder_ != null) {
           visibilityBuilder_.dispose();
@@ -13580,7 +13655,7 @@ java.lang.String defaultValue) {
           gestures_ = null;
           gesturesBuilder_.clear();
         }
-        bitField1_ = (bitField1_ & ~0x00004000);
+        bitField1_ = (bitField1_ & ~0x00008000);
         widgetPropsCase_ = 0;
         widgetProps_ = null;
         return this;
@@ -13637,9 +13712,9 @@ java.lang.String defaultValue) {
           result.styleGroups_ = styleGroupsBuilder_.build();
         }
         if (gesturesBuilder_ == null) {
-          if (((bitField1_ & 0x00004000) != 0)) {
+          if (((bitField1_ & 0x00008000) != 0)) {
             gestures_ = java.util.Collections.unmodifiableList(gestures_);
-            bitField1_ = (bitField1_ & ~0x00004000);
+            bitField1_ = (bitField1_ & ~0x00008000);
           }
           result.gestures_ = gestures_;
         } else {
@@ -13678,70 +13753,70 @@ java.lang.String defaultValue) {
               : layoutBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x80000000) != 0)) {
-          result.visibility_ = visibilityBuilder_ == null
-              ? visibility_
-              : visibilityBuilder_.build();
-          to_bitField0_ |= 0x00000004;
-        }
         result.bitField0_ |= to_bitField0_;
       }
 
       private void buildPartial1(ui.UiAst.WidgetNode result) {
         int from_bitField1_ = bitField1_;
+        int to_bitField0_ = 0;
         if (((from_bitField1_ & 0x00000001) != 0)) {
+          result.visibility_ = visibilityBuilder_ == null
+              ? visibility_
+              : visibilityBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField1_ & 0x00000002) != 0)) {
           result.bindFormats_ = internalGetBindFormats();
           result.bindFormats_.makeImmutable();
         }
-        if (((from_bitField1_ & 0x00000002) != 0)) {
+        if (((from_bitField1_ & 0x00000004) != 0)) {
           result.objFlags_ = objFlags_;
         }
-        if (((from_bitField1_ & 0x00000004) != 0)) {
+        if (((from_bitField1_ & 0x00000008) != 0)) {
           result.objFlagsClear_ = objFlagsClear_;
         }
-        if (((from_bitField1_ & 0x00000008) != 0)) {
+        if (((from_bitField1_ & 0x00000010) != 0)) {
           result.states_ = states_;
         }
-        if (((from_bitField1_ & 0x00000010) != 0)) {
+        if (((from_bitField1_ & 0x00000020) != 0)) {
           result.scrollDir_ = scrollDir_;
         }
-        if (((from_bitField1_ & 0x00000020) != 0)) {
+        if (((from_bitField1_ & 0x00000040) != 0)) {
           gridColDsc_.makeImmutable();
           result.gridColDsc_ = gridColDsc_;
         }
-        if (((from_bitField1_ & 0x00000040) != 0)) {
+        if (((from_bitField1_ & 0x00000080) != 0)) {
           gridRowDsc_.makeImmutable();
           result.gridRowDsc_ = gridRowDsc_;
         }
-        if (((from_bitField1_ & 0x00000080) != 0)) {
+        if (((from_bitField1_ & 0x00000100) != 0)) {
           result.bare_ = bare_;
         }
-        if (((from_bitField1_ & 0x00000100) != 0)) {
+        if (((from_bitField1_ & 0x00000200) != 0)) {
           result.inTabBar_ = inTabBar_;
         }
-        int to_bitField0_ = 0;
-        if (((from_bitField1_ & 0x00000200) != 0)) {
+        if (((from_bitField1_ & 0x00000400) != 0)) {
           result.checkedWhen_ = checkedWhenBuilder_ == null
               ? checkedWhen_
               : checkedWhenBuilder_.build();
           to_bitField0_ |= 0x00000008;
         }
-        if (((from_bitField1_ & 0x00000400) != 0)) {
+        if (((from_bitField1_ & 0x00000800) != 0)) {
           result.enabledWhen_ = enabledWhenBuilder_ == null
               ? enabledWhen_
               : enabledWhenBuilder_.build();
           to_bitField0_ |= 0x00000010;
         }
-        if (((from_bitField1_ & 0x00000800) != 0)) {
+        if (((from_bitField1_ & 0x00001000) != 0)) {
           result.colorWhen_ = colorWhenBuilder_ == null
               ? colorWhen_
               : colorWhenBuilder_.build();
           to_bitField0_ |= 0x00000020;
         }
-        if (((from_bitField1_ & 0x00001000) != 0)) {
+        if (((from_bitField1_ & 0x00002000) != 0)) {
           result.hitSlop_ = hitSlop_;
         }
-        if (((from_bitField1_ & 0x00002000) != 0)) {
+        if (((from_bitField1_ & 0x00004000) != 0)) {
           result.uid_ = uid_;
         }
         result.bitField0_ |= to_bitField0_;
@@ -13838,6 +13913,10 @@ java.lang.String defaultValue) {
             hostProxyPropsBuilder_ != null) {
           result.widgetProps_ = hostProxyPropsBuilder_.build();
         }
+        if (widgetPropsCase_ == 48 &&
+            targetOverlayPropsBuilder_ != null) {
+          result.widgetProps_ = targetOverlayPropsBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -13932,7 +14011,7 @@ java.lang.String defaultValue) {
         }
         internalGetMutableBindFormats().mergeFrom(
             other.internalGetBindFormats());
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000002;
         if (other.getObjFlags() != 0) {
           setObjFlags(other.getObjFlags());
         }
@@ -13949,7 +14028,7 @@ java.lang.String defaultValue) {
           if (gridColDsc_.isEmpty()) {
             gridColDsc_ = other.gridColDsc_;
             gridColDsc_.makeImmutable();
-            bitField1_ |= 0x00000020;
+            bitField1_ |= 0x00000040;
           } else {
             ensureGridColDscIsMutable();
             gridColDsc_.addAll(other.gridColDsc_);
@@ -13960,7 +14039,7 @@ java.lang.String defaultValue) {
           if (gridRowDsc_.isEmpty()) {
             gridRowDsc_ = other.gridRowDsc_;
             gridRowDsc_.makeImmutable();
-            bitField1_ |= 0x00000040;
+            bitField1_ |= 0x00000080;
           } else {
             ensureGridRowDscIsMutable();
             gridRowDsc_.addAll(other.gridRowDsc_);
@@ -13992,7 +14071,7 @@ java.lang.String defaultValue) {
           if (!other.gestures_.isEmpty()) {
             if (gestures_.isEmpty()) {
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00004000);
+              bitField1_ = (bitField1_ & ~0x00008000);
             } else {
               ensureGesturesIsMutable();
               gestures_.addAll(other.gestures_);
@@ -14005,7 +14084,7 @@ java.lang.String defaultValue) {
               gesturesBuilder_.dispose();
               gesturesBuilder_ = null;
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00004000);
+              bitField1_ = (bitField1_ & ~0x00008000);
               gesturesBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getGesturesFieldBuilder() : null;
@@ -14101,6 +14180,10 @@ java.lang.String defaultValue) {
           }
           case HOST_PROXY_PROPS: {
             mergeHostProxyProps(other.getHostProxyProps());
+            break;
+          }
+          case TARGET_OVERLAY_PROPS: {
+            mergeTargetOverlayProps(other.getTargetOverlayProps());
             break;
           }
           case WIDGETPROPS_NOT_SET: {
@@ -14339,7 +14422,7 @@ java.lang.String defaultValue) {
                 input.readMessage(
                     getVisibilityFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x80000000;
+                bitField1_ |= 0x00000001;
                 break;
               } // case 234
               case 242: {
@@ -14348,27 +14431,27 @@ java.lang.String defaultValue) {
                     BindFormatsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                 internalGetMutableBindFormats().getMutableMap().put(
                     bindFormats__.getKey(), bindFormats__.getValue());
-                bitField1_ |= 0x00000001;
+                bitField1_ |= 0x00000002;
                 break;
               } // case 242
               case 248: {
                 objFlags_ = input.readUInt32();
-                bitField1_ |= 0x00000002;
+                bitField1_ |= 0x00000004;
                 break;
               } // case 248
               case 256: {
                 objFlagsClear_ = input.readUInt32();
-                bitField1_ |= 0x00000004;
+                bitField1_ |= 0x00000008;
                 break;
               } // case 256
               case 264: {
                 states_ = input.readUInt32();
-                bitField1_ |= 0x00000008;
+                bitField1_ |= 0x00000010;
                 break;
               } // case 264
               case 272: {
                 scrollDir_ = input.readUInt32();
-                bitField1_ |= 0x00000010;
+                bitField1_ |= 0x00000020;
                 break;
               } // case 272
               case 280: {
@@ -14405,7 +14488,7 @@ java.lang.String defaultValue) {
               } // case 290
               case 296: {
                 bare_ = input.readBool();
-                bitField1_ |= 0x00000080;
+                bitField1_ |= 0x00000100;
                 break;
               } // case 296
               case 306: {
@@ -14417,7 +14500,7 @@ java.lang.String defaultValue) {
               } // case 306
               case 312: {
                 inTabBar_ = input.readBool();
-                bitField1_ |= 0x00000100;
+                bitField1_ |= 0x00000200;
                 break;
               } // case 312
               case 322: {
@@ -14438,12 +14521,12 @@ java.lang.String defaultValue) {
                 input.readMessage(
                     getCheckedWhenFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField1_ |= 0x00000200;
+                bitField1_ |= 0x00000400;
                 break;
               } // case 338
               case 344: {
                 uid_ = input.readUInt32();
-                bitField1_ |= 0x00002000;
+                bitField1_ |= 0x00004000;
                 break;
               } // case 344
               case 354: {
@@ -14463,21 +14546,28 @@ java.lang.String defaultValue) {
                 input.readMessage(
                     getEnabledWhenFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField1_ |= 0x00000400;
+                bitField1_ |= 0x00000800;
                 break;
               } // case 362
               case 370: {
                 input.readMessage(
                     getColorWhenFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField1_ |= 0x00000800;
+                bitField1_ |= 0x00001000;
                 break;
               } // case 370
               case 376: {
                 hitSlop_ = input.readUInt32();
-                bitField1_ |= 0x00001000;
+                bitField1_ |= 0x00002000;
                 break;
               } // case 376
+              case 386: {
+                input.readMessage(
+                    getTargetOverlayPropsFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                widgetPropsCase_ = 48;
+                break;
+              } // case 386
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -18967,6 +19057,148 @@ java.lang.String defaultValue) {
         return hostProxyPropsBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.TargetOverlayProps, ui.UiAst.TargetOverlayProps.Builder, ui.UiAst.TargetOverlayPropsOrBuilder> targetOverlayPropsBuilder_;
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       * @return Whether the targetOverlayProps field is set.
+       */
+      @java.lang.Override
+      public boolean hasTargetOverlayProps() {
+        return widgetPropsCase_ == 48;
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       * @return The targetOverlayProps.
+       */
+      @java.lang.Override
+      public ui.UiAst.TargetOverlayProps getTargetOverlayProps() {
+        if (targetOverlayPropsBuilder_ == null) {
+          if (widgetPropsCase_ == 48) {
+            return (ui.UiAst.TargetOverlayProps) widgetProps_;
+          }
+          return ui.UiAst.TargetOverlayProps.getDefaultInstance();
+        } else {
+          if (widgetPropsCase_ == 48) {
+            return targetOverlayPropsBuilder_.getMessage();
+          }
+          return ui.UiAst.TargetOverlayProps.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      public Builder setTargetOverlayProps(ui.UiAst.TargetOverlayProps value) {
+        if (targetOverlayPropsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          widgetProps_ = value;
+          onChanged();
+        } else {
+          targetOverlayPropsBuilder_.setMessage(value);
+        }
+        widgetPropsCase_ = 48;
+        return this;
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      public Builder setTargetOverlayProps(
+          ui.UiAst.TargetOverlayProps.Builder builderForValue) {
+        if (targetOverlayPropsBuilder_ == null) {
+          widgetProps_ = builderForValue.build();
+          onChanged();
+        } else {
+          targetOverlayPropsBuilder_.setMessage(builderForValue.build());
+        }
+        widgetPropsCase_ = 48;
+        return this;
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      public Builder mergeTargetOverlayProps(ui.UiAst.TargetOverlayProps value) {
+        if (targetOverlayPropsBuilder_ == null) {
+          if (widgetPropsCase_ == 48 &&
+              widgetProps_ != ui.UiAst.TargetOverlayProps.getDefaultInstance()) {
+            widgetProps_ = ui.UiAst.TargetOverlayProps.newBuilder((ui.UiAst.TargetOverlayProps) widgetProps_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            widgetProps_ = value;
+          }
+          onChanged();
+        } else {
+          if (widgetPropsCase_ == 48) {
+            targetOverlayPropsBuilder_.mergeFrom(value);
+          } else {
+            targetOverlayPropsBuilder_.setMessage(value);
+          }
+        }
+        widgetPropsCase_ = 48;
+        return this;
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      public Builder clearTargetOverlayProps() {
+        if (targetOverlayPropsBuilder_ == null) {
+          if (widgetPropsCase_ == 48) {
+            widgetPropsCase_ = 0;
+            widgetProps_ = null;
+            onChanged();
+          }
+        } else {
+          if (widgetPropsCase_ == 48) {
+            widgetPropsCase_ = 0;
+            widgetProps_ = null;
+          }
+          targetOverlayPropsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      public ui.UiAst.TargetOverlayProps.Builder getTargetOverlayPropsBuilder() {
+        return getTargetOverlayPropsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      @java.lang.Override
+      public ui.UiAst.TargetOverlayPropsOrBuilder getTargetOverlayPropsOrBuilder() {
+        if ((widgetPropsCase_ == 48) && (targetOverlayPropsBuilder_ != null)) {
+          return targetOverlayPropsBuilder_.getMessageOrBuilder();
+        } else {
+          if (widgetPropsCase_ == 48) {
+            return (ui.UiAst.TargetOverlayProps) widgetProps_;
+          }
+          return ui.UiAst.TargetOverlayProps.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.ui.TargetOverlayProps target_overlay_props = 48;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.TargetOverlayProps, ui.UiAst.TargetOverlayProps.Builder, ui.UiAst.TargetOverlayPropsOrBuilder> 
+          getTargetOverlayPropsFieldBuilder() {
+        if (targetOverlayPropsBuilder_ == null) {
+          if (!(widgetPropsCase_ == 48)) {
+            widgetProps_ = ui.UiAst.TargetOverlayProps.getDefaultInstance();
+          }
+          targetOverlayPropsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.TargetOverlayProps, ui.UiAst.TargetOverlayProps.Builder, ui.UiAst.TargetOverlayPropsOrBuilder>(
+                  (ui.UiAst.TargetOverlayProps) widgetProps_,
+                  getParentForChildren(),
+                  isClean());
+          widgetProps_ = null;
+        }
+        widgetPropsCase_ = 48;
+        onChanged();
+        return targetOverlayPropsBuilder_;
+      }
+
       private ui.UiAst.VisibilityBinding visibility_;
       private com.google.protobuf.SingleFieldBuilder<
           ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> visibilityBuilder_;
@@ -18979,7 +19211,7 @@ java.lang.String defaultValue) {
        * @return Whether the visibility field is set.
        */
       public boolean hasVisibility() {
-        return ((bitField0_ & 0x80000000) != 0);
+        return ((bitField1_ & 0x00000001) != 0);
       }
       /**
        * <pre>
@@ -19012,7 +19244,7 @@ java.lang.String defaultValue) {
         } else {
           visibilityBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x80000000;
+        bitField1_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -19030,7 +19262,7 @@ java.lang.String defaultValue) {
         } else {
           visibilityBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x80000000;
+        bitField1_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -19043,7 +19275,7 @@ java.lang.String defaultValue) {
        */
       public Builder mergeVisibility(ui.UiAst.VisibilityBinding value) {
         if (visibilityBuilder_ == null) {
-          if (((bitField0_ & 0x80000000) != 0) &&
+          if (((bitField1_ & 0x00000001) != 0) &&
             visibility_ != null &&
             visibility_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
             getVisibilityBuilder().mergeFrom(value);
@@ -19054,7 +19286,7 @@ java.lang.String defaultValue) {
           visibilityBuilder_.mergeFrom(value);
         }
         if (visibility_ != null) {
-          bitField0_ |= 0x80000000;
+          bitField1_ |= 0x00000001;
           onChanged();
         }
         return this;
@@ -19067,7 +19299,7 @@ java.lang.String defaultValue) {
        * <code>.ui.VisibilityBinding visibility = 29;</code>
        */
       public Builder clearVisibility() {
-        bitField0_ = (bitField0_ & ~0x80000000);
+        bitField1_ = (bitField1_ & ~0x00000001);
         visibility_ = null;
         if (visibilityBuilder_ != null) {
           visibilityBuilder_.dispose();
@@ -19084,7 +19316,7 @@ java.lang.String defaultValue) {
        * <code>.ui.VisibilityBinding visibility = 29;</code>
        */
       public ui.UiAst.VisibilityBinding.Builder getVisibilityBuilder() {
-        bitField0_ |= 0x80000000;
+        bitField1_ |= 0x00000001;
         onChanged();
         return getVisibilityFieldBuilder().getBuilder();
       }
@@ -19143,7 +19375,7 @@ java.lang.String defaultValue) {
         if (!bindFormats_.isMutable()) {
           bindFormats_ = bindFormats_.copy();
         }
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000002;
         onChanged();
         return bindFormats_;
       }
@@ -19219,7 +19451,7 @@ java.lang.String defaultValue) {
         return map.get(key);
       }
       public Builder clearBindFormats() {
-        bitField1_ = (bitField1_ & ~0x00000001);
+        bitField1_ = (bitField1_ & ~0x00000002);
         internalGetMutableBindFormats().getMutableMap()
             .clear();
         return this;
@@ -19244,7 +19476,7 @@ java.lang.String defaultValue) {
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String>
           getMutableBindFormats() {
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000002;
         return internalGetMutableBindFormats().getMutableMap();
       }
       /**
@@ -19261,7 +19493,7 @@ java.lang.String defaultValue) {
         if (value == null) { throw new NullPointerException("map value"); }
         internalGetMutableBindFormats().getMutableMap()
             .put(key, value);
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000002;
         return this;
       }
       /**
@@ -19275,7 +19507,7 @@ java.lang.String defaultValue) {
           java.util.Map<java.lang.String, java.lang.String> values) {
         internalGetMutableBindFormats().getMutableMap()
             .putAll(values);
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000002;
         return this;
       }
 
@@ -19306,7 +19538,7 @@ java.lang.String defaultValue) {
       public Builder setObjFlags(int value) {
 
         objFlags_ = value;
-        bitField1_ |= 0x00000002;
+        bitField1_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -19320,7 +19552,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearObjFlags() {
-        bitField1_ = (bitField1_ & ~0x00000002);
+        bitField1_ = (bitField1_ & ~0x00000004);
         objFlags_ = 0;
         onChanged();
         return this;
@@ -19351,7 +19583,7 @@ java.lang.String defaultValue) {
       public Builder setObjFlagsClear(int value) {
 
         objFlagsClear_ = value;
-        bitField1_ |= 0x00000004;
+        bitField1_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -19364,7 +19596,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearObjFlagsClear() {
-        bitField1_ = (bitField1_ & ~0x00000004);
+        bitField1_ = (bitField1_ & ~0x00000008);
         objFlagsClear_ = 0;
         onChanged();
         return this;
@@ -19395,7 +19627,7 @@ java.lang.String defaultValue) {
       public Builder setStates(int value) {
 
         states_ = value;
-        bitField1_ |= 0x00000008;
+        bitField1_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -19408,7 +19640,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearStates() {
-        bitField1_ = (bitField1_ & ~0x00000008);
+        bitField1_ = (bitField1_ & ~0x00000010);
         states_ = 0;
         onChanged();
         return this;
@@ -19439,7 +19671,7 @@ java.lang.String defaultValue) {
       public Builder setScrollDir(int value) {
 
         scrollDir_ = value;
-        bitField1_ |= 0x00000010;
+        bitField1_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -19452,7 +19684,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearScrollDir() {
-        bitField1_ = (bitField1_ & ~0x00000010);
+        bitField1_ = (bitField1_ & ~0x00000020);
         scrollDir_ = 0;
         onChanged();
         return this;
@@ -19463,7 +19695,7 @@ java.lang.String defaultValue) {
         if (!gridColDsc_.isModifiable()) {
           gridColDsc_ = makeMutableCopy(gridColDsc_);
         }
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000040;
       }
       /**
        * <pre>
@@ -19524,7 +19756,7 @@ java.lang.String defaultValue) {
 
         ensureGridColDscIsMutable();
         gridColDsc_.setInt(index, value);
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -19543,7 +19775,7 @@ java.lang.String defaultValue) {
 
         ensureGridColDscIsMutable();
         gridColDsc_.addInt(value);
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -19563,7 +19795,7 @@ java.lang.String defaultValue) {
         ensureGridColDscIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, gridColDsc_);
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -19579,7 +19811,7 @@ java.lang.String defaultValue) {
        */
       public Builder clearGridColDsc() {
         gridColDsc_ = emptyIntList();
-        bitField1_ = (bitField1_ & ~0x00000020);
+        bitField1_ = (bitField1_ & ~0x00000040);
         onChanged();
         return this;
       }
@@ -19589,7 +19821,7 @@ java.lang.String defaultValue) {
         if (!gridRowDsc_.isModifiable()) {
           gridRowDsc_ = makeMutableCopy(gridRowDsc_);
         }
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000080;
       }
       /**
        * <code>repeated int32 grid_row_dsc = 36;</code>
@@ -19626,7 +19858,7 @@ java.lang.String defaultValue) {
 
         ensureGridRowDscIsMutable();
         gridRowDsc_.setInt(index, value);
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -19639,7 +19871,7 @@ java.lang.String defaultValue) {
 
         ensureGridRowDscIsMutable();
         gridRowDsc_.addInt(value);
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -19653,7 +19885,7 @@ java.lang.String defaultValue) {
         ensureGridRowDscIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, gridRowDsc_);
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -19663,7 +19895,7 @@ java.lang.String defaultValue) {
        */
       public Builder clearGridRowDsc() {
         gridRowDsc_ = emptyIntList();
-        bitField1_ = (bitField1_ & ~0x00000040);
+        bitField1_ = (bitField1_ & ~0x00000080);
         onChanged();
         return this;
       }
@@ -19695,7 +19927,7 @@ java.lang.String defaultValue) {
       public Builder setBare(boolean value) {
 
         bare_ = value;
-        bitField1_ |= 0x00000080;
+        bitField1_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -19709,7 +19941,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearBare() {
-        bitField1_ = (bitField1_ & ~0x00000080);
+        bitField1_ = (bitField1_ & ~0x00000100);
         bare_ = false;
         onChanged();
         return this;
@@ -19744,7 +19976,7 @@ java.lang.String defaultValue) {
       public Builder setInTabBar(boolean value) {
 
         inTabBar_ = value;
-        bitField1_ |= 0x00000100;
+        bitField1_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -19759,7 +19991,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearInTabBar() {
-        bitField1_ = (bitField1_ & ~0x00000100);
+        bitField1_ = (bitField1_ & ~0x00000200);
         inTabBar_ = false;
         onChanged();
         return this;
@@ -19781,7 +20013,7 @@ java.lang.String defaultValue) {
        * @return Whether the checkedWhen field is set.
        */
       public boolean hasCheckedWhen() {
-        return ((bitField1_ & 0x00000200) != 0);
+        return ((bitField1_ & 0x00000400) != 0);
       }
       /**
        * <pre>
@@ -19822,7 +20054,7 @@ java.lang.String defaultValue) {
         } else {
           checkedWhenBuilder_.setMessage(value);
         }
-        bitField1_ |= 0x00000200;
+        bitField1_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -19844,7 +20076,7 @@ java.lang.String defaultValue) {
         } else {
           checkedWhenBuilder_.setMessage(builderForValue.build());
         }
-        bitField1_ |= 0x00000200;
+        bitField1_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -19861,7 +20093,7 @@ java.lang.String defaultValue) {
        */
       public Builder mergeCheckedWhen(ui.UiAst.VisibilityBinding value) {
         if (checkedWhenBuilder_ == null) {
-          if (((bitField1_ & 0x00000200) != 0) &&
+          if (((bitField1_ & 0x00000400) != 0) &&
             checkedWhen_ != null &&
             checkedWhen_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
             getCheckedWhenBuilder().mergeFrom(value);
@@ -19872,7 +20104,7 @@ java.lang.String defaultValue) {
           checkedWhenBuilder_.mergeFrom(value);
         }
         if (checkedWhen_ != null) {
-          bitField1_ |= 0x00000200;
+          bitField1_ |= 0x00000400;
           onChanged();
         }
         return this;
@@ -19889,7 +20121,7 @@ java.lang.String defaultValue) {
        * <code>.ui.VisibilityBinding checked_when = 42;</code>
        */
       public Builder clearCheckedWhen() {
-        bitField1_ = (bitField1_ & ~0x00000200);
+        bitField1_ = (bitField1_ & ~0x00000400);
         checkedWhen_ = null;
         if (checkedWhenBuilder_ != null) {
           checkedWhenBuilder_.dispose();
@@ -19910,7 +20142,7 @@ java.lang.String defaultValue) {
        * <code>.ui.VisibilityBinding checked_when = 42;</code>
        */
       public ui.UiAst.VisibilityBinding.Builder getCheckedWhenBuilder() {
-        bitField1_ |= 0x00000200;
+        bitField1_ |= 0x00000400;
         onChanged();
         return getCheckedWhenFieldBuilder().getBuilder();
       }
@@ -19977,7 +20209,7 @@ java.lang.String defaultValue) {
        * @return Whether the enabledWhen field is set.
        */
       public boolean hasEnabledWhen() {
-        return ((bitField1_ & 0x00000400) != 0);
+        return ((bitField1_ & 0x00000800) != 0);
       }
       /**
        * <pre>
@@ -20024,7 +20256,7 @@ java.lang.String defaultValue) {
         } else {
           enabledWhenBuilder_.setMessage(value);
         }
-        bitField1_ |= 0x00000400;
+        bitField1_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -20049,7 +20281,7 @@ java.lang.String defaultValue) {
         } else {
           enabledWhenBuilder_.setMessage(builderForValue.build());
         }
-        bitField1_ |= 0x00000400;
+        bitField1_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -20069,7 +20301,7 @@ java.lang.String defaultValue) {
        */
       public Builder mergeEnabledWhen(ui.UiAst.VisibilityBinding value) {
         if (enabledWhenBuilder_ == null) {
-          if (((bitField1_ & 0x00000400) != 0) &&
+          if (((bitField1_ & 0x00000800) != 0) &&
             enabledWhen_ != null &&
             enabledWhen_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
             getEnabledWhenBuilder().mergeFrom(value);
@@ -20080,7 +20312,7 @@ java.lang.String defaultValue) {
           enabledWhenBuilder_.mergeFrom(value);
         }
         if (enabledWhen_ != null) {
-          bitField1_ |= 0x00000400;
+          bitField1_ |= 0x00000800;
           onChanged();
         }
         return this;
@@ -20100,7 +20332,7 @@ java.lang.String defaultValue) {
        * <code>.ui.VisibilityBinding enabled_when = 45;</code>
        */
       public Builder clearEnabledWhen() {
-        bitField1_ = (bitField1_ & ~0x00000400);
+        bitField1_ = (bitField1_ & ~0x00000800);
         enabledWhen_ = null;
         if (enabledWhenBuilder_ != null) {
           enabledWhenBuilder_.dispose();
@@ -20124,7 +20356,7 @@ java.lang.String defaultValue) {
        * <code>.ui.VisibilityBinding enabled_when = 45;</code>
        */
       public ui.UiAst.VisibilityBinding.Builder getEnabledWhenBuilder() {
-        bitField1_ |= 0x00000400;
+        bitField1_ |= 0x00000800;
         onChanged();
         return getEnabledWhenFieldBuilder().getBuilder();
       }
@@ -20195,7 +20427,7 @@ java.lang.String defaultValue) {
        * @return Whether the colorWhen field is set.
        */
       public boolean hasColorWhen() {
-        return ((bitField1_ & 0x00000800) != 0);
+        return ((bitField1_ & 0x00001000) != 0);
       }
       /**
        * <pre>
@@ -20238,7 +20470,7 @@ java.lang.String defaultValue) {
         } else {
           colorWhenBuilder_.setMessage(value);
         }
-        bitField1_ |= 0x00000800;
+        bitField1_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -20261,7 +20493,7 @@ java.lang.String defaultValue) {
         } else {
           colorWhenBuilder_.setMessage(builderForValue.build());
         }
-        bitField1_ |= 0x00000800;
+        bitField1_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -20279,7 +20511,7 @@ java.lang.String defaultValue) {
        */
       public Builder mergeColorWhen(ui.UiAst.ColorBinding value) {
         if (colorWhenBuilder_ == null) {
-          if (((bitField1_ & 0x00000800) != 0) &&
+          if (((bitField1_ & 0x00001000) != 0) &&
             colorWhen_ != null &&
             colorWhen_ != ui.UiAst.ColorBinding.getDefaultInstance()) {
             getColorWhenBuilder().mergeFrom(value);
@@ -20290,7 +20522,7 @@ java.lang.String defaultValue) {
           colorWhenBuilder_.mergeFrom(value);
         }
         if (colorWhen_ != null) {
-          bitField1_ |= 0x00000800;
+          bitField1_ |= 0x00001000;
           onChanged();
         }
         return this;
@@ -20308,7 +20540,7 @@ java.lang.String defaultValue) {
        * <code>.ui.ColorBinding color_when = 46;</code>
        */
       public Builder clearColorWhen() {
-        bitField1_ = (bitField1_ & ~0x00000800);
+        bitField1_ = (bitField1_ & ~0x00001000);
         colorWhen_ = null;
         if (colorWhenBuilder_ != null) {
           colorWhenBuilder_.dispose();
@@ -20330,7 +20562,7 @@ java.lang.String defaultValue) {
        * <code>.ui.ColorBinding color_when = 46;</code>
        */
       public ui.UiAst.ColorBinding.Builder getColorWhenBuilder() {
-        bitField1_ |= 0x00000800;
+        bitField1_ |= 0x00001000;
         onChanged();
         return getColorWhenFieldBuilder().getBuilder();
       }
@@ -20449,7 +20681,7 @@ java.lang.String defaultValue) {
       public Builder setHitSlop(int value) {
 
         hitSlop_ = value;
-        bitField1_ |= 0x00001000;
+        bitField1_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -20484,7 +20716,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearHitSlop() {
-        bitField1_ = (bitField1_ & ~0x00001000);
+        bitField1_ = (bitField1_ & ~0x00002000);
         hitSlop_ = 0;
         onChanged();
         return this;
@@ -20525,7 +20757,7 @@ java.lang.String defaultValue) {
       public Builder setUid(int value) {
 
         uid_ = value;
-        bitField1_ |= 0x00002000;
+        bitField1_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -20543,7 +20775,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearUid() {
-        bitField1_ = (bitField1_ & ~0x00002000);
+        bitField1_ = (bitField1_ & ~0x00004000);
         uid_ = 0;
         onChanged();
         return this;
@@ -20552,9 +20784,9 @@ java.lang.String defaultValue) {
       private java.util.List<ui.UiAst.GestureSpec> gestures_ =
         java.util.Collections.emptyList();
       private void ensureGesturesIsMutable() {
-        if (!((bitField1_ & 0x00004000) != 0)) {
+        if (!((bitField1_ & 0x00008000) != 0)) {
           gestures_ = new java.util.ArrayList<ui.UiAst.GestureSpec>(gestures_);
-          bitField1_ |= 0x00004000;
+          bitField1_ |= 0x00008000;
          }
       }
 
@@ -20792,7 +21024,7 @@ java.lang.String defaultValue) {
       public Builder clearGestures() {
         if (gesturesBuilder_ == null) {
           gestures_ = java.util.Collections.emptyList();
-          bitField1_ = (bitField1_ & ~0x00004000);
+          bitField1_ = (bitField1_ & ~0x00008000);
           onChanged();
         } else {
           gesturesBuilder_.clear();
@@ -20925,7 +21157,7 @@ java.lang.String defaultValue) {
           gesturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder>(
                   gestures_,
-                  ((bitField1_ & 0x00004000) != 0),
+                  ((bitField1_ & 0x00008000) != 0),
                   getParentForChildren(),
                   isClean());
           gestures_ = null;
@@ -42552,6 +42784,2432 @@ java.lang.String defaultValue) {
 
   }
 
+  public interface TargetBoxOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.TargetBox)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+     * Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+     * can place a node can place a box, and a per-mille or normalized rect would
+     * be the only unit in this vocabulary that is not raw design px. Signed
+     * because a detection at the frame edge is legitimately partly outside — the
+     * overlay clips its children, so a box hanging off an edge draws its visible
+     * part and nothing more.
+     * </pre>
+     *
+     * <code>int32 x = 1;</code>
+     * @return The x.
+     */
+    int getX();
+
+    /**
+     * <code>int32 y = 2;</code>
+     * @return The y.
+     */
+    int getY();
+
+    /**
+     * <code>int32 w = 3;</code>
+     * @return The w.
+     */
+    int getW();
+
+    /**
+     * <code>int32 h = 4;</code>
+     * @return The h.
+     */
+    int getH();
+
+    /**
+     * <pre>
+     * Caption drawn inside the box's top-left corner. Empty = no caption. The
+     * caption inherits the OVERLAY's text style, which is what makes it
+     * authorable: LVGL treats text color/font/opa as inheritable, so a
+     * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+     * reaches every caption, while the boxes themselves are renderer-built and
+     * carry no wire style of their own.
+     * </pre>
+     *
+     * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The label.
+     */
+    java.lang.String getLabel();
+    /**
+     * <pre>
+     * Caption drawn inside the box's top-left corner. Empty = no caption. The
+     * caption inherits the OVERLAY's text style, which is what makes it
+     * authorable: LVGL treats text color/font/opa as inheritable, so a
+     * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+     * reaches every caption, while the boxes themselves are renderer-built and
+     * carry no wire style of their own.
+     * </pre>
+     *
+     * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for label.
+     */
+    com.google.protobuf.ByteString
+        getLabelBytes();
+
+    /**
+     * <pre>
+     * Box stroke color. Absent = the theme's border color for the overlay's own
+     * class, which is what makes an unstyled box theme-correct in both families
+     * (the ChartSeries.color convention). When present it colors the caption
+     * too, so one classification reads as one thing.
+     * </pre>
+     *
+     * <code>.ui.Color color = 6;</code>
+     * @return Whether the color field is set.
+     */
+    boolean hasColor();
+    /**
+     * <pre>
+     * Box stroke color. Absent = the theme's border color for the overlay's own
+     * class, which is what makes an unstyled box theme-correct in both families
+     * (the ChartSeries.color convention). When present it colors the caption
+     * too, so one classification reads as one thing.
+     * </pre>
+     *
+     * <code>.ui.Color color = 6;</code>
+     * @return The color.
+     */
+    ui.UiAst.Color getColor();
+    /**
+     * <pre>
+     * Box stroke color. Absent = the theme's border color for the overlay's own
+     * class, which is what makes an unstyled box theme-correct in both families
+     * (the ChartSeries.color convention). When present it colors the caption
+     * too, so one classification reads as one thing.
+     * </pre>
+     *
+     * <code>.ui.Color color = 6;</code>
+     */
+    ui.UiAst.ColorOrBuilder getColorOrBuilder();
+  }
+  /**
+   * <pre>
+   * One rectangle drawn by a WIDGET_TARGET_OVERLAY node — a computer-vision
+   * detection or track, not an interactive control.
+   * </pre>
+   *
+   * Protobuf type {@code ui.TargetBox}
+   */
+  public static final class TargetBox extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.TargetBox)
+      TargetBoxOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        TargetBox.class.getName());
+    }
+    // Use TargetBox.newBuilder() to construct.
+    private TargetBox(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private TargetBox() {
+      label_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_TargetBox_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_TargetBox_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.TargetBox.class, ui.UiAst.TargetBox.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int X_FIELD_NUMBER = 1;
+    private int x_ = 0;
+    /**
+     * <pre>
+     * Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+     * Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+     * can place a node can place a box, and a per-mille or normalized rect would
+     * be the only unit in this vocabulary that is not raw design px. Signed
+     * because a detection at the frame edge is legitimately partly outside — the
+     * overlay clips its children, so a box hanging off an edge draws its visible
+     * part and nothing more.
+     * </pre>
+     *
+     * <code>int32 x = 1;</code>
+     * @return The x.
+     */
+    @java.lang.Override
+    public int getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 2;
+    private int y_ = 0;
+    /**
+     * <code>int32 y = 2;</code>
+     * @return The y.
+     */
+    @java.lang.Override
+    public int getY() {
+      return y_;
+    }
+
+    public static final int W_FIELD_NUMBER = 3;
+    private int w_ = 0;
+    /**
+     * <code>int32 w = 3;</code>
+     * @return The w.
+     */
+    @java.lang.Override
+    public int getW() {
+      return w_;
+    }
+
+    public static final int H_FIELD_NUMBER = 4;
+    private int h_ = 0;
+    /**
+     * <code>int32 h = 4;</code>
+     * @return The h.
+     */
+    @java.lang.Override
+    public int getH() {
+      return h_;
+    }
+
+    public static final int LABEL_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object label_ = "";
+    /**
+     * <pre>
+     * Caption drawn inside the box's top-left corner. Empty = no caption. The
+     * caption inherits the OVERLAY's text style, which is what makes it
+     * authorable: LVGL treats text color/font/opa as inheritable, so a
+     * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+     * reaches every caption, while the boxes themselves are renderer-built and
+     * carry no wire style of their own.
+     * </pre>
+     *
+     * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The label.
+     */
+    @java.lang.Override
+    public java.lang.String getLabel() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        label_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Caption drawn inside the box's top-left corner. Empty = no caption. The
+     * caption inherits the OVERLAY's text style, which is what makes it
+     * authorable: LVGL treats text color/font/opa as inheritable, so a
+     * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+     * reaches every caption, while the boxes themselves are renderer-built and
+     * carry no wire style of their own.
+     * </pre>
+     *
+     * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for label.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLabelBytes() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        label_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COLOR_FIELD_NUMBER = 6;
+    private ui.UiAst.Color color_;
+    /**
+     * <pre>
+     * Box stroke color. Absent = the theme's border color for the overlay's own
+     * class, which is what makes an unstyled box theme-correct in both families
+     * (the ChartSeries.color convention). When present it colors the caption
+     * too, so one classification reads as one thing.
+     * </pre>
+     *
+     * <code>.ui.Color color = 6;</code>
+     * @return Whether the color field is set.
+     */
+    @java.lang.Override
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Box stroke color. Absent = the theme's border color for the overlay's own
+     * class, which is what makes an unstyled box theme-correct in both families
+     * (the ChartSeries.color convention). When present it colors the caption
+     * too, so one classification reads as one thing.
+     * </pre>
+     *
+     * <code>.ui.Color color = 6;</code>
+     * @return The color.
+     */
+    @java.lang.Override
+    public ui.UiAst.Color getColor() {
+      return color_ == null ? ui.UiAst.Color.getDefaultInstance() : color_;
+    }
+    /**
+     * <pre>
+     * Box stroke color. Absent = the theme's border color for the overlay's own
+     * class, which is what makes an unstyled box theme-correct in both families
+     * (the ChartSeries.color convention). When present it colors the caption
+     * too, so one classification reads as one thing.
+     * </pre>
+     *
+     * <code>.ui.Color color = 6;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.ColorOrBuilder getColorOrBuilder() {
+      return color_ == null ? ui.UiAst.Color.getDefaultInstance() : color_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (x_ != 0) {
+        output.writeInt32(1, x_);
+      }
+      if (y_ != 0) {
+        output.writeInt32(2, y_);
+      }
+      if (w_ != 0) {
+        output.writeInt32(3, w_);
+      }
+      if (h_ != 0) {
+        output.writeInt32(4, h_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(label_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 5, label_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(6, getColor());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (x_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, x_);
+      }
+      if (y_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, y_);
+      }
+      if (w_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, w_);
+      }
+      if (h_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, h_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(label_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(5, label_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getColor());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.TargetBox)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.TargetBox other = (ui.UiAst.TargetBox) obj;
+
+      if (getX()
+          != other.getX()) return false;
+      if (getY()
+          != other.getY()) return false;
+      if (getW()
+          != other.getW()) return false;
+      if (getH()
+          != other.getH()) return false;
+      if (!getLabel()
+          .equals(other.getLabel())) return false;
+      if (hasColor() != other.hasColor()) return false;
+      if (hasColor()) {
+        if (!getColor()
+            .equals(other.getColor())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + getX();
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + getY();
+      hash = (37 * hash) + W_FIELD_NUMBER;
+      hash = (53 * hash) + getW();
+      hash = (37 * hash) + H_FIELD_NUMBER;
+      hash = (53 * hash) + getH();
+      hash = (37 * hash) + LABEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLabel().hashCode();
+      if (hasColor()) {
+        hash = (37 * hash) + COLOR_FIELD_NUMBER;
+        hash = (53 * hash) + getColor().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.TargetBox parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.TargetBox parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.TargetBox parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.TargetBox parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.TargetBox parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.TargetBox parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.TargetBox prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One rectangle drawn by a WIDGET_TARGET_OVERLAY node — a computer-vision
+     * detection or track, not an interactive control.
+     * </pre>
+     *
+     * Protobuf type {@code ui.TargetBox}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.TargetBox)
+        ui.UiAst.TargetBoxOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_TargetBox_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_TargetBox_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.TargetBox.class, ui.UiAst.TargetBox.Builder.class);
+      }
+
+      // Construct using ui.UiAst.TargetBox.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getColorFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x_ = 0;
+        y_ = 0;
+        w_ = 0;
+        h_ = 0;
+        label_ = "";
+        color_ = null;
+        if (colorBuilder_ != null) {
+          colorBuilder_.dispose();
+          colorBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_TargetBox_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.TargetBox getDefaultInstanceForType() {
+        return ui.UiAst.TargetBox.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.TargetBox build() {
+        ui.UiAst.TargetBox result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.TargetBox buildPartial() {
+        ui.UiAst.TargetBox result = new ui.UiAst.TargetBox(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.TargetBox result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x_ = x_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y_ = y_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.w_ = w_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.h_ = h_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.label_ = label_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.color_ = colorBuilder_ == null
+              ? color_
+              : colorBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.TargetBox) {
+          return mergeFrom((ui.UiAst.TargetBox)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.TargetBox other) {
+        if (other == ui.UiAst.TargetBox.getDefaultInstance()) return this;
+        if (other.getX() != 0) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0) {
+          setY(other.getY());
+        }
+        if (other.getW() != 0) {
+          setW(other.getW());
+        }
+        if (other.getH() != 0) {
+          setH(other.getH());
+        }
+        if (!other.getLabel().isEmpty()) {
+          label_ = other.label_;
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        if (other.hasColor()) {
+          mergeColor(other.getColor());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                x_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                y_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                w_ = input.readInt32();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                h_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 42: {
+                label_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 50: {
+                input.readMessage(
+                    getColorFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 50
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int x_ ;
+      /**
+       * <pre>
+       * Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+       * Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+       * can place a node can place a box, and a per-mille or normalized rect would
+       * be the only unit in this vocabulary that is not raw design px. Signed
+       * because a detection at the frame edge is legitimately partly outside — the
+       * overlay clips its children, so a box hanging off an edge draws its visible
+       * part and nothing more.
+       * </pre>
+       *
+       * <code>int32 x = 1;</code>
+       * @return The x.
+       */
+      @java.lang.Override
+      public int getX() {
+        return x_;
+      }
+      /**
+       * <pre>
+       * Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+       * Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+       * can place a node can place a box, and a per-mille or normalized rect would
+       * be the only unit in this vocabulary that is not raw design px. Signed
+       * because a detection at the frame edge is legitimately partly outside — the
+       * overlay clips its children, so a box hanging off an edge draws its visible
+       * part and nothing more.
+       * </pre>
+       *
+       * <code>int32 x = 1;</code>
+       * @param value The x to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX(int value) {
+
+        x_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+       * Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+       * can place a node can place a box, and a per-mille or normalized rect would
+       * be the only unit in this vocabulary that is not raw design px. Signed
+       * because a detection at the frame edge is legitimately partly outside — the
+       * overlay clips its children, so a box hanging off an edge draws its visible
+       * part and nothing more.
+       * </pre>
+       *
+       * <code>int32 x = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int y_ ;
+      /**
+       * <code>int32 y = 2;</code>
+       * @return The y.
+       */
+      @java.lang.Override
+      public int getY() {
+        return y_;
+      }
+      /**
+       * <code>int32 y = 2;</code>
+       * @param value The y to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY(int value) {
+
+        y_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 y = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int w_ ;
+      /**
+       * <code>int32 w = 3;</code>
+       * @return The w.
+       */
+      @java.lang.Override
+      public int getW() {
+        return w_;
+      }
+      /**
+       * <code>int32 w = 3;</code>
+       * @param value The w to set.
+       * @return This builder for chaining.
+       */
+      public Builder setW(int value) {
+
+        w_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 w = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearW() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        w_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int h_ ;
+      /**
+       * <code>int32 h = 4;</code>
+       * @return The h.
+       */
+      @java.lang.Override
+      public int getH() {
+        return h_;
+      }
+      /**
+       * <code>int32 h = 4;</code>
+       * @param value The h to set.
+       * @return This builder for chaining.
+       */
+      public Builder setH(int value) {
+
+        h_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 h = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearH() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        h_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object label_ = "";
+      /**
+       * <pre>
+       * Caption drawn inside the box's top-left corner. Empty = no caption. The
+       * caption inherits the OVERLAY's text style, which is what makes it
+       * authorable: LVGL treats text color/font/opa as inheritable, so a
+       * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+       * reaches every caption, while the boxes themselves are renderer-built and
+       * carry no wire style of their own.
+       * </pre>
+       *
+       * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The label.
+       */
+      public java.lang.String getLabel() {
+        java.lang.Object ref = label_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          label_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Caption drawn inside the box's top-left corner. Empty = no caption. The
+       * caption inherits the OVERLAY's text style, which is what makes it
+       * authorable: LVGL treats text color/font/opa as inheritable, so a
+       * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+       * reaches every caption, while the boxes themselves are renderer-built and
+       * carry no wire style of their own.
+       * </pre>
+       *
+       * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for label.
+       */
+      public com.google.protobuf.ByteString
+          getLabelBytes() {
+        java.lang.Object ref = label_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          label_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Caption drawn inside the box's top-left corner. Empty = no caption. The
+       * caption inherits the OVERLAY's text style, which is what makes it
+       * authorable: LVGL treats text color/font/opa as inheritable, so a
+       * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+       * reaches every caption, while the boxes themselves are renderer-built and
+       * carry no wire style of their own.
+       * </pre>
+       *
+       * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The label to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLabel(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        label_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Caption drawn inside the box's top-left corner. Empty = no caption. The
+       * caption inherits the OVERLAY's text style, which is what makes it
+       * authorable: LVGL treats text color/font/opa as inheritable, so a
+       * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+       * reaches every caption, while the boxes themselves are renderer-built and
+       * carry no wire style of their own.
+       * </pre>
+       *
+       * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLabel() {
+        label_ = getDefaultInstance().getLabel();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Caption drawn inside the box's top-left corner. Empty = no caption. The
+       * caption inherits the OVERLAY's text style, which is what makes it
+       * authorable: LVGL treats text color/font/opa as inheritable, so a
+       * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+       * reaches every caption, while the boxes themselves are renderer-built and
+       * carry no wire style of their own.
+       * </pre>
+       *
+       * <code>string label = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for label to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLabelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        label_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiAst.Color color_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.Color, ui.UiAst.Color.Builder, ui.UiAst.ColorOrBuilder> colorBuilder_;
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       * @return Whether the color field is set.
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       * @return The color.
+       */
+      public ui.UiAst.Color getColor() {
+        if (colorBuilder_ == null) {
+          return color_ == null ? ui.UiAst.Color.getDefaultInstance() : color_;
+        } else {
+          return colorBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      public Builder setColor(ui.UiAst.Color value) {
+        if (colorBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          color_ = value;
+        } else {
+          colorBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      public Builder setColor(
+          ui.UiAst.Color.Builder builderForValue) {
+        if (colorBuilder_ == null) {
+          color_ = builderForValue.build();
+        } else {
+          colorBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      public Builder mergeColor(ui.UiAst.Color value) {
+        if (colorBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) != 0) &&
+            color_ != null &&
+            color_ != ui.UiAst.Color.getDefaultInstance()) {
+            getColorBuilder().mergeFrom(value);
+          } else {
+            color_ = value;
+          }
+        } else {
+          colorBuilder_.mergeFrom(value);
+        }
+        if (color_ != null) {
+          bitField0_ |= 0x00000020;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      public Builder clearColor() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        color_ = null;
+        if (colorBuilder_ != null) {
+          colorBuilder_.dispose();
+          colorBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      public ui.UiAst.Color.Builder getColorBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getColorFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      public ui.UiAst.ColorOrBuilder getColorOrBuilder() {
+        if (colorBuilder_ != null) {
+          return colorBuilder_.getMessageOrBuilder();
+        } else {
+          return color_ == null ?
+              ui.UiAst.Color.getDefaultInstance() : color_;
+        }
+      }
+      /**
+       * <pre>
+       * Box stroke color. Absent = the theme's border color for the overlay's own
+       * class, which is what makes an unstyled box theme-correct in both families
+       * (the ChartSeries.color convention). When present it colors the caption
+       * too, so one classification reads as one thing.
+       * </pre>
+       *
+       * <code>.ui.Color color = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.Color, ui.UiAst.Color.Builder, ui.UiAst.ColorOrBuilder> 
+          getColorFieldBuilder() {
+        if (colorBuilder_ == null) {
+          colorBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.Color, ui.UiAst.Color.Builder, ui.UiAst.ColorOrBuilder>(
+                  getColor(),
+                  getParentForChildren(),
+                  isClean());
+          color_ = null;
+        }
+        return colorBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.TargetBox)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.TargetBox)
+    private static final ui.UiAst.TargetBox DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.TargetBox();
+    }
+
+    public static ui.UiAst.TargetBox getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TargetBox>
+        PARSER = new com.google.protobuf.AbstractParser<TargetBox>() {
+      @java.lang.Override
+      public TargetBox parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<TargetBox> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TargetBox> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.TargetBox getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TargetOverlayPropsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.TargetOverlayProps)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<ui.UiAst.TargetBox> 
+        getBoxesList();
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.TargetBox getBoxes(int index);
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    int getBoxesCount();
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    java.util.List<? extends ui.UiAst.TargetBoxOrBuilder> 
+        getBoxesOrBuilderList();
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    ui.UiAst.TargetBoxOrBuilder getBoxesOrBuilder(
+        int index);
+
+    /**
+     * <pre>
+     * Box stroke width in design px; 0 = the renderer default. It is a prop
+     * rather than a style property because the boxes are renderer-built children
+     * that no StyleGroup can address — the same reason HostProxyProps carries
+     * handle_size.
+     * </pre>
+     *
+     * <code>uint32 border_width = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The borderWidth.
+     */
+    int getBorderWidth();
+
+    /**
+     * <pre>
+     * Suppress every caption without clearing the labels. Polarity is chosen so
+     * proto3's false default draws them: a producer that fills in boxes and
+     * labels gets the captions it wrote without having to set a second flag.
+     * </pre>
+     *
+     * <code>bool hide_labels = 3;</code>
+     * @return The hideLabels.
+     */
+    boolean getHideLabels();
+  }
+  /**
+   * <pre>
+   * Target-overlay widget: a pointer-transparent box that draws N target
+   * rectangles over whatever it is stacked on (typically a host-proxy video
+   * plane). The boxes are DATA, not child WidgetNodes: they carry their own
+   * geometry, are never laid out by LVGL, and take no part in the pointer path —
+   * an overlay that absorbed presses would be a dead zone over the surface
+   * underneath it, which is the failure LV_STATE_DISABLED stacking already
+   * demonstrates elsewhere.
+   *
+   * Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
+   * overlay's uid; there is no per-box subject binding, because the box list is
+   * a structure and StateUpdate carries only ints and strings.
+   * </pre>
+   *
+   * Protobuf type {@code ui.TargetOverlayProps}
+   */
+  public static final class TargetOverlayProps extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.TargetOverlayProps)
+      TargetOverlayPropsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        TargetOverlayProps.class.getName());
+    }
+    // Use TargetOverlayProps.newBuilder() to construct.
+    private TargetOverlayProps(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private TargetOverlayProps() {
+      boxes_ = java.util.Collections.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_TargetOverlayProps_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_TargetOverlayProps_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.TargetOverlayProps.class, ui.UiAst.TargetOverlayProps.Builder.class);
+    }
+
+    public static final int BOXES_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiAst.TargetBox> boxes_;
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiAst.TargetBox> getBoxesList() {
+      return boxes_;
+    }
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiAst.TargetBoxOrBuilder> 
+        getBoxesOrBuilderList() {
+      return boxes_;
+    }
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public int getBoxesCount() {
+      return boxes_.size();
+    }
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.TargetBox getBoxes(int index) {
+      return boxes_.get(index);
+    }
+    /**
+     * <pre>
+     * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+     * in the widget_props union, which is on the recursive decode stack once per
+     * tree level, so an inline array would tax every node of every screen for a
+     * list only this widget carries.
+     * </pre>
+     *
+     * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.TargetBoxOrBuilder getBoxesOrBuilder(
+        int index) {
+      return boxes_.get(index);
+    }
+
+    public static final int BORDER_WIDTH_FIELD_NUMBER = 2;
+    private int borderWidth_ = 0;
+    /**
+     * <pre>
+     * Box stroke width in design px; 0 = the renderer default. It is a prop
+     * rather than a style property because the boxes are renderer-built children
+     * that no StyleGroup can address — the same reason HostProxyProps carries
+     * handle_size.
+     * </pre>
+     *
+     * <code>uint32 border_width = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The borderWidth.
+     */
+    @java.lang.Override
+    public int getBorderWidth() {
+      return borderWidth_;
+    }
+
+    public static final int HIDE_LABELS_FIELD_NUMBER = 3;
+    private boolean hideLabels_ = false;
+    /**
+     * <pre>
+     * Suppress every caption without clearing the labels. Polarity is chosen so
+     * proto3's false default draws them: a producer that fills in boxes and
+     * labels gets the captions it wrote without having to set a second flag.
+     * </pre>
+     *
+     * <code>bool hide_labels = 3;</code>
+     * @return The hideLabels.
+     */
+    @java.lang.Override
+    public boolean getHideLabels() {
+      return hideLabels_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < boxes_.size(); i++) {
+        output.writeMessage(1, boxes_.get(i));
+      }
+      if (borderWidth_ != 0) {
+        output.writeUInt32(2, borderWidth_);
+      }
+      if (hideLabels_ != false) {
+        output.writeBool(3, hideLabels_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < boxes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, boxes_.get(i));
+      }
+      if (borderWidth_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, borderWidth_);
+      }
+      if (hideLabels_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, hideLabels_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.TargetOverlayProps)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.TargetOverlayProps other = (ui.UiAst.TargetOverlayProps) obj;
+
+      if (!getBoxesList()
+          .equals(other.getBoxesList())) return false;
+      if (getBorderWidth()
+          != other.getBorderWidth()) return false;
+      if (getHideLabels()
+          != other.getHideLabels()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getBoxesCount() > 0) {
+        hash = (37 * hash) + BOXES_FIELD_NUMBER;
+        hash = (53 * hash) + getBoxesList().hashCode();
+      }
+      hash = (37 * hash) + BORDER_WIDTH_FIELD_NUMBER;
+      hash = (53 * hash) + getBorderWidth();
+      hash = (37 * hash) + HIDE_LABELS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHideLabels());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.TargetOverlayProps parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.TargetOverlayProps parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.TargetOverlayProps parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.TargetOverlayProps prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Target-overlay widget: a pointer-transparent box that draws N target
+     * rectangles over whatever it is stacked on (typically a host-proxy video
+     * plane). The boxes are DATA, not child WidgetNodes: they carry their own
+     * geometry, are never laid out by LVGL, and take no part in the pointer path —
+     * an overlay that absorbed presses would be a dead zone over the surface
+     * underneath it, which is the failure LV_STATE_DISABLED stacking already
+     * demonstrates elsewhere.
+     *
+     * Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
+     * overlay's uid; there is no per-box subject binding, because the box list is
+     * a structure and StateUpdate carries only ints and strings.
+     * </pre>
+     *
+     * Protobuf type {@code ui.TargetOverlayProps}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.TargetOverlayProps)
+        ui.UiAst.TargetOverlayPropsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_TargetOverlayProps_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_TargetOverlayProps_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.TargetOverlayProps.class, ui.UiAst.TargetOverlayProps.Builder.class);
+      }
+
+      // Construct using ui.UiAst.TargetOverlayProps.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        if (boxesBuilder_ == null) {
+          boxes_ = java.util.Collections.emptyList();
+        } else {
+          boxes_ = null;
+          boxesBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        borderWidth_ = 0;
+        hideLabels_ = false;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_TargetOverlayProps_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.TargetOverlayProps getDefaultInstanceForType() {
+        return ui.UiAst.TargetOverlayProps.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.TargetOverlayProps build() {
+        ui.UiAst.TargetOverlayProps result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.TargetOverlayProps buildPartial() {
+        ui.UiAst.TargetOverlayProps result = new ui.UiAst.TargetOverlayProps(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(ui.UiAst.TargetOverlayProps result) {
+        if (boxesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            boxes_ = java.util.Collections.unmodifiableList(boxes_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.boxes_ = boxes_;
+        } else {
+          result.boxes_ = boxesBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(ui.UiAst.TargetOverlayProps result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.borderWidth_ = borderWidth_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.hideLabels_ = hideLabels_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.TargetOverlayProps) {
+          return mergeFrom((ui.UiAst.TargetOverlayProps)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.TargetOverlayProps other) {
+        if (other == ui.UiAst.TargetOverlayProps.getDefaultInstance()) return this;
+        if (boxesBuilder_ == null) {
+          if (!other.boxes_.isEmpty()) {
+            if (boxes_.isEmpty()) {
+              boxes_ = other.boxes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureBoxesIsMutable();
+              boxes_.addAll(other.boxes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.boxes_.isEmpty()) {
+            if (boxesBuilder_.isEmpty()) {
+              boxesBuilder_.dispose();
+              boxesBuilder_ = null;
+              boxes_ = other.boxes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              boxesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBoxesFieldBuilder() : null;
+            } else {
+              boxesBuilder_.addAllMessages(other.boxes_);
+            }
+          }
+        }
+        if (other.getBorderWidth() != 0) {
+          setBorderWidth(other.getBorderWidth());
+        }
+        if (other.getHideLabels() != false) {
+          setHideLabels(other.getHideLabels());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                ui.UiAst.TargetBox m =
+                    input.readMessage(
+                        ui.UiAst.TargetBox.parser(),
+                        extensionRegistry);
+                if (boxesBuilder_ == null) {
+                  ensureBoxesIsMutable();
+                  boxes_.add(m);
+                } else {
+                  boxesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 10
+              case 16: {
+                borderWidth_ = input.readUInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                hideLabels_ = input.readBool();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<ui.UiAst.TargetBox> boxes_ =
+        java.util.Collections.emptyList();
+      private void ensureBoxesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          boxes_ = new java.util.ArrayList<ui.UiAst.TargetBox>(boxes_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.TargetBox, ui.UiAst.TargetBox.Builder, ui.UiAst.TargetBoxOrBuilder> boxesBuilder_;
+
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.TargetBox> getBoxesList() {
+        if (boxesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(boxes_);
+        } else {
+          return boxesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public int getBoxesCount() {
+        if (boxesBuilder_ == null) {
+          return boxes_.size();
+        } else {
+          return boxesBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.TargetBox getBoxes(int index) {
+        if (boxesBuilder_ == null) {
+          return boxes_.get(index);
+        } else {
+          return boxesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setBoxes(
+          int index, ui.UiAst.TargetBox value) {
+        if (boxesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBoxesIsMutable();
+          boxes_.set(index, value);
+          onChanged();
+        } else {
+          boxesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setBoxes(
+          int index, ui.UiAst.TargetBox.Builder builderForValue) {
+        if (boxesBuilder_ == null) {
+          ensureBoxesIsMutable();
+          boxes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          boxesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addBoxes(ui.UiAst.TargetBox value) {
+        if (boxesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBoxesIsMutable();
+          boxes_.add(value);
+          onChanged();
+        } else {
+          boxesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addBoxes(
+          int index, ui.UiAst.TargetBox value) {
+        if (boxesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBoxesIsMutable();
+          boxes_.add(index, value);
+          onChanged();
+        } else {
+          boxesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addBoxes(
+          ui.UiAst.TargetBox.Builder builderForValue) {
+        if (boxesBuilder_ == null) {
+          ensureBoxesIsMutable();
+          boxes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          boxesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addBoxes(
+          int index, ui.UiAst.TargetBox.Builder builderForValue) {
+        if (boxesBuilder_ == null) {
+          ensureBoxesIsMutable();
+          boxes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          boxesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder addAllBoxes(
+          java.lang.Iterable<? extends ui.UiAst.TargetBox> values) {
+        if (boxesBuilder_ == null) {
+          ensureBoxesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, boxes_);
+          onChanged();
+        } else {
+          boxesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearBoxes() {
+        if (boxesBuilder_ == null) {
+          boxes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          boxesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder removeBoxes(int index) {
+        if (boxesBuilder_ == null) {
+          ensureBoxesIsMutable();
+          boxes_.remove(index);
+          onChanged();
+        } else {
+          boxesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.TargetBox.Builder getBoxesBuilder(
+          int index) {
+        return getBoxesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.TargetBoxOrBuilder getBoxesOrBuilder(
+          int index) {
+        if (boxesBuilder_ == null) {
+          return boxes_.get(index);  } else {
+          return boxesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<? extends ui.UiAst.TargetBoxOrBuilder> 
+           getBoxesOrBuilderList() {
+        if (boxesBuilder_ != null) {
+          return boxesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(boxes_);
+        }
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.TargetBox.Builder addBoxesBuilder() {
+        return getBoxesFieldBuilder().addBuilder(
+            ui.UiAst.TargetBox.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ui.UiAst.TargetBox.Builder addBoxesBuilder(
+          int index) {
+        return getBoxesFieldBuilder().addBuilder(
+            index, ui.UiAst.TargetBox.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+       * in the widget_props union, which is on the recursive decode stack once per
+       * tree level, so an inline array would tax every node of every screen for a
+       * list only this widget carries.
+       * </pre>
+       *
+       * <code>repeated .ui.TargetBox boxes = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public java.util.List<ui.UiAst.TargetBox.Builder> 
+           getBoxesBuilderList() {
+        return getBoxesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.TargetBox, ui.UiAst.TargetBox.Builder, ui.UiAst.TargetBoxOrBuilder> 
+          getBoxesFieldBuilder() {
+        if (boxesBuilder_ == null) {
+          boxesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiAst.TargetBox, ui.UiAst.TargetBox.Builder, ui.UiAst.TargetBoxOrBuilder>(
+                  boxes_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          boxes_ = null;
+        }
+        return boxesBuilder_;
+      }
+
+      private int borderWidth_ ;
+      /**
+       * <pre>
+       * Box stroke width in design px; 0 = the renderer default. It is a prop
+       * rather than a style property because the boxes are renderer-built children
+       * that no StyleGroup can address — the same reason HostProxyProps carries
+       * handle_size.
+       * </pre>
+       *
+       * <code>uint32 border_width = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The borderWidth.
+       */
+      @java.lang.Override
+      public int getBorderWidth() {
+        return borderWidth_;
+      }
+      /**
+       * <pre>
+       * Box stroke width in design px; 0 = the renderer default. It is a prop
+       * rather than a style property because the boxes are renderer-built children
+       * that no StyleGroup can address — the same reason HostProxyProps carries
+       * handle_size.
+       * </pre>
+       *
+       * <code>uint32 border_width = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The borderWidth to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBorderWidth(int value) {
+
+        borderWidth_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Box stroke width in design px; 0 = the renderer default. It is a prop
+       * rather than a style property because the boxes are renderer-built children
+       * that no StyleGroup can address — the same reason HostProxyProps carries
+       * handle_size.
+       * </pre>
+       *
+       * <code>uint32 border_width = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBorderWidth() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        borderWidth_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean hideLabels_ ;
+      /**
+       * <pre>
+       * Suppress every caption without clearing the labels. Polarity is chosen so
+       * proto3's false default draws them: a producer that fills in boxes and
+       * labels gets the captions it wrote without having to set a second flag.
+       * </pre>
+       *
+       * <code>bool hide_labels = 3;</code>
+       * @return The hideLabels.
+       */
+      @java.lang.Override
+      public boolean getHideLabels() {
+        return hideLabels_;
+      }
+      /**
+       * <pre>
+       * Suppress every caption without clearing the labels. Polarity is chosen so
+       * proto3's false default draws them: a producer that fills in boxes and
+       * labels gets the captions it wrote without having to set a second flag.
+       * </pre>
+       *
+       * <code>bool hide_labels = 3;</code>
+       * @param value The hideLabels to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHideLabels(boolean value) {
+
+        hideLabels_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Suppress every caption without clearing the labels. Polarity is chosen so
+       * proto3's false default draws them: a producer that fills in boxes and
+       * labels gets the captions it wrote without having to set a second flag.
+       * </pre>
+       *
+       * <code>bool hide_labels = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHideLabels() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        hideLabels_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.TargetOverlayProps)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.TargetOverlayProps)
+    private static final ui.UiAst.TargetOverlayProps DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.TargetOverlayProps();
+    }
+
+    public static ui.UiAst.TargetOverlayProps getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TargetOverlayProps>
+        PARSER = new com.google.protobuf.AbstractParser<TargetOverlayProps>() {
+      @java.lang.Override
+      public TargetOverlayProps parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<TargetOverlayProps> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TargetOverlayProps> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.TargetOverlayProps getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface PointOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ui.Point)
       com.google.protobuf.MessageOrBuilder {
@@ -55761,6 +58419,16 @@ java.lang.String defaultValue) {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_HostProxyProps_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_TargetBox_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_TargetBox_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_TargetOverlayProps_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_TargetOverlayProps_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_Point_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -55845,7 +58513,7 @@ java.lang.String defaultValue) {
       "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va" +
       "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN" +
       "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD" +
-      "eclarationB\007\n\005_root\"\346\r\n\nWidgetNode\022&\n\004ty" +
+      "eclarationB\007\n\005_root\"\236\016\n\nWidgetNode\022&\n\004ty" +
       "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\t\n\001x\030" +
       "\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\026\n\004text\030\004 \001(\tB\010\272H\005r\003\030\377\001" +
       "\022.\n\010bindings\030\005 \003(\0132\034.ui.WidgetNode.Bindi" +
@@ -55875,305 +58543,313 @@ java.lang.String defaultValue) {
       "iew_props\030& \001(\0132\020.ui.TabviewPropsH\000\022%\n\013c" +
       "hart_props\030( \001(\0132\016.ui.ChartPropsH\000\022.\n\020ho" +
       "st_proxy_props\030) \001(\0132\022.ui.HostProxyProps" +
-      "H\000\022)\n\nvisibility\030\035 \001(\0132\025.ui.VisibilityBi" +
-      "nding\0225\n\014bind_formats\030\036 \003(\0132\037.ui.WidgetN" +
-      "ode.BindFormatsEntry\022\021\n\tobj_flags\030\037 \001(\r\022" +
-      "\027\n\017obj_flags_clear\030  \001(\r\022\016\n\006states\030! \001(\r" +
-      "\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014grid_col_dsc\030# \003" +
-      "(\005\022\024\n\014grid_row_dsc\030$ \003(\005\022\014\n\004bare\030% \001(\010\022\022" +
-      "\n\nin_tab_bar\030\' \001(\010\022+\n\014checked_when\030* \001(\013" +
-      "2\025.ui.VisibilityBinding\022+\n\014enabled_when\030" +
-      "- \001(\0132\025.ui.VisibilityBinding\022$\n\ncolor_wh" +
-      "en\030. \001(\0132\020.ui.ColorBinding\022\031\n\010hit_slop\030/" +
-      " \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001(\r\022+\n\010gestures\030," +
-      " \003(\0132\017.ui.GestureSpecB\010\272H\005\222\001\002\020\005\032/\n\rBindi" +
-      "ngsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
-      "\0322\n\020BindFormatsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val" +
-      "ue\030\002 \001(\t:\0028\001B\016\n\014widget_props\"\231\001\n\013TreePat" +
-      "chOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchOpKindB\010\272H\005" +
-      "\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\nparent_uid\030" +
-      "\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005 \001(\0132\016.ui." +
-      "WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013ScreenPatch\022" +
-      "\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_hash\030\002 \001(\r\022" +
-      "\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"\n\n\010ObjProp" +
-      "s\"\r\n\013ButtonProps\"<\n\nLabelProps\022.\n\tlong_m" +
-      "ode\030\001 \001(\0162\021.ui.LabelLongModeB\010\272H\005\202\001\002\020\001\"~" +
-      "\n\013SliderProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_" +
-      "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004mode\030\004 \001(\016" +
-      "2\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rseek_on_press" +
-      "\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 \001(\tB\010\272H\005r\003" +
-      "\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivot_x\030\003 \001(\005\022" +
-      "\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005 \001(\005\"\364\001\n\010A" +
-      "rcProps\022\035\n\013start_angle\030\001 \001(\rB\010\272H\005*\003\030\350\002\022\033" +
-      "\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n\016bg_start_" +
-      "angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_end_angle\030\004 " +
-      "\001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001(\005\022#\n\004mode\030" +
-      "\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021\n\tmin_valu" +
-      "e\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005value\030\t \001(" +
-      "\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_" +
-      "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013start_valu" +
-      "e\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.BarModeB\010\272H\005\202" +
-      "\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked\030\001 \001(\010\" \n\r" +
-      "CheckboxProps\022\017\n\007checked\030\001 \001(\010\"\203\001\n\rDropd" +
-      "ownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\020\n\010s" +
-      "elected\030\002 \001(\r\022$\n\tdirection\030\003 \001(\0162\007.ui.Di" +
-      "rB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004 \003(\005B\010\272H\005\222" +
-      "\001\002\020\020\"}\n\013RollerProps\022\031\n\007options\030\001 \001(\tB\010\272H" +
-      "\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021visible_row_" +
-      "count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui.RollerMod" +
-      "eB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035\n\013placehol" +
-      "der\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_length\030\002 \001(\r\022" +
-      "\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010" +
-      "\"\202\001\n\014SpinboxProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\t" +
-      "max_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004" +
-      " \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022separator_p" +
-      "osition\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspin_ti" +
-      "me\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B\n\010LedProps" +
-      "\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\nbrightness" +
-      "\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031\n\006points\030" +
-      "\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\257\002\n\nS" +
-      "caleProps\022%\n\004mode\030\001 \001(\0162\r.ui.ScaleModeB\010" +
-      "\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002 \001(\r\022\030\n\020ma" +
-      "jor_tick_every\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010" +
-      "\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020" +
-      "\n\010rotation\030\007 \001(\005\022\035\n\013angle_range\030\010 \001(\rB\010\272" +
-      "H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022\021\n\tp" +
-      "ost_draw\030\n \001(\010\022,\n\010sections\030\013 \003(\0132\020.ui.Sc" +
-      "aleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSection\022\021\n" +
-      "\trange_min\030\001 \001(\005\022\021\n\trange_max\030\002 \001(\005\022\030\n\005c" +
-      "olor\030\003 \001(\0132\t.ui.Color\022\r\n\005width\030\004 \001(\r\022\035\n\n" +
-      "main_color\030\005 \001(\0132\t.ui.Color\022\022\n\nmain_widt" +
-      "h\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031\n\007map_str\030" +
-      "\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5\n\nTa" +
-      "bleProps\022\021\n\trow_count\030\001 \001(\r\022\024\n\014column_co" +
-      "unt\030\002 \001(\r\"\244\001\n\014TabviewProps\022!\n\ttab_names\030" +
-      "\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n\014tab_bar_size\030\002 " +
-      "\001(\005\022\024\n\014active_index\030\003 \001(\r\022+\n\020tab_bar_pos" +
-      "ition\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\030\n\020tab_ba" +
-      "r_pad_left\030\005 \001(\005\"h\n\013ChartSeries\022\030\n\005color" +
-      "\030\001 \001(\0132\t.ui.Color\022%\n\004axis\030\002 \001(\0162\r.ui.Cha" +
-      "rtAxisB\010\272H\005\202\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002" +
-      "\020 \"\331\001\n\nChartProps\022%\n\004type\030\001 \001(\0162\r.ui.Cha" +
-      "rtTypeB\010\272H\005\202\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n" +
-      "\rhas_div_lines\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\r" +
-      "B\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001" +
-      "\022)\n\006series\030\006 \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001" +
-      "\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260\001\n\016HostProxyProp" +
-      "s\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002" +
-      " \001(\0162\r.ui.ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003" +
-      " \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005ma" +
-      "x_h\030\006 \001(\005\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(" +
-      "\005\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014Eve" +
-      "ntBinding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007tr" +
-      "igger\030\002 \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022" +
-      "\021\n\tint_value\030\003 \001(\005\022\034\n\024include_widget_val" +
-      "ue\030\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021" +
-      "\n\tset_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013not" +
-      "ify_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec" +
-      "\022+\n\014cmd_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005" +
-      "\222\001\002\020\020\"\271\001\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(" +
-      "\r\022\022\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui" +
-      ".PatchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021" +
-      "\022\030\n\007subject\030\005 \001(\tB\007\272H\004r\002\030?\022-\n\010encoding\030\006" +
-      " \001(\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007Cmd" +
-      "Spec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroo" +
-      "t_template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.F" +
-      "ieldPatchB\010\272H\005\222\001\002\020\010\"P\n\013GestureSpec\022\'\n\004ki" +
-      "nd\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003c" +
-      "md\030\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBindi" +
-      "ng\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_va" +
-      "lue\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareO" +
-      "pB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004when\030\001 \001(" +
-      "\0132\025.ui.VisibilityBinding\022\030\n\005color\030\002 \001(\0132" +
-      "\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui" +
-      ".FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162" +
-      "\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030" +
-      "\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_" +
-      "place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\n" +
-      "StyleGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010va" +
-      "riants\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001" +
-      "\020\010\"U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(" +
-      "\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.Styl" +
-      "eProperty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(" +
-      "\0162\025.ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nui" +
-      "nt_value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n" +
-      "\013color_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014strin" +
-      "g_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value" +
-      "\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005C" +
-      "olor\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H" +
-      "\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBun" +
-      "dle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010" +
-      "offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 " +
-      "\001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_" +
-      "INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKin" +
-      "d\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP" +
-      "_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020" +
-      "\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_" +
-      "MOVE_NODE\020\004*\256\003\n\nWidgetType\022\016\n\nWIDGET_OBJ" +
-      "\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022" +
-      "\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\n" +
-      "WIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_S" +
-      "WITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_D" +
-      "ROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_T" +
-      "EXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_" +
-      "SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE" +
-      "\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMAT" +
-      "RIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIE" +
-      "W\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PRO" +
-      "XY\020\025*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000" +
-      "\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE" +
-      "_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X" +
-      "\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025T" +
-      "RIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_P" +
-      "RESSED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNS" +
-      "PECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATC" +
-      "H_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027" +
-      "PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIND_" +
-      "NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PATCH" +
-      "_KIND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncoding\022" +
-      "\036\n\032PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PATCH" +
-      "_ENCODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENCOD" +
-      "ING_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOAT_" +
-      "LE\020\003*\266\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN" +
-      "_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GES" +
-      "TURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022" +
-      "\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_" +
-      "WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*q\n\tCompare" +
-      "Op\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016" +
-      "\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPA" +
-      "RE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n" +
-      "\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020" +
-      "FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP" +
-      "\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FL" +
-      "OW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUM" +
-      "N_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!" +
-      "\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFl" +
-      "exAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_AL" +
-      "IGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX" +
-      "_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPAC" +
-      "E_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005" +
-      "*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021" +
-      "GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022" +
-      "\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SP" +
-      "ACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020" +
-      "\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextA" +
-      "lign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_" +
-      "LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_AL" +
-      "IGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_N" +
-      "ONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_" +
-      "DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021B" +
-      "LEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIV" +
-      "E\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND" +
-      "_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENC" +
-      "E\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE" +
-      "_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DI" +
-      "R_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradD" +
-      "ir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022" +
-      "\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023" +
-      "\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020" +
-      "\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\t" +
-      "DIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010" +
-      "\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*" +
-      "\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TO" +
-      "P_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP" +
-      "_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN" +
-      "_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n" +
-      "\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020" +
-      "\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n" +
-      "\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP" +
-      "_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024A" +
-      "LIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTO" +
-      "M_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALI" +
-      "GN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTT" +
-      "OM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_O" +
-      "UT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM" +
-      "\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022" +
-      "\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_T" +
-      "OP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SID" +
-      "E_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDE" +
-      "R_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024L" +
-      "ABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE" +
-      "_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037L" +
-      "ABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABE" +
-      "L_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MOD" +
-      "E_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016" +
-      "BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_" +
-      "NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020AR" +
-      "C_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER" +
-      "_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001" +
-      "*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_" +
-      "TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022" +
-      "\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_M" +
-      "ODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND" +
-      "_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n" +
-      "\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART" +
-      "_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CH" +
-      "ART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026" +
-      "\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024C" +
-      "HART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECO" +
-      "NDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026C" +
-      "HART_AXIS_SECONDARY_X\020\004*\273\022\n\021StylePropert" +
-      "yType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020" +
-      "\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT" +
-      "\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER" +
-      "_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_AL" +
-      "L\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n" +
-      "\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_" +
-      "PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARG" +
-      "IN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MI" +
-      "N_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MI" +
-      "N_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_" +
-      "LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP" +
-      "_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PR" +
-      "OP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_" +
-      "X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_" +
-      "X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036" +
-      "\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013" +
-      "PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_P" +
-      "AD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PA" +
-      "D_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD" +
-      "_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARG" +
-      "IN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP" +
-      "_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n" +
-      "\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DI" +
-      "R\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GR" +
-      "AD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_" +
-      "BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021" +
-      "PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_REC" +
-      "OLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n" +
-      "\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SI" +
-      "DE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLI" +
-      "NE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PR" +
-      "OP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025" +
-      "\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFF" +
-      "SET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PRO" +
-      "P_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B" +
-      "\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020" +
-      "D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_" +
-      "RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PR" +
-      "OP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_G" +
-      "AP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE" +
-      "_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_" +
-      "WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_AR" +
-      "C_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT" +
-      "_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PR" +
-      "OP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020" +
-      "T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORN" +
-      "ER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X" +
-      "\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM" +
-      "_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP" +
-      "_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]" +
-      "\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_P" +
-      "LACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PRO" +
-      "P_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b" +
-      "\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRI" +
-      "D_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_P" +
-      "OS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP" +
-      "_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CE" +
-      "LL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i" +
-      "\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-cod" +
-      "ecommit.eu-central-1.amazonaws.com/v1/re" +
-      "pos/jettison/jonp/uib\006proto3"
+      "H\000\0226\n\024target_overlay_props\0300 \001(\0132\026.ui.Ta" +
+      "rgetOverlayPropsH\000\022)\n\nvisibility\030\035 \001(\0132\025" +
+      ".ui.VisibilityBinding\0225\n\014bind_formats\030\036 " +
+      "\003(\0132\037.ui.WidgetNode.BindFormatsEntry\022\021\n\t" +
+      "obj_flags\030\037 \001(\r\022\027\n\017obj_flags_clear\030  \001(\r" +
+      "\022\016\n\006states\030! \001(\r\022\022\n\nscroll_dir\030\" \001(\r\022\024\n\014" +
+      "grid_col_dsc\030# \003(\005\022\024\n\014grid_row_dsc\030$ \003(\005" +
+      "\022\014\n\004bare\030% \001(\010\022\022\n\nin_tab_bar\030\' \001(\010\022+\n\014ch" +
+      "ecked_when\030* \001(\0132\025.ui.VisibilityBinding\022" +
+      "+\n\014enabled_when\030- \001(\0132\025.ui.VisibilityBin" +
+      "ding\022$\n\ncolor_when\030. \001(\0132\020.ui.ColorBindi" +
+      "ng\022\031\n\010hit_slop\030/ \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001" +
+      "(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272" +
+      "H\005\222\001\002\020\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003" +
+      "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_p" +
+      "rops\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui." +
+      "PatchOpKindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(" +
+      "\r\022\022\n\nparent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004" +
+      "node\030\005 \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node" +
+      "\"S\n\013ScreenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013ta" +
+      "rget_hash\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePa" +
+      "tchOp\"\n\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabe" +
+      "lProps\022.\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLong" +
+      "ModeB\010\272H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_val" +
+      "ue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001" +
+      "(\005\022#\n\004mode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022" +
+      "\025\n\rseek_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003" +
+      "src\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017" +
+      "\n\007pivot_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rota" +
+      "tion\030\005 \001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001" +
+      " \001(\rB\010\272H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003" +
+      "\030\350\002\022 \n\016bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n" +
+      "\014bg_end_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotatio" +
+      "n\030\005 \001(\005\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202" +
+      "\001\002\020\001\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001" +
+      "(\005\022\r\n\005value\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_val" +
+      "ue\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001" +
+      "(\005\022\023\n\013start_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013." +
+      "ui.BarModeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007c" +
+      "hecked\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked" +
+      "\030\001 \001(\010\"\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(" +
+      "\tB\010\272H\005r\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirecti" +
+      "on\030\003 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_va" +
+      "lues\030\004 \003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007o" +
+      "ptions\030\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r" +
+      "\022\031\n\021visible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(" +
+      "\0162\016.ui.RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaP" +
+      "rops\022\035\n\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nm" +
+      "ax_length\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpas" +
+      "sword_mode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin" +
+      "_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value" +
+      "\030\003 \001(\005\022\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(" +
+      "\r\022\032\n\022separator_position\030\006 \001(\r\"5\n\014Spinner" +
+      "Props\022\021\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002" +
+      " \001(\r\"B\n\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Col" +
+      "or\022\034\n\nbrightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLine" +
+      "Props\022\031\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_in" +
+      "vert\030\002 \001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162" +
+      "\r.ui.ScaleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_c" +
+      "ount\030\002 \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\n" +
+      "label_show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tm" +
+      "ax_value\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angl" +
+      "e_range\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(" +
+      "\tB\010\272H\005r\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sectio" +
+      "ns\030\013 \003(\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n" +
+      "\014ScaleSection\022\021\n\trange_min\030\001 \001(\005\022\021\n\trang" +
+      "e_max\030\002 \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n" +
+      "\005width\030\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Co" +
+      "lor\022\022\n\nmain_width\030\006 \001(\r\"A\n\021ButtonMatrixP" +
+      "rops\022\031\n\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_c" +
+      "heck\030\002 \001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 " +
+      "\001(\r\022\024\n\014column_count\030\002 \001(\r\"\244\001\n\014TabviewPro" +
+      "ps\022!\n\ttab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\024\n" +
+      "\014tab_bar_size\030\002 \001(\005\022\024\n\014active_index\030\003 \001(" +
+      "\r\022+\n\020tab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H" +
+      "\005\202\001\002\020\001\022\030\n\020tab_bar_pad_left\030\005 \001(\005\"h\n\013Char" +
+      "tSeries\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022%\n\004axi" +
+      "s\030\002 \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001\002\020\001\022\030\n\006valu" +
+      "es\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartProps\022%\n\004typ" +
+      "e\030\001 \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001\002\020\001\022\023\n\013poin" +
+      "t_count\030\002 \001(\r\022\025\n\rhas_div_lines\030\003 \001(\010\022\034\n\n" +
+      "hdiv_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\nvdiv_count" +
+      "\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003(\0132\017.ui.Ch" +
+      "artSeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_area\030\007 \001(\010\"\260" +
+      "\001\n\016HostProxyProps\022\033\n\010proxy_id\030\001 \001(\tB\t\272H\006" +
+      "r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui.ProxyModeB\010\272H\005" +
+      "\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030\004 \001(\005\022\r\n\005m" +
+      "ax_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013handle_size" +
+      "\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"i\n\tTargetBox\022\t\n\001x\030\001 \001(" +
+      "\005\022\t\n\001y\030\002 \001(\005\022\t\n\001w\030\003 \001(\005\022\t\n\001h\030\004 \001(\005\022\026\n\005la" +
+      "bel\030\005 \001(\tB\007\272H\004r\002\030\037\022\030\n\005color\030\006 \001(\0132\t.ui.C" +
+      "olor\"p\n\022TargetOverlayProps\022&\n\005boxes\030\001 \003(" +
+      "\0132\r.ui.TargetBoxB\010\272H\005\222\001\002\020 \022\035\n\014border_wid" +
+      "th\030\002 \001(\rB\007\272H\004*\002\030\020\022\023\n\013hide_labels\030\003 \001(\010\"\035" +
+      "\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventB" +
+      "inding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007trigg" +
+      "er\030\002 \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\t" +
+      "int_value\030\003 \001(\005\022\034\n\024include_widget_value\030" +
+      "\004 \001(\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\ts" +
+      "et_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify" +
+      "_host\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n" +
+      "\014cmd_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002" +
+      "\020\020\"\271\001\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022" +
+      "\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.Pa" +
+      "tchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\022\030\n" +
+      "\007subject\030\005 \001(\tB\007\272H\004r\002\030?\022-\n\010encoding\030\006 \001(" +
+      "\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007CmdSpe" +
+      "c\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_t" +
+      "emplate\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fiel" +
+      "dPatchB\010\272H\005\222\001\002\020\010\"P\n\013GestureSpec\022\'\n\004kind\030" +
+      "\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030" +
+      "\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBinding\022" +
+      "\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_value" +
+      "\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOpB\010" +
+      "\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004when\030\001 \001(\0132\025" +
+      ".ui.VisibilityBinding\022\030\n\005color\030\002 \001(\0132\t.u" +
+      "i.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui.Fl" +
+      "exFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162\r.u" +
+      "i.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001" +
+      "(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_pla" +
+      "ce\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\nSty" +
+      "leGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010varia" +
+      "nts\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001\020\010\"" +
+      "U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(\rB\007" +
+      "\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.StylePr" +
+      "operty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(\0162\025" +
+      ".ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_" +
+      "value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013co" +
+      "lor_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014string_v" +
+      "alue\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value\030\006 " +
+      "\001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005Colo" +
+      "r\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003" +
+      "\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle" +
+      "\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010off" +
+      "set_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\r" +
+      "B\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_INT" +
+      "\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKind\022\031" +
+      "\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP_RE" +
+      "PLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020\002\022\030" +
+      "\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_MOV" +
+      "E_NODE\020\004*\311\003\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022" +
+      "\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\r" +
+      "WIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWID" +
+      "GET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWIT" +
+      "CH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROP" +
+      "DOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXT" +
+      "AREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPI" +
+      "NNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022" +
+      "\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX" +
+      "\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023" +
+      "\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PROXY\020" +
+      "\025\022\031\n\025WIDGET_TARGET_OVERLAY\020\026*p\n\tProxyMod" +
+      "e\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_D" +
+      "RAGGABLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024" +
+      "PROXY_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023" +
+      "\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHA" +
+      "NGED\020\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*\322\001\n\tPat" +
+      "chKind\022\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PA" +
+      "TCH_KIND_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024" +
+      "\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGE" +
+      "T_VALUE\020\004\022\025\n\021PATCH_KIND_NDC_X2\020\005\022\025\n\021PATC" +
+      "H_KIND_NDC_Y2\020\006\022\034\n\030PATCH_KIND_SUBJECT_VA" +
+      "LUE\020\007*\214\001\n\rPatchEncoding\022\036\n\032PATCH_ENCODIN" +
+      "G_UNSPECIFIED\020\000\022 \n\034PATCH_ENCODING_PADDED" +
+      "_VARINT\020\001\022\034\n\030PATCH_ENCODING_DOUBLE_LE\020\002\022" +
+      "\033\n\027PATCH_ENCODING_FLOAT_LE\020\003*\266\001\n\013Gesture" +
+      "Kind\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTU" +
+      "RE_KIND_PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022" +
+      "\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_" +
+      "PINCH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005\022\024\n\020GESTU" +
+      "RE_KIND_ROI\020\006*q\n\tCompareOp\022\016\n\nCOMPARE_EQ" +
+      "\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017" +
+      "\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPA" +
+      "RE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020" +
+      "\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN" +
+      "\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_" +
+      "ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVE" +
+      "RSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX" +
+      "_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLU" +
+      "MN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_" +
+      "ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLE" +
+      "X_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVE" +
+      "NLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FL" +
+      "EX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024" +
+      "\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTE" +
+      "R\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_ST" +
+      "RETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027" +
+      "GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_" +
+      "SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALI" +
+      "GN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_A" +
+      "LIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tT" +
+      "extDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DE" +
+      "COR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHRO" +
+      "UGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL" +
+      "\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MOD" +
+      "E_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003" +
+      "\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020" +
+      "\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBA" +
+      "SE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rB" +
+      "ASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_N" +
+      "ONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020" +
+      "\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIA" +
+      "L\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_" +
+      "NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007D" +
+      "IR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n" +
+      "\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALI" +
+      "GN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIG" +
+      "N_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIG" +
+      "N_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n" +
+      "\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020" +
+      "\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t" +
+      "\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TO" +
+      "P_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIG" +
+      "N_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_" +
+      "MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALI" +
+      "GN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020" +
+      "\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OU" +
+      "T_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032" +
+      "\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSid" +
+      "e\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_B" +
+      "OTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_S" +
+      "IDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BOR" +
+      "DER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020" +
+      "\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LONG_MODE_W" +
+      "RAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL" +
+      "_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_S" +
+      "CROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP" +
+      "\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BA" +
+      "R_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002" +
+      "*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_" +
+      "MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002" +
+      "*>\n\nRollerMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030" +
+      "\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035" +
+      "\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_M" +
+      "ODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VE" +
+      "RTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIG" +
+      "HT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCAL" +
+      "E_MODE_ROUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CH" +
+      "ART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020" +
+      "CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026" +
+      "\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCA" +
+      "TTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMAR" +
+      "Y_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHA" +
+      "RT_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECOND" +
+      "ARY_X\020\004*\273\022\n\021StylePropertyType\022\021\n\rPROP_BG" +
+      "_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_C" +
+      "OLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDE" +
+      "R_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP" +
+      "_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_" +
+      "GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017" +
+      "\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PRO" +
+      "P_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP" +
+      "_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PRO" +
+      "P_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PR" +
+      "OP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP" +
+      "_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP" +
+      "_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEI" +
+      "GHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRAN" +
+      "SLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCAL" +
+      "E_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X" +
+      "\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n" +
+      "\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP" +
+      "_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP" +
+      "_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_P" +
+      "AD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP" +
+      "_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025" +
+      "\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_CO" +
+      "LOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_M" +
+      "AIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PRO" +
+      "P_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n" +
+      "\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OP" +
+      "A\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_B" +
+      "G_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_T" +
+      "ILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BOR" +
+      "DER_POST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PR" +
+      "OP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<" +
+      "\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WI" +
+      "DTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?\022\030\n\024PROP_" +
+      "SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020" +
+      "A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_" +
+      "OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_" +
+      "RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n" +
+      "\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WID" +
+      "TH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LIN" +
+      "E_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP" +
+      "_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_" +
+      "ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PRO" +
+      "P_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_T" +
+      "EXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPA" +
+      "CE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_A" +
+      "LIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA" +
+      "\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_F" +
+      "ILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017P" +
+      "ROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027P" +
+      "ROP_ROTARY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FL" +
+      "OW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_F" +
+      "LEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLA" +
+      "CE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_CO" +
+      "LUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n" +
+      "\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRI" +
+      "D_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUM" +
+      "N_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026" +
+      "PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CE" +
+      "LL_ROW_SPAN\020jBEZCgit-codecommit.eu-centr" +
+      "al-1.amazonaws.com/v1/repos/jettison/jon" +
+      "p/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -56209,7 +58885,7 @@ java.lang.String defaultValue) {
     internal_static_ui_WidgetNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_descriptor,
-        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "ColorWhen", "HitSlop", "Uid", "Gestures", "WidgetProps", });
+        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "TargetOverlayProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "ColorWhen", "HitSlop", "Uid", "Gestures", "WidgetProps", });
     internal_static_ui_WidgetNode_BindingsEntry_descriptor =
       internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(0);
     internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable = new
@@ -56378,80 +59054,92 @@ java.lang.String defaultValue) {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_HostProxyProps_descriptor,
         new java.lang.String[] { "ProxyId", "Mode", "MinW", "MinH", "MaxW", "MaxH", "HandleSize", "Z", });
-    internal_static_ui_Point_descriptor =
+    internal_static_ui_TargetBox_descriptor =
       getDescriptor().getMessageTypes().get(31);
+    internal_static_ui_TargetBox_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_TargetBox_descriptor,
+        new java.lang.String[] { "X", "Y", "W", "H", "Label", "Color", });
+    internal_static_ui_TargetOverlayProps_descriptor =
+      getDescriptor().getMessageTypes().get(32);
+    internal_static_ui_TargetOverlayProps_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_TargetOverlayProps_descriptor,
+        new java.lang.String[] { "Boxes", "BorderWidth", "HideLabels", });
+    internal_static_ui_Point_descriptor =
+      getDescriptor().getMessageTypes().get(33);
     internal_static_ui_Point_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Point_descriptor,
         new java.lang.String[] { "X", "Y", });
     internal_static_ui_EventBinding_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_ui_EventBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_EventBinding_descriptor,
         new java.lang.String[] { "Name", "Trigger", "IntValue", "IncludeWidgetValue", "SetSubject", "SetValue", "Toggle", "NotifyHost", "Cmd", "CmdByValue", });
     internal_static_ui_FieldPatch_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(35);
     internal_static_ui_FieldPatch_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_FieldPatch_descriptor,
         new java.lang.String[] { "ByteOffset", "ByteWidth", "Kind", "WireScale", "Subject", "Encoding", });
     internal_static_ui_CmdSpec_descriptor =
-      getDescriptor().getMessageTypes().get(34);
+      getDescriptor().getMessageTypes().get(36);
     internal_static_ui_CmdSpec_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_CmdSpec_descriptor,
         new java.lang.String[] { "CommandId", "RootTemplate", "Patches", });
     internal_static_ui_GestureSpec_descriptor =
-      getDescriptor().getMessageTypes().get(35);
+      getDescriptor().getMessageTypes().get(37);
     internal_static_ui_GestureSpec_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_GestureSpec_descriptor,
         new java.lang.String[] { "Kind", "Cmd", });
     internal_static_ui_VisibilityBinding_descriptor =
-      getDescriptor().getMessageTypes().get(36);
+      getDescriptor().getMessageTypes().get(38);
     internal_static_ui_VisibilityBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_VisibilityBinding_descriptor,
         new java.lang.String[] { "Subject", "RefValue", "Compare", });
     internal_static_ui_ColorBinding_descriptor =
-      getDescriptor().getMessageTypes().get(37);
+      getDescriptor().getMessageTypes().get(39);
     internal_static_ui_ColorBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ColorBinding_descriptor,
         new java.lang.String[] { "When", "Color", });
     internal_static_ui_Layout_descriptor =
-      getDescriptor().getMessageTypes().get(38);
+      getDescriptor().getMessageTypes().get(40);
     internal_static_ui_Layout_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Layout_descriptor,
         new java.lang.String[] { "Flow", "MainPlace", "CrossPlace", "TrackPlace", });
     internal_static_ui_StyleGroup_descriptor =
-      getDescriptor().getMessageTypes().get(39);
+      getDescriptor().getMessageTypes().get(41);
     internal_static_ui_StyleGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleGroup_descriptor,
         new java.lang.String[] { "StateSelector", "Variants", });
     internal_static_ui_StyleVariant_descriptor =
-      getDescriptor().getMessageTypes().get(40);
+      getDescriptor().getMessageTypes().get(42);
     internal_static_ui_StyleVariant_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleVariant_descriptor,
         new java.lang.String[] { "VariantIndex", "Properties", });
     internal_static_ui_StyleProperty_descriptor =
-      getDescriptor().getMessageTypes().get(41);
+      getDescriptor().getMessageTypes().get(43);
     internal_static_ui_StyleProperty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleProperty_descriptor,
         new java.lang.String[] { "Type", "UintValue", "IntValue", "ColorValue", "StringValue", "ShadowValue", "Value", });
     internal_static_ui_Color_descriptor =
-      getDescriptor().getMessageTypes().get(42);
+      getDescriptor().getMessageTypes().get(44);
     internal_static_ui_Color_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Color_descriptor,
         new java.lang.String[] { "R", "G", "B", });
     internal_static_ui_ShadowBundle_descriptor =
-      getDescriptor().getMessageTypes().get(43);
+      getDescriptor().getMessageTypes().get(45);
     internal_static_ui_ShadowBundle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ShadowBundle_descriptor,

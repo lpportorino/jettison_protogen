@@ -45,7 +45,8 @@
   [:enum :WIDGET_OBJ :WIDGET_BUTTON :WIDGET_LABEL :WIDGET_SLIDER :WIDGET_IMAGE :WIDGET_ARC
    :WIDGET_BAR :WIDGET_SWITCH :WIDGET_CHECKBOX :WIDGET_DROPDOWN :WIDGET_ROLLER
    :WIDGET_TEXTAREA :WIDGET_SPINBOX :WIDGET_SPINNER :WIDGET_LED :WIDGET_LINE :WIDGET_SCALE
-   :WIDGET_BUTTONMATRIX :WIDGET_TABLE :WIDGET_TABVIEW :WIDGET_CHART :WIDGET_HOST_PROXY])
+   :WIDGET_BUTTONMATRIX :WIDGET_TABLE :WIDGET_TABVIEW :WIDGET_CHART :WIDGET_HOST_PROXY
+   :WIDGET_TARGET_OVERLAY])
 
 ;; LVGL-mirror enums — DERIVED from the factory-generated bindings
 ;; (`lvgl-codegen.generated.enums`, regenerated from LVGL's own headers via
@@ -508,6 +509,26 @@
    [:handle_size {:optional true :default 0} uint32]
    [:z {:optional true :default 0} int32]])
 
+(def ^:private target-box
+  "One target-overlay rectangle: a rect in DESIGN PIXELS relative to the
+   overlay's content-box origin (the WidgetNode.x/y unit and origin), an
+   optional caption, and an optional stroke color. Color is [:maybe …] with no
+   :default because it is a proto3 SUBMESSAGE — absence is presence-bearing
+   there, and defaulting it to a black Color would silently authorize every box."
+  [:map [:x {:default 0} int32] [:y {:default 0} int32] [:w {:default 0} int32]
+   [:h {:default 0} int32] [:label {:optional true :default ""} string?]
+   [:color {:optional true :default nil} [:maybe color]]])
+
+(def ^:private target-overlay-props
+  "Target-overlay widget properties: the frame's boxes, the box stroke width in
+   design px (0 = the renderer default), and the caption suppressor. The proto
+   additionally bounds boxes at 32 items and border_width at 16 via
+   buf.validate; those are the renderer's to enforce and are deliberately not
+   restated here, as with every other uint32 wire scalar."
+  [:map [:boxes {:optional true :default []} [:vector {:max 32} target-box]]
+   [:border_width {:optional true :default 0} uint32]
+   [:hide_labels {:optional true :default false} boolean?]])
+
 ;; -- Subject declaration --
 (def subject-declaration
   "A reactive subject declaration with optional initial value.
@@ -593,6 +614,7 @@
       [:tabview_props {:optional true :default nil} [:maybe tabview-props]]
       [:chart_props {:optional true :default nil} [:maybe chart-props]]
       [:host_proxy_props {:optional true :default nil} [:maybe host-proxy-props]]
+      [:target_overlay_props {:optional true :default nil} [:maybe target-overlay-props]]
       ;; R5a: gesture-surface pre-encoded gesture→cmd templates (up to 5
       ;; device gestures), meaningful only on the gesture-surface host-proxy.
       [:gestures {:optional true :default []} [:vector {:max 5} gesture-spec]]]}}

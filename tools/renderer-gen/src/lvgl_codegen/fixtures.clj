@@ -177,7 +177,31 @@
                                      :buttonmatrix_props {:map_str "X\nY\n"}})
    "vr_table_3x1" (make-screen {:tag :lv_table
                                 :class "w-200 h-80"
-                                :table_props {:row_count 3 :column_count 1}})})
+                                :table_props {:row_count 3 :column_count 1}})
+   ;; TARGET OVERLAY. Two boxes at rects the assertion reads back verbatim,
+   ;; and a caption on each. The properties this fixture exists for are the
+   ;; ones NO pixel oracle can see: the overlay, every box and every caption
+   ;; must report `clickable: false`, because an overlay is stacked over the
+   ;; surface it annotates and lv_indev_search_obj returns the FIRST hit
+   ;; walking children in REVERSE — a clickable box is a dead zone with an
+   ;; identical framebuffer. The rect read-back is the second: a renderer that
+   ;; built the objects but dropped TargetBox.x/y/w/h would still draw two
+   ;; boxes somewhere and satisfy every hash.
+   "vr_target_overlay" (make-screen
+                        {:tag :lv_target_overlay
+                         :class "w-300 h-160"
+                         :target_overlay_props
+                         {:boxes [{:x 20 :y 16 :w 100 :h 60 :label "T1"}
+                                  {:x 150 :y 70 :w 90 :h 50 :label "T2"}]}})
+   ;; Props-reached-LVGL twin of the above: same geometry, boxes suppressed
+   ;; captions. A renderer that ignored hide_labels renders it identically.
+   "vr_target_overlay_nolabels" (make-screen
+                                 {:tag :lv_target_overlay
+                                  :class "w-300 h-160"
+                                  :target_overlay_props
+                                  {:hide_labels true
+                                   :boxes [{:x 20 :y 16 :w 100 :h 60 :label "T1"}
+                                           {:x 150 :y 70 :w 90 :h 50 :label "T2"}]}})})
 
 ;; ═══════════════════════════════════════════════════════════════════
 ;; Class reorder invariance fixtures (must render identically)

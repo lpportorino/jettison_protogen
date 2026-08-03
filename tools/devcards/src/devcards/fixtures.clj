@@ -72,6 +72,7 @@
             UiAst$ScaleSection UiAst$Screen UiAst$SliderProps UiAst$SpinboxProps
             UiAst$SpinnerProps UiAst$StyleGroup UiAst$StyleProperty UiAst$StylePropertyType
             UiAst$StyleVariant UiAst$SwitchProps UiAst$TableProps UiAst$TabviewProps
+            UiAst$TargetBox UiAst$TargetOverlayProps
             UiAst$TextareaProps UiAst$WidgetNode UiAst$WidgetNode$Builder
             UiAst$WidgetType]))
 
@@ -599,13 +600,34 @@
     (when-some [v (:z m)] (.setZ b (int v)))
     (.build b)))
 
+(defn- target-box
+  ^UiAst$TargetBox [m]
+  (assert-closed "target box" #{:x :y :w :h :label :color} m)
+  (let [b (UiAst$TargetBox/newBuilder)]
+    (when-some [v (:x m)] (.setX b (int v)))
+    (when-some [v (:y m)] (.setY b (int v)))
+    (when-some [v (:w m)] (.setW b (int v)))
+    (when-some [v (:h m)] (.setH b (int v)))
+    (when-some [v (:label m)] (.setLabel b ^String v))
+    (when-some [v (:color m)] (.setColor b (->color v)))
+    (.build b)))
+
+(defn- target-overlay-props
+  ^UiAst$TargetOverlayProps [m]
+  (assert-closed "target_overlay_props" #{:boxes :border_width :hide_labels} m)
+  (let [b (UiAst$TargetOverlayProps/newBuilder)]
+    (doseq [box (:boxes m)] (.addBoxes b (target-box box)))
+    (when-some [v (:border_width m)] (.setBorderWidth b (int v)))
+    (when-some [v (:hide_labels m)] (.setHideLabels b (boolean v)))
+    (.build b)))
+
 (def ^:private widget-props-keys
   "The `:props` keys that are WidgetNode widget-props oneof messages
    (field names verbatim from ui_ast.proto)."
   #{:label_props :slider_props :image_props :arc_props :bar_props :switch_props
     :checkbox_props :dropdown_props :roller_props :textarea_props :spinbox_props
     :spinner_props :led_props :line_props :scale_props :buttonmatrix_props :table_props
-    :tabview_props :chart_props :host_proxy_props})
+    :tabview_props :chart_props :host_proxy_props :target_overlay_props})
 
 (def ^:private type->props-key
   "Widget type -> its ONE legal widget-props oneof key. WIDGET_OBJ and
@@ -630,7 +652,8 @@
    :WIDGET_TABLE :table_props
    :WIDGET_TABVIEW :tabview_props
    :WIDGET_CHART :chart_props
-   :WIDGET_HOST_PROXY :host_proxy_props})
+   :WIDGET_HOST_PROXY :host_proxy_props
+   :WIDGET_TARGET_OVERLAY :target_overlay_props})
 
 (defn- set-widget-props!
   "Set the node builder's widget-props oneof arm for `props-key`."
@@ -655,7 +678,8 @@
     :table_props (.setTableProps b (table-props m))
     :tabview_props (.setTabviewProps b (tabview-props m))
     :chart_props (.setChartProps b (chart-props m))
-    :host_proxy_props (.setHostProxyProps b (host-proxy-props m))))
+    :host_proxy_props (.setHostProxyProps b (host-proxy-props m))
+    :target_overlay_props (.setTargetOverlayProps b (target-overlay-props m))))
 
 ;; ── Node building (the internal node shape) ─────────────────────────────
 ;; A node map is the card children shape plus harness extras:

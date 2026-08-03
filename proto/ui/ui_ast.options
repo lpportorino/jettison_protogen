@@ -262,6 +262,54 @@ ui.ChartSeries.values            max_count:32
 # Host-proxy arm: stable host-side join key
 ui.HostProxyProps.proxy_id       max_size:64
 
+# ── Target-overlay arm: the FOURTH FT_POINTER field, and the first inside a
+# `oneof` arm. ────────────────────────────────────────────────────────────────
+#
+# WHY NOT INLINE, with the crossover MEASURED rather than asserted. `widget_props`
+# is a union floored by ui_ChartProps at 1244 B, so an arm SMALLER than that
+# costs nothing at all — the LineProps.points block above makes exactly that
+# argument for a static array. It applies here too, up to a point:
+# ui_TargetBox is 64 B (4 int32 + label[32] + has_color + ui_Color), so an
+# inline boxes[N] costs 64N + 8 and stays under the floor only while N <= 19.
+# The measured ladder, wasm32-wasip1 with the pinned WASI-SDK:
+#
+#   shape                       sizeof(props)  union   sizeof(ui_WidgetNode)
+#   FT_POINTER (this file)                 16   1244                    2256
+#   inline boxes[16]                     1036   1244                    2256
+#   inline boxes[32]                     2060   2060                    3072
+#   inline boxes[255]                   16332  16332                   17344
+#
+# Only the last is a landslide: at 255 the per-level decode cost goes 4816 ->
+# 19904 and the depth-32 peak 159232 -> 642048 against a 262144 B reservation,
+# i.e. 2.45x over. At 32 it fits (peak ~185344) while spending a quarter of the
+# margin every other decode path shares. So the honest reason for FT_POINTER is
+# not that inline cannot work at this bound — it is that the pointer's cost is
+# INDEPENDENT of the bound. Raising max_items later then costs 8 B forever
+# instead of re-running the -Wl,-z,stack-size bisection.
+#
+# THE ARM IS INSIDE A ONEOF AND THAT IS SAFE FOR FT_POINTER, unlike FT_CALLBACK
+# (the LineProps post-mortem above). pb_decode.c's PB_HTYPE_ONEOF memset is what
+# breaks a pre-set funcs.decode; a pointer field has nothing pre-set. Release is
+# covered by the SAME pb_release(ui_WidgetNode_fields, …) the decode sites
+# already call: pb_release_single_field skips a non-current union arm, then
+# recurses into the current arm's submessage and frees its pointer fields.
+#
+# ui.TargetBox.label COSTS NO DECODE STACK, exactly like ui.FieldPatch.subject:
+# every TargetBox is reached through the FT_POINTER above, so its 32-byte buffer
+# is malloc'd rather than placed in the recursive ui_WidgetNode frame.
+# sizeof(ui_WidgetNode) is unmoved by this whole arm — measured 2256 both before
+# and after, which is also the figure the nine-bounds table above should read
+# (it says 2252, which was true before WidgetNode.hit_slop; the two derived
+# columns beside it, 4816/level and <=159232 at depth 32, are bisected
+# measurements and are NOT recomputed from it).
+#
+# max_count IS NOT SET, and must not be: max_count is the STATIC array size,
+# meaningless for FT_POINTER, and nanopb allocates whatever the stream declares.
+# buf.validate max_items:32 binds the PRODUCER only. The renderer's own
+# MAX_TARGET_BOXES is what refuses a crafted .pb, loudly, at apply time.
+ui.TargetOverlayProps.boxes      type:FT_POINTER
+ui.TargetBox.label               max_size:32
+
 # Tree patches: ops stream through a callback (unbounded op count); each
 # op's WidgetNode payload reuses the existing callback machinery.
 ui.ScreenPatch.ops               type:FT_CALLBACK

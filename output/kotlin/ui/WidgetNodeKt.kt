@@ -1022,6 +1022,30 @@ public object WidgetNodeKt {
     }
 
     /**
+     * `.ui.TargetOverlayProps target_overlay_props = 48;`
+     */
+    public var targetOverlayProps: ui.UiAst.TargetOverlayProps
+      @JvmName("getTargetOverlayProps")
+      get() = _builder.targetOverlayProps
+      @JvmName("setTargetOverlayProps")
+      set(value) {
+        _builder.targetOverlayProps = value
+      }
+    /**
+     * `.ui.TargetOverlayProps target_overlay_props = 48;`
+     */
+    public fun clearTargetOverlayProps() {
+      _builder.clearTargetOverlayProps()
+    }
+    /**
+     * `.ui.TargetOverlayProps target_overlay_props = 48;`
+     * @return Whether the targetOverlayProps field is set.
+     */
+    public fun hasTargetOverlayProps(): kotlin.Boolean {
+      return _builder.hasTargetOverlayProps()
+    }
+
+    /**
      * ```
      * Conditional visibility binding (show/hide based on subject value)
      * ```
@@ -1955,6 +1979,9 @@ public val ui.UiAst.WidgetNodeOrBuilder.chartPropsOrNull: ui.UiAst.ChartProps?
 
 public val ui.UiAst.WidgetNodeOrBuilder.hostProxyPropsOrNull: ui.UiAst.HostProxyProps?
   get() = if (hasHostProxyProps()) getHostProxyProps() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.targetOverlayPropsOrNull: ui.UiAst.TargetOverlayProps?
+  get() = if (hasTargetOverlayProps()) getTargetOverlayProps() else null
 
 public val ui.UiAst.WidgetNodeOrBuilder.visibilityOrNull: ui.UiAst.VisibilityBinding?
   get() = if (hasVisibility()) getVisibility() else null

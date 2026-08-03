@@ -124,6 +124,7 @@ export enum WidgetType {
   WIDGET_TABVIEW = 19,
   WIDGET_CHART = 20,
   WIDGET_HOST_PROXY = 21,
+  WIDGET_TARGET_OVERLAY = 22,
   UNRECOGNIZED = -1,
 }
 
@@ -195,6 +196,9 @@ export function widgetTypeFromJSON(object: any): WidgetType {
     case 21:
     case "WIDGET_HOST_PROXY":
       return WidgetType.WIDGET_HOST_PROXY;
+    case 22:
+    case "WIDGET_TARGET_OVERLAY":
+      return WidgetType.WIDGET_TARGET_OVERLAY;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -248,6 +252,8 @@ export function widgetTypeToJSON(object: WidgetType): string {
       return "WIDGET_CHART";
     case WidgetType.WIDGET_HOST_PROXY:
       return "WIDGET_HOST_PROXY";
+    case WidgetType.WIDGET_TARGET_OVERLAY:
+      return "WIDGET_TARGET_OVERLAY";
     case WidgetType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -2449,8 +2455,9 @@ export interface WidgetNode {
   tableProps?: TableProps | undefined;
   tabviewProps?: TabviewProps | undefined;
   chartProps?: ChartProps | undefined;
-  hostProxyProps?:
-    | HostProxyProps
+  hostProxyProps?: HostProxyProps | undefined;
+  targetOverlayProps?:
+    | TargetOverlayProps
     | undefined;
   /** Conditional visibility binding (show/hide based on subject value) */
   visibility:
@@ -2887,6 +2894,78 @@ export interface HostProxyProps {
    * interprets it.
    */
   z: number;
+}
+
+/**
+ * One rectangle drawn by a WIDGET_TARGET_OVERLAY node — a computer-vision
+ * detection or track, not an interactive control.
+ */
+export interface TargetBox {
+  /**
+   * Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+   * Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+   * can place a node can place a box, and a per-mille or normalized rect would
+   * be the only unit in this vocabulary that is not raw design px. Signed
+   * because a detection at the frame edge is legitimately partly outside — the
+   * overlay clips its children, so a box hanging off an edge draws its visible
+   * part and nothing more.
+   */
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  /**
+   * Caption drawn inside the box's top-left corner. Empty = no caption. The
+   * caption inherits the OVERLAY's text style, which is what makes it
+   * authorable: LVGL treats text color/font/opa as inheritable, so a
+   * PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+   * reaches every caption, while the boxes themselves are renderer-built and
+   * carry no wire style of their own.
+   */
+  label: string;
+  /**
+   * Box stroke color. Absent = the theme's border color for the overlay's own
+   * class, which is what makes an unstyled box theme-correct in both families
+   * (the ChartSeries.color convention). When present it colors the caption
+   * too, so one classification reads as one thing.
+   */
+  color: Color | undefined;
+}
+
+/**
+ * Target-overlay widget: a pointer-transparent box that draws N target
+ * rectangles over whatever it is stacked on (typically a host-proxy video
+ * plane). The boxes are DATA, not child WidgetNodes: they carry their own
+ * geometry, are never laid out by LVGL, and take no part in the pointer path —
+ * an overlay that absorbed presses would be a dead zone over the surface
+ * underneath it, which is the failure LV_STATE_DISABLED stacking already
+ * demonstrates elsewhere.
+ *
+ * Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
+ * overlay's uid; there is no per-box subject binding, because the box list is
+ * a structure and StateUpdate carries only ints and strings.
+ */
+export interface TargetOverlayProps {
+  /**
+   * The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+   * in the widget_props union, which is on the recursive decode stack once per
+   * tree level, so an inline array would tax every node of every screen for a
+   * list only this widget carries.
+   */
+  boxes: TargetBox[];
+  /**
+   * Box stroke width in design px; 0 = the renderer default. It is a prop
+   * rather than a style property because the boxes are renderer-built children
+   * that no StyleGroup can address — the same reason HostProxyProps carries
+   * handle_size.
+   */
+  borderWidth: number;
+  /**
+   * Suppress every caption without clearing the labels. Polarity is chosen so
+   * proto3's false default draws them: a producer that fills in boxes and
+   * labels gets the captions it wrote without having to set a second flag.
+   */
+  hideLabels: boolean;
 }
 
 export interface Point {
@@ -3494,6 +3573,7 @@ function createBaseWidgetNode(): WidgetNode {
     tabviewProps: undefined,
     chartProps: undefined,
     hostProxyProps: undefined,
+    targetOverlayProps: undefined,
     visibility: undefined,
     bindFormats: {},
     objFlags: 0,
@@ -3607,6 +3687,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.hostProxyProps !== undefined) {
       HostProxyProps.encode(message.hostProxyProps, writer.uint32(330).fork()).join();
+    }
+    if (message.targetOverlayProps !== undefined) {
+      TargetOverlayProps.encode(message.targetOverlayProps, writer.uint32(386).fork()).join();
     }
     if (message.visibility !== undefined) {
       VisibilityBinding.encode(message.visibility, writer.uint32(234).fork()).join();
@@ -3921,6 +4004,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.hostProxyProps = HostProxyProps.decode(reader, reader.uint32());
           continue;
         }
+        case 48: {
+          if (tag !== 386) {
+            break;
+          }
+
+          message.targetOverlayProps = TargetOverlayProps.decode(reader, reader.uint32());
+          continue;
+        }
         case 29: {
           if (tag !== 234) {
             break;
@@ -4216,6 +4307,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.host_proxy_props)
         ? HostProxyProps.fromJSON(object.host_proxy_props)
         : undefined,
+      targetOverlayProps: isSet(object.targetOverlayProps)
+        ? TargetOverlayProps.fromJSON(object.targetOverlayProps)
+        : isSet(object.target_overlay_props)
+        ? TargetOverlayProps.fromJSON(object.target_overlay_props)
+        : undefined,
       visibility: isSet(object.visibility) ? VisibilityBinding.fromJSON(object.visibility) : undefined,
       bindFormats: isObject(object.bindFormats)
         ? (globalThis.Object.entries(object.bindFormats) as [string, any][]).reduce(
@@ -4394,6 +4490,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.hostProxyProps !== undefined) {
       obj.hostProxyProps = HostProxyProps.toJSON(message.hostProxyProps);
     }
+    if (message.targetOverlayProps !== undefined) {
+      obj.targetOverlayProps = TargetOverlayProps.toJSON(message.targetOverlayProps);
+    }
     if (message.visibility !== undefined) {
       obj.visibility = VisibilityBinding.toJSON(message.visibility);
     }
@@ -4542,6 +4641,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
       : undefined;
     message.hostProxyProps = (object.hostProxyProps !== undefined && object.hostProxyProps !== null)
       ? HostProxyProps.fromPartial(object.hostProxyProps)
+      : undefined;
+    message.targetOverlayProps = (object.targetOverlayProps !== undefined && object.targetOverlayProps !== null)
+      ? TargetOverlayProps.fromPartial(object.targetOverlayProps)
       : undefined;
     message.visibility = (object.visibility !== undefined && object.visibility !== null)
       ? VisibilityBinding.fromPartial(object.visibility)
@@ -7823,6 +7925,246 @@ export const HostProxyProps: MessageFns<HostProxyProps> = {
     message.maxH = object.maxH ?? 0;
     message.handleSize = object.handleSize ?? 0;
     message.z = object.z ?? 0;
+    return message;
+  },
+};
+
+function createBaseTargetBox(): TargetBox {
+  return { x: 0, y: 0, w: 0, h: 0, label: "", color: undefined };
+}
+
+export const TargetBox: MessageFns<TargetBox> = {
+  encode(message: TargetBox, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.x !== 0) {
+      writer.uint32(8).int32(message.x);
+    }
+    if (message.y !== 0) {
+      writer.uint32(16).int32(message.y);
+    }
+    if (message.w !== 0) {
+      writer.uint32(24).int32(message.w);
+    }
+    if (message.h !== 0) {
+      writer.uint32(32).int32(message.h);
+    }
+    if (message.label !== "") {
+      writer.uint32(42).string(message.label);
+    }
+    if (message.color !== undefined) {
+      Color.encode(message.color, writer.uint32(50).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TargetBox {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTargetBox();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.x = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.y = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.w = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.h = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.label = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.color = Color.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TargetBox {
+    return {
+      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
+      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      w: isSet(object.w) ? globalThis.Number(object.w) : 0,
+      h: isSet(object.h) ? globalThis.Number(object.h) : 0,
+      label: isSet(object.label) ? globalThis.String(object.label) : "",
+      color: isSet(object.color) ? Color.fromJSON(object.color) : undefined,
+    };
+  },
+
+  toJSON(message: TargetBox): unknown {
+    const obj: any = {};
+    if (message.x !== 0) {
+      obj.x = Math.round(message.x);
+    }
+    if (message.y !== 0) {
+      obj.y = Math.round(message.y);
+    }
+    if (message.w !== 0) {
+      obj.w = Math.round(message.w);
+    }
+    if (message.h !== 0) {
+      obj.h = Math.round(message.h);
+    }
+    if (message.label !== "") {
+      obj.label = message.label;
+    }
+    if (message.color !== undefined) {
+      obj.color = Color.toJSON(message.color);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<TargetBox>, I>>(base?: I): TargetBox {
+    return TargetBox.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TargetBox>, I>>(object: I): TargetBox {
+    const message = createBaseTargetBox();
+    message.x = object.x ?? 0;
+    message.y = object.y ?? 0;
+    message.w = object.w ?? 0;
+    message.h = object.h ?? 0;
+    message.label = object.label ?? "";
+    message.color = (object.color !== undefined && object.color !== null) ? Color.fromPartial(object.color) : undefined;
+    return message;
+  },
+};
+
+function createBaseTargetOverlayProps(): TargetOverlayProps {
+  return { boxes: [], borderWidth: 0, hideLabels: false };
+}
+
+export const TargetOverlayProps: MessageFns<TargetOverlayProps> = {
+  encode(message: TargetOverlayProps, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.boxes) {
+      TargetBox.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.borderWidth !== 0) {
+      writer.uint32(16).uint32(message.borderWidth);
+    }
+    if (message.hideLabels !== false) {
+      writer.uint32(24).bool(message.hideLabels);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TargetOverlayProps {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTargetOverlayProps();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.boxes.push(TargetBox.decode(reader, reader.uint32()));
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.borderWidth = reader.uint32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.hideLabels = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TargetOverlayProps {
+    return {
+      boxes: globalThis.Array.isArray(object?.boxes) ? object.boxes.map((e: any) => TargetBox.fromJSON(e)) : [],
+      borderWidth: isSet(object.borderWidth)
+        ? globalThis.Number(object.borderWidth)
+        : isSet(object.border_width)
+        ? globalThis.Number(object.border_width)
+        : 0,
+      hideLabels: isSet(object.hideLabels)
+        ? globalThis.Boolean(object.hideLabels)
+        : isSet(object.hide_labels)
+        ? globalThis.Boolean(object.hide_labels)
+        : false,
+    };
+  },
+
+  toJSON(message: TargetOverlayProps): unknown {
+    const obj: any = {};
+    if (message.boxes?.length) {
+      obj.boxes = message.boxes.map((e) => TargetBox.toJSON(e));
+    }
+    if (message.borderWidth !== 0) {
+      obj.borderWidth = Math.round(message.borderWidth);
+    }
+    if (message.hideLabels !== false) {
+      obj.hideLabels = message.hideLabels;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<TargetOverlayProps>, I>>(base?: I): TargetOverlayProps {
+    return TargetOverlayProps.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TargetOverlayProps>, I>>(object: I): TargetOverlayProps {
+    const message = createBaseTargetOverlayProps();
+    message.boxes = object.boxes?.map((e) => TargetBox.fromPartial(e)) || [];
+    message.borderWidth = object.borderWidth ?? 0;
+    message.hideLabels = object.hideLabels ?? false;
     return message;
   },
 };

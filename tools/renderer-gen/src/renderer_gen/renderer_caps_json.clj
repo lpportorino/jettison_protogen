@@ -117,6 +117,13 @@
     over-cap table loudly."
    "MAX_TABLE_COLS"
    "per-NODE ceiling on ONE table's declared column_count; see MAX_TABLE_ROWS."
+   "MAX_TARGET_BOXES"
+   "per-NODE ceiling on ONE target overlay's decoded boxes_count, not a screen
+    pool the codegen sums. It is also the only DECODER-side bound that field
+    has: ui.TargetOverlayProps.boxes is FT_POINTER, so nanopb allocates
+    whatever the stream declares and buf.validate max_items:32 binds a
+    conforming producer only — this is what refuses a crafted .pb, loudly and
+    without drawing a partial frame."
    "MAX_PENDING_VISIBILITY"
    "transient load-time deferral queue (show-when bindings), drained during the
     build — not a persistent pool; its binding class's counted representative is

@@ -437,37 +437,55 @@
     (:cmd-by-value event) (assoc :cmd_by_value (mapv emit-cmd-spec (:cmd-by-value event)))))
 (m/=> emit-event-binding [:=> [:cat [:map [:name keyword?]]] [:map-of :keyword :any]])
 
+(def ^:private tag->widget-type
+  "Authoring widget tag -> its `ui.WidgetType` member keyword.
+
+   A DATA table rather than the `case` this used to be, and the reason is the
+   fn-size gate: `emit-widget` below is one long `cond->` whose decision count
+   sits near the ceiling, and a 22-arm `case` inside it spent that budget on a
+   lookup with no branching logic in it at all. Extracting it costs nothing in
+   behaviour and gives the arm list room to grow with the vocabulary.
+
+   `schema/valid-widget-tags` remains the authority on which tags are legal;
+   `widget-type-of` names it in the refusal so a missing entry here reads as
+   the omission it is."
+  {:lv_obj :WIDGET_OBJ
+   :lv_button :WIDGET_BUTTON
+   :lv_label :WIDGET_LABEL
+   :lv_slider :WIDGET_SLIDER
+   :lv_image :WIDGET_IMAGE
+   :lv_arc :WIDGET_ARC
+   :lv_bar :WIDGET_BAR
+   :lv_switch :WIDGET_SWITCH
+   :lv_checkbox :WIDGET_CHECKBOX
+   :lv_dropdown :WIDGET_DROPDOWN
+   :lv_roller :WIDGET_ROLLER
+   :lv_textarea :WIDGET_TEXTAREA
+   :lv_spinbox :WIDGET_SPINBOX
+   :lv_spinner :WIDGET_SPINNER
+   :lv_led :WIDGET_LED
+   :lv_line :WIDGET_LINE
+   :lv_scale :WIDGET_SCALE
+   :lv_buttonmatrix :WIDGET_BUTTONMATRIX
+   :lv_table :WIDGET_TABLE
+   :lv_tabview :WIDGET_TABVIEW
+   :lv_chart :WIDGET_CHART
+   :lv_host_proxy :WIDGET_HOST_PROXY
+   :lv_target_overlay :WIDGET_TARGET_OVERLAY})
+
+(defn- widget-type-of
+  "`tag`'s WidgetType member, or a throw naming every legal tag."
+  [tag]
+  (or (tag->widget-type tag)
+      (throw (ex-info (str "Unknown widget type: :" (name tag)
+                           ". Valid LVGL tags: "
+                           (str/join ", " (sort (map name schema/valid-widget-tags))))
+                      {:tag tag}))))
+
 (defn emit-widget
   "Convert an expanded widget node to proto WidgetNode map."
   [{:keys [tag text event layout style-groups children] :as node}]
-  (cond-> {:type (case tag
-                   :lv_obj :WIDGET_OBJ
-                   :lv_button :WIDGET_BUTTON
-                   :lv_label :WIDGET_LABEL
-                   :lv_slider :WIDGET_SLIDER
-                   :lv_image :WIDGET_IMAGE
-                   :lv_arc :WIDGET_ARC
-                   :lv_bar :WIDGET_BAR
-                   :lv_switch :WIDGET_SWITCH
-                   :lv_checkbox :WIDGET_CHECKBOX
-                   :lv_dropdown :WIDGET_DROPDOWN
-                   :lv_roller :WIDGET_ROLLER
-                   :lv_textarea :WIDGET_TEXTAREA
-                   :lv_spinbox :WIDGET_SPINBOX
-                   :lv_spinner :WIDGET_SPINNER
-                   :lv_led :WIDGET_LED
-                   :lv_line :WIDGET_LINE
-                   :lv_scale :WIDGET_SCALE
-                   :lv_buttonmatrix :WIDGET_BUTTONMATRIX
-                   :lv_table :WIDGET_TABLE
-                   :lv_tabview :WIDGET_TABVIEW
-                   :lv_chart :WIDGET_CHART
-                   :lv_host_proxy :WIDGET_HOST_PROXY
-                   (throw (ex-info
-                           (str "Unknown widget type: :" (name tag)
-                                ". Valid LVGL tags: "
-                                (str/join ", " (sort (map name schema/valid-widget-tags))))
-                           {:tag tag})))}
+  (cond-> {:type (widget-type-of tag)}
     (:uid node) (assoc :uid (:uid node))
     (:x node) (assoc :x (:x node))
     (:y node) (assoc :y (:y node))
@@ -570,6 +588,10 @@
     (:host_proxy_props node) (assoc :host_proxy_props
                                     (resolve-props-enums :host_proxy_props
                                                          (:host_proxy_props node)))
+    ;; No enum-typed field in the arm, so it passes through verbatim — the
+    ;; :switch_props / :table_props shape, not the :chart_props one.
+    (:target_overlay_props node) (assoc :target_overlay_props
+                                        (:target_overlay_props node))
     (:label_props node) (assoc :label_props
                                (resolve-props-enums :label_props (:label_props node)))
     (:image_props node) (assoc :image_props (:image_props node))
@@ -609,6 +631,14 @@
 (m/=> emit-style-property [:=> [:cat style-property-pair] [:map-of :keyword :any]])
 
 (m/=> emit-style-group [:=> [:cat expanded-style-group] [:map-of :keyword :any]])
+
+;; Both sides are DERIVED from the table rather than re-spelled: an enum
+;; literal here would be a second copy of `tag->widget-type` free to disagree
+;; with it, and the disagreement would be invisible until a tag was added to
+;; one and not the other.
+(m/=> widget-type-of
+      [:=> [:cat (into [:enum] (sort (keys tag->widget-type)))]
+       (into [:enum] (sort (vals tag->widget-type)))])
 
 (m/=> emit-widget [:=> [:cat expanded-widget] [:map-of :keyword :any]])
 

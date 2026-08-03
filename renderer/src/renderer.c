@@ -920,6 +920,29 @@ static void proxy_apply_default_style(lv_obj_t *obj) {
   }
   lv_obj_add_style(obj, &proxy_default_style, 0);
 }
+/* Target overlay: the pointer-transparent default look, attached at CREATE for
+ * exactly the reason proxy_apply_default_style is — a NORMAL style added at
+ * create is outranked by the wire's own style groups (attached later during
+ * decode), while an lv_obj_set_style_* LOCAL would outrank them and make every
+ * authored StyleProperty on the overlay root silently inert.
+ *
+ * The overlay's job is to sit ON TOP of something — a video plane, a host
+ * proxy — and show through: transparent fill, no border, no padding, so the
+ * boxes land at the coordinates the producer computed against the frame rather
+ * than inside a padded content box. */
+static void target_overlay_apply_default_style(lv_obj_t *obj) {
+  static lv_style_t overlay_default_style;
+  static bool overlay_default_inited = false;
+  if (!overlay_default_inited) {
+    lv_style_init(&overlay_default_style);
+    lv_style_set_bg_opa(&overlay_default_style, LV_OPA_TRANSP);
+    lv_style_set_border_width(&overlay_default_style, 0);
+    lv_style_set_pad_all(&overlay_default_style, 0);
+    lv_style_set_radius(&overlay_default_style, 0);
+    overlay_default_inited = true;
+  }
+  lv_obj_add_style(obj, &overlay_default_style, 0);
+}
 /* Hand the tabview root's SIZE back to the wire — the same local-versus-added
  * hazard proxy_apply_default_style avoids above, met from the other side.
  * lv_tabview's constructor calls lv_obj_set_size(obj, LV_PCT(100),
@@ -1027,6 +1050,24 @@ static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
     ctx->self = lv_obj_create(ctx->parent);
     if (ctx->self)
       proxy_apply_default_style(ctx->self);
+    break;
+  /* TARGET_OVERLAY: a plain box whose boxes are drawn by apply_target_overlay
+     * once target_overlay_props (field 48) decodes. CLICKABLE is cleared HERE
+     * rather than there, because the flag must be gone whether or not the node
+     * carries props: an overlay is stacked over the surface it annotates, and
+     * lv_indev_search_obj walks children in REVERSE and returns the FIRST hit,
+     * so a clickable overlay silently absorbs every press aimed at the gesture
+     * surface underneath — a dead zone with no pixel and no event to show for
+     * it. SCROLLABLE goes for the companion reason: a box hanging off the
+     * frame edge is legitimate, and a scrollable parent would turn that
+     * overflow into a scrollbar and a drag target. */
+  case ui_WidgetType_WIDGET_TARGET_OVERLAY:
+    ctx->self = lv_obj_create(ctx->parent);
+    if (ctx->self) {
+      target_overlay_apply_default_style(ctx->self);
+      lv_obj_remove_flag(ctx->self, LV_OBJ_FLAG_CLICKABLE);
+      lv_obj_remove_flag(ctx->self, LV_OBJ_FLAG_SCROLLABLE);
+    }
     break;
   default:
     ctx->self = lv_obj_create(ctx->parent);
@@ -1422,6 +1463,139 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
   }
   lv_chart_refresh(obj);
 }
+/* Target overlay: one LVGL object per TargetBox, plus an optional caption
+ * label inside it.
+ *
+ * BOXES ARE FT_POINTER ON THE WIRE (ui_ast.options), so boxes_count is
+ * whatever the STREAM declared — nanopb allocates it and enforces nothing.
+ * buf.validate max_items:32 binds a conforming PRODUCER; it is not a decoder
+ * check, so a crafted .pb reaches here with an arbitrary count. This cap is
+ * what refuses that, loudly, before a single object is created — the
+ * apply_widget_props table arm's shape (row_count/column_count), not a
+ * clamp: silently drawing the first 32 of 4000 boxes would render a plausible
+ * frame that is missing detections, which is worse than refusing.
+ *
+ * WHY LVGL OBJECTS RATHER THAN A DRAW EVENT. A draw callback would paint the
+ * same pixels and be invisible to dump_tree, so every geometry oracle in the
+ * proof battery — overlap, dead-zone, clipping, the per-node coordinate
+ * checks — would report on an overlay with no content. Objects are also what
+ * makes the pointer story checkable rather than asserted. */
+#define MAX_TARGET_BOXES 32
+/* Box stroke when TargetOverlayProps.border_width is 0. Design px, DPI-scaled
+ * through LV_DPX like every other renderer-owned affordance size. */
+#define TARGET_BOX_BORDER_PX 2
+/* Caption inset from the box's top-left corner, design px, DPI-scaled. */
+#define TARGET_BOX_LABEL_PAD_PX 2
+static void apply_target_overlay(lv_obj_t *obj,
+                                 const ui_TargetOverlayProps *p) {
+  if (p->boxes_count > MAX_TARGET_BOXES) {
+    LOG_ERROR("target overlay carries %u boxes > max %d",
+              (unsigned)p->boxes_count, MAX_TARGET_BOXES);
+    load_resource_error = true;
+    return;
+  }
+  int32_t stroke = LV_DPX(p->border_width > 0 ? (int32_t)p->border_width
+                                              : TARGET_BOX_BORDER_PX);
+  for (pb_size_t i = 0; i < p->boxes_count; i++) {
+    const ui_TargetBox *b = &p->boxes[i];
+    lv_obj_t *box = lv_obj_create(obj);
+    if (!box) {
+      LOG_ERROR("target box allocation failed (box %d)", (int)i);
+      load_resource_error = true;
+      return;
+    }
+    /* The overlay's own reasons, one level down: a box must not take the
+       * pointer from the surface being annotated, and must not scroll. Both
+       * flags are cleared rather than left to the theme, because lv_obj_create
+       * sets CLICKABLE and SCROLLABLE by default and a DECORATIVE object in
+       * the pointer path is exactly what the overlap lane exists to catch. */
+    lv_obj_remove_flag(box, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_remove_flag(box, LV_OBJ_FLAG_SCROLLABLE);
+    /* FLOATING + IGNORE_LAYOUT: the wire's own rect is absolute against the
+       * overlay's content origin, so a flex/grid layout authored on the
+       * overlay must not move it (the proxy affordance convention). */
+    lv_obj_add_flag(box, LV_OBJ_FLAG_FLOATING);
+    lv_obj_add_flag(box, LV_OBJ_FLAG_IGNORE_LAYOUT);
+    lv_obj_set_pos(box, b->x, b->y);
+    lv_obj_set_size(box, b->w, b->h);
+    /* A hollow rect: fill off, square corners, no inner padding so the
+       * caption sits in the corner the producer drew. The stroke COLOUR is
+       * left to the theme unless the box names one — an unstyled card must
+       * render theme-correct in every family. */
+    lv_obj_set_style_bg_opa(box, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_radius(box, 0, 0);
+    lv_obj_set_style_pad_all(box, 0, 0);
+    lv_obj_set_style_border_width(box, stroke, 0);
+    lv_obj_set_style_border_opa(box, LV_OPA_COVER, 0);
+    if (b->has_color) {
+      lv_obj_set_style_border_color(
+          box, lv_color_make(b->color.r, b->color.g, b->color.b), 0);
+    }
+    if (p->hide_labels || b->label[0] == '\0')
+      continue;
+    lv_obj_t *caption = lv_label_create(box);
+    if (!caption) {
+      LOG_ERROR("target box caption allocation failed (box %d)", (int)i);
+      load_resource_error = true;
+      return;
+    }
+    lv_obj_remove_flag(caption, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(caption, LV_OBJ_FLAG_FLOATING);
+    lv_obj_add_flag(caption, LV_OBJ_FLAG_IGNORE_LAYOUT);
+    lv_label_set_text(caption, b->label);
+    lv_obj_align(caption, LV_ALIGN_TOP_LEFT, 0, 0);
+    /* A COVERING plate under the glyphs, and it is not decoration.
+       * dump_obj emits `backdrop_unresolved` for any text node whose own fill
+       * does not cover — the honest third answer for glyphs sitting on
+       * something the node cannot name — and an overlay is transparent over
+       * content the renderer never sees, so every unplated caption here would
+       * be exactly that case. The plate answers it instead of declaring it.
+       *
+       * The colour is the OVERLAY's own resolved bg_color, which is the theme's
+       * by default and the AUTHOR's the moment a StyleGroup sets PROP_BG_COLOR
+       * on the overlay node. That is the only handle a screen has on this
+       * caption — the box and the label are renderer-built, so no StyleGroup
+       * addresses them directly — and it pairs the plate with the same
+       * background the inherited text colour was chosen against, in every
+       * theme family, without this file inventing a colour or a contrast
+       * threshold. */
+    lv_obj_set_style_bg_color(caption, lv_obj_get_style_bg_color(obj, 0), 0);
+    lv_obj_set_style_bg_opa(caption, LV_OPA_COVER, 0);
+    lv_obj_set_style_radius(caption, 0, 0);
+    lv_obj_set_style_pad_all(caption, LV_DPX(TARGET_BOX_LABEL_PAD_PX), 0);
+    /* CARRY THE OVERLAY'S TEXT STYLE DOWN EXPLICITLY. LVGL marks text colour
+       * and font INHERITABLE, and reasoning from that alone says a
+       * PROP_TEXT_COLOR authored on the overlay reaches the caption. MEASURED,
+       * IT DOES NOT: inheritance stops at the first ancestor that RESOLVES the
+       * property, and the box between them is an lv_obj the theme styles, so
+       * it re-resolves the theme's own text colour and the caption inherits
+       * THAT. (Probed on the real artifact: overlay #ff3b30, box #e8e8f0,
+       * caption following the box.) Copying the overlay's RESOLVED value —
+       * authored when a StyleGroup set one, the theme's otherwise — is what
+       * makes the overlay's style groups the caption's one authoring handle,
+       * which is the only handle a screen has: the box and the label are
+       * renderer-built and no StyleGroup addresses them. */
+    lv_obj_set_style_text_color(caption, lv_obj_get_style_text_color(obj, 0),
+                                0);
+    lv_obj_set_style_text_font(caption, lv_obj_get_style_text_font(obj, 0), 0);
+    /* THE CAPTION IS NEVER TINTED, and that is a correction rather than an
+       * omission. It used to take the box's own colour, on the reasoning that
+       * one classification should read as one thing — and the batched visual
+       * review of this widget's first gallery measured what that costs: a
+       * caller-supplied colour has no relationship to the plate under it, so
+       * #ff3b30 on the caption plate lands at 2.67:1 under the light family
+       * and 5.23:1 under the dark one, against the 6:1 governing floor
+       * docs/UI-QUALITY-CONTRACTS.md carries. The theme's own text colour on
+       * the same plate measures 14:1 and up.
+       *
+       * A caller cannot be asked to solve that, and this file will not invent
+       * a contrast threshold to solve it for them. So classification is
+       * carried by the STROKE, which is a rule and not text and owes no
+       * contrast ratio, while the caption stays on the pair the theme (or the
+       * overlay's own author) already chose against its own background. The
+       * caption sits INSIDE its stroke, so the association survives. */
+  }
+}
 /* Map the pressed point to a value immediately at LV_EVENT_PRESSED. Stock
  * LVGL seeks a stationary track tap only at RELEASE (update_knob_pos runs
  * with check_drag=false from the RELEASED arm; ADV_HITTEST is never set on
@@ -1730,6 +1904,15 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
   }
   case ui_WidgetNode_chart_props_tag: {
     apply_chart_props(obj, &node->widget_props.chart_props);
+    break;
+  }
+  case ui_WidgetNode_target_overlay_props_tag: {
+    /* No morph arm: WIDGET_TARGET_OVERLAY is replace-only (the differ's
+       * `replace-always-types`, and the UPDATE_PROPS guard in
+       * controls_apply_patch refuses it by type), because this call APPENDS
+       * one object per box — re-entering it on a live overlay would stack a
+       * second set over the first. */
+    apply_target_overlay(obj, &node->widget_props.target_overlay_props);
     break;
   }
   case ui_WidgetNode_buttonmatrix_props_tag: {
@@ -5004,7 +5187,8 @@ static int apply_one_op(const uint8_t *buf, uint32_t len) {
       return -5;
     }
     if (op.node.type == ui_WidgetType_WIDGET_TABVIEW ||
-        op.node.type == ui_WidgetType_WIDGET_HOST_PROXY) {
+        op.node.type == ui_WidgetType_WIDGET_HOST_PROXY ||
+        op.node.type == ui_WidgetType_WIDGET_TARGET_OVERLAY) {
       LOG_ERROR("UPDATE: type %d is replace-only", (int)op.node.type);
       return -5;
     }

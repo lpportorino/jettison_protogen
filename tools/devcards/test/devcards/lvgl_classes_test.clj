@@ -26,8 +26,15 @@
   "Corpus tags that never appear as a dump `type`. lv_host_proxy is a
    ui_ast WidgetType the renderer realises as a plain lv_obj surface, so
    no LVGL class carries the name. Measured by the class-census probe —
-   the census found no lv_host_proxy node across the whole corpus."
-  #{"lv_host_proxy"})
+   the census found no lv_host_proxy node across the whole corpus.
+
+   lv_target_overlay is the same shape and for the same reason: the overlay,
+   every TargetBox and every caption are `lv_obj_create` / `lv_label_create`
+   objects, so a target-overlay card's dump carries `lv_obj` and `lv_label`
+   and nothing else. Measured on the real artifact (a dump of the medium card
+   under the wasmtime harness), not inferred from the constructor — the two
+   agree here, but the constructor is not the oracle for what dump_obj emits."
+  #{"lv_host_proxy" "lv_target_overlay"})
 
 (def ^:private renderer-internal-classes
   "Classes the renderer builds itself, so they appear in dumps but in no

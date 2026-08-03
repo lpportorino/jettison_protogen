@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # Widget gallery
 
-Per-widget rendered doc pages, generated from the same corpus the devcard gates verify — all 22 `ui.WidgetType` values, enum-derived (an undeclared WidgetType fails generation). Previews are one asgard-dark card; each page adds vanilla + asgard-light per card.
+Per-widget rendered doc pages, generated from the same corpus the devcard gates verify — all 23 `ui.WidgetType` values, enum-derived (an undeclared WidgetType fails generation). Previews are one asgard-dark card; each page adds vanilla + asgard-light per card.
 
 | widget | committed states | preview (asgard dark) |
 |---|---|---|
@@ -35,6 +35,7 @@ Per-widget rendered doc pages, generated from the same corpus the devcard gates 
 | [`WIDGET_TABVIEW`](./WIDGET_TABVIEW/README.md) | `default`, `disabled` | [![WIDGET_TABVIEW](./WIDGET_TABVIEW/WIDGET_TABVIEW-default_small-asgard-dark.jpg)](./WIDGET_TABVIEW/README.md) |
 | [`WIDGET_CHART`](./WIDGET_CHART/README.md) | `default` | [![WIDGET_CHART](./WIDGET_CHART/WIDGET_CHART-default_small_line-asgard-dark.jpg)](./WIDGET_CHART/README.md) |
 | [`WIDGET_HOST_PROXY`](./WIDGET_HOST_PROXY/README.md) | `default` | [![WIDGET_HOST_PROXY](./WIDGET_HOST_PROXY/WIDGET_HOST_PROXY-default_small-asgard-dark.jpg)](./WIDGET_HOST_PROXY/README.md) |
+| [`WIDGET_TARGET_OVERLAY`](./WIDGET_TARGET_OVERLAY/README.md) | `default` | [![WIDGET_TARGET_OVERLAY](./WIDGET_TARGET_OVERLAY/WIDGET_TARGET_OVERLAY-default_small-asgard-dark.jpg)](./WIDGET_TARGET_OVERLAY/README.md) |
 
 ## Kitchen sinks
 

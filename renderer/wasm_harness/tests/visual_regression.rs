@@ -639,6 +639,112 @@ mod widget_identity {
              table rendered identically",
         );
     }
+
+    /// EVERY node a target overlay owns must be OUT of the pointer path.
+    ///
+    /// This is the one property of that widget no pixel oracle can reach: an
+    /// overlay is stacked over the surface it annotates, `lv_indev_search_obj`
+    /// walks children in REVERSE and returns the FIRST hit, so a clickable
+    /// overlay (or box, or caption) silently swallows every press aimed at the
+    /// gesture surface underneath while the framebuffer stays byte-identical.
+    /// `lv_obj_create` sets CLICKABLE by default, so this holds only because
+    /// the renderer clears it — three times, at three different sites.
+    ///
+    /// `clickable` is emitted ONLY when FALSE (dump_obj's absence convention:
+    /// absent means CLICKABLE), so a missing key here is the FAILING case and
+    /// the assertion reads it as such rather than as "no information".
+    #[test]
+    fn target_overlay_is_out_of_the_pointer_path() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_target_overlay");
+        let root = tree(&mut host);
+        let overlay = root["children"][0]["children"][0].clone();
+        let mut checked = 0usize;
+        let mut stack = vec![overlay];
+        while let Some(node) = stack.pop() {
+            assert_eq!(
+                node["clickable"].as_bool(),
+                Some(false),
+                "widget_identity::target_overlay_pointer_path: {} at {} is in the \
+                 pointer path — `clickable` must be present and false on the overlay \
+                 and on every box and caption it builds",
+                node["type"].as_str().unwrap_or("?"),
+                node["coords"]
+            );
+            checked += 1;
+            if let Some(kids) = node["children"].as_array() {
+                stack.extend(kids.iter().cloned());
+            }
+        }
+        // 1 overlay + 2 boxes + 2 captions. A collapsed subtree would satisfy
+        // the loop above vacuously.
+        assert_eq!(
+            checked, 5,
+            "widget_identity::target_overlay_pointer_path: expected the overlay, its \
+             2 boxes and their 2 captions; walked {checked} node(s)"
+        );
+    }
+
+    /// TargetBox.x/y/w/h must reach LVGL verbatim — the rects are DESIGN PIXELS
+    /// against the overlay's content origin, and a renderer that built the
+    /// objects but dropped the geometry would still draw two boxes and satisfy
+    /// every framebuffer hash the corpus commits.
+    #[test]
+    fn target_overlay_box_rects_reach_lvgl() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_target_overlay");
+        let root = tree(&mut host);
+        let overlay = root["children"][0]["children"][0].clone();
+        let origin = overlay["coords"].as_array().expect("overlay coords").clone();
+        let (ox, oy) = (
+            origin[0].as_i64().expect("overlay x1"),
+            origin[1].as_i64().expect("overlay y1"),
+        );
+        let boxes = overlay["children"].as_array().expect("overlay children").clone();
+        // Wire rects from the fixture, as [x, y, w, h].
+        let want = [[20_i64, 16, 100, 60], [150, 70, 90, 50]];
+        assert_eq!(boxes.len(), want.len(), "one lv_obj per TargetBox");
+        for (i, wanted) in want.iter().enumerate() {
+            let c = boxes[i]["coords"].as_array().expect("box coords");
+            let got = [
+                c[0].as_i64().expect("x1") - ox,
+                c[1].as_i64().expect("y1") - oy,
+                c[2].as_i64().expect("x2") - c[0].as_i64().expect("x1") + 1,
+                c[3].as_i64().expect("y2") - c[1].as_i64().expect("y1") + 1,
+            ];
+            assert_eq!(
+                &got, wanted,
+                "widget_identity::target_overlay_rects: box {i} landed at \
+                 [x y w h] {got:?}, the wire said {wanted:?}"
+            );
+        }
+    }
+
+    /// hide_labels must REACH the renderer: two fixtures differing only in
+    /// that flag must render differently, and the suppressed one must carry no
+    /// caption node at all.
+    #[test]
+    fn target_overlay_hide_labels_reaches_the_renderer() {
+        let mut host = new_host();
+        let with_labels = render(&mut host, "vr_target_overlay");
+        let without = render(&mut host, "vr_target_overlay_nolabels");
+        assert_frames_differ(
+            "widget_identity::target_overlay_hide_labels",
+            &with_labels,
+            &without,
+            "hide_labels is not reaching apply_target_overlay — captioned and \
+             caption-free overlays rendered identically",
+        );
+        let root = tree(&mut host);
+        let overlay = root["children"][0]["children"][0].clone();
+        for b in overlay["children"].as_array().expect("overlay children") {
+            assert!(
+                b["children"].as_array().is_none_or(Vec::is_empty),
+                "widget_identity::target_overlay_hide_labels: a box still carries a \
+                 caption node under hide_labels"
+            );
+        }
+    }
 }
 // ═══════════════════════════════════════════════════════════════════
 // Class reorder invariance: reordering tokens produces identical output

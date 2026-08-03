@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 231
+ :card-count 240
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -35,6 +35,7 @@
                    "lv_switch" 15
                    "lv_table" 6
                    "lv_tabview" 5
+                   "lv_target_overlay" 9
                    "lv_textarea" 11}
  :expect-legend
  {:baseline "the default-state cell — the reference hash for its class/size"
@@ -2948,4 +2949,140 @@
     {:h 180 :id :large :note "the pip-video authored box (16:9)" :w 320}
     {:h 54 :id :edge :note "flush against the canvas right edge (x = canvas-w - 96)" :w 96}]
    :tag "lv_host_proxy"
-   :type :WIDGET_HOST_PROXY}]}
+   :type :WIDGET_HOST_PROXY}
+  {:authored-count 9
+   :cards
+   [{:expect :baseline
+     :id "lv_target_overlay/default/small"
+     :notes
+     "Realistic pip-video floor: two non-overlapping boxes with short captions. The overlay itself draws NOTHING — transparent fill, zero border, zero pad, all from the C create-time default — so every opaque pixel in this card belongs to a box or a caption."
+     :props {:h 136
+             :target_overlay_props
+             {:boxes [{:h 56 :label "T1" :w 84 :x 24 :y 20}
+                      {:h 48 :label "T2" :w 72 :x 132 :y 62}]}
+             :w 240}
+     :size :small
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium"
+     :notes
+     "The reference cell every variant below is read against: three captioned boxes, default stroke, captions shown. A variant that ever goes inert renders byte-identical to THIS card and the golden diff names both."
+     :props {:h 224
+             :target_overlay_props
+             {:boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
+        {:h 64 :label "T2" :w 96 :x 190 :y 40}
+        {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
+             :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_target_overlay/default/large"
+     :notes
+     "Four boxes at the widest tier, one of them carrying an authored per-box :color. The tint reaches the STROKE ONLY and deliberately not the caption: a caller-supplied color has no relationship to the plate the caption sits on, and the first gallery of this widget measured #ff3b30 captions at 2.67:1 under the light family against a 6:1 floor. A stroke is a rule rather than text and owes no ratio, so classification rides it and the caption keeps the theme pair."
+     :props {:h 316
+             :target_overlay_props
+             {:boxes [{:h 104 :label "T1" :w 160 :x 40 :y 28}
+                      {:h 84 :label "T2" :w 120 :x 250 :y 48}
+                      {:h 96 :label "T3" :w 180 :x 120 :y 176}
+                      {:color {:b 48 :g 59 :r 255} :h 120 :label "LOCK" :w 140 :x 380 :y 150}]}
+             :w 560}
+     :size :large
+     :state :default
+     :states-bits 0}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium/hidden-labels"
+     :notes
+     "hide_labels PROP AXIS: the same three boxes as default/medium with hide_labels true. The captions must be absent from the dump AND from the pixels; if the flag ever goes inert this card's golden collapses onto default/medium's."
+     :props {:h 224
+             :target_overlay_props
+             {:boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
+        {:h 64 :label "T2" :w 96 :x 190 :y 40}
+        {:h 72 :label "T3" :w 140 :x 96 :y 128}]
+              :hide_labels true}
+             :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :hidden-labels}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium/thick"
+     :notes
+     "border_width PROP AXIS: the same three boxes at stroke 6 instead of the renderer default 2. Both are LV_DPX-scaled, so this card is also the proof that the prop reaches the DPI path rather than a raw pixel count."
+     :props {:h 224
+             :target_overlay_props
+             {:border_width 6
+              :boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
+        {:h 64 :label "T2" :w 96 :x 190 :y 40}
+        {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
+             :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :thick}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium/tinted"
+     :notes
+     "TargetBox.color PROP AXIS: the same three boxes, each with its own stroke color, and their captions all still on the theme pair — which is the visible proof that the tint stops at the stroke. Absent color falls through to the theme border color (every card above), so this is the only cell where the wire decides the stroke; three different tints in one render make a single-color regression visible rather than plausible."
+     :props {:h 224
+             :target_overlay_props
+             {:boxes [{:color {:b 48 :g 59 :r 255} :h 80 :label "T1" :w 120 :x 32 :y 24}
+                      {:color {:b 88 :g 199 :r 52} :h 64 :label "T2" :w 96 :x 190 :y 40}
+                      {:color {:b 235 :g 149 :r 255} :h 72 :label "T3" :w 140 :x 96 :y 128}]}
+             :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :tinted}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium/authored"
+     :notes
+     "AUTHORED-OVERRIDE PROOF, both halves at once (the host_proxy/authored precedent). (a) The overlay's create-time C default sets border-width 0 and radius 0; a wire StyleGroup setting border-width 3 and radius 12 must beat it, because the default is an ADDED style and a local would have made every authored prop inert. (b) text-FONT authored on the OVERLAY must reach every caption — LVGL inheritance alone does not carry it, since the box object between them re-resolves the theme's own text style, so the renderer copies the overlay's resolved text color AND font onto each caption. The carry is proven with the FONT rather than the COLOR deliberately: a fixed authored text color cannot clear the 6:1 governing floor in both theme families at once (the light plate needs relative luminance <= 0.0815 and the dark plate needs >= 0.2896), so a color-authored card would ship a legibility defect in one family purely to demonstrate plumbing. If either half regresses this card renders identical to default/medium apart from the frame."
+     :props {:border-width 3
+             :h 224
+             :radius 12
+             :target_overlay_props
+             {:boxes [{:h 80 :label "T1" :w 120 :x 32 :y 24}
+        {:h 64 :label "T2" :w 96 :x 190 :y 40}
+        {:h 72 :label "T3" :w 140 :x 96 :y 128}]}
+             :text-font "b612mono_bold_12"
+             :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :authored}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium/empty"
+     :notes
+     "THE STATE THIS WIDGET SPENDS MOST OF ITS TIME IN: a frame with no detections. `boxes` is repeated, so an empty list is legal and common, and the render is legitimately EMPTY — the overlay's own default style is transparent fill, zero border, zero pad, so a detection-free overlay is invisible by contract rather than by accident. It is a card and not an omission because 'renders nothing' and 'failed to render' are the same picture: this golden is what tells the two apart, and it is the only cell whose hash a stray default frame or border would move."
+     :props {:h 224 :target_overlay_props {:boxes []} :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :empty}
+    {:expect :baseline
+     :id "lv_target_overlay/default/medium/overlapping"
+     :notes
+     "OVERLAPPING DETECTIONS ARE THE NORMAL CASE for a CV overlay, and this card is the standing proof that they cost nothing here: the boxes and captions have CLICKABLE cleared at create, so no pair of them enters the overlap lane's pointer-path pairing however far they intersect. A regression that leaves a box clickable turns this card red in the overlap producer, not in the pixels."
+     :props {:h 224
+             :target_overlay_props
+             {:boxes [{:h 96 :label "T1" :w 150 :x 40 :y 40}
+                      {:h 96 :label "T2" :w 150 :x 120 :y 80}
+                      {:h 72 :label "T3" :w 120 :x 200 :y 120}]}
+             :w 400}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :variant :overlapping}]
+   :committed-states [:default]
+   :declared-count 9
+   :notes
+   "No LVGL state axis: the overlay is DECORATIVE and pointer-transparent by construction (CLICKABLE and SCROLLABLE cleared at create on the overlay, on every box and on every caption), so no state can ever be entered and every non-default state is inert by the widget's own contract rather than by the theme's. Boxes carry design-pixel rects against the overlay's content origin — the WidgetNode.x/y unit — and are FLOATING + IGNORE_LAYOUT so an authored layout on the overlay cannot move them. Captions sit on a COVERING plate in the overlay's own resolved bg color; without it every caption would declare backdrop_unresolved, which is the honest answer for glyphs over content the renderer cannot see and is not one to ship on every card."
+   :sizes [{:h 136
+            :id :small
+            :note "pip-video tier — the realistic floor for an annotated inset"
+            :w 240} {:h 224 :id :medium :note "the prop-axis tier: every variant is a medium" :w 400}
+           {:h 316 :id :large :note "full-pane tier (16:9)" :w 560}]
+   :tag "lv_target_overlay"
+   :type :WIDGET_TARGET_OVERLAY}]}

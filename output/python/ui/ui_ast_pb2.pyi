@@ -43,6 +43,7 @@ class WidgetType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     WIDGET_TABVIEW: _ClassVar[WidgetType]
     WIDGET_CHART: _ClassVar[WidgetType]
     WIDGET_HOST_PROXY: _ClassVar[WidgetType]
+    WIDGET_TARGET_OVERLAY: _ClassVar[WidgetType]
 
 class ProxyMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -397,6 +398,7 @@ WIDGET_TABLE: WidgetType
 WIDGET_TABVIEW: WidgetType
 WIDGET_CHART: WidgetType
 WIDGET_HOST_PROXY: WidgetType
+WIDGET_TARGET_OVERLAY: WidgetType
 PROXY_MODE_STATIC: ProxyMode
 PROXY_MODE_DRAGGABLE: ProxyMode
 PROXY_MODE_RESIZABLE: ProxyMode
@@ -685,7 +687,7 @@ class Screen(_message.Message):
     def __init__(self, root: _Optional[_Union[WidgetNode, _Mapping]] = ..., subjects: _Optional[_Iterable[_Union[SubjectDeclaration, _Mapping]]] = ...) -> None: ...
 
 class WidgetNode(_message.Message):
-    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "tabview_props", "chart_props", "host_proxy_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare", "in_tab_bar", "checked_when", "enabled_when", "color_when", "hit_slop", "uid", "gestures")
+    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "tabview_props", "chart_props", "host_proxy_props", "target_overlay_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare", "in_tab_bar", "checked_when", "enabled_when", "color_when", "hit_slop", "uid", "gestures")
     class BindingsEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -731,6 +733,7 @@ class WidgetNode(_message.Message):
     TABVIEW_PROPS_FIELD_NUMBER: _ClassVar[int]
     CHART_PROPS_FIELD_NUMBER: _ClassVar[int]
     HOST_PROXY_PROPS_FIELD_NUMBER: _ClassVar[int]
+    TARGET_OVERLAY_PROPS_FIELD_NUMBER: _ClassVar[int]
     VISIBILITY_FIELD_NUMBER: _ClassVar[int]
     BIND_FORMATS_FIELD_NUMBER: _ClassVar[int]
     OBJ_FLAGS_FIELD_NUMBER: _ClassVar[int]
@@ -778,6 +781,7 @@ class WidgetNode(_message.Message):
     tabview_props: TabviewProps
     chart_props: ChartProps
     host_proxy_props: HostProxyProps
+    target_overlay_props: TargetOverlayProps
     visibility: VisibilityBinding
     bind_formats: _containers.ScalarMap[str, str]
     obj_flags: int
@@ -794,7 +798,7 @@ class WidgetNode(_message.Message):
     hit_slop: int
     uid: int
     gestures: _containers.RepeatedCompositeFieldContainer[GestureSpec]
-    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., tabview_props: _Optional[_Union[TabviewProps, _Mapping]] = ..., chart_props: _Optional[_Union[ChartProps, _Mapping]] = ..., host_proxy_props: _Optional[_Union[HostProxyProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ..., in_tab_bar: bool = ..., checked_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., enabled_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., color_when: _Optional[_Union[ColorBinding, _Mapping]] = ..., hit_slop: _Optional[int] = ..., uid: _Optional[int] = ..., gestures: _Optional[_Iterable[_Union[GestureSpec, _Mapping]]] = ...) -> None: ...
+    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., tabview_props: _Optional[_Union[TabviewProps, _Mapping]] = ..., chart_props: _Optional[_Union[ChartProps, _Mapping]] = ..., host_proxy_props: _Optional[_Union[HostProxyProps, _Mapping]] = ..., target_overlay_props: _Optional[_Union[TargetOverlayProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ..., in_tab_bar: bool = ..., checked_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., enabled_when: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., color_when: _Optional[_Union[ColorBinding, _Mapping]] = ..., hit_slop: _Optional[int] = ..., uid: _Optional[int] = ..., gestures: _Optional[_Iterable[_Union[GestureSpec, _Mapping]]] = ...) -> None: ...
 
 class TreePatchOp(_message.Message):
     __slots__ = ("kind", "target_uid", "parent_uid", "index", "node")
@@ -1105,6 +1109,32 @@ class HostProxyProps(_message.Message):
     handle_size: int
     z: int
     def __init__(self, proxy_id: _Optional[str] = ..., mode: _Optional[_Union[ProxyMode, str]] = ..., min_w: _Optional[int] = ..., min_h: _Optional[int] = ..., max_w: _Optional[int] = ..., max_h: _Optional[int] = ..., handle_size: _Optional[int] = ..., z: _Optional[int] = ...) -> None: ...
+
+class TargetBox(_message.Message):
+    __slots__ = ("x", "y", "w", "h", "label", "color")
+    X_FIELD_NUMBER: _ClassVar[int]
+    Y_FIELD_NUMBER: _ClassVar[int]
+    W_FIELD_NUMBER: _ClassVar[int]
+    H_FIELD_NUMBER: _ClassVar[int]
+    LABEL_FIELD_NUMBER: _ClassVar[int]
+    COLOR_FIELD_NUMBER: _ClassVar[int]
+    x: int
+    y: int
+    w: int
+    h: int
+    label: str
+    color: Color
+    def __init__(self, x: _Optional[int] = ..., y: _Optional[int] = ..., w: _Optional[int] = ..., h: _Optional[int] = ..., label: _Optional[str] = ..., color: _Optional[_Union[Color, _Mapping]] = ...) -> None: ...
+
+class TargetOverlayProps(_message.Message):
+    __slots__ = ("boxes", "border_width", "hide_labels")
+    BOXES_FIELD_NUMBER: _ClassVar[int]
+    BORDER_WIDTH_FIELD_NUMBER: _ClassVar[int]
+    HIDE_LABELS_FIELD_NUMBER: _ClassVar[int]
+    boxes: _containers.RepeatedCompositeFieldContainer[TargetBox]
+    border_width: int
+    hide_labels: bool
+    def __init__(self, boxes: _Optional[_Iterable[_Union[TargetBox, _Mapping]]] = ..., border_width: _Optional[int] = ..., hide_labels: bool = ...) -> None: ...
 
 class Point(_message.Message):
     __slots__ = ("x", "y")

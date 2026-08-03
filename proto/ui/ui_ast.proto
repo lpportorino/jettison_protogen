@@ -101,6 +101,7 @@ message WidgetNode {
     TabviewProps tabview_props = 38;
     ChartProps chart_props = 40;
     HostProxyProps host_proxy_props = 41;
+    TargetOverlayProps target_overlay_props = 48;
   }
 
   // Conditional visibility binding (show/hide based on subject value)
@@ -262,6 +263,7 @@ enum WidgetType {
   WIDGET_TABVIEW = 19;
   WIDGET_CHART = 20;
   WIDGET_HOST_PROXY = 21;
+  WIDGET_TARGET_OVERLAY = 22;
 }
 
 // -- Widget-specific properties messages --
@@ -519,6 +521,70 @@ message HostProxyProps {
   // consumers want zIndex with every position update). The renderer never
   // interprets it.
   int32 z = 8;
+}
+
+// One rectangle drawn by a WIDGET_TARGET_OVERLAY node — a computer-vision
+// detection or track, not an interactive control.
+message TargetBox {
+  // Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+  // Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+  // can place a node can place a box, and a per-mille or normalized rect would
+  // be the only unit in this vocabulary that is not raw design px. Signed
+  // because a detection at the frame edge is legitimately partly outside — the
+  // overlay clips its children, so a box hanging off an edge draws its visible
+  // part and nothing more.
+  int32 x = 1;
+  int32 y = 2;
+  int32 w = 3;
+  int32 h = 4;
+  // Caption drawn inside the box's top-left corner. Empty = no caption. It
+  // takes its text color and font from the OVERLAY node, so a PROP_TEXT_COLOR
+  // or PROP_TEXT_FONT in the overlay's style_groups is a screen's one handle on
+  // every caption — the boxes and captions are renderer-built and no StyleGroup
+  // addresses them directly. The renderer carries those two values down
+  // EXPLICITLY: LVGL's own style inheritance does not reach that far, because
+  // the box object between overlay and caption re-resolves the theme's own text
+  // color and inheritance stops at the first ancestor that resolves.
+  string label = 5 [(buf.validate.field).string = {max_len: 31}];
+  // Box stroke color. Absent = the theme's border color for the overlay's own
+  // class, which is what makes an unstyled box theme-correct in both families
+  // (the ChartSeries.color convention). When present it colors the caption
+  // too, so one classification reads as one thing.
+  Color color = 6;
+}
+
+// Target-overlay widget: a pointer-transparent box that draws N target
+// rectangles over whatever it is stacked on (typically a host-proxy video
+// plane). The boxes are DATA, not child WidgetNodes: they carry their own
+// geometry, are never laid out by LVGL, and take no part in the pointer path —
+// an overlay that absorbed presses would be a dead zone over the surface
+// underneath it, which is the failure LV_STATE_DISABLED stacking already
+// demonstrates elsewhere.
+//
+// Live detections arrive as a ScreenPatch op against the overlay's uid; there
+// is no per-box subject binding, because the box list is a structure and
+// StateUpdate carries only ints and strings. The op is a
+// PATCH_OP_REPLACE_NODE, never PATCH_OP_UPDATE_PROPS: the renderer appends one
+// LVGL object per box, so the live subtree does not mirror the node's own
+// children and re-applying these props in place would stack a second set of
+// boxes over the first. That puts this widget in the same replace-only class
+// as WIDGET_TABVIEW and WIDGET_HOST_PROXY, and the renderer refuses an
+// UPDATE_PROPS naming it.
+message TargetOverlayProps {
+  // The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+  // in the widget_props union, which is on the recursive decode stack once per
+  // tree level, so an inline array would tax every node of every screen for a
+  // list only this widget carries.
+  repeated TargetBox boxes = 1 [(buf.validate.field).repeated = {max_items: 32}];
+  // Box stroke width in design px; 0 = the renderer default. It is a prop
+  // rather than a style property because the boxes are renderer-built children
+  // that no StyleGroup can address — the same reason HostProxyProps carries
+  // handle_size.
+  uint32 border_width = 2 [(buf.validate.field).uint32 = {lte: 16}];
+  // Suppress every caption without clearing the labels. Polarity is chosen so
+  // proto3's false default draws them: a producer that fills in boxes and
+  // labels gets the captions it wrote without having to set a second flag.
+  bool hide_labels = 3;
 }
 
 // -- Supporting types --

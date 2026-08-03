@@ -47,7 +47,8 @@ typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_TABLE = 18,
     ui_WidgetType_WIDGET_TABVIEW = 19,
     ui_WidgetType_WIDGET_CHART = 20,
-    ui_WidgetType_WIDGET_HOST_PROXY = 21
+    ui_WidgetType_WIDGET_HOST_PROXY = 21,
+    ui_WidgetType_WIDGET_TARGET_OVERLAY = 22
 } ui_WidgetType;
 
 /* Host-proxy positioning modes. OUR enum (no LVGL counterpart — not
@@ -641,6 +642,35 @@ typedef struct _ui_HostProxyProps {
     int32_t z;
 } ui_HostProxyProps;
 
+/* Target-overlay widget: a pointer-transparent box that draws N target
+ rectangles over whatever it is stacked on (typically a host-proxy video
+ plane). The boxes are DATA, not child WidgetNodes: they carry their own
+ geometry, are never laid out by LVGL, and take no part in the pointer path —
+ an overlay that absorbed presses would be a dead zone over the surface
+ underneath it, which is the failure LV_STATE_DISABLED stacking already
+ demonstrates elsewhere.
+
+ Live detections arrive as a ScreenPatch PATCH_OP_UPDATE_PROPS against the
+ overlay's uid; there is no per-box subject binding, because the box list is
+ a structure and StateUpdate carries only ints and strings. */
+typedef struct _ui_TargetOverlayProps {
+    /* The frame's boxes. FT_POINTER on the C side (ui_ast.options): the arm sits
+ in the widget_props union, which is on the recursive decode stack once per
+ tree level, so an inline array would tax every node of every screen for a
+ list only this widget carries. */
+    pb_size_t boxes_count;
+    struct _ui_TargetBox *boxes;
+    /* Box stroke width in design px; 0 = the renderer default. It is a prop
+ rather than a style property because the boxes are renderer-built children
+ that no StyleGroup can address — the same reason HostProxyProps carries
+ handle_size. */
+    uint32_t border_width;
+    /* Suppress every caption without clearing the labels. Polarity is chosen so
+ proto3's false default draws them: a producer that fills in boxes and
+ labels gets the captions it wrote without having to set a second flag. */
+    bool hide_labels;
+} ui_TargetOverlayProps;
+
 typedef struct _ui_Point {
     int32_t x;
     int32_t y;
@@ -864,6 +894,35 @@ typedef struct _ui_ChartProps {
     bool fade_area;
 } ui_ChartProps;
 
+/* One rectangle drawn by a WIDGET_TARGET_OVERLAY node — a computer-vision
+ detection or track, not an interactive control. */
+typedef struct _ui_TargetBox {
+    /* Rect in DESIGN PIXELS, relative to the overlay's own content-box origin.
+ Same unit and same origin as WidgetNode.x/y, deliberately: a producer that
+ can place a node can place a box, and a per-mille or normalized rect would
+ be the only unit in this vocabulary that is not raw design px. Signed
+ because a detection at the frame edge is legitimately partly outside — the
+ overlay clips its children, so a box hanging off an edge draws its visible
+ part and nothing more. */
+    int32_t x;
+    int32_t y;
+    int32_t w;
+    int32_t h;
+    /* Caption drawn inside the box's top-left corner. Empty = no caption. The
+ caption inherits the OVERLAY's text style, which is what makes it
+ authorable: LVGL treats text color/font/opa as inheritable, so a
+ PROP_TEXT_COLOR or PROP_TEXT_FONT in the overlay node's style_groups
+ reaches every caption, while the boxes themselves are renderer-built and
+ carry no wire style of their own. */
+    char label[32];
+    /* Box stroke color. Absent = the theme's border color for the overlay's own
+ class, which is what makes an unstyled box theme-correct in both families
+ (the ChartSeries.color convention). When present it colors the caption
+ too, so one classification reads as one thing. */
+    bool has_color;
+    ui_Color color;
+} ui_TargetBox;
+
 /* Value-conditional text-color binding — the VisibilityBinding subject/range
  shape PLUS the color applied while the condition holds
  (WidgetNode.color_when). The one reactive binding LVGL cannot express with a
@@ -924,6 +983,7 @@ typedef struct _ui_WidgetNode {
         ui_TabviewProps tabview_props;
         ui_ChartProps chart_props;
         ui_HostProxyProps host_proxy_props;
+        ui_TargetOverlayProps target_overlay_props;
     } widget_props;
     /* Conditional visibility binding (show/hide based on subject value) */
     bool has_visibility;
@@ -1076,8 +1136,8 @@ extern "C" {
 #define _ui_PatchOpKind_ARRAYSIZE ((ui_PatchOpKind)(ui_PatchOpKind_PATCH_OP_MOVE_NODE+1))
 
 #define _ui_WidgetType_MIN ui_WidgetType_WIDGET_OBJ
-#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_HOST_PROXY
-#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_HOST_PROXY+1))
+#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_TARGET_OVERLAY
+#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_TARGET_OVERLAY+1))
 
 #define _ui_ProxyMode_MIN ui_ProxyMode_PROXY_MODE_STATIC
 #define _ui_ProxyMode_MAX ui_ProxyMode_PROXY_MODE_ALIGNABLE
@@ -1227,6 +1287,8 @@ extern "C" {
 #define ui_HostProxyProps_mode_ENUMTYPE ui_ProxyMode
 
 
+
+
 #define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
 
 #define ui_FieldPatch_kind_ENUMTYPE ui_PatchKind
@@ -1284,6 +1346,8 @@ extern "C" {
 #define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 #define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, 0, {ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default}, 0}
 #define ui_HostProxyProps_init_default           {"", _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
+#define ui_TargetBox_init_default                {0, 0, 0, 0, "", false, ui_Color_init_default}
+#define ui_TargetOverlayProps_init_default       {0, NULL, 0, 0}
 #define ui_Point_init_default                    {0, 0}
 #define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
@@ -1330,6 +1394,8 @@ extern "C" {
 #define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 #define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, 0, {ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero}, 0}
 #define ui_HostProxyProps_init_zero              {"", _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
+#define ui_TargetBox_init_zero                   {0, 0, 0, 0, "", false, ui_Color_init_zero}
+#define ui_TargetOverlayProps_init_zero          {0, NULL, 0, 0}
 #define ui_Point_init_zero                       {0, 0}
 #define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
@@ -1424,6 +1490,9 @@ extern "C" {
 #define ui_HostProxyProps_max_h_tag              6
 #define ui_HostProxyProps_handle_size_tag        7
 #define ui_HostProxyProps_z_tag                  8
+#define ui_TargetOverlayProps_boxes_tag          1
+#define ui_TargetOverlayProps_border_width_tag   2
+#define ui_TargetOverlayProps_hide_labels_tag    3
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
 #define ui_LineProps_points_tag                  1
@@ -1492,6 +1561,12 @@ extern "C" {
 #define ui_ChartProps_vdiv_count_tag             5
 #define ui_ChartProps_series_tag                 6
 #define ui_ChartProps_fade_area_tag              7
+#define ui_TargetBox_x_tag                       1
+#define ui_TargetBox_y_tag                       2
+#define ui_TargetBox_w_tag                       3
+#define ui_TargetBox_h_tag                       4
+#define ui_TargetBox_label_tag                   5
+#define ui_TargetBox_color_tag                   6
 #define ui_ColorBinding_when_tag                 1
 #define ui_ColorBinding_color_tag                2
 #define ui_WidgetNode_type_tag                   1
@@ -1525,6 +1600,7 @@ extern "C" {
 #define ui_WidgetNode_tabview_props_tag          38
 #define ui_WidgetNode_chart_props_tag            40
 #define ui_WidgetNode_host_proxy_props_tag       41
+#define ui_WidgetNode_target_overlay_props_tag   48
 #define ui_WidgetNode_visibility_tag             29
 #define ui_WidgetNode_bind_formats_tag           30
 #define ui_WidgetNode_obj_flags_tag              31
@@ -1637,7 +1713,8 @@ X(a, STATIC,   SINGULAR, UINT32,   uid,              43) \
 X(a, POINTER,  REPEATED, MESSAGE,  gestures,         44) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  enabled_when,     45) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46) \
-X(a, STATIC,   SINGULAR, UINT32,   hit_slop,         47)
+X(a, STATIC,   SINGULAR, UINT32,   hit_slop,         47) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,target_overlay_props,widget_props.target_overlay_props),  48)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1673,6 +1750,7 @@ X(a, STATIC,   SINGULAR, UINT32,   hit_slop,         47)
 #define ui_WidgetNode_gestures_MSGTYPE ui_GestureSpec
 #define ui_WidgetNode_enabled_when_MSGTYPE ui_VisibilityBinding
 #define ui_WidgetNode_color_when_MSGTYPE ui_ColorBinding
+#define ui_WidgetNode_widget_props_target_overlay_props_MSGTYPE ui_TargetOverlayProps
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   key,               1) \
@@ -1904,6 +1982,25 @@ X(a, STATIC,   SINGULAR, INT32,    z,                 8)
 #define ui_HostProxyProps_CALLBACK NULL
 #define ui_HostProxyProps_DEFAULT NULL
 
+#define ui_TargetBox_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    x,                 1) \
+X(a, STATIC,   SINGULAR, INT32,    y,                 2) \
+X(a, STATIC,   SINGULAR, INT32,    w,                 3) \
+X(a, STATIC,   SINGULAR, INT32,    h,                 4) \
+X(a, STATIC,   SINGULAR, STRING,   label,             5) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  color,             6)
+#define ui_TargetBox_CALLBACK NULL
+#define ui_TargetBox_DEFAULT NULL
+#define ui_TargetBox_color_MSGTYPE ui_Color
+
+#define ui_TargetOverlayProps_FIELDLIST(X, a) \
+X(a, POINTER,  REPEATED, MESSAGE,  boxes,             1) \
+X(a, STATIC,   SINGULAR, UINT32,   border_width,      2) \
+X(a, STATIC,   SINGULAR, BOOL,     hide_labels,       3)
+#define ui_TargetOverlayProps_CALLBACK NULL
+#define ui_TargetOverlayProps_DEFAULT NULL
+#define ui_TargetOverlayProps_boxes_MSGTYPE ui_TargetBox
+
 #define ui_Point_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 1) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 2)
@@ -2049,6 +2146,8 @@ extern const pb_msgdesc_t ui_TabviewProps_msg;
 extern const pb_msgdesc_t ui_ChartSeries_msg;
 extern const pb_msgdesc_t ui_ChartProps_msg;
 extern const pb_msgdesc_t ui_HostProxyProps_msg;
+extern const pb_msgdesc_t ui_TargetBox_msg;
+extern const pb_msgdesc_t ui_TargetOverlayProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
 extern const pb_msgdesc_t ui_EventBinding_msg;
 extern const pb_msgdesc_t ui_FieldPatch_msg;
@@ -2097,6 +2196,8 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ChartSeries_fields &ui_ChartSeries_msg
 #define ui_ChartProps_fields &ui_ChartProps_msg
 #define ui_HostProxyProps_fields &ui_HostProxyProps_msg
+#define ui_TargetBox_fields &ui_TargetBox_msg
+#define ui_TargetOverlayProps_fields &ui_TargetOverlayProps_msg
 #define ui_Point_fields &ui_Point_msg
 #define ui_EventBinding_fields &ui_EventBinding_msg
 #define ui_FieldPatch_fields &ui_FieldPatch_msg
@@ -2117,6 +2218,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_WidgetNode_size depends on runtime parameters */
 /* ui_TreePatchOp_size depends on runtime parameters */
 /* ui_ScreenPatch_size depends on runtime parameters */
+/* ui_TargetOverlayProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_StyleVariant_size depends on runtime parameters */
@@ -2155,6 +2257,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_SwitchProps_size                      2
 #define ui_TableProps_size                       12
 #define ui_TabviewProps_size                     294
+#define ui_TargetBox_size                        97
 #define ui_TextareaProps_size                    268
 #define ui_VisibilityBinding_size                78
 #define ui_WidgetNode_BindFormatsEntry_size      323
