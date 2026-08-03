@@ -119,7 +119,7 @@ Current speed (-1.0 to 1.0)
 
 ### platform_azimuth (#5)
 
-Latitude in decimal degrees
+Azimuth angle in degrees (0=North, clockwise)
 
 
 #### Metadata
@@ -132,7 +132,7 @@ Latitude in decimal degrees
 
 ### platform_elevation (#6)
 
-Latitude in decimal degrees
+Elevation angle in degrees
 
 
 #### Metadata
@@ -145,7 +145,7 @@ Latitude in decimal degrees
 
 ### platform_bank (#7)
 
-Latitude in decimal degrees
+Bank/roll angle in degrees
 
 
 #### Metadata
