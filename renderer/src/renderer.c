@@ -696,13 +696,16 @@ static void apply_patch_subject(const pending_patch_subject_t *q) {
  * boundary (nanopb + cmd_spec_copy_from_proto) and report which layer
  * accepted/rejected it. See renderer.h for the return contract. ui_CmdSpec is
  * fully static (command_id[128] + a static root_template bytes field + a
- * patches[2] array — no FT_POINTER field), so no pb_release is needed after a
- * decode. */
+ * patches[8] array — every FIELDLIST entry of ui_CmdSpec AND of ui_FieldPatch
+ * is STATIC, both _CALLBACK macros are NULL, so no FT_POINTER field exists and
+ * no pb_release is needed after a decode. The bound is the generated header's,
+ * so it moves with the widest command this vocabulary must send in one shot —
+ * read it there rather than trusting a number repeated here. */
 int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len) {
   ui_CmdSpec spec = ui_CmdSpec_init_zero;
   pb_istream_t stream = pb_istream_from_buffer(data, len);
   if (!pb_decode(&stream, ui_CmdSpec_fields, &spec))
-    return -2; /* nanopb rejected: template > 128B cap, or > 2 patches */
+    return -2; /* nanopb rejected: template > 128B cap, or > 8 patches */
   cmd_spec_t dst;
   return (int32_t)cmd_spec_copy_from_proto(&dst, &spec);
 }
