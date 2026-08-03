@@ -217,7 +217,9 @@ int32_t controls_emit_host_event(const char *tag, const char *trigger,
  *   -1  decoded, but cmd_spec_copy_from_proto REJECTED the slot bounds — an
  *       overflowing or uint32-WRAPPING byte_offset+byte_width;
  *   -2  nanopb REJECTED the bytes at decode — a root_template past the
- *       PB_BYTES_ARRAY_T(128) cap, or more than the 2-patch static array.
+ *       PB_BYTES_ARRAY_T(128) cap, or more patches than the generated
+ *       header's static array holds (ui_CmdSpec.patches, 8 today; read the
+ *       bound there rather than trusting a number repeated here).
  * The reference oracle decodes no proto and stubs this (returns -2). */
 int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len);
 /* Proxy membership, for dump_tree. `renderer_proxy_root` returns the proxy's

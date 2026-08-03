@@ -1370,7 +1370,9 @@ impl ControlsHost {
     /// this exercises the real §8 host-untrusted path with wire bytes. Returns
     /// 0 accepted, -1 the copy rejected the slot bounds (overflowing/wrapping
     /// byte_offset+byte_width), -2 nanopb rejected the bytes (root_template past
-    /// the 128-byte cap, or > 2 patches).
+    /// the 128-byte cap, or more patches than `ui_CmdSpec.patches` holds — 8
+    /// today; the generated header is the bound's home, and
+    /// `rejects_more_than_eight_patches_at_nanopb_cap` pins it executably).
     ///
     /// # Errors
     ///

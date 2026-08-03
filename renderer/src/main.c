@@ -1354,7 +1354,9 @@ int32_t controls_cmd_patch_probe(uint32_t byte_offset, uint32_t byte_width,
  * the cmd_spec_t and so bypasses nanopb decode + the copy guard entirely.
  * Returns 0 accepted, -1 the copy rejected the slot bounds (an
  * overflowing/wrapping byte_offset + byte_width), -2 nanopb rejected the bytes
- * (root_template past the 128-byte cap, or > 2 patches). Delegates to
+ * (root_template past the 128-byte cap, or more patches than
+ * ui_CmdSpec.patches holds — 8 today; renderer.h carries the full return
+ * contract and points at the generated header for the bound). Delegates to
  * cmd_spec_decode_probe (renderer.c owns the static copy guard + the nanopb
  * machinery). */
 int32_t controls_cmd_spec_decode_probe(uint32_t ptr, uint32_t len) {
