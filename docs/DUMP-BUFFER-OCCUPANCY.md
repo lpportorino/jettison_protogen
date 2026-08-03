@@ -21,11 +21,11 @@ breakdowns from `tools/perf/dump_tree_census.py`.
 the pooled element — not on its count alone.** Two of the three refuse the load
 outright; only one truncates.
 
-| ceiling | value | where | what happens | reached at (this element shape) |
+| ceiling | value | where | what happens | last good / first bad element count |
 |---|---|---|---|---|
-| uid registry | 1024 uid-bearing nodes | `renderer/src/renderer.c` `MAX_UID_NODES` | `controls_load_ui` returns `-2`, screen NOT built | 512 elements (2 uid nodes each) |
-| dump buffer | 131072 bytes | `renderer/src/main.c` `TREE_BUF_SIZE` | dump TRUNCATES, load unaffected | 579 elements (no uids) |
-| style pool | 2048 styles | `renderer/src/renderer.c` `MAX_STYLES` | `controls_load_ui` returns `-1`, screen NOT built | 2048 elements (1 style group each) |
+| uid registry | 1024 uid-bearing nodes | `renderer/src/renderer.c` `MAX_UID_NODES` | `controls_load_ui` returns `-2`, screen NOT built | 512 / 513, at 2 uid nodes per element |
+| dump buffer | 131072 bytes | `renderer/src/main.c` `TREE_BUF_SIZE` | dump TRUNCATES, load and render unaffected | 578 / 579, with no uids |
+| style pool | 2048 styles | `renderer/src/renderer.c` `MAX_STYLES` | `controls_load_ui` returns `-1`, screen NOT built | 2047 / 2048, at 1 style group per element |
 
 So the claim *"the dump buffer is the binding constraint"* is **true only for a
 pool whose nodes carry no uid**. `ui.WidgetNode.uid` is described in
