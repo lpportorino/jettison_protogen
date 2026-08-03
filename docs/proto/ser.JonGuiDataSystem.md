@@ -281,7 +281,7 @@ See `tracking` (#18) for the presence caveat that applies to this field too.
 
 ### accumulator_state (#24)
 
-Latitude in decimal degrees
+See related enum for valid values
 
 
 ### ext_bat_capacity (#25)

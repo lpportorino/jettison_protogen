@@ -100,17 +100,17 @@ See [[proto/cmd.RotaryPlatform.Axis]]
 
 ### set_platform_azimuth (#4)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
 
 
 ### set_platform_elevation (#5)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.SetPlatformElevation]]
 
 
 ### set_platform_bank (#6)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.SetPlatformBank]]
 
 
 ### halt (#7)
