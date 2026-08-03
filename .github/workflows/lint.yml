@@ -55,6 +55,14 @@ on:
     # job that greps it and the drift landed on whoever next touched a `.sh`.
     # Same argument as `.clang-format` in renderer.yml: a gate's INPUT set is
     # part of its trigger, not just the files it is nominally "about".
+    #
+    # TWO OF THEM NOW CARRY A SECOND GATE, and that is recorded here so the
+    # entries cannot be removed on a stale reason. `renderer.mk` and
+    # `renderer/wasm.mk` are also two of the six subjects of the wasm-provenance
+    # canary this workflow runs (see its step for the full list): wasm.mk holds
+    # the link recipe that WRITES the content stamp, renderer.mk the wiring that
+    # reaches the verifier. If `lint-sh` ever stops grepping them, deleting them
+    # here would leave that canary armed in name only.
     - "Makefile"
     - "renderer.mk"
     - "renderer/wasm.mk"
@@ -70,6 +78,14 @@ on:
     # today; this stays explicit so moving the gate out of those extensions
     # cannot silently un-arm the job.)
     - "tools/lint/**"
+    # THE OTHER GATE SOURCE THIS JOB NOW JUDGES: the producer and the verifier
+    # of the controls.wasm content stamp, which the wasm-provenance canary
+    # copies out of the real tree and drives. Subsumed by `**/*.sh` TODAY —
+    # both files are shell and the directory holds nothing else — and kept
+    # explicit for the same reason `tools/lint/**` is, which is the one case
+    # where this file keeps an entry it knows to be redundant: rewriting a gate
+    # in another language must not silently un-arm the job that judges it.
+    - "renderer/tools/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -103,6 +119,14 @@ on:
     # job that greps it and the drift landed on whoever next touched a `.sh`.
     # Same argument as `.clang-format` in renderer.yml: a gate's INPUT set is
     # part of its trigger, not just the files it is nominally "about".
+    #
+    # TWO OF THEM NOW CARRY A SECOND GATE, and that is recorded here so the
+    # entries cannot be removed on a stale reason. `renderer.mk` and
+    # `renderer/wasm.mk` are also two of the six subjects of the wasm-provenance
+    # canary this workflow runs (see its step for the full list): wasm.mk holds
+    # the link recipe that WRITES the content stamp, renderer.mk the wiring that
+    # reaches the verifier. If `lint-sh` ever stops grepping them, deleting them
+    # here would leave that canary armed in name only.
     - "Makefile"
     - "renderer.mk"
     - "renderer/wasm.mk"
@@ -118,6 +142,14 @@ on:
     # today; this stays explicit so moving the gate out of those extensions
     # cannot silently un-arm the job.)
     - "tools/lint/**"
+    # THE OTHER GATE SOURCE THIS JOB NOW JUDGES: the producer and the verifier
+    # of the controls.wasm content stamp, which the wasm-provenance canary
+    # copies out of the real tree and drives. Subsumed by `**/*.sh` TODAY —
+    # both files are shell and the directory holds nothing else — and kept
+    # explicit for the same reason `tools/lint/**` is, which is the one case
+    # where this file keeps an entry it knows to be redundant: rewriting a gate
+    # in another language must not silently un-arm the job that judges it.
+    - "renderer/tools/**"
     # Every workflow, not just this one: the actionlint step below judges them
     # all, so a job that only fired on its own file could not see the breakage
     # it exists to catch. Subsumes the previous lint.yml-only entry.
@@ -157,6 +189,47 @@ jobs:
       # the commit that would break it.
       name: shell parse + payload-apostrophe check
       run: make -f lint.mk lint-sh
+
+    - # THE controls.wasm CONTENT-PROVENANCE CANARY. It needs bash, make and
+      # coreutils and installs nothing, so it sits in this pre-toolchain block
+      # beside the shell lane above.
+      #
+      # WHY THIS WORKFLOW AND NOT hygiene.yml. That one is for scans whose input
+      # set is the whole checkout, and its header says outright that a genuinely
+      # path-scoped check belongs here instead. This one is path-scoped, and
+      # exactly so: it is HERMETIC, assembling a throw-away tree under `mktemp`
+      # from six real files and nothing else — `renderer.mk`,
+      # `renderer/wasm.mk`, `renderer/tools/wasm_input_digest.sh`,
+      # `renderer/tools/wasm_inputs_verify.sh`, `tools/lint/test/lib_mutate.sh`,
+      # and its own source. Its subjects are ENUMERABLE, so a filter over it is
+      # not a false skip; it is what `.claude/rules/gate-enforcement.md` §2 asks
+      # for when it says to point a trigger at the paths that can break the
+      # thing.
+      #
+      # WHY NOT renderer.yml, which is the topical home. Two mechanical reasons.
+      # Its filter covers `renderer/**` and `renderer.mk` but NOT
+      # `tools/lint/test/lib_mutate.sh` or `tools/wasm_provenance_test.sh`, so
+      # two of the six subjects would sit outside the trigger and a change to
+      # the canary's own harness would start no job that runs it. And its job
+      # builds the pinned image before anything else, which this canary has no
+      # use for: the compiler is STUBBED, because what is under test is what
+      # make DECIDES and what the recipes WRITE, never what clang emits.
+      #
+      # THE FILTER ABOVE ALREADY COVERS ALL SIX — stated rather than assumed,
+      # because a canary whose trigger excludes the files that can break it is
+      # green for a structural reason. `renderer.mk`, `renderer/wasm.mk` and
+      # `lint.mk` are literal entries, `renderer/tools/**` and `tools/lint/**`
+      # name the gate sources, and `**/*.sh` catches this canary itself. No
+      # widening was needed to arm it.
+      #
+      # WHAT IS STILL NOT ARMED, so a reader does not over-read this step: the
+      # GATE it canaries — `wasm-inputs-check`, in renderer.mk's
+      # `check-renderer-lanes` — runs in no workflow and in no hook, because no
+      # workflow runs `check-renderer` (renderer.yml decomposes it) and the
+      # pre-push hook is a lint hook. That gap is renderer.mk's to close and is
+      # not closed here.
+      name: wasm-provenance canaries (mutation-proven clause attribution)
+      run: make -f lint.mk wasm-provenance-test
 
     - # actionlint is a single static binary, so it installs in one step and
       # needs no toolchain — which is why this sits ahead of the JDK setup

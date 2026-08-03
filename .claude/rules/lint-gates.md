@@ -50,19 +50,19 @@ Two guards you will meet:
 
 | lane | runs | why |
 |---|---|---|
-| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, and cljfmt and the two structural lanes named here need only the CLI |
+| `cljfmt`, `clj-kondo`, `lint-sh` (`bash -n` + payload apostrophes), `actionlint`, `lint-clj-gate-test`, `wasm-provenance-test`, the namespace-size ceiling, spec presence | `lint.yml`, plain runner | fast; kondo is a native binary, cljfmt and the two structural lanes named here need only the CLI, and the provenance canary needs neither toolchain — it stubs the compiler, so it is bash and make over a `mktemp` fixture |
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
 | the WHOLE-TREE scans — the leak ban, the markdown gate, the file-size ceiling | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
 
-**THREE STRUCTURAL CHECKS AND SIX FORK/LEG/BUILD CANARIES ARE HOOK-ONLY, NOT
+**THREE STRUCTURAL CHECKS AND FIVE FORK/LEG CANARIES ARE HOOK-ONLY, NOT
 CI-ENFORCED, and that is a gap rather than a documented decision.**
 `lint-fn-size`, `lint-docstrings` and `lint-spec-shape` — plus `fork-hazards`,
-`brief-check-test`, `forks-release-test`, `leg-strictness-test`,
-`uber-chown-test` and `wasm-provenance-test` — all sit in `lint.mk`'s
-`lint-lanes` aggregate, so `.githooks/pre-push` runs every one of them. No
-workflow calls any of the nine: `lint.yml` runs only `lint-ns-size` and
-`lint-spec-presence` from the structural family, `hygiene.yml` covers the
-whole-tree scans, and neither touches the rest. `.claude/rules/gate-enforcement.md` §6 makes local and CI
+`brief-check-test`, `forks-release-test`, `leg-strictness-test` and
+`uber-chown-test` — all sit in `lint.mk`'s `lint-lanes` aggregate, so
+`.githooks/pre-push` runs every one of them. No workflow calls any of the
+eight: `lint.yml` runs only `lint-ns-size` and `lint-spec-presence` from the
+structural family, `hygiene.yml` covers the whole-tree scans, and neither
+touches the rest. `.claude/rules/gate-enforcement.md` §6 makes local and CI
 enforcement complements rather than alternatives precisely because a
 client-side hook only protects whoever armed it — `--no-verify` bypasses it
 outright, by that hook's own header — so these eight currently have no
@@ -70,6 +70,20 @@ authoritative half. Read any collective phrase for this family — "the
 structural checks", "the structural gates", "the structural lanes" — as naming
 all five; which of them CI runs is the enumeration above, not something a name
 carries.
+
+**THIS LIST SHRANK, AND WHAT LEFT IT IS WORTH NAMING — because a count that
+only ever grows is one nobody is maintaining.** `wasm-provenance-test` is now a
+step in `lint.yml`, and `lint-file-size` with its canary `lint-file-size-test`
+are steps in `hygiene.yml`; each sits in the workflow its INPUT SET picks, not
+the one its subject matter suggests — the provenance canary is hermetic over
+six enumerable files so a filter is honest for it, while the size ceiling scans
+the checkout so no filter can be. **The size ceiling was never in the
+enumeration above at all**: it landed after that paragraph was written, was
+hook-only for the whole of its life until now, and nothing reported the
+omission. So read the enumeration as only as current as the last person who
+remembered to edit it while adding a lane to `lint-lanes` — the aggregate is
+the fact, this paragraph is a copy of it, and `grep lint-lanes lint.mk`
+against the steps in `.github/workflows/` is what settles a disagreement.
 
 **THE THIRD WORKFLOW IS NOT A TIDINESS SPLIT.** Every lane in the first row is
 handed a positive allowlist, so a path filter naming those file types is complete
