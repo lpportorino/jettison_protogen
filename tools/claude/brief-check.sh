@@ -573,7 +573,7 @@ check_declared_assertions() {
         hits="$(resolve_entry "$arg")"
         if [ -n "$hits" ]; then
           finding assert-absent-violated \
-            "the brief asserts '$arg' is absent, but the base tree tracks it: $(head -n 3 <<< "$hits" | tr '\n' ' ')"
+            "the brief asserts '$arg' is absent, but the base tree tracks it: $(printf '%s' "$hits" | head -n 3 | tr '\n' ' ')"
         elif exists_on_disk "$root" "$arg"; then
           finding assert-absent-violated \
             "the brief asserts '$arg' is absent, but it exists on disk in $root"

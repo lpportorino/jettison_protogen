@@ -384,10 +384,14 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
     if (box == NULL)
       return -1;
     if (value == 19 || value == 20) {
-      /* Tabview fills its parent (class PCT(100) size defaults are
-             * LOCAL styles — un-overridable from the proto's style
-             * groups, so neither path sizes it); the chart needs room for
-             * its div lines + series — give both a roomier box. */
+      /* Tabview fills its parent unless something sizes it: the class
+             * carries PCT(100) width/height defaults AND the constructor
+             * writes PCT(100) as a LOCAL style, and it is the local — not
+             * the class default — that outranks an added style group. The
+             * proto path now removes that local when a size is authored,
+             * so it CAN size it; this fixture simply authors none. The
+             * chart needs room for its div lines + series — give both a
+             * roomier box. */
       lv_obj_set_size(box, 300, 200);
     }
     lv_obj_t *w = make_widget(box, value);

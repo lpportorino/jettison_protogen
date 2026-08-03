@@ -234,9 +234,12 @@ done
 # page content each, zipped from children) + active tab 1 — mirrors
 # reference_ui.c make_widget kind 19 exactly (names are constants on both
 # sides, same convention as the "Ag" text rows). NO explicit size on the
-# tabview: its class defaults (PCT(100)) are LOCAL styles that outrank
-# style-group w/h on the proto path, so both paths let pct-fill rule
-# inside a larger box (the spinbox sizing note in reference_ui.c is the
+# tabview — by CHOICE, not because sizing is impossible. The tabview class
+# carries PCT(100) width/height defaults and its constructor also writes
+# PCT(100) as a LOCAL style; the local is what outranks an added style
+# group, not the class default. The proto path now removes that local when
+# a size is authored, so a sized fixture WOULD differ between the two paths
+# and is worth adding (the spinbox sizing note in reference_ui.c is the
 # same local-vs-added-style class).
 cat >"$ROOT/$FIX/widget_19_lv_tabview.edn" <<'EDN'
 {:type :screen
