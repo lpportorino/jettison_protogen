@@ -43,7 +43,8 @@ RGEN := tools/renderer-gen
 
 .PHONY: wasm reference proto-classes bindings fixtures dump-contracts harness interaction \
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
-	generated-projection construct-bindings conventions-projection \
+	generated-projection generated-projection-canary conventions-projection \
+	construct-bindings \
 	devcards-test state-mirror reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
@@ -796,6 +797,24 @@ demo-parity: proto-classes wasm reference manifests
 # Emit to a temp dir and cmp against the committed copies — NOT `git diff`: this
 # runs inside the Dockerfile.base container where protogen is a submodule and its
 # .git is not resolvable. A stale projection is regenerated in place (review + commit).
+#
+# THE VERDICT IS PRINTED BEFORE THE HEAL IS ATTEMPTED, for the reason
+# `generated-projection` records at length: renderer.yml runs THIS step on a
+# READ-ONLY mount too, so `install_atomic` cannot write and the reader used to be
+# handed `mktemp: … Read-only file system` plus "installing … failed" — two
+# sentences about a write, over a manifest whose actual defect was staleness.
+# Measured by planting a one-byte drift in output/manifests/design-tokens.json
+# and running this target through renderer.yml's own `:ro` invocation.
+#
+# The install failure also no longer ABORTS the loop. It used to `exit 1` on the
+# spot, so a read-only run named the first drifted manifest and never compared
+# the other three; now every pair is judged and every verdict is printed.
+#
+# THE 1/3 EXIT SPLIT IS DELIBERATELY *NOT* EXTENDED HERE. This target's
+# preconditions (a failed emit) already exit 1, and nothing calls it expecting to
+# tell a verdict from a precondition — `generated-projection` has that caller and
+# this does not. Stated rather than left as an oversight: adopting the split here
+# is a separate change owing its own canary cases.
 manifests:
 	@tmp="$$(mktemp -d)"; \
 	( cd $(RGEN) \
@@ -817,8 +836,15 @@ manifests:
 	  "gesture_thresholds.h:$(R)/generated"; do \
 	  f="$${pair%%:*}"; d="$${pair##*:}"; \
 	  if ! cmp -s "$$d/$$f" "$$tmp/$$f"; then \
-	    install_atomic "$$tmp/$$f" "$$d/$$f" || { rm -rf "$$tmp"; echo "FATAL: installing $$d/$$f failed" >&2; exit 1; }; \
-	    echo "FATAL: $$d/$$f was STALE vs a fresh emit — regenerated in place; review and commit it." >&2; \
+	    echo "FATAL: $$d/$$f is STALE vs a fresh emit." >&2; \
+	    if install_atomic "$$tmp/$$f" "$$d/$$f"; then \
+	      echo "  Regenerated in place; review and commit it." >&2; \
+	    else \
+	      echo "  It could NOT be regenerated here, because this tree is not writable —" >&2; \
+	      echo "  a read-only CI mount does exactly this. THE VERDICT IS UNCHANGED: the" >&2; \
+	      echo "  manifest is stale, not the mount broken. Re-run this target where the" >&2; \
+	      echo "  tree is writable and commit what it rewrites." >&2; \
+	    fi; \
 	    rc=1; \
 	  fi; \
 	done; \
@@ -993,6 +1019,41 @@ manifests-proto-db:
 # expansion reading as "nothing to project", a green tick over zero coverage)
 # needs a floor precisely because discovery can break silently. A hand-listed
 # set cannot: shrinking it is an edit to this file, in the diff, reviewed.
+#
+# THE VERDICT IS PRINTED BEFORE THE HEAL IS ATTEMPTED, and that ordering is the
+# whole of what this lane says out loud. Staleness is decided by `cmp` alone; the
+# in-place rewrite is a CONVENIENCE for whoever is standing in a writable tree.
+# Reporting the verdict only if the convenience succeeded is how this lane spent
+# its first CI failure describing the wrong defect: renderer.yml mounts the
+# workspace READ-ONLY, so `install_atomic`'s `mktemp` died first and the entire
+# output was
+#
+#   mktemp: failed to create file via template
+#     'renderer/generated/.protogen-install.XXXXXX': Read-only file system
+#
+# — a message about a MOUNT, over a tree whose actual defect was a binding that
+# had not been refreshed. A reader who trusts it diagnoses the mount, and one
+# did. The same inversion is recorded a few steps away in renderer.yml, where a
+# `:ro` mount made a missing write surface "read like a permissions bug"; this is
+# that hazard reached through a gate's own reporting rather than through a
+# workflow's mount choice.
+#
+# EXIT CODES SEPARATE A VERDICT FROM A PRECONDITION, per
+# .claude/rules/gate-enforcement.md §2 — a suite (or a caller) that can only see
+# "non-zero" accepts a broken harness as proof that a clause fired:
+#
+#   0  every projected pair is byte-identical
+#   1  FAIL     — a real staleness verdict: a projected file drifted, or a
+#                 flatten symlink is not a symlink. The tree is wrong.
+#   3  CANNOT RUN — a precondition: a projection SOURCE is gone, or a projected
+#                 DESTINATION was deleted. Nothing can be judged about that pair,
+#                 and 3 DOMINATES 1 across the run, because a run that could not
+#                 look at part of its population must not report the part it did
+#                 look at as the whole answer.
+#
+# That split is what lets a CALLER heal deliberately rather than by hoping: 1
+# means "the rewrite this lane just performed is the fix", 3 means "stop".
+# `.github/workflows/build-and-release.yml` is the caller that depends on it.
 GENERATED_DIR := $(R)/generated
 
 # The nanopb RUNTIME (copied verbatim from /opt/nanopb by generate-protos.sh)
@@ -1012,46 +1073,90 @@ GENERATED_UI_FILES := ui_ast.pb.c ui_ast.pb.h ui_input.pb.c ui_input.pb.h
 # mode 120000, and the reason the flattened .pb.c files still compile.
 GENERATED_UI_LINKS := ui_ast.pb.h ui_input.pb.h
 
+# The roster, machine-readable, for tools/generated-projection-canary.sh.
+#
+# The canary builds its synthetic fixture from THIS output rather than from a
+# hand-copied list, so a name added or removed above cannot leave the canary
+# exercising a population the gate no longer has — and the canary floors all
+# three lines at non-empty, which is what turns the pass line's counts into a
+# checkable claim instead of two numbers nobody compares to anything.
+.PHONY: generated-projection-roster
+generated-projection-roster:
+	@printf 'root %s\n' $(GENERATED_ROOT_FILES)
+	@printf 'ui %s\n' $(GENERATED_UI_FILES)
+	@printf 'link %s\n' $(GENERATED_UI_LINKS)
+
 generated-projection:
 	@rc=0; \
+	worse() { case "$$1" in 3) rc=3;; *) [ "$$rc" -eq 3 ] || rc=1;; esac; }; \
 	$(INSTALL_ATOMIC) \
 	project() { \
 	  src="$$1"; dst="$$2"; \
 	  if [ ! -f "$$src" ]; then \
-	    echo "FATAL: $$src is missing — renderer/generated projects it, so the" >&2; \
+	    echo "CANNOT RUN: $$src is missing — renderer/generated projects it, so the" >&2; \
 	    echo "  source of the projection is gone. Regenerate output/c." >&2; \
-	    return 1; \
+	    return 3; \
 	  fi; \
 	  cmp -s "$$src" "$$dst" && return 0; \
 	  if [ ! -e "$$dst" ]; then \
-	    echo "FATAL: $$dst is MISSING, not stale — its name is in a FIXED projection" >&2; \
+	    echo "CANNOT RUN: $$dst is MISSING, not stale — its name is in a FIXED projection" >&2; \
 	    echo "  list, so there is no mode to preserve and copying the 755 source in" >&2; \
 	    echo "  would silently rewrite the tracked mode, which cmp cannot see (hazard" >&2; \
 	    echo "  5). Restore a DELETED file with 'git checkout -- $$dst'; if you just" >&2; \
 	    echo "  added the name to the list, create it with the mode you intend." >&2; \
-	    return 1; \
+	    return 3; \
 	  fi; \
-	  install_atomic "$$src" "$$dst" || return 1; \
-	  echo "FATAL: $$dst was STALE vs $$src — regenerated in place; review and commit it." >&2; \
+	  echo "FATAL: $$dst is STALE vs $$src." >&2; \
+	  if install_atomic "$$src" "$$dst"; then \
+	    echo "  Regenerated in place; review and commit it." >&2; \
+	  else \
+	    echo "  It could NOT be regenerated here, because this tree is not writable —" >&2; \
+	    echo "  a read-only CI mount does exactly this. THE VERDICT IS UNCHANGED: the" >&2; \
+	    echo "  projection is stale, not the mount broken. Re-run this target where the" >&2; \
+	    echo "  tree is writable and commit what it rewrites." >&2; \
+	  fi; \
 	  return 1; \
 	}; \
 	for f in $(GENERATED_ROOT_FILES); do \
-	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" || rc=1; \
+	  project "output/c/$$f" "$(GENERATED_DIR)/$$f" || worse "$$?"; \
 	done; \
 	for f in $(GENERATED_UI_FILES); do \
-	  project "output/c/ui/$$f" "$(GENERATED_DIR)/$$f" || rc=1; \
+	  project "output/c/ui/$$f" "$(GENERATED_DIR)/$$f" || worse "$$?"; \
 	done; \
 	for l in $(GENERATED_UI_LINKS); do \
 	  dst="$(GENERATED_DIR)/ui/$$l"; want="../$$l"; \
 	  if [ -L "$$dst" ] && [ "$$(readlink "$$dst")" = "$$want" ]; then continue; fi; \
-	  mkdir -p "$(GENERATED_DIR)/ui" && rm -f "$$dst" && ln -s "$$want" "$$dst" || rc=1; \
-	  echo "FATAL: $$dst was not the symlink -> $$want (a recursive copy flattens it" >&2; \
+	  echo "FATAL: $$dst is not the symlink -> $$want (a recursive copy flattens it" >&2; \
 	  echo "  into a regular file, and the flattened .pb.c then cannot resolve its own" >&2; \
-	  echo "  quoted include) — recreated; review and commit it." >&2; \
-	  rc=1; \
+	  echo "  quoted include)." >&2; \
+	  if mkdir -p "$(GENERATED_DIR)/ui" && rm -f "$$dst" && ln -s "$$want" "$$dst"; then \
+	    echo "  Recreated; review and commit it." >&2; \
+	  else \
+	    echo "  It could NOT be recreated here, because this tree is not writable. THE" >&2; \
+	    echo "  VERDICT IS UNCHANGED: the flatten shim is wrong, not the mount broken." >&2; \
+	  fi; \
+	  worse 1; \
 	done; \
 	[ "$$rc" -eq 0 ] && echo "generated-projection: fresh ($(words $(GENERATED_ROOT_FILES) $(GENERATED_UI_FILES)) files + $(words $(GENERATED_UI_LINKS)) flatten symlinks vs output/c)"; \
 	exit "$$rc"
+
+# The canary for the lane above: a hermetic synthetic tree per case, one
+# production clause broken at a time, the exact recipe exit code asserted, and a
+# NAMED neighbour required to stay silent on the same mutant. It reads its
+# population from `generated-projection-roster`, so it cannot drift from the
+# lists it is meant to exercise.
+#
+# ORDERED BEFORE `generated-projection` wherever both run. A stale tree stops
+# make at the first failing goal, so a canary listed second would be skipped on
+# exactly the pushes where the lane's behaviour is in question — prove the gate
+# can fail, then read its verdict.
+#
+# No toolchain: bash, make and coreutils. It writes only inside its own
+# `mktemp -d`, so it runs unchanged under renderer.yml's read-only workspace
+# mount and never touches the checkout.
+.PHONY: generated-projection-canary
+generated-projection-canary:
+	@bash tools/generated-projection-canary.sh
 
 # ── The LVGL enum factory: the OTHER projection into renderer/generated ─────
 # `generated-projection` above covers what comes from output/c. These two come
@@ -1550,5 +1655,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

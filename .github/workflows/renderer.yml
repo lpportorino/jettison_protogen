@@ -59,6 +59,10 @@ on:
     - ".clang-format"
     - "lint.mk"
     - "tools/renderer-gen/**"
+    # The freshness lane's canary. A canary whose trigger excludes the file whose
+    # change would break it is armed in name only, and every run of it is green
+    # for a structural reason (.claude/rules/gate-enforcement.md §2).
+    - "tools/generated-projection-canary.sh"
     - "output/manifests/**"
     # renderer/generated/** is a PROJECTION of output/c (renderer.mk's
     # generated-projection gate), so a binding regenerated there is a renderer
@@ -116,6 +120,10 @@ on:
     - ".clang-format"
     - "lint.mk"
     - "tools/renderer-gen/**"
+    # The freshness lane's canary. A canary whose trigger excludes the file whose
+    # change would break it is armed in name only, and every run of it is green
+    # for a structural reason (.claude/rules/gate-enforcement.md §2).
+    - "tools/generated-projection-canary.sh"
     - "output/manifests/**"
     - "output/c/**"
     # See the push filter above: the proto-db manifest leg's SOURCE side.
@@ -207,11 +215,29 @@ jobs:
       # manifest step below, it exists here because renderer.yml DECOMPOSES
       # check-renderer into individual targets — a target omitted here simply
       # never runs in CI.
-      name: renderer/generated freshness (projection of output/c)
+      #
+      # THE CANARY RUNS FIRST, AND THE ORDER IS THE POINT. make stops at the
+      # first failing goal, so a canary listed second is skipped on exactly the
+      # pushes where this lane just refused — which is when "can it still fail
+      # for its own reason?" is the live question. Prove the gate can fail, then
+      # read its verdict. It is hermetic (a synthetic tree per case under its own
+      # mktemp -d) and needs no toolchain, so it runs unchanged under the
+      # read-only mount and cannot touch the checkout.
+      #
+      # THE MOUNT STAYS `:ro`, and that is now a decision rather than a default.
+      # This step's first CI failure was reported as `mktemp: … Read-only file
+      # system` with no other output, because the lane used to print its
+      # staleness verdict only AFTER a successful in-place rewrite — so an
+      # unwritable tree lost the verdict and left a message about the mount. The
+      # fix is in the lane, which now states the verdict first and then says
+      # whether it could heal; granting write here would have hidden that defect
+      # behind a heal CI throws away, and would put a root-owned rewrite in the
+      # runner's checkout for a step whose only product is a verdict.
+      name: renderer/generated freshness (projection of output/c) + its canary
       run: |
         docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \
-          make -f renderer.mk generated-projection
+          make -f renderer.mk generated-projection-canary generated-projection
     - # The C half of the format gate lives HERE, not in lint.yml, because the
       # only PINNED clang-format is the one inside this image — the WASI-SDK the
       # renderer is compiled with (/opt/wasi-sdk/bin/clang-format). A formatter
