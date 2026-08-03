@@ -68,7 +68,7 @@ Left edge in NDC (-1.0 to 1.0)
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** px
+- **Unit:** NDC
 
 
 ### y1 (#2)
@@ -79,7 +79,7 @@ Top edge in NDC (-1.0 to 1.0)
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** px
+- **Unit:** NDC
 
 
 ### x2 (#3)
@@ -90,7 +90,7 @@ Right edge in NDC (-1.0 to 1.0)
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** px
+- **Unit:** NDC
 
 
 ### y2 (#4)
@@ -101,7 +101,7 @@ Bottom edge in NDC (-1.0 to 1.0)
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** px
+- **Unit:** NDC
 
 
 ### frame_time (#5)
