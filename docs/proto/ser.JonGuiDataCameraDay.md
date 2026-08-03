@@ -209,7 +209,7 @@ Normalized value (0.0 to 1.0)
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :normalized
 
 
 ### horizontal_fov_degrees (#12)
