@@ -61,7 +61,6 @@ Zero-based node index
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
 
 
 ### DayZoomTableValue (#2)
@@ -72,7 +71,6 @@ Day camera zoom table index for this scan node
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
 
 
 ### HeatZoomTableValue (#3)
@@ -83,7 +81,6 @@ Heat camera zoom table index for this scan node
 #### Metadata
 
 - **Semantic Type:** :duration
-- **Unit:** ms
 
 
 ### azimuth (#4)
