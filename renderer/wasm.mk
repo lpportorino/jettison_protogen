@@ -393,13 +393,140 @@ $(OBJ_DIR)/%.o: %.cpp $(LV_CONF)
 # whatever HEAD says.
 PROTOGEN_SHA ?= $(shell git rev-parse HEAD 2>/dev/null || echo UNRESOLVABLE-NO-GIT)$(shell git diff --quiet HEAD -- . 2>/dev/null || echo -dirty)
 
+# ── the CONTENT stamp: WHAT WAS COMPILED, written BY the link ────────────────
+# The sha stamp above answers "which commit was HEAD when make last ran". That
+# is not the same question as "which sources produced this binary", and the gap
+# between them is REACHABLE — measured against this very file, on a warm object
+# tree, with no compiler invoked:
+#
+#   commit an edit to the LINK FLAGS in this file, then `make -f wasm.mk all`.
+#   Exit 0, no output, controls.wasm byte-identical and its mtime unmoved — and
+#   controls.wasm.build-sha rewritten to the NEW commit. The binary on disk was
+#   linked without the flag the stamped tree adds. A consumer comparing the
+#   stamp against its gitlink passes, over an artifact that does not correspond
+#   to the stamped source.
+#
+# THAT IS NOT ONE BUG WITH ONE PATCH, IT IS A CLASS, and enumerating it is why
+# the answer here is a content claim rather than a new prerequisite. Four paths
+# reach it, all measured on the real makefile:
+#   1. THIS FILE is a prerequisite of nothing, so every flag it carries — the
+#      export list, the memory triple, $(OPT), the warning set — can move
+#      without a relink (the stack-size block above already records this from
+#      the other direction, as the reason a bisection needs a forced rebuild).
+#   2. A source whose CONTENT moved but whose MTIME did not: `cp -p`, `rsync
+#      -a`, a tar or artifact extract that restores times. make compares times,
+#      so the object stays "current" over changed bytes.
+#   3. A DELETED source. The prerequisite list shrinks, nothing left in it is
+#      newer than the target, and the removed translation unit stays linked in.
+#      Simulated by shrinking LVGL_SRCS by 63 files: make ran the stamp recipes
+#      and nothing else.
+#   4. Any future path that skips or short-circuits the link.
+# Adding prerequisites closes the ones somebody thought of. A digest of the
+# inputs closes the class, because it compares CONTENT and never asks how the
+# link came to be skipped.
+#
+# "JUST MAKE THIS FILE A PREREQUISITE OF THE LINK" IS THE OBVIOUS FIX FOR (1),
+# AND AS A ONE-LINE CHANGE IT IS WORSE THAN NOTHING. Adding `wasm.mk` to $(OUT)
+# alone relinks without RECOMPILING, so a $(CFLAGS) or $(OPT) edit would produce
+# a binary whose objects still carry the OLD compile flags — and the fresh link
+# would then write a fresh, GREEN content stamp over it. To be sound the file
+# has to be a prerequisite of every OBJECT as well, exactly as $(LV_CONF) is,
+# which means every edit to it — including a comment — rebuilds all of them.
+# That is a deliberate cost decision about incremental-build behaviour (the perf
+# block above `all` is the ledger it belongs in), not a provenance fix, so it is
+# left to be taken on its own terms.
+#
+# THE CONSEQUENCE, STATED SO IT IS NOT MET AS A SURPRISE: because this file is
+# hashed and is a prerequisite of nothing, editing it — a flag OR a comment —
+# leaves the artifact untouched and makes the verifier ask for a relink. That is
+# the over-hash direction working as designed; the flag and the comment are
+# indistinguishable without parsing make semantics, and a stamp that guessed
+# would be guessing about the one thing it exists to assert.
+#
+# THE ONE PROPERTY THAT MAKES IT WORK IS WHO WRITES IT. This stamp is emitted
+# by the LINK RECIPE and by nothing else — it is not a target, deliberately, so
+# no rule can regenerate it from the current tree while an older binary sits
+# beside it. That would be the same defect in a newer coat: a fresh claim over
+# stale bytes. A no-op rebuild therefore leaves it exactly as it was, which is
+# the correct outcome — it stays TRUE rather than becoming a fresh lie, and a
+# tree that has moved since the link now DISAGREES with a recomputation, which
+# is what the verifier reports.
+#
+# The cost of that choice, stated rather than discovered: a warm tree built
+# before this stamp existed has no sidecar, and no `make` invocation will mint
+# one without relinking. That is not a gap to paper over — a truthful sidecar
+# cannot be produced without producing the binary it describes. renderer.mk's
+# verifier refuses (never passes) and prints the relink.
+#
+# ADDITIVE BY CONSTRUCTION: .build-sha is untouched, still written by the same
+# rule, still the same single-line shape its readers parse. This is a SECOND
+# sidecar beside it, so a consumer gating on the sha keeps passing and adopts
+# the stronger claim when it chooses to.
+#
+# SCOPE, so no reader over-reads the digest: it covers the files this link
+# compiles plus the description that compiles them. It does NOT cover the
+# TOOLCHAIN — identical inputs under a different WASI-SDK give a different
+# binary and the same digest. That axis belongs to the provisioning-parity pair
+# in renderer.mk (`wasm-sha-record` / `wasm-sha-verify`), which compares the
+# ARTIFACT's own sha256 across the two build paths, and to Dockerfile.base.
+#
+# The header set is derived from the compile's OWN -I roots rather than typed
+# beside them, so a header this build can reach is a header this digest covers.
+# All four are present: `-Ilvgl -Isrc -Igenerated` are walked, and `-I.` is the
+# renderer root, whose only header today is $(LV_CONF) but which is swept by
+# wildcard anyway so a second one cannot arrive uncovered. BUILD=dev's
+# `-Iconfig/dev` needs no sweep — $(LV_CONF) IS that directory's only file, and
+# it is named below.
+# It overhashes slightly — a header no translation unit includes still moves the
+# value — and that is the safe direction: the cost is a rebuild that was not
+# strictly needed, against a stale binary that reads as fresh.
+BUILD_INPUT_HEADERS := $(sort $(wildcard *.h) \
+                         $(shell find lvgl src generated \
+                           \( -name '*.h' -o -name '*.hpp' \) 2>/dev/null))
+BUILD_INPUT_FILES := $(sort $(LVGL_SRCS) $(THORVG_SRCS) $(NANOPB_SRCS) $(GEN_SRCS) \
+                       $(DATA_TYPES_SRCS) $(COMMON_APP_SRCS) $(STUB_SRCS) src/renderer.c \
+                       $(BUILD_INPUT_HEADERS) $(LV_CONF) wasm.mk)
+
+# NON-VACUITY, and it is load-bearing rather than decorative. If discovery
+# collapses — a caller in the wrong directory, a vendored tree absent — the list
+# falls back to the paths named literally above, and the writer and the verifier
+# then compute the SAME short digest and AGREE. Green over almost nothing, which
+# is the defect this stamp exists to catch, reintroduced inside it. The floors
+# are per-prefix because any one populated root satisfies a union floor, so a
+# root going dark would be invisible under one.
+#
+# Seeded well under the measured populations so ordinary tree movement never
+# trips them, and far enough above zero that a collapsed root cannot pass.
+# Measured on this tree: lvgl/ 1150 files (463 .c + 47 .cpp + 640 headers),
+# src/ 26 (6 common + 8 fonts + stub + renderer.c + 10 headers), generated/ 18
+# (6 .c + 12 headers).
+BUILD_INPUT_FLOORS := --floor lvgl/=400 --floor src/=10 --floor generated/=8
+BUILD_INPUT_DIGEST := tools/wasm_input_digest.sh
+
+## input-digest: print the digest of what a link from THIS tree would compile.
+# The verifier's half of the comparison. Same list, same producer, same floors
+# as the link's write below — one home, so the two cannot disagree about what
+# "the inputs" are.
+.PHONY: input-digest
+input-digest:
+	@printf '%s\n' $(BUILD_INPUT_FILES) | bash $(BUILD_INPUT_DIGEST) $(BUILD_INPUT_FLOORS)
+
 # Link with clang++ (needed for C++ ThorVG runtime).
 # Stub objects (wasm_sjlj_stub) provide setjmp/longjmp for ThorVG's tvgSwRle.
 # $(OUT): release -> output/controls.wasm (-O2 -flto, the shipped+gated artifact);
 # BUILD=dev -> output/controls.dev.wasm (-O0 -g, no -flto, seconds to relink).
+#
+# The content stamp is written HERE, after the link, staged and renamed rather
+# than redirected in place: a shell creates a redirect target before running the
+# command, so a refusing digest would otherwise TRUNCATE the previous — and
+# still true — sidecar to nothing. Staged in the destination's own directory so
+# the rename cannot cross a filesystem (renderer.mk's install_atomic block
+# carries the measurement behind that).
 $(OUT): $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(RENDERER_OBJ) $(THORVG_OBJS)
 	@mkdir -p output
 	$(CXX) $(CXXFLAGS_LINK) $(LDFLAGS) -o $@ $^ $(SJLJ_LIB)
+	@printf '%s\n' $(BUILD_INPUT_FILES) | bash $(BUILD_INPUT_DIGEST) $(BUILD_INPUT_FLOORS) \
+	  >$@.build-inputs.tmp && mv -f $@.build-inputs.tmp $@.build-inputs
 
 # ── the provenance stamp is its own target, and that is load-bearing ────────
 # It used to be written as a side effect of the link above, whose prerequisites
@@ -436,6 +563,8 @@ output/reference.wasm: $(LIB_OBJS) $(STUB_OBJS) $(COMMON_APP_OBJS) $(REFERENCE_O
 clean:
 	rm -f output/controls.wasm output/controls.dev.wasm output/reference.wasm
 	rm -f output/controls.wasm.build-sha output/controls.dev.wasm.build-sha
+	rm -f output/controls.wasm.build-inputs output/controls.dev.wasm.build-inputs
+	rm -f output/controls.wasm.build-inputs.tmp output/controls.dev.wasm.build-inputs.tmp
 	rm -f output/.protogen-sha
 	rm -rf build
 
@@ -467,4 +596,4 @@ compile-db:
 	@printf '\n]\n' >> compile_commands.json
 	@printf '[compile-db] %s entries -> renderer/compile_commands.json\n' "$(words $(TIDY_SRCS))"
 
-.PHONY: all objects reference clean sha-probe
+.PHONY: all objects reference clean sha-probe input-digest

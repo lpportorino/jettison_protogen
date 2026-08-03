@@ -54,15 +54,15 @@ Two guards you will meet:
 | `clang-format`, `clang-tidy` | `renderer.yml`, inside the pinned image — and `clang-tidy` also from the pre-push hook, docker-gated, via `tools/uber.sh` | the only PINNED clang tooling is the WASI-SDK's; clang-tidy also needs a compile database emitted from the build's own flags, so it cannot join the bare-invoked `lint` aggregate |
 | the WHOLE-TREE scans | `hygiene.yml`, plain runner, **no `paths:` filter** | see below — a path filter over a tree-wide scan is a false skip by construction |
 
-**THREE STRUCTURAL CHECKS AND FIVE FORK/LEG CANARIES ARE HOOK-ONLY, NOT
+**THREE STRUCTURAL CHECKS AND SIX FORK/LEG/BUILD CANARIES ARE HOOK-ONLY, NOT
 CI-ENFORCED, and that is a gap rather than a documented decision.**
 `lint-fn-size`, `lint-docstrings` and `lint-spec-shape` — plus `fork-hazards`,
-`brief-check-test`, `forks-release-test`, `leg-strictness-test` and
-`uber-chown-test` — all sit in `lint.mk`'s `lint-lanes` aggregate, so
-`.githooks/pre-push` runs every one of them. No workflow calls any of the
-eight: `lint.yml` runs only `lint-ns-size` and `lint-spec-presence` from the
-structural family, `hygiene.yml` covers the whole-tree scans, and neither
-touches the rest. `.claude/rules/gate-enforcement.md` §6 makes local and CI
+`brief-check-test`, `forks-release-test`, `leg-strictness-test`,
+`uber-chown-test` and `wasm-provenance-test` — all sit in `lint.mk`'s
+`lint-lanes` aggregate, so `.githooks/pre-push` runs every one of them. No
+workflow calls any of the nine: `lint.yml` runs only `lint-ns-size` and
+`lint-spec-presence` from the structural family, `hygiene.yml` covers the
+whole-tree scans, and neither touches the rest. `.claude/rules/gate-enforcement.md` §6 makes local and CI
 enforcement complements rather than alternatives precisely because a
 client-side hook only protects whoever armed it — `--no-verify` bypasses it
 outright, by that hook's own header — so these eight currently have no

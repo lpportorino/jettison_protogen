@@ -158,6 +158,25 @@ language bindings, not a hand-maintained app.
   base image is already present. So a stamp matching a consumer's gitlink
   establishes the source and never the toolchain; only building in the pinned
   image does that.
+- **AND IT ESTABLISHES THE SOURCE MORE WEAKLY THAN THAT READS.** It records
+  which commit HEAD was at when the stamp was last written, which is not the
+  same question as what was compiled — the two diverge on a warm object tree.
+  Measured on the real artifact: change a link flag in `wasm.mk`, run
+  `make -f renderer.mk wasm`, and the stamp is rewritten to the moved sha while
+  ZERO compiler invocations occur and `controls.wasm` keeps its bytes and its
+  mtime. Three further paths reach the same state (a source restored with an
+  older mtime, a source deleted from the link set, any future skipped link);
+  `wasm.mk`'s content-stamp block enumerates all four.
+  **`output/controls.wasm.build-inputs` is the claim that survives this.** It is
+  a digest over the file set the link compiles plus `wasm.mk` itself, written BY
+  the link recipe and by nothing else — so a no-op rebuild leaves it TRUE rather
+  than making it a fresh lie, and a tree that moved since the link disagrees
+  with a recomputation. `make -f renderer.mk wasm-inputs-verify` is the
+  comparator (1 = content drift, 3 = an input was absent so nothing was
+  compared); it is armed in `check-renderer` as `wasm-inputs-check`, and its
+  canary is `tools/wasm_provenance_test.sh` on the `lint` aggregate. The sha
+  stamp is unchanged and still the shape its readers parse — the content claim
+  sits BESIDE it so a consumer adopts it deliberately.
 
 ## LVGL traps — one HANGS, the rest go quietly wrong
 

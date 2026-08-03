@@ -48,7 +48,7 @@ RGEN := tools/renderer-gen
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
 	interaction-prebuilt \
-	wasm-sha-record wasm-sha-verify \
+	wasm-sha-record wasm-sha-verify wasm-inputs-verify wasm-inputs-check \
 	standard-brief standard-brief-generate composition-clean doc-audit \
 	ui-review-preflight ui-review-preflight-canary
 
@@ -285,6 +285,60 @@ wasm-sha-verify:
 		exit 1; \
 	fi; \
 	echo "wasm-sha-verify: provisioning parity OK ($$have)"
+
+# ── controls.wasm CONTENT provenance ────────────────────────────────────────
+# A SECOND, STRONGER CLAIM BESIDE THE SHA STAMP, never instead of it.
+#
+# renderer/output/controls.wasm.build-sha records which commit HEAD was at when
+# the stamp was last written. A consumer compares it against its gitlink and
+# fails on a mismatch, which is what converts "did you rebuild after bumping the
+# pin?" into an assertion. But "when did make last run" is not "what was
+# compiled", and the gap is reachable: on a warm object tree, a commit that
+# changes the LINK FLAGS rewrites the stamp to the new sha while the binary is
+# neither relinked nor touched — exit 0, no output, no compiler invoked. Three
+# further paths reach the same state; wasm.mk's own content-stamp block
+# enumerates all four, each measured against the real makefile.
+#
+# So wasm.mk's link recipe now also writes controls.wasm.build-inputs: a digest
+# over the exact file set that link compiles PLUS the description that compiles
+# it. Only the link writes it, which is the whole property — a no-op rebuild
+# leaves it untouched and therefore still TRUE, where the sha stamp becomes a
+# fresh lie. This target is the comparator: recompute the digest from the tree
+# as it stands, and a difference means the artifact predates the sources.
+#
+# WHAT A RED HERE MEANS: relink. It does NOT mean re-mint anything, and it is
+# not a golden — the digest is derived from the tree every time it is asked for,
+# so there is no committed expectation that could canonise a wrong value.
+#
+# THE COMPARISON LIVES IN A SCRIPT, and both reasons are mechanical rather than
+# stylistic. GNU make exits 2 for ANY failed target, so a recipe cannot expose
+# its own status: the verdict/precondition split would collapse into one value
+# and a canary could take a missing artifact as proof that drift detection
+# works, which is precisely the weakness .claude/rules/gate-enforcement.md §2
+# refuses. And `lint-sh` discovers `*.sh`, so shell embedded in a Makefile is
+# gated by nothing — a gate must itself be judged (§5). The script's codes:
+# 1 CONTENT DRIFT (the verdict), 3 CANNOT RUN (no comparison happened).
+# `wasm-sha-verify` above uses 1 for both; it is an existing consumer-facing
+# contract and is left as it is rather than changed underneath its callers.
+#
+# NOT WIRED FOR A CONSUMER YET, and that is the additive half: nothing outside
+# this repo runs this target until a consumer chooses to. The sha comparison a
+# consumer has today keeps working, unchanged, because .build-sha is unchanged.
+WASM_INPUTS_FILE := $(WASM_ARTIFACT).build-inputs
+
+wasm-inputs-verify:
+	@bash $(R)/tools/wasm_inputs_verify.sh \
+		--artifact $(WASM_ARTIFACT) \
+		--sidecar $(WASM_INPUTS_FILE) \
+		--renderer-dir $(R)
+
+# Ordered, not free-standing. `wasm-inputs-verify` deliberately declares no
+# prerequisites — a prebuilt runner with no WASI-SDK must be able to ask it, the
+# same reason `wasm-present` exists — so the battery, which runs its lanes under
+# -j where a prerequisite LIST orders nothing, needs this edge to put the build
+# first. Same mechanism as `reference: wasm` above.
+wasm-inputs-check: wasm
+	@$(MAKE) --no-print-directory -f renderer.mk wasm-inputs-verify
 
 # ── Classpath producers (batch javac; clean rebuild, no live-JVM consumer) ──
 # renderer-gen's proto classes: ALL of output/java + pronto's Java helpers —
@@ -1454,5 +1508,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection construct-bindings conventions-projection manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
 	@echo "renderer battery: GREEN ($^)"

@@ -232,7 +232,7 @@ export LINT_SH_DISCOVERY_ERR
 	install-hooks hooks-status audit-clj-paths wire-contract docs-lint \
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
 	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
-	lint-file-size lint-file-size-test
+	lint-file-size lint-file-size-test wasm-provenance-test
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -323,7 +323,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a
@@ -750,6 +750,31 @@ leg-strictness-test:
 .PHONY: uber-chown-test
 uber-chown-test:
 	@bash tools/uber_chown_test.sh
+
+# The controls.wasm CONTENT-PROVENANCE stamp and its verifier — the pair that
+# answers "was this binary built from these sources", where the older build-sha
+# stamp answers only "which commit was HEAD when make last ran". Those are
+# different questions, and a warm object tree can move the second without moving
+# the first: renderer/wasm.mk's content-stamp block records the four measured
+# ways, and this suite reproduces the sharpest of them end to end and requires
+# the gate to refuse it.
+#
+# IT RIDES `lint` RATHER THAN THE RENDERER BATTERY, for the same reasons the
+# three suites above do: no rendered surface, no container, and a gate whose
+# canary is never RUN is a gate nobody has checked since the day it landed. It
+# needs no WASI-SDK either — the compiler is stubbed, because what is under test
+# is what make DECIDES and what the recipes WRITE, never what clang emits. The
+# gate ITSELF is armed separately, as `wasm-inputs-check` inside renderer.mk's
+# `check-renderer`, where a real artifact exists to judge.
+#
+# ITS CASES ARE MUTATION-PROVEN TO FIRE ALONE. Blinding the digest to a single
+# header fails the header case and nothing else; moving the sidecar write out of
+# the link into an always-rerun target — the tempting wrong design, which is the
+# original defect in a newer coat — fails exactly the no-op-rebuild case and the
+# defect case; removing the discovery floors fails only the collapsed-root case.
+.PHONY: wasm-provenance-test
+wasm-provenance-test:
+	@bash tools/wasm_provenance_test.sh
 
 # Parse-only, deliberately: shellcheck is not present on the host or in the
 # uber image, and adding a toolchain dependency for it is a separate decision.
