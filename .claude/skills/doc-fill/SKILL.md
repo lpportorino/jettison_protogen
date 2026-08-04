@@ -81,9 +81,19 @@ Options: every value `FeedbackType` declares in
 - One-shot actions → `:fire-and-forget`
 
 #### 5. Related State
-Ask: "Which state message (ser.*) shows the result of this command? (or 'none')"
+Ask: "Which state FIELD shows the result of this command? (or 'none')"
 
-Example: `cmd.DayCamera.SetIris` → `ser.JonGuiDataCameraDay`
+Example: `cmd.DayCamera.SetIris` → `ser.JonGuiDataCameraDay#iris_pos`
+
+A reference names either a whole message or one field of it, `#` separating the
+two. Name the FIELD whenever a single field is the subject — a consumer clearing
+a `:pending-timeout` needs a field to match on, and a message-grained pointer
+makes it guess among that message's fields. Name the MESSAGE only when no single
+field is the subject: a oneof routing container, or a whole-message refresh.
+
+`:unresolved-state-field` fails the lint on a field the target does not declare.
+It cannot tell a deliberate message-grained reference from one nobody has
+narrowed, so that judgement is yours.
 
 #### 6. Related Commands
 Ask: "What other commands are related? (or 'none')"
@@ -185,7 +195,7 @@ Add after the Fields table:
 
 ### Related State
 
-- [[proto/{state_message}]]
+- [[proto/{state_message}#{state_field}]]
 
 ### Related Commands
 
@@ -336,6 +346,7 @@ Look for patterns:
 Check for:
 - `:semantic-type-mismatch` errors — field type incompatible with chosen semantic type
 - `:invalid-references` errors — related-state/related-commands pointing to non-existent messages
+- `:unresolved-state-field` errors — a `related-state` reference naming a field its target does not declare
 - `:interaction-incomplete` warnings — missing `:ui-pattern` or `:feedback`
 
 Fix any errors before moving to the next message.

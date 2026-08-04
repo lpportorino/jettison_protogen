@@ -7,7 +7,8 @@
     :id       \"message.or.enum.id\"
     :field    \"field_name\" or nil
     :message  \"Human-readable issue description\"}"
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [protodoc.schema :as schema]))
 
 ;; ============================================================================
 ;; Semantic type / field type compatibility matrix
@@ -131,20 +132,60 @@
      :message  (str "has :category but missing " (str/join ", " missing))}))
 
 (defn- invalid-references
-  "Related-state/related-commands pointing to non-existent IDs."
+  "Related-state/related-commands pointing to non-existent IDs.
+
+   A `:related-state` entry may name a field (`<message>#<field>`), so this
+   clause resolves its MESSAGE half only. The field half belongs to
+   `:unresolved-state-field`; reporting it from both would make one defect look
+   like two, and would leave neither rule attributable on its own."
   [db]
   (let [all-ids (into (set (keys (:messages db)))
                       (keys (:enums db)))]
     (for [[_id msg] (:messages db)
           :let [inter (:interaction msg)]
           :when inter
-          ref-id (concat (:related-state inter) (:related-commands inter))
-          :when (not (contains? all-ids ref-id))]
+          ref-str (concat (:related-state inter) (:related-commands inter))
+          :let [target-id (first (schema/split-state-ref ref-str))]
+          :when (not (contains? all-ids target-id))]
       {:rule     :invalid-references
        :severity :error
        :id       (:id msg)
        :field    nil
-       :message  (format "reference '%s' not found in database" ref-id)})))
+       :message  (format "reference '%s' not found in database" ref-str)})))
+
+(defn- unresolved-state-field
+  "A `:related-state` reference naming a field its target does not declare.
+
+   WHY THE FIELD GRAIN NEEDS ITS OWN CLAUSE. A message-grained pointer survives
+   almost any drift, because a message keeps existing while its fields are
+   renamed underneath it — which is exactly why nothing caught the imprecision
+   the field grain exists to remove. Once a pointer names a field, a rename makes
+   it FALSE, and only a resolver notices.
+
+   An unknown TARGET is deliberately silent here: `:invalid-references` already
+   names it, and a message that does not exist cannot be asked for its fields.
+   An ENUM target with a field suffix is this clause's, not that one's — the id
+   resolves, so the other rule is satisfied, and the reference is still
+   unanswerable."
+  [db]
+  (for [[_id msg] (:messages db)
+        ref-str (get-in msg [:interaction :related-state])
+        :let [[target-id field-name] (schema/split-state-ref ref-str)]
+        :when field-name
+        :let [target-msg (get-in db [:messages target-id])
+              enum-target? (contains? (:enums db) target-id)]
+        :when (or target-msg enum-target?)
+        :when (or enum-target?
+                  (not-any? #(= field-name (:name %)) (:fields target-msg)))]
+    {:rule     :unresolved-state-field
+     :severity :error
+     :id       (:id msg)
+     :field    nil
+     :message  (if enum-target?
+                 (format "related-state '%s' names a field, but '%s' is an enum and has none"
+                         ref-str target-id)
+                 (format "related-state '%s': message '%s' declares no field '%s'"
+                         ref-str target-id field-name))}))
 
 (defn- description-vague
   "Descriptions containing placeholder/vague text."
@@ -230,6 +271,7 @@
    :semantic-type-mismatch          semantic-type-mismatch
    :interaction-incomplete          interaction-incomplete
    :invalid-references              invalid-references
+   :unresolved-state-field          unresolved-state-field
    :description-vague               description-vague
    :constrained-fields-undocumented constrained-fields-undocumented
    :percent-display-precision       percent-display-precision})

@@ -121,6 +121,46 @@
    [:display-format {:optional true} :string]    ; "{value * 100}%" or "{value}°"
    [:presets {:optional true} [:vector [:or number? :string]]]])  ; Includes "auto"
 
+;; A reference to a proto message or enum, by its full id: "ser.JonGuiDataGps",
+;; "cmd.DayCamera.SetIris". Every id carries at least one dot, because
+;; parse/build-message-id joins the package, the nesting path and the name.
+(def ^:private message-id-fragment "[A-Za-z_][A-Za-z0-9_]*")
+
+(def MessageRef
+  [:re {:error/message "not a proto message id (expected <package>.<Name>)"}
+   (re-pattern (str "^" message-id-fragment "(\\." message-id-fragment ")+$"))])
+
+;; A reference from a command to the state that reflects it. TWO GRAINS, told
+;; apart by the separator:
+;;
+;;   "ser.JonGuiDataCameraDay"          — the whole message reflects the command
+;;   "ser.JonGuiDataCameraDay#iris_pos" — one named FIELD reflects it
+;;
+;; The field grain exists because a consumer asking "which state does this
+;; command move" needs a field to match on — clearing a :pending-timeout, or
+;; drawing the reverse index — and a message-grained pointer makes it guess
+;; among that message's fields. The message grain stays legal because it is the
+;; honest answer for a oneof routing container and for a whole-message refresh,
+;; where no single field is the subject.
+;;
+;; '#' RATHER THAN A DOT, and neither reason is style. A dotted "Outer.field" is
+;; ambiguous with a NESTED MESSAGE id — build-message-id joins nesting with dots,
+;; so "ser.Foo.bar" is a legal message id and a resolver splitting at the last
+;; dot cannot tell which was meant. '#' is not a legal proto identifier
+;; character, so the split is total. It is also Obsidian's in-page anchor
+;; separator, so the rendered wikilink [[proto/ser.Foo#bar]] still resolves to a
+;; real page; a dotted spelling would render a link to a page that does not
+;; exist, on every field-grained entry.
+;;
+;; WHAT THIS SHAPE CANNOT SAY, stated because it reads like an omission: a
+;; message-grained entry that is deliberate and one nobody has narrowed yet are
+;; spelled identically. The lint rules below check that a named field EXISTS,
+;; never that a pointer is as narrow as it could be.
+(def StateRef
+  [:re {:error/message "not a state reference (expected <package>.<Name> or <package>.<Name>#<field>)"}
+   (re-pattern (str "^" message-id-fragment "(\\." message-id-fragment ")+"
+                    "(#" message-id-fragment ")?$"))])
+
 ;; Message-level interaction metadata
 (def InteractionMeta
   [:map
@@ -129,10 +169,28 @@
    [:ui-pattern {:optional true} UIPattern]
    [:feedback {:optional true} FeedbackType]
    [:timeout-ms {:optional true} pos-int?]       ; Default 2000ms
-   [:related-state {:optional true} [:vector :string]]
-   [:related-commands {:optional true} [:vector :string]]
+   [:related-state {:optional true} [:vector StateRef]]
+   [:related-commands {:optional true} [:vector MessageRef]]
    [:preconditions {:optional true} [:vector :string]]
    [:notes {:optional true} :string]])
+
+(defn split-state-ref
+  "Split a `:related-state` reference into [message-id field-name].
+
+   ONE HOME for the grammar StateRef declares, because three call sites need it
+   and each getting it slightly wrong is how a vocabulary rots: the lint rules
+   resolve both halves, and the manifest builder needs the MESSAGE half alone to
+   name a doc file — `proto/ser.Foo#bar.md` is not a path.
+
+   `field-name` is nil for a whole-message reference. The split is on the FIRST
+   '#'; a second one cannot occur in a StateRef-conforming value, and a value
+   that does not conform has already failed `validate!` before any caller here
+   sees it."
+  [ref-str]
+  (let [idx (.indexOf ^String ref-str "#")]
+    (if (neg? idx)
+      [ref-str nil]
+      [(subs ref-str 0 idx) (subs ref-str (inc idx))])))
 
 ;; Proto field types
 (def FieldType

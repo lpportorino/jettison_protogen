@@ -10,6 +10,7 @@
             [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.string :as str]
+            [protodoc.schema :as schema]
             [taoensso.telemere :as t]))
 
 ;; ============================================================================
@@ -533,6 +534,28 @@
 ;; Reverse Index
 ;; ============================================================================
 
+(defn state-ref-doc-file
+  "Vault path of the page a `:related-state` reference points into.
+
+   The FIELD half is dropped on purpose: a page exists per message, so
+   `proto/ser.Foo#bar.md` names nothing. Every doc-file the reverse index emits
+   goes through here rather than interpolating the raw reference, which is what
+   the field grain would otherwise silently break."
+  [ref-str]
+  (str "proto/" (first (schema/split-state-ref ref-str)) ".md"))
+
+(defn state-ref-matches-signal?
+  "Does a `:related-state` reference name this signal?
+
+   A field-grained reference matches ONE signal; a message-grained one matches
+   every signal derived from that message, which is the imprecision the field
+   grain exists to remove and the reason both arms are here rather than one."
+  [ref-str sig]
+  (let [[target-id field-name] (schema/split-state-ref ref-str)]
+    (and (= target-id (:proto-message sig))
+         (or (nil? field-name)
+             (= field-name (:field-name sig))))))
+
 (defn build-reverse-index
   "Build reverse index linking doc files to endpoints and signals."
   [endpoints-data signals-data]
@@ -558,7 +581,7 @@
                             (let [related-state-docs
                                   (->> (get ep-by-doc df)
                                        (mapcat #(get-in % [:interaction :related-state]))
-                                       (map #(str "proto/" % ".md"))
+                                       (map state-ref-doc-file)
                                        distinct)]
                               (if (seq related-state-docs)
                                 (assoc m :related-signal-docs (vec related-state-docs))
@@ -570,7 +593,7 @@
                             (let [related-eps
                                   (->> (:endpoints endpoints-data)
                                        (filter #(some (fn [rs]
-                                                        (= df (str "proto/" rs ".md")))
+                                                        (= df (state-ref-doc-file rs)))
                                                       (get-in % [:interaction :related-state])))
                                        (map :path)
                                        distinct)]
@@ -586,8 +609,9 @@
                  (cond-> {:doc-file (:doc-file ep)}
                    (seq (get-in ep [:interaction :related-state]))
                    (assoc :related-state-docs
-                          (mapv #(str "proto/" % ".md")
-                                (get-in ep [:interaction :related-state]))))]))
+                          (into [] (distinct)
+                                (map state-ref-doc-file
+                                     (get-in ep [:interaction :related-state])))))]))
 
         ;; By signal
         by-signal
@@ -601,7 +625,7 @@
                          (let [related-eps
                                (->> (:endpoints endpoints-data)
                                     (filter #(some (fn [rs]
-                                                     (= (:proto-message sig) rs))
+                                                     (state-ref-matches-signal? rs sig))
                                                    (get-in % [:interaction :related-state])))
                                     (map :doc-file)
                                     distinct)]

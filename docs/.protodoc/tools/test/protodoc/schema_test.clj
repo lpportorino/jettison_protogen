@@ -332,7 +332,41 @@
     (is (not (schema/valid? schema/InteractionMeta {:timeout-ms 0}))))
 
   (testing "Invalid category fails"
-    (is (not (schema/valid? schema/InteractionMeta {:category :invalid})))))
+    (is (not (schema/valid? schema/InteractionMeta {:category :invalid}))))
+
+  (testing "A field-qualified related-state reference is valid"
+    (is (schema/valid? schema/InteractionMeta
+                       {:related-state ["ser.JonGuiDataCameraDay#iris_pos"]})))
+
+  (testing "Both grains may sit side by side"
+    (is (schema/valid? schema/InteractionMeta
+                       {:related-state ["ser.JonGuiDataRotary"
+                                        "ser.JonGuiDataRotary#azimuth"]})))
+
+  (testing "A related-state reference with no package is refused"
+    (is (not (schema/valid? schema/InteractionMeta {:related-state ["Bare"]}))))
+
+  (testing "A related-state reference with an empty field half is refused"
+    (is (not (schema/valid? schema/InteractionMeta {:related-state ["ser.Foo#"]}))))
+
+  (testing "A SECOND field separator is refused"
+    (is (not (schema/valid? schema/InteractionMeta {:related-state ["ser.Foo#a#b"]}))))
+
+  (testing "related-commands takes no field half — a command is a message"
+    (is (not (schema/valid? schema/InteractionMeta
+                            {:related-commands ["cmd.DayCamera.SetIris#value"]})))))
+
+(deftest split-state-ref-test
+  (testing "A whole-message reference yields a nil field"
+    (is (= ["ser.JonGuiDataGps" nil] (schema/split-state-ref "ser.JonGuiDataGps"))))
+
+  (testing "A field-qualified reference splits at the separator"
+    (is (= ["ser.JonGuiDataGps" "use_manual"]
+           (schema/split-state-ref "ser.JonGuiDataGps#use_manual"))))
+
+  (testing "A nested message id keeps every dot on the message side"
+    (is (= ["cmd.DayCamera.SetIris" "value"]
+           (schema/split-state-ref "cmd.DayCamera.SetIris#value")))))
 
 (deftest message-with-interaction-test
   (testing "Message with interaction metadata validates"

@@ -197,7 +197,89 @@
 
   (testing "Clean when no interaction"
     (let [db (make-db :messages {"test.M" (make-msg "test.M")})]
-      (is (empty? (:findings (lint/lint db :rules #{:invalid-references})))))))
+      (is (empty? (:findings (lint/lint db :rules #{:invalid-references}))))))
+
+  (testing "Resolves only the MESSAGE half of a field-qualified related-state"
+    (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                    :interaction {:related-state ["test.Other#anything"]})
+                                 "test.Other" (make-msg "test.Other")})]
+      (is (empty? (:findings (lint/lint db :rules #{:invalid-references}))))))
+
+  (testing "Flags a field-qualified reference whose MESSAGE is missing"
+    (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                    :interaction {:related-state ["test.Gone#value"]})})
+          findings (:findings (lint/lint db :rules #{:invalid-references}))]
+      (is (= 1 (count findings)))
+      ;; The reported string is the WHOLE reference, not the split half — a
+      ;; reader who greps the docs for the message the finding names must find it.
+      (is (str/includes? (:message (first findings)) "'test.Gone#value'")))))
+
+;; ============================================================================
+;; unresolved-state-field
+;;
+;; THE ATTRIBUTION CASES ARE THE POINT, not the count. `:invalid-references`
+;; would refuse several of the same inputs, so a red proves nothing about THIS
+;; clause unless the neighbour is asserted silent on the same db — and still
+;; refusing on its own. Both directions are below, and every case asserts the
+;; named finding rather than a non-zero total.
+;; ============================================================================
+
+(deftest unresolved-state-field-test
+  (let [target (make-msg "ser.Target" :fields [(make-field "real_field" :double)])]
+
+    (testing "Flags a field the target message does not declare"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-state ["ser.Target#nope"]})
+                                   "ser.Target" target})
+            findings (:findings (lint/lint db :rules #{:unresolved-state-field}))]
+        (is (= 1 (count findings)))
+        (is (= :unresolved-state-field (:rule (first findings))))
+        (is (= :error (:severity (first findings))))
+        (is (= "test.M" (:id (first findings))))
+        (is (str/includes? (:message (first findings)) "ser.Target#nope"))
+        (is (str/includes? (:message (first findings)) "declares no field 'nope'"))))
+
+    (testing "ATTRIBUTION — the neighbour clause is SILENT on that same db"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-state ["ser.Target#nope"]})
+                                   "ser.Target" target})]
+        (is (empty? (:findings (lint/lint db :rules #{:invalid-references}))))
+        (is (= #{:unresolved-state-field} (finding-rules (lint/lint db))))))
+
+    (testing "ATTRIBUTION — an unknown MESSAGE is the neighbour's, and reported ONCE"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-state ["ser.Absent#nope"]})})]
+        (is (empty? (:findings (lint/lint db :rules #{:unresolved-state-field}))))
+        (is (= #{:invalid-references} (finding-rules (lint/lint db))))
+        (is (= 1 (count (:findings (lint/lint db)))))))
+
+    (testing "Clean when the named field exists"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-state ["ser.Target#real_field"]})
+                                   "ser.Target" target})]
+        (is (empty? (:findings (lint/lint db :rules #{:unresolved-state-field}))))))
+
+    (testing "Clean for a whole-message reference — the grain stays legal"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-state ["ser.Target"]})
+                                   "ser.Target" target})]
+        (is (empty? (:findings (lint/lint db :rules #{:unresolved-state-field}))))))
+
+    (testing "Flags a field suffix on an ENUM target, which has no fields"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-state ["test.E#value"]})}
+                        :enums {"test.E" (make-enum "test.E")})
+            findings (:findings (lint/lint db :rules #{:unresolved-state-field}))]
+        (is (= 1 (count findings)))
+        (is (= :unresolved-state-field (:rule (first findings))))
+        (is (str/includes? (:message (first findings)) "is an enum and has none"))
+        ;; The id resolves, so the neighbour is satisfied and stays quiet.
+        (is (empty? (:findings (lint/lint db :rules #{:invalid-references}))))))
+
+    (testing "Clean when there is no related-state at all"
+      (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                      :interaction {:related-commands ["test.M"]})})]
+        (is (empty? (:findings (lint/lint db :rules #{:unresolved-state-field}))))))))
 
 ;; ============================================================================
 ;; description-vague

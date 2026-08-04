@@ -478,6 +478,68 @@
           (is sig)
           (is (= "proto/ser.JonGuiDataCameraDay.md" (:doc-file sig))))))))
 
+;; ============================================================================
+;; Field-grained related-state, over a SYNTHETIC index
+;;
+;; Hermetic on purpose: the committed db decides how many entries carry a field
+;; half, so a test driven from it would report on today's migration progress
+;; rather than on the mechanism. These two endpoints differ in exactly one thing
+;; — the grain of their reference — which is what makes the narrowing
+;; attributable to the grain and not to anything else in the fixture.
+;; ============================================================================
+
+(def ^:private grain-endpoints
+  {:endpoints [{:path "cmd/x/set-a"
+                :doc-file "proto/cmd.X.SetA.md"
+                :interaction {:related-state ["ser.S#a"]}}
+               {:path "cmd/x/refresh"
+                :doc-file "proto/cmd.X.Refresh.md"
+                :interaction {:related-state ["ser.S"]}}]})
+
+(def ^:private grain-signals
+  {:signals [{:signal-name "sA" :field-name "a"
+              :proto-message "ser.S" :doc-file "proto/ser.S.md"}
+             {:signal-name "sB" :field-name "b"
+              :proto-message "ser.S" :doc-file "proto/ser.S.md"}]})
+
+(deftest field-grained-related-state-narrows-the-reverse-index
+  (let [result (manifest/build-reverse-index grain-endpoints grain-signals)]
+
+    (testing "the field-grained endpoint reaches only the signal it names"
+      (is (= ["proto/cmd.X.SetA.md" "proto/cmd.X.Refresh.md"]
+             (:related-cmd-docs (get (:by-signal result) "sA"))))
+      (is (= ["proto/cmd.X.Refresh.md"]
+             (:related-cmd-docs (get (:by-signal result) "sB")))))
+
+    (testing "the field half never reaches a doc-file path"
+      (is (= ["proto/ser.S.md"]
+             (:related-state-docs (get (:by-endpoint result) "cmd/x/set-a"))))
+      (is (= ["proto/ser.S.md"]
+             (:related-state-docs (get (:by-endpoint result) "cmd/x/refresh")))))))
+
+(deftest state-ref-helpers-test
+  (testing "doc-file drops the field half"
+    (is (= "proto/ser.S.md" (manifest/state-ref-doc-file "ser.S")))
+    (is (= "proto/ser.S.md" (manifest/state-ref-doc-file "ser.S#a"))))
+
+  (testing "a message-grained reference matches every signal of that message"
+    (is (manifest/state-ref-matches-signal?
+         "ser.S" {:proto-message "ser.S" :field-name "a"}))
+    (is (manifest/state-ref-matches-signal?
+         "ser.S" {:proto-message "ser.S" :field-name "b"})))
+
+  (testing "a field-grained reference matches one"
+    (is (manifest/state-ref-matches-signal?
+         "ser.S#a" {:proto-message "ser.S" :field-name "a"}))
+    (is (not (manifest/state-ref-matches-signal?
+              "ser.S#a" {:proto-message "ser.S" :field-name "b"}))))
+
+  (testing "a different message never matches, either grain"
+    (is (not (manifest/state-ref-matches-signal?
+              "ser.Other" {:proto-message "ser.S" :field-name "a"})))
+    (is (not (manifest/state-ref-matches-signal?
+              "ser.Other#a" {:proto-message "ser.S" :field-name "a"})))))
+
 (deftest full-manifest-generation-test
   (when-let [_db (load-db)]
     (let [tmp-dir (str (System/getProperty "java.io.tmpdir") "/manifest-test-" (System/nanoTime))

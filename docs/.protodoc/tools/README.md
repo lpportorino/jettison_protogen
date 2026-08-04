@@ -155,11 +155,43 @@ Messages and fields can have optional interaction metadata that describes how th
  :feedback :pending-timeout    ; :fire-and-forget :pending-timeout :poll-confirm :optimistic-visual :dual-feedback
  :timeout-ms 2000              ; Default feedback timeout
  :purpose "Controls the iris aperture"
- :related-state ["ser.JonGuiDataCameraDay"]
+ :related-state ["ser.JonGuiDataCameraDay#iris_pos"]
  :related-commands ["cmd.DayCamera.SetAutoIris"]
  :preconditions ["Camera must be started" "Auto-iris disabled"]
  :notes "Implementation notes for developers"}
 ```
+
+##### `:related-state` has TWO GRAINS
+
+A reference names either a whole message or ONE FIELD of it, and the separator
+is what tells them apart:
+
+| reference | means |
+|---|---|
+| `ser.JonGuiDataCameraDay` | the whole message reflects this command |
+| `ser.JonGuiDataCameraDay#iris_pos` | one named field reflects it |
+
+Prefer the field grain wherever a single field is the subject. A consumer asking
+"which state does this command move" — to clear a `:pending-timeout`, or to draw
+the reverse index — gets an answer it can use, instead of a message whose fields
+it must guess among. The message grain stays legal, and is the honest answer for
+a oneof routing container and for a whole-message refresh, where no single field
+is the subject.
+
+`#` rather than a dot, and neither reason is style. A dotted `Outer.field` is
+ambiguous with a NESTED MESSAGE id — the parser joins nesting with dots, so
+`ser.Foo.bar` is a legal message id — while `#` is not a legal proto identifier
+character, so the split is total. It is also Obsidian's in-page anchor
+separator, so the rendered wikilink `[[proto/ser.Foo#bar]]` still resolves to a
+real page; a dotted spelling would render a link to a page that does not exist.
+
+Two lint rules hold it. `:invalid-references` resolves the MESSAGE half, exactly
+as it always did. `:unresolved-state-field` resolves the FIELD half and fails on
+a field the target does not declare — which is what makes the field grain worth
+having: a message-grained pointer survives almost any drift, because a message
+keeps existing while its fields are renamed underneath it. Neither rule checks
+that a pointer is as NARROW as it could be, so a deliberate message-grained
+entry and one nobody has narrowed yet are spelled identically.
 
 #### Field-Level Interaction
 
