@@ -78,6 +78,21 @@ on:
     # today; this stays explicit so moving the gate out of those extensions
     # cannot silently un-arm the job.)
     - "tools/lint/**"
+    # THE SUBJECT OF THE wire-contract-codec CANARY, WHICH IS NOT UNDER ANY
+    # ENTRY ABOVE. That canary drives tools/wire_contract_check.py and asserts
+    # its codec-header clauses can still refuse; the checker is PYTHON, and this
+    # filter has no `**/*.py`. Without this entry a commit that silenced one of
+    # those clauses would fire wire-contract.yml — where the gate goes GREEN,
+    # because a silenced clause simply asserts less — and would NOT fire the one
+    # job that would have noticed. Same argument as `renderer.mk` above: a
+    # gate INPUT is part of the trigger, not just the files it is about.
+    #
+    # docs/INTERFACE-CONTRACTS.md is deliberately NOT listed beside it. The
+    # canary reads that file too, but a doc edit that broke an extractor already
+    # trips the checker's own found() floor, and wire-contract.yml DOES fire on
+    # the doc — so listing it here would run the whole lint aggregate on every
+    # contract typo to catch something already caught.
+    - "tools/wire_contract_check.py"
     # THE OTHER GATE SOURCE THIS JOB NOW JUDGES: the producer and the verifier
     # of the controls.wasm content stamp, which the wasm-provenance canary
     # copies out of the real tree and drives. Subsumed by `**/*.sh` TODAY —
@@ -142,6 +157,21 @@ on:
     # today; this stays explicit so moving the gate out of those extensions
     # cannot silently un-arm the job.)
     - "tools/lint/**"
+    # THE SUBJECT OF THE wire-contract-codec CANARY, WHICH IS NOT UNDER ANY
+    # ENTRY ABOVE. That canary drives tools/wire_contract_check.py and asserts
+    # its codec-header clauses can still refuse; the checker is PYTHON, and this
+    # filter has no `**/*.py`. Without this entry a commit that silenced one of
+    # those clauses would fire wire-contract.yml — where the gate goes GREEN,
+    # because a silenced clause simply asserts less — and would NOT fire the one
+    # job that would have noticed. Same argument as `renderer.mk` above: a
+    # gate INPUT is part of the trigger, not just the files it is about.
+    #
+    # docs/INTERFACE-CONTRACTS.md is deliberately NOT listed beside it. The
+    # canary reads that file too, but a doc edit that broke an extractor already
+    # trips the checker's own found() floor, and wire-contract.yml DOES fire on
+    # the doc — so listing it here would run the whole lint aggregate on every
+    # contract typo to catch something already caught.
+    - "tools/wire_contract_check.py"
     # THE OTHER GATE SOURCE THIS JOB NOW JUDGES: the producer and the verifier
     # of the controls.wasm content stamp, which the wasm-provenance canary
     # copies out of the real tree and drives. Subsumed by `**/*.sh` TODAY —
