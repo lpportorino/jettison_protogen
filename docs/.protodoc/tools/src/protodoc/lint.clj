@@ -37,6 +37,19 @@
    :raw              nil})
 
 ;; ============================================================================
+;; Percent-display multiplier
+;; ============================================================================
+
+(def ^:private percent-multiplier-pattern
+  "Matches a display-format that scales the stored value by 100.
+
+   The negative lookahead is the whole point: `* 1000` is a DIFFERENT multiplier
+   (seconds to milliseconds, say) and must not be swept in, while `* 100.0` is
+   the same one written differently and must be. Whitespace around the operator
+   is optional because nothing normalises the authored string."
+  #"\*\s*100(?![0-9])")
+
+;; ============================================================================
 ;; Vague description patterns
 ;; ============================================================================
 
@@ -168,6 +181,44 @@
      :message  (format "field '%s' has constraints %s but no description"
                        (:name field) (pr-str (:constraints field)))}))
 
+(defn- percent-display-precision
+  "Fields whose display-format scales by 100 but do not declare precision 0.
+
+   THE CONVENTION IS ALREADY WRITTEN — README.md presents `:normalized` / `%` /
+   precision 0 / `{value * 100}%` as the canonical field-level interaction shape.
+   Nothing enforced it. `:semantic-type-mismatch` compares a semantic type
+   against the field TYPE and `:interaction-incomplete` reads message-level keys,
+   so neither could see a percent display carrying the wrong precision, and
+   neither can see it come back.
+
+   WHY THE PREDICATE IS THE DISPLAY SHAPE AND NOT THE SEMANTIC TYPE. Grouping by
+   `:normalized` mixes fields the consumer renders as a raw fraction with fields
+   it renders as a percent, and those two want different precisions. A `* 100`
+   multiplier says outright that the displayed number is a percent of a fraction,
+   and a percent of a fraction is displayed in whole units. Group by display
+   shape and the population answers unanimously.
+
+   AN ABSENT PRECISION IS A FINDING TOO. The convention is that this display's
+   precision is 0 AND that it is stated: leave the key out and every consumer
+   picks its own default, which is the same drift arriving by omission."
+  [db]
+  (for [[_id msg] (:messages db)
+        field (:fields msg)
+        :let [inter (:interaction field)
+              fmt (:display-format inter)]
+        :when (and fmt (re-find percent-multiplier-pattern fmt))
+        :let [precision (:precision inter)]
+        :when (not= 0 precision)]
+    {:rule     :percent-display-precision
+     :severity :error
+     :id       (:id msg)
+     :field    (:name field)
+     :message  (format "field '%s': display-format \"%s\" scales by 100, so precision must be 0 — %s"
+                       (:name field) fmt
+                       (if (nil? precision)
+                         "none declared"
+                         (str "found " precision)))}))
+
 ;; ============================================================================
 ;; Rule registry and orchestrator
 ;; ============================================================================
@@ -180,7 +231,8 @@
    :interaction-incomplete          interaction-incomplete
    :invalid-references              invalid-references
    :description-vague               description-vague
-   :constrained-fields-undocumented constrained-fields-undocumented})
+   :constrained-fields-undocumented constrained-fields-undocumented
+   :percent-display-precision       percent-display-precision})
 
 (defn lint
   "Run lint rules against a proto database.

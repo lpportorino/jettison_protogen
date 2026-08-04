@@ -172,6 +172,16 @@ Messages and fields can have optional interaction metadata that describes how th
  :presets [0 0.25 0.5 0.75 1.0 "auto"]}
 ```
 
+The `precision 0` above is not illustrative — it is the one part of this shape a
+lint rule holds. A `:display-format` that scales the stored value by 100 renders
+a fraction as a percent, and a percent of a fraction is displayed in whole
+units, so `:percent-display-precision` fails the `lint` command on any field
+whose format carries that multiplier and whose precision is anything other than
+0 (an absent precision included: leave the key out and every consumer picks its
+own default). Group by DISPLAY SHAPE rather than by semantic type — `:normalized`
+alone mixes fields rendered as a raw fraction with fields rendered as a percent,
+and the two want different precisions.
+
 #### UI Pattern Hierarchy
 
 | Level | Patterns | Description |

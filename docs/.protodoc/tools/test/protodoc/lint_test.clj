@@ -260,6 +260,81 @@
       (is (empty? (:findings (lint/lint db :rules #{:constrained-fields-undocumented})))))))
 
 ;; ============================================================================
+;; percent-display-precision
+;; ============================================================================
+
+(defn- pct-db
+  "One-message DB whose single field carries the given field-level interaction."
+  [interaction]
+  (make-db :messages {"test.M" (make-msg "test.M"
+                                         :fields [(make-field "value" :double
+                                                              :description "Normalized value"
+                                                              :interaction interaction)])}))
+
+(defn- pct-findings [interaction]
+  (:findings (lint/lint (pct-db interaction) :rules #{:percent-display-precision})))
+
+(deftest percent-display-precision-test
+  (testing "Flags a scaling display-format carrying a non-zero precision"
+    (let [findings (pct-findings {:semantic-type :normalized
+                                  :unit "%"
+                                  :precision 2
+                                  :display-format "{value * 100}%"})]
+      (is (= 1 (count findings)))
+      (is (= :error (:severity (first findings))))
+      (is (= "value" (:field (first findings))))
+      (is (str/includes? (:message (first findings)) "scales by 100"))
+      (is (str/includes? (:message (first findings)) "found 2"))))
+
+  (testing "Flags a scaling display-format declaring no precision at all"
+    (let [findings (pct-findings {:semantic-type :normalized
+                                  :display-format "{value * 100}%"})]
+      (is (= 1 (count findings)))
+      (is (str/includes? (:message (first findings)) "none declared"))))
+
+  (testing "Clean at precision 0 — the documented canonical shape"
+    (is (empty? (pct-findings {:semantic-type :normalized
+                               :unit "%"
+                               :precision 0
+                               :display-format "{value * 100}%"}))))
+
+  (testing "Tolerates the whitespace the authored string is not normalised for"
+    (is (= 1 (count (pct-findings {:precision 3 :display-format "{value*100}%"}))))
+    (is (= 1 (count (pct-findings {:precision 3 :display-format "{value * 100.0}%"})))))
+
+  (testing "A DIFFERENT multiplier is not this rule's business"
+    (is (empty? (pct-findings {:precision 3 :display-format "{value * 1000} ms"})))
+    (is (empty? (pct-findings {:precision 3 :display-format "{value * 10}%"}))))
+
+  (testing "Clean when the field declares no display-format"
+    (is (empty? (pct-findings {:semantic-type :normalized :precision 2})))
+    (is (empty? (pct-findings {:semantic-type :normalized :precision 2
+                               :display-format "Speed: {value}"}))))
+
+  (testing "Clean when the field carries no interaction metadata"
+    (let [db (make-db :messages {"test.M" (make-msg "test.M"
+                                                    :fields [(make-field "speed" :double
+                                                                         :description "Movement speed")])})]
+      (is (empty? (:findings (lint/lint db :rules #{:percent-display-precision}))))))
+
+  (testing "The finding names the message and the field, not just the message"
+    (let [db (make-db :messages
+                      {"test.Clean" (make-msg "test.Clean"
+                                              :fields [(make-field "ok" :double
+                                                                   :description "d"
+                                                                   :interaction {:precision 0
+                                                                                 :display-format "{value * 100}%"})])
+                       "test.Drifted" (make-msg "test.Drifted"
+                                                :fields [(make-field "bad" :double
+                                                                     :description "d"
+                                                                     :interaction {:precision 2
+                                                                                   :display-format "{value * 100}%"})])})
+          findings (:findings (lint/lint db :rules #{:percent-display-precision}))]
+      (is (= 1 (count findings)))
+      (is (= "test.Drifted" (:id (first findings))))
+      (is (= "bad" (:field (first findings)))))))
+
+;; ============================================================================
 ;; Orchestrator: filtering and summary
 ;; ============================================================================
 

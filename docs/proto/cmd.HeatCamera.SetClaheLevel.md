@@ -57,7 +57,7 @@ Normalized value (0.0 to 1.0)
 #### Metadata
 
 - **Semantic Type:** :normalized
-- **Precision:** 2
+- **Precision:** 0
 - **Display Format:** `{value * 100}%`
 
 
