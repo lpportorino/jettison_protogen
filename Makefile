@@ -253,6 +253,44 @@ docs-manifests: docs-aot ## Generate machine-readable JSON manifests from proto-
 	@cd docs/.protodoc/tools && clojure -M:aot:run manifest --db-path ../proto-db.edn --config-path ../manifest-config.edn --output-dir ../../../output/manifests --git-sha "$$(cd ../../.. && git rev-parse --short HEAD 2>/dev/null || echo unknown)"
 	@printf "$(GREEN)Manifests written to output/manifests/$(NC)\n"
 
+# EVERY LEG BELOW THAT RUNS THE BAKED GENERATOR TAKES docs-docker-build AS A
+# PREREQUISITE, and that is a correctness requirement rather than convenience.
+#
+# The image's Dockerfile does `COPY src /app/src/`, so the generator is BAKED IN.
+# The legs then mount only DATA — docs/, output/manifests/, the descriptors — and
+# run `-M:run` with /app as the working directory. So an edit under
+# docs/.protodoc/tools/src has NO EFFECT on any of them until the image is
+# rebuilt, and the failure is silent AND INVERTED: the target reports success,
+# writes the OLD output over the tracked tree, and the freshness comparison then
+# calls the tree stale for a reason that is not the real one.
+#
+# The inversion is what makes it expensive. renderer.mk's `manifests-proto-db`
+# judges output/manifests/ by re-emitting from `-M:run` in the WORKING TREE, so
+# writer and judge ran different generators — the writer the image's, the judge
+# the tree's — and the judge's remedy line names `docs-manifests`, a THIRD path
+# (host, AOT-loaded). Three generators, one artifact, and nothing said so.
+#
+# MEASURED before this prerequisite existed: a one-token change to
+# manifest.clj's emitted `:version`, then `make docs-docker-manifests` — exit 0,
+# all four manifests rewritten, and the token absent from every one of them.
+#
+# WHY A PREREQUISITE RATHER THAN A GUARD. A guard comparing the image's baked
+# source against the working tree has to name the compared set, and that set is
+# exactly the Dockerfile's COPY list — a second copy of a fact the Dockerfile
+# already owns, free to go short the day a path is added to it, and short in the
+# direction that passes. `docker build` derives the same set from the Dockerfile
+# itself, so it cannot be under-specified. The cost is what makes this affordable
+# rather than merely correct: deps.edn is COPYed FIRST and the `clojure -P`
+# prefetch layer is keyed on it alone, so a source-only edit re-runs the COPY
+# layers and nothing else — measured warm on this tree, both a no-op build and a
+# source-changed rebuild finish in well under a second. Cold, it costs the
+# prefetch once, which any first use of these legs owes regardless.
+#
+# docs-docker-test is DELIBERATELY NOT in this set. It mounts the repo and runs
+# with -w /repo/docs/.protodoc/tools, so `:paths ["src" "resources"]` resolves
+# into the WORKING TREE: it already tests the tree's source, and the image
+# supplies only the dependency cache. Adding the prerequisite there would buy
+# nothing and imply the leg had the defect.
 .PHONY: docs-docker-build
 docs-docker-build: ## Build proto docs Docker image
 	@printf "$(GREEN)Building proto docs Docker image...$(NC)\n"
@@ -294,7 +332,7 @@ docs-docker-test: ## Run proto docs tests in Docker
 		protodoc:latest -M:test
 
 .PHONY: docs-docker-generate
-docs-docker-generate: ## Generate docs using Docker
+docs-docker-generate: docs-docker-build ## Generate docs using Docker
 	@printf "$(GREEN)Generating proto docs via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/output/json-descriptors:/data/descriptors:ro \
@@ -312,7 +350,7 @@ docs-docker-generate: ## Generate docs using Docker
 # the manifests stale and reddened renderer.yml's manifest-freshness step, which
 # is the only place that drift surfaces.
 .PHONY: docs-docker-manifests
-docs-docker-manifests: ## Generate output/manifests/ from proto-db.edn via Docker
+docs-docker-manifests: docs-docker-build ## Generate output/manifests/ from proto-db.edn via Docker
 	@printf "$(GREEN)Generating proto manifests via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/docs:/data/docs \
@@ -326,7 +364,7 @@ docs-docker-manifests: ## Generate output/manifests/ from proto-db.edn via Docke
 	@printf "$(GREEN)Manifests written to output/manifests/$(NC)\n"
 
 .PHONY: docs-docker-render
-docs-docker-render: ## Render markdown from proto-db.edn via Docker (no parsing)
+docs-docker-render: docs-docker-build ## Render markdown from proto-db.edn via Docker (no parsing)
 	@printf "$(GREEN)Rendering proto docs via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/docs:/data/docs \
@@ -336,7 +374,7 @@ docs-docker-render: ## Render markdown from proto-db.edn via Docker (no parsing)
 		--db-path /data/docs/.protodoc/proto-db.edn
 
 .PHONY: docs-docker-coverage
-docs-docker-coverage: ## Show coverage via Docker
+docs-docker-coverage: docs-docker-build ## Show coverage via Docker
 	@printf "$(GREEN)Proto docs coverage via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/docs:/data/docs:ro \
@@ -344,7 +382,7 @@ docs-docker-coverage: ## Show coverage via Docker
 		-M:run coverage --db-path /data/docs/.protodoc/proto-db.edn
 
 .PHONY: docs-docker-lint
-docs-docker-lint: ## Lint proto documentation quality via Docker
+docs-docker-lint: docs-docker-build ## Lint proto documentation quality via Docker
 	@printf "$(GREEN)Proto docs lint via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/docs:/data/docs:ro \

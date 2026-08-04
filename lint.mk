@@ -577,7 +577,14 @@ wire-contract:
 #
 # This runs the tools directory directly rather than through the docs Docker
 # image, so it needs no image rebuild to reflect a rule change — deliberate,
-# because a gate that silently runs a stale copy of itself is worse than none.
+# because a gate that runs a stale copy of itself is worse than none.
+#
+# THE WORD THAT USED TO SIT IN THAT SENTENCE WAS "silently", AND IT NO LONGER
+# APPLIES to the containerised twin: `Makefile`'s docs-docker-* legs that run the
+# BAKED generator now take docs-docker-build as a prerequisite, so an image
+# lagging the tools source is rebuilt rather than quietly used. The reason this
+# recipe stays on the host path is the remaining one — it needs no image at all,
+# and the CI job that runs it builds none.
 docs-lint:
 	@cd docs/.protodoc/tools && clojure -M:run lint --db-path ../proto-db.edn
 
