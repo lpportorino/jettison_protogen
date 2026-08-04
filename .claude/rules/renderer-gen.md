@@ -60,6 +60,61 @@ telling. What you must NOT do is treat one as a live path: do not `ls` for it,
 do not conclude the file is stale because the path 404s, and do not add a new
 citation in that shape without saying, at the citation, that it is external.
 
+## Sharing this seam by SOURCE ROOT rather than by copy — measured, and it does not close here
+
+A consumer keeps byte-identical copies of some of these namespaces and gates the
+identity on its own side. The obvious improvement is to stop copying: ship the
+shared subset as a source root the consumer takes as a dependency. It cannot be
+built from this repository alone, and the reason is a measurement rather than a
+judgement — so it is recorded here instead of being re-derived by whoever tries
+next.
+
+**The closure is not the list.** A shared root is not the files somebody
+enumerated; it is every first-party namespace those files LOAD, and a root
+missing one does not fail a review — it fails to load. Measure it before
+designing anything: `dev/shared_closure_probe.clj` takes a candidate set as
+arguments and prints the closure, what the set drags in, and the third-party
+deps the root would owe. Run it rather than trusting a number written here.
+
+Measured for the set a consumer currently mirrors, it pulls in namespaces that
+are NOT in that set — and each one is a different obstacle, not one repeated:
+
+- **`asgard.schema` (and, through it, `asgard.video-config`).** This is the open
+  sub-decision, and the answer is SHED, not include. What the shared code
+  actually reaches for is ONE named Malli primitive; the rest of that namespace
+  is video-event and log-event schemas plus a stream table, which are inert in
+  this tree and are a CONSUMER's own contract, not shared vocabulary. Shipping
+  them in a root named "shared" would publish a consumer's application schemas
+  as though this repo owned them, and would put a stripped copy of a namespace
+  the consumer defines for real onto the consumer's own classpath — where
+  correctness then depends on classpath ORDER, silently. The primitive should
+  come from somewhere both sides can own; the surrounding namespace should not
+  travel at all.
+- **`lvgl-codegen.proto-schema`.** Reached by three of the mirrored namespaces,
+  and outside the identity gate. So a copy of it already exists on the consumer
+  side with nothing asserting the two agree: the gate asserts the LEAVES of a
+  graph, not its closure. That is a live drift surface today, independent of
+  whether a shared root is ever built.
+- **`lvgl-codegen.generated.enums`.** A generated projection, regenerated on the
+  consumer side by its own producer. It has a mechanism, so it is the one entry
+  here that is not a hole — but a source root would still have to decide whether
+  it ships the projection or expects the consumer's.
+
+**And the root cannot be NARROWED without either a move or a duplicate.**
+`:paths` names directories, and the shared namespaces sit interleaved with
+protogen-only ones in the same directories, so a narrowed root means either
+relocating those files — which breaks a path the consumer's gate resolves, i.e.
+exactly the simultaneous consumer edit a donation must not require — or a
+directory of symlinks, which is a second hand-maintained roster of the same
+membership fact and rots the way the first one can. Taking the WHOLE project as
+a dependency instead avoids both and reintroduces the `asgard.*` shadowing above.
+
+None of that makes the copy the right mechanism. It makes the shared root a
+change whose first step is upstream and structural — give the shared code a
+dependency closure that contains only shared things — rather than a packaging
+change. The probe is what tells you when that step is done: a candidate set
+whose closure equals itself, plus third-party, is a set that can ship as a root.
+
 ## Load-bearing subset vs. inert weight
 Only a small generic subset is reachable from the battery — the manifest joins,
 the `cmd.Root` pronto wrap, and the Malli primitives. The video/log schemas, the
