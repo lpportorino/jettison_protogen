@@ -11,6 +11,7 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex, OnceLock};
 use wasmtime::{Caller, Engine, Extern, Instance, Linker, Memory, Module, Store, TypedFunc};
 use wasmtime_wasi::p1::WasiP1Ctx;
+use wasmtime_wasi::p2::pipe::MemoryOutputPipe;
 use wasmtime_wasi::{DirPerms, FilePerms, WasiCtxBuilder};
 /// Process-wide compiled-module cache: each DISTINCT wasm binary is
 /// cranelift-compiled once per process, not once per `ControlsHost` — the
@@ -61,6 +62,15 @@ pub struct HostConfig {
     /// The controls WASM module doesn't read files at runtime, so this
     /// is typically `None`.
     pub wasi_root: Option<PathBuf>,
+    /// Route the guest's WASI stderr into an in-memory buffer readable via
+    /// [`ControlsHost::captured_stderr`], instead of inheriting the harness
+    /// process's stderr.
+    ///
+    /// OFF by default, deliberately: inherited stderr is what makes a guest
+    /// `LOG_ERROR` visible in a failing test's output, and capturing it
+    /// everywhere would hide every diagnostic the other suites rely on
+    /// reading. Turn it on only in a test whose SUBJECT is a log line.
+    pub capture_stderr: bool,
 }
 impl HostConfig {
     /// Create a new host configuration.
@@ -70,12 +80,19 @@ impl HostConfig {
             width,
             height,
             wasi_root: None,
+            capture_stderr: false,
         }
     }
     /// Set the WASI root directory (preopened as `/` read-only).
     #[must_use]
     pub fn with_wasi_root(mut self, root: PathBuf) -> Self {
         self.wasi_root = Some(root);
+        self
+    }
+    /// Capture the guest's stderr in memory rather than inheriting it.
+    #[must_use]
+    pub const fn with_captured_stderr(mut self) -> Self {
+        self.capture_stderr = true;
         self
     }
 }
@@ -534,6 +551,8 @@ pub struct ControlsHost {
     width: u32,
     /// Framebuffer height.
     height: u32,
+    /// In-memory guest stderr, present only when the config asked for it.
+    stderr_pipe: Option<MemoryOutputPipe>,
 }
 impl ControlsHost {
     /// Load and initialize a WASM controls module.
@@ -550,7 +569,21 @@ impl ControlsHost {
         let (engine, module) = cached_engine_module(&config.wasm_path)?;
         // Build WASI context — inherit stdout/stderr for direct terminal output
         let mut builder = WasiCtxBuilder::new();
-        let _ = builder.inherit_stdout().inherit_stderr();
+        let _ = builder.inherit_stdout();
+        // A test whose subject IS a log line needs the bytes, not the terminal.
+        // The pipe REFUSES a write past its capacity (wasmtime-wasi returns a
+        // trap rather than truncating), so the budget is generous: a saturation
+        // case deliberately drives dozens of lines, and a silently-dropped tail
+        // would make an assertion about "how many lines" answer a question about
+        // the buffer instead of about the renderer.
+        let stderr_pipe = if config.capture_stderr {
+            let pipe = MemoryOutputPipe::new(1 << 20);
+            let _ = builder.stderr(pipe.clone());
+            Some(pipe)
+        } else {
+            let _ = builder.inherit_stderr();
+            None
+        };
         if let Some(root) = &config.wasi_root {
             let abs = root.canonicalize().map_err(|err| {
                 HarnessError::Wasm(format!(
@@ -929,6 +962,17 @@ impl ControlsHost {
             fn_gesture_decisions_ptr,
             width: config.width,
             height: config.height,
+            stderr_pipe,
+        })
+    }
+    /// Everything the guest has written to WASI stderr so far, decoded
+    /// lossily. Empty unless [`HostConfig::with_captured_stderr`] was set —
+    /// which is why the caller asserting on a log line must set it, and why an
+    /// empty result here never by itself proves the guest stayed quiet.
+    #[must_use]
+    pub fn captured_stderr(&self) -> String {
+        self.stderr_pipe.as_ref().map_or_else(String::new, |pipe| {
+            String::from_utf8_lossy(&pipe.contents()).into_owned()
         })
     }
     /// Push a protobuf UI AST to the WASM module, rebuilding the widget tree.

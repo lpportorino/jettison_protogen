@@ -7168,3 +7168,287 @@ mod tabview_authored_size {
         );
     }
 }
+// ═══════════════════════════════════════════════════════════════════
+// State-update DIAGNOSTICS: an unresolvable subject name must be
+// AUDIBLE, and must be audible a BOUNDED number of times.
+//
+// The decode path skips a `SubjectValue` whose name matches no subject on the
+// loaded screen. Skipping is correct — the controls-state rail broadcasts to
+// every view and a screen legitimately declares a subset of what the producer
+// sends — but skipping SILENTLY makes a malformed subject name
+// indistinguishable from a healthy screen: the readout goes blank and the
+// module emits nothing at all.
+//
+// The three clauses under test are separable on purpose, so a mutation of any
+// one of them reddens a different test:
+//
+//   AUDIBILITY  — an unresolvable name produces a line NAMING it.
+//   ONCE-PER-NAME — the same name repeated produces exactly ONE line, however
+//                   many updates carry it. This is the clause that makes the
+//                   feature safe on a rail running at signal cadence.
+//   SATURATION  — past the table bound the renderer SAYS it has stopped
+//                 naming them, rather than falling back to silence.
+//
+// Every assertion reads the guest's own WASI stderr through
+// `HostConfig::with_captured_stderr`, so it judges the bytes the renderer
+// wrote and not a re-implementation of the message.
+// ═══════════════════════════════════════════════════════════════════
+
+mod state_update_diagnostics {
+    use super::*;
+
+    /// Mirrors `MAX_SUBJECTS` in `renderer/src/renderer.c` — the registry
+    /// bound the unknown-subject warn table deliberately reuses rather than
+    /// inventing a second number. Duplicated here on the same reasoning
+    /// `wire_constraints.rs` gives for `MAX_HIT_SLOP`: the test holds the C
+    /// constant to a promise, so reading it from the place that makes it would
+    /// assert nothing.
+    const MAX_SUBJECTS: usize = 32;
+
+    /// A name no screen in this suite declares.
+    const UNRESOLVABLE: &str = "no_such_subject_xyz";
+    /// A second one, for the distinctness half.
+    const UNRESOLVABLE_2: &str = "another_absent_subject";
+    /// Declared by every screen below, so it always resolves.
+    const DECLARED: &str = "armed";
+
+    fn new_capturing_host() -> ControlsHost {
+        let config = HostConfig::new(wasm_path(), WIDTH, HEIGHT).with_captured_stderr();
+        ControlsHost::new(&config).expect("failed to create capturing ControlsHost")
+    }
+
+    /// A minimal themed screen declaring exactly `subjects` INT subjects.
+    fn screen(subjects: &[&str]) -> Vec<u8> {
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                uid: 100,
+                ..Default::default()
+            }),
+            subjects: subjects
+                .iter()
+                .map(|name| ui::SubjectDeclaration {
+                    name: (*name).into(),
+                    r#type: ui::SubjectType::SubjectInt as i32,
+                    initial: None,
+                })
+                .collect(),
+        }
+        .encode_to_vec()
+    }
+
+    fn load(host: &mut ControlsHost, pb: &[u8]) {
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(pb).expect("load_ui");
+    }
+
+    /// One `StateUpdate` carrying one INT value per name.
+    fn push(host: &mut ControlsHost, names: &[&str]) {
+        let su = ui::StateUpdate {
+            values: names
+                .iter()
+                .map(|name| ui::SubjectValue {
+                    name: (*name).into(),
+                    value: Some(ui::subject_value::Value::IntValue(1)),
+                })
+                .collect(),
+        }
+        .encode_to_vec();
+        host.update_state(&su).expect("update_state");
+    }
+
+    /// Lines mentioning a specific subject name AND the undeclared-subject
+    /// diagnostic — keyed on the NAME plus the word `declare`, so an unrelated
+    /// guest line that happens to contain the name cannot satisfy it.
+    fn lines_naming(host: &ControlsHost, name: &str) -> Vec<String> {
+        host.captured_stderr()
+            .lines()
+            .filter(|line| line.contains(name) && line.contains("declare"))
+            .map(str::to_owned)
+            .collect()
+    }
+
+    /// THE CONTROL FOR THIS WHOLE MODULE, and it must be read first.
+    ///
+    /// Every other test here asserts something about a line on the guest's
+    /// stderr, so all of them go red together if the CAPTURE is broken rather
+    /// than the renderer. This one drives a diagnostic the renderer has always
+    /// emitted — a `SubjectValue` whose value type disagrees with the declared
+    /// subject's — so it is green on a renderer that has never heard of the
+    /// undeclared-subject line. A run where this is red and the others are too
+    /// says nothing about the undeclared-subject clauses.
+    ///
+    /// It also pins a contract that had no test at all: the type mismatch
+    /// WARNs and the stream survives, because a best-effort state rail must
+    /// not be taken down by one bad value.
+    #[test]
+    fn a_value_type_mismatch_is_reported_and_the_stream_survives() {
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        let su = ui::StateUpdate {
+            values: vec![ui::SubjectValue {
+                name: DECLARED.into(),
+                value: Some(ui::subject_value::Value::StringValue("not an int".into())),
+            }],
+        }
+        .encode_to_vec();
+        host.update_state(&su)
+            .expect("a type mismatch must not fail the decode");
+        let stderr = host.captured_stderr();
+        assert!(
+            stderr.contains(DECLARED) && stderr.contains("does not match"),
+            "a STRING value pushed at an INT subject must be reported.\n\
+             --- captured stderr ---\n{stderr}"
+        );
+    }
+
+    /// AUDIBILITY. Before the fix the module wrote nothing whatsoever for an
+    /// unresolvable name, so this is the assertion that was red.
+    #[test]
+    fn an_undeclared_subject_in_a_state_update_is_named_on_stderr() {
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        push(&mut host, &[UNRESOLVABLE]);
+        let hits = lines_naming(&host, UNRESOLVABLE);
+        assert!(
+            !hits.is_empty(),
+            "a state update naming a subject the screen does not declare must be \
+             reported: captured guest stderr held no line naming {UNRESOLVABLE:?}.\n\
+             --- captured stderr ---\n{}",
+            host.captured_stderr()
+        );
+    }
+
+    /// ONCE-PER-NAME. The rail runs at signal cadence for as long as the
+    /// screen is up, so an unconditional line is a torrent; this is the clause
+    /// that bounds it. 64 updates is arbitrary but far above 1 — the point is
+    /// that the count does not track the number of updates.
+    #[test]
+    fn a_repeated_undeclared_subject_is_named_exactly_once() {
+        let updates = 64;
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        for _ in 0..updates {
+            push(&mut host, &[UNRESOLVABLE]);
+        }
+        let hits = lines_naming(&host, UNRESOLVABLE);
+        assert_eq!(
+            hits.len(),
+            1,
+            "{updates} updates naming the same undeclared subject must produce exactly \
+             ONE line, not {}: an unconditional warn on this rail trains an operator to \
+             ignore the log.\n--- lines ---\n{}",
+            hits.len(),
+            hits.join("\n")
+        );
+    }
+
+    /// DISTINCTNESS, plus the NON-VACUITY guard for the silence half below:
+    /// two different undeclared names are two different diagnostics, so the
+    /// once-per-name key is the NAME and not a single global latch.
+    #[test]
+    fn two_distinct_undeclared_subjects_are_named_separately() {
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        push(&mut host, &[UNRESOLVABLE, UNRESOLVABLE_2]);
+        assert_eq!(
+            lines_naming(&host, UNRESOLVABLE).len(),
+            1,
+            "first undeclared name must be reported once"
+        );
+        assert_eq!(
+            lines_naming(&host, UNRESOLVABLE_2).len(),
+            1,
+            "a SECOND, different undeclared name must be reported too — a single \
+             global latch would swallow it"
+        );
+    }
+
+    /// THE LEGITIMATE-SUBSET CASE MUST NOT DROWN THE LOG. A resolvable name
+    /// produces no diagnostic at all.
+    ///
+    /// The silence assertion is paired with a live one on the SAME host, so it
+    /// cannot pass because the capture is dead: after asserting the quiet, the
+    /// test pushes an undeclared name and requires the line to appear. An
+    /// absence assertion whose pass value equals its nothing-ran value is
+    /// exactly what that pairing exists to rule out.
+    #[test]
+    fn a_declared_subject_produces_no_diagnostic_and_the_capture_still_works() {
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        for _ in 0..32 {
+            push(&mut host, &[DECLARED]);
+        }
+        assert!(
+            lines_naming(&host, DECLARED).is_empty(),
+            "a subject the screen DOES declare must produce no undeclared-subject \
+             diagnostic.\n--- captured stderr ---\n{}",
+            host.captured_stderr()
+        );
+        // Non-vacuity: the same capture must still be able to report.
+        push(&mut host, &[UNRESOLVABLE]);
+        assert_eq!(
+            lines_naming(&host, UNRESOLVABLE).len(),
+            1,
+            "the capture must still be live — otherwise the silence above proves \
+             nothing.\n--- captured stderr ---\n{}",
+            host.captured_stderr()
+        );
+    }
+
+    /// SATURATION. More distinct undeclared names than the table holds must
+    /// not degrade back into silence: the renderer says it has stopped naming
+    /// them, so a truncated log never reads as a complete one.
+    #[test]
+    fn past_the_table_bound_the_renderer_announces_that_it_has_stopped_naming() {
+        let overshoot = 8;
+        let names: Vec<String> = (0..MAX_SUBJECTS + overshoot)
+            .map(|i| format!("absent_subject_{i}"))
+            .collect();
+        let refs: Vec<&str> = names.iter().map(String::as_str).collect();
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        push(&mut host, &refs);
+        let stderr = host.captured_stderr();
+        let named = names
+            .iter()
+            .filter(|name| !lines_naming(&host, name).is_empty())
+            .count();
+        assert!(
+            named <= MAX_SUBJECTS,
+            "at most MAX_SUBJECTS ({MAX_SUBJECTS}) distinct undeclared names may be \
+             named; {named} were.\n--- captured stderr ---\n{stderr}"
+        );
+        assert!(
+            stderr.contains("further"),
+            "saturating the table must be ANNOUNCED — a log that silently stops \
+             naming them reads as a complete one.\n--- captured stderr ---\n{stderr}"
+        );
+    }
+
+    /// The warn table's lifetime is the SCREEN's, not the process's: a reload
+    /// re-arms it, because a new screen is a new producer/screen pairing and
+    /// the previous run's suppressions say nothing about it.
+    #[test]
+    fn a_reload_re_arms_the_once_per_name_suppression() {
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        push(&mut host, &[UNRESOLVABLE]);
+        assert_eq!(
+            lines_naming(&host, UNRESOLVABLE).len(),
+            1,
+            "first load must report once"
+        );
+        load(&mut host, &screen(&[DECLARED]));
+        push(&mut host, &[UNRESOLVABLE]);
+        assert_eq!(
+            lines_naming(&host, UNRESOLVABLE).len(),
+            2,
+            "a RELOAD must report the same name again — the table lives with the \
+             registry it mirrors.\n--- captured stderr ---\n{}",
+            host.captured_stderr()
+        );
+    }
+}
