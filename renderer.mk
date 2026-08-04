@@ -45,7 +45,7 @@ RGEN := tools/renderer-gen
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection generated-projection-canary conventions-projection \
 	construct-bindings \
-	devcards-test state-mirror reload decode-limits clj-schema-test check-renderer check-renderer-lanes \
+	devcards-test state-mirror reload decode-limits wire-constraints clj-schema-test check-renderer check-renderer-lanes \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
 	interaction-prebuilt \
@@ -746,6 +746,28 @@ decode-limits: wasm
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test decode_limits
 
+# ── wire-constraints ────────────────────────────────────────────────────────
+# The BEHAVIOURAL half of output/manifests/ui-ast-constraints.json. That
+# manifest records, per buf.validate constraint, whether the C leg upholds it;
+# `manifests` verifies the manifest's ANCHORS (a named guard token, a named
+# test) still exist, which proves neither has been deleted and proves nothing
+# about either firing. This lane is what proves the firing.
+#
+# A SEPARATE BINARY FROM decode-limits, deliberately. That suite's subject is
+# RESOURCE limits — depth, fan-out, accumulation across patches — reached by
+# trees no authored screen produces. This one's subject is VALUE constraints the
+# proto declares and `scripts/proto_cleanup.awk` deletes before nanopb ever sees
+# them. Both build synthetic inputs and both assert refusal, which is why merging
+# them is tempting; the two answer different questions and their docstrings are
+# what a reader consults to know which lane owns a gap.
+#
+# A NEW cargo test binary is not auto-run by the named-test lanes, so — as with
+# decode-limits — it is wired here explicitly, and in .github/workflows/renderer.yml
+# beside it.
+wire-constraints: wasm
+	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
+		cargo test --test wire_constraints
+
 # ── Oracles (morph parity / coverage matrix / demo parity) ──────────────────
 oracles: morph-parity matrix demo-parity
 
@@ -825,6 +847,13 @@ manifests:
 	       --renderer "../../$(R)/src/renderer.c" --output "$$tmp/renderer-caps.json" \
 	  && clojure -M -m renderer-gen.ui-ast-bounds-json \
 	       --options ../../proto/ui/ui_ast.options --output "$$tmp/ui-ast-bounds.json" \
+	  && clojure -M -m renderer-gen.ui-ast-constraints-json \
+	       --proto ../../proto/ui/ui_ast.proto \
+	       --options ../../proto/ui/ui_ast.options \
+	       --dispositions edn/ui-ast-constraint-dispositions.edn \
+	       --renderer ../../$(R)/src/renderer.c \
+	       --tests ../../$(R)/wasm_harness/tests/wire_constraints.rs \
+	       --output "$$tmp/ui-ast-constraints.json" \
 	  && clojure -M -m lvgl-codegen.theme-tokens \
 	       --tokens edn/tokens.edn --output "$$tmp/theme_tokens.h" \
 	  && clojure -M -m lvgl-codegen.gesture-thresholds \
@@ -838,6 +867,7 @@ manifests:
 	  "design-tokens.json:output/manifests" \
 	  "renderer-caps.json:output/manifests" \
 	  "ui-ast-bounds.json:output/manifests" \
+	  "ui-ast-constraints.json:output/manifests" \
 	  "font-metrics.json:output/manifests" \
 	  "theme_tokens.h:$(R)/generated" \
 	  "gesture_thresholds.h:$(R)/generated"; do \
@@ -857,7 +887,7 @@ manifests:
 	done; \
 	rm -rf "$$tmp"; \
 	$(MAKE) --no-print-directory -f renderer.mk manifests-proto-db || rc=1; \
-	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + ui-ast-bounds + font-metrics + theme-tokens.h + gesture-thresholds.h + the proto-db manifests enumerated above)"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + ui-ast-bounds + ui-ast-constraints + font-metrics + theme-tokens.h + gesture-thresholds.h + the proto-db manifests enumerated above)"; \
 	exit "$$rc"
 
 # The proto-db-derived manifests (endpoints / signals / sub-signals /
@@ -1674,5 +1704,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits
+check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints
 	@echo "renderer battery: GREEN ($^)"

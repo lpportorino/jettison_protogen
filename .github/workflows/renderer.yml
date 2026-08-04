@@ -461,12 +461,12 @@ jobs:
       # assertions are guarded by review alone. Read this lane as proof the two
       # SIDES agree where both exist — never as the only gate on either one, and
       # never as coverage of the probe's assertions.
-      name: Harness suite + oracles + reload-cycle + decode-limits + dump contracts
+      name: Harness suite + oracles + reload-cycle + decode-limits + wire-constraints + dump contracts
       run: |
         docker run --rm -v "$PWD:/workspace" -w /workspace \
           -e CARGO_HOME=/workspace/.cargo-home \
           jettison-proto-generator-base:latest \
-          make -f renderer.mk harness oracles reload decode-limits dump-contracts
+          make -f renderer.mk harness oracles reload decode-limits wire-constraints dump-contracts
     - # The wasm + harness steps run as ROOT inside the container (no --user),
       # so every file cargo writes into the cached paths comes back root-owned.
       # The post-job `actions/cache` save runs as the RUNNER user, cannot read

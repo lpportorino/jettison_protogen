@@ -1,0 +1,685 @@
+{
+  "source": "proto/ui/ui_ast.proto",
+  "stripped_by": "scripts/proto_cleanup.awk",
+  "constraints": {
+    "ui.ArcProps.bg_end_angle": {
+      "lte": {
+        "value": 360,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "lv_arc_set_bg_angles subtracts 360 ONCE for a value above it, so 1000 stays 1000 and the arc draws a wrong sweep. No memory hazard.",
+        "rationale": "Cosmetic angle on a decorative arc; the producer that declared the bound is the only writer."
+      }
+    },
+    "ui.ArcProps.bg_start_angle": {
+      "lte": {
+        "value": 360,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As bg_end_angle: a single -360 fold, then a wrong sweep.",
+        "rationale": "As bg_end_angle."
+      }
+    },
+    "ui.ArcProps.end_angle": {
+      "lte": {
+        "value": 360,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As bg_end_angle: a single -360 fold, then a wrong sweep.",
+        "rationale": "As bg_end_angle, on the indicator rather than the background."
+      }
+    },
+    "ui.ArcProps.mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined mode matches no arm in LVGL's own draw path, so the arc renders as NORMAL. Wrong render, no out-of-range access.",
+        "rationale": "Direct-cast to lv_arc_mode_t, which LVGL stores and compares rather than indexing with."
+      }
+    },
+    "ui.ArcProps.start_angle": {
+      "lte": {
+        "value": 360,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As bg_end_angle: a single -360 fold, then a wrong sweep.",
+        "rationale": "As bg_end_angle, on the indicator rather than the background."
+      }
+    },
+    "ui.BarProps.mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined mode falls through LVGL's mode comparisons and the bar draws as NORMAL.",
+        "rationale": "Direct-cast to lv_bar_mode_t; stored, never used as an index."
+      }
+    },
+    "ui.ButtonMatrixProps.map_str": {
+      "max_len": {
+        "value": 1023,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 1024,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart, and nanopb refuses a longer string at decode."
+      }
+    },
+    "ui.ChartProps.hdiv_count": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "The value is truncated mod 256, so 256 draws zero division lines. Wrong render, and the cast is visible in the source rather than implicit.",
+        "rationale": "Narrowed deliberately at the call site rather than refused: lv_chart_set_div_line_count takes uint8_t and the renderer writes the cast explicitly."
+      }
+    },
+    "ui.ChartProps.series": {
+      "max_items": {
+        "value": 8,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 8,
+        "rationale": "Static nanopb array; max_count is the counterpart and nanopb refuses a longer stream."
+      }
+    },
+    "ui.ChartProps.type": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined type yields an empty chart \u2014 a plausible frame with no series drawn.",
+        "rationale": "Direct-cast to lv_chart_type_t; LVGL switches on it and draws nothing for an arm it does not know."
+      }
+    },
+    "ui.ChartProps.vdiv_count": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As hdiv_count: truncated mod 256 by the explicit uint8_t cast.",
+        "rationale": "As hdiv_count."
+      }
+    },
+    "ui.ChartSeries.axis": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "enforced-elsewhere",
+        "by": "lv_chart_add_series' own masking: `ser->y_axis_sec = axis & LV_CHART_AXIS_SECONDARY_Y ? 1 : 0`",
+        "harm": "The mask is total for memory safety and partial for meaning \u2014 an undefined value silently becomes primary or secondary, so the series is scaled against the wrong axis range.",
+        "rationale": "The one enum here that CANNOT reach an out-of-range index: LVGL reduces it to a single bit before it ever indexes ymin[2]/ymax[2]."
+      }
+    },
+    "ui.ChartSeries.values": {
+      "max_items": {
+        "value": 32,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 32,
+        "rationale": "Static nanopb array; max_count is the counterpart."
+      }
+    },
+    "ui.CmdSpec.command_id": {
+      "max_len": {
+        "value": 127,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 128,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.CmdSpec.patches": {
+      "max_items": {
+        "value": 8,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 8,
+        "rationale": "Static nanopb array; max_count is the counterpart, and a _Static_assert in renderer.c additionally ties CMD_PATCH_MAX_PATCHES to the generated width."
+      }
+    },
+    "ui.Color.b": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "lv_color_make takes uint8_t, so 256 becomes 0. On a dark theme an overflowed component can render the element invisible rather than merely mis-coloured.",
+        "rationale": "One of seven wire sites carrying a ui.Color; the harm is a wrong pixel value, which is the bounded class this registry's header names as the line for leaving a constraint open. Closing it wants ONE validating accessor at every ui.Color read, which is a change of its own rather than a guard beside a field."
+      }
+    },
+    "ui.Color.g": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As Color.b: truncated mod 256 by lv_color_make's uint8_t parameters.",
+        "rationale": "As Color.b."
+      }
+    },
+    "ui.Color.r": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As Color.b: truncated mod 256 by lv_color_make's uint8_t parameters.",
+        "rationale": "As Color.b."
+      }
+    },
+    "ui.DropdownProps.direction": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined value sets bits LVGL does not name; the list opens in whichever direction the surviving bits select.",
+        "rationale": "Direct-cast to lv_dir_t, which is a BITMASK rather than a dense enum, so a range guard would be wrong here even if one were added."
+      }
+    },
+    "ui.DropdownProps.option_values": {
+      "max_items": {
+        "value": 16,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 16,
+        "rationale": "Static nanopb array; max_count is the counterpart."
+      }
+    },
+    "ui.DropdownProps.options": {
+      "max_len": {
+        "value": 1023,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 1024,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.EventBinding.cmd_by_value": {
+      "max_items": {
+        "value": 16,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "CMD_PATCH_MAX_BY_VALUE",
+        "test": "cmd_by_value_past_the_declared_bound_is_refused",
+        "rationale": "FT_POINTER, so nanopb allocates whatever the stream declares and there is no static width to bound it. The renderer's own count check is the whole enforcement, and it equals the declared max_items."
+      }
+    },
+    "ui.EventBinding.name": {
+      "max_len": {
+        "value": 127,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 128,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart, budgeted at 128 for parity with CmdSpec.command_id."
+      },
+      "min_len": {
+        "value": 1,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "The event attaches only when name OR set_subject is non-empty, so an empty name with an empty set_subject makes the whole binding VANISH silently; an empty name with a set_subject attaches a control that emits a command with no id.",
+        "rationale": "An empty name is not rejected anywhere, and the arm that would notice reads it as absence rather than as an error."
+      }
+    },
+    "ui.EventBinding.set_subject": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart, held at 64 because subject names are bounded at 64 everywhere."
+      }
+    },
+    "ui.EventBinding.trigger": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "event_trigger_defined",
+        "test": "undefined_event_trigger_is_refused",
+        "rationale": "The switch's default arm is TRIGGER_CLICKED's and CLICKED is the zero enumerator, so an undefined trigger was indistinguishable from the default. Closed because the substitution changes WHICH command reaches the device, and the frame is identical either way.",
+        "range_over": "EventTrigger"
+      }
+    },
+    "ui.FieldPatch.encoding": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "enforced-elsewhere",
+        "by": "cmd_patch.c's slot-encoding switch, which LOG_ERRORs `value slot has no encoding` and aborts the emit",
+        "harm": "The screen LOADS clean and the defect surfaces once per activation, as a command that is not sent \u2014 so a control looks wired and does nothing, and the diagnosis is in a log nobody is watching at that moment.",
+        "rationale": "The refusal exists and is loud, but it lives in the emit path rather than the load path."
+      }
+    },
+    "ui.FieldPatch.kind": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "enforced-elsewhere",
+        "by": "cmd_patch.c's patch-kind switch, which LOG_ERRORs `unknown patch kind` and aborts the emit",
+        "harm": "As FieldPatch.encoding: the load is clean and the command silently fails to be sent at fire time.",
+        "rationale": "As FieldPatch.encoding: a real refusal, in the emit path."
+      }
+    },
+    "ui.FieldPatch.subject": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart at 64, matching every other subject-name bound."
+      }
+    },
+    "ui.GestureSpec.kind": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "The spec is inert: the gesture is recognised, no template matches, and nothing is emitted \u2014 a control that responds to touch by doing nothing, with no error.",
+        "rationale": "Copied verbatim into the gesture registry and matched by equality against the kind the recogniser decided, so an undefined value can never select a spec."
+      }
+    },
+    "ui.HostProxyProps.mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "Every interaction arm stays off: the proxy renders and reports, and drags, resizes and aligns all do nothing.",
+        "rationale": "Compared by equality against each named mode rather than switched on, so an undefined value simply matches none."
+      }
+    },
+    "ui.HostProxyProps.proxy_id": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      },
+      "min_len": {
+        "value": 1,
+        "survives_strip": false,
+        "disposition": "enforced-elsewhere",
+        "by": "the `host proxy with empty proxy_id` refusal in the proxy finalizer",
+        "harm": "None for the empty case. The residue is that the clause tests emptiness only, so it upholds min_len:1 exactly and would uphold nothing if the bound moved.",
+        "rationale": "An empty id is refused at load, loudly, by a clause that exists because the id is the host-side join key rather than because min_len declared it."
+      }
+    },
+    "ui.ImageProps.src": {
+      "max_len": {
+        "value": 255,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 256,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.LabelProps.long_mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined mode stores as-is with expand cleared, so the label behaves as WRAP. Wrong render, no out-of-range access.",
+        "rationale": "Direct-cast to lv_label_long_mode_t, which LVGL stores and compares; it sets an `expand` flag from three named modes and stores the rest."
+      }
+    },
+    "ui.Layout.cross_place": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined alignment places the track at START, so the layout is wrong in a way that looks authored.",
+        "rationale": "Direct-cast to lv_flex_align_t; LVGL resolves it in a switch and falls back to START."
+      }
+    },
+    "ui.Layout.flow": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined flow selects whichever row/column/wrap/reverse bits survive, so the children lay out in an unintended direction.",
+        "rationale": "As Layout.cross_place; lv_flex_flow_t is a bit-composed value rather than a dense index."
+      }
+    },
+    "ui.Layout.main_place": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As Layout.cross_place: falls back to START.",
+        "rationale": "As Layout.cross_place."
+      }
+    },
+    "ui.Layout.track_place": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "As Layout.cross_place: falls back to START.",
+        "rationale": "As Layout.cross_place."
+      }
+    },
+    "ui.LedProps.brightness": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "Truncated mod 256 \u2014 a brightness of 256 renders as 0, i.e. off.",
+        "rationale": "Cosmetic; lv_led_set_brightness's parameter is uint8_t, so the narrowing happens in the callee's signature rather than in a cast the renderer wrote."
+      }
+    },
+    "ui.RollerProps.mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined mode behaves as NORMAL, so an intended INFINITE roller stops at its ends.",
+        "rationale": "Direct-cast to lv_roller_mode_t at lv_roller_set_options; stored, never indexed with."
+      }
+    },
+    "ui.RollerProps.options": {
+      "max_len": {
+        "value": 511,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 512,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.ScaleProps.angle_range": {
+      "lte": {
+        "value": 360,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "Stored verbatim by lv_scale_set_angle_range, so ticks are distributed over a sweep larger than a circle and overdraw each other.",
+        "rationale": "Cosmetic sweep on a gauge; the renderer already guards the zero case, which is the only value with an arithmetic consequence."
+      }
+    },
+    "ui.ScaleProps.mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined mode renders the scale in its default orientation.",
+        "rationale": "Direct-cast to lv_scale_mode_t; LVGL switches on it and draws its default arm."
+      }
+    },
+    "ui.ScaleProps.sections": {
+      "max_items": {
+        "value": 4,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 4,
+        "rationale": "Static nanopb array; max_count is the counterpart."
+      }
+    },
+    "ui.ScaleProps.text_src": {
+      "max_len": {
+        "value": 255,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 256,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.ShadowBundle.opa": {
+      "lte": {
+        "value": 255,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "Truncated mod 256 \u2014 an opacity of 256 renders fully transparent, i.e. no shadow.",
+        "rationale": "Cosmetic; lv_style_set_shadow_opa takes lv_opa_t, which is uint8_t."
+      }
+    },
+    "ui.SliderProps.mode": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined mode behaves as NORMAL, so an intended RANGE or SYMMETRICAL slider draws from its start.",
+        "rationale": "Direct-cast to lv_slider_mode_t; stored, never indexed with."
+      }
+    },
+    "ui.StyleGroup.variants": {
+      "max_items": {
+        "value": 8,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "A longer list streams and every entry past the base and the active composite index is drained unused, so the excess costs decode time and changes nothing.",
+        "rationale": "FT_CALLBACK, so the entries stream and are drained one at a time; there is no array to overrun and no count kept."
+      },
+      "min_items": {
+        "value": 1,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "The group attaches no style at all, so the widget renders at the theme default \u2014 a screen missing its styling with nothing to say so.",
+        "rationale": "An empty variants list is structurally indistinguishable from a group whose entries were all drained."
+      }
+    },
+    "ui.StyleProperty.string_value": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart at 64."
+      }
+    },
+    "ui.StyleProperty.type": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "The property is dropped and the widget renders without it, which is exactly what an authored omission looks like.",
+        "rationale": "The apply switch has a default arm that LOG_WARNs `unhandled style prop type` and ignores the property. A warning is not a refusal, so this is recorded as unenforced rather than as a guard."
+      }
+    },
+    "ui.StyleVariant.variant_index": {
+      "lte": {
+        "value": 7,
+        "survives_strip": false,
+        "disposition": "enforced-elsewhere",
+        "by": "the variant selector, which keeps only index 0 and the active composite index and drains everything else",
+        "harm": "An out-of-range index is silently drained, so a variant an author wrote never applies and the base variant renders in its place.",
+        "rationale": "The index is COMPARED, never used to address anything, so it cannot reach an array out of range \u2014 the property this bound would otherwise have to protect."
+      }
+    },
+    "ui.SubjectDeclaration.name": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart at 64."
+      },
+      "min_len": {
+        "value": 1,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An empty-named subject registers, and an equally empty reference resolves to it \u2014 so the pair is self-consistent and invisible, while no authoring surface can name it.",
+        "rationale": "The registry copies the name verbatim and looks it up by strcmp, which an empty string satisfies as readily as any other."
+      }
+    },
+    "ui.SubjectDeclaration.string_initial": {
+      "max_len": {
+        "value": 255,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 256,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.SubjectDeclaration.type": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "An undefined type silently declares an INT subject, so a producer that meant a string gets a subject that will never carry its value.",
+        "rationale": "Tested for equality against SUBJECT_STRING, with everything else taking the INT arm."
+      }
+    },
+    "ui.SubjectValue.name": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart at 64."
+      },
+      "min_len": {
+        "value": 1,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "Absent an empty declaration the update is dropped; with one it resolves to the unnameable subject. Neither case is reported.",
+        "rationale": "Looked up by strcmp against the registry, which an empty string can match if an empty name was declared."
+      }
+    },
+    "ui.SubjectValue.string_value": {
+      "max_len": {
+        "value": 255,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 256,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.TabviewProps.tab_bar_position": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "unenforced",
+        "harm": "The tab bar attaches on whichever side the surviving bits name.",
+        "rationale": "Direct-cast to lv_dir_t, a BITMASK \u2014 as DropdownProps.direction, a range guard would be the wrong shape."
+      }
+    },
+    "ui.TabviewProps.tab_names": {
+      "max_items": {
+        "value": 8,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 8,
+        "rationale": "Static nanopb array; max_count is the counterpart."
+      },
+      "max_len": {
+        "value": 31,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 32,
+        "rationale": "Per-item string bound; ui_ast.options carries max_size on the same line as max_count."
+      }
+    },
+    "ui.TargetBox.label": {
+      "max_len": {
+        "value": 31,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 32,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.TargetOverlayProps.border_width": {
+      "lte": {
+        "value": 16,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "MAX_TARGET_BORDER_WIDTH",
+        "test": "target_overlay_border_width_past_the_declared_bound_is_refused",
+        "rationale": "Closed because the value is handed to LV_DPX, whose `(dpi * n + 80) / 160` is int32 arithmetic \u2014 so a large one overflows the multiply, which is undefined behaviour rather than a wide stroke. Its sibling bound on this same message, the box count, was already enforced; a reader of the proto could not tell the two apart."
+      }
+    },
+    "ui.TargetOverlayProps.boxes": {
+      "max_items": {
+        "value": 32,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "MAX_TARGET_BOXES",
+        "test": "target_overlay_boxes_past_the_declared_bound_is_refused",
+        "rationale": "FT_POINTER, so nanopb allocates whatever the stream declares. The renderer refuses rather than drawing the first 32 of a larger set, because a plausible frame missing detections is worse than no frame."
+      }
+    },
+    "ui.TextareaProps.placeholder": {
+      "max_len": {
+        "value": 255,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 256,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.TreePatchOp.kind": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "unknown patch op kind",
+        "test": "undefined_patch_op_kind_is_refused",
+        "rationale": "Already guarded before this registry existed: the op switch refuses an unnamed kind with PATCH_ERR_ARG rather than falling through to any op. Recorded so the manifest distinguishes it from the enums that fall through."
+      }
+    },
+    "ui.VisibilityBinding.compare": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "compare_op_ok",
+        "test": "undefined_compare_op_is_refused",
+        "rationale": "Closed because `compare_holds`'s default is EQUALITY, so an undefined operator did not fail \u2014 it silently became `==`, and a control meant to appear ABOVE a threshold appeared only exactly AT it. Guards all four binding classes that share the shape.",
+        "range_over": "CompareOp"
+      }
+    },
+    "ui.VisibilityBinding.subject": {
+      "max_len": {
+        "value": 63,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 64,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart at 64."
+      },
+      "min_len": {
+        "value": 1,
+        "survives_strip": false,
+        "disposition": "enforced-elsewhere",
+        "by": "the `references unknown subject` refusal each of the four binding classes raises when find_subject misses",
+        "harm": "The coincidence ends if an empty-named subject is ever DECLARED: SubjectDeclaration.name carries the same min_len and is NOT enforced, so the two empties would then agree and the reference would resolve.",
+        "rationale": "An empty reference resolves to nothing and the load is refused, loudly \u2014 by a clause about resolvability rather than about length."
+      }
+    },
+    "ui.WidgetNode.gestures": {
+      "max_items": {
+        "value": 5,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "CMD_PATCH_MAX_GESTURES",
+        "test": "gestures_past_the_declared_bound_is_refused",
+        "rationale": "FT_POINTER, so the renderer's count check is the whole enforcement. PARTIAL, and the gap is here rather than hidden: the loop counts only cmd-BEARING entries, so a six-entry list whose sixth carries no cmd violates max_items and is admitted. That surplus is inert \u2014 a gesture with no template emits nothing \u2014 which is why the partial guard is left as it stands."
+      }
+    },
+    "ui.WidgetNode.hit_slop": {
+      "lte": {
+        "value": 64,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "MAX_HIT_SLOP",
+        "test": "hit_slop_past_the_declared_bound_is_refused",
+        "rationale": "Closed for two harms at once. The value reaches LV_DPX's int32 multiply, which overflows for a large one \u2014 undefined behaviour, not a big halo. And ext_click_area GROWS the reachable box while hit-testing returns the FIRST hit walking children in reverse, so an oversized slop absorbs presses aimed at earlier siblings, with no pixel and no event to show for it."
+      }
+    },
+    "ui.WidgetNode.text": {
+      "max_len": {
+        "value": 255,
+        "survives_strip": true,
+        "disposition": "nanopb-size",
+        "nanopb": 256,
+        "rationale": "String bound; ui_ast.options carries the nanopb counterpart."
+      }
+    },
+    "ui.WidgetNode.type": {
+      "defined_only": {
+        "value": true,
+        "survives_strip": false,
+        "disposition": "renderer-guard",
+        "guard": "widget_type_defined",
+        "test": "undefined_widget_type_is_refused",
+        "rationale": "Closed because the creation switch's default arm builds a bare container, which is ALSO what WIDGET_OBJ builds \u2014 so an undefined type rendered as an empty box indistinguishable from one an author wrote. The props half of the same node already refused an unknown arm for exactly that reason; the type half did not.",
+        "range_over": "WidgetType"
+      }
+    }
+  }
+}

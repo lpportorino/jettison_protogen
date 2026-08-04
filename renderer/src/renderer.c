@@ -998,6 +998,59 @@ static void tabview_release_local_size(lv_obj_t *obj) {
   (void)lv_obj_remove_local_style_prop(obj, LV_STYLE_HEIGHT, 0);
 }
 /* ================================================================
+ * WIRE VALUE CONSTRAINTS — the half of ui_ast.proto this leg cannot see
+ *
+ * `scripts/proto_cleanup.awk` deletes every bracketed field option before the
+ * nanopb generator runs, so no `buf.validate` annotation reaches the generated
+ * C. What survives is `proto/ui/ui_ast.options` alone: nanopb `max_size` /
+ * `max_count` still size the structs, and the decoder refuses an over-long
+ * string or an over-full static array on its own. Nothing else does. `lte`,
+ * `gte`, `min_len`, `min_items` and `enum defined_only` are invisible here —
+ * an undefined enumerator simply arrives as a plain int no `case` names.
+ *
+ * A guard below is therefore the ONLY enforcement of the constraint it names,
+ * and `output/manifests/ui-ast-constraints.json` is the published account of
+ * which constraints have one and which do not. An entry there names the guard
+ * AND the test in `renderer/wasm_harness/tests/wire_constraints.rs` that drives
+ * it; `make -f renderer.mk ui-ast-constraints` fails if either goes missing, so
+ * deleting a guard cannot quietly downgrade the manifest's claim.
+ *
+ * WHY REFUSE RATHER THAN CLAMP — the same reason `apply_target_overlay` gives
+ * for its box count, and the same reason `apply_widget_props`'s default arm
+ * gives for an unknown props arm: a screen rendered from a substituted value is
+ * indistinguishable from one whose author asked for that value. A clamp turns a
+ * producer bug into a plausible frame; a refusal turns it into a diagnosis.
+ *
+ * THE ENUM CHECKS ARE RANGE CHECKS AGAINST nanopb's OWN `_MIN`/`_MAX` MACROS,
+ * which the generator derives from the `.proto`, so they track the vocabulary
+ * with no second list to keep. That is exact only while the enum is DENSE: a
+ * future enumerator leaving a HOLE would let the hole's value through. The
+ * density is not left to memory — `ui-ast-constraints` asserts it for every
+ * enum a `range` guard claims, and fails the emit on a gap.
+ * ================================================================ */
+static bool widget_type_defined(ui_WidgetType type) {
+  return type >= _ui_WidgetType_MIN && type <= _ui_WidgetType_MAX;
+}
+static bool event_trigger_defined(ui_EventTrigger trigger) {
+  return trigger >= _ui_EventTrigger_MIN && trigger <= _ui_EventTrigger_MAX;
+}
+/* One home for the four binding sites that switch on a ui_CompareOp. Each
+ * routes everything it does not name into the custom-observer arm, whose
+ * `compare_holds` default is EQUALITY — so an undefined operator does not fail,
+ * it silently becomes `==`, and a control meant to appear ABOVE a threshold
+ * appears only exactly AT it. `where` names the binding class so the four are
+ * distinguishable in a log. */
+static bool compare_op_ok(ui_CompareOp compare, const char *where) {
+  if (compare >= _ui_CompareOp_MIN && compare <= _ui_CompareOp_MAX)
+    return true;
+  LOG_ERROR("%s: compare %d is not a defined ui.CompareOp (%d..%d) — an "
+            "undefined operator would silently bind as equality",
+            where, (int)compare, (int)_ui_CompareOp_MIN,
+            (int)_ui_CompareOp_MAX);
+  load_resource_error = true;
+  return false;
+}
+/* ================================================================
  * Lazy widget creation
  *
  * Called before processing children or style_groups. By this point,
@@ -1006,6 +1059,20 @@ static void tabview_release_local_size(lv_obj_t *obj) {
 static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
   if (ctx->self)
     return ctx->self;
+  /* Refuse BEFORE the switch, not in its `default:` arm. WIDGET_OBJ is zero and
+   * takes that arm too, so a guard written there would either refuse every
+   * plain container in every screen this repo ships, or — with OBJ split out —
+   * still leave the arm meaning two things at once. The value is what is wrong,
+   * so the value is what is tested. */
+  if (!widget_type_defined(ctx->node->type)) {
+    LOG_ERROR("widget type %d is not a defined ui.WidgetType (%d..%d) — an "
+              "undefined type would render as a bare container, which is "
+              "indistinguishable from a screen authored that way",
+              (int)ctx->node->type, (int)_ui_WidgetType_MIN,
+              (int)_ui_WidgetType_MAX);
+    ctx->error = -1;
+    return NULL;
+  }
   switch (ctx->node->type) {
   case ui_WidgetType_WIDGET_BUTTON:
     ctx->self = lv_button_create(ctx->parent);
@@ -1512,6 +1579,14 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
  * checks — would report on an overlay with no content. Objects are also what
  * makes the pointer story checkable rather than asserted. */
 #define MAX_TARGET_BOXES 32
+/* Mirrors TargetOverlayProps.border_width's `lte: 16` in ui_ast.proto, which
+ * this leg cannot see (§ WIRE VALUE CONSTRAINTS). Without it the field is a
+ * wire-controlled int32 handed straight to LV_DPX — `(dpi * n + 80) / 160` on
+ * int32_t — so a large value overflows the multiply, which is undefined
+ * behaviour rather than a big stroke. The box COUNT beside it was already
+ * bounded, by MAX_TARGET_BOXES; a reader comparing the two in the proto saw two
+ * declared bounds and could not tell which one anything upheld. */
+#define MAX_TARGET_BORDER_WIDTH 16
 /* Box stroke when TargetOverlayProps.border_width is 0. Design px, DPI-scaled
  * through LV_DPX like every other renderer-owned affordance size. */
 #define TARGET_BOX_BORDER_PX 2
@@ -1522,6 +1597,14 @@ static void apply_target_overlay(lv_obj_t *obj,
   if (p->boxes_count > MAX_TARGET_BOXES) {
     LOG_ERROR("target overlay carries %u boxes > max %d",
               (unsigned)p->boxes_count, MAX_TARGET_BOXES);
+    load_resource_error = true;
+    return;
+  }
+  if (p->border_width > MAX_TARGET_BORDER_WIDTH) {
+    LOG_ERROR("target overlay border_width %u > max %d (ui_ast.proto declares "
+              "lte:%d; the value reaches LV_DPX's int32 multiply unclamped)",
+              (unsigned)p->border_width, MAX_TARGET_BORDER_WIDTH,
+              MAX_TARGET_BORDER_WIDTH);
     load_resource_error = true;
     return;
   }
@@ -2104,6 +2187,8 @@ static void apply_visibility(lv_obj_t *obj, const ui_VisibilityBinding *vis) {
     LOG_WARN("visibility only supports INT subjects (got '%s')", vis->subject);
     return;
   }
+  if (!compare_op_ok(vis->compare, "visibility"))
+    return;
   switch (vis->compare) {
   case ui_CompareOp_COMPARE_EQ:
     /* Show when subject == ref_value → hide when NOT equal */
@@ -2171,6 +2256,8 @@ static void apply_checked_when(lv_obj_t *obj,
              bind->subject);
     return;
   }
+  if (!compare_op_ok(bind->compare, "checked_when"))
+    return;
   switch (bind->compare) {
   case ui_CompareOp_COMPARE_EQ:
     lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_CHECKED,
@@ -2235,6 +2322,8 @@ static void apply_enabled_when(lv_obj_t *obj,
              bind->subject);
     return;
   }
+  if (!compare_op_ok(bind->compare, "enabled_when"))
+    return;
   switch (bind->compare) {
   case ui_CompareOp_COMPARE_EQ:
     /* Enabled when subject == ref → DISABLED when NOT equal */
@@ -2307,6 +2396,11 @@ static void apply_color_when(lv_obj_t *obj, const ui_ColorBinding *cb) {
              cb->when.subject);
     return;
   }
+  /* color_when has no switch of its own — every op rides color_observer_cb,
+   * which calls compare_holds — so the equality fallback reaches it without an
+   * arm to notice. Checked here for that reason, not by symmetry. */
+  if (!compare_op_ok(cb->when.compare, "color_when"))
+    return;
   color_cb_data_t *data = malloc(sizeof(color_cb_data_t));
   if (!data) {
     /* B5: OOM would leave the binding unwired (a readout that never recolors)
@@ -3062,6 +3156,11 @@ static void record_added_styles(uint32_t uid, const widget_ctx_t *ctx) {
   }
 }
 /* Finalize widget after all fields are decoded */
+/* Mirrors WidgetNode.hit_slop's `lte: 64` in ui_ast.proto, which this leg
+ * cannot see (§ WIRE VALUE CONSTRAINTS). Kept beside its one reader rather than
+ * in renderer.h: unlike SLIDER_EXT_CLICK_PX / ARC_EXT_CLICK_PX this is a WIRE
+ * bound, not a shared affordance size, and reference_ui.c decodes no wire. */
+#define MAX_HIT_SLOP 64
 static void finalize_widget(widget_ctx_t *ctx) {
   lv_obj_t *obj = ensure_widget(ctx);
   if (!obj) {
@@ -3139,9 +3238,25 @@ static void finalize_widget(widget_ctx_t *ctx) {
    * The guard is only SAFE because the two classes whose vendored
    * constructors set a pad of their own are zeroed at creation (renderer.h,
    * applied in ensure_widget). Without that, a node asking for no slop would
-   * silently keep the inherited halo and this guard would be the bug. */
-  if (node->hit_slop != 0)
+   * silently keep the inherited halo and this guard would be the bug.
+   *
+   * THE UPPER BOUND IS THIS LEG'S ONLY ONE (§ WIRE VALUE CONSTRAINTS). Two
+   * harms, and the second is why a clamp would not do. Arithmetically the value
+   * reaches LV_DPX — `(dpi * n + 80) / 160` on int32_t — so a large one
+   * overflows the multiply, which is undefined behaviour rather than a big
+   * halo. Semantically lv_obj_set_ext_click_area GROWS the reachable box while
+   * lv_indev_search_obj returns the FIRST hit walking children in reverse, so
+   * an oversized slop silently swallows presses aimed at every sibling drawn
+   * before it — a dead zone with no pixel and no event to show for it, arriving
+   * through the one wire field that can widen a hit box at all. */
+  if (node->hit_slop > MAX_HIT_SLOP) {
+    LOG_ERROR("hit_slop %u > max %d (ui_ast.proto declares lte:%d; a larger "
+              "halo would absorb presses aimed at earlier siblings)",
+              (unsigned)node->hit_slop, MAX_HIT_SLOP, MAX_HIT_SLOP);
+    load_resource_error = true;
+  } else if (node->hit_slop != 0) {
     lv_obj_set_ext_click_area(obj, LV_DPX((int32_t)node->hit_slop));
+  }
   if (node->grid_col_dsc_count > 0 && node->grid_row_dsc_count > 0) {
     /* cols + rows are allocated as a consecutive PAIR (each grid container
      * costs exactly two slots, and nanopb caps each track list at 12 so the
@@ -3339,7 +3454,20 @@ static void finalize_widget(widget_ctx_t *ctx) {
           }
         }
       }
-      /* Map proto EventTrigger enum to LVGL event code */
+      /* Map proto EventTrigger enum to LVGL event code. The `default:` arm is
+       * TRIGGER_CLICKED's, and it is the zero enumerator, so an undefined
+       * trigger would land there and a control its author bound to a LONG PRESS
+       * would fire on a tap — same frame, wrong command on the wire out. The
+       * value is checked before the switch for the reason ensure_widget's is
+       * (§ WIRE VALUE CONSTRAINTS): a default arm that means both "clicked" and
+       * "unknown" cannot refuse one without refusing the other. */
+      if (!event_trigger_defined(node->event.trigger)) {
+        LOG_ERROR("event '%s': trigger %d is not a defined ui.EventTrigger "
+                  "(%d..%d) — it would silently bind as CLICKED",
+                  cb_data->name, (int)node->event.trigger,
+                  (int)_ui_EventTrigger_MIN, (int)_ui_EventTrigger_MAX);
+        ctx->error = -1;
+      }
       switch (node->event.trigger) {
       case ui_EventTrigger_TRIGGER_VALUE_CHANGED:
         cb_data->trigger = LV_EVENT_VALUE_CHANGED;

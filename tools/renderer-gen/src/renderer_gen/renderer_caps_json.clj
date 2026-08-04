@@ -124,6 +124,20 @@
     whatever the stream declares and buf.validate max_items:32 binds a
     conforming producer only — this is what refuses a crafted .pb, loudly and
     without drawing a partial frame."
+   "MAX_TARGET_BORDER_WIDTH"
+   "a WIRE VALUE bound rather than a capacity: it mirrors
+    ui.TargetOverlayProps.border_width's buf.validate lte:16, which
+    scripts/proto_cleanup.awk deletes before the C leg is generated. Nothing is
+    allocated against it and there is nothing for the codegen to count — what it
+    bounds is the magnitude of one field, whose value reaches LV_DPX's int32
+    multiply unclamped. Its account is output/manifests/ui-ast-constraints.json,
+    which names this #define and the test that drives it; this entry exists so
+    the completeness assertion stays total over renderer.c's MAX_* grammar."
+   "MAX_HIT_SLOP"
+   "a WIRE VALUE bound, like MAX_TARGET_BORDER_WIDTH: it mirrors
+    ui.WidgetNode.hit_slop's buf.validate lte:64, stripped before the C leg.
+    Not a pool — an oversized value costs no memory at all; it silently widens
+    one node's reachable box until it absorbs presses aimed at its siblings."
    "MAX_PENDING_VISIBILITY"
    "transient load-time deferral queue (show-when bindings), drained during the
     build — not a persistent pool; its binding class's counted representative is

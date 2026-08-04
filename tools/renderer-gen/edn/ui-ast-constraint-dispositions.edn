@@ -1,0 +1,392 @@
+;; What the reference interpreter's C leg does about each `buf.validate`
+;; constraint in `proto/ui/ui_ast.proto` — the input to
+;; `renderer-gen.ui-ast-constraints-json`, which publishes
+;; `output/manifests/ui-ast-constraints.json` from it.
+;;
+;; WHY A REGISTRY AT ALL, rather than deriving everything. Two of the four
+;; verdicts ARE derived and are not trusted here: `nanopb-size` is recomputed
+;; against `ui_ast.options` on every emit and refuses unless the bound is exact,
+;; and `renderer-guard` existence-checks both its anchors. What cannot be derived
+;; is the JUDGEMENT — that an unenforced constraint is acceptable, and what an
+;; illegal value does instead. That is a decision, and this file is where it is
+;; on the record instead of in nobody's head.
+;;
+;; TOTALITY RUNS BOTH WAYS AND IS THE POINT. A constraint with no entry fails the
+;; emit, so a new `lte` cannot land unruled-on; an entry naming a constraint the
+;; proto no longer declares fails too, so this file can only ratchet. It is NOT a
+;; baseline: no entry corresponds to a finding a fix removes, and every entry is
+;; a statement about what the C leg does rather than a parked defect.
+;;
+;; THE FOUR VERDICTS, in one line each — the emitter's docstring is the full
+;; definition and what it verifies:
+;;   :nanopb-size        `ui_ast.options` carries the exact counterpart; the
+;;                       strip removes no enforcement. Recomputed every emit.
+;;   :renderer-guard     a hand-written C guard refuses. `:guard` and `:test`
+;;                       are existence-checked.
+;;   :enforced-elsewhere no guard names it, but a clause somewhere else refuses
+;;                       the same input. `:by` names it; `:harm` names the
+;;                       residue, usually WHEN it refuses rather than whether.
+;;   :unenforced         nothing refuses it. `:harm` says what happens instead.
+;;
+;; A NOTE ON THE UNENFORCED MAJORITY, so its size is not read as neglect. Most
+;; of these are value bounds on COSMETIC scalars whose worst case is a wrong
+;; pixel, on a wire whose producer is the party that declared the constraint in
+;; the first place. The ones closed are the ones where an illegal value does
+;; something a frame cannot show: undefined behaviour in an int32 multiply, a
+;; press absorbed from a sibling, a widget or a comparison silently substituted.
+;; That line is stated here rather than left implicit, because the honest reason
+;; to leave a constraint open is that its harm is bounded and visible — never
+;; that closing it looked like work.
+
+{"ui.ArcProps.bg_end_angle"
+ {"lte" {:disposition :unenforced
+         :rationale "Cosmetic angle on a decorative arc; the producer that declared the bound is the only writer."
+         :harm "lv_arc_set_bg_angles subtracts 360 ONCE for a value above it, so 1000 stays 1000 and the arc draws a wrong sweep. No memory hazard."}}
+
+ "ui.ArcProps.bg_start_angle"
+ {"lte" {:disposition :unenforced
+         :rationale "As bg_end_angle."
+         :harm "As bg_end_angle: a single -360 fold, then a wrong sweep."}}
+
+ "ui.ArcProps.end_angle"
+ {"lte" {:disposition :unenforced
+         :rationale "As bg_end_angle, on the indicator rather than the background."
+         :harm "As bg_end_angle: a single -360 fold, then a wrong sweep."}}
+
+ "ui.ArcProps.start_angle"
+ {"lte" {:disposition :unenforced
+         :rationale "As bg_end_angle, on the indicator rather than the background."
+         :harm "As bg_end_angle: a single -360 fold, then a wrong sweep."}}
+
+ "ui.ArcProps.mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_arc_mode_t, which LVGL stores and compares rather than indexing with."
+                  :harm "An undefined mode matches no arm in LVGL's own draw path, so the arc renders as NORMAL. Wrong render, no out-of-range access."}}
+
+ "ui.BarProps.mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_bar_mode_t; stored, never used as an index."
+                  :harm "An undefined mode falls through LVGL's mode comparisons and the bar draws as NORMAL."}}
+
+ "ui.ButtonMatrixProps.map_str"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart, and nanopb refuses a longer string at decode."}}
+
+ "ui.ChartProps.hdiv_count"
+ {"lte" {:disposition :unenforced
+         :rationale "Narrowed deliberately at the call site rather than refused: lv_chart_set_div_line_count takes uint8_t and the renderer writes the cast explicitly."
+         :harm "The value is truncated mod 256, so 256 draws zero division lines. Wrong render, and the cast is visible in the source rather than implicit."}}
+
+ "ui.ChartProps.vdiv_count"
+ {"lte" {:disposition :unenforced
+         :rationale "As hdiv_count."
+         :harm "As hdiv_count: truncated mod 256 by the explicit uint8_t cast."}}
+
+ "ui.ChartProps.series"
+ {"max_items" {:disposition :nanopb-size
+               :rationale "Static nanopb array; max_count is the counterpart and nanopb refuses a longer stream."}}
+
+ "ui.ChartProps.type"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_chart_type_t; LVGL switches on it and draws nothing for an arm it does not know."
+                  :harm "An undefined type yields an empty chart — a plausible frame with no series drawn."}}
+
+ "ui.ChartSeries.axis"
+ {"defined_only" {:disposition :enforced-elsewhere
+                  :by "lv_chart_add_series' own masking: `ser->y_axis_sec = axis & LV_CHART_AXIS_SECONDARY_Y ? 1 : 0`"
+                  :rationale "The one enum here that CANNOT reach an out-of-range index: LVGL reduces it to a single bit before it ever indexes ymin[2]/ymax[2]."
+                  :harm "The mask is total for memory safety and partial for meaning — an undefined value silently becomes primary or secondary, so the series is scaled against the wrong axis range."}}
+
+ "ui.ChartSeries.values"
+ {"max_items" {:disposition :nanopb-size
+               :rationale "Static nanopb array; max_count is the counterpart."}}
+
+ "ui.CmdSpec.command_id"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.CmdSpec.patches"
+ {"max_items" {:disposition :nanopb-size
+               :rationale "Static nanopb array; max_count is the counterpart, and a _Static_assert in renderer.c additionally ties CMD_PATCH_MAX_PATCHES to the generated width."}}
+
+ "ui.Color.b"
+ {"lte" {:disposition :unenforced
+         :rationale "One of seven wire sites carrying a ui.Color; the harm is a wrong pixel value, which is the bounded class this registry's header names as the line for leaving a constraint open. Closing it wants ONE validating accessor at every ui.Color read, which is a change of its own rather than a guard beside a field."
+         :harm "lv_color_make takes uint8_t, so 256 becomes 0. On a dark theme an overflowed component can render the element invisible rather than merely mis-coloured."}}
+
+ "ui.Color.g"
+ {"lte" {:disposition :unenforced
+         :rationale "As Color.b."
+         :harm "As Color.b: truncated mod 256 by lv_color_make's uint8_t parameters."}}
+
+ "ui.Color.r"
+ {"lte" {:disposition :unenforced
+         :rationale "As Color.b."
+         :harm "As Color.b: truncated mod 256 by lv_color_make's uint8_t parameters."}}
+
+ "ui.DropdownProps.direction"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_dir_t, which is a BITMASK rather than a dense enum, so a range guard would be wrong here even if one were added."
+                  :harm "An undefined value sets bits LVGL does not name; the list opens in whichever direction the surviving bits select."}}
+
+ "ui.DropdownProps.option_values"
+ {"max_items" {:disposition :nanopb-size
+               :rationale "Static nanopb array; max_count is the counterpart."}}
+
+ "ui.DropdownProps.options"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.EventBinding.cmd_by_value"
+ {"max_items" {:disposition :renderer-guard
+               :guard "CMD_PATCH_MAX_BY_VALUE"
+               :test "cmd_by_value_past_the_declared_bound_is_refused"
+               :rationale "FT_POINTER, so nanopb allocates whatever the stream declares and there is no static width to bound it. The renderer's own count check is the whole enforcement, and it equals the declared max_items."}}
+
+ "ui.EventBinding.name"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart, budgeted at 128 for parity with CmdSpec.command_id."}
+  "min_len" {:disposition :unenforced
+             :rationale "An empty name is not rejected anywhere, and the arm that would notice reads it as absence rather than as an error."
+             :harm "The event attaches only when name OR set_subject is non-empty, so an empty name with an empty set_subject makes the whole binding VANISH silently; an empty name with a set_subject attaches a control that emits a command with no id."}}
+
+ "ui.EventBinding.set_subject"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart, held at 64 because subject names are bounded at 64 everywhere."}}
+
+ "ui.EventBinding.trigger"
+ {"defined_only" {:disposition :renderer-guard
+                  :guard "event_trigger_defined"
+                  :test "undefined_event_trigger_is_refused"
+                  :range-over "EventTrigger"
+                  :rationale "The switch's default arm is TRIGGER_CLICKED's and CLICKED is the zero enumerator, so an undefined trigger was indistinguishable from the default. Closed because the substitution changes WHICH command reaches the device, and the frame is identical either way."}}
+
+ "ui.FieldPatch.encoding"
+ {"defined_only" {:disposition :enforced-elsewhere
+                  :by "cmd_patch.c's slot-encoding switch, which LOG_ERRORs `value slot has no encoding` and aborts the emit"
+                  :rationale "The refusal exists and is loud, but it lives in the emit path rather than the load path."
+                  :harm "The screen LOADS clean and the defect surfaces once per activation, as a command that is not sent — so a control looks wired and does nothing, and the diagnosis is in a log nobody is watching at that moment."}}
+
+ "ui.FieldPatch.kind"
+ {"defined_only" {:disposition :enforced-elsewhere
+                  :by "cmd_patch.c's patch-kind switch, which LOG_ERRORs `unknown patch kind` and aborts the emit"
+                  :rationale "As FieldPatch.encoding: a real refusal, in the emit path."
+                  :harm "As FieldPatch.encoding: the load is clean and the command silently fails to be sent at fire time."}}
+
+ "ui.FieldPatch.subject"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64, matching every other subject-name bound."}}
+
+ "ui.GestureSpec.kind"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Copied verbatim into the gesture registry and matched by equality against the kind the recogniser decided, so an undefined value can never select a spec."
+                  :harm "The spec is inert: the gesture is recognised, no template matches, and nothing is emitted — a control that responds to touch by doing nothing, with no error."}}
+
+ "ui.HostProxyProps.mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Compared by equality against each named mode rather than switched on, so an undefined value simply matches none."
+                  :harm "Every interaction arm stays off: the proxy renders and reports, and drags, resizes and aligns all do nothing."}}
+
+ "ui.HostProxyProps.proxy_id"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}
+  "min_len" {:disposition :enforced-elsewhere
+             :by "the `host proxy with empty proxy_id` refusal in the proxy finalizer"
+             :rationale "An empty id is refused at load, loudly, by a clause that exists because the id is the host-side join key rather than because min_len declared it."
+             :harm "None for the empty case. The residue is that the clause tests emptiness only, so it upholds min_len:1 exactly and would uphold nothing if the bound moved."}}
+
+ "ui.ImageProps.src"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.LabelProps.long_mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_label_long_mode_t, which LVGL stores and compares; it sets an `expand` flag from three named modes and stores the rest."
+                  :harm "An undefined mode stores as-is with expand cleared, so the label behaves as WRAP. Wrong render, no out-of-range access."}}
+
+ "ui.Layout.cross_place"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_flex_align_t; LVGL resolves it in a switch and falls back to START."
+                  :harm "An undefined alignment places the track at START, so the layout is wrong in a way that looks authored."}}
+
+ "ui.Layout.flow"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "As Layout.cross_place; lv_flex_flow_t is a bit-composed value rather than a dense index."
+                  :harm "An undefined flow selects whichever row/column/wrap/reverse bits survive, so the children lay out in an unintended direction."}}
+
+ "ui.Layout.main_place"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "As Layout.cross_place."
+                  :harm "As Layout.cross_place: falls back to START."}}
+
+ "ui.Layout.track_place"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "As Layout.cross_place."
+                  :harm "As Layout.cross_place: falls back to START."}}
+
+ "ui.LedProps.brightness"
+ {"lte" {:disposition :unenforced
+         :rationale "Cosmetic; lv_led_set_brightness's parameter is uint8_t, so the narrowing happens in the callee's signature rather than in a cast the renderer wrote."
+         :harm "Truncated mod 256 — a brightness of 256 renders as 0, i.e. off."}}
+
+ "ui.RollerProps.mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_roller_mode_t at lv_roller_set_options; stored, never indexed with."
+                  :harm "An undefined mode behaves as NORMAL, so an intended INFINITE roller stops at its ends."}}
+
+ "ui.RollerProps.options"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.ScaleProps.angle_range"
+ {"lte" {:disposition :unenforced
+         :rationale "Cosmetic sweep on a gauge; the renderer already guards the zero case, which is the only value with an arithmetic consequence."
+         :harm "Stored verbatim by lv_scale_set_angle_range, so ticks are distributed over a sweep larger than a circle and overdraw each other."}}
+
+ "ui.ScaleProps.mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_scale_mode_t; LVGL switches on it and draws its default arm."
+                  :harm "An undefined mode renders the scale in its default orientation."}}
+
+ "ui.ScaleProps.sections"
+ {"max_items" {:disposition :nanopb-size
+               :rationale "Static nanopb array; max_count is the counterpart."}}
+
+ "ui.ScaleProps.text_src"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.ShadowBundle.opa"
+ {"lte" {:disposition :unenforced
+         :rationale "Cosmetic; lv_style_set_shadow_opa takes lv_opa_t, which is uint8_t."
+         :harm "Truncated mod 256 — an opacity of 256 renders fully transparent, i.e. no shadow."}}
+
+ "ui.SliderProps.mode"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_slider_mode_t; stored, never indexed with."
+                  :harm "An undefined mode behaves as NORMAL, so an intended RANGE or SYMMETRICAL slider draws from its start."}}
+
+ "ui.StyleGroup.variants"
+ {"max_items" {:disposition :unenforced
+               :rationale "FT_CALLBACK, so the entries stream and are drained one at a time; there is no array to overrun and no count kept."
+               :harm "A longer list streams and every entry past the base and the active composite index is drained unused, so the excess costs decode time and changes nothing."}
+  "min_items" {:disposition :unenforced
+               :rationale "An empty variants list is structurally indistinguishable from a group whose entries were all drained."
+               :harm "The group attaches no style at all, so the widget renders at the theme default — a screen missing its styling with nothing to say so."}}
+
+ "ui.StyleProperty.string_value"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64."}}
+
+ "ui.StyleProperty.type"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "The apply switch has a default arm that LOG_WARNs `unhandled style prop type` and ignores the property. A warning is not a refusal, so this is recorded as unenforced rather than as a guard."
+                  :harm "The property is dropped and the widget renders without it, which is exactly what an authored omission looks like."}}
+
+ "ui.StyleVariant.variant_index"
+ {"lte" {:disposition :enforced-elsewhere
+         :by "the variant selector, which keeps only index 0 and the active composite index and drains everything else"
+         :rationale "The index is COMPARED, never used to address anything, so it cannot reach an array out of range — the property this bound would otherwise have to protect."
+         :harm "An out-of-range index is silently drained, so a variant an author wrote never applies and the base variant renders in its place."}}
+
+ "ui.SubjectDeclaration.name"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64."}
+  "min_len" {:disposition :unenforced
+             :rationale "The registry copies the name verbatim and looks it up by strcmp, which an empty string satisfies as readily as any other."
+             :harm "An empty-named subject registers, and an equally empty reference resolves to it — so the pair is self-consistent and invisible, while no authoring surface can name it."}}
+
+ "ui.SubjectDeclaration.string_initial"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.SubjectDeclaration.type"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Tested for equality against SUBJECT_STRING, with everything else taking the INT arm."
+                  :harm "An undefined type silently declares an INT subject, so a producer that meant a string gets a subject that will never carry its value."}}
+
+ "ui.SubjectValue.name"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64."}
+  "min_len" {:disposition :unenforced
+             :rationale "Looked up by strcmp against the registry, which an empty string can match if an empty name was declared."
+             :harm "Absent an empty declaration the update is dropped; with one it resolves to the unnameable subject. Neither case is reported."}}
+
+ "ui.SubjectValue.string_value"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.TabviewProps.tab_bar_position"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "Direct-cast to lv_dir_t, a BITMASK — as DropdownProps.direction, a range guard would be the wrong shape."
+                  :harm "The tab bar attaches on whichever side the surviving bits name."}}
+
+ "ui.TabviewProps.tab_names"
+ {"max_items" {:disposition :nanopb-size
+               :rationale "Static nanopb array; max_count is the counterpart."}
+  "max_len" {:disposition :nanopb-size
+             :rationale "Per-item string bound; ui_ast.options carries max_size on the same line as max_count."}}
+
+ "ui.TargetBox.label"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.TargetOverlayProps.border_width"
+ {"lte" {:disposition :renderer-guard
+         :guard "MAX_TARGET_BORDER_WIDTH"
+         :test "target_overlay_border_width_past_the_declared_bound_is_refused"
+         :rationale "Closed because the value is handed to LV_DPX, whose `(dpi * n + 80) / 160` is int32 arithmetic — so a large one overflows the multiply, which is undefined behaviour rather than a wide stroke. Its sibling bound on this same message, the box count, was already enforced; a reader of the proto could not tell the two apart."}}
+
+ "ui.TargetOverlayProps.boxes"
+ {"max_items" {:disposition :renderer-guard
+               :guard "MAX_TARGET_BOXES"
+               :test "target_overlay_boxes_past_the_declared_bound_is_refused"
+               :rationale "FT_POINTER, so nanopb allocates whatever the stream declares. The renderer refuses rather than drawing the first 32 of a larger set, because a plausible frame missing detections is worse than no frame."}}
+
+ "ui.TextareaProps.placeholder"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.TreePatchOp.kind"
+ {"defined_only" {:disposition :renderer-guard
+                  :guard "unknown patch op kind"
+                  :test "undefined_patch_op_kind_is_refused"
+                  :rationale "Already guarded before this registry existed: the op switch refuses an unnamed kind with PATCH_ERR_ARG rather than falling through to any op. Recorded so the manifest distinguishes it from the enums that fall through."}}
+
+ "ui.VisibilityBinding.compare"
+ {"defined_only" {:disposition :renderer-guard
+                  :guard "compare_op_ok"
+                  :test "undefined_compare_op_is_refused"
+                  :range-over "CompareOp"
+                  :rationale "Closed because `compare_holds`'s default is EQUALITY, so an undefined operator did not fail — it silently became `==`, and a control meant to appear ABOVE a threshold appeared only exactly AT it. Guards all four binding classes that share the shape."}}
+
+ "ui.VisibilityBinding.subject"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64."}
+  "min_len" {:disposition :enforced-elsewhere
+             :by "the `references unknown subject` refusal each of the four binding classes raises when find_subject misses"
+             :rationale "An empty reference resolves to nothing and the load is refused, loudly — by a clause about resolvability rather than about length."
+             :harm "The coincidence ends if an empty-named subject is ever DECLARED: SubjectDeclaration.name carries the same min_len and is NOT enforced, so the two empties would then agree and the reference would resolve."}}
+
+ "ui.WidgetNode.gestures"
+ {"max_items" {:disposition :renderer-guard
+               :guard "CMD_PATCH_MAX_GESTURES"
+               :test "gestures_past_the_declared_bound_is_refused"
+               :rationale "FT_POINTER, so the renderer's count check is the whole enforcement. PARTIAL, and the gap is here rather than hidden: the loop counts only cmd-BEARING entries, so a six-entry list whose sixth carries no cmd violates max_items and is admitted. That surplus is inert — a gesture with no template emits nothing — which is why the partial guard is left as it stands."}}
+
+ "ui.WidgetNode.hit_slop"
+ {"lte" {:disposition :renderer-guard
+         :guard "MAX_HIT_SLOP"
+         :test "hit_slop_past_the_declared_bound_is_refused"
+         :rationale "Closed for two harms at once. The value reaches LV_DPX's int32 multiply, which overflows for a large one — undefined behaviour, not a big halo. And ext_click_area GROWS the reachable box while hit-testing returns the FIRST hit walking children in reverse, so an oversized slop absorbs presses aimed at earlier siblings, with no pixel and no event to show for it."}}
+
+ "ui.WidgetNode.text"
+ {"max_len" {:disposition :nanopb-size
+             :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
+
+ "ui.WidgetNode.type"
+ {"defined_only" {:disposition :renderer-guard
+                  :guard "widget_type_defined"
+                  :test "undefined_widget_type_is_refused"
+                  :range-over "WidgetType"
+                  :rationale "Closed because the creation switch's default arm builds a bare container, which is ALSO what WIDGET_OBJ builds — so an undefined type rendered as an empty box indistinguishable from one an author wrote. The props half of the same node already refused an unknown arm for exactly that reason; the type half did not."}}}
