@@ -232,7 +232,7 @@ export LINT_SH_DISCOVERY_ERR
 	install-hooks hooks-status audit-clj-paths wire-contract docs-lint \
 	lint-no-host-paths lint-no-host-paths-test lint-ns-size lint-clj-gate-test \
 	lint-fn-size lint-docstrings lint-spec-shape lint-spec-presence \
-	lint-file-size lint-file-size-test wasm-provenance-test
+	lint-file-size lint-file-size-test wasm-provenance-test wire-contract-codec-test
 
 ## install-hooks: point git at .githooks (arms the pre-push gate)
 # Idempotent — re-running is a no-op. Deliberately NOT armed automatically on
@@ -323,7 +323,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a
@@ -562,6 +562,32 @@ lint-file-size-test:
 # runner, in the uber container, and in the pre-push hook alike.
 wire-contract:
 	@python3 tools/wire_contract_check.py --quiet
+
+## wire-contract-codec-test: the canary for wire-contract's §2 / §9-G2 clauses
+# IT RIDES `lint`, NOT `wire-contract`, and the split is deliberate. The gate
+# itself is kept out of `lint` because `lint` means "formatting and lint over
+# hand-authored code" and folding a contract-vs-descriptor check in would change
+# what a green `lint` claims. Its CANARY has no such problem: it asserts that a
+# checker can still refuse, which is exactly the kind of thing every other
+# `*-test` lane here asserts, and it needs nothing the other lanes do not — no
+# container, no rendered surface, python3 and two tracked files.
+#
+# And a canary that rides only the gate it covers is a canary nobody runs: the
+# three places that invoke `wire-contract` are a push hook and two workflows,
+# none of which anyone reaches for while iterating. The same argument
+# brief-check-test, forks-release-test and wasm-provenance-test ride this
+# aggregate on.
+#
+# SCOPE IS THE CODEC-HEADER CLAUSES ONLY, and the suite's own header says so. It
+# does not drive the §9 descriptor derivation — tools/wire-contract-proofs/
+# mutation_proof.sh is the probe for that — so a green here must not be read as
+# coverage of the whole checker.
+#
+# HERMETIC: every case mutates a COPY of the doc and drives the real checker
+# through its own `--doc`, so the tracked tree is never written and there is no
+# restore whose success anyone has to take on trust.
+wire-contract-codec-test:
+	@bash tools/lint/test/wire_contract_codec_header_test.sh
 
 ## docs-lint: proto documentation lint — A WARNING IS A FAILURE
 # Runs the protodoc linter against the COMMITTED proto-db.edn. Every constrained

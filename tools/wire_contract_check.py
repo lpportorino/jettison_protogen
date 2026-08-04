@@ -81,8 +81,15 @@ ENVELOPE_SCHEMA = REPO_ROOT / "ui-event-envelope.schema.json"
 
 NOT_COVERED = [
     "§1 stream/datagram magic + framing — not a proto surface; no descriptor home.",
-    "§2 / §9 G2, G3 — the 25-byte codec header and the 26/15-byte WB/WK transport "
-    "headers are hand-packed structs in the consumers, not proto messages.",
+    "§2 / §9 G2 — the 25-byte codec header's BYTES are not DERIVED from anything: "
+    "it is a hand-packed struct in the consumers, not a proto message, so nothing "
+    "here can say the layout is right. What IS asserted is that §2's table and "
+    "§9's G2 vector agree with EACH OTHER — names, order, widths, endianness, "
+    "offsets, the declared units, and that G2's hex decodes to the values it "
+    "claims. Two homes for one layout cannot drift; neither is checked against "
+    "a producer.",
+    "§2 / §9 G3 — the 26/15-byte WB/WK transport headers, same reason, and "
+    "without even a second home to cross-check against.",
     "§3 OSD-state stream profiles and §9 G4 (the rate-request datagram).",
     "§4 the NDC convention — the transforms are prose formulae, and the "
     "[-1,1] validate bounds on ui.PointerEvent.x/y are descriptor-visible but "
@@ -859,6 +866,176 @@ def check_g5_envelopes(s9: str, r: Report) -> None:
 
 
 # ---------------------------------------------------------------------------
+# §2 / §9 G2 — the codec header's TWO HOMES, held against each other
+# ---------------------------------------------------------------------------
+#
+# WHY THIS IS A DIFFERENT KIND OF CHECK FROM EVERYTHING ABOVE, AND SAYS SO.
+# Every other check here DERIVES its expectation from the descriptor set, so a
+# green means "the doc matches the protos". This one cannot: the 25-byte codec
+# header is hand-packed at both ends and has no descriptor home at all. What it
+# asserts instead is that the layout's TWO written homes — §2's table and §9's
+# G2 vector — agree with each other. That is a real drift surface (the same one
+# check_repeated_blocks exists for, one section further on), and it is the only
+# one available here. It is NOT evidence that either home matches a producer,
+# and NOT_COVERED above says so in those words rather than dropping the entry.
+#
+# WHAT IT BUYS THAT PROSE DOES NOT. §2.1 declares the time fields' units. A unit
+# is not in the bytes, so no check can validate it against anything — but it CAN
+# be made undroppable: the Unit column must exist and be populated, a field
+# named `<x>_ns` must carry unit `ns` (and likewise `_us` / `_ms` / `_s`), and
+# G2's per-field labels must equal §2's field names in order. Delete the units,
+# contradict them between the two homes, or quietly rename back to a bare `pts`,
+# and the run goes red naming the clause. That is what turns the §2.1 decision
+# from advisory into binding.
+
+# Byte width per type token, for the LE codec header. Not a general table: the
+# transport headers below §2's first one are BE and carry a `uint24`, and they
+# are deliberately outside this check (they have no second home to compare
+# against, so there is nothing to hold them to).
+_WIDTHS = {"uint8": 1, "uint16": 2, "uint32": 4, "uint64": 8}
+
+# The unit tokens a time-valued row may declare. `unspecified` is a FIRST-CLASS
+# value, not a hole: §2.1 uses it for `system_time`, whose unit genuinely is not
+# known, and the whole point is that a reader can tell "nobody wrote it down"
+# from "it is nanoseconds". A blank cell is a finding; `unspecified` is not.
+_UNITS = {"ns", "us", "ms", "s", "unspecified"}
+
+_G2_LINE = re.compile(
+    r"^\s*((?:[0-9a-f]{2}\s+)*[0-9a-f]{2})\s+#\s*([A-Za-z_]\w*)\s*=\s*(\d+)", re.M)
+
+
+def _codec_table(s2: str, r: Report) -> list[dict] | None:
+    """§2's codec-header table -> field rows, or None if it cannot be read.
+
+    Keyed on the `Unit` column, which ONLY this table has — so the selector is
+    also the assertion that the unit declaration still exists. Reformat §2 so
+    the column vanishes and this returns nothing, which `found` turns into a
+    finding rather than a vacuous pass.
+    """
+    rows = table_rows(s2, "Unit")
+    if not r.found("§2 codec-header table rows", len(rows), 5):
+        return None
+    fields, terminator, offset = [], None, 0
+    for cells in rows:
+        if len(cells) != 5:
+            r.fail("§2 codec-header row shape",
+                   f"expected 5 cells (Offset|Field|Type|Endianness|Unit), got "
+                   f"{len(cells)}: {cells!r}")
+            return None
+        off_cell, name_cell, type_cell, end_cell, unit_cell = cells
+        off = r.cell_int("§2 codec-header row offset", off_cell)
+        if off is None:
+            return None
+        # A FIELD row names its field in a backticked span; the trailing
+        # "codec bitstream begins" row does not. Discriminating on the backtick
+        # rather than on the row's position means a row inserted in the middle
+        # is caught by the offset arithmetic below instead of silently becoming
+        # the terminator.
+        if not name_cell.strip().startswith("`"):
+            terminator = off
+            continue
+        if terminator is not None:
+            r.fail("§2 codec-header terminator is last",
+                   f"a field row follows the bitstream-start row at offset {off}")
+            return None
+        width = _WIDTHS.get(head_token(type_cell))
+        if width is None:
+            r.fail("§2 codec-header field type",
+                   f"{head_token(name_cell)!r}: unknown type token "
+                   f"{head_token(type_cell)!r}; known: {sorted(_WIDTHS)}")
+            return None
+        fields.append({"name": head_token(name_cell), "offset": off, "width": width,
+                       "endian": end_cell.strip(), "unit": unit_cell.strip(),
+                       "declared": offset})
+        offset += width
+    if not r.found("§2 codec-header fields", len(fields), 4):
+        return None
+    if not r.check("§2 codec-header declares where the bitstream starts",
+                   terminator is not None,
+                   "no non-field row — the table never says the header ends"):
+        return None
+    for f in fields:
+        r.eq(f"§2 {f['name']} offset", f["declared"], f["offset"])
+        # Endianness is load-bearing on a multi-byte field and meaningless on a
+        # single byte; a `LE` on a uint8 would be noise a reader could mistake
+        # for a claim, so both directions are asserted.
+        want = "LE" if f["width"] > 1 else "—"
+        r.eq(f"§2 {f['name']} endianness", want, f["endian"])
+        if f["width"] > 1:
+            r.check(f"§2 {f['name']} declares a unit",
+                    f["unit"] in _UNITS,
+                    f"unit cell is {f['unit']!r}; expected one of "
+                    f"{sorted(_UNITS)} — an undeclared unit on a time-valued "
+                    f"uint64 is what §2.1 exists to prevent")
+        else:
+            r.eq(f"§2 {f['name']} carries no unit", "—", f["unit"])
+        # THE NAME AND THE COLUMN ARE TWO HOMES FOR ONE FACT. §2.1 renames a
+        # time field to carry its unit, so the suffix and the cell must agree or
+        # one of them is lying to whoever reads only the other.
+        suffix = f["name"].rsplit("_", 1)[-1]
+        if suffix in _UNITS - {"unspecified"} and "_" in f["name"]:
+            r.eq(f"§2 {f['name']} name suffix matches its Unit column",
+                 suffix, f["unit"])
+    r.eq("§2 codec-header total width", offset, terminator)
+    return fields
+
+
+def check_codec_header(s2: str, s9: str, r: Report) -> None:
+    """§2's codec-header table against §9's G2 vector — the layout's two homes."""
+    fields = _codec_table(s2, r)
+    if fields is None:
+        return
+
+    m = re.search(r"\*\*G2 — ", s9)
+    if not r.check("§9 G2 block located", m is not None,
+                   "no '**G2 — ' label in §9; the vector this cross-checks "
+                   "against could not be found"):
+        return
+    blocks = fenced(s9[m.start():])
+    if not r.found("§9 G2 fenced blocks", len(blocks), 2):
+        return
+    annotated, flattened = blocks[0][1], blocks[1][1]
+
+    lines = _G2_LINE.findall(annotated)
+    if not r.found("§9 G2 annotated field lines", len(lines), len(fields)):
+        return
+    r.eq("§9 G2 field names and order match §2's table",
+         [f["name"] for f in fields], [name for _, name, _ in lines])
+
+    packed = b""
+    for f, (hex_bytes, name, value) in zip(fields, lines):
+        raw = parse_hex(hex_bytes)
+        packed += raw
+        r.eq(f"§9 G2 {name} byte count matches §2's {f['name']} width",
+             f["width"], len(raw))
+        # LE decode, because §2 says LE and this check just asserted it. A
+        # BE-encoded vector under an LE table would otherwise read as fine for
+        # every value that is a palindrome — including 0 and 1, which is what a
+        # golden vector is most likely to contain.
+        r.eq(f"§9 G2 {name} decodes little-endian to its stated value",
+             int(value), int.from_bytes(raw, "little"))
+
+    flat = parse_hex(" ".join(flattened.split()))
+    r.eq("§9 G2 flattened bytes equal the annotated lines concatenated",
+         hexs(packed), hexs(flat))
+    total = sum(f["width"] for f in fields)
+    r.eq("§9 G2 flattened length equals §2's declared header size", total, len(flat))
+
+    # The prose right under the vector restates the same three numbers a THIRD
+    # time. Left unchecked it is the copy most likely to rot, because it reads
+    # as commentary rather than as contract.
+    prose = s9[m.start():m.start() + 2600]
+    for label, pat, want in (
+            ("G2 prose byte count", r"\((\d+) bytes;", total),
+            ("G2 prose keyframe byte index", r"byte (\d+) = ", fields[-1]["offset"]),
+            ("G2 prose bitstream offset", r"offset (\d+)\.\)", total)):
+        pm = re.search(pat, prose)
+        if r.check(f"§9 {label} located", pm is not None,
+                   f"the sentence under G2 no longer states it as /{pat}/"):
+            r.eq(f"§9 {label}", want, int(pm.group(1)))
+
+
+# ---------------------------------------------------------------------------
 # main
 # ---------------------------------------------------------------------------
 
@@ -882,10 +1059,10 @@ def main() -> int:
     d = Descriptors(raw)
     s = sections(doc)
     r = Report()
-    for num in ("5", "6", "8", "9"):
+    for num in ("2", "5", "6", "8", "9"):
         if num not in s:
             r.fail(f"§{num} located in the doc", "no `## N.` heading matched")
-    s5, s6, s8, s9 = (s.get(n, "") for n in ("5", "6", "8", "9"))
+    s2, s5, s6, s8, s9 = (s.get(n, "") for n in ("2", "5", "6", "8", "9"))
 
     check_ping_table(d, s6, r)
     identity = check_identity_table(d, s6, r)
@@ -921,6 +1098,7 @@ def main() -> int:
     check_uuid(s5, r)
     check_ui_input(d, s8, r)
     check_g5_envelopes(s9, r)
+    check_codec_header(s2, s9, r)
 
     if not args.quiet:
         for name in r.passed:
