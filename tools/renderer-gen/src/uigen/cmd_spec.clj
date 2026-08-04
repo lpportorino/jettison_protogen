@@ -34,7 +34,8 @@
             [malli.core :as m]
             [pronto.utils :as pronto-utils]
             [uigen.resolve :as res]
-            [uigen.scales :as scales])
+            [uigen.scales :as scales]
+            [uigen.wire-bounds :as wb])
   (:import [java.nio ByteBuffer ByteOrder]))
 
 (set! *warn-on-reflection* true)
@@ -373,10 +374,16 @@
 
 ;; ── fixed (patch-free) pre-encode — the :action / :bool-set / :enum egress ───
 (def ^:private template-byte-cap
-  "Max pre-encoded cmd.Root template width, mirroring cmd_patch.h
-   CMD_PATCH_TEMPLATE_CAP (the nanopb root_template PB_BYTES_ARRAY_T(128)). A
-   fixed template wider than this cannot be stored by the renderer → fail loud."
-  128)
+  "Max pre-encoded cmd.Root template width — READ from the published wire-bound
+   manifest, never re-typed. A template wider than this cannot be stored by the
+   renderer (`ui_CmdSpec.root_template` is a fixed `PB_BYTES_ARRAY_T`), so a
+   generator that emitted one would ship a screen the renderer refuses at load.
+
+   The number has three consumers and this used to be the only unheld one: the C
+   `#define` is bound by a `_Static_assert` against the nanopb-generated struct,
+   the manifest by the freshness lane that regenerates and diffs it, and this
+   literal by nothing at all. Reading it closes that."
+  (wb/max-size "ui.CmdSpec.root_template"))
 
 (defn- byte-len
   "Byte-array length via a `^bytes` PARAM — kondo's array check trusts a typed
@@ -415,7 +422,8 @@
    an enum leaf in `:fixed` ← its pinned number; any OTHER enum leaf fails loud
    (no silent default); scalar int/uint leaves default 0; bool/string default
    (omitted — proto3 false/\"\" are value-identical to explicit). The template is
-   asserted ≤ the renderer's 128-byte cap. The renderer emits it VERBATIM
+   asserted ≤ the renderer's published `root_template` byte cap. The renderer
+   emits it VERBATIM
    (cmd_patch_emit over patch_count 0), so its bytes ARE the device command."
   [{:keys [command-id field raw-value fixed]}]
   (let [{:keys [subsystem cmd-path]} (subsystem+cmd-path command-id)

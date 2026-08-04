@@ -221,4 +221,5 @@
              "lvgl-codegen.theme-tokens"
              "uigen.cmd-spec"
              "uigen.resolve"
-             "uigen.scales"]}}
+             "uigen.scales"
+             "uigen.wire-bounds"]}}

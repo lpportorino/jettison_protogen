@@ -33,6 +33,14 @@
 (defn sub-signals "Load sub-signals manifest." [] (load-manifest "sub-signals.json"))
 (m/=> sub-signals [:=> [:cat] [:maybe [:map-of :keyword :any]]])
 
+(defn ui-ast-bounds
+  "Load the ui_ast nanopb wire-bound manifest (ui-ast-bounds.json) — the
+   published projection of the renderer's per-field `max_size`/`max_count`, so a
+   generator reads the bound it must not exceed instead of re-typing it."
+  []
+  (load-manifest "ui-ast-bounds.json"))
+(m/=> ui-ast-bounds [:=> [:cat] [:maybe [:map-of :keyword :any]]])
+
 ;; ── Proto-DB (EDN) ───────────────────────────────────────────────────
 (def ^:private !proto-db
   "Delay-cached proto-db.edn. Loaded once on first access.
