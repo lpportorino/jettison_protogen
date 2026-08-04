@@ -1,5 +1,5 @@
-(ns uigen.cmd-spec-test
-  "Pins the WIRE ENCODERS in `uigen.cmd-spec` — the padded varint above all.
+(ns uigen.wire-encode-test
+  "Pins the WIRE ENCODERS in `uigen.wire-encode` — the padded varint above all.
 
   WHY THIS FILE EXISTS, because the gap it closes is not the obvious one.
   `padded-varint` is one half of a CROSS-LANGUAGE MIRROR: `cmd_patch_padded_varint`
@@ -37,7 +37,7 @@
   or a probe entry point that returns its bytes."
   (:require
    [clojure.test :refer [deftest is testing]]
-   [uigen.cmd-spec :as cs]))
+   [uigen.wire-encode :as we]))
 
 (def widths
   "Widths to exercise. 1 is the degenerate case where the first byte is also the
@@ -69,13 +69,13 @@
 (deftest padded-varint-is-exactly-width-bytes
   (testing "the docstring's 'padded to exactly `width` bytes'"
     (doseq [w widths, v values]
-      (is (= w (alength (cs/padded-varint v w)))
+      (is (= w (alength (we/padded-varint v w)))
           (str "width " w " value " v)))))
 
 (deftest padded-varint-continuation-bits-mark-every-byte-but-the-last
   (testing "'the low groups carry the value with bit 7 set, the final byte clears bit 7'"
     (doseq [w widths, v values]
-      (let [ba (cs/padded-varint v w)]
+      (let [ba (we/padded-varint v w)]
         (doseq [i (range (dec w))]
           (is (= 0x80 (bit-and (long (aget ba i)) 0x80))
               (str "byte " i " of width " w " value " v " must set bit 7")))
@@ -90,7 +90,7 @@
     ;; documented contract rather than for it.
     (doseq [w widths, v values
             :when (< v (bit-shift-left 1 (* 7 w)))]
-      (is (= v (decode-varint (cs/padded-varint v w)))
+      (is (= v (decode-varint (we/padded-varint v w)))
           (str "value " v " at width " w " must decode back to itself")))))
 
 (deftest padded-varint-is-non-minimal
@@ -100,8 +100,8 @@
     ;; MINIMAL varint would leave the slot's tail bytes untouched, and the command
     ;; would decode with whatever was there before.
     (doseq [v [0 1 127 128]]
-      (let [narrow (cs/padded-varint v 1)
-            wide (cs/padded-varint v 5)]
+      (let [narrow (we/padded-varint v 1)
+            wide (we/padded-varint v 5)]
         (is (= 1 (alength narrow)))
         (is (= 5 (alength wide)))
         (is (zero? (bit-and (long (aget wide 4)) 0x80))
@@ -110,5 +110,98 @@
 (deftest varint-le-bytes-round-trips
   (testing "the minimal encoder decodes to its input"
     (doseq [v [0 1 127 128 300 16383 16384 1000000]]
-      (is (= v (decode-varint (cs/varint-le-bytes v)))
+      (is (= v (decode-varint (we/varint-le-bytes v)))
           (str "value " v)))))
+
+;; ── the locator + the slot-locating loop ────────────────────────────────────
+;; These cover the half of this namespace that the encoder tests above do not:
+;; finding a sentinel's slot in a template, and turning a producer's slot
+;; declarations into FieldPatch descriptors. Every case builds its own template
+;; out of the encoders, so nothing here needs a command, a manifest or a leaf
+;; table — which is the property the split exists to create.
+
+(defn- template
+  "A synthetic template: `parts` (byte arrays) concatenated."
+  ^bytes [parts]
+  (let [out (byte-array (reduce + (map alength parts)))]
+    (loop [at 0 [p & more] parts]
+      (when p
+        (System/arraycopy ^bytes p 0 out at (alength ^bytes p))
+        (recur (+ at (alength ^bytes p)) more)))
+    out))
+
+(defn- clause
+  "The ex-message of the refusal `f` makes, or nil when it does not refuse."
+  [f]
+  (try (f) nil (catch clojure.lang.ExceptionInfo e (ex-message e))))
+
+(deftest find-slot-returns-the-offset-of-a-unique-needle
+  (testing "the passing direction — a locator that refused everything is useless"
+    (let [pad (byte-array 3)
+          needle (we/double->le-bytes 1.5)]
+      (is (= 3 (we/find-slot! (template [pad needle pad]) needle {}))))))
+
+(deftest find-slot-refuses-an-absent-needle
+  (testing "a sentinel that is not in the template is a build error"
+    (is (re-find #"not found"
+                 (clause #(we/find-slot! (byte-array 8) (we/double->le-bytes 1.5) {}))))))
+
+(deftest find-slot-refuses-an-ambiguous-needle
+  (testing "a sentinel occurring twice cannot name one slot"
+    ;; This is the case that makes per-index form sentinels necessary: two
+    ;; same-typed fields sharing a sentinel land here rather than mis-patching.
+    (let [needle (we/varint-le-bytes 2147483647)]
+      (is (re-find #"ambiguous"
+                   (clause #(we/find-slot! (template [needle needle]) needle {})))))))
+
+(deftest slot-patches-carries-the-producers-own-keys-through
+  (testing "the loop adds an offset and changes nothing else"
+    ;; The `:subject` key is the point: it is a FORM slot's key, this namespace
+    ;; has never heard of it, and it must survive verbatim — that is what makes
+    ;; the core leaf-table-free rather than merely leaf-table-light.
+    (let [pad (byte-array 2)
+          n1 (we/double->le-bytes 1.5)
+          n2 (we/float->le-bytes 2.5)
+          t (template [pad n1 pad n2])]
+      (is (= [{:byte-offset 2 :byte-width 8 :kind :K1 :subject "s1"}
+              {:byte-offset 12 :byte-width 4 :kind :K2 :subject "s2"}]
+             (we/slot-patches
+              t
+              [{:field "a" :needle n1 :patch {:byte-width 8 :kind :K1 :subject "s1"}}
+               {:field "b" :needle n2 :patch {:byte-width 4 :kind :K2 :subject "s2"}}]
+              {:command-id "cmd.Test"}))))))
+
+(deftest slot-patches-preserves-declaration-order
+  (testing "declaration order is the producer's contract with its own emitter"
+    ;; Ordering by byte offset would look tidier and would silently rewrite the
+    ;; index a widget's cmd_by_value / a form's slot list is selected by.
+    (let [pad (byte-array 2)
+          early (we/double->le-bytes 1.5)
+          late (we/double->le-bytes 2.5)
+          t (template [pad early pad late])]
+      (is (= [{:byte-offset 12 :byte-width 8} {:byte-offset 2 :byte-width 8}]
+             (we/slot-patches t
+                              [{:field "late" :needle late :patch {:byte-width 8}}
+                               {:field "early" :needle early :patch {:byte-width 8}}]
+                              {}))))))
+
+(deftest slot-patches-refuses-a-declaration-that-already-carries-an-offset
+  (testing "two homes for the offset can disagree, so one of them is refused"
+    (let [n (we/double->le-bytes 1.5)]
+      (is (re-find #"already carries :byte-offset"
+                   (clause #(we/slot-patches
+                             n
+                             [{:field "a" :needle n :patch {:byte-offset 0 :byte-width 8}}]
+                             {})))))))
+
+(deftest slot-patches-names-the-field-and-the-context-in-a-refusal
+  (testing "a refusal identifies the command AND the leaf, not just 'a slot'"
+    (let [e (try (we/slot-patches (byte-array 8)
+                                  [{:field "latitude"
+                                    :needle (we/double->le-bytes 1.5)
+                                    :patch {:byte-width 8}}]
+                                  {:command-id "cmd.Gps.SetManualPosition"})
+                 nil
+                 (catch clojure.lang.ExceptionInfo e (ex-data e)))]
+      (is (= {:command-id "cmd.Gps.SetManualPosition" :field "latitude" :template-len 8}
+             e)))))

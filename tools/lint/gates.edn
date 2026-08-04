@@ -222,4 +222,5 @@
              "uigen.cmd-spec"
              "uigen.resolve"
              "uigen.scales"
-             "uigen.wire-bounds"]}}
+             "uigen.wire-bounds"
+             "uigen.wire-encode"]}}

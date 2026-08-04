@@ -167,7 +167,7 @@ static inline bool cmd_patch_slot_in_bounds(uint32_t byte_offset,
   return byte_width <= template_len && byte_offset <= template_len - byte_width;
 }
 /* Write the NON-MINIMAL padded varint of `value` into `out[0..width)`,
- * mirroring uigen.cmd-spec/padded-varint EXACTLY: each of the low groups
+ * mirroring uigen.wire-encode/padded-varint EXACTLY: each of the low groups
  * carries (value & 0x7f) with bit-7 set; the final byte clears bit-7. The
  * value is treated as a 64-bit pattern shifted right 7 bits per group (the
  * Clojure unsigned-bit-shift-right), so a negative int32 fans out to its
@@ -178,8 +178,8 @@ static inline bool cmd_patch_slot_in_bounds(uint32_t byte_offset,
  * for unit reach" and nothing reached it: the symbol is not a wasm export, so no
  * harness test could call it even in principle, and the external linkage bought a
  * seam that did not exist. The MIRROR is still only half asserted —
- * `uigen.cmd-spec/padded-varint` is pinned by
- * tools/renderer-gen/test/uigen/cmd_spec_test.clj, this side by nothing — and
+ * `uigen.wire-encode/padded-varint` is pinned by
+ * tools/renderer-gen/test/uigen/wire_encode_test.clj, this side by nothing — and
  * closing that needs a deliberate export or probe entry point, which is an ABI
  * change and a coordinated event, not a linkage tweak. */
 /* Emit the command described by `spec`, patched with the live values:

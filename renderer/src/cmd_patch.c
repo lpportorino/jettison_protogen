@@ -2,9 +2,9 @@
  * cmd_patch.c — R5b cmd-out byte-patcher implementation.
  *
  * See cmd_patch.h. The two slot writers (verbatim LE double, padded varint)
- * are the C mirror of uigen.cmd-spec's double->le-bytes / padded-varint; the
- * de-risk proof that this round-trips to a VALUE-identical cmd.Root lives in
- * test/uigen/cmd_spec_test.clj.
+ * are the C mirror of uigen.wire-encode's double->le-bytes / padded-varint;
+ * the de-risk proof that this round-trips to a VALUE-identical cmd.Root lives
+ * in test/uigen/wire_encode_test.clj.
  */
 #include "cmd_patch.h"
 #include "host_imports.h"
@@ -28,7 +28,7 @@ static void double_le_bytes(uint8_t *out, double d) {
 }
 static void cmd_patch_padded_varint(uint8_t *out, uint32_t width,
                                     int64_t value) {
-  /* Mirror uigen.cmd-spec/padded-varint: r starts as value, each low group
+  /* Mirror uigen.wire-encode/padded-varint: r starts as value, each low group
    * carries 7 value bits with bit-7 set (continuation); the final byte clears
    * bit-7. The shift is the unsigned >>> of a 64-bit pattern, so we carry the
    * value through a uint64_t. */

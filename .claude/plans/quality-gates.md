@@ -330,10 +330,10 @@ documented first-hand in the donor's runner and its tests; none is guesswork.
    plain variadic wrapper breaks their `IFn$OL` invocation path. They must be
    reported SEPARATELY and excluded from the denominator, never silently counted.
    MEASURED: 7 of them here, named under 0c. And the cost of that exclusion is not
-   theoretical — `uigen.cmd-spec/padded-varint` is one of the 7 AND is half of a
-   cross-language wire mirror, so its spec was decorative and its exclusion hid it
-   from the join at the same time. It took a test, not a spec
-   (`test/uigen/cmd_spec_test.clj`).
+   theoretical — `uigen.wire-encode/padded-varint` is one of the 7 AND is half of
+   a cross-language wire mirror, so its spec was decorative and its exclusion hid
+   it from the join at the same time. It took a test, not a spec
+   (`test/uigen/wire_encode_test.clj`).
 6. **ARMING SILENTLY DISARMS EVERY NEGATIVE-PATH TEST**, and this one was found by
    arming rather than predicted. A function that validates its own input and throws
    cannot have a tight input schema AND be negative-tested through its var:

@@ -26,7 +26,32 @@
      VALUE-identity (not byte-identity) holds for a varint leaf.
 
    GUARDRAIL: proto appears only at the `ui_ast` wire boundary; this pre-encode
-   is generation-time EDN→bytes (pronto), one layer below the `.pb` emit."
+   is generation-time EDN→bytes (pronto), one layer below the `.pb` emit.
+
+   ═══ THIS NAMESPACE IS THE LEAF TABLE; `uigen.wire-encode` IS THE CORE ═══
+
+   The byte encoders, the sentinel locator and the slot-locating loop live in
+   `uigen.wire-encode` and know NOTHING about commands, fields or sentinel
+   values — a caller hands them an already-encoded needle. What stays here is
+   the part a second producer of this same vocabulary is entitled to differ on:
+   WHICH leaves are patchable, WHAT value marks each one, and which
+   PatchKind/PatchEncoding its slot carries.
+
+   That boundary is not cosmetic. A sentinel is a LOCATOR whose bytes the
+   runtime patcher overwrites before anything reaches a device, so its value is
+   free except for two constraints — unique within its template, and (for a
+   varint leaf) wide enough to pre-size the slot and every enclosing length
+   prefix. Two producers can therefore legitimately choose different sentinels,
+   and a core that shipped a DEFAULT table would silently move one of their
+   templates the day it was relied on. There is no default here to reach for.
+
+   TWO SENTINEL SCHEMES LIVE IN THIS FILE AND THEY DIFFER ON PURPOSE. The
+   widget/gesture leaves are keyed by FIELD NAME, which is what lets an ROI's
+   corner-1 leaves (x1/y1) deliberately SHARE the single-point x/y sentinels — a
+   command never carries both, so they cannot collide. The form leaves are keyed
+   by INDEX, because a form carries many same-typed fields and `find-slot!`
+   refuses an ambiguous needle, so they must differ by construction. Collapsing
+   either onto the other is the plausible tidy-up that changes template bytes."
   (:require [asgard.api.backend :as backend]
             [asgard.proto.cmd :as pcmd]
             [asgard.schema :as s]
@@ -35,8 +60,8 @@
             [pronto.utils :as pronto-utils]
             [uigen.resolve :as res]
             [uigen.scales :as scales]
-            [uigen.wire-bounds :as wb])
-  (:import [java.nio ByteBuffer ByteOrder]))
+            [uigen.wire-bounds :as wb]
+            [uigen.wire-encode :as we]))
 
 (set! *warn-on-reflection* true)
 
@@ -56,63 +81,6 @@
    leaf SENTINEL so the template (and its length prefixes) are pre-sized for
    the widest patch. 2^31-1, a valid `gte:0` int32."
   2147483647)
-
-;; ── varint + double wire helpers ────────────────────────────────────────────
-(defn varint-le-bytes
-  "The MINIMAL little-endian varint bytes of a non-negative int — used to
-   LOCATE the int32 sentinel slot (the minimal encoding of 2^31-1 is what
-   pronto wrote into the template)."
-  ^bytes [^long v]
-  (loop [v v
-         acc []]
-    (let [b (bit-and v 0x7f)
-          v' (unsigned-bit-shift-right v 7)]
-      (if (zero? v')
-        (byte-array (conj acc (unchecked-byte b)))
-        (recur v' (conj acc (unchecked-byte (bit-or b 0x80))))))))
-(m/=> varint-le-bytes [:=> [:cat :int] bytes?])
-
-(defn padded-varint
-  "Encode non-negative `v` as a NON-MINIMAL varint padded to exactly `width`
-   bytes: the low groups carry the value with bit 7 set (continuation), the
-   final byte clears bit 7. A padded varint is valid wire and decodes to `v`
-   (value-identity). This mirrors what R5b's C patcher writes into the slot."
-  ^bytes [^long v ^long width]
-  (let [out (byte-array width)]
-    (loop [i 0
-           r v]
-      (when (< i width)
-        (let [last? (= i (dec width))
-              group (bit-and r 0x7f)
-              b (if last? group (bit-or group 0x80))]
-          (aset out i (unchecked-byte b))
-          (recur (inc i) (unsigned-bit-shift-right r 7)))))
-    out))
-(m/=> padded-varint [:=> [:cat :int :int] bytes?])
-
-(defn double->le-bytes
-  "The 8 little-endian wire bytes of a protobuf double (the on-wire form of a
-   fixed64/double field), for locating a sentinel slot AND for the de-risk
-   patcher that writes an NDC double verbatim into a slot."
-  ^bytes [^double d]
-  (let [bb (ByteBuffer/allocate 8)]
-    (.order bb ByteOrder/LITTLE_ENDIAN)
-    (.putDouble bb d)
-    (.array bb)))
-(m/=> double->le-bytes [:=> [:cat :double] bytes?])
-
-(defn float->le-bytes
-  "The 4 little-endian wire bytes of a protobuf float (wire-type 5, fixed32) —
-   the float counterpart of double->le-bytes, for locating a form's float slot.
-   Mirrors the renderer's float_le_bytes (cmd_patch.c)."
-  ;; NOT a ^float param hint: Clojure supports only long/double primitive hints
-  ;; on a fn arg, so the cast happens at the putFloat call instead.
-  ^bytes [f]
-  (let [bb (ByteBuffer/allocate 4)]
-    (.order bb ByteOrder/LITTLE_ENDIAN)
-    (.putFloat bb (float f))
-    (.array bb)))
-(m/=> float->le-bytes [:=> [:cat number?] bytes?])
 
 ;; ── sentinel doubles (NDC x/y) ──────────────────────────────────────────────
 ;; Distinctive bit patterns (qNaN payloads) so the 8 wire bytes are unique in
@@ -145,42 +113,6 @@
   "Sentinel for a non-NDC `double value` slider leaf (a distinctive qNaN
    payload, unique vs the NDC x/y sentinels)."
   (Double/longBitsToDouble 0x7ff833333333cccc))
-
-;; ── sentinel locator ────────────────────────────────────────────────────────
-(defn- index-of-bytes
-  "First index where `needle` occurs in `hay`, or nil. The sentinel locator —
-   the byte-offset of a leaf's fixed-width slot in the pre-encoded template."
-  [^bytes hay ^bytes needle]
-  (let [hn (alength hay)
-        nn (alength needle)]
-    (loop [i 0]
-      (when (<= i (- hn nn))
-        (if (loop [j 0]
-              (cond (= j nn) true
-                    (= (aget hay (+ i j)) (aget needle j)) (recur (inc j))
-                    :else false))
-          i
-          (recur (inc i)))))))
-(m/=> index-of-bytes [:=> [:cat bytes? bytes?] [:maybe nat-int?]])
-
-(defn- find-slot!
-  "Locate `needle`'s unique fixed-width slot in `template`, fail-loud. A
-   sentinel that is absent (the leaf field name is wrong) or ambiguous (the
-   sentinel pattern collides) is a build error, not a silent mis-patch."
-  [^bytes template ^bytes needle ctx]
-  (let [first-idx (index-of-bytes template needle)]
-    (when-not first-idx
-      (throw (ex-info "uigen.cmd-spec: sentinel slot not found in template"
-                      (assoc ctx :template-len (alength template)))))
-    ;; ambiguity guard: the sentinel must occur exactly once
-    (let [after (inc first-idx)
-          rest-from (byte-array (- (alength template) after))]
-      (System/arraycopy template after rest-from 0 (alength rest-from))
-      (when (index-of-bytes rest-from needle)
-        (throw (ex-info "uigen.cmd-spec: sentinel slot is ambiguous (collides)"
-                        (assoc ctx :first-index first-idx)))))
-    first-idx))
-(m/=> find-slot! [:=> [:cat bytes? bytes? [:map-of :keyword :any]] nat-int?])
 
 ;; ── command-id → (subsystem, cmd-path) ──────────────────────────────────────
 (defn- split-route
@@ -355,19 +287,21 @@
                      {:command-id command-id :fields (mapv (juxt :name :type) fields)})))
          ^bytes template (pcmd/wrap-in-root subsystem
                                             (backend/cmd-path->map cmd-path params))
-         patches
+         slots
          (mapv
           (fn [{fname :name :keys [kind width wire-scale slot encoding]}]
-            (let [^bytes needle (case slot
-                                  :ndc-double (double->le-bytes (:sentinel
-                                                                 (ndc-double-leaves fname)))
-                                  :value-double (double->le-bytes value-double-sentinel)
-                                  :value-varint (varint-le-bytes int32-max-sentinel))
-                  offset (find-slot! template needle {:command-id command-id :field fname})]
-              {:byte-offset offset :byte-width width :kind kind :wire-scale wire-scale
-               :encoding encoding}))
+            {:field fname
+             :needle (case slot
+                       :ndc-double (we/double->le-bytes
+                                    (:sentinel (ndc-double-leaves fname)))
+                       :value-double (we/double->le-bytes value-double-sentinel)
+                       :value-varint (we/varint-le-bytes int32-max-sentinel))
+             :patch {:byte-width width :kind kind :wire-scale wire-scale
+                     :encoding encoding}})
           patch-fields)]
-     {:command-id command-id :root-template template :patches patches})))
+     {:command-id command-id
+      :root-template template
+      :patches (we/slot-patches template slots {:command-id command-id})})))
 (m/=> cmd-spec
       [:function [:=> [:cat s/ne-string :keyword] cmd-spec-ir]
        [:=> [:cat s/ne-string :keyword opts-schema] cmd-spec-ir]])
@@ -385,13 +319,19 @@
    literal by nothing at all. Reading it closes that."
   (wb/max-size "ui.CmdSpec.root_template"))
 
-(defn- byte-len
-  "Byte-array length via a `^bytes` PARAM — kondo's array check trusts a typed
-   param but not a `^bytes`-hinted local bound from `wrap-in-root` (whose return
-   it infers as a char sequence). Mirrors the index-of-bytes helper pattern."
-  ^long [^bytes b]
-  (alength b))
-(m/=> byte-len [:=> [:cat bytes?] :int])
+(defn- check-template-fits!
+  "Refuse a template wider than the renderer can store, naming the BUILDER that
+   produced it. One home for a check both patch-free builders make: the two
+   copies it replaces differed only in that name, which is exactly the shape a
+   later edit applies to one of them and not the other."
+  [builder command-id ^bytes template]
+  (let [tlen (we/byte-len template)]
+    (when (> tlen template-byte-cap)
+      (throw (ex-info (str "uigen.cmd-spec/" builder ": " command-id
+                           " template " tlen "B exceeds cap " template-byte-cap)
+                      {:command-id command-id :len tlen})))
+    tlen))
+(m/=> check-template-fits! [:=> [:cat s/ne-string s/ne-string bytes?] :int])
 
 (def ^:private fixed-opts-schema
   "fixed-cmd-spec opts. `:field`+`:raw-value` bake the ONE mutable leaf's value
@@ -455,13 +395,8 @@
                   {}
                   fields)
           ^bytes template (pcmd/wrap-in-root subsystem
-                                             (backend/cmd-path->map cmd-path params))
-          tlen (byte-len template)]
-      (when (> tlen template-byte-cap)
-        (throw (ex-info (str "uigen.cmd-spec/fixed-cmd-spec: " command-id
-                             " template " tlen
-                             "B exceeds cap " template-byte-cap)
-                        {:command-id command-id :len tlen})))
+                                             (backend/cmd-path->map cmd-path params))]
+      (check-template-fits! "fixed-cmd-spec" command-id template)
       {:command-id command-id :root-template template :patches []})))
 (m/=> fixed-cmd-spec [:=> [:cat fixed-opts-schema] cmd-spec-ir])
 
@@ -533,7 +468,7 @@
 
 (defn- form-sentinel
   "A DISTINCT locator sentinel for form field `i` of `ftype`. Distinctness is
-   the whole requirement: `find-slot!` refuses an ambiguous needle, so two
+   the whole requirement: `wire-encode/find-slot!` refuses an ambiguous needle, so two
    fields sharing a sentinel would be a build error rather than a mis-patch —
    but a form has many same-typed fields, so they must differ by construction.
    Doubles/floats take qNaN payloads keyed by index; integers take values near
@@ -620,30 +555,26 @@
                   fields)
           ^bytes template (pcmd/wrap-in-root subsystem
                                              (backend/cmd-path->map cmd-path params))
-          tlen (byte-len template)
-          _ (when (> tlen template-byte-cap)
-              (throw (ex-info (str "uigen.cmd-spec/subject-form-cmd-spec: " command-id
-                                   " template " tlen "B exceeds cap " template-byte-cap)
-                              {:command-id command-id :len tlen})))
-          patches
+          _ (check-template-fits! "subject-form-cmd-spec" command-id template)
+          slots
           (mapv (fn [[i f]]
                   (let [fname (:name f)
                         ftype (:type f)
-                        sentinel (form-sentinel ftype i)
-                        ^bytes needle (case ftype
-                                        "double" (double->le-bytes sentinel)
-                                        "float" (float->le-bytes sentinel)
-                                        ("int32" "uint32") (varint-le-bytes sentinel))
-                        offset (find-slot! template needle
-                                           {:command-id command-id :field fname})]
-                    {:byte-offset offset
-                     :byte-width (form-width ftype)
-                     :kind :PATCH_KIND_SUBJECT_VALUE
-                     :wire-scale (varint-wire-scale f)
-                     :encoding (form-encoding ftype)
-                     :subject (get field->subject fname)}))
+                        sentinel (form-sentinel ftype i)]
+                    {:field fname
+                     :needle (case ftype
+                               "double" (we/double->le-bytes sentinel)
+                               "float" (we/float->le-bytes sentinel)
+                               ("int32" "uint32") (we/varint-le-bytes sentinel))
+                     :patch {:byte-width (form-width ftype)
+                             :kind :PATCH_KIND_SUBJECT_VALUE
+                             :wire-scale (varint-wire-scale f)
+                             :encoding (form-encoding ftype)
+                             :subject (get field->subject fname)}}))
                 indexed)]
-      {:command-id command-id :root-template template :patches patches})))
+      {:command-id command-id
+       :root-template template
+       :patches (we/slot-patches template slots {:command-id command-id})})))
 (m/=> subject-form-cmd-spec
       [:=> [:cat [:map [:command-id s/ne-string]
                   [:field->subject [:map-of s/ne-string s/ne-string]]
