@@ -282,8 +282,10 @@
    scales tolerate a keyword :semantic-type (scales keywordizes), but :type MUST be
    a string (the type-set checks compare strings). The proto-db `:type-ref` rides
    along when present: a nested/oneof arm scalar's owning message is NOT the outer
-   command id, so `enum-options` must resolve its enum type from the field itself
-   (the endpoints-view fields have no :type-ref and keep the by-name lookup)."
+   command id, so `enum-options` must resolve its enum type from the field itself.
+   The endpoints view publishes `:type-ref` on MESSAGE-typed fields only, so an
+   ENUM field arriving from there still carries none and keeps the by-name
+   lookup — which is the branch that matters here."
   [f]
   (let [i (:interaction f)]
     (cond-> {:name (:name f)
@@ -299,8 +301,12 @@
 
 (defn message-subforms
   "For `command-id`, one entry per MESSAGE-typed field (a nested sub-form),
-   resolved ONE level into the proto-db message graph (the endpoints view is flat —
-   it carries no :type-ref, so the recursion reads proto-db). Each entry:
+   resolved ONE level into the proto-db message graph. The endpoints view now
+   NAMES each message-typed field's message (`:type-ref`), so the pointer no
+   longer has to be re-derived — but it publishes no INTERIOR, deliberately: a
+   required oneof's arms are mutually exclusive and flattening them into a flat
+   field vector would assert them co-settable. The recursion therefore still
+   reads proto-db for the scalars. Each entry:
    {:field <message-field-name> :type-ref <nested-message> :scalars [<widget-eligible
    nested scalar fields, flattened to the all-fields shape>]}. Empty when the
    command has no message fields; a nested field that is itself a message is dropped
