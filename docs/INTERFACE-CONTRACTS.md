@@ -83,17 +83,92 @@ reassembled `WB`/`WK` frame's payload. After datagram reassembly (`WB`) or
 reliable-stream read (`WK`), the assembled frame begins with this 25-byte header,
 then the codec bitstream. All fields LE:
 
-| Offset | Field | Type | Endianness |
-|--------|-------|------|------------|
-| 0  | `pts`         | uint64 | LE |
-| 8  | `duration`    | uint64 | LE |
-| 16 | `system_time` | uint64 | LE (capture-side wall clock) |
-| 24 | `is_keyframe` | uint8 (0/non-0) | — |
-| 25 | codec bitstream begins | — | — |
+| Offset | Field | Type | Endianness | Unit |
+|--------|-------|------|------------|------|
+| 0  | `pts_ns`      | uint64 | LE | ns |
+| 8  | `duration_ns` | uint64 | LE | ns |
+| 16 | `system_time` | uint64 | LE | unspecified |
+| 24 | `is_keyframe` | uint8 (0/non-0) | — | — |
+| 25 | codec bitstream begins | — | — | — |
 
 The consumer strips these 25 bytes; what remains is the raw codec payload
 (H.264 Annex-B NALUs, or AV1 OBUs). This header is LE — contrast the BE
 transport headers below.
+
+### 2.1 The time fields carry a UNIT, and it is part of the contract
+
+The first three fields are `uint64` quantities whose unit the byte layout cannot
+express, so this section states it. It is not advisory: a consumer that picks a
+different unit is wrong against this contract, and the §9 G2 vector plus
+`tools/wire_contract_check.py` hold the table and the vector in agreement so the
+declaration cannot be silently dropped or contradicted.
+
+**`pts_ns` — NANOSECONDS. This one is derivable from the protos, not asserted.**
+`cmd.Root.frame_time_day` / `frame_time_heat` are documented as *"frame
+timestamps (PTS) from video streams when the command was issued"*, unit
+NANOSECONDS, and `ser.JonGUIState.frame_pts_day_ns` / `frame_pts_heat_ns` publish
+the same quantity from the producing side — *"pipeline GStreamer buffer PTS in
+nanoseconds"*. A client fills the `cmd.Root` fields from the frame it was
+displaying, and this header's `pts_ns` is the ONLY per-frame timestamp the video
+plane carries: neither the `WB` nor the `WK` transport header above has a time
+field at all. So a consumer reading `pts_ns` in any other unit puts a wrong-unit
+value into a `cmd.Root` field the producer correlates against its own
+nanosecond `frame_pts_*_ns`.
+
+**`duration_ns` — NANOSECONDS, on the evidence rather than by derivation.** It is
+the presentation duration of the frame `pts_ns` timestamps: the same clock
+domain, the same producer, the adjacent field of the same width. The proto
+comments above name a GStreamer pipeline as the source of the PTS, and a
+GStreamer buffer's PTS and DURATION are one type in one unit, so a header taking
+its PTS from that buffer in nanoseconds takes its duration from it in
+nanoseconds too. What is NOT available here is a measurement of the encoder, so
+this is stated as a decision with a named falsifier rather than as a proof —
+see the cross-check below, which any consumer can run on live frames.
+
+**`system_time` — UNIT UNSPECIFIED, deliberately.** It is described as a
+capture-side wall clock and nothing in the proto surface pins it: sibling
+timestamps in this contract's protos are variously nanoseconds
+(`cmd.Root.state_time`), microseconds (`ser.JonGUIState.system_monotonic_time_us`),
+milliseconds (`cmd.Root.client_time_ms`) and Unix seconds
+(`jon.video.VideoMeta.timestamp`). Writing a unit here would be inventing one.
+A consumer MUST NOT pace, seek, or correlate on `system_time` until this row
+says otherwise; use it only for opaque comparison between frames of one stream.
+
+**Two normative consumer rules follow, and together they make a wrong reading
+harmless as well as detectable:**
+
+1. **PACE FROM `pts_ns` DELTAS, never from `duration_ns`.** `pts_ns` is the
+   derived-from-the-protos field; `duration_ns` is a hint. A consumer whose
+   playback clock is driven by successive `pts_ns` values cannot stall on a
+   duration it misread.
+2. **CROSS-CHECK THE TWO, because the check is unit-free.** They share one clock
+   domain, so consecutive frames of one stream satisfy
+   `pts_ns[n+1] - pts_ns[n] ≈ duration_ns[n]`. A consumer reading the two fields
+   in units that differ by 10³ or 10⁶ sees this relation fail by that factor,
+   which is the cheapest possible detector and needs no agreement about which
+   unit is right. A consumer SHOULD assert it. If it fails on a real stream,
+   `duration_ns`'s row above is what is wrong, and it is fixed HERE.
+
+**WHY A UNIT COULD BE DECLARED AT ALL — the byte layout is FROZEN and this is
+not a change to it.** The 25 bytes are written by deployed producers that cannot
+be rebuilt on demand, so the offsets, widths and endianness above are as frozen
+as the `ser.*` / `cmd.*` wire families even though this header belongs to
+neither and is not a protobuf message. A unit is not encoded in those bytes; it
+was always carried by the reader's assumption. Declaring it moves no offset,
+changes no width, and leaves every byte on the wire identical — so it needs no
+compatibility story, and a producer already in the field is unaffected whatever
+it writes. What changes is that one of two disagreeing readers is now wrong
+against a written contract instead of both being defensible.
+
+**The field NAMES changed with the units — `pts` → `pts_ns`, `duration` →
+`duration_ns` — and that is a LABEL change with no wire effect.** These names are
+this document's, not any consumer's struct member names; the header is
+hand-packed at both ends. The rename follows the convention the protos already
+use for exactly this reason (`frame_pts_day_ns`, `system_monotonic_time_us`,
+`client_time_ms`, `jon.video.VideoMeta.duration_ms`): a `uint64` that means a
+time is named for its unit, so a reader cannot reach the field without reaching
+the unit. `system_time` keeps its bare name precisely because its unit is not
+known — the asymmetry is the signal.
 
 **The 26-byte WB datagram header** (transport, BE, version `5`):
 
@@ -567,14 +642,24 @@ Length-framed on the `CW` stream (native shown):
 ```
 
 **G2 — 25-byte codec-frame header** (§2). For
-`pts=1`, `duration=2`, `system_time=3`, `is_keyframe=1` (all LE), the header is:
+`pts_ns=1`, `duration_ns=2`, `system_time=3`, `is_keyframe=1` (all LE), the
+header is:
 
 ```
-01 00 00 00 00 00 00 00   # pts        = 1   (u64 LE)
-02 00 00 00 00 00 00 00   # duration   = 2   (u64 LE)
-03 00 00 00 00 00 00 00   # system_time= 3   (u64 LE)
-01                        # is_keyframe= 1
+01 00 00 00 00 00 00 00   # pts_ns      = 1   (u64 LE)
+02 00 00 00 00 00 00 00   # duration_ns = 2   (u64 LE)
+03 00 00 00 00 00 00 00   # system_time = 3   (u64 LE)
+01                        # is_keyframe = 1
 ```
+
+**These values pin the ENCODING and are not a sample of realistic ones.** Under
+§2.1's declared unit `duration_ns=2` is two nanoseconds, which no producer emits;
+that is deliberate and must not be "corrected". A golden vector's job is to make
+a field's offset, width and endianness reproducible byte-for-byte, and every
+consumer's wire-parity test asserts these exact bytes — so re-minting them to
+look plausible would force a code change in every consumer and buy nothing about
+the encoding. Read a realistic frame duration out of §2.1's cross-check rule
+instead.
 
 flattened:
 
