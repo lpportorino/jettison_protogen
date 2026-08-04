@@ -2,22 +2,20 @@
 description: Lint proto documentation for quality issues
 ---
 
-Check proto documentation quality beyond simple coverage. Finds semantic type mismatches,
-incomplete interaction metadata, invalid cross-references, empty enum values, and vague descriptions.
+Check proto documentation quality beyond simple coverage — semantic type
+mismatches, incomplete interaction metadata, invalid cross-references, empty
+enum values, vague descriptions, and metadata that contradicts its own display
+format.
 
 **Severity levels:**
-- **Errors** - Must fix: invalid references, type mismatches
-- **Warnings** - Should fix: incomplete metadata, undocumented values
-- **Info** - Nice to fix: vague descriptions
+- **Errors** - Must fix: something is WRONG
+- **Warnings** - Should fix: something is MISSING
 
-**Rules checked:**
-- enum-values-undocumented
-- field-metadata-without-description
-- semantic-type-mismatch
-- interaction-incomplete
-- invalid-references
-- description-vague
-- constrained-fields-undocumented
+The rule set is `default-rules` in
+`docs/.protodoc/tools/src/protodoc/lint.clj`, and the run prints how many rules
+it checked. No list is kept here: this command and the pre-push hook and CI must
+all report the same verdict, which they can only do by invoking the same
+implementation.
 
 **Usage:**
 ```
@@ -25,5 +23,5 @@ incomplete interaction metadata, invalid cross-references, empty enum values, an
 ```
 
 ```bash
-bb ./docs/.protodoc/scripts/proto-lint.clj ./docs/.protodoc/proto-db.edn
+make -f lint.mk docs-lint
 ```

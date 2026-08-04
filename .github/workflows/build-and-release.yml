@@ -140,11 +140,10 @@ jobs:
     # received a binding for as long as it stood.
     #
     # NOT `make docs-docker-lint`, which is the tempting one-line alternative:
-    # that target runs a SEPARATE `protodoc:latest` image this job never builds,
-    # and lint.mk's recipe comment records why the host path is deliberate —
-    # running the tools directory directly means a rule change takes effect
-    # without an image rebuild, and "a gate that silently runs a stale copy of
-    # itself is worse than none".
+    # that target now BUILDS the protodoc image as a prerequisite, so it would
+    # cost this job an image build it does not otherwise need. The host path
+    # runs the tools directory directly and needs no image at all, which is why
+    # it stays — lint.mk's recipe comment carries the reasoning.
     #
     # The java-version and both setup-clojure pins below are the ones docs.yml,
     # lint.yml, renderer.yml and devcards.yml already carry; that agreement IS
