@@ -41,6 +41,42 @@ NOT leaks — do NOT "scrub" these. `asgard` is also the sanctioned public UI th
 name, and `cmd_server` is named by this repo's OWN public `proto/ui/ui_input.proto`
 and its generated docs. A term this repo publishes itself cannot be a leak, and
 genericizing it only makes the comment less accurate than the schema it describes.
+Hardware part names are in the same class: this repo's own generated proto docs
+name the compute module, so a comment naming the encoder on it is describing
+published fact, not leaking one.
+
+### A VALUE can be topology even when no name is — and one deletion is on record
+
+The paragraph above is about NAMES, and it under-reaches: a bare integer carries
+no name to genericize and is a leak anyway when it encodes where something is
+deployed. `docs/INTERFACE-CONTRACTS.md`'s guardrail draws the line for the whole
+repository and does it by example — magic bytes, field numbers and byte offsets
+are protocol facts and belong here, while *"the port→stream wiring (which UDP
+port carries which stream) is deployment topology and lives in the consuming
+repos, not here."*
+
+`asgard/video_config.clj` carried exactly that wiring in a `:wt-port` key, and it
+is DELETED from this tree. Two facts made the call, and both were measured rather
+than assumed: nothing in this repository reads any value in that map — only
+`asgard.schema`'s `(keys streams)` — and the map was the sole place in the tree
+outside a font's glyph table where those integers appeared. So the values were
+never wrong; they documented a producer to a checkout containing no producer,
+in a repository whose own contract document says that class of fact lives
+elsewhere.
+
+**RE-SYNC IS THE HAZARD, and this paragraph is the guard.** The deletion looks
+like an omission to anyone diffing this closure against the source it was
+relocated from, so it will be re-added by a sync that treats difference as drift
+— the same way the prose genericization above would be. It is a DELIBERATE
+divergence, and it is recorded here rather than in a comment because the comment
+is the thing a re-sync overwrites.
+
+**NOTHING GATES THIS FILE, ON EITHER SIDE — do not assume otherwise.** The
+identity gate a consumer runs covers the codegen LOGIC namespaces, and the
+`asgard.*` namespaces in this seam are outside it. Verifiable from here: no
+target in this repository byte-compares any file under
+`tools/renderer-gen/src/asgard/` against anything. So a divergence in this file
+is caught by review or by nothing, which is the reason it is written down.
 
 ## Two cited doc trees are NOT VENDORED HERE — do not hunt for them
 
