@@ -1,0 +1,144 @@
+{
+  "source": "proto/ui/ui_ast.options",
+  "bounds": {
+    "ui.ButtonMatrixProps.map_str": {
+      "max_size": 1024
+    },
+    "ui.ChartProps.series": {
+      "max_count": 8
+    },
+    "ui.ChartSeries.values": {
+      "max_count": 32
+    },
+    "ui.CmdSpec.command_id": {
+      "max_size": 128
+    },
+    "ui.CmdSpec.patches": {
+      "max_count": 8
+    },
+    "ui.CmdSpec.root_template": {
+      "max_size": 128
+    },
+    "ui.DropdownProps.option_values": {
+      "max_count": 16
+    },
+    "ui.DropdownProps.options": {
+      "max_size": 1024
+    },
+    "ui.EventBinding.cmd": {
+      "type": "FT_POINTER"
+    },
+    "ui.EventBinding.cmd_by_value": {
+      "type": "FT_POINTER"
+    },
+    "ui.EventBinding.name": {
+      "max_size": 128
+    },
+    "ui.EventBinding.set_subject": {
+      "max_size": 64
+    },
+    "ui.FieldPatch.subject": {
+      "max_size": 64
+    },
+    "ui.HostProxyProps.proxy_id": {
+      "max_size": 64
+    },
+    "ui.ImageProps.src": {
+      "max_size": 256
+    },
+    "ui.LineProps.points": {
+      "max_count": 32
+    },
+    "ui.RollerProps.options": {
+      "max_size": 512
+    },
+    "ui.ScaleProps.sections": {
+      "max_count": 4
+    },
+    "ui.ScaleProps.text_src": {
+      "max_size": 256
+    },
+    "ui.Screen.subjects": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.ScreenPatch.ops": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.StateUpdate.values": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.StyleGroup.variants": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.StyleProperty.string_value": {
+      "max_size": 64
+    },
+    "ui.StyleVariant.properties": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.SubjectDeclaration.name": {
+      "max_size": 64
+    },
+    "ui.SubjectDeclaration.string_initial": {
+      "max_size": 256
+    },
+    "ui.SubjectValue.name": {
+      "max_size": 64
+    },
+    "ui.SubjectValue.string_value": {
+      "max_size": 256
+    },
+    "ui.TabviewProps.tab_names": {
+      "max_count": 8,
+      "max_size": 32
+    },
+    "ui.TargetBox.label": {
+      "max_size": 32
+    },
+    "ui.TargetOverlayProps.boxes": {
+      "type": "FT_POINTER"
+    },
+    "ui.TextareaProps.placeholder": {
+      "max_size": 256
+    },
+    "ui.VisibilityBinding.subject": {
+      "max_size": 64
+    },
+    "ui.WidgetNode.BindFormatsEntry.key": {
+      "max_size": 64
+    },
+    "ui.WidgetNode.BindFormatsEntry.value": {
+      "max_size": 256
+    },
+    "ui.WidgetNode.BindingsEntry.key": {
+      "max_size": 64
+    },
+    "ui.WidgetNode.BindingsEntry.value": {
+      "max_size": 64
+    },
+    "ui.WidgetNode.bind_formats": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.WidgetNode.bindings": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.WidgetNode.children": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.WidgetNode.gestures": {
+      "type": "FT_POINTER"
+    },
+    "ui.WidgetNode.grid_col_dsc": {
+      "max_count": 12
+    },
+    "ui.WidgetNode.grid_row_dsc": {
+      "max_count": 12
+    },
+    "ui.WidgetNode.style_groups": {
+      "type": "FT_CALLBACK"
+    },
+    "ui.WidgetNode.text": {
+      "max_size": 256
+    }
+  }
+}

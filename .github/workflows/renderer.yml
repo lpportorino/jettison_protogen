@@ -64,6 +64,7 @@ on:
     # for a structural reason (.claude/rules/gate-enforcement.md §2).
     - "tools/generated-projection-canary.sh"
     - "output/manifests/**"
+    - "proto/ui/ui_ast.options"
     # renderer/generated/** is a PROJECTION of output/c (renderer.mk's
     # generated-projection gate), so a binding regenerated there is a renderer
     # input even though nothing under renderer/ moved. Without this entry the
@@ -125,6 +126,7 @@ on:
     # for a structural reason (.claude/rules/gate-enforcement.md §2).
     - "tools/generated-projection-canary.sh"
     - "output/manifests/**"
+    - "proto/ui/ui_ast.options"
     - "output/c/**"
     # See the push filter above: the proto-db manifest leg's SOURCE side.
     - "docs/.protodoc/proto-db.edn"
@@ -355,7 +357,11 @@ jobs:
       #
       # THIS STEP HAS TWO LEGS, and the title used to name only the first. The
       # `manifests` target emits+cmps design-tokens.json / renderer-caps.json
-      # (from tokens.edn) and generated/theme_tokens.h + gesture_thresholds.h
+      # (from tokens.edn), ui-ast-bounds.json (from proto/ui/ui_ast.options —
+      # the newest source, and the reason this workflow's `paths:` names that
+      # file: a manifest whose freshness check cannot be TRIGGERED by its own
+      # source is the same defect the paragraph below records)
+      # and generated/theme_tokens.h + gesture_thresholds.h
       # (tokens.edn's C projections), and then CHAINS `manifests-proto-db`,
       # which emits+cmps the four output/manifests/*.json the fleet consumes
       # (endpoints / signals / sub-signals / reverse-index) from
@@ -366,7 +372,7 @@ jobs:
       #
       # Still no wasm / proto-classes / cargo, so it runs cheaply and fails
       # early.
-      name: Manifest freshness (A2 — design-tokens + renderer-caps + theme/gesture headers + the proto-db manifests)
+      name: Manifest freshness (A2 — design-tokens + renderer-caps + ui-ast-bounds + theme/gesture headers + the proto-db manifests)
       run: |
         docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
           jettison-proto-generator-base:latest \

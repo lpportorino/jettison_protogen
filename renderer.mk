@@ -785,7 +785,8 @@ demo-parity: proto-classes wasm reference manifests
 
 # ── Manifest freshness ──────────────────────────────────────────────────────
 # The ratified projections protogen publishes from its design/caps sources —
-# the two manifests (tokens.edn / renderer.c's caps mirror) plus the native
+# the three manifests (tokens.edn / renderer.c's caps mirror /
+# ui_ast.options' wire bounds) plus the native
 # theme's generated/theme_tokens.h (tokens.edn's C projection, src/theme.c's
 # input) — are emitted from their homes, but nothing regenerated or diffed
 # them, so a WRONG projection reddens the oracles while a STALE one (the
@@ -822,6 +823,8 @@ manifests:
 	       --tokens edn/tokens.edn --output "$$tmp/design-tokens.json" \
 	  && clojure -M -m renderer-gen.renderer-caps-json \
 	       --renderer "../../$(R)/src/renderer.c" --output "$$tmp/renderer-caps.json" \
+	  && clojure -M -m renderer-gen.ui-ast-bounds-json \
+	       --options ../../proto/ui/ui_ast.options --output "$$tmp/ui-ast-bounds.json" \
 	  && clojure -M -m lvgl-codegen.theme-tokens \
 	       --tokens edn/tokens.edn --output "$$tmp/theme_tokens.h" \
 	  && clojure -M -m lvgl-codegen.gesture-thresholds \
@@ -832,6 +835,7 @@ manifests:
 	for pair in \
 	  "design-tokens.json:output/manifests" \
 	  "renderer-caps.json:output/manifests" \
+	  "ui-ast-bounds.json:output/manifests" \
 	  "theme_tokens.h:$(R)/generated" \
 	  "gesture_thresholds.h:$(R)/generated"; do \
 	  f="$${pair%%:*}"; d="$${pair##*:}"; \
@@ -850,11 +854,11 @@ manifests:
 	done; \
 	rm -rf "$$tmp"; \
 	$(MAKE) --no-print-directory -f renderer.mk manifests-proto-db || rc=1; \
-	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + theme-tokens.h + gesture-thresholds.h + the proto-db manifests enumerated above)"; \
+	[ "$$rc" -eq 0 ] && echo "manifests: fresh (design-tokens + renderer-caps + ui-ast-bounds + theme-tokens.h + gesture-thresholds.h + the proto-db manifests enumerated above)"; \
 	exit "$$rc"
 
 # The proto-db-derived manifests (endpoints / signals / sub-signals /
-# reverse-index.json) share the output/manifests/ directory with the pair above
+# reverse-index.json) share the output/manifests/ directory with the three above
 # but NOT their producer: they come from docs/.protodoc/tools reading
 # proto-db.edn, via the Makefile's `docs-manifests` target, and had no freshness
 # comparison at all. That gap is not hypothetical — signals.json kept publishing
