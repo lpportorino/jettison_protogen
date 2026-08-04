@@ -591,6 +591,37 @@ typedef struct {
 } pending_patch_subject_t;
 static pending_patch_subject_t pending_patch_subject[MAX_PENDING_PATCH_SUBJECT];
 static int pending_patch_subject_count;
+/* The stored record's width and the wire's nanopb bound are ONE fact; keep them
+ * one — the same argument MAX_LINE_POINTS makes above, for the other direction
+ * of drift. cmd_patch.h's caps say in prose that they "mirror the proto"
+ * (root_template is PB_BYTES_ARRAY_T(128), patches is max_count:8), and prose is
+ * what a change to proto/ui/ui_ast.options walks past. Lowering a cap here would
+ * make cmd_spec_copy_from_proto REFUSE templates nanopb accepted — a form whose
+ * Apply button dies at load with a diagnostic nobody reads; RAISING it would
+ * leave the runtime check below unreachable, since nanopb already refused
+ * anything longer at decode. Equality is therefore the honest relation, and this
+ * makes it a BUILD failure.
+ *
+ * HERE rather than in cmd_patch.h beside the #defines, because this is the only
+ * translation unit that sees both: cmd_patch.c is in COMMON_APP_SRCS and links
+ * into reference.wasm, which decodes no proto and includes no generated header.
+ *
+ * THE OTHER TWO cmd_patch.h CAPS CANNOT BE ASSERTED AT ALL, and the reason is
+ * structural rather than an omission: CMD_PATCH_MAX_BY_VALUE mirrors
+ * ui.EventBinding.cmd_by_value and CMD_PATCH_MAX_GESTURES mirrors
+ * ui.WidgetNode.gestures, both FT_POINTER — nanopb generates a pointer plus a
+ * count and no array, so there is no generated width to compare against. Their
+ * bound lives only in ui_ast.proto's buf.validate max_items, which the C never
+ * sees, and the renderer's own count checks are what refuse an over-long stream.
+ */
+_Static_assert(CMD_PATCH_TEMPLATE_CAP ==
+                   sizeof(((ui_CmdSpec *)0)->root_template.bytes),
+               "CMD_PATCH_TEMPLATE_CAP must equal max_size for "
+               "ui.CmdSpec.root_template (protogen/proto/ui/ui_ast.options)");
+_Static_assert(CMD_PATCH_MAX_PATCHES ==
+                   sizeof(((ui_CmdSpec *)0)->patches) / sizeof(ui_FieldPatch),
+               "CMD_PATCH_MAX_PATCHES must equal max_count for "
+               "ui.CmdSpec.patches (protogen/proto/ui/ui_ast.options)");
 /* ================================================================
  * R5b cmd-out: copy a decoded CmdSpec into PERSISTENT storage.
  *
