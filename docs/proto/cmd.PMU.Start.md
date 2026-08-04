@@ -34,7 +34,7 @@ Begins PMU monitoring operations. The PMU hardware must be powered on (TurnOn) b
 
 ### Related State
 
-- [[proto/ser.JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU#is_started]]
 
 
 ### Related Commands

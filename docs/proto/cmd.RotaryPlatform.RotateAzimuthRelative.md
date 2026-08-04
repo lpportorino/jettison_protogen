@@ -37,7 +37,8 @@ Rotates azimuth axis by a relative offset from current position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#azimuth]]
+- [[proto/ser.JonGuiDataRotary#azimuth_speed]]
 
 
 ### Related Commands

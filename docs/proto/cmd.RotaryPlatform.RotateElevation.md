@@ -36,7 +36,8 @@ Continuously rotates platform elevation at specified speed
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#elevation]]
+- [[proto/ser.JonGuiDataRotary#elevation_speed]]
 
 
 ### Related Commands

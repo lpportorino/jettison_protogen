@@ -34,7 +34,7 @@ Enable on-screen display overlay for heat camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRecOsd]]
+- [[proto/ser.JonGuiDataRecOsd#heat_osd_enabled]]
 
 
 ### Related Commands

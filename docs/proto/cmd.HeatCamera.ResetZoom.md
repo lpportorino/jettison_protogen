@@ -34,7 +34,7 @@ Reset heat camera zoom position to default/minimum
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#zoom_pos]]
 
 
 ### Related Commands

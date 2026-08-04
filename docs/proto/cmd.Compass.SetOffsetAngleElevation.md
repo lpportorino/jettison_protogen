@@ -35,7 +35,7 @@ Set compass elevation angle offset calibration value
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass#offsetElevation]]
 
 
 ### Related Commands

@@ -35,7 +35,7 @@ Sets automatic gain control mode for thermal camera image enhancement
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#agc_mode]]
 
 
 ### Related Commands

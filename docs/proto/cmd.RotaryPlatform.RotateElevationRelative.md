@@ -37,7 +37,8 @@ Rotate platform elevation relative to current position with specified speed and 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#elevation]]
+- [[proto/ser.JonGuiDataRotary#elevation_speed]]
 
 
 ### Related Commands

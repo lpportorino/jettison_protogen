@@ -34,7 +34,7 @@ Stops PMU monitoring operations. The PMU hardware remains powered but monitoring
 
 ### Related State
 
-- [[proto/ser.JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU#is_started]]
 
 
 ### Related Commands

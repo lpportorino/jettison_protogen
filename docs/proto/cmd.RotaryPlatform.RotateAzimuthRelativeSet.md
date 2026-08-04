@@ -36,7 +36,7 @@ Set azimuth position relative to current position (immediate, no motion)
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#azimuth]]
 
 
 ### Related Commands

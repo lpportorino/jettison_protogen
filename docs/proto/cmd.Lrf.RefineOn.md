@@ -34,7 +34,7 @@ Enables LRF refine mode for precision measurements
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#is_refining]]
 
 
 ### Related Commands

@@ -34,7 +34,7 @@ Marks the current recording as important for preservation
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem#important_rec_enabled]]
 
 
 ### Related Commands

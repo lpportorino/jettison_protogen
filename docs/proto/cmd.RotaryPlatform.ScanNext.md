@@ -34,7 +34,7 @@ Move to next scan node in automated scan sequence
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#scan_target]]
 
 
 ### Related Commands

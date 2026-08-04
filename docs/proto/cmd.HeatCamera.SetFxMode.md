@@ -35,7 +35,7 @@ Set FX (image enhancement) mode for heat camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#fx_mode]]
 
 
 ### Related Commands

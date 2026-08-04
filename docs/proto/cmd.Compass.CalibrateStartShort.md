@@ -34,7 +34,7 @@ Initiates short compass calibration procedure
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass#calibrating]]
 
 
 ### Related Commands

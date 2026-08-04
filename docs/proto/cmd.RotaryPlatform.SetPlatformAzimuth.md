@@ -35,7 +35,7 @@ Sets absolute platform azimuth angle
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#platform_azimuth]]
 
 
 ### Related Commands

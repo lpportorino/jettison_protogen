@@ -34,7 +34,7 @@ Unmarks current recording as important
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem#important_rec_enabled]]
 
 
 ### Related Commands

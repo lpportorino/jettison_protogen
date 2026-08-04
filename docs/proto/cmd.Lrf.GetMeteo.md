@@ -34,7 +34,7 @@ Requests meteorological data from LRF
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#meteo]]
 
 
 

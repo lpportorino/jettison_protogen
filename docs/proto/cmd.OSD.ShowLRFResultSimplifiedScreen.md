@@ -34,7 +34,7 @@ Switch OSD to simplified LRF result display screen
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRecOsd]]
+- [[proto/ser.JonGuiDataRecOsd#screen]]
 
 
 ### Related Commands

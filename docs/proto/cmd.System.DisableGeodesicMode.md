@@ -34,7 +34,7 @@ Disables geodesic triangulation positioning mode
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem#geodesic_mode]]
 
 
 ### Related Commands

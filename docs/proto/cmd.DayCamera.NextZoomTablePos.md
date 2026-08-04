@@ -34,7 +34,7 @@ Steps to next predefined optical zoom position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#zoom_table_pos]]
 
 
 ### Related Commands

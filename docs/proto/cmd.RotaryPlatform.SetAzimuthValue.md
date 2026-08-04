@@ -36,7 +36,7 @@ Sets the rotary platform to an absolute azimuth angle
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#azimuth]]
 
 
 ### Related Commands

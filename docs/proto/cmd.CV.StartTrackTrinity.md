@@ -45,7 +45,7 @@ Starts the Ring-Trinity board tracker on one video channel. Paired with [[proto/
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCV]]
+- [[proto/ser.JonGuiDataCV#trinity_tracking_active]]
 - [[proto/ser.TrinityTracking]]
 - [[proto/ser.TrinityTrackingStatus]]
 

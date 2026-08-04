@@ -35,7 +35,7 @@ Disables manual time control and reverts to system time
 ### Related State
 
 - [[proto/ser.JonGuiDataSystem]]
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime#use_manual_time]]
 
 
 ### Related Commands

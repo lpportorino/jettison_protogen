@@ -35,7 +35,7 @@ Adjusts thermal CLAHE level incrementally
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#clahe_level]]
 
 
 ### Related Commands

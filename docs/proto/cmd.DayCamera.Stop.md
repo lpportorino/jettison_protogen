@@ -34,7 +34,7 @@ Stop day camera operation and release resources
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#is_started]]
 
 
 ### Related Commands

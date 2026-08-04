@@ -34,7 +34,7 @@ Requests current environmental sensor readings. Response is delivered via the me
 
 ### Related State
 
-- [[proto/ser.JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU#meteo]]
 - [[proto/ser.JonGuiDataMeteo]]
 
 

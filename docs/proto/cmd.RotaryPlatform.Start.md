@@ -34,7 +34,7 @@ Starts the rotary platform subsystem
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#is_started]]
 
 
 ### Related Commands

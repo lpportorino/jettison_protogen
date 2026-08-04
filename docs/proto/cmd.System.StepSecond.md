@@ -35,7 +35,7 @@ Increments or decrements system time by seconds
 
 ### Related State
 
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime#manual_timestamp]]
 
 
 ### Related Commands

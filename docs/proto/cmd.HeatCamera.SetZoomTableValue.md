@@ -35,7 +35,7 @@ Sets thermal camera zoom to specific table position (discrete zoom level)
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#zoom_table_pos]]
 
 
 ### Related Commands

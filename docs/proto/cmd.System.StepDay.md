@@ -35,7 +35,7 @@ Increments or decrements system day by offset
 
 ### Related State
 
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime#manual_timestamp]]
 
 
 ### Related Commands

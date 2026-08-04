@@ -34,7 +34,7 @@ Enables manual time mode instead of GPS time synchronization
 
 ### Related State
 
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime#use_manual_time]]
 
 
 ### Related Commands

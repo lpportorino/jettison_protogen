@@ -34,7 +34,7 @@ Starts day camera module initialization
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#is_started]]
 
 
 ### Related Commands

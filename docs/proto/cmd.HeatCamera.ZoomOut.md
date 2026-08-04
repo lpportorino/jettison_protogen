@@ -34,7 +34,7 @@ Decrease heat camera zoom level (zoom out/wider field of view)
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#zoom_pos]]
 
 
 ### Related Commands

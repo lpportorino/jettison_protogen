@@ -34,7 +34,7 @@ Starts the laser range finder module
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#is_started]]
 
 
 ### Related Commands

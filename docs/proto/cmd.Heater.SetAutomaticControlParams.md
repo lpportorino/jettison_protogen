@@ -33,7 +33,9 @@ Configures target temperatures for the PID-based automatic heating control syste
 
 ### Related State
 
-- [[proto/ser.JonGuiDataHeater]]
+- [[proto/ser.JonGuiDataHeater#target_temp_channel_0]]
+- [[proto/ser.JonGuiDataHeater#target_temp_channel_1]]
+- [[proto/ser.JonGuiDataHeater#target_temp_channel_2]]
 
 
 ### Related Commands

@@ -35,7 +35,7 @@ Set LRF scan mode
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#scan_mode]]
 
 
 

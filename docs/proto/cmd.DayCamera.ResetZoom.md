@@ -34,7 +34,7 @@ Resets day camera zoom to default position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#zoom_pos]]
 
 
 ### Related Commands

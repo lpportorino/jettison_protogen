@@ -35,7 +35,7 @@ Selects specific scan waypoint by index
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#scan_target]]
 
 
 ### Related Commands

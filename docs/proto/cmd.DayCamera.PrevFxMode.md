@@ -34,7 +34,7 @@ Cycle to previous FX mode (visual effect) for day camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#fx_mode]]
 
 
 ### Related Commands

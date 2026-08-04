@@ -34,7 +34,7 @@ Decrements day camera zoom to previous table position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#zoom_table_pos]]
 
 
 ### Related Commands

@@ -35,7 +35,7 @@ Enable or disable infrared filter on day camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#infrared_filter]]
 
 
 

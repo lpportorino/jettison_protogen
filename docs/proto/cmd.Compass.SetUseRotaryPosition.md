@@ -36,7 +36,7 @@ Enable/disable using rotary platform position as compass source
 ### Related State
 
 - [[proto/ser.JonGuiDataCompass]]
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#use_rotary_as_compass]]
 
 
 ### Related Commands

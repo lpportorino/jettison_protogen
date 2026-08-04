@@ -34,7 +34,7 @@ Starts the thermal camera subsystem
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#is_started]]
 
 
 ### Related Commands

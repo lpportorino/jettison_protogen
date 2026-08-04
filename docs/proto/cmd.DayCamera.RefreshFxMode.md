@@ -34,7 +34,7 @@ Refresh current FX mode on day camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#fx_mode]]
 
 
 

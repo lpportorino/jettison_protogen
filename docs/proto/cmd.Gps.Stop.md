@@ -34,7 +34,7 @@ Stops the GPS module
 
 ### Related State
 
-- [[proto/ser.JonGuiDataGps]]
+- [[proto/ser.JonGuiDataGps#is_started]]
 
 
 ### Related Commands

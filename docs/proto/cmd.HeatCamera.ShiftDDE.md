@@ -35,7 +35,7 @@ Adjust DDE (Digital Detail Enhancement) level incrementally for heat camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#dde_level]]
 
 
 ### Related Commands

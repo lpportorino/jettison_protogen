@@ -35,7 +35,7 @@ Set absolute elevation position of rotary platform
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#elevation]]
 
 
 

@@ -35,7 +35,7 @@ Sets the DDE (Digital Detail Enhancement) level for thermal image processing
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#dde_level]]
 
 
 ### Related Commands

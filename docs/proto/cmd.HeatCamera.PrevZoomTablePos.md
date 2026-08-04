@@ -34,7 +34,7 @@ Move to previous position in heat camera zoom lookup table
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#zoom_table_pos]]
 
 
 ### Related Commands

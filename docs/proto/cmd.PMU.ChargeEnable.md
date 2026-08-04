@@ -34,7 +34,7 @@ Enables battery charging. The charge_disabled field in ser.JonGuiDataPMU will be
 
 ### Related State
 
-- [[proto/ser.JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU#charge_disabled]]
 
 
 ### Related Commands

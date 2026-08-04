@@ -35,7 +35,7 @@ Set rotary platform operational mode (speed/position/stabilization/targeting/tra
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#mode]]
 
 
 ### Related Commands

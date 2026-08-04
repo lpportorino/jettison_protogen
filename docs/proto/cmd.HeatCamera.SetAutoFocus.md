@@ -35,7 +35,7 @@ Enables or disables auto-focus for thermal camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#auto_focus]]
 
 
 ### Related Commands

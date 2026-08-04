@@ -34,7 +34,7 @@ Disable LRF fog mode for normal atmospheric conditions
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#fogModeEnabled]]
 
 
 ### Related Commands

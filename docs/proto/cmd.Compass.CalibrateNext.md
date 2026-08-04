@@ -34,7 +34,7 @@ Advances to next step in compass calibration sequence
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompassCalibration]]
+- [[proto/ser.JonGuiDataCompassCalibration#stage]]
 
 
 ### Related Commands

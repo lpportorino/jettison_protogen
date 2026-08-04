@@ -35,7 +35,7 @@ Sets compass azimuth angle offset for calibration correction
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass#offsetAzimuth]]
 
 
 ### Related Commands

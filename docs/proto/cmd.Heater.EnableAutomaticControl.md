@@ -30,7 +30,7 @@ Enables PID-based automatic temperature regulation for all heater channels. When
 
 ### Related State
 
-- [[proto/ser.JonGuiDataHeater]]
+- [[proto/ser.JonGuiDataHeater#automatic_control_enabled]]
 
 
 ### Related Commands

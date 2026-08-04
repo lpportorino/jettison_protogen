@@ -35,7 +35,7 @@ Toggle between GPS-based and manual position entry
 
 ### Related State
 
-- [[proto/ser.JonGuiDataGps]]
+- [[proto/ser.JonGuiDataGps#use_manual]]
 
 
 ### Related Commands

@@ -34,7 +34,7 @@ Start zooming heat camera in (continuous motion)
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#zoom_pos]]
 
 
 ### Related Commands

@@ -34,7 +34,7 @@ Pauses the active scan pattern execution
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#is_scanning_paused]]
 
 
 ### Related Commands

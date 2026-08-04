@@ -34,7 +34,7 @@ Stops the compass subsystem
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass#is_started]]
 
 
 ### Related Commands

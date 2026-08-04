@@ -34,7 +34,7 @@ Activates the PMU heater for cold-weather operation. The heater_power_state fiel
 
 ### Related State
 
-- [[proto/ser.JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU#heater_power_state]]
 
 
 ### Related Commands

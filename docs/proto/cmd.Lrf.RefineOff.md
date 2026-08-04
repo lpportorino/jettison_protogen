@@ -34,7 +34,7 @@ Disables LRF refine mode
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#is_refining]]
 
 
 ### Related Commands

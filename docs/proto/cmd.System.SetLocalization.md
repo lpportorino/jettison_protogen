@@ -35,7 +35,7 @@ Sets the system language/localization preference
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem#loc]]
 
 
 

@@ -34,7 +34,7 @@ Queries the heater power state. Response is delivered via the heater_power_state
 
 ### Related State
 
-- [[proto/ser.JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU#heater_power_state]]
 
 
 ### Related Commands

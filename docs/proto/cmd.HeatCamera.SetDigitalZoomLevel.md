@@ -35,7 +35,7 @@ Controls digital zoom magnification level for thermal camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#digital_zoom_level]]
 
 
 ### Related Commands

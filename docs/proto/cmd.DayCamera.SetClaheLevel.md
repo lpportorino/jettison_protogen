@@ -35,7 +35,7 @@ Set CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level f
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#clahe_level]]
 
 
 ### Related Commands

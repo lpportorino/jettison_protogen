@@ -35,7 +35,7 @@ Controls the camera iris (aperture) opening to adjust light intake and depth of 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#iris_pos]]
 
 
 ### Related Commands

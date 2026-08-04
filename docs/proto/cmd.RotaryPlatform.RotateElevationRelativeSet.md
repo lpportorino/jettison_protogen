@@ -36,7 +36,7 @@ Sets elevation relative to current position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#elevation]]
 
 
 ### Related Commands

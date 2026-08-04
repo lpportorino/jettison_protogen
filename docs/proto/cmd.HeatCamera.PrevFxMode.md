@@ -34,7 +34,7 @@ Cycles to previous FX mode for thermal camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#fx_mode]]
 
 
 ### Related Commands

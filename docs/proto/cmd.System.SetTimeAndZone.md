@@ -36,7 +36,8 @@ Sets system time and timezone simultaneously
 
 ### Related State
 
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime#timestamp]]
+- [[proto/ser.JonGuiDataTime#zone_id]]
 
 
 ### Related Commands

@@ -34,7 +34,7 @@ Enables vampire mode for computer vision processing
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem#vampire_mode]]
 
 
 ### Related Commands

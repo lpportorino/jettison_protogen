@@ -34,7 +34,7 @@ Requests meteorological data from compass sensor
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass#meteo]]
 
 
 

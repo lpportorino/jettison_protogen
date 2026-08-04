@@ -34,7 +34,7 @@ Disables DDE (Digital Detail Enhancement) on thermal camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#dde_enabled]]
 
 
 ### Related Commands

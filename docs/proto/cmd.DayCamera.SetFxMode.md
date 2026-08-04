@@ -35,7 +35,7 @@ Set day camera image processing FX mode preset (daytime/dusk/fog)
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#fx_mode]]
 
 
 ### Related Commands

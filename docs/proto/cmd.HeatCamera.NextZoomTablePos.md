@@ -34,7 +34,7 @@ Move to next preset zoom position in lookup table
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#zoom_table_pos]]
 
 
 ### Related Commands

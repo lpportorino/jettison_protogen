@@ -35,7 +35,7 @@ Sets the system timezone
 
 ### Related State
 
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime#zone_id]]
 
 
 ### Related Commands

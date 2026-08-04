@@ -35,7 +35,7 @@ Sets color filter mode for thermal camera display
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat#filter]]
 
 
 ### Related Commands

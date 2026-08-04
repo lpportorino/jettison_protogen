@@ -37,7 +37,8 @@ Rotates azimuth to target angle at specified speed
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#azimuth]]
+- [[proto/ser.JonGuiDataRotary#azimuth_speed]]
 
 
 ### Related Commands

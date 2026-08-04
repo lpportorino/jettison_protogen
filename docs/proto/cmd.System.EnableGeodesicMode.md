@@ -34,7 +34,7 @@ Enable geodesic/geographic coordinate mode for position calculations
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem#geodesic_mode]]
 
 
 ### Related Commands

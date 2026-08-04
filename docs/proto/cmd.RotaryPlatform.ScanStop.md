@@ -34,7 +34,7 @@ Stops rotary platform scanning operation
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#is_scanning]]
 
 
 ### Related Commands

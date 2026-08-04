@@ -35,7 +35,7 @@ Controls digital zoom magnification level for day camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#digital_zoom_level]]
 
 
 ### Related Commands

@@ -34,7 +34,7 @@ Reset focus to default/home position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#focus_pos]]
 
 
 ### Related Commands

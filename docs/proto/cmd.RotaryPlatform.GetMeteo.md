@@ -34,7 +34,7 @@ Requests meteorological data from rotary platform sensors
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#meteo]]
 
 
 ### Related Commands

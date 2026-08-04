@@ -35,7 +35,7 @@ Sets the platform elevation angle directly
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary#platform_elevation]]
 
 
 ### Related Commands

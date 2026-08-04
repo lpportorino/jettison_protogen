@@ -34,7 +34,7 @@ Enables continuous LRF scanning mode
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#is_scanning]]
 
 
 ### Related Commands

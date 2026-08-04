@@ -36,7 +36,7 @@ Stops the Ring-Trinity board tracker. Paired with [[proto/cmd.CV.StartTrackTrini
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCV]]
+- [[proto/ser.JonGuiDataCV#trinity_tracking_active]]
 - [[proto/ser.TrinityTracking]]
 - [[proto/ser.TrinityTrackingStatus]]
 

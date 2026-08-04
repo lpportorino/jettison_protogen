@@ -30,7 +30,7 @@ Disables the PID-based automatic temperature regulation loop for all heater chan
 
 ### Related State
 
-- [[proto/ser.JonGuiDataHeater]]
+- [[proto/ser.JonGuiDataHeater#automatic_control_enabled]]
 
 
 ### Related Commands

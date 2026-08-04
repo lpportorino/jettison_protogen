@@ -35,7 +35,7 @@ Enables or disables automatic iris control for day camera exposure
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay#auto_iris]]
 
 
 ### Related Commands

@@ -34,7 +34,7 @@ Enables on-screen display overlay for day camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRecOsd]]
+- [[proto/ser.JonGuiDataRecOsd#day_osd_enabled]]
 
 
 ### Related Commands

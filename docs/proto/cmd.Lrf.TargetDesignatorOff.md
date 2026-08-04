@@ -34,7 +34,7 @@ Turns off laser target designator
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf#pointer_mode]]
 
 
 ### Related Commands
