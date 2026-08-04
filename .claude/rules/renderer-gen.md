@@ -91,14 +91,31 @@ are NOT in that set — and each one is a different obstacle, not one repeated:
   come from somewhere both sides can own; the surrounding namespace should not
   travel at all.
 - **`lvgl-codegen.proto-schema`.** Reached by three of the mirrored namespaces,
-  and outside the identity gate. So a copy of it already exists on the consumer
-  side with nothing asserting the two agree: the gate asserts the LEAVES of a
-  graph, not its closure. That is a live drift surface today, independent of
-  whether a shared root is ever built.
-- **`lvgl-codegen.generated.enums`.** A generated projection, regenerated on the
-  consumer side by its own producer. It has a mechanism, so it is the one entry
-  here that is not a hole — but a source root would still have to decide whether
-  it ships the projection or expects the consumer's.
+  and outside the identity gate. **The durable structural point stands alone and
+  needs no consumer attribution: an identity gate asserts the LEAVES of a graph,
+  never its CLOSURE** — which is the reason this section exists at all, since a
+  set chosen by enumerating what to mirror does not thereby cover what those
+  files LOAD. WHY a given consumer excludes a given file is that consumer's own
+  business and is not visible from here; do not supply a motive for it. It is
+  HAND-AUTHORED in this
+  repository — no producer emits it, it carries no generated banner, the lint
+  substrate classifies it as hand-authored by deriving `generated?` from the path
+  (`/generated/`), and it is the measured maximum behind the `:publics-block`
+  ceiling, a gate that excludes generated files by construction. So it is not a
+  projection, and a shared root would have to MOVE it or duplicate it like any
+  other hand-authored member. How a CONSUMER holds its copy is not visible from
+  here and is deliberately not asserted either way.
+- **`lvgl-codegen.generated.enums`.** A generated projection, and the ONE
+  generated file inside a gated root — emitted by `lvgl-codegen.construct.factory`
+  through `make -f renderer.mk construct-bindings` and byte-compared by
+  `check-renderer`. A source root would still have to decide whether it SHIPS the
+  projection or expects the consumer's own.
+- **The two are NOT peers, and the ordering is the load-bearing part.**
+  `proto-schema` REQUIRES `generated.enums`, so one is a consumer of the other —
+  which means a root that took the hand-authored file without its generated
+  dependency would not fail review, it would fail to LOAD. That is the same
+  closure argument one level down, and it is why "just ship the shared subset"
+  keeps producing a set that is too small.
 
 **And the root cannot be NARROWED without either a move or a duplicate.**
 `:paths` names directories, and the shared namespaces sit interleaved with

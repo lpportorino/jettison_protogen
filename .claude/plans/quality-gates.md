@@ -137,7 +137,7 @@ Measured in `tools/renderer-gen`, the only tree with arrow specs.
 
 **325 specs registered across 34 namespaces. 318 instrumented. 7 refused, and they
 are named** — malli declines primitive-hinted functions, nuance 5 below:
-`uigen.cmd-spec/{varint-le-bytes,byte-len,double->le-bytes,padded-varint}` and
+`uigen.wire-encode/{varint-le-bytes,byte-len,double->le-bytes,padded-varint}` and
 `lvgl-codegen.palette-ladder/{linear-rgb->wcag-y,oklch->linear-rgb,floor-ratio}`.
 They are excluded from every denominator rather than silently counted.
 

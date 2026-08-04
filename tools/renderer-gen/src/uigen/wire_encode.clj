@@ -191,6 +191,12 @@
           ;; `:byte-offset` FIRST, then the caller's own keys in their own
           ;; order: the result stays an array-map, so a producer's descriptor
           ;; reads the same way it did when the offset was assoc'd inline.
+          ;; THAT ORDERING HOLDS ONLY WHILE THE RESULT IS AN ARRAY-MAP — past
+          ;; eight pairs Clojure promotes to a hash-map and the order becomes
+          ;; unspecified, silently. No guard, deliberately: the consequence is
+          ;; READ ORDER of a descriptor and nothing else, because the emitter
+          ;; rebuilds each patch by key lookup rather than by iteration, so no
+          ;; byte on the wire depends on it. Widen this only knowing that.
           (into {:byte-offset (find-slot! template needle (assoc ctx :field field))}
                 patch))
         slots))

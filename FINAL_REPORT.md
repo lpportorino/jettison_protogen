@@ -227,8 +227,8 @@ Two deserve more than a table row:
 ### 3.3 A wire mirror that existed only in prose (`7fe55c06`)
 
 Found while measuring the C dead-symbol set — not where anyone would look for a missing
-Clojure test. `uigen.cmd-spec/padded-varint` and `cmd_patch_padded_varint` implement the
-same wire encoding, and the C header says it "mirrors uigen.cmd-spec/padded-varint
+Clojure test. `uigen.wire-encode/padded-varint` and `cmd_patch_padded_varint` implement
+the same wire encoding, and the C header says it "mirrors uigen.wire-encode/padded-varint
 EXACTLY". Nothing asserted either half.
 
 **Invisible three ways at once**: no caller in Clojure, so no coverage number could flag
