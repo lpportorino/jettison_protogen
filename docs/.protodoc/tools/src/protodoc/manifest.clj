@@ -456,6 +456,65 @@
                          (subs field-camel 1))]
     (str prefix capitalized)))
 
+;; ── The published signal-name grammar ────────────────────────────────────
+;; A signal name is a SUBJECT IDENTIFIER downstream: a consumer projecting
+;; device state into a reactive overlay uses it verbatim as the key a widget
+;; binds to. The identifier is an open string on that wire with only a length
+;; bound, so a name that is wrong is not refused anywhere — a widget bound to
+;; one simply never receives a value and renders blank, which no oracle short
+;; of a render comparison can see.
+;;
+;; The grammar is not a convention imposed here; it is the exact image of
+;; make-signal-name. snake->camel splits on "_" and joins capitalised parts, so
+;; an underscore is structurally eliminated, and a proto field name supplies no
+;; other punctuation. Every generated name is therefore [a-z][A-Za-z0-9]*.
+;;
+;; WHAT THIS GATE IS FOR is the one name in the published set that make-signal-name
+;; does NOT produce: a :derived-signals entry is hand-authored free text in
+;; manifest-config.edn and reaches signals.json unexamined. Asserting the
+;; generated names too is deliberate over-coverage — they cost nothing to check
+;; and the assertion then states the property of the WHOLE published namespace
+;; rather than of one corner of it.
+;;
+;; A consumer may legitimately mint its OWN subjects alongside these (role-suffixed
+;; or renderer-internal ones carrying underscores). That is a disjoint namespace by
+;; construction, precisely because a name from THIS set can never carry an
+;; underscore, and this gate is what keeps that true.
+(def signal-name-re
+  "The grammar every published signal name must match — the exact image of
+   `make-signal-name`."
+  #"[a-z][A-Za-z0-9]*")
+
+(defn signal-name-violations
+  "Every published signal name that falls outside `signal-name-re`, as
+   `{:name … :origin …}` maps. Pure — `validate-signal-names!` is what throws."
+  [{:keys [signals nested-signals derived-signals]}]
+  (letfn [(bad [origin names]
+            (for [n names
+                  :when (not (re-matches signal-name-re (str n)))]
+              {:name n :origin origin}))]
+    (vec (concat (bad :signals (map :signal-name signals))
+                 (bad :nested-signals (mapcat #(map :signal-name (:signals %))
+                                              nested-signals))
+                 (bad :derived-signals (map :name derived-signals))))))
+
+(defn validate-signal-names!
+  "Refuse to publish a manifest carrying a signal name outside the grammar.
+
+   Throws rather than warning: the manifests are a generation-time artefact a
+   consumer pins, so a malformed name that ships is one nothing downstream can
+   refuse. Names every offender and its origin, so a red is attributable to one
+   entry rather than to the manifest generally."
+  [name-sources]
+  (let [violations (signal-name-violations name-sources)]
+    (when (seq violations)
+      (throw (ex-info (str "signal name(s) outside the published grammar "
+                           signal-name-re ": "
+                           (str/join ", " (map :name violations)))
+                      {:violations violations
+                       :grammar (str signal-name-re)})))
+    name-sources))
+
 (defn extract-signals
   "Extract all signals from JonGUIState subsystem fields."
   [db config]
@@ -680,6 +739,14 @@
         signals-data (extract-signals db config)
         sub-signals-data (extract-sub-signals db config)
         reverse-index-data (build-reverse-index endpoints-data signals-data)
+
+        ;; Refuse the whole run before ANY file is written — a partially-written
+        ;; manifest set is worse than none, because the freshness diff then reports
+        ;; drift for a reason that is not the real one.
+        _ (validate-signal-names!
+           {:signals (:signals signals-data)
+            :nested-signals (:nested-signals sub-signals-data)
+            :derived-signals (:derived-signals signals-data)})
 
         ;; Add metadata
         endpoints-manifest {:version "1.0.0"

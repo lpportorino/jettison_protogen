@@ -749,3 +749,77 @@
                    (catch clojure.lang.ExceptionInfo e (ex-data e)))]
         (is (= "azimuth" (:field d)))
         (is (= "cmd.S.Go" (:message d)))))))
+
+;; ============================================================================
+;; THE PUBLISHED SIGNAL-NAME GRAMMAR
+;;
+;; A signal name is a subject identifier downstream, carried on a wire where it
+;; is an open string with only a length bound — so a malformed one is refused
+;; nowhere, and the widget bound to it renders blank instead of failing. The
+;; generated names cannot be malformed (snake->camel eliminates the underscore
+;; and a proto field name supplies no other punctuation); the hand-authored
+;; :derived-signals entries can be, and that is the hole this gate closes.
+;; ============================================================================
+
+(deftest signal-name-grammar-is-the-image-of-make-signal-name
+  ;; The PASSING direction. Without it a gate that rejected everything — a broken
+  ;; regex, an inverted predicate — would be indistinguishable from a working one.
+  (testing "names make-signal-name actually emits are accepted"
+    (is (empty? (manifest/signal-name-violations
+                 {:signals [{:signal-name (manifest/make-signal-name "cameraDay" "focus_pos")}
+                            {:signal-name (manifest/make-signal-name "gps" "latitude")}
+                            {:signal-name (manifest/make-signal-name "power" "s0")}]
+                  :nested-signals []
+                  :derived-signals []}))))
+  (testing "a hand-authored derived signal in the same shape is accepted"
+    (is (empty? (manifest/signal-name-violations
+                 {:signals [] :nested-signals []
+                  :derived-signals [{:name "navPosition"}]})))))
+
+(deftest malformed-signal-names-are-refused-and-named
+  ;; The FAILING direction, driven with the exact corruption class this exists for:
+  ;; a state-reference pointer string-mangled into a subject name. The '#' is what
+  ;; a message#field reference contributes and no generated name can ever carry.
+  ;;
+  ;; REVERT-TO-BREAK: delete the `validate-signal-names!` call from
+  ;; `generate-manifests`, or widen `signal-name-re` to #".+". This deftest must go
+  ;; red; `signal-name-grammar-is-the-image-of-make-signal-name` above must stay
+  ;; GREEN, which attributes the red to the guard rather than to name derivation
+  ;; generally.
+  (let [mangled {:signals [] :nested-signals []
+                 :derived-signals [{:name "gps#latitude_latitude"}]}]
+    (testing "the mangled reference is refused"
+      (is (thrown-with-msg?
+           clojure.lang.ExceptionInfo #"outside the published grammar"
+           (manifest/validate-signal-names! mangled))))
+    (testing "and the diagnosis names the offender and its origin"
+      (let [d (try (manifest/validate-signal-names! mangled)
+                   (catch clojure.lang.ExceptionInfo e (ex-data e)))]
+        (is (= [{:name "gps#latitude_latitude" :origin :derived-signals}]
+               (:violations d))))))
+  (testing "each published name source is checked, not only the first"
+    (is (= [:signals :nested-signals :derived-signals]
+           (mapv :origin
+                 (manifest/signal-name-violations
+                  {:signals [{:signal-name "Gps_Latitude"}]
+                   :nested-signals [{:signals [{:signal-name "lrf.target"}]}]
+                   :derived-signals [{:name "nav position"}]}))))))
+
+(deftest the-real-published-namespace-satisfies-the-grammar
+  ;; Non-vacuity plus the real-tree direction: the committed config and db must
+  ;; already pass, and the count proves the check looked at a populated set rather
+  ;; than an empty one.
+  (when-let [db (load-db)]
+    (let [config (load-config)
+          signals-data (manifest/extract-signals db config)
+          sub-data (manifest/extract-sub-signals db config)
+          sources {:signals (:signals signals-data)
+                   :nested-signals (:nested-signals sub-data)
+                   :derived-signals (:derived-signals signals-data)}
+          n (+ (count (:signals sources))
+               (count (mapcat :signals (:nested-signals sources)))
+               (count (:derived-signals sources)))]
+      (testing "the published set is not empty (a clean pass over nothing is not a pass)"
+        (is (< 100 n) (str "only " n " published names — the check may be vacuous")))
+      (testing "and every one of them matches"
+        (is (empty? (manifest/signal-name-violations sources)))))))
