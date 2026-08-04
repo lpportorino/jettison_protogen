@@ -630,9 +630,10 @@
 ;; SYNTHETIC for the guard, because the real tree cannot express its input.
 
 (defn- scalar-field
-  "A minimal proto-db SCALAR field."
-  [nm type]
-  {:name nm :type type})
+  "A minimal proto-db SCALAR field. The parameter is `ftype`, not `type`:
+  clj-kondo errors on a binding that shadows `clojure.core/type`."
+  [nm ftype]
+  {:name nm :type ftype})
 
 (defn- leaf-endpoint-fields
   "The `:fields` vector resolve-leaf-commands projects for a Root -> leaf whose
