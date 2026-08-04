@@ -289,6 +289,45 @@
 ;; Endpoint Extraction
 ;; ============================================================================
 
+(defn- endpoint-field
+  "Project a proto-db field of message `owner-id` into one entry of an endpoint's
+   `:fields` vector.
+
+   THE PROJECTION IS ONE LEVEL DEEP AND STAYS THAT WAY. A MESSAGE-typed field
+   publishes no interior, because the interior is not expressible in a flat field
+   vector: `cmd.RotaryPlatform.Azimuth` is the measured case — a REQUIRED six-arm
+   oneof whose arms are themselves messages — so flattening it here would publish
+   six MUTUALLY EXCLUSIVE arms as though they were co-settable. A manifest that
+   asserts something false is worse than one that stops short, and minting that
+   structure is the same objection `resolve-leaf-commands` raises against recursing
+   on the depth axis.
+
+   What the entry may NOT do is decline to say what it stopped short OF, so a
+   message-typed field carries `:type-ref` — the id of the message its value is.
+   That is a REFERENCE, not an expansion: it names a message the consumer already
+   holds in `proto-db.edn`, mints no route, and invents no shape. Every other field
+   is unchanged; a scalar publishes its whole value space inline in `:constraints`,
+   and an enum resolves by the name lookup its consumers already fail loud on.
+
+   FAILS LOUD on a message-typed field carrying no `:type-ref` — the one field this
+   projection can express neither inline NOR by reference. proto-db's own `Field`
+   schema declares `:type-ref` \"For enum/message refs\", so its absence is a
+   malformed db rather than a shape to publish, and emitting `{name, type}` there
+   would republish exactly the opaque entry `:type-ref` exists to retire. Latent
+   rather than live: all 327 message-typed fields in the current db carry one, so
+   the guard cannot fire on this tree — it adds no data path of its own, and the
+   only bytes this projection moves are the `:type-ref` keys above."
+  [owner-id f]
+  (let [message? (= :message (:type f))]
+    (when (and message? (nil? (:type-ref f)))
+      (throw (ex-info "message-typed command field names no message; :type-ref is absent, so the endpoint manifest can neither publish its interior nor point at it"
+                      {:message owner-id :field (:name f) :type (:type f)})))
+    (cond-> {:name (:name f)
+             :type (name (:type f))}
+      message? (assoc :type-ref (:type-ref f))
+      (:constraints f) (assoc :constraints (:constraints f))
+      (:interaction f) (assoc :interaction (:interaction f)))))
+
 (defn- resolve-leaf-commands
   "Walk a Root or group message and collect leaf commands.
    Returns sequence of {:id :subsystem :command :path :root-id :oneof-field :fields :interaction :proto-source :doc-file}."
@@ -334,12 +373,7 @@
                    :oneof-field (:name gf)
                    :proto-source (:source leaf)
                    :doc-file (str "proto/" (:id leaf) ".md")
-                   :fields (mapv (fn [f]
-                                   (cond-> {:name (:name f)
-                                            :type (name (:type f))}
-                                     (:constraints f) (assoc :constraints (:constraints f))
-                                     (:interaction f) (assoc :interaction (:interaction f))))
-                                 (:fields leaf))
+                   :fields (mapv #(endpoint-field (:id leaf) %) (:fields leaf))
                    :interaction (:interaction leaf)}))
               ;; Direct leaf command
               (when-not (routing-container? child)
@@ -351,12 +385,7 @@
                   :oneof-field (:name field)
                   :proto-source (:source child)
                   :doc-file (str "proto/" (:id child) ".md")
-                  :fields (mapv (fn [f]
-                                  (cond-> {:name (:name f)
-                                           :type (name (:type f))}
-                                    (:constraints f) (assoc :constraints (:constraints f))
-                                    (:interaction f) (assoc :interaction (:interaction f))))
-                                (:fields child))
+                  :fields (mapv #(endpoint-field (:id child) %) (:fields child))
                   :interaction (:interaction child)}]))]
     cmd))
 
@@ -383,12 +412,7 @@
      :oneof-field (str (:name channel-field) "." (:name leaf-field))
      :proto-source (:source leaf)
      :doc-file (str "proto/" (:id leaf) ".md")
-     :fields (mapv (fn [f]
-                     (cond-> {:name (:name f)
-                              :type (name (:type f))}
-                       (:constraints f) (assoc :constraints (:constraints f))
-                       (:interaction f) (assoc :interaction (:interaction f))))
-                   (:fields leaf))
+     :fields (mapv #(endpoint-field (:id leaf) %) (:fields leaf))
      :interaction (:interaction leaf)}))
 
 (defn extract-endpoints

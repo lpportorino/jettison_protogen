@@ -606,3 +606,83 @@
         (is (= "cmd.S.Root" (:root d)))
         (is (= "cmd.S.Outer" (:group d)))
         (is (= "cmd.S.Inner" (:nested-group d)))))))
+
+;; ============================================================================
+;; THE FIELD AXIS — a message-typed field NAMES the message it is
+;;
+;; The sibling of the depth guard above, on the other axis. An endpoint field is
+;; projected one level deep, so a MESSAGE-typed field publishes no interior. That
+;; truncation is deliberate and stays: the interior of `cmd.RotaryPlatform.Azimuth`
+;; is a REQUIRED 6-arm oneof whose arms are themselves messages, and flattening it
+;; into the flat `:fields` vector would publish six mutually-exclusive arms as if
+;; they were co-settable — a manifest asserting something FALSE, which is strictly
+;; worse than one that stops short.
+;;
+;; What the entry may NOT do is decline to say what it stopped short OF. `:type-ref`
+;; is the whole of the repair: the field names the message its value is, so a reader
+;; holding only the manifest can resolve the interior in proto-db instead of
+;; re-deriving the reference by a name lookup the manifest already knows.
+;;
+;; MEASURED: every one of the 327 message-typed fields in proto-db.edn carries a
+;; `:type-ref` (and all 52 enum-typed ones do too), so the guard below is LATENT —
+;; it cannot red the current tree, exactly like the depth guard above.
+;;
+;; SYNTHETIC for the guard, because the real tree cannot express its input.
+
+(defn- scalar-field
+  "A minimal proto-db SCALAR field."
+  [nm type]
+  {:name nm :type type})
+
+(defn- leaf-endpoint-fields
+  "The `:fields` vector resolve-leaf-commands projects for a Root -> leaf whose
+  leaf carries `leaf-fields`."
+  [leaf-fields]
+  (let [msgs {"cmd.S.Root" (msg "cmd.S.Root" "Root" [(field "go" "cmd.S.Go")] [{:name "cmd"}])
+              "cmd.S.Go" (msg "cmd.S.Go" "Go" leaf-fields [])}]
+    (:fields (first (resolve-leaf-commands msgs (get msgs "cmd.S.Root") "s" "cmd/s")))))
+
+(deftest scalar-fields-carry-no-type-ref
+  ;; CONTROL, and it must come first: the projection must not have started
+  ;; decorating fields whose value space is already published inline. A scalar
+  ;; carries its bounds in :constraints; it refers to nothing.
+  (let [out (leaf-endpoint-fields [(scalar-field "value" :int32)])]
+    (testing "a scalar field projects name and type only"
+      (is (= 1 (count out)))
+      (is (= "value" (:name (first out))))
+      (is (= "int32" (:type (first out)))))
+    (testing "and gains no :type-ref"
+      (is (not (contains? (first out) :type-ref))))))
+
+(deftest message-typed-field-names-its-message
+  ;; A message field is the ONE entry whose value space is neither published inline
+  ;; nor nameable without this key. Before the repair it emitted {name, type} and a
+  ;; reader could not tell WHICH message it had stopped short of.
+  (let [out (leaf-endpoint-fields [(field "azimuth" "cmd.S.Azimuth")])]
+    (testing "the field still reports its true proto type"
+      (is (= 1 (count out)))
+      (is (= "azimuth" (:name (first out))))
+      (is (= "message" (:type (first out)))))
+    (testing "and now names the message its value is"
+      (is (= "cmd.S.Azimuth" (:type-ref (first out)))))))
+
+(deftest message-typed-field-without-a-type-ref-throws
+  ;; The field the projection cannot express even BY REFERENCE. proto-db's own Field
+  ;; schema documents :type-ref as "For enum/message refs", so a message field
+  ;; without one is a malformed db, not a shape to publish: emitting {name, type}
+  ;; there would republish the exact opaque entry this section exists to retire.
+  ;;
+  ;; REVERT-TO-BREAK: delete the `when`/`throw` clause from `endpoint-field`. This
+  ;; deftest must go red; `message-typed-field-names-its-message` and
+  ;; `scalar-fields-carry-no-type-ref` above must both stay GREEN, which attributes
+  ;; the red to the guard rather than to the projection generally.
+  (let [bad [{:name "azimuth" :type :message}]]
+    (testing "the unnameable field is refused rather than published opaque"
+      (is (thrown-with-msg?
+           clojure.lang.ExceptionInfo #"message-typed command field names no message"
+           (doall (leaf-endpoint-fields bad)))))
+    (testing "and the diagnosis names the field and its owning message"
+      (let [d (try (doall (leaf-endpoint-fields bad))
+                   (catch clojure.lang.ExceptionInfo e (ex-data e)))]
+        (is (= "azimuth" (:field d)))
+        (is (= "cmd.S.Go" (:message d)))))))
