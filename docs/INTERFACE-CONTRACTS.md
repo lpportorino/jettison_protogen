@@ -773,12 +773,25 @@ drifting — and only the third one lives in THIS repo.
    claims that message's COMPLETE field set and an undocumented field makes the
    claim false.
 
-   **What it cannot see**: anything with no descriptor home — §1 framing, §2's
-   codec/transport headers and their G2/G3 vectors, §3's profiles and G4, §7's
-   package format, §8's `controls_*` export list and ABI constants, and G5's
-   envelope bytes (only each vector's key set is checked, against
-   `ui-event-envelope.schema.json`). Those remain mechanism 2's alone, and the
-   checker prints that list on every run, green or red.
+   **What it cannot DERIVE**: anything with no descriptor home — §1 framing,
+   §2's codec and transport headers and their G2/G3 vectors, §3's profiles and
+   G4, §7's package format, §8's `controls_*` export list and ABI constants, and
+   G5's envelope bytes. For those, whether the layout is RIGHT remains mechanism
+   2's alone, and the checker prints the list on every run, green or red.
+
+   **Cannot DERIVE is not the same as cannot CHECK, and two of those entries are
+   partly checked anyway.** G5's vectors have their key sets asserted against
+   `ui-event-envelope.schema.json`. And §2's 25-byte codec header is written down
+   TWICE — once as §2's table and once as §9's G2 vector — so the checker holds
+   the two homes against each other: field names and their order, widths,
+   offsets against the running sum of the widths above them, endianness, the §2.1
+   Unit column including that a `_ns`-suffixed name and its unit cell agree, that
+   G2's hex decodes little-endian to the values it states, that the flattened
+   block equals the annotated lines concatenated, and that the sentence beneath
+   G2 restates the same three numbers. None of that says the layout matches a
+   producer; it says the two written homes cannot drift apart, which is the
+   failure that had no owner. G3's transport headers get none of it — they have
+   no second home to be checked against.
 
    **Read that printed list as a FLOOR, not a total — one gap is missing from
    it.** Only the two ping vectors as stated in §9 are re-derived from the
