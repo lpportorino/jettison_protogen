@@ -1,0 +1,416 @@
+{
+  "excluded": [
+    "any metric derived from renderer/assets/fonts/*.ttf",
+    "runtime-rasterized (TinyTTF) metrics \u2014 emitted with null metrics + a reason",
+    "runtime .bin font metrics \u2014 emitted with null metrics + a reason"
+  ],
+  "fonts": [
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font B612Mono-Bold.ttf --bpp 4 --size 12 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192 --no-compress --format lvgl --lv-include lvgl.h -o font_b612mono_bold_12.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192"
+        ],
+        "size": 12
+      },
+      "base-line": 4,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [
+        "b612mono-bold-12"
+      ],
+      "family": "b612mono_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 15,
+      "metrics-from": "renderer/src/font_b612mono_bold_12.c",
+      "metrics-unavailable": null,
+      "name": "b612mono_bold_12",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_b612mono_bold_12",
+      "underline-position": -1,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font B612Mono-Bold.ttf --bpp 4 --size 14 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192 --no-compress --format lvgl --lv-include lvgl.h -o font_b612mono_bold_14.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192"
+        ],
+        "size": 14
+      },
+      "base-line": 4,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [
+        "b612mono-bold-14"
+      ],
+      "family": "b612mono_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 17,
+      "metrics-from": "renderer/src/font_b612mono_bold_14.c",
+      "metrics-unavailable": null,
+      "name": "b612mono_bold_14",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_b612mono_bold_14",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font B612Mono-Bold.ttf --bpp 4 --size 16 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192 --no-compress --format lvgl --lv-include lvgl.h -o font_b612mono_bold_16.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192"
+        ],
+        "size": 16
+      },
+      "base-line": 4,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [
+        "b612mono-bold-16"
+      ],
+      "family": "b612mono_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 18,
+      "metrics-from": "renderer/src/font_b612mono_bold_16.c",
+      "metrics-unavailable": null,
+      "name": "b612mono_bold_16",
+      "renderer-fallback": true,
+      "resolution": "compiled-table",
+      "symbol": "font_b612mono_bold_16",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font B612Mono-Bold.ttf --bpp 4 --size 18 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192 --no-compress --format lvgl --lv-include lvgl.h -o font_b612mono_bold_18.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192"
+        ],
+        "size": 18
+      },
+      "base-line": 5,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [
+        "b612mono-bold-18"
+      ],
+      "family": "b612mono_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 21,
+      "metrics-from": "renderer/src/font_b612mono_bold_18.c",
+      "metrics-unavailable": null,
+      "name": "b612mono_bold_18",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_b612mono_bold_18",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font B612Mono-Bold.ttf --bpp 4 --size 20 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192 --no-compress --format lvgl --lv-include lvgl.h -o font_b612mono_bold_20.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026,0xB1,0x2192"
+        ],
+        "size": 20
+      },
+      "base-line": 5,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [
+        "b612mono-bold-20"
+      ],
+      "family": "b612mono_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 22,
+      "metrics-from": "renderer/src/font_b612mono_bold_20.c",
+      "metrics-unavailable": null,
+      "name": "b612mono_bold_20",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_b612mono_bold_20",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": "renderer/assets/fonts/b612mono_bold.ttf",
+      "banner": null,
+      "base-line": null,
+      "bpp": null,
+      "cmap-num": null,
+      "declared-by": [
+        "b612mono-bold-26"
+      ],
+      "family": "b612mono_bold",
+      "generator": null,
+      "kern-classes": null,
+      "line-height": null,
+      "metrics-from": null,
+      "metrics-unavailable": "rasterized at runtime by lv_tiny_ttf from P:fonts/b612mono_bold.ttf; no compiled table exists to read. line_height/base_line are derived inside the wasm by lv_tiny_ttf.c from stbtt_GetFontVMetrics scaled by stbtt_ScaleForMappingEmToPixels and TRUNCATED \u2014 so the only measurement that records its rasterizer is one taken from a running controls.wasm, never one computed from the TTF here.",
+      "name": "b612mono_bold_26",
+      "renderer-fallback": false,
+      "resolution": "tiny-ttf",
+      "symbol": null,
+      "underline-position": null,
+      "underline-thickness": null
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--no-compress --no-prefilter --bpp 4 --size 14 --font Montserrat-Medium.ttf -r 0x20-0x7F,0xB0,0x2022 --font FontAwesome5-Solid+Brands+Regular.woff -r 61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650 --format lvgl -o lv_font_montserrat_14.c --force-fast-kern-format",
+        "ranges": [
+          "0x20-0x7F,0xB0,0x2022",
+          "61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650"
+        ],
+        "size": 14
+      },
+      "base-line": 3,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [],
+      "family": "montserrat",
+      "generator": "lv_font_conv",
+      "kern-classes": 1,
+      "line-height": 16,
+      "metrics-from": "renderer/lvgl/src/font/lv_font_montserrat_14.c",
+      "metrics-unavailable": null,
+      "name": "montserrat_14",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "lv_font_montserrat_14",
+      "underline-position": -1,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--no-compress --no-prefilter --bpp 4 --size 16 --font Montserrat-Medium.ttf -r 0x20-0x7F,0xB0,0x2022 --font FontAwesome5-Solid+Brands+Regular.woff -r 61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650 --format lvgl -o lv_font_montserrat_16.c --force-fast-kern-format",
+        "ranges": [
+          "0x20-0x7F,0xB0,0x2022",
+          "61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650"
+        ],
+        "size": 16
+      },
+      "base-line": 3,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [],
+      "family": "montserrat",
+      "generator": "lv_font_conv",
+      "kern-classes": 1,
+      "line-height": 18,
+      "metrics-from": "renderer/lvgl/src/font/lv_font_montserrat_16.c",
+      "metrics-unavailable": null,
+      "name": "montserrat_16",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "lv_font_montserrat_16",
+      "underline-position": -1,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--no-compress --no-prefilter --bpp 4 --size 18 --font Montserrat-Medium.ttf -r 0x20-0x7F,0xB0,0x2022 --font FontAwesome5-Solid+Brands+Regular.woff -r 61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650 --format lvgl -o lv_font_montserrat_18.c --force-fast-kern-format",
+        "ranges": [
+          "0x20-0x7F,0xB0,0x2022",
+          "61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650"
+        ],
+        "size": 18
+      },
+      "base-line": 4,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [],
+      "family": "montserrat",
+      "generator": "lv_font_conv",
+      "kern-classes": 1,
+      "line-height": 21,
+      "metrics-from": "renderer/lvgl/src/font/lv_font_montserrat_18.c",
+      "metrics-unavailable": null,
+      "name": "montserrat_18",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "lv_font_montserrat_18",
+      "underline-position": -1,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--no-compress --no-prefilter --bpp 4 --size 22 --font Montserrat-Medium.ttf -r 0x20-0x7F,0xB0,0x2022 --font FontAwesome5-Solid+Brands+Regular.woff -r 61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650 --format lvgl -o lv_font_montserrat_22.c --force-fast-kern-format",
+        "ranges": [
+          "0x20-0x7F,0xB0,0x2022",
+          "61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650"
+        ],
+        "size": 22
+      },
+      "base-line": 4,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [],
+      "family": "montserrat",
+      "generator": "lv_font_conv",
+      "kern-classes": 1,
+      "line-height": 24,
+      "metrics-from": "renderer/lvgl/src/font/lv_font_montserrat_22.c",
+      "metrics-unavailable": null,
+      "name": "montserrat_22",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "lv_font_montserrat_22",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--no-compress --no-prefilter --bpp 4 --size 24 --font Montserrat-Medium.ttf -r 0x20-0x7F,0xB0,0x2022 --font FontAwesome5-Solid+Brands+Regular.woff -r 61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650 --format lvgl -o lv_font_montserrat_24.c --force-fast-kern-format",
+        "ranges": [
+          "0x20-0x7F,0xB0,0x2022",
+          "61441,61448,61451,61452,61452,61453,61457,61459,61461,61465,61468,61473,61478,61479,61480,61502,61507,61512,61515,61516,61517,61521,61522,61523,61524,61543,61544,61550,61552,61553,61556,61559,61560,61561,61563,61587,61589,61636,61637,61639,61641,61664,61671,61674,61683,61724,61732,61787,61931,62016,62017,62018,62019,62020,62087,62099,62212,62189,62810,63426,63650"
+        ],
+        "size": 24
+      },
+      "base-line": 5,
+      "bpp": 4,
+      "cmap-num": 2,
+      "declared-by": [],
+      "family": "montserrat",
+      "generator": "lv_font_conv",
+      "kern-classes": 1,
+      "line-height": 27,
+      "metrics-from": "renderer/lvgl/src/font/lv_font_montserrat_24.c",
+      "metrics-unavailable": null,
+      "name": "montserrat_24",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "lv_font_montserrat_24",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font Orbitron-Bold.ttf --bpp 4 --size 22 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026 --no-compress --format lvgl --lv-include lvgl.h -o font_orbitron_bold_22.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026"
+        ],
+        "size": 22
+      },
+      "base-line": 5,
+      "bpp": 4,
+      "cmap-num": 3,
+      "declared-by": [
+        "orbitron-bold-22"
+      ],
+      "family": "orbitron_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 24,
+      "metrics-from": "renderer/src/font_orbitron_bold_22.c",
+      "metrics-unavailable": null,
+      "name": "orbitron_bold_22",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_orbitron_bold_22",
+      "underline-position": -2,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font Orbitron-Bold.ttf --bpp 4 --size 28 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026 --no-compress --format lvgl --lv-include lvgl.h -o font_orbitron_bold_28.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026"
+        ],
+        "size": 28
+      },
+      "base-line": 6,
+      "bpp": 4,
+      "cmap-num": 3,
+      "declared-by": [
+        "orbitron-bold-28"
+      ],
+      "family": "orbitron_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 30,
+      "metrics-from": "renderer/src/font_orbitron_bold_28.c",
+      "metrics-unavailable": null,
+      "name": "orbitron_bold_28",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_orbitron_bold_28",
+      "underline-position": -3,
+      "underline-thickness": 1
+    },
+    {
+      "asset": null,
+      "banner": {
+        "bpp": 4,
+        "opts": "--font Orbitron-Bold.ttf --bpp 4 --size 32 --range 0x20-0x7E,0xB0,0x2013,0x2014,0x2026 --no-compress --format lvgl --lv-include lvgl.h -o font_orbitron_bold_32.c",
+        "ranges": [
+          "0x20-0x7E,0xB0,0x2013,0x2014,0x2026"
+        ],
+        "size": 32
+      },
+      "base-line": 7,
+      "bpp": 4,
+      "cmap-num": 3,
+      "declared-by": [
+        "orbitron-bold-32"
+      ],
+      "family": "orbitron_bold",
+      "generator": "lv_font_conv",
+      "kern-classes": 0,
+      "line-height": 35,
+      "metrics-from": "renderer/src/font_orbitron_bold_32.c",
+      "metrics-unavailable": null,
+      "name": "orbitron_bold_32",
+      "renderer-fallback": false,
+      "resolution": "compiled-table",
+      "symbol": "font_orbitron_bold_32",
+      "underline-position": -3,
+      "underline-thickness": 2
+    }
+  ],
+  "kind": "lvgl-compiled-font-metrics",
+  "renderer-fallback": "b612mono_bold_16",
+  "resolution-order": [
+    "compiled-table",
+    "binfont",
+    "tiny-ttf"
+  ],
+  "schema-version": 1,
+  "scope": [
+    "lv_font_t tables reachable by name from resolve_font",
+    "font tuples declared in tokens.edn :fonts"
+  ],
+  "source-method": "compiled-c-table-parse"
+}

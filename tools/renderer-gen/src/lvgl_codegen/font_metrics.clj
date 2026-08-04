@@ -57,9 +57,36 @@
      clojure -M -m lvgl-codegen.font-metrics [--repo-root D] [--tokens F]
                                              [--output F]
 
-   `--output` is optional: with no destination the manifest goes to stdout.
-   No renderer.mk lane consumes a committed artifact from this generator yet,
-   so it does not invent one."
+   `--output` is optional: with no destination the manifest goes to stdout. The
+   committed artifact is `output/manifests/font-metrics.json`, emitted and
+   freshness-diffed by `make -f renderer.mk manifests` beside the other
+   published projections.
+
+   ═══ WHAT IT PUBLISHES, AND WHAT IT DELIBERATELY DOES NOT ═══
+
+   VERTICAL metrics and provenance: line height, baseline, underline, bpp, cmap
+   count, kern-class flag, the table each number was read from, and — for a font
+   that is drawable but has no compiled table — a null record saying why.
+
+   NOT TEXT WIDTH, and a consumer must not read the absence as an oversight.
+   Advancing a pen across a string needs per-glyph `adv_w`, a codepoint→glyph
+   CMAP, and the kerning table, and then LVGL's own arithmetic over all three:
+   `lv_font_get_glyph_dsc_fmt_txt` computes `(adv_w + ((kvalue * kern_scale) >>
+   4) + 8) >> 4` per glyph with `\\t` doubled, and `lv_text_get_width` adds
+   `letter_space` per glyph, trims the last one, skips markers, and swallows
+   recolour commands. The compiled tables in this tree carry TWO cmap formats
+   (FORMAT0_TINY and SPARSE_TINY) and TWO kerning shapes (a glyph-id PAIR table
+   on the orbitron faces, and a CLASS matrix on every vendored montserrat), so a
+   faithful width answer is a port of four decoders plus that arithmetic — not a
+   field this manifest is one line short of.
+
+   The reason to say so here rather than ship a partial one: a width helper that
+   ignored kerning would be exactly right on the monospace faces and quietly
+   wrong on the proportional ones, which is the failure mode this namespace's
+   own header already records for TTF-derived vertical metrics — spot-check the
+   easy case and it looks right. Publishing width means publishing it with a
+   differential test against a running `controls.wasm`, which is a wasm-harness
+   lane and not a manifest change."
   (:require [clojure.data.json :as json]
             [clojure.edn :as edn]
             [clojure.java.io :as io]
