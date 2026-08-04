@@ -47,8 +47,9 @@
    - the AUTHORED-COMPOSITION lane (build-authored-card) — the EXPLICIT
      opt-in for interaction/composition cards (the palette legos): node
      x/y, an EventBinding (host-event identity fields only),
-     part-selector style groups, and background color/opacity. The
-     extension is gated by a dynamic flag bound ONLY by
+     part-selector style groups, background color/opacity, and gesture
+     POSITION PROBES (a slot buffer, never a command — see § Gesture
+     specs). The extension is gated by a dynamic flag bound ONLY by
      build-authored-card, so an atomic card can never smuggle an
      authored key — the unstyled law stays builder-held, not
      discipline-held.
@@ -62,11 +63,14 @@
             [clojure.java.io :as io]
             [devcards.designed :as designed]
             [lvgl-codegen.generated.enums :as enums])
-  (:import [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
+  (:import [com.google.protobuf ByteString]
+           [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
             UiAst$ChartAxis UiAst$ChartProps UiAst$ChartSeries UiAst$ChartType
-            UiAst$CheckboxProps UiAst$Color UiAst$DropdownProps UiAst$EventBinding
-            UiAst$EventTrigger UiAst$FlexAlign UiAst$FlexFlow UiAst$HostProxyProps
-            UiAst$ImageProps
+            UiAst$CheckboxProps UiAst$CmdSpec UiAst$Color UiAst$DropdownProps
+            UiAst$EventBinding
+            UiAst$EventTrigger UiAst$FieldPatch UiAst$FlexAlign UiAst$FlexFlow
+            UiAst$GestureKind UiAst$GestureSpec UiAst$HostProxyProps
+            UiAst$ImageProps UiAst$PatchKind
             UiAst$LabelLongMode UiAst$LabelProps UiAst$Layout UiAst$LedProps UiAst$LineProps
             UiAst$Point UiAst$ProxyMode UiAst$RollerProps UiAst$ScaleMode UiAst$ScaleProps
             UiAst$ScaleSection UiAst$Screen UiAst$SliderProps UiAst$SpinboxProps
@@ -176,8 +180,11 @@
 ;; ── The authored-composition lane (explicit opt-in) ─────────────────────
 ;; The scoped extension the interaction/composition cards need beyond the
 ;; unstyled law: node x/y, an EventBinding, part-selector style groups,
-;; background color/opacity. EXACTLY that surface — anything more (uids,
-;; subjects, visibility, cmd pre-encode) stays consumer-codegen territory.
+;; background color/opacity, and a gesture-surface POSITION PROBE. EXACTLY
+;; that surface — anything more (uids, subjects, visibility, a real cmd.Root
+;; pre-encode) stays consumer-codegen territory. The probe is the one place a
+;; CmdSpec is buildable here and it deliberately cannot express a command:
+;; see § Gesture specs for the whole of what it admits and why.
 (def ^:private ^:dynamic *authored-lane*
   "True only inside build-authored-card. Gates the authored node keys so
    the atomic lane structurally cannot carry them (an authored key on an
@@ -193,8 +200,10 @@
 (def ^:private event-keys
   "The authorable EventBinding surface: the host-event identity fields
    only. Subject mutation (set_subject/set_value/toggle/notify_host) and
-   the cmd pre-encode arms are deliberately unauthorable here — they
-   belong to consumer codegen, not to public devcards."
+   this binding's cmd arms are deliberately unauthorable here — they
+   belong to consumer codegen, not to public devcards. (A gesture surface's
+   own CmdSpec IS authorable, as a zero-template position probe; that is a
+   different field on a different message — see § Gesture specs.)"
   #{:name :trigger :include-widget-value :int-value})
 
 (defn- event-binding
@@ -215,6 +224,99 @@
     (when-some [v (:int-value m)] (.setIntValue b (int v)))
     (when (:include-widget-value m) (.setIncludeWidgetValue b true))
     (.build b)))
+
+;; ── Gesture specs: a POSITION PROBE, never a command ────────────────────
+;;
+;; A gesture surface's `WidgetNode.gestures` is what makes the recognizer's
+;; output observable at all: without a registered GestureSpec a drag emits
+;; nothing, and (since the interpreter refuses to draw feedback for a gesture
+;; that does nothing) nothing is drawn either. So the affordance contract is
+;; unreachable from a devcard unless a card can register one.
+;;
+;; THE `cmd` PRE-ENCODE STAYS UNAUTHORABLE, AND THIS IS NOT AN EXCEPTION TO
+;; THAT. A real CmdSpec's `root_template` is a pre-encoded `cmd.Root` — the
+;; consumer's device vocabulary, which this tool deliberately does not carry
+;; and must never grow. What a card authors here is the OTHER thing a CmdSpec
+;; is: a byte buffer with fixed-width slots at declared offsets. The renderer
+;; never decodes the template (cmd_patch.c memcpy's it and overwrites the
+;; slots), so a buffer of ZEROS relays the gesture's own NDC doubles and
+;; nothing else — a probe that reads back exactly what the interpreter wrote,
+;; expressed in renderer-public vocabulary with no command in sight.
+;;
+;; The admitted slot kinds are therefore the FOUR NDC ones and no others.
+;; DELTA / WIDGET_VALUE / SUBJECT_VALUE need a wire scale, an encoding and (for
+;; the last) a subject — all of them consumer-codegen concerns — so authoring
+;; one here fails loudly rather than half-working.
+(def ^:private gesture-kinds
+  "`:kind` keywords -> proto GestureKind (closed). Names are the enum's own."
+  {:GESTURE_KIND_PAN_MOVE UiAst$GestureKind/GESTURE_KIND_PAN_MOVE
+   :GESTURE_KIND_PAN_END UiAst$GestureKind/GESTURE_KIND_PAN_END
+   :GESTURE_KIND_TAP UiAst$GestureKind/GESTURE_KIND_TAP
+   :GESTURE_KIND_TRACK UiAst$GestureKind/GESTURE_KIND_TRACK
+   :GESTURE_KIND_PINCH UiAst$GestureKind/GESTURE_KIND_PINCH
+   :GESTURE_KIND_ROI UiAst$GestureKind/GESTURE_KIND_ROI})
+
+(def ^:private patch-kinds
+  "The slot kinds a devcard may author: the four NDC doubles, whose encoding
+   IS their kind (the renderer refuses an NDC slot that also carries one)."
+  {:ndc-x UiAst$PatchKind/PATCH_KIND_NDC_X
+   :ndc-y UiAst$PatchKind/PATCH_KIND_NDC_Y
+   :ndc-x2 UiAst$PatchKind/PATCH_KIND_NDC_X2
+   :ndc-y2 UiAst$PatchKind/PATCH_KIND_NDC_Y2})
+
+(def ^:private patch-keys #{:offset :width :kind})
+(def ^:private cmd-probe-keys #{:command-id :template-zeros :patches})
+(def ^:private gesture-keys #{:kind :cmd})
+
+(defn- field-patch
+  "One `{:offset :width :kind}` slot -> FieldPatch. `:width` must be 8 (an NDC
+   slot is an 8-byte little-endian double and the renderer refuses any other
+   width), and the slot must lie inside the template — asserted HERE as well as
+   in the renderer, so an unbuildable card names itself instead of surfacing as
+   a silent no-emit at render time."
+  ^UiAst$FieldPatch [ctx template-zeros p]
+  (assert-closed (str ctx " patch") patch-keys p)
+  (let [{:keys [offset width kind]} p]
+    (when-not (= 8 width)
+      (throw (ex-info (str ctx " patch: :width must be 8 (an NDC slot is a"
+                           " little-endian double)")
+                      {:ctx ctx :patch p})))
+    (when-not (and (int? offset) (<= 0 offset) (<= (+ offset width) template-zeros))
+      (throw (ex-info (str ctx " patch: slot outside the template")
+                      {:ctx ctx :patch p :template-zeros template-zeros})))
+    (-> (UiAst$FieldPatch/newBuilder)
+        (.setByteOffset (int offset))
+        (.setByteWidth (int width))
+        (.setKind (enum-of patch-kinds kind (str ctx " patch :kind")))
+        ;; An NDC slot is written verbatim, so the scale is never applied; 1 is
+        ;; the identity the renderer would use if it ever were.
+        (.setWireScale (int 1))
+        .build)))
+
+(defn- cmd-probe
+  "A `{:command-id :template-zeros :patches}` map -> CmdSpec: `:template-zeros`
+   zero bytes with the declared NDC slots over them. `:command-id` is free
+   provenance text the renderer never interprets."
+  ^UiAst$CmdSpec [ctx m]
+  (assert-closed (str ctx " :cmd") cmd-probe-keys m)
+  (let [n (:template-zeros m)]
+    (when-not (and (int? n) (pos? n))
+      (throw (ex-info (str ctx " :cmd requires a positive :template-zeros")
+                      {:ctx ctx :cmd m})))
+    (let [b (-> (UiAst$CmdSpec/newBuilder)
+                (.setRootTemplate (ByteString/copyFrom (byte-array n))))]
+      (when-some [id (:command-id m)] (.setCommandId b ^String id))
+      (doseq [p (:patches m)] (.addPatches b (field-patch ctx n p)))
+      (.build b))))
+
+(defn- gesture-spec
+  "One `{:kind :cmd}` map -> GestureSpec."
+  ^UiAst$GestureSpec [ctx g]
+  (assert-closed (str ctx " :gestures entry") gesture-keys g)
+  (-> (UiAst$GestureSpec/newBuilder)
+      (.setKind (enum-of gesture-kinds (:kind g) (str ctx " :gestures :kind")))
+      (.setCmd (cmd-probe ctx (:cmd g)))
+      .build))
 
 (def ^:private part-selectors
   "Authored style-group `:part` keywords -> LVGL part selector values
@@ -700,9 +802,10 @@
 
 (def ^:private authored-node-keys
   "The authored-lane node shape: the atomic keys plus absolute position,
-   an event binding, and explicit part-selector style groups. Admitted
-   ONLY under *authored-lane* (build-authored-card)."
-  (into node-keys #{:x :y :event :styles}))
+   an event binding, explicit part-selector style groups, and the gesture
+   position probes (§ Gesture specs — a slot buffer, never a command).
+   Admitted ONLY under *authored-lane* (build-authored-card)."
+  (into node-keys #{:x :y :event :styles :gestures}))
 
 (def ^:private prop-keys
   "Every key a node `:props` map may carry."
@@ -775,6 +878,7 @@
     (when-some [x (:x node)] (.setX b (int x)))
     (when-some [y (:y node)] (.setY b (int y)))
     (when-some [e (:event node)] (.setEvent b (event-binding ctx e)))
+    (doseq [g (:gestures node)] (.addGestures b (gesture-spec ctx g)))
     (when-some [t (:text node)] (.setText b ^String t))
     (when flow
       (let [lay (:layout node)

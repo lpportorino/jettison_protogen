@@ -34,6 +34,15 @@ void gesture_reset(gesture_recognizer_t *g) {
   g->last_tap_y = 0.0;
   g->last_tap_t = 0;
 }
+int32_t gesture_drag_origin(const gesture_recognizer_t *g, int32_t *primary_id,
+                            double *x, double *y) {
+  if (g->phase != GESTURE_PHASE_PANNING || !g->has_start || !g->has_primary)
+    return 0;
+  *primary_id = g->primary_id;
+  *x = g->start.x;
+  *y = g->start.y;
+  return 1;
+}
 /* Find a live pointer slot by id; -1 if absent. */
 static int32_t pointer_index(const gesture_recognizer_t *g,
                              int32_t pointer_id) {

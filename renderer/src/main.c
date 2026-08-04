@@ -225,6 +225,10 @@ static uint32_t g_last_cursor; /* 0 = not yet reported; else ui_CursorType */
 /* Defined with the HOST_REPORT helpers (below the pointer pipeline); forward-
  * declared here because controls_load_ui (above them) resets the cache. */
 static void reset_hover_report(void);
+/* Defined with the gesture affordances (below the pointer pipeline); forward-
+ * declared here because controls_init (above them) drops the previous
+ * session's object slots. */
+static void gesture_affordance_forget(void);
 /* controls_host_message return codes. Negative = reject (decode/validate
  * failure, no state change); 0 = handled; positive = a benign no-op class the
  * host can distinguish (overflow drop, orphan event, idempotent re-seat). */
@@ -631,6 +635,11 @@ int32_t controls_init(uint32_t width, uint32_t height) {
   gesture_reset(&g_gesture);
   g_decision_count = 0;
   g_last_event_time = 0;
+  /* The affordance objects belonged to the PREVIOUS session's screen, which
+   * controls_destroy deleted along with the display. The DELETE callback
+   * already NULLed these, but a re-init that inherited a stale pointer would
+   * hand LVGL a freed object, so the reset is stated rather than assumed. */
+  gesture_affordance_forget();
   pointer_x = 0;
   pointer_y = 0;
   pointer_pressed = 0;
@@ -1005,6 +1014,293 @@ static void feed_gesture(int op, uint32_t pointer_id, double x, double y,
       continue;
     }
     buffer_decision(&out[i]);
+  }
+}
+/* ── Gesture affordances — the drag drawn from the FSM's own state ──────────
+ * The recognizer classifies and emits, but an operator dragging to slew or to
+ * mark an ROI saw NOTHING until the device moved. These are that feedback: a
+ * start ANCHOR at the retained down point, plus ONE of two down->current
+ * shapes — a rubber-band BAND for the drag that becomes a rect, an AIM line
+ * for the drag that becomes a continuous slew.
+ *
+ * THREE PROPERTIES, each held by construction rather than by discipline:
+ *
+ * 1. IT IS A PURE FUNCTION OF FSM STATE, APPLIED ONCE PER TICK. There is one
+ *    call site (controls_tick), so no event path can forget to update it and
+ *    none can forget to tear it down. A pointer-up that never arrives is
+ *    therefore already covered: the stale-pointer GC force-releases the slot
+ *    through CANCEL, the FSM falls to idle, and the very next sync finds no
+ *    drag and deletes the objects. Nothing keeps them alive.
+ *
+ * 2. IT IS NEVER A HIT TARGET. lv_obj_hit_test gates on LV_OBJ_FLAG_CLICKABLE
+ *    and returns false without it (lv_obj_pos.c), so lv_indev_search_obj never
+ *    returns one of these — which is the SAME search hit_test_owner uses to
+ *    latch pointer ownership. Clearing that flag is what keeps a point over the
+ *    affordance resolving to the video surface (and so to the FSM) instead of
+ *    being claimed by LVGL. Without it the affordance would silently break the
+ *    very gesture it draws: a second finger landing on it would be routed away
+ *    from the recognizer and the pinch it should start would never happen.
+ *
+ * 3. THE DRAWN RECT AND THE EMITTED RECT ARE ONE RECT. The down corner comes
+ *    from gesture_drag_origin, which reads `g_gesture.start` — the same field
+ *    feed_gesture's ROI emit reads — and the far corner from the primary's live
+ *    table slot, which is the same value handle_pointer hands the FSM on the
+ *    very same call. Both are mapped through the same ndc_to_px. So at any
+ *    instant the band drawn IS the rect a release at that instant would send.
+ *
+ * WHERE THE CURRENT POINT COMES FROM, and why not the FSM: outside a pinch the
+ * recognizer never re-stores a moved sample, so it holds where the drag BEGAN
+ * and not where the finger IS (gesture.h, gesture_drag_origin). The shell's
+ * pointer table does hold it — handle_pointer writes slot->x/y from the same
+ * clamped values it then feeds the FSM — so the two facts are read from the two
+ * homes that own them rather than one being duplicated into the other.
+ *
+ * The affordance is gated on a REGISTERED gesture spec set: with no gesture
+ * surface mounted a drag emits nothing, and drawing feedback for a gesture that
+ * does nothing is a lie. The BAND-vs-AIM choice uses find_gesture_spec(ROI) —
+ * the same discriminator feed_gesture already uses to decide whether a PAN_END
+ * becomes a rect — so the shape drawn cannot disagree with the command sent.
+ *
+ * Objects are CREATED when a drag commits and DELETED when it ends, rather than
+ * kept and toggled hidden like the host-proxy affordances: a permanently
+ * present hidden node would ride in every dump of every gesture surface, and
+ * "it must not survive its gesture" is a stronger claim when there is nothing
+ * left to survive.
+ *
+ * Colours are deliberately THEME-IMMUNE (white on black), exactly like the
+ * host-proxy handles and align cells: this is drawn over host-composited video
+ * the theme knows nothing about, so a token-derived tint would be a claim about
+ * a backdrop the renderer cannot see. */
+typedef enum {
+  GESTURE_AFFORDANCE_ANCHOR = 0,
+  GESTURE_AFFORDANCE_BAND = 1,
+  GESTURE_AFFORDANCE_AIM = 2,
+  GESTURE_AFFORDANCE_PART_COUNT = 3
+} gesture_affordance_part_t;
+/* Odd, so the square centres exactly on the down PIXEL rather than straddling
+ * two of them — the anchor's whole job is to say where the drag began. */
+#define GESTURE_ANCHOR_PX 9
+#define GESTURE_BAND_BORDER_PX 2
+#define GESTURE_AIM_WIDTH_PX 3
+static lv_obj_t *g_affordance[GESTURE_AFFORDANCE_PART_COUNT];
+/* The AIM line's two points. lv_line KEEPS the array pointer rather than
+ * copying (lv_line.c line_set_points), so it must outlive every draw — a
+ * caller-owned local would dangle. One line exists at a time, so one array. */
+static lv_point_precise_t g_aim_points[2];
+static const char *const
+    gesture_affordance_names[GESTURE_AFFORDANCE_PART_COUNT] = {"anchor", "band",
+                                                               "aim"};
+/* The affordance name for `obj`, or NULL — the dump's declaration of its own
+ * composition, for the same reason renderer_proxy_part exists: these objects
+ * are built with bare lv_obj_create/lv_line_create, never reach finalize_widget
+ * and so carry no uid, and a geometry rule that sees only rectangles cannot
+ * tell a deliberate overlay from an accidental collision. */
+static const char *gesture_affordance_part(const lv_obj_t *obj) {
+  for (int i = 0; i < GESTURE_AFFORDANCE_PART_COUNT; i++) {
+    if (g_affordance[i] == obj)
+      return gesture_affordance_names[i];
+  }
+  return NULL;
+}
+/* Forget a slot whose object LVGL is deleting. The teardown paths that reach
+ * these objects are not all ours — lv_obj_clean on a full load, on a composite
+ * rebuild, and on the LOAD_ERR_ABORTED teardown all delete every screen child —
+ * so the pointer is dropped by the DELETE event rather than by each of those
+ * remembering to. */
+static void gesture_affordance_deleted_cb(lv_event_t *ev) {
+  lv_obj_t *obj = lv_event_get_target(ev);
+  for (int i = 0; i < GESTURE_AFFORDANCE_PART_COUNT; i++) {
+    if (g_affordance[i] == obj)
+      g_affordance[i] = NULL;
+  }
+}
+/* Drop one part (a no-op when it does not exist). The slot is cleared BEFORE
+ * the delete so the DELETE callback cannot observe a half-torn state. */
+static void gesture_affordance_drop(gesture_affordance_part_t part) {
+  lv_obj_t *obj = g_affordance[part];
+  if (!obj)
+    return;
+  g_affordance[part] = NULL;
+  lv_obj_delete(obj);
+}
+static void gesture_affordance_clear(void) {
+  for (int i = 0; i < GESTURE_AFFORDANCE_PART_COUNT; i++)
+    gesture_affordance_drop((gesture_affordance_part_t)i);
+}
+/* Drop the slots WITHOUT deleting — the re-init case only, where the objects
+ * died with the previous display and deleting through a stale pointer is
+ * exactly the hazard. Never a substitute for gesture_affordance_clear: on a
+ * live display it would leak the objects it forgot. */
+static void gesture_affordance_forget(void) {
+  for (int i = 0; i < GESTURE_AFFORDANCE_PART_COUNT; i++)
+    g_affordance[i] = NULL;
+}
+/* The part's fixed look, applied ONCE at creation — the sync then moves it and
+ * nothing else, so a live drag costs geometry rather than a style rewrite per
+ * frame. White on black throughout: see the section header for why this is
+ * deliberately theme-immune. */
+static void gesture_affordance_style(lv_obj_t *obj,
+                                     gesture_affordance_part_t part) {
+  switch (part) {
+  case GESTURE_AFFORDANCE_ANCHOR:
+    lv_obj_set_style_radius(obj, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_color(obj, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(obj, 1, 0);
+    lv_obj_set_style_border_color(obj, lv_color_black(), 0);
+    lv_obj_set_style_border_opa(obj, LV_OPA_COVER, 0);
+    break;
+  case GESTURE_AFFORDANCE_BAND:
+    /* A near-transparent fill rather than none: the outline alone can vanish
+     * over matching video, and a covering fill would hide what is being
+     * selected — which is the one thing the operator is looking at. */
+    lv_obj_set_style_border_width(obj, GESTURE_BAND_BORDER_PX, 0);
+    lv_obj_set_style_border_color(obj, lv_color_white(), 0);
+    lv_obj_set_style_border_opa(obj, LV_OPA_COVER, 0);
+    lv_obj_set_style_bg_color(obj, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(obj, LV_OPA_10, 0);
+    break;
+  case GESTURE_AFFORDANCE_AIM:
+    lv_obj_set_style_line_width(obj, GESTURE_AIM_WIDTH_PX, 0);
+    lv_obj_set_style_line_color(obj, lv_color_white(), 0);
+    lv_obj_set_style_line_opa(obj, LV_OPA_COVER, 0);
+    lv_obj_set_style_line_rounded(obj, true, 0);
+    break;
+  default:
+    break;
+  }
+}
+/* Create `part` if absent and return it, or NULL if allocation failed. The
+ * flags are the host-proxy affordance set MINUS clickability: FLOATING +
+ * IGNORE_LAYOUT keep an authored flex/grid layout from moving an overlay it
+ * does not own, and the cleared CLICKABLE is property 2 above. */
+static lv_obj_t *gesture_affordance_get(gesture_affordance_part_t part) {
+  if (g_affordance[part])
+    return g_affordance[part];
+  lv_obj_t *parent = lv_screen_active();
+  if (!parent)
+    return NULL;
+  lv_obj_t *obj = (part == GESTURE_AFFORDANCE_AIM) ? lv_line_create(parent)
+                                                   : lv_obj_create(parent);
+  if (!obj) {
+    LOG_ERROR("gesture affordance '%s' allocation failed",
+              gesture_affordance_names[part]);
+    return NULL;
+  }
+  lv_obj_remove_style_all(obj);
+  lv_obj_add_flag(obj, LV_OBJ_FLAG_FLOATING);
+  lv_obj_add_flag(obj, LV_OBJ_FLAG_IGNORE_LAYOUT);
+  lv_obj_remove_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLL_CHAIN);
+  lv_obj_add_event_cb(obj, gesture_affordance_deleted_cb, LV_EVENT_DELETE,
+                      NULL);
+  gesture_affordance_style(obj, part);
+  /* Explicit rather than relying on creation order: the affordance is drawn
+   * OVER the surface it describes, and a later incremental patch must not be
+   * able to paint the drag away. */
+  lv_obj_move_foreground(obj);
+  g_affordance[part] = obj;
+  return obj;
+}
+/* Place `obj` so its INCLUSIVE box is exactly [x1,y1]..[x1+w-1,y1+h-1] in
+ * display px. lv_obj_set_pos is content-relative, so the parent's content
+ * origin is subtracted rather than assumed to be zero — the same normalization
+ * proxy_normalize_pos does, and the reason the band's coords in the dump equal
+ * the px the emitted NDC maps to. */
+static void gesture_affordance_place(lv_obj_t *obj, int32_t x1, int32_t y1,
+                                     int32_t w, int32_t h) {
+  lv_obj_t *parent = lv_obj_get_parent(obj);
+  if (!parent)
+    return;
+  lv_area_t content;
+  lv_obj_get_content_coords(parent, &content);
+  lv_obj_set_align(obj, LV_ALIGN_TOP_LEFT);
+  lv_obj_set_pos(obj, x1 - content.x1, y1 - content.y1);
+  lv_obj_set_size(obj, w, h);
+}
+static void gesture_affordance_anchor(const lv_point_t *down) {
+  lv_obj_t *obj = gesture_affordance_get(GESTURE_AFFORDANCE_ANCHOR);
+  if (!obj)
+    return;
+  gesture_affordance_place(obj, down->x - GESTURE_ANCHOR_PX / 2,
+                           down->y - GESTURE_ANCHOR_PX / 2, GESTURE_ANCHOR_PX,
+                           GESTURE_ANCHOR_PX);
+}
+/* The rubber-band, drawn over the SAME two corners the ROI command carries.
+ * Normalized (min/max) because a box cannot have negative extent, while the
+ * command relays the corners in DRAG order — the two describe one rect, and the
+ * consumer owns the ordering (cmd_patch_emit_rect). The +1s are LVGL's
+ * inclusive-coordinate convention: a box at x1 of width w ends at x1+w-1, so a
+ * band spanning both corner PIXELS is one wider than their difference. */
+static void gesture_affordance_band(const lv_point_t *down,
+                                    const lv_point_t *cur) {
+  lv_obj_t *obj = gesture_affordance_get(GESTURE_AFFORDANCE_BAND);
+  if (!obj)
+    return;
+  int32_t x1 = LV_MIN(down->x, cur->x);
+  int32_t y1 = LV_MIN(down->y, cur->y);
+  int32_t w = LV_ABS(cur->x - down->x) + 1;
+  int32_t h = LV_ABS(cur->y - down->y) + 1;
+  gesture_affordance_place(obj, x1, y1, w, h);
+}
+/* The slew aim: a line from the anchor to the finger, so direction and
+ * magnitude are both visible on a gesture that emits a continuous command and
+ * never a rect. lv_line's points are relative to its own origin and its
+ * self-size takes their MAXIMUM, so they are offset to the bounding box's
+ * top-left (never negative) and the size is set explicitly. */
+static void gesture_affordance_aim(const lv_point_t *down,
+                                   const lv_point_t *cur) {
+  lv_obj_t *obj = gesture_affordance_get(GESTURE_AFFORDANCE_AIM);
+  if (!obj)
+    return;
+  int32_t x1 = LV_MIN(down->x, cur->x);
+  int32_t y1 = LV_MIN(down->y, cur->y);
+  g_aim_points[0].x = (lv_value_precise_t)(down->x - x1);
+  g_aim_points[0].y = (lv_value_precise_t)(down->y - y1);
+  g_aim_points[1].x = (lv_value_precise_t)(cur->x - x1);
+  g_aim_points[1].y = (lv_value_precise_t)(cur->y - y1);
+  gesture_affordance_place(obj, x1, y1, LV_ABS(cur->x - down->x) + 1,
+                           LV_ABS(cur->y - down->y) + 1);
+  /* Re-set every sync — unlike the look, the points ARE geometry: the array
+   * changed in place, and this call is what refreshes the self size and
+   * invalidates the old span. */
+  lv_line_set_points(obj, g_aim_points, 2);
+}
+/* The live drag's two corners in display px, or false when no drag is live.
+ * The FSM answers "has a drag committed, and where did it begin"; the pointer
+ * table answers "where is that pointer now" — see the section header. A primary
+ * whose slot has gone is reported as NO drag rather than half-read. */
+static bool gesture_drag_px(lv_point_t *down, lv_point_t *cur) {
+  int32_t primary = 0;
+  double dx = 0.0;
+  double dy = 0.0;
+  if (!gesture_drag_origin(&g_gesture, &primary, &dx, &dy))
+    return false;
+  const pointer_slot_t *slot = pointer_find((uint32_t)primary);
+  if (!slot)
+    return false;
+  ndc_to_px(dx, dy, down);
+  ndc_to_px(slot->x, slot->y, cur);
+  return true;
+}
+/* Re-derive the whole affordance set from the recognizer. THE ONE ENTRY POINT
+ * (controls_tick) — see the header block for why that is what makes teardown
+ * unforgettable. */
+static void gesture_affordance_sync(void) {
+  lv_point_t down;
+  lv_point_t cur;
+  if (g_gesture_spec_count == 0 || !gesture_drag_px(&down, &cur)) {
+    gesture_affordance_clear();
+    return;
+  }
+  gesture_affordance_anchor(&down);
+  if (find_gesture_spec(GESTURE_KIND_ROI)) {
+    gesture_affordance_drop(GESTURE_AFFORDANCE_AIM);
+    gesture_affordance_band(&down, &cur);
+  } else {
+    gesture_affordance_drop(GESTURE_AFFORDANCE_BAND);
+    gesture_affordance_aim(&down, &cur);
   }
 }
 /* Release a slot through the CANCEL path: a VIDEO-owned pointer reaches the
@@ -1442,6 +1738,11 @@ int32_t controls_tick(uint32_t elapsed_ms) {
   /* Stale-pointer GC BEFORE the timer handler: a force-released slot must drop
    * its indev press before indev_read_cb polls this tick (§8). */
   pointer_gc_sweep();
+  /* Gesture affordances BEFORE the timer handler so a drag's feedback lays out
+   * and paints in the SAME tick its pointer event arrived in — and AFTER the GC
+   * sweep, so a force-released contact's affordance is gone in that same tick
+   * rather than lingering one frame past its gesture. */
+  gesture_affordance_sync();
   lv_timer_handler();
   /* Host-proxy report sweep — AFTER lv_timer_handler so coords are
    * post-layout; change-guarded, at most one report per proxy per tick. */
@@ -2343,6 +2644,49 @@ uint32_t controls_dump_draw_palette(void) {
   tree_append_draw_palette();
   return (uint32_t)(uintptr_t)tree_buf;
 }
+/* THE INTERPRETER DECLARING ITS OWN COMPOSITION — the membership keys for the
+ * objects the renderer builds ITSELF, so a consumer can name them.
+ *
+ * Two families, one reason. Host-proxy parts (glass / handle / cell) and gesture
+ * affordances (anchor / band / aim) are both created with bare lv_obj_create
+ * (or lv_line_create) and never pass through finalize_widget, so they carry no
+ * uid and NOTHING downstream can address them. Without these keys a geometry
+ * rule sees only rectangles and cannot tell a DESIGNED overlay stack
+ * (UI-QUALITY-CONTRACTS §1.5b) from an accidental collision — and inferring it
+ * from paint order is what §1.2 forbids. The proxy family carries its owner id
+ * too, so two proxies are told apart rather than lumped together; the gesture
+ * family needs none, because at most one drag is live.
+ *
+ * Every key is emitted only where it applies, so an ordinary node stays
+ * compact — and a `gesture_part` appears only on a card that is MID-DRAG,
+ * which no static render ever is.
+ *
+ * EXTRACTED FROM dump_obj rather than written inline: that function sits at the
+ * .clang-tidy VariableThreshold measured off this tree's worst function, and
+ * those thresholds only move DOWN. */
+static void dump_composition_keys(const lv_obj_t *obj) {
+  const char *root_id = renderer_proxy_root(obj);
+  if (root_id) {
+    char pbuf[128];
+    (void)snprintf(pbuf, sizeof(pbuf), ",\"proxy_root\":\"%s\"", root_id);
+    tree_append(pbuf);
+  }
+  const char *owner = NULL;
+  const char *part = renderer_proxy_part(obj, &owner);
+  if (part && owner) {
+    char pbuf[192];
+    (void)snprintf(pbuf, sizeof(pbuf),
+                   ",\"proxy_part\":\"%s\",\"proxy_owner\":\"%s\"", part,
+                   owner);
+    tree_append(pbuf);
+  }
+  const char *gpart = gesture_affordance_part(obj);
+  if (gpart) {
+    char gbuf[64];
+    (void)snprintf(gbuf, sizeof(gbuf), ",\"gesture_part\":\"%s\"", gpart);
+    tree_append(gbuf);
+  }
+}
 static void dump_obj(const lv_obj_t *obj, bool is_root) {
   lv_area_t a;
   lv_obj_get_coords(obj, &a);
@@ -2505,32 +2849,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
       tree_append(gbuf);
     }
   }
-  /* PROXY MEMBERSHIP — emitted only for the proxy box and the affordances
-   * it owns, so ordinary nodes stay compact. The renderer builds the glass,
-   * handles and align cells itself with bare lv_obj_create; they never reach
-   * finalize_widget, so they carry no uid and NOTHING downstream can name
-   * them. Without these keys a geometry rule sees only rectangles and cannot
-   * distinguish the designed glass-over-content stack (§1.5b) from an
-   * accidental collision — and inferring it from paint order is what
-   * UI-QUALITY-CONTRACTS §1.2 forbids. The owner id is carried so two
-   * proxies are told apart rather than lumped together. */
-  {
-    const char *root_id = renderer_proxy_root(obj);
-    if (root_id) {
-      char pbuf[128];
-      (void)snprintf(pbuf, sizeof(pbuf), ",\"proxy_root\":\"%s\"", root_id);
-      tree_append(pbuf);
-    }
-    const char *owner = NULL;
-    const char *part = renderer_proxy_part(obj, &owner);
-    if (part && owner) {
-      char pbuf[192];
-      (void)snprintf(pbuf, sizeof(pbuf),
-                     ",\"proxy_part\":\"%s\",\"proxy_owner\":\"%s\"", part,
-                     owner);
-      tree_append(pbuf);
-    }
-  }
+  dump_composition_keys(obj);
   /* RESOLVED STYLE — see the block comment above obj_effective_opa for what
    * each key's ABSENCE means; they do not all fail the same way. */
   {

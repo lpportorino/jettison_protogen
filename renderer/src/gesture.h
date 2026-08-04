@@ -98,6 +98,37 @@ typedef struct {
 /** Reset the recognizer to its initial idle state (mirrors reset()). */
 void gesture_reset(gesture_recognizer_t *g);
 /**
+ * The live drag's ORIGIN: writes the primary pointer's id and the retained DOWN
+ * point (NDC) and returns 1, but ONLY while a 1-pointer drag has COMMITTED —
+ * phase == PANNING with a start retained and a primary latched. Returns 0
+ * otherwise, writing nothing.
+ *
+ * WHAT THIS DELIBERATELY DOES NOT ANSWER, because the recognizer cannot: WHERE
+ * THE POINTER IS NOW. Outside a pinch this FSM never re-stores a moved sample —
+ * `pointers[]` is written by onDown and by the pinch branch of onMove alone, so
+ * a 1-pointer drag's live entry holds the sample it LANDED with for the whole
+ * drag, and the current point exists only as the argument onMove was called
+ * with. Retaining it here would be new recognizer state that no decision reads,
+ * in a state machine whose whole contract is parity with its cross-target twin.
+ * The SHELL's pointer table already tracks every live pointer's current
+ * position, so a consumer pairs this origin with that table rather than asking
+ * the FSM for something it does not have.
+ *
+ * The origin comes from `start`, which is the same field a completed drag's
+ * rubber-band command is emitted from — so a drawn drag and a sent one cannot
+ * disagree about where it began. The pointer table's per-slot down_x/down_y is
+ * a DIFFERENT fact and is not interchangeable: an idempotent re-seat (a
+ * duplicate DOWN for a live id) rewrites the table's copy while deliberately
+ * not re-running onDown, so the two diverge exactly when a host repeats a DOWN.
+ *
+ * PRESS1 is deliberately NOT a drag: under the movePx threshold no gesture has
+ * been recognised, and a release there is a tap or a track. PINCHING is not one
+ * either — a second pointer aborts the pending 1-pointer gesture silently, so
+ * there is no drag left to describe.
+ */
+int32_t gesture_drag_origin(const gesture_recognizer_t *g, int32_t *primary_id,
+                            double *x, double *y);
+/**
  * Feed a pointer-down. Writes any decisions into out[0..GESTURE_MAX_DECISIONS)
  * and returns the count emitted (onDown emits nothing, so always 0 — kept
  * uniform with the other handlers).

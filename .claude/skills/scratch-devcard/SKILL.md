@@ -143,6 +143,7 @@ emitted only when they carry information, so an absent key means a DEFAULT, not
 | `descend_gate` | **EQUAL to `coords`** — emitted only when OVERFLOW_VISIBLE grows it |
 | `scroll_dirs` | `scrollable_overflow` did not fire — never "no axis" |
 | `text` | only an EXACT `lv_label` emits it; `lv_roller_label` draws glyphs with `text` AND `text_clipped` both absent |
+| `gesture_part` | **not a gesture affordance** — and a render is never mid-drag, so it is absent on EVERY card here, including cards whose surface would draw one |
 
 **`text_wrapped` is the trap in the other direction.** A WRAP-mode label
 reflowed onto more lines GROWS rather than clipping, so `text_clipped` (CLIP

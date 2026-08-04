@@ -23,6 +23,13 @@
    - dock event identities: `<stage-id>-up`/`-delete`/`-toggle`
      (int_value = stage index) + `dock-fold`, each tap emitting exactly
      one envelope.
+   - GESTURE AFFORDANCES: what a mid-drag gesture surface DRAWS from the
+     recognizer's own state — the anchor/band/aim set per registered
+     GestureKind, the band being the same rect the ROI command carries,
+     every way a gesture ends clearing it, and the affordance staying out
+     of the pointer hit path. Every one of those is a phase transition, so
+     none of it is reachable by rendering a card; the surfaces are built
+     here and DRIVEN.
 
    Everything is findings-shaped ({:gate :interaction ...}; empty =
    green) so the runner folds it into the one corpus verdict. The
@@ -363,6 +370,335 @@
                     :expected "separation >= 0"
                     :actual (str "separation " worst " between two grown handle hit areas")})]))))))
 
+;; ── gesture affordances ─────────────────────────────────────────────────
+;;
+;; The recognizer's feedback: an ANCHOR at the retained down point plus ONE of
+;; a rubber-band BAND (a surface whose completed drag becomes an ROI rect) or an
+;; AIM line (a surface whose drag becomes a continuous slew). Every state here
+;; is a PHASE TRANSITION, so none of it is reachable by rendering a card — the
+;; whole contract only exists while a pointer is mid-drag, which is why it lives
+;; in this lane and not in the golden corpus.
+;;
+;; The surfaces are built here rather than discovered from the composition
+;; corpus because a gesture surface must register a GestureSpec, and the corpus
+;; carries none: an ROI card and a slew card differ ONLY in the registered kind,
+;; and pinning that difference is most of what these findings assert.
+
+(def ^:private roi-slots
+  "An ROI CmdSpec's four NDC slots over a 32-byte zero template. Read straight
+   back out of the captured host_command bytes — nothing here decodes a command,
+   because there is no command: the template is zeros and the slots are the
+   renderer's own output (devcards.fixtures § Gesture specs)."
+  [{:offset 0 :width 8 :kind :ndc-x}
+   {:offset 8 :width 8 :kind :ndc-y}
+   {:offset 16 :width 8 :kind :ndc-x2}
+   {:offset 24 :width 8 :kind :ndc-y2}])
+
+(defn- gesture-surface-card
+  "A full-canvas STATIC host_proxy carrying `gestures` (possibly none). STATIC
+   is what clears the proxy's own CLICKABLE, so a point over it resolves to no
+   LVGL widget and the pointer is routed to the recognizer — the video
+   gesture-surface shape. It is the card's ROOT node: an intermediate container
+   would be clickable and would swallow the press before the FSM ever saw it."
+  [id canvas gestures]
+  {:id id
+   :node {:type :WIDGET_HOST_PROXY :x 0 :y 0
+          :props {:w (:w canvas) :h (:h canvas)
+                  :host_proxy_props {:proxy_id "gs" :mode :static}}
+          :gestures gestures}})
+
+(defn- gesture-cards
+  "The three surfaces the affordance contract is driven through: an ROI one, a
+   slew one, and one with NO gesture spec at all — the last is the control that
+   makes 'nothing is drawn' mean something."
+  [canvas]
+  {:roi (gesture-surface-card
+         "gesture-affordance/roi" canvas
+         [{:kind :GESTURE_KIND_ROI
+           :cmd {:command-id "devcards.gesture.roi" :template-zeros 32
+                 :patches roi-slots}}])
+   :slew (gesture-surface-card
+          "gesture-affordance/slew" canvas
+          [{:kind :GESTURE_KIND_PAN_MOVE
+            :cmd {:command-id "devcards.gesture.slew" :template-zeros 16
+                  :patches (subvec roi-slots 0 2)}}])
+   :bare (gesture-surface-card "gesture-affordance/no-spec" canvas [])})
+
+(defn- affordance-nodes
+  "Every node the dump declares as a gesture affordance, keyed by its part."
+  [tree]
+  (into {}
+        (keep (fn [n] (when-let [p (:gesture_part n)] [p n])))
+        (probe/node-seq tree)))
+
+(defn- emitted-doubles
+  "The little-endian doubles packed into a captured host_command payload."
+  [^bytes payload]
+  (let [bb (doto (java.nio.ByteBuffer/wrap payload)
+             (.order java.nio.ByteOrder/LITTLE_ENDIAN))]
+    (vec (repeatedly (quot (alength payload) 8) #(.getDouble bb)))))
+
+(defn- drag-to!
+  "DOWN at `from` then MOVE to `to`, settling after each — a committed drag
+   (the move crosses the recognizer's movePx threshold) left MID-GESTURE, with
+   no release. Returns the host."
+  [h from to]
+  (pointer/pointer! h :down from 1000)
+  (pointer/settle! h 3 16)
+  (pointer/pointer! h :move to 1050)
+  (pointer/settle! h 3 16)
+  h)
+
+(defn- drawn-states-findings
+  "What each surface draws MID-DRAG, and what it draws when idle. The band/aim
+   fork is the whole point: the same drag over two surfaces that differ only in
+   the registered GestureKind must draw two different shapes, and the surface
+   with no spec at all must draw nothing — feedback for a gesture that emits
+   nothing would be a lie."
+  [boot! pb-of from to]
+  (let [parts (fn [id]
+                (probe/with-host boot!
+                  (fn [h]
+                    (render! h (pb-of id))
+                    (let [idle (set (keys (affordance-nodes (probe/dump-tree h))))]
+                      (drag-to! h from to)
+                      [idle (set (keys (affordance-nodes (probe/dump-tree h))))]))))
+        [roi-idle roi-drag] (parts :roi)
+        [slew-idle slew-drag] (parts :slew)
+        [bare-idle bare-drag] (parts :bare)]
+    (into []
+          (keep identity)
+          [(probe/finding "gesture-affordance/roi" :idle-draws-nothing #{} roi-idle)
+           (probe/finding "gesture-affordance/slew" :idle-draws-nothing #{} slew-idle)
+           (probe/finding "gesture-affordance/no-spec" :idle-draws-nothing #{} bare-idle)
+           (probe/finding "gesture-affordance/roi" :drag-draws-anchor-and-band
+                          #{"anchor" "band"} roi-drag)
+           (probe/finding "gesture-affordance/slew" :drag-draws-anchor-and-aim
+                          #{"anchor" "aim"} slew-drag)
+           ;; the control: no registered gesture, so no feedback at all
+           (probe/finding "gesture-affordance/no-spec" :drag-draws-nothing
+                          #{} bare-drag)])))
+
+(defn- geometry-findings
+  "The anchor centres on the DOWN pixel, and the band spans exactly the two drag
+   corners. Both expectations are DERIVED from the driven points, never
+   authored, so moving the drag moves the expectation with it."
+  [boot! pb-of from to]
+  (probe/with-host boot!
+    (fn [h]
+      (render! h (pb-of :roi))
+      (drag-to! h from to)
+      (let [nodes (affordance-nodes (probe/dump-tree h))
+            anchor (:coords (get nodes "anchor"))
+            band (:coords (get nodes "band"))
+            [fx fy] from
+            [tx ty] to]
+        (into []
+              (keep identity)
+              [;; the anchor is a 9px square centred on the down pixel
+               (probe/finding "gesture-affordance/roi" :anchor-centres-on-down
+                              [(- (long fx) 4) (- (long fy) 4)
+                               (+ (long fx) 4) (+ (long fy) 4)]
+                              anchor)
+               ;; the band's INCLUSIVE box is the two corners, normalized
+               (probe/finding "gesture-affordance/roi" :band-spans-the-drag
+                              [(min (long fx) (long tx)) (min (long fy) (long ty))
+                               (max (long fx) (long tx)) (max (long fy) (long ty))]
+                              band)])))))
+
+(defn- rect-identity-findings
+  "THE DRAWN RECT AND THE EMITTED RECT ARE ONE RECT.
+
+   Reads the band's px box mid-drag, releases at the point the drag is already
+   at, then decodes the four NDC doubles the ROI command carried and maps them
+   back through the renderer's own ndc_to_px. The two must be the same box —
+   which is the claim worth making: at any instant the band drawn IS the rect a
+   release at that instant would send.
+
+   Both directions of the drag are driven, because a band is NORMALIZED (a box
+   cannot have negative extent) while the command relays the corners in DRAG
+   order. A single down-right drag would pass against an implementation that
+   min/max-ordered the emitted corners too, and that is a real divergence: the
+   consumer owns the ordering."
+  [boot! canvas pb-of pairs]
+  (vec
+   (for [[from to] pairs
+         :let [[fx fy] from
+               [tx ty] to
+               got (probe/with-host boot!
+                     (fn [h]
+                       (render! h (pb-of :roi))
+                       (drag-to! h from to)
+                       (let [band (:coords (get (affordance-nodes (probe/dump-tree h)) "band"))]
+                         (pointer/pointer! h :up to 1100)
+                         (pointer/settle! h 3 16)
+                         (let [cmds (:commands @(:captured h))
+                               ndc (when (= 1 (count cmds))
+                                     (emitted-doubles (first cmds)))
+                               [x1 y1] (when ndc (pointer/ndc->px (subvec ndc 0 2) canvas))
+                               [x2 y2] (when ndc (pointer/ndc->px (subvec ndc 2 4) canvas))]
+                           {:band band
+                            :emitted (when ndc
+                                       [(min (long x1) (long x2)) (min (long y1) (long y2))
+                                        (max (long x1) (long x2)) (max (long y1) (long y2))])
+                            :drag-order (when ndc [[x1 y1] [x2 y2]])}))))]
+         f [(probe/finding "gesture-affordance/roi"
+                           (keyword (str "band-is-the-emitted-rect-" fx "-" fy "-to-" tx "-" ty))
+                           (:band got)
+                           (:emitted got))
+            ;; the emitted corners are in DRAG order, down first — the band's
+            ;; normalization is the DRAWING's, never the command's
+            (probe/finding "gesture-affordance/roi"
+                           (keyword (str "emit-keeps-drag-order-" fx "-" fy "-to-" tx "-" ty))
+                           [[(long fx) (long fy)] [(long tx) (long ty)]]
+                           (:drag-order got))]
+         :when f]
+     f)))
+
+(defn- teardown-findings
+  "Every way a gesture ENDS clears the affordance — including the two that are
+   not a release. Driven rather than reasoned about: each arm ends the gesture
+   its own way and re-reads the dump.
+
+   The stale-pointer arm is the 'pointer-up that never arrives' case. The GC is
+   EVENT-clocked, not render-clocked, so ticking alone can never age it; the
+   clock is advanced by a MOVE for an id the table does not know, which
+   handle_pointer stamps into the high-water mark BEFORE it looks the id up and
+   then reports as a benign orphan. That rc is asserted, because a push that
+   silently did nothing would leave the arm passing for the wrong reason."
+  [boot! pb-of from to]
+  (let [after (fn [end!]
+                (probe/with-host boot!
+                  (fn [h]
+                    (render! h (pb-of :roi))
+                    (drag-to! h from to)
+                    (let [mid (set (keys (affordance-nodes (probe/dump-tree h))))]
+                      (end! h)
+                      [mid (set (keys (affordance-nodes (probe/dump-tree h))))]))))
+        arms {:release (fn [h] (pointer/pointer! h :up to 1100) (pointer/settle! h 3 16))
+              :cancel (fn [h] (pointer/pointer! h :cancel to 1100) (pointer/settle! h 3 16))
+              :second-pointer (fn [h]
+                                (pointer/pointer! h :down [10 10] 1100 2)
+                                (pointer/settle! h 3 16))}
+        orphan-rc (atom nil)
+        stale (fn [h]
+                (reset! orphan-rc
+                        ((:push! h) "controls_host_message"
+                                    (pointer/pointer-bytes {:phase :move :pointer-id 99
+                                                            :ndc-x 0.0 :ndc-y 0.0 :t 9000})))
+                (pointer/settle! h 3 16))
+        results (into {} (map (fn [[k f]] [k (after f)])) (assoc arms :stale-pointer stale))]
+    (into []
+          (keep identity)
+          (concat
+           ;; the non-vacuity guard: every arm must have had something to clear
+           (for [[k [mid _]] results]
+             (probe/finding "gesture-affordance/roi"
+                            (keyword (str "drag-was-live-before-" (name k)))
+                            #{"anchor" "band"} mid))
+           (for [[k [_ end]] results]
+             (probe/finding "gesture-affordance/roi"
+                            (keyword (str (name k) "-clears-the-affordance"))
+                            #{} end))
+           [(probe/finding "gesture-affordance/roi" :stale-clock-push-is-an-orphan
+                           2 @orphan-rc)]))))
+
+(defn- hit-path-findings
+  "THE AFFORDANCE IS NOT A HIT TARGET, asserted where it can actually be seen.
+
+   `clickable false` in the dump is necessary and not sufficient — it says what
+   the flag is, not what the routing does with it. The behavioural arm drives a
+   SECOND pointer DOWN at the centre of the drawn band. If the affordance were
+   hit-testable, that point would resolve to an LVGL widget, the pointer would
+   be claimed by LVGL, the recognizer would never see a second contact, the pan
+   would still be live at release and an ROI command WOULD be emitted. Because
+   the affordance is transparent to the hit test the contact reaches the FSM
+   instead, which silently aborts the pan into a pinch, and the release emits
+   NOTHING.
+
+   Three arms, because one proves nothing: a control with no second pointer
+   (which must emit — otherwise the whole probe is measuring a broken harness),
+   the second pointer ON the affordance, and the second pointer on BARE surface.
+   The claim is that the last two agree: over the affordance is
+   indistinguishable from over nothing."
+  [boot! pb-of from to]
+  (let [band (probe/with-host boot!
+               (fn [h]
+                 (render! h (pb-of :roi))
+                 (drag-to! h from to)
+                 (:coords (get (affordance-nodes (probe/dump-tree h)) "band"))))
+        [bx1 by1 bx2 by2] band
+        band-centre [(quot (+ (long bx1) (long bx2)) 2) (quot (+ (long by1) (long by2)) 2)]
+        ;; the bare control point: inside the surface, OUTSIDE the band. Derived
+        ;; from the band the run actually drew, and then asserted to be outside
+        ;; it — a hand-picked constant that drifted INTO the band would turn the
+        ;; control into a second copy of the affordance arm and both would agree
+        ;; for the wrong reason.
+        bare-pt [(quot (long bx1) 2) (quot (long by1) 2)]
+        run (fn [second-pt]
+              (probe/with-host boot!
+                (fn [h]
+                  (render! h (pb-of :roi))
+                  (drag-to! h from to)
+                  (when second-pt
+                    (pointer/pointer! h :down second-pt 1100 2)
+                    (pointer/settle! h 3 16))
+                  (pointer/pointer! h :up to 1150)
+                  (pointer/settle! h 3 16)
+                  (count (:commands @(:captured h))))))]
+    (into []
+          (keep identity)
+          [(probe/finding "gesture-affordance/roi" :control-point-is-outside-the-band
+                          true
+                          (not (and (<= (long bx1) (long (first bare-pt)) (long bx2))
+                                    (<= (long by1) (long (second bare-pt)) (long by2)))))
+           (probe/finding "gesture-affordance/roi" :control-drag-alone-emits 1 (run nil))
+           (probe/finding "gesture-affordance/roi" :second-pointer-on-affordance-reaches-fsm
+                          0 (run band-centre))
+           (probe/finding "gesture-affordance/roi" :second-pointer-on-bare-surface-reaches-fsm
+                          0 (run bare-pt))])))
+
+(defn- clickable-flag-findings
+  "Every affordance node the dump declares must carry `clickable false` — the
+   FLAG half of the hit-path contract, over BOTH shapes (the band and the aim
+   are different LVGL classes, and lv_line's constructor is not lv_obj's)."
+  [boot! pb-of from to]
+  (vec
+   (for [id [:roi :slew]
+         :let [nodes (probe/with-host boot!
+                       (fn [h]
+                         (render! h (pb-of id))
+                         (drag-to! h from to)
+                         (affordance-nodes (probe/dump-tree h))))
+               card (str "gesture-affordance/" (name id))]
+         f [(probe/finding card :every-affordance-node-is-unclickable
+                           (into {} (map (fn [[k _]] [k false])) nodes)
+                           (into {} (map (fn [[k n]] [k (:clickable n)])) nodes))
+            ;; a card whose affordance set were EMPTY would satisfy the map
+            ;; comparison above vacuously
+            (probe/finding card :affordance-set-is-not-empty 2 (count nodes))]
+         :when f]
+     f)))
+
+(defn gesture-affordance-findings
+  "The whole gesture-affordance contract, driven. See each helper for its claim."
+  [boot! canvas]
+  (let [cards (gesture-cards canvas)
+        built (update-vals cards #(fixtures/build-authored-card canvas %))
+        pb-of (fn ^bytes [k] (get built k))
+        ;; a drag whose two corners differ in BOTH axes, so a band that
+        ;; collapsed an axis is visible, and well inside the canvas
+        from [200 120]
+        to [500 380]]
+    (-> []
+        (into (drawn-states-findings boot! pb-of from to))
+        (into (geometry-findings boot! pb-of from to))
+        (into (rect-identity-findings boot! canvas pb-of
+                                      [[from to] [to from]]))
+        (into (teardown-findings boot! pb-of from to))
+        (into (hit-path-findings boot! pb-of from to))
+        (into (clickable-flag-findings boot! pb-of from to)))))
+
 ;; ── entry ───────────────────────────────────────────────────────────────
 (defn drive-targets
   "The two composition cards the interaction contract is driven through,
@@ -452,4 +788,5 @@
         (into (dock-findings boot! dock d-pb))
         (into (long-event-name-findings boot! (:canvas inventory)))
         (into (proxy-content-inert-findings boot! (:canvas inventory)))
-        (into (handle-hit-clearance-findings boot! (:canvas inventory))))))
+        (into (handle-hit-clearance-findings boot! (:canvas inventory)))
+        (into (gesture-affordance-findings boot! (:canvas inventory))))))

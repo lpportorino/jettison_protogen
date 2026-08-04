@@ -371,6 +371,42 @@ two DIFFERENT proxies' surfaces still fire (their order lives in the compositor,
 ordinary content children of one proxy still fire, because nothing about the
 proxy makes THEIR overlap intentional.
 
+**The GESTURE affordances declare themselves the same way, and they are a
+different population.** While a drag is live over a surface that registered a
+`GestureSpec`, the interpreter draws its own feedback — a start `anchor` at the
+retained down point, plus a rubber-band `band` (a surface whose completed drag
+becomes an ROI rect) or an `aim` line (one whose drag becomes a continuous
+slew) — and each carries `gesture_part` in `dump_tree`. Same reason as
+`proxy_part`: those objects are built with bare `lv_obj_create` /
+`lv_line_create`, never reach `finalize_widget`, carry no uid, and nothing else
+could name them.
+
+Three things about them are worth stating precisely, because each is easy to
+get backwards:
+
+- **They exist ONLY mid-drag.** They are created when a drag commits and
+  DELETED when it ends — by a release, by a cancel, by a second contact
+  aborting the pan into a pinch, or by the stale-pointer GC recovering from an
+  UP that never arrived. So no static render contains one, and the absence of
+  `gesture_part` in a card's dump says nothing about whether that surface would
+  draw one.
+- **They are NOT pointer targets.** Each clears `LV_OBJ_FLAG_CLICKABLE`, so
+  `lv_obj_hit_test` refuses it and `lv_indev_search_obj` never returns one —
+  which is the same search the interpreter uses to decide whether a contact
+  belongs to a widget or to the video surface. That is what stops the feedback
+  from breaking the gesture it draws.
+- **No overlap exclusion exists for them, and none is owed today.** The
+  affordance necessarily overlaps the surface it describes, but the overlap
+  lane judges the static corpus and therefore never meets one. A consumer that
+  starts judging a MID-DRAG tree meets that pair for the first time and should
+  read `gesture_part` as the declaration, exactly as the proxy stack is read
+  here — not add a coordinate heuristic.
+
+`devcards.interaction`'s gesture-affordance canaries pin all of it by injecting
+pointers: what each surface draws, the band being the same rect the ROI command
+carries, every terminating phase clearing it, and a second contact landing ON
+the affordance still reaching the recognizer.
+
 ### 1.6 Determining OBSERVED stacking
 
 - **Within the widget tree:** LVGL paints a parent, then its children in index

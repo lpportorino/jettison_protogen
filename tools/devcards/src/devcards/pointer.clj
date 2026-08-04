@@ -38,6 +38,21 @@
   [[px py] {:keys [w h]}]
   [(- (/ (* 2.0 (long px)) (long w)) 1.0) (- 1.0 (/ (* 2.0 (long py)) (long h)))])
 
+(defn ndc->px
+  "[ndc-x ndc-y] -> the framebuffer px point for a w×h canvas — the renderer's
+   OWN ndc_to_px (main.c), mirrored: `(ndc+1)/2*w` and `(1-ndc)/2*h`, each
+   truncated by a C cast to int32. Both products are non-negative over NDC
+   [-1,1], so the truncation is a floor.
+
+   The inverse of px->ndc above and the round-trip partner it is kept beside: a
+   probe that reads an NDC value OUT of the renderer (a gesture command's
+   corners) and compares it against something the renderer DREW needs to travel
+   the same way the renderer did, or the comparison measures the rounding rather
+   than the contract."
+  [[nx ny] {:keys [w h]}]
+  [(long (* (+ (double nx) 1.0) 0.5 (long w)))
+   (long (* (- 1.0 (double ny)) 0.5 (long h)))])
+
 (defn pointer-bytes
   "One HostToWasm{pointer} message, serialized."
   ^bytes [{:keys [phase pointer-id ndc-x ndc-y t]}]
@@ -57,14 +72,22 @@
 (defn pointer!
   "Push one pointer event at px point `[px py]`; throws on a non-OK rc
    (0 = OK; a positive rc is a benign no-op class, still surfaced — an
-   interaction probe wants to KNOW). Returns the rc."
-  [{:keys [push! w h] :as _host} phase [px py] t]
-  (let [[nx ny] (px->ndc [px py] {:w w :h h})
-        rc (push! "controls_host_message"
-                  (pointer-bytes {:phase phase :ndc-x nx :ndc-y ny :t t}))]
-    (when-not (zero? (long rc))
-      (throw (ex-info "controls_host_message rc != OK" {:rc rc :phase phase :px [px py]})))
-    rc))
+   interaction probe wants to KNOW). Returns the rc.
+
+   `pointer-id` defaults to 1. A probe that drives a SECOND contact — a pinch,
+   or any assertion about what a second finger reaches — must give it its own
+   id, or the renderer reads the duplicate as an idempotent re-seat of the first
+   and reports HOSTMSG_RESEAT, which this fn then throws on."
+  ([host phase pt t] (pointer! host phase pt t 1))
+  ([{:keys [push! w h] :as _host} phase [px py] t pointer-id]
+   (let [[nx ny] (px->ndc [px py] {:w w :h h})
+         rc (push! "controls_host_message"
+                   (pointer-bytes {:phase phase :pointer-id pointer-id
+                                   :ndc-x nx :ndc-y ny :t t}))]
+     (when-not (zero? (long rc))
+       (throw (ex-info "controls_host_message rc != OK"
+                       {:rc rc :phase phase :px [px py] :pointer-id pointer-id})))
+     rc)))
 
 (defn settle!
   "Advance `n` ticks of `ms` each (indev poll + timers + render)."
