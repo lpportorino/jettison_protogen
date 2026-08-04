@@ -88,6 +88,7 @@
    :radius-button :radius
    :radius-card :radius
    :radius-none :radius
+   :radius-circle :radius
    ;; ── shadows ──
    :drop-card :shadow
    :drop-overlay :shadow

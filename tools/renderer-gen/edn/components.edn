@@ -86,7 +86,7 @@
                  :tree {:checked-when {:subject :$subject :value :$value}
                         :event :$event
                         :flags-clear #{:checkable}
-                        :style {:indicator {:radius 32767}}
+                        :style {:indicator {:radius :radius-circle}}
                         :tag :lv_checkbox
                         :text "$label"}}
   ;; lv_demo_widgets shop-tab list row (create_shop_item in

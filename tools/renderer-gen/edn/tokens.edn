@@ -146,7 +146,12 @@
  ;; (buttons, form controls: dropdown/textarea/spinbox, checkbox indicator)
  ;; rounds with :radius-default / :radius-button -> :sm = 2px. Stock LVGL's
  ;; RADIUS_DEFAULT=12px/btn 16px is what made small chips render as pills.
- :radii {:full 9999 :lg 4 :md 2 :none 0 :sm 2 :xl 8}
+ ;; :circle is LVGL's own LV_RADIUS_CIRCLE (lv_draw_rect.h) — a SENTINEL, not a
+ ;; length: the draw path tests for this exact value and rounds to a full pill
+ ;; whatever the box measures. :full is an ordinary very-large radius that LVGL
+ ;; clamps to half the shorter side, so the two are not interchangeable and a
+ ;; reader must not "tidy" one into the other.
+ :radii {:circle 32767 :full 9999 :lg 4 :md 2 :none 0 :sm 2 :xl 8}
  :opacity {:full 255 :heavy 200 :light 100 :medium 128 :subtle 50 :transparent 0}
  :shadows {:lg {:opa 0 :spread 0 :width 0}
            :md {:opa 0 :spread 0 :width 0}
@@ -248,6 +253,10 @@
             ;; explicit square — flush/full-bleed surfaces that must OVERRIDE
             ;; the theme's default tier rounding (video frames, edge-to-edge)
             :radius-none :none
+            ;; the pill/dot affordance — a radio's indicator, and anything else
+            ;; that must read as round at whatever size it lands. Named so an
+            ;; authoring surface stops hand-coding LVGL's sentinel.
+            :radius-circle :circle
             ;; ── Shadows (zeroed — sharp tactical aesthetic) ──
             :drop-card :none
             :drop-overlay :none

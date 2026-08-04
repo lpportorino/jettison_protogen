@@ -192,6 +192,11 @@
       "dark": 4,
       "light": 4
     },
+    "radius-circle": {
+      "kind": "radius",
+      "dark": 32767,
+      "light": 32767
+    },
     "radius-default": {
       "kind": "radius",
       "dark": 2,
