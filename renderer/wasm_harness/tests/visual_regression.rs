@@ -4686,6 +4686,101 @@ mod pointer_routing {
             "a pinch is a zoom step, not a RotateToNDC"
         );
     }
+    /// The inclusive `[x1,y1,x2,y2]` coords of the node the dump declares as
+    /// gesture affordance `part`, or None when the tree carries none. The key
+    /// is `dump_composition_keys`' own declaration — the affordances are built
+    /// with bare `lv_obj_create`/`lv_line_create`, carry no uid, and are
+    /// nameable by nothing else.
+    fn affordance_rect(host: &mut ControlsHost, part: &str) -> Option<(i32, i32, i32, i32)> {
+        fn find<'a>(node: &'a serde_json::Value, part: &str) -> Option<&'a serde_json::Value> {
+            if node["gesture_part"] == part {
+                return Some(node);
+            }
+            node["children"]
+                .as_array()?
+                .iter()
+                .find_map(|child| find(child, part))
+        }
+        let root = tree(host);
+        let node = find(&root, part)?;
+        let coords = node["coords"].as_array()?;
+        let value = |i: usize| coords[i].as_i64().expect("coord") as i32;
+        Some((value(0), value(1), value(2), value(3)))
+    }
+    /// A second finger landing ON the live drag's own AFFORDANCE still joins
+    /// the pinch — the feedback must never take the pointer away from the
+    /// gesture it is drawing.
+    ///
+    /// main.c builds anchor/band/aim as children of the SCREEN, moved to the
+    /// foreground, with `LV_OBJ_FLAG_CLICKABLE` cleared, and that cleared flag
+    /// is the WHOLE mechanism: `lv_indev_search_obj` refuses to return a
+    /// non-clickable object, resolves nothing, and the point stays VIDEO-owned
+    /// so the recognizer sees the finger. The property was asserted only by a
+    /// comment until now — no test drove a pointer through an affordance, and
+    /// no framebuffer or dump assertion can see the difference, because the
+    /// affordance renders identically either way.
+    ///
+    /// It is worth a test because the obvious "improvement" breaks it silently:
+    /// an ownership rule that resolved the TOPMOST object at the point rather
+    /// than the topmost CLICKABLE one lands on the affordance, which is not a
+    /// proxy box and carries no uid, routes the second finger to LVGL, and the
+    /// pinch below never starts.
+    #[test]
+    fn second_finger_on_the_drag_affordance_still_joins_the_pinch() {
+        let mut host = new_host();
+        let _ = boot(&mut host);
+        host.pointer_decisions_clear().expect("clear");
+        let _ = host.take_host_commands();
+        // Finger 1 lands on the bare surface and drags DIAGONALLY, well past
+        // the commit threshold, so the recognizer is PANNING and the next tick
+        // draws the anchor at the DOWN point plus an aim line to the current
+        // one. Diagonal on purpose: the aim object's box spans both corners,
+        // so it is a large target the second finger can land inside far away
+        // from where the first one went down.
+        let f1_down = (360, 280);
+        let (dx, dy) = ndc(f1_down.0, f1_down.1);
+        host.pointer(PointerEvent::down(1, dx, dy, 1000))
+            .expect("f1 down");
+        settle(&mut host);
+        let (mx, my) = ndc(80, 60);
+        host.pointer(PointerEvent::mv(1, mx, my, 1010))
+            .expect("f1 drag");
+        settle(&mut host);
+        // The distance MUST be real: the recognizer never re-stores a moved
+        // sample outside a pinch (gesture.h, gesture_drag_origin), so the
+        // start spread is measured against finger 1's DOWN point. A second
+        // finger landing on the anchor would make that spread zero and the
+        // ratchet would refuse for a reason unrelated to ownership.
+        let f2_down = (140, 110);
+        // NON-VACUITY: the affordance must actually be there and must actually
+        // cover the point finger 2 lands on. Without this guard the second
+        // finger lands on bare surface and the test passes for a reason that
+        // has nothing to do with the affordance.
+        let aim = affordance_rect(&mut host, "aim")
+            .expect("a committed drag on a non-ROI surface draws the aim affordance");
+        assert!(
+            aim.0 <= f2_down.0 && f2_down.0 <= aim.2 && aim.1 <= f2_down.1 && f2_down.1 <= aim.3,
+            "the aim {aim:?} must cover the point finger 2 lands on {f2_down:?}"
+        );
+        // Finger 2 lands ON that affordance, then the two spread apart.
+        let (bx, by) = ndc(f2_down.0, f2_down.1);
+        host.pointer(PointerEvent::down(2, bx, by, 1020))
+            .expect("f2 down");
+        settle(&mut host);
+        let (sx, sy) = ndc(10, 290);
+        host.pointer(PointerEvent::mv(2, sx, sy, 1030))
+            .expect("f2 spread");
+        settle(&mut host);
+        let commands = host.take_host_commands();
+        assert!(
+            commands
+                .iter()
+                .any(|c| as_day_set_zoom_table_value(c).is_some()),
+            "a finger landing on the drag affordance must still reach the recognizer \
+             (the pinch relays SetZoomTableValue): {} cmd(s)",
+            commands.len()
+        );
+    }
     // ── Direction-selected pinch: ONE kind, TWO templates ────────────────
     //
     // `vr_pinch_pair` registers two PINCH GestureSpecs told apart by

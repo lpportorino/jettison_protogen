@@ -857,7 +857,41 @@ static void ndc_to_px(double ndc_x, double ndc_y, lv_point_t *out) {
  * LV_OBJ_FLAG_CLICKABLE (lv_obj_hit_test), exactly as the indev press path; a
  * STATIC host_proxy box has CLICKABLE cleared so the pointer falls through to
  * the video area (returns NULL). Returns LVGL when a clickable widget is hit,
- * else VIDEO. */
+ * else VIDEO.
+ *
+ * READ THE PREDICATE AS "NO CLICKABLE OBJECT TOOK THE POINT", NEVER AS "THE
+ * POINT IS OVER THE PROXY". The paragraph above names the proxy because that
+ * is the case the routing was designed around, and it has since been misread
+ * as the whole rule. lv_indev_search_obj returns the topmost CLICKABLE object
+ * and falls back to the nearest clickable ANCESTOR when no descendant hits, so
+ * a non-clickable label/image/line/spinner is claimed by whatever clickable
+ * container encloses it; VIDEO is reached only when the WHOLE chain up to the
+ * screen is non-clickable. lv_obj_create sets CLICKABLE on every object, so an
+ * ordinary container root shields its entire subtree and the VIDEO branch is
+ * unreachable beneath it — while on a gesture screen the root IS the STATIC
+ * proxy, and there every point is over the surface by construction.
+ *
+ * SO A CLEARED CLICKABLE IS A DELIBERATE POINTER-TRANSPARENCY DECLARATION, NOT
+ * AN ACCIDENT, and three sites make one for that reason. Resolving ownership
+ * from the TOPMOST object instead — walking the tree ignoring CLICKABLE, then
+ * asking renderer_proxy_root whether the object found is the video surface —
+ * breaks all three, each of which states its own reason where it clears the
+ * flag: a STATIC proxy stops falling through to the clickable sibling BENEATH
+ * it (proxy_apply_mode, renderer.c); a target overlay becomes the dead zone
+ * its construction comment exists to prevent (renderer.c); and a second finger
+ * landing on a live drag's affordance is routed away from the recognizer,
+ * against property 2 of the affordance header below. Measured, not argued:
+ * that substitution reds exactly two tests in
+ * wasm_harness/tests/visual_regression.rs —
+ * host_proxy::static_mode_clicks_through_to_the_button_beneath and
+ * pointer_routing::second_finger_on_the_drag_affordance_still_joins_the_pinch
+ * — with every neighbouring pointer test still green.
+ *
+ * WHAT THE PREDICATE GENUINELY DOES NOT ANSWER is WHERE the video is: a point
+ * over no proxy at all still reads VIDEO. The shield above is what keeps that
+ * off every ordinary screen, so it is not a live defect here, and the registry
+ * behind renderer_proxy_root is what an answer would have to consult — a
+ * question about the reported proxy RECT, never about the topmost object. */
 static pointer_owner_t hit_test_owner(double ndc_x, double ndc_y) {
   lv_point_t p;
   ndc_to_px(ndc_x, ndc_y, &p);
