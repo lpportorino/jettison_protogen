@@ -539,9 +539,9 @@ ui_ast reference interpreter above.
 - `output/` — generated bindings, one directory per language, plus
   `output/manifests/` (renderer/token manifests). **`output/manifests/` is
   tracked and is NOT a binding output.** The per-language list has exactly one
-  home: the single `mkdir -p "$OUTPUT_BASE_DIR"/{…}` line in
-  `generate-protos.sh`. Do not re-enumerate it anywhere — a copied listing is
-  what kept getting this wrong.
+  home: the `LANGS=(…)` array in `generate-protos.sh`, which the `mkdir -p` loop
+  and every consumer of the list read from. Do not re-enumerate it anywhere — a
+  copied listing is what kept getting this wrong.
 - `renderer/` — the ui_ast reference interpreter: C source, theme, `wasm.mk`,
   the vendored LVGL tree, the wasmtime harness and the dual-oracle drivers.
   `renderer.mk` at the repo root is the battery entry.
