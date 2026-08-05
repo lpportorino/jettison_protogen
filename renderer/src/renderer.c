@@ -3631,6 +3631,32 @@ static void finalize_widget(widget_ctx_t *ctx) {
         LOG_ERROR("event carries BOTH cmd and cmd_by_value (%u) — mutually "
                   "exclusive; cmd_by_value wins",
                   (unsigned)node->event.cmd_by_value_count);
+      /* A template GATED OFF BY ITS OWN BINDING. button_event_cb relays only
+       * when set_subject is empty or notify_host is set, so a template that
+       * arrives beside a subject mutation without notify_host is dropped at
+       * every fire. That combination had no diagnostic anywhere: the
+       * neighbours (an out-of-range by-value index, both lanes set) each log
+       * loudly, while the gate itself says nothing because it is an `if`, not
+       * a check — so a producer that wired a device command and a local
+       * mutation onto one control got a screen that renders, a control that
+       * responds, and a command that is never sent.
+       *
+       * NO WIRE ANNOTATION CAN EXPRESS THIS. EventBinding decides where an
+       * event goes from WHICH FIELDS ARE SET rather than from a declared tag,
+       * so "unreachable" is a property of a field COMBINATION, and every
+       * buf.validate constraint is scoped to one field. The renderer is the
+       * only layer that sees the whole combination.
+       *
+       * REPORTED, NOT REFUSED, exactly like the both-lanes violation above:
+       * the resolution is deterministic, and refusing would reject a screen
+       * that loads today — a contract change that owes a survey of the
+       * consumer corpora this repo cannot see. */
+      if ((node->event.cmd || node->event.cmd_by_value_count > 0) &&
+          node->event.set_subject[0] != '\0' && !node->event.notify_host)
+        LOG_ERROR("event '%s': cmd template is UNREACHABLE — it mutates "
+                  "subject '%s' with notify_host unset, so the emit gate drops "
+                  "the template at every fire",
+                  cb_data->name, cb_data->set_subject);
       /* R5b cmd-by-value: COPY the FIXED templates the widget's int value
            * index-selects among into a malloc'd persistent array (the single
            * cmd is inline; a 16-entry array is too large to inline). Both

@@ -688,3 +688,178 @@ fn defined_patch_op_kind_applies() {
         .expect("apply_patch trapped");
     assert_eq!(rc, 0, "a defined patch op kind must apply; got {rc}");
 }
+
+// ── EventBinding: a device-command template the dispatch gate can never reach ──
+//
+// `button_event_cb` relays a template only when `set_subject` is EMPTY or
+// `notify_host` is set. So a binding carrying a template AND a non-empty
+// `set_subject` with `notify_host` unset decodes, copies the template into the
+// persistent event data, attaches — and then drops it at every fire, silently.
+//
+// That silence is what this pair is about, and it is peculiar to this
+// combination: the neighbouring out-of-range `cmd_by_value` index and the
+// both-templates violation each log loudly, while the gate itself says nothing
+// because it is an `if`, not a check.
+//
+// NO `buf.validate` ANNOTATION COULD EXPRESS IT, which is why it is here rather
+// than in `output/manifests/ui-ast-constraints.json`: every entry there is one
+// declared constraint on one FIELD, and this is a property of a field
+// COMBINATION — the routing decision `EventBinding` takes from which fields are
+// set rather than from a tag. The renderer is the only layer that sees the whole
+// combination, so the report has to live there.
+//
+// THE VERDICT IS A REPORT, NOT A REFUSAL, matching the both-templates neighbour
+// it sits beside: the resolution is deterministic, and refusing would turn a
+// screen that loads today into a rejected one — a contract change this suite
+// cannot validate against a consumer's own corpus.
+
+/// The distinctive span of the diagnostic under test. Matching a SUBSTRING
+/// rather than the whole line keeps the assertion on the finding instead of on
+/// the wording, while staying specific enough that no other clause emits it.
+const UNREACHABLE_MARKER: &str = "cmd template is UNREACHABLE";
+
+/// The both-templates neighbour's marker — an INDEPENDENT clause in the same
+/// attach block. It is what makes a red here attributable: a mutation that
+/// breaks the unreachable clause must leave this one refusing.
+const BOTH_TEMPLATES_MARKER: &str = "carries BOTH cmd and cmd_by_value";
+
+/// `controls_load_ui`'s status for these bytes, plus everything the guest wrote
+/// to stderr while loading them. Capture is OFF by default in the harness, so a
+/// test whose subject IS a log line must ask for it.
+fn load_capturing_stderr(bytes: &[u8]) -> (i32, String) {
+    let config = HostConfig::new(repo_root().join("output/controls.wasm"), WIDTH, HEIGHT)
+        .with_wasi_root(repo_root().join("assets"))
+        .with_captured_stderr();
+    let mut host = ControlsHost::new(&config).expect("failed to create ControlsHost");
+    let status = host
+        .load_ui_raw(bytes)
+        .expect("load_ui TRAPPED — a diagnostic must not take the guest down");
+    (status, host.captured_stderr())
+}
+
+/// A binding that mutates `PROBE_SUBJECT` and carries a device-command
+/// template. `notify_host` is the whole difference between a template the
+/// dispatch gate can reach and one it cannot; `by_value` picks which of the two
+/// template lanes carries it.
+///
+/// The subject is DECLARED (`screen_with_subject`), deliberately: an
+/// undeclared one makes the deferred `event set_subject references unknown
+/// subject` clause fire on this same input, and a red would then be compatible
+/// with the clause under test being dead.
+fn subject_mutating_cmd_screen(notify_host: bool, by_value: bool) -> Vec<u8> {
+    let mut event = ui::EventBinding {
+        name: "probe".to_owned(),
+        set_subject: PROBE_SUBJECT.to_owned(),
+        set_value: 1,
+        notify_host,
+        ..Default::default()
+    };
+    if by_value {
+        event.cmd_by_value = vec![bare_cmd_spec()];
+    } else {
+        event.cmd = Some(bare_cmd_spec());
+    }
+    screen_with_subject(ui::WidgetNode {
+        r#type: ui::WidgetType::WidgetButton as i32,
+        event: Some(event),
+        ..Default::default()
+    })
+}
+
+#[test]
+fn cmd_unreachable_behind_a_local_subject_is_reported() {
+    let (status, err) = load_capturing_stderr(&subject_mutating_cmd_screen(false, false));
+    assert!(
+        err.contains(UNREACHABLE_MARKER) && err.contains(PROBE_SUBJECT),
+        "a `cmd` gated off by set_subject without notify_host must be REPORTED, \
+         naming the subject that gates it; stderr was: {err}"
+    );
+    assert_eq!(
+        status, 0,
+        "the report is a diagnostic, not a refusal — the load must still succeed"
+    );
+}
+
+#[test]
+fn cmd_by_value_unreachable_behind_a_local_subject_is_reported() {
+    let (status, err) = load_capturing_stderr(&subject_mutating_cmd_screen(false, true));
+    assert!(
+        err.contains(UNREACHABLE_MARKER),
+        "a `cmd_by_value` table gated off the same way must be REPORTED too — \
+         the emit gate drops both lanes together; stderr was: {err}"
+    );
+    assert_eq!(status, 0, "a diagnostic, not a refusal");
+}
+
+/// The control, and it carries its own NON-VACUITY GUARD. "The marker is
+/// absent" is also what a dead harness prints, so this test first drives the
+/// known-bad fixture through the SAME helper and requires the marker to appear.
+/// Without that, a capture that silently stopped working would pass here and
+/// read as proof that the clause discriminates.
+#[test]
+fn cmd_reachable_with_notify_host_is_not_reported() {
+    let (_, bad) = load_capturing_stderr(&subject_mutating_cmd_screen(false, false));
+    assert!(
+        bad.contains(UNREACHABLE_MARKER),
+        "non-vacuity: the known-bad fixture must reach the clause through this \
+         same helper, or the absence asserted below proves nothing"
+    );
+    let (status, err) = load_capturing_stderr(&subject_mutating_cmd_screen(true, false));
+    assert_eq!(status, 0, "a notify_host binding is legal and must load");
+    assert!(
+        !err.contains(UNREACHABLE_MARKER),
+        "notify_host REOPENS the gate — the template is reachable, so reporting \
+         it would fire on every legitimate notify-and-send binding; stderr was: {err}"
+    );
+}
+
+/// The second control, on the other axis: no local subject at all. The gate is
+/// open, so a template here is reachable and must draw no report.
+#[test]
+fn cmd_without_a_local_subject_is_not_reported() {
+    let screen = screen_of(ui::WidgetNode {
+        r#type: ui::WidgetType::WidgetButton as i32,
+        event: Some(ui::EventBinding {
+            name: "probe".to_owned(),
+            cmd: Some(bare_cmd_spec()),
+            ..Default::default()
+        }),
+        ..Default::default()
+    });
+    let (status, err) = load_capturing_stderr(&screen);
+    assert_eq!(status, 0, "a plain host-event binding with a cmd must load");
+    assert!(
+        !err.contains(UNREACHABLE_MARKER),
+        "an empty set_subject leaves the gate open; stderr was: {err}"
+    );
+}
+
+/// The NEIGHBOUR, pinned so it can serve as the attribution control: the
+/// both-templates violation is an independent clause in the same attach block
+/// and had no test of its own. Its fixture deliberately carries NO
+/// `set_subject`, so exactly one of the two clauses fires on it.
+#[test]
+fn event_carrying_both_template_lanes_is_reported() {
+    let screen = screen_of(ui::WidgetNode {
+        r#type: ui::WidgetType::WidgetButton as i32,
+        event: Some(ui::EventBinding {
+            name: "probe".to_owned(),
+            cmd: Some(bare_cmd_spec()),
+            cmd_by_value: vec![bare_cmd_spec()],
+            ..Default::default()
+        }),
+        ..Default::default()
+    });
+    let (status, err) = load_capturing_stderr(&screen);
+    assert!(
+        err.contains(BOTH_TEMPLATES_MARKER),
+        "a binding carrying both template lanes must be REPORTED; stderr was: {err}"
+    );
+    assert!(
+        !err.contains(UNREACHABLE_MARKER),
+        "this fixture carries no set_subject, so the unreachable clause must \
+         stay silent on it — that separation is what makes it an attribution \
+         control; stderr was: {err}"
+    );
+    assert_eq!(status, 0, "a diagnostic, not a refusal");
+}
