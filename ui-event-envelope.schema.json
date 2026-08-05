@@ -14,8 +14,8 @@
     "tag": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 63,
-      "description": "EventBinding.name — the event keyword, which IS the command identifier the host maps on (e.g. 'dayCamera.setZoomTableValue'). The renderer caps names at 63 bytes (char[64] storage); an EMPTY name emits no envelope at all."
+      "maxLength": 127,
+      "description": "EventBinding.name — the event keyword, which IS the command identifier the host maps on (e.g. 'dayCamera.setZoomTableValue'). minLength/maxLength mirror ui.EventBinding.name's min_len/max_len (proto/ui/ui_ast.proto) and share their unit: both count CHARACTERS (Unicode code points), never bytes. What binds the PRODUCER is a BYTE bound instead — the nanopb max_size for that field (proto/ui/ui_ast.options) less its NUL terminator, which renderer.h's UI_EVENT_NAME_BUF holds the event cache and the envelope serializer to — and JSON Schema has no byte-length keyword, so that bound is NOT expressible here: a tag carrying multi-byte characters can satisfy this schema and still overflow the decoder. Passing here is NECESSARY, not SUFFICIENT. An EMPTY name emits no envelope at all."
     },
     "origin": {
       "type": "integer",
