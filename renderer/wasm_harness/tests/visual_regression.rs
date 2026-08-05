@@ -7796,3 +7796,496 @@ mod gesture_spec_disjointness {
         );
     }
 }
+// ═══════════════════════════════════════════════════════════════════
+// Two writers, one value — the operator's finger and the device state.
+//
+// A `value`-bound DRAGGABLE widget has two writers and they collide in
+// TIME: the drag emits VALUE_CHANGED, that writes the subject and fires
+// the command; the device has not adopted yet, so its next state update
+// carries the OLD value onto the same subject and an unguarded binding
+// writes it straight back into the widget — under the finger. No still
+// render holds that and no golden can pin it, which is why it needs a lane
+// that drives real input and controls its own ticks.
+//
+// TWO OBSERVABLES, because the collision surfaces differently per widget
+// class and neither alone covers all three. Which one fired for which
+// widget was MEASURED against the unrepaired interpreter, never assumed —
+// every figure below is from that run:
+//
+//   * the settled FRAMEBUFFER — `arc` (953/120000 px) and `roller`
+//     (1842/120000 px). Their input handlers either recover slowly (the
+//     arc's PRESSING is slew-rate limited to 720 deg/s) or not at all (a
+//     roller commits only at release), so the displaced state survives
+//     into rendered frames.
+//   * the host_event ENVELOPE stream — `slider`. Its PRESSING handler
+//     restores the pointer's value inside the same tick, so the settled
+//     framebuffer never holds the displaced thumb; what escapes instead is
+//     a COMMAND. The programmatic set emits no VALUE_CHANGED of its own
+//     (asserted below, and measured directly: zero envelopes with zero
+//     ticks between the update and the drain), but it desynchronises the
+//     widget from the pointer and the next PRESSING re-derives the value
+//     from the UNMOVED finger, finds it different, and does emit. One echo
+//     against a stationary finger produced TWO commands —
+//     `[("device-cmd", 95), ("device-cmd", 20)]` — and the 95 is not a
+//     value anything was set to: `lv_bar_get_value` reports the ANIMATED
+//     value mid-animation and `include_widget_value` read it.
+//
+// Every case carries the controls that keep it from being satisfiable for
+// the wrong reason: the binding is proven live BEFORE the press and AFTER
+// the release, the drag is proven to move the render, the stationary
+// finger is proven silent with nothing in flight, and the mid-drag echo is
+// proven to be a real subject CHANGE by reading the subject first — a
+// value the subject already holds notifies no observer, and the roller
+// case WAS vacuous for exactly that reason until the readout was added.
+//
+// THE REPAIR HAS TWO CLAUSES AND EACH WAS BROKEN ALONE, because a red run
+// proves nothing about WHICH clause earned it. Deleting only the pressed
+// guard reddens clause 4 on all three widgets and nothing else; deleting
+// only the RELEASED / PRESS_LOST registration reddens clause 5 on slider
+// and arc, leaves clause 4 green, and leaves the roller passing outright —
+// which is what its `release_resync: false` predicts. Both mutants COMPILE
+// and both produce assertion FAILURES rather than errors, so neither red is
+// a broken build wearing the right colour.
+// ═══════════════════════════════════════════════════════════════════
+
+mod drag_owns_the_value {
+    use super::*;
+    use lvgl_harness::proto::ui::style_property::Value;
+    use std::collections::HashMap;
+    /// The one INT subject every screen here declares and binds `value` to.
+    const SUBJECT: &str = "device_value";
+    /// The `EventBinding.name` every widget here fires on VALUE_CHANGED.
+    const EVENT: &str = "device-cmd";
+    /// The subject's declared initial.
+    const LOADED: i32 = 50;
+    /// What the device reports just before the drag — the value the operator
+    /// then drags away from.
+    const SETTLED: i32 = 95;
+    /// The mid-drag echo: the device has not adopted the command, so it is
+    /// still reporting something else. Chosen distinct from every drag target
+    /// these cases reach, so the change-precondition below actually holds;
+    /// that it holds is ASSERTED rather than trusted.
+    const ECHO: i32 = 30;
+    /// A later device value, for the after-release liveness control only.
+    const AFTER: i32 = 5;
+    /// `LV_OBJ_FLAG_HIDDEN` — the readout label is dumped but never drawn.
+    const FLAG_HIDDEN: u32 = 1;
+    fn size_group(w: u32, h: u32) -> ui::StyleGroup {
+        ui::StyleGroup {
+            variants: vec![ui::StyleVariant {
+                properties: vec![
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropWidth as i32,
+                        value: Some(Value::UintValue(w)),
+                    },
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropHeight as i32,
+                        value: Some(Value::UintValue(h)),
+                    },
+                ],
+                ..Default::default()
+            }],
+            ..Default::default()
+        }
+    }
+    /// A `text`-bound label that is HIDDEN, so `dump_tree` reports the
+    /// subject's live value while the framebuffer stays a function of the
+    /// widget under test alone. Without it the mid-drag echo could only be
+    /// ASSUMED to be a change — and `lv_subject_set_int` notifies nobody when
+    /// the value is unchanged, which is how the roller case passed against
+    /// the unrepaired build on first measurement while proving nothing.
+    fn subject_readout() -> ui::WidgetNode {
+        ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetLabel as i32,
+            uid: 99,
+            obj_flags: FLAG_HIDDEN,
+            bindings: HashMap::from([("text".to_owned(), SUBJECT.to_owned())]),
+            bind_formats: HashMap::from([("text".to_owned(), "%d".to_owned())]),
+            ..Default::default()
+        }
+    }
+    /// Bind the node's `value` to `SUBJECT`, give it the VALUE_CHANGED event
+    /// binding, and hang it on a canvas-sized root beside the readout.
+    fn screen_of(mut widget: ui::WidgetNode) -> Vec<u8> {
+        widget.bindings = HashMap::from([("value".to_owned(), SUBJECT.to_owned())]);
+        widget.event = Some(ui::EventBinding {
+            name: EVENT.to_owned(),
+            trigger: ui::EventTrigger::TriggerValueChanged as i32,
+            include_widget_value: true,
+            ..Default::default()
+        });
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                uid: 1,
+                style_groups: vec![size_group(WIDTH, HEIGHT)],
+                children: vec![widget, subject_readout()],
+                ..Default::default()
+            }),
+            subjects: vec![ui::SubjectDeclaration {
+                name: SUBJECT.to_owned(),
+                r#type: ui::SubjectType::SubjectInt as i32,
+                initial: Some(ui::subject_declaration::Initial::IntInitial(LOADED)),
+            }],
+        }
+        .encode_to_vec()
+    }
+    /// A host → wasm state update carrying one INT value for `SUBJECT`.
+    fn state(v: i32) -> Vec<u8> {
+        ui::StateUpdate {
+            values: vec![ui::SubjectValue {
+                name: SUBJECT.to_owned(),
+                value: Some(ui::subject_value::Value::IntValue(v)),
+            }],
+        }
+        .encode_to_vec()
+    }
+    fn settle(host: &mut ControlsHost) {
+        for _ in 0..10 {
+            let _ = host.tick(TICK_MS).expect("tick");
+        }
+    }
+    fn frame(host: &mut ControlsHost) -> Vec<u8> {
+        host.read_framebuffer().expect("read_framebuffer")
+    }
+    /// Drain the captured host_event envelopes as `(tag, value)` pairs.
+    fn envelopes(host: &mut ControlsHost) -> Vec<(String, i64)> {
+        host.take_host_events()
+            .into_iter()
+            .map(|bytes| {
+                let v: serde_json::Value =
+                    serde_json::from_slice(&bytes).expect("host_event envelope JSON");
+                (
+                    v["tag"].as_str().expect("tag").to_owned(),
+                    v["value"].as_i64().expect("value"),
+                )
+            })
+            .collect()
+    }
+    /// Push a device state update and return the settled frame.
+    fn push(host: &mut ControlsHost, v: i32) -> Vec<u8> {
+        host.update_state(&state(v)).expect("update_state");
+        settle(host);
+        frame(host)
+    }
+    fn load(host: &mut ControlsHost, pb: &[u8]) -> Vec<u8> {
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(pb).expect("load_ui");
+        settle(host);
+        frame(host)
+    }
+    /// Depth-first search for the first node of LVGL class `ty`.
+    fn node_of<'a>(node: &'a serde_json::Value, ty: &str) -> Option<&'a serde_json::Value> {
+        if node["type"].as_str() == Some(ty) {
+            return Some(node);
+        }
+        node["children"]
+            .as_array()
+            .and_then(|kids| kids.iter().find_map(|k| node_of(k, ty)))
+    }
+    /// The widget's inclusive `coords`, read from the LIVE tree rather than
+    /// computed from the authored x/y/size, so theme padding cannot move the
+    /// press off the widget and turn every assertion after it vacuous.
+    fn widget_coords(host: &mut ControlsHost, ty: &str) -> [i32; 4] {
+        let t = tree(host);
+        let n = node_of(&t, ty).unwrap_or_else(|| panic!("no {ty} in the rendered tree"));
+        let c = n["coords"].as_array().expect("coords");
+        [
+            c[0].as_i64().expect("x1") as i32,
+            c[1].as_i64().expect("y1") as i32,
+            c[2].as_i64().expect("x2") as i32,
+            c[3].as_i64().expect("y2") as i32,
+        ]
+    }
+    /// The subject's live value, read off the hidden readout label.
+    fn subject_now(host: &mut ControlsHost) -> i32 {
+        let t = tree(host);
+        let n = node_of(&t, "lv_label").expect("the readout label is in the tree");
+        n["text"]
+            .as_str()
+            .expect("the readout label dumps its text")
+            .parse()
+            .expect("the readout label formats an integer")
+    }
+    /// Which clauses a widget class is held to. `release_resync` is the one
+    /// axis where the three genuinely differ, and it is a parameter rather
+    /// than a blanket assertion because asserting it on a roller would be
+    /// asserting something false (see `roller_drag_survives_a_device_update`).
+    struct Expect {
+        release_resync: bool,
+    }
+    /// The whole contract, driven once per widget class:
+    ///
+    /// 1. the binding is LIVE with no pointer down, and a programmatic set
+    ///    emits no VALUE_CHANGED of its own;
+    /// 2. the drag moves the render (else the press missed and everything
+    ///    after it is vacuous);
+    /// 3. a stationary finger with nothing in flight moves nothing and emits
+    ///    nothing — the neighbour control for 4;
+    /// 4. an echo landing MID-DRAG, PROVEN to be a real subject change, moves
+    ///    neither the render nor the envelope stream — the defect;
+    /// 5. where the widget's own release does not itself write the subject,
+    ///    the released frame is byte-identical to the frame that SAME subject
+    ///    value produces on the same widget after the same press — the
+    ///    deferred write is applied rather than dropped;
+    /// 6. the binding is LIVE again after release — a repair that simply
+    ///    dropped the observer would satisfy 4 and fail here.
+    ///
+    /// EVERY OBSERVATION IS COLLECTED BEFORE ANY OF THEM IS ASSERTED, and the
+    /// pointer is released first. That is not style: `LV_ASSERT_HANDLER`
+    /// defaults to `while(1);`, so an LVGL assert inside the guest HANGS the
+    /// suite with no further output — and unwinding a panic while a drag is
+    /// live drops the host mid-press and reaches exactly that. Measured: a
+    /// failing roller case took the whole binary down for ten minutes on
+    /// `lv_obj_refresh_ext_draw_size: obj != NULL`, printing nothing after it.
+    ///
+    /// `point` maps the widget's own dumped coords to the press and move
+    /// points, in absolute framebuffer px.
+    fn drag_owns_it(
+        label: &str,
+        widget: ui::WidgetNode,
+        ty: &str,
+        expect: &Expect,
+        point: impl Fn([i32; 4]) -> ((i32, i32), (i32, i32)),
+    ) {
+        let mut host = new_host();
+        let pb = screen_of(widget);
+        let at_load = load(&mut host, &pb);
+        let (from, to) = point(widget_coords(&mut host, ty));
+        let _ = envelopes(&mut host); // drain load-time emissions
+        // ── DRIVE ────────────────────────────────────────────────────────
+        let idle = push(&mut host, SETTLED);
+        let by_the_idle_push = envelopes(&mut host);
+        press_px(&mut host, from.0, from.1);
+        settle(&mut host);
+        move_px(&mut host, to.0, to.1);
+        settle(&mut host);
+        let dragged = frame(&mut host);
+        let by_the_drag = envelopes(&mut host);
+        settle(&mut host);
+        let quiet = frame(&mut host);
+        let by_the_stationary_finger = envelopes(&mut host);
+        let subject_before_echo = subject_now(&mut host);
+        let under_the_finger = push(&mut host, ECHO);
+        let by_the_echo = envelopes(&mut host);
+        release_px(&mut host, to.0, to.1);
+        // TWO settle blocks, measured rather than chosen: the release's own
+        // effects land in the first, but the pressed-state styling clears on a
+        // LATER indev read — a slider's knob shrinks back by 304 px one block
+        // after everything else has stopped moving. One block would compare
+        // press styling instead of the value.
+        settle(&mut host);
+        settle(&mut host);
+        let released = frame(&mut host);
+        let subject_after_release = subject_now(&mut host);
+        let _ = envelopes(&mut host);
+        let after = push(&mut host, AFTER);
+        // The REFERENCE for clause 5: this widget showing ECHO again, having
+        // been pressed and released exactly as many times as `released` was.
+        // Built by pushing AFTER then ECHO rather than captured before the
+        // press, because a press leaves visual state behind — measured: a
+        // slider's post-release knob paints a 48x48 accent region that its
+        // never-touched frame does not, so a pre-press reference would have
+        // compared focus styling and not the value.
+        let reference_after = push(&mut host, ECHO);
+        // ── ASSERT ───────────────────────────────────────────────────────
+        assert_not_empty(label, &at_load);
+        // 1 — idle liveness, and the programmatic set is silent.
+        assert_differ(
+            &format!("{label}: an idle state update must reach the widget"),
+            &at_load,
+            &idle,
+            MIN_DIFF_RATIO,
+        );
+        assert_eq!(
+            by_the_idle_push,
+            vec![],
+            "{label}: a programmatic set must emit no VALUE_CHANGED of its own"
+        );
+        // 2 — the operator takes it.
+        assert_differ(
+            &format!("{label}: the drag itself must move the render"),
+            &idle,
+            &dragged,
+            MIN_DIFF_RATIO,
+        );
+        // 3 — NEIGHBOUR CONTROL. Same tick budget, same finger, nothing in
+        // flight. Whatever 4 observes cannot be ordinary pressing.
+        assert_identical(
+            &format!("{label}: a stationary finger must not move the render"),
+            &dragged,
+            &quiet,
+        );
+        assert_eq!(
+            by_the_stationary_finger,
+            vec![],
+            "{label}: a stationary finger must emit nothing (the drag emitted {by_the_drag:?})"
+        );
+        // 4 — THE DEFECT, over an echo proven to be a real change.
+        assert_ne!(
+            subject_before_echo, ECHO,
+            "{label}: the mid-drag echo must CHANGE the subject — an unchanged \
+             set_int notifies nobody and this case would prove nothing"
+        );
+        assert_identical(
+            &format!("{label}: a state update landing MID-DRAG must not move the widget"),
+            &quiet,
+            &under_the_finger,
+        );
+        assert_eq!(
+            by_the_echo,
+            vec![],
+            "{label}: a state update landing MID-DRAG must not make the widget re-emit"
+        );
+        // 5 — the deferred write is APPLIED at release, not dropped. Skipping
+        // alone would leave the widget showing the operator's request for
+        // ever: lv_subject_set_int notifies only on CHANGE, so a device that
+        // never adopts the command re-sends nothing.
+        if expect.release_resync {
+            assert_eq!(
+                subject_after_release, ECHO,
+                "{label}: this widget's release must not write the subject itself"
+            );
+            assert_identical(
+                &format!("{label}: at release the widget must take the subject's value"),
+                &reference_after,
+                &released,
+            );
+        }
+        // 6 — the binding is live again.
+        assert_differ(
+            &format!("{label}: after release the binding must be live again"),
+            &released,
+            &after,
+            MIN_DIFF_RATIO,
+        );
+    }
+    /// The named case. RED before the repair on the ENVELOPE clause:
+    /// `[("device-cmd", 95), ("device-cmd", 20)]` against a stationary
+    /// finger. Its framebuffer clause was GREEN unrepaired and is kept as a
+    /// second, weaker witness.
+    #[test]
+    fn slider_drag_survives_a_device_update() {
+        let slider = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetSlider as i32,
+            uid: 10,
+            x: 50,
+            y: 130,
+            style_groups: vec![size_group(300, 30)],
+            widget_props: Some(ui::widget_node::WidgetProps::SliderProps(ui::SliderProps {
+                min_value: 0,
+                max_value: 100,
+                value: LOADED,
+                ..Default::default()
+            })),
+            ..Default::default()
+        };
+        drag_owns_it(
+            "slider",
+            slider,
+            "lv_slider",
+            &Expect {
+                // A slider's RELEASED arm re-maps the release point and emits
+                // only if that CHANGES the value; the pointer has not moved
+                // since the last PRESSING, so it does not.
+                release_resync: true,
+            },
+            |c| {
+                let (x1, y1, x2, y2) = (c[0], c[1], c[2], c[3]);
+                let mid_y = (y1 + y2) / 2;
+                let w = x2 - x1;
+                ((x1 + w * 3 / 5, mid_y), (x1 + w / 5, mid_y))
+            },
+        );
+    }
+    /// The sibling three lines below the slider in `apply_bindings`, bound
+    /// through its own stock binder with the same unguarded observer. RED
+    /// before the repair on the FRAMEBUFFER clause (953/120000 px), because
+    /// the arc's PRESSING handler is slew-rate limited and takes many ticks
+    /// to walk back to the finger.
+    #[test]
+    fn arc_drag_survives_a_device_update() {
+        let arc = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetArc as i32,
+            uid: 11,
+            x: 100,
+            y: 50,
+            style_groups: vec![size_group(200, 200)],
+            widget_props: Some(ui::widget_node::WidgetProps::ArcProps(ui::ArcProps {
+                min_value: 0,
+                max_value: 100,
+                value: LOADED,
+                bg_start_angle: 135,
+                bg_end_angle: 45,
+                start_angle: 135,
+                end_angle: 270,
+                ..Default::default()
+            })),
+            ..Default::default()
+        };
+        drag_owns_it(
+            "arc",
+            arc,
+            "lv_arc",
+            &Expect {
+                // The arc's RELEASED arm clears `dragging` and emits nothing.
+                release_resync: true,
+            },
+            |c| {
+                // LVGL enters arc-drag only when the press lands outside the
+                // knob radius, so press near the outer ring and swing to the
+                // top.
+                let (x1, y1, x2, y2) = (c[0], c[1], c[2], c[3]);
+                let (cx, cy) = ((x1 + x2) / 2, (y1 + y2) / 2);
+                let r = (x2 - x1) / 2 - 4;
+                ((cx - r, cy), (cx, cy - r))
+            },
+        );
+    }
+    /// The third stock-bound draggable. RED before the repair on the
+    /// FRAMEBUFFER clause (1842/120000 px).
+    ///
+    /// `release_resync` is FALSE here and that is a property of the widget,
+    /// not a gap: a roller's `release_handler` ALWAYS sends VALUE_CHANGED, so
+    /// the release COMMITS the operator's selection onto the subject and
+    /// there is no deferred device value left to apply. Asserting clause 5
+    /// here would assert something false.
+    #[test]
+    fn roller_drag_survives_a_device_update() {
+        let roller = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetRoller as i32,
+            uid: 12,
+            x: 120,
+            y: 40,
+            style_groups: vec![size_group(160, 220)],
+            widget_props: Some(ui::widget_node::WidgetProps::RollerProps(ui::RollerProps {
+                // 60 options at 2-4 bytes each stays inside
+                // ui.RollerProps.options' max_size:512.
+                options: (0..60)
+                    .map(|i| format!("o{i}"))
+                    .collect::<Vec<_>>()
+                    .join("\n"),
+                selected: LOADED as u32,
+                visible_row_count: 5,
+                ..Default::default()
+            })),
+            ..Default::default()
+        };
+        drag_owns_it(
+            "roller",
+            roller,
+            "lv_roller",
+            &Expect {
+                release_resync: false,
+            },
+            |c| {
+                let (x1, y1, x2, y2) = (c[0], c[1], c[2], c[3]);
+                let cx = (x1 + x2) / 2;
+                let h = y2 - y1;
+                ((cx, y1 + h / 5), (cx, y1 + h * 4 / 5))
+            },
+        );
+    }
+}

@@ -3897,6 +3897,123 @@ static void dropdown_value_observer_cb(lv_observer_t *observer,
   }
   /* value not among the options → leave the current selection unchanged */
 }
+/* ── A DRAGGABLE value widget has TWO writers, and they collide in TIME ──
+ *
+ * WHY slider / arc / roller do NOT use lv_{slider,arc,roller}_bind_value.
+ * Each stock binder installs an observer that writes the widget
+ * UNCONDITIONALLY, so a device state update landing while the operator's
+ * finger is down moves the control out from under it. The sequence is
+ * ordinary rather than exotic: the drag emits LV_EVENT_VALUE_CHANGED, that
+ * writes the subject and fires the command; the device has not adopted yet,
+ * so its next state update carries the OLD value onto the same subject and
+ * the observer puts it straight back into the widget.
+ *
+ * IT IS NOT ONLY A FLICKER, and that is the reading to resist. The
+ * programmatic set emits no LV_EVENT_VALUE_CHANGED of its own — measured:
+ * zero envelopes with zero ticks between the update and the drain — but it
+ * desynchronises the widget from the pointer, and LVGL's own PRESSING
+ * handler then re-derives the value from the UNMOVED finger, finds it
+ * different, and DOES emit one. So a device echo is a command AMPLIFIER: on
+ * a slider one echo against a stationary finger produced two host commands,
+ * and the first carried a value nothing had been set to, because
+ * lv_bar_get_value reports the ANIMATED value mid-animation and
+ * include_widget_value read it.
+ *
+ * THE GUARD IS LV_STATE_PRESSED, NOT A PER-WIDGET DRAG FLAG. lv_slider does
+ * expose lv_slider_is_dragged() and lv_arc keeps the same bit in its private
+ * header, but `dragging` turns true only once the pointer has travelled past
+ * indev->scroll_limit — so it is blind to the window between the press and
+ * the first motion, which is exactly when a press-seek slider
+ * (SliderProps.seek_on_press) has ALREADY written the subject and fired the
+ * command. lv_roller has no usable flag at all: its `moved` bit is cleared
+ * at the next PRESS rather than at RELEASE, so reading it would suppress the
+ * binding permanently after the first drag. The pressed state is public,
+ * identical across the three, and covers the whole window the finger owns.
+ *
+ * ITS ONE HOLE, NAMED: WidgetNode.states is direct-cast onto lv_obj_add_state
+ * at create, so a screen authoring LV_STATE_PRESSED into it suppresses this
+ * binding until LVGL's first release clears the state. That screen is
+ * mis-authored either way, and every alternative predicate has a larger hole.
+ *
+ * RE-APPLY AT RELEASE, because skipping ALONE would lie. lv_subject_set_int
+ * notifies only on CHANGE, so a value this observer skipped is never re-sent:
+ * a device that never adopts the command would leave the widget showing the
+ * operator's request for ever, with nothing to correct it. The RELEASED /
+ * PRESS_LOST arm hands the widget back to the subject the moment the finger
+ * lifts. Both are registered as ORDINARY callbacks, never pre-process ones,
+ * so they run AFTER the widget class has finished its own release handling —
+ * LVGL dispatches added callbacks around the class handler in that order, and
+ * running first would let the class's final update_knob_pos overwrite the
+ * re-sync.
+ *
+ * LV_ANIM_OFF where the stock observers animate, for three reasons that
+ * point the same way: an animation started just before the press is a THIRD
+ * writer this guard cannot stop (lv_bar_set_value_with_anim writes the value
+ * at once and then drives the DRAWN one over time); lv_bar_get_value reports
+ * that animated value, so an include_widget_value emission during one
+ * carries a number nothing was set to; and apply_widget_props already
+ * applies every AUTHORED slider/roller value with LV_ANIM_OFF, so this makes
+ * the two paths agree instead of diverging.
+ */
+static void set_draggable_value(lv_obj_t *obj, lv_subject_t *subject) {
+  int32_t v = lv_subject_get_int(subject);
+  if (lv_obj_check_type(obj, &lv_slider_class)) {
+    lv_slider_set_value(obj, v, LV_ANIM_OFF);
+  } else if (lv_obj_check_type(obj, &lv_arc_class)) {
+    lv_arc_set_value(obj, v);
+  } else if (lv_obj_check_type(obj, &lv_roller_class)) {
+    /* The stock observer's own guard: lv_roller_set_selected re-runs
+     * refr_position even for an unchanged id (it must, to restart an
+     * animation the press deleted), so an unconditional call would reposition
+     * the list on every unrelated notify. */
+    if ((int32_t)lv_roller_get_selected(obj) != v)
+      lv_roller_set_selected(obj, (uint32_t)v, LV_ANIM_OFF);
+  }
+}
+static void draggable_value_observer_cb(lv_observer_t *observer,
+                                        lv_subject_t *subject) {
+  lv_obj_t *obj = lv_observer_get_target_obj(observer);
+  if (!obj)
+    return;
+  if (lv_obj_has_state(obj, LV_STATE_PRESSED))
+    return; /* the finger owns it; re-applied at RELEASED / PRESS_LOST */
+  set_draggable_value(obj, subject);
+}
+static void draggable_value_release_cb(lv_event_t *e) {
+  lv_obj_t *obj = lv_event_get_current_target(e);
+  lv_subject_t *subject = (lv_subject_t *)lv_event_get_user_data(e);
+  if (obj && subject)
+    set_draggable_value(obj, subject);
+}
+/* The widget → subject half, mirroring the stock binders' own event callback
+ * (get_widget_int_value resolves to lv_slider_get_value / lv_arc_get_value /
+ * lv_roller_get_selected — the same getter each stock callback uses). */
+static void draggable_value_changed_cb(lv_event_t *e) {
+  lv_obj_t *obj = lv_event_get_current_target(e);
+  lv_subject_t *subject = (lv_subject_t *)lv_event_get_user_data(e);
+  if (obj && subject)
+    lv_subject_set_int(subject, get_widget_int_value(obj));
+}
+static void bind_draggable_value(lv_obj_t *obj, subject_entry_t *entry) {
+  /* The stock binders' own type check, kept verbatim in effect: a `value`
+   * binding needs an INT subject, and a STRING one leaves the widget
+   * unbound rather than writing 0 into it. The registry builds only INT and
+   * STRING subjects (apply_subject_declaration), so there is no FLOAT arm to
+   * mirror. */
+  if (entry->type != 0) {
+    LOG_WARN("'value' binding needs an INT subject — '%s' is not one",
+             entry->name);
+    return;
+  }
+  lv_obj_add_event_cb(obj, draggable_value_changed_cb, LV_EVENT_VALUE_CHANGED,
+                      &entry->subject);
+  lv_obj_add_event_cb(obj, draggable_value_release_cb, LV_EVENT_RELEASED,
+                      &entry->subject);
+  lv_obj_add_event_cb(obj, draggable_value_release_cb, LV_EVENT_PRESS_LOST,
+                      &entry->subject);
+  lv_subject_add_observer_obj(&entry->subject, draggable_value_observer_cb, obj,
+                              NULL);
+}
 static void apply_bindings(const pending_bindings_t *p) {
   lv_obj_t *obj = p->obj;
   if (!obj)
@@ -3930,14 +4047,17 @@ static void apply_bindings(const pending_bindings_t *p) {
     } else if (strcmp(key, "value") == 0) {
       /* Value binding — dispatch by widget type */
       switch (p->wtype) {
+      /* The three POINTER-DRAGGABLE value widgets share one drag-aware
+       * binder — the operator is a second writer on the same subject, and a
+       * stock binder's observer cannot see them. See bind_draggable_value
+       * for the mechanism, the measurement, and the guard's one hole. The
+       * widgets BELOW this arm are not in the class: a bar takes no pointer
+       * input, and a dropdown's or spinbox's value moves only on a discrete
+       * click, so a guard there could never fire. */
       case ui_WidgetType_WIDGET_SLIDER:
-        lv_slider_bind_value(obj, &entry->subject);
-        break;
       case ui_WidgetType_WIDGET_ARC:
-        lv_arc_bind_value(obj, &entry->subject);
-        break;
       case ui_WidgetType_WIDGET_ROLLER:
-        lv_roller_bind_value(obj, &entry->subject);
+        bind_draggable_value(obj, entry);
         break;
       case ui_WidgetType_WIDGET_DROPDOWN:
         /* SYNC C1: a value-bound dropdown resolves the enum NUMBER to the
