@@ -78,7 +78,7 @@ target in this repository byte-compares any file under
 `tools/renderer-gen/src/asgard/` against anything. So a divergence in this file
 is caught by review or by nothing, which is the reason it is written down.
 
-## Two cited doc trees are NOT VENDORED HERE — do not hunt for them
+## Cited docs and rules are NOT VENDORED HERE — do not hunt for them
 
 Many files in this seam carry a header citing `docs/lvgl-factory/NN-*.md`, and a
 handful cite `docs/ui-nodes/README`. **Neither directory exists in this
@@ -95,6 +95,26 @@ sanctions, provided the reader is told where it lives. This paragraph is that
 telling. What you must NOT do is treat one as a live path: do not `ls` for it,
 do not conclude the file is stale because the path 404s, and do not add a new
 citation in that shape without saying, at the citation, that it is external.
+
+**A THIRD SHAPE CARRIES THE SAME FACT AND HIDES IT BETTER — a BARE rule
+filename.** A few docstrings under
+`tools/renderer-gen/src/lvgl_codegen/construct/` attribute a constraint to an
+engineering rule by filename alone, with no directory in front of it:
+`fail-fast.md`, `cohesion.md`, `tight-schemas.md`. Those name the same
+upstream's RULE corpus, not this repo's `.claude/rules/`, and they resolve
+nowhere here. A `docs/`-prefixed path at least LOOKS foreign; a bare filename
+reads like a local rule, so this is the shape a reader is likeliest to
+`ls .claude/rules/` for, miss, and write off as stale. It is not stale: in every
+one of those sentences the reason is stated INLINE and the citation only
+attributes it, so the sentence is complete whether or not the target resolves.
+
+**A sweep to strip these citations has been proposed once and refused.** The
+ground is the one this section already gives — the citation is the only record
+of WHERE a decision was made, so deleting it destroys that and leaves the reader
+no better off — plus one the bare-filename shape adds: every one of them sits in
+a sentence whose reason is already stated inline, which makes the edit look free
+precisely where it buys nothing. Recording the refusal here is cheaper than
+re-deriving the argument, and this is the file a re-sync cannot overwrite.
 
 ## Sharing this seam by SOURCE ROOT rather than by copy — measured, and it does not close here
 
