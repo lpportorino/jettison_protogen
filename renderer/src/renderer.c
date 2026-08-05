@@ -46,7 +46,7 @@ static int get_composite_idx(void) {
 /* The wire's own bound on a subject NAME: `ui.SubjectDeclaration.name` and
  * `ui.SubjectValue.name` both carry max_size:64 in proto/ui/ui_ast.options, so
  * nanopb hands us at most 63 chars plus a terminator on either side. Named
- * because a SECOND buffer below (the unknown-subject warn table) has to be the
+ * because a SECOND buffer below (the unknown-subject report table) has to be the
  * same width for the same reason, and two bare 64s are two chances to drift. */
 #define SUBJECT_NAME_BUF_SIZE 64
 typedef struct {
@@ -91,6 +91,25 @@ static bool load_resource_error = false;
  * pairing, which trains a reader to ignore the log — leaving the real failure
  * exactly as invisible as silence does.
  *
+ * WHY INFO AND NOT WARN — the same premise, carried to the level. If the wire
+ * permits a name this screen does not declare, then such a name is CONFORMANT
+ * INPUT and a level claiming "something may be wrong" is a claim this module
+ * cannot support. It sees exactly ONE screen, so the two populations that
+ * arrive here are indistinguishable from where it stands: a name some OTHER
+ * screen declares (benign, and the steady state for a host that projects one
+ * namespace across a package) and a name NO screen declares (a producer
+ * defect). Separating them needs the whole package at once, which is a
+ * PRODUCER's vantage point and not an interpreter's — so the orphan verdict
+ * belongs where the evidence is, and this line reports the fact instead.
+ * The wide case is not a corner: past MAX_SUBJECTS distinct names in flight it
+ * saturates the table below on every load, by construction.
+ *
+ * The volume argument above and this one are the same argument at two grains,
+ * and the value-type mismatch further down comes out the other side of it: no
+ * conformant producer emits one — the declaration and the value are its own —
+ * so that line is zero-volume on a healthy pairing and IS a defect wherever it
+ * appears. WARN there, INFO here, on one test rather than two.
+ *
  * What makes once-per-name sound rather than merely cheaper: find_subject is a
  * pure function of a registry that changes only at load, so a name's
  * resolvability cannot change under a loaded screen. The first answer for a
@@ -106,15 +125,18 @@ static bool load_resource_error = false;
  * SATURATION IS ANNOUNCED, NOT SILENT. Falling quiet at the bound would
  * reintroduce, one layer up, the exact defect this table exists to remove: a
  * reader could not tell a screen with no further unresolved names from one
- * whose log had simply stopped naming them.
+ * whose log had simply stopped naming them. That announcement is INFO for a
+ * reason of its own on top of the one above: it describes the LOG rather than
+ * the screen — this module has stopped naming them — and a statement about a
+ * diagnostic's own truncation is not a report of a fault.
  *
  * COST. The scan is linear over the OCCUPIED prefix, so it is free on the
  * correct-producer path (the table stays empty) and short-circuits at O(1)
  * once saturated — which is the only regime where an unresolvable name arrives
  * on every update. Reset per load, alongside the registry it mirrors. */
-static char unknown_subject_warned[MAX_SUBJECTS][SUBJECT_NAME_BUF_SIZE];
-static int unknown_subject_warned_count = 0;
-static bool unknown_subject_warn_saturated = false;
+static char unknown_subject_reported[MAX_SUBJECTS][SUBJECT_NAME_BUF_SIZE];
+static int unknown_subject_reported_count = 0;
+static bool unknown_subject_report_saturated = false;
 /* Defined beside the CmdSpec copy that needs it, below; declared here because
  * reset_subject_registry installs it and runs first. */
 static bool renderer_subject_int(const char *name, int32_t *out);
@@ -132,12 +154,12 @@ static void reset_subject_registry(void) {
   }
   subject_count = 0;
   subject_overflow = false;
-  /* The warn table shadows THIS registry, so it lives and dies with it: a new
+  /* The report table shadows THIS registry, so it lives and dies with it: a new
    * screen is a new producer/screen pairing, about which the previous run's
    * suppressions say nothing. Only the count and the saturation latch need
    * clearing — no entry above the count is ever read. */
-  unknown_subject_warned_count = 0;
-  unknown_subject_warn_saturated = false;
+  unknown_subject_reported_count = 0;
+  unknown_subject_report_saturated = false;
 }
 static subject_entry_t *find_subject(const char *name) {
   for (int i = 0; i < subject_count; i++) {
@@ -147,31 +169,31 @@ static subject_entry_t *find_subject(const char *name) {
   }
   return NULL;
 }
-/* True when `name` must NOT be warned about — either it already has been under
- * this screen, or the table is saturated (in which case saturation itself is
+/* True when `name` must NOT be reported — either it already has been under this
+ * screen, or the table is saturated (in which case saturation itself is
  * announced once, so the log never merely stops). Records the name otherwise.
- * See unknown_subject_warned above for why the key is the name and why the
- * bound is MAX_SUBJECTS. */
-static bool unknown_subject_warn_suppressed(const char *name) {
-  for (int i = 0; i < unknown_subject_warned_count; i++) {
-    if (strcmp(unknown_subject_warned[i], name) == 0)
+ * See unknown_subject_reported above for why the key is the name, why the bound
+ * is MAX_SUBJECTS, and why both lines are INFO. */
+static bool unknown_subject_report_suppressed(const char *name) {
+  for (int i = 0; i < unknown_subject_reported_count; i++) {
+    if (strcmp(unknown_subject_reported[i], name) == 0)
       return true;
   }
-  if (unknown_subject_warned_count >= MAX_SUBJECTS) {
-    if (!unknown_subject_warn_saturated) {
-      unknown_subject_warn_saturated = true;
-      LOG_WARN(
+  if (unknown_subject_reported_count >= MAX_SUBJECTS) {
+    if (!unknown_subject_report_saturated) {
+      unknown_subject_report_saturated = true;
+      LOG_INFO(
           "state update: %d distinct undeclared subjects reported for this "
           "screen — further undeclared subjects are NOT being named",
           MAX_SUBJECTS);
     }
     return true;
   }
-  strncpy(unknown_subject_warned[unknown_subject_warned_count], name,
+  strncpy(unknown_subject_reported[unknown_subject_reported_count], name,
           SUBJECT_NAME_BUF_SIZE - 1);
-  unknown_subject_warned[unknown_subject_warned_count]
-                        [SUBJECT_NAME_BUF_SIZE - 1] = '\0';
-  unknown_subject_warned_count++;
+  unknown_subject_reported[unknown_subject_reported_count]
+                          [SUBJECT_NAME_BUF_SIZE - 1] = '\0';
+  unknown_subject_reported_count++;
   return false;
 }
 /* Style pool for dynamic allocation */
@@ -5636,14 +5658,15 @@ static bool state_values_decode_cb(pb_istream_t *stream,
   subject_entry_t *entry = find_subject(sv.name);
   if (!entry) {
     /* SKIPPED, but never silently. Dropping the value is right — see
-     * unknown_subject_warned — and a drop that reports NOTHING is what made a
+     * unknown_subject_reported — and a drop that reports NOTHING is what made a
      * malformed subject name indistinguishable from a healthy screen: the
-     * readout goes blank and this decode emits not one byte about it. WARN
-     * rather than ERROR because the legitimate-subset case reaches here too,
-     * and once per distinct name because controls_update_state repeats for as
-     * long as the screen is up. */
-    if (!unknown_subject_warn_suppressed(sv.name))
-      LOG_WARN("state update names subject '%s', which this screen does not "
+     * readout goes blank and this decode emits not one byte about it. INFO
+     * rather than WARN or ERROR because the legitimate-subset case reaches here
+     * too and this module cannot tell it apart from a producer defect, and once
+     * per distinct name because controls_update_state repeats for as long as
+     * the screen is up. */
+    if (!unknown_subject_report_suppressed(sv.name))
+      LOG_INFO("state update names subject '%s', which this screen does not "
                "declare — value dropped (named once per subject)",
                sv.name);
     return true;
@@ -5660,18 +5683,21 @@ static bool state_values_decode_cb(pb_istream_t *stream,
     /* B8: the subject EXISTS but the update's value type does not match its
        * declared type — a producer/contract bug the best-effort stream would
        * otherwise swallow. WARN only (never fail: the state stream must
-       * survive), the same posture the UNKNOWN-subject arm above takes. Fires
-       * only on a genuine mismatch, so no cost on the correct-producer path.
+       * survive). Fires only on a genuine mismatch, so no cost on the
+       * correct-producer path.
        *
-       * IT IS NOT RATE-LIMITED, unlike that arm, and the asymmetry is a
-       * difference in the CORRECT-operation volume rather than in how much
-       * each failure matters. An unresolvable NAME is unavoidable on a healthy
-       * pairing (see unknown_subject_warned), so a line per occurrence there is
-       * noise by construction. A type MISMATCH has no legitimate case behind
-       * it: the declaration and the value both come from one producer, so a
-       * healthy pairing emits this line zero times. A persistent mismatch does
-       * repeat for as long as the producer sends it, and bounding that would
-       * want the same treatment — a separate change, not one riding this. */
+       * IT IS WARN, AND NOT RATE-LIMITED, WHERE THE UNKNOWN-SUBJECT ARM ABOVE
+       * IS NEITHER. One test settles both differences, and it is the
+       * CORRECT-OPERATION VOLUME rather than how much each failure matters. An
+       * unresolvable NAME is unavoidable on a conformant pairing (see
+       * unknown_subject_reported), so there a line per occurrence is noise by
+       * construction and a level asserting a fault is a claim this module
+       * cannot support. A type MISMATCH has no legitimate case behind it: the
+       * declaration and the value both come from one producer, so a healthy
+       * pairing emits this line zero times and every one that appears is a
+       * defect. A persistent mismatch does repeat for as long as the producer
+       * sends it, and bounding that would want the same treatment — a separate
+       * change, not one riding this. */
     LOG_WARN("state update for '%s': value type does not match subject type",
              sv.name);
   }

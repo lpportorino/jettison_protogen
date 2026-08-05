@@ -7179,7 +7179,7 @@ mod tabview_authored_size {
 // indistinguishable from a healthy screen: the readout goes blank and the
 // module emits nothing at all.
 //
-// The three clauses under test are separable on purpose, so a mutation of any
+// The four clauses under test are separable on purpose, so a mutation of any
 // one of them reddens a different test:
 //
 //   AUDIBILITY  — an unresolvable name produces a line NAMING it.
@@ -7188,6 +7188,10 @@ mod tabview_authored_size {
 //                   feature safe on a rail running at signal cadence.
 //   SATURATION  — past the table bound the renderer SAYS it has stopped
 //                 naming them, rather than falling back to silence.
+//   LEVEL       — both of those lines are INFO, while the neighbouring
+//                 value-type mismatch is WARN. The level is the module's claim
+//                 about whether the input was WRONG, and it can only support
+//                 that claim for the mismatch.
 //
 // Every assertion reads the guest's own WASI stderr through
 // `HostConfig::with_captured_stderr`, so it judges the bytes the renderer
@@ -7198,7 +7202,7 @@ mod state_update_diagnostics {
     use super::*;
 
     /// Mirrors `MAX_SUBJECTS` in `renderer/src/renderer.c` — the registry
-    /// bound the unknown-subject warn table deliberately reuses rather than
+    /// bound the unknown-subject report table deliberately reuses rather than
     /// inventing a second number. Duplicated here on the same reasoning
     /// `wire_constraints.rs` gives for `MAX_HIT_SLOP`: the test holds the C
     /// constant to a promise, so reading it from the place that makes it would
@@ -7428,7 +7432,105 @@ mod state_update_diagnostics {
         );
     }
 
-    /// The warn table's lifetime is the SCREEN's, not the process's: a reload
+    /// LEVEL, both directions on one host.
+    ///
+    /// A level is a CLAIM about the input, and the two arms of
+    /// `state_values_decode_cb` are on opposite sides of it. `StateUpdate.values`
+    /// is unbounded and nothing on the wire ties it to `Screen.subjects`, so a
+    /// state update naming a subject this screen does not declare is CONFORMANT
+    /// — and the module, seeing one screen, cannot tell such a name from one no
+    /// screen declares. It therefore reports the fact at INFO. A value whose
+    /// type disagrees with its own declaration has no conformant producer
+    /// behind it at all, so that one is WARN.
+    ///
+    /// Nothing else in this module reads the level, so without this test the
+    /// distinction is unpinned — measured, not assumed: run against a renderer
+    /// that WARNs the undeclared-subject line, every other test in this module
+    /// passes and only this one goes red.
+    ///
+    /// THE WARN HALF IS THE NON-VACUITY GUARD, not a second subject. "No INFO
+    /// line carries [WARN]" is an absence assertion whose pass value equals its
+    /// nothing-ran value — a dead capture, a renderer emitting nothing, or a
+    /// `LOG_WARN` that stopped printing its prefix would each satisfy it.
+    /// Requiring the mismatch line to still arrive AS `[WARN]`, on the same
+    /// host and the same captured buffer, rules out all three.
+    #[test]
+    fn the_undeclared_subject_lines_are_info_and_the_mismatch_stays_warn() {
+        let mut host = new_capturing_host();
+        load(&mut host, &screen(&[DECLARED]));
+        // One name past the bound, so the per-name lines AND the saturation
+        // announcement are both on this buffer.
+        let names: Vec<String> = (0..=MAX_SUBJECTS)
+            .map(|i| format!("absent_subject_{i}"))
+            .collect();
+        let refs: Vec<&str> = names.iter().map(String::as_str).collect();
+        push(&mut host, &refs);
+        // Then the genuine defect: a STRING value at an INT subject.
+        let mismatch = ui::StateUpdate {
+            values: vec![ui::SubjectValue {
+                name: DECLARED.into(),
+                value: Some(ui::subject_value::Value::StringValue("not an int".into())),
+            }],
+        }
+        .encode_to_vec();
+        host.update_state(&mismatch).expect("update_state");
+
+        let stderr = host.captured_stderr();
+        let with = |needle: &str| -> Vec<String> {
+            stderr
+                .lines()
+                .filter(|line| line.contains(needle))
+                .map(str::to_owned)
+                .collect()
+        };
+        let per_name = with("which this screen does not");
+        let saturation = with("further undeclared subjects are NOT being named");
+        let mismatched = with("value type does not match subject type");
+
+        assert_eq!(
+            per_name.len(),
+            MAX_SUBJECTS,
+            "{} distinct undeclared names must produce MAX_SUBJECTS ({MAX_SUBJECTS}) \
+             per-name lines before the bound suppresses the rest, not {}.\n\
+             --- captured stderr ---\n{stderr}",
+            names.len(),
+            per_name.len()
+        );
+        for line in &per_name {
+            assert!(
+                line.starts_with("[INFO]"),
+                "an undeclared subject is CONFORMANT input this module cannot \
+                 adjudicate, so its line is INFO: {line:?}"
+            );
+        }
+        assert_eq!(
+            saturation.len(),
+            1,
+            "the saturation announcement must appear exactly once.\n\
+             --- captured stderr ---\n{stderr}"
+        );
+        assert!(
+            saturation[0].starts_with("[INFO]"),
+            "saturation describes this module's own LOG — that it has stopped \
+             naming them — not a fault in the screen, so it is INFO: {:?}",
+            saturation[0]
+        );
+        assert_eq!(
+            mismatched.len(),
+            1,
+            "the value-type mismatch must be reported exactly once here — it is \
+             this test's non-vacuity guard.\n--- captured stderr ---\n{stderr}"
+        );
+        assert!(
+            mismatched[0].starts_with("[WARN]"),
+            "a value type disagreeing with its own declaration has no conformant \
+             producer behind it, so it stays WARN — and this is what proves the \
+             INFO assertions above were not passing on a dead capture: {:?}",
+            mismatched[0]
+        );
+    }
+
+    /// The report table's lifetime is the SCREEN's, not the process's: a reload
     /// re-arms it, because a new screen is a new producer/screen pairing and
     /// the previous run's suppressions say nothing about it.
     #[test]

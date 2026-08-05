@@ -527,7 +527,7 @@
         "value": 1,
         "survives_strip": false,
         "disposition": "unenforced",
-        "harm": "Absent an empty declaration the update is dropped, and the drop is now REPORTED \u2014 the decode WARNs once per distinct unresolvable name, so an empty one surfaces as a line naming ''. With such a declaration it resolves to the unnameable subject instead, and THAT case is still silent: the lookup succeeds, so nothing distinguishes it from any other hit.",
+        "harm": "Absent an empty declaration the update is dropped, and the drop is REPORTED \u2014 the decode emits an INFO line once per distinct unresolvable name, so an empty one surfaces as a line naming ''. INFO and not WARN because the wire ties StateUpdate.values to nothing a screen declared, so an unresolvable name is conformant input the renderer cannot adjudicate from one screen. With such a declaration it resolves to the unnameable subject instead, and THAT case is still silent: the lookup succeeds, so nothing distinguishes it from any other hit.",
         "rationale": "Looked up by strcmp against the registry, which an empty string can match if an empty name was declared."
       }
     },
