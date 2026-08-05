@@ -158,17 +158,51 @@ static_assert(GESTURE_MAX_POINTERS >= GESTURE_MAX_POINTERS_TABLE,
 /* The gesture-template registry must hold one entry per DEFINED gesture kind,
  * plus one for the second direction of each kind whose decisions carry a step —
  * PINCH and WHEEL, per gesture_decision_t.delta. GESTURE_KIND_ROI is the highest
- * enumerator, so `+ 1` is the kind COUNT and `+ 3` is that sum.
+ * enumerator TODAY, so `+ 1` is the kind COUNT and `+ 3` is that sum.
  *
  * This exists because the bound has already gone stale once, silently: it was
  * derived from the five device gestures of the day, GESTURE_KIND_ROI was then
  * added as a sixth registrable lookup key, and nothing moved the number — a
  * surface binding every kind would have been REFUSED at load with no build,
- * gate or test able to say why. Adding a kind now fails the build here instead,
- * beside the other cross-header bound this file asserts. */
+ * gate or test able to say why.
+ *
+ * WHAT THIS ASSERT DOES AND DOES NOT CATCH. It catches the bound being LOWERED.
+ * It does NOT catch a new gesture kind, and a previous version of this comment
+ * claimed it did. The anchor is a NAME: a kind added AFTER GESTURE_KIND_ROI
+ * leaves ROI at 6, so the arithmetic is unchanged and the assert stays silently
+ * true — the exact staleness the paragraph above says it exists to prevent,
+ * recurring one enumerator later. The runtime is not loud either:
+ * controls_gesture_specs_set logs a warning and TRUNCATES to the bound, so the
+ * dropped templates are a warning in a log rather than a refusal.
+ *
+ * gesture_kind_bound_guard below is what actually catches a new kind. */
 static_assert(CMD_PATCH_MAX_GESTURES >= GESTURE_KIND_ROI + 3,
               "gesture registry must cover every gesture kind plus a second "
               "direction for each stepped kind");
+/* ADDING A GESTURE KIND MUST FAIL THE BUILD, and this is what makes it. The
+ * switch is exhaustive over gesture_kind_t and carries NO default, so -Wswitch
+ * (in -Wall, fatal under -Werror) refuses to compile the moment an enumerator
+ * appears that no case names. There is nothing to run and nothing to call: the
+ * body is unreachable by design and the function exists only so the compiler
+ * has somewhere to check exhaustiveness.
+ *
+ * When it fires, the fix is not to add a case here and move on. Re-derive
+ * CMD_PATCH_MAX_GESTURES first — one entry per kind, plus one more for each
+ * kind whose decisions carry a step — then update the assert above, then add
+ * the case. The case is the LAST step, because adding it first silences the
+ * only thing telling you the bound moved. */
+[[maybe_unused]] static void gesture_kind_bound_guard(gesture_kind_t k) {
+  switch (k) {
+  case GESTURE_KIND_PAN_MOVE:
+  case GESTURE_KIND_PAN_END:
+  case GESTURE_KIND_TAP:
+  case GESTURE_KIND_TRACK:
+  case GESTURE_KIND_PINCH:
+  case GESTURE_KIND_WHEEL:
+  case GESTURE_KIND_ROI:
+    break;
+  }
+}
 /* Stale-pointer GC window (§7/§8): a slot whose last event is older than this
  * is force-released through the CANCEL path on the next tick — the only
  * recovery from a dropped UP/CANCEL (a leaked slot would wedge the FSM). */
