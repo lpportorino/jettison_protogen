@@ -99,6 +99,36 @@ go-leg-repro: ## Verify output/go is byte-identical to a fresh offline go-leg ru
 go-leg-repro-canary: ## Prove the go-leg reproducibility check can FAIL
 	@./tools/go_leg_repro.sh --canary
 
+# ── orphaned generated files ──────────────────────────────────────────────────
+# The OTHER direction from go-leg-repro, over ALL eleven legs: a committed path
+# that no leg produces any more. Generation never deletes, so such a file stays
+# in output/ for ever and the fan-out keeps copying it into ten consumer
+# repositories.
+#
+# IT IS WIRED, AND NOT HERE. The armed caller is build-and-release.yml, as a step
+# between `make generate` and the first consumer push. That placement is the
+# whole reason this check can be a gate where go-leg-repro deliberately is not,
+# and the argument is the exact inverse of the one above: byte-identity is
+# vacuous AFTER a regeneration, while orphan-hood is only honest after one —
+# generate never deletes, so an orphan survives a full regeneration untouched.
+#
+# NOT IN `lint`, AND NOT IN THE PRE-PUSH HOOK, on purpose. Both run on a plain
+# host: this check needs docker plus the multi-gigabyte generator image, so on a
+# checkout without them it would either hard-fail every push or — far worse —
+# have to skip, and a skip here is a green tick over zero coverage. The release
+# job is the one caller that always has both, and it is also the last point
+# before the bindings reach a consumer.
+#
+# These two targets exist so the check and the canary that proves it can fail
+# are discoverable and runnable locally. Host-only, like the pair above.
+.PHONY: orphan-scan
+orphan-scan: ## Find committed generated files that no generation leg produces
+	@./tools/orphan_scan.sh
+
+.PHONY: orphan-scan-canary
+orphan-scan-canary: ## Prove the orphan check can FAIL, once per mechanism
+	@./tools/orphan_scan.sh --canary
+
 .PHONY: binary-dedup
 binary-dedup: generate ## Full generate + binary dedup tag map (use for standalone runs)
 

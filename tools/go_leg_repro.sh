@@ -120,6 +120,14 @@ chown -R $(id -u):$(id -g) /workspace/output"
 # a decision about the TREE — a generated artifact a consumer may vendor is not
 # this check's to condemn — while this check judges the LEG. They are counted
 # and named on every run so they cannot go unnoticed.
+#
+# THAT DECISION NOW HAS A HOME, AND IT IS NOT HERE: tools/orphan_scan.sh runs
+# ALL ELEVEN legs and makes exactly that call, with a proof-carrying allowlist
+# for the paths that are hand-maintained on purpose. It changes nothing about
+# this check's scope and nothing about the case below — the two ask different
+# questions of different populations, and folding either into the other would
+# put a tree verdict inside a leg check that is deliberately in no workflow.
+# Read the OBSERVED list here as a pointer at that gate, never as a finding.
 compare() {
   local committed="$1" fresh="$2" rc=0
   local -a differing=() missing=() extra=()

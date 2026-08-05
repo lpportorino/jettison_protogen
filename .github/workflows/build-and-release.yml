@@ -18,6 +18,18 @@ on:
       # The wire-contract gate below is a step of THIS job, so a change to the
       # checker or its make target must re-run the fan-out's validation.
       - 'tools/wire_contract_check.py'
+      # Same reason, for the orphaned-output gate and its canary: both are steps
+      # of THIS job and this is the only workflow that runs either, so a change
+      # to the checker must re-run them. A canary whose trigger excludes the file
+      # whose change would break it is armed in name only.
+      #
+      # `output/**` is deliberately NOT here. Adding it would fire two image
+      # builds, a full `make generate` and ten consumer pushes on any edit to a
+      # generated tree. The residual is bounded and worth stating: a commit that
+      # touches ONLY output/ does not run this gate — but it does not reach a
+      # consumer either, because the fan-out lives in this job. The next proto
+      # push runs the gate over that tree before anything ships.
+      - 'tools/orphan_scan.sh'
       - 'lint.mk'
       # THIS FILE ONLY — not '.github/workflows/**'. The other three workflows
       # each name only their own file; this one used to name the whole
@@ -259,6 +271,41 @@ jobs:
     # Fix the doc (and bump the pins in lockstep), or revert the proto change.
     - name: Validate the wire contract against the generated descriptors
       run: make -f lint.mk wire-contract
+
+    # THE OTHER THING THIS JOB CAN SEE THAT NOTHING ELSE CAN: a committed
+    # generated file whose producer stopped emitting it.
+    #
+    # `make generate` above mounts each output/<lang> read-write and writes into
+    # it. It NEVER deletes. So a binding whose .proto was removed, whose output
+    # path moved, or whose message left a still-live .proto stays in output/ for
+    # ever — and the ten "Push to …" steps below copy output/ wholesale into each
+    # consumer, so the fan-out keeps republishing it. One such file was vendored
+    # for months after its declaring source moved.
+    #
+    # THE CANARY RUNS FIRST, the same ordering the leak ban and the file-size
+    # ceiling use: a gate nobody has watched fail is a prescription, not a gate,
+    # and running it here rather than only under a human's hand is what arms it.
+    # It plants one real instance per mechanism in a mutated COPY of proto/ and
+    # watches the check name the file each one strands; it writes nothing into
+    # proto/ or output/.
+    #
+    # IT RUNS AFTER `make generate` AND THAT IS LOAD-BEARING, not step ordering.
+    # It is the exact inverse of the reason `go-leg-repro` is not wired anywhere:
+    # a byte-identity check is vacuous after a regeneration, because generate has
+    # just written those bytes. Orphan-hood is the opposite — generate never
+    # deletes, so an orphan survives a full regeneration untouched and is still
+    # an orphan afterwards. BEFORE generate this check could not tell an orphan
+    # from a regeneration that had not happened yet; after it, it can.
+    #
+    # A red here means the bindings about to be fanned out contain a file no
+    # generator produces. Delete it in the same change that removed its producer,
+    # or — if it is genuinely hand-maintained — give it a proof-carrying entry in
+    # tools/orphan_scan.sh's ALLOWLIST. Do NOT widen the check.
+    - name: Prove the orphaned-output check can fail
+      run: make orphan-scan-canary
+
+    - name: Refuse a committed generated file that no leg produces
+      run: make orphan-scan
 
     # THE PROJECTION THIS JOB MOVES WITHOUT CARRYING, until now.
     #
