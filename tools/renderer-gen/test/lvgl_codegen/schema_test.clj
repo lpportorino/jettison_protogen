@@ -1,8 +1,14 @@
 (ns lvgl-codegen.schema-test
-  "Guard tests for the leaf-widget content-sizing contract in
-   `lvgl-codegen.schema/validate-screen-semantics` — the codegen-time check that
-   fails a screen when a self-size-LESS leaf (lv_bar/lv_slider/lv_led) is
-   content-sized and would silently collapse to ~0px.
+  "Guard tests for `lvgl-codegen.schema/validate-screen-semantics`, the
+   codegen-time cross-field validation. Two contracts live here:
+
+   - the leaf-widget content-sizing check that fails a screen when a
+     self-size-LESS leaf (lv_bar/lv_slider/lv_led) is content-sized and would
+     silently collapse to ~0px;
+   - the SUBJECT-TYPE checks, which refuse a binding whose renderer path reads
+     the subject's int union member against a subject declared :string. Both the
+     plain binds (:value/:checked/:mode) and the four value-conditional bindings
+     are covered, because both reach the same class of silent defect.
 
    Hermetic: each test builds a screen map in-memory and calls
    `validate-screen-semantics` directly — no I/O, no fixtures, no sleep."
@@ -199,3 +205,117 @@
                           :states #{:disabled}
                           :checked-when {:subject :s :value 1}})
                         :checked-when-states-conflict)))))
+
+;; ── bind-key subject TYPE ────────────────────────────────────────────────────
+;; The interpreter dispatches four bind keys. Three of them read the subject's
+;; INT union member, so a :string subject is a silent defect rather than a type
+;; error, and the two failure modes differ: :checked's binder refuses a non-int
+;; and returns NULL after a log line (the binding is simply absent), while
+;; :value and :mode do not check at all and read the wrong member outright.
+;; :text is exempt by measurement — lv_label_bind_text accepts INT and STRING.
+(deftest bind-to-a-string-subject-is-refused-for-the-int-only-keys
+  (testing ":value / :checked / :mode against a declared :string subject"
+    (doseq [[tag k] [[:lv_slider :value] [:lv_switch :checked] [:lv_host_proxy :mode]]]
+      (let [screen {:type :screen
+                    :subjects {:s {:type :string :default ""}}
+                    :events {}
+                    :tree (cond-> {:tag tag :class "w-12 h-12" :bind {k :s}}
+                            (= :lv_host_proxy tag)
+                            (assoc :id "proxy" :host_proxy_props {:proxy_id "p0"}))}
+            errors (schema/validate-screen-semantics screen)]
+        (is (some #(and (= :bind-subject-not-int (:type %))
+                        (= k (:key %))
+                        (= :s (:subject %))
+                        (= :string (:declared-type %)))
+                  errors)
+            (str tag " binding " k " to a :string subject is flagged"))))))
+
+(deftest bind-text-to-a-string-subject-is-permitted
+  (testing ":text is deliberately NOT int-only — a blanket rule would reject the
+            string subjects lv_label_bind_text exists to render"
+    (let [screen {:type :screen
+                  :subjects {:s {:type :string :default ""}}
+                  :events {}
+                  :tree {:tag :lv_label :class "w-12 h-12" :bind {:text :s}}}
+          errors (schema/validate-screen-semantics screen)]
+      (is (not-any? #(= :bind-subject-not-int (:type %)) errors)
+          ":text against a :string subject is the canonical case, not an error"))))
+
+(deftest an-int-subject-satisfies-every-bind-key
+  (testing "the guard fires on the subject TYPE, not on the presence of a key"
+    (doseq [[tag k] [[:lv_slider :value] [:lv_switch :checked]
+                     [:lv_host_proxy :mode] [:lv_label :text]]]
+      (let [screen {:type :screen
+                    :subjects {:s {:type :int :default 0}}
+                    :events {}
+                    :tree (cond-> {:tag tag :class "w-12 h-12" :bind {k :s}}
+                            (= :lv_host_proxy tag)
+                            (assoc :id "proxy" :host_proxy_props {:proxy_id "p0"}))}
+            errors (schema/validate-screen-semantics screen)]
+        (is (not-any? #(= :bind-subject-not-int (:type %)) errors)
+            (str tag " binding " k " to an :int subject is clean"))))))
+
+(deftest an-undeclared-bind-subject-reports-only-the-undeclared-error
+  (testing "a missing declaration must not ALSO invent a type error — an
+            undeclared subject has no declared type to disagree with"
+    (let [screen {:type :screen
+                  :subjects {}
+                  :events {}
+                  :tree {:tag :lv_slider :class "w-12 h-12" :bind {:value :nope}}}
+          errors (schema/validate-screen-semantics screen)]
+      (is (some #(and (= :undeclared-subject (:type %)) (= :nope (:ref %))) errors)
+          "the undeclared subject is reported")
+      (is (not-any? #(= :bind-subject-not-int (:type %)) errors)
+          "and no type error is manufactured alongside it"))))
+
+;; ── the four value-conditional bindings ──────────────────────────────────────
+;; These checks shipped WITHOUT a test, so the mechanism this change extends had
+;; never been watched to fire. Covered here for that reason, not because the
+;; behaviour is new. They ride the wire as an int32 ref_value compared through
+;; lv_subject_get_int, so against a :string subject the comparison reads the
+;; wrong union member and NEVER matches.
+(deftest conditional-bindings-refuse-a-string-subject
+  (testing "each of the four reports its OWN error type, so a reader can tell
+            which binding is at fault"
+    (doseq [[bind-key err-type] [[:show-when :show-when-subject-not-int]
+                                 [:checked-when :checked-when-subject-not-int]
+                                 [:enabled-when :enabled-when-subject-not-int]
+                                 [:color-when :color-when-subject-not-int]]]
+      (let [screen {:type :screen
+                    :subjects {:s {:type :string :default ""}}
+                    :events {}
+                    :tree {:tag :lv_label :class "w-12 h-12" bind-key {:subject :s}}}
+            errors (schema/validate-screen-semantics screen)]
+        (is (some #(and (= err-type (:type %))
+                        (= :s (:subject %))
+                        (= :string (:declared-type %)))
+                  errors)
+            (str bind-key " against a :string subject is flagged as " err-type))))))
+
+(deftest conditional-bindings-permit-an-int-subject
+  (testing "an :int subject is the comparable case and must stay clean"
+    (let [mismatch-types #{:show-when-subject-not-int :checked-when-subject-not-int
+                           :enabled-when-subject-not-int :color-when-subject-not-int}]
+      (doseq [bind-key [:show-when :checked-when :enabled-when :color-when]]
+        (let [screen {:type :screen
+                      :subjects {:s {:type :int :default 0}}
+                      :events {}
+                      :tree {:tag :lv_label :class "w-12 h-12" bind-key {:subject :s}}}
+              errors (schema/validate-screen-semantics screen)]
+          (is (not-any? (comp mismatch-types :type) errors)
+              (str bind-key " against an :int subject is clean")))))))
+
+(deftest conditional-bindings-report-an-undeclared-subject
+  (testing "an undeclared conditional subject is its own error, distinct from a
+            type mismatch"
+    (doseq [[bind-key err-type] [[:show-when :undeclared-show-when-subject]
+                                 [:checked-when :undeclared-checked-when-subject]
+                                 [:enabled-when :undeclared-enabled-when-subject]
+                                 [:color-when :undeclared-color-when-subject]]]
+      (let [screen {:type :screen
+                    :subjects {}
+                    :events {}
+                    :tree {:tag :lv_label :class "w-12 h-12" bind-key {:subject :nope}}}
+            errors (schema/validate-screen-semantics screen)]
+        (is (some #(and (= err-type (:type %)) (= :nope (:ref %))) errors)
+            (str bind-key " with no declaration is flagged as " err-type))))))

@@ -513,6 +513,23 @@
   [tag]
   (if (= :lv_host_proxy tag) #{:text :value :checked :mode} #{:text :value :checked}))
 
+(def ^:private int-subject-bind-keys
+  "Bind keys whose renderer path reads the subject's INT union member, so a
+   :string subject is a silent defect rather than a type error. Derived from the
+   interpreter's own dispatch one arm at a time: :value reaches the stock int
+   binders (or lv_subject_get_int for the two widgets the library under-serves),
+   :checked reaches bind_to_bitfield, and :mode reaches lv_subject_get_int.
+
+   :text is deliberately ABSENT. lv_label_bind_text accepts INT and STRING
+   explicitly, so constraining it would reject the string subjects it exists to
+   render — this set is per-key precisely because a blanket rule would be wrong.
+
+   The two failure modes differ and NEITHER fails a build: :checked's binder
+   refuses a non-int and returns NULL after a log line, so the binding is
+   silently absent; :value and :mode do not check at all and read the wrong
+   union member, so the widget renders a number derived from a pointer."
+  #{:value :checked :mode})
+
 (defn validate-screen-semantics
   "Cross-field validation: references must point to declared names.
    Returns nil on success, vector of errors on failure."
@@ -542,8 +559,16 @@
                    :key k
                    :widget (:tag widget)
                    :supported (supported-bind-keys (:tag widget))}))
-         (when-not (contains? subjects v)
-           (swap! errors conj {:type :undeclared-subject :ref v :widget (:tag widget)})))
+         (let [decl (get subject-decls v)]
+           (cond (nil? decl)
+                 (swap! errors conj {:type :undeclared-subject :ref v :widget (:tag widget)})
+                 (and (contains? int-subject-bind-keys k) (not= :int (:type decl)))
+                 (swap! errors conj
+                        {:type :bind-subject-not-int
+                         :key k
+                         :subject v
+                         :declared-type (:type decl)
+                         :widget (:tag widget)}))))
        (doseq [[k _fmt] (:bind-fmt widget)]
          (when-not (contains? (:bind widget) k)
            (swap! errors conj {:type :orphan-bind-fmt :key k :widget (:tag widget)})))
