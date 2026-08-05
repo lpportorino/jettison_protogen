@@ -56,8 +56,9 @@ all inside it. There are also **19 unbounded repeated non-string fields** outsid
 `ui` (arrays of message/uint32/uint64/float), which are the same generator
 mechanism and are covered in §7 where they matter.
 
-Counting note: the `.pb.h` scan finds 82 `pb_callback_t` declarations, of which
-**12 are in an orphan** — see §8.1.
+Counting note: the `.pb.h` scan finds 70 `pb_callback_t` declarations, every one
+of them in a file the current generator produces. A raw scan of `output/c` is
+only safe to quote while that holds, and nothing asserts it — see §8.1.
 
 | field | type | `buf.validate` today |
 |---|---|---|
@@ -612,19 +613,41 @@ Tier A bounds above are worth taking.
 These are outside the question asked and are recorded rather than fixed, because
 each lives in a directory this analysis does not own.
 
-### 8.1 `output/c/ui/ui_nodes.pb.{c,h}` is an orphan
+### 8.1 Nothing detects an ORPHANED projection under `output/`
 
-No `ui_nodes.proto` source exists anywhere in the proto tree. Regenerating
-`output/c` from the current sources with the real pipeline reproduces every other
-file
-byte-for-byte and produces no `ui_nodes` at all — so those two files cannot be
-made by the current generator from the current sources. They contribute 12 of
-the 82 `pb_callback_t` declarations found by a naive scan of `output/c`, which
-is how a field census overcounts.
+An orphan is a tracked file under `output/` that the current generator does not
+produce. Nothing regenerates one, nothing deletes one, and nothing reports one,
+so it sits in a public tree looking exactly like a live artifact — and a census
+over `output/` silently counts it, which is why the note under §1 says what a
+raw `pb_callback_t` scan is worth.
 
-The same orphan exists in `output/cpp`, `output/go`, `output/python`,
-`output/typescript` and `output/typescript-validated`. It is inert — nothing
-includes it — but it is published to six binding repositories on every release.
+Three mechanisms produce one, and they are worth separating because a check that
+covers one covers neither of the others:
+
+1. **The declaring `.proto` is deleted.** Every generator stamps its source, so
+   this class is findable statically: read the stamp, ask whether the source
+   still exists.
+2. **The generator's output PATH moves.** The source is alive and the stamp
+   names it correctly, so the static read calls the file healthy while a
+   canonical twin at the new path is regenerated without it. The evidence is
+   two files, one declared source, and a symbol in one and not the other.
+3. **A MESSAGE is removed from a live `.proto`.** For the per-message emitters
+   (Kotlin writes one file per message) the source and the path are both
+   correct and only the message is gone. Neither of the checks above sees it.
+
+**Only running the generator settles all three.** `tools/go_leg_repro.sh` does
+exactly that for the Go leg — into a throwaway directory, comparing against
+`output/go` — and already prints the committed paths that leg does not produce.
+Its header states why it is in no workflow, and the argument generalises: after
+`make generate` the comparison is vacuous, and before it, a proto change makes
+it wrong. So the honest home for a whole-tree detector is a step INSIDE the
+distribution workflow, after its own `make generate`, comparing the tracked set
+against what that run actually wrote.
+
+A cheap static version is refused rather than deferred: reading stamps alone
+covers mechanism 1 and reports clean over 2 and 3, which is a pass value
+indistinguishable from a nothing-ran value. It would need a canary watched to
+fail on a planted input of each mechanism before it was wired at all.
 
 ### 8.2 The `sizeof(ui_WidgetNode)` figure in `proto/ui/ui_ast.options` is stale
 

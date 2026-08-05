@@ -1026,7 +1026,7 @@ manifests-proto-db:
 #      only a handful of it is PROJECTED here, of which wasm.mk compiles the .c
 #      (the 3 nanopb runtime files + jon_shared_data_types + the 2 ui
 #      bindings); the rest are the headers those include. A blanket copy would
-#      pour jon_shared_cmd*, jon_shared_data_*, opaque/** and ui_nodes into the
+#      pour jon_shared_cmd*, jon_shared_data_* and opaque/** into the
 #      -Igenerated namespace. The lists below ARE the projection; nothing
 #      crosses.
 #   4. There are NO --delete semantics. A mirroring copy would remove the two
