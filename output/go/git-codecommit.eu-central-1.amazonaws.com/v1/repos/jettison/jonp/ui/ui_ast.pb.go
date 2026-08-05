@@ -2519,12 +2519,15 @@ type WidgetNode struct {
 	// the entry whose GestureSpec.kind equals its kind and whose
 	// GestureSpec.delta_sign admits its step, then patches the slots.
 	//
-	// The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-	// kind whose decisions carry a step, so it is the only kind that legitimately
-	// takes two entries. WHEEL is counted even though it has no device analogue,
-	// because a bound that excepts an enumerator has to be re-derived by every
-	// reader — and the earlier bound of 5 was derived that way, from the five
-	// device gestures of the day, and then silently went one short when
+	// The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+	// GestureKind, plus one extra for each kind whose decisions carry a STEP —
+	// those, and only those, can legitimately hold a template per direction. Seven
+	// kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+	// delta_sign on any other kind is refused at load, so no conforming producer
+	// can want a tenth entry. WHEEL is counted even though it has no device
+	// analogue, because a bound that excepts an enumerator has to be re-derived by
+	// every reader — and the earlier bound of 5 was derived that way, from the
+	// five device gestures of the day, and then silently went short when
 	// GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
 	// to the vocabulary with a static_assert so the next added kind fails the
 	// BUILD rather than a consumer's load.
@@ -6230,7 +6233,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"color_when\x18. \x01(\v2\x10.ui.ColorBindingR\tcolorWhen\x12\"\n" +
 	"\bhit_slop\x18/ \x01(\rB\a\xbaH\x04*\x02\x18@R\ahitSlop\x12\x10\n" +
 	"\x03uid\x18+ \x01(\rR\x03uid\x125\n" +
-	"\bgestures\x18, \x03(\v2\x0f.ui.GestureSpecB\b\xbaH\x05\x92\x01\x02\x10\bR\bgestures\x1a;\n" +
+	"\bgestures\x18, \x03(\v2\x0f.ui.GestureSpecB\b\xbaH\x05\x92\x01\x02\x10\tR\bgestures\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +

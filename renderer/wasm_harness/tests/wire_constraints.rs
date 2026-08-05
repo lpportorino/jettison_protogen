@@ -378,10 +378,13 @@ const MAX_CMD_BY_VALUE: usize = 16;
 /// `WidgetNode.gestures`' `max_items`. Duplicated rather than derived, on the
 /// same reasoning the constants above give: the test holds the C constant to the
 /// wire's promise, so reading the promise from the place that makes it would
-/// assert nothing. It is ALSO what holds the C bound equal to the proto's rather
-/// than merely at or above it — `main.c`'s static_assert derives a FLOOR from
-/// the gesture vocabulary and cannot see `max_items` at all.
-const MAX_GESTURES: usize = 8;
+/// assert nothing. `main.c`'s static_assert derives only a FLOOR from the
+/// gesture vocabulary and cannot see `max_items` at all, so this pair is what
+/// pins the C bound from ABOVE — but it pins it to THIS TRANSCRIPTION, not to
+/// the proto. `ui.WidgetNode.gestures` is FT_POINTER, so it carries no nanopb
+/// `max_count` for the constraints manifest to compare against either. Nothing
+/// mechanical reads `max_items` here; three copies are kept in step by review.
+const MAX_GESTURES: usize = 9;
 
 fn overlay_with_boxes(n: usize) -> Vec<u8> {
     screen_of(ui::WidgetNode {
@@ -464,42 +467,133 @@ fn cmd_by_value_at_the_declared_bound_loads_clean() {
 /// for this field. A fixture of cmd-less specs would not reach the guard, and
 /// the resulting green would read as coverage.
 ///
-/// EVERY SPEC IS ALSO PAIRWISE DISJOINT, and that is not cosmetic: the renderer
-/// refuses two entries of one kind that could both answer one decision, so a
-/// run of identical specs — which is what this generator used to build — would
-/// now be refused by THAT clause and the count case would go green for the wrong
-/// reason while its `_at_the_declared_bound_` control went red. Each kind takes
-/// at most the {POSITIVE, NEGATIVE} pair, so `n` entries walk `n/2` kinds; the
-/// vocabulary is wide enough to reach any bound this field can carry.
+/// EVERY SPEC IS ALSO LIVE AND PAIRWISE DISJOINT, which is a stronger property
+/// than it first looks and is what makes the `_at_the_declared_bound_` control
+/// mean something. The renderer refuses an entry that can never answer a
+/// decision — a SIGNED selector on a kind whose decisions carry no step — as
+/// well as two entries of one kind that could both answer one. So the legal
+/// registry is exactly: one ANY entry per kind that carries no step, plus the
+/// {POSITIVE, NEGATIVE} pair on each STEPPED kind. That is NINE, and it is the
+/// same nine `max_items` bounds, which is not a coincidence — the bound is
+/// derived from it. This generator enumerates that maximum in order.
+///
+/// The previous version emitted N identical Tap specs, and a version before
+/// this one alternated POSITIVE/NEGATIVE across every kind; both would now have
+/// the `_at_the_declared_bound_` control assert that a screen of PERMANENTLY
+/// DEAD templates loads clean, which is verbatim the failure the guard exists
+/// to remove.
+///
+/// Past `LEGAL_SLOTS` the surplus repeats the last slot. Those entries are
+/// unreachable by construction: the COUNT check runs before the selector and
+/// disjointness checks and `break`s, so the refusal is attributable to the
+/// count and the repeat is never judged.
 fn gestures_screen(n: usize) -> Vec<u8> {
-    const KINDS: [ui::GestureKind; 7] = [
+    /// The stepless kinds, each of which admits exactly ONE entry (ANY).
+    const STEPLESS: [ui::GestureKind; 5] = [
+        ui::GestureKind::PanMove,
+        ui::GestureKind::PanEnd,
         ui::GestureKind::Tap,
         ui::GestureKind::Track,
-        ui::GestureKind::PanEnd,
-        ui::GestureKind::PanMove,
-        ui::GestureKind::Pinch,
-        ui::GestureKind::Wheel,
         ui::GestureKind::Roi,
     ];
-    assert!(
-        n <= KINDS.len() * 2,
-        "gestures_screen({n}) cannot build {n} pairwise-disjoint specs from {} kinds",
-        KINDS.len()
-    );
+    /// The five stepless kinds plus a direction each for the two STEPPED kinds
+    /// — which is the whole legal registry, and the same sum `max_items`
+    /// bounds. That is not a coincidence: the bound is derived from it.
+    const LEGAL_SLOTS: usize = 9;
+    let slot = |i: usize| -> (ui::GestureKind, ui::GestureDeltaSign) {
+        match i {
+            0..=4 => (STEPLESS[i], ui::GestureDeltaSign::Any),
+            5 => (ui::GestureKind::Pinch, ui::GestureDeltaSign::Positive),
+            6 => (ui::GestureKind::Pinch, ui::GestureDeltaSign::Negative),
+            7 => (ui::GestureKind::Wheel, ui::GestureDeltaSign::Positive),
+            _ => (ui::GestureKind::Wheel, ui::GestureDeltaSign::Negative),
+        }
+    };
     screen_of(ui::WidgetNode {
         gestures: (0..n)
-            .map(|i| ui::GestureSpec {
-                kind: KINDS[i / 2] as i32,
-                delta_sign: if i % 2 == 0 {
-                    ui::GestureDeltaSign::Positive as i32
-                } else {
-                    ui::GestureDeltaSign::Negative as i32
-                },
-                cmd: Some(bare_cmd_spec()),
+            .map(|i| {
+                let (kind, sign) = slot(i.min(LEGAL_SLOTS - 1));
+                ui::GestureSpec {
+                    kind: kind as i32,
+                    delta_sign: sign as i32,
+                    cmd: Some(bare_cmd_spec()),
+                }
             })
             .collect(),
         ..plain_node()
     })
+}
+
+// ── GestureSpec.delta_sign — `enum defined_only` ───────────────────────────
+//
+// An undefined selector is not merely inert. The drain's resolver names the
+// three defined values and answers false to anything else, so the entry matches
+// no decision — but the ROI path resolves through a KIND-ONLY mode probe that
+// never consults the selector at all, so the same entry stays live there. One
+// entry that fires on one path and answers nothing on the other is worse than
+// one that does nothing, and no frame shows the difference.
+
+/// One past the highest `ui.GestureDeltaSign` enumerator, chosen the way
+/// `UNDEFINED_WIDGET_TYPE` is: not derived from the binding, or it would become
+/// legal the day the vocabulary grows.
+const UNDEFINED_DELTA_SIGN: i32 = 9001;
+
+fn gesture_sign_screen(kind: ui::GestureKind, delta_sign: i32) -> Vec<u8> {
+    screen_of(ui::WidgetNode {
+        gestures: vec![ui::GestureSpec {
+            kind: kind as i32,
+            delta_sign,
+            cmd: Some(bare_cmd_spec()),
+        }],
+        ..plain_node()
+    })
+}
+
+#[test]
+fn undefined_gesture_delta_sign_is_refused() {
+    assert_refused(
+        &gesture_sign_screen(ui::GestureKind::Pinch, UNDEFINED_DELTA_SIGN),
+        "a GestureSpec whose delta_sign is not a defined ui.GestureDeltaSign",
+    );
+}
+
+/// The control at the top of the vocabulary, so a guard written as a range
+/// cannot be off by one there.
+#[test]
+fn gesture_delta_sign_at_the_highest_defined_value_loads_clean() {
+    assert_loads_clean(
+        &gesture_sign_screen(
+            ui::GestureKind::Pinch,
+            ui::GestureDeltaSign::Negative as i32,
+        ),
+        "a NEGATIVE selector on PINCH (the highest defined enumerator)",
+    );
+}
+
+/// The control at the bottom, and the sharp one: ANY is ZERO, which is what
+/// every spec written before this field existed carries. A guard that refused
+/// by reaching a default rather than by testing the value would refuse every
+/// gesture spec in every screen this repo ships.
+#[test]
+fn gesture_delta_sign_any_still_loads_clean() {
+    assert_loads_clean(
+        &gesture_sign_screen(ui::GestureKind::Tap, ui::GestureDeltaSign::Any as i32),
+        "an ANY selector (the zero enumerator) on a stepless kind",
+    );
+}
+
+/// A DEFINED but unanswerable selector: POSITIVE tests `delta > 0` and a TAP
+/// decision carries 0, so this entry can never fire. Distinct from the case
+/// above — the value is in the vocabulary; it is the KIND that makes it dead.
+#[test]
+fn a_signed_selector_on_a_stepless_kind_is_refused() {
+    assert_refused(
+        &gesture_sign_screen(
+            ui::GestureKind::Tap,
+            ui::GestureDeltaSign::Positive as i32,
+        ),
+        "a POSITIVE selector on TAP, whose decisions carry no step",
+    );
 }
 
 #[test]

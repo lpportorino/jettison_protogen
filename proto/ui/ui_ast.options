@@ -23,12 +23,12 @@ ui.EventBinding.set_subject         max_size:64
 # dotted cmd-id (<=~30 chars). patches is a small bounded INLINE array (an
 # NDC x/y pair → 2, or an ROI rubber-band's two corners x1/y1/x2/y2 → 4). The
 # HEAVY optional submessages — WidgetNode.gestures (up
-# to 8 GestureSpecs), EventBinding.cmd (one CmdSpec) and EventBinding.cmd_by_value
+# to 9 GestureSpecs), EventBinding.cmd (one CmdSpec) and EventBinding.cmd_by_value
 # (up to 16 fixed CmdSpec templates a widget value index-selects) — are FT_POINTER
 # (malloc'd only when present), NOT inline: every WidgetNode is stack-decoded
 # recursively per tree level (renderer.c children_decode_cb), so an inline
-# gestures[8]/cmd/cmd_by_value[16] (~2 KB+) would overflow the WASM C stack on
-# deep trees. buf.validate max_items still bounds each at validate time (8 / 16).
+# gestures[9]/cmd/cmd_by_value[16] (~2 KB+) would overflow the WASM C stack on
+# deep trees. buf.validate max_items still bounds each at validate time (9 / 16).
 # The gestures bound is stated in ui_ast.proto beside the field, with the sum it
 # is derived from; nothing here re-derives it.
 ui.CmdSpec.command_id               max_size:128

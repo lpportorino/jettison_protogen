@@ -69,7 +69,7 @@
             UiAst$CheckboxProps UiAst$CmdSpec UiAst$Color UiAst$DropdownProps
             UiAst$EventBinding
             UiAst$EventTrigger UiAst$FieldPatch UiAst$FlexAlign UiAst$FlexFlow
-            UiAst$GestureKind UiAst$GestureSpec UiAst$HostProxyProps
+            UiAst$GestureDeltaSign UiAst$GestureKind UiAst$GestureSpec UiAst$HostProxyProps
             UiAst$ImageProps UiAst$PatchKind
             UiAst$LabelLongMode UiAst$LabelProps UiAst$Layout UiAst$LedProps UiAst$LineProps
             UiAst$Point UiAst$ProxyMode UiAst$RollerProps UiAst$ScaleMode UiAst$ScaleProps
@@ -266,7 +266,15 @@
 
 (def ^:private patch-keys #{:offset :width :kind})
 (def ^:private cmd-probe-keys #{:command-id :template-zeros :patches})
-(def ^:private gesture-keys #{:kind :cmd})
+(def ^:private gesture-delta-signs
+  "`:delta-sign` keywords -> proto GestureDeltaSign (closed). Names are the
+   enum's own. ANY is the zero value and the default an entry omitting the key
+   takes, which is what a spec that says nothing about direction means."
+  {:GESTURE_DELTA_SIGN_ANY UiAst$GestureDeltaSign/GESTURE_DELTA_SIGN_ANY
+   :GESTURE_DELTA_SIGN_POSITIVE UiAst$GestureDeltaSign/GESTURE_DELTA_SIGN_POSITIVE
+   :GESTURE_DELTA_SIGN_NEGATIVE UiAst$GestureDeltaSign/GESTURE_DELTA_SIGN_NEGATIVE})
+
+(def ^:private gesture-keys #{:kind :delta-sign :cmd})
 
 (defn- field-patch
   "One `{:offset :width :kind}` slot -> FieldPatch. `:width` must be 8 (an NDC
@@ -310,11 +318,18 @@
       (.build b))))
 
 (defn- gesture-spec
-  "One `{:kind :cmd}` map -> GestureSpec."
+  "One `{:kind :delta-sign :cmd}` map -> GestureSpec. `:delta-sign` selects WHICH
+   sign of the gesture's step the entry answers and is optional: omitting it
+   means ANY, which answers every step. The key set is CLOSED, so it had to be
+   widened here in the same change that added the field — a devcard authoring
+   `:delta-sign` against the old set aborted rather than degrading."
   ^UiAst$GestureSpec [ctx g]
   (assert-closed (str ctx " :gestures entry") gesture-keys g)
   (-> (UiAst$GestureSpec/newBuilder)
       (.setKind (enum-of gesture-kinds (:kind g) (str ctx " :gestures :kind")))
+      (.setDeltaSign (enum-of gesture-delta-signs
+                              (:delta-sign g :GESTURE_DELTA_SIGN_ANY)
+                              (str ctx " :gestures :delta-sign")))
       (.setCmd (cmd-probe ctx (:cmd g)))
       .build))
 

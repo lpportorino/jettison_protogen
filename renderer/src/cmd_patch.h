@@ -156,24 +156,28 @@ typedef struct {
 #define CMD_PATCH_DELTA_SIGN_ANY 0
 #define CMD_PATCH_DELTA_SIGN_POSITIVE 1
 #define CMD_PATCH_DELTA_SIGN_NEGATIVE 2
-/* The gesture-surface registry capacity: ONE entry per defined ui_GestureKind,
- * plus one, because PINCH is the only kind whose decisions carry a step and so
- * the only kind that legitimately holds two entries. main.c holds this sum to
+/* The gesture-surface registry capacity, and it is the MAXIMUM LEGAL REGISTRY
+ * rather than a guess: ONE entry per defined ui_GestureKind, PLUS one extra for
+ * each kind whose decisions carry a STEP, because those are the kinds that can
+ * legitimately hold a template per direction. Seven kinds, of which PINCH and
+ * WHEEL carry a step (gesture.h states it at gesture_decision_t.delta), so the
+ * sum is 7 + 2. The renderer refuses a signed selector on any other kind, so no
+ * conforming producer can want a tenth entry. main.c holds this sum to
  * gesture_kind_t with a static_assert.
  *
- * A registry entry is ~820 B, so the raise from the previous 5 costs ~2.4 KB in
+ * A registry entry is 820 B, so the raise from the previous 5 costs ~3.3 KB in
  * main.c's static array and the same again in renderer.c's finalize_widget
  * frame — which is NOT in the decoder's recursion cycle (children_decode_cb
  * calls it after pb_decode returns), so it is paid once at the deepest level
  * rather than per level. wasm.mk's stack reservation records the measured peak
  * that budget comes out of.
  *
- * WHEEL is counted even though it has no device analogue and the live pointer
- * pipeline never produces a WHEEL decision, because a bound that excepts an
- * enumerator has to be re-derived by every reader — and the previous bound was
- * derived that way, from the five device gestures of the day, then silently
- * went one short of the vocabulary when GESTURE_KIND_ROI landed beside them. */
-#define CMD_PATCH_MAX_GESTURES 8
+ * WHEEL is counted even though the live pointer pipeline never produces a WHEEL
+ * decision today, because a bound that excepts an enumerator has to be
+ * re-derived by every reader — and the previous bound was derived that way, from
+ * the five device gestures of the day, then silently went short of the
+ * vocabulary when GESTURE_KIND_ROI landed beside them. */
+#define CMD_PATCH_MAX_GESTURES 9
 /* One gesture → its pre-encoded cmd template, the persistent copy of a
  * ui_GestureSpec. `kind` mirrors gesture_kind_t / ui_GestureKind; `delta_sign`
  * mirrors ui_GestureDeltaSign and is what makes the (kind, sign) pair rather

@@ -3,8 +3,12 @@
 //! R5b cmd-out: the renderer relays OPAQUE `cmd.*` bytes via `host_command`;
 //! these bindings let the harness DECODE the captured bytes and assert on the
 //! command variant + field values (a video tap → `RotateToNdc` at the NDC
-//! point, a 2-finger spread → `SetZoomTableValue`, a value-widget click → the
-//! widget's value command). The included files are the checkout's OWN prost
+//! point, a 2-finger pinch → a zoom step, a value-widget click → the widget's
+//! value command). The pinch case decodes two ways and BOTH are exercised: a
+//! `SetZoomTableValue` whose DELTA slot carries the signed step, and — where the
+//! two directions are different EMPTY commands — the `NextZoomTablePos` /
+//! `PrevZoomTablePos` variant a direction-selected `GestureSpec` pair chooses
+//! between, for which the VARIANT is the whole assertion. The included files are the checkout's OWN prost
 //! output (`output/rust/` at the protogen root, two levels above the
 //! renderer/wasm_harness crate), pulled in by `include!` so the harness never
 //! hand-maintains a divergent copy (cohesion: one home).

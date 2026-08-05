@@ -119,14 +119,31 @@ CXXFLAGS_LINK := --target=$(TARGET) --sysroot=$(SYSROOT) \
 #
 # 256 KiB carries the decoder well past MAX_DECODE_DEPTH with room to spare, so
 # the declared cap becomes the limit that actually fires. It costs 192 KiB of
-# the 8 MiB initial memory. A chain AT the cap peaks at <=159232 B — 61% of the
+# the 8 MiB initial memory. A chain AT the cap peaks at <=165888 B — 63% of the
 # reservation — measured by bisecting this number until decode_limits'
-# nesting_at_the_declared_cap_loads_clean stops passing. Re-run that bisection
-# when raising MAX_DECODE_DEPTH, and equally when widening any string bound that
-# lands in the per-level frame — whether INLINE in ui_WidgetNode or mirrored
-# into widget_ctx_t (binding_entry_t / bind_format_entry_t), which costs the
-# same per level. proto/ui/ui_ast.options carries the worked example of a
-# proposed string widen that overflowed this reservation. Bisecting requires
+# nesting_at_the_declared_cap_loads_clean stops passing (it passes at 165888 and
+# fails at 164864, so the figure is exact to the 1 KiB step of that ladder).
+#
+# THE TRIGGER LIST BELOW USED TO NAME ONLY PER-LEVEL COSTS, AND THAT IS WHY THE
+# PREVIOUS FIGURE WENT STALE. It said to re-bisect when raising MAX_DECODE_DEPTH
+# or when widening something that lands in the RECURSION FRAME — but the peak
+# also contains ONE non-recursive frame, finalize_widget's, which
+# children_decode_cb calls after pb_decode returns and which carries the whole
+# gesture staging array (CMD_PATCH_MAX_GESTURES x sizeof(cmd_gesture_spec_t),
+# ~820 B per entry). Growing that bound costs the peak once rather than per
+# level, so it moved the peak while matching no trigger anyone was watching for.
+# Re-run the bisection when raising MAX_DECODE_DEPTH; when widening any string
+# bound that lands in the per-level frame — whether INLINE in ui_WidgetNode or
+# mirrored into widget_ctx_t (binding_entry_t / bind_format_entry_t), which
+# costs the same per level; AND when growing a bound that sizes a local in
+# finalize_widget. proto/ui/ui_ast.options carries the worked example of a
+# proposed string widen that overflowed this reservation.
+#
+# WHETHER THE OLD FIGURE WAS ALREADY STALE BEFORE THAT BOUND MOVED IS NOT
+# MEASURED HERE, and is left open rather than guessed: the re-measured peak is
+# further above the old one than this tree's own registry growth accounts for,
+# which is a reason to distrust the previous number and not evidence about when
+# it stopped being true. Bisecting requires
 # forcing a rebuild (touch a source) — this file is not a prerequisite of the
 # link rule, so editing the number alone leaves make with nothing to do and the
 # PREVIOUS artifact under test. Once the artifact really is rebuilt, the

@@ -156,9 +156,9 @@ static int32_t pointer_x, pointer_y, pointer_pressed;
 static_assert(GESTURE_MAX_POINTERS >= GESTURE_MAX_POINTERS_TABLE,
               "gesture FSM store must cover the shell pointer table");
 /* The gesture-template registry must hold one entry per DEFINED gesture kind,
- * plus one for the second direction of the one kind whose decisions carry a
- * step (PINCH). GESTURE_KIND_ROI is the highest enumerator, so `+ 1` is the
- * kind COUNT and `+ 2` is that sum.
+ * plus one for the second direction of each kind whose decisions carry a step —
+ * PINCH and WHEEL, per gesture_decision_t.delta. GESTURE_KIND_ROI is the highest
+ * enumerator, so `+ 1` is the kind COUNT and `+ 3` is that sum.
  *
  * This exists because the bound has already gone stale once, silently: it was
  * derived from the five device gestures of the day, GESTURE_KIND_ROI was then
@@ -166,9 +166,9 @@ static_assert(GESTURE_MAX_POINTERS >= GESTURE_MAX_POINTERS_TABLE,
  * surface binding every kind would have been REFUSED at load with no build,
  * gate or test able to say why. Adding a kind now fails the build here instead,
  * beside the other cross-header bound this file asserts. */
-static_assert(CMD_PATCH_MAX_GESTURES >= GESTURE_KIND_ROI + 2,
+static_assert(CMD_PATCH_MAX_GESTURES >= GESTURE_KIND_ROI + 3,
               "gesture registry must cover every gesture kind plus a second "
-              "pinch direction");
+              "direction for each stepped kind");
 /* Stale-pointer GC window (§7/§8): a slot whose last event is older than this
  * is force-released through the CANCEL path on the next tick — the only
  * recovery from a dropped UP/CANCEL (a leaked slot would wedge the FSM). */

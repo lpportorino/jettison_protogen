@@ -325,14 +325,22 @@
   [:map [:command_id {:default ""} string?] [:root_template byte-string]
    [:patches {:optional true :default []} [:vector {:max 8} field-patch]]])
 
-(def gesture-delta-sign
+(def ^:private gesture-delta-sign
   "Which SIGN of a decision's step a GestureSpec answers, mirroring
    ui_GestureDeltaSign. ANY is the zero value and answers every step — what a
    spec that says nothing about direction means, and the only sensible selector
    for a kind whose decisions carry no step. The two signed values let ONE kind
    carry TWO templates, which is the only shape available when a gesture's two
    directions are two different EMPTY commands rather than one command with a
-   signed leaf."
+   signed leaf.
+
+   PRIVATE, unlike its neighbours, and the reason is the ns-size ceiling rather
+   than taste: this namespace's public-var ceiling is SEEDED AT ITS MEASURED
+   MAXIMUM, so it is full, and the ceiling only ever moves down. Exactly three
+   of its vars are consumed from outside (`screen`, `cmd-spec`,
+   `explain-proto-ir`); this one is referenced only by `gesture-spec` below, so
+   there is nothing to expose. A def with no external consumer has no claim on
+   the last public slot."
   [:enum :GESTURE_DELTA_SIGN_ANY :GESTURE_DELTA_SIGN_POSITIVE
    :GESTURE_DELTA_SIGN_NEGATIVE])
 
@@ -634,8 +642,8 @@
       ;; on the gesture-surface host-proxy. The bound mirrors
       ;; ui.WidgetNode.gestures' max_items, whose derivation lives beside the
       ;; field in ui_ast.proto: one entry per defined GestureKind, plus one for
-      ;; the second direction of the one kind whose decisions carry a step.
-      [:gestures {:optional true :default []} [:vector {:max 8} gesture-spec]]]}}
+      ;; the second direction of each kind whose decisions carry a step.
+      [:gestures {:optional true :default []} [:vector {:max 9} gesture-spec]]]}}
    ::widget-node])
 
 (def screen

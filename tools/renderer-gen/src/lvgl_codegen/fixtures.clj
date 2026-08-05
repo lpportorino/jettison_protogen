@@ -10,11 +10,10 @@
             [lvgl-codegen.component :as component]
             [lvgl-codegen.core :as core]
             [lvgl-codegen.egress-fixtures :as egress]
+            [lvgl-codegen.gesture-fixtures :as gesture]
             [lvgl-codegen.proto-ser :as proto-ser]
             [lvgl-codegen.schema :as schema]
-            [malli.core :as m]
-            [uigen.cmd-spec :as cmd-spec]
-            [uigen.resolve :as res]))
+            [malli.core :as m]))
 
 (set! *warn-on-reflection* true)
 
@@ -25,54 +24,6 @@
 ;; patches the NDC double slot (tap → RotateToNDC), patches the DELTA varint, or
 ;; selects between two patch-free templates on the sign of its step
 ;; (pinch → {Next,Prev}ZoomTablePos).
-(def ^:private zoom-value-cmd
-  "cmd.DayCamera.SetZoomTableValue patched by a widget's int VALUE (the canonical
-   single-int value command — a button/slider click ships its value)."
-  (cmd-spec/cmd-spec "cmd.DayCamera.SetZoomTableValue" :PATCH_KIND_WIDGET_VALUE))
-
-(def ^:private tap-rotate-cmd
-  "cmd.RotaryPlatform.RotateToNDC patched by the tap NDC point (x/y verbatim),
-   pinned to the DAY pane channel (RotateToNDC carries a `channel` enum leaf the
-   pane selects — the fixture exercises a real non-default channel)."
-  (cmd-spec/cmd-spec "cmd.RotaryPlatform.RotateToNDC"
-                     :PATCH_KIND_NDC_X
-                     {:fixed {:channel (res/video-channel-value "DAY")}}))
-
-(def ^:private pinch-zoom-cmd
-  "cmd.DayCamera.SetZoomTableValue patched by a pinch ±1 DELTA step — the DELTA
-   slot path itself, which is what this fixture exists to exercise end to end.
-
-   IT IS NOT A MODEL FOR A ZOOM-TABLE BINDING, and the distinction is the whole
-   reason GestureSpec.delta_sign exists: `SetZoomTableValue.value` declares
-   `gte: 0`, so patching the negative half of a ±1 step into it produces a value
-   its own schema forbids. A real zoom-table pinch is the direction-selected
-   PAIR below. Kept as-is because the DELTA slot is a real renderer path with
-   real consumers (a genuinely signed leaf), and this is its only end-to-end
-   coverage through the pointer pipeline."
-  (cmd-spec/cmd-spec "cmd.DayCamera.SetZoomTableValue" :PATCH_KIND_DELTA))
-
-(def ^:private pinch-zoom-next-cmd
-  "cmd.DayCamera.NextZoomTablePos — a patch-free FIXED template (an EMPTY
-   message: no leaf, so `fixed-cmd-spec` bakes the whole cmd.Root and the
-   renderer relays it verbatim over patch_count 0). The POSITIVE half of a
-   direction-selected pinch."
-  (cmd-spec/fixed-cmd-spec {:command-id "cmd.DayCamera.NextZoomTablePos"}))
-
-(def ^:private pinch-zoom-prev-cmd
-  "cmd.DayCamera.PrevZoomTablePos — the NEGATIVE half of the same pair, and the
-   reason a sign cannot ride as a patched value here: the two directions are two
-   different messages, not two values of one leaf."
-  (cmd-spec/fixed-cmd-spec {:command-id "cmd.DayCamera.PrevZoomTablePos"}))
-
-(def ^:private roi-focus-cmd
-  "cmd.DayCamera.FocusROI patched by an ROI rubber-band drag's TWO NDC corners:
-   x1/y1 (down corner) → the NDC_X/Y slots, x2/y2 (up corner) → the NDC_X2/Y2
-   slots, all verbatim. FocusROI has no value/channel leaf, so the varint-kind
-   arg is unused (as with tap-rotate-cmd). frame_time/state_time stay 0 — the
-   frame-timestamp stamping jettison applies is a named follow-on, not wired
-   here (the root_template bakes 0)."
-  (cmd-spec/cmd-spec "cmd.DayCamera.FocusROI" :PATCH_KIND_NDC_X))
-
 (defn- make-screen
   "Wrap a widget tree in a minimal valid screen with a fullscreen root container.
    The root container provides a visible background so widgets render against
@@ -728,7 +679,7 @@
     "vr_event_notify"
     {:type :screen
      :subjects {:val {:type :int :default 0}}
-     :events {:ping {:set :val :to 3 :notify-host true :int-value 3 :cmd zoom-value-cmd}}
+     :events {:ping {:set :val :to 3 :notify-host true :int-value 3 :cmd egress/zoom-value-cmd}}
      :tree {:tag :lv_obj
             :class "w-pct-100 h-pct-100 bg-surface-0"
             :children [{:tag :lv_button
@@ -744,7 +695,7 @@
     "vr_event_widget_value"
     {:type :screen
      :subjects {}
-     :events {:vol {:trigger :value-changed :include-value true :cmd zoom-value-cmd}}
+     :events {:vol {:trigger :value-changed :include-value true :cmd egress/zoom-value-cmd}}
      :tree {:tag :lv_obj
             :class "w-pct-100 h-pct-100 bg-surface-0"
             :children
@@ -895,7 +846,7 @@
              :mode-alignable {:set :proxy-mode :to 3}
              ;; The static-mode click-through oracle relays a SetZoomTableValue
              ;; cmd carrying 42 via host_command (R5b — the harness decodes it).
-             :under {:int-value 42 :cmd zoom-value-cmd}}
+             :under {:int-value 42 :cmd egress/zoom-value-cmd}}
     ;; Geometry fits the harness's 400x300 framebuffer WITH headroom for
     ;; the +40/+25 drag and the +30/+20 resize — the parent-content clamp
     ;; must never engage in the gesture tests (it has its own semantics).
@@ -947,135 +898,6 @@
                    :event :mode-alignable
                    :subject :proxy-mode
                    :value 3}}]}]}]}}})
-
-;; ═══════════════════════════════════════════════════════════════════
-;; R4/R5b pointer routing: a STATIC host_proxy root (the video gesture-surface,
-;; CLICKABLE cleared) with a clickable button child. The capture-on-claim
-;; hit-test (controls_host_message) routes a DOWN over the button to LVGL
-;; (button_event_cb fires → host_command relays the widget's SetZoomTableValue),
-;; and a DOWN over the empty proxy area to the VIDEO FSM (gesture.c fed; the
-;; controls_tick drain relays the gesture's cmd via host_command — TAP →
-;; RotateToNDC, PINCH → SetZoomTableValue). Consumed by the harness's
-;; pointer_routing module.
-;; ═══════════════════════════════════════════════════════════════════
-(def ^:private routing-fixtures
-  {"vr_route" {:type :screen
-               :subjects {}
-               ;; The button click relays a SetZoomTableValue cmd carrying its int-value
-               ;; (7) via host_command (R5b cmd-out — the LVGL-owned pointer route).
-               :events {:hit-btn {:int-value 7 :notify-host true :cmd zoom-value-cmd}}
-               ;; The root IS a STATIC host_proxy filling the 400x300 framebuffer — its
-               ;; box has CLICKABLE cleared, so a point that misses the button falls
-               ;; through to the (init-cleared) screen = NULL = the video surface. The
-               ;; surface carries the pre-encoded gesture→cmd templates (R5b): a video
-               ;; TAP relays RotateToNDC at the tap NDC point, a 2-finger PINCH relays
-               ;; SetZoomTableValue ±1 — the VIDEO-owned pointer route.
-               :tree {:tag :lv_host_proxy
-                      :id "surface"
-                      :class "w-pct-100 h-pct-100"
-                      :host_proxy_props {:proxy_id "surface"
-                                         :mode :static
-                                         :min_w 40
-                                         :min_h 40
-                                         :max_w 400
-                                         :max_h 300
-                                         :handle_size 16
-                                         :z 1}
-                      :gestures [{:kind :GESTURE_KIND_TAP :cmd tap-rotate-cmd}
-                                 {:kind :GESTURE_KIND_PINCH :cmd pinch-zoom-cmd}]
-                      :children [{:tag :lv_button
-                                  :event :hit-btn
-                                  :x 20
-                                  :y 20
-                                  :style {:width 80 :height 40}
-                                  :children [{:tag :lv_label :text "Hit"}]}]}}
-   ;; R5b ITEM 7 (gesture-spec ownership): unlike vr_route (the gesture surface
-   ;; IS the un-removable screen ROOT), here a STATIC host_proxy video-surface
-   ;; ROOT (CLICKABLE cleared, like vr_route — keeps a tap VIDEO-owned via
-   ;; hit_test_owner → NULL → FSM, both BEFORE and AFTER removal) carries a
-   ;; REMOVABLE gesture-bearing child proxy. A PATCH_OP_REMOVE_NODE of that child
-   ;; must clear its owned gesture template — else the drain keeps matching the
-   ;; stale TAP spec and emits a PHANTOM RotateToNDC on a post-removal tap.
-   ;; Consumed by the pointer_routing gesture_specs_cleared_on_removal test.
-   "vr_gesture_removable" {:type :screen
-                           :subjects {}
-                           :events {}
-                           :tree {:tag :lv_host_proxy
-                                  :id "surface"
-                                  :class "w-pct-100 h-pct-100"
-                                  :host_proxy_props {:proxy_id "surface"
-                                                     :mode :static
-                                                     :min_w 40
-                                                     :min_h 40
-                                                     :max_w 400
-                                                     :max_h 300
-                                                     :handle_size 16
-                                                     :z 1}
-                                  :children [{:tag :lv_host_proxy
-                                              :id "gsurface"
-                                              :class "w-pct-100 h-pct-100"
-                                              :host_proxy_props {:proxy_id "gsurface"
-                                                                 :mode :static
-                                                                 :min_w 40
-                                                                 :min_h 40
-                                                                 :max_w 400
-                                                                 :max_h 300
-                                                                 :handle_size 16
-                                                                 :z 1}
-                                              :gestures [{:kind :GESTURE_KIND_TAP
-                                                          :cmd tap-rotate-cmd}]}]}}
-   ;; R5b ROI rubber-band: a STATIC full-screen host_proxy video-surface
-   ;; (CLICKABLE cleared, like vr_route → every point is VIDEO-owned → the FSM)
-   ;; carrying BOTH a TAP spec (point-select → RotateToNDC) and an ROI spec
-   ;; (rubber-band rect → FocusROI, 4 NDC slots). A completed drag (PAN_END) is
-   ;; mode-gated into a 4-corner FocusROI carrying (down.x,down.y,up.x,up.y); a
-   ;; plain TAP still routes to the point-select spec — mirroring jettison's
-   ;; tap→handlePointSelection vs pan→handleROISelection split. Consumed by the
-   ;; pointer_routing roi_gesture test.
-   "vr_roi_rect" {:type :screen
-                  :subjects {}
-                  :events {}
-                  :tree {:tag :lv_host_proxy
-                         :id "roi-surface"
-                         :class "w-pct-100 h-pct-100"
-                         :host_proxy_props {:proxy_id "roi-surface"
-                                            :mode :static
-                                            :min_w 40
-                                            :min_h 40
-                                            :max_w 400
-                                            :max_h 300
-                                            :handle_size 16
-                                            :z 1}
-                         :gestures [{:kind :GESTURE_KIND_TAP :cmd tap-rotate-cmd}
-                                    {:kind :GESTURE_KIND_ROI :cmd roi-focus-cmd}]}}
-   ;; R5b direction-selected pinch: ONE GestureKind carrying TWO templates, told
-   ;; apart by :delta-sign. The zoom table is the case the DELTA slot cannot
-   ;; serve at all — its two directions are NextZoomTablePos and
-   ;; PrevZoomTablePos, both EMPTY messages, so there is no leaf for a sign to
-   ;; be patched into and no ordering of one template that could send both. A
-   ;; STATIC full-screen host_proxy video-surface (CLICKABLE cleared, like
-   ;; vr_route) so every point is VIDEO-owned and reaches the FSM. Consumed by
-   ;; the pointer_routing pinch-direction tests.
-   "vr_pinch_pair" {:type :screen
-                    :subjects {}
-                    :events {}
-                    :tree {:tag :lv_host_proxy
-                           :id "pinch-surface"
-                           :class "w-pct-100 h-pct-100"
-                           :host_proxy_props {:proxy_id "pinch-surface"
-                                              :mode :static
-                                              :min_w 40
-                                              :min_h 40
-                                              :max_w 400
-                                              :max_h 300
-                                              :handle_size 16
-                                              :z 1}
-                           :gestures [{:kind :GESTURE_KIND_PINCH
-                                       :delta-sign :GESTURE_DELTA_SIGN_POSITIVE
-                                       :cmd pinch-zoom-next-cmd}
-                                      {:kind :GESTURE_KIND_PINCH
-                                       :delta-sign :GESTURE_DELTA_SIGN_NEGATIVE
-                                       :cmd pinch-zoom-prev-cmd}]}}})
 
 ;; ═══════════════════════════════════════════════════════════════════
 ;; V-C layout-defect fixtures — exercise the controls_dump_tree layout
@@ -1286,7 +1108,7 @@
          cross-cutting-fixtures
          controller-binding-fixtures
          host-proxy-fixtures
-         routing-fixtures
+         gesture/fixtures
          vc-fixtures))
 
 (defn generate-all!

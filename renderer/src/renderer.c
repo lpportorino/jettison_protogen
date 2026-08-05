@@ -714,9 +714,12 @@ static int pending_patch_subject_count;
  * bound lives only in ui_ast.proto's buf.validate max_items, which the C never
  * sees, and the renderer's own count checks are what refuse an over-long stream.
  * main.c asserts CMD_PATCH_MAX_GESTURES against the gesture_kind_t vocabulary,
- * but that is a FLOOR derived from the enum rather than an equality with
- * max_items; the two bounds are still held equal only by the harness pair that
- * loads exactly max_items specs and refuses one more.
+ * but that is a FLOOR derived from the enum, not an equality with max_items.
+ * NOTHING holds the two EQUAL. The harness pair that loads exactly N specs and
+ * refuses N+1 pins the C bound to a hand-transcribed Rust constant, and that
+ * constant is the third copy rather than a reading of the proto — so the
+ * transcription is exactly what can drift, and a reader must not take the pair
+ * for a derivation.
  */
 _Static_assert(CMD_PATCH_TEMPLATE_CAP ==
                    sizeof(((ui_CmdSpec *)0)->root_template.bytes),
@@ -827,18 +830,77 @@ static void apply_patch_subject(const pending_patch_subject_t *q) {
     load_resource_error = true;
   }
 }
+/* Does a decision of this kind carry a STEP a selector could discriminate on?
+ * `gesture_decision_t.delta` is +/-1 for a pinch and for a host wheel, and 0 for
+ * every other kind (src/gesture.h states it at the field). So a SIGNED selector
+ * on any other kind selects a step that kind never produces.
+ *
+ * WHEEL is included on the RECOGNIZER's contract rather than on whether a
+ * decision currently reaches the drain — nothing in the live pointer pipeline
+ * produces one today, but that is a wiring fact about the shell, and encoding it
+ * here would refuse at LOAD a spec that becomes correct the moment the shell
+ * grows a wheel arm. A wheel spec that never fires is silent; a wheel spec
+ * refused at load is a screen that does not build. */
+static bool gesture_kind_carries_step(ui_GestureKind kind) {
+  return kind == ui_GestureKind_GESTURE_KIND_PINCH ||
+         kind == ui_GestureKind_GESTURE_KIND_WHEEL;
+}
+/* Is this entry's selector one the resolver can ever answer with?
+ *
+ * TWO WAYS AN ENTRY IS BORN DEAD, and both are silent at every other layer —
+ * the screen builds, the gesture is recognised, and nothing is emitted, which
+ * is indistinguishable from a surface nobody touched:
+ *
+ *   1. A selector outside the vocabulary. `delta_sign_admits` (main.c) names the
+ *      three defined values and answers false to anything else, so an undefined
+ *      selector matches no decision at all.
+ *   2. A SIGNED selector on a kind whose decisions carry no step. POSITIVE tests
+ *      `delta > 0` and NEGATIVE `delta < 0`, and a TAP/TRACK/PAN/ROI decision
+ *      carries 0 — so BOTH halves of a {POSITIVE, NEGATIVE} pair on such a kind
+ *      are unreachable, and a lone signed entry is too.
+ *
+ * The second is why this is a PER-ENTRY check and not a clause of the pairwise
+ * one below: a single `{TAP, POSITIVE}` is already dead, with nothing to pair it
+ * against. Refusing here also means the pairwise check downstream only ever sees
+ * signed selectors on a kind that can produce them. */
+static bool gesture_delta_sign_ok(const ui_GestureSpec *g) {
+  if ((int)g->delta_sign < (int)_ui_GestureDeltaSign_MIN ||
+      (int)g->delta_sign > (int)_ui_GestureDeltaSign_MAX) {
+    LOG_ERROR("gesture kind %d: delta_sign %d is not a defined "
+              "ui.GestureDeltaSign (%d..%d) — it would answer no decision, and "
+              "the spec would be silently inert",
+              (int)g->kind, (int)g->delta_sign, (int)_ui_GestureDeltaSign_MIN,
+              (int)_ui_GestureDeltaSign_MAX);
+    return false;
+  }
+  if (g->delta_sign != ui_GestureDeltaSign_GESTURE_DELTA_SIGN_ANY &&
+      !gesture_kind_carries_step(g->kind)) {
+    LOG_ERROR("gesture kind %d carries no step, so a signed delta_sign (%d) "
+              "answers none of its decisions — use "
+              "GESTURE_DELTA_SIGN_ANY",
+              (int)g->kind, (int)g->delta_sign);
+    return false;
+  }
+  return true;
+}
 /* Can `candidate` join the `n` gesture entries already staged in `staged`
  * without two of them answering one decision?
  *
  * Two entries sharing a kind are disjoint ONLY as the {POSITIVE, NEGATIVE}
  * pair. Everything else overlaps: ANY answers both steps, so it subsumes either
- * signed sibling and itself; and an UNDEFINED selector answers nothing, which
- * is a producer defect to surface rather than a licence to register a second
- * entry beside it. Stating the disjoint case as a WHITELIST is deliberate — the
- * complementary "these values collide" form silently admits any selector nobody
- * thought of.
+ * signed sibling and itself. Stating the disjoint case as a WHITELIST is
+ * deliberate — the complementary "these values collide" form silently admits
+ * any selector nobody thought of.
  *
- * REFUSED AT LOAD rather than resolved by scan order, because scan order is the
+ * THE PAIR IS DISJOINT BUT NOT AUTOMATICALLY LIVE, which is why this is not the
+ * whole guard: {POSITIVE, NEGATIVE} on a kind whose decisions carry no step is
+ * two DEAD entries rather than two colliding ones, and no pairwise test can see
+ * that. `gesture_delta_sign_ok` above refuses each such entry on its own, before
+ * it is staged, so by the time this runs a signed selector is already known to
+ * belong to a kind that can produce one — and an undefined selector cannot reach
+ * here at all.
+ *
+ * REPORTED AT LOAD rather than resolved by scan order, because scan order is the
  * repeated field's element order, and nothing in ui_ast.proto makes that a
  * contract. Under first-match the second entry would simply never fire: a
  * pinch surface with a template for each direction would send one of them for
@@ -3662,6 +3724,10 @@ static void finalize_widget(widget_ctx_t *ctx) {
                   CMD_PATCH_MAX_GESTURES);
         ctx->error = -1;
         break;
+      }
+      if (!gesture_delta_sign_ok(&node->gestures[i])) {
+        ctx->error = -1;
+        continue;
       }
       specs[n].kind = (uint32_t)node->gestures[i].kind;
       specs[n].delta_sign = (uint32_t)node->gestures[i].delta_sign;

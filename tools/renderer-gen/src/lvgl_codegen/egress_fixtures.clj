@@ -13,12 +13,27 @@
    that forced its encoding, and the by-value trio covers the :bool-set / :enum
    / :action shapes. One subject either way.
 
-   Add an egress fixture HERE; a static visual-regression scene goes in
-   `lvgl-codegen.fixtures` and a morph triple in `lvgl-codegen.morph-fixtures`."
+   A THIRD shape rides here too, and it is named rather than folded into the
+   sentence above: `zoom-value-cmd`, the single-int template a widget's own
+   VALUE patches. It is the same subject — a template a widget ships, sourced
+   from something other than a pointer gesture — and it lives here rather than
+   in either consumer because BOTH `lvgl-codegen.fixtures` and
+   `lvgl-codegen.gesture-fixtures` need it, and a namespace that required the
+   other back would be a cycle.
+
+   Add an egress fixture HERE; a gesture-surface screen goes in
+   `lvgl-codegen.gesture-fixtures`, a static visual-regression scene in
+   `lvgl-codegen.fixtures`, and a morph triple in
+   `lvgl-codegen.morph-fixtures`."
   (:require [uigen.cmd-spec :as cmd-spec]
             [uigen.resolve :as res]))
 
 (set! *warn-on-reflection* true)
+
+(def zoom-value-cmd
+  "cmd.DayCamera.SetZoomTableValue patched by a widget's int VALUE (the canonical
+   single-int value command — a button/slider click ships its value)."
+  (cmd-spec/cmd-spec "cmd.DayCamera.SetZoomTableValue" :PATCH_KIND_WIDGET_VALUE))
 
 ;; R5a cmd-by-value: EventBinding.cmd_by_value carries a vector of FIXED
 ;; templates (patch_count 0) the widget's INT value index-selects among — the

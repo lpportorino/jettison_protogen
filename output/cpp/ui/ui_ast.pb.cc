@@ -2258,7 +2258,7 @@ const char descriptor_table_protodef_ui_2fui_5fast_2eproto[] ABSL_ATTRIBUTE_SECT
     "ding\022$\n\ncolor_when\030. \001(\0132\020.ui.ColorBindi"
     "ng\022\031\n\010hit_slop\030/ \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001"
     "(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272"
-    "H\005\222\001\002\020\010\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n"
+    "H\005\222\001\002\020\t\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n"
     "\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003"
     "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_p"
     "rops\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui."

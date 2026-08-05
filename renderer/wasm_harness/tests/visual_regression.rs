@@ -5264,7 +5264,7 @@ mod pointer_routing {
     /// and relayed a PHANTOM RotateToNDC on a post-removal video tap.
     ///
     /// RED before the fix (post-removal tap still relays RotateToNDC); GREEN
-    /// after (owner-uid clear on removal → `find_gesture_spec` misses → no cmd).
+    /// after (owner-uid clear on removal → the resolver misses → no cmd).
     #[test]
     fn gesture_specs_cleared_on_removal() {
         use lvgl_harness::proto::ui;
@@ -5341,7 +5341,8 @@ mod pointer_routing {
 // carrying BOTH a TAP GestureSpec (point-select → RotateToNDC) and an ROI
 // GestureSpec (rubber-band rect → FocusROI, 4 NDC slots). ROI is NOT a new FSM
 // phase: a completed drag emits the ordinary PAN_END, and feed_gesture — seeing
-// an ROI-mode surface (find_gesture_spec(ROI) != NULL) — reinterprets that one
+// an ROI-mode surface (gesture_mode_spec(ROI) != NULL — the KIND-ONLY probe,
+// because an ROI rect carries no step to select on) — reinterprets that one
 // PAN_END as a 4-corner FocusROI carrying (g_gesture.start = the retained DOWN
 // corner, out[0] = the UP corner), emitted directly via cmd_patch_emit_rect
 // instead of the single-point drain. A plain TAP (no drag) still routes through

@@ -10836,12 +10836,15 @@ java.lang.String defaultValue);
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -10858,12 +10861,15 @@ java.lang.String defaultValue);
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -10879,12 +10885,15 @@ java.lang.String defaultValue);
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -10900,12 +10909,15 @@ java.lang.String defaultValue);
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -10922,12 +10934,15 @@ java.lang.String defaultValue);
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -12723,12 +12738,15 @@ java.lang.String defaultValue) {
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -12747,12 +12765,15 @@ java.lang.String defaultValue) {
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -12772,12 +12793,15 @@ java.lang.String defaultValue) {
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -12796,12 +12820,15 @@ java.lang.String defaultValue) {
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -12820,12 +12847,15 @@ java.lang.String defaultValue) {
      * the entry whose GestureSpec.kind equals its kind and whose
      * GestureSpec.delta_sign admits its step, then patches the slots.
      *
-     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-     * kind whose decisions carry a step, so it is the only kind that legitimately
-     * takes two entries. WHEEL is counted even though it has no device analogue,
-     * because a bound that excepts an enumerator has to be re-derived by every
-     * reader — and the earlier bound of 5 was derived that way, from the five
-     * device gestures of the day, and then silently went one short when
+     * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+     * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+     * those, and only those, can legitimately hold a template per direction. Seven
+     * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+     * delta_sign on any other kind is refused at load, so no conforming producer
+     * can want a tenth entry. WHEEL is counted even though it has no device
+     * analogue, because a bound that excepts an enumerator has to be re-derived by
+     * every reader — and the earlier bound of 5 was derived that way, from the
+     * five device gestures of the day, and then silently went short when
      * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
      * to the vocabulary with a static_assert so the next added kind fails the
      * BUILD rather than a consumer's load.
@@ -21064,12 +21094,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21091,12 +21124,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21118,12 +21154,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21145,12 +21184,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21179,12 +21221,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21210,12 +21255,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21243,12 +21291,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21277,12 +21328,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21308,12 +21362,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21339,12 +21396,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21371,12 +21431,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21401,12 +21464,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21431,12 +21497,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21455,12 +21524,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21482,12 +21554,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21510,12 +21585,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21534,12 +21612,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -21559,12 +21640,15 @@ java.lang.String defaultValue) {
        * the entry whose GestureSpec.kind equals its kind and whose
        * GestureSpec.delta_sign admits its step, then patches the slots.
        *
-       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
-       * kind whose decisions carry a step, so it is the only kind that legitimately
-       * takes two entries. WHEEL is counted even though it has no device analogue,
-       * because a bound that excepts an enumerator has to be re-derived by every
-       * reader — and the earlier bound of 5 was derived that way, from the five
-       * device gestures of the day, and then silently went one short when
+       * The bound is the MAXIMUM LEGAL REGISTRY, not a guess: ONE entry per defined
+       * GestureKind, plus one extra for each kind whose decisions carry a STEP —
+       * those, and only those, can legitimately hold a template per direction. Seven
+       * kinds, of which PINCH and WHEEL carry a step, so the sum is 7 + 2. A signed
+       * delta_sign on any other kind is refused at load, so no conforming producer
+       * can want a tenth entry. WHEEL is counted even though it has no device
+       * analogue, because a bound that excepts an enumerator has to be re-derived by
+       * every reader — and the earlier bound of 5 was derived that way, from the
+       * five device gestures of the day, and then silently went short when
        * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
        * to the vocabulary with a static_assert so the next added kind fails the
        * BUILD rather than a consumer's load.
@@ -59200,7 +59284,7 @@ java.lang.String defaultValue) {
       "ding\022$\n\ncolor_when\030. \001(\0132\020.ui.ColorBindi" +
       "ng\022\031\n\010hit_slop\030/ \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001" +
       "(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272" +
-      "H\005\222\001\002\020\010\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "H\005\222\001\002\020\t\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
       "\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003" +
       "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_p" +
       "rops\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui." +

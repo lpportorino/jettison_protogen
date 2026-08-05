@@ -178,9 +178,11 @@
              :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64, matching every other subject-name bound."}}
 
  "ui.GestureSpec.delta_sign"
- {"defined_only" {:disposition :unenforced
-                  :rationale "The same shape, and so the same verdict, as `kind` on this message. It is copied verbatim into the gesture registry and read only by the resolver's admits-this-step test, whose three arms name the three defined values; an undefined selector matches none of them and therefore answers no decision. Nothing substitutes a default."
-                  :harm "The spec is inert: the gesture is recognised, no template answers it, and nothing is emitted — a control that responds to touch by doing nothing, with no error. PARTIAL rather than absent in one direction: a SECOND spec of the same kind beside an undefined selector IS refused at load, because the disjointness check admits two entries of one kind only as the {POSITIVE, NEGATIVE} pair. A lone undefined selector reaches no clause at all, which is the residue."}}
+ {"defined_only" {:disposition :renderer-guard
+                  :guard "gesture_delta_sign_ok"
+                  :test "undefined_gesture_delta_sign_is_refused"
+                  :range-over "GestureDeltaSign"
+                  :rationale "Closed rather than left inert like `kind` beside it, because the two are NOT the same case. An undefined KIND can select no spec, so the spec is unreachable and silent. An undefined SELECTOR leaves the spec reachable through the kind-only MODE PROBE the ROI path uses — `gesture_mode_spec` never consults it — so the entry would fire on one path while answering nothing on the other, which is worse than inert and cannot be told apart from a correct binding by looking at the screen."}}
 
  "ui.GestureSpec.kind"
  {"defined_only" {:disposition :unenforced
@@ -377,7 +379,7 @@
  {"max_items" {:disposition :renderer-guard
                :guard "CMD_PATCH_MAX_GESTURES"
                :test "gestures_past_the_declared_bound_is_refused"
-               :rationale "FT_POINTER, so the renderer's count check is the whole enforcement. PARTIAL, and the gap is here rather than hidden: the loop counts only cmd-BEARING entries, so a six-entry list whose sixth carries no cmd violates max_items and is admitted. That surplus is inert — a gesture with no template emits nothing — which is why the partial guard is left as it stands."}}
+               :rationale "FT_POINTER, so the renderer's count check is the whole enforcement. PARTIAL, and the gap is here rather than hidden: the loop counts only cmd-BEARING entries, so a ten-entry list whose tenth carries no cmd violates max_items and is admitted. That surplus is inert — a gesture with no template emits nothing — which is why the partial guard is left as it stands."}}
 
  "ui.WidgetNode.hit_slop"
  {"lte" {:disposition :renderer-guard
