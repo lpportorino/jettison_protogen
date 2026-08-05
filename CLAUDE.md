@@ -648,6 +648,29 @@ checks for `*.pb.go`, `run_generation()` propagates into `FAILED_LANGS`, and
 every "Push to …" step is then skipped — nothing partial has ever reached a
 consumer.
 
+### CI status is OBSERVABLE, and no token is needed to look
+
+This origin is PUBLIC, so the Actions REST API serves run and job status
+**unauthenticated** — there is nothing to configure and no `gh` install to wait
+on. `tools/claude/monitors/` holds the observers that use it (`ci-watch.sh` for
+run transitions and step progress, `git-behind.sh` for the trunk, `targets.sh`).
+
+Read `.claude/rules/monitor-discipline.md` before arming one; it owns the
+cadence, the unauthenticated rate ceiling, each monitor's precondition and why
+they report transitions rather than state. Do not restate any of that here.
+
+**Say this out loud because a reader already got it wrong:** a consumer-side
+session pushed eight commits here and then reported, twice and in writing, that
+CI could not be checked because `gh` was absent — while `ci-watch.sh` sat in this
+tree stating the no-token fact in its own header. The capability was never the
+problem; this entry point not naming it was. One unauthenticated `curl` against
+`/actions/runs` answers "did my push go green" in a single request.
+
+**A FORK CANNOT RUN `ci-watch`, and that is correct.** It resolves owner/repo
+from a GitHub `origin`, and `tools/claude/forks.sh` STRIPS the remote — so the
+monitor's own precondition refuses inside a fork. Watch CI from the checkout
+that has the origin, not from the clone you are authoring in.
+
 ## Generation constraints that bite
 
 - **All proto files compile together.** Cross-file references do not resolve
