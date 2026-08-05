@@ -616,9 +616,10 @@ Reference implementations:
 
 ## 9. Golden vectors (anti-drift)
 
-Canonical secret-free byte samples each repo's wire-parity test asserts its
-encoder reproduces. These are the minimum set; both stacks MUST round-trip them
-byte-for-byte.
+Canonical secret-free byte samples. These are the minimum set, and a stack that
+EMITS a vector's framing MUST round-trip it byte-for-byte. That is an obligation
+this document STATES, never a fact it can observe — see "Consumer-side
+assertion" at the end of this section.
 
 **G1 — `cmd.Root` keepalive ping, native client** (§6). The encoder MUST
 produce exactly:
@@ -725,10 +726,27 @@ never `value_changed`):
 {"v":1,"tag":"volume.set","origin":7,"event":"value-changed","seq":2,"value":55}
 ```
 
-Reference implementations:
-- The web consumer and the native consumer each assert G1-G4 byte-for-byte in
-  their own wire-parity test suite (G3 uses exactly `frame_seq=42,
-  total_datagrams=3, payload_size=2922`).
+Consumer-side assertion — an obligation, not a fact this document can verify:
+
+- **Nothing here can see a consumer's wire-parity suite.** It lives in that
+  consumer's own repository. §10's checker prints, on every run, exactly which
+  of these vectors this repository derives for itself and which it cannot; read
+  that list rather than assuming publication implies a check.
+- **G3 and G4 have no mechanical home this document can reach**, and G3 has no
+  second WRITTEN home to cross-check against either (§10), so its bytes rest on
+  this page alone. Publishing a vector is not evidence that anything asserts it.
+- **A stack that no longer emits a vector's framing owes a STATEMENT, not an
+  assertion.** Retiring an implementation of G3's transport framing is in scope
+  — a transport that REPLACES the `WB` datagram layer has nothing to assert it
+  against — while changing those bytes silently is not. At least one consumer
+  has retired its only G3 implementation together with the component that
+  carried it, and G4's rate-request datagram has never had one there at all. If
+  your stack still emits this framing the byte-for-byte obligation binds you; if
+  it does not, record that where your own wire contract lives rather than
+  leaving the absence to be discovered.
+
+When G3 IS asserted, it uses exactly `frame_seq=42, total_datagrams=3,
+payload_size=2922`.
 
 ---
 
