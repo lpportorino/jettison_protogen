@@ -699,6 +699,25 @@ that has the origin, not from the clone you are authoring in.
   workflow's whole job, so a proto change would red it). What it catches is a
   developer's WARM image built from older pins — a condition CI, which builds
   cold, never has.
+- **`make orphan-scan` ([`tools/orphan_scan.sh`](./tools/orphan_scan.sh)) is its
+  SIBLING AND ITS INVERSE — do not carry the paragraph above onto it.** That one
+  judges the go LEG by byte-identity and runs in no workflow; this one judges the
+  TREE by existence, across every leg `generate-protos.sh` declares, and IS wired
+  — into `build-and-release.yml`, immediately after `make generate` and before
+  the fan-out that ships the bytes to the consumer repos. The placement follows
+  from the vacuity profile inverting: generation never DELETES, so an orphan
+  survives a full regeneration untouched, which makes "after `make generate`" the
+  only honest slot rather than the vacuous one.
+  It catches a committed binding whose producer stopped emitting it — a declaring
+  proto deleted, an output path moved while its source stayed alive, or a message
+  removed from a still-live proto. A declared-source scan finds only the first,
+  which is why the check runs the legs instead. `make orphan-scan-canary` proves
+  it can fail, with one planted input per mechanism.
+  Its scope is `output/<lang>` for the declared langs only; `output/manifests` is
+  excused with proof, and any OTHER tracked directory under `output/` is an
+  ERROR, so the scope cannot shrink silently in either direction. A failing leg
+  is an ERROR (exit 2), never a leg quietly dropped — the one outcome that would
+  make a green here dishonest.
 - **JSON descriptors prefer `buf build`** because it preserves buf.validate
   annotations with their CEL expressions; the protoc+Python fallback may not.
   It announces WHICH tool it took ("buf not found, using protoc…") but says
