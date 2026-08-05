@@ -609,7 +609,7 @@ jobs:
           fixtures-cargo-
     - # B3b: the ui bindings compile via renderer.mk's `bindings` prereq
       # (compile-bindings.sh) — the ONE home. The inline javac that used to sit
-      # here had no -sourcepath (UiNodes.java references cmd.Root) and no rm -rf
+      # here had no -sourcepath (UiAst.java references cmd.Root) and no rm -rf
       # (an orphan .class survived a rename); dropping it and running BOTH
       # prebuilt targets in ONE make invocation compiles the bindings exactly
       # once (they share the prereq). fixtures-prebuilt consumes the wasm

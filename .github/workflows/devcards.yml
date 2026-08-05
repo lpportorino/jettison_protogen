@@ -265,7 +265,7 @@ jobs:
       run: make -f renderer.mk conventions-projection
     - # B3b: compile the ui bindings via the ONE script (compile-bindings.sh,
       # invoked by renderer.mk's `bindings` prereq) — never a second inline
-      # javac. The inline form had no -sourcepath (UiNodes.java references
+      # javac. The inline form had no -sourcepath (UiAst.java references
       # cmd.Root) and no rm -rf (an orphan .class survived a rename); the script
       # is the one home. fixtures-prebuilt + gallery-prebuilt share the `bindings`
       # prereq, so one make invocation compiles them exactly once.

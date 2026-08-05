@@ -8,7 +8,7 @@
 #
 # Sources: protogen/output/java/ui/*.java, with -sourcepath pointing at
 # output/java so javac pulls exactly the transitive imports it needs
-# (UiNodes.java references cmd.Root) — never a hand-maintained file list.
+# (UiAst.java references cmd.Root) — never a hand-maintained file list.
 #
 # Classpath: resolved from the tool's deps.edn via `clojure -Spath` so the
 # protobuf-java + protovalidate pins have ONE home (protovalidate is a
