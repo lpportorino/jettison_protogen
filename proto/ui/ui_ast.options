@@ -167,11 +167,55 @@ ui.LineProps.points              max_count:32
 #   subject-name set at 256                   3212       6544           <=214528
 #   all nine at 256                           3212       8080   TRAPS (>262144)
 #
+# EVERY FIGURE IN THAT TABLE IS A SNAPSHOT, AND AT LEAST TWO COLUMNS HAVE SINCE
+# MOVED. Read today's peak from renderer/wasm.mk's stack-size block, which owns
+# it, and read the sizeof staleness from docs/NANOPB-FIELD-BOUNDS.md §8.2, which
+# owns that: it records the 2252 as measuring 2256 today and says outright that
+# the per-level and peak figures move with it. So do NOT treat the two derived
+# columns as vouched for either.
+#
+# WHAT IS KNOWN ABOUT THE PEAK, stated as narrowly as the evidence allows.
+# wasm.mk carries <=165888 today against this table's <=159232, and the commit
+# that re-bisected it is the one that took CMD_PATCH_MAX_GESTURES from 8 to 9 —
+# a plausible contributor, because renderer.c's finalize_widget declares a
+# `cmd_gesture_spec_t specs[CMD_PATCH_MAX_GESTURES]` LOCAL in a NON-RECURSIVE
+# frame, sized by the compile-time bound rather than by how many specs a surface
+# registers.
+#
+# IT IS NOT THE WHOLE CAUSE, AND NOTHING HERE SHOULD CLAIM IT IS. The bound
+# reached 9 in two steps, and the earlier one (5 -> 8) moved no peak figure at
+# all. At the 820 B per-entry size renderer/src/cmd_patch.h states, the 8 -> 9
+# step accounts for well under half the observed move, leaving a residual larger
+# than the part that is explained. wasm.mk says the same thing from the other
+# side and declines to guess — its block records that the re-measured peak is
+# further above the old one than this tree's own registry growth accounts for,
+# and leaves WHEN the old figure went stale unmeasured. Defer to that refusal
+# rather than resolving it here; a confident single cause here would make this
+# the most assertive of the three documents about a mechanism the other two
+# decline to claim.
+#
+# The rows are kept as the WIDEN STUDY they are: what matters in them is each
+# config's cost RELATIVE to the baseline of its own day. What must not be done
+# is to read any cell as a current reading, or to recompute one from a fresher
+# baseline — they are bisected measurements, not arithmetic, and a recomputed
+# one would be a number nobody measured.
+#
 # The reservation is 262144. The all-nine widen overflows it — decode_limits
 # fails 4 of 9 and the at-cap load traps inside LVGL instead of the depth guard
-# refusing, which is the exact failure that reservation exists to prevent. Both
-# bisected peaks imply the same 5120 B non-recursive constant, and on that model
-# all-nine lands near 263680: it misses by only ~1.5 KB. Narrow, not a
+# refusing, which is the exact failure that reservation exists to prevent. That
+# OVERFLOW is a measured observation and stands.
+#
+# THE MARGIN ARITHMETIC IN THE NEXT SENTENCE DOES NOT. It derives a
+# non-recursive constant from the two superseded peaks above and predicts how
+# narrowly all-nine misses; both inputs have moved, and the sizeof column it
+# implicitly rests on has moved too (§8.2 of docs/NANOPB-FIELD-BOUNDS.md). Read
+# "narrow, not a landslide" as a claim about the tree of its own day, not this
+# one. It is deliberately NOT recomputed here — a fresh number derived from a
+# fresher baseline is exactly what the note above forbids, and the honest
+# replacement is a re-bisection, not a subtraction.
+#
+# Both bisected peaks imply the same 5120 B non-recursive constant, and on
+# that model all-nine lands near 263680: it misses by only ~1.5 KB. Narrow, not a
 # landslide — but the bisected chain is a bare nesting probe, so what it leaves
 # unspent is the whole margin every other decode path has to fit in. The two
 # KEYS are what push it over: BindingsEntry.key and BindFormatsEntry.key add
@@ -284,7 +328,11 @@ ui.HostProxyProps.proxy_id       max_size:64
 # Only the last is a landslide: at 255 the per-level decode cost goes 4816 ->
 # 19904 and the depth-32 peak 159232 -> 642048 against a 262144 B reservation,
 # i.e. 2.45x over. At 32 it fits (peak ~185344) while spending a quarter of the
-# margin every other decode path shares. So the honest reason for FT_POINTER is
+# margin every other decode path shares. (Those absolute peaks are against the
+# baseline of the day this was measured, which has since moved — see the note
+# under the nine-bounds table. The 2.45x is a RATIO between two figures from
+# one bisection run, so it is what survives; do not re-derive the absolutes
+# against a fresher baseline.) So the honest reason for FT_POINTER is
 # not that inline cannot work at this bound — it is that the pointer's cost is
 # INDEPENDENT of the bound. Raising max_items later then costs 8 B forever
 # instead of re-running the -Wl,-z,stack-size bisection.
@@ -303,7 +351,11 @@ ui.HostProxyProps.proxy_id       max_size:64
 # and after, which is also the figure the nine-bounds table above should read
 # (it says 2252, which was true before WidgetNode.hit_slop; the two derived
 # columns beside it, 4816/level and <=159232 at depth 32, are bisected
-# measurements and are NOT recomputed from it).
+# measurements and are NOT recomputed from it — and the peak column has since
+# moved, for reasons the note under that table records as NOT ESTABLISHED.
+# Do not read this parenthesis as ruling hit_slop out of the peak's movement:
+# §8.2 of docs/NANOPB-FIELD-BOUNDS.md says the per-level and peak figures move
+# WITH the sizeof, so it is a live candidate rather than an excluded one).
 #
 # max_count IS NOT SET, and must not be: max_count is the STATIC array size,
 # meaningless for FT_POINTER, and nanopb allocates whatever the stream declares.
