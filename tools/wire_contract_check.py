@@ -59,7 +59,8 @@ WHAT THIS DOES NOT COVER — stated out loud, never silently skipped
 See NOT_COVERED below; it is printed on every run, pass or fail.
 
 USAGE
-    tools/wire_contract_check.py [--descriptors PATH] [--doc PATH] [--quiet]
+    tools/wire_contract_check.py [--descriptors PATH] [--doc PATH]
+                                [--schema PATH] [--quiet]
 
 Exit 0 = every assertion held. Exit 1 = at least one failed, or an extractor
 came up short. Exit 2 = the inputs could not be read at all.
@@ -103,9 +104,12 @@ NOT_COVERED = [
     "§8 the controls_* export list, CONTROLS_ABI_VERSION, the env.* import "
     "signatures and the fb-format constants — their home is renderer C source, "
     "not the descriptor set.",
-    "§9 G5 envelope BYTES — only each vector's key set is checked against "
-    "ui-event-envelope.schema.json; the escaping and seq semantics are the "
-    "renderer's and are not asserted here.",
+    "§9 G5 envelope BYTES — each vector's key set is checked against "
+    "ui-event-envelope.schema.json, and that schema's `tag` length bounds are "
+    "held against ui.EventBinding.name's own buf.validate rules; the BYTES, "
+    "the escaping and the seq semantics are the renderer's and are not "
+    "asserted here. Nor is any INSTANCE validated against the schema — the "
+    "bound is compared, never exercised.",
     "Whether the descriptor set is FRESH vs proto/. Reading a committed "
     "descriptor cannot see an unregenerated proto edit — which is why this "
     "script also runs in build-and-release.yml immediately after `make "
@@ -829,7 +833,7 @@ def check_ui_input(d: Descriptors, s8: str, r: Report) -> None:
     r.found("§8 ui_input enum-value claims", enum_claims, 15)
 
 
-def check_g5_envelopes(s9: str, r: Report) -> None:
+def check_g5_envelopes(s9: str, schema_path: Path, r: Report) -> None:
     """§9 G5 — each envelope vector's key set against the published schema.
 
     The BYTES are the renderer's to produce and are not derived here; what is
@@ -837,9 +841,9 @@ def check_g5_envelopes(s9: str, r: Report) -> None:
     closed key set, which is the drift this repo can actually see.
     """
     try:
-        schema = json.loads(ENVELOPE_SCHEMA.read_text())
+        schema = json.loads(schema_path.read_text())
     except OSError as exc:
-        r.fail("§9 G5 schema", f"cannot read {ENVELOPE_SCHEMA}: {exc}")
+        r.fail("§9 G5 schema", f"cannot read {schema_path}: {exc}")
         return
     r.check("G5 schema is a closed map (additionalProperties:false)",
             schema.get("additionalProperties") is False,
@@ -980,6 +984,68 @@ def _codec_table(s2: str, r: Report) -> list[dict] | None:
     return fields
 
 
+def check_envelope_tag_bound(d: Descriptors, schema_path: Path, r: Report) -> None:
+    """§9 G5 — the published schema's `tag` bounds against the proto's own.
+
+    THE ESCAPE THIS CLOSES, measured rather than imagined. The schema declared
+    `maxLength: 63` while `ui.EventBinding.name` had been carried to 127, so the
+    PUBLISHED, language-neutral validator this repo tells consumers to validate
+    against REJECTED conformant envelopes — a real 73-character command id among
+    them — for the whole window between those two commits. Nothing here ever
+    validates an INSTANCE against that schema (`check_g5_envelopes` reads its key
+    set and `additionalProperties` and stops), so the drift was structurally
+    unobservable and the next one would be too.
+
+    THE UNIT IS THE WHOLE SUBTLETY, and getting it wrong would make this clause
+    wrong in a new way. JSON Schema `maxLength` counts CHARACTERS; buf.validate
+    `max_len` counts CODE POINTS — the SAME unit, which is what makes a direct
+    equality the correct assertion. The nanopb `max_size` beside them counts
+    BYTES and includes the NUL, so it is a DIFFERENT number and is deliberately
+    not compared here. JSON Schema has no byte-length keyword, so passing the
+    schema stays NECESSARY and not SUFFICIENT for a multi-byte tag; the schema's
+    own description says so and this clause does not contradict it.
+
+    EQUALITY, NOT `<=`. A schema WIDER than the proto is a finding too: it
+    admits an envelope the decoder will refuse, which moves the rejection from
+    the consumer's validator to the device and is the harder failure to debug.
+    """
+    try:
+        schema = json.loads(schema_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        r.fail("§9 G5 tag bounds", f"cannot read {schema_path}: {exc}")
+        return
+    tag = (schema.get("properties") or {}).get("tag")
+    if not isinstance(tag, dict):
+        r.fail("§9 G5 tag bounds",
+               "the schema declares no `tag` property — §8 calls it the event "
+               "keyword every envelope carries, so its absence is a finding")
+        return
+    field = d.field("ui.EventBinding", "name")
+    if field is None:
+        r.fail("§9 G5 tag bounds",
+               "ui.EventBinding.name is not in the descriptor set — the schema's "
+               "`tag` has no proto home to be bounded by")
+        return
+    tokens = constraint_tokens(field)
+
+    def rule(name: str) -> str | None:
+        for tok in tokens:
+            if tok.startswith(f"{name}:"):
+                return tok.split(":", 1)[1]
+        return None
+
+    for kw, rule_name in (("maxLength", "max_len"), ("minLength", "min_len")):
+        proto = rule(rule_name)
+        if proto is None:
+            r.fail(f"§9 G5 tag {kw}",
+                   f"ui.EventBinding.name declares no buf.validate {rule_name}, "
+                   f"so the schema's {kw} is bounded by nothing — either the "
+                   f"proto lost its constraint or this clause outlived it")
+            continue
+        r.eq(f"§9 G5 tag {kw} == ui.EventBinding.name {rule_name}",
+             proto, str(tag.get(kw)))
+
+
 def check_codec_header(s2: str, s9: str, r: Report) -> None:
     """§2's codec-header table against §9's G2 vector — the layout's two homes."""
     fields = _codec_table(s2, r)
@@ -1045,6 +1111,12 @@ def main() -> int:
                     help="FileDescriptorSet rendered as JSON (default: the "
                          "committed output/json-descriptors/descriptor-set.json)")
     ap.add_argument("--doc", type=Path, default=DEFAULT_DOC)
+    ap.add_argument("--schema", type=Path, default=ENVELOPE_SCHEMA,
+                    help="the published envelope JSON Schema (default: the "
+                         "committed ui-event-envelope.schema.json). Overridable "
+                         "for the same reason --doc is: the canary drives this "
+                         "checker over a MUTATED COPY, so the tracked tree is "
+                         "never written and no restore has to be trusted")
     ap.add_argument("--quiet", action="store_true",
                     help="print only failures and the summary")
     args = ap.parse_args()
@@ -1097,7 +1169,8 @@ def main() -> int:
     check_opaque_payload_wrapping(d, s5, r)
     check_uuid(s5, r)
     check_ui_input(d, s8, r)
-    check_g5_envelopes(s9, r)
+    check_g5_envelopes(s9, args.schema, r)
+    check_envelope_tag_bound(d, args.schema, r)
     check_codec_header(s2, s9, r)
 
     if not args.quiet:

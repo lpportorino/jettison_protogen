@@ -323,7 +323,7 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test wire-contract-envelope-test fork-hazards fmt-clj lint-clj fmt-c
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a
@@ -588,6 +588,17 @@ wire-contract:
 # restore whose success anyone has to take on trust.
 wire-contract-codec-test:
 	@bash tools/lint/test/wire_contract_codec_header_test.sh
+
+## wire-contract-envelope-test: canaries for the §9-G5 tag-bound clauses
+# A SEPARATE suite from its codec-header sibling on purpose. That one declares
+# its scope, in its own header, as the codec-header clauses ONLY — widening it
+# would make both its name and that declaration false, and a suite whose stated
+# scope has quietly grown is worth less than two whose scopes are exact.
+#
+# Same hermetic shape: the checker takes --schema, so each case mutates a COPY
+# and the tracked schema is never written.
+wire-contract-envelope-test:
+	@bash tools/lint/test/wire_contract_envelope_bound_test.sh
 
 ## docs-lint: proto documentation lint — A WARNING IS A FAILURE
 # Runs the protodoc linter against the COMMITTED proto-db.edn. Every constrained
