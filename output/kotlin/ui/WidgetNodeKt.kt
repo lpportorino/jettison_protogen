@@ -1777,10 +1777,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
@@ -1793,10 +1802,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
@@ -1810,10 +1828,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
@@ -1828,10 +1855,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
@@ -1845,10 +1881,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
@@ -1863,10 +1908,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`
@@ -1881,10 +1935,19 @@ public object WidgetNodeKt {
     /**
      * ```
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * ```
      *
      * `repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }`

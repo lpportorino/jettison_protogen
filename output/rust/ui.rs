@@ -186,10 +186,19 @@ pub struct WidgetNode {
     #[prost(uint32, tag = "43")]
     pub uid: u32,
     /// Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-    /// gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-    /// PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-    /// analogue so it is never emitted here. The host recognizer matches a
-    /// gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+    /// gesture-surface host-proxy node. The host recognizer matches a decision to
+    /// the entry whose GestureSpec.kind equals its kind and whose
+    /// GestureSpec.delta_sign admits its step, then patches the slots.
+    ///
+    /// The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+    /// kind whose decisions carry a step, so it is the only kind that legitimately
+    /// takes two entries. WHEEL is counted even though it has no device analogue,
+    /// because a bound that excepts an enumerator has to be re-derived by every
+    /// reader — and the earlier bound of 5 was derived that way, from the five
+    /// device gestures of the day, and then silently went one short when
+    /// GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+    /// to the vocabulary with a static_assert so the next added kind fails the
+    /// BUILD rather than a consumer's load.
     #[prost(message, repeated, tag = "44")]
     pub gestures: ::prost::alloc::vec::Vec<GestureSpec>,
     /// Typed widget-specific properties (one per widget type)
@@ -802,15 +811,24 @@ pub struct CmdSpec {
     #[prost(message, repeated, tag = "3")]
     pub patches: ::prost::alloc::vec::Vec<FieldPatch>,
 }
-/// One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
-/// the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
-/// selects the matching kind and patches its slots with the gesture decision.
+/// One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
+/// sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
+/// (WidgetNode.gestures); the host recognizer selects the entry whose kind
+/// matches and whose delta_sign admits the decision, then patches its slots.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GestureSpec {
     #[prost(enumeration = "GestureKind", tag = "1")]
     pub kind: i32,
     #[prost(message, optional, tag = "2")]
     pub cmd: ::core::option::Option<CmdSpec>,
+    /// Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+    /// other repeat of one kind is refused at load, because ANY already answers
+    /// both steps: a second entry beside it could only be reached by breaking the
+    /// tie on repeated-field ORDER, which would make the wire's element order a
+    /// contract this message does not state and would strand one template with no
+    /// diagnostic.
+    #[prost(enumeration = "GestureDeltaSign", tag = "3")]
+    pub delta_sign: i32,
 }
 /// Conditional visibility — show/hide widget based on subject value comparison.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1271,7 +1289,12 @@ pub enum GestureKind {
     Tap = 2,
     /// → cmd.CV.StartTrackNDC
     Track = 3,
-    /// → cmd.{Day,Heat}Camera.SetZoomTableValue
+    /// Two fingers spreading or closing, reported as a SIGNED ±1 step. Its two
+    /// directions are usually two DIFFERENT commands rather than one command with
+    /// a signed leaf — a zoom table steps by cmd.{Day,Heat}Camera.NextZoomTablePos
+    /// and .PrevZoomTablePos, both EMPTY messages with no leaf a sign could be
+    /// written into — so a pinch surface registers TWO GestureSpecs for this kind,
+    /// told apart by GestureSpec.delta_sign.
     Pinch = 4,
     /// web-only; no device analogue (no template)
     Wheel = 5,
@@ -1308,6 +1331,46 @@ impl GestureKind {
             "GESTURE_KIND_PINCH" => Some(Self::Pinch),
             "GESTURE_KIND_WHEEL" => Some(Self::Wheel),
             "GESTURE_KIND_ROI" => Some(Self::Roi),
+            _ => None,
+        }
+    }
+}
+/// Which SIGN of a recognized gesture's step a GestureSpec answers. A decision
+/// carries a signed step alongside its kind (±1 for a pinch, 0 for every kind
+/// that has no direction), and a spec selects on it — which is what lets ONE
+/// GestureKind carry two templates when its two directions are two different
+/// commands rather than one command with a signed leaf.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum GestureDeltaSign {
+    /// Answers every decision of its kind, whatever the step's sign. The ZERO
+    /// value, so a spec that says nothing about direction answers everything —
+    /// which is what every spec written before this field existed meant, and the
+    /// only sensible selector for a kind whose decisions carry no step at all.
+    Any = 0,
+    /// answers a step > 0 only
+    Positive = 1,
+    /// answers a step < 0 only
+    Negative = 2,
+}
+impl GestureDeltaSign {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Any => "GESTURE_DELTA_SIGN_ANY",
+            Self::Positive => "GESTURE_DELTA_SIGN_POSITIVE",
+            Self::Negative => "GESTURE_DELTA_SIGN_NEGATIVE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "GESTURE_DELTA_SIGN_ANY" => Some(Self::Any),
+            "GESTURE_DELTA_SIGN_POSITIVE" => Some(Self::Positive),
+            "GESTURE_DELTA_SIGN_NEGATIVE" => Some(Self::Negative),
             _ => None,
         }
     }

@@ -177,6 +177,11 @@
  {"max_len" {:disposition :nanopb-size
              :rationale "String bound; ui_ast.options carries the nanopb counterpart at 64, matching every other subject-name bound."}}
 
+ "ui.GestureSpec.delta_sign"
+ {"defined_only" {:disposition :unenforced
+                  :rationale "The same shape, and so the same verdict, as `kind` on this message. It is copied verbatim into the gesture registry and read only by the resolver's admits-this-step test, whose three arms name the three defined values; an undefined selector matches none of them and therefore answers no decision. Nothing substitutes a default."
+                  :harm "The spec is inert: the gesture is recognised, no template answers it, and nothing is emitted — a control that responds to touch by doing nothing, with no error. PARTIAL rather than absent in one direction: a SECOND spec of the same kind beside an undefined selector IS refused at load, because the disjointness check admits two entries of one kind only as the {POSITIVE, NEGATIVE} pair. A lone undefined selector reaches no clause at all, which is the residue."}}
+
  "ui.GestureSpec.kind"
  {"defined_only" {:disposition :unenforced
                   :rationale "Copied verbatim into the gesture registry and matched by equality against the kind the recogniser decided, so an undefined value can never select a spec."

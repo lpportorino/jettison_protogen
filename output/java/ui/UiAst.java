@@ -1427,7 +1427,12 @@ public final class UiAst {
     GESTURE_KIND_TRACK(3),
     /**
      * <pre>
-     * → cmd.{Day,Heat}Camera.SetZoomTableValue
+     * Two fingers spreading or closing, reported as a SIGNED ±1 step. Its two
+     * directions are usually two DIFFERENT commands rather than one command with
+     * a signed leaf — a zoom table steps by cmd.{Day,Heat}Camera.NextZoomTablePos
+     * and .PrevZoomTablePos, both EMPTY messages with no leaf a sign could be
+     * written into — so a pinch surface registers TWO GestureSpecs for this kind,
+     * told apart by GestureSpec.delta_sign.
      * </pre>
      *
      * <code>GESTURE_KIND_PINCH = 4;</code>
@@ -1499,7 +1504,12 @@ public final class UiAst {
     public static final int GESTURE_KIND_TRACK_VALUE = 3;
     /**
      * <pre>
-     * → cmd.{Day,Heat}Camera.SetZoomTableValue
+     * Two fingers spreading or closing, reported as a SIGNED ±1 step. Its two
+     * directions are usually two DIFFERENT commands rather than one command with
+     * a signed leaf — a zoom table steps by cmd.{Day,Heat}Camera.NextZoomTablePos
+     * and .PrevZoomTablePos, both EMPTY messages with no leaf a sign could be
+     * written into — so a pinch surface registers TWO GestureSpecs for this kind,
+     * told apart by GestureSpec.delta_sign.
      * </pre>
      *
      * <code>GESTURE_KIND_PINCH = 4;</code>
@@ -1612,6 +1622,170 @@ public final class UiAst {
     }
 
     // @@protoc_insertion_point(enum_scope:ui.GestureKind)
+  }
+
+  /**
+   * <pre>
+   * Which SIGN of a recognized gesture's step a GestureSpec answers. A decision
+   * carries a signed step alongside its kind (±1 for a pinch, 0 for every kind
+   * that has no direction), and a spec selects on it — which is what lets ONE
+   * GestureKind carry two templates when its two directions are two different
+   * commands rather than one command with a signed leaf.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.GestureDeltaSign}
+   */
+  public enum GestureDeltaSign
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * Answers every decision of its kind, whatever the step's sign. The ZERO
+     * value, so a spec that says nothing about direction answers everything —
+     * which is what every spec written before this field existed meant, and the
+     * only sensible selector for a kind whose decisions carry no step at all.
+     * </pre>
+     *
+     * <code>GESTURE_DELTA_SIGN_ANY = 0;</code>
+     */
+    GESTURE_DELTA_SIGN_ANY(0),
+    /**
+     * <pre>
+     * answers a step &gt; 0 only
+     * </pre>
+     *
+     * <code>GESTURE_DELTA_SIGN_POSITIVE = 1;</code>
+     */
+    GESTURE_DELTA_SIGN_POSITIVE(1),
+    /**
+     * <pre>
+     * answers a step &lt; 0 only
+     * </pre>
+     *
+     * <code>GESTURE_DELTA_SIGN_NEGATIVE = 2;</code>
+     */
+    GESTURE_DELTA_SIGN_NEGATIVE(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        GestureDeltaSign.class.getName());
+    }
+    /**
+     * <pre>
+     * Answers every decision of its kind, whatever the step's sign. The ZERO
+     * value, so a spec that says nothing about direction answers everything —
+     * which is what every spec written before this field existed meant, and the
+     * only sensible selector for a kind whose decisions carry no step at all.
+     * </pre>
+     *
+     * <code>GESTURE_DELTA_SIGN_ANY = 0;</code>
+     */
+    public static final int GESTURE_DELTA_SIGN_ANY_VALUE = 0;
+    /**
+     * <pre>
+     * answers a step &gt; 0 only
+     * </pre>
+     *
+     * <code>GESTURE_DELTA_SIGN_POSITIVE = 1;</code>
+     */
+    public static final int GESTURE_DELTA_SIGN_POSITIVE_VALUE = 1;
+    /**
+     * <pre>
+     * answers a step &lt; 0 only
+     * </pre>
+     *
+     * <code>GESTURE_DELTA_SIGN_NEGATIVE = 2;</code>
+     */
+    public static final int GESTURE_DELTA_SIGN_NEGATIVE_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static GestureDeltaSign valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static GestureDeltaSign forNumber(int value) {
+      switch (value) {
+        case 0: return GESTURE_DELTA_SIGN_ANY;
+        case 1: return GESTURE_DELTA_SIGN_POSITIVE;
+        case 2: return GESTURE_DELTA_SIGN_NEGATIVE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<GestureDeltaSign>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        GestureDeltaSign> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<GestureDeltaSign>() {
+            public GestureDeltaSign findValueByNumber(int number) {
+              return GestureDeltaSign.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
+    }
+
+    private static final GestureDeltaSign[] VALUES = values();
+
+    public static GestureDeltaSign valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private GestureDeltaSign(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.GestureDeltaSign)
   }
 
   /**
@@ -1793,7 +1967,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
     }
 
     private static final CompareOp[] VALUES = values();
@@ -1973,7 +2147,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
     }
 
     private static final FlexFlow[] VALUES = values();
@@ -2126,7 +2300,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
     }
 
     private static final FlexAlign[] VALUES = values();
@@ -2288,7 +2462,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
     }
 
     private static final GridAlign[] VALUES = values();
@@ -2423,7 +2597,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
     }
 
     private static final TextAlign[] VALUES = values();
@@ -2549,7 +2723,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
     }
 
     private static final TextDecor[] VALUES = values();
@@ -2693,7 +2867,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
     }
 
     private static final BlendMode[] VALUES = values();
@@ -2837,7 +3011,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
     }
 
     private static final BaseDir[] VALUES = values();
@@ -2990,7 +3164,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
     }
 
     private static final GradDir[] VALUES = values();
@@ -3161,7 +3335,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
     }
 
     private static final Dir[] VALUES = values();
@@ -3458,7 +3632,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
     }
 
     private static final Align[] VALUES = values();
@@ -3620,7 +3794,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
     }
 
     private static final BorderSide[] VALUES = values();
@@ -3764,7 +3938,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
     }
 
     private static final LabelLongMode[] VALUES = values();
@@ -3890,7 +4064,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
     }
 
     private static final BarMode[] VALUES = values();
@@ -4016,7 +4190,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
     }
 
     private static final ArcMode[] VALUES = values();
@@ -4133,7 +4307,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
     }
 
     private static final RollerMode[] VALUES = values();
@@ -4286,7 +4460,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
     }
 
     private static final ScaleMode[] VALUES = values();
@@ -4439,7 +4613,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
     }
 
     private static final ChartType[] VALUES = values();
@@ -4574,7 +4748,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(27);
     }
 
     private static final ChartAxis[] VALUES = values();
@@ -5772,7 +5946,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(27);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(28);
     }
 
     private static final StylePropertyType[] VALUES = values();
@@ -10658,10 +10832,19 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -10671,10 +10854,19 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -10683,10 +10875,19 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -10695,10 +10896,19 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -10708,10 +10918,19 @@ java.lang.String defaultValue);
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -12500,10 +12719,19 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -12515,10 +12743,19 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -12531,10 +12768,19 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -12546,10 +12792,19 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -12561,10 +12816,19 @@ java.lang.String defaultValue) {
     /**
      * <pre>
      * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-     * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-     * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-     * analogue so it is never emitted here. The host recognizer matches a
-     * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+     * gesture-surface host-proxy node. The host recognizer matches a decision to
+     * the entry whose GestureSpec.kind equals its kind and whose
+     * GestureSpec.delta_sign admits its step, then patches the slots.
+     *
+     * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+     * kind whose decisions carry a step, so it is the only kind that legitimately
+     * takes two entries. WHEEL is counted even though it has no device analogue,
+     * because a bound that excepts an enumerator has to be re-derived by every
+     * reader — and the earlier bound of 5 was derived that way, from the five
+     * device gestures of the day, and then silently went one short when
+     * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+     * to the vocabulary with a static_assert so the next added kind fails the
+     * BUILD rather than a consumer's load.
      * </pre>
      *
      * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20796,10 +21060,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20814,10 +21087,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20832,10 +21114,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20850,10 +21141,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20875,10 +21175,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20897,10 +21206,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20921,10 +21239,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20946,10 +21273,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20968,10 +21304,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -20990,10 +21335,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21013,10 +21367,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21034,10 +21397,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21055,10 +21427,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21070,10 +21451,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21088,10 +21478,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21107,10 +21506,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21122,10 +21530,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -21138,10 +21555,19 @@ java.lang.String defaultValue) {
       /**
        * <pre>
        * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-       * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-       * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-       * analogue so it is never emitted here. The host recognizer matches a
-       * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+       * gesture-surface host-proxy node. The host recognizer matches a decision to
+       * the entry whose GestureSpec.kind equals its kind and whose
+       * GestureSpec.delta_sign admits its step, then patches the slots.
+       *
+       * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+       * kind whose decisions carry a step, so it is the only kind that legitimately
+       * takes two entries. WHEEL is counted even though it has no device analogue,
+       * because a bound that excepts an enumerator has to be re-derived by every
+       * reader — and the earlier bound of 5 was derived that way, from the five
+       * device gestures of the day, and then silently went one short when
+       * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+       * to the vocabulary with a static_assert so the next added kind fails the
+       * BUILD rather than a consumer's load.
        * </pre>
        *
        * <code>repeated .ui.GestureSpec gestures = 44 [(.buf.validate.field) = { ... }</code>
@@ -50611,12 +51037,42 @@ java.lang.String defaultValue) {
      * <code>.ui.CmdSpec cmd = 2;</code>
      */
     ui.UiAst.CmdSpecOrBuilder getCmdOrBuilder();
+
+    /**
+     * <pre>
+     * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+     * other repeat of one kind is refused at load, because ANY already answers
+     * both steps: a second entry beside it could only be reached by breaking the
+     * tie on repeated-field ORDER, which would make the wire's element order a
+     * contract this message does not state and would strand one template with no
+     * diagnostic.
+     * </pre>
+     *
+     * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for deltaSign.
+     */
+    int getDeltaSignValue();
+    /**
+     * <pre>
+     * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+     * other repeat of one kind is refused at load, because ANY already answers
+     * both steps: a second entry beside it could only be reached by breaking the
+     * tie on repeated-field ORDER, which would make the wire's element order a
+     * contract this message does not state and would strand one template with no
+     * diagnostic.
+     * </pre>
+     *
+     * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The deltaSign.
+     */
+    ui.UiAst.GestureDeltaSign getDeltaSign();
   }
   /**
    * <pre>
-   * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
-   * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
-   * selects the matching kind and patches its slots with the gesture decision.
+   * One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
+   * sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
+   * (WidgetNode.gestures); the host recognizer selects the entry whose kind
+   * matches and whose delta_sign admits the decision, then patches its slots.
    * </pre>
    *
    * Protobuf type {@code ui.GestureSpec}
@@ -50641,6 +51097,7 @@ java.lang.String defaultValue) {
     }
     private GestureSpec() {
       kind_ = 0;
+      deltaSign_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -50701,6 +51158,42 @@ java.lang.String defaultValue) {
       return cmd_ == null ? ui.UiAst.CmdSpec.getDefaultInstance() : cmd_;
     }
 
+    public static final int DELTA_SIGN_FIELD_NUMBER = 3;
+    private int deltaSign_ = 0;
+    /**
+     * <pre>
+     * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+     * other repeat of one kind is refused at load, because ANY already answers
+     * both steps: a second entry beside it could only be reached by breaking the
+     * tie on repeated-field ORDER, which would make the wire's element order a
+     * contract this message does not state and would strand one template with no
+     * diagnostic.
+     * </pre>
+     *
+     * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for deltaSign.
+     */
+    @java.lang.Override public int getDeltaSignValue() {
+      return deltaSign_;
+    }
+    /**
+     * <pre>
+     * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+     * other repeat of one kind is refused at load, because ANY already answers
+     * both steps: a second entry beside it could only be reached by breaking the
+     * tie on repeated-field ORDER, which would make the wire's element order a
+     * contract this message does not state and would strand one template with no
+     * diagnostic.
+     * </pre>
+     *
+     * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The deltaSign.
+     */
+    @java.lang.Override public ui.UiAst.GestureDeltaSign getDeltaSign() {
+      ui.UiAst.GestureDeltaSign result = ui.UiAst.GestureDeltaSign.forNumber(deltaSign_);
+      return result == null ? ui.UiAst.GestureDeltaSign.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -50721,6 +51214,9 @@ java.lang.String defaultValue) {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getCmd());
       }
+      if (deltaSign_ != ui.UiAst.GestureDeltaSign.GESTURE_DELTA_SIGN_ANY.getNumber()) {
+        output.writeEnum(3, deltaSign_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -50737,6 +51233,10 @@ java.lang.String defaultValue) {
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getCmd());
+      }
+      if (deltaSign_ != ui.UiAst.GestureDeltaSign.GESTURE_DELTA_SIGN_ANY.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, deltaSign_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -50759,6 +51259,7 @@ java.lang.String defaultValue) {
         if (!getCmd()
             .equals(other.getCmd())) return false;
       }
+      if (deltaSign_ != other.deltaSign_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -50776,6 +51277,8 @@ java.lang.String defaultValue) {
         hash = (37 * hash) + CMD_FIELD_NUMBER;
         hash = (53 * hash) + getCmd().hashCode();
       }
+      hash = (37 * hash) + DELTA_SIGN_FIELD_NUMBER;
+      hash = (53 * hash) + deltaSign_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -50875,9 +51378,10 @@ java.lang.String defaultValue) {
     }
     /**
      * <pre>
-     * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
-     * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
-     * selects the matching kind and patches its slots with the gesture decision.
+     * One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
+     * sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
+     * (WidgetNode.gestures); the host recognizer selects the entry whose kind
+     * matches and whose delta_sign admits the decision, then patches its slots.
      * </pre>
      *
      * Protobuf type {@code ui.GestureSpec}
@@ -50925,6 +51429,7 @@ java.lang.String defaultValue) {
           cmdBuilder_.dispose();
           cmdBuilder_ = null;
         }
+        deltaSign_ = 0;
         return this;
       }
 
@@ -50968,6 +51473,9 @@ java.lang.String defaultValue) {
               : cmdBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.deltaSign_ = deltaSign_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -50988,6 +51496,9 @@ java.lang.String defaultValue) {
         }
         if (other.hasCmd()) {
           mergeCmd(other.getCmd());
+        }
+        if (other.deltaSign_ != 0) {
+          setDeltaSignValue(other.getDeltaSignValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -51027,6 +51538,11 @@ java.lang.String defaultValue) {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 18
+              case 24: {
+                deltaSign_ = input.readEnum();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -51216,6 +51732,104 @@ java.lang.String defaultValue) {
           cmd_ = null;
         }
         return cmdBuilder_;
+      }
+
+      private int deltaSign_ = 0;
+      /**
+       * <pre>
+       * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+       * other repeat of one kind is refused at load, because ANY already answers
+       * both steps: a second entry beside it could only be reached by breaking the
+       * tie on repeated-field ORDER, which would make the wire's element order a
+       * contract this message does not state and would strand one template with no
+       * diagnostic.
+       * </pre>
+       *
+       * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for deltaSign.
+       */
+      @java.lang.Override public int getDeltaSignValue() {
+        return deltaSign_;
+      }
+      /**
+       * <pre>
+       * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+       * other repeat of one kind is refused at load, because ANY already answers
+       * both steps: a second entry beside it could only be reached by breaking the
+       * tie on repeated-field ORDER, which would make the wire's element order a
+       * contract this message does not state and would strand one template with no
+       * diagnostic.
+       * </pre>
+       *
+       * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for deltaSign to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeltaSignValue(int value) {
+        deltaSign_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+       * other repeat of one kind is refused at load, because ANY already answers
+       * both steps: a second entry beside it could only be reached by breaking the
+       * tie on repeated-field ORDER, which would make the wire's element order a
+       * contract this message does not state and would strand one template with no
+       * diagnostic.
+       * </pre>
+       *
+       * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The deltaSign.
+       */
+      @java.lang.Override
+      public ui.UiAst.GestureDeltaSign getDeltaSign() {
+        ui.UiAst.GestureDeltaSign result = ui.UiAst.GestureDeltaSign.forNumber(deltaSign_);
+        return result == null ? ui.UiAst.GestureDeltaSign.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+       * other repeat of one kind is refused at load, because ANY already answers
+       * both steps: a second entry beside it could only be reached by breaking the
+       * tie on repeated-field ORDER, which would make the wire's element order a
+       * contract this message does not state and would strand one template with no
+       * diagnostic.
+       * </pre>
+       *
+       * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The deltaSign to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDeltaSign(ui.UiAst.GestureDeltaSign value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        deltaSign_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+       * other repeat of one kind is refused at load, because ANY already answers
+       * both steps: a second entry beside it could only be reached by breaking the
+       * tie on repeated-field ORDER, which would make the wire's element order a
+       * contract this message does not state and would strand one template with no
+       * diagnostic.
+       * </pre>
+       *
+       * <code>.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDeltaSign() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        deltaSign_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.GestureSpec)
@@ -58586,7 +59200,7 @@ java.lang.String defaultValue) {
       "ding\022$\n\ncolor_when\030. \001(\0132\020.ui.ColorBindi" +
       "ng\022\031\n\010hit_slop\030/ \001(\rB\007\272H\004*\002\030@\022\013\n\003uid\030+ \001" +
       "(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010\272" +
-      "H\005\222\001\002\020\005\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "H\005\222\001\002\020\010\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
       "\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n\003" +
       "key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_p" +
       "rops\"\231\001\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui." +
@@ -58683,203 +59297,207 @@ java.lang.String defaultValue) {
       "\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007CmdSpe" +
       "c\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_t" +
       "emplate\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fiel" +
-      "dPatchB\010\272H\005\222\001\002\020\010\"P\n\013GestureSpec\022\'\n\004kind\030" +
-      "\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd\030" +
-      "\002 \001(\0132\013.ui.CmdSpec\"l\n\021VisibilityBinding\022" +
-      "\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022\021\n\tref_value" +
-      "\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.ui.CompareOpB\010" +
-      "\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n\004when\030\001 \001(\0132\025" +
-      ".ui.VisibilityBinding\022\030\n\005color\030\002 \001(\0132\t.u" +
-      "i.Color\"\267\001\n\006Layout\022$\n\004flow\030\001 \001(\0162\014.ui.Fl" +
-      "exFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_place\030\002 \001(\0162\r.u" +
-      "i.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cross_place\030\003 \001" +
-      "(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013track_pla" +
-      "ce\030\004 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\"T\n\nSty" +
-      "leGroup\022\026\n\016state_selector\030\001 \001(\r\022.\n\010varia" +
-      "nts\030\002 \003(\0132\020.ui.StyleVariantB\n\272H\007\222\001\004\010\001\020\010\"" +
-      "U\n\014StyleVariant\022\036\n\rvariant_index\030\001 \001(\rB\007" +
-      "\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\0132\021.ui.StylePr" +
-      "operty\"\337\001\n\rStyleProperty\022-\n\004type\030\001 \001(\0162\025" +
-      ".ui.StylePropertyTypeB\010\272H\005\202\001\002\020\001\022\024\n\nuint_" +
-      "value\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013co" +
-      "lor_value\030\004 \001(\0132\t.ui.ColorH\000\022\037\n\014string_v" +
-      "alue\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014shadow_value\030\006 " +
-      "\001(\0132\020.ui.ShadowBundleH\000B\007\n\005value\"F\n\005Colo" +
-      "r\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003" +
-      "\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n\014ShadowBundle" +
-      "\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010off" +
-      "set_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\025\n\003opa\030\005 \001(\r" +
-      "B\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017\n\013SUBJECT_INT" +
-      "\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013PatchOpKind\022\031" +
-      "\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031\n\025PATCH_OP_RE" +
-      "PLACE_NODE\020\001\022\030\n\024PATCH_OP_INSERT_NODE\020\002\022\030" +
-      "\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n\022PATCH_OP_MOV" +
-      "E_NODE\020\004*\311\003\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022" +
-      "\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\r" +
-      "WIDGET_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWID" +
-      "GET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWIT" +
-      "CH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROP" +
-      "DOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXT" +
-      "AREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPI" +
-      "NNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022" +
-      "\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX" +
-      "\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WIDGET_TABVIEW\020\023" +
-      "\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGET_HOST_PROXY\020" +
-      "\025\022\031\n\025WIDGET_TARGET_OVERLAY\020\026*p\n\tProxyMod" +
-      "e\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n\024PROXY_MODE_D" +
-      "RAGGABLE\020\001\022\030\n\024PROXY_MODE_RESIZABLE\020\002\022\030\n\024" +
-      "PROXY_MODE_ALIGNABLE\020\003*X\n\014EventTrigger\022\023" +
-      "\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHA" +
-      "NGED\020\001\022\030\n\024TRIGGER_LONG_PRESSED\020\002*\322\001\n\tPat" +
-      "chKind\022\032\n\026PATCH_KIND_UNSPECIFIED\020\000\022\024\n\020PA" +
-      "TCH_KIND_NDC_X\020\001\022\024\n\020PATCH_KIND_NDC_Y\020\002\022\024" +
-      "\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PATCH_KIND_WIDGE" +
-      "T_VALUE\020\004\022\025\n\021PATCH_KIND_NDC_X2\020\005\022\025\n\021PATC" +
-      "H_KIND_NDC_Y2\020\006\022\034\n\030PATCH_KIND_SUBJECT_VA" +
-      "LUE\020\007*\214\001\n\rPatchEncoding\022\036\n\032PATCH_ENCODIN" +
-      "G_UNSPECIFIED\020\000\022 \n\034PATCH_ENCODING_PADDED" +
-      "_VARINT\020\001\022\034\n\030PATCH_ENCODING_DOUBLE_LE\020\002\022" +
-      "\033\n\027PATCH_ENCODING_FLOAT_LE\020\003*\266\001\n\013Gesture" +
-      "Kind\022\031\n\025GESTURE_KIND_PAN_MOVE\020\000\022\030\n\024GESTU" +
-      "RE_KIND_PAN_END\020\001\022\024\n\020GESTURE_KIND_TAP\020\002\022" +
-      "\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022GESTURE_KIND_" +
-      "PINCH\020\004\022\026\n\022GESTURE_KIND_WHEEL\020\005\022\024\n\020GESTU" +
-      "RE_KIND_ROI\020\006*q\n\tCompareOp\022\016\n\nCOMPARE_EQ" +
-      "\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE_GT\020\002\022\017" +
-      "\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017\n\013COMPA" +
-      "RE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020" +
-      "\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN" +
-      "\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_" +
-      "ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVE" +
-      "RSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX" +
-      "_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLU" +
-      "MN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_" +
-      "ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLE" +
-      "X_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVE" +
-      "NLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FL" +
-      "EX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024" +
-      "\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTE" +
-      "R\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_ST" +
-      "RETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027" +
-      "GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_" +
-      "SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALI" +
-      "GN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_A" +
-      "LIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tT" +
-      "extDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DE" +
-      "COR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHRO" +
-      "UGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL" +
-      "\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MOD" +
-      "E_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003" +
-      "\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007BaseDir\022\020" +
-      "\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBA" +
-      "SE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL\020 \022\021\n\rB" +
-      "ASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRAD_DIR_N" +
-      "ONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_DIR_HOR\020" +
-      "\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DIR_RADIA" +
-      "L\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022\014\n\010DIR_" +
-      "NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007D" +
-      "IR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_HOR\020\003\022\013\n" +
-      "\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align\022\021\n\rALI" +
-      "GN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022\021\n\rALIG" +
-      "N_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022\025\n\021ALIG" +
-      "N_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_MID\020\005\022\026\n" +
-      "\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LEFT_MID\020" +
-      "\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_CENTER\020\t" +
-      "\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN_OUT_TO" +
-      "P_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022\031\n\025ALIG" +
-      "N_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_BOTTOM_" +
-      "MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017\022\026\n\022ALI" +
-      "GN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LEFT_MID\020" +
-      "\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023ALIGN_OU" +
-      "T_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_MID\020\024\022\032" +
-      "\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBorderSid" +
-      "e\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORDER_SIDE_B" +
-      "OTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020BORDER_S" +
-      "IDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010\022\024\n\020BOR" +
-      "DER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_INTERNAL\020" +
-      "\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LONG_MODE_W" +
-      "RAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032\n\026LABEL" +
-      "_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LONG_MODE_S" +
-      "CROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_MODE_CLIP" +
-      "\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BA" +
-      "R_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002" +
-      "*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_" +
-      "MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002" +
-      "*>\n\nRollerMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030" +
-      "\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035" +
-      "\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_M" +
-      "ODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VE" +
-      "RTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIG" +
-      "HT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCAL" +
-      "E_MODE_ROUND_OUTER\020\020*\217\001\n\tChartType\022\023\n\017CH" +
-      "ART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_LINE\020\001\022\024\n\020" +
-      "CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_BAR\020\003\022\026" +
-      "\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART_TYPE_SCA" +
-      "TTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AXIS_PRIMAR" +
-      "Y_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y\020\001\022\030\n\024CHA" +
-      "RT_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AXIS_SECOND" +
-      "ARY_X\020\004*\273\022\n\021StylePropertyType\022\021\n\rPROP_BG" +
-      "_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_C" +
-      "OLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDE" +
-      "R_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP" +
-      "_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_" +
-      "GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017" +
-      "\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PRO" +
-      "P_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP" +
-      "_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PRO" +
-      "P_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PR" +
-      "OP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP" +
-      "_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP" +
-      "_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEI" +
-      "GHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRAN" +
-      "SLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCAL" +
-      "E_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X" +
-      "\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n" +
-      "\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP" +
-      "_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP" +
-      "_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_P" +
-      "AD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP" +
-      "_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025" +
-      "\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_CO" +
-      "LOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_M" +
-      "AIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PRO" +
-      "P_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n" +
-      "\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OP" +
-      "A\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_B" +
-      "G_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_T" +
-      "ILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BOR" +
-      "DER_POST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PR" +
-      "OP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<" +
-      "\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WI" +
-      "DTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?\022\030\n\024PROP_" +
-      "SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020" +
-      "A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_" +
-      "OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_" +
-      "RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n" +
-      "\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WID" +
-      "TH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LIN" +
-      "E_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP" +
-      "_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_" +
-      "ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PRO" +
-      "P_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_T" +
-      "EXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPA" +
-      "CE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_A" +
-      "LIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA" +
-      "\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_F" +
-      "ILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017P" +
-      "ROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027P" +
-      "ROP_ROTARY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FL" +
-      "OW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_F" +
-      "LEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLA" +
-      "CE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_CO" +
-      "LUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n" +
-      "\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRI" +
-      "D_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUM" +
-      "N_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026" +
-      "PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CE" +
-      "LL_ROW_SPAN\020jBEZCgit-codecommit.eu-centr" +
-      "al-1.amazonaws.com/v1/repos/jettison/jon" +
-      "p/uib\006proto3"
+      "dPatchB\010\272H\005\222\001\002\020\010\"\204\001\n\013GestureSpec\022\'\n\004kind" +
+      "\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd" +
+      "\030\002 \001(\0132\013.ui.CmdSpec\0222\n\ndelta_sign\030\003 \001(\0162" +
+      "\024.ui.GestureDeltaSignB\010\272H\005\202\001\002\020\001\"l\n\021Visib" +
+      "ilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?" +
+      "\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.u" +
+      "i.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n" +
+      "\004when\030\001 \001(\0132\025.ui.VisibilityBinding\022\030\n\005co" +
+      "lor\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030" +
+      "\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_pl" +
+      "ace\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cr" +
+      "oss_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001" +
+      "\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H" +
+      "\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_selector\030\001" +
+      " \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.StyleVariant" +
+      "B\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rvariant_" +
+      "index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\013" +
+      "2\021.ui.StyleProperty\"\337\001\n\rStyleProperty\022-\n" +
+      "\004type\030\001 \001(\0162\025.ui.StylePropertyTypeB\010\272H\005\202" +
+      "\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint_value\030" +
+      "\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui.ColorH" +
+      "\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014sh" +
+      "adow_value\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005" +
+      "value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g" +
+      "\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n" +
+      "\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x" +
+      "\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r" +
+      "\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017" +
+      "\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013" +
+      "PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031" +
+      "\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_IN" +
+      "SERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n" +
+      "\022PATCH_OP_MOVE_NODE\020\004*\311\003\n\nWidgetType\022\016\n\n" +
+      "WIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGE" +
+      "T_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_I" +
+      "MAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021" +
+      "\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023" +
+      "\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023" +
+      "\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022" +
+      "\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013W" +
+      "IDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET" +
+      "_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WID" +
+      "GET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGE" +
+      "T_HOST_PROXY\020\025\022\031\n\025WIDGET_TARGET_OVERLAY\020" +
+      "\026*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n" +
+      "\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE_RE" +
+      "SIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X\n\014E" +
+      "ventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIG" +
+      "GER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_PRES" +
+      "SED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNSPEC" +
+      "IFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATCH_K" +
+      "IND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PAT" +
+      "CH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIND_NDC" +
+      "_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PATCH_KI" +
+      "ND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncoding\022\036\n\032" +
+      "PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PATCH_EN" +
+      "CODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENCODING" +
+      "_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOAT_LE\020" +
+      "\003*\266\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN_MO" +
+      "VE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GESTUR" +
+      "E_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022" +
+      "GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_WHE" +
+      "EL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*p\n\020GestureDel" +
+      "taSign\022\032\n\026GESTURE_DELTA_SIGN_ANY\020\000\022\037\n\033GE" +
+      "STURE_DELTA_SIGN_POSITIVE\020\001\022\037\n\033GESTURE_D" +
+      "ELTA_SIGN_NEGATIVE\020\002*q\n\tCompareOp\022\016\n\nCOM" +
+      "PARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE" +
+      "_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017" +
+      "\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLO" +
+      "W_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW" +
+      "_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLE" +
+      "X_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WR" +
+      "AP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022" +
+      "\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_FL" +
+      "OW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign\022\024" +
+      "\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END\020\001" +
+      "\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_SP" +
+      "ACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUND\020" +
+      "\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGrid" +
+      "Align\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_ALIG" +
+      "N_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID_A" +
+      "LIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVENL" +
+      "Y\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GRID" +
+      "_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n\017T" +
+      "EXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n" +
+      "\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT" +
+      "\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024" +
+      "TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_STR" +
+      "IKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MODE" +
+      "_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026BL" +
+      "END_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_MUL" +
+      "TIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007Ba" +
+      "seDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020" +
+      "\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL" +
+      "\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRA" +
+      "D_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_D" +
+      "IR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DI" +
+      "R_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022" +
+      "\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT" +
+      "\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_H" +
+      "OR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align" +
+      "\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022" +
+      "\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022" +
+      "\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_M" +
+      "ID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LE" +
+      "FT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_C" +
+      "ENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN" +
+      "_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022" +
+      "\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_" +
+      "BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017" +
+      "\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LE" +
+      "FT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023A" +
+      "LIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_" +
+      "MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBo" +
+      "rderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORDER" +
+      "_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020B" +
+      "ORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010" +
+      "\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_IN" +
+      "TERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LONG" +
+      "_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032" +
+      "\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LONG" +
+      "_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_MO" +
+      "DE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMAL\020" +
+      "\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_" +
+      "RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020\000\022" +
+      "\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_RE" +
+      "VERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_NOR" +
+      "MAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tScal" +
+      "eMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 \n\034" +
+      "SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_" +
+      "MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VERTI" +
+      "CAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020\010\022" +
+      "\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChartTyp" +
+      "e\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_LIN" +
+      "E\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_" +
+      "BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART_T" +
+      "YPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AXIS" +
+      "_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y\020\001" +
+      "\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AXIS" +
+      "_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022\021\n\r" +
+      "PROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP" +
+      "_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PRO" +
+      "P_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022" +
+      "\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PR" +
+      "OP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEI" +
+      "GHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014" +
+      "\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022" +
+      "\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020" +
+      "\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020" +
+      "\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022" +
+      "\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022" +
+      "\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRANSF" +
+      "ORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PR" +
+      "OP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PR" +
+      "OP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_" +
+      "PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW" +
+      "_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022" +
+      "\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022" +
+      "\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n" +
+      "\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022" +
+      "\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN_L" +
+      "EFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_" +
+      "GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PR" +
+      "OP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200" +
+      "\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD_O" +
+      "PA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_I" +
+      "MAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n" +
+      "\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_BG_" +
+      "IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020P" +
+      "ROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020" +
+      ":\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTLIN" +
+      "E_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_SH" +
+      "ADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?\022\030" +
+      "\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_" +
+      "SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PROP_" +
+      "SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP" +
+      "_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR_O" +
+      "PA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE_D" +
+      "ASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021P" +
+      "ROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020K\022" +
+      "\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024" +
+      "\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR\020O" +
+      "\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n" +
+      "\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT_L" +
+      "INE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP" +
+      "_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010P" +
+      "ROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PROP_" +
+      "COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATION" +
+      "\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_DIR" +
+      "\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PROP_" +
+      "FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n" +
+      "\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_TR" +
+      "ACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_" +
+      "GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_ALI" +
+      "GN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n\026P" +
+      "ROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_CEL" +
+      "L_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_PO" +
+      "S\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PROP_" +
+      "GRID_CELL_ROW_SPAN\020jBEZCgit-codecommit.e" +
+      "u-central-1.amazonaws.com/v1/repos/jetti" +
+      "son/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -59125,7 +59743,7 @@ java.lang.String defaultValue) {
     internal_static_ui_GestureSpec_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_GestureSpec_descriptor,
-        new java.lang.String[] { "Kind", "Cmd", });
+        new java.lang.String[] { "Kind", "Cmd", "DeltaSign", });
     internal_static_ui_VisibilityBinding_descriptor =
       getDescriptor().getMessageTypes().get(38);
     internal_static_ui_VisibilityBinding_fieldAccessorTable = new

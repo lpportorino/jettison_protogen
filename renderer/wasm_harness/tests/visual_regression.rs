@@ -339,6 +339,24 @@ fn as_day_set_zoom_table_value(bytes: &[u8]) -> Option<i32> {
         _ => None,
     }
 }
+/// Which zoom-table STEP a captured DAY-camera command is, or `None` for any
+/// other variant. `Next` and `Prev` are EMPTY messages — they carry no field to
+/// assert on, so the variant IS the assertion, and that is exactly why a signed
+/// step cannot be patched into them and must select between two templates
+/// instead. Returns `Some(true)` for Next and `Some(false)` for Prev.
+fn as_day_zoom_table_step(bytes: &[u8]) -> Option<bool> {
+    match decode_cmd(bytes).payload {
+        Some(cmd::root::Payload::DayCamera(d)) => match d.cmd {
+            Some(cmd::day_camera::root::Cmd::Zoom(z)) => match z.cmd {
+                Some(cmd::day_camera::zoom::Cmd::NextZoomTablePos(_)) => Some(true),
+                Some(cmd::day_camera::zoom::Cmd::PrevZoomTablePos(_)) => Some(false),
+                _ => None,
+            },
+            _ => None,
+        },
+        _ => None,
+    }
+}
 /// The `SetAlertThreshold` leaf of a captured POWER command, or `None`. The
 /// multi-field FORM egress: both leaves are patched from DIFFERENT named
 /// subjects, so this is what proves N slots carry N INDEPENDENT values.
@@ -4668,6 +4686,96 @@ mod pointer_routing {
             "a pinch is a zoom step, not a RotateToNDC"
         );
     }
+    // ── Direction-selected pinch: ONE kind, TWO templates ────────────────
+    //
+    // `vr_pinch_pair` registers two PINCH GestureSpecs told apart by
+    // `delta_sign`: POSITIVE → NextZoomTablePos, NEGATIVE → PrevZoomTablePos.
+    // Both are EMPTY messages, so neither carries a leaf a ±1 step could be
+    // patched into — selecting the TEMPLATE on the step's sign is the only
+    // shape that can express this binding at all.
+    //
+    // The two cases are each other's control, which is what makes them worth
+    // more than one test twice: a resolver that ignored `delta_sign` would
+    // return whichever entry the wire lists first for BOTH directions, so it
+    // passes exactly one of these and fails the other. A resolver that admitted
+    // nothing fails both. Neither failure can be mistaken for the other.
+
+    /// Two fingers SPREADING drive a positive pinch step, which must resolve to
+    /// the POSITIVE entry and relay `NextZoomTablePos` — never its sibling.
+    #[test]
+    fn spreading_pinch_selects_the_positive_template() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_pinch_pair");
+        settle(&mut host);
+        host.pointer_decisions_clear().expect("clear");
+        let _ = host.take_host_commands();
+        // Same geometry as two_video_fingers_pinch_through_the_real_pipeline:
+        // finger 2 moves AWAY from the anchor, so spread grows and the ratchet
+        // emits +1 steps.
+        let (ax, ay) = ndc(360, 260);
+        let (bx, by) = ndc(200, 260);
+        let (b2x, b2y) = ndc(120, 260);
+        host.pointer(PointerEvent::down(1, ax, ay, 1000))
+            .expect("f1 down");
+        host.pointer(PointerEvent::down(2, bx, by, 1010))
+            .expect("f2 down");
+        settle(&mut host);
+        host.pointer(PointerEvent::mv(2, b2x, b2y, 1020))
+            .expect("f2 spread");
+        settle(&mut host);
+        let commands = host.take_host_commands();
+        let steps: Vec<bool> = commands
+            .iter()
+            .filter_map(|c| as_day_zoom_table_step(c))
+            .collect();
+        assert!(
+            !steps.is_empty(),
+            "a spreading pinch must relay a zoom-table step: {} cmd(s)",
+            commands.len()
+        );
+        assert!(
+            steps.iter().all(|next| *next),
+            "every step of a SPREAD must be NextZoomTablePos (the POSITIVE entry); got {steps:?}"
+        );
+    }
+    /// Two fingers CLOSING drive a negative pinch step, which must resolve to
+    /// the NEGATIVE entry and relay `PrevZoomTablePos`. The half a first-match
+    /// resolver gets wrong.
+    #[test]
+    fn closing_pinch_selects_the_negative_template() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_pinch_pair");
+        settle(&mut host);
+        host.pointer_decisions_clear().expect("clear");
+        let _ = host.take_host_commands();
+        // Finger 2 starts far and moves TOWARD the anchor, so the spread ratio
+        // falls below 1 and the ratchet emits -1 steps.
+        let (ax, ay) = ndc(360, 260);
+        let (bx, by) = ndc(120, 260); // startSpread = 240 px
+        let (b2x, b2y) = ndc(200, 260); // → 160 px, ratio 0.67
+        host.pointer(PointerEvent::down(1, ax, ay, 1000))
+            .expect("f1 down");
+        host.pointer(PointerEvent::down(2, bx, by, 1010))
+            .expect("f2 down");
+        settle(&mut host);
+        host.pointer(PointerEvent::mv(2, b2x, b2y, 1020))
+            .expect("f2 close");
+        settle(&mut host);
+        let commands = host.take_host_commands();
+        let steps: Vec<bool> = commands
+            .iter()
+            .filter_map(|c| as_day_zoom_table_step(c))
+            .collect();
+        assert!(
+            !steps.is_empty(),
+            "a closing pinch must relay a zoom-table step: {} cmd(s)",
+            commands.len()
+        );
+        assert!(
+            steps.iter().all(|next| !*next),
+            "every step of a CLOSE must be PrevZoomTablePos (the NEGATIVE entry); got {steps:?}"
+        );
+    }
     // ── HOST_REPORT: hover / cursor feedback (R5b §3+§8) ─────────────────
 
     /// A MOVE over the clickable button asks the host to paint a POINTER cursor
@@ -7551,6 +7659,139 @@ mod state_update_diagnostics {
             "a RELOAD must report the same name again — the table lives with the \
              registry it mirrors.\n--- captured stderr ---\n{}",
             host.captured_stderr()
+        );
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// GestureSpec (kind, delta_sign) disjointness
+// ═══════════════════════════════════════════════════════════════════
+/// `GestureSpec.delta_sign` makes the registry's key a (kind, sign) PAIR, which
+/// is what lets one gesture kind carry a template per direction. It also creates
+/// a way to write two entries that both answer one decision — and the resolver
+/// scans in wire order, so under first-match the second would simply never fire.
+/// A screen carrying an unreachable command looks exactly like one carrying a
+/// reachable one, so `finalize_widget` refuses the load instead (the same answer
+/// the count check beside it gives an over-long list).
+///
+/// PROST-BUILT, because no authored screen carries a colliding pair — the
+/// generator would have to be asked for one — and because the refusal must be
+/// driven at the wire, which is where an untrusted `.pb` reaches it.
+///
+/// THE DISJOINT PAIR IS THE CONTROL and it is the sharp one: a guard that
+/// refused every repeated kind would refuse the very binding this field exists
+/// to make expressible, and would pass the refusal case identically.
+mod gesture_spec_disjointness {
+    use super::*;
+
+    /// `controls_load_ui`'s latched-defect status (`LOAD_ERR_DEFECTIVE`). The
+    /// tree still builds — a degraded node is contracted to stay renderable —
+    /// so the STATUS is the whole signal.
+    const LOAD_ERR_DEFECTIVE: i32 = -2;
+
+    /// A minimal CmdSpec: a non-empty template with no patch slots, which is
+    /// what an EMPTY device command pre-encodes to. `has_cmd` is what the
+    /// registry loop counts, so every spec here must carry one or it is skipped
+    /// before the guard is reached.
+    fn bare_cmd_spec() -> ui::CmdSpec {
+        ui::CmdSpec {
+            command_id: "cmd.Probe".to_owned(),
+            root_template: vec![0x08, 0x01],
+            patches: vec![],
+        }
+    }
+
+    fn spec(kind: ui::GestureKind, sign: ui::GestureDeltaSign) -> ui::GestureSpec {
+        ui::GestureSpec {
+            kind: kind as i32,
+            delta_sign: sign as i32,
+            cmd: Some(bare_cmd_spec()),
+        }
+    }
+
+    fn screen_with(gestures: Vec<ui::GestureSpec>) -> Vec<u8> {
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                gestures,
+                ..Default::default()
+            }),
+            subjects: vec![],
+        }
+        .encode_to_vec()
+    }
+
+    fn load_status(bytes: &[u8]) -> i32 {
+        let mut host = new_host();
+        host.load_ui_raw(bytes)
+            .expect("load_ui TRAPPED — a load guard must refuse, not crash")
+    }
+
+    /// THE CONTROL. One kind, one template per direction: disjoint, and the
+    /// whole point of the field. It must load CLEAN, or the guard has swallowed
+    /// the binding it was written to enable.
+    #[test]
+    fn a_positive_negative_pair_on_one_kind_loads_clean() {
+        assert_eq!(
+            load_status(&screen_with(vec![
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Positive),
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Negative),
+            ])),
+            0,
+            "a POSITIVE + NEGATIVE pair on one kind is the legal shape and must load"
+        );
+    }
+
+    /// Two entries selecting the SAME sign: the second can never be reached.
+    #[test]
+    fn two_specs_selecting_the_same_sign_are_refused() {
+        assert_eq!(
+            load_status(&screen_with(vec![
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Positive),
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Positive),
+            ])),
+            LOAD_ERR_DEFECTIVE,
+            "two specs of one kind selecting the same sign must be refused"
+        );
+    }
+
+    /// ANY answers every step, so a signed sibling beside it is dead however
+    /// the two are ordered. Both orders are driven, because the guard walks the
+    /// already-staged entries and a one-directional test would pass on a guard
+    /// that only ever compared the candidate's own selector.
+    #[test]
+    fn any_beside_a_signed_sibling_is_refused_either_way() {
+        assert_eq!(
+            load_status(&screen_with(vec![
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Any),
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Positive),
+            ])),
+            LOAD_ERR_DEFECTIVE,
+            "ANY first, then POSITIVE: the signed entry is unreachable"
+        );
+        assert_eq!(
+            load_status(&screen_with(vec![
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Negative),
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Any),
+            ])),
+            LOAD_ERR_DEFECTIVE,
+            "NEGATIVE first, then ANY: ANY answers the negative step too"
+        );
+    }
+
+    /// The pre-`delta_sign` shape — one unannotated spec per kind — is what
+    /// every screen written before this field carried, and it must still load.
+    /// Both entries default to ANY, so this also proves the guard is keyed on
+    /// KIND and does not refuse two ANY entries that cannot collide.
+    #[test]
+    fn one_unannotated_spec_per_kind_still_loads_clean() {
+        assert_eq!(
+            load_status(&screen_with(vec![
+                spec(ui::GestureKind::Tap, ui::GestureDeltaSign::Any),
+                spec(ui::GestureKind::Pinch, ui::GestureDeltaSign::Any),
+            ])),
+            0,
+            "distinct kinds never collide, whatever their selectors"
         );
     }
 }

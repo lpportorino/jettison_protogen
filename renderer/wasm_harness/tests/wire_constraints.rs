@@ -375,8 +375,13 @@ const MAX_TARGET_BOXES: usize = 32;
 const MAX_CMD_BY_VALUE: usize = 16;
 
 /// Mirrors `CMD_PATCH_MAX_GESTURES` in `renderer/src/cmd_patch.h`, which mirrors
-/// `WidgetNode.gestures`' `max_items: 5`.
-const MAX_GESTURES: usize = 5;
+/// `WidgetNode.gestures`' `max_items`. Duplicated rather than derived, on the
+/// same reasoning the constants above give: the test holds the C constant to the
+/// wire's promise, so reading the promise from the place that makes it would
+/// assert nothing. It is ALSO what holds the C bound equal to the proto's rather
+/// than merely at or above it — `main.c`'s static_assert derives a FLOOR from
+/// the gesture vocabulary and cannot see `max_items` at all.
+const MAX_GESTURES: usize = 8;
 
 fn overlay_with_boxes(n: usize) -> Vec<u8> {
     screen_of(ui::WidgetNode {
@@ -458,11 +463,38 @@ fn cmd_by_value_at_the_declared_bound_loads_clean() {
 /// entries only — the partiality `ui-ast-constraint-dispositions.edn` records
 /// for this field. A fixture of cmd-less specs would not reach the guard, and
 /// the resulting green would read as coverage.
+///
+/// EVERY SPEC IS ALSO PAIRWISE DISJOINT, and that is not cosmetic: the renderer
+/// refuses two entries of one kind that could both answer one decision, so a
+/// run of identical specs — which is what this generator used to build — would
+/// now be refused by THAT clause and the count case would go green for the wrong
+/// reason while its `_at_the_declared_bound_` control went red. Each kind takes
+/// at most the {POSITIVE, NEGATIVE} pair, so `n` entries walk `n/2` kinds; the
+/// vocabulary is wide enough to reach any bound this field can carry.
 fn gestures_screen(n: usize) -> Vec<u8> {
+    const KINDS: [ui::GestureKind; 7] = [
+        ui::GestureKind::Tap,
+        ui::GestureKind::Track,
+        ui::GestureKind::PanEnd,
+        ui::GestureKind::PanMove,
+        ui::GestureKind::Pinch,
+        ui::GestureKind::Wheel,
+        ui::GestureKind::Roi,
+    ];
+    assert!(
+        n <= KINDS.len() * 2,
+        "gestures_screen({n}) cannot build {n} pairwise-disjoint specs from {} kinds",
+        KINDS.len()
+    );
     screen_of(ui::WidgetNode {
         gestures: (0..n)
-            .map(|_| ui::GestureSpec {
-                kind: ui::GestureKind::Tap as i32,
+            .map(|i| ui::GestureSpec {
+                kind: KINDS[i / 2] as i32,
+                delta_sign: if i % 2 == 0 {
+                    ui::GestureDeltaSign::Positive as i32
+                } else {
+                    ui::GestureDeltaSign::Negative as i32
+                },
                 cmd: Some(bare_cmd_spec()),
             })
             .collect(),

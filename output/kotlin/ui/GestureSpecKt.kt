@@ -11,9 +11,10 @@ public inline fun gestureSpec(block: ui.GestureSpecKt.Dsl.() -> kotlin.Unit): ui
   ui.GestureSpecKt.Dsl._create(ui.UiAst.GestureSpec.newBuilder()).apply { block() }._build()
 /**
  * ```
- * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
- * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
- * selects the matching kind and patches its slots with the gesture decision.
+ * One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
+ * sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
+ * (WidgetNode.gestures); the host recognizer selects the entry whose kind
+ * matches and whose delta_sign admits the decision, then patches its slots.
  * ```
  *
  * Protobuf type `ui.GestureSpec`
@@ -84,6 +85,48 @@ public object GestureSpecKt {
 
     public val GestureSpecKt.Dsl.cmdOrNull: ui.UiAst.CmdSpec?
       get() = _builder.cmdOrNull
+
+    /**
+     * ```
+     * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+     * other repeat of one kind is refused at load, because ANY already answers
+     * both steps: a second entry beside it could only be reached by breaking the
+     * tie on repeated-field ORDER, which would make the wire's element order a
+     * contract this message does not state and would strand one template with no
+     * diagnostic.
+     * ```
+     *
+     * `.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }`
+     */
+    public var deltaSign: ui.UiAst.GestureDeltaSign
+      @JvmName("getDeltaSign")
+      get() = _builder.deltaSign
+      @JvmName("setDeltaSign")
+      set(value) {
+        _builder.deltaSign = value
+      }
+    public var deltaSignValue: kotlin.Int
+      @JvmName("getDeltaSignValue")
+      get() = _builder.deltaSignValue
+      @JvmName("setDeltaSignValue")
+      set(value) {
+        _builder.deltaSignValue = value
+      }
+    /**
+     * ```
+     * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+     * other repeat of one kind is refused at load, because ANY already answers
+     * both steps: a second entry beside it could only be reached by breaking the
+     * tie on repeated-field ORDER, which would make the wire's element order a
+     * contract this message does not state and would strand one template with no
+     * diagnostic.
+     * ```
+     *
+     * `.ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearDeltaSign() {
+      _builder.clearDeltaSign()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

@@ -112,7 +112,13 @@ typedef enum _ui_GestureKind {
     ui_GestureKind_GESTURE_KIND_PAN_END = 1, /* → cmd.RotaryPlatform.HaltWithNDC */
     ui_GestureKind_GESTURE_KIND_TAP = 2, /* → cmd.RotaryPlatform.RotateToNDC */
     ui_GestureKind_GESTURE_KIND_TRACK = 3, /* → cmd.CV.StartTrackNDC */
-    ui_GestureKind_GESTURE_KIND_PINCH = 4, /* → cmd.{Day,Heat}Camera.SetZoomTableValue */
+    /* Two fingers spreading or closing, reported as a SIGNED ±1 step. Its two
+ directions are usually two DIFFERENT commands rather than one command with
+ a signed leaf — a zoom table steps by cmd.{Day,Heat}Camera.NextZoomTablePos
+ and .PrevZoomTablePos, both EMPTY messages with no leaf a sign could be
+ written into — so a pinch surface registers TWO GestureSpecs for this kind,
+ told apart by GestureSpec.delta_sign. */
+    ui_GestureKind_GESTURE_KIND_PINCH = 4,
     ui_GestureKind_GESTURE_KIND_WHEEL = 5, /* web-only; no device analogue (no template) */
     /* ROI rubber-band rectangle: a mode-gated REINTERPRETATION of a completed
  pan (PAN_END) whose down+up corners become one 4-NDC command
@@ -121,6 +127,21 @@ typedef enum _ui_GestureKind {
  never emits it as a gesture_decision_t.kind on the wire. */
     ui_GestureKind_GESTURE_KIND_ROI = 6
 } ui_GestureKind;
+
+/* Which SIGN of a recognized gesture's step a GestureSpec answers. A decision
+ carries a signed step alongside its kind (±1 for a pinch, 0 for every kind
+ that has no direction), and a spec selects on it — which is what lets ONE
+ GestureKind carry two templates when its two directions are two different
+ commands rather than one command with a signed leaf. */
+typedef enum _ui_GestureDeltaSign {
+    /* Answers every decision of its kind, whatever the step's sign. The ZERO
+ value, so a spec that says nothing about direction answers everything —
+ which is what every spec written before this field existed meant, and the
+ only sensible selector for a kind whose decisions carry no step at all. */
+    ui_GestureDeltaSign_GESTURE_DELTA_SIGN_ANY = 0,
+    ui_GestureDeltaSign_GESTURE_DELTA_SIGN_POSITIVE = 1, /* answers a step > 0 only */
+    ui_GestureDeltaSign_GESTURE_DELTA_SIGN_NEGATIVE = 2 /* answers a step < 0 only */
+} ui_GestureDeltaSign;
 
 /* Comparison operator for conditional visibility bindings. */
 typedef enum _ui_CompareOp {
@@ -769,13 +790,21 @@ typedef struct _ui_CmdSpec {
     ui_FieldPatch patches[8];
 } ui_CmdSpec;
 
-/* One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
- the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
- selects the matching kind and patches its slots with the gesture decision. */
+/* One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
+ sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
+ (WidgetNode.gestures); the host recognizer selects the entry whose kind
+ matches and whose delta_sign admits the decision, then patches its slots. */
 typedef struct _ui_GestureSpec {
     ui_GestureKind kind;
     bool has_cmd;
     ui_CmdSpec cmd;
+    /* Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+ other repeat of one kind is refused at load, because ANY already answers
+ both steps: a second entry beside it could only be reached by breaking the
+ tie on repeated-field ORDER, which would make the wire's element order a
+ contract this message does not state and would strand one template with no
+ diagnostic. */
+    ui_GestureDeltaSign delta_sign;
 } ui_GestureSpec;
 
 /* Conditional visibility — show/hide widget based on subject value comparison. */
@@ -1036,10 +1065,19 @@ typedef struct _ui_WidgetNode {
  address live widgets. */
     uint32_t uid;
     /* Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
- gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
- PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
- analogue so it is never emitted here. The host recognizer matches a
- gesture_kind_t decision to its GestureSpec.kind and patches the slots. */
+ gesture-surface host-proxy node. The host recognizer matches a decision to
+ the entry whose GestureSpec.kind equals its kind and whose
+ GestureSpec.delta_sign admits its step, then patches the slots.
+
+ The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+ kind whose decisions carry a step, so it is the only kind that legitimately
+ takes two entries. WHEEL is counted even though it has no device analogue,
+ because a bound that excepts an enumerator has to be re-derived by every
+ reader — and the earlier bound of 5 was derived that way, from the five
+ device gestures of the day, and then silently went one short when
+ GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+ to the vocabulary with a static_assert so the next added kind fails the
+ BUILD rather than a consumer's load. */
     pb_size_t gestures_count;
     struct _ui_GestureSpec *gestures;
     /* Reactive ENABLED-state binding — the reactive sibling of `checked_when`,
@@ -1166,6 +1204,10 @@ extern "C" {
 #define _ui_GestureKind_MIN ui_GestureKind_GESTURE_KIND_PAN_MOVE
 #define _ui_GestureKind_MAX ui_GestureKind_GESTURE_KIND_ROI
 #define _ui_GestureKind_ARRAYSIZE ((ui_GestureKind)(ui_GestureKind_GESTURE_KIND_ROI+1))
+
+#define _ui_GestureDeltaSign_MIN ui_GestureDeltaSign_GESTURE_DELTA_SIGN_ANY
+#define _ui_GestureDeltaSign_MAX ui_GestureDeltaSign_GESTURE_DELTA_SIGN_NEGATIVE
+#define _ui_GestureDeltaSign_ARRAYSIZE ((ui_GestureDeltaSign)(ui_GestureDeltaSign_GESTURE_DELTA_SIGN_NEGATIVE+1))
 
 #define _ui_CompareOp_MIN ui_CompareOp_COMPARE_EQ
 #define _ui_CompareOp_MAX ui_CompareOp_COMPARE_LTE
@@ -1304,6 +1346,7 @@ extern "C" {
 
 
 #define ui_GestureSpec_kind_ENUMTYPE ui_GestureKind
+#define ui_GestureSpec_delta_sign_ENUMTYPE ui_GestureDeltaSign
 
 #define ui_VisibilityBinding_compare_ENUMTYPE ui_CompareOp
 
@@ -1360,7 +1403,7 @@ extern "C" {
 #define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
 #define ui_CmdSpec_init_default                  {"", {0, {0}}, 0, {ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default}}
-#define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default}
+#define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default, _ui_GestureDeltaSign_MIN}
 #define ui_VisibilityBinding_init_default        {"", 0, _ui_CompareOp_MIN}
 #define ui_ColorBinding_init_default             {false, ui_VisibilityBinding_init_default, false, ui_Color_init_default}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
@@ -1408,7 +1451,7 @@ extern "C" {
 #define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
 #define ui_CmdSpec_init_zero                     {"", {0, {0}}, 0, {ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero}}
-#define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero}
+#define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero, _ui_GestureDeltaSign_MIN}
 #define ui_VisibilityBinding_init_zero           {"", 0, _ui_CompareOp_MIN}
 #define ui_ColorBinding_init_zero                {false, ui_VisibilityBinding_init_zero, false, ui_Color_init_zero}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
@@ -1526,6 +1569,7 @@ extern "C" {
 #define ui_CmdSpec_patches_tag                   3
 #define ui_GestureSpec_kind_tag                  1
 #define ui_GestureSpec_cmd_tag                   2
+#define ui_GestureSpec_delta_sign_tag            3
 #define ui_VisibilityBinding_subject_tag         1
 #define ui_VisibilityBinding_ref_value_tag       2
 #define ui_VisibilityBinding_compare_tag         3
@@ -2051,7 +2095,8 @@ X(a, STATIC,   REPEATED, MESSAGE,  patches,           3)
 
 #define ui_GestureSpec_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    kind,              1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               2)
+X(a, STATIC,   OPTIONAL, MESSAGE,  cmd,               2) \
+X(a, STATIC,   SINGULAR, UENUM,    delta_sign,        3)
 #define ui_GestureSpec_CALLBACK NULL
 #define ui_GestureSpec_DEFAULT NULL
 #define ui_GestureSpec_cmd_MSGTYPE ui_CmdSpec
@@ -2243,7 +2288,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_Color_size                            18
 #define ui_DropdownProps_size                    1210
 #define ui_FieldPatch_size                       87
-#define ui_GestureSpec_size                      978
+#define ui_GestureSpec_size                      980
 #define ui_HostProxyProps_size                   128
 #define ui_ImageProps_size                       293
 #define ui_LabelProps_size                       2

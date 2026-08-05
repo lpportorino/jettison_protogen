@@ -396,13 +396,22 @@
          [:patches [:sequential [:map-of :keyword :any]]]]] [:map-of :keyword :any]])
 
 (defn emit-gesture-spec
-  "Convert an R5a GestureSpec IR map ({:kind GestureKind :cmd CmdSpec}) to the
-   proto GestureSpec map — the gesture-surface's per-gesture pre-encoded
-   template, keyed by GestureKind."
-  [{:keys [kind cmd]}]
-  {:kind kind :cmd (emit-cmd-spec cmd)})
+  "Convert an R5a GestureSpec IR map ({:kind GestureKind :delta-sign
+   GestureDeltaSign :cmd CmdSpec}) to the proto GestureSpec map — the
+   gesture-surface's per-gesture pre-encoded template, keyed by GestureKind and
+   by which sign of that gesture's step it answers.
+
+   An absent `:delta-sign` emits ANY, which answers every step — the meaning a
+   spec written before the selector existed already had, so an unannotated
+   gesture keeps producing byte-identical templates (proto3 omits a zero enum)."
+  [{:keys [kind delta-sign cmd]}]
+  {:kind kind
+   :delta_sign (or delta-sign :GESTURE_DELTA_SIGN_ANY)
+   :cmd (emit-cmd-spec cmd)})
 (m/=> emit-gesture-spec
-      [:=> [:cat [:map [:kind :keyword] [:cmd [:map-of :keyword :any]]]]
+      [:=> [:cat [:map [:kind :keyword]
+                  [:delta-sign {:optional true} [:maybe :keyword]]
+                  [:cmd [:map-of :keyword :any]]]]
        [:map-of :keyword :any]])
 
 (defn- emit-event-binding

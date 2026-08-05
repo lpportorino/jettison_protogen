@@ -177,8 +177,9 @@ void proxy_report_sweep(void);
 /* R5b cmd-out gesture drain seam. The renderer (finalize_widget) COPIES a
  * gesture-surface's GestureSpec set into PERSISTENT storage (before R5a's
  * pb_release frees the nanopb decode copy) and hands it to main.c, which owns
- * the controls_tick drain that matches a buffered gesture_decision_t to its
- * GestureSpec.kind and emits the patched cmd via cmd_patch_emit. Implemented
+ * the controls_tick drain that matches a buffered gesture_decision_t to the
+ * GestureSpec whose kind equals its kind AND whose delta_sign admits its step,
+ * then emits the patched cmd via cmd_patch_emit. Implemented
  * in main.c (it owns the decision buffer). `specs`/`count` reference a
  * renderer-owned static array valid until the next full build.
  *

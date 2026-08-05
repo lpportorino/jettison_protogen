@@ -86,6 +86,12 @@ class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     GESTURE_KIND_WHEEL: _ClassVar[GestureKind]
     GESTURE_KIND_ROI: _ClassVar[GestureKind]
 
+class GestureDeltaSign(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    GESTURE_DELTA_SIGN_ANY: _ClassVar[GestureDeltaSign]
+    GESTURE_DELTA_SIGN_POSITIVE: _ClassVar[GestureDeltaSign]
+    GESTURE_DELTA_SIGN_NEGATIVE: _ClassVar[GestureDeltaSign]
+
 class CompareOp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     COMPARE_EQ: _ClassVar[CompareOp]
@@ -425,6 +431,9 @@ GESTURE_KIND_TRACK: GestureKind
 GESTURE_KIND_PINCH: GestureKind
 GESTURE_KIND_WHEEL: GestureKind
 GESTURE_KIND_ROI: GestureKind
+GESTURE_DELTA_SIGN_ANY: GestureDeltaSign
+GESTURE_DELTA_SIGN_POSITIVE: GestureDeltaSign
+GESTURE_DELTA_SIGN_NEGATIVE: GestureDeltaSign
 COMPARE_EQ: CompareOp
 COMPARE_NOT_EQ: CompareOp
 COMPARE_GT: CompareOp
@@ -1195,12 +1204,14 @@ class CmdSpec(_message.Message):
     def __init__(self, command_id: _Optional[str] = ..., root_template: _Optional[bytes] = ..., patches: _Optional[_Iterable[_Union[FieldPatch, _Mapping]]] = ...) -> None: ...
 
 class GestureSpec(_message.Message):
-    __slots__ = ("kind", "cmd")
+    __slots__ = ("kind", "cmd", "delta_sign")
     KIND_FIELD_NUMBER: _ClassVar[int]
     CMD_FIELD_NUMBER: _ClassVar[int]
+    DELTA_SIGN_FIELD_NUMBER: _ClassVar[int]
     kind: GestureKind
     cmd: CmdSpec
-    def __init__(self, kind: _Optional[_Union[GestureKind, str]] = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ...) -> None: ...
+    delta_sign: GestureDeltaSign
+    def __init__(self, kind: _Optional[_Union[GestureKind, str]] = ..., cmd: _Optional[_Union[CmdSpec, _Mapping]] = ..., delta_sign: _Optional[_Union[GestureDeltaSign, str]] = ...) -> None: ...
 
 class VisibilityBinding(_message.Message):
     __slots__ = ("subject", "ref_value", "compare")

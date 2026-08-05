@@ -186,8 +186,13 @@
    [:patches [:vector [:map-of keyword? some?]]]])
 
 (def gesture-spec-edn
-  "An R5a GestureSpec IR map: a ui_ast GestureKind keyword + its CmdSpec."
-  [:map {:closed true} [:kind keyword?] [:cmd cmd-spec-edn]])
+  "An R5a GestureSpec IR map: a ui_ast GestureKind keyword, its CmdSpec, and
+   optionally which SIGN of that gesture's step the entry answers (a ui_ast
+   GestureDeltaSign keyword; absent means ANY — every step). Two entries share a
+   :kind only as the POSITIVE/NEGATIVE pair; the renderer refuses any other
+   repeat at load."
+  [:map {:closed true} [:kind keyword?]
+   [:delta-sign {:optional true} keyword?] [:cmd cmd-spec-edn]])
 
 ;; Widget / screen schemas (recursive)
 (def event-def

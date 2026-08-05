@@ -713,6 +713,10 @@ static int pending_patch_subject_count;
  * count and no array, so there is no generated width to compare against. Their
  * bound lives only in ui_ast.proto's buf.validate max_items, which the C never
  * sees, and the renderer's own count checks are what refuse an over-long stream.
+ * main.c asserts CMD_PATCH_MAX_GESTURES against the gesture_kind_t vocabulary,
+ * but that is a FLOOR derived from the enum rather than an equality with
+ * max_items; the two bounds are still held equal only by the harness pair that
+ * loads exactly max_items specs and refuses one more.
  */
 _Static_assert(CMD_PATCH_TEMPLATE_CAP ==
                    sizeof(((ui_CmdSpec *)0)->root_template.bytes),
@@ -822,6 +826,54 @@ static void apply_patch_subject(const pending_patch_subject_t *q) {
               q->subject, q->command_id);
     load_resource_error = true;
   }
+}
+/* Can `candidate` join the `n` gesture entries already staged in `staged`
+ * without two of them answering one decision?
+ *
+ * Two entries sharing a kind are disjoint ONLY as the {POSITIVE, NEGATIVE}
+ * pair. Everything else overlaps: ANY answers both steps, so it subsumes either
+ * signed sibling and itself; and an UNDEFINED selector answers nothing, which
+ * is a producer defect to surface rather than a licence to register a second
+ * entry beside it. Stating the disjoint case as a WHITELIST is deliberate — the
+ * complementary "these values collide" form silently admits any selector nobody
+ * thought of.
+ *
+ * REFUSED AT LOAD rather than resolved by scan order, because scan order is the
+ * repeated field's element order, and nothing in ui_ast.proto makes that a
+ * contract. Under first-match the second entry would simply never fire: a
+ * pinch surface with a template for each direction would send one of them for
+ * both, the other would be dead, and a screen carrying an unreachable command
+ * looks exactly like one carrying a reachable one. This is the same class as
+ * the count check above — a template that emits nothing on the target — so it
+ * takes the same answer.
+ *
+ * O(n²) over at most CMD_PATCH_MAX_GESTURES entries, once per gesture surface
+ * at load.
+ *
+ * PARTIAL IN EXACTLY THE WAY THE COUNT CHECK BESIDE IT IS, and for the same
+ * reason: the caller skips a cmd-LESS entry before staging it, so two colliding
+ * entries that carry no template are admitted. That surplus is inert — an entry
+ * with no template answers a decision by emitting nothing — which is why the
+ * partiality is recorded rather than closed. */
+static bool gesture_specs_disjoint(const cmd_gesture_spec_t *staged, uint32_t n,
+                                   const cmd_gesture_spec_t *candidate) {
+  for (uint32_t i = 0; i < n; i++) {
+    if (staged[i].kind != candidate->kind)
+      continue;
+    bool pos_neg = (staged[i].delta_sign == CMD_PATCH_DELTA_SIGN_POSITIVE &&
+                    candidate->delta_sign == CMD_PATCH_DELTA_SIGN_NEGATIVE) ||
+                   (staged[i].delta_sign == CMD_PATCH_DELTA_SIGN_NEGATIVE &&
+                    candidate->delta_sign == CMD_PATCH_DELTA_SIGN_POSITIVE);
+    if (!pos_neg) {
+      LOG_ERROR("gesture kind %u already has a spec selecting delta_sign %u; "
+                "%u would answer the same decision — a kind carries two specs "
+                "only as the POSITIVE/NEGATIVE pair",
+                (unsigned)candidate->kind, (unsigned)staged[i].delta_sign,
+                (unsigned)candidate->delta_sign);
+      return false;
+    }
+  }
+  return true;
 }
 /* Harness-only: run a crafted CmdSpec `.pb` through the untrusted decode
  * boundary (nanopb + cmd_spec_copy_from_proto) and report which layer
@@ -3593,8 +3645,9 @@ static void finalize_widget(widget_ctx_t *ctx) {
    * gesture→cmd templates on WidgetNode.gestures (FT_POINTER). COPY them into
    * persistent storage and register them with the main.c drain BEFORE the
    * decode site's pb_release frees the nanopb copy. The controls_tick drain
-   * matches each buffered gesture_decision_t to its GestureSpec.kind and emits
-   * the patched cmd via cmd_patch_emit. */
+   * matches each buffered gesture_decision_t to the GestureSpec whose kind
+   * equals its kind AND whose delta_sign admits its step, then emits the
+   * patched cmd via cmd_patch_emit. */
   if (node->gestures_count > 0 && node->gestures) {
     cmd_gesture_spec_t specs[CMD_PATCH_MAX_GESTURES];
     uint32_t n = 0;
@@ -3611,6 +3664,11 @@ static void finalize_widget(widget_ctx_t *ctx) {
         break;
       }
       specs[n].kind = (uint32_t)node->gestures[i].kind;
+      specs[n].delta_sign = (uint32_t)node->gestures[i].delta_sign;
+      if (!gesture_specs_disjoint(specs, n, &specs[n])) {
+        ctx->error = -1;
+        continue;
+      }
       if (cmd_spec_copy_from_proto(&specs[n].cmd, &node->gestures[i].cmd) !=
           0) {
         ctx->error = -1;

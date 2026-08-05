@@ -22,8 +22,9 @@
 ;; carry so the harness can decode the OPAQUE bytes the renderer relays via
 ;; host_command (uigen.cmd-spec — the same pre-encode the real screens use).
 ;; A value-widget click patches the WIDGET_VALUE varint slot; a video gesture
-;; patches the NDC double slot (tap → RotateToNDC) or the DELTA varint (pinch →
-;; SetZoomTableValue ±1).
+;; patches the NDC double slot (tap → RotateToNDC), patches the DELTA varint, or
+;; selects between two patch-free templates on the sign of its step
+;; (pinch → {Next,Prev}ZoomTablePos).
 (def ^:private zoom-value-cmd
   "cmd.DayCamera.SetZoomTableValue patched by a widget's int VALUE (the canonical
    single-int value command — a button/slider click ships its value)."
@@ -38,8 +39,30 @@
                      {:fixed {:channel (res/video-channel-value "DAY")}}))
 
 (def ^:private pinch-zoom-cmd
-  "cmd.DayCamera.SetZoomTableValue patched by a pinch ±1 DELTA step."
+  "cmd.DayCamera.SetZoomTableValue patched by a pinch ±1 DELTA step — the DELTA
+   slot path itself, which is what this fixture exists to exercise end to end.
+
+   IT IS NOT A MODEL FOR A ZOOM-TABLE BINDING, and the distinction is the whole
+   reason GestureSpec.delta_sign exists: `SetZoomTableValue.value` declares
+   `gte: 0`, so patching the negative half of a ±1 step into it produces a value
+   its own schema forbids. A real zoom-table pinch is the direction-selected
+   PAIR below. Kept as-is because the DELTA slot is a real renderer path with
+   real consumers (a genuinely signed leaf), and this is its only end-to-end
+   coverage through the pointer pipeline."
   (cmd-spec/cmd-spec "cmd.DayCamera.SetZoomTableValue" :PATCH_KIND_DELTA))
+
+(def ^:private pinch-zoom-next-cmd
+  "cmd.DayCamera.NextZoomTablePos — a patch-free FIXED template (an EMPTY
+   message: no leaf, so `fixed-cmd-spec` bakes the whole cmd.Root and the
+   renderer relays it verbatim over patch_count 0). The POSITIVE half of a
+   direction-selected pinch."
+  (cmd-spec/fixed-cmd-spec {:command-id "cmd.DayCamera.NextZoomTablePos"}))
+
+(def ^:private pinch-zoom-prev-cmd
+  "cmd.DayCamera.PrevZoomTablePos — the NEGATIVE half of the same pair, and the
+   reason a sign cannot ride as a patched value here: the two directions are two
+   different messages, not two values of one leaf."
+  (cmd-spec/fixed-cmd-spec {:command-id "cmd.DayCamera.PrevZoomTablePos"}))
 
 (def ^:private roi-focus-cmd
   "cmd.DayCamera.FocusROI patched by an ROI rubber-band drag's TWO NDC corners:
@@ -1024,7 +1047,35 @@
                                             :handle_size 16
                                             :z 1}
                          :gestures [{:kind :GESTURE_KIND_TAP :cmd tap-rotate-cmd}
-                                    {:kind :GESTURE_KIND_ROI :cmd roi-focus-cmd}]}}})
+                                    {:kind :GESTURE_KIND_ROI :cmd roi-focus-cmd}]}}
+   ;; R5b direction-selected pinch: ONE GestureKind carrying TWO templates, told
+   ;; apart by :delta-sign. The zoom table is the case the DELTA slot cannot
+   ;; serve at all — its two directions are NextZoomTablePos and
+   ;; PrevZoomTablePos, both EMPTY messages, so there is no leaf for a sign to
+   ;; be patched into and no ordering of one template that could send both. A
+   ;; STATIC full-screen host_proxy video-surface (CLICKABLE cleared, like
+   ;; vr_route) so every point is VIDEO-owned and reaches the FSM. Consumed by
+   ;; the pointer_routing pinch-direction tests.
+   "vr_pinch_pair" {:type :screen
+                    :subjects {}
+                    :events {}
+                    :tree {:tag :lv_host_proxy
+                           :id "pinch-surface"
+                           :class "w-pct-100 h-pct-100"
+                           :host_proxy_props {:proxy_id "pinch-surface"
+                                              :mode :static
+                                              :min_w 40
+                                              :min_h 40
+                                              :max_w 400
+                                              :max_h 300
+                                              :handle_size 16
+                                              :z 1}
+                           :gestures [{:kind :GESTURE_KIND_PINCH
+                                       :delta-sign :GESTURE_DELTA_SIGN_POSITIVE
+                                       :cmd pinch-zoom-next-cmd}
+                                      {:kind :GESTURE_KIND_PINCH
+                                       :delta-sign :GESTURE_DELTA_SIGN_NEGATIVE
+                                       :cmd pinch-zoom-prev-cmd}]}}})
 
 ;; ═══════════════════════════════════════════════════════════════════
 ;; V-C layout-defect fixtures — exercise the controls_dump_tree layout

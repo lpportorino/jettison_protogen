@@ -101,6 +101,14 @@ pub const GestureKind = enum(i32) {
 };
 
 
+pub const GestureDeltaSign = enum(i32) {
+   GESTURE_DELTA_SIGN_ANY = 0,
+   GESTURE_DELTA_SIGN_POSITIVE = 1,
+   GESTURE_DELTA_SIGN_NEGATIVE = 2,
+    _,
+};
+
+
 pub const CompareOp = enum(i32) {
    COMPARE_EQ = 0,
    COMPARE_NOT_EQ = 1,
@@ -3563,10 +3571,12 @@ pub const CmdSpec = struct {
 pub const GestureSpec = struct {
     kind: GestureKind = @enumFromInt(0),
     cmd: ?CmdSpec = null,
+    delta_sign: GestureDeltaSign = @enumFromInt(0),
 
     pub const _desc_table = .{
         .kind = fd(1, .@"enum"),
         .cmd = fd(2, .submessage),
+        .delta_sign = fd(3, .@"enum"),
     };
 
     /// Encodes the message to the writer

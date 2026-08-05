@@ -155,6 +155,20 @@ static int32_t pointer_x, pointer_y, pointer_pressed;
  */
 static_assert(GESTURE_MAX_POINTERS >= GESTURE_MAX_POINTERS_TABLE,
               "gesture FSM store must cover the shell pointer table");
+/* The gesture-template registry must hold one entry per DEFINED gesture kind,
+ * plus one for the second direction of the one kind whose decisions carry a
+ * step (PINCH). GESTURE_KIND_ROI is the highest enumerator, so `+ 1` is the
+ * kind COUNT and `+ 2` is that sum.
+ *
+ * This exists because the bound has already gone stale once, silently: it was
+ * derived from the five device gestures of the day, GESTURE_KIND_ROI was then
+ * added as a sixth registrable lookup key, and nothing moved the number — a
+ * surface binding every kind would have been REFUSED at load with no build,
+ * gate or test able to say why. Adding a kind now fails the build here instead,
+ * beside the other cross-header bound this file asserts. */
+static_assert(CMD_PATCH_MAX_GESTURES >= GESTURE_KIND_ROI + 2,
+              "gesture registry must cover every gesture kind plus a second "
+              "pinch direction");
 /* Stale-pointer GC window (§7/§8): a slot whose last event is older than this
  * is force-released through the CANCEL path on the next tick — the only
  * recovery from a dropped UP/CANCEL (a leaked slot would wedge the FSM). */
@@ -193,10 +207,12 @@ static uint32_t g_decision_count;
  * The gesture-surface's pre-encoded gesture→cmd templates, COPIED out of the
  * nanopb decode buffer by finalize_widget (renderer.c) before R5a's pb_release
  * frees it. The controls_tick drain matches each buffered gesture_decision_t to
- * the GestureSpec whose kind == decision.kind and emits the patched cmd via
- * cmd_patch_emit (NDC x/y verbatim for pan-end/tap/track; the pinch ±1 step as
- * a DELTA). One spec set (the most-recently-built gesture surface) — the test
- * fixture mounts a single surface; multi-surface routing is a host concern. */
+ * the GestureSpec that ANSWERS it — kind equal AND delta_sign admitting the
+ * decision's step — and emits the patched cmd via cmd_patch_emit (NDC x/y
+ * verbatim for pan-end/tap/track; the pinch ±1 step either patched as a DELTA
+ * or selecting one of a POSITIVE/NEGATIVE template pair). One spec set (the
+ * most-recently-built gesture surface) — the test fixture mounts a single
+ * surface; multi-surface routing is a host concern. */
 static cmd_gesture_spec_t g_gesture_specs[CMD_PATCH_MAX_GESTURES];
 static uint32_t g_gesture_spec_count;
 /* The uid of the node that OWNS the current spec set (ITEM 7). The registry is
@@ -948,10 +964,53 @@ void controls_gesture_specs_clear_owner(uint32_t uid) {
     g_gesture_spec_owner_uid = 0;
   }
 }
-/* The GestureSpec whose kind matches `kind`, or NULL. The host recognizer
- * decides a gesture_kind_t; the drain resolves it to its pre-encoded
- * template. */
-static const cmd_gesture_spec_t *find_gesture_spec(gesture_kind_t kind) {
+/* Does an entry selecting `sel` answer a decision whose step is `delta`? ANY
+ * answers every step; the two signed selectors answer only their own side. An
+ * UNDEFINED selector answers NOTHING — the same disposition ui_GestureSpec.kind
+ * already carries for an undefined kind (see
+ * tools/renderer-gen/edn/ui-ast-constraint-dispositions.edn): a value outside
+ * the vocabulary can select no spec, so the entry is inert rather than
+ * silently taken as one of the three. */
+static bool delta_sign_admits(uint32_t sel, int32_t delta) {
+  switch (sel) {
+  case CMD_PATCH_DELTA_SIGN_ANY:
+    return true;
+  case CMD_PATCH_DELTA_SIGN_POSITIVE:
+    return delta > 0;
+  case CMD_PATCH_DELTA_SIGN_NEGATIVE:
+    return delta < 0;
+  default:
+    return false;
+  }
+}
+/* The registered spec that answers decision `d` — kind equal AND delta_sign
+ * admitting `d->delta` — or NULL when none does (which the drain reads as
+ * "nothing to send"). THE DECISION IS THE ARGUMENT, not the kind, because the
+ * step is half the key: a pinch surface registers one entry per direction when
+ * the two directions are different commands, and resolving by kind alone would
+ * hand both directions to whichever entry the wire happened to list first.
+ *
+ * The load refuses a kind carrying two entries that can both answer one
+ * decision (renderer.c), so at most one entry here can match and the scan order
+ * is not a contract. */
+static const cmd_gesture_spec_t *
+gesture_spec_for_decision(const gesture_decision_t *d) {
+  for (uint32_t i = 0; i < g_gesture_spec_count; i++) {
+    if (g_gesture_specs[i].kind == (uint32_t)d->kind &&
+        delta_sign_admits(g_gesture_specs[i].delta_sign, d->delta))
+      return &g_gesture_specs[i];
+  }
+  return NULL;
+}
+/* The first spec registered under `kind`, WHATEVER step it selects — the MODE
+ * PROBE, and a deliberately different question from the one above.
+ *
+ * Its callers ask whether an ROI-mode surface is MOUNTED, and neither holds a
+ * decision to discriminate on: an ROI rect is a reinterpreted PAN_END whose
+ * corners carry no step at all, and the affordance sync runs on FSM state
+ * between decisions. Answering a real decision with this function would
+ * reinstate exactly the first-match collapse the pair was split to remove. */
+static const cmd_gesture_spec_t *gesture_mode_spec(gesture_kind_t kind) {
   for (uint32_t i = 0; i < g_gesture_spec_count; i++) {
     if (g_gesture_specs[i].kind == (uint32_t)kind)
       return &g_gesture_specs[i];
@@ -959,16 +1018,23 @@ static const cmd_gesture_spec_t *find_gesture_spec(gesture_kind_t kind) {
   return NULL;
 }
 /* Drain the buffered gesture decisions into cmd-out (R5b §8). Per decision,
- * find the GestureSpec whose kind matches and emit the patched cmd:
+ * find the GestureSpec that ANSWERS it — kind equal and delta_sign admitting
+ * its step — and emit the patched cmd:
  *   - PAN_END / TAP / TRACK carry the NDC point (x/y written verbatim);
- *   - PINCH carries a ±1 step (the DELTA varint slot).
- * A decision with no registered template (PAN_MOVE→Axis and optional host wheel
- * input have none) is dropped silently — there is nothing to send. The buffer
- * is cleared after the drain. */
+ *   - PINCH carries a ±1 step, EITHER patched into a signed leaf through the
+ *     DELTA varint slot (one ANY entry) OR selecting between two patch-free
+ *     templates (a POSITIVE + NEGATIVE pair), which is the only shape available
+ *     when the two directions are different EMPTY commands.
+ * A decision no registered template answers is dropped silently — there is
+ * nothing to send. PAN_MOVE is the live instance: it reaches here and no
+ * surface registers a template for it yet. WHEEL never reaches here at all,
+ * whatever is registered — gesture_on_wheel is called only from the harness
+ * seam (gesture_test_feed, over its own FSM state), and feed_gesture's switch
+ * has no WHEEL arm. The buffer is cleared after the drain. */
 static void drain_gesture_decisions(void) {
   for (uint32_t i = 0; i < g_decision_count; i++) {
     const gesture_decision_t *d = &g_decisions[i];
-    const cmd_gesture_spec_t *spec = find_gesture_spec(d->kind);
+    const cmd_gesture_spec_t *spec = gesture_spec_for_decision(d);
     if (!spec)
       continue;
     (void)cmd_patch_emit(&spec->cmd, d->x, d->y, d->delta);
@@ -1005,8 +1071,10 @@ static void feed_gesture(int op, uint32_t pointer_id, double x, double y,
    * of buffering the single-point decision — a plain TAP in ROI-mode still
    * falls through to its own point-select spec via the normal drain (mirroring
    * jettison's tap→point-select vs drag→ROI-select split). GESTURE_KIND_ROI
-   * never appears as a decision kind on the wire; it is only this lookup key. */
-  const cmd_gesture_spec_t *roi_spec = find_gesture_spec(GESTURE_KIND_ROI);
+   * never appears as a decision kind on the wire; it is only this lookup key —
+   * which is why this is the MODE probe and not the decision resolver: there is
+   * no ROI decision to carry a step. */
+  const cmd_gesture_spec_t *roi_spec = gesture_mode_spec(GESTURE_KIND_ROI);
   for (int32_t i = 0; i < n; i++) {
     if (roi_spec && out[i].kind == GESTURE_KIND_PAN_END) {
       (void)cmd_patch_emit_rect(&roi_spec->cmd, g_gesture.start.x,
@@ -1057,7 +1125,7 @@ static void feed_gesture(int op, uint32_t pointer_id, double x, double y,
  *
  * The affordance is gated on a REGISTERED gesture spec set: with no gesture
  * surface mounted a drag emits nothing, and drawing feedback for a gesture that
- * does nothing is a lie. The BAND-vs-AIM choice uses find_gesture_spec(ROI) —
+ * does nothing is a lie. The BAND-vs-AIM choice uses gesture_mode_spec(ROI) —
  * the same discriminator feed_gesture already uses to decide whether a PAN_END
  * becomes a rect — so the shape drawn cannot disagree with the command sent.
  *
@@ -1295,7 +1363,7 @@ static void gesture_affordance_sync(void) {
     return;
   }
   gesture_affordance_anchor(&down);
-  if (find_gesture_spec(GESTURE_KIND_ROI)) {
+  if (gesture_mode_spec(GESTURE_KIND_ROI)) {
     gesture_affordance_drop(GESTURE_AFFORDANCE_AIM);
     gesture_affordance_band(&down, &cur);
   } else {
@@ -1747,8 +1815,8 @@ int32_t controls_tick(uint32_t elapsed_ms) {
   /* Host-proxy report sweep — AFTER lv_timer_handler so coords are
    * post-layout; change-guarded, at most one report per proxy per tick. */
   proxy_report_sweep();
-  /* R5b cmd-out: drain the buffered gesture decisions into host_command
-   * (per decision, match its GestureSpec.kind + emit the patched cmd). After
+  /* R5b cmd-out: drain the buffered gesture decisions into host_command (per
+   * decision, find the GestureSpec that ANSWERS it + emit the patched cmd). After
    * proxy_report_sweep so a gesture's geometry report and its command share a
    * tick ordering; the buffer is cleared by the drain. */
   drain_gesture_decisions();

@@ -516,7 +516,14 @@ export enum GestureKind {
   GESTURE_KIND_TAP = 2,
   /** GESTURE_KIND_TRACK - → cmd.CV.StartTrackNDC */
   GESTURE_KIND_TRACK = 3,
-  /** GESTURE_KIND_PINCH - → cmd.{Day,Heat}Camera.SetZoomTableValue */
+  /**
+   * GESTURE_KIND_PINCH - Two fingers spreading or closing, reported as a SIGNED ±1 step. Its two
+   * directions are usually two DIFFERENT commands rather than one command with
+   * a signed leaf — a zoom table steps by cmd.{Day,Heat}Camera.NextZoomTablePos
+   * and .PrevZoomTablePos, both EMPTY messages with no leaf a sign could be
+   * written into — so a pinch surface registers TWO GestureSpecs for this kind,
+   * told apart by GestureSpec.delta_sign.
+   */
   GESTURE_KIND_PINCH = 4,
   /** GESTURE_KIND_WHEEL - web-only; no device analogue (no template) */
   GESTURE_KIND_WHEEL = 5,
@@ -578,6 +585,60 @@ export function gestureKindToJSON(object: GestureKind): string {
     case GestureKind.GESTURE_KIND_ROI:
       return "GESTURE_KIND_ROI";
     case GestureKind.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/**
+ * Which SIGN of a recognized gesture's step a GestureSpec answers. A decision
+ * carries a signed step alongside its kind (±1 for a pinch, 0 for every kind
+ * that has no direction), and a spec selects on it — which is what lets ONE
+ * GestureKind carry two templates when its two directions are two different
+ * commands rather than one command with a signed leaf.
+ */
+export enum GestureDeltaSign {
+  /**
+   * GESTURE_DELTA_SIGN_ANY - Answers every decision of its kind, whatever the step's sign. The ZERO
+   * value, so a spec that says nothing about direction answers everything —
+   * which is what every spec written before this field existed meant, and the
+   * only sensible selector for a kind whose decisions carry no step at all.
+   */
+  GESTURE_DELTA_SIGN_ANY = 0,
+  /** GESTURE_DELTA_SIGN_POSITIVE - answers a step > 0 only */
+  GESTURE_DELTA_SIGN_POSITIVE = 1,
+  /** GESTURE_DELTA_SIGN_NEGATIVE - answers a step < 0 only */
+  GESTURE_DELTA_SIGN_NEGATIVE = 2,
+  UNRECOGNIZED = -1,
+}
+
+export function gestureDeltaSignFromJSON(object: any): GestureDeltaSign {
+  switch (object) {
+    case 0:
+    case "GESTURE_DELTA_SIGN_ANY":
+      return GestureDeltaSign.GESTURE_DELTA_SIGN_ANY;
+    case 1:
+    case "GESTURE_DELTA_SIGN_POSITIVE":
+      return GestureDeltaSign.GESTURE_DELTA_SIGN_POSITIVE;
+    case 2:
+    case "GESTURE_DELTA_SIGN_NEGATIVE":
+      return GestureDeltaSign.GESTURE_DELTA_SIGN_NEGATIVE;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return GestureDeltaSign.UNRECOGNIZED;
+  }
+}
+
+export function gestureDeltaSignToJSON(object: GestureDeltaSign): string {
+  switch (object) {
+    case GestureDeltaSign.GESTURE_DELTA_SIGN_ANY:
+      return "GESTURE_DELTA_SIGN_ANY";
+    case GestureDeltaSign.GESTURE_DELTA_SIGN_POSITIVE:
+      return "GESTURE_DELTA_SIGN_POSITIVE";
+    case GestureDeltaSign.GESTURE_DELTA_SIGN_NEGATIVE:
+      return "GESTURE_DELTA_SIGN_NEGATIVE";
+    case GestureDeltaSign.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
@@ -2565,10 +2626,19 @@ export interface WidgetNode {
   uid: number;
   /**
    * Pre-encoded gesture→cmd templates (R5a) — meaningful ONLY on the
-   * gesture-surface host-proxy node. Up to 5 device gestures (PAN_MOVE,
-   * PAN_END, TAP, TRACK, PINCH); the web-only WHEEL has no device
-   * analogue so it is never emitted here. The host recognizer matches a
-   * gesture_kind_t decision to its GestureSpec.kind and patches the slots.
+   * gesture-surface host-proxy node. The host recognizer matches a decision to
+   * the entry whose GestureSpec.kind equals its kind and whose
+   * GestureSpec.delta_sign admits its step, then patches the slots.
+   *
+   * The bound is ONE ENTRY PER DEFINED GestureKind, plus one: PINCH is the only
+   * kind whose decisions carry a step, so it is the only kind that legitimately
+   * takes two entries. WHEEL is counted even though it has no device analogue,
+   * because a bound that excepts an enumerator has to be re-derived by every
+   * reader — and the earlier bound of 5 was derived that way, from the five
+   * device gestures of the day, and then silently went one short when
+   * GESTURE_KIND_ROI was added beside them. renderer/src/main.c holds this sum
+   * to the vocabulary with a static_assert so the next added kind fails the
+   * BUILD rather than a consumer's load.
    */
   gestures: GestureSpec[];
 }
@@ -3087,13 +3157,25 @@ export interface CmdSpec {
 }
 
 /**
- * One gesture → its pre-encoded cmd template, keyed by GestureKind. Rides
- * the gesture-surface WidgetNode (WidgetNode.gestures); the host recognizer
- * selects the matching kind and patches its slots with the gesture decision.
+ * One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
+ * sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
+ * (WidgetNode.gestures); the host recognizer selects the entry whose kind
+ * matches and whose delta_sign admits the decision, then patches its slots.
  */
 export interface GestureSpec {
   kind: GestureKind;
-  cmd: CmdSpec | undefined;
+  cmd:
+    | CmdSpec
+    | undefined;
+  /**
+   * Two entries may share a `kind` ONLY as the {POSITIVE, NEGATIVE} pair. Every
+   * other repeat of one kind is refused at load, because ANY already answers
+   * both steps: a second entry beside it could only be reached by breaking the
+   * tie on repeated-field ORDER, which would make the wire's element order a
+   * contract this message does not state and would strand one template with no
+   * diagnostic.
+   */
+  deltaSign: GestureDeltaSign;
 }
 
 /** Conditional visibility — show/hide widget based on subject value comparison. */
@@ -8745,7 +8827,7 @@ export const CmdSpec: MessageFns<CmdSpec> = {
 };
 
 function createBaseGestureSpec(): GestureSpec {
-  return { kind: 0, cmd: undefined };
+  return { kind: 0, cmd: undefined, deltaSign: 0 };
 }
 
 export const GestureSpec: MessageFns<GestureSpec> = {
@@ -8755,6 +8837,9 @@ export const GestureSpec: MessageFns<GestureSpec> = {
     }
     if (message.cmd !== undefined) {
       CmdSpec.encode(message.cmd, writer.uint32(18).fork()).join();
+    }
+    if (message.deltaSign !== 0) {
+      writer.uint32(24).int32(message.deltaSign);
     }
     return writer;
   },
@@ -8782,6 +8867,14 @@ export const GestureSpec: MessageFns<GestureSpec> = {
           message.cmd = CmdSpec.decode(reader, reader.uint32());
           continue;
         }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.deltaSign = reader.int32() as any;
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -8795,6 +8888,11 @@ export const GestureSpec: MessageFns<GestureSpec> = {
     return {
       kind: isSet(object.kind) ? gestureKindFromJSON(object.kind) : 0,
       cmd: isSet(object.cmd) ? CmdSpec.fromJSON(object.cmd) : undefined,
+      deltaSign: isSet(object.deltaSign)
+        ? gestureDeltaSignFromJSON(object.deltaSign)
+        : isSet(object.delta_sign)
+        ? gestureDeltaSignFromJSON(object.delta_sign)
+        : 0,
     };
   },
 
@@ -8806,6 +8904,9 @@ export const GestureSpec: MessageFns<GestureSpec> = {
     if (message.cmd !== undefined) {
       obj.cmd = CmdSpec.toJSON(message.cmd);
     }
+    if (message.deltaSign !== 0) {
+      obj.deltaSign = gestureDeltaSignToJSON(message.deltaSign);
+    }
     return obj;
   },
 
@@ -8816,6 +8917,7 @@ export const GestureSpec: MessageFns<GestureSpec> = {
     const message = createBaseGestureSpec();
     message.kind = object.kind ?? 0;
     message.cmd = (object.cmd !== undefined && object.cmd !== null) ? CmdSpec.fromPartial(object.cmd) : undefined;
+    message.deltaSign = object.deltaSign ?? 0;
     return message;
   },
 };

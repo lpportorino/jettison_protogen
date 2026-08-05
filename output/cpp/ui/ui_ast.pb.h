@@ -513,6 +513,40 @@ inline bool GestureKind_Parse(absl::string_view name, GestureKind* value) {
   return ::google::protobuf::internal::ParseNamedEnum<GestureKind>(
       GestureKind_descriptor(), name, value);
 }
+enum GestureDeltaSign : int {
+  GESTURE_DELTA_SIGN_ANY = 0,
+  GESTURE_DELTA_SIGN_POSITIVE = 1,
+  GESTURE_DELTA_SIGN_NEGATIVE = 2,
+  GestureDeltaSign_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  GestureDeltaSign_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool GestureDeltaSign_IsValid(int value);
+extern const uint32_t GestureDeltaSign_internal_data_[];
+constexpr GestureDeltaSign GestureDeltaSign_MIN = static_cast<GestureDeltaSign>(0);
+constexpr GestureDeltaSign GestureDeltaSign_MAX = static_cast<GestureDeltaSign>(2);
+constexpr int GestureDeltaSign_ARRAYSIZE = 2 + 1;
+const ::google::protobuf::EnumDescriptor*
+GestureDeltaSign_descriptor();
+template <typename T>
+const std::string& GestureDeltaSign_Name(T value) {
+  static_assert(std::is_same<T, GestureDeltaSign>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to GestureDeltaSign_Name().");
+  return GestureDeltaSign_Name(static_cast<GestureDeltaSign>(value));
+}
+template <>
+inline const std::string& GestureDeltaSign_Name(GestureDeltaSign value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<GestureDeltaSign_descriptor,
+                                                 0, 2>(
+      static_cast<int>(value));
+}
+inline bool GestureDeltaSign_Parse(absl::string_view name, GestureDeltaSign* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<GestureDeltaSign>(
+      GestureDeltaSign_descriptor(), name, value);
+}
 enum CompareOp : int {
   COMPARE_EQ = 0,
   COMPARE_NOT_EQ = 1,
@@ -10254,6 +10288,7 @@ class GestureSpec final : public ::google::protobuf::Message
   enum : int {
     kCmdFieldNumber = 2,
     kKindFieldNumber = 1,
+    kDeltaSignFieldNumber = 3,
   };
   // .ui.CmdSpec cmd = 2;
   bool has_cmd() const;
@@ -10280,12 +10315,22 @@ class GestureSpec final : public ::google::protobuf::Message
   void _internal_set_kind(::ui::GestureKind value);
 
   public:
+  // .ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = {
+  void clear_delta_sign() ;
+  ::ui::GestureDeltaSign delta_sign() const;
+  void set_delta_sign(::ui::GestureDeltaSign value);
+
+  private:
+  ::ui::GestureDeltaSign _internal_delta_sign() const;
+  void _internal_set_delta_sign(::ui::GestureDeltaSign value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ui.GestureSpec)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
+      2, 3, 1,
       0, 2>
       _table_;
 
@@ -10307,6 +10352,7 @@ class GestureSpec final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::ui::CmdSpec* cmd_;
     int kind_;
+    int delta_sign_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -20801,6 +20847,28 @@ inline void GestureSpec::set_allocated_cmd(::ui::CmdSpec* value) {
   // @@protoc_insertion_point(field_set_allocated:ui.GestureSpec.cmd)
 }
 
+// .ui.GestureDeltaSign delta_sign = 3 [(.buf.validate.field) = {
+inline void GestureSpec::clear_delta_sign() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.delta_sign_ = 0;
+}
+inline ::ui::GestureDeltaSign GestureSpec::delta_sign() const {
+  // @@protoc_insertion_point(field_get:ui.GestureSpec.delta_sign)
+  return _internal_delta_sign();
+}
+inline void GestureSpec::set_delta_sign(::ui::GestureDeltaSign value) {
+  _internal_set_delta_sign(value);
+  // @@protoc_insertion_point(field_set:ui.GestureSpec.delta_sign)
+}
+inline ::ui::GestureDeltaSign GestureSpec::_internal_delta_sign() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ui::GestureDeltaSign>(_impl_.delta_sign_);
+}
+inline void GestureSpec::_internal_set_delta_sign(::ui::GestureDeltaSign value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.delta_sign_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // VisibilityBinding
@@ -21921,6 +21989,12 @@ struct is_proto_enum<::ui::GestureKind> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ui::GestureKind>() {
   return ::ui::GestureKind_descriptor();
+}
+template <>
+struct is_proto_enum<::ui::GestureDeltaSign> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ui::GestureDeltaSign>() {
+  return ::ui::GestureDeltaSign_descriptor();
 }
 template <>
 struct is_proto_enum<::ui::CompareOp> : std::true_type {};

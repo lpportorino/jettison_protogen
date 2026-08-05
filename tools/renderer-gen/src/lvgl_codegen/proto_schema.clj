@@ -325,9 +325,24 @@
   [:map [:command_id {:default ""} string?] [:root_template byte-string]
    [:patches {:optional true :default []} [:vector {:max 8} field-patch]]])
 
+(def gesture-delta-sign
+  "Which SIGN of a decision's step a GestureSpec answers, mirroring
+   ui_GestureDeltaSign. ANY is the zero value and answers every step — what a
+   spec that says nothing about direction means, and the only sensible selector
+   for a kind whose decisions carry no step. The two signed values let ONE kind
+   carry TWO templates, which is the only shape available when a gesture's two
+   directions are two different EMPTY commands rather than one command with a
+   signed leaf."
+  [:enum :GESTURE_DELTA_SIGN_ANY :GESTURE_DELTA_SIGN_POSITIVE
+   :GESTURE_DELTA_SIGN_NEGATIVE])
+
 (def gesture-spec
-  "One gesture → its pre-encoded cmd template, keyed by GestureKind."
-  [:map [:kind {:default :GESTURE_KIND_PAN_MOVE} gesture-kind] [:cmd cmd-spec]])
+  "One gesture → its pre-encoded cmd template, keyed by GestureKind AND by which
+   sign of that gesture's step it answers. Two entries share a kind only as the
+   POSITIVE/NEGATIVE pair; the renderer refuses any other repeat at load."
+  [:map [:kind {:default :GESTURE_KIND_PAN_MOVE} gesture-kind]
+   [:delta_sign {:optional true :default :GESTURE_DELTA_SIGN_ANY} gesture-delta-sign]
+   [:cmd cmd-spec]])
 
 (def event-binding
   "Event binding — named event with trigger, payload, optional subject mutation,
@@ -615,9 +630,12 @@
       [:chart_props {:optional true :default nil} [:maybe chart-props]]
       [:host_proxy_props {:optional true :default nil} [:maybe host-proxy-props]]
       [:target_overlay_props {:optional true :default nil} [:maybe target-overlay-props]]
-      ;; R5a: gesture-surface pre-encoded gesture→cmd templates (up to 5
-      ;; device gestures), meaningful only on the gesture-surface host-proxy.
-      [:gestures {:optional true :default []} [:vector {:max 5} gesture-spec]]]}}
+      ;; R5a: gesture-surface pre-encoded gesture→cmd templates, meaningful only
+      ;; on the gesture-surface host-proxy. The bound mirrors
+      ;; ui.WidgetNode.gestures' max_items, whose derivation lives beside the
+      ;; field in ui_ast.proto: one entry per defined GestureKind, plus one for
+      ;; the second direction of the one kind whose decisions carry a step.
+      [:gestures {:optional true :default []} [:vector {:max 8} gesture-spec]]]}}
    ::widget-node])
 
 (def screen
