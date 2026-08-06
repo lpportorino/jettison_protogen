@@ -11,11 +11,13 @@
    OPAQUE `cmd.*` bytes — controls.wasm builds the full device command itself.
 
    Wire-width is the load-bearing subtlety (the de-risk target):
-   - DOUBLE leaves (NDC x/y on RotateToNDC/HaltWithNDC/StartTrackNDC) are
+   - DOUBLE leaves (the NDC x/y pairs on the rotary, CV and ROI commands) are
      wire-type 1 = 8 FIXED little-endian bytes → a clean fixed-offset slot
-     located by a SENTINEL byte pattern. The NDC double is written VERBATIM
-     (ui_input NDC convention == cmd.* NDC), so no recast — byte-identical to
-     a fresh build (`wire-scale` = 1).
+     located by a SENTINEL byte pattern. No fixed-point recast at any scale
+     (`wire-scale` = 1). The x is byte-identical to the pointer sample; the y is
+     ORIENTED into the destination's plane first, because the device's NDC
+     commands do not all share the pointer's — see `ndc-y-plane` below and
+     `ui.NdcYSense`.
    - VARINT int leaves (SetZoomTableValue.value, int32, variable width)
      CANNOT be a fixed slot as a minimal varint. The template is built with a
      SENTINEL value that forces the MAX varint width (2^31-1 → 5 bytes for an
@@ -109,6 +111,108 @@
    "x2" {:kind :PATCH_KIND_NDC_X2 :sentinel ndc-x2-sentinel}
    "y2" {:kind :PATCH_KIND_NDC_Y2 :sentinel ndc-y2-sentinel}})
 
+;; ── the destination y plane ─────────────────────────────────────────────────
+(def ^:private ndc-y-kinds
+  "The PatchKinds whose slot receives a y. A spec carrying one of these must
+   state its destination plane; a spec carrying neither has no plane to state."
+  #{:PATCH_KIND_NDC_Y :PATCH_KIND_NDC_Y2})
+
+(def ^:private unresolved-y-plane
+  "The verdict for a command whose destination plane THIS REPOSITORY does not
+   settle. Distinct from absence: absent means nobody has looked, this means
+   somebody did and the evidence does not decide. Both refuse the build; only
+   this one can say why."
+  ::unresolved)
+
+(def ^:private ndc-y-plane
+  "command-id → the vertical sense its NDC y leaves are read in, as a
+   `ui.NdcYSense` keyword (or `unresolved-y-plane`).
+
+   WHY A TABLE HERE AT ALL, and what is wrong with it. The renderer must be told
+   the plane per command, because the pointer plane it recognizes gestures in
+   (+y UP) is not the plane every device command reads y in — see
+   `ui.NdcYSense`. Somebody has to know which is which, and today nothing
+   machine-readable does: the device protos are FROZEN and carry no plane
+   annotation, and `output/manifests/endpoints.json` publishes per-field
+   `:semantic-type` and `:unit` but has no key for a coordinate FRAME.
+
+   SO THIS TABLE IS A STOPGAP AND ITS DEFECT IS NAMED RATHER THAN HIDDEN. It is
+   a second home for a fact whose first home is the device contract, and by this
+   namespace's own docstring it does not belong in the leaf table: what belongs
+   here is *the part a second producer of this vocabulary is entitled to differ
+   on*, and no producer is entitled to a different answer about which way a
+   camera reads a rectangle. The generalisation is to author the plane as
+   interaction metadata on the message's page under `docs/proto/`, let the
+   protodoc round-trip fold it into `proto-db.edn`, publish it in
+   `endpoints.json`, and read it here through `uigen.resolve` the way
+   `:semantic-type` is already read — one home, published to every consumer
+   rather than to this one renderer. That is a change to `protodoc.schema`,
+   `protodoc.render`, `protodoc.extract`, `protodoc.manifest` and eleven
+   markdown pages, and it is written up rather than half-done.
+
+   WHAT IT DOES DO in the meantime: it refuses. An unlisted command and an
+   `unresolved` one both fail the GENERATION, so no template for a command whose
+   plane nobody has established can be built at all — which is the one property
+   a table like this must have, since the failure it exists to prevent is
+   undetectable in every layer below it.
+
+   THE EVIDENCE, per entry, all of it in this repository:
+   - The rotary pair is the pointer plane's own: `docs/INTERFACE-CONTRACTS.md`
+     §4 puts them there and nothing contradicts it.
+   - The eight ROI commands carry the `ser.JonGuiDataROI` rectangle, which
+     `proto/jon_shared_data_types.proto` declares `-1.0 (left/top) to 1.0
+     (right/bottom)`, and whose result the device reports back in exactly that
+     type (`ser.JonGuiDataCV.roi_*`). Their own pages state it per field: y1 is
+     the `Top edge`, y2 the `Bottom edge` (`grep -l 'Top edge in NDC'
+     docs/proto/cmd.*.md` returns these eight and nothing else).
+   - `cmd.CV.StartTrackNDC` is UNRESOLVED. `proto/ui/ui_input.proto` used to
+     assert it shared the pointer plane; that sentence also asserted it about
+     the ROI-adjacent surface and was wrong there, so it is not evidence. Its
+     own page states no sense, and its seed identifies an object the same
+     subsystem then reports as a y-DOWN bounding box — the two readings point
+     opposite ways. `docs/INTERFACE-CONTRACTS.md` §4.1 records the gap."
+  {"cmd.RotaryPlatform.RotateToNDC" :NDC_Y_SENSE_UP
+   "cmd.RotaryPlatform.HaltWithNDC" :NDC_Y_SENSE_UP
+   "cmd.CV.StartTrackNDC" unresolved-y-plane
+   "cmd.DayCamera.FocusROI" :NDC_Y_SENSE_DOWN
+   "cmd.DayCamera.TrackROI" :NDC_Y_SENSE_DOWN
+   "cmd.DayCamera.ZoomROI" :NDC_Y_SENSE_DOWN
+   "cmd.DayCamera.FxROI" :NDC_Y_SENSE_DOWN
+   "cmd.HeatCamera.FocusROI" :NDC_Y_SENSE_DOWN
+   "cmd.HeatCamera.TrackROI" :NDC_Y_SENSE_DOWN
+   "cmd.HeatCamera.ZoomROI" :NDC_Y_SENSE_DOWN
+   "cmd.HeatCamera.FxROI" :NDC_Y_SENSE_DOWN})
+
+(defn- ndc-y-sense
+  "The `ui.NdcYSense` keyword for `command-id`'s slots, or throw.
+
+   Returns `:NDC_Y_SENSE_UNSPECIFIED` when no slot receives a y — a spec with no
+   y has no plane, and stating one would be a fact about nothing. Otherwise the
+   table must answer, and an unlisted or `unresolved` command is a BUILD ERROR,
+   never a default: the two senses are byte-legal and range-legal in each
+   other's plane, so a guess ships a vertically mirrored command that decodes
+   cleanly and that no layer below can detect."
+  [command-id patch-fields]
+  (if-not (some (comp ndc-y-kinds :kind) patch-fields)
+    :NDC_Y_SENSE_UNSPECIFIED
+    (let [sense (get ndc-y-plane command-id ::absent)]
+      (when-not (keyword? (#{:NDC_Y_SENSE_UP :NDC_Y_SENSE_DOWN} sense))
+        (throw (ex-info
+                (str "uigen.cmd-spec: " command-id " patches an NDC y leaf, but its"
+                     " destination y plane is "
+                     (if (= sense ::absent)
+                       "not in uigen.cmd-spec/ndc-y-plane"
+                       "recorded UNRESOLVED")
+                     " — the pointer plane is +y UP and the device's NDC commands do"
+                     " not all share it, so a guess here ships a vertically MIRRORED"
+                     " command that decodes cleanly and cannot be detected"
+                     " downstream. Establish the plane (docs/INTERFACE-CONTRACTS.md"
+                     " §4.1) and record it, or do not pre-encode this command.")
+                {:command-id command-id :sense sense})))
+      sense)))
+(m/=> ndc-y-sense
+      [:=> [:cat s/ne-string [:sequential [:map-of :keyword :any]]] :keyword])
+
 (def ^:private value-double-sentinel
   "Sentinel for a non-NDC `double value` slider leaf (a distinctive qNaN
    payload, unique vs the NDC x/y sentinels)."
@@ -165,9 +269,12 @@
 (def ^:private cmd-spec-ir
   "The CmdSpec IR map both `cmd-spec` + `fixed-cmd-spec` (and the by-value
    builders) return: a source command-id, the pre-encoded cmd.Root template
-   bytes, and the fixed-width slot patches (empty for a fixed template)."
+   bytes, the fixed-width slot patches (empty for a fixed template), and the
+   destination y plane those slots write into (`:NDC_Y_SENSE_UNSPECIFIED` when
+   no slot receives a y — see `ndc-y-sense`)."
   [:map [:command-id s/ne-string] [:root-template bytes?]
-   [:patches [:sequential [:map-of :keyword :any]]]])
+   [:patches [:sequential [:map-of :keyword :any]]]
+   [:ndc-y-sense :keyword]])
 
 (def ^:private opts-schema
   "Optional cmd-spec opts. `:fixed` pins enum-typed leaf values that have NO live
@@ -301,7 +408,8 @@
           patch-fields)]
      {:command-id command-id
       :root-template template
-      :patches (we/slot-patches template slots {:command-id command-id})})))
+      :patches (we/slot-patches template slots {:command-id command-id})
+      :ndc-y-sense (ndc-y-sense command-id patch-fields)})))
 (m/=> cmd-spec
       [:function [:=> [:cat s/ne-string :keyword] cmd-spec-ir]
        [:=> [:cat s/ne-string :keyword opts-schema] cmd-spec-ir]])
@@ -397,7 +505,10 @@
           ^bytes template (pcmd/wrap-in-root subsystem
                                              (backend/cmd-path->map cmd-path params))]
       (check-template-fits! "fixed-cmd-spec" command-id template)
-      {:command-id command-id :root-template template :patches []})))
+      ;; A fixed template patches nothing, so no slot receives a y and there is
+      ;; no destination plane to state.
+      {:command-id command-id :root-template template :patches []
+       :ndc-y-sense :NDC_Y_SENSE_UNSPECIFIED})))
 (m/=> fixed-cmd-spec [:=> [:cat fixed-opts-schema] cmd-spec-ir])
 
 ;; ── by-value entry builders — the :bool-set / :enum cmd_by_value vectors ──────
@@ -574,7 +685,9 @@
                 indexed)]
       {:command-id command-id
        :root-template template
-       :patches (we/slot-patches template slots {:command-id command-id})})))
+       :patches (we/slot-patches template slots {:command-id command-id})
+       ;; Every form slot is SUBJECT_VALUE, so none receives a y.
+       :ndc-y-sense :NDC_Y_SENSE_UNSPECIFIED})))
 (m/=> subject-form-cmd-spec
       [:=> [:cat [:map [:command-id s/ne-string]
                   [:field->subject [:map-of s/ne-string s/ne-string]]

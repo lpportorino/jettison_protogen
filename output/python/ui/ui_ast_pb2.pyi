@@ -76,6 +76,12 @@ class PatchEncoding(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PATCH_ENCODING_DOUBLE_LE: _ClassVar[PatchEncoding]
     PATCH_ENCODING_FLOAT_LE: _ClassVar[PatchEncoding]
 
+class NdcYSense(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    NDC_Y_SENSE_UNSPECIFIED: _ClassVar[NdcYSense]
+    NDC_Y_SENSE_UP: _ClassVar[NdcYSense]
+    NDC_Y_SENSE_DOWN: _ClassVar[NdcYSense]
+
 class GestureKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     GESTURE_KIND_PAN_MOVE: _ClassVar[GestureKind]
@@ -424,6 +430,9 @@ PATCH_ENCODING_UNSPECIFIED: PatchEncoding
 PATCH_ENCODING_PADDED_VARINT: PatchEncoding
 PATCH_ENCODING_DOUBLE_LE: PatchEncoding
 PATCH_ENCODING_FLOAT_LE: PatchEncoding
+NDC_Y_SENSE_UNSPECIFIED: NdcYSense
+NDC_Y_SENSE_UP: NdcYSense
+NDC_Y_SENSE_DOWN: NdcYSense
 GESTURE_KIND_PAN_MOVE: GestureKind
 GESTURE_KIND_PAN_END: GestureKind
 GESTURE_KIND_TAP: GestureKind
@@ -1194,14 +1203,16 @@ class FieldPatch(_message.Message):
     def __init__(self, byte_offset: _Optional[int] = ..., byte_width: _Optional[int] = ..., kind: _Optional[_Union[PatchKind, str]] = ..., wire_scale: _Optional[int] = ..., subject: _Optional[str] = ..., encoding: _Optional[_Union[PatchEncoding, str]] = ...) -> None: ...
 
 class CmdSpec(_message.Message):
-    __slots__ = ("command_id", "root_template", "patches")
+    __slots__ = ("command_id", "root_template", "patches", "ndc_y_sense")
     COMMAND_ID_FIELD_NUMBER: _ClassVar[int]
     ROOT_TEMPLATE_FIELD_NUMBER: _ClassVar[int]
     PATCHES_FIELD_NUMBER: _ClassVar[int]
+    NDC_Y_SENSE_FIELD_NUMBER: _ClassVar[int]
     command_id: str
     root_template: bytes
     patches: _containers.RepeatedCompositeFieldContainer[FieldPatch]
-    def __init__(self, command_id: _Optional[str] = ..., root_template: _Optional[bytes] = ..., patches: _Optional[_Iterable[_Union[FieldPatch, _Mapping]]] = ...) -> None: ...
+    ndc_y_sense: NdcYSense
+    def __init__(self, command_id: _Optional[str] = ..., root_template: _Optional[bytes] = ..., patches: _Optional[_Iterable[_Union[FieldPatch, _Mapping]]] = ..., ndc_y_sense: _Optional[_Union[NdcYSense, str]] = ...) -> None: ...
 
 class GestureSpec(_message.Message):
     __slots__ = ("kind", "cmd", "delta_sign")

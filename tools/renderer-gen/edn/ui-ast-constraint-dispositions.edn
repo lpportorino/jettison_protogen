@@ -105,6 +105,12 @@
  {"max_len" {:disposition :nanopb-size
              :rationale "String bound; ui_ast.options carries the nanopb counterpart."}}
 
+ "ui.CmdSpec.ndc_y_sense"
+ {"defined_only" {:disposition :renderer-guard
+                  :guard "cmd_patch_orient_y"
+                  :test "undefined_ndc_y_sense_is_refused"
+                  :rationale "PARTIAL BY DESIGN, and the partiality is the point rather than a shortfall. cmd_spec_copy_from_proto runs the value through cmd_patch_orient_y — the same predicate the emit uses, so load and emit cannot come to disagree about which senses are legal — but only for a spec that actually patches an NDC y. An undefined value on a spec with no y slot is never read by anything, so it is inert rather than unguarded; refusing it would buy nothing and cost a load. The guard is also STRICTER than defined_only where it applies: UNSPECIFIED is a defined enumerator, so defined_only alone would admit it, and admitting it means the renderer picks a plane — which is the vertically mirrored command this field exists to prevent. No :range-over, because the guard is an explicit two-arm switch rather than a _MIN/_MAX range test; a hole in the vocabulary could not slip past it."}}
+
  "ui.CmdSpec.patches"
  {"max_items" {:disposition :nanopb-size
                :rationale "Static nanopb array; max_count is the counterpart, and a _Static_assert in renderer.c additionally ties CMD_PATCH_MAX_PATCHES to the generated width."}}

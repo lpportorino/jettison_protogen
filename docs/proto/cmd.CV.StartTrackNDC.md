@@ -46,9 +46,25 @@ Starts video tracking at normalized device coordinates
 
 ### Implementation Notes
 
-Implemented. This is the command the ROI rubber-band gesture sends: it is
-pre-encoded into the gesture-surface template on every overlay screen, with the
-two corner NDC pairs patched into fixed-width slots at fire time.
+Implemented in the wire vocabulary, and NOT pre-encoded by anything in this
+repository — read the plane caveat below for why that is deliberate rather than
+an omission.
+
+IT IS THE TRACK GESTURE'S COMMAND, NOT THE ROI RUBBER-BAND'S, and this note
+previously said otherwise. It carries ONE point (`x`, `y`), which the field
+table above shows directly; a rubber-band rectangle is a `ser.JonGuiDataROI` on
+the `cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI` family and has two corners.
+The retired sentence described this command as carrying "the two corner NDC
+pairs", which conflated the two families — and that conflation is exactly where
+the y-plane defect below came from, so it is recorded rather than quietly
+replaced.
+
+THE Y PLANE OF THIS COMMAND IS UNRESOLVED. This page states no sense and
+`jon_shared_cmd_cv.proto` states none. The sentence that used to claim it shares
+the pointer plane made the same claim of the ROI surface, where it was measured
+false. A producer that pre-encodes a y slot for this command must therefore
+state its `ui.NdcYSense` explicitly and cannot infer one; nothing in this
+repository settles it, and settling it needs the device.
 
 
 

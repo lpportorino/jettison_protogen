@@ -220,6 +220,42 @@ public object CmdSpecKt {
       _builder.clearPatches()
     }
 
+
+    /**
+     * ```
+     * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+     * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+     * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+     * ```
+     *
+     * `.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }`
+     */
+    public var ndcYSense: ui.UiAst.NdcYSense
+      @JvmName("getNdcYSense")
+      get() = _builder.ndcYSense
+      @JvmName("setNdcYSense")
+      set(value) {
+        _builder.ndcYSense = value
+      }
+    public var ndcYSenseValue: kotlin.Int
+      @JvmName("getNdcYSenseValue")
+      get() = _builder.ndcYSenseValue
+      @JvmName("setNdcYSenseValue")
+      set(value) {
+        _builder.ndcYSenseValue = value
+      }
+    /**
+     * ```
+     * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+     * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+     * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+     * ```
+     *
+     * `.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearNdcYSense() {
+      _builder.clearNdcYSense()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

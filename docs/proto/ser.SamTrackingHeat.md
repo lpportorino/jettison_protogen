@@ -73,7 +73,11 @@ Each of the four box coordinates is bounded independently and nothing in the sch
 
 Top y edge of the bounding box, in the same NDC frame — and the axis points DOWN. The field comment fixes -1.0 as top and +1.0 as bottom, so larger y is lower on the image. That matches `JonGuiDataROI` and `ObjectDetection`, both of which document the identical "-1.0 (left/top) to 1.0 (right/bottom)" convention.
 
-It is the OPPOSITE of the pointer and `cmd.*` NDC convention, which `docs/INTERFACE-CONTRACTS.md` §4 states as `+y` UP with an explicit Y-flip in its pixel transforms, and which it names as shared by `StartTrackNDC`, `RotateToNDC` and `HaltWithNDC`. The two families disagree on the sign of y, so a y value taken from this message must not be written verbatim into a `cmd.*` NDC field; the orientation has to be resolved against the producer first.
+It is the OPPOSITE of the POINTER convention, which `docs/INTERFACE-CONTRACTS.md` §4 states as `+y` UP with an explicit Y-flip in its pixel transforms.
+
+**It is NOT the opposite of "the `cmd.*` convention", because there is no single one — and this paragraph asserted there was.** It previously named `StartTrackNDC`, `RotateToNDC` and `HaltWithNDC` together as one y-UP family sharing the pointer plane. That grouping is retired: the plane is a property of each DESTINATION command, `cmd.CV.StartTrackNDC`'s is UNRESOLVED (its own page says so), and the ROI command family is measurably y-DOWN — the same y-DOWN this message uses. A reader who trusted the old sentence would mirror an ROI rectangle while believing the two ends agreed.
+
+So a y value taken from this message must never be written verbatim into a `cmd.*` NDC field on the strength of a family name; the destination's own plane has to be established first, and `ui.CmdSpec.ndc_y_sense` is where a producer states the answer it established.
 
 That failure is worth spelling out because it does not announce itself. Copying y across unchanged mirrors the target about the horizontal centre line: the result is a well-formed in-range coordinate, it is exactly right whenever the target happens to sit on the centre line, and it is wrong by twice the target's offset everywhere else — a bug that looks like a calibration error rather than a sign error.
 
@@ -107,7 +111,7 @@ Note also that the centroid's bound is independent of the box's: nothing in the 
 
 y coordinate of the K-medoids centre, down-positive exactly as described at `bbox_y1` (#4): -1.0 is the top of the frame, +1.0 the bottom.
 
-The sign question bites hardest here, because this is the value most likely to be handed to an aim or track command, and `docs/INTERFACE-CONTRACTS.md` §4 documents `StartTrackNDC` / `RotateToNDC` / `HaltWithNDC` under the opposite (`+y` UP) orientation. Confirm the orientation before forwarding the value; do not assume the two normalized coordinate systems are interchangeable because both are `double` in [-1, 1].
+The sign question bites hardest here, because this is the value most likely to be handed to an aim or track command — and there is no single answer to hand it to. `docs/INTERFACE-CONTRACTS.md` §4 does NOT group `StartTrackNDC` / `RotateToNDC` / `HaltWithNDC` under one orientation; the only one of the three it names is `cmd.CV.StartTrackNDC`, which it records as settled by neither plane. The rotary NDC pair is established `+y` UP; the ROI family is `-y` UP, i.e. the same y-DOWN sense this message uses; `StartTrackNDC` is UNRESOLVED. Establish the DESTINATION command's own plane before forwarding this value, and never assume the two normalized coordinate systems are interchangeable because both are `double` in [-1, 1].
 
 The centroid is the mask's medoid, not the box's midpoint, so it is not required to equal `(bbox_y1 + bbox_y2) / 2` and will sit off centre for a non-convex or partly occluded target — which is the point of computing it.
 

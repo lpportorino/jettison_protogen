@@ -416,11 +416,23 @@
          "gesture-affordance/roi" canvas
          [{:kind :GESTURE_KIND_ROI
            :cmd {:command-id "devcards.gesture.roi" :template-zeros 32
+                 ;; A PROBE, not a device command: the template is zeros and
+                 ;; nothing decodes it. The plane is still declared because the
+                 ;; renderer refuses a y-patching spec that states none, and a
+                 ;; card is bytes through the same loader as a screen. DOWN is
+                 ;; the plane a real ROI rectangle is read in, so the card
+                 ;; exercises the flipping path rather than the identity one.
+                 :ndc-y-sense :NDC_Y_SENSE_DOWN
                  :patches roi-slots}}])
    :slew (gesture-surface-card
           "gesture-affordance/slew" canvas
           [{:kind :GESTURE_KIND_PAN_MOVE
             :cmd {:command-id "devcards.gesture.slew" :template-zeros 16
+                  ;; A slew is the rotary pointer plane, so this probe declares
+                  ;; UP — the two cards then differ in their plane as well as
+                  ;; their kind, which is what keeps a green here from being
+                  ;; green over one sense only.
+                  :ndc-y-sense :NDC_Y_SENSE_UP
                   :patches (subvec roi-slots 0 2)}}])
    :bare (gesture-surface-card "gesture-affordance/no-spec" canvas [])})
 
@@ -535,8 +547,16 @@
                          (let [cmds (:commands @(:captured h))
                                ndc (when (= 1 (count cmds))
                                      (emitted-doubles (first cmds)))
-                               [x1 y1] (when ndc (pointer/ndc->px (subvec ndc 0 2) canvas))
-                               [x2 y2] (when ndc (pointer/ndc->px (subvec ndc 2 4) canvas))]
+                               ;; THROUGH THE PLANE THE CARD DECLARED, not the
+                               ;; pointer's. The ROI card carries
+                               ;; :ndc-y-sense :NDC_Y_SENSE_DOWN, so the emitted
+                               ;; y is in the y-DOWN plane and its inverse has no
+                               ;; flip. Reading it back with the pointer's
+                               ;; converter is the mirror this whole contract
+                               ;; exists to catch, and it would show up here as a
+                               ;; band that disagrees with its own command.
+                               [x1 y1] (when ndc (pointer/ndc-down->px (subvec ndc 0 2) canvas))
+                               [x2 y2] (when ndc (pointer/ndc-down->px (subvec ndc 2 4) canvas))]
                            {:band band
                             :emitted (when ndc
                                        [(min (long x1) (long x2)) (min (long y1) (long y2))

@@ -729,6 +729,27 @@ _Static_assert(CMD_PATCH_MAX_PATCHES ==
                    sizeof(((ui_CmdSpec *)0)->patches) / sizeof(ui_FieldPatch),
                "CMD_PATCH_MAX_PATCHES must equal max_count for "
                "ui.CmdSpec.patches (protogen/proto/ui/ui_ast.options)");
+/* The y-sense mirror, guarded for a sharper reason than the two caps above. A
+ * cap that drifts overflows or truncates, which fails loudly somewhere. These
+ * three are cast RAW out of the generated enum into the hand-written space
+ * (`dst->ndc_y_sense = (uint32_t)src->ndc_y_sense` below), so a renumber does
+ * not fail at all — it silently swaps UP for DOWN and ships a VERTICALLY
+ * MIRRORED command that decodes cleanly and sits in range. That is the exact
+ * undetectable defect this whole mechanism exists to eliminate, so the mirror
+ * it rests on may not itself be un-guarded. `ui_ast` is the deliberately
+ * unconstrained proto family, so a renumber IS permitted here — which is what
+ * makes the assert load-bearing rather than decorative. */
+_Static_assert((uint32_t)ui_NdcYSense_NDC_Y_SENSE_UNSPECIFIED ==
+                   CMD_PATCH_NDC_Y_SENSE_UNSPECIFIED,
+               "CMD_PATCH_NDC_Y_SENSE_UNSPECIFIED must mirror "
+               "ui.NdcYSense.NDC_Y_SENSE_UNSPECIFIED");
+_Static_assert(
+    (uint32_t)ui_NdcYSense_NDC_Y_SENSE_UP == CMD_PATCH_NDC_Y_SENSE_UP,
+    "CMD_PATCH_NDC_Y_SENSE_UP must mirror ui.NdcYSense.NDC_Y_SENSE_UP");
+_Static_assert((uint32_t)ui_NdcYSense_NDC_Y_SENSE_DOWN ==
+                   CMD_PATCH_NDC_Y_SENSE_DOWN,
+               "CMD_PATCH_NDC_Y_SENSE_DOWN must mirror "
+               "ui.NdcYSense.NDC_Y_SENSE_DOWN");
 /* ================================================================
  * R5b cmd-out: copy a decoded CmdSpec into PERSISTENT storage.
  *
@@ -756,6 +777,7 @@ static int cmd_spec_copy_from_proto(cmd_spec_t *dst, const ui_CmdSpec *src) {
   dst->template_len = tlen;
   memcpy(dst->template, src->root_template.bytes, tlen);
   dst->patch_count = src->patches_count;
+  dst->ndc_y_sense = (uint32_t)src->ndc_y_sense;
   for (pb_size_t i = 0; i < src->patches_count; i++) {
     /* §7/§8: the .pb arrives from an untrusted host — validate each slot's
        * bounds at the decode boundary (overflow-safe) BEFORE storing it, so a
@@ -781,6 +803,26 @@ static int cmd_spec_copy_from_proto(cmd_spec_t *dst, const ui_CmdSpec *src) {
                 (unsigned)i, (unsigned)src->patches[i].kind,
                 is_subject_kind ? "requires" : "must not carry",
                 src->command_id);
+      memset(dst, 0, sizeof(*dst));
+      return -1;
+    }
+    /* A y slot obliges the spec to state its DESTINATION plane. The recognizer
+     * produces one plane (ui_input's, +y UP) and the device's NDC commands do
+     * not all share it, so an unstated plane is not a value the renderer may
+     * choose — either choice silently ships a VERTICALLY MIRRORED command that
+     * decodes cleanly and is in range. Refused HERE, at load, because the
+     * alternative is a control that looks wired and sends a wrong command every
+     * time it fires. `cmd_patch_orient_y` is the one predicate, so the load and
+     * the emit cannot come to disagree about which senses are legal. */
+    bool is_ndc_y_kind =
+        src->patches[i].kind == ui_PatchKind_PATCH_KIND_NDC_Y ||
+        src->patches[i].kind == ui_PatchKind_PATCH_KIND_NDC_Y2;
+    double oriented_probe;
+    if (is_ndc_y_kind &&
+        !cmd_patch_orient_y((uint32_t)src->ndc_y_sense, 0.0, &oriented_probe)) {
+      LOG_ERROR("cmd spec slot %u patches an NDC y but ndc_y_sense is %u — the "
+                "destination's y plane is unstated (cmd %s)",
+                (unsigned)i, (unsigned)src->ndc_y_sense, src->command_id);
       memset(dst, 0, sizeof(*dst));
       return -1;
     }

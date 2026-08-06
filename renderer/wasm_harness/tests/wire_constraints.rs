@@ -431,7 +431,115 @@ fn bare_cmd_spec() -> ui::CmdSpec {
         command_id: "cmd.Probe".to_owned(),
         root_template: vec![],
         patches: vec![],
+        // No slot receives a y, so there is no destination plane to state —
+        // and stating one would be a fact about nothing. Written out rather
+        // than defaulted so this file says which of the two cases it is.
+        ndc_y_sense: ui::NdcYSense::Unspecified as i32,
     }
+}
+
+// ââ CmdSpec.ndc_y_sense â `enum defined_only`, and the obligation the guard adds â
+//
+// The gesture recognizer works in ONE plane (ui_input's, +y UP) and the device's
+// NDC commands do not all share it, so a spec that patches a y must SAY which
+// plane it is writing into. Both senses are byte-legal and range-legal in the
+// other's, so neither may be the default: a guess produces a vertically
+// mirrored command that decodes cleanly, is inside every declared range, and is
+// detectable by nothing downstream.
+//
+// The guard is therefore CONDITIONAL, and the tests below pin both halves. A
+// spec with a y slot must carry a defined, non-UNSPECIFIED sense; a spec with no
+// y slot must still load with UNSPECIFIED â which is what every widget-value
+// and form spec in this repository carries, so a guard that refused by reaching
+// a default rather than by testing for a y slot would refuse all of them.
+
+/// One past the highest `ui.NdcYSense` enumerator, chosen the way
+/// `UNDEFINED_DELTA_SIGN` is: NOT derived from the binding, or it would become
+/// legal the day the vocabulary grows.
+const UNDEFINED_NDC_Y_SENSE: i32 = 9002;
+
+/// A button whose `EventBinding.cmd` patches an NDC y into an 8-byte template,
+/// carrying `sense`. The template is 8 zero bytes because the slot-bounds guard
+/// at the same decode boundary refuses a slot that does not fit — an empty
+/// template would be refused for THAT reason and prove nothing about this one.
+fn ndc_y_screen(sense: i32) -> Vec<u8> {
+    screen_of(ui::WidgetNode {
+        r#type: ui::WidgetType::WidgetButton as i32,
+        event: Some(ui::EventBinding {
+            name: "probe".to_owned(),
+            cmd: Some(ui::CmdSpec {
+                command_id: "cmd.Probe".to_owned(),
+                root_template: vec![0u8; 8],
+                patches: vec![ui::FieldPatch {
+                    byte_offset: 0,
+                    byte_width: 8,
+                    kind: ui::PatchKind::NdcY as i32,
+                    ..Default::default()
+                }],
+                ndc_y_sense: sense,
+            }),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+}
+
+#[test]
+fn undefined_ndc_y_sense_is_refused() {
+    assert_refused(
+        &ndc_y_screen(UNDEFINED_NDC_Y_SENSE),
+        "a CmdSpec patching an NDC y whose ndc_y_sense is not a defined ui.NdcYSense",
+    );
+}
+
+/// The sharp case, and the reason the zero value is not a plane. UNSPECIFIED is
+/// a DEFINED enumerator, so `defined_only` alone would admit it â and admitting
+/// it means the renderer picks a plane, which is the mirror this whole field
+/// exists to prevent.
+#[test]
+fn unspecified_ndc_y_sense_on_a_y_bearing_spec_is_refused() {
+    assert_refused(
+        &ndc_y_screen(ui::NdcYSense::Unspecified as i32),
+        "a CmdSpec that patches an NDC y without stating its destination plane",
+    );
+}
+
+/// The control at the top of the vocabulary, so a guard written as a range
+/// cannot be off by one there.
+#[test]
+fn ndc_y_sense_down_loads_clean() {
+    assert_loads_clean(
+        &ndc_y_screen(ui::NdcYSense::Down as i32),
+        "a y-DOWN destination plane (the highest defined enumerator)",
+    );
+}
+
+#[test]
+fn ndc_y_sense_up_loads_clean() {
+    assert_loads_clean(
+        &ndc_y_screen(ui::NdcYSense::Up as i32),
+        "a y-UP destination plane",
+    );
+}
+
+/// The control at the bottom, and the one that makes the guard's CONDITION the
+/// thing under test rather than its verdict: a spec with no y slot carries
+/// UNSPECIFIED and must load. This is every widget-value, by-value and form spec
+/// this repository ships.
+#[test]
+fn unspecified_ndc_y_sense_without_a_y_slot_loads_clean() {
+    assert_loads_clean(
+        &screen_of(ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetButton as i32,
+            event: Some(ui::EventBinding {
+                name: "probe".to_owned(),
+                cmd: Some(bare_cmd_spec()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        }),
+        "a CmdSpec with no NDC y slot and no stated plane",
+    );
 }
 
 fn cmd_by_value_screen(n: usize) -> Vec<u8> {

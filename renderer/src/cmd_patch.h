@@ -14,9 +14,12 @@
  *
  * A slot names its SOURCE (`kind`) and its ENCODING separately, because one
  * integer source reaches three different numeric wire shapes:
- *   - NDC_X / NDC_Y / NDC_X2 / NDC_Y2 → an 8-byte little-endian double slot,
- *     written VERBATIM (ui_input NDC == cmd.* NDC; no recast, wire-scale 1 →
- *     BYTE-identity). Their encoding IS the kind, so they carry UNSPECIFIED.
+ *   - NDC_X / NDC_Y / NDC_X2 / NDC_Y2 → an 8-byte little-endian double slot
+ *     at wire-scale 1, with no fixed-point recast. Their encoding IS the kind,
+ *     so they carry UNSPECIFIED. The x pair is BYTE-identical to the pointer
+ *     sample; the y pair is byte-identical only when the destination shares the
+ *     pointer's plane, because the device's NDC commands do not all — see
+ *     CMD_PATCH_NDC_Y_SENSE_* below.
  *   - DELTA / WIDGET_VALUE / SUBJECT_VALUE → whichever encoding the slot
  *     names:
  *       PADDED_VARINT — a NON-MINIMAL varint of (value * wire_scale) filling
@@ -63,6 +66,31 @@
 #define CMD_PATCH_ENCODING_PADDED_VARINT 1
 #define CMD_PATCH_ENCODING_DOUBLE_LE 2
 #define CMD_PATCH_ENCODING_FLOAT_LE 3
+/* Which vertical sense the DESTINATION command's NDC y leaves are read in —
+ * mirrors ui_NdcYSense (generated/ui_ast.pb.h). A THIRD axis beside kind and
+ * encoding, and it is genuinely a third: kind names where the value comes from,
+ * encoding names how it is written, and this names which coordinate frame the
+ * receiver reads it in.
+ *
+ * The gesture recognizer works in ONE plane — the ui_input pointer plane, +y UP
+ * — and the device's NDC commands do not all share it. A
+ * cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI rectangle is read in the
+ * ser.JonGuiDataROI plane, which declares -1.0 at the TOP. Both planes are a
+ * double in [-1,1] called "NDC", so a y written across the boundary unflipped
+ * produces a VERTICALLY MIRRORED command: it decodes cleanly, it is inside every
+ * declared range, and no consumer downstream can tell it from a correct one.
+ * That undetectability is why this is stated on the wire per command rather than
+ * inferred here from a command-id table — a second home for the fact, in the one
+ * component that must never hold it.
+ *
+ * UNSPECIFIED IS REFUSED, NOT DEFAULTED, on any spec carrying an NDC y slot.
+ * Either default would spell "the producer stated the plane" and "the producer
+ * never considered the plane" identically, and the second is the state that
+ * ships a mirror. A spec with no NDC y slot has no plane to state and correctly
+ * carries UNSPECIFIED. */
+#define CMD_PATCH_NDC_Y_SENSE_UNSPECIFIED 0
+#define CMD_PATCH_NDC_Y_SENSE_UP 1
+#define CMD_PATCH_NDC_Y_SENSE_DOWN 2
 /* Caps mirror the proto: root_template is PB_BYTES_ARRAY_T(128); a CmdSpec
  * carries up to CMD_PATCH_MAX_PATCHES patches — the gesture shapes need 2 (an
  * NDC x/y pair) or 4 (an ROI rubber-band's two corners), and a multi-field form
@@ -144,7 +172,35 @@ typedef struct {
   uint8_t template[CMD_PATCH_TEMPLATE_CAP];
   uint32_t patch_count;
   cmd_patch_field_t patches[CMD_PATCH_MAX_PATCHES];
+  /* CMD_PATCH_NDC_Y_SENSE_* — the DESTINATION plane of this command's NDC y
+   * leaves. Per SPEC and not per slot on purpose: an ROI carries y1 and y2 and
+   * they are one rectangle in one frame, so two slots that could state
+   * different senses is the same "two homes that can disagree" the encoding
+   * check already refuses. */
+  uint32_t ndc_y_sense;
 } cmd_spec_t;
+/* Orient a pointer-plane (+y UP) NDC y for a destination in `sense`, or refuse.
+ * Returns false and leaves *out untouched when the sense is UNSPECIFIED or
+ * unknown — the caller aborts the whole emit rather than picking a plane.
+ *
+ * `static inline` in the header because BOTH modules that link cmd_patch.c need
+ * it and only one of them can see the generated enum: renderer.c validates the
+ * decoded spec at the load boundary, cmd_patch.c writes the slot at emit, and
+ * reference.wasm links cmd_patch.c with no proto header at all. */
+static inline bool cmd_patch_orient_y(uint32_t sense, double y, double *out) {
+  switch (sense) {
+  case CMD_PATCH_NDC_Y_SENSE_UP:
+    *out = y;
+    return true;
+  case CMD_PATCH_NDC_Y_SENSE_DOWN:
+    /* The planes differ by reflection about 0, so the transform is negation and
+     * nothing else — both are [-1,1] with 0 at the centre of the image. */
+    *out = -y;
+    return true;
+  default:
+    return false;
+  }
+}
 /* Which sign of a decision's step a gesture entry answers — mirrors
  * ui_GestureDeltaSign (generated/ui_ast.pb.h). ANY is the zero value and
  * answers every step, which is what a spec that says nothing about direction
@@ -217,7 +273,8 @@ static inline bool cmd_patch_slot_in_bounds(uint32_t byte_offset,
  * change and a coordinated event, not a linkage tweak. */
 /* Emit the command described by `spec`, patched with the live values:
  *   - NDC_X slots ← `x` (8 LE double bytes, verbatim)
- *   - NDC_Y slots ← `y` (8 LE double bytes, verbatim)
+ *   - NDC_Y slots ← `y` ORIENTED into `spec->ndc_y_sense` (8 LE double bytes;
+ *     verbatim for UP, negated for DOWN, REFUSED when unstated)
  *   - DELTA / WIDGET_VALUE slots ← padded varint of (value_or_delta * scale)
  * memcpy's the template into a scratch buffer, overwrites each slot, then
  * relays the buffer via host_command(buf, template_len). A NULL/absent/empty
@@ -230,7 +287,10 @@ int32_t cmd_patch_emit(const cmd_spec_t *spec, double x, double y,
 /* Emit an ROI rubber-band command patched with BOTH drag corners:
  *   - NDC_X / NDC_Y slots   ← corner 1 (`x1`, `y1` — the drag DOWN point)
  *   - NDC_X2 / NDC_Y2 slots ← corner 2 (`x2`, `y2` — the drag UP point)
- * each written verbatim as 8 LE double bytes (wire-scale 1, no recast). The
+ * each written as 8 LE double bytes (wire-scale 1, no recast); the x pair
+ * verbatim, the y pair oriented into `spec->ndc_y_sense`. An ROI destination is
+ * the y-DOWN case in practice, so byte-identity with the pointer sample does NOT
+ * hold for this emit — value-identity in the destination's plane does. The
  * corners are relayed in drag order (down→up); min/max ordering is deferred to
  * the consumer/device. Shares the slot-writer with cmd_patch_emit — a DELTA /
  * WIDGET_VALUE slot in an ROI spec patches to 0 (an ROI CmdSpec carries only

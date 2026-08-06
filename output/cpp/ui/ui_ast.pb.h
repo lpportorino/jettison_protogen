@@ -475,6 +475,40 @@ inline bool PatchEncoding_Parse(absl::string_view name, PatchEncoding* value) {
   return ::google::protobuf::internal::ParseNamedEnum<PatchEncoding>(
       PatchEncoding_descriptor(), name, value);
 }
+enum NdcYSense : int {
+  NDC_Y_SENSE_UNSPECIFIED = 0,
+  NDC_Y_SENSE_UP = 1,
+  NDC_Y_SENSE_DOWN = 2,
+  NdcYSense_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  NdcYSense_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool NdcYSense_IsValid(int value);
+extern const uint32_t NdcYSense_internal_data_[];
+constexpr NdcYSense NdcYSense_MIN = static_cast<NdcYSense>(0);
+constexpr NdcYSense NdcYSense_MAX = static_cast<NdcYSense>(2);
+constexpr int NdcYSense_ARRAYSIZE = 2 + 1;
+const ::google::protobuf::EnumDescriptor*
+NdcYSense_descriptor();
+template <typename T>
+const std::string& NdcYSense_Name(T value) {
+  static_assert(std::is_same<T, NdcYSense>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to NdcYSense_Name().");
+  return NdcYSense_Name(static_cast<NdcYSense>(value));
+}
+template <>
+inline const std::string& NdcYSense_Name(NdcYSense value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<NdcYSense_descriptor,
+                                                 0, 2>(
+      static_cast<int>(value));
+}
+inline bool NdcYSense_Parse(absl::string_view name, NdcYSense* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<NdcYSense>(
+      NdcYSense_descriptor(), name, value);
+}
 enum GestureKind : int {
   GESTURE_KIND_PAN_MOVE = 0,
   GESTURE_KIND_PAN_END = 1,
@@ -9074,6 +9108,7 @@ class CmdSpec final : public ::google::protobuf::Message
     kPatchesFieldNumber = 3,
     kCommandIdFieldNumber = 1,
     kRootTemplateFieldNumber = 2,
+    kNdcYSenseFieldNumber = 4,
   };
   // repeated .ui.FieldPatch patches = 3 [(.buf.validate.field) = {
   int patches_size() const;
@@ -9124,12 +9159,22 @@ class CmdSpec final : public ::google::protobuf::Message
   std::string* _internal_mutable_root_template();
 
   public:
+  // .ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = {
+  void clear_ndc_y_sense() ;
+  ::ui::NdcYSense ndc_y_sense() const;
+  void set_ndc_y_sense(::ui::NdcYSense value);
+
+  private:
+  ::ui::NdcYSense _internal_ndc_y_sense() const;
+  void _internal_set_ndc_y_sense(::ui::NdcYSense value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ui.CmdSpec)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 1,
+      2, 4, 1,
       29, 2>
       _table_;
 
@@ -9150,6 +9195,7 @@ class CmdSpec final : public ::google::protobuf::Message
     ::google::protobuf::RepeatedPtrField< ::ui::FieldPatch > patches_;
     ::google::protobuf::internal::ArenaStringPtr command_id_;
     ::google::protobuf::internal::ArenaStringPtr root_template_;
+    int ndc_y_sense_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -20725,6 +20771,28 @@ CmdSpec::_internal_mutable_patches() {
   return &_impl_.patches_;
 }
 
+// .ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = {
+inline void CmdSpec::clear_ndc_y_sense() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ndc_y_sense_ = 0;
+}
+inline ::ui::NdcYSense CmdSpec::ndc_y_sense() const {
+  // @@protoc_insertion_point(field_get:ui.CmdSpec.ndc_y_sense)
+  return _internal_ndc_y_sense();
+}
+inline void CmdSpec::set_ndc_y_sense(::ui::NdcYSense value) {
+  _internal_set_ndc_y_sense(value);
+  // @@protoc_insertion_point(field_set:ui.CmdSpec.ndc_y_sense)
+}
+inline ::ui::NdcYSense CmdSpec::_internal_ndc_y_sense() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ui::NdcYSense>(_impl_.ndc_y_sense_);
+}
+inline void CmdSpec::_internal_set_ndc_y_sense(::ui::NdcYSense value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ndc_y_sense_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // GestureSpec
@@ -21983,6 +22051,12 @@ struct is_proto_enum<::ui::PatchEncoding> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ui::PatchEncoding>() {
   return ::ui::PatchEncoding_descriptor();
+}
+template <>
+struct is_proto_enum<::ui::NdcYSense> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ui::NdcYSense>() {
+  return ::ui::NdcYSense_descriptor();
 }
 template <>
 struct is_proto_enum<::ui::GestureKind> : std::true_type {};

@@ -17,9 +17,13 @@ void cmd_patch_set_subject_reader(cmd_patch_subject_reader_t reader) {
   g_subject_reader = reader;
 }
 /* Write the 8 little-endian wire bytes of `d` into out[0..8). WASM is
- * little-endian and the IEEE-754 layout matches the protobuf double wire
- * form, so the raw bit pattern copies straight through (verbatim, no recast —
- * ui_input NDC == cmd.* NDC). */
+ * little-endian and the IEEE-754 layout matches the protobuf double wire form,
+ * so the raw bit pattern copies straight through — no fixed-point recast at any
+ * scale. It says nothing about the VALUE: an NDC y is oriented into the
+ * destination's plane before it arrives here (cmd_patch_orient_y), so what this
+ * function guarantees is that whatever double it is handed reaches the wire
+ * unaltered, never that the pointer's sample and the command's leaf are the same
+ * number. */
 static void double_le_bytes(uint8_t *out, double d) {
   uint64_t bits;
   memcpy(&bits, &d, sizeof(bits));
@@ -153,18 +157,42 @@ static int32_t cmd_patch_emit_impl(const cmd_spec_t *spec, double x1, double y1,
       if (!ndc_slot(buf, p, x1, "NDC_X"))
         return -1;
       break;
-    case CMD_PATCH_KIND_NDC_Y:
-      if (!ndc_slot(buf, p, y1, "NDC_Y"))
+    /* The two y kinds are ORIENTED into the destination's plane; the two x
+     * kinds are not, because the planes differ only vertically. A spec that
+     * patches a y without stating its plane is REFUSED here as well as at the
+     * decode boundary — defense in depth, and the same reason the slot-bounds
+     * check is made twice: the host is untrusted, and an unstated plane written
+     * either way is indistinguishable from a correct command downstream. */
+    case CMD_PATCH_KIND_NDC_Y: {
+      double oriented;
+      if (!cmd_patch_orient_y(spec->ndc_y_sense, y1, &oriented)) {
+        LOG_ERROR("cmd_patch: NDC_Y slot but ndc_y_sense is %u — the "
+                  "destination's y plane is unstated, and guessing it ships a "
+                  "mirrored command",
+                  (unsigned)spec->ndc_y_sense);
+        return -1;
+      }
+      if (!ndc_slot(buf, p, oriented, "NDC_Y"))
         return -1;
       break;
+    }
     case CMD_PATCH_KIND_NDC_X2:
       if (!ndc_slot(buf, p, x2, "NDC_X2"))
         return -1;
       break;
-    case CMD_PATCH_KIND_NDC_Y2:
-      if (!ndc_slot(buf, p, y2, "NDC_Y2"))
+    case CMD_PATCH_KIND_NDC_Y2: {
+      double oriented;
+      if (!cmd_patch_orient_y(spec->ndc_y_sense, y2, &oriented)) {
+        LOG_ERROR("cmd_patch: NDC_Y2 slot but ndc_y_sense is %u — the "
+                  "destination's y plane is unstated, and guessing it ships a "
+                  "mirrored command",
+                  (unsigned)spec->ndc_y_sense);
+        return -1;
+      }
+      if (!ndc_slot(buf, p, oriented, "NDC_Y2"))
         return -1;
       break;
+    }
     case CMD_PATCH_KIND_DELTA:
     case CMD_PATCH_KIND_WIDGET_VALUE:
       if (!value_slot(buf, p, value_or_delta))

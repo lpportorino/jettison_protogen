@@ -183,7 +183,12 @@
   "An R5a CmdSpec IR map: a source command-id, the pre-encoded cmd.Root template
    bytes, and the fixed-width slot patch descriptors."
   [:map {:closed true} [:command-id [:string {:min 1}]] [:root-template bytes?]
-   [:patches [:vector [:map-of keyword? some?]]]])
+   [:patches [:vector [:map-of keyword? some?]]]
+   ;; The destination y plane the NDC y slots write into (a ui.NdcYSense
+   ;; keyword). Carried rather than shape-checked here, like the two other wire
+   ;; enums above: the emit-side backstop (proto-schema/cmd-spec) is what pins
+   ;; the vocabulary.
+   [:ndc-y-sense keyword?]])
 
 (def gesture-spec-edn
   "An R5a GestureSpec IR map: a ui_ast GestureKind keyword, its CmdSpec, and

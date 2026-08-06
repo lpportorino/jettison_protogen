@@ -987,7 +987,9 @@ public final class UiAst {
     PATCH_KIND_NDC_X(1),
     /**
      * <pre>
-     * gesture NDC y → a double slot (verbatim, no recast)
+     * gesture NDC y → a double slot. The x kinds are verbatim; the y kinds are
+     * ORIENTED by CmdSpec.ndc_y_sense, because the destination command's plane is
+     * not always the pointer's — see NdcYSense.
      * </pre>
      *
      * <code>PATCH_KIND_NDC_Y = 2;</code>
@@ -1019,7 +1021,7 @@ public final class UiAst {
     PATCH_KIND_NDC_X2(5),
     /**
      * <pre>
-     * ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
+     * ROI rubber-band 2nd-corner NDC y → a double slot, oriented as NDC_Y is
      * </pre>
      *
      * <code>PATCH_KIND_NDC_Y2 = 6;</code>
@@ -1063,7 +1065,9 @@ public final class UiAst {
     public static final int PATCH_KIND_NDC_X_VALUE = 1;
     /**
      * <pre>
-     * gesture NDC y → a double slot (verbatim, no recast)
+     * gesture NDC y → a double slot. The x kinds are verbatim; the y kinds are
+     * ORIENTED by CmdSpec.ndc_y_sense, because the destination command's plane is
+     * not always the pointer's — see NdcYSense.
      * </pre>
      *
      * <code>PATCH_KIND_NDC_Y = 2;</code>
@@ -1095,7 +1099,7 @@ public final class UiAst {
     public static final int PATCH_KIND_NDC_X2_VALUE = 5;
     /**
      * <pre>
-     * ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
+     * ROI rubber-band 2nd-corner NDC y → a double slot, oriented as NDC_Y is
      * </pre>
      *
      * <code>PATCH_KIND_NDC_Y2 = 6;</code>
@@ -1385,6 +1389,195 @@ public final class UiAst {
 
   /**
    * <pre>
+   * WHICH VERTICAL SENSE the destination command's NDC y leaves are read in.
+   *
+   * THE POINTER PLANE IS NOT THE ONLY PLANE, and nothing on the wire says which
+   * one a `double` is in. The gesture recognizer works in the pointer plane —
+   * `[-1,1]`, `+y` UP, declared by `proto/ui/ui_input.proto` — while a
+   * `cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI` rectangle is read in the
+   * `ser.JonGuiDataROI` plane, which `proto/jon_shared_data_types.proto` declares
+   * as `-1.0 (left/top) to 1.0 (right/bottom)`: `-1.0` at the TOP, i.e. `+y` DOWN.
+   * Both planes are a `double` in `[-1.0, 1.0]` called "NDC", so a y written across
+   * the boundary unflipped yields a VERTICALLY MIRRORED command — a plausible
+   * request, never a decode error, with no signal to catch it downstream.
+   * `docs/INTERFACE-CONTRACTS.md` §4.1 owns the boundary.
+   *
+   * A SEPARATE AXIS FROM PatchKind, for the reason PatchEncoding already gives:
+   * the plane is a property of the DESTINATION command, PatchKind names the
+   * SOURCE, and folding them together needs a cross product (four NDC kinds × two
+   * senses) that grows multiplicatively with every source added.
+   *
+   * PER CmdSpec RATHER THAN PER FieldPatch, because a command's y leaves share one
+   * plane by construction: an ROI carries y1 and y2, and two slots that could
+   * state different senses for one rectangle is the same "two homes that can
+   * disagree" the renderer already refuses when a slot restates its encoding.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.NdcYSense}
+   */
+  public enum NdcYSense
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * NEVER DEFAULTED — the renderer REFUSES a spec that carries an NDC y slot
+     * and leaves this unset, at the decode boundary and again at emit. A default
+     * would spell "the producer stated the plane" and "the producer never
+     * considered the plane" with the same bytes, and the second is exactly the
+     * state that ships a mirror. A spec with no NDC y slot has no plane to state
+     * and correctly leaves this UNSPECIFIED.
+     * </pre>
+     *
+     * <code>NDC_Y_SENSE_UNSPECIFIED = 0;</code>
+     */
+    NDC_Y_SENSE_UNSPECIFIED(0),
+    /**
+     * <pre>
+     * `+1.0` at the TOP — the pointer plane. The y is written verbatim.
+     * </pre>
+     *
+     * <code>NDC_Y_SENSE_UP = 1;</code>
+     */
+    NDC_Y_SENSE_UP(1),
+    /**
+     * <pre>
+     * `-1.0` at the TOP — the CV / ROI image plane. The y is NEGATED on the way
+     * into the slot, so byte-identity with the pointer sample does NOT hold here;
+     * value-identity in the destination's own plane does.
+     * </pre>
+     *
+     * <code>NDC_Y_SENSE_DOWN = 2;</code>
+     */
+    NDC_Y_SENSE_DOWN(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        NdcYSense.class.getName());
+    }
+    /**
+     * <pre>
+     * NEVER DEFAULTED — the renderer REFUSES a spec that carries an NDC y slot
+     * and leaves this unset, at the decode boundary and again at emit. A default
+     * would spell "the producer stated the plane" and "the producer never
+     * considered the plane" with the same bytes, and the second is exactly the
+     * state that ships a mirror. A spec with no NDC y slot has no plane to state
+     * and correctly leaves this UNSPECIFIED.
+     * </pre>
+     *
+     * <code>NDC_Y_SENSE_UNSPECIFIED = 0;</code>
+     */
+    public static final int NDC_Y_SENSE_UNSPECIFIED_VALUE = 0;
+    /**
+     * <pre>
+     * `+1.0` at the TOP — the pointer plane. The y is written verbatim.
+     * </pre>
+     *
+     * <code>NDC_Y_SENSE_UP = 1;</code>
+     */
+    public static final int NDC_Y_SENSE_UP_VALUE = 1;
+    /**
+     * <pre>
+     * `-1.0` at the TOP — the CV / ROI image plane. The y is NEGATED on the way
+     * into the slot, so byte-identity with the pointer sample does NOT hold here;
+     * value-identity in the destination's own plane does.
+     * </pre>
+     *
+     * <code>NDC_Y_SENSE_DOWN = 2;</code>
+     */
+    public static final int NDC_Y_SENSE_DOWN_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static NdcYSense valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static NdcYSense forNumber(int value) {
+      switch (value) {
+        case 0: return NDC_Y_SENSE_UNSPECIFIED;
+        case 1: return NDC_Y_SENSE_UP;
+        case 2: return NDC_Y_SENSE_DOWN;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<NdcYSense>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        NdcYSense> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<NdcYSense>() {
+            public NdcYSense findValueByNumber(int number) {
+              return NdcYSense.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
+    }
+
+    private static final NdcYSense[] VALUES = values();
+
+    public static NdcYSense valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private NdcYSense(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.NdcYSense)
+  }
+
+  /**
+   * <pre>
    * A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
    * host-side decision tag selects its pre-encoded template directly.
    * </pre>
@@ -1598,7 +1791,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
     }
 
     private static final GestureKind[] VALUES = values();
@@ -1762,7 +1955,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
     }
 
     private static final GestureDeltaSign[] VALUES = values();
@@ -1967,7 +2160,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
     }
 
     private static final CompareOp[] VALUES = values();
@@ -2147,7 +2340,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
     }
 
     private static final FlexFlow[] VALUES = values();
@@ -2300,7 +2493,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
     }
 
     private static final FlexAlign[] VALUES = values();
@@ -2462,7 +2655,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
     }
 
     private static final GridAlign[] VALUES = values();
@@ -2597,7 +2790,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
     }
 
     private static final TextAlign[] VALUES = values();
@@ -2723,7 +2916,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
     }
 
     private static final TextDecor[] VALUES = values();
@@ -2867,7 +3060,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
     }
 
     private static final BlendMode[] VALUES = values();
@@ -3011,7 +3204,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
     }
 
     private static final BaseDir[] VALUES = values();
@@ -3164,7 +3357,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
     }
 
     private static final GradDir[] VALUES = values();
@@ -3335,7 +3528,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
     }
 
     private static final Dir[] VALUES = values();
@@ -3632,7 +3825,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
     }
 
     private static final Align[] VALUES = values();
@@ -3794,7 +3987,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
     }
 
     private static final BorderSide[] VALUES = values();
@@ -3938,7 +4131,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(21);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
     }
 
     private static final LabelLongMode[] VALUES = values();
@@ -4064,7 +4257,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(22);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
     }
 
     private static final BarMode[] VALUES = values();
@@ -4190,7 +4383,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(23);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
     }
 
     private static final ArcMode[] VALUES = values();
@@ -4307,7 +4500,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(24);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
     }
 
     private static final RollerMode[] VALUES = values();
@@ -4460,7 +4653,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(25);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
     }
 
     private static final ScaleMode[] VALUES = values();
@@ -4613,7 +4806,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(26);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(27);
     }
 
     private static final ChartType[] VALUES = values();
@@ -4748,7 +4941,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(27);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(28);
     }
 
     private static final ChartAxis[] VALUES = values();
@@ -5946,7 +6139,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(28);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(29);
     }
 
     private static final StylePropertyType[] VALUES = values();
@@ -49906,6 +50099,29 @@ java.lang.String defaultValue) {
      */
     ui.UiAst.FieldPatchOrBuilder getPatchesOrBuilder(
         int index);
+
+    /**
+     * <pre>
+     * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+     * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+     * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+     * </pre>
+     *
+     * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for ndcYSense.
+     */
+    int getNdcYSenseValue();
+    /**
+     * <pre>
+     * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+     * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+     * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+     * </pre>
+     *
+     * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The ndcYSense.
+     */
+    ui.UiAst.NdcYSense getNdcYSense();
   }
   /**
    * <pre>
@@ -49936,6 +50152,7 @@ java.lang.String defaultValue) {
       commandId_ = "";
       rootTemplate_ = com.google.protobuf.ByteString.EMPTY;
       patches_ = java.util.Collections.emptyList();
+      ndcYSense_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -50102,6 +50319,36 @@ java.lang.String defaultValue) {
       return patches_.get(index);
     }
 
+    public static final int NDC_Y_SENSE_FIELD_NUMBER = 4;
+    private int ndcYSense_ = 0;
+    /**
+     * <pre>
+     * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+     * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+     * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+     * </pre>
+     *
+     * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for ndcYSense.
+     */
+    @java.lang.Override public int getNdcYSenseValue() {
+      return ndcYSense_;
+    }
+    /**
+     * <pre>
+     * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+     * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+     * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+     * </pre>
+     *
+     * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The ndcYSense.
+     */
+    @java.lang.Override public ui.UiAst.NdcYSense getNdcYSense() {
+      ui.UiAst.NdcYSense result = ui.UiAst.NdcYSense.forNumber(ndcYSense_);
+      return result == null ? ui.UiAst.NdcYSense.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -50125,6 +50372,9 @@ java.lang.String defaultValue) {
       for (int i = 0; i < patches_.size(); i++) {
         output.writeMessage(3, patches_.get(i));
       }
+      if (ndcYSense_ != ui.UiAst.NdcYSense.NDC_Y_SENSE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(4, ndcYSense_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -50144,6 +50394,10 @@ java.lang.String defaultValue) {
       for (int i = 0; i < patches_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, patches_.get(i));
+      }
+      if (ndcYSense_ != ui.UiAst.NdcYSense.NDC_Y_SENSE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, ndcYSense_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -50166,6 +50420,7 @@ java.lang.String defaultValue) {
           .equals(other.getRootTemplate())) return false;
       if (!getPatchesList()
           .equals(other.getPatchesList())) return false;
+      if (ndcYSense_ != other.ndcYSense_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -50185,6 +50440,8 @@ java.lang.String defaultValue) {
         hash = (37 * hash) + PATCHES_FIELD_NUMBER;
         hash = (53 * hash) + getPatchesList().hashCode();
       }
+      hash = (37 * hash) + NDC_Y_SENSE_FIELD_NUMBER;
+      hash = (53 * hash) + ndcYSense_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -50329,6 +50586,7 @@ java.lang.String defaultValue) {
           patchesBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        ndcYSense_ = 0;
         return this;
       }
 
@@ -50381,6 +50639,9 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.rootTemplate_ = rootTemplate_;
         }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.ndcYSense_ = ndcYSense_;
+        }
       }
 
       @java.lang.Override
@@ -50428,6 +50689,9 @@ java.lang.String defaultValue) {
               patchesBuilder_.addAllMessages(other.patches_);
             }
           }
+        }
+        if (other.ndcYSense_ != 0) {
+          setNdcYSenseValue(other.getNdcYSenseValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -50478,6 +50742,11 @@ java.lang.String defaultValue) {
                 }
                 break;
               } // case 26
+              case 32: {
+                ndcYSense_ = input.readEnum();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -51039,6 +51308,89 @@ java.lang.String defaultValue) {
           patches_ = null;
         }
         return patchesBuilder_;
+      }
+
+      private int ndcYSense_ = 0;
+      /**
+       * <pre>
+       * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+       * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+       * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+       * </pre>
+       *
+       * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for ndcYSense.
+       */
+      @java.lang.Override public int getNdcYSenseValue() {
+        return ndcYSense_;
+      }
+      /**
+       * <pre>
+       * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+       * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+       * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+       * </pre>
+       *
+       * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for ndcYSense to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNdcYSenseValue(int value) {
+        ndcYSense_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+       * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+       * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+       * </pre>
+       *
+       * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The ndcYSense.
+       */
+      @java.lang.Override
+      public ui.UiAst.NdcYSense getNdcYSense() {
+        ui.UiAst.NdcYSense result = ui.UiAst.NdcYSense.forNumber(ndcYSense_);
+        return result == null ? ui.UiAst.NdcYSense.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+       * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+       * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+       * </pre>
+       *
+       * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The ndcYSense to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNdcYSense(ui.UiAst.NdcYSense value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        ndcYSense_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+       * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+       * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+       * </pre>
+       *
+       * <code>.ui.NdcYSense ndc_y_sense = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNdcYSense() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        ndcYSense_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.CmdSpec)
@@ -59378,210 +59730,213 @@ java.lang.String defaultValue) {
       "\n\nbyte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.Pa" +
       "tchKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\022\030\n" +
       "\007subject\030\005 \001(\tB\007\272H\004r\002\030?\022-\n\010encoding\030\006 \001(" +
-      "\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"h\n\007CmdSpe" +
-      "c\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_t" +
-      "emplate\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fiel" +
-      "dPatchB\010\272H\005\222\001\002\020\010\"\204\001\n\013GestureSpec\022\'\n\004kind" +
-      "\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd" +
-      "\030\002 \001(\0132\013.ui.CmdSpec\0222\n\ndelta_sign\030\003 \001(\0162" +
-      "\024.ui.GestureDeltaSignB\010\272H\005\202\001\002\020\001\"l\n\021Visib" +
-      "ilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?" +
-      "\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.u" +
-      "i.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n" +
-      "\004when\030\001 \001(\0132\025.ui.VisibilityBinding\022\030\n\005co" +
-      "lor\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030" +
-      "\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_pl" +
-      "ace\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cr" +
-      "oss_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001" +
-      "\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H" +
-      "\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_selector\030\001" +
-      " \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.StyleVariant" +
-      "B\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rvariant_" +
-      "index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\013" +
-      "2\021.ui.StyleProperty\"\337\001\n\rStyleProperty\022-\n" +
-      "\004type\030\001 \001(\0162\025.ui.StylePropertyTypeB\010\272H\005\202" +
-      "\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint_value\030" +
-      "\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui.ColorH" +
-      "\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014sh" +
-      "adow_value\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005" +
-      "value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g" +
-      "\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n" +
-      "\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x" +
-      "\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r" +
-      "\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017" +
-      "\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013" +
-      "PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031" +
-      "\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_IN" +
-      "SERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n" +
-      "\022PATCH_OP_MOVE_NODE\020\004*\311\003\n\nWidgetType\022\016\n\n" +
-      "WIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGE" +
-      "T_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_I" +
-      "MAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021" +
-      "\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023" +
-      "\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023" +
-      "\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022" +
-      "\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013W" +
-      "IDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET" +
-      "_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WID" +
-      "GET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGE" +
-      "T_HOST_PROXY\020\025\022\031\n\025WIDGET_TARGET_OVERLAY\020" +
-      "\026*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n" +
-      "\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE_RE" +
-      "SIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X\n\014E" +
-      "ventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIG" +
-      "GER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_PRES" +
-      "SED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNSPEC" +
-      "IFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATCH_K" +
-      "IND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PAT" +
-      "CH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIND_NDC" +
-      "_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PATCH_KI" +
-      "ND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncoding\022\036\n\032" +
-      "PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PATCH_EN" +
-      "CODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENCODING" +
-      "_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOAT_LE\020" +
-      "\003*\266\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PAN_MO" +
-      "VE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GESTUR" +
-      "E_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003\022\026\n\022" +
-      "GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND_WHE" +
-      "EL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*p\n\020GestureDel" +
-      "taSign\022\032\n\026GESTURE_DELTA_SIGN_ANY\020\000\022\037\n\033GE" +
-      "STURE_DELTA_SIGN_POSITIVE\020\001\022\037\n\033GESTURE_D" +
-      "ELTA_SIGN_NEGATIVE\020\002*q\n\tCompareOp\022\016\n\nCOM" +
-      "PARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOMPARE" +
-      "_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT\020\004\022\017" +
-      "\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLO" +
-      "W_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW" +
-      "_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLE" +
-      "X_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WR" +
-      "AP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022" +
-      "\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_FL" +
-      "OW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign\022\024" +
-      "\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END\020\001" +
-      "\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_SP" +
-      "ACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUND\020" +
-      "\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGrid" +
-      "Align\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_ALIG" +
-      "N_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID_A" +
-      "LIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVENL" +
-      "Y\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GRID" +
-      "_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n\017T" +
-      "EXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n" +
-      "\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT" +
-      "\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024" +
-      "TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_STR" +
-      "IKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_MODE" +
-      "_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026BL" +
-      "END_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_MUL" +
-      "TIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i\n\007Ba" +
-      "seDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_RTL\020" +
-      "\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEUTRAL" +
-      "\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n\rGRA" +
-      "D_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GRAD_D" +
-      "IR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRAD_DI" +
-      "R_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003Dir\022" +
-      "\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_RIGHT" +
-      "\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_H" +
-      "OR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005Align" +
-      "\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEFT\020\001\022" +
-      "\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGHT\020\003\022" +
-      "\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTTOM_M" +
-      "ID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIGN_LE" +
-      "FT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALIGN_C" +
-      "ENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021ALIGN" +
-      "_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGHT\020\014\022" +
-      "\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_OUT_" +
-      "BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIGHT\020\017" +
-      "\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OUT_LE" +
-      "FT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022\027\n\023A" +
-      "LIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RIGHT_" +
-      "MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001\n\nBo" +
-      "rderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BORDER" +
-      "_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022\024\n\020B" +
-      "ORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIGHT\020\010" +
-      "\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SIDE_IN" +
-      "TERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_LONG" +
-      "_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS\020\001\022\032" +
-      "\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_LONG" +
-      "_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LONG_MO" +
-      "DE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NORMAL\020" +
-      "\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_" +
-      "RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020\000\022" +
-      "\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_RE" +
-      "VERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE_NOR" +
-      "MAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\tScal" +
-      "eMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000\022 \n\034" +
-      "SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_" +
-      "MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_VERTI" +
-      "CAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNER\020\010\022" +
-      "\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChartTyp" +
-      "e\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE_LIN" +
-      "E\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_TYPE_" +
-      "BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHART_T" +
-      "YPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_AXIS" +
-      "_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY_Y\020\001" +
-      "\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_AXIS" +
-      "_SECONDARY_X\020\004*\273\022\n\021StylePropertyType\022\021\n\r" +
-      "PROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP" +
-      "_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PRO" +
-      "P_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022" +
-      "\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PR" +
-      "OP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEI" +
-      "GHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014" +
-      "\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022" +
-      "\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020" +
-      "\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020" +
-      "\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022" +
-      "\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022" +
-      "\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRANSF" +
-      "ORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PR" +
-      "OP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PR" +
-      "OP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_" +
-      "PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW" +
-      "_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022" +
-      "\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022" +
-      "\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n" +
-      "\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022" +
-      "\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN_L" +
-      "EFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_" +
-      "GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PR" +
-      "OP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200" +
-      "\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD_O" +
-      "PA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_I" +
-      "MAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n" +
-      "\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_BG_" +
-      "IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020P" +
-      "ROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020" +
-      ":\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTLIN" +
-      "E_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_SH" +
-      "ADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?\022\030" +
-      "\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_" +
-      "SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PROP_" +
-      "SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP" +
-      "_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR_O" +
-      "PA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE_D" +
-      "ASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021P" +
-      "ROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020K\022" +
-      "\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024" +
-      "\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR\020O" +
-      "\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n" +
-      "\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEXT_L" +
-      "INE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP" +
-      "_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010P" +
-      "ROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PROP_" +
-      "COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURATION" +
-      "\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_DIR" +
-      "\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PROP_" +
-      "FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n" +
-      "\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_TR" +
-      "ACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_" +
-      "GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_ALI" +
-      "GN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032\n\026P" +
-      "ROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_CEL" +
-      "L_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_PO" +
-      "S\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PROP_" +
-      "GRID_CELL_ROW_SPAN\020jBEZCgit-codecommit.e" +
-      "u-central-1.amazonaws.com/v1/repos/jetti" +
-      "son/jonp/uib\006proto3"
+      "\0162\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"\226\001\n\007CmdSp" +
+      "ec\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_" +
+      "template\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Fie" +
+      "ldPatchB\010\272H\005\222\001\002\020\010\022,\n\013ndc_y_sense\030\004 \001(\0162\r" +
+      ".ui.NdcYSenseB\010\272H\005\202\001\002\020\001\"\204\001\n\013GestureSpec\022" +
+      "\'\n\004kind\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001" +
+      "\022\030\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec\0222\n\ndelta_sign" +
+      "\030\003 \001(\0162\024.ui.GestureDeltaSignB\010\272H\005\202\001\002\020\001\"l" +
+      "\n\021VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H" +
+      "\006r\004\020\001\030?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 " +
+      "\001(\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBin" +
+      "ding\022#\n\004when\030\001 \001(\0132\025.ui.VisibilityBindin" +
+      "g\022\030\n\005color\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$" +
+      "\n\004flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\n" +
+      "main_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020" +
+      "\001\022,\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272" +
+      "H\005\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAl" +
+      "ignB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_sel" +
+      "ector\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.Style" +
+      "VariantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rv" +
+      "ariant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\npropertie" +
+      "s\030\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStyleProp" +
+      "erty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyTyp" +
+      "eB\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint" +
+      "_value\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui" +
+      ".ColorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H" +
+      "\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBundl" +
+      "eH\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030" +
+      "\377\001\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*" +
+      "\003\030\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010o" +
+      "ffset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006sprea" +
+      "d\030\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013Subjec" +
+      "tType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING" +
+      "\020\001*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PR" +
+      "OPS\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATC" +
+      "H_OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NO" +
+      "DE\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\311\003\n\nWidgetT" +
+      "ype\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020" +
+      "\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014W" +
+      "IDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_" +
+      "BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECK" +
+      "BOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROL" +
+      "LER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPI" +
+      "NBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED" +
+      "\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n" +
+      "\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022" +
+      "\022\022\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025" +
+      "\n\021WIDGET_HOST_PROXY\020\025\022\031\n\025WIDGET_TARGET_O" +
+      "VERLAY\020\026*p\n\tProxyMode\022\025\n\021PROXY_MODE_STAT" +
+      "IC\020\000\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_" +
+      "MODE_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE" +
+      "\020\003*X\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022" +
+      "\031\n\025TRIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LO" +
+      "NG_PRESSED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND" +
+      "_UNSPECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020" +
+      "PATCH_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003" +
+      "\022\033\n\027PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_K" +
+      "IND_NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030P" +
+      "ATCH_KIND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncod" +
+      "ing\022\036\n\032PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034P" +
+      "ATCH_ENCODING_PADDED_VARINT\020\001\022\034\n\030PATCH_E" +
+      "NCODING_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FL" +
+      "OAT_LE\020\003*R\n\tNdcYSense\022\033\n\027NDC_Y_SENSE_UNS" +
+      "PECIFIED\020\000\022\022\n\016NDC_Y_SENSE_UP\020\001\022\024\n\020NDC_Y_" +
+      "SENSE_DOWN\020\002*\266\001\n\013GestureKind\022\031\n\025GESTURE_" +
+      "KIND_PAN_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020" +
+      "\001\022\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_" +
+      "TRACK\020\003\022\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTU" +
+      "RE_KIND_WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*p\n" +
+      "\020GestureDeltaSign\022\032\n\026GESTURE_DELTA_SIGN_" +
+      "ANY\020\000\022\037\n\033GESTURE_DELTA_SIGN_POSITIVE\020\001\022\037" +
+      "\n\033GESTURE_DELTA_SIGN_NEGATIVE\020\002*q\n\tCompa" +
+      "reOp\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001" +
+      "\022\016\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOM" +
+      "PARE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022" +
+      "\022\n\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024" +
+      "\n\020FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WR" +
+      "AP\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_" +
+      "FLOW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COL" +
+      "UMN_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007" +
+      "\022!\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\t" +
+      "FlexAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_" +
+      "ALIGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FL" +
+      "EX_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SP" +
+      "ACE_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN" +
+      "\020\005*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025" +
+      "\n\021GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020" +
+      "\002\022\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_" +
+      "SPACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUN" +
+      "D\020\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTex" +
+      "tAlign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIG" +
+      "N_LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_" +
+      "ALIGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR" +
+      "_NONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEX" +
+      "T_DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n" +
+      "\021BLEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDIT" +
+      "IVE\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLE" +
+      "ND_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERE" +
+      "NCE\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BA" +
+      "SE_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_" +
+      "DIR_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007Gra" +
+      "dDir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020" +
+      "\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003" +
+      "\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICA" +
+      "L\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r" +
+      "\n\tDIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM" +
+      "\020\010\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020" +
+      "\017*\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_" +
+      "TOP_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_T" +
+      "OP_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALI" +
+      "GN_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022" +
+      "\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010" +
+      "\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT" +
+      "\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_T" +
+      "OP_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n" +
+      "\024ALIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOT" +
+      "TOM_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022A" +
+      "LIGN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BO" +
+      "TTOM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN" +
+      "_OUT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTT" +
+      "OM\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020" +
+      "\000\022\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE" +
+      "_TOP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_S" +
+      "IDE_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BOR" +
+      "DER_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n" +
+      "\024LABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MO" +
+      "DE_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n" +
+      "\037LABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LA" +
+      "BEL_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_M" +
+      "ODE_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022" +
+      "\n\016BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MOD" +
+      "E_NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020" +
+      "ARC_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLL" +
+      "ER_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE" +
+      "\020\001*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTA" +
+      "L_TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020" +
+      "\001\022\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE" +
+      "_MODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROU" +
+      "ND_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217" +
+      "\001\n\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHA" +
+      "RT_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016" +
+      "CHART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004" +
+      "\022\026\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n" +
+      "\024CHART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SE" +
+      "CONDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n" +
+      "\026CHART_AXIS_SECONDARY_X\020\004*\273\022\n\021StylePrope" +
+      "rtyType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OP" +
+      "A\020\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FO" +
+      "NT\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORD" +
+      "ER_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_" +
+      "ALL\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022" +
+      "\017\n\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PRO" +
+      "P_PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MA" +
+      "RGIN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_" +
+      "MIN_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_" +
+      "MIN_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PRO" +
+      "P_LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPR" +
+      "OP_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025" +
+      "PROP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLAT" +
+      "E_X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCAL" +
+      "E_X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION" +
+      "\020\036\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017" +
+      "\n\013PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP" +
+      "_PAD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_" +
+      "PAD_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_P" +
+      "AD_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MA" +
+      "RGIN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PR" +
+      "OP_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022" +
+      "\026\n\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_" +
+      "DIR\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_" +
+      "GRAD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PRO" +
+      "P_BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025" +
+      "\n\021PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_R" +
+      "ECOLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022" +
+      "\027\n\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_" +
+      "SIDE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUT" +
+      "LINE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020" +
+      "PROP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=" +
+      "\022\025\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_O" +
+      "FFSET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022P" +
+      "ROP_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR" +
+      "\020B\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OP" +
+      "A\020D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAG" +
+      "E_RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024" +
+      "PROP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH" +
+      "_GAP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LI" +
+      "NE_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_AR" +
+      "C_WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_" +
+      "ARC_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TE" +
+      "XT_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024" +
+      "PROP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECO" +
+      "R\020T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CO" +
+      "RNER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED" +
+      "\020X\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_AN" +
+      "IM_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPR" +
+      "OP_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY" +
+      "\020]\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN" +
+      "_PLACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025P" +
+      "ROP_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW" +
+      "\020b\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_G" +
+      "RID_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN" +
+      "_POS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PR" +
+      "OP_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_" +
+      "CELL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN" +
+      "\020i\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-c" +
+      "odecommit.eu-central-1.amazonaws.com/v1/" +
+      "repos/jettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -59821,7 +60176,7 @@ java.lang.String defaultValue) {
     internal_static_ui_CmdSpec_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_CmdSpec_descriptor,
-        new java.lang.String[] { "CommandId", "RootTemplate", "Patches", });
+        new java.lang.String[] { "CommandId", "RootTemplate", "Patches", "NdcYSense", });
     internal_static_ui_GestureSpec_descriptor =
       getDescriptor().getMessageTypes().get(37);
     internal_static_ui_GestureSpec_fieldAccessorTable = new

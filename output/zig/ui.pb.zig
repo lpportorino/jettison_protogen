@@ -89,6 +89,14 @@ pub const PatchEncoding = enum(i32) {
 };
 
 
+pub const NdcYSense = enum(i32) {
+   NDC_Y_SENSE_UNSPECIFIED = 0,
+   NDC_Y_SENSE_UP = 1,
+   NDC_Y_SENSE_DOWN = 2,
+    _,
+};
+
+
 pub const GestureKind = enum(i32) {
    GESTURE_KIND_PAN_MOVE = 0,
    GESTURE_KIND_PAN_END = 1,
@@ -3497,11 +3505,13 @@ pub const CmdSpec = struct {
     command_id: []const u8 = &.{},
     root_template: []const u8 = &.{},
     patches: std.ArrayListUnmanaged(FieldPatch) = .empty,
+    ndc_y_sense: NdcYSense = @enumFromInt(0),
 
     pub const _desc_table = .{
         .command_id = fd(1, .{ .scalar = .string }),
         .root_template = fd(2, .{ .scalar = .bytes }),
         .patches = fd(3, .{ .repeated = .submessage}),
+        .ndc_y_sense = fd(4, .@"enum"),
     };
 
     /// Encodes the message to the writer

@@ -377,10 +377,15 @@
    — the wire contract is that a name is present exactly on a SUBJECT_VALUE
    slot, and the renderer refuses both halves of that mismatch, so an emitter
    that forgets one is caught rather than silently producing a dead slot."
-  [{:keys [command-id root-template patches]}]
+  [{:keys [command-id root-template patches ndc-y-sense]}]
   {:command_id command-id
    ;; pronto's bytes field wants a ByteString (the proto wire carrier).
    :root_template (ByteString/copyFrom ^bytes root-template)
+   ;; The destination y plane. NOT defaulted here: uigen.cmd-spec already
+   ;; refuses to build a y-patching spec whose plane it cannot establish, so an
+   ;; absent value at this point is an emitter that dropped it rather than a
+   ;; producer that had nothing to say — and the renderer refuses either way.
+   :ndc_y_sense ndc-y-sense
    :patches (mapv (fn [p]
                     {:byte_offset (:byte-offset p)
                      :byte_width (:byte-width p)
@@ -393,7 +398,8 @@
       [:=>
        [:cat
         [:map [:command-id string?] [:root-template bytes?]
-         [:patches [:sequential [:map-of :keyword :any]]]]] [:map-of :keyword :any]])
+         [:patches [:sequential [:map-of :keyword :any]]]
+         [:ndc-y-sense :keyword]]] [:map-of :keyword :any]])
 
 (defn emit-gesture-spec
   "Convert an R5a GestureSpec IR map ({:kind GestureKind :delta-sign

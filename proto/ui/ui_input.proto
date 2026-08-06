@@ -32,9 +32,22 @@ option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison
 // has strings + repeated + recursion.)
 //
 // NDC coordinates are double ∈ [-1.0, 1.0], +x right / +y UP (Y-flipped from
-// screen) — the convention shared with the cmd.* NDC commands (RotateToNDC /
-// HaltWithNDC / StartTrackNDC), so the WASM-built device command is
-// byte-identical (no fixed-point re-cast, no host-side conversion divergence).
+// screen).
+//
+// THE DEVICE'S NDC COMMANDS DO NOT ALL SHARE THIS PLANE, and this comment used
+// to say they did — naming RotateToNDC, HaltWithNDC and StartTrackNDC as one
+// convention with this one, and celebrating the byte-identity that follows. The
+// rotary commands are in this plane. An ROI rectangle is not:
+// cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI is read in the
+// ser.JonGuiDataROI plane, which jon_shared_data_types.proto declares as
+// "-1.0 (left/top) to 1.0 (right/bottom)" — -1.0 at the TOP, i.e. +y DOWN.
+//
+// The two planes are type-identical, range-identical and name-identical, so
+// byte-identity is exactly what makes a missing flip UNDETECTABLE: the mirrored
+// command decodes cleanly and reads as a plausible request. A producer states
+// the destination's plane per command in ui.NdcYSense; nothing here may
+// assume it. docs/INTERFACE-CONTRACTS.md §4.1 owns the boundary and lists what
+// is settled and what is not.
 
 // ── Shared enums (each carries _UNSPECIFIED = 0; consumers use
 //    defined_only + not_in:[0] to reject the proto3 zero-default) ──────────

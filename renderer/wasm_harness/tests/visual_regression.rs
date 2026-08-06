@@ -5460,11 +5460,26 @@ mod roi_gesture {
         settle(host);
     }
     /// A DOWN→MOVE→UP drag over the ROI surface relays ONE FocusROI carrying
-    /// BOTH corners: x1/y1 = the DOWN point, x2/y2 = the UP point, each verbatim
-    /// NDC (wire-scale 1). The down/up corners are chosen so DOWN is the MAX in
-    /// both axes — if the emit accidentally min/max-ordered the rect, x1/y1
-    /// would carry the UP point and the assertion would fail. It does not: the
-    /// corners are relayed in drag order.
+    /// BOTH corners: x1/y1 = the DOWN point, x2/y2 = the UP point, in drag
+    /// order. The down/up corners are chosen so DOWN is the MAX in both axes —
+    /// if the emit accidentally min/max-ordered the rect, x1/y1 would carry the
+    /// UP point and the assertion would fail. It does not: the corners are
+    /// relayed in drag order.
+    ///
+    /// THE Y IS NEGATED AND THE X IS NOT, and that asymmetry is the assertion.
+    /// The pointer plane the recognizer works in is `+y` UP
+    /// (`proto/ui/ui_input.proto`); a `cmd.*.{Focus,Track,Zoom,Fx}ROI`
+    /// rectangle is read in the `ser.JonGuiDataROI` plane, which
+    /// `proto/jon_shared_data_types.proto` declares as `-1.0 (left/top) to 1.0
+    /// (right/bottom)` — `-1.0` at the TOP, i.e. `+y` DOWN. The two are
+    /// type-identical, range-identical and name-identical on the wire, so a `y`
+    /// copied across without the flip produces a VERTICALLY MIRRORED rectangle
+    /// that is a plausible request and not an error. `docs/INTERFACE-CONTRACTS.md`
+    /// §4.1 owns the boundary.
+    ///
+    /// The expectation is DERIVED from that contract, not read off a run: a
+    /// vector copied from the current output agrees with the code by
+    /// construction and cannot fail.
     #[test]
     fn drag_over_roi_surface_relays_focus_roi_with_both_corners() {
         let mut host = new_host();
@@ -5494,17 +5509,31 @@ mod roi_gesture {
             .iter()
             .find_map(|c| as_day_focus_roi(c))
             .expect("a completed drag over an ROI surface must relay FocusROI");
+        // The ROI plane is +y DOWN, the pointer plane is +y UP: x passes
+        // through, y is negated. Asserted as two SEPARATE claims so a failure
+        // names the axis — a combined `&&` cannot tell "the rect is mirrored"
+        // from "the rect is the wrong corner".
         assert!(
-            (roi.x1 - dx).abs() < 1e-9 && (roi.y1 - dy).abs() < 1e-9,
-            "FocusROI corner 1 (x1,y1) must be the DOWN point ({dx},{dy}), got ({},{})",
+            (roi.x1 - dx).abs() < 1e-9 && (roi.x2 - ux).abs() < 1e-9,
+            "FocusROI x1/x2 must pass the DOWN/UP x through verbatim ({dx},{ux}), got ({},{})",
             roi.x1,
-            roi.y1
+            roi.x2
         );
         assert!(
-            (roi.x2 - ux).abs() < 1e-9 && (roi.y2 - uy).abs() < 1e-9,
-            "FocusROI corner 2 (x2,y2) must be the UP point ({ux},{uy}), got ({},{})",
-            roi.x2,
-            roi.y2
+            (roi.y1 - -dy).abs() < 1e-9,
+            "FocusROI y1 must be the DOWN point's y FLIPPED into the y-DOWN ROI \
+             plane ({}), got {} — an unflipped {} is a vertically mirrored rect",
+            -dy,
+            roi.y1,
+            dy
+        );
+        assert!(
+            (roi.y2 - -uy).abs() < 1e-9,
+            "FocusROI y2 must be the UP point's y FLIPPED into the y-DOWN ROI \
+             plane ({}), got {} — an unflipped {} is a vertically mirrored rect",
+            -uy,
+            roi.y2,
+            uy
         );
         // Exactly one command (the ROI emit); the PAN_END never double-drained.
         assert_eq!(
@@ -5523,13 +5552,31 @@ mod roi_gesture {
     /// (RotateToNDC), NOT the ROI rect — the tap-vs-drag disambiguator. The ROI
     /// dispatch only fires on PAN_END, so a bare press/release never emits a
     /// FocusROI.
+    ///
+    /// IT IS ALSO THE Y-SENSE CONTROL FOR ITS SIBLING ABOVE, and that is why the
+    /// tap point is off the horizontal centreline. `cmd.RotaryPlatform.RotateToNDC`
+    /// is in the pointer plane (`+y` UP — `docs/INTERFACE-CONTRACTS.md` §4), so
+    /// its `y` passes through VERBATIM while the FocusROI sibling's is flipped.
+    /// Both commands are emitted from the same screen, the same FSM and the same
+    /// slot writer, so a change that flipped BOTH — the same defect with a new
+    /// sign — reddens this test and not the other.
+    ///
+    /// The previous tap point was `px_to_ndc(150, 150)`, dead centre of a 300px
+    /// canvas, whose NDC `y` is EXACTLY 0.0 — a value its own negation is
+    /// indistinguishable from. The assertion was therefore blind to the sign it
+    /// is here to hold, which is a control that cannot refuse.
     #[test]
     fn tap_over_roi_surface_is_point_select_not_roi() {
         let mut host = new_host();
         boot(&mut host);
         host.pointer_decisions_clear().expect("clear");
         let _ = host.take_host_commands();
-        let (nx, ny) = px_to_ndc(150, 150);
+        let (nx, ny) = px_to_ndc(150, 90);
+        assert!(
+            ny.abs() > 1e-3,
+            "the control's tap point must have a NON-ZERO NDC y ({ny}) — at 0.0 \
+             it cannot tell a verbatim y from a flipped one"
+        );
         assert_eq!(
             host.pointer(PointerEvent::down(1, nx, ny, 2000)).expect("down"),
             RC_OK
@@ -5546,9 +5593,15 @@ mod roi_gesture {
             .find_map(|c| as_rotate_to_ndc(c))
             .expect("a TAP in ROI-mode must route to the point-select spec (RotateToNDC)");
         assert!(
-            (rotate.x - nx).abs() < 1e-9 && (rotate.y - ny).abs() < 1e-9,
-            "RotateToNDC must carry the tap point ({nx},{ny}), got ({},{})",
-            rotate.x,
+            (rotate.x - nx).abs() < 1e-9,
+            "RotateToNDC must carry the tap point's x ({nx}), got {}",
+            rotate.x
+        );
+        assert!(
+            (rotate.y - ny).abs() < 1e-9,
+            "RotateToNDC is in the +y UP pointer plane, so its y is VERBATIM \
+             ({ny}), got {} — a flip here would be the same defect as the ROI \
+             mirror, with the opposite sign",
             rotate.y
         );
         assert!(
@@ -7794,6 +7847,9 @@ mod gesture_spec_disjointness {
             command_id: "cmd.Probe".to_owned(),
             root_template: vec![0x08, 0x01],
             patches: vec![],
+            // No patch slot receives a y, so there is no destination plane to
+            // state — the case the load guard must let through untouched.
+            ndc_y_sense: ui::NdcYSense::Unspecified as i32,
         }
     }
 

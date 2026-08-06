@@ -305,6 +305,15 @@
    [:subject {:optional true :default ""} :string]
    [:encoding {:optional true :default :PATCH_ENCODING_UNSPECIFIED} patch-encoding]])
 
+(def ^:private ndc-y-sense
+  "Which vertical sense the DESTINATION command's NDC y leaves are read in. A
+   THIRD axis beside `patch-kind` and `patch-encoding`: kind names where the
+   value comes from, encoding names how it is written, this names the coordinate
+   FRAME the receiver reads it in. UNSPECIFIED belongs to a spec with no y slot;
+   the renderer refuses it on a spec that has one, rather than defaulting to
+   either plane, because both are byte-legal and range-legal in the other's."
+  [:enum :NDC_Y_SENSE_UNSPECIFIED :NDC_Y_SENSE_UP :NDC_Y_SENSE_DOWN])
+
 (def byte-string
   "A protobuf ByteString — the wire carrier emit-cmd-spec wraps the cmd.Root
    template bytes in (pronto's bytes field wants a ByteString, not a byte[]).
@@ -323,7 +332,8 @@
    The gesture shapes that set the earlier bound of 4 are unaffected: an NDC x/y
    pair is 2, an ROI rubber-band's two corners are 4."
   [:map [:command_id {:default ""} string?] [:root_template byte-string]
-   [:patches {:optional true :default []} [:vector {:max 8} field-patch]]])
+   [:patches {:optional true :default []} [:vector {:max 8} field-patch]]
+   [:ndc_y_sense {:optional true :default :NDC_Y_SENSE_UNSPECIFIED} ndc-y-sense]])
 
 (def ^:private gesture-delta-sign
   "Which SIGN of a decision's step a GestureSpec answers, mirroring

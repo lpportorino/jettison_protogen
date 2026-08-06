@@ -53,6 +53,23 @@
   [(long (* (+ (double nx) 1.0) 0.5 (long w)))
    (long (* (- 1.0 (double ny)) 0.5 (long h)))])
 
+(defn ndc-down->px
+  "The SAME mapping for a value in the y-DOWN plane: `-1.0` is the TOP, so the y
+   has no flip — `(ndc+1)/2*h`, truncated exactly as above.
+
+   IT EXISTS BECAUSE ONE FUNCTION CANNOT SERVE BOTH, and taking the plane as an
+   argument was rejected for the reason `docs/INTERFACE-CONTRACTS.md` §4.1 gives:
+   a shared converter is silently wrong for whichever plane the caller did not
+   think about, and it compiles, runs and produces plausible output either way.
+   Two names that cannot be confused is the shape that rule asks for.
+
+   A y a gesture command carried is in the DESTINATION's plane, which is what
+   `ui.CmdSpec.ndc_y_sense` states per command — so a probe reading one back
+   picks the converter its card DECLARED, never the one the pointer used."
+  [[nx ny] {:keys [w h]}]
+  [(long (* (+ (double nx) 1.0) 0.5 (long w)))
+   (long (* (+ (double ny) 1.0) 0.5 (long h)))])
+
 (defn pointer-bytes
   "One HostToWasm{pointer} message, serialized."
   ^bytes [{:keys [phase pointer-id ndc-x ndc-y t]}]

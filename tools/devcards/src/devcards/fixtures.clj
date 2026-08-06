@@ -70,7 +70,7 @@
             UiAst$EventBinding
             UiAst$EventTrigger UiAst$FieldPatch UiAst$FlexAlign UiAst$FlexFlow
             UiAst$GestureDeltaSign UiAst$GestureKind UiAst$GestureSpec UiAst$HostProxyProps
-            UiAst$ImageProps UiAst$PatchKind
+            UiAst$ImageProps UiAst$NdcYSense UiAst$PatchKind
             UiAst$LabelLongMode UiAst$LabelProps UiAst$Layout UiAst$LedProps UiAst$LineProps
             UiAst$Point UiAst$ProxyMode UiAst$RollerProps UiAst$ScaleMode UiAst$ScaleProps
             UiAst$ScaleSection UiAst$Screen UiAst$SliderProps UiAst$SpinboxProps
@@ -265,7 +265,22 @@
    :ndc-y2 UiAst$PatchKind/PATCH_KIND_NDC_Y2})
 
 (def ^:private patch-keys #{:offset :width :kind})
-(def ^:private cmd-probe-keys #{:command-id :template-zeros :patches})
+(def ^:private cmd-probe-keys #{:command-id :template-zeros :patches :ndc-y-sense})
+
+(def ^:private ndc-y-senses
+  "`:ndc-y-sense` keywords -> proto NdcYSense (closed). Names are the enum's own.
+
+   WHICH VERTICAL PLANE the destination reads this command's y leaves in. The
+   renderer works in ONE plane (ui_input's, +y UP) and the device's NDC commands
+   do not all share it, so a y-patching spec that states no plane is REFUSED at
+   the decode boundary rather than defaulted — see ui.NdcYSense. A card is not
+   exempt from that: it is bytes through the same loader."
+  {:NDC_Y_SENSE_UP UiAst$NdcYSense/NDC_Y_SENSE_UP
+   :NDC_Y_SENSE_DOWN UiAst$NdcYSense/NDC_Y_SENSE_DOWN})
+
+(def ^:private ndc-y-patch-kinds
+  "The patch kinds whose slot receives a y, and therefore oblige a plane."
+  #{:ndc-y :ndc-y2})
 (def ^:private gesture-delta-signs
   "`:delta-sign` keywords -> proto GestureDeltaSign (closed). Names are the
    enum's own. ANY is the zero value and the default an entry omitting the key
@@ -311,9 +326,27 @@
     (when-not (and (int? n) (pos? n))
       (throw (ex-info (str ctx " :cmd requires a positive :template-zeros")
                       {:ctx ctx :cmd m})))
+    (let [needs-plane (some (comp ndc-y-patch-kinds :kind) (:patches m))]
+      ;; Refused HERE as well as in the renderer, and for the reason the width
+      ;; check above is: a card that cannot be built names itself, while the
+      ;; same card built without a plane surfaces as a whole fixture the loader
+      ;; rejects, one lane later, with nothing pointing at the card.
+      (when (and needs-plane (not (:ndc-y-sense m)))
+        (throw (ex-info (str ctx " :cmd patches an NDC y and must declare"
+                             " :ndc-y-sense — the renderer refuses a y-patching"
+                             " spec whose destination plane is unstated, because"
+                             " guessing it ships a mirrored command")
+                        {:ctx ctx :cmd m})))
+      (when (and (:ndc-y-sense m) (not needs-plane))
+        (throw (ex-info (str ctx " :cmd declares :ndc-y-sense but patches no NDC"
+                             " y — a plane for a command with no y is a fact"
+                             " about nothing")
+                        {:ctx ctx :cmd m}))))
     (let [b (-> (UiAst$CmdSpec/newBuilder)
                 (.setRootTemplate (ByteString/copyFrom (byte-array n))))]
       (when-some [id (:command-id m)] (.setCommandId b ^String id))
+      (when-some [sense (:ndc-y-sense m)]
+        (.setNdcYSense b (enum-of ndc-y-senses sense (str ctx " :cmd :ndc-y-sense"))))
       (doseq [p (:patches m)] (.addPatches b (field-patch ctx n p)))
       (.build b))))
 

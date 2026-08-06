@@ -72,11 +72,14 @@ typedef enum _ui_EventTrigger {
 typedef enum _ui_PatchKind {
     ui_PatchKind_PATCH_KIND_UNSPECIFIED = 0,
     ui_PatchKind_PATCH_KIND_NDC_X = 1, /* gesture NDC x → a double slot (verbatim, no recast) */
-    ui_PatchKind_PATCH_KIND_NDC_Y = 2, /* gesture NDC y → a double slot (verbatim, no recast) */
+    /* gesture NDC y → a double slot. The x kinds are verbatim; the y kinds are
+ ORIENTED by CmdSpec.ndc_y_sense, because the destination command's plane is
+ not always the pointer's — see NdcYSense. */
+    ui_PatchKind_PATCH_KIND_NDC_Y = 2,
     ui_PatchKind_PATCH_KIND_DELTA = 3, /* pinch/wheel ±1 step → an int slot */
     ui_PatchKind_PATCH_KIND_WIDGET_VALUE = 4, /* the emitting widget's int value → an int slot */
     ui_PatchKind_PATCH_KIND_NDC_X2 = 5, /* ROI rubber-band 2nd-corner NDC x → a double slot (verbatim) */
-    ui_PatchKind_PATCH_KIND_NDC_Y2 = 6, /* ROI rubber-band 2nd-corner NDC y → a double slot (verbatim) */
+    ui_PatchKind_PATCH_KIND_NDC_Y2 = 6, /* ROI rubber-band 2nd-corner NDC y → a double slot, oriented as NDC_Y is */
     /* The current int of the NAMED local subject in FieldPatch.subject. The one
  source that is neither a pointer gesture nor the emitting widget's own
  value, which is what lets a multi-field FORM be sent by a control that has
@@ -104,6 +107,44 @@ typedef enum _ui_PatchEncoding {
     /* 4 little-endian IEEE-754 bytes of (value ÷ wire_scale). byte_width must be 4. */
     ui_PatchEncoding_PATCH_ENCODING_FLOAT_LE = 3
 } ui_PatchEncoding;
+
+/* WHICH VERTICAL SENSE the destination command's NDC y leaves are read in.
+
+ THE POINTER PLANE IS NOT THE ONLY PLANE, and nothing on the wire says which
+ one a `double` is in. The gesture recognizer works in the pointer plane —
+ ``, `+y` UP, declared by `proto/ui/ui_input.proto` — while a
+ `cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI` rectangle is read in the
+ `ser.JonGuiDataROI` plane, which `proto/jon_shared_data_types.proto` declares
+ as `-1.0 (left/top) to 1.0 (right/bottom)`: `-1.0` at the TOP, i.e. `+y` DOWN.
+ Both planes are a `double` in `` called "NDC", so a y written across
+ the boundary unflipped yields a VERTICALLY MIRRORED command — a plausible
+ request, never a decode error, with no signal to catch it downstream.
+ `docs/INTERFACE-CONTRACTS.md` §4.1 owns the boundary.
+
+ A SEPARATE AXIS FROM PatchKind, for the reason PatchEncoding already gives:
+ the plane is a property of the DESTINATION command, PatchKind names the
+ SOURCE, and folding them together needs a cross product (four NDC kinds × two
+ senses) that grows multiplicatively with every source added.
+
+ PER CmdSpec RATHER THAN PER FieldPatch, because a command's y leaves share one
+ plane by construction: an ROI carries y1 and y2, and two slots that could
+ state different senses for one rectangle is the same "two homes that can
+ disagree" the renderer already refuses when a slot restates its encoding. */
+typedef enum _ui_NdcYSense {
+    /* NEVER DEFAULTED — the renderer REFUSES a spec that carries an NDC y slot
+ and leaves this unset, at the decode boundary and again at emit. A default
+ would spell "the producer stated the plane" and "the producer never
+ considered the plane" with the same bytes, and the second is exactly the
+ state that ships a mirror. A spec with no NDC y slot has no plane to state
+ and correctly leaves this UNSPECIFIED. */
+    ui_NdcYSense_NDC_Y_SENSE_UNSPECIFIED = 0,
+    /* `+1.0` at the TOP — the pointer plane. The y is written verbatim. */
+    ui_NdcYSense_NDC_Y_SENSE_UP = 1,
+    /* `-1.0` at the TOP — the CV / ROI image plane. The y is NEGATED on the way
+ into the slot, so byte-identity with the pointer sample does NOT hold here;
+ value-identity in the destination's own plane does. */
+    ui_NdcYSense_NDC_Y_SENSE_DOWN = 2
+} ui_NdcYSense;
 
 /* A recognized gesture kind; mirrors gesture_kind_t (src/gesture.h) so a
  host-side decision tag selects its pre-encoded template directly. */
@@ -788,6 +829,10 @@ typedef struct _ui_CmdSpec {
  NDC x/y pair is 2 and an ROI rubber-band's two corners are 4. */
     pb_size_t patches_count;
     ui_FieldPatch patches[8];
+    /* The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+ (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+ PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec. */
+    ui_NdcYSense ndc_y_sense;
 } ui_CmdSpec;
 
 /* One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
@@ -1204,6 +1249,10 @@ extern "C" {
 #define _ui_PatchEncoding_MAX ui_PatchEncoding_PATCH_ENCODING_FLOAT_LE
 #define _ui_PatchEncoding_ARRAYSIZE ((ui_PatchEncoding)(ui_PatchEncoding_PATCH_ENCODING_FLOAT_LE+1))
 
+#define _ui_NdcYSense_MIN ui_NdcYSense_NDC_Y_SENSE_UNSPECIFIED
+#define _ui_NdcYSense_MAX ui_NdcYSense_NDC_Y_SENSE_DOWN
+#define _ui_NdcYSense_ARRAYSIZE ((ui_NdcYSense)(ui_NdcYSense_NDC_Y_SENSE_DOWN+1))
+
 #define _ui_GestureKind_MIN ui_GestureKind_GESTURE_KIND_PAN_MOVE
 #define _ui_GestureKind_MAX ui_GestureKind_GESTURE_KIND_ROI
 #define _ui_GestureKind_ARRAYSIZE ((ui_GestureKind)(ui_GestureKind_GESTURE_KIND_ROI+1))
@@ -1347,6 +1396,7 @@ extern "C" {
 #define ui_FieldPatch_kind_ENUMTYPE ui_PatchKind
 #define ui_FieldPatch_encoding_ENUMTYPE ui_PatchEncoding
 
+#define ui_CmdSpec_ndc_y_sense_ENUMTYPE ui_NdcYSense
 
 #define ui_GestureSpec_kind_ENUMTYPE ui_GestureKind
 #define ui_GestureSpec_delta_sign_ENUMTYPE ui_GestureDeltaSign
@@ -1405,7 +1455,7 @@ extern "C" {
 #define ui_Point_init_default                    {0, 0}
 #define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
-#define ui_CmdSpec_init_default                  {"", {0, {0}}, 0, {ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default}}
+#define ui_CmdSpec_init_default                  {"", {0, {0}}, 0, {ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default, ui_FieldPatch_init_default}, _ui_NdcYSense_MIN}
 #define ui_GestureSpec_init_default              {_ui_GestureKind_MIN, false, ui_CmdSpec_init_default, _ui_GestureDeltaSign_MIN}
 #define ui_VisibilityBinding_init_default        {"", 0, _ui_CompareOp_MIN}
 #define ui_ColorBinding_init_default             {false, ui_VisibilityBinding_init_default, false, ui_Color_init_default}
@@ -1453,7 +1503,7 @@ extern "C" {
 #define ui_Point_init_zero                       {0, 0}
 #define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
-#define ui_CmdSpec_init_zero                     {"", {0, {0}}, 0, {ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero}}
+#define ui_CmdSpec_init_zero                     {"", {0, {0}}, 0, {ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero, ui_FieldPatch_init_zero}, _ui_NdcYSense_MIN}
 #define ui_GestureSpec_init_zero                 {_ui_GestureKind_MIN, false, ui_CmdSpec_init_zero, _ui_GestureDeltaSign_MIN}
 #define ui_VisibilityBinding_init_zero           {"", 0, _ui_CompareOp_MIN}
 #define ui_ColorBinding_init_zero                {false, ui_VisibilityBinding_init_zero, false, ui_Color_init_zero}
@@ -1570,6 +1620,7 @@ extern "C" {
 #define ui_CmdSpec_command_id_tag                1
 #define ui_CmdSpec_root_template_tag             2
 #define ui_CmdSpec_patches_tag                   3
+#define ui_CmdSpec_ndc_y_sense_tag               4
 #define ui_GestureSpec_kind_tag                  1
 #define ui_GestureSpec_cmd_tag                   2
 #define ui_GestureSpec_delta_sign_tag            3
@@ -2091,7 +2142,8 @@ X(a, STATIC,   SINGULAR, UENUM,    encoding,          6)
 #define ui_CmdSpec_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   command_id,        1) \
 X(a, STATIC,   SINGULAR, BYTES,    root_template,     2) \
-X(a, STATIC,   REPEATED, MESSAGE,  patches,           3)
+X(a, STATIC,   REPEATED, MESSAGE,  patches,           3) \
+X(a, STATIC,   SINGULAR, UENUM,    ndc_y_sense,       4)
 #define ui_CmdSpec_CALLBACK NULL
 #define ui_CmdSpec_DEFAULT NULL
 #define ui_CmdSpec_patches_MSGTYPE ui_FieldPatch
@@ -2286,12 +2338,12 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ChartProps_size                       3040
 #define ui_ChartSeries_size                      374
 #define ui_CheckboxProps_size                    2
-#define ui_CmdSpec_size                          973
+#define ui_CmdSpec_size                          975
 #define ui_ColorBinding_size                     100
 #define ui_Color_size                            18
 #define ui_DropdownProps_size                    1210
 #define ui_FieldPatch_size                       87
-#define ui_GestureSpec_size                      980
+#define ui_GestureSpec_size                      982
 #define ui_HostProxyProps_size                   128
 #define ui_ImageProps_size                       293
 #define ui_LabelProps_size                       2

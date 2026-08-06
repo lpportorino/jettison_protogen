@@ -245,8 +245,11 @@ Reference implementations:
 
 ## 4. NDC convention
 
-Pointer/gesture coordinates and the `cmd.*` NDC fields share ONE normalized
-device-coordinate convention:
+Pointer/gesture coordinates and the ROTARY `cmd.*` NDC fields share ONE
+normalized device-coordinate convention. **It is not every `cmd.*` NDC field —
+§4.1 is not a footnote to this section but a correction of its scope, and this
+sentence used to say "the `cmd.*` NDC fields" without qualification.** Read §4.1
+before applying anything below to a command whose plane you have not checked:
 
 - Range: `[-1.0, 1.0]` on both axes, type `double` (IEEE-754 fixed64 on the
   wire where it is a proto field).
@@ -267,20 +270,21 @@ fb_x = (ndc_x + 1) * 0.5 * W
 fb_y = (1 - ndc_y) * 0.5 * H         # 1.0 (top) maps to row 0
 ```
 
-Because the `ui_input` NDC convention is byte-identical to the `cmd.*` NDC
-convention, an NDC `double` is written VERBATIM from the pointer channel into
-the device command — no fixed-point recast, no host-side conversion. This
-byte-identity is load-bearing for the golden-vector parity in §9.
+Where the destination command IS in this plane, an NDC `double` is written
+VERBATIM from the pointer channel into the device command — no fixed-point
+recast, no host-side conversion. That byte-identity is load-bearing for the
+golden-vector parity in §9, and it is scoped to this plane: §4.1 is the
+boundary, and a `y` crossing it is negated rather than copied.
 
 Reference implementations:
 - The web consumer and the native consumer both document this NDC convention
   (`[-1,1]`, +x right, +y UP); the WASM-side clamp + `ndc_to_px` flip live in
   `renderer/src/main.c` `ndc_to_px`.
 
-### 4.1 The CV payload plane uses the OPPOSITE Y SENSE under the same name
+### 4.1 A SECOND PLANE uses the OPPOSITE Y SENSE under the same name — and it reaches `cmd.*`
 
-**`+y is UP` above is scoped to the pointer/`cmd.*` plane. The CV detection and
-tracking payloads declare `+y is DOWN` — `-1.0` at TOP, `+1.0` at BOTTOM — and
+**`+y is UP` above is scoped to the pointer plane and the ROTARY NDC commands.
+A second plane declares `+y is DOWN` — `-1.0` at TOP, `+1.0` at BOTTOM — and
 both planes are `double` in `[-1.0, 1.0]` called "NDC".**
 
 Nothing on the wire distinguishes them. A `double` carrying a y value is
@@ -288,15 +292,42 @@ type-identical, range-identical and name-identical in both planes, so moving one
 across without a flip yields a VERTICALLY MIRRORED box — and a mirrored box is a
 plausible detection, not an error. There is no signal to catch it downstream.
 
+**THE y-DOWN PLANE IS NOT CONFINED TO `ser.*` PAYLOADS, and this section used to
+say it was.** It read "the CV detection and tracking payloads", which put every
+`cmd.*` message in the y-UP plane by omission — while
+`cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI` are eight `cmd.*` messages whose
+rectangle is the `ser.JonGuiDataROI` one, reported straight back as
+`ser.JonGuiDataCV.roi_{focus,track,zoom,fx}_{day,heat}`. The old derivation
+below could not return them either, because it searched only the `proto/` prose,
+and the frozen device protos carry no plane comment on those messages at all.
+So the scope sentence and the derivation agreed with each other and were both
+wrong, which is why neither corrected the other.
+
 Which plane a field belongs to is decided by the message it lives in, never by
-its type. Derive the members rather than trusting a list here:
+its type. Derive the members rather than trusting a list here — **two
+derivations, because the fact is stated in two places and neither alone is the
+population**:
 
 ```
-# the y-DOWN plane (CV payloads, ROI geometry)
+# y-DOWN, DECLARED in the proto prose (the ser.* geometry types)
 grep -rn 'left/top' proto/
+# y-DOWN, stated per FIELD in the documentation database's rendered pages —
+# this is what reaches the cmd.*ROI messages, whose protos say nothing
+grep -l 'Top edge in NDC' docs/proto/cmd.*.md
 # the y-UP plane (pointer / gesture)
 grep -rniE '\+y up' proto/ui/ui_input.proto
 ```
+
+**`cmd.CV.StartTrackNDC` IS SETTLED BY NEITHER, and it is named here rather than
+assigned.** Its `y` field note states no sense, its proto states no sense, and it
+is a `cmd.CV` message whose seed point identifies an object the same subsystem
+then reports as a y-DOWN `ser.JonGuiDataROI` bounding box — so the two obvious
+readings point opposite ways and this repository holds no evidence that decides
+between them. It is therefore UNRESOLVED rather than y-UP: a producer that
+pre-encodes a template for it must refuse to guess (see
+`uigen.cmd-spec/ndc-y-sense`, which fails the build naming this paragraph)
+until the device's own behaviour settles it. An unresolved plane recorded as a
+default is exactly the state that ships a mirror.
 
 The transforms in §4 apply ONLY to the y-UP plane. For a y-DOWN field the
 framebuffer mapping has no flip:
@@ -305,12 +336,18 @@ framebuffer mapping has no flip:
 fb_y = (ndc_y + 1) * 0.5 * H         # -1.0 (top) maps to row 0
 ```
 
-Two consequences a consumer must act on. A conversion helper written for one
+Three consequences a consumer must act on. A conversion helper written for one
 plane is WRONG for the other and will compile, run and produce output for both —
 so a shared `ndc_to_px` must take the plane as an argument or exist twice under
-names that cannot be confused. And the byte-identity claim above — that an NDC
+names that cannot be confused. The byte-identity claim in §4 — that an NDC
 `double` is written VERBATIM from the pointer channel into the device command —
-holds WITHIN the y-UP plane and does not extend across this boundary.
+holds WITHIN the y-UP plane and does not extend across this boundary; a `y`
+crossing it is NEGATED, so value-identity in the destination's own plane is what
+survives, not byte-identity. And a producer of `cmd.*` bytes states the
+destination's plane EXPLICITLY rather than inheriting the source's:
+`ui.CmdSpec.ndc_y_sense` carries it per command, and the reference interpreter
+refuses a spec that patches an NDC y without it — at the decode boundary and
+again at emit — rather than defaulting to either sense.
 
 ---
 

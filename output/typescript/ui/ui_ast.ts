@@ -364,7 +364,11 @@ export enum PatchKind {
   PATCH_KIND_UNSPECIFIED = 0,
   /** PATCH_KIND_NDC_X - gesture NDC x → a double slot (verbatim, no recast) */
   PATCH_KIND_NDC_X = 1,
-  /** PATCH_KIND_NDC_Y - gesture NDC y → a double slot (verbatim, no recast) */
+  /**
+   * PATCH_KIND_NDC_Y - gesture NDC y → a double slot. The x kinds are verbatim; the y kinds are
+   * ORIENTED by CmdSpec.ndc_y_sense, because the destination command's plane is
+   * not always the pointer's — see NdcYSense.
+   */
   PATCH_KIND_NDC_Y = 2,
   /** PATCH_KIND_DELTA - pinch/wheel ±1 step → an int slot */
   PATCH_KIND_DELTA = 3,
@@ -372,7 +376,7 @@ export enum PatchKind {
   PATCH_KIND_WIDGET_VALUE = 4,
   /** PATCH_KIND_NDC_X2 - ROI rubber-band 2nd-corner NDC x → a double slot (verbatim) */
   PATCH_KIND_NDC_X2 = 5,
-  /** PATCH_KIND_NDC_Y2 - ROI rubber-band 2nd-corner NDC y → a double slot (verbatim) */
+  /** PATCH_KIND_NDC_Y2 - ROI rubber-band 2nd-corner NDC y → a double slot, oriented as NDC_Y is */
   PATCH_KIND_NDC_Y2 = 6,
   /**
    * PATCH_KIND_SUBJECT_VALUE - The current int of the NAMED local subject in FieldPatch.subject. The one
@@ -498,6 +502,83 @@ export function patchEncodingToJSON(object: PatchEncoding): string {
     case PatchEncoding.PATCH_ENCODING_FLOAT_LE:
       return "PATCH_ENCODING_FLOAT_LE";
     case PatchEncoding.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/**
+ * WHICH VERTICAL SENSE the destination command's NDC y leaves are read in.
+ *
+ * THE POINTER PLANE IS NOT THE ONLY PLANE, and nothing on the wire says which
+ * one a `double` is in. The gesture recognizer works in the pointer plane —
+ * ``, `+y` UP, declared by `proto/ui/ui_input.proto` — while a
+ * `cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI` rectangle is read in the
+ * `ser.JonGuiDataROI` plane, which `proto/jon_shared_data_types.proto` declares
+ * as `-1.0 (left/top) to 1.0 (right/bottom)`: `-1.0` at the TOP, i.e. `+y` DOWN.
+ * Both planes are a `double` in `` called "NDC", so a y written across
+ * the boundary unflipped yields a VERTICALLY MIRRORED command — a plausible
+ * request, never a decode error, with no signal to catch it downstream.
+ * `docs/INTERFACE-CONTRACTS.md` §4.1 owns the boundary.
+ *
+ * A SEPARATE AXIS FROM PatchKind, for the reason PatchEncoding already gives:
+ * the plane is a property of the DESTINATION command, PatchKind names the
+ * SOURCE, and folding them together needs a cross product (four NDC kinds × two
+ * senses) that grows multiplicatively with every source added.
+ *
+ * PER CmdSpec RATHER THAN PER FieldPatch, because a command's y leaves share one
+ * plane by construction: an ROI carries y1 and y2, and two slots that could
+ * state different senses for one rectangle is the same "two homes that can
+ * disagree" the renderer already refuses when a slot restates its encoding.
+ */
+export enum NdcYSense {
+  /**
+   * NDC_Y_SENSE_UNSPECIFIED - NEVER DEFAULTED — the renderer REFUSES a spec that carries an NDC y slot
+   * and leaves this unset, at the decode boundary and again at emit. A default
+   * would spell "the producer stated the plane" and "the producer never
+   * considered the plane" with the same bytes, and the second is exactly the
+   * state that ships a mirror. A spec with no NDC y slot has no plane to state
+   * and correctly leaves this UNSPECIFIED.
+   */
+  NDC_Y_SENSE_UNSPECIFIED = 0,
+  /** NDC_Y_SENSE_UP - `+1.0` at the TOP — the pointer plane. The y is written verbatim. */
+  NDC_Y_SENSE_UP = 1,
+  /**
+   * NDC_Y_SENSE_DOWN - `-1.0` at the TOP — the CV / ROI image plane. The y is NEGATED on the way
+   * into the slot, so byte-identity with the pointer sample does NOT hold here;
+   * value-identity in the destination's own plane does.
+   */
+  NDC_Y_SENSE_DOWN = 2,
+  UNRECOGNIZED = -1,
+}
+
+export function ndcYSenseFromJSON(object: any): NdcYSense {
+  switch (object) {
+    case 0:
+    case "NDC_Y_SENSE_UNSPECIFIED":
+      return NdcYSense.NDC_Y_SENSE_UNSPECIFIED;
+    case 1:
+    case "NDC_Y_SENSE_UP":
+      return NdcYSense.NDC_Y_SENSE_UP;
+    case 2:
+    case "NDC_Y_SENSE_DOWN":
+      return NdcYSense.NDC_Y_SENSE_DOWN;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return NdcYSense.UNRECOGNIZED;
+  }
+}
+
+export function ndcYSenseToJSON(object: NdcYSense): string {
+  switch (object) {
+    case NdcYSense.NDC_Y_SENSE_UNSPECIFIED:
+      return "NDC_Y_SENSE_UNSPECIFIED";
+    case NdcYSense.NDC_Y_SENSE_UP:
+      return "NDC_Y_SENSE_UP";
+    case NdcYSense.NDC_Y_SENSE_DOWN:
+      return "NDC_Y_SENSE_DOWN";
+    case NdcYSense.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
@@ -3157,6 +3238,12 @@ export interface CmdSpec {
    * NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
    */
   patches: FieldPatch[];
+  /**
+   * The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+   * (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+   * PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+   */
+  ndcYSense: NdcYSense;
 }
 
 /**
@@ -8730,7 +8817,7 @@ export const FieldPatch: MessageFns<FieldPatch> = {
 };
 
 function createBaseCmdSpec(): CmdSpec {
-  return { commandId: "", rootTemplate: new Uint8Array(0), patches: [] };
+  return { commandId: "", rootTemplate: new Uint8Array(0), patches: [], ndcYSense: 0 };
 }
 
 export const CmdSpec: MessageFns<CmdSpec> = {
@@ -8743,6 +8830,9 @@ export const CmdSpec: MessageFns<CmdSpec> = {
     }
     for (const v of message.patches) {
       FieldPatch.encode(v!, writer.uint32(26).fork()).join();
+    }
+    if (message.ndcYSense !== 0) {
+      writer.uint32(32).int32(message.ndcYSense);
     }
     return writer;
   },
@@ -8778,6 +8868,14 @@ export const CmdSpec: MessageFns<CmdSpec> = {
           message.patches.push(FieldPatch.decode(reader, reader.uint32()));
           continue;
         }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.ndcYSense = reader.int32() as any;
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -8800,6 +8898,11 @@ export const CmdSpec: MessageFns<CmdSpec> = {
         ? bytesFromBase64(object.root_template)
         : new Uint8Array(0),
       patches: globalThis.Array.isArray(object?.patches) ? object.patches.map((e: any) => FieldPatch.fromJSON(e)) : [],
+      ndcYSense: isSet(object.ndcYSense)
+        ? ndcYSenseFromJSON(object.ndcYSense)
+        : isSet(object.ndc_y_sense)
+        ? ndcYSenseFromJSON(object.ndc_y_sense)
+        : 0,
     };
   },
 
@@ -8814,6 +8917,9 @@ export const CmdSpec: MessageFns<CmdSpec> = {
     if (message.patches?.length) {
       obj.patches = message.patches.map((e) => FieldPatch.toJSON(e));
     }
+    if (message.ndcYSense !== 0) {
+      obj.ndcYSense = ndcYSenseToJSON(message.ndcYSense);
+    }
     return obj;
   },
 
@@ -8825,6 +8931,7 @@ export const CmdSpec: MessageFns<CmdSpec> = {
     message.commandId = object.commandId ?? "";
     message.rootTemplate = object.rootTemplate ?? new Uint8Array(0);
     message.patches = object.patches?.map((e) => FieldPatch.fromPartial(e)) || [];
+    message.ndcYSense = object.ndcYSense ?? 0;
     return message;
   },
 };

@@ -813,6 +813,11 @@ pub struct CmdSpec {
     /// NDC x/y pair is 2 and an ROI rubber-band's two corners are 4.
     #[prost(message, repeated, tag = "3")]
     pub patches: ::prost::alloc::vec::Vec<FieldPatch>,
+    /// The vertical sense of THIS command's NDC y leaves — see NdcYSense. Required
+    /// (and refused when UNSPECIFIED) on any spec carrying a PATCH_KIND_NDC_Y or
+    /// PATCH_KIND_NDC_Y2 slot; meaningless and left unset on every other spec.
+    #[prost(enumeration = "NdcYSense", tag = "4")]
+    pub ndc_y_sense: i32,
 }
 /// One gesture → its pre-encoded cmd template, keyed by GestureKind and by which
 /// sign of that gesture's step it answers. Rides the gesture-surface WidgetNode
@@ -1184,7 +1189,9 @@ pub enum PatchKind {
     Unspecified = 0,
     /// gesture NDC x → a double slot (verbatim, no recast)
     NdcX = 1,
-    /// gesture NDC y → a double slot (verbatim, no recast)
+    /// gesture NDC y → a double slot. The x kinds are verbatim; the y kinds are
+    /// ORIENTED by CmdSpec.ndc_y_sense, because the destination command's plane is
+    /// not always the pointer's — see NdcYSense.
     NdcY = 2,
     /// pinch/wheel ±1 step → an int slot
     Delta = 3,
@@ -1192,7 +1199,7 @@ pub enum PatchKind {
     WidgetValue = 4,
     /// ROI rubber-band 2nd-corner NDC x → a double slot (verbatim)
     NdcX2 = 5,
-    /// ROI rubber-band 2nd-corner NDC y → a double slot (verbatim)
+    /// ROI rubber-band 2nd-corner NDC y → a double slot, oriented as NDC_Y is
     NdcY2 = 6,
     /// The current int of the NAMED local subject in FieldPatch.subject. The one
     /// source that is neither a pointer gesture nor the emitting widget's own
@@ -1275,6 +1282,67 @@ impl PatchEncoding {
             "PATCH_ENCODING_PADDED_VARINT" => Some(Self::PaddedVarint),
             "PATCH_ENCODING_DOUBLE_LE" => Some(Self::DoubleLe),
             "PATCH_ENCODING_FLOAT_LE" => Some(Self::FloatLe),
+            _ => None,
+        }
+    }
+}
+/// WHICH VERTICAL SENSE the destination command's NDC y leaves are read in.
+///
+/// THE POINTER PLANE IS NOT THE ONLY PLANE, and nothing on the wire says which
+/// one a `double` is in. The gesture recognizer works in the pointer plane —
+/// ``, `+y` UP, declared by `proto/ui/ui_input.proto` — while a
+/// `cmd.{Day,Heat}Camera.{Focus,Track,Zoom,Fx}ROI` rectangle is read in the
+/// `ser.JonGuiDataROI` plane, which `proto/jon_shared_data_types.proto` declares
+/// as `-1.0 (left/top) to 1.0 (right/bottom)`: `-1.0` at the TOP, i.e. `+y` DOWN.
+/// Both planes are a `double` in `` called "NDC", so a y written across
+/// the boundary unflipped yields a VERTICALLY MIRRORED command — a plausible
+/// request, never a decode error, with no signal to catch it downstream.
+/// `docs/INTERFACE-CONTRACTS.md` §4.1 owns the boundary.
+///
+/// A SEPARATE AXIS FROM PatchKind, for the reason PatchEncoding already gives:
+/// the plane is a property of the DESTINATION command, PatchKind names the
+/// SOURCE, and folding them together needs a cross product (four NDC kinds × two
+/// senses) that grows multiplicatively with every source added.
+///
+/// PER CmdSpec RATHER THAN PER FieldPatch, because a command's y leaves share one
+/// plane by construction: an ROI carries y1 and y2, and two slots that could
+/// state different senses for one rectangle is the same "two homes that can
+/// disagree" the renderer already refuses when a slot restates its encoding.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum NdcYSense {
+    /// NEVER DEFAULTED — the renderer REFUSES a spec that carries an NDC y slot
+    /// and leaves this unset, at the decode boundary and again at emit. A default
+    /// would spell "the producer stated the plane" and "the producer never
+    /// considered the plane" with the same bytes, and the second is exactly the
+    /// state that ships a mirror. A spec with no NDC y slot has no plane to state
+    /// and correctly leaves this UNSPECIFIED.
+    Unspecified = 0,
+    /// `+1.0` at the TOP — the pointer plane. The y is written verbatim.
+    Up = 1,
+    /// `-1.0` at the TOP — the CV / ROI image plane. The y is NEGATED on the way
+    /// into the slot, so byte-identity with the pointer sample does NOT hold here;
+    /// value-identity in the destination's own plane does.
+    Down = 2,
+}
+impl NdcYSense {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "NDC_Y_SENSE_UNSPECIFIED",
+            Self::Up => "NDC_Y_SENSE_UP",
+            Self::Down => "NDC_Y_SENSE_DOWN",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "NDC_Y_SENSE_UNSPECIFIED" => Some(Self::Unspecified),
+            "NDC_Y_SENSE_UP" => Some(Self::Up),
+            "NDC_Y_SENSE_DOWN" => Some(Self::Down),
             _ => None,
         }
     }
