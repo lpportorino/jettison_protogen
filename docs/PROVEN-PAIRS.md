@@ -29,23 +29,23 @@ Ratios are WCAG 2.x relative-luminance contrast, the same arithmetic `tools/devc
 | `accent-text` | `pressed-accent` | light | #E8E8F0 | #8B5CF6 | 3.47 | **FAIL** | **FAIL** | — |
 | `fg-0` | `pressed-accent` | light | #1A1A28 | #8B5CF6 | 4.06 | **FAIL** | **FAIL** | — |
 | `fg-0` | `status-error` | light | #1A1A28 | #EF4444 | 4.57 | PASS | **FAIL** | — |
-| `fg-2` | `surface-2` | dark | #8686A0 | #1E1E2E | 4.63 | PASS | **FAIL** | composited (fill-opa) |
-| `fg-2` | `surface-2` | light | #585846 | #D0D0C0 | 4.64 | PASS | **FAIL** | composited (fill-opa) |
-| `fg-2` | `surface-1` | dark | #8686A0 | #12121F | 5.24 | PASS | **FAIL** | — |
 | `fg-0` | `pressed-accent` | dark | #E8E8F0 | #6B4FA0 | 5.30 | PASS | **FAIL** | — |
-| `fg-2` | `surface-1` | light | #585846 | #E0E0D4 | 5.44 | PASS | **FAIL** | — |
-| `disabled-fg` | `surface-2` | dark | #9A9BB6 | #1E1E2E | 6.04 | PASS | PASS | — |
-| `surface-2` | `disabled-fg` | dark | #1E1E2E | #9A9BB6 | 6.04 | PASS | PASS | — |
 | `accent-text` | `accent-bg` | dark | #1A1A28 | #B18AF4 | 6.39 | PASS | PASS | — |
-| `fg-1` | `surface-1` | dark | #9898B0 | #12121F | 6.58 | PASS | PASS | — |
 | `fg-0` | `status-success` | light | #1A1A28 | #10B981 | 6.77 | PASS | PASS | — |
 | `accent-text` | `accent-bg` | light | #E8E8F0 | #5C14D7 | 6.79 | PASS | PASS | — |
-| `disabled-fg` | `surface-2` | light | #3D3C2C | #D0D0C0 | 7.16 | PASS | PASS | — |
-| `surface-2` | `disabled-fg` | light | #D0D0C0 | #3D3C2C | 7.16 | PASS | PASS | — |
-| `fg-1` | `surface-1` | light | #404050 | #E0E0D4 | 7.63 | PASS | PASS | — |
+| `disabled-fg` | `surface-2` | dark | #A7A8C3 | #1E1E2E | 7.05 | PASS | PASS | — |
+| `fg-2` | `surface-2` | dark | #A7A8C3 | #1E1E2E | 7.05 | PASS | PASS | composited (fill-opa) |
+| `surface-2` | `disabled-fg` | dark | #1E1E2E | #A7A8C3 | 7.05 | PASS | PASS | — |
+| `disabled-fg` | `surface-2` | light | #3D3C2B | #D0D0C0 | 7.16 | PASS | PASS | — |
+| `fg-2` | `surface-2` | light | #3D3C2B | #D0D0C0 | 7.16 | PASS | PASS | composited (fill-opa) |
+| `surface-2` | `disabled-fg` | light | #D0D0C0 | #3D3C2B | 7.16 | PASS | PASS | — |
+| `fg-2` | `surface-1` | dark | #A7A8C3 | #12121F | 7.98 | PASS | PASS | — |
 | `fg-0` | `status-warning` | light | #1A1A28 | #F59E0B | 8.00 | PASS | PASS | — |
+| `fg-2` | `surface-1` | light | #3D3C2B | #E0E0D4 | 8.40 | PASS | PASS | — |
 | `fg-0` | `pressed-surface` | light | #1A1A28 | #C0C0A8 | 9.28 | PASS | PASS | — |
+| `fg-1` | `surface-1` | light | #2A2938 | #E0E0D4 | 10.72 | PASS | PASS | — |
 | `fg-0` | `surface-2` | light | #1A1A28 | #D0D0C0 | 11.02 | PASS | PASS | — |
+| `fg-1` | `surface-1` | dark | #C6C7E0 | #12121F | 11.17 | PASS | PASS | — |
 | `fg-0` | `pressed-surface` | dark | #E8E8F0 | #2A2A3E | 11.49 | PASS | PASS | — |
 | `fg-0` | `surface-1` | light | #1A1A28 | #E0E0D4 | 12.91 | PASS | PASS | — |
 | `surface-1` | `fg-0` | light | #E0E0D4 | #1A1A28 | 12.91 | PASS | PASS | — |
@@ -84,7 +84,7 @@ One or both ends is a hex LITERAL rather than a declared token — a drawn colou
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
 
-## The third answer — 149 findings this derivation could NOT classify
+## The third answer — 132 findings this derivation could NOT classify
 
 An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed. EVERY key is printed with its count, including the ones at zero — a section that vanished when it had nothing to say would print the same thing whether the check ran or not, which is the failure this whole section exists to refuse.
 
@@ -146,11 +146,11 @@ By source: `demo_widgets` 3, `kitchen_sink` 1, `tabview_demo` 7, `vocabulary` 1,
 - {:source :vr-fixtures, :idx 0, :state nil, :ink "fg-0", :text "<computed>"}
 - {:source :vr-fixtures, :idx 0, :state nil, :ink "fg-0", :text "<computed>"}
 
-### `no-declared-ink` — 102
+### `no-declared-ink` — 85
 
 A glyph whose ink NO source declares. It falls through to whatever ancestor style sets `text_color` at apply time, and which style that is belongs to `theme_apply`'s C dispatch — not to any declaration. Resolving these needs the rendered dump, not this tier.
 
-By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 4, `vr-fixtures` 36
+By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 4, `vr-fixtures` 19
 
 - {:source :demo_widgets, :idx 0, :state nil, :text "$27,123.25"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "$411"}
@@ -222,30 +222,13 @@ By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 4, `vr-fixtures` 36
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Click"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Click"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Flip"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Flip"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Flip"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Go"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Go"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Go"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Hit"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Hit"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Hit"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Measure"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Measure"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Measure"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Ping"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "Ping"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Ping"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Under"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Under"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "Under"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "anchor"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "anchor"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "anchor"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
-- {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
 - {:source :vr-fixtures, :idx 0, :state nil, :text "<computed>"}
