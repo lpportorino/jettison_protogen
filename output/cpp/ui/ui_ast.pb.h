@@ -2117,7 +2117,8 @@ class TabviewProps final : public ::google::protobuf::Message
   ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_tab_names();
 
   public:
-  // int32 tab_bar_size = 2;
+  // optional int32 tab_bar_size = 2;
+  bool has_tab_bar_size() const;
   void clear_tab_bar_size() ;
   ::int32_t tab_bar_size() const;
   void set_tab_bar_size(::int32_t value);
@@ -2180,12 +2181,13 @@ class TabviewProps final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const TabviewProps& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField<std::string> tab_names_;
     ::int32_t tab_bar_size_;
     ::uint32_t active_index_;
     int tab_bar_position_;
     ::int32_t tab_bar_pad_left_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -9600,7 +9602,8 @@ class TargetOverlayProps final : public ::google::protobuf::Message
   const ::ui::TargetBox& boxes(int index) const;
   ::ui::TargetBox* add_boxes();
   const ::google::protobuf::RepeatedPtrField<::ui::TargetBox>& boxes() const;
-  // uint32 border_width = 2 [(.buf.validate.field) = {
+  // optional uint32 border_width = 2 [(.buf.validate.field) = {
+  bool has_border_width() const;
   void clear_border_width() ;
   ::uint32_t border_width() const;
   void set_border_width(::uint32_t value);
@@ -9643,10 +9646,11 @@ class TargetOverlayProps final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const TargetOverlayProps& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField< ::ui::TargetBox > boxes_;
     ::uint32_t border_width_;
     bool hide_labels_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -11661,7 +11665,8 @@ class WidgetNode final : public ::google::protobuf::Message
   void _internal_set_type(::ui::WidgetType value);
 
   public:
-  // int32 x = 2;
+  // optional int32 x = 2;
+  bool has_x() const;
   void clear_x() ;
   ::int32_t x() const;
   void set_x(::int32_t value);
@@ -11671,7 +11676,8 @@ class WidgetNode final : public ::google::protobuf::Message
   void _internal_set_x(::int32_t value);
 
   public:
-  // int32 y = 3;
+  // optional int32 y = 3;
+  bool has_y() const;
   void clear_y() ;
   ::int32_t y() const;
   void set_y(::int32_t value);
@@ -11711,7 +11717,8 @@ class WidgetNode final : public ::google::protobuf::Message
   void _internal_set_states(::uint32_t value);
 
   public:
-  // uint32 scroll_dir = 34;
+  // optional uint32 scroll_dir = 34;
+  bool has_scroll_dir() const;
   void clear_scroll_dir() ;
   ::uint32_t scroll_dir() const;
   void set_scroll_dir(::uint32_t value);
@@ -13621,10 +13628,15 @@ inline void WidgetNode::_internal_set_type(::ui::WidgetType value) {
   _impl_.type_ = value;
 }
 
-// int32 x = 2;
+// optional int32 x = 2;
+inline bool WidgetNode::has_x() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  return value;
+}
 inline void WidgetNode::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000040u;
 }
 inline ::int32_t WidgetNode::x() const {
   // @@protoc_insertion_point(field_get:ui.WidgetNode.x)
@@ -13632,6 +13644,7 @@ inline ::int32_t WidgetNode::x() const {
 }
 inline void WidgetNode::set_x(::int32_t value) {
   _internal_set_x(value);
+  _impl_._has_bits_[0] |= 0x00000040u;
   // @@protoc_insertion_point(field_set:ui.WidgetNode.x)
 }
 inline ::int32_t WidgetNode::_internal_x() const {
@@ -13643,10 +13656,15 @@ inline void WidgetNode::_internal_set_x(::int32_t value) {
   _impl_.x_ = value;
 }
 
-// int32 y = 3;
+// optional int32 y = 3;
+inline bool WidgetNode::has_y() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000080u) != 0;
+  return value;
+}
 inline void WidgetNode::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000080u;
 }
 inline ::int32_t WidgetNode::y() const {
   // @@protoc_insertion_point(field_get:ui.WidgetNode.y)
@@ -13654,6 +13672,7 @@ inline ::int32_t WidgetNode::y() const {
 }
 inline void WidgetNode::set_y(::int32_t value) {
   _internal_set_y(value);
+  _impl_._has_bits_[0] |= 0x00000080u;
   // @@protoc_insertion_point(field_set:ui.WidgetNode.y)
 }
 inline ::int32_t WidgetNode::_internal_y() const {
@@ -16038,10 +16057,15 @@ inline void WidgetNode::_internal_set_states(::uint32_t value) {
   _impl_.states_ = value;
 }
 
-// uint32 scroll_dir = 34;
+// optional uint32 scroll_dir = 34;
+inline bool WidgetNode::has_scroll_dir() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
+  return value;
+}
 inline void WidgetNode::clear_scroll_dir() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.scroll_dir_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000100u;
 }
 inline ::uint32_t WidgetNode::scroll_dir() const {
   // @@protoc_insertion_point(field_get:ui.WidgetNode.scroll_dir)
@@ -16049,6 +16073,7 @@ inline ::uint32_t WidgetNode::scroll_dir() const {
 }
 inline void WidgetNode::set_scroll_dir(::uint32_t value) {
   _internal_set_scroll_dir(value);
+  _impl_._has_bits_[0] |= 0x00000100u;
   // @@protoc_insertion_point(field_set:ui.WidgetNode.scroll_dir)
 }
 inline ::uint32_t WidgetNode::_internal_scroll_dir() const {
@@ -19056,10 +19081,15 @@ TabviewProps::_internal_mutable_tab_names() {
   return &_impl_.tab_names_;
 }
 
-// int32 tab_bar_size = 2;
+// optional int32 tab_bar_size = 2;
+inline bool TabviewProps::has_tab_bar_size() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
 inline void TabviewProps::clear_tab_bar_size() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.tab_bar_size_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline ::int32_t TabviewProps::tab_bar_size() const {
   // @@protoc_insertion_point(field_get:ui.TabviewProps.tab_bar_size)
@@ -19067,6 +19097,7 @@ inline ::int32_t TabviewProps::tab_bar_size() const {
 }
 inline void TabviewProps::set_tab_bar_size(::int32_t value) {
   _internal_set_tab_bar_size(value);
+  _impl_._has_bits_[0] |= 0x00000001u;
   // @@protoc_insertion_point(field_set:ui.TabviewProps.tab_bar_size)
 }
 inline ::int32_t TabviewProps::_internal_tab_bar_size() const {
@@ -19991,10 +20022,15 @@ TargetOverlayProps::_internal_mutable_boxes() {
   return &_impl_.boxes_;
 }
 
-// uint32 border_width = 2 [(.buf.validate.field) = {
+// optional uint32 border_width = 2 [(.buf.validate.field) = {
+inline bool TargetOverlayProps::has_border_width() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
 inline void TargetOverlayProps::clear_border_width() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.border_width_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline ::uint32_t TargetOverlayProps::border_width() const {
   // @@protoc_insertion_point(field_get:ui.TargetOverlayProps.border_width)
@@ -20002,6 +20038,7 @@ inline ::uint32_t TargetOverlayProps::border_width() const {
 }
 inline void TargetOverlayProps::set_border_width(::uint32_t value) {
   _internal_set_border_width(value);
+  _impl_._has_bits_[0] |= 0x00000001u;
   // @@protoc_insertion_point(field_set:ui.TargetOverlayProps.border_width)
 }
 inline ::uint32_t TargetOverlayProps::_internal_border_width() const {

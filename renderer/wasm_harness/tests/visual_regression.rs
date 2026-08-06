@@ -2736,8 +2736,10 @@ mod host_event_envelope {
         let button = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 42,
-            x: 60,
-            y: 50,
+            // `Some`: WidgetNode.x/y are proto3 `optional` — (0,0) is a real
+            // position, so presence is what asks to be positioned at all.
+            x: Some(60),
+            y: Some(50),
             event: Some(event),
             style_groups: vec![size_group(100, 40)],
             children: vec![ui::WidgetNode {
@@ -3119,8 +3121,8 @@ mod host_event_envelope {
         let inserted = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 44,
-            x: 60,
-            y: 120,
+            x: Some(60),
+            y: Some(120),
             event: Some(toggle_binding("ghost")),
             style_groups: vec![size_group(100, 40)],
             ..Default::default()
@@ -3195,8 +3197,8 @@ mod anim_clock {
         let button = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 42,
-            x: 60,
-            y: 50,
+            x: Some(60),
+            y: Some(50),
             style_groups: vec![size(100, 40)],
             children: vec![ui::WidgetNode {
                 r#type: ui::WidgetType::WidgetLabel as i32,
@@ -6011,8 +6013,8 @@ mod boundary_contracts {
         let label = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetLabel as i32,
             uid: 1,
-            x: 10,
-            y: 10,
+            x: Some(10),
+            y: Some(10),
             text: "pin ABC 123".into(),
             style_groups: vec![ui::StyleGroup {
                 variants: vec![ui::StyleVariant {
@@ -6706,8 +6708,8 @@ mod value_conditional_style {
         let button = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 42,
-            x: 60,
-            y: 50,
+            x: Some(60),
+            y: Some(50),
             enabled_when: Some(ui::VisibilityBinding {
                 subject: "armed".into(),
                 ref_value: 1,
@@ -6748,8 +6750,8 @@ mod value_conditional_style {
         let button = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetButton as i32,
             uid: 42,
-            x: 60,
-            y: 50,
+            x: Some(60),
+            y: Some(50),
             enabled_when: Some(ui::VisibilityBinding {
                 subject: "level".into(),
                 ref_value: 10,
@@ -6791,8 +6793,8 @@ mod value_conditional_style {
         let label = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetLabel as i32,
             uid: 42,
-            x: 40,
-            y: 120,
+            x: Some(40),
+            y: Some(120),
             text: "FAULT DETECTED".into(),
             color_when: Some(ui::ColorBinding {
                 when: Some(ui::VisibilityBinding {
@@ -8322,8 +8324,8 @@ mod drag_owns_the_value {
         let slider = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetSlider as i32,
             uid: 10,
-            x: 50,
-            y: 130,
+            x: Some(50),
+            y: Some(130),
             style_groups: vec![size_group(300, 30)],
             widget_props: Some(ui::widget_node::WidgetProps::SliderProps(ui::SliderProps {
                 min_value: 0,
@@ -8361,8 +8363,8 @@ mod drag_owns_the_value {
         let arc = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetArc as i32,
             uid: 11,
-            x: 100,
-            y: 50,
+            x: Some(100),
+            y: Some(50),
             style_groups: vec![size_group(200, 200)],
             widget_props: Some(ui::widget_node::WidgetProps::ArcProps(ui::ArcProps {
                 min_value: 0,
@@ -8408,8 +8410,8 @@ mod drag_owns_the_value {
         let roller = ui::WidgetNode {
             r#type: ui::WidgetType::WidgetRoller as i32,
             uid: 12,
-            x: 120,
-            y: 40,
+            x: Some(120),
+            y: Some(40),
             style_groups: vec![size_group(160, 220)],
             widget_props: Some(ui::widget_node::WidgetProps::RollerProps(ui::RollerProps {
                 // 60 options at 2-4 bytes each stays inside

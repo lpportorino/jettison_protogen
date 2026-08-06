@@ -665,8 +665,15 @@ typedef struct _ui_TabviewProps {
  flagged in_tab_bar are excluded from the zip; they go to the tab bar). */
     pb_size_t tab_names_count;
     char tab_names[8][32];
-    /* Tab bar size in px (height for top/bottom bars, width for left/right);
- 0 = keep the LVGL default (DPI-derived). */
+    /* Tab bar size in px (height for top/bottom bars, width for left/right).
+
+ EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+ height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+ tabview driven programmatically rather than by its own buttons. Under a
+ bare proto3 scalar that value was indistinguishable from "unset", so the
+ renderer skipped it and hiding the bar was inexpressible. Absent = keep
+ the LVGL default (DPI-derived); present = applied, zero included. */
+    bool has_tab_bar_size;
     int32_t tab_bar_size;
     /* Initially active tab index (applied LAST, with LV_ANIM_OFF). */
     uint32_t active_index;
@@ -691,12 +698,27 @@ typedef struct _ui_HostProxyProps {
  source of truth and this is ignored after attach. */
     ui_ProxyMode mode;
     /* Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
- at 2x the resolved handle size so handles stay usable). */
+ at 2x the resolved handle size so handles stay usable).
+
+ DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+ TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+ each have a zero the DOMAIN admits and the encoding had stolen. These do
+ not: the renderer applies the max clamp AFTER the min floor, so an
+ honoured max of 0 would force a zero-width box in defiance of the
+ 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+ the CORRECT encoding here, and converting it would be churn plus a
+ gratuitous break for every consumer. */
     int32_t min_w;
     int32_t min_h;
     int32_t max_w;
     int32_t max_h;
-    /* Corner handle edge, px. 0 = renderer default (DPI-derived). */
+    /* Corner handle edge, px. 0 = renderer default (DPI-derived).
+
+ NOT `optional`, on the same test as the clamps above: the handles ARE the
+ resize affordance, so an edge of zero is not a smaller affordance but the
+ absence of one — which a screen expresses by choosing a non-RESIZABLE
+ ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+ resize clamp, removing the minimum-size guarantee rather than setting it. */
     uint32_t handle_size;
     /* Opaque host stacking hint, forwarded verbatim in reports (jettison's
  consumers want zIndex with every position update). The renderer never
@@ -728,10 +750,17 @@ typedef struct _ui_TargetOverlayProps {
  list only this widget carries. */
     pb_size_t boxes_count;
     struct _ui_TargetBox *boxes;
-    /* Box stroke width in design px; 0 = the renderer default. It is a prop
- rather than a style property because the boxes are renderer-built children
- that no StyleGroup can address — the same reason HostProxyProps carries
- handle_size. */
+    /* Box stroke width in design px. It is a prop rather than a style property
+ because the boxes are renderer-built children that no StyleGroup can
+ address — the same reason HostProxyProps carries handle_size.
+
+ EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+ real annotation style (the caption alone marks the detection) and not the
+ absence of a value. Under a bare proto3 scalar the renderer substituted
+ its own default for 0, so an unstroked box could not be asked for. Absent
+ = the renderer default; present = applied, zero included. The `lte: 16`
+ bound still binds a PRESENT value; the renderer refuses past it. */
+    bool has_border_width;
     uint32_t border_width;
     /* Suppress every caption without clearing the labels. Polarity is chosen so
  proto3's false default draws them: a producer that fills in boxes and
@@ -1023,8 +1052,23 @@ typedef struct _ui_ColorBinding {
 /* A node in the widget tree (recursive). */
 typedef struct _ui_WidgetNode {
     ui_WidgetType type;
-    /* Position (optional — 0,0 = use layout) */
+    /* Position, design px, relative to the parent's content-box origin.
+
+ EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+ scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+ the field is PRESENT, so absence means "do not position this node" — leave
+ the layout, or under an UPDATE_PROPS morph leave the live coordinate
+ alone — while a present 0 means the origin and is applied.
+
+ The morph direction is where the old sentinel actually bit: a node moving
+ BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+ field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+ carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+ REPLACE; with presence on the wire that workaround is no longer required
+ (removing it is a producer-side change, not a wire one). */
+    bool has_x;
     int32_t x;
+    bool has_y;
     int32_t y;
     /* Static text (labels, checkbox, textarea, button) */
     char text[256];
@@ -1079,7 +1123,17 @@ typedef struct _ui_WidgetNode {
     uint32_t obj_flags_clear;
     /* lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast. */
     uint32_t states;
-    /* lv_dir_t scroll direction constraint; 0 = leave the LVGL default. */
+    /* lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+
+ EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+ ZERO and is LVGL's own name for "this object does not scroll", while
+ `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+ bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+ ENABLE any subset of axes and could never DISABLE scrolling: the one
+ value the enum reserves for that was the one the encoding had taken for
+ "unset". Absent = leave the LVGL default; present = applied verbatim,
+ including NONE. */
+    bool has_scroll_dir;
     uint32_t scroll_dir;
     /* Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
  encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
@@ -1421,7 +1475,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {"", 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0}
 #define ui_WidgetNode_BindingsEntry_init_default {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
@@ -1446,12 +1500,12 @@ extern "C" {
 #define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0, false, ui_Color_init_default, 0}
 #define ui_ButtonMatrixProps_init_default        {"", 0}
 #define ui_TableProps_init_default               {0, 0}
-#define ui_TabviewProps_init_default             {0, {"", "", "", "", "", "", "", ""}, 0, 0, _ui_Dir_MIN, 0}
+#define ui_TabviewProps_init_default             {0, {"", "", "", "", "", "", "", ""}, false, 0, 0, _ui_Dir_MIN, 0}
 #define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 #define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, 0, {ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default, ui_ChartSeries_init_default}, 0}
 #define ui_HostProxyProps_init_default           {"", _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_TargetBox_init_default                {0, 0, 0, 0, "", false, ui_Color_init_default}
-#define ui_TargetOverlayProps_init_default       {0, NULL, 0, 0}
+#define ui_TargetOverlayProps_init_default       {0, NULL, false, 0, 0}
 #define ui_Point_init_default                    {0, 0}
 #define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_default               {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
@@ -1469,7 +1523,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {"", 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0}
 #define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
@@ -1494,12 +1548,12 @@ extern "C" {
 #define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0, false, ui_Color_init_zero, 0}
 #define ui_ButtonMatrixProps_init_zero           {"", 0}
 #define ui_TableProps_init_zero                  {0, 0}
-#define ui_TabviewProps_init_zero                {0, {"", "", "", "", "", "", "", ""}, 0, 0, _ui_Dir_MIN, 0}
+#define ui_TabviewProps_init_zero                {0, {"", "", "", "", "", "", "", ""}, false, 0, 0, _ui_Dir_MIN, 0}
 #define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 #define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, 0, {ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero, ui_ChartSeries_init_zero}, 0}
 #define ui_HostProxyProps_init_zero              {"", _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_TargetBox_init_zero                   {0, 0, 0, 0, "", false, ui_Color_init_zero}
-#define ui_TargetOverlayProps_init_zero          {0, NULL, 0, 0}
+#define ui_TargetOverlayProps_init_zero          {0, NULL, false, 0, 0}
 #define ui_Point_init_zero                       {0, 0}
 #define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0, NULL, 0, NULL}
 #define ui_FieldPatch_init_zero                  {0, 0, _ui_PatchKind_MIN, 0, "", _ui_PatchEncoding_MIN}
@@ -1774,8 +1828,8 @@ X(a, CALLBACK, REPEATED, MESSAGE,  subjects,          2)
 
 #define ui_WidgetNode_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
-X(a, STATIC,   SINGULAR, INT32,    x,                 2) \
-X(a, STATIC,   SINGULAR, INT32,    y,                 3) \
+X(a, STATIC,   OPTIONAL, INT32,    x,                 2) \
+X(a, STATIC,   OPTIONAL, INT32,    y,                 3) \
 X(a, STATIC,   SINGULAR, STRING,   text,              4) \
 X(a, CALLBACK, REPEATED, MESSAGE,  bindings,          5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  event,             6) \
@@ -1806,7 +1860,7 @@ X(a, CALLBACK, REPEATED, MESSAGE,  bind_formats,     30) \
 X(a, STATIC,   SINGULAR, UINT32,   obj_flags,        31) \
 X(a, STATIC,   SINGULAR, UINT32,   obj_flags_clear,  32) \
 X(a, STATIC,   SINGULAR, UINT32,   states,           33) \
-X(a, STATIC,   SINGULAR, UINT32,   scroll_dir,       34) \
+X(a, STATIC,   OPTIONAL, UINT32,   scroll_dir,       34) \
 X(a, STATIC,   REPEATED, INT32,    grid_col_dsc,     35) \
 X(a, STATIC,   REPEATED, INT32,    grid_row_dsc,     36) \
 X(a, STATIC,   SINGULAR, BOOL,     bare,             37) \
@@ -2049,7 +2103,7 @@ X(a, STATIC,   SINGULAR, UINT32,   column_count,      2)
 
 #define ui_TabviewProps_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, STRING,   tab_names,         1) \
-X(a, STATIC,   SINGULAR, INT32,    tab_bar_size,      2) \
+X(a, STATIC,   OPTIONAL, INT32,    tab_bar_size,      2) \
 X(a, STATIC,   SINGULAR, UINT32,   active_index,      3) \
 X(a, STATIC,   SINGULAR, UENUM,    tab_bar_position,   4) \
 X(a, STATIC,   SINGULAR, INT32,    tab_bar_pad_left,   5)
@@ -2101,7 +2155,7 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  color,             6)
 
 #define ui_TargetOverlayProps_FIELDLIST(X, a) \
 X(a, POINTER,  REPEATED, MESSAGE,  boxes,             1) \
-X(a, STATIC,   SINGULAR, UINT32,   border_width,      2) \
+X(a, STATIC,   OPTIONAL, UINT32,   border_width,      2) \
 X(a, STATIC,   SINGULAR, BOOL,     hide_labels,       3)
 #define ui_TargetOverlayProps_CALLBACK NULL
 #define ui_TargetOverlayProps_DEFAULT NULL

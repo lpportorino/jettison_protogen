@@ -100,6 +100,15 @@ public object HostProxyPropsKt {
      * ```
      * Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
      * at 2x the resolved handle size so handles stay usable).
+     *
+     * DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+     * TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+     * each have a zero the DOMAIN admits and the encoding had stolen. These do
+     * not: the renderer applies the max clamp AFTER the min floor, so an
+     * honoured max of 0 would force a zero-width box in defiance of the
+     * 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+     * the CORRECT encoding here, and converting it would be churn plus a
+     * gratuitous break for every consumer.
      * ```
      *
      * `int32 min_w = 3;`
@@ -115,6 +124,15 @@ public object HostProxyPropsKt {
      * ```
      * Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
      * at 2x the resolved handle size so handles stay usable).
+     *
+     * DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+     * TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+     * each have a zero the DOMAIN admits and the encoding had stolen. These do
+     * not: the renderer applies the max clamp AFTER the min floor, so an
+     * honoured max of 0 would force a zero-width box in defiance of the
+     * 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+     * the CORRECT encoding here, and converting it would be churn plus a
+     * gratuitous break for every consumer.
      * ```
      *
      * `int32 min_w = 3;`
@@ -177,6 +195,12 @@ public object HostProxyPropsKt {
     /**
      * ```
      * Corner handle edge, px. 0 = renderer default (DPI-derived).
+     *
+     * NOT `optional`, on the same test as the clamps above: the handles ARE the
+     * resize affordance, so an edge of zero is not a smaller affordance but the
+     * absence of one — which a screen expresses by choosing a non-RESIZABLE
+     * ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+     * resize clamp, removing the minimum-size guarantee rather than setting it.
      * ```
      *
      * `uint32 handle_size = 7;`
@@ -191,6 +215,12 @@ public object HostProxyPropsKt {
     /**
      * ```
      * Corner handle edge, px. 0 = renderer default (DPI-derived).
+     *
+     * NOT `optional`, on the same test as the clamps above: the handles ARE the
+     * resize affordance, so an edge of zero is not a smaller affordance but the
+     * absence of one — which a screen expresses by choosing a non-RESIZABLE
+     * ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+     * resize clamp, removing the minimum-size guarantee rather than setting it.
      * ```
      *
      * `uint32 handle_size = 7;`

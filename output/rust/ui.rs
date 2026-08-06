@@ -62,11 +62,24 @@ pub struct Screen {
 pub struct WidgetNode {
     #[prost(enumeration = "WidgetType", tag = "1")]
     pub r#type: i32,
-    /// Position (optional — 0,0 = use layout)
-    #[prost(int32, tag = "2")]
-    pub x: i32,
-    #[prost(int32, tag = "3")]
-    pub y: i32,
+    /// Position, design px, relative to the parent's content-box origin.
+    ///
+    /// EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+    /// scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+    /// the field is PRESENT, so absence means "do not position this node" — leave
+    /// the layout, or under an UPDATE_PROPS morph leave the live coordinate
+    /// alone — while a present 0 means the origin and is applied.
+    ///
+    /// The morph direction is where the old sentinel actually bit: a node moving
+    /// BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+    /// field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+    /// carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+    /// REPLACE; with presence on the wire that workaround is no longer required
+    /// (removing it is a producer-side change, not a wire one).
+    #[prost(int32, optional, tag = "2")]
+    pub x: ::core::option::Option<i32>,
+    #[prost(int32, optional, tag = "3")]
+    pub y: ::core::option::Option<i32>,
     /// Static text (labels, checkbox, textarea, button)
     #[prost(string, tag = "4")]
     pub text: ::prost::alloc::string::String,
@@ -108,9 +121,18 @@ pub struct WidgetNode {
     /// lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
     #[prost(uint32, tag = "33")]
     pub states: u32,
-    /// lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
-    #[prost(uint32, tag = "34")]
-    pub scroll_dir: u32,
+    /// lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+    ///
+    /// EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+    /// ZERO and is LVGL's own name for "this object does not scroll", while
+    /// `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+    /// bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+    /// ENABLE any subset of axes and could never DISABLE scrolling: the one
+    /// value the enum reserves for that was the one the encoding had taken for
+    /// "unset". Absent = leave the LVGL default; present = applied verbatim,
+    /// including NONE.
+    #[prost(uint32, optional, tag = "34")]
+    pub scroll_dir: ::core::option::Option<u32>,
     /// Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
     /// encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
     /// no grid layout.
@@ -538,10 +560,16 @@ pub struct TabviewProps {
     /// flagged in_tab_bar are excluded from the zip; they go to the tab bar).
     #[prost(string, repeated, tag = "1")]
     pub tab_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// Tab bar size in px (height for top/bottom bars, width for left/right);
-    /// 0 = keep the LVGL default (DPI-derived).
-    #[prost(int32, tag = "2")]
-    pub tab_bar_size: i32,
+    /// Tab bar size in px (height for top/bottom bars, width for left/right).
+    ///
+    /// EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+    /// height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+    /// tabview driven programmatically rather than by its own buttons. Under a
+    /// bare proto3 scalar that value was indistinguishable from "unset", so the
+    /// renderer skipped it and hiding the bar was inexpressible. Absent = keep
+    /// the LVGL default (DPI-derived); present = applied, zero included.
+    #[prost(int32, optional, tag = "2")]
+    pub tab_bar_size: ::core::option::Option<i32>,
     /// Initially active tab index (applied LAST, with LV_ANIM_OFF).
     #[prost(uint32, tag = "3")]
     pub active_index: u32,
@@ -613,6 +641,15 @@ pub struct HostProxyProps {
     pub mode: i32,
     /// Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
     /// at 2x the resolved handle size so handles stay usable).
+    ///
+    /// DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+    /// TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+    /// each have a zero the DOMAIN admits and the encoding had stolen. These do
+    /// not: the renderer applies the max clamp AFTER the min floor, so an
+    /// honoured max of 0 would force a zero-width box in defiance of the
+    /// 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+    /// the CORRECT encoding here, and converting it would be churn plus a
+    /// gratuitous break for every consumer.
     #[prost(int32, tag = "3")]
     pub min_w: i32,
     #[prost(int32, tag = "4")]
@@ -622,6 +659,12 @@ pub struct HostProxyProps {
     #[prost(int32, tag = "6")]
     pub max_h: i32,
     /// Corner handle edge, px. 0 = renderer default (DPI-derived).
+    ///
+    /// NOT `optional`, on the same test as the clamps above: the handles ARE the
+    /// resize affordance, so an edge of zero is not a smaller affordance but the
+    /// absence of one — which a screen expresses by choosing a non-RESIZABLE
+    /// ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+    /// resize clamp, removing the minimum-size guarantee rather than setting it.
     #[prost(uint32, tag = "7")]
     pub handle_size: u32,
     /// Opaque host stacking hint, forwarded verbatim in reports (jettison's
@@ -691,12 +734,18 @@ pub struct TargetOverlayProps {
     /// list only this widget carries.
     #[prost(message, repeated, tag = "1")]
     pub boxes: ::prost::alloc::vec::Vec<TargetBox>,
-    /// Box stroke width in design px; 0 = the renderer default. It is a prop
-    /// rather than a style property because the boxes are renderer-built children
-    /// that no StyleGroup can address — the same reason HostProxyProps carries
-    /// handle_size.
-    #[prost(uint32, tag = "2")]
-    pub border_width: u32,
+    /// Box stroke width in design px. It is a prop rather than a style property
+    /// because the boxes are renderer-built children that no StyleGroup can
+    /// address — the same reason HostProxyProps carries handle_size.
+    ///
+    /// EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+    /// real annotation style (the caption alone marks the detection) and not the
+    /// absence of a value. Under a bare proto3 scalar the renderer substituted
+    /// its own default for 0, so an unstroked box could not be asked for. Absent
+    /// = the renderer default; present = applied, zero included. The `lte: 16`
+    /// bound still binds a PRESENT value; the renderer refuses past it.
+    #[prost(uint32, optional, tag = "2")]
+    pub border_width: ::core::option::Option<u32>,
     /// Suppress every caption without clearing the labels. Polarity is chosen so
     /// proto3's false default draws them: a producer that fills in boxes and
     /// labels gets the captions it wrote without having to set a second flag.

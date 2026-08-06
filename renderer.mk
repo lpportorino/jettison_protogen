@@ -45,7 +45,7 @@ RGEN := tools/renderer-gen
 	oracles morph-parity morph-fixtures matrix demo-parity manifests \
 	generated-projection generated-projection-canary conventions-projection \
 	construct-bindings \
-	devcards-test state-mirror reload decode-limits wire-constraints clj-schema-test check-renderer check-renderer-lanes \
+	devcards-test state-mirror reload decode-limits wire-constraints presence-semantics clj-schema-test check-renderer check-renderer-lanes \
 	wasm-present fixtures-prebuilt gallery-prebuilt deadzone-canary deadzone-canary-prebuilt \
 	overlap-canary overlap-canary-prebuilt \
 	interaction-prebuilt \
@@ -767,6 +767,37 @@ decode-limits: wasm
 wire-constraints: wasm
 	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
 		cargo test --test wire_constraints
+
+# ── presence-semantics ──────────────────────────────────────────────────────
+# The third synthetic-input suite, and the one whose subject is a value the wire
+# can express rather than one it must refuse. `decode_limits` asks about
+# RESOURCE limits and `wire-constraints` about values the proto declares
+# ILLEGAL; this asks whether a LEGAL value whose bit pattern is zero survives
+# the trip.
+#
+# WHY IT CANNOT RIDE EITHER SIBLING. Both of those assert a REFUSAL, and a
+# refusal suite cannot express "the renderer must act on this" without inverting
+# its own charter. The class here is the proto3 no-presence trap: a field whose
+# zero is a real domain value — `WidgetNode.scroll_dir`'s `LV_DIR_NONE` most
+# sharply — read through a `!= 0` guard, so the renderer could not tell a
+# producer that SET zero from one that set nothing. Every field involved is
+# `optional` now and every guard reads the presence flag.
+#
+# ITS INPUT IS ASSEMBLED BYTE BY BYTE, which is what makes it a regression guard
+# rather than a restatement of the schema: the same bytes are legal proto3 with
+# or without `optional`, so the suite goes RED against a renderer that reverts
+# to the sentinel read while still compiling and still passing every other lane.
+# Measured red exactly that way before the guards were converted — `LV_DIR_NONE`
+# on the wire, container scrolled anyway, both control cases green.
+#
+# A NEW cargo test binary is not auto-run by the named-test lanes, so — as with
+# decode-limits and wire-constraints — it is wired here explicitly. IT IS NOT
+# WIRED IN .github/workflows/renderer.yml, and that is a GAP rather than a
+# decision: the authoring pass that added it was fenced out of .github. Wire it
+# beside its two siblings there.
+presence-semantics: wasm
+	cd $(R)/wasm_harness && PATH=$$HOME/.cargo/bin:$$PATH \
+		cargo test --test presence_semantics
 
 # ── Oracles (morph parity / coverage matrix / demo parity) ──────────────────
 oracles: morph-parity matrix demo-parity
@@ -1704,5 +1735,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints
+check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints presence-semantics
 	@echo "renderer battery: GREEN ($^)"

@@ -171,13 +171,19 @@ public object TargetOverlayPropsKt {
 
     /**
      * ```
-     * Box stroke width in design px; 0 = the renderer default. It is a prop
-     * rather than a style property because the boxes are renderer-built children
-     * that no StyleGroup can address — the same reason HostProxyProps carries
-     * handle_size.
+     * Box stroke width in design px. It is a prop rather than a style property
+     * because the boxes are renderer-built children that no StyleGroup can
+     * address — the same reason HostProxyProps carries handle_size.
+     *
+     * EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+     * real annotation style (the caption alone marks the detection) and not the
+     * absence of a value. Under a bare proto3 scalar the renderer substituted
+     * its own default for 0, so an unstroked box could not be asked for. Absent
+     * = the renderer default; present = applied, zero included. The `lte: 16`
+     * bound still binds a PRESENT value; the renderer refuses past it.
      * ```
      *
-     * `uint32 border_width = 2 [(.buf.validate.field) = { ... }`
+     * `optional uint32 border_width = 2 [(.buf.validate.field) = { ... }`
      */
     public var borderWidth: kotlin.Int
       @JvmName("getBorderWidth")
@@ -188,16 +194,42 @@ public object TargetOverlayPropsKt {
       }
     /**
      * ```
-     * Box stroke width in design px; 0 = the renderer default. It is a prop
-     * rather than a style property because the boxes are renderer-built children
-     * that no StyleGroup can address — the same reason HostProxyProps carries
-     * handle_size.
+     * Box stroke width in design px. It is a prop rather than a style property
+     * because the boxes are renderer-built children that no StyleGroup can
+     * address — the same reason HostProxyProps carries handle_size.
+     *
+     * EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+     * real annotation style (the caption alone marks the detection) and not the
+     * absence of a value. Under a bare proto3 scalar the renderer substituted
+     * its own default for 0, so an unstroked box could not be asked for. Absent
+     * = the renderer default; present = applied, zero included. The `lte: 16`
+     * bound still binds a PRESENT value; the renderer refuses past it.
      * ```
      *
-     * `uint32 border_width = 2 [(.buf.validate.field) = { ... }`
+     * `optional uint32 border_width = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearBorderWidth() {
       _builder.clearBorderWidth()
+    }
+    /**
+     * ```
+     * Box stroke width in design px. It is a prop rather than a style property
+     * because the boxes are renderer-built children that no StyleGroup can
+     * address — the same reason HostProxyProps carries handle_size.
+     *
+     * EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+     * real annotation style (the caption alone marks the detection) and not the
+     * absence of a value. Under a bare proto3 scalar the renderer substituted
+     * its own default for 0, so an unstroked box could not be asked for. Absent
+     * = the renderer default; present = applied, zero included. The `lte: 16`
+     * bound still binds a PRESENT value; the renderer refuses past it.
+     * ```
+     *
+     * `optional uint32 border_width = 2 [(.buf.validate.field) = { ... }`
+     * @return Whether the borderWidth field is set.
+     */
+    public fun hasBorderWidth(): kotlin.Boolean {
+      return _builder.hasBorderWidth()
     }
 
     /**

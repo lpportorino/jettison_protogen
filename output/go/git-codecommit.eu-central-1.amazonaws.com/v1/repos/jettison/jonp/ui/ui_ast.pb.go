@@ -2476,9 +2476,22 @@ func (x *Screen) GetSubjects() []*SubjectDeclaration {
 type WidgetNode struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Type  WidgetType             `protobuf:"varint,1,opt,name=type,proto3,enum=ui.WidgetType" json:"type,omitempty"`
-	// Position (optional — 0,0 = use layout)
-	X int32 `protobuf:"varint,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y int32 `protobuf:"varint,3,opt,name=y,proto3" json:"y,omitempty"`
+	// Position, design px, relative to the parent's content-box origin.
+	//
+	// EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+	// scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+	// the field is PRESENT, so absence means "do not position this node" — leave
+	// the layout, or under an UPDATE_PROPS morph leave the live coordinate
+	// alone — while a present 0 means the origin and is applied.
+	//
+	// The morph direction is where the old sentinel actually bit: a node moving
+	// BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+	// field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+	// carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+	// REPLACE; with presence on the wire that workaround is no longer required
+	// (removing it is a producer-side change, not a wire one).
+	X *int32 `protobuf:"varint,2,opt,name=x,proto3,oneof" json:"x,omitempty"`
+	Y *int32 `protobuf:"varint,3,opt,name=y,proto3,oneof" json:"y,omitempty"`
 	// Static text (labels, checkbox, textarea, button)
 	Text string `protobuf:"bytes,4,opt,name=text,proto3" json:"text,omitempty"`
 	// Subject data bindings (key = LVGL property, value = subject name)
@@ -2531,8 +2544,17 @@ type WidgetNode struct {
 	ObjFlagsClear uint32 `protobuf:"varint,32,opt,name=obj_flags_clear,json=objFlagsClear,proto3" json:"obj_flags_clear,omitempty"`
 	// lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
 	States uint32 `protobuf:"varint,33,opt,name=states,proto3" json:"states,omitempty"`
-	// lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
-	ScrollDir uint32 `protobuf:"varint,34,opt,name=scroll_dir,json=scrollDir,proto3" json:"scroll_dir,omitempty"`
+	// lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+	//
+	// EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+	// ZERO and is LVGL's own name for "this object does not scroll", while
+	// `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+	// bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+	// ENABLE any subset of axes and could never DISABLE scrolling: the one
+	// value the enum reserves for that was the one the encoding had taken for
+	// "unset". Absent = leave the LVGL default; present = applied verbatim,
+	// including NONE.
+	ScrollDir *uint32 `protobuf:"varint,34,opt,name=scroll_dir,json=scrollDir,proto3,oneof" json:"scroll_dir,omitempty"`
 	// Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
 	// encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
 	// no grid layout.
@@ -2658,15 +2680,15 @@ func (x *WidgetNode) GetType() WidgetType {
 }
 
 func (x *WidgetNode) GetX() int32 {
-	if x != nil {
-		return x.X
+	if x != nil && x.X != nil {
+		return *x.X
 	}
 	return 0
 }
 
 func (x *WidgetNode) GetY() int32 {
-	if x != nil {
-		return x.Y
+	if x != nil && x.Y != nil {
+		return *x.Y
 	}
 	return 0
 }
@@ -2963,8 +2985,8 @@ func (x *WidgetNode) GetStates() uint32 {
 }
 
 func (x *WidgetNode) GetScrollDir() uint32 {
-	if x != nil {
-		return x.ScrollDir
+	if x != nil && x.ScrollDir != nil {
+		return *x.ScrollDir
 	}
 	return 0
 }
@@ -4659,9 +4681,15 @@ type TabviewProps struct {
 	// node's regular children list becomes tab i's page content (children
 	// flagged in_tab_bar are excluded from the zip; they go to the tab bar).
 	TabNames []string `protobuf:"bytes,1,rep,name=tab_names,json=tabNames,proto3" json:"tab_names,omitempty"`
-	// Tab bar size in px (height for top/bottom bars, width for left/right);
-	// 0 = keep the LVGL default (DPI-derived).
-	TabBarSize int32 `protobuf:"varint,2,opt,name=tab_bar_size,json=tabBarSize,proto3" json:"tab_bar_size,omitempty"`
+	// Tab bar size in px (height for top/bottom bars, width for left/right).
+	//
+	// EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+	// height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+	// tabview driven programmatically rather than by its own buttons. Under a
+	// bare proto3 scalar that value was indistinguishable from "unset", so the
+	// renderer skipped it and hiding the bar was inexpressible. Absent = keep
+	// the LVGL default (DPI-derived); present = applied, zero included.
+	TabBarSize *int32 `protobuf:"varint,2,opt,name=tab_bar_size,json=tabBarSize,proto3,oneof" json:"tab_bar_size,omitempty"`
 	// Initially active tab index (applied LAST, with LV_ANIM_OFF).
 	ActiveIndex uint32 `protobuf:"varint,3,opt,name=active_index,json=activeIndex,proto3" json:"active_index,omitempty"`
 	// Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
@@ -4713,8 +4741,8 @@ func (x *TabviewProps) GetTabNames() []string {
 }
 
 func (x *TabviewProps) GetTabBarSize() int32 {
-	if x != nil {
-		return x.TabBarSize
+	if x != nil && x.TabBarSize != nil {
+		return *x.TabBarSize
 	}
 	return 0
 }
@@ -4922,11 +4950,26 @@ type HostProxyProps struct {
 	Mode ProxyMode `protobuf:"varint,2,opt,name=mode,proto3,enum=ui.ProxyMode" json:"mode,omitempty"`
 	// Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
 	// at 2x the resolved handle size so handles stay usable).
+	//
+	// DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+	// TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+	// each have a zero the DOMAIN admits and the encoding had stolen. These do
+	// not: the renderer applies the max clamp AFTER the min floor, so an
+	// honoured max of 0 would force a zero-width box in defiance of the
+	// 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+	// the CORRECT encoding here, and converting it would be churn plus a
+	// gratuitous break for every consumer.
 	MinW int32 `protobuf:"varint,3,opt,name=min_w,json=minW,proto3" json:"min_w,omitempty"`
 	MinH int32 `protobuf:"varint,4,opt,name=min_h,json=minH,proto3" json:"min_h,omitempty"`
 	MaxW int32 `protobuf:"varint,5,opt,name=max_w,json=maxW,proto3" json:"max_w,omitempty"`
 	MaxH int32 `protobuf:"varint,6,opt,name=max_h,json=maxH,proto3" json:"max_h,omitempty"`
 	// Corner handle edge, px. 0 = renderer default (DPI-derived).
+	//
+	// NOT `optional`, on the same test as the clamps above: the handles ARE the
+	// resize affordance, so an edge of zero is not a smaller affordance but the
+	// absence of one — which a screen expresses by choosing a non-RESIZABLE
+	// ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+	// resize clamp, removing the minimum-size guarantee rather than setting it.
 	HandleSize uint32 `protobuf:"varint,7,opt,name=handle_size,json=handleSize,proto3" json:"handle_size,omitempty"`
 	// Opaque host stacking hint, forwarded verbatim in reports (jettison's
 	// consumers want zIndex with every position update). The renderer never
@@ -5151,11 +5194,17 @@ type TargetOverlayProps struct {
 	// tree level, so an inline array would tax every node of every screen for a
 	// list only this widget carries.
 	Boxes []*TargetBox `protobuf:"bytes,1,rep,name=boxes,proto3" json:"boxes,omitempty"`
-	// Box stroke width in design px; 0 = the renderer default. It is a prop
-	// rather than a style property because the boxes are renderer-built children
-	// that no StyleGroup can address — the same reason HostProxyProps carries
-	// handle_size.
-	BorderWidth uint32 `protobuf:"varint,2,opt,name=border_width,json=borderWidth,proto3" json:"border_width,omitempty"`
+	// Box stroke width in design px. It is a prop rather than a style property
+	// because the boxes are renderer-built children that no StyleGroup can
+	// address — the same reason HostProxyProps carries handle_size.
+	//
+	// EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+	// real annotation style (the caption alone marks the detection) and not the
+	// absence of a value. Under a bare proto3 scalar the renderer substituted
+	// its own default for 0, so an unstroked box could not be asked for. Absent
+	// = the renderer default; present = applied, zero included. The `lte: 16`
+	// bound still binds a PRESENT value; the renderer refuses past it.
+	BorderWidth *uint32 `protobuf:"varint,2,opt,name=border_width,json=borderWidth,proto3,oneof" json:"border_width,omitempty"`
 	// Suppress every caption without clearing the labels. Polarity is chosen so
 	// proto3's false default draws them: a producer that fills in boxes and
 	// labels gets the captions it wrote without having to set a second flag.
@@ -5202,8 +5251,8 @@ func (x *TargetOverlayProps) GetBoxes() []*TargetBox {
 }
 
 func (x *TargetOverlayProps) GetBorderWidth() uint32 {
-	if x != nil {
-		return x.BorderWidth
+	if x != nil && x.BorderWidth != nil {
+		return *x.BorderWidth
 	}
 	return 0
 }
@@ -6263,12 +6312,12 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xd3\x12\n" +
+	"\x05_root\"\xfd\x12\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
-	"\x01x\x18\x02 \x01(\x05R\x01x\x12\f\n" +
-	"\x01y\x18\x03 \x01(\x05R\x01y\x12\x1c\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\x11\n" +
+	"\x01x\x18\x02 \x01(\x05H\x01R\x01x\x88\x01\x01\x12\x11\n" +
+	"\x01y\x18\x03 \x01(\x05H\x02R\x01y\x88\x01\x01\x12\x1c\n" +
 	"\x04text\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x04text\x128\n" +
 	"\bbindings\x18\x05 \x03(\v2\x1c.ui.WidgetNode.BindingsEntryR\bbindings\x12&\n" +
 	"\x05event\x18\x06 \x01(\v2\x10.ui.EventBindingR\x05event\x12\"\n" +
@@ -6312,9 +6361,9 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fbind_formats\x18\x1e \x03(\v2\x1f.ui.WidgetNode.BindFormatsEntryR\vbindFormats\x12\x1b\n" +
 	"\tobj_flags\x18\x1f \x01(\rR\bobjFlags\x12&\n" +
 	"\x0fobj_flags_clear\x18  \x01(\rR\robjFlagsClear\x12\x16\n" +
-	"\x06states\x18! \x01(\rR\x06states\x12\x1d\n" +
+	"\x06states\x18! \x01(\rR\x06states\x12\"\n" +
 	"\n" +
-	"scroll_dir\x18\" \x01(\rR\tscrollDir\x12 \n" +
+	"scroll_dir\x18\" \x01(\rH\x03R\tscrollDir\x88\x01\x01\x12 \n" +
 	"\fgrid_col_dsc\x18# \x03(\x05R\n" +
 	"gridColDsc\x12 \n" +
 	"\fgrid_row_dsc\x18$ \x03(\x05R\n" +
@@ -6335,7 +6384,10 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x10BindFormatsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x0e\n" +
-	"\fwidget_props\"\xc2\x01\n" +
+	"\fwidget_propsB\x04\n" +
+	"\x02_xB\x04\n" +
+	"\x02_yB\r\n" +
+	"\v_scroll_dir\"\xc2\x01\n" +
 	"\vTreePatchOp\x12-\n" +
 	"\x04kind\x18\x01 \x01(\x0e2\x0f.ui.PatchOpKindB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04kind\x12\x1d\n" +
 	"\n" +
@@ -6459,14 +6511,15 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\n" +
 	"TableProps\x12\x1b\n" +
 	"\trow_count\x18\x01 \x01(\rR\browCount\x12!\n" +
-	"\fcolumn_count\x18\x02 \x01(\rR\vcolumnCount\"\xe6\x01\n" +
+	"\fcolumn_count\x18\x02 \x01(\rR\vcolumnCount\"\xfc\x01\n" +
 	"\fTabviewProps\x12+\n" +
-	"\ttab_names\x18\x01 \x03(\tB\x0e\xbaH\v\x92\x01\b\x10\b\"\x04r\x02\x18\x1fR\btabNames\x12 \n" +
-	"\ftab_bar_size\x18\x02 \x01(\x05R\n" +
-	"tabBarSize\x12!\n" +
+	"\ttab_names\x18\x01 \x03(\tB\x0e\xbaH\v\x92\x01\b\x10\b\"\x04r\x02\x18\x1fR\btabNames\x12%\n" +
+	"\ftab_bar_size\x18\x02 \x01(\x05H\x00R\n" +
+	"tabBarSize\x88\x01\x01\x12!\n" +
 	"\factive_index\x18\x03 \x01(\rR\vactiveIndex\x12;\n" +
 	"\x10tab_bar_position\x18\x04 \x01(\x0e2\a.ui.DirB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0etabBarPosition\x12'\n" +
-	"\x10tab_bar_pad_left\x18\x05 \x01(\x05R\rtabBarPadLeft\"}\n" +
+	"\x10tab_bar_pad_left\x18\x05 \x01(\x05R\rtabBarPadLeftB\x0f\n" +
+	"\r_tab_bar_size\"}\n" +
 	"\vChartSeries\x12\x1f\n" +
 	"\x05color\x18\x01 \x01(\v2\t.ui.ColorR\x05color\x12+\n" +
 	"\x04axis\x18\x02 \x01(\x0e2\r.ui.ChartAxisB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04axis\x12 \n" +
@@ -6499,12 +6552,13 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x01w\x18\x03 \x01(\x05R\x01w\x12\f\n" +
 	"\x01h\x18\x04 \x01(\x05R\x01h\x12\x1d\n" +
 	"\x05label\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x18\x1fR\x05label\x12\x1f\n" +
-	"\x05color\x18\x06 \x01(\v2\t.ui.ColorR\x05color\"\x90\x01\n" +
+	"\x05color\x18\x06 \x01(\v2\t.ui.ColorR\x05color\"\xa6\x01\n" +
 	"\x12TargetOverlayProps\x12-\n" +
-	"\x05boxes\x18\x01 \x03(\v2\r.ui.TargetBoxB\b\xbaH\x05\x92\x01\x02\x10 R\x05boxes\x12*\n" +
-	"\fborder_width\x18\x02 \x01(\rB\a\xbaH\x04*\x02\x18\x10R\vborderWidth\x12\x1f\n" +
+	"\x05boxes\x18\x01 \x03(\v2\r.ui.TargetBoxB\b\xbaH\x05\x92\x01\x02\x10 R\x05boxes\x12/\n" +
+	"\fborder_width\x18\x02 \x01(\rB\a\xbaH\x04*\x02\x18\x10H\x00R\vborderWidth\x88\x01\x01\x12\x1f\n" +
 	"\vhide_labels\x18\x03 \x01(\bR\n" +
-	"hideLabels\"#\n" +
+	"hideLabelsB\x0f\n" +
+	"\r_border_width\"#\n" +
 	"\x05Point\x12\f\n" +
 	"\x01x\x18\x01 \x01(\x05R\x01x\x12\f\n" +
 	"\x01y\x18\x02 \x01(\x05R\x01y\"\x8a\x03\n" +
@@ -7153,6 +7207,8 @@ func file_ui_ui_ast_proto_init() {
 		(*WidgetNode_TargetOverlayProps)(nil),
 	}
 	file_ui_ui_ast_proto_msgTypes[5].OneofWrappers = []any{}
+	file_ui_ui_ast_proto_msgTypes[27].OneofWrappers = []any{}
+	file_ui_ui_ast_proto_msgTypes[32].OneofWrappers = []any{}
 	file_ui_ui_ast_proto_msgTypes[43].OneofWrappers = []any{
 		(*StyleProperty_UintValue)(nil),
 		(*StyleProperty_IntValue)(nil),

@@ -761,8 +761,8 @@ pub const Screen = struct {
 
 pub const WidgetNode = struct {
     type: WidgetType = @enumFromInt(0),
-    x: i32 = 0,
-    y: i32 = 0,
+    x: ?i32 = null,
+    y: ?i32 = null,
     text: []const u8 = &.{},
     bindings: std.ArrayListUnmanaged(WidgetNode.BindingsEntry) = .empty,
     event: ?EventBinding = null,
@@ -774,7 +774,7 @@ pub const WidgetNode = struct {
     obj_flags: u32 = 0,
     obj_flags_clear: u32 = 0,
     states: u32 = 0,
-    scroll_dir: u32 = 0,
+    scroll_dir: ?u32 = null,
     grid_col_dsc: std.ArrayListUnmanaged(i32) = .empty,
     grid_row_dsc: std.ArrayListUnmanaged(i32) = .empty,
     bare: bool = false,
@@ -2782,7 +2782,7 @@ pub const TableProps = struct {
 
 pub const TabviewProps = struct {
     tab_names: std.ArrayListUnmanaged([]const u8) = .empty,
-    tab_bar_size: i32 = 0,
+    tab_bar_size: ?i32 = null,
     active_index: u32 = 0,
     tab_bar_position: Dir = @enumFromInt(0),
     tab_bar_pad_left: i32 = 0,
@@ -3185,7 +3185,7 @@ pub const TargetBox = struct {
 
 pub const TargetOverlayProps = struct {
     boxes: std.ArrayListUnmanaged(TargetBox) = .empty,
-    border_width: u32 = 0,
+    border_width: ?u32 = null,
     hide_labels: bool = false,
 
     pub const _desc_table = .{

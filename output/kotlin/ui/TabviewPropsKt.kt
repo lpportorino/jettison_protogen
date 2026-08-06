@@ -142,11 +142,17 @@ public object TabviewPropsKt {
     }
     /**
      * ```
-     * Tab bar size in px (height for top/bottom bars, width for left/right);
-     * 0 = keep the LVGL default (DPI-derived).
+     * Tab bar size in px (height for top/bottom bars, width for left/right).
+     *
+     * EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+     * height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+     * tabview driven programmatically rather than by its own buttons. Under a
+     * bare proto3 scalar that value was indistinguishable from "unset", so the
+     * renderer skipped it and hiding the bar was inexpressible. Absent = keep
+     * the LVGL default (DPI-derived); present = applied, zero included.
      * ```
      *
-     * `int32 tab_bar_size = 2;`
+     * `optional int32 tab_bar_size = 2;`
      */
     public var tabBarSize: kotlin.Int
       @JvmName("getTabBarSize")
@@ -157,14 +163,38 @@ public object TabviewPropsKt {
       }
     /**
      * ```
-     * Tab bar size in px (height for top/bottom bars, width for left/right);
-     * 0 = keep the LVGL default (DPI-derived).
+     * Tab bar size in px (height for top/bottom bars, width for left/right).
+     *
+     * EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+     * height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+     * tabview driven programmatically rather than by its own buttons. Under a
+     * bare proto3 scalar that value was indistinguishable from "unset", so the
+     * renderer skipped it and hiding the bar was inexpressible. Absent = keep
+     * the LVGL default (DPI-derived); present = applied, zero included.
      * ```
      *
-     * `int32 tab_bar_size = 2;`
+     * `optional int32 tab_bar_size = 2;`
      */
     public fun clearTabBarSize() {
       _builder.clearTabBarSize()
+    }
+    /**
+     * ```
+     * Tab bar size in px (height for top/bottom bars, width for left/right).
+     *
+     * EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+     * height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+     * tabview driven programmatically rather than by its own buttons. Under a
+     * bare proto3 scalar that value was indistinguishable from "unset", so the
+     * renderer skipped it and hiding the bar was inexpressible. Absent = keep
+     * the LVGL default (DPI-derived); present = applied, zero included.
+     * ```
+     *
+     * `optional int32 tab_bar_size = 2;`
+     * @return Whether the tabBarSize field is set.
+     */
+    public fun hasTabBarSize(): kotlin.Boolean {
+      return _builder.hasTabBarSize()
     }
 
     /**

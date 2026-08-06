@@ -58,10 +58,23 @@ public object WidgetNodeKt {
 
     /**
      * ```
-     * Position (optional — 0,0 = use layout)
+     * Position, design px, relative to the parent's content-box origin.
+     *
+     * EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+     * scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+     * the field is PRESENT, so absence means "do not position this node" — leave
+     * the layout, or under an UPDATE_PROPS morph leave the live coordinate
+     * alone — while a present 0 means the origin and is applied.
+     *
+     * The morph direction is where the old sentinel actually bit: a node moving
+     * BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+     * field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+     * carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+     * REPLACE; with presence on the wire that workaround is no longer required
+     * (removing it is a producer-side change, not a wire one).
      * ```
      *
-     * `int32 x = 2;`
+     * `optional int32 x = 2;`
      */
     public var x: kotlin.Int
       @JvmName("getX")
@@ -72,17 +85,54 @@ public object WidgetNodeKt {
       }
     /**
      * ```
-     * Position (optional — 0,0 = use layout)
+     * Position, design px, relative to the parent's content-box origin.
+     *
+     * EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+     * scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+     * the field is PRESENT, so absence means "do not position this node" — leave
+     * the layout, or under an UPDATE_PROPS morph leave the live coordinate
+     * alone — while a present 0 means the origin and is applied.
+     *
+     * The morph direction is where the old sentinel actually bit: a node moving
+     * BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+     * field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+     * carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+     * REPLACE; with presence on the wire that workaround is no longer required
+     * (removing it is a producer-side change, not a wire one).
      * ```
      *
-     * `int32 x = 2;`
+     * `optional int32 x = 2;`
      */
     public fun clearX() {
       _builder.clearX()
     }
+    /**
+     * ```
+     * Position, design px, relative to the parent's content-box origin.
+     *
+     * EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+     * scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+     * the field is PRESENT, so absence means "do not position this node" — leave
+     * the layout, or under an UPDATE_PROPS morph leave the live coordinate
+     * alone — while a present 0 means the origin and is applied.
+     *
+     * The morph direction is where the old sentinel actually bit: a node moving
+     * BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+     * field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+     * carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+     * REPLACE; with presence on the wire that workaround is no longer required
+     * (removing it is a producer-side change, not a wire one).
+     * ```
+     *
+     * `optional int32 x = 2;`
+     * @return Whether the x field is set.
+     */
+    public fun hasX(): kotlin.Boolean {
+      return _builder.hasX()
+    }
 
     /**
-     * `int32 y = 3;`
+     * `optional int32 y = 3;`
      */
     public var y: kotlin.Int
       @JvmName("getY")
@@ -92,10 +142,17 @@ public object WidgetNodeKt {
         _builder.y = value
       }
     /**
-     * `int32 y = 3;`
+     * `optional int32 y = 3;`
      */
     public fun clearY() {
       _builder.clearY()
+    }
+    /**
+     * `optional int32 y = 3;`
+     * @return Whether the y field is set.
+     */
+    public fun hasY(): kotlin.Boolean {
+      return _builder.hasY()
     }
 
     /**
@@ -1248,10 +1305,19 @@ public object WidgetNodeKt {
 
     /**
      * ```
-     * lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+     * lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+     *
+     * EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+     * ZERO and is LVGL's own name for "this object does not scroll", while
+     * `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+     * bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+     * ENABLE any subset of axes and could never DISABLE scrolling: the one
+     * value the enum reserves for that was the one the encoding had taken for
+     * "unset". Absent = leave the LVGL default; present = applied verbatim,
+     * including NONE.
      * ```
      *
-     * `uint32 scroll_dir = 34;`
+     * `optional uint32 scroll_dir = 34;`
      */
     public var scrollDir: kotlin.Int
       @JvmName("getScrollDir")
@@ -1262,13 +1328,42 @@ public object WidgetNodeKt {
       }
     /**
      * ```
-     * lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+     * lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+     *
+     * EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+     * ZERO and is LVGL's own name for "this object does not scroll", while
+     * `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+     * bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+     * ENABLE any subset of axes and could never DISABLE scrolling: the one
+     * value the enum reserves for that was the one the encoding had taken for
+     * "unset". Absent = leave the LVGL default; present = applied verbatim,
+     * including NONE.
      * ```
      *
-     * `uint32 scroll_dir = 34;`
+     * `optional uint32 scroll_dir = 34;`
      */
     public fun clearScrollDir() {
       _builder.clearScrollDir()
+    }
+    /**
+     * ```
+     * lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+     *
+     * EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+     * ZERO and is LVGL's own name for "this object does not scroll", while
+     * `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+     * bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+     * ENABLE any subset of axes and could never DISABLE scrolling: the one
+     * value the enum reserves for that was the one the encoding had taken for
+     * "unset". Absent = leave the LVGL default; present = applied verbatim,
+     * including NONE.
+     * ```
+     *
+     * `optional uint32 scroll_dir = 34;`
+     * @return Whether the scrollDir field is set.
+     */
+    public fun hasScrollDir(): kotlin.Boolean {
+      return _builder.hasScrollDir()
     }
 
     /**

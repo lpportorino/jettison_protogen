@@ -2554,9 +2554,26 @@ export interface Screen {
 /** A node in the widget tree (recursive). */
 export interface WidgetNode {
   type: WidgetType;
-  /** Position (optional — 0,0 = use layout) */
-  x: number;
-  y: number;
+  /**
+   * Position, design px, relative to the parent's content-box origin.
+   *
+   * EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+   * scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+   * the field is PRESENT, so absence means "do not position this node" — leave
+   * the layout, or under an UPDATE_PROPS morph leave the live coordinate
+   * alone — while a present 0 means the origin and is applied.
+   *
+   * The morph direction is where the old sentinel actually bit: a node moving
+   * BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+   * field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+   * carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+   * REPLACE; with presence on the wire that workaround is no longer required
+   * (removing it is a producer-side change, not a wire one).
+   */
+  x?: number | undefined;
+  y?:
+    | number
+    | undefined;
   /** Static text (labels, checkbox, textarea, button) */
   text: string;
   /** Subject data bindings (key = LVGL property, value = subject name) */
@@ -2616,8 +2633,21 @@ export interface WidgetNode {
   objFlagsClear: number;
   /** lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast. */
   states: number;
-  /** lv_dir_t scroll direction constraint; 0 = leave the LVGL default. */
-  scrollDir: number;
+  /**
+   * lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+   *
+   * EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+   * ZERO and is LVGL's own name for "this object does not scroll", while
+   * `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+   * bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+   * ENABLE any subset of axes and could never DISABLE scrolling: the one
+   * value the enum reserves for that was the one the encoding had taken for
+   * "unset". Absent = leave the LVGL default; present = applied verbatim,
+   * including NONE.
+   */
+  scrollDir?:
+    | number
+    | undefined;
   /**
    * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
    * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
@@ -2950,10 +2980,18 @@ export interface TabviewProps {
    */
   tabNames: string[];
   /**
-   * Tab bar size in px (height for top/bottom bars, width for left/right);
-   * 0 = keep the LVGL default (DPI-derived).
+   * Tab bar size in px (height for top/bottom bars, width for left/right).
+   *
+   * EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+   * height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+   * tabview driven programmatically rather than by its own buttons. Under a
+   * bare proto3 scalar that value was indistinguishable from "unset", so the
+   * renderer skipped it and hiding the bar was inexpressible. Absent = keep
+   * the LVGL default (DPI-derived); present = applied, zero included.
    */
-  tabBarSize: number;
+  tabBarSize?:
+    | number
+    | undefined;
   /** Initially active tab index (applied LAST, with LV_ANIM_OFF). */
   activeIndex: number;
   /**
@@ -3035,12 +3073,29 @@ export interface HostProxyProps {
   /**
    * Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
    * at 2x the resolved handle size so handles stay usable).
+   *
+   * DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+   * TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+   * each have a zero the DOMAIN admits and the encoding had stolen. These do
+   * not: the renderer applies the max clamp AFTER the min floor, so an
+   * honoured max of 0 would force a zero-width box in defiance of the
+   * 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+   * the CORRECT encoding here, and converting it would be churn plus a
+   * gratuitous break for every consumer.
    */
   minW: number;
   minH: number;
   maxW: number;
   maxH: number;
-  /** Corner handle edge, px. 0 = renderer default (DPI-derived). */
+  /**
+   * Corner handle edge, px. 0 = renderer default (DPI-derived).
+   *
+   * NOT `optional`, on the same test as the clamps above: the handles ARE the
+   * resize affordance, so an edge of zero is not a smaller affordance but the
+   * absence of one — which a screen expresses by choosing a non-RESIZABLE
+   * ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+   * resize clamp, removing the minimum-size guarantee rather than setting it.
+   */
   handleSize: number;
   /**
    * Opaque host stacking hint, forwarded verbatim in reports (jettison's
@@ -3116,12 +3171,20 @@ export interface TargetOverlayProps {
    */
   boxes: TargetBox[];
   /**
-   * Box stroke width in design px; 0 = the renderer default. It is a prop
-   * rather than a style property because the boxes are renderer-built children
-   * that no StyleGroup can address — the same reason HostProxyProps carries
-   * handle_size.
+   * Box stroke width in design px. It is a prop rather than a style property
+   * because the boxes are renderer-built children that no StyleGroup can
+   * address — the same reason HostProxyProps carries handle_size.
+   *
+   * EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+   * real annotation style (the caption alone marks the detection) and not the
+   * absence of a value. Under a bare proto3 scalar the renderer substituted
+   * its own default for 0, so an unstroked box could not be asked for. Absent
+   * = the renderer default; present = applied, zero included. The `lte: 16`
+   * bound still binds a PRESENT value; the renderer refuses past it.
    */
-  borderWidth: number;
+  borderWidth?:
+    | number
+    | undefined;
   /**
    * Suppress every caption without clearing the labels. Polarity is chosen so
    * proto3's false default draws them: a producer that fills in boxes and
@@ -3723,8 +3786,8 @@ export const Screen: MessageFns<Screen> = {
 function createBaseWidgetNode(): WidgetNode {
   return {
     type: 0,
-    x: 0,
-    y: 0,
+    x: undefined,
+    y: undefined,
     text: "",
     bindings: {},
     event: undefined,
@@ -3759,7 +3822,7 @@ function createBaseWidgetNode(): WidgetNode {
     objFlags: 0,
     objFlagsClear: 0,
     states: 0,
-    scrollDir: 0,
+    scrollDir: undefined,
     gridColDsc: [],
     gridRowDsc: [],
     bare: false,
@@ -3778,10 +3841,10 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.type !== 0) {
       writer.uint32(8).int32(message.type);
     }
-    if (message.x !== 0) {
+    if (message.x !== undefined) {
       writer.uint32(16).int32(message.x);
     }
-    if (message.y !== 0) {
+    if (message.y !== undefined) {
       writer.uint32(24).int32(message.y);
     }
     if (message.text !== "") {
@@ -3886,7 +3949,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.states !== 0) {
       writer.uint32(264).uint32(message.states);
     }
-    if (message.scrollDir !== 0) {
+    if (message.scrollDir !== undefined) {
       writer.uint32(272).uint32(message.scrollDir);
     }
     writer.uint32(282).fork();
@@ -4355,8 +4418,8 @@ export const WidgetNode: MessageFns<WidgetNode> = {
   fromJSON(object: any): WidgetNode {
     return {
       type: isSet(object.type) ? widgetTypeFromJSON(object.type) : 0,
-      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
-      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      x: isSet(object.x) ? globalThis.Number(object.x) : undefined,
+      y: isSet(object.y) ? globalThis.Number(object.y) : undefined,
       text: isSet(object.text) ? globalThis.String(object.text) : "",
       bindings: isObject(object.bindings)
         ? (globalThis.Object.entries(object.bindings) as [string, any][]).reduce(
@@ -4525,7 +4588,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         ? globalThis.Number(object.scrollDir)
         : isSet(object.scroll_dir)
         ? globalThis.Number(object.scroll_dir)
-        : 0,
+        : undefined,
       gridColDsc: globalThis.Array.isArray(object?.gridColDsc)
         ? object.gridColDsc.map((e: any) => globalThis.Number(e))
         : globalThis.Array.isArray(object?.grid_col_dsc)
@@ -4574,10 +4637,10 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.type !== 0) {
       obj.type = widgetTypeToJSON(message.type);
     }
-    if (message.x !== 0) {
+    if (message.x !== undefined) {
       obj.x = Math.round(message.x);
     }
-    if (message.y !== 0) {
+    if (message.y !== undefined) {
       obj.y = Math.round(message.y);
     }
     if (message.text !== "") {
@@ -4694,7 +4757,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.states !== 0) {
       obj.states = Math.round(message.states);
     }
-    if (message.scrollDir !== 0) {
+    if (message.scrollDir !== undefined) {
       obj.scrollDir = Math.round(message.scrollDir);
     }
     if (message.gridColDsc?.length) {
@@ -4736,8 +4799,8 @@ export const WidgetNode: MessageFns<WidgetNode> = {
   fromPartial<I extends Exact<DeepPartial<WidgetNode>, I>>(object: I): WidgetNode {
     const message = createBaseWidgetNode();
     message.type = object.type ?? 0;
-    message.x = object.x ?? 0;
-    message.y = object.y ?? 0;
+    message.x = object.x ?? undefined;
+    message.y = object.y ?? undefined;
     message.text = object.text ?? "";
     message.bindings = (globalThis.Object.entries(object.bindings ?? {}) as [string, string][]).reduce(
       (acc: { [key: string]: string }, [key, value]: [string, string]) => {
@@ -4840,7 +4903,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.objFlags = object.objFlags ?? 0;
     message.objFlagsClear = object.objFlagsClear ?? 0;
     message.states = object.states ?? 0;
-    message.scrollDir = object.scrollDir ?? 0;
+    message.scrollDir = object.scrollDir ?? undefined;
     message.gridColDsc = object.gridColDsc?.map((e) => e) || [];
     message.gridRowDsc = object.gridRowDsc?.map((e) => e) || [];
     message.bare = object.bare ?? false;
@@ -7488,7 +7551,7 @@ export const TableProps: MessageFns<TableProps> = {
 };
 
 function createBaseTabviewProps(): TabviewProps {
-  return { tabNames: [], tabBarSize: 0, activeIndex: 0, tabBarPosition: 0, tabBarPadLeft: 0 };
+  return { tabNames: [], tabBarSize: undefined, activeIndex: 0, tabBarPosition: 0, tabBarPadLeft: 0 };
 }
 
 export const TabviewProps: MessageFns<TabviewProps> = {
@@ -7496,7 +7559,7 @@ export const TabviewProps: MessageFns<TabviewProps> = {
     for (const v of message.tabNames) {
       writer.uint32(10).string(v!);
     }
-    if (message.tabBarSize !== 0) {
+    if (message.tabBarSize !== undefined) {
       writer.uint32(16).int32(message.tabBarSize);
     }
     if (message.activeIndex !== 0) {
@@ -7578,7 +7641,7 @@ export const TabviewProps: MessageFns<TabviewProps> = {
         ? globalThis.Number(object.tabBarSize)
         : isSet(object.tab_bar_size)
         ? globalThis.Number(object.tab_bar_size)
-        : 0,
+        : undefined,
       activeIndex: isSet(object.activeIndex)
         ? globalThis.Number(object.activeIndex)
         : isSet(object.active_index)
@@ -7602,7 +7665,7 @@ export const TabviewProps: MessageFns<TabviewProps> = {
     if (message.tabNames?.length) {
       obj.tabNames = message.tabNames;
     }
-    if (message.tabBarSize !== 0) {
+    if (message.tabBarSize !== undefined) {
       obj.tabBarSize = Math.round(message.tabBarSize);
     }
     if (message.activeIndex !== 0) {
@@ -7623,7 +7686,7 @@ export const TabviewProps: MessageFns<TabviewProps> = {
   fromPartial<I extends Exact<DeepPartial<TabviewProps>, I>>(object: I): TabviewProps {
     const message = createBaseTabviewProps();
     message.tabNames = object.tabNames?.map((e) => e) || [];
-    message.tabBarSize = object.tabBarSize ?? 0;
+    message.tabBarSize = object.tabBarSize ?? undefined;
     message.activeIndex = object.activeIndex ?? 0;
     message.tabBarPosition = object.tabBarPosition ?? 0;
     message.tabBarPadLeft = object.tabBarPadLeft ?? 0;
@@ -8250,7 +8313,7 @@ export const TargetBox: MessageFns<TargetBox> = {
 };
 
 function createBaseTargetOverlayProps(): TargetOverlayProps {
-  return { boxes: [], borderWidth: 0, hideLabels: false };
+  return { boxes: [], borderWidth: undefined, hideLabels: false };
 }
 
 export const TargetOverlayProps: MessageFns<TargetOverlayProps> = {
@@ -8258,7 +8321,7 @@ export const TargetOverlayProps: MessageFns<TargetOverlayProps> = {
     for (const v of message.boxes) {
       TargetBox.encode(v!, writer.uint32(10).fork()).join();
     }
-    if (message.borderWidth !== 0) {
+    if (message.borderWidth !== undefined) {
       writer.uint32(16).uint32(message.borderWidth);
     }
     if (message.hideLabels !== false) {
@@ -8314,7 +8377,7 @@ export const TargetOverlayProps: MessageFns<TargetOverlayProps> = {
         ? globalThis.Number(object.borderWidth)
         : isSet(object.border_width)
         ? globalThis.Number(object.border_width)
-        : 0,
+        : undefined,
       hideLabels: isSet(object.hideLabels)
         ? globalThis.Boolean(object.hideLabels)
         : isSet(object.hide_labels)
@@ -8328,7 +8391,7 @@ export const TargetOverlayProps: MessageFns<TargetOverlayProps> = {
     if (message.boxes?.length) {
       obj.boxes = message.boxes.map((e) => TargetBox.toJSON(e));
     }
-    if (message.borderWidth !== 0) {
+    if (message.borderWidth !== undefined) {
       obj.borderWidth = Math.round(message.borderWidth);
     }
     if (message.hideLabels !== false) {
@@ -8343,7 +8406,7 @@ export const TargetOverlayProps: MessageFns<TargetOverlayProps> = {
   fromPartial<I extends Exact<DeepPartial<TargetOverlayProps>, I>>(object: I): TargetOverlayProps {
     const message = createBaseTargetOverlayProps();
     message.boxes = object.boxes?.map((e) => TargetBox.fromPartial(e)) || [];
-    message.borderWidth = object.borderWidth ?? 0;
+    message.borderWidth = object.borderWidth ?? undefined;
     message.hideLabels = object.hideLabels ?? false;
     return message;
   },

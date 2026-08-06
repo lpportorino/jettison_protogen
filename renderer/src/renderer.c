@@ -1843,8 +1843,10 @@ static void apply_chart_props(lv_obj_t *obj, const ui_ChartProps *p) {
  * bounded, by MAX_TARGET_BOXES; a reader comparing the two in the proto saw two
  * declared bounds and could not tell which one anything upheld. */
 #define MAX_TARGET_BORDER_WIDTH 16
-/* Box stroke when TargetOverlayProps.border_width is 0. Design px, DPI-scaled
- * through LV_DPX like every other renderer-owned affordance size. */
+/* Box stroke when TargetOverlayProps.border_width is ABSENT. Design px,
+ * DPI-scaled through LV_DPX like every other renderer-owned affordance size.
+ * ABSENT, not zero: the field is `optional`, so a PRESENT zero is a
+ * stroke-less box — caption-only annotation — and selects nothing from here. */
 #define TARGET_BOX_BORDER_PX 2
 /* Caption inset from the box's top-left corner, design px, DPI-scaled. */
 #define TARGET_BOX_LABEL_PAD_PX 2
@@ -1864,7 +1866,12 @@ static void apply_target_overlay(lv_obj_t *obj,
     load_resource_error = true;
     return;
   }
-  int32_t stroke = LV_DPX(p->border_width > 0 ? (int32_t)p->border_width
+  /* PRESENCE selects the authored width; absence selects the renderer default.
+   * A present ZERO is an explicit stroke-less box and reaches LV_DPX as 0,
+   * which is what makes a caption-only annotation expressible. The bound check
+   * above stays unconditional: an absent field reads 0, which is inside the
+   * bound, so it costs nothing and keeps the refusal on one path. */
+  int32_t stroke = LV_DPX(p->has_border_width ? (int32_t)p->border_width
                                               : TARGET_BOX_BORDER_PX);
   for (pb_size_t i = 0; i < p->boxes_count; i++) {
     const ui_TargetBox *b = &p->boxes[i];
@@ -3340,7 +3347,13 @@ static void apply_tabview(widget_ctx_t *ctx) {
     if (p->tab_bar_position != 0) {
       lv_tabview_set_tab_bar_position(tv, (lv_dir_t)p->tab_bar_position);
     }
-    if (p->tab_bar_size != 0) {
+    /* PRESENCE, not a sentinel: `lv_tabview_set_tab_bar_size(tv, 0)` sets the
+     * bar's height (or width) to zero, i.e. HIDES it — a real state for a
+     * tabview paged programmatically rather than by its own buttons. Absent
+     * keeps the LVGL DPI-derived default. `tab_bar_position` above keeps its
+     * `!= 0` test on purpose: DIR_NONE there means "keep the default (top)",
+     * not a placement, so its zero is genuinely absent. */
+    if (p->has_tab_bar_size) {
       lv_tabview_set_tab_bar_size(tv, p->tab_bar_size);
     }
     for (i = 0; i < p->tab_names_count; i++) {
@@ -3447,7 +3460,17 @@ static void finalize_widget(widget_ctx_t *ctx) {
       ctx->error = -1;
     }
   }
-  if (node->x != 0 || node->y != 0) {
+  /* POSITION READS PRESENCE, NOT A SENTINEL. `WidgetNode.x`/`y` are `optional`,
+   * so nanopb hands us has_x/has_y and (0,0) is an ordinary position rather
+   * than a value the encoding stole. Either flag alone is enough: a node that
+   * sets only x still wants positioning, and the unset axis reads 0, which is
+   * what the old guard did for it anyway.
+   *
+   * The morph direction is what this fixes. Under UPDATE_PROPS the differ
+   * strips unchanged fields, so absence still means "leave the live
+   * coordinate" exactly as before — but a node moving BACK to the origin now
+   * sends a PRESENT zero and is moved, where the sentinel left it stale. */
+  if (node->has_x || node->has_y) {
     lv_obj_set_pos(obj, node->x, node->y);
   }
   /* bare: strip theme/base styles, then re-apply the node's own
@@ -3469,7 +3492,7 @@ static void finalize_widget(widget_ctx_t *ctx) {
      * node silently rendered at the origin while carrying a position on the
      * wire, which is the declared contract inverted: bare strips THEME
      * styles, and everything declared on the node still applies. */
-    if (node->x != 0 || node->y != 0) {
+    if (node->has_x || node->has_y) {
       lv_obj_set_pos(obj, node->x, node->y);
     }
   }
@@ -3480,7 +3503,15 @@ static void finalize_widget(widget_ctx_t *ctx) {
     lv_obj_remove_flag(obj, (lv_obj_flag_t)node->obj_flags_clear);
   if (node->states != 0)
     lv_obj_add_state(obj, (lv_state_t)node->states);
-  if (node->scroll_dir != 0)
+  /* SCROLL DIRECTION READS PRESENCE. This is the guard the `optional`
+   * conversion exists for: LV_DIR_NONE is ZERO, and it is LVGL's own name for
+   * "this object does not scroll", while a fresh object defaults to
+   * LV_DIR_ALL (lv_obj_allocate_spec_attr). Testing `!= 0` therefore meant a
+   * screen could enable any subset of axes and could NEVER disable scrolling —
+   * the one value the enum reserves for that was the one the encoding had
+   * taken for "unset". Absent leaves the LVGL default; present is applied
+   * verbatim, NONE included. */
+  if (node->has_scroll_dir)
     lv_obj_set_scroll_dir(obj, (lv_dir_t)node->scroll_dir);
   /* Touch affordance (WidgetNode.hit_slop) — the ONE wire route to a hit box
    * larger than the drawn box, and it reaches ANY widget rather than riding a

@@ -54,9 +54,22 @@ message Screen {
 message WidgetNode {
   WidgetType type = 1 [(buf.validate.field).enum = {defined_only: true}];
 
-  // Position (optional — 0,0 = use layout)
-  int32 x = 2;
-  int32 y = 3;
+  // Position, design px, relative to the parent's content-box origin.
+  //
+  // EXPLICIT PRESENCE, because (0,0) is a real position and a bare proto3
+  // scalar cannot express it. The renderer applies `lv_obj_set_pos` only when
+  // the field is PRESENT, so absence means "do not position this node" — leave
+  // the layout, or under an UPDATE_PROPS morph leave the live coordinate
+  // alone — while a present 0 means the origin and is applied.
+  //
+  // The morph direction is where the old sentinel actually bit: a node moving
+  // BACK to (0,0) sent x=0,y=0, which was indistinguishable from an unset
+  // field, so the widget kept its stale coordinate. `lvgl-codegen.patch` still
+  // carries an `:xy-one-way-door` rule that downgrades exactly that case to a
+  // REPLACE; with presence on the wire that workaround is no longer required
+  // (removing it is a producer-side change, not a wire one).
+  optional int32 x = 2;
+  optional int32 y = 3;
 
   // Static text (labels, checkbox, textarea, button)
   string text = 4 [(buf.validate.field).string = {max_len: 255}];
@@ -120,8 +133,17 @@ message WidgetNode {
   // lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
   uint32 states = 33;
 
-  // lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
-  uint32 scroll_dir = 34;
+  // lv_dir_t scroll direction constraint — direct-cast (parity-gated).
+  //
+  // EXPLICIT PRESENCE, and this field is why the batch exists. LV_DIR_NONE IS
+  // ZERO and is LVGL's own name for "this object does not scroll", while
+  // `lv_obj_allocate_spec_attr` defaults a fresh object to LV_DIR_ALL. Under a
+  // bare proto3 scalar the renderer could only test `!= 0`, so a screen could
+  // ENABLE any subset of axes and could never DISABLE scrolling: the one
+  // value the enum reserves for that was the one the encoding had taken for
+  // "unset". Absent = leave the LVGL default; present = applied verbatim,
+  // including NONE.
+  optional uint32 scroll_dir = 34;
 
   // Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
   // encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
@@ -452,9 +474,15 @@ message TabviewProps {
       string: {max_len: 31}
     }
   }];
-  // Tab bar size in px (height for top/bottom bars, width for left/right);
-  // 0 = keep the LVGL default (DPI-derived).
-  int32 tab_bar_size = 2;
+  // Tab bar size in px (height for top/bottom bars, width for left/right).
+  //
+  // EXPLICIT PRESENCE: `lv_tabview_set_tab_bar_size(tv, 0)` sets the bar's
+  // height (or width) to zero — a HIDDEN tab bar, which is a real state for a
+  // tabview driven programmatically rather than by its own buttons. Under a
+  // bare proto3 scalar that value was indistinguishable from "unset", so the
+  // renderer skipped it and hiding the bar was inexpressible. Absent = keep
+  // the LVGL default (DPI-derived); present = applied, zero included.
+  optional int32 tab_bar_size = 2;
   // Initially active tab index (applied LAST, with LV_ANIM_OFF).
   uint32 active_index = 3;
   // Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
@@ -523,11 +551,26 @@ message HostProxyProps {
   ProxyMode mode = 2 [(buf.validate.field).enum = {defined_only: true}];
   // Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
   // at 2x the resolved handle size so handles stay usable).
+  //
+  // DELIBERATELY NOT `optional`, unlike WidgetNode.x/y, scroll_dir,
+  // TabviewProps.tab_bar_size and TargetOverlayProps.border_width. Those five
+  // each have a zero the DOMAIN admits and the encoding had stolen. These do
+  // not: the renderer applies the max clamp AFTER the min floor, so an
+  // honoured max of 0 would force a zero-width box in defiance of the
+  // 2*handle_px floor the line below exists to guarantee. Zero-means-absent is
+  // the CORRECT encoding here, and converting it would be churn plus a
+  // gratuitous break for every consumer.
   int32 min_w = 3;
   int32 min_h = 4;
   int32 max_w = 5;
   int32 max_h = 6;
   // Corner handle edge, px. 0 = renderer default (DPI-derived).
+  //
+  // NOT `optional`, on the same test as the clamps above: the handles ARE the
+  // resize affordance, so an edge of zero is not a smaller affordance but the
+  // absence of one — which a screen expresses by choosing a non-RESIZABLE
+  // ProxyMode. It would also silently zero `draw_floor` (2*handle_px) in the
+  // resize clamp, removing the minimum-size guarantee rather than setting it.
   uint32 handle_size = 7;
   // Opaque host stacking hint, forwarded verbatim in reports (jettison's
   // consumers want zIndex with every position update). The renderer never
@@ -588,11 +631,17 @@ message TargetOverlayProps {
   // tree level, so an inline array would tax every node of every screen for a
   // list only this widget carries.
   repeated TargetBox boxes = 1 [(buf.validate.field).repeated = {max_items: 32}];
-  // Box stroke width in design px; 0 = the renderer default. It is a prop
-  // rather than a style property because the boxes are renderer-built children
-  // that no StyleGroup can address — the same reason HostProxyProps carries
-  // handle_size.
-  uint32 border_width = 2 [(buf.validate.field).uint32 = {lte: 16}];
+  // Box stroke width in design px. It is a prop rather than a style property
+  // because the boxes are renderer-built children that no StyleGroup can
+  // address — the same reason HostProxyProps carries handle_size.
+  //
+  // EXPLICIT PRESENCE: a stroke width of ZERO is a stroke-less box, which is a
+  // real annotation style (the caption alone marks the detection) and not the
+  // absence of a value. Under a bare proto3 scalar the renderer substituted
+  // its own default for 0, so an unstroked box could not be asked for. Absent
+  // = the renderer default; present = applied, zero included. The `lte: 16`
+  // bound still binds a PRESENT value; the renderer refuses past it.
+  optional uint32 border_width = 2 [(buf.validate.field).uint32 = {lte: 16}];
   // Suppress every caption without clearing the labels. Polarity is chosen so
   // proto3's false default draws them: a producer that fills in boxes and
   // labels gets the captions it wrote without having to set a second flag.

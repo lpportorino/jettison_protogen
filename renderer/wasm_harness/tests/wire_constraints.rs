@@ -235,7 +235,11 @@ fn hit_slop_at_the_declared_bound_loads_clean() {
 // comparing the two in the proto sees two declared bounds and cannot tell which
 // one anything upholds.
 
-fn target_overlay_screen(border_width: u32) -> Vec<u8> {
+/// `border_width` is `Option` because the field is proto3 `optional`: its ZERO
+/// is a stroke-less box, so presence is what selects an authored width over the
+/// renderer's own default. The bound check is on the PRESENT value, which is
+/// what these cases drive.
+fn target_overlay_screen(border_width: Option<u32>) -> Vec<u8> {
     screen_of(ui::WidgetNode {
         r#type: ui::WidgetType::WidgetTargetOverlay as i32,
         widget_props: Some(ui::widget_node::WidgetProps::TargetOverlayProps(
@@ -258,7 +262,7 @@ fn target_overlay_screen(border_width: u32) -> Vec<u8> {
 #[test]
 fn target_overlay_border_width_past_the_declared_bound_is_refused() {
     assert_refused(
-        &target_overlay_screen(MAX_TARGET_BORDER_WIDTH + 1),
+        &target_overlay_screen(Some(MAX_TARGET_BORDER_WIDTH + 1)),
         "a target-overlay border_width one past the declared lte bound",
     );
 }
@@ -266,7 +270,7 @@ fn target_overlay_border_width_past_the_declared_bound_is_refused() {
 #[test]
 fn target_overlay_border_width_at_the_int32_ceiling_is_refused() {
     assert_refused(
-        &target_overlay_screen(u32::MAX),
+        &target_overlay_screen(Some(u32::MAX)),
         "a target-overlay border_width of 0xFFFFFFFF",
     );
 }
@@ -274,19 +278,30 @@ fn target_overlay_border_width_at_the_int32_ceiling_is_refused() {
 #[test]
 fn target_overlay_border_width_at_the_declared_bound_loads_clean() {
     assert_loads_clean(
-        &target_overlay_screen(MAX_TARGET_BORDER_WIDTH),
+        &target_overlay_screen(Some(MAX_TARGET_BORDER_WIDTH)),
         "a target-overlay border_width exactly at the declared lte bound",
     );
 }
 
-/// Zero is not "no value" here — it is the documented request for the
-/// renderer's own default stroke, so it must survive a bound check written as
-/// a range.
+/// A PRESENT zero is a stroke-less box — the caption alone marks the detection
+/// — so it must survive a bound check written as a range. It used to mean "give
+/// me the renderer's default stroke", which is now what ABSENCE means; the case
+/// below pins that second reading so the two cannot collapse back together.
 #[test]
 fn target_overlay_border_width_zero_loads_clean() {
     assert_loads_clean(
-        &target_overlay_screen(0),
-        "a target-overlay border_width of 0 (the documented default-stroke request)",
+        &target_overlay_screen(Some(0)),
+        "a target-overlay border_width of 0 (an explicit stroke-less box)",
+    );
+}
+
+/// The other half of the pair above: no `border_width` on the wire at all, which
+/// is what now requests the renderer's own default stroke.
+#[test]
+fn target_overlay_border_width_absent_loads_clean() {
+    assert_loads_clean(
+        &target_overlay_screen(None),
+        "a target-overlay with no border_width (the default-stroke request)",
     );
 }
 
@@ -400,7 +415,7 @@ fn overlay_with_boxes(n: usize) -> Vec<u8> {
                         ..Default::default()
                     })
                     .collect(),
-                border_width: 0,
+                border_width: None,
                 hide_labels: true,
             },
         )),
