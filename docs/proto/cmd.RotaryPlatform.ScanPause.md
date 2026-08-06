@@ -44,6 +44,10 @@ Pauses the active scan pattern execution
 - [[proto/cmd.RotaryPlatform.ScanStop]]
 
 
+### Preconditions
+
+- Scan must be active
+
 
 ### Implementation Notes
 

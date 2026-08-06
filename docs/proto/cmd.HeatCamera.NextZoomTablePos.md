@@ -43,6 +43,10 @@ Move to next preset zoom position in lookup table
 - [[proto/cmd.HeatCamera.PrevZoomTablePos]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

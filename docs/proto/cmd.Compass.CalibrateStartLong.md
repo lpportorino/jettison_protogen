@@ -39,6 +39,10 @@ Start long compass calibration procedure
 - [[proto/cmd.Compass.CalibrateCencel]]
 
 
+### Preconditions
+
+- Compass must be started
+
 
 ### Implementation Notes
 

@@ -44,6 +44,10 @@ Refreshes/reapplies the current FX mode for thermal camera
 - [[proto/cmd.HeatCamera.PrevFxMode]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

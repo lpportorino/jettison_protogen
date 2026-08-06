@@ -45,6 +45,10 @@ Sets the DDE (Digital Detail Enhancement) level for thermal image processing
 - [[proto/cmd.HeatCamera.DisableDDE]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

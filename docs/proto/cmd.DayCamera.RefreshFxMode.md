@@ -38,6 +38,10 @@ Refresh current FX mode on day camera
 
 
 
+### Preconditions
+
+- Day camera must be started
+
 
 ### Implementation Notes
 

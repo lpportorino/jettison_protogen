@@ -42,6 +42,10 @@ Disables LRF refine mode
 - [[proto/cmd.Lrf.RefineOn]]
 
 
+### Preconditions
+
+- LRF must be started
+
 
 ### Implementation Notes
 

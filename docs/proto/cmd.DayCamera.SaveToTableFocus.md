@@ -42,6 +42,10 @@ Save current focus position to lookup table
 - [[proto/cmd.DayCamera.Focus]]
 
 
+### Preconditions
+
+- Day camera must be started
+
 
 ### Implementation Notes
 

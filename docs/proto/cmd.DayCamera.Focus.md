@@ -60,6 +60,10 @@ Controls day camera focus operations (set, move, halt, offset, reset, save)
 - [[proto/cmd.DayCamera.SetAutoGain]]
 
 
+### Preconditions
+
+- Day camera must be started
+
 
 ### Implementation Notes
 

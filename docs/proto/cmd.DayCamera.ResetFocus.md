@@ -42,6 +42,10 @@ Reset focus to default/home position
 - [[proto/cmd.DayCamera.Focus]]
 
 
+### Preconditions
+
+- Day camera must be started
+
 
 ### Implementation Notes
 

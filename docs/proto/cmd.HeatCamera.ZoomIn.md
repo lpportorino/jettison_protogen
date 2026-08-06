@@ -43,6 +43,10 @@ Start zooming heat camera in (continuous motion)
 - [[proto/cmd.HeatCamera.ZoomStop]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

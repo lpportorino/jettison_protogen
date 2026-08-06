@@ -41,6 +41,11 @@ Continuously rotate azimuth axis at specified speed and direction
 - [[proto/cmd.RotaryPlatform.RotateAzimuthTo]]
 
 
+### Preconditions
+
+- Rotary platform must be started
+- Mode must allow manual control
+
 
 
 

@@ -50,6 +50,11 @@ Focus on region of interest (ROI) in day camera
 - [[proto/cmd.DayCamera.ZoomROI]]
 
 
+### Preconditions
+
+- Day camera must be started
+- User draws rectangle or taps on video overlay
+
 
 ### Implementation Notes
 

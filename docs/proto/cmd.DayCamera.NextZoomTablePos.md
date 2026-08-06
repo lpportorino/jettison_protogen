@@ -43,6 +43,10 @@ Steps to next predefined optical zoom position
 - [[proto/cmd.DayCamera.PrevZoomTablePos]]
 
 
+### Preconditions
+
+- Day camera must be started
+
 
 ### Implementation Notes
 

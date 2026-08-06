@@ -42,6 +42,10 @@ Enable fog mode for laser range finder (optimizes for low visibility)
 - [[proto/cmd.Lrf.DisableFogMode]]
 
 
+### Preconditions
+
+- LRF must be started
+
 
 
 

@@ -48,6 +48,10 @@ Rotates azimuth axis by a relative offset from current position
 - [[proto/cmd.RotaryPlatform.RotateElevationRelative]]
 
 
+### Preconditions
+
+- Rotary platform must be started
+
 
 ### Implementation Notes
 

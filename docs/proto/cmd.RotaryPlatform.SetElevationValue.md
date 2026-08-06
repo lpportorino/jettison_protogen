@@ -39,6 +39,11 @@ Set absolute elevation position of rotary platform
 
 
 
+### Preconditions
+
+- Rotary platform must be started
+- Position mode
+
 
 
 

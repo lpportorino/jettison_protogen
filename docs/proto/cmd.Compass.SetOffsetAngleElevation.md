@@ -44,6 +44,10 @@ Set compass elevation angle offset calibration value
 - [[proto/cmd.Compass.Start]]
 
 
+### Preconditions
+
+- Compass must be started
+
 
 
 

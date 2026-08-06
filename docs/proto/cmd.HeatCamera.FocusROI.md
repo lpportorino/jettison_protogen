@@ -49,6 +49,11 @@ Focuses camera on user-selected region of interest
 - [[proto/cmd.HeatCamera.ZoomROI]]
 
 
+### Preconditions
+
+- Heat camera must be started
+- User draws rectangle or taps on video overlay
+
 
 ### Implementation Notes
 

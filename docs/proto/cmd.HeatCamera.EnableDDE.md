@@ -43,6 +43,10 @@ Enables Digital Detail Enhancement on thermal camera
 - [[proto/cmd.HeatCamera.SetDDELevel]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

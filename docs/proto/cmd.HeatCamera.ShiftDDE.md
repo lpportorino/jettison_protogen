@@ -45,6 +45,10 @@ Adjust DDE (Digital Detail Enhancement) level incrementally for heat camera
 - [[proto/cmd.HeatCamera.DisableDDE]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

@@ -43,6 +43,10 @@ Continuously focus toward near (while held)
 - [[proto/cmd.HeatCamera.FocusStop]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

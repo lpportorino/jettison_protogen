@@ -43,6 +43,10 @@ Halts all thermal camera motor movements (zoom and focus)
 - [[proto/cmd.HeatCamera.FocusStop]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 
