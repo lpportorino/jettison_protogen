@@ -55,6 +55,10 @@ Controls thermal camera optical zoom position
 - [[proto/cmd.HeatCamera.ResetZoom]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 
 

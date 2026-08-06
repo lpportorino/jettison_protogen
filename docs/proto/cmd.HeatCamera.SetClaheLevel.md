@@ -39,6 +39,10 @@ Set CLAHE (contrast limited adaptive histogram equalization) level for heat came
 
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

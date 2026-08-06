@@ -43,6 +43,10 @@ Cycles to next FX enhancement mode
 - [[proto/cmd.HeatCamera.PrevFxMode]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

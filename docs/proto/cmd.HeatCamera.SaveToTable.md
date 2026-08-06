@@ -42,6 +42,10 @@ Save current zoom position to lookup table
 - [[proto/cmd.HeatCamera.Zoom]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 ### Implementation Notes
 

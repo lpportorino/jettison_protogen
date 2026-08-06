@@ -20,4 +20,17 @@ type: message
 
 
 
+## Interaction
+
+
+
+
+
+
+### Preconditions
+
+- Day camera must be started
+
+
+
 

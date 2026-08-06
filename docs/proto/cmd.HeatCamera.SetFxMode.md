@@ -44,6 +44,10 @@ Set FX (image enhancement) mode for heat camera
 - [[proto/cmd.HeatCamera.PrevFxMode]]
 
 
+### Preconditions
+
+- Heat camera must be started
+
 
 
 

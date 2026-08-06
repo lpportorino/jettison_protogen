@@ -43,6 +43,10 @@ Adjust CLAHE (Contrast Limited Adaptive Histogram Equalization) level incrementa
 - [[proto/cmd.DayCamera.SetClaheLevel]]
 
 
+### Preconditions
+
+- Day camera must be started
+
 
 ### Implementation Notes
 
