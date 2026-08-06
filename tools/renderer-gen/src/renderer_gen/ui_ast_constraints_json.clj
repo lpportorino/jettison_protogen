@@ -167,7 +167,19 @@
                               [j acc]
                               (recur (inc j) (str acc " " (nth lines (inc j))))))
                   flat (str/replace (str/trim buf) #"\s+" " ")
-                  decl (re-find #"^(?:repeated\s+)?([\w.]+) (\w+) = \d+" flat)]
+                  ;; BOTH label keywords, because this parses proto TEXT and the
+                  ;; vocabulary now uses both. `optional` (proto3 explicit
+                  ;; presence) was added to give several fields a real absent
+                  ;; state where 0 was a legal domain value the encoding had
+                  ;; stolen; this reader admitted only `repeated` and so failed
+                  ;; every such field as unparseable.
+                  ;;
+                  ;; IT FAILED LOUDLY, which is why this is a one-line fix and
+                  ;; not an incident: `fail :unparseable-field` below refuses
+                  ;; rather than skipping, so the first `optional` field reddened
+                  ;; this generator and seven lanes downstream of it instead of
+                  ;; silently emitting a manifest missing those constraints.
+                  decl (re-find #"^(?:(?:repeated|optional)\s+)?([\w.]+) (\w+) = \d+" flat)]
               (when-not decl
                 (fail :unparseable-field
                       (str "cannot read a `<type> <name> = <n>` declaration "
