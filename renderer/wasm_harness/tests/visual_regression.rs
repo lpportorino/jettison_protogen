@@ -4454,6 +4454,84 @@ mod gesture_recognition {
         let mv = step(&mut h, GestureEvent::mv(1, 0.6, 0.0, 32));
         assert_empty("survivor does not resume pan after a pinch cancel", &mv);
     }
+    /// 28: the double-tap elapsed is the TRUE elapsed across the int32
+    /// timestamp WRAP. `t_ms` is the host clock narrowed to int32 (main.c
+    /// feed_gesture), so it wraps after ~24.8 days of uptime;
+    /// classify_release subtracts in uint32 so a straddling pair stays
+    /// well-defined and keeps its real magnitude.
+    ///
+    /// TWO HALVES, AND ONLY THE SECOND ONE DISCRIMINATES. A straddling pair
+    /// 100 ms apart must read as TRACK — but so would a SIGNED delta, which
+    /// goes hugely negative and is `<= 300` for the wrong reason, so that
+    /// half alone would pass against the very implementation this test
+    /// exists to refuse. The 5000 ms pair is the real assertion: outside the
+    /// window, it must read TAP, and a signed delta answers TRACK.
+    #[test]
+    fn test_double_tap_elapsed_survives_int32_wrap() {
+        let mut h = rec();
+        // 100 ms apart, straddling the wrap → inside the window → track.
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, 2_147_483_547));
+        assert_xy(
+            "prime tap before wrap",
+            &step(&mut h, GestureEvent::up(1, 0.0, 0.0, 2_147_483_597)),
+            TAP,
+            0.0,
+            0.0,
+        );
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, -2_147_483_620));
+        assert_xy(
+            "100ms across the wrap is a track",
+            &step(&mut h, GestureEvent::up(1, 0.0, 0.0, -2_147_483_599)),
+            TRACK,
+            0.0,
+            0.0,
+        );
+        // 5000 ms apart, straddling the wrap → OUTSIDE the window → tap.
+        // A signed elapsed reads -4294962296 <= 300 and says TRACK here.
+        h.gesture_test_reset().expect("reset");
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, 2_147_483_547));
+        assert_xy(
+            "re-prime tap before wrap",
+            &step(&mut h, GestureEvent::up(1, 0.0, 0.0, 2_147_483_597)),
+            TAP,
+            0.0,
+            0.0,
+        );
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, -2_147_478_720));
+        assert_xy(
+            "5000ms across the wrap is a tap",
+            &step(&mut h, GestureEvent::up(1, 0.0, 0.0, -2_147_478_699)),
+            TAP,
+            0.0,
+            0.0,
+        );
+    }
+    /// 29: a BACKWARDS-stamped second release is a tap, never a track. The
+    /// uint32 elapsed turns a negative interval into a huge positive one, so
+    /// a release stamped EARLIER than the tap before it falls outside the
+    /// window and arbitrates to TAP — a time-travelling release cannot be
+    /// promoted into a track.
+    ///
+    /// This is the one input class where the uint32 delta and an f64 SIGNED
+    /// elapsed disagree: signed reads -40 <= 300 and answers TRACK. Keeping
+    /// TAP is deliberate, and the test exists so a later "match the f64
+    /// reference" edit has to argue with a named case instead of silently
+    /// reintroducing both a spurious track AND the wrap UB test 28 pins.
+    #[test]
+    fn test_backwards_stamped_release_is_tap() {
+        let mut h = rec();
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, 200));
+        assert_xy(
+            "prime tap",
+            &step(&mut h, GestureEvent::up(1, 0.0, 0.0, 240)),
+            TAP,
+            0.0,
+            0.0,
+        );
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, 210));
+        let second = step(&mut h, GestureEvent::up(1, 0.0, 0.0, 200));
+        assert_xy("backwards second release", &second, TAP, 0.0, 0.0);
+    }
 }
 // ═══════════════════════════════════════════════════════════════════
 // R4 pointer entry + bounded table + capture-on-claim routing.
