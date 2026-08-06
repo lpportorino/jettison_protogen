@@ -33,8 +33,8 @@
     },
     "disabled-fg": {
       "kind": "color",
-      "dark": "#9A9BB6",
-      "light": "#3D3C2C"
+      "dark": "#A7A8C3",
+      "light": "#3D3C2B"
     },
     "disabled-opa": {
       "kind": "opacity",
@@ -84,13 +84,13 @@
     },
     "fg-1": {
       "kind": "color",
-      "dark": "#9898B0",
-      "light": "#404050"
+      "dark": "#C6C7E0",
+      "light": "#2A2938"
     },
     "fg-2": {
       "kind": "color",
-      "dark": "#8686A0",
-      "light": "#585846"
+      "dark": "#A7A8C3",
+      "light": "#3D3C2B"
     },
     "focused-edge": {
       "kind": "color",

@@ -21,28 +21,39 @@
           :olive-100 "#D0D0C0"
           :olive-200 "#C0C0A8"
           ;; :olive-400 = light EDGE tone (3.80:1 / 3.24:1 vs surface-1/2,
-          ;; non-text 3:1 floor); :olive-500 = light DIM TEXT tone (5.44:1 /
-          ;; 4.64:1, text 4.5:1 floor). Two tokens because border and muted
-          ;; text carry DIFFERENT contrast floors — the retired :olive-300
-          ;; ("#8A8A70") served both roles and could not clear either.
+          ;; non-text 3:1 floor); :olive-500 = the light DIMMEST-LEGIBLE TEXT
+          ;; tone, which is both :fg-2 and — since the ladder went to three
+          ;; rungs — the disabled/placeholder tone (see :disabled-fg). Two
+          ;; tokens because border and text carry DIFFERENT contrast floors —
+          ;; the retired :olive-300 ("#8A8A70") served both roles and could not
+          ;; clear either.
           :olive-400 "#70705A"
-          :olive-500 "#585846"
-          ;; :olive-600 = light DISABLED TEXT tone. It exists because the
-          ;; disabled fade was removed (see :fg-disabled for the full
-          ;; derivation): with no fade the AUTHORED pair is the RENDERED pair
-          ;; — which holds HERE because this is disabled TEXT, where the theme
-          ;; also pins recolor_opa TRANSP, and is NOT a theme-wide identity
-          ;; (hover/pressed/disabled_dim all recolor; see §6.2) —
-          ;; so the tone has to clear the governing 6:1 on its own, and
-          ;; :olive-500 does not (5.44:1 / 4.64:1 / 3.91:1 on surface-1/2/
-          ;; overlay). Solved as the DIMMEST OKLCH lightness at :olive-500's
-          ;; own hue+chroma clearing 6:1 against the DARKEST light surface
-          ;; (surface-overlay #C0C0A8): L 0.455 -> 0.353, giving 6.03:1 there
-          ;; and 9.75/8.39/7.16:1 on surface-0/1/2. Note DARKER, not lighter —
-          ;; light-mode dimming moves away from the surface, not toward it.
-          :olive-600 "#3D3C2C"
+          ;; DERIVED: the LIGHTEST emittable colour at the retired "#585846"'s
+          ;; own hue (107.5) and chroma (0.028) clearing MIL-STD-1472H
+          ;; 5.2.2.7's 6:1 against the DARKEST FILL a light-theme label can sit
+          ;; on. That fill is :pressed-surface and :surface-overlay, which SHARE
+          ;; the value "#C0C0A8" — and it is NOT :surface-2 ("#D0D0C0"), which
+          ;; is lighter and would bless a tone that fails where it lands.
+          ;; LIGHTEST, not darkest: light-mode dimming moves AWAY from the
+          ;; surface, so the minimal repair is the highest lightness that still
+          ;; clears. L 0.4550 -> 0.3520, giving 6.04:1 on the binding fill and
+          ;; 9.75/8.40/7.16:1 on surface-0/1/2; the retired value measured
+          ;; 3.91:1 there. Hue and chroma are untouched because WCAG contrast is
+          ;; a LUMINANCE ratio — chroma does not enter it, so only lightness can
+          ;; repair a contrast failure.
+          :olive-500 "#3D3C2B"
           :olive-fg-0 "#1A1A28"
-          :olive-fg-1 "#404050"
+          ;; DERIVED BY PLACEMENT, not by a floor of its own — and that is the
+          ;; whole shape of the middle rung. :olive-500 below it already clears
+          ;; the governing floor on every fill, so every tone darker than that
+          ;; clears it too and the floor fixes nothing here. What fixes this
+          ;; value is WHERE it sits between :olive-fg-0 and :olive-500: the
+          ;; emittable colour at the retired "#404050"'s own hue (285.0) and
+          ;; chroma (0.027) that MAXIMISES THE SMALLER of its two neighbouring
+          ;; OKLCH-L gaps. L 0.3779 -> 0.2886, leaving gaps of 0.0639 above and
+          ;; 0.0633 below. The retired value measured 5.49:1 on the binding
+          ;; fill — under floor, while reading as comfortable on surface-1.
+          :olive-fg-1 "#2A2938"
           ;; Accent palette
           :violet-dim "#6B4FA0"
           :violet "#8B5CF6"
@@ -84,53 +95,34 @@
           :media-blue "#2F81F7"
           ;; Text colors
           :fg-white "#E8E8F0"
-          :fg-muted "#9898B0"
-          ;; Dim-but-legible, and NO LONGER THE DISABLED TONE — that role moved
-          ;; to :fg-disabled when the fade came out. This is now only :fg-2,
-          ;; the muted-text role.
+          ;; DERIVED BY PLACEMENT, not by a floor of its own. :fg-dim below it
+          ;; already clears the governing floor on every fill, so every tone
+          ;; brighter than that clears it too and the floor fixes nothing here.
+          ;; What fixes this value is WHERE it sits between :fg-white and
+          ;; :fg-dim: the emittable colour at the retired "#9898B0"'s own hue
+          ;; (285.4) and chroma (0.035) that MAXIMISES THE SMALLER of its two
+          ;; neighbouring OKLCH-L gaps. L 0.6877 -> 0.8367, leaving gaps of
+          ;; 0.0966 above and 0.0971 below, against 0.2456 / 0.0586 before —
+          ;; the ladder was top-heavy, with three rungs crowded into its dim
+          ;; end. The retired value measured 4.97:1 on the binding fill.
+          :fg-muted "#C6C7E0"
+          ;; The DIMMEST LEGIBLE dark tone: :fg-2, and — since the ladder went
+          ;; to three rungs — the disabled and placeholder tone as well (see
+          ;; :disabled-fg for why the fourth rung cannot exist).
           ;;
-          ;; Its historical justification was clearing 4.5:1 on surface-2
-          ;; (4.63:1; the prior "#606078" measured 2.69:1) while staying
-          ;; visibly dimmer than :fg-muted. That bar is WCAG's, which PDL-1
-          ;; rejects as the floor: at the governing 6:1 this tone FAILS on
-          ;; every dark surface (5.57 / 5.24 / 4.63 on surface-0/1/2). It is
-          ;; left at its value because moving it is a ladder-wide decision —
-          ;; :fg-1 above it fails too — and that ladder is its own task.
-          :fg-dim "#8686A0"
-          ;; :fg-disabled = dark DISABLED TEXT tone, and the reason it is a
-          ;; SEPARATE primitive from :fg-dim is the whole point of the change
-          ;; that introduced it.
-          ;;
-          ;; Until now `disabled-fg` was an ALIAS of `fg-2`, and the disabled
-          ;; LOOK came from a whole-widget opacity in theme.c rather than from
-          ;; the tone. That fade folds into `layer->opa` (lv_refr.c
-          ;; `lv_obj_refr`) and re-composites the GLYPH AND THE FILL against
-          ;; whatever sits behind, so the pair the operator reads was never the
-          ;; pair these tokens declare — measured on the disabled tabview at
-          ;; 3.76:1 dark / 2.76:1 light against 17.21 / 15.76 enabled. With the
-          ;; fade gone the authored pair IS the rendered pair, so it has to
-          ;; clear the floor by itself.
-          ;;
-          ;; DERIVED, not picked: the dimmest OKLCH lightness at :fg-dim's own
-          ;; hue (285.2) and chroma (0.039) that clears MIL-STD-1472H 5.2.2.7's
-          ;; 6:1 "shall" against the LIGHTEST dark surface (surface-2 #1E1E2E).
-          ;; L 0.629 -> 0.697, giving 6.04:1 there and 7.27/6.84:1 on
-          ;; surface-0/1. Hue and chroma are unchanged because WCAG contrast is
-          ;; a LUMINANCE ratio — chroma does not enter it, so only L can fix a
-          ;; contrast failure. Everything from here up to :fg-white also clears
-          ;; 6:1; the minimum is taken because it is the only DERIVED point in
-          ;; that range and it keeps the most dimming signal.
-          ;;
-          ;; KNOWN, AND NOT FIXED HERE: at L 0.697 this sits 0.009 above
-          ;; :fg-muted (:fg-1, L 0.688) — so the disabled tone is now marginally
-          ;; BRIGHTER than the muted tone and the two are near-indistinguishable
-          ;; in dark mode. That inversion is forced, not chosen: :fg-muted
-          ;; itself measures 5.82:1 on surface-2 and is BELOW the governing
-          ;; floor, so anything that clears 6:1 must outrank it. Raising this
-          ;; token further to escape the collision would spend disabled signal
-          ;; working around a token that has to move anyway; the fix is the
-          ;; locked lightness ladder, which owns :fg-1.
-          :fg-disabled "#9A9BB6"}
+          ;; DERIVED: the dimmest emittable colour at the retired "#8686A0"'s
+          ;; own hue (285.2) and chroma (0.039) clearing MIL-STD-1472H
+          ;; 5.2.2.7's 6:1 against the LIGHTEST FILL a dark-theme label can sit
+          ;; on. THAT FILL IS :pressed-surface ("#2A2A3E", wcag-Y 0.0250), NOT
+          ;; :surface-2 ("#1E1E2E", 0.0140): the binding fill is whichever fill
+          ;; is closest in luminance to the text, and it is not in the surface-*
+          ;; ladder at all. A derivation scoped to surface-* blesses a tone that
+          ;; fails where it lands, which is what the retired disabled tone did.
+          ;; L 0.6291 -> 0.7397, giving 6.02:1 on the binding fill and
+          ;; 8.48/7.98/7.05:1 on surface-0/1/2; the retired value measured
+          ;; 3.96:1 there. Hue and chroma are unchanged because WCAG contrast is
+          ;; a LUMINANCE ratio — only lightness can repair a contrast failure.
+          :fg-dim "#A7A8C3"}
  :fonts {:b612mono-bold-12 {:family "b612mono_bold" :size 12}
          :b612mono-bold-14 {:family "b612mono_bold" :size 14}
          :b612mono-bold-16 {:family "b612mono_bold" :size 16}
@@ -287,17 +279,44 @@
             :checked-accent {:dark :cyan-dim :light :cyan-dim}
             ;; The DISABLED text tone — and, since the fade was removed, the
             ;; only thing carrying the disabled signal on a text-bearing
-            ;; widget. It has its own primitives (:fg-disabled / :olive-600)
-            ;; rather than aliasing :fg-2, because it now has to clear the
-            ;; governing 6:1 unaided and :fg-2 does not. The derivation and the
-            ;; residual it leaves behind are on those two primitives.
+            ;; widget. IT IS THE SAME TONE AS :fg-2. The foreground ladder
+            ;; carries THREE rungs, not four, and this is where the fourth
+            ;; went; it had its own primitives while :fg-2 sat under the
+            ;; governing floor and could not host the role, and that reason
+            ;; expired when :fg-2 was moved to clear it.
+            ;;
+            ;; WHY THREE, AND WHY LIGHT IS WHAT DECIDES IT. Every text tone has
+            ;; to clear the governing 6:1 against the fill it lands on, so the
+            ;; dim end of the ladder is pinned at the dimmest tone that does;
+            ;; :fg-0 pins the bright end. What is left is an OKLCH-L band, and
+            ;; the rungs that fit in it are that band divided by the smallest
+            ;; gap this palette's own prose calls visible — 0.0586, the gap the
+            ;; retired "#9898B0"/"#8686A0" pair spanned and was described with.
+            ;; DARK leaves a band of 0.1936, which carries three gaps and so
+            ;; FOUR rungs. LIGHT leaves 0.1272, which carries two gaps and so
+            ;; three. The rung COUNT is one table serving both themes, so light
+            ;; binds and the fourth rung cannot exist. Do not restore it by
+            ;; reading the dark figure alone.
+            ;;
+            ;; WHAT THE MERGE COSTS, said here rather than found later: a label
+            ;; already inked :fg-2 shows NO change when it is disabled, because
+            ;; the two tones are now one. A :fg-0 label still dims visibly. The
+            ;; alternative is a fourth tone the light theme has no room for at
+            ;; the governing floor — a legibility failure traded for a state
+            ;; affordance, which is the wrong direction for operator-facing
+            ;; text.
+            ;;
+            ;; THIS ROLE IS ALSO A FILL, and moving it moves that pair too: the
+            ;; theme draws the disabled roller's selected band in this colour
+            ;; with :surface-2 as the ink. That pair goes 6.04:1 -> 7.05:1 dark
+            ;; and holds at 7.16:1 light, so the merge improves it.
             ;;
             ;; The NAME lags the ROLE: this is "the dimmest tone still legible
             ;; at the governing floor", which is also what a textarea
             ;; PLACEHOLDER needs, and theme.c authors the placeholder from it
-            ;; for exactly that reason. Renaming belongs with the ladder work
-            ;; that renumbers these roles, not with the fade removal.
-            :disabled-fg {:dark :fg-disabled :light :olive-600}
+            ;; for exactly that reason. Renaming belongs with the work that
+            ;; renumbers these roles.
+            :disabled-fg {:dark :fg-dim :light :olive-500}
             ;; ── HUD overlay controls ──
             :hud-border {:dark :violet :light :violet-deep}
             :hud-scrim-opa {:dark :subtle :light :light}
