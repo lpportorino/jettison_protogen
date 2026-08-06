@@ -47005,7 +47005,7 @@ java.lang.String defaultValue) {
      * <pre>
      * event keyword — IS the command identifier. Budget 127 for parity with
      * CmdSpec.command_id: a composite command's collect events read
-     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
      * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
@@ -47017,7 +47017,7 @@ java.lang.String defaultValue) {
      * <pre>
      * event keyword — IS the command identifier. Budget 127 for parity with
      * CmdSpec.command_id: a composite command's collect events read
-     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
      * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
@@ -47287,7 +47287,7 @@ java.lang.String defaultValue) {
      * <pre>
      * event keyword — IS the command identifier. Budget 127 for parity with
      * CmdSpec.command_id: a composite command's collect events read
-     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
      * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
@@ -47311,7 +47311,7 @@ java.lang.String defaultValue) {
      * <pre>
      * event keyword — IS the command identifier. Budget 127 for parity with
      * CmdSpec.command_id: a composite command's collect events read
-     * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+     * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
      * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
      * </pre>
      *
@@ -48212,7 +48212,7 @@ java.lang.String defaultValue) {
        * <pre>
        * event keyword — IS the command identifier. Budget 127 for parity with
        * CmdSpec.command_id: a composite command's collect events read
-       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
        * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
@@ -48235,7 +48235,7 @@ java.lang.String defaultValue) {
        * <pre>
        * event keyword — IS the command identifier. Budget 127 for parity with
        * CmdSpec.command_id: a composite command's collect events read
-       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
        * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
@@ -48259,7 +48259,7 @@ java.lang.String defaultValue) {
        * <pre>
        * event keyword — IS the command identifier. Budget 127 for parity with
        * CmdSpec.command_id: a composite command's collect events read
-       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
        * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
@@ -48279,7 +48279,7 @@ java.lang.String defaultValue) {
        * <pre>
        * event keyword — IS the command identifier. Budget 127 for parity with
        * CmdSpec.command_id: a composite command's collect events read
-       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
        * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *
@@ -48296,7 +48296,7 @@ java.lang.String defaultValue) {
        * <pre>
        * event keyword — IS the command identifier. Budget 127 for parity with
        * CmdSpec.command_id: a composite command's collect events read
-       * cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;, which exceeds 63 for long composites
+       * `cmd.&lt;Pkg&gt;.&lt;Command&gt;.collect.&lt;field&gt;`, which exceeds 63 for long composites
        * (e.g. cmd.Heater.SetAutomaticControlParams.collect.channel_0_target_temperature).
        * </pre>
        *

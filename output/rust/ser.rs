@@ -1234,7 +1234,7 @@ pub struct TrinityBoardVersion {
     pub major: u32,
     #[prost(uint32, tag = "3")]
     pub minor: u32,
-    /// sha256 of the board's geometry manifest (boards/<board>.json). The manifest
+    /// sha256 of the board's geometry manifest (`boards/<board>.json`). The manifest
     /// is the one home for every board dimension, so its hash pins the geometry a
     /// pose was computed against EXACTLY — a reprint from an edited manifest is a
     /// different board and this field says so.

@@ -3192,7 +3192,7 @@ public final class TrinityTrackingOuterClass {
 
     /**
      * <pre>
-     * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+     * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
      * is the one home for every board dimension, so its hash pins the geometry a
      * pose was computed against EXACTLY — a reprint from an edited manifest is a
      * different board and this field says so.
@@ -3204,7 +3204,7 @@ public final class TrinityTrackingOuterClass {
     java.lang.String getGeometrySha256();
     /**
      * <pre>
-     * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+     * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
      * is the one home for every board dimension, so its hash pins the geometry a
      * pose was computed against EXACTLY — a reprint from an edited manifest is a
      * different board and this field says so.
@@ -3333,7 +3333,7 @@ public final class TrinityTrackingOuterClass {
     private volatile java.lang.Object geometrySha256_ = "";
     /**
      * <pre>
-     * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+     * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
      * is the one home for every board dimension, so its hash pins the geometry a
      * pose was computed against EXACTLY — a reprint from an edited manifest is a
      * different board and this field says so.
@@ -3357,7 +3357,7 @@ public final class TrinityTrackingOuterClass {
     }
     /**
      * <pre>
-     * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+     * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
      * is the one home for every board dimension, so its hash pins the geometry a
      * pose was computed against EXACTLY — a reprint from an edited manifest is a
      * different board and this field says so.
@@ -3908,7 +3908,7 @@ public final class TrinityTrackingOuterClass {
       private java.lang.Object geometrySha256_ = "";
       /**
        * <pre>
-       * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+       * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
        * is the one home for every board dimension, so its hash pins the geometry a
        * pose was computed against EXACTLY — a reprint from an edited manifest is a
        * different board and this field says so.
@@ -3931,7 +3931,7 @@ public final class TrinityTrackingOuterClass {
       }
       /**
        * <pre>
-       * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+       * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
        * is the one home for every board dimension, so its hash pins the geometry a
        * pose was computed against EXACTLY — a reprint from an edited manifest is a
        * different board and this field says so.
@@ -3955,7 +3955,7 @@ public final class TrinityTrackingOuterClass {
       }
       /**
        * <pre>
-       * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+       * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
        * is the one home for every board dimension, so its hash pins the geometry a
        * pose was computed against EXACTLY — a reprint from an edited manifest is a
        * different board and this field says so.
@@ -3975,7 +3975,7 @@ public final class TrinityTrackingOuterClass {
       }
       /**
        * <pre>
-       * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+       * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
        * is the one home for every board dimension, so its hash pins the geometry a
        * pose was computed against EXACTLY — a reprint from an edited manifest is a
        * different board and this field says so.
@@ -3992,7 +3992,7 @@ public final class TrinityTrackingOuterClass {
       }
       /**
        * <pre>
-       * sha256 of the board's geometry manifest (boards/&lt;board&gt;.json). The manifest
+       * sha256 of the board's geometry manifest (`boards/&lt;board&gt;.json`). The manifest
        * is the one home for every board dimension, so its hash pins the geometry a
        * pose was computed against EXACTLY — a reprint from an edited manifest is a
        * different board and this field says so.

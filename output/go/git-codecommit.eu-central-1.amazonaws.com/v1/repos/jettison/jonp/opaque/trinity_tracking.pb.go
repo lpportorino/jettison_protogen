@@ -425,7 +425,7 @@ type TrinityBoardVersion struct {
 	Family string `protobuf:"bytes,1,opt,name=family,proto3" json:"family,omitempty"`
 	Major  uint32 `protobuf:"varint,2,opt,name=major,proto3" json:"major,omitempty"`
 	Minor  uint32 `protobuf:"varint,3,opt,name=minor,proto3" json:"minor,omitempty"`
-	// sha256 of the board's geometry manifest (boards/<board>.json). The manifest
+	// sha256 of the board's geometry manifest (`boards/<board>.json`). The manifest
 	// is the one home for every board dimension, so its hash pins the geometry a
 	// pose was computed against EXACTLY — a reprint from an edited manifest is a
 	// different board and this field says so.
