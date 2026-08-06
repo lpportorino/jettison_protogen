@@ -12,10 +12,10 @@ public inline fun cvDumpArchive(block: jon.cvdump.CvDumpArchiveKt.Dsl.() -> kotl
 /**
  * ```
  * ONE capture-session archive — the whole self-description of a cv_dump bundle
- * in a single nested message, written to <bundle>/archive.pb.
+ * in a single nested message, written to `<bundle>/archive.pb`.
  *
- * It replaces manifest.json, io_records/<stream>.bin and
- * telemetry/<table>.jsonl.zst + telemetry/schema.json. The FAT-safe-filename
+ * It replaces manifest.json, `io_records/<stream>.bin` and
+ * `telemetry/<table>.jsonl.zst` + telemetry/schema.json. The FAT-safe-filename
  * problem those files created is gone with them: a redis stream key now rides
  * in StreamGroup.source verbatim, so nothing is lossily rewritten to reach a
  * vfat/exfat export drive.
@@ -24,7 +24,7 @@ public inline fun cvDumpArchive(block: jon.cvdump.CvDumpArchiveKt.Dsl.() -> kotl
  * carry gigabytes of VCAP segments (the day ring alone defaults to 42 x 64 MiB
  * — see parse_segments in mods/video_capture/video_capture.cpp), which no
  * in-memory proto can hold and which a 2 GiB message limit forbids outright.
- * Segments therefore stay byte-for-byte files under video/<channel>/, fully
+ * Segments therefore stay byte-for-byte files under `video/<channel>/`, fully
  * described by VideoSegment.
  *
  * FIELD ORDER IS DELIBERATE: everything needed to triage a bundle sits at a

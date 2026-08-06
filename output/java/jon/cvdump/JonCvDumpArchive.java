@@ -376,7 +376,7 @@ public final class JonCvDumpArchive {
     STREAM_KIND_UNSPECIFIED(0),
     /**
      * <pre>
-     * logs:can:&lt;id&gt; on the LOGS redis (db 6) — one group per CAN id, so one group
+     * `logs:can:&lt;id&gt;` on the LOGS redis (db 6) — one group per CAN id, so one group
      * is one id and therefore one direction. payload is RedisStreamRecords.
      * </pre>
      *
@@ -429,7 +429,7 @@ public final class JonCvDumpArchive {
     public static final int STREAM_KIND_UNSPECIFIED_VALUE = 0;
     /**
      * <pre>
-     * logs:can:&lt;id&gt; on the LOGS redis (db 6) — one group per CAN id, so one group
+     * `logs:can:&lt;id&gt;` on the LOGS redis (db 6) — one group per CAN id, so one group
      * is one id and therefore one direction. payload is RedisStreamRecords.
      * </pre>
      *
@@ -1190,10 +1190,10 @@ public final class JonCvDumpArchive {
   /**
    * <pre>
    * ONE capture-session archive — the whole self-description of a cv_dump bundle
-   * in a single nested message, written to &lt;bundle&gt;/archive.pb.
+   * in a single nested message, written to `&lt;bundle&gt;/archive.pb`.
    *
-   * It replaces manifest.json, io_records/&lt;stream&gt;.bin and
-   * telemetry/&lt;table&gt;.jsonl.zst + telemetry/schema.json. The FAT-safe-filename
+   * It replaces manifest.json, `io_records/&lt;stream&gt;.bin` and
+   * `telemetry/&lt;table&gt;.jsonl.zst` + telemetry/schema.json. The FAT-safe-filename
    * problem those files created is gone with them: a redis stream key now rides
    * in StreamGroup.source verbatim, so nothing is lossily rewritten to reach a
    * vfat/exfat export drive.
@@ -1202,7 +1202,7 @@ public final class JonCvDumpArchive {
    * carry gigabytes of VCAP segments (the day ring alone defaults to 42 x 64 MiB
    * — see parse_segments in mods/video_capture/video_capture.cpp), which no
    * in-memory proto can hold and which a 2 GiB message limit forbids outright.
-   * Segments therefore stay byte-for-byte files under video/&lt;channel&gt;/, fully
+   * Segments therefore stay byte-for-byte files under `video/&lt;channel&gt;/`, fully
    * described by VideoSegment.
    *
    * FIELD ORDER IS DELIBERATE: everything needed to triage a bundle sits at a
@@ -2010,10 +2010,10 @@ public final class JonCvDumpArchive {
     /**
      * <pre>
      * ONE capture-session archive — the whole self-description of a cv_dump bundle
-     * in a single nested message, written to &lt;bundle&gt;/archive.pb.
+     * in a single nested message, written to `&lt;bundle&gt;/archive.pb`.
      *
-     * It replaces manifest.json, io_records/&lt;stream&gt;.bin and
-     * telemetry/&lt;table&gt;.jsonl.zst + telemetry/schema.json. The FAT-safe-filename
+     * It replaces manifest.json, `io_records/&lt;stream&gt;.bin` and
+     * `telemetry/&lt;table&gt;.jsonl.zst` + telemetry/schema.json. The FAT-safe-filename
      * problem those files created is gone with them: a redis stream key now rides
      * in StreamGroup.source verbatim, so nothing is lossily rewritten to reach a
      * vfat/exfat export drive.
@@ -2022,7 +2022,7 @@ public final class JonCvDumpArchive {
      * carry gigabytes of VCAP segments (the day ring alone defaults to 42 x 64 MiB
      * — see parse_segments in mods/video_capture/video_capture.cpp), which no
      * in-memory proto can hold and which a 2 GiB message limit forbids outright.
-     * Segments therefore stay byte-for-byte files under video/&lt;channel&gt;/, fully
+     * Segments therefore stay byte-for-byte files under `video/&lt;channel&gt;/`, fully
      * described by VideoSegment.
      *
      * FIELD ORDER IS DELIBERATE: everything needed to triage a bundle sits at a

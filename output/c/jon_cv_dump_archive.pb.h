@@ -87,7 +87,7 @@ typedef enum _jon_cvdump_ArchiveCodec {
  byte run is what compresses. */
 typedef enum _jon_cvdump_StreamKind {
     jon_cvdump_StreamKind_STREAM_KIND_UNSPECIFIED = 0,
-    /* logs:can:<id> on the LOGS redis (db 6) — one group per CAN id, so one group
+    /* `logs:can:<id>` on the LOGS redis (db 6) — one group per CAN id, so one group
  is one id and therefore one direction. payload is RedisStreamRecords. */
     jon_cvdump_StreamKind_STREAM_KIND_CAN = 1,
     /* logs:rotary:uart:{tx,rx} — the rotary platform's chunked DATCON byte
@@ -232,10 +232,10 @@ typedef struct _jon_cvdump_IntegrityReport {
 } jon_cvdump_IntegrityReport;
 
 /* ONE capture-session archive — the whole self-description of a cv_dump bundle
- in a single nested message, written to <bundle>/archive.pb.
+ in a single nested message, written to `<bundle>/archive.pb`.
 
- It replaces manifest.json, io_records/<stream>.bin and
- telemetry/<table>.jsonl.zst + telemetry/schema.json. The FAT-safe-filename
+ It replaces manifest.json, `io_records/<stream>.bin` and
+ `telemetry/<table>.jsonl.zst` + telemetry/schema.json. The FAT-safe-filename
  problem those files created is gone with them: a redis stream key now rides
  in StreamGroup.source verbatim, so nothing is lossily rewritten to reach a
  vfat/exfat export drive.
@@ -244,7 +244,7 @@ typedef struct _jon_cvdump_IntegrityReport {
  carry gigabytes of VCAP segments (the day ring alone defaults to 42 x 64 MiB
  — see parse_segments in mods/video_capture/video_capture.cpp), which no
  in-memory proto can hold and which a 2 GiB message limit forbids outright.
- Segments therefore stay byte-for-byte files under video/<channel>/, fully
+ Segments therefore stay byte-for-byte files under `video/<channel>/`, fully
  described by VideoSegment.
 
  FIELD ORDER IS DELIBERATE: everything needed to triage a bundle sits at a
