@@ -7,5 +7,6 @@
 
 export * as can from "./index.jon.can";
 export * as logs from "./index.jon.logs";
+export * as cvdump from "./index.jon.cvdump";
 export * as video from "./index.jon.video";
 export * as archive from "./index.jon.archive";
