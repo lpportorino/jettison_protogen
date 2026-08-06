@@ -116,7 +116,31 @@
                        (:name field) (name field-type) (name sem-type))}))
 
 (defn- interaction-incomplete
-  "Messages with :category but missing :ui-pattern or :feedback."
+  "Messages with :category but missing :ui-pattern or :feedback.
+
+   THE GUARD IS :category, SO A BLOCK CARRYING NO :category IS OUTSIDE THIS
+   RULE ENTIRELY — unjudged, not judged and found complete. A message whose
+   :interaction holds only :preconditions reports here exactly what a clean
+   message reports, which is nothing. Derive that population rather than
+   assuming it is empty:
+
+     grep -L 'Category' $(grep -l '^## Interaction' docs/proto/*.md)
+
+   WIDENING THE GUARD TO :interaction IS DECLINED, because the only remedy it
+   would leave is a fabrication. This rule demands :ui-pattern and :feedback
+   beside :category, and for the pages that currently qualify the sole
+   available source for all three is the opposite camera's twin page. Those
+   twin values come from one bulk metadata extraction that assigned the two
+   cameras OPPOSITE categories on four twin commands, so it is measurably
+   unreliable for the very field that would be copied. An invented :category
+   is an invented exemption :rationale one layer earlier, and a warning here
+   fails the command outright, so widening would force that invention rather
+   than merely inviting it.
+
+   RETIRES WHEN interaction metadata has a source that is not that
+   extraction — a device contract, a per-command determination, or an
+   authored page. The guard becomes :interaction then, and the pages the
+   derivation prints are written rather than waived."
   [db]
   (for [[_id msg] (:messages db)
         :let [inter (:interaction msg)]
