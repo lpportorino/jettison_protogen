@@ -52,10 +52,20 @@
   to write that test, never to widen the list.
 
   ADDING A NAMESPACE HERE IS A RATCHET: it only ever grows. Removing one is a coverage
-  regression wearing a config edit, which is why the canary pins the list's size."
+  regression wearing a config edit, which is why the canary pins the list's size.
+
+  `lvgl-codegen.proto-ser` and `lvgl-codegen.normalize` were enrolled the way this
+  docstring prescribes — by writing the tests, not by widening the list. They are worth
+  naming because of what their absence cost: `bytes->screen` had ONE caller in the tree
+  (`normalize/canonicalize`) and NO test namespace required either, so the whole
+  protobuf DECODE boundary was unexercised, its output spec never evaluated, and a
+  decode-shape break reached a consumer with this repo's battery green. Enrolment is
+  what makes deleting those tests fail a lane instead of passing in silence."
   #{"lvgl-codegen.construct.schema"
     "lvgl-codegen.font-metrics"
+    "lvgl-codegen.normalize"
     "lvgl-codegen.pdl-t0"
+    "lvgl-codegen.proto-ser"
     "lvgl-codegen.style-props"})
 
 (def hits

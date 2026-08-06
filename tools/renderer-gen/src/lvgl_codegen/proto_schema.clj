@@ -4,8 +4,16 @@
    Dual purpose: validation of emit output and generation of test data.
    Integer ranges match proto int32/uint32 (Java int via pronto's toIntExact).
 
-   All fields carry :default annotations matching proto3 zero-value semantics,
-   enabling mt/default-value-transformer for schema-driven normalization."
+   Fields carry :default annotations matching proto3 zero-value semantics,
+   enabling mt/default-value-transformer for schema-driven normalization — with
+   ONE deliberate exception, which is a contract rather than an omission: a
+   field with EXPLICIT PRESENCE (proto3 `optional`) has no zero to default to.
+   Absent and present-zero are different states there, pronto reports absence as
+   nil, and so the shape is `[:maybe …]` with `:default nil`: the `[:maybe]`
+   accepts the decoder's honest report, and the nil default keeps the normalizer
+   from manufacturing a value nobody set. Defaulting such a field to 0 re-creates
+   in Clojure the exact stolen-zero ambiguity `optional` removed from the wire.
+   `lvgl-codegen.proto-ser-presence-test` is the lane that holds this."
   (:require [lvgl-codegen.generated.enums :as gen-enums]
             [malli.core :as m]
             [malli.transform :as mt])
@@ -498,9 +506,14 @@
 
 (def tabview-props
   "Tabview widget properties. tab_names zip per-index with the node's
-   non-tab-bar children (child i becomes tab i's page content)."
+   non-tab-bar children (child i becomes tab i's page content).
+
+   tab_bar_size carries EXPLICIT PRESENCE: absent = keep the LVGL default
+   (DPI-derived), present 0 = a HIDDEN bar (`lv_tabview_set_tab_bar_size` with
+   0), which is a real state for a tabview driven programmatically."
   [:map [:tab_names {:default []} [:vector {:max 8} [:string {:max 31}]]]
-   [:tab_bar_size {:default 0} int32] [:active_index {:default 0} uint32]
+   [:tab_bar_size {:optional true :default nil} [:maybe int32]]
+   [:active_index {:default 0} uint32]
    [:tab_bar_position {:default :DIR_NONE} dir]
    ;; Extra pad_left (px) on the tab bar itself — the demo pushes its tab
    ;; buttons into the right half and floats logo decor over the left.
@@ -554,12 +567,16 @@
 
 (def ^:private target-overlay-props
   "Target-overlay widget properties: the frame's boxes, the box stroke width in
-   design px (0 = the renderer default), and the caption suppressor. The proto
-   additionally bounds boxes at 32 items and border_width at 16 via
-   buf.validate; those are the renderer's to enforce and are deliberately not
-   restated here, as with every other uint32 wire scalar."
+   design px, and the caption suppressor. The proto additionally bounds boxes at
+   32 items and border_width at 16 via buf.validate; those are the renderer's to
+   enforce and are deliberately not restated here, as with every other uint32
+   wire scalar.
+
+   border_width carries EXPLICIT PRESENCE: absent = the renderer default,
+   present 0 = a stroke-LESS box whose caption alone marks the detection. The
+   `lte: 16` bound still binds a PRESENT value."
   [:map [:boxes {:optional true :default []} [:vector {:max 32} target-box]]
-   [:border_width {:optional true :default 0} uint32]
+   [:border_width {:optional true :default nil} [:maybe uint32]]
    [:hide_labels {:optional true :default false} boolean?]])
 
 ;; -- Subject declaration --
@@ -587,14 +604,30 @@
       ;; Stable node identity (tree patching): FNV-1a-32 of the identity
       ;; path as a SIGNED int (the uint32 two's-complement carrier, so the
       ;; full int32 range is legitimate). 0 = never assigned.
-      [:uid {:optional true :default 0} int32] [:x {:optional true :default 0} int32]
-      [:y {:optional true :default 0} int32] [:text {:optional true :default ""} string?]
+      [:uid {:optional true :default 0} int32]
+      ;; EXPLICIT PRESENCE (proto3 `optional`), so absence is a THIRD state
+      ;; beside every legal coordinate and pronto reports it as nil. `[:maybe]`
+      ;; is what accepts that report; `:default nil` is what stops the schema
+      ;; normalizer inventing a value for it, while still filling the key so a
+      ;; normalized map and a decoded one carry the same key set. A `:default 0`
+      ;; here would rewrite "nobody positioned this node" into "position it at
+      ;; the origin" — the stolen zero the proto dropped `optional` in to
+      ;; remove, re-created one layer up. Same shape as the presence-bearing
+      ;; submessages below.
+      [:x {:optional true :default nil} [:maybe int32]]
+      [:y {:optional true :default nil} [:maybe int32]]
+      [:text {:optional true :default ""} string?]
       [:bindings {:optional true :default {}} [:map-of string? string?]]
       [:bind_formats {:optional true :default {}} [:map-of string? string?]]
       [:obj_flags {:optional true :default 0} uint32]
       [:obj_flags_clear {:optional true :default 0} uint32]
       [:states {:optional true :default 0} uint32]
-      [:scroll_dir {:optional true :default 0} uint32]
+      ;; EXPLICIT PRESENCE, and the field the conversion exists for: LV_DIR_NONE
+      ;; IS ZERO, so a present 0 means "this object does not scroll" while
+      ;; absence means "leave the LVGL default (DIR_ALL)". Defaulting absence to
+      ;; 0 here would silently disable scrolling on every node nobody spoke
+      ;; about.
+      [:scroll_dir {:optional true :default nil} [:maybe uint32]]
       ;; Touch affordance in design px, DPI-scaled through LV_DPX at render
       ;; time. The proto additionally bounds it at 64 via buf.validate; that
       ;; constraint is the renderer's to enforce and is deliberately not
