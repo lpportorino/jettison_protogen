@@ -1,11 +1,26 @@
 /**
  * gesture.h — the pure, LVGL-free, malloc-free pointer/wheel gesture FSM.
  *
- * A byte-for-byte C port of the web consumer's gesture-core recognizer (the
- * GestureRecognizer class). The web recognizer and this host recognizer are the
- * two faces of one cross-target state machine; both mirror GESTURE_THRESHOLDS
- * and the NDC convention verbatim (generated/gesture_thresholds.h is the C
- * projection of the one home, edn/gesture-thresholds.edn).
+ * A C port of the web consumer's gesture-core recognizer (the GestureRecognizer
+ * class). The web recognizer and this host recognizer are the two faces of one
+ * cross-target state machine; both mirror GESTURE_THRESHOLDS and the NDC
+ * convention verbatim (generated/gesture_thresholds.h is the C projection of
+ * the one home, edn/gesture-thresholds.edn).
+ *
+ * THE PARITY IS NOT BYTE-FOR-BYTE, AND ONE DIVERGENCE IS PINNED BY A TEST.
+ * This header used to claim byte-for-byte, which is a stronger promise than the
+ * code keeps: the TIMESTAMP DOMAIN differs. `t_ms` reaches this FSM narrowed to
+ * int32, and the double-tap elapsed is computed as an UNSIGNED modular delta,
+ * where the reference uses a signed floating-point interval. The two agree on
+ * every ordinary input and disagree on a backwards-stamped release — unsigned
+ * arbitrates it to a tap, signed to a track. That is deliberate: the unsigned
+ * subtraction is also what keeps the wrap well-defined rather than undefined.
+ * `test_backwards_stamped_release_is_tap` in the wasm harness is the case, and
+ * it fails if this is rewritten to a signed delta.
+ *
+ * Read the parity claim as: same states, same thresholds, same NDC convention,
+ * with the timestamp domain carved out. A consumer diffing behaviour against
+ * the web recognizer should expect agreement everywhere else.
  *
  * Phases: idle -> press1 -> {panning | (via 2nd pointer) pinching}. A 1-pointer
  * drag crossing movePx commits to panning and can ONLY end as pan-end; a

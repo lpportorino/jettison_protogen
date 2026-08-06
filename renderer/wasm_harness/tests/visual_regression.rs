@@ -4277,9 +4277,12 @@ mod gesture_recognition {
         let up = step(&mut h, GestureEvent::up(1, 0.0, 0.0, 240));
         assert_xy("old → tap", &up, TAP, 0.0, 0.0);
     }
-    // ── Edge-case coverage rounding out the 27 (the describe-block cases the
-    // spec enumerates under the FSM invariants but does not pin as separate
-    // test() declarations) ───────────────────────────────────────────────
+    // ── Edge-case coverage: the describe-block cases the spec enumerates
+    // under the FSM invariants but does not pin as separate test()
+    // declarations, PLUS cases that pin C-SPECIFIC behaviour with no spec
+    // counterpart (the timestamp-domain pair at the end — see gesture.h's
+    // parity carve-out). No count is stated here on purpose: one was, and it
+    // was stale within a commit of being written. ────────────────────────
 
     /// 22: a tap commits the double-tap mark; a track does NOT (a 3rd tap
     /// after a track is a fresh tap, never a chained track). Invariant 2.
