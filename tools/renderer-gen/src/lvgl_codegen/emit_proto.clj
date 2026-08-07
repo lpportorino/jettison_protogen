@@ -524,6 +524,7 @@
     (seq (:grid-rows node)) (assoc :grid_row_dsc (mapv encode-grid-track (:grid-rows node)))
     (:bare node) (assoc :bare true)
     (:in-tab-bar node) (assoc :in_tab_bar true)
+    (:designed-overlay node) (assoc :designed_overlay true)
     ;; Reactive CHECKED binding — EQ-only authoring surface ({:subject
     ;; :value}); the wire reuses VisibilityBinding with compare default EQ.
     (:checked-when node) (assoc :checked_when

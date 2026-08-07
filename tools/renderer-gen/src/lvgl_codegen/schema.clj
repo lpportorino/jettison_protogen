@@ -286,6 +286,15 @@
       ;; child of an :lv_tabview node (cross-checked by
       ;; validate-screen-semantics).
       [:in-tab-bar {:optional true} [:= true]]
+      ;; DESIGNED OVERLAY — this box deliberately shares its pixels with the
+      ;; interactive nodes it CONTAINS (a modal scrim being the case it exists
+      ;; for), so `devcards.overlap` excludes such a pair instead of reporting
+      ;; it as a pointer hazard. It is a statement about a COMPOSITION, which
+      ;; is why the exclusion is gated on containment upstream: a PARTIAL cover
+      ;; is the hazard the rule exists for and still fires however it is
+      ;; declared. Wire-side it is `WidgetNode.designed_overlay`, proto3-default
+      ;; false, and the dump emits the key only where it was set.
+      [:designed-overlay {:optional true} [:= true]]
       ;; The parsed layout form (flow/placements) — the
       ;; class DSL produces it, and generated fixtures
       ;; (coverage matrix) author it directly.

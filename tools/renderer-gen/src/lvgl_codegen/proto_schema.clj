@@ -641,6 +641,7 @@
       [:grid_row_dsc {:optional true :default []} [:vector {:max 12} int32]]
       [:bare {:optional true :default false} boolean?]
       [:in_tab_bar {:optional true :default false} boolean?]
+      [:designed_overlay {:optional true :default false} boolean?]
       [:event {:optional true :default nil} [:maybe event-binding]]
       [:visibility {:optional true :default nil} [:maybe visibility-binding]]
       ;; Reactive LV_STATE_CHECKED binding — the VisibilityBinding shape
