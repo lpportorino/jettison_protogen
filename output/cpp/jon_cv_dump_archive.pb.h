@@ -178,6 +178,7 @@ enum StreamKind : int {
   STREAM_KIND_ROTARY_UART = 2,
   STREAM_KIND_FRAME_TAP = 3,
   STREAM_KIND_TSDB_TABLE = 4,
+  STREAM_KIND_MOTION_HISTORY = 5,
   StreamKind_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   StreamKind_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -187,8 +188,8 @@ enum StreamKind : int {
 bool StreamKind_IsValid(int value);
 extern const uint32_t StreamKind_internal_data_[];
 constexpr StreamKind StreamKind_MIN = static_cast<StreamKind>(0);
-constexpr StreamKind StreamKind_MAX = static_cast<StreamKind>(4);
-constexpr int StreamKind_ARRAYSIZE = 4 + 1;
+constexpr StreamKind StreamKind_MAX = static_cast<StreamKind>(5);
+constexpr int StreamKind_ARRAYSIZE = 5 + 1;
 const ::google::protobuf::EnumDescriptor*
 StreamKind_descriptor();
 template <typename T>
@@ -201,7 +202,7 @@ const std::string& StreamKind_Name(T value) {
 template <>
 inline const std::string& StreamKind_Name(StreamKind value) {
   return ::google::protobuf::internal::NameOfDenseEnum<StreamKind_descriptor,
-                                                 0, 4>(
+                                                 0, 5>(
       static_cast<int>(value));
 }
 inline bool StreamKind_Parse(absl::string_view name, StreamKind* value) {

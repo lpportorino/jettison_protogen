@@ -196,6 +196,11 @@ const (
 	// journal_logs, crashes, xform_log). source is the table name, columns
 	// carries its schema, and payload is TableRows.
 	StreamKind_STREAM_KIND_TSDB_TABLE StreamKind = 4
+	// logs:motion:history — eutropia's motion-history transport stream: one
+	// io_redis record per composed motion-history entry (day + heat CUDA-IPC
+	// posts), each record's payload a self-verifying mh wire image
+	// (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords.
+	StreamKind_STREAM_KIND_MOTION_HISTORY StreamKind = 5
 )
 
 // Enum value maps for StreamKind.
@@ -206,13 +211,15 @@ var (
 		2: "STREAM_KIND_ROTARY_UART",
 		3: "STREAM_KIND_FRAME_TAP",
 		4: "STREAM_KIND_TSDB_TABLE",
+		5: "STREAM_KIND_MOTION_HISTORY",
 	}
 	StreamKind_value = map[string]int32{
-		"STREAM_KIND_UNSPECIFIED": 0,
-		"STREAM_KIND_CAN":         1,
-		"STREAM_KIND_ROTARY_UART": 2,
-		"STREAM_KIND_FRAME_TAP":   3,
-		"STREAM_KIND_TSDB_TABLE":  4,
+		"STREAM_KIND_UNSPECIFIED":    0,
+		"STREAM_KIND_CAN":            1,
+		"STREAM_KIND_ROTARY_UART":    2,
+		"STREAM_KIND_FRAME_TAP":      3,
+		"STREAM_KIND_TSDB_TABLE":     4,
+		"STREAM_KIND_MOTION_HISTORY": 5,
 	}
 )
 
@@ -1659,14 +1666,15 @@ const file_jon_cv_dump_archive_proto_rawDesc = "" +
 	"\x19ARCHIVE_FORMAT_VERSION_V3\x10\x03*E\n" +
 	"\fArchiveCodec\x12\x1d\n" +
 	"\x19ARCHIVE_CODEC_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12ARCHIVE_CODEC_NONE\x10\x01*\x92\x01\n" +
+	"\x12ARCHIVE_CODEC_NONE\x10\x01*\xb2\x01\n" +
 	"\n" +
 	"StreamKind\x12\x1b\n" +
 	"\x17STREAM_KIND_UNSPECIFIED\x10\x00\x12\x13\n" +
 	"\x0fSTREAM_KIND_CAN\x10\x01\x12\x1b\n" +
 	"\x17STREAM_KIND_ROTARY_UART\x10\x02\x12\x19\n" +
 	"\x15STREAM_KIND_FRAME_TAP\x10\x03\x12\x1a\n" +
-	"\x16STREAM_KIND_TSDB_TABLE\x10\x04*\x83\x01\n" +
+	"\x16STREAM_KIND_TSDB_TABLE\x10\x04\x12\x1e\n" +
+	"\x1aSTREAM_KIND_MOTION_HISTORY\x10\x05*\x83\x01\n" +
 	"\rArchiveStatus\x12\x1e\n" +
 	"\x1aARCHIVE_STATUS_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17ARCHIVE_STATUS_COMPLETE\x10\x01\x12\x1a\n" +

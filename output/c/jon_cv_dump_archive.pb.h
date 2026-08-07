@@ -99,7 +99,12 @@ typedef enum _jon_cvdump_StreamKind {
     /* A windowed TimescaleDB table slice (state_logs, autofocus_log,
  journal_logs, crashes, xform_log). source is the table name, columns
  carries its schema, and payload is TableRows. */
-    jon_cvdump_StreamKind_STREAM_KIND_TSDB_TABLE = 4
+    jon_cvdump_StreamKind_STREAM_KIND_TSDB_TABLE = 4,
+    /* logs:motion:history — eutropia's motion-history transport stream: one
+ io_redis record per composed motion-history entry (day + heat CUDA-IPC
+ posts), each record's payload a self-verifying mh wire image
+ (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords. */
+    jon_cvdump_StreamKind_STREAM_KIND_MOTION_HISTORY = 5
 } jon_cvdump_StreamKind;
 
 /* Whether the capture the archive describes is trustworthy as a whole. Mirrors
@@ -413,8 +418,8 @@ extern "C" {
 #define _jon_cvdump_ArchiveCodec_ARRAYSIZE ((jon_cvdump_ArchiveCodec)(jon_cvdump_ArchiveCodec_ARCHIVE_CODEC_NONE+1))
 
 #define _jon_cvdump_StreamKind_MIN jon_cvdump_StreamKind_STREAM_KIND_UNSPECIFIED
-#define _jon_cvdump_StreamKind_MAX jon_cvdump_StreamKind_STREAM_KIND_TSDB_TABLE
-#define _jon_cvdump_StreamKind_ARRAYSIZE ((jon_cvdump_StreamKind)(jon_cvdump_StreamKind_STREAM_KIND_TSDB_TABLE+1))
+#define _jon_cvdump_StreamKind_MAX jon_cvdump_StreamKind_STREAM_KIND_MOTION_HISTORY
+#define _jon_cvdump_StreamKind_ARRAYSIZE ((jon_cvdump_StreamKind)(jon_cvdump_StreamKind_STREAM_KIND_MOTION_HISTORY+1))
 
 #define _jon_cvdump_ArchiveStatus_MIN jon_cvdump_ArchiveStatus_ARCHIVE_STATUS_UNSPECIFIED
 #define _jon_cvdump_ArchiveStatus_MAX jon_cvdump_ArchiveStatus_ARCHIVE_STATUS_FAILED

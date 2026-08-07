@@ -172,6 +172,13 @@ export enum StreamKind {
    * carries its schema, and payload is TableRows.
    */
   STREAM_KIND_TSDB_TABLE = 4,
+  /**
+   * STREAM_KIND_MOTION_HISTORY - logs:motion:history — eutropia's motion-history transport stream: one
+   * io_redis record per composed motion-history entry (day + heat CUDA-IPC
+   * posts), each record's payload a self-verifying mh wire image
+   * (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords.
+   */
+  STREAM_KIND_MOTION_HISTORY = 5,
   UNRECOGNIZED = -1,
 }
 
@@ -192,6 +199,9 @@ export function streamKindFromJSON(object: any): StreamKind {
     case 4:
     case "STREAM_KIND_TSDB_TABLE":
       return StreamKind.STREAM_KIND_TSDB_TABLE;
+    case 5:
+    case "STREAM_KIND_MOTION_HISTORY":
+      return StreamKind.STREAM_KIND_MOTION_HISTORY;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -211,6 +221,8 @@ export function streamKindToJSON(object: StreamKind): string {
       return "STREAM_KIND_FRAME_TAP";
     case StreamKind.STREAM_KIND_TSDB_TABLE:
       return "STREAM_KIND_TSDB_TABLE";
+    case StreamKind.STREAM_KIND_MOTION_HISTORY:
+      return "STREAM_KIND_MOTION_HISTORY";
     case StreamKind.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

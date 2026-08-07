@@ -411,6 +411,17 @@ public final class JonCvDumpArchive {
      * <code>STREAM_KIND_TSDB_TABLE = 4;</code>
      */
     STREAM_KIND_TSDB_TABLE(4),
+    /**
+     * <pre>
+     * logs:motion:history — eutropia's motion-history transport stream: one
+     * io_redis record per composed motion-history entry (day + heat CUDA-IPC
+     * posts), each record's payload a self-verifying mh wire image
+     * (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords.
+     * </pre>
+     *
+     * <code>STREAM_KIND_MOTION_HISTORY = 5;</code>
+     */
+    STREAM_KIND_MOTION_HISTORY(5),
     UNRECOGNIZED(-1),
     ;
 
@@ -464,6 +475,17 @@ public final class JonCvDumpArchive {
      * <code>STREAM_KIND_TSDB_TABLE = 4;</code>
      */
     public static final int STREAM_KIND_TSDB_TABLE_VALUE = 4;
+    /**
+     * <pre>
+     * logs:motion:history — eutropia's motion-history transport stream: one
+     * io_redis record per composed motion-history entry (day + heat CUDA-IPC
+     * posts), each record's payload a self-verifying mh wire image
+     * (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords.
+     * </pre>
+     *
+     * <code>STREAM_KIND_MOTION_HISTORY = 5;</code>
+     */
+    public static final int STREAM_KIND_MOTION_HISTORY_VALUE = 5;
 
 
     public final int getNumber() {
@@ -495,6 +517,7 @@ public final class JonCvDumpArchive {
         case 2: return STREAM_KIND_ROTARY_UART;
         case 3: return STREAM_KIND_FRAME_TAP;
         case 4: return STREAM_KIND_TSDB_TABLE;
+        case 5: return STREAM_KIND_MOTION_HISTORY;
         default: return null;
       }
     }
@@ -19314,19 +19337,20 @@ public final class JonCvDumpArchive {
       "T_VERSION_UNSPECIFIED\020\000\022\035\n\031ARCHIVE_FORMA" +
       "T_VERSION_V3\020\003*E\n\014ArchiveCodec\022\035\n\031ARCHIV" +
       "E_CODEC_UNSPECIFIED\020\000\022\026\n\022ARCHIVE_CODEC_N" +
-      "ONE\020\001*\222\001\n\nStreamKind\022\033\n\027STREAM_KIND_UNSP" +
+      "ONE\020\001*\262\001\n\nStreamKind\022\033\n\027STREAM_KIND_UNSP" +
       "ECIFIED\020\000\022\023\n\017STREAM_KIND_CAN\020\001\022\033\n\027STREAM" +
       "_KIND_ROTARY_UART\020\002\022\031\n\025STREAM_KIND_FRAME" +
-      "_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004*\203\001\n\rA" +
-      "rchiveStatus\022\036\n\032ARCHIVE_STATUS_UNSPECIFI" +
-      "ED\020\000\022\033\n\027ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARC" +
-      "HIVE_STATUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_" +
-      "FAILED\020\003*|\n\021SessionProvenance\022\"\n\036SESSION" +
-      "_PROVENANCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PRO" +
-      "VENANCE_EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE" +
-      "_SYNTHESIZED\020\002BIZGgit-codecommit.eu-cent" +
-      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
-      "np/cvdumpb\006proto3"
+      "_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004\022\036\n\032ST" +
+      "REAM_KIND_MOTION_HISTORY\020\005*\203\001\n\rArchiveSt" +
+      "atus\022\036\n\032ARCHIVE_STATUS_UNSPECIFIED\020\000\022\033\n\027" +
+      "ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARCHIVE_STA" +
+      "TUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_FAILED\020\003" +
+      "*|\n\021SessionProvenance\022\"\n\036SESSION_PROVENA" +
+      "NCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PROVENANCE_" +
+      "EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE_SYNTHES" +
+      "IZED\020\002BIZGgit-codecommit.eu-central-1.am" +
+      "azonaws.com/v1/repos/jettison/jonp/cvdum" +
+      "pb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

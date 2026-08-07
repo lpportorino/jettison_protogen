@@ -25,6 +25,7 @@ pub const StreamKind = enum(i32) {
    STREAM_KIND_ROTARY_UART = 2,
    STREAM_KIND_FRAME_TAP = 3,
    STREAM_KIND_TSDB_TABLE = 4,
+   STREAM_KIND_MOTION_HISTORY = 5,
     _,
 };
 

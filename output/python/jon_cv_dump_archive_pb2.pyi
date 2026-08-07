@@ -23,6 +23,7 @@ class StreamKind(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     STREAM_KIND_ROTARY_UART: _ClassVar[StreamKind]
     STREAM_KIND_FRAME_TAP: _ClassVar[StreamKind]
     STREAM_KIND_TSDB_TABLE: _ClassVar[StreamKind]
+    STREAM_KIND_MOTION_HISTORY: _ClassVar[StreamKind]
 
 class ArchiveStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -45,6 +46,7 @@ STREAM_KIND_CAN: StreamKind
 STREAM_KIND_ROTARY_UART: StreamKind
 STREAM_KIND_FRAME_TAP: StreamKind
 STREAM_KIND_TSDB_TABLE: StreamKind
+STREAM_KIND_MOTION_HISTORY: StreamKind
 ARCHIVE_STATUS_UNSPECIFIED: ArchiveStatus
 ARCHIVE_STATUS_COMPLETE: ArchiveStatus
 ARCHIVE_STATUS_PARTIAL: ArchiveStatus

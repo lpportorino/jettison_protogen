@@ -497,6 +497,11 @@ pub enum StreamKind {
     /// journal_logs, crashes, xform_log). source is the table name, columns
     /// carries its schema, and payload is TableRows.
     TsdbTable = 4,
+    /// logs:motion:history — eutropia's motion-history transport stream: one
+    /// io_redis record per composed motion-history entry (day + heat CUDA-IPC
+    /// posts), each record's payload a self-verifying mh wire image
+    /// (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords.
+    MotionHistory = 5,
 }
 impl StreamKind {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -510,6 +515,7 @@ impl StreamKind {
             Self::RotaryUart => "STREAM_KIND_ROTARY_UART",
             Self::FrameTap => "STREAM_KIND_FRAME_TAP",
             Self::TsdbTable => "STREAM_KIND_TSDB_TABLE",
+            Self::MotionHistory => "STREAM_KIND_MOTION_HISTORY",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -520,6 +526,7 @@ impl StreamKind {
             "STREAM_KIND_ROTARY_UART" => Some(Self::RotaryUart),
             "STREAM_KIND_FRAME_TAP" => Some(Self::FrameTap),
             "STREAM_KIND_TSDB_TABLE" => Some(Self::TsdbTable),
+            "STREAM_KIND_MOTION_HISTORY" => Some(Self::MotionHistory),
             _ => None,
         }
     }

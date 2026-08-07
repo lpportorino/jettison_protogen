@@ -778,19 +778,20 @@ const char descriptor_table_protodef_jon_5fcv_5fdump_5farchive_2eproto[] ABSL_AT
     "T_VERSION_UNSPECIFIED\020\000\022\035\n\031ARCHIVE_FORMA"
     "T_VERSION_V3\020\003*E\n\014ArchiveCodec\022\035\n\031ARCHIV"
     "E_CODEC_UNSPECIFIED\020\000\022\026\n\022ARCHIVE_CODEC_N"
-    "ONE\020\001*\222\001\n\nStreamKind\022\033\n\027STREAM_KIND_UNSP"
+    "ONE\020\001*\262\001\n\nStreamKind\022\033\n\027STREAM_KIND_UNSP"
     "ECIFIED\020\000\022\023\n\017STREAM_KIND_CAN\020\001\022\033\n\027STREAM"
     "_KIND_ROTARY_UART\020\002\022\031\n\025STREAM_KIND_FRAME"
-    "_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004*\203\001\n\rA"
-    "rchiveStatus\022\036\n\032ARCHIVE_STATUS_UNSPECIFI"
-    "ED\020\000\022\033\n\027ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARC"
-    "HIVE_STATUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_"
-    "FAILED\020\003*|\n\021SessionProvenance\022\"\n\036SESSION"
-    "_PROVENANCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PRO"
-    "VENANCE_EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE"
-    "_SYNTHESIZED\020\002BIZGgit-codecommit.eu-cent"
-    "ral-1.amazonaws.com/v1/repos/jettison/jo"
-    "np/cvdumpb\006proto3"
+    "_TAP\020\003\022\032\n\026STREAM_KIND_TSDB_TABLE\020\004\022\036\n\032ST"
+    "REAM_KIND_MOTION_HISTORY\020\005*\203\001\n\rArchiveSt"
+    "atus\022\036\n\032ARCHIVE_STATUS_UNSPECIFIED\020\000\022\033\n\027"
+    "ARCHIVE_STATUS_COMPLETE\020\001\022\032\n\026ARCHIVE_STA"
+    "TUS_PARTIAL\020\002\022\031\n\025ARCHIVE_STATUS_FAILED\020\003"
+    "*|\n\021SessionProvenance\022\"\n\036SESSION_PROVENA"
+    "NCE_UNSPECIFIED\020\000\022\037\n\033SESSION_PROVENANCE_"
+    "EUTROPIA\020\001\022\"\n\036SESSION_PROVENANCE_SYNTHES"
+    "IZED\020\002BIZGgit-codecommit.eu-central-1.am"
+    "azonaws.com/v1/repos/jettison/jonp/cvdum"
+    "pb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_deps[1] =
     {
@@ -800,7 +801,7 @@ static ::absl::once_flag descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcv_5fdump_5farchive_2eproto = {
     false,
     false,
-    2817,
+    2849,
     descriptor_table_protodef_jon_5fcv_5fdump_5farchive_2eproto,
     "jon_cv_dump_archive.proto",
     &descriptor_table_jon_5fcv_5fdump_5farchive_2eproto_once,
@@ -838,9 +839,9 @@ const ::google::protobuf::EnumDescriptor* StreamKind_descriptor() {
   return file_level_enum_descriptors_jon_5fcv_5fdump_5farchive_2eproto[2];
 }
 PROTOBUF_CONSTINIT const uint32_t StreamKind_internal_data_[] = {
-    327680u, 0u, };
+    393216u, 0u, };
 bool StreamKind_IsValid(int value) {
-  return 0 <= value && value <= 4;
+  return 0 <= value && value <= 5;
 }
 const ::google::protobuf::EnumDescriptor* ArchiveStatus_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fcv_5fdump_5farchive_2eproto);
