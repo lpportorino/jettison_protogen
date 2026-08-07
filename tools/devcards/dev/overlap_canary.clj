@@ -544,17 +544,17 @@
         ;; Same declaration, and the button now runs past the scrim's right
         ;; edge: a press inside the overlap is absorbed, a press outside it
         ;; lands, and the two are indistinguishable in the framebuffer.
-        partial (:tree (render! (card partial-id
-                                      [(labelled-button 120 120 260 60 "under")
-                                       (scrim-at 100 100 200 120)])))
+        partial-cover (:tree (render! (card partial-id
+                                            [(labelled-button 120 120 260 60 "under")
+                                             (scrim-at 100 100 200 120)])))
         c-fs (findings-of covered-id covered)
         u-fs (findings-of undeclared-id undeclared)
-        p-fs (findings-of partial-id partial)
+        p-fs (findings-of partial-id partial-cover)
         c-btn (:coords (node-at covered [0 0 0]))
         c-scrim (node-at covered [0 0 1])
         u-scrim (node-at undeclared [0 0 1])
-        p-btn (:coords (node-at partial [0 0 0]))
-        p-scrim (node-at partial [0 0 1])]
+        p-btn (:coords (node-at partial-cover [0 0 0]))
+        p-scrim (node-at partial-cover [0 0 1])]
     [[(true? (:designed_overlay c-scrim))
       (format "the INTERPRETER emits the key, on the declaring object — this is the assertion no hand-written dump map can make: designed_overlay=%s"
               (pr-str (:designed_overlay c-scrim)))]
