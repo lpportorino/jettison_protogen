@@ -18,13 +18,47 @@
  * `test_backwards_stamped_release_is_tap` in the wasm harness is the case, and
  * it fails if this is rewritten to a signed delta.
  *
+ * A SECOND DIVERGENCE, TAKEN UNILATERALLY, AND SAID SO. The release path here
+ * also applies the movePx test to the UP sample's OWN position. Both
+ * recognizers promote press1 -> panning from a MOVE that crosses the threshold;
+ * this one additionally classifies a press whose FIRST past-threshold position
+ * is the one the RELEASE carries, and reports pan-end for it.
+ *
+ * THAT THE REFERENCE DOES NOT IS INFERRED, NOT READ. The TypeScript recognizer
+ * is not reachable from this repository, so nobody here has read it. The
+ * inference is from the parity claim below: if the reference applied this test,
+ * that claim was already false before this change. Note the parity claim has
+ * itself been retracted once — see the byte-for-byte retraction above — so
+ * treat the divergence as asserted on OUR side and unconfirmed on the other.
+ * Anyone who can read the reference should confirm or correct this paragraph.
+ *
+ * It was taken without the reference changing because the disagreement is not
+ * symmetric in consequence. On this renderer's surfaces a tap maps to a command
+ * that AIMS a motorised platform and a pan-end maps to the one that HALTS it,
+ * so the un-tested release both fired a slew the operator did not ask for and
+ * withheld the halt they did. A host that coalesces or drops move events makes
+ * that reachable without any misbehaviour on its part, and this module already
+ * declares the host untrusted. Choosing the actuating classification for a
+ * gesture the FSM can see completed was not defensible while waiting for a
+ * coordinated change. `test_up_past_threshold_without_move_is_pan_end` and
+ * `test_recovered_pan_end_clears_double_tap_mark` in the wasm harness pin it;
+ * `test_up_at_threshold_boundary_is_still_tap` pins that the release-path
+ * boundary is the same strict-> as the move path's.
+ *
+ * This divergence RETIRES when the two recognizers are changed in lockstep —
+ * unlike the timestamp domain above, which is deliberate and permanent. Do not
+ * fold the two carve-outs together; they expire on different conditions.
+ *
  * Read the parity claim as: same states, same thresholds, same NDC convention,
- * with the timestamp domain carved out. A consumer diffing behaviour against
- * the web recognizer should expect agreement everywhere else.
+ * with the timestamp domain and the release-path threshold test carved out. A
+ * consumer diffing behaviour against the web recognizer should expect agreement
+ * everywhere else.
  *
  * Phases: idle -> press1 -> {panning | (via 2nd pointer) pinching}. A 1-pointer
- * drag crossing movePx commits to panning and can ONLY end as pan-end; a
- * release that never crossed is tap | track (double-tap arbitration). A 2nd
+ * drag crossing movePx ON A MOVE commits to panning and can ONLY end as
+ * pan-end; a drag whose only crossing is the RELEASE sample ends as pan-end
+ * too, without ever committing (§ the second divergence above). A release that
+ * never crossed at all is tap | track (double-tap arbitration). A 2nd
  * live pointer aborts any pending 1-pointer gesture SILENTLY (no terminal) and
  * enters pinching; the pinch ratchet emits +/-1 per pinchScale spread-ratio
  * step. The wheel path is independent of the FSM.
@@ -137,9 +171,12 @@ void gesture_reset(gesture_recognizer_t *g);
  * not re-running onDown, so the two diverge exactly when a host repeats a DOWN.
  *
  * PRESS1 is deliberately NOT a drag: under the movePx threshold no gesture has
- * been recognised, and a release there is a tap or a track. PINCHING is not one
- * either — a second pointer aborts the pending 1-pointer gesture silently, so
- * there is no drag left to describe.
+ * been recognised, and a release still under it is a tap or a track. A release
+ * PAST it is a pan-end, but this accessor still reports no drag in press1 —
+ * the phase is only ever read while the press is live, and at that point no
+ * crossing has been observed. PINCHING is not a drag either — a second pointer
+ * aborts the pending 1-pointer gesture silently, so there is no drag left to
+ * describe.
  */
 int32_t gesture_drag_origin(const gesture_recognizer_t *g, int32_t *primary_id,
                             double *x, double *y);

@@ -196,10 +196,27 @@ int32_t gesture_on_up(gesture_recognizer_t *g, const gesture_sample_t *s,
   if (!g->has_primary || s->pointer_id != g->primary_id || !g->has_start)
     return 0; /* orphan up */
   gesture_phase_t phase = g->phase;
+  /* The RELEASE's own position can be the first one past movePx. The move path
+   * promotes press1 -> panning, but only for a position some MOVE reported; a
+   * host that coalesces or drops moves can deliver an UP arbitrarily far from
+   * the press origin while the phase is still press1. Measured with the SAME
+   * strict-> comparison and the same helper the move path uses, so the two
+   * boundaries cannot drift apart. Computed BEFORE the has_start reset below,
+   * and g->start itself stays intact for the ROI reinterpretation. */
+  int crossed_on_release =
+      gesture_ndc_dist(g->start.x, g->start.y, s->x, s->y) > g->move_ndc;
   g->has_primary = 0;
   g->has_start = 0;
   g->phase = GESTURE_PHASE_IDLE;
-  if (phase == GESTURE_PHASE_PANNING) {
+  /* A press1 whose release crossed the threshold is a COMPLETED drag, so it
+   * takes the pan terminal rather than a tap. One decision, not a synthesized
+   * pan-move + pan-end pair: pan-move is the arm that can ACTUATE (a consumer
+   * wiring the continuous axis command would see a slew followed by a halt in
+   * one drain), while pan-end maps to the halt. Deliberately NOT silence — the
+   * two silent paths here cover gestures that never completed, and this one
+   * did. */
+  if (phase == GESTURE_PHASE_PANNING ||
+      (phase == GESTURE_PHASE_PRESS1 && crossed_on_release)) {
     g->has_last_tap = 0;
     out[0].kind = GESTURE_KIND_PAN_END;
     out[0].x = s->x;
@@ -207,7 +224,7 @@ int32_t gesture_on_up(gesture_recognizer_t *g, const gesture_sample_t *s,
     out[0].delta = 0;
     return 1;
   }
-  /* press1 (never crossed movePx): tap | track */
+  /* press1, release within movePx of the origin: tap | track */
   int32_t n = classify_release(g, s, out);
   if (out[0].kind == GESTURE_KIND_TAP) {
     g->has_last_tap = 1;

@@ -4535,6 +4535,70 @@ mod gesture_recognition {
         let second = step(&mut h, GestureEvent::up(1, 0.0, 0.0, 200));
         assert_xy("backwards second release", &second, TAP, 0.0, 0.0);
     }
+
+    // ── The move threshold on the UP sample. C-SPECIFIC, no spec counterpart:
+    // see gesture.h's parity carve-out. The move path promotes press1 → panning
+    // on crossing movePx, but the release path never applied the same test to
+    // the UP sample's OWN position, so a press whose only past-threshold
+    // position is the one the release carries classified as a tap. That matters
+    // because tap maps to RotateToNDC (actuation) while pan-end maps to
+    // HaltWithNDC (the safe direction) — so the defect both fired a slew and
+    // withheld the halt. ────────────────────────────────────────────────────
+
+    /// The UP sample's own displacement crosses movePx → pan-end, not tap.
+    /// dist 0.5 > 0.2 NDC, with NO intervening move event.
+    #[test]
+    fn test_up_past_threshold_without_move_is_pan_end() {
+        let mut h = rec();
+        step(&mut h, GestureEvent::down(1, 0.0, 0.0, 0));
+        let up = step(&mut h, GestureEvent::up(1, 0.5, 0.0, 50));
+        assert_xy("far release", &up, PAN_END, 0.5, 0.0);
+    }
+
+    /// A recovered pan-end clears the double-tap mark, exactly as a committed
+    /// one does. The mark must be PRIMED by a real tap first: a recovered pan
+    /// never seeds one itself, so without the priming press this asserts the
+    /// clearing of a mark that was never set, and the line it exists to pin
+    /// becomes deletable with the test still green.
+    #[test]
+    fn test_recovered_pan_end_clears_double_tap_mark() {
+        let mut h = rec();
+        // Prime lastTap at the point the FINAL release will land on.
+        step(&mut h, GestureEvent::down(1, 0.5, 0.0, 0));
+        assert_xy(
+            "prime tap",
+            &step(&mut h, GestureEvent::up(1, 0.5, 0.0, 20)),
+            TAP,
+            0.5,
+            0.0,
+        );
+        // A recovered pan-end over that primed mark: dist 0.5 > 0.2 movePx.
+        assert_xy(
+            "far release",
+            &{
+                step(&mut h, GestureEvent::down(1, 0.0, 0.0, 40));
+                step(&mut h, GestureEvent::up(1, 0.5, 0.0, 90))
+            },
+            PAN_END,
+            0.5,
+            0.0,
+        );
+        // Same place, inside the double-tap window of the PRIMING tap: if the
+        // recovered pan-end failed to clear the mark this reads as a track.
+        step(&mut h, GestureEvent::down(1, 0.5, 0.0, 100));
+        let third = step(&mut h, GestureEvent::up(1, 0.5, 0.0, 150));
+        assert_xy("after recovered pan-end", &third, TAP, 0.5, 0.0);
+    }
+
+    /// The release-path boundary is strict-greater, mirroring TEST 6 on the
+    /// move path. dist == movePx exactly → still a tap.
+    #[test]
+    fn test_up_at_threshold_boundary_is_still_tap() {
+        let mut h = rec();
+        step(&mut h, GestureEvent::down(1, -0.5, 0.0, 0));
+        let up = step(&mut h, GestureEvent::up(1, -0.3, 0.0, 50));
+        assert_xy("at boundary", &up, TAP, -0.3, 0.0);
+    }
 }
 // ═══════════════════════════════════════════════════════════════════
 // R4 pointer entry + bounded table + capture-on-claim routing.
