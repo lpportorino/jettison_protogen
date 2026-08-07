@@ -71,6 +71,17 @@
      node outside the proxy, so an intra-proxy pair is exactly a finding whose
      detail does not name it.
 
+   - DESIGNED-OVERLAY DECLARATION (`designed_overlay`, emitted only where the
+     AUTHOR set `WidgetNode.designed_overlay`). The one key here that starts on
+     the WIRE rather than in the interpreter, which is exactly why it needs
+     this file: a hand map proves the rule's reading of a key, never that the
+     chain from an authored node through nanopb and `finalize_widget` to
+     `dump_obj` produces it. Three cards — a scrim COVERING a control (silent),
+     the identical pair with the one key dropped (fires, which is what makes
+     the silence attributable), and a scrim that only PARTLY covers (fires
+     while still declaring, which is the containment gate measured on rendered
+     rects).
+
    WHAT THIS DOES NOT COVER. The `:unclassified-type` and `:unmeasurable-node`
    arms — the corpus renderer classifies every class it emits and gives every
    node coords, so neither is reachable from an authored card; both stay
@@ -488,11 +499,100 @@
                 (pr-str handle-reach)
                 (geometry/separation glass-reach handle-reach))])]))
 
+(defn- scrim-at
+  "A modal SCRIM: a plain clickable box declared `designed_overlay`. The
+   `:designed-overlay` key is authored-lane only, so this node can only be
+   built through `build-authored-card` — which is what these cases use."
+  [x y w h]
+  {:type :WIDGET_OBJ
+   :x x :y y
+   :designed-overlay true
+   :props {:w w :h h}})
+
+(defn- designed-overlay-checks
+  "The AUTHORED declaration, end to end through the real interpreter.
+
+   This case exists for the half `devcards.overlap-test` structurally cannot
+   reach. That suite judges hand-written dump maps, so it asserts the
+   AUTHOR'S MODEL of the key — it would stay green if the renderer emitted a
+   different name, emitted it on the wrong object, or never emitted it at
+   all. Here the flag travels the whole chain: authored node ->
+   `WidgetNode.designed_overlay` on the wire -> nanopb decode ->
+   `finalize_widget` -> the renderer's overlay registry -> `dump_obj` -> the
+   key the rule reads.
+
+   Three cards, one geometry family. The scrim COVERING the control must be
+   silent; the identical pair with the declaration removed must fire (which
+   is what makes the silence attributable rather than merely quiet); and a
+   scrim that only PARTLY covers the control must fire even though it
+   declares — the containment gate, measured on the rendered rects rather
+   than on rects this file made up."
+  []
+  (let [covered-id "canary/overlap-scrim-covers"
+        undeclared-id "canary/overlap-scrim-undeclared"
+        partial-id "canary/overlap-scrim-partial"
+        ;; The button is wholly inside the scrim; the scrim is LATER in child
+        ;; order, so it also wins the reverse hit-test walk — the modal shape.
+        covered (:tree (render! (card covered-id
+                                      [(labelled-button 120 120 160 60 "under")
+                                       (scrim-at 100 100 240 120)])))
+        ;; Byte-identical geometry with the ONE key dropped.
+        undeclared (:tree (render! (card undeclared-id
+                                         [(labelled-button 120 120 160 60 "under")
+                                          (dissoc (scrim-at 100 100 240 120)
+                                                  :designed-overlay)])))
+        ;; Same declaration, and the button now runs past the scrim's right
+        ;; edge: a press inside the overlap is absorbed, a press outside it
+        ;; lands, and the two are indistinguishable in the framebuffer.
+        partial (:tree (render! (card partial-id
+                                      [(labelled-button 120 120 260 60 "under")
+                                       (scrim-at 100 100 200 120)])))
+        c-fs (findings-of covered-id covered)
+        u-fs (findings-of undeclared-id undeclared)
+        p-fs (findings-of partial-id partial)
+        c-btn (:coords (node-at covered [0 0 0]))
+        c-scrim (node-at covered [0 0 1])
+        u-scrim (node-at undeclared [0 0 1])
+        p-btn (:coords (node-at partial [0 0 0]))
+        p-scrim (node-at partial [0 0 1])]
+    [[(true? (:designed_overlay c-scrim))
+      (format "the INTERPRETER emits the key, on the declaring object — this is the assertion no hand-written dump map can make: designed_overlay=%s"
+              (pr-str (:designed_overlay c-scrim)))]
+     [(nil? (:designed_overlay (node-at covered [0 0 0])))
+      (format "…and only there: the ordinary control beside it carries no such key, so the emit-only-where-it-applies convention holds and an absent key really does mean 'not declared' (control's key=%s)"
+              (pr-str (:designed_overlay (node-at covered [0 0 0]))))]
+     [(nil? (:designed_overlay u-scrim))
+      (format "the undeclared twin's box carries no key either, so the pair below differs by the DECLARATION and not by anything the renderer did on its own: %s"
+              (pr-str (:designed_overlay u-scrim)))]
+     [(= (:coords c-scrim) (:coords u-scrim))
+      (format "controlled pair: declared and undeclared scrims occupy the SAME rendered rect — %s vs %s"
+              (pr-str (:coords c-scrim)) (pr-str (:coords u-scrim)))]
+     [(= c-btn (geometry/intersection (:coords c-scrim) c-btn))
+      (format "control geometry: the scrim really does CONTAIN the control it covers — button %s inside scrim %s"
+              (pr-str c-btn) (pr-str (:coords c-scrim)))]
+     [(empty? c-fs)
+      (format "a declared overlay wholly covering a control is composition, not a collision: %s"
+              (pr-str (mapv (juxt :invariant :node) c-fs)))]
+     [(and (= #{:overlap} (invariants-of u-fs))
+           (some #(names? % c-btn) u-fs))
+      (format "THE NON-VACUITY CONTROL — the same geometry without the declaration fires, and names the covered control, so the silence above is the clause and not an unpaired or unclassified node: %s"
+              (pr-str (mapv :node u-fs)))]
+     [(not= p-btn (geometry/intersection (:coords p-scrim) p-btn))
+      (format "control geometry: the partial scrim %s does NOT contain the control %s — it reaches only part of it"
+              (pr-str (:coords p-scrim)) (pr-str p-btn))]
+     [(true? (:designed_overlay p-scrim))
+      (format "…while still carrying the declaration, so the verdict below turns on CONTAINMENT and not on the key being absent: designed_overlay=%s"
+              (pr-str (:designed_overlay p-scrim)))]
+     [(= #{:overlap} (invariants-of p-fs))
+      (format "THE CONTAINMENT GATE — a partial cover fires however it is declared, because half a live control is exactly the dead zone this rule exists for: %s"
+              (pr-str (mapv :node p-fs)))]]))
+
 (def ^:private cases
   "Case id -> its checks. A case that contributes NO check is itself a
    failure (see -main): a suite whose bodies are suppressed prints the same
    green as one that ran."
   {:siblings siblings-checks
+   :designed-overlay designed-overlay-checks
    :click-area click-area-checks
    :layout-gap layout-gap-checks
    :nesting nesting-checks

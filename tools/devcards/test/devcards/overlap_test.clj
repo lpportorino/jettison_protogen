@@ -529,3 +529,136 @@
                   :children [{:type "lv_button" :uid 1 :coords [20 20 79 49] :children []}
                              {:type "lv_switch" :uid 2 :coords [50 20 99 49] :children []}]}])]
       (is (contains? (invariants-of (judge-proxy root)) :overlap)))))
+
+;; ── an AUTHORED declared overlay ─────────────────────────────────────────
+;; `WidgetNode.designed_overlay` -> the dump key `designed_overlay`, emitted
+;; only where it was set. The proxy keys above name objects that carry no uid
+;; and could not be named any other way; this one names an ordinary authored
+;; node that HAS a uid, and rides through the interpreter anyway so the lane
+;; reads the declaration off the object that actually rendered.
+;;
+;; The exclusion is gated on CONTAINMENT, and that is the whole reason it is
+;; safe: a PARTIAL cover leaves part of a control live and part of it dead
+;; with an identical framebuffer either way, which is the silent dead-zone
+;; this rule exists for. Every case below pairs the exclusion with an input
+;; that must still fire.
+
+(defn- judge-overlay
+  "A scrim is a bare `lv_obj`, so the INTERACTIVE-lv_obj table the proxy cases
+   use is what puts it in the pairing at all. Under the default table it would
+   never be paired and every assertion below would pass vacuously."
+  [root]
+  (judge root proxy-table 0))
+
+(def ^:private scrim-over-control
+  "The measured consumer shape, reduced: a full-bleed CLICKABLE box declared
+   `designed_overlay`, placed AFTER the control it covers so it wins the
+   reverse hit-test walk. The control is wholly inside it."
+  (root-with [{:type "lv_button" :uid 1 :coords [20 20 79 49] :children []}
+              {:type "lv_obj" :uid 2 :designed_overlay true
+               :coords [0 0 199 199] :children []}]))
+
+(deftest a-declared-overlay-that-CONTAINS-a-control-does-not-fire
+  (testing "the author declared that this box is deliberately shared with what
+            it contains, so the shared pixels are composition rather than a
+            collision — the same reading the interpreter's own proxy stack
+            gets, for a stack the interpreter did not build."
+    (testing "CONTROL: both types really are interactive under this table, so
+              the emptiness below is the EXCLUSION doing its job and not an
+              unclassified or unpaired type"
+      (is (every? #(:interactive? (classify/classify proxy-table %))
+                  ["lv_obj" "lv_button"])))
+    (is (empty? (judge-overlay scrim-over-control)))))
+
+(deftest the-same-geometry-fires-without-the-declaration
+  (testing "THE non-vacuity control for the case above, and the only one that
+            can tell a live exclusion from a rule that had stopped looking:
+            the identical tree with the one key removed must fire. Absence of
+            the key is the positive case — dump_obj emits it only where the
+            author set it, so a reader treating an absent key as a declaration
+            would silence every ordinary widget in a corpus."
+    (let [undeclared (update-in scrim-over-control [:children 1]
+                                dissoc :designed_overlay)
+          fs (judge-overlay undeclared)]
+      (is (= #{:overlap} (invariants-of fs)))
+      (is (= ["lv_button#1 vs lv_obj#2"] (mapv :node fs))))))
+
+(deftest the-exclusion-does-not-depend-on-WHICH-node-declares
+  (testing "the scrim placed BEFORE the branch it protects, with the confirm
+            card's control over it — the other half of the same composition,
+            and the majority of the pairs measured in the consumer. The rule
+            does not decide which of the two wins the pointer (that is the
+            layer contract's job, §1.4/§1.6); it says the sharing is designed.
+            A one-sided implementation passes the case above and fails here."
+    (let [root (root-with [{:type "lv_obj" :uid 2 :designed_overlay true
+                            :coords [0 0 199 199] :children []}
+                           {:type "lv_button" :uid 1 :coords [20 20 79 49]
+                            :children []}])]
+      (is (empty? (judge-overlay root))))))
+
+(deftest a-PARTIAL-cover-fires-however-it-is-declared
+  (testing "THE CONTAINMENT GATE. The overlay reaches only part of the
+            control, so a press inside the overlap is absorbed and a press
+            outside it lands — half a control, live, with no pixel and no
+            event to show for the difference. That is the hazard the rule
+            exists for, and no declaration may turn it off."
+    (let [root (root-with [{:type "lv_button" :uid 1 :coords [20 20 119 49]
+                            :children []}
+                           {:type "lv_obj" :uid 2 :designed_overlay true
+                            :coords [0 0 99 99] :children []}])
+          fs (judge-overlay root)]
+      (testing "control geometry: they really do share pixels, so the pair
+                reaches the exclusion rather than being far apart"
+        (is (neg? (geometry/separation [20 20 119 49] [0 0 99 99]))))
+      (testing "and the cover really is partial — the control escapes to
+                x=119 where the overlay ends at 99"
+        (is (not= [20 20 119 49]
+                  (geometry/intersection [0 0 99 99] [20 20 119 49]))))
+      (is (= #{:overlap} (invariants-of fs)))
+      (is (= ["lv_button#1 vs lv_obj#2"] (mapv :node fs))))))
+
+(deftest two-controls-UNDER-an-overlay-still-fire
+  (testing "the exclusion is scoped to pairs the DECLARING node is in. Two
+            ordinary controls colliding underneath a scrim is the author's own
+            bug: nothing about being covered together makes THEIR overlap
+            intentional, and the scrim will not be there in every state. The
+            single expected finding is also what proves the exclusion removed
+            exactly the two overlay pairs and nothing further."
+    (let [root (root-with [{:type "lv_button" :uid 1 :coords [20 20 79 49]
+                            :children []}
+                           {:type "lv_switch" :uid 3 :coords [50 20 99 49]
+                            :children []}
+                           {:type "lv_obj" :uid 2 :designed_overlay true
+                            :coords [0 0 199 199] :children []}])
+          fs (judge-overlay root)]
+      (is (= ["lv_button#1 vs lv_switch#3"] (mapv :node fs))))))
+
+(deftest containment-is-judged-on-the-REACHABLE-box-not-on-coords
+  (testing "the boxes tested for containment are the ones the finding would
+            REPORT — the click area clipped by every ancestor's descent gate.
+            Here the control DRAWS wholly inside the overlay but extends its
+            hit box past it, so pixels of it stay reachable where the overlay
+            is not: a partial cover wearing a contained box. A rule comparing
+            :coords silences this, which is the exact dead-zone class the
+            containment gate exists to keep visible."
+    (let [root (root-with [{:type "lv_button" :uid 1 :coords [20 20 79 49]
+                            :click_area [20 20 149 49] :children []}
+                           {:type "lv_obj" :uid 2 :designed_overlay true
+                            :coords [0 0 99 99] :children []}])
+          fs (judge-overlay root)]
+      (testing "control geometry: on :coords the overlay DOES contain it, so a
+                coords-based rule would exclude this pair"
+        (is (= [20 20 79 49]
+               (geometry/intersection [0 0 99 99] [20 20 79 49]))))
+      (testing "on the REACHABLE box it does not"
+        (is (not= [20 20 149 49]
+                  (geometry/intersection [0 0 99 99] [20 20 149 49]))))
+      (is (= #{:overlap} (invariants-of fs)))
+      (testing "and the reported box is the hit box, so a reader is sent to
+                the pixels that actually differ.
+                `str` is load-bearing: with the clause mutated this list is
+                EMPTY, and `re-find` over a nil detail throws — an ERROR,
+                which gate-enforcement.md §2 refuses as canary evidence
+                because a broken assertion wears the same colour as a fired
+                one. Coercing first makes the mutant produce a FAIL."
+        (is (re-find #"\[20,20,149,49\]" (str (:detail (first fs)))))))))

@@ -1,0 +1,71 @@
+=== GATE sha256 BEFORE ===
+      4c3e1e7dd2e12f0af30e9828ed89188911fab74bab3de450810cdcd591e57b31  /workspace/tools/devcards/src/devcards/overlap.clj
+=== BASELINE (unmutated) ===
+      Ran 33 tests containing 75 assertions.
+      0 failures, 0 errors.
+
+### A · the DECLARATION (overlap/designed-overlay-cover?)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-declared-overlay-that-CONTAINS-a-control-does-not-fire
+      FAIL in (a-declared-overlay-that-CONTAINS-a-control-does-not-fire) (overlap_test.clj:571)
+      expected: (empty? (judge-overlay scrim-over-control))
+        actual: (not (empty? [{:card "c", :invariant :overlap, :node "lv_button#1 vs lv_obj#2", :detail "two interactive elements SHARE pixels (overlap depth 50px) ? [20,20,79,49] 60x30 vs [0,0,199,199] 200x200. Exactly one can take the pointer there"}]))
+      Ran 1 tests containing 2 assertions.
+      1 failures, 0 errors.
+    CONTROL the-same-geometry-fires-without-the-declaration
+      Ran 1 tests containing 2 assertions.
+      0 failures, 0 errors.
+    whole namespace:
+      FAIL in (two-controls-UNDER-an-overlay-still-fire) (overlap_test.clj:634)
+      FAIL in (a-declared-overlay-that-CONTAINS-a-control-does-not-fire) (overlap_test.clj:571)
+      FAIL in (the-exclusion-does-not-depend-on-WHICH-node-declares) (overlap_test.clj:597)
+      Ran 33 tests containing 75 assertions.
+      3 failures, 0 errors.
+
+### B · the CONTAINMENT GATE, widened to mere intersection (overlap/contains-box?)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  a-PARTIAL-cover-fires-however-it-is-declared
+      FAIL in (a-PARTIAL-cover-fires-however-it-is-declared) (overlap_test.clj:617)
+      expected: (= #{:overlap} (invariants-of fs))
+        actual: (not (= #{:overlap} #{}))
+      FAIL in (a-PARTIAL-cover-fires-however-it-is-declared) (overlap_test.clj:618)
+      expected: (= ["lv_button#1 vs lv_obj#2"] (mapv :node fs))
+        actual: (not (= ["lv_button#1 vs lv_obj#2"] []))
+      Ran 1 tests containing 4 assertions.
+      2 failures, 0 errors.
+    CONTROL the-same-geometry-fires-without-the-declaration
+      Ran 1 tests containing 2 assertions.
+      0 failures, 0 errors.
+    whole namespace:
+      FAIL in (containment-is-judged-on-the-REACHABLE-box-not-on-coords) (overlap_test.clj:656)
+      FAIL in (containment-is-judged-on-the-REACHABLE-box-not-on-coords) (overlap_test.clj:664)
+      FAIL in (a-PARTIAL-cover-fires-however-it-is-declared) (overlap_test.clj:617)
+      FAIL in (a-PARTIAL-cover-fires-however-it-is-declared) (overlap_test.clj:618)
+      Ran 33 tests containing 75 assertions.
+      4 failures, 0 errors.
+
+### C · the BOX CHOICE, reachable -> raw :coords (overlap/designed-overlay-cover?)
+    mutation landed: original-occurrences=0 (want 0)  replacement-occurrences=1 (want >=1)
+    CANARY  containment-is-judged-on-the-REACHABLE-box-not-on-coords
+      FAIL in (containment-is-judged-on-the-REACHABLE-box-not-on-coords) (overlap_test.clj:656)
+      expected: (= #{:overlap} (invariants-of fs))
+        actual: (not (= #{:overlap} #{}))
+      FAIL in (containment-is-judged-on-the-REACHABLE-box-not-on-coords) (overlap_test.clj:664)
+      expected: (re-find #"\[20,20,149,49\]" (str (:detail (first fs))))
+        actual: (not (re-find #"\[20,20,149,49\]" ""))
+      Ran 1 tests containing 4 assertions.
+      2 failures, 0 errors.
+    CONTROL a-PARTIAL-cover-fires-however-it-is-declared
+      Ran 1 tests containing 4 assertions.
+      0 failures, 0 errors.
+    whole namespace:
+      FAIL in (containment-is-judged-on-the-REACHABLE-box-not-on-coords) (overlap_test.clj:656)
+      FAIL in (containment-is-judged-on-the-REACHABLE-box-not-on-coords) (overlap_test.clj:664)
+      Ran 33 tests containing 75 assertions.
+      2 failures, 0 errors.
+
+=== RESTORED ===
+      Ran 33 tests containing 75 assertions.
+      0 failures, 0 errors.
+=== GATE sha256 AFTER (must equal BEFORE) ===
+      4c3e1e7dd2e12f0af30e9828ed89188911fab74bab3de450810cdcd591e57b31  /workspace/tools/devcards/src/devcards/overlap.clj

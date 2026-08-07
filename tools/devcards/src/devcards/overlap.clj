@@ -32,6 +32,14 @@
      is hidden the children are hidden too'), so a hidden node cannot take
      the pointer and cannot deny it to anyone else.
 
+   - A DECLARED overlay against a node it WHOLLY CONTAINS. The author sets
+     `WidgetNode.designed_overlay` and the interpreter echoes it into the
+     dump, the same declare-rather-than-infer shape as the proxy keys below
+     — a modal scrim being the case it exists for. The containment gate is
+     what keeps it safe: a partial cover is the silent dead-zone this rule
+     exists to catch, so it still fires and no declaration can turn it off.
+     `designed-overlay-cover?` carries the full argument.
+
    WHAT IS **NOT** EXCLUDED, against the intuition:
 
    - A DISABLED node. LV_STATE_DISABLED does NOT keep a widget out of the
@@ -218,6 +226,59 @@
     (and sa (= sa sb)
          (or (:proxy_part (:node a)) (:proxy_part (:node b))))))
 
+(defn- contains-box?
+  "Does `outer` wholly contain `inner`, edges included?
+
+   Spelled as an intersection identity rather than four comparisons: on
+   INCLUSIVE coords `inner` is a subset of `outer` exactly when the pixels
+   they share ARE `inner`. That reuses `geometry/intersection`, so it
+   inherits `check-box!` — a malformed box throws here instead of quietly
+   answering false, which would read as 'not contained' and let a pair
+   through on the strength of a box nobody could parse."
+  [outer inner]
+  (= inner (geometry/intersection outer inner)))
+
+(defn designed-overlay-cover?
+  "Is this pair a DECLARED overlay wholly containing the other node?
+
+   `WidgetNode.designed_overlay` is an author saying that this node's box is
+   deliberately shared with the interactive nodes inside it — a modal scrim
+   being the case it exists for. The interpreter echoes it into the dump as
+   `designed_overlay` (emitted only where it was set, so an absent key means
+   no), exactly as it declares its OWN composition through `proxy_root` /
+   `proxy_part`; §1.2 forbids inferring either from paint order.
+
+   CONTAINMENT IS THE GATE, and it is the whole reason the exclusion is safe.
+   A PARTIAL cover is the hazard this rule exists for: part of a control
+   stays live and part of it is dead, with an identical framebuffer either
+   way and no event anywhere to show for the difference. So a declaration
+   buys silence only where it covers the other node COMPLETELY, and an
+   overlay that half-covers something still fires no matter what it declares.
+
+   THE BOXES ARE THE REACHABLE ONES — the same clipped boxes the finding
+   would report, not `:coords` and not the raw click area. That is the only
+   choice that keeps the suppression and the finding talking about the same
+   pixels: judging containment on `:coords` would drop a pair whose click
+   areas escape the overlay, and judging it on the unclipped click area would
+   drop one whose overlay cannot reach those pixels at all.
+
+   IT SAYS NOTHING ABOUT WHICH NODE WINS THE POINTER, and must not be read as
+   claiming the overlay is on top. Both directions are the same composition —
+   the overlay covering a control beneath it, and a confirm card placed over
+   the overlay and denying IT the pointer there. Ordering a declared stack is
+   the layer contract's job (§1.4 / §1.6), as it is for the proxy stack.
+
+   Deliberately narrow, and each boundary is a canary. Two ordinary nodes
+   colliding UNDER an overlay still fire — neither is the declaring node, and
+   nothing about being covered makes THEIR overlap intentional. An overlay
+   against a node outside it, or only partly over it, still fires. And a node
+   that is not CLICKABLE never reaches the pairing at all (`pointer-reachable?`
+   dropped it), so a declaration on one excludes nothing — the exclusion can
+   only ever be claimed by an overlay that really is in the pointer path."
+  [a box-a b box-b]
+  (or (and (:designed_overlay (:node a)) (contains-box? box-a box-b))
+      (and (:designed_overlay (:node b)) (contains-box? box-b box-a))))
+
 (defn label-of
   [{:keys [node]}]
   (str (:type node) (when-let [uid (:uid node)] (str "#" uid))))
@@ -289,7 +350,10 @@
                 b (subvec candidates (inc i))
                 :when (not (invariants/related? a b))
                 :when (not (designed-proxy-stack? path->node a b))
-                :let [sep (geometry/separation (reach-of a) (reach-of b))]
+                :let [box-a (reach-of a)
+                      box-b (reach-of b)]
+                :when (not (designed-overlay-cover? a box-a b box-b))
+                :let [sep (geometry/separation box-a box-b)]
                 :when (< sep gap-px)]
             {:card card-id
              :invariant :overlap
@@ -299,8 +363,8 @@
                             (str "SHARE pixels (overlap depth " (- sep) "px)")
                             (str "sit " sep "px apart, under the " gap-px
                                  "px minimum"))
-                          " — " (geometry/describe (reach-of a))
-                          " vs " (geometry/describe (reach-of b))
+                          " — " (geometry/describe box-a)
+                          " vs " (geometry/describe box-b)
                           ". Exactly one can take the pointer there"
                           (state-note a b))}))))
 
@@ -322,6 +386,13 @@
    from the renderer: those objects never reach `finalize_widget`, so they
    are uid-free here and in every consumer, and the LAYER contract (uid-keyed)
    cannot name them at all.
+
+   THE AUTHORED ONE resolved by DECLARATION, and it fires on nothing here.
+   `designed_overlay` lets an author say what the interpreter already says
+   about its own proxy stack, gated on CONTAINMENT so a partial cover still
+   reports. No card in this corpus sets it, so on THIS tree the clause is
+   exercised by `devcards.overlap-test` alone — read that as the scope of the
+   evidence, not as the clause being idle by design.
 
    THE AUTHORED ONES resolved by CONSTRUCTION. The scrubber's buffered bar
    is an underlay beneath a transparent-track slider, and the gauge arc is a

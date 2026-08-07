@@ -646,6 +646,34 @@ census when the corpus, table, or renderer changes.
   ancestor.
 - **`HIDDEN` nodes and their subtree** — `lv_indev_search_obj` returns `NULL`
   immediately, so they can neither take the pointer nor deny it.
+- **A DECLARED overlay against a node it wholly CONTAINS.** The author sets
+  `WidgetNode.designed_overlay` and the interpreter echoes it into `dump_tree`
+  as `designed_overlay` — the same declare-rather-than-infer shape §1.5b
+  establishes for the interpreter's own proxy stack, and required for the same
+  §1.2 reason. The case it exists for is a modal SCRIM: a full-bleed clickable
+  box whose whole job is to absorb presses that would otherwise reach a live
+  control while a destructive confirm is open.
+
+  **CONTAINMENT is the gate, and it is the whole reason this is safe.** A
+  PARTIAL cover leaves part of a control live and part of it dead, with an
+  identical framebuffer either way — the silent dead-zone §2.1 exists for — so
+  it still fires and no declaration can turn it off. The boxes compared are
+  the REACHABLE ones of §2.4, the same boxes the finding reports, so a control
+  that draws inside the overlay but extends its hit box past it is a partial
+  cover and is reported as one.
+
+  It says nothing about WHICH node wins the pointer, and is not a claim that
+  the overlay is on top: an overlay covering a control beneath it and a
+  confirm card placed over the overlay are the same composition, and ordering
+  a declared stack is §1.4/§1.6's job. Two ordinary controls colliding
+  UNDERNEATH an overlay still fire — neither is the declaring node.
+
+  **Unlike the proxy keys, this one is NOT here because the node cannot be
+  named.** A `designed_overlay` node is an ordinary authored widget and
+  carries a uid. It rides through the interpreter because the dump is the only
+  thing the rule reads, so a declaration echoed off the object that actually
+  rendered cannot name a node that is not in the tree — the §1.7 *silent nil*,
+  reached from the declaration side.
 
 Snapped-away carousel pages are **not** exempted, and they do not need to be at
 ANY threshold: a snapped page sits outside its content box, so the descent-gate

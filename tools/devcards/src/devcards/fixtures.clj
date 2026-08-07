@@ -850,10 +850,17 @@
 
 (def ^:private authored-node-keys
   "The authored-lane node shape: the atomic keys plus absolute position,
-   an event binding, explicit part-selector style groups, and the gesture
-   position probes (§ Gesture specs — a slot buffer, never a command).
-   Admitted ONLY under *authored-lane* (build-authored-card)."
-  (into node-keys #{:x :y :event :styles :gestures}))
+   an event binding, explicit part-selector style groups, the gesture
+   position probes (§ Gesture specs — a slot buffer, never a command), and
+   the designed-overlay declaration. Admitted ONLY under *authored-lane*
+   (build-authored-card).
+
+   `:designed-overlay` belongs on THIS side of the line and not in
+   `node-keys`: it is a statement about a COMPOSITION — this box deliberately
+   shares its pixels with what it contains — and the atomic lane renders one
+   widget with nothing to compose against, so an atomic card carrying it
+   could only ever declare something untrue."
+  (into node-keys #{:x :y :event :styles :gestures :designed-overlay}))
 
 (def ^:private prop-keys
   "Every key a node `:props` map may carry."
@@ -961,6 +968,13 @@
                              " hit_slop range (0..64)")
                         {:ctx ctx :hit-slop hs})))
       (.setHitSlop b (int hs)))
+    ;; designed_overlay: the author declaring that this box is deliberately
+    ;; shared with the interactive nodes it wholly contains, echoed by the
+    ;; interpreter into dump_tree and read there by devcards.overlap. Set only
+    ;; when true — the field is proto3-default false and the dump emits the key
+    ;; only where it applies, so writing an explicit false would be a value the
+    ;; wire cannot distinguish from absence anyway.
+    (when (:designed-overlay node) (.setDesignedOverlay b true))
     (doseq [c (:children node)] (.addChildren b (build-node ctx c)))
     (.build b)))
 
