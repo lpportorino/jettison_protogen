@@ -633,30 +633,42 @@
 (def preferences
   "How a cell chooses among candidates that ALL satisfy every constraint.
 
-   `:least-separation` implements the RULE `edn/tokens.edn` states for
-   `:fg-disabled` and `:olive-600` — the value closest to the floor, keeping the
-   most dimming signal. It is stated as \"the smallest achieved ratio\" rather
-   than \"the dimmest lightness\" because those coincide only for a single
-   reference, and both of those tokens had exactly one.
+   `:least-separation` implements the RULE `edn/tokens.edn` stated for the
+   primitives `:fg-disabled` and `:olive-600` — the value closest to the floor,
+   keeping the most dimming signal. It is stated as \"the smallest achieved
+   ratio\" rather than \"the dimmest lightness\" because those coincide only for
+   a single reference, and both of those tokens had exactly one. Both primitives
+   were DELETED by `217ecfda`; the rule they were named for is what survives, and
+   `:fg-dim` / `:olive-500` state it in the same words today.
 
-   IT DOES NOT REPRODUCE EITHER SHIPPED VALUE, and saying so is worth more than
+   IT DOES NOT REPRODUCE EITHER RETIRED VALUE, and saying so is worth more than
    the claim it replaces. Applying the stated rule on the stated line lands ONE
    8-bit blue level away in both cases, and the reason is sharper than a
-   rounding disagreement: neither shipped tone is EMITTABLE on the (hue, chroma)
-   line its own comment names. `#9A9BB6` is absent from the 8-bit colours
+   rounding disagreement: neither retired tone is EMITTABLE on the (hue, chroma)
+   line its own comment named. `#9A9BB6` is absent from the 8-bit colours
    reachable at `:fg-dim`'s hue and chroma (the nearest on-line neighbours are
    `#9A9BB5` and `#9B9BB6`), and `#3D3C2C` is absent from `:olive-500`'s line
    (nearest are `#3D3C2B` and `#3D3D2C`). Rounding the coordinates to the
    figures the comment quotes (h 285.2, C 0.039) changes nothing.
 
-   Both shipped tones DO clear their 6:1 floor — 6.0436:1 and 6.0318:1, which
-   this namespace agrees with — so this is not a claim that the palette is
-   broken. It is a claim that two derivations of \"the same\" quantity disagree
-   at the resolution the palette is actually written in, which is the failure
-   this namespace's quantise-first design exists to make impossible. Whatever
-   produced the shipped values is not in this tree, so WHICH of the two paths
-   stepped off the line cannot be settled here.
-   `test-the-shipped-disabled-tones-are-not-on-their-own-stated-line` pins the
+   BOTH TONES ARE RETIRED, AND THIS PARAGRAPH SAID \"BOTH SHIPPED TONES\" LONG
+   AFTER THEY STOPPED SHIPPING. `217ecfda` dropped the foreground ladder to three
+   rungs: `disabled-fg` is `#A7A8C3`/`#3D3C2B` now, and the primitives these two
+   were named for — `:fg-disabled` and `:olive-600` — were deleted by that same
+   commit. The paragraph is kept rather than dropped because its SUBJECT is the
+   retired derivation and the disagreement it records is still unexplained; only
+   the tense was wrong. (This is the third instance of one defect in this file:
+   `protogen-spec`'s `:shipped` mirror and the test namespace's
+   `proven-pairs-rows` were the other two, and the spec's is now gate-held.)
+
+   Both tones DID clear their 6:1 floor on the fills named above — 6.0436:1 and
+   6.0318:1, which this namespace agrees with — so this was never a claim that
+   the palette is broken. It is a claim that two derivations of \"the same\"
+   quantity disagree at the resolution the palette is actually written in, which
+   is the failure this namespace's quantise-first design exists to make
+   impossible. Whatever produced those values is not in this tree, so WHICH of
+   the two paths stepped off the line cannot be settled here.
+   `test-the-retired-disabled-tones-are-not-on-their-own-stated-line` pins the
    measurement; if it ever goes green the finding has been retired and the
    sentence above should go with it."
   #{:least-separation :most-separation :closest-to-shipped})
@@ -1223,9 +1235,40 @@
    them derived changes `:kind` to `:solved` and gives them constraints — the
    solver treats them identically either way.
 
-   Every hue and chroma below is read from the shipped hex by `hex->oklch`.
-   Nothing here copies a coordinate into source, so the spec cannot drift from
-   the token home by transcription."
+   Every hue and chroma below is read from the shipped hex by `hex->oklch`, so
+   no OKLCH COORDINATE is ever copied into source.
+
+   THAT IS NOT THE SAME AS \"CANNOT DRIFT\", WHICH IS WHAT THIS PARAGRAPH USED
+   TO SAY. Each `:shipped` hex IS a transcription of `edn/tokens.edn`, and the
+   drift the retired sentence excluded is precisely the drift that happened
+   twice: `:accent-bg`'s note below records the first, and `:fg-1`, `:fg-2` and
+   `:disabled-fg` all kept their pre-repair values through the commit that moved
+   the foreground ladder to three rungs.
+
+   A stale hex is not cosmetic here — it is the SEARCH ANCHOR. `hex->oklch` reads
+   the hue and chroma from it, so `candidates` enumerates a line THROUGH it and
+   the whole search space is wrong; `:chroma-retain-min` is a fraction of its
+   chroma; `:closest-to-shipped`/`:least-separation` rank against it; `:moved?`
+   is computed from it.
+
+   SCOPE THAT HONESTLY FOR THE THREE ROLES REPAIRED HERE: their harm was LATENT,
+   not observed. All four ink rungs are `:blocked-upstream` or
+   `:reference-conflict` in every one of the three `report-modes` today — the
+   status fills conflict, which blocks `fg-0`, which blocks the rest of the
+   ladder — so `solve-cell` returns before it ever reaches `candidates`, and
+   reverting any of the three anchors moves ZERO emitted cells. The anchor is
+   load-bearing and the values were wrong; what was not true is that a wrong
+   value was silently changing this proposal's output. It would have, the moment
+   the upstream conflict is repaired — which is the whole point of the
+   derivation. `:accent-bg`, whose note records the first instance, IS `:solved`,
+   so the harm was live there; generalising from it is the overstatement to
+   avoid.
+
+   The guarantee is now MECHANICAL rather than asserted:
+   `palette-ladder-test/test-the-spec-mirrors-the-shipped-token-home` resolves
+   every role through `lvgl-codegen.resolve` against the token home and fails on
+   any cell that disagrees, in both modes, plus a totality check so an empty
+   drift list cannot mean nothing was read."
   {:spec-id :protogen-shipped
    :modes [:dark :light]
    :roles
@@ -1369,7 +1412,7 @@
                    (text-pair :status-warning :proven-pairs)]}
     {:role :fg-1
      :kind :solved
-     :shipped {:dark "#9898B0" :light "#404050"}
+     :shipped {:dark "#C6C7E0" :light "#2A2938"}
      :chroma-retain-min 0.0
      :note "THE LADDER: tokens.edn requires fg-2 to stay visibly dimmer than fg-1, which is only meaningful if the rungs are ordered at all."
      :constraints [(text-pair :surface-1 :proven-pairs)
@@ -1380,17 +1423,18 @@
                    (rung-under :fg-0 :surface-1 :token-comment)]}
     {:role :fg-2
      :kind :solved
-     :shipped {:dark "#8686A0" :light "#585846"}
+     :shipped {:dark "#A7A8C3" :light "#3D3C2B"}
      :chroma-retain-min 0.0
      :prefer :least-separation
+     :note "The DIMMEST rung, and tokens.edn pins it at the dimmest tone clearing 6:1 on the WORST fill - pressed-surface in dark, surface-overlay in light. The constraint below names surface-1 because that is the pair PROVEN-PAIRS shows co-declared, and surface-1 is genuinely the LOOSER reference in both modes (7.98:1 dark / 8.40:1 light, against 6.02 / 6.04 on the binding fills), so a solve that satisfies it has NOT thereby satisfied the fill the tone actually lands on. Note which fills those are: pressed-surface is outside the surface-* ladder entirely, while surface-overlay is in it - so 'not in the surface-* ladder' is true of the dark case only, and tokens.edn correspondingly says only 'NOT :surface-2' for the light one."
      :constraints [(text-pair :surface-1 :proven-pairs)
                    (rung-under :fg-1 :surface-1 :token-comment)]}
     {:role :disabled-fg
      :kind :solved
-     :shipped {:dark "#9A9BB6" :light "#3D3C2C"}
+     :shipped {:dark "#A7A8C3" :light "#3D3C2B"}
      :chroma-retain-min 0.0
      :prefer :least-separation
-     :note "tokens.edn derives both primitives exactly this way - the value closest to the 6:1 floor against the worst surface, keeping the most dimming signal - and records the resulting collision with fg-1 as a KNOWN forced inversion the ladder was supposed to own. The rung below fg-2 is that requirement, stated as a constraint instead of a comment."
+     :note "IT IS THE SAME TONE AS fg-2 IN BOTH MODES, deliberately: tokens.edn merged the fourth foreground rung into the third because LIGHT has no room for it at the governing floor (band 0.1272 OKLCH-L against a 0.0586 visible gap = two gaps, three rungs; dark's 0.1936 would carry four). The `rung-under` constraint below therefore CANNOT be satisfied by any distinct value the light mode admits, and that is the shipped design rather than a defect in it - read a refusal here as the merge, not as a solvable conflict."
      :constraints [(text-pair :surface-2 :proven-pairs)
                    (rung-under :fg-2 :surface-1 :token-comment)]}]})
 

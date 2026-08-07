@@ -18,8 +18,19 @@
    before and after, and check that the printed `fill` and `glyph` hexes are
    TOKEN VALUES rather than composites. Under a fade they are not: the
    disabled dropdown reported #282837 / #56566A, two colours in no token
-   table; after, #1E1E2E / #9A9BB6, which are surface-2 and disabled-fg
-   exactly. That identity is the result — the `ratio` is a consequence of it.
+   table; after, #1E1E2E / #9A9BB6, which WERE surface-2 and disabled-fg
+   exactly WHEN THIS WAS MEASURED. That identity is the result — the `ratio`
+   is a consequence of it.
+
+   THE SECOND HEX IS A RETIRED TRANSCRIPTION, kept past-tense rather than
+   refreshed. `217ecfda` dropped the foreground ladder to three rungs and
+   moved `disabled-fg`, which now resolves through `:fg-dim` to `#A7A8C3`
+   (`edn/tokens.edn`). Re-running this probe today reports that value, not
+   `#9A9BB6`. The IDENTITY claim — that the pair is exactly (surface-2,
+   disabled-fg) rather than two composites under a fade — is what this
+   paragraph exists to establish, and it survives the tone moving; only the
+   literal did not. Read the token home for the current value and never this
+   sentence, which is a record of one measurement.
 
    METHOD, and its one real assumption. Inside the widget's dump `:coords`
    box, take the modal colour as the FILL and the colour maximising |ΔY| from
