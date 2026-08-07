@@ -2727,6 +2727,45 @@ export interface WidgetNode {
    */
   hitSlop: number;
   /**
+   * DESIGNED OVERLAY — this node's box is deliberately SHARED with the
+   * interactive nodes it wholly contains, and that sharing is composition
+   * rather than a collision.
+   *
+   * The case it exists for is a modal SCRIM: a full-bleed CLICKABLE box,
+   * shown while a destructive confirm is open, whose whole job is to absorb
+   * every press that would otherwise reach a live control underneath. The
+   * interpreter already declares the one intentional stack it builds ITSELF
+   * (`proxy_root` / `proxy_part` on a host proxy); an AUTHORED overlay had
+   * no way to say the same thing, and `docs/UI-QUALITY-CONTRACTS.md` §1.2
+   * forbids inferring it from paint order. This is that declaration.
+   *
+   * WHAT IT DOES. The interpreter echoes it into `dump_tree` as
+   * `designed_overlay`, and `devcards.overlap` drops a pair only when this
+   * node's REACHABLE box wholly CONTAINS the other's. The containment gate
+   * is the whole reason the exclusion is safe: a PARTIAL cover leaves part
+   * of a control live and part of it dead, which is exactly the silent
+   * dead-zone that rule exists to catch, so it still fires and no
+   * declaration can turn it off.
+   *
+   * It says nothing about WHICH of the two wins the pointer, and must not be
+   * read as claiming the overlay is on top. Both directions are the same
+   * composition — the overlay covering a control beneath it, and a card
+   * placed over the overlay and denying IT the pointer there. Ordering a
+   * declared stack is the layer contract's job (§1.4 / §1.6), not this
+   * field's.
+   *
+   * WHAT IT DOES NOT DO. Nothing about rendering, hit testing, paint order
+   * or flags changes; the renderer records it for the dump and no further.
+   * It is therefore a DIAGNOSTIC declaration, and a false one cannot make a
+   * dead control reachable — it can only stop a lane reporting one. That
+   * asymmetry is why it is opt-in per node rather than a screen-level mode.
+   *
+   * A node that is not CLICKABLE never enters the pointer path at all, so it
+   * can neither cover anything nor be denied by anything, and this
+   * declaration on it excludes nothing.
+   */
+  designedOverlay: boolean;
+  /**
    * Stable node identity for tree patching: FNV-1a-32 of the node's
    * root→node identity path (author :id segments, else type#ordinal among
    * unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -3831,6 +3870,7 @@ function createBaseWidgetNode(): WidgetNode {
     enabledWhen: undefined,
     colorWhen: undefined,
     hitSlop: 0,
+    designedOverlay: false,
     uid: 0,
     gestures: [],
   };
@@ -3979,6 +4019,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.hitSlop !== 0) {
       writer.uint32(376).uint32(message.hitSlop);
+    }
+    if (message.designedOverlay !== false) {
+      writer.uint32(392).bool(message.designedOverlay);
     }
     if (message.uid !== 0) {
       writer.uint32(344).uint32(message.uid);
@@ -4390,6 +4433,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.hitSlop = reader.uint32();
           continue;
         }
+        case 49: {
+          if (tag !== 392) {
+            break;
+          }
+
+          message.designedOverlay = reader.bool();
+          continue;
+        }
         case 43: {
           if (tag !== 344) {
             break;
@@ -4625,6 +4676,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.hit_slop)
         ? globalThis.Number(object.hit_slop)
         : 0,
+      designedOverlay: isSet(object.designedOverlay)
+        ? globalThis.Boolean(object.designedOverlay)
+        : isSet(object.designed_overlay)
+        ? globalThis.Boolean(object.designed_overlay)
+        : false,
       uid: isSet(object.uid) ? globalThis.Number(object.uid) : 0,
       gestures: globalThis.Array.isArray(object?.gestures)
         ? object.gestures.map((e: any) => GestureSpec.fromJSON(e))
@@ -4784,6 +4840,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.hitSlop !== 0) {
       obj.hitSlop = Math.round(message.hitSlop);
     }
+    if (message.designedOverlay !== false) {
+      obj.designedOverlay = message.designedOverlay;
+    }
     if (message.uid !== 0) {
       obj.uid = Math.round(message.uid);
     }
@@ -4918,6 +4977,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
       ? ColorBinding.fromPartial(object.colorWhen)
       : undefined;
     message.hitSlop = object.hitSlop ?? 0;
+    message.designedOverlay = object.designedOverlay ?? false;
     message.uid = object.uid ?? 0;
     message.gestures = object.gestures?.map((e) => GestureSpec.fromPartial(e)) || [];
     return message;

@@ -181,7 +181,23 @@
     a screen aggregate like host_proxy but tiny and uncontended — few enum
     dropdowns carry a value bind — reset on full load + swap-removed with its
     widget in unregister_subtree. Allowlisted pending a screen that approaches
-    it, at which point it graduates to a counted cap (see MAX_PROXIES)."})
+    it, at which point it graduates to a counted cap (see MAX_PROXIES)."
+   "MAX_DESIGNED_OVERLAYS"
+   "registry of nodes declaring WidgetNode.designed_overlay; the exact
+    structural sibling of MAX_DROPDOWN_VALUE_MAPS — a screen aggregate, sparse,
+    reset on full load and swap-removed with its widget in unregister_subtree.
+    It carries one property none of the others do, and that property rather than
+    the size is why it is here: EXHAUSTING IT CANNOT MAKE A SCREEN
+    UNRENDERABLE. Headroom is counted so codegen can refuse a screen the
+    renderer could not render; this pool allocates nothing, sets no flag, moves
+    no pixel and is read by nothing in the render path — it exists so dump_obj
+    can echo an author's declaration to devcards.overlap. Overflow therefore
+    WARNS and drops the declaration, and the overlap lane then REPORTS the pairs
+    it would have excluded: the degradation is toward more findings, never
+    fewer. Counting it would convert a diagnostic annotation into a hard
+    authoring limit, refusing at codegen a screen that renders perfectly. It
+    graduates to a counted cap if the declaration ever gains a rendering
+    effect — not merely if a screen approaches the bound."})
 
 (def compiled-in-fonts
   "Font symbol names the renderer resolves WITHOUT touching the binfont

@@ -1224,6 +1224,43 @@ typedef struct _ui_WidgetNode {
  layout can see. renderer/src/renderer.h carries the full contract and
  docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic. */
     uint32_t hit_slop;
+    /* DESIGNED OVERLAY — this node's box is deliberately SHARED with the
+ interactive nodes it wholly contains, and that sharing is composition
+ rather than a collision.
+
+ The case it exists for is a modal SCRIM: a full-bleed CLICKABLE box,
+ shown while a destructive confirm is open, whose whole job is to absorb
+ every press that would otherwise reach a live control underneath. The
+ interpreter already declares the one intentional stack it builds ITSELF
+ (`proxy_root` / `proxy_part` on a host proxy); an AUTHORED overlay had
+ no way to say the same thing, and `docs/UI-QUALITY-CONTRACTS.md` §1.2
+ forbids inferring it from paint order. This is that declaration.
+
+ WHAT IT DOES. The interpreter echoes it into `dump_tree` as
+ `designed_overlay`, and `devcards.overlap` drops a pair only when this
+ node's REACHABLE box wholly CONTAINS the other's. The containment gate
+ is the whole reason the exclusion is safe: a PARTIAL cover leaves part
+ of a control live and part of it dead, which is exactly the silent
+ dead-zone that rule exists to catch, so it still fires and no
+ declaration can turn it off.
+
+ It says nothing about WHICH of the two wins the pointer, and must not be
+ read as claiming the overlay is on top. Both directions are the same
+ composition — the overlay covering a control beneath it, and a card
+ placed over the overlay and denying IT the pointer there. Ordering a
+ declared stack is the layer contract's job (§1.4 / §1.6), not this
+ field's.
+
+ WHAT IT DOES NOT DO. Nothing about rendering, hit testing, paint order
+ or flags changes; the renderer records it for the dump and no further.
+ It is therefore a DIAGNOSTIC declaration, and a false one cannot make a
+ dead control reachable — it can only stop a lane reporting one. That
+ asymmetry is why it is opt-in per node rather than a screen-level mode.
+
+ A node that is not CLICKABLE never enters the pointer path at all, so it
+ can neither cover anything nor be denied by anything, and this
+ declaration on it excludes nothing. */
+    bool designed_overlay;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -1475,7 +1512,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {"", 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0, 0}
 #define ui_WidgetNode_BindingsEntry_init_default {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
@@ -1523,7 +1560,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {"", 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0, 0}
 #define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
@@ -1777,6 +1814,7 @@ extern "C" {
 #define ui_WidgetNode_enabled_when_tag           45
 #define ui_WidgetNode_color_when_tag             46
 #define ui_WidgetNode_hit_slop_tag               47
+#define ui_WidgetNode_designed_overlay_tag       49
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_TreePatchOp_kind_tag                  1
@@ -1874,7 +1912,8 @@ X(a, POINTER,  REPEATED, MESSAGE,  gestures,         44) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  enabled_when,     45) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46) \
 X(a, STATIC,   SINGULAR, UINT32,   hit_slop,         47) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,target_overlay_props,widget_props.target_overlay_props),  48)
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,target_overlay_props,widget_props.target_overlay_props),  48) \
+X(a, STATIC,   SINGULAR, BOOL,     designed_overlay,  49)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry

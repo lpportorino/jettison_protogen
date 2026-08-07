@@ -583,6 +583,14 @@ const char *renderer_proxy_part(const lv_obj_t *obj, const char **owner_id) {
   (void)owner_id;
   return NULL;
 }
+bool renderer_designed_overlay(const lv_obj_t *obj) {
+  /* Same shape as the two above, for the same reason: this path decodes no
+   * WidgetNode, so no node can have declared `designed_overlay` and dump_tree
+   * emits no key. The true answer for a module that reads no AST, not a
+   * degraded one. */
+  (void)obj;
+  return false;
+}
 int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len) {
   /* The reference path decodes no proto — a crafted CmdSpec `.pb` never reaches
    * a decode boundary here. Report the nanopb-reject sentinel; the controls

@@ -11406,6 +11406,7 @@ class WidgetNode final : public ::google::protobuf::Message
     kScrollDirFieldNumber = 34,
     kBareFieldNumber = 37,
     kInTabBarFieldNumber = 39,
+    kDesignedOverlayFieldNumber = 49,
     kUidFieldNumber = 43,
     kHitSlopFieldNumber = 47,
     kObjPropsFieldNumber = 10,
@@ -11746,6 +11747,16 @@ class WidgetNode final : public ::google::protobuf::Message
   private:
   bool _internal_in_tab_bar() const;
   void _internal_set_in_tab_bar(bool value);
+
+  public:
+  // bool designed_overlay = 49;
+  void clear_designed_overlay() ;
+  bool designed_overlay() const;
+  void set_designed_overlay(bool value);
+
+  private:
+  bool _internal_designed_overlay() const;
+  void _internal_set_designed_overlay(bool value);
 
   public:
   // uint32 uid = 43;
@@ -12237,8 +12248,8 @@ class WidgetNode final : public ::google::protobuf::Message
   inline void clear_has_widget_props();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 48, 34,
-      94, 7>
+      5, 49, 34,
+      94, 9>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -12288,6 +12299,7 @@ class WidgetNode final : public ::google::protobuf::Message
     ::uint32_t scroll_dir_;
     bool bare_;
     bool in_tab_bar_;
+    bool designed_overlay_;
     ::uint32_t uid_;
     ::uint32_t hit_slop_;
     union WidgetPropsUnion {
@@ -16527,6 +16539,28 @@ inline ::uint32_t WidgetNode::_internal_hit_slop() const {
 inline void WidgetNode::_internal_set_hit_slop(::uint32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.hit_slop_ = value;
+}
+
+// bool designed_overlay = 49;
+inline void WidgetNode::clear_designed_overlay() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.designed_overlay_ = false;
+}
+inline bool WidgetNode::designed_overlay() const {
+  // @@protoc_insertion_point(field_get:ui.WidgetNode.designed_overlay)
+  return _internal_designed_overlay();
+}
+inline void WidgetNode::set_designed_overlay(bool value) {
+  _internal_set_designed_overlay(value);
+  // @@protoc_insertion_point(field_set:ui.WidgetNode.designed_overlay)
+}
+inline bool WidgetNode::_internal_designed_overlay() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.designed_overlay_;
+}
+inline void WidgetNode::_internal_set_designed_overlay(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.designed_overlay_ = value;
 }
 
 // uint32 uid = 43;

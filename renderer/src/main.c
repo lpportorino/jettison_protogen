@@ -2822,6 +2822,16 @@ static void dump_composition_keys(const lv_obj_t *obj) {
     (void)snprintf(gbuf, sizeof(gbuf), ",\"gesture_part\":\"%s\"", gpart);
     tree_append(gbuf);
   }
+  /* The AUTHORED member of this family, and the one whose absence is
+   * load-bearing: emitted only where WidgetNode.designed_overlay was set, so
+   * an ordinary node stays silent and a consumer reading the key as falsey
+   * when absent gets the right answer. The two families above name objects
+   * that carry no uid; this one names an object that HAS one, and rides here
+   * anyway because the dump is the only thing the overlap lane reads — a
+   * declaration echoed off the object that actually rendered cannot name a
+   * node that is not in the tree. */
+  if (renderer_designed_overlay(obj))
+    tree_append(",\"designed_overlay\":true");
 }
 static void dump_obj(const lv_obj_t *obj, bool is_root) {
   lv_area_t a;

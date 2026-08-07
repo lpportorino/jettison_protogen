@@ -231,5 +231,11 @@ int32_t cmd_spec_decode_probe(const uint8_t *data, uint32_t len);
  * affordances carry no uid, so nothing else can name them. */
 const char *renderer_proxy_root(const lv_obj_t *obj);
 const char *renderer_proxy_part(const lv_obj_t *obj, const char **owner_id);
+/* Designed-overlay membership, for dump_tree. True when this object's
+ * WidgetNode set `designed_overlay` — the author declaring that this box is
+ * deliberately shared with the interactive nodes it wholly CONTAINS. The
+ * sibling of the two proxy predicates above for a stack the interpreter did
+ * not build itself; consulted only by the dump, never by the render path. */
+bool renderer_designed_overlay(const lv_obj_t *obj);
 #endif
 /* RENDERER_H */

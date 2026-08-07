@@ -590,6 +590,93 @@ static void unregister_uid_obj(const lv_obj_t *obj) {
   }
 }
 /* ================================================================
+ * Designed overlays — an AUTHORED node declaring that its box is
+ * deliberately shared with what it contains (WidgetNode.designed_overlay).
+ *
+ * The interpreter already declares the one intentional stack it builds
+ * ITSELF (renderer_proxy_root / renderer_proxy_part below). This is the
+ * same KIND of declaration for a stack the interpreter did not build — a
+ * modal scrim is the case — and it exists for the same reason: a geometry
+ * rule that sees only rectangles cannot tell a designed overlay from an
+ * accidental collision, and inferring it from paint order is what
+ * docs/UI-QUALITY-CONTRACTS.md §1.2 forbids.
+ *
+ * THE REASON THE PROXY KEYS COME FROM THE RENDERER DOES NOT APPLY HERE, and
+ * carrying it over would be inheriting a dead rationale. Proxy affordances
+ * are uid-LESS: built with bare lv_obj_create, never through
+ * finalize_widget, so nothing downstream can name them and only the
+ * interpreter can speak for them. An authored overlay HAS a uid and
+ * dump_obj already emits it. What makes the round trip through here worth
+ * its cost is different: the dump is the only thing the lane reads, so a
+ * declaration echoed from the object that actually rendered cannot name a
+ * node that is not there — where a side table of "these uids are overlays"
+ * goes silently wrong the moment the tree is edited (the §1.7 'silent nil').
+ *
+ * WHY A REGISTRY AND NOT AN LVGL FLAG. The obvious cheap store is one of
+ * LV_OBJ_FLAG_USER_1..4, which would be O(1) and could never go stale. It is
+ * not available: WidgetNode.obj_flags is a raw uint32 direct-cast into
+ * lv_obj_add_flag, and :user-1..:user-4 are members of the GENERATED
+ * authoring keyword set (tools/renderer-gen/.../generated/enums.clj,
+ * derived from LVGL's own headers) which emit_proto ORs into that field
+ * verbatim. So a user flag is already part of the authorable vocabulary: an
+ * author using one for their own marking would silently acquire an overlap
+ * exclusion they never asked for, which is a silently WIDENED exclusion —
+ * the worst direction. Masking the bit out on the way in would instead make
+ * the authoring layer advertise a keyword the renderer drops on the floor.
+ *
+ * WHY NOT A FIELD ON uid_entry_t, which already has both lifetime seams: a
+ * uid==0 node is never registered and register_uid legitimately REFUSES a
+ * duplicate or an overflow, so the declaration would vanish for reasons that
+ * have nothing to do with it, and it would tie 'is this an overlay' to 'is
+ * this patch-addressable'.
+ *
+ * LIFETIME is the price of a pointer-keyed registry, and it is paid at the
+ * SAME two seams the proxy pool uses — reset in controls_load_ui beside
+ * proxy_count, drop in unregister_subtree beside remove_proxy_entry. Those
+ * are the only two places a live widget dies, which is why the uid registry
+ * and the proxy pool need no others either.
+ * ================================================================ */
+#define MAX_DESIGNED_OVERLAYS 32
+static const lv_obj_t *designed_overlay_registry[MAX_DESIGNED_OVERLAYS];
+static int designed_overlay_count;
+/* Record `obj` as a designed overlay. OVERFLOW IS NOT A LOAD FAILURE, and
+ * that is a decision rather than laxity: this declaration changes no pixel,
+ * no flag and no hit test — it exists only to be echoed into dump_tree — so
+ * dropping it degrades toward MORE findings, never fewer. The overlap lane
+ * then reports the pair it would have excluded, which is loud, in the lane,
+ * and safe. Failing the whole screen load over a diagnostic annotation would
+ * turn a bounded pool into a rendering outage. */
+static void register_designed_overlay(const lv_obj_t *obj) {
+  for (int i = 0; i < designed_overlay_count; i++)
+    if (designed_overlay_registry[i] == obj)
+      return; /* morph re-entry: already recorded */
+  if (designed_overlay_count >= MAX_DESIGNED_OVERLAYS) {
+    LOG_WARN("designed-overlay registry full (%d max) — the declaration is "
+             "DROPPED for this node; devcards.overlap will report its pairs",
+             MAX_DESIGNED_OVERLAYS);
+    return;
+  }
+  designed_overlay_registry[designed_overlay_count++] = obj;
+}
+static void remove_designed_overlay_entry(const lv_obj_t *obj) {
+  for (int i = 0; i < designed_overlay_count; i++) {
+    if (designed_overlay_registry[i] == obj) {
+      designed_overlay_registry[i] =
+          designed_overlay_registry[designed_overlay_count - 1];
+      designed_overlay_count--;
+      return;
+    }
+  }
+}
+/* Did this object's WidgetNode declare designed_overlay? For dump_tree only
+ * — nothing in the render path consults it. */
+bool renderer_designed_overlay(const lv_obj_t *obj) {
+  for (int i = 0; i < designed_overlay_count; i++)
+    if (designed_overlay_registry[i] == obj)
+      return true;
+  return false;
+}
+/* ================================================================
  * SYNC C1: per-dropdown enum value->index map.
  *
  * A value-bound dropdown's subject holds the device enum NUMBER, but the option
@@ -3497,6 +3584,14 @@ static void finalize_widget(widget_ctx_t *ctx) {
     }
   }
   /* LVGL flag/state bitmasks — direct-cast (values parity-gated) */
+  /* The designed-overlay declaration (WidgetNode.designed_overlay) — recorded
+   * for dump_tree and consulted nowhere in the render path. It is deliberately
+   * NOT expressed as an LVGL flag: the user-flag bits are already reachable
+   * from `obj_flags` two lines below, so a flag store would let an author
+   * acquire the overlap exclusion without declaring it (see the registry's
+   * own comment). */
+  if (node->designed_overlay)
+    register_designed_overlay(obj);
   if (node->obj_flags != 0)
     lv_obj_add_flag(obj, (lv_obj_flag_t)node->obj_flags);
   if (node->obj_flags_clear != 0)
@@ -5332,6 +5427,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   line_point_count = 0;
   proxy_count = 0;
   uid_count = 0;
+  designed_overlay_count = 0;
   dropdown_value_map_count = 0;
   load_resource_error = false;
   /* R5b: a full build starts from no gesture-surface cmd templates — the
@@ -5465,6 +5561,7 @@ static void unregister_subtree(lv_obj_t *obj) {
     unregister_uid_obj(obj);
   }
   remove_proxy_entry(obj);
+  remove_designed_overlay_entry(obj);
   unregister_dropdown_value_map(obj);
   uint32_t n = lv_obj_get_child_count(obj);
   for (uint32_t i = 0; i < n; i++)

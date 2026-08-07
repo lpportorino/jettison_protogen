@@ -2613,6 +2613,43 @@ type WidgetNode struct {
 	// layout can see. renderer/src/renderer.h carries the full contract and
 	// docs/UI-QUALITY-CONTRACTS.md §2.5 the sibling-gap arithmetic.
 	HitSlop uint32 `protobuf:"varint,47,opt,name=hit_slop,json=hitSlop,proto3" json:"hit_slop,omitempty"`
+	// DESIGNED OVERLAY — this node's box is deliberately SHARED with the
+	// interactive nodes it wholly contains, and that sharing is composition
+	// rather than a collision.
+	//
+	// The case it exists for is a modal SCRIM: a full-bleed CLICKABLE box,
+	// shown while a destructive confirm is open, whose whole job is to absorb
+	// every press that would otherwise reach a live control underneath. The
+	// interpreter already declares the one intentional stack it builds ITSELF
+	// (`proxy_root` / `proxy_part` on a host proxy); an AUTHORED overlay had
+	// no way to say the same thing, and `docs/UI-QUALITY-CONTRACTS.md` §1.2
+	// forbids inferring it from paint order. This is that declaration.
+	//
+	// WHAT IT DOES. The interpreter echoes it into `dump_tree` as
+	// `designed_overlay`, and `devcards.overlap` drops a pair only when this
+	// node's REACHABLE box wholly CONTAINS the other's. The containment gate
+	// is the whole reason the exclusion is safe: a PARTIAL cover leaves part
+	// of a control live and part of it dead, which is exactly the silent
+	// dead-zone that rule exists to catch, so it still fires and no
+	// declaration can turn it off.
+	//
+	// It says nothing about WHICH of the two wins the pointer, and must not be
+	// read as claiming the overlay is on top. Both directions are the same
+	// composition — the overlay covering a control beneath it, and a card
+	// placed over the overlay and denying IT the pointer there. Ordering a
+	// declared stack is the layer contract's job (§1.4 / §1.6), not this
+	// field's.
+	//
+	// WHAT IT DOES NOT DO. Nothing about rendering, hit testing, paint order
+	// or flags changes; the renderer records it for the dump and no further.
+	// It is therefore a DIAGNOSTIC declaration, and a false one cannot make a
+	// dead control reachable — it can only stop a lane reporting one. That
+	// asymmetry is why it is opt-in per node rather than a screen-level mode.
+	//
+	// A node that is not CLICKABLE never enters the pointer path at all, so it
+	// can neither cover anything nor be denied by anything, and this
+	// declaration on it excludes nothing.
+	DesignedOverlay bool `protobuf:"varint,49,opt,name=designed_overlay,json=designedOverlay,proto3" json:"designed_overlay,omitempty"`
 	// Stable node identity for tree patching: FNV-1a-32 of the node's
 	// root→node identity path (author :id segments, else type#ordinal among
 	// unkeyed same-type siblings), assigned + collision-checked by codegen.
@@ -3045,6 +3082,13 @@ func (x *WidgetNode) GetHitSlop() uint32 {
 		return x.HitSlop
 	}
 	return 0
+}
+
+func (x *WidgetNode) GetDesignedOverlay() bool {
+	if x != nil {
+		return x.DesignedOverlay
+	}
+	return false
 }
 
 func (x *WidgetNode) GetUid() uint32 {
@@ -6312,7 +6356,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xfd\x12\n" +
+	"\x05_root\"\xa8\x13\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\x11\n" +
@@ -6375,7 +6419,8 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fenabled_when\x18- \x01(\v2\x15.ui.VisibilityBindingR\venabledWhen\x12/\n" +
 	"\n" +
 	"color_when\x18. \x01(\v2\x10.ui.ColorBindingR\tcolorWhen\x12\"\n" +
-	"\bhit_slop\x18/ \x01(\rB\a\xbaH\x04*\x02\x18@R\ahitSlop\x12\x10\n" +
+	"\bhit_slop\x18/ \x01(\rB\a\xbaH\x04*\x02\x18@R\ahitSlop\x12)\n" +
+	"\x10designed_overlay\x181 \x01(\bR\x0fdesignedOverlay\x12\x10\n" +
 	"\x03uid\x18+ \x01(\rR\x03uid\x125\n" +
 	"\bgestures\x18, \x03(\v2\x0f.ui.GestureSpecB\b\xbaH\x05\x92\x01\x02\x10\tR\bgestures\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
