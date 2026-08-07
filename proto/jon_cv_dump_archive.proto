@@ -100,6 +100,12 @@ enum StreamKind {
   // journal_logs, crashes, xform_log). source is the table name, columns
   // carries its schema, and payload is TableRows.
   STREAM_KIND_TSDB_TABLE = 4;
+
+  // logs:motion:history — eutropia's motion-history transport stream: one
+  // io_redis record per composed motion-history entry (day + heat CUDA-IPC
+  // posts), each record's payload a self-verifying mh wire image
+  // (crc32c ‖ seq_abs ‖ MhEntry). payload is RedisStreamRecords.
+  STREAM_KIND_MOTION_HISTORY = 5;
 }
 
 // Whether the capture the archive describes is trustworthy as a whole. Mirrors
