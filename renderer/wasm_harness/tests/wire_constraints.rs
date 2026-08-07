@@ -986,3 +986,125 @@ fn event_carrying_both_template_lanes_is_reported() {
     );
     assert_eq!(status, 0, "a diagnostic, not a refusal");
 }
+
+// ── EventBinding: a binding that matches no attach arm and vanishes whole ──
+//
+// The attach site takes an event binding only when `name` OR `set_subject` is
+// non-empty. A binding with BOTH empty — one carrying nothing but a device
+// command — matches no branch, has no `else`, and was discarded with no trace
+// anywhere. Worse than the neighbours above: the two diagnostics that WOULD
+// catch a malformed command binding (both-lanes, unreachable-template) sit
+// INSIDE the attach arm, so on this path neither can fire either. The control is
+// inert at every fire and nothing says so.
+//
+// THIS SHAPE IS ALREADY ILLEGAL ON THE WIRE, which is what makes a report the
+// right verdict rather than a widening. `EventBinding.name` declares
+// `min_len: 1`, so no legitimate producer can emit it — but `min_len` does not
+// survive `proto_cleanup.awk`, so nothing refuses it and the empty name reads as
+// absence. `output/manifests/ui-ast-constraints.json` dispositions that field
+// `unenforced` and names this exact harm; the diagnostic makes the residue
+// AUDIBLE without changing what loads.
+//
+// THE ARM IS NOT WIDENED TO ADMIT THE BINDING, deliberately. Attaching it would
+// make a currently-dead shape live and decide, by accident, whether a
+// command-only binding is legal — a contract question that is not this
+// diagnostic's to answer.
+
+/// The distinctive span of the drop diagnostic. A substring, so the assertion
+/// rides the finding rather than the wording, and specific enough that no other
+/// clause in the module emits it.
+const DROPPED_MARKER: &str = "carries neither a name nor a set_subject";
+
+/// A uid no other fixture in this file uses, so a line naming it can only have
+/// come from the node below. Asserting the uid is what separates "the renderer
+/// said something" from "the renderer named THIS node".
+const DROP_PROBE_UID: u32 = 4242;
+
+/// A binding carrying a device command and NOTHING to attach on: no `name`, no
+/// `set_subject`. `named` flips the one field that decides which arm the node
+/// takes, so the two fixtures differ in exactly that field and nothing else.
+fn command_only_binding_screen(named: bool) -> Vec<u8> {
+    screen_of(ui::WidgetNode {
+        r#type: ui::WidgetType::WidgetButton as i32,
+        uid: DROP_PROBE_UID,
+        event: Some(ui::EventBinding {
+            name: if named { "probe".to_owned() } else { String::new() },
+            cmd: Some(bare_cmd_spec()),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+}
+
+/// AUDIBILITY. The renderer wrote nothing whatsoever for this shape before the
+/// arm existed, so this is the assertion that was red.
+#[test]
+fn a_binding_with_neither_name_nor_subject_is_reported() {
+    let (status, err) = load_capturing_stderr(&command_only_binding_screen(false));
+    assert!(
+        err.contains(DROPPED_MARKER),
+        "a binding carrying only a command matches no attach arm and is dropped \
+         whole; that must be REPORTED, not silent; stderr was: {err}"
+    );
+    assert!(
+        err.contains(&DROP_PROBE_UID.to_string()),
+        "the report must NAME the node, or a reader cannot find which control \
+         went inert; stderr was: {err}"
+    );
+    assert_eq!(
+        status, 0,
+        "a diagnostic, not a refusal — the load must still succeed, matching the \
+         two neighbouring reports in this same block"
+    );
+}
+
+/// THE DISCRIMINATING CONTROL, and it carries its own NON-VACUITY GUARD.
+///
+/// Its fixture differs from the one above in EXACTLY ONE field — `name` — and
+/// that field is what routes the node to the attach arm instead. So a report
+/// here would mean the new arm is swallowing bindings that DO attach, which is
+/// the failure mode that matters: a diagnostic firing on a live control is
+/// noise, and noise is how a real one stops being read.
+///
+/// "The marker is absent" is also what a dead harness prints, so the known-bad
+/// fixture is driven through the SAME helper first and the marker required to
+/// appear. Without that, a capture that silently stopped working would pass here
+/// and read as proof that the arm discriminates.
+#[test]
+fn a_named_binding_with_the_same_command_is_not_reported() {
+    let (_, dropped) = load_capturing_stderr(&command_only_binding_screen(false));
+    assert!(
+        dropped.contains(DROPPED_MARKER),
+        "non-vacuity: the known-bad fixture must reach the arm through this same \
+         helper, or the absence asserted below proves nothing"
+    );
+    let (status, err) = load_capturing_stderr(&command_only_binding_screen(true));
+    assert_eq!(status, 0, "a named command binding is legal and must load");
+    assert!(
+        !err.contains(DROPPED_MARKER),
+        "a NAME is the whole difference: this binding attaches, so reporting it \
+         dropped would fire on every legitimate host-event binding; stderr \
+         was: {err}"
+    );
+}
+
+/// ATTRIBUTION. The drop fixture must fire the new arm and NOT its neighbours —
+/// otherwise a red above is compatible with the new arm being dead and some
+/// other clause in the block having produced the line.
+///
+/// Both neighbours live INSIDE the attach arm, so on a dropped binding neither
+/// can run at all. Pinning that is what makes this a statement about WHICH arm
+/// executed rather than about what the module happened to print.
+#[test]
+fn the_drop_report_does_not_come_from_a_neighbouring_clause() {
+    let (_, err) = load_capturing_stderr(&command_only_binding_screen(false));
+    assert!(
+        err.contains(DROPPED_MARKER),
+        "non-vacuity: the fixture must reach the arm at all; stderr was: {err}"
+    );
+    assert!(
+        !err.contains(UNREACHABLE_MARKER) && !err.contains(BOTH_TEMPLATES_MARKER),
+        "both neighbours sit inside the attach arm a dropped binding never \
+         enters, so neither may fire here; stderr was: {err}"
+    );
+}

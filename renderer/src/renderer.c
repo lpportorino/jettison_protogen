@@ -3801,6 +3801,33 @@ static void finalize_widget(widget_ctx_t *ctx) {
       LOG_ERROR("event_cb_data alloc failed — control would be inert");
       ctx->error = -1;
     }
+  } else if (node->has_event) {
+    /* A binding whose name AND set_subject are both empty matches neither arm
+     * above, so it attaches nothing and is discarded whole. It used to be
+     * discarded with no trace at all — and this path is quieter than it looks,
+     * because the two diagnostics that would catch a malformed command binding
+     * (the both-lanes error and the unreachable-template error) BOTH sit inside
+     * the attach arm. Neither can fire on a binding that never enters it, so a
+     * control wired to a device command was inert at every fire and nothing
+     * anywhere said so.
+     *
+     * THE SHAPE IS ALREADY ILLEGAL ON THE WIRE, which is what makes reporting
+     * it the right verdict rather than admitting it. EventBinding.name declares
+     * min_len 1, so no conforming producer emits this — but min_len does not
+     * survive proto_cleanup.awk, so the C leg never sees it and the empty name
+     * reads as absence rather than as a violation. The host is untrusted
+     * (section 8), exactly as for the both-lanes error above.
+     *
+     * REPORTED, NOT REFUSED, matching those two neighbours: ctx->error is left
+     * alone, so a screen that loads today still loads. And the arm above is
+     * deliberately NOT widened to admit this binding — attaching it would make
+     * a currently-dead shape live and decide by accident whether a
+     * command-only binding is legal, which is a contract question this
+     * diagnostic does not answer. */
+    LOG_ERROR("event binding on uid %u carries neither a name nor a "
+              "set_subject — DROPPED, nothing attached; the control is inert "
+              "at every fire",
+              (unsigned)node->uid);
   }
   /* R5b cmd-out: a gesture-surface (host-proxy) node carries the pre-encoded
    * gesture→cmd templates on WidgetNode.gestures (FT_POINTER). COPY them into
