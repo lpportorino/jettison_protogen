@@ -5695,6 +5695,61 @@ mod roi_gesture {
             "frame/state timestamp is out of scope — the template bakes 0"
         );
     }
+    /// A SHORT drag over the ROI surface still relays a NON-DEGENERATE rect.
+    ///
+    /// Its sibling above drags 1.202 NDC — LONGER than `GESTURE_SWIPE_PX`
+    /// (100px = 1.0 NDC), which is half the surface width. So every ROI
+    /// rubber-band smaller than half the screen — i.e. essentially every real
+    /// one — was covered by no test at all, and the shape of that gap is
+    /// specific: `feed_gesture` builds the rect from
+    /// (`g_gesture.start`, the PAN_END decision's x/y), so ANY change that
+    /// makes a short drag's PAN_END carry the DOWN point collapses the rect to
+    /// zero area while the sibling stays green and the framebuffer never moves.
+    /// A zero-area FocusROI is a plausible request, not an error, so nothing
+    /// downstream can catch it either.
+    ///
+    /// The assertion is the two corners DIFFERING, not their values: the
+    /// sibling already pins the corner order and the y-plane flip, and
+    /// re-pinning them here would fail for its reasons instead of this one.
+    #[test]
+    fn short_drag_over_roi_surface_relays_a_non_degenerate_rect() {
+        let mut host = new_host();
+        boot(&mut host);
+        host.pointer_decisions_clear().expect("clear");
+        let _ = host.take_host_commands();
+        // DOWN (0.0, 0.0) → UP (0.3, -0.2): travel 0.361 NDC — over movePx
+        // (0.2, so the drag commits) and well under swipePx (1.0).
+        let (dx, dy) = px_to_ndc(200, 150);
+        let (ux, uy) = px_to_ndc(260, 180);
+        assert_eq!(
+            host.pointer(PointerEvent::down(1, dx, dy, 1000)).expect("down"),
+            RC_OK
+        );
+        settle(&mut host);
+        assert_eq!(
+            host.pointer(PointerEvent::mv(1, ux, uy, 1050)).expect("move"),
+            RC_OK
+        );
+        settle(&mut host);
+        assert_eq!(
+            host.pointer(PointerEvent::up(1, ux, uy, 1100)).expect("up"),
+            RC_OK
+        );
+        settle(&mut host);
+        let commands = host.take_host_commands();
+        let roi = commands
+            .iter()
+            .find_map(|c| as_day_focus_roi(c))
+            .expect("a completed SHORT drag over an ROI surface must relay FocusROI");
+        assert!(
+            (roi.x1 - roi.x2).abs() > 1e-9 && (roi.y1 - roi.y2).abs() > 1e-9,
+            "a short ROI drag must relay a NON-degenerate rect, got ({},{})-({},{})",
+            roi.x1,
+            roi.y1,
+            roi.x2,
+            roi.y2
+        );
+    }
     /// A TAP (no drag) over the SAME ROI surface routes to the point-select spec
     /// (RotateToNDC), NOT the ROI rect — the tap-vs-drag disambiguator. The ROI
     /// dispatch only fires on PAN_END, so a bare press/release never emits a
