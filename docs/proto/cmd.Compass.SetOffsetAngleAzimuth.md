@@ -65,7 +65,7 @@ Angle value in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** milliradians
+- **Unit:** degrees
 
 
 

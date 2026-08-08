@@ -62,9 +62,9 @@ Value (-90 to 90)
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** mils
+- **Unit:** degrees
 - **Precision:** 0
-- **Display Format:** `{value} mils`
+- **Display Format:** `{value}°`
 
 
 
