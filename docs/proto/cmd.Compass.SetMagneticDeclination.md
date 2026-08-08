@@ -33,6 +33,10 @@ Sets the magnetic declination correction value for the compass to convert magnet
 Sets magnetic declination correction for compass
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataCompass#magneticDeclination]]
+
 
 
 ### Preconditions
