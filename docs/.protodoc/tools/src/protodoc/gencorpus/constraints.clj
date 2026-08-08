@@ -61,14 +61,36 @@
   [^Descriptors$FieldDescriptor fd]
   (keyword (str/replace (Descriptors$FieldDescriptor/.getName fd) "_" "-")))
 
+(defn- rule->pairs
+  "One set rule field → the modelled constraint pairs it contributes, or nothing
+   when the rule is outside the modelled surface.
+
+   `len` is the ONE rule that does not map 1:1, and it is EXPANDED rather than
+   modelled. buf.validate's exact-length rule (`string.len`, `bytes.len`) is
+   precisely the conjunction of the two length rules `rule-keys` already carries,
+   so it becomes `:min-len` + `:max-len` and nothing downstream has to learn a
+   `:len` key — `constraints->malli` already emits `[:string {:min N :max N}]`
+   for that pair and the generator already honours it.
+
+   Dropping it instead is not a missing feature but a SILENT one: the field entry
+   vanishes entirely (`extract`'s `:when (seq c)` then drops the field), so the
+   generator emits a free-length string while the oracle still enforces the exact
+   length, and every message reachable to such a field can never produce an
+   oracle-valid positive."
+  [^Descriptors$FieldDescriptor fd v]
+  (let [k (rule->kw fd)
+        v' (if (instance? java.util.List v) (vec v) v)]
+    (cond
+      (= :len k) [[:min-len v'] [:max-len v']]
+      (rule-keys k) [[k v']]
+      :else [])))
+
 (defn- submsg->constraints
   "The set rule fields of a numeric/string/repeated/enum rule sub-message →
-   {kw value}, whitelisted to the modelled keys."
+   {kw value}, whitelisted to the modelled keys — see `rule->pairs` for the one
+   rule that expands into two."
   [^Message sub]
-  (into {} (for [[^Descriptors$FieldDescriptor fd v] (Message/.getAllFields sub)
-                 :let [k (rule->kw fd)]
-                 :when (rule-keys k)]
-             [k (cond (instance? java.util.List v) (vec v) :else v)])))
+  (into {} (mapcat (fn [[fd v]] (rule->pairs fd v)) (Message/.getAllFields sub))))
 
 (defn- field-rules->constraints
   "A FieldRules message → the proto-db-shaped constraints map (flat): the set
