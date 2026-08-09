@@ -3276,6 +3276,344 @@ mod anim_clock {
     }
 }
 // ═══════════════════════════════════════════════════════════════════
+// A REPEATING animation, proven to be a function of ACCUMULATED TICK
+// MILLISECONDS — and proven able to fail.
+//
+// `anim_clock` above pins a ONE-SHOT press transition, which starts on a
+// pointer event and ends. Nothing pinned a REPEATING one, and that gap
+// was SILENT rather than merely absent: the tree's only animated
+// two-instance framebuffer comparison rode on a single authored
+// `lv_spinner` line inside one screen. Deleting that line is exactly the
+// edit a widget refactor makes, it leaves every fixture file present so
+// the by-name reads in reload_cycle.rs still resolve, and the whole
+// battery stays green while the comparison is gone. A by-NAME membership
+// assertion cannot catch that. The POSITIVE assertions below can: they
+// build their own screen with prost and would fail on a renderer that
+// stopped animating, whatever any authored screen contains.
+//
+// FOUR PROPERTIES, each separately ATTRIBUTABLE — the mutation that reds
+// one leaves a NAMED neighbour green, so a red says WHICH property broke
+// rather than merely that something did:
+//
+//   advances_with_tick_time             more ticks, same dt  → DIFFER
+//   depends_on_dt_not_on_tick_count     same ticks, other dt → DIFFER
+//   sibling_instances_agree_at_a_late_phase                  → IDENTICAL
+//   tick_is_additive_across_a_split     one big ≡ two small  → IDENTICAL
+//
+// The first two are NOT the same assertion. A renderer whose clock
+// advanced a fixed amount per call regardless of the argument satisfies
+// the first and fails the second; freezing the animation fails both.
+// That pair of outcomes is what makes each red attributable.
+//
+// THE FLUSH IS NOT OPTIONAL, and it is the trap `anim_clock` documents
+// one module up: the refresh timer is `REFRESH_MS`-periodic in TICK
+// time, so an animation step lands its invalidation and the pixels do
+// not move until a full refresh period has been ticked. Every schedule
+// below ends with the SAME flush, so a comparison is about the schedule
+// and never about the flush.
+//
+// NON-VACUITY: an IDENTICAL assertion over two blank rects passes for
+// the wrong reason, and a blank rect is exactly what a broken screen
+// build yields. `assert_rect_has_content` therefore requires each rect
+// to carry more than one distinct pixel before any identity case reads
+// it — the identity assertions cannot go green over nothing.
+// ═══════════════════════════════════════════════════════════════════
+
+mod anim_determinism {
+    use super::*;
+    use lvgl_harness::proto::ui::style_property::Value;
+    /// One full revolution of the spinners below, in tick milliseconds.
+    /// Chosen so a whole revolution is reachable inside a test's tick
+    /// budget, and so a "late phase" is a real phase rather than a
+    /// rounding artefact.
+    const SPIN_TIME_MS: u32 = 1000;
+    /// The arc sweep, in degrees — the spinner's only other parameter.
+    const ARC_LENGTH_DEG: u32 = 60;
+    /// One full display refresh period in tick ms (`LV_DEF_REFR_PERIOD`).
+    /// Ticking less than this after a clock advance reads the PRE-step
+    /// frame regardless of how far the clock moved.
+    const REFRESH_MS: u32 = 33;
+    /// Each spinner's box, in design px.
+    const SPIN_PX: u32 = 100;
+    /// Settle ticks after load, before any measured schedule starts.
+    const SETTLE_TICKS: u32 = 10;
+    fn size(w: u32, h: u32) -> ui::StyleGroup {
+        ui::StyleGroup {
+            variants: vec![ui::StyleVariant {
+                properties: vec![
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropWidth as i32,
+                        value: Some(Value::UintValue(w)),
+                    },
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropHeight as i32,
+                        value: Some(Value::UintValue(h)),
+                    },
+                ],
+                ..Default::default()
+            }],
+            ..Default::default()
+        }
+    }
+    fn spinner(uid: u32, x: i32, y: i32) -> ui::WidgetNode {
+        ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetSpinner as i32,
+            uid,
+            x: Some(x),
+            y: Some(y),
+            style_groups: vec![size(SPIN_PX, SPIN_PX)],
+            widget_props: Some(ui::widget_node::WidgetProps::SpinnerProps(
+                ui::SpinnerProps {
+                    spin_time: SPIN_TIME_MS,
+                    arc_length: ARC_LENGTH_DEG,
+                },
+            )),
+            ..Default::default()
+        }
+    }
+    /// TWO spinners, same params, same y, same size, side by side, built
+    /// in ONE load so they share a schedule by construction rather than
+    /// by anything the test arranges. Positions are explicit and the root
+    /// declares no layout, so they are absolute — but every rect the
+    /// tests read is taken from the LIVE dump, never from these numbers.
+    fn two_spinner_screen() -> Vec<u8> {
+        let root = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetObj as i32,
+            uid: 200,
+            children: vec![spinner(201, 40, 100), spinner(202, 240, 100)],
+            style_groups: vec![size(WIDTH, HEIGHT)],
+            ..Default::default()
+        };
+        ui::Screen {
+            root: Some(root),
+            ..Default::default()
+        }
+        .encode_to_vec()
+    }
+    fn loaded_host() -> ControlsHost {
+        let mut host = new_host();
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(&two_spinner_screen()).expect("load_ui");
+        for _ in 0..SETTLE_TICKS {
+            let _ = host.tick(TICK_MS).expect("settle tick");
+        }
+        host
+    }
+    /// Run `schedule` (a list of tick arguments) after the settle, then
+    /// ONE full refresh period, and read the pixels. The trailing flush
+    /// is identical for every schedule, so a difference in the result is
+    /// a difference in the schedule.
+    fn render_after(schedule: &[u32]) -> Vec<u8> {
+        let mut host = loaded_host();
+        for &dt in schedule {
+            let _ = host.tick(dt).expect("scheduled tick");
+        }
+        let _ = host.tick(REFRESH_MS).expect("flush tick");
+        host.read_framebuffer().expect("framebuffer")
+    }
+    /// `n` ticks of `dt`, as a schedule.
+    fn uniform(n: u32, dt: u32) -> Vec<u32> {
+        std::iter::repeat_n(dt, n as usize).collect()
+    }
+    /// Inclusive `[x1, y1, x2, y2]` of every `lv_spinner` in the live
+    /// dump, in tree order. Read from the dump rather than from the
+    /// authored coords, for the reason `widget_center` gives: the rect a
+    /// test measures must be the rect the renderer drew.
+    fn spinner_rects(host: &mut ControlsHost) -> Vec<[i32; 4]> {
+        fn walk(node: &serde_json::Value, out: &mut Vec<[i32; 4]>) {
+            if node["type"] == "lv_spinner" {
+                let coords = node["coords"].as_array().expect("spinner coords");
+                let value = |i: usize| coords[i].as_i64().expect("coord") as i32;
+                out.push([value(0), value(1), value(2), value(3)]);
+            }
+            if let Some(children) = node["children"].as_array() {
+                for child in children {
+                    walk(child, out);
+                }
+            }
+        }
+        let mut out = Vec::new();
+        walk(&tree(host), &mut out);
+        out
+    }
+    /// Copy the inclusive rect out of an RGBA framebuffer.
+    fn rect_pixels(fb: &[u8], rect: [i32; 4]) -> Vec<u8> {
+        let [x1, y1, x2, y2] = rect;
+        assert!(
+            x1 >= 0 && y1 >= 0 && x2 < WIDTH as i32 && y2 < HEIGHT as i32 && x1 <= x2 && y1 <= y2,
+            "rect {rect:?} is not inside the {WIDTH}x{HEIGHT} framebuffer"
+        );
+        let mut out = Vec::new();
+        for y in y1..=y2 {
+            let row = y as usize * WIDTH as usize;
+            let from = (row + x1 as usize) * 4;
+            let to = (row + x2 as usize + 1) * 4;
+            out.extend_from_slice(&fb[from..to]);
+        }
+        out
+    }
+    /// NON-VACUITY FLOOR for the identity cases: a rect carrying one
+    /// single pixel value is blank, and two blank rects are identical for
+    /// a reason that has nothing to do with the property under test.
+    fn assert_rect_has_content(label: &str, pixels: &[u8]) {
+        let first = pixels.get(..4).expect("non-empty rect");
+        let varied = pixels.chunks(4).any(|pixel| pixel != first);
+        assert!(
+            varied,
+            "{label}: the rect is a single flat colour, so an identity \
+             assertion over it would pass without measuring anything"
+        );
+    }
+    /// CASE 1 — the surface ADVANCES with tick time. Same dt, more ticks.
+    ///
+    /// REVERT-TO-BREAK: freeze the animation — pass a spin time far
+    /// longer than any schedule here to `lv_spinner_set_anim_params` in
+    /// renderer.c's spinner arm (`100000000` in place of `p->spin_time`).
+    /// Do NOT drop the call instead: `lv_spinner_create` installs its own
+    /// default animation, so removing the override leaves the widget
+    /// animating and the mutation lands without doing anything.
+    /// CONTROL: `sibling_instances_agree_at_a_late_phase` stays GREEN on
+    /// that same mutant — a frozen animation is still identical across
+    /// two instances, so a red HERE is about advancement and not about
+    /// the screen having failed to build.
+    #[test]
+    fn advances_with_tick_time() {
+        let short = render_after(&uniform(12, TICK_MS));
+        let long = render_after(&uniform(15, TICK_MS));
+        assert_differ(
+            "the same dt for MORE ticks must move an animated surface",
+            &short,
+            &long,
+            0.0001,
+        );
+    }
+    /// CASE 2 — it is DT-sensitive, not FRAME-COUNT-sensitive. The tick
+    /// COUNT is held equal and only the argument changes, which is the
+    /// half case 1 structurally cannot see.
+    ///
+    /// REVERT-TO-BREAK: make the clock advance a constant per call in
+    /// main.c's `controls_tick` — but the naive `lv_tick_inc(16)` does
+    /// NOT compile: the renderer builds under `-Werror
+    /// -Wunused-parameter`, so dropping the argument is an ERROR wearing
+    /// a red's colour and says nothing about this case. The mutation that
+    /// works still reads the parameter:
+    /// `lv_tick_inc(elapsed_ms > 0 ? 16 : 0)`.
+    /// CONTROL: `advances_with_tick_time` stays GREEN on that mutant,
+    /// because more calls still means more time. That green is the whole
+    /// reason this case exists as a separate assertion.
+    #[test]
+    fn depends_on_dt_not_on_tick_count() {
+        const CALLS: u32 = 12;
+        let slow = render_after(&uniform(CALLS, 8));
+        let fast = render_after(&uniform(CALLS, 40));
+        assert_differ(
+            "the same NUMBER of ticks with a different dt must not render alike",
+            &slow,
+            &fast,
+            0.0001,
+        );
+    }
+    /// CASE 3 — two instances on one screen, on one schedule, agree at a
+    /// LATE phase. Compared as two sub-rects of ONE framebuffer, so no
+    /// cross-host difference can be mistaken for agreement.
+    ///
+    /// LATE is the point: a phase-dependence that starts at zero is
+    /// invisible near the settle and only separates after the instances
+    /// have run. Both a WHOLE revolution and a NON-multiple of one are
+    /// measured, because a divergence that is a multiple of the period
+    /// would alias away at the whole-revolution point alone.
+    ///
+    /// REVERT-TO-BREAK: make an instance's schedule depend on its own
+    /// position among its siblings — add `lv_obj_get_index(obj) * 40` to
+    /// the `spin_time` passed to `lv_spinner_set_anim_params` in
+    /// renderer.c. Prefer that over a pointer-derived offset such as
+    /// `(uintptr_t) obj & 0xF`: two separately allocated widgets can
+    /// share their low bits, and the mutation would then land and change
+    /// nothing, which is the failure mode a mutation proof exists to
+    /// avoid rather than one to risk.
+    /// CONTROLS: `advances_with_tick_time`,
+    /// `depends_on_dt_not_on_tick_count` and
+    /// `tick_is_additive_across_a_split` all stay GREEN on that mutant —
+    /// both instances still animate, on a clock that is still additive
+    /// and still reads its argument; they merely stop agreeing.
+    #[test]
+    fn sibling_instances_agree_at_a_late_phase() {
+        // One full revolution, and a phase that is not a multiple of one.
+        for ticks in [SPIN_TIME_MS / TICK_MS, (SPIN_TIME_MS / TICK_MS) * 2 / 5] {
+            let mut host = loaded_host();
+            for _ in 0..ticks {
+                let _ = host.tick(TICK_MS).expect("scheduled tick");
+            }
+            let _ = host.tick(REFRESH_MS).expect("flush tick");
+            let rects = spinner_rects(&mut host);
+            assert_eq!(
+                rects.len(),
+                2,
+                "the screen must render exactly two spinners; got {rects:?}"
+            );
+            let fb = host.read_framebuffer().expect("framebuffer");
+            let left = rect_pixels(&fb, rects[0]);
+            let right = rect_pixels(&fb, rects[1]);
+            assert_eq!(
+                left.len(),
+                right.len(),
+                "the two spinner rects must be the same size to be comparable"
+            );
+            assert_rect_has_content(&format!("spinner 0 at {ticks} ticks"), &left);
+            assert_rect_has_content(&format!("spinner 1 at {ticks} ticks"), &right);
+            assert_identical(
+                &format!(
+                    "two spinners on one schedule must agree after {ticks} ticks \
+                     ({} ms)",
+                    ticks * TICK_MS
+                ),
+                &left,
+                &right,
+            );
+        }
+    }
+    /// CASE 4 — `controls_tick` is ADDITIVE: one tick of `a + b` and two
+    /// ticks of `a` then `b` reach the same phase. This is the contract
+    /// that says the WASM's only time source neither clamps nor quantizes
+    /// what it is handed, and it is stated here because the renderer is
+    /// the side that must not do it — the native client's own tick clamp
+    /// is not on any path this repo executes, so no test here can observe
+    /// that constant, only this contract it depends on.
+    ///
+    /// The split is chosen LARGER than a refresh period on purpose: a
+    /// clamp small enough to matter is one that a schedule of small ticks
+    /// would step past while a single large tick would not.
+    ///
+    /// REVERT-TO-BREAK: clamp the argument in main.c's `controls_tick` —
+    /// `lv_tick_inc(elapsed_ms > 40 ? 40 : elapsed_ms)`.
+    /// CONTROL: `advances_with_tick_time` and
+    /// `sibling_instances_agree_at_a_late_phase` both stay GREEN on that
+    /// mutant, since a uniform 16 ms schedule never reaches the clamp.
+    #[test]
+    fn tick_is_additive_across_a_split() {
+        let whole = render_after(&[120]);
+        let split = render_after(&[60, 60]);
+        // The phase must be one where a difference is VISIBLE, or the
+        // identity below could hold over a pair of frames that were
+        // going to match whatever the clock did.
+        let elsewhere = render_after(&[0]);
+        assert_differ(
+            "the additivity probe must land on a phase distinct from the settle, \
+             or its identity assertion measures nothing",
+            &whole,
+            &elsewhere,
+            0.0001,
+        );
+        assert_identical(
+            "one tick of 120 ms must reach the same phase as two ticks of 60 ms",
+            &whole,
+            &split,
+        );
+    }
+}
+// ═══════════════════════════════════════════════════════════════════
 // Keyboard + clipboard ABI: controls_key_event (keypad indev ring
 // queue) / controls_text_input (paste) / controls_get_focused_text
 // (copy). Harness/dev surface — the browser harness drives the same
