@@ -24,9 +24,16 @@ LUTS="$ROOT/renderer/generated/ui_luts.h"
 EMIT="$ROOT/tools/renderer-gen/src/lvgl_codegen/emit_proto.clj"
 ENUMS="$ROOT/tools/renderer-gen/src/lvgl_codegen/generated/enums.clj"
 MATRIX="$ROOT/renderer/coverage_matrix/run.sh"
+# Leg 7's subjects: the hand-carried lv_style_selector_t constants and the two
+# authoring surfaces that derive from `state-selector`. `style_props.clj` is the
+# one home; `schema.clj` and `expand.clj` are two of its four consumers, and a
+# consumer that stops deriving is the failure those cases below reproduce.
+PROPS="$ROOT/tools/renderer-gen/src/lvgl_codegen/style_props.clj"
+SCHEMA="$ROOT/tools/renderer-gen/src/lvgl_codegen/schema.clj"
+EXPAND="$ROOT/tools/renderer-gen/src/lvgl_codegen/expand.clj"
 BK="$ROOT/.fork-scratch/wirelut/.backup"
 OUT="$ROOT/.fork-scratch/wirelut/mutation-runs"
-FILES=("$LUTS" "$EMIT" "$ENUMS" "$MATRIX")
+FILES=("$LUTS" "$EMIT" "$ENUMS" "$MATRIX" "$PROPS" "$SCHEMA" "$EXPAND")
 
 mkdir -p "$BK" "$OUT"
 for f in "${FILES[@]}"; do cp "$f" "$BK/$(basename "$f")"; done
@@ -142,6 +149,58 @@ mutate_case grid-constant-wrong-but-legal "$EMIT" \
   'lv-grid-content (- lv-coord-max 100)' \
   lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros \
   lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value
+
+# ── Leg 7: the hand-carried selector constants ──────────────────────────────
+
+# M8 -- a wrong-but-LEGAL hand-carried constant: LV_STATE_USER_1 takes 0x2000,
+#       which is LV_STATE_USER_2. A real lv_state_t bit, so the value type-checks
+#       everywhere and `pending:` silently styles a DIFFERENT user state.
+#       The CONTROL is the pairing clause, which is structurally blind to this:
+#       the value is still paired, it is merely the wrong value.
+mutate_case selector-constant-wrong-but-legal "$PROPS" \
+  's/^(def \^:const lv-state-user-1 0x1000)$/(def ^:const lv-state-user-1 0x2000)/' \
+  'lv-state-user-1 0x2000' \
+  lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers \
+  lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired
+
+# M9 -- the omission `lvgl-mirrored-constants`' own docstring names: a NEW
+#       hand-carried constant that "does not pair itself". Its value is correct,
+#       so the value clause (the CONTROL) iterates the mirrored map and never
+#       sees it -- only the coverage clause can fire.
+mutate_case selector-constant-unpaired "$PROPS" \
+  's/^(def \^:const lv-state-disabled 0x0200)$/(def ^:const lv-state-disabled 0x0200)\n\n(def ^:const lv-state-hovered 0x0040)/' \
+  'lv-state-hovered 0x0040' \
+  lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired \
+  lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers
+
+# M10 -- :pending re-pointed at LV_STATE_PRESSED. Legal, and INVISIBLE to the
+#        authorability clause (the CONTROL), which reads `state-selector` for
+#        both its expected and its actual and so agrees with itself.
+mutate_case pending-names-the-wrong-state "$PROPS" \
+  's/^   :pending lv-state-user-1})$/   :pending lv-state-pressed})/' \
+  ':pending lv-state-pressed' \
+  lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on \
+  lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces
+
+# M11 -- a CONSUMER stops deriving from the one home: the nested `:style` schema
+#        drops a state the map still declares. The class DSL keeps working, so
+#        nothing else notices; an author's `:style {:pending …}` is simply
+#        refused. The value clauses are the CONTROL and cannot see it.
+mutate_case style-schema-stops-deriving "$SCHEMA" \
+  's/(let \[state-keys (sort (keys style-props\/state-selector))/(let [state-keys (sort (keys (dissoc style-props\/state-selector :pending)))/' \
+  'dissoc style-props/state-selector :pending' \
+  lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces \
+  lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on
+
+# M12 -- the SELECTOR the wire carries goes wrong-but-legal: an unknown state
+#        key falls through to `lv-state-default`, so `pending:` styles the
+#        DEFAULT state. Zero is a perfectly valid lv_style_selector_t, the
+#        screen compiles and renders, and the affordance simply never appears.
+mutate_case emitted-selector-falls-through-to-default "$EXPAND" \
+  's/(get style-props\/state-selector$/(get (dissoc style-props\/state-selector :pending)/' \
+  '(get (dissoc style-props/state-selector :pending)' \
+  lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces \
+  lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers
 
 echo
 echo "############ RESTORED -- final control run ############"

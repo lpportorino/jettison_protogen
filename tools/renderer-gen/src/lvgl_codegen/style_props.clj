@@ -39,13 +39,45 @@
 
 (def ^:const lv-state-disabled 0x0200)
 
+;; PENDING — a control whose command has been sent and whose confirming state
+;; has not yet arrived. LVGL declares no state with that meaning: every other
+;; member of lv_state_t names a LOCAL, input-derived condition (pressed,
+;; focused, hovered, edited, …) that the widget can decide for itself, whereas
+;; "an answer is outstanding" is a fact about a round trip the widget cannot
+;; observe. The four USER bits are lv_obj_style.h's declared extension point for
+;; exactly that class, and the first is taken here.
+;;
+;; It is a STATE rather than a bound subject because the whole styling
+;; machinery below — the class-DSL prefix, the nested `:style` map, the variant
+;; expansion, the emitted selector — is keyed on lv_state_t and reaches every
+;; widget uniformly. StyleGroup.state_selector is a full lv_style_selector_t
+;; (a raw uint32 on the wire), and the renderer hands it to `lv_obj_add_style`
+;; VERBATIM, so a selector carrying this bit needs no proto field and no
+;; renderer change to take effect.
+;;
+;; This vocabulary entry is the CAPABILITY only. It makes a pending affordance
+;; expressible; it does not decide which controls have one, what one looks
+;; like, or what drives the bit — those are authoring decisions that belong to
+;; whoever composes the screens.
+(def ^:const lv-state-user-1 0x1000)
+
 (def bp-min-index
   "Breakpoint name → minimum composite index (bp * 2)."
   {:sm 0 :md 2 :lg 4 :xl 6})
 
 (def state-selector
-  "State name → LVGL state selector."
-  {:pressed lv-state-pressed :focused lv-state-focused :disabled lv-state-disabled})
+  "State name → LVGL state selector.
+
+   `:pending` is the one entry whose name is not its LVGL constant's: it is
+   `LV_STATE_USER_1`, given a domain name here because LVGL's user bits are
+   deliberately unnamed (see the constant's own comment). Everything that reads
+   this map — the class-DSL prefix parse and the nested `:style` schema in
+   `lvgl-codegen.expand` / `lvgl-codegen.schema`, and the selector emitted by
+   `expand->variants` — derives from it, so the name lands everywhere at once."
+  {:pressed lv-state-pressed
+   :focused lv-state-focused
+   :disabled lv-state-disabled
+   :pending lv-state-user-1})
 
 ;; LVGL widget-part selectors (lv_part_t in lvgl/src/core/lv_obj_style.h).
 ;; Hand-carried constants like the state selectors above, guarded the same way
@@ -66,10 +98,17 @@
 (def ^:const lv-part-cursor 0x060000)
 
 ;; NOTE FOR ANYONE ADDING AN lv-state-* OR lv-part-* CONSTANT ABOVE: pair it in
-;; `lvgl-codegen.construct.factory/lvgl-mirrored-constants` too, or it is
-;; unguarded. The pairing lives THERE rather than here because this file is
-;; byte-mirrored into a consumer that has no construct/ namespaces, so a var
-;; only that consumer cannot use would read as dead code on its side.
+;; `lvgl-codegen.construct.factory/lvgl-mirrored-constants` too. The pairing
+;; lives THERE rather than here because this file is byte-mirrored into a
+;; consumer that has no construct/ namespaces, so a var only that consumer
+;; cannot use would read as dead code on its side.
+;;
+;; FORGETTING IS NOW CAUGHT, and this note used to end "or it is unguarded" —
+;; true when nothing compared the two. `wire-lut-test`'s
+;; `every-hand-carried-selector-constant-is-paired` reads this namespace's
+;; publics and fails on any constant here that no pair names, so an omission is
+;; a RED rather than a silently unchecked value. The instruction stands; what
+;; changed is that it no longer rests on the next author remembering it.
 
 (def part-selector
   "Widget-part name → LVGL part selector, OR'd into the style selector by

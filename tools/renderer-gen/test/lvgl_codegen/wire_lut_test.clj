@@ -59,10 +59,13 @@
             [clojure.set :as set]
             [clojure.string :as str]
             [clojure.test :refer [deftest is testing]]
+            [lvgl-codegen.construct.factory :as factory]
             [lvgl-codegen.construct.lift :as lift]
             [lvgl-codegen.emit-proto :as emit-proto]
             [lvgl-codegen.expand :as expand]
-            [lvgl-codegen.schema :as schema]))
+            [lvgl-codegen.schema :as schema]
+            [lvgl-codegen.style-props :as style-props]
+            [malli.core :as m]))
 
 (set! *warn-on-reflection* true)
 
@@ -922,3 +925,141 @@
               (str "class token \"" token "\" spells no :layout keyword, so it"
                    " abbreviates the LVGL default flow " (first defaults)
                    " - extract-layout selects " (pr-str got))))))))
+
+;; ── Leg 7: the hand-carried lv_style_selector_t constants ───────────────────
+;;
+;; `lvgl-codegen.style-props` hand-carries a handful of `lv_state_t` and
+;; `lv_part_t` values as `^:const` longs, and `expand->variants` ORs them into
+;; the `StyleGroup.state_selector` that `renderer.c` hands to
+;; `lv_obj_add_style` VERBATIM. A wrong value there is legal proto, compiles,
+;; regenerates identically, and silently binds the style to the WRONG state or
+;; part — the same wrong-but-legal class the legs above cover for the GENERATED
+;; maps, arriving in the one family that is hand-written rather than emitted.
+;;
+;; `factory/hand-carried-mirror-violations` already pairs each constant with
+;; the C name it must equal, but it is reachable only through `renderer.mk`'s
+;; `construct-bindings`, which needs clang and a compiled probe. These clauses
+;; re-ask the same question against this file's own pure-Clojure header oracle:
+;; available wherever `clojure -M:test` is, and a SECOND opinion rather than one
+;; extractor agreeing with itself.
+
+(defn- selector-constant-values
+  "C constant name → value for the two typedefs `style-props` carries from.
+   Parsed by this suite's own oracle, never through the factory's extractor."
+  []
+  (into {}
+        (for [typedef ["lv_state_t" "lv_part_t"]
+              {c-name :name value :value} (parse-enum-body (:body (typedef-block typedef)))]
+          [c-name value])))
+
+(defn- hand-carried-selector-vars
+  "Every `lv-state-*` / `lv-part-*` constant `style-props` declares, as
+   `var-name → value`. Read from the LIVE namespace rather than listed here:
+   a roster in this file would be the second spelling this leg exists to
+   prevent, and a newly added constant would join it only if someone
+   remembered — which is the exact omission the clause below is about."
+  []
+  (into {}
+        (for [[sym v] (ns-publics 'lvgl-codegen.style-props)
+              :let [var-name (name sym)]
+              :when (or (str/starts-with? var-name "lv-state-")
+                        (str/starts-with? var-name "lv-part-"))]
+          [var-name @v])))
+
+(deftest hand-carried-selector-constants-match-the-vendored-headers
+  (testing "every lvgl-mirrored-constants pair equals its vendored constant"
+    (let [by-name (selector-constant-values)]
+      (is (seq by-name)
+          "the vendored headers yielded no lv_state_t/lv_part_t enumerators")
+      (is (seq factory/lvgl-mirrored-constants)
+          "factory/lvgl-mirrored-constants is empty - nothing judged")
+      (doseq [[c-name carried] (sort factory/lvgl-mirrored-constants)]
+        ;; An ABSENT constant is a violation, not a skip: it means the header
+        ;; stopped declaring it (a rename or removal across an LVGL major),
+        ;; which is precisely the drift the pairing exists to catch.
+        (is (contains? by-name c-name)
+            (str c-name ": paired in lvgl-mirrored-constants but declared by no"
+                 " vendored header"))
+        (when (contains? by-name c-name)
+          (is (= (get by-name c-name) carried)
+              (str c-name ": the vendored header says " (get by-name c-name)
+                   ", style-props carries " carried)))))))
+
+(deftest every-hand-carried-selector-constant-is-paired
+  (testing "no lv-state-*/lv-part-* constant escapes the mirror pairing"
+    ;; `lvgl-mirrored-constants` lives in `factory` rather than beside the
+    ;; constants because `style_props.clj` is byte-mirrored into a consumer
+    ;; with no `construct/` namespaces. Its own docstring names the cost: a
+    ;; newly added constant "does not pair itself", leaving it hand-carried and
+    ;; UNGUARDED while every sibling is checked. That cost was carried by a
+    ;; prose note at the definitions; this clause makes it mechanical.
+    (let [declared (hand-carried-selector-vars)
+          paired (set (vals factory/lvgl-mirrored-constants))]
+      (is (seq declared)
+          "style-props declares no lv-state-*/lv-part-* constants - nothing judged")
+      (doseq [[var-name value] (sort declared)]
+        (is (contains? paired value)
+            (str "style-props/" var-name " (" value ") is hand-carried from the"
+                 " LVGL headers but appears in no lvgl-mirrored-constants pair,"
+                 " so nothing compares it against lv_obj_style.h"))))))
+
+(deftest state-selector-entries-are-authorable-through-both-surfaces
+  (testing "every state key reaches the class DSL, the :style map and the wire"
+    ;; `state-selector` is the ONE home four consumers derive from: the
+    ;; class-DSL prefix parse and the nested `:style` schema (the two authoring
+    ;; surfaces), and `expand->variants`' emitted selector (the wire). A key
+    ;; present in the map but unreachable through either surface, or reaching
+    ;; the wire as the wrong int, is invisible to every other lane here.
+    (is (seq style-props/state-selector) "state-selector is empty - nothing judged")
+    (doseq [[state-kw selector] (sort-by key style-props/state-selector)]
+      (testing (str state-kw)
+        ;; A LITERAL-valued prop (`:int` parse kind) so no design-token
+        ;; registry is needed: this leg is about the STATE axis, and a token
+        ;; lookup would let an unrelated token change red it.
+        (let [parsed (expand/parse-class-token (str (name state-kw) ":flex-grow-2"))]
+          (is (= state-kw (:state parsed))
+              (str "class prefix \"" (name state-kw) ":\" parses to state "
+                   (pr-str (:state parsed)) ", not " state-kw))
+          ;; `{:tokens {}}` rather than `{}`: the arrow-spec requires the key,
+          ;; and an EMPTY registry is the point — a literal-valued prop must
+          ;; resolve without one.
+          (let [groups (expand/expand->variants {:tokens {}} [parsed])]
+            (is (= [selector] (mapv :state-selector groups))
+                (str "\"" (name state-kw) ":flex-grow-2\" emits state_selector "
+                     (pr-str (mapv :state-selector groups)) ", not " selector))))
+        ;; The validity is computed OUTSIDE the assertion on purpose.
+        ;; `(is (m/validate style-schema …))` prints the evaluated arguments on
+        ;; failure, and `style-schema` is the whole closed prop registry crossed
+        ;; with every state and breakpoint — a single ~570 kB line that buries
+        ;; the message and makes the mutation-evidence file unreadable. A bound
+        ;; boolean fails as `actual: false`.
+        (let [style-map-accepted? (m/validate schema/style-schema {state-kw {:flex-grow 2}})]
+          (is style-map-accepted?
+              (str ":style {" state-kw " {…}} is rejected by style-schema, so the"
+                   " nested authoring surface cannot reach this state")))))))
+
+(deftest pending-names-the-lvgl-user-bit-it-is-built-on
+  (testing ":pending is LV_STATE_USER_1 as the vendored header declares it"
+    ;; The one `state-selector` entry whose authoring name is NOT its
+    ;; constant's, so the name-derived clauses above cannot reach it: the
+    ;; header calls the bit USER_1 and says nothing about what it means, and
+    ;; the domain name is chosen here. That indirection is exactly why the pair
+    ;; is asserted explicitly rather than left to the totality clauses.
+    (let [by-name (selector-constant-values)]
+      (is (contains? by-name "LV_STATE_USER_1")
+          "lv_obj_style.h declares no LV_STATE_USER_1 - the user-bit extension
+           point this state is built on is gone")
+      (is (= (get by-name "LV_STATE_USER_1") style-props/lv-state-user-1)
+          (str "style-props/lv-state-user-1 is " style-props/lv-state-user-1
+               ", the vendored header says " (get by-name "LV_STATE_USER_1")))
+      (is (= style-props/lv-state-user-1 (:pending style-props/state-selector))
+          ":pending does not resolve to lv-state-user-1")
+      ;; DISJOINTNESS. The user bits are an extension point, so the value must
+      ;; not collide with a state LVGL itself defines — a collision would make
+      ;; `pending:` silently style a semantic state instead.
+      (doseq [[c-name value] (sort by-name)
+              :when (and (str/starts-with? c-name "LV_STATE_")
+                         (not= c-name "LV_STATE_USER_1")
+                         (not= c-name "LV_STATE_ANY"))]
+        (is (not= value style-props/lv-state-user-1)
+            (str "LV_STATE_USER_1 collides with " c-name " (" value ")"))))))

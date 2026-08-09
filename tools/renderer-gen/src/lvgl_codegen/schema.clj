@@ -153,13 +153,17 @@
 
 (def style-schema
   "The :style authoring surface: registry props at the top level, plus one
-   nesting level per axis — a state key (:pressed/:focused/:disabled) or
-   breakpoint key (:sm/:md/:lg/:xl) scoping a nested prop map, combinable
-   once in either order (mirrors the class DSL's `md:`/`pressed:`
+   nesting level per axis — a state key (see style-props/state-selector) or
+   breakpoint key (see style-props/bp-min-index) scoping a nested prop map,
+   combinable once in either order (mirrors the class DSL's `md:`/`pressed:`
    prefixes; desugared by expand/style-map->tokens into the same token
    stream). A widget-part key (:indicator/:knob/:items/… — see
    style-props/part-selector) scopes a LEAF prop map to that LVGL part
-   (top level only; parts don't combine with states/breakpoints)."
+   (top level only; parts don't combine with states/breakpoints).
+
+   The state and breakpoint key sets are NAMED rather than listed: both are
+   read from style-props below, so an inline roster here would be a second
+   copy that goes stale the day either map gains a member."
   (let [state-keys (sort (keys style-props/state-selector))
         bp-keys (sort (keys style-props/bp-min-index))
         part-keys (sort (keys style-props/part-selector))

@@ -197,6 +197,7 @@
    "LV_STATE_PRESSED" style-props/lv-state-pressed
    "LV_STATE_FOCUSED" style-props/lv-state-focused
    "LV_STATE_DISABLED" style-props/lv-state-disabled
+   "LV_STATE_USER_1" style-props/lv-state-user-1
    "LV_PART_SCROLLBAR" style-props/lv-part-scrollbar
    "LV_PART_INDICATOR" style-props/lv-part-indicator
    "LV_PART_KNOB" style-props/lv-part-knob
