@@ -69,9 +69,16 @@ build_root() {
   printf '# STANDARD\n' > "$ROOT/.claude/skills/ui-standard-review/STANDARD.md"
   printf '(def out-path ".claude/skills/ui-standard-review/STANDARD.md")\n' \
     > "$ROOT/tools/devcards/src/devcards/standard_brief.clj"
+  # THE DELEGATING SHAPE, because that is the shape the real renderer.mk
+  # has. A fixture pinning a shape the guarded tree has left is how the
+  # check-5 staleness row stayed green here while failing to resolve
+  # there: the suite proved the row CAN error, over a tree arrangement
+  # that no longer existed. The legacy direct-prerequisite shape is
+  # covered too, by its own case below, rather than by being the default.
   {
     printf 'standard-brief-generate:\n\tclojure -M -m devcards.standard-brief\n\n'
-    printf 'check-renderer: graal-check standard-brief-generate wasm\n'
+    printf 'check-renderer:\n\t@$(MAKE) -f renderer.mk check-renderer-lanes\n\n'
+    printf 'check-renderer-lanes: graal-check standard-brief-generate wasm\n'
     printf '\t@echo battery green\n'
   } > "$ROOT/renderer.mk"
   printf '.protogen/\n' > "$ROOT/.gitignore"
@@ -305,24 +312,102 @@ expect_pass "check5 negative (fence does not cover the write)" \
   "$SUT" "$B/c5ok.md" --root "$ROOT"
 
 banner "check 5 — the write table REFUSES to go quietly stale"
-STALE="$WORK/stale-root"
-cp -a "$ROOT" "$STALE"
-sed -i 's/^check-renderer: graal-check standard-brief-generate wasm$/check-renderer: graal-check wasm/' \
-  "$STALE/renderer.mk"
-if [ "$(grep -c 'check-renderer: graal-check wasm' "$STALE/renderer.mk")" -eq 0 ]; then
-  bad "stale-table mutation did not land"
-else
-  ok "stale-table mutation landed (standard-brief-generate removed from check-renderer)"
-  RUN_CODE=0
-  RUN_OUT="$("$SUT" check "$B/c5.md" --root "$STALE" 2>&1)" || RUN_CODE=$?
-  if [ "$RUN_CODE" -eq 3 ] && grep -q 'write table is STALE' <<< "$RUN_OUT"; then
-    ok "stale write table -> exit 3 ERROR, not a pass"
-    printf '       %s\n' "$(grep -m1 'STALE' <<< "$RUN_OUT")"
-  else
-    bad "stale write table should ERROR (exit 3); got $RUN_CODE"
-    printf '%s\n' "$RUN_OUT" | sed 's/^/       /' >&2
+# EACH LINK OF THE CHAIN GETS ITS OWN CASE. The premise is "check-renderer
+# reaches standard-brief-generate", and that is two hops once the battery
+# entry delegates. A single case breaking one hop leaves the other
+# unproven, which is the state this suite was in: it drove the direct
+# shape only, so the delegating hop was never asserted at all and the row
+# could stop resolving without reddening anything.
+#
+# Each case asserts the exit code AND the message that names ITS hop, so a
+# red is attributable to the link that moved rather than to staleness in
+# general.
+#
+# The mutant renderer.mk is REWRITTEN rather than sed-patched. The shape
+# under test is tab-indented Make carrying `$(MAKE)`, and a sed script
+# over that has to escape a tab, a dollar and parentheses at once — which
+# is how the first draft of these cases produced a mutation that silently
+# did not land and a suite that reported it.
+stale_case() {
+  local label="$1" mk="$2" landed="$3" want_msg="$4"
+  local stale="$WORK/stale-$label"
+  rm -rf -- "$stale"
+  cp -a "$ROOT" "$stale"
+  printf '%s' "$mk" > "$stale/renderer.mk"
+  if ! grep -q "$landed" "$stale/renderer.mk"; then
+    bad "$label: stale-table mutation did not land"
+    return
   fi
-fi
+  # The `$landed` grep proves the NEW text arrived; this proves the file
+  # is not simply the pristine one, which is the half a positive-only
+  # match cannot see. A per-case "the old chain is gone" grep would be
+  # wrong here: two of the cases below deliberately KEEP the lane list
+  # intact and break a different hop.
+  if cmp -s "$stale/renderer.mk" "$ROOT/renderer.mk"; then
+    bad "$label: the mutant renderer.mk is byte-identical to the pristine one"
+    return
+  fi
+  ok "$label: mutation landed"
+  local run_code=0 run_out
+  run_out="$("$SUT" check "$B/c5.md" --root "$stale" 2>&1)" || run_code=$?
+  if [ "$run_code" -eq 3 ] && grep -q "$want_msg" <<< "$run_out"; then
+    ok "$label: -> exit 3 ERROR naming its own hop, not a pass"
+    printf '       %s\n' "$(grep -m1 'STALE' <<< "$run_out")"
+  else
+    bad "$label: should ERROR (exit 3) naming '$want_msg'; got $run_code"
+    printf '%s\n' "$run_out" | sed 's/^/       /' >&2
+  fi
+}
+# HOP 2 — the entry still delegates, but the lane list stops listing the
+# generator.
+stale_case "lanes-drop" \
+  "$(
+    printf 'standard-brief-generate:\n\tclojure -M -m devcards.standard-brief\n\n'
+    printf 'check-renderer:\n\t@$(MAKE) -f renderer.mk check-renderer-lanes\n\n'
+    printf 'check-renderer-lanes: graal-check wasm\n'
+    printf '\t@echo battery green\n'
+  )" \
+  '^check-renderer-lanes: graal-check wasm$' \
+  'check-renderer delegates to check-renderer-lanes, which no longer lists standard-brief-generate'
+# HOP 1 — the battery entry stops delegating, and does not name the
+# generator itself either. The lane list is left INTACT, immediately
+# BELOW check-renderer and still carrying the generator, which is what
+# makes this case load-bearing twice over: a row reading only the lane
+# list would pass it, and so would a row that scanned a fixed number of
+# lines after the target and ran into the lane list by accident.
+stale_case "delegation-drop" \
+  "$(
+    printf 'standard-brief-generate:\n\tclojure -M -m devcards.standard-brief\n\n'
+    printf 'check-renderer:\n\t@echo nothing\n\n'
+    printf 'check-renderer-lanes: graal-check standard-brief-generate wasm\n'
+    printf '\t@echo battery green\n'
+  )" \
+  '^	@echo nothing$' \
+  'neither reaches standard-brief-generate nor delegates to check-renderer-lanes'
+# NO check-renderer TARGET AT ALL — the third way the premise can fail,
+# and the one an author is least likely to think of, since it looks like
+# a question about the generator rather than about the entry point.
+stale_case "entry-gone" \
+  "$(
+    printf 'standard-brief-generate:\n\tclojure -M -m devcards.standard-brief\n\n'
+    printf 'check-renderer-lanes: graal-check standard-brief-generate wasm\n'
+    printf '\t@echo battery green\n'
+  )" \
+  '^check-renderer-lanes: graal-check standard-brief-generate wasm$' \
+  'renderer.mk declares no check-renderer target'
+# THE LEGACY DIRECT SHAPE STILL RESOLVES. Without this, a fix that taught
+# the row about delegation could silently drop the shape it was written
+# for, and every case above would stay green.
+DIRECT="$WORK/direct-root"
+rm -rf -- "$DIRECT"
+cp -a "$ROOT" "$DIRECT"
+{
+  printf 'standard-brief-generate:\n\tclojure -M -m devcards.standard-brief\n\n'
+  printf 'check-renderer: graal-check standard-brief-generate wasm\n'
+  printf '\t@echo battery green\n'
+} > "$DIRECT/renderer.mk"
+expect_fail "check5 direct-prerequisite shape still resolves to the write set" \
+  permitted-command-writes-into-fence "$SUT" "$B/c5.md" --root "$DIRECT"
 
 banner "check 6 — a base sha whose tree lacks a file the brief says the fork owns"
 cat > "$B/c6.md" <<'EOF'

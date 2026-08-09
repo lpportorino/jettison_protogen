@@ -631,8 +631,52 @@ writes_of_command() {
   local root="$1" cmd="$2"
   case "$cmd" in
     *check-renderer*)
-      if ! git_at "$root" grep -qE '^check-renderer:.*[[:space:]]standard-brief-generate([[:space:]]|$)' -- renderer.mk; then
-        printf '[brief-check] ERROR — the check-5 write table is STALE: check-renderer no longer lists standard-brief-generate in renderer.mk\n' >&2
+      # THE PREMISE IS A CHAIN, NOT A LINE, and asserting only the line it
+      # once was is how this row went stale in the tree it guards. The
+      # battery entry was refactored into a recipe that DELEGATES to a
+      # lane list, so the name this row looks for moved one hop away —
+      # and because the canary's fixture pinned the OLD shape, the suite
+      # stayed green over a row that had stopped resolving. Every link is
+      # therefore asserted SEPARATELY, so a break names which hop moved
+      # rather than reporting a generic staleness the reader must then go
+      # and localise by hand.
+      #
+      # A target may reach standard-brief-generate EITHER as a direct
+      # prerequisite OR through the lane list it delegates to; both are
+      # live shapes for a Make battery and neither is the "right" one to
+      # pin. The row accepts either and ERRORS only when NO path exists.
+      # The delegation lives in the RECIPE, not on the target line, so the
+      # target's own line is the wrong thing to read — a pattern anchored
+      # there matches neither shape and reports every tree as stale.
+      #
+      # A FIXED WINDOW OF FOLLOWING LINES IS THE WRONG FIX, and it is the
+      # one to reach for first: `grep -A<n>` runs past the blank line into
+      # the NEXT target, so a lane list defined below check-renderer gets
+      # read as though check-renderer had named it, and the hop that
+      # actually broke is reported as intact. Take the target line plus
+      # exactly its recipe — the tab-indented run that a Make recipe IS —
+      # and nothing after it.
+      local cr_block
+      cr_block="$(
+        awk '
+          /^check-renderer:/ { inside = 1; print; next }
+          inside && /^\t/    { print; next }
+          inside             { exit }
+        ' "$root/renderer.mk" 2>/dev/null || true
+      )"
+      if [ -z "$cr_block" ]; then
+        printf '[brief-check] ERROR — the check-5 write table is STALE: renderer.mk declares no check-renderer target\n' >&2
+        return 3
+      fi
+      if printf '%s\n' "$cr_block" | grep -qE '[[:space:]]standard-brief-generate([[:space:]]|$)'; then
+        : # named directly by check-renderer — the original shape, still legal.
+      elif printf '%s\n' "$cr_block" | grep -q 'check-renderer-lanes'; then
+        if ! git_at "$root" grep -qE '^check-renderer-lanes:.*[[:space:]]standard-brief-generate([[:space:]]|$)' -- renderer.mk; then
+          printf '[brief-check] ERROR — the check-5 write table is STALE: check-renderer delegates to check-renderer-lanes, which no longer lists standard-brief-generate in renderer.mk\n' >&2
+          return 3
+        fi
+      else
+        printf '[brief-check] ERROR — the check-5 write table is STALE: check-renderer neither reaches standard-brief-generate nor delegates to check-renderer-lanes in renderer.mk\n' >&2
         return 3
       fi
       if ! git_at "$root" grep -q 'ui-standard-review/STANDARD.md' -- tools/devcards/src/devcards/standard_brief.clj; then
