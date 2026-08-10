@@ -52,7 +52,41 @@
  ;; Resolved at codegen time — renderer always gets flat LVGL widgets.
  ;; ═══════════════════════════════════════════════════════════════════
  :components
- {:titled-card
+ {;; Labeled action button — the button idiom every screen otherwise spells as
+  ;; an :lv_button wrapping one :lv_label child. :class is the BUTTON's full
+  ;; class string (usually opening with a @btn-* macro); :label-class styles
+  ;; the label and defaults to none, matching a bare authored label; :event is
+  ;; optional because a gallery button demonstrates appearance and fires
+  ;; nothing. Expands to exactly the tree the longhand spells — a usage is a
+  ;; statement of intent ("a button labelled X firing Y"), not a new widget.
+  :btn
+  {:params {:class {:required true :type :string}
+            :event {:type :keyword}
+            :label {:required true :type :string}
+            :label-class {:default "" :type :string}}
+   :tree {:children [{:class "$label-class" :tag :lv_label :text "$label"}]
+          :class "$class"
+          :event :$event
+          :tag :lv_button}}
+  ;; Caption + live-value pair — one readout: a muted caption naming the
+  ;; reading and a subject-bound value label beside it. The wrapper is :bare
+  ;; (grouping without chrome) and the intra-pair gap is the word-space
+  ;; :spacing-sm; the value carries @caption so its face matches the caption's
+  ;; (equal face is the only route to equal baseline — LVGL flex has no
+  ;; baseline cross-place) while its ink sits one contrast step above.
+  :readout
+  {:params {:label {:required true :type :string}
+            :placeholder {:default "--" :type :string}
+            :subject {:required true :type :keyword}}
+   :tree {:bare true
+          :children [{:class "font-font-caption text-fg-2" :tag :lv_label :text "$label"}
+                     {:bind {:text :$subject}
+                      :class "@caption"
+                      :tag :lv_label
+                      :text "$placeholder"}]
+          :class "flex flex-row gap-spacing-sm w-content h-content"
+          :tag :lv_obj}}
+  :titled-card
   {:params {:extra-class {:default "" :type :string} :title {:required true :type :string}}
    :tree
    {:children [{:class "@caption" :tag :lv_label :text "$title"} {:slot :default}]
