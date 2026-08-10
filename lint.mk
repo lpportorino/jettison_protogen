@@ -1145,9 +1145,19 @@ lint-c-tidy:
 ## fmt-fix: rewrite formatting in place (both languages)
 fmt-fix: fmt-clj-fix fmt-c-fix
 
+# LINT_CLJ_FILES RIDES HERE TOO, and its absence was a real gap rather than a
+# tidy-up: `fmt-clj` above CHECKS `$(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)` while
+# this target only ever FIXED the paths, so the one member of that list —
+# tools/scratchcard/bin/scratchcard.bb, which the structural lanes cannot root
+# and which therefore exists only as a FILE entry — was checked by a lane no fix
+# target could satisfy. The pre-push hook's loop (apply formatters, list what
+# was rewritten, block so it gets committed) cannot converge for such a file:
+# `fmt-fix` leaves the drift, `fmt-clj` keeps refusing, and the printed remedy
+# is the command that just declined to act. A check whose fix counterpart has a
+# narrower population is a gate with no exit.
 fmt-clj-fix:
 	@printf '\033[32m[fmt-clj-fix]\033[0m cljfmt fix\n'
-	@clojure -M:fmt fix $(LINT_CLJ_PATHS)
+	@clojure -M:fmt fix $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
 
 fmt-c-fix:
 	@printf '\033[32m[fmt-c-fix]\033[0m %s -i (%s cpus)\n' "$(CLANG_FORMAT)" "$(NPROC)"
