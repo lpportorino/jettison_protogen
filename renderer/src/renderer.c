@@ -4347,73 +4347,187 @@ static bool slot_ok(const ui_StyleProperty *prop, pb_size_t want_tag) {
             (int)prop->type, (unsigned)prop->which_value, (unsigned)want_tag);
   return false;
 }
+/* ---- The regular arms, as prop -> setter tables ----------------------
+ * All but six of the ~107 style-prop arms share one of five shapes, so each
+ * is ONE table row — (wire prop suffix, lv_style setter suffix[, cast]) —
+ * and the case-generator macros beneath the tables expand every row to
+ * exactly the slot-check-then-set arm the hand-written switch carried. The
+ * six arms no table can express (BG_COLOR's paired opa, the two string
+ * pools, the shadow bundle, MARGIN_ALL's fan-out, FLEX_FLOW's LUT guard)
+ * stay literal inside apply_style_property. A new StyleProperty lands as
+ * one row in the table matching its oneof slot — or as a literal case when
+ * it is genuinely irregular. */
+#define STYLE_PROPS_INT(ROW)                                                   \
+  ROW(BG_MAIN_STOP, bg_main_stop)                                              \
+  ROW(BG_GRAD_STOP, bg_grad_stop)                                              \
+  ROW(TEXT_LETTER_SPACE, text_letter_space)                                    \
+  ROW(TEXT_LINE_SPACE, text_line_space)                                        \
+  ROW(OUTLINE_WIDTH, outline_width)                                            \
+  ROW(OUTLINE_PAD, outline_pad)                                                \
+  ROW(SHADOW_WIDTH, shadow_width)                                              \
+  ROW(SHADOW_OFFSET_X, shadow_offset_x)                                        \
+  ROW(SHADOW_OFFSET_Y, shadow_offset_y)                                        \
+  ROW(SHADOW_SPREAD, shadow_spread)                                            \
+  ROW(MIN_WIDTH, min_width)                                                    \
+  ROW(MAX_WIDTH, max_width)                                                    \
+  ROW(MIN_HEIGHT, min_height)                                                  \
+  ROW(MAX_HEIGHT, max_height)                                                  \
+  ROW(LENGTH, length)                                                          \
+  ROW(X, x)                                                                    \
+  ROW(Y, y)                                                                    \
+  ROW(TRANSFORM_WIDTH, transform_width)                                        \
+  ROW(TRANSFORM_HEIGHT, transform_height)                                      \
+  ROW(TRANSLATE_X, translate_x)                                                \
+  ROW(TRANSLATE_Y, translate_y)                                                \
+  ROW(SCALE_X, transform_scale_x)                                              \
+  ROW(SCALE_Y, transform_scale_y)                                              \
+  ROW(ROTATION, transform_rotation)                                            \
+  ROW(PIVOT_X, transform_pivot_x)                                              \
+  ROW(PIVOT_Y, transform_pivot_y)                                              \
+  ROW(SKEW_X, transform_skew_x)                                                \
+  ROW(SKEW_Y, transform_skew_y)                                                \
+  ROW(PAD_TOP, pad_top)                                                        \
+  ROW(PAD_BOTTOM, pad_bottom)                                                  \
+  ROW(PAD_LEFT, pad_left)                                                      \
+  ROW(PAD_RIGHT, pad_right)                                                    \
+  ROW(PAD_ROW, pad_row)                                                        \
+  ROW(PAD_COLUMN, pad_column)                                                  \
+  ROW(MARGIN_TOP, margin_top)                                                  \
+  ROW(MARGIN_BOTTOM, margin_bottom)                                            \
+  ROW(MARGIN_LEFT, margin_left)                                                \
+  ROW(MARGIN_RIGHT, margin_right)                                              \
+  ROW(LINE_WIDTH, line_width)                                                  \
+  ROW(LINE_DASH_WIDTH, line_dash_width)                                        \
+  ROW(LINE_DASH_GAP, line_dash_gap)                                            \
+  ROW(ARC_WIDTH, arc_width)                                                    \
+  ROW(GRID_CELL_COLUMN_POS, grid_cell_column_pos)                              \
+  ROW(GRID_CELL_COLUMN_SPAN, grid_cell_column_span)                            \
+  ROW(GRID_CELL_ROW_POS, grid_cell_row_pos)                                    \
+  ROW(GRID_CELL_ROW_SPAN, grid_cell_row_span)
+#define STYLE_PROPS_OPA_UINT(ROW)                                              \
+  ROW(BG_OPA, bg_opa)                                                          \
+  ROW(BG_MAIN_OPA, bg_main_opa)                                                \
+  ROW(BG_GRAD_OPA, bg_grad_opa)                                                \
+  ROW(BG_IMAGE_OPA, bg_image_opa)                                              \
+  ROW(BG_IMAGE_RECOLOR_OPA, bg_image_recolor_opa)                              \
+  ROW(TEXT_OPA, text_opa)                                                      \
+  ROW(BORDER_OPA, border_opa)                                                  \
+  ROW(OUTLINE_OPA, outline_opa)                                                \
+  ROW(SHADOW_OPA, shadow_opa)                                                  \
+  ROW(IMAGE_OPA, image_opa)                                                    \
+  ROW(IMAGE_RECOLOR_OPA, image_recolor_opa)                                    \
+  ROW(LINE_OPA, line_opa)                                                      \
+  ROW(ARC_OPA, arc_opa)                                                        \
+  ROW(OPA, opa)                                                                \
+  ROW(OPA_LAYERED, opa_layered)                                                \
+  ROW(COLOR_FILTER_OPA, color_filter_opa)                                      \
+  ROW(ANIM_DURATION, anim_duration)                                            \
+  ROW(ROTARY_SENSITIVITY, rotary_sensitivity)                                  \
+  ROW(FLEX_GROW, flex_grow)
+#define STYLE_PROPS_ENUM_UINT(ROW)                                             \
+  ROW(BG_GRAD_DIR, bg_grad_dir, lv_grad_dir_t)                                 \
+  ROW(TEXT_DECOR, text_decor, lv_text_decor_t)                                 \
+  ROW(TEXT_ALIGN, text_align, lv_text_align_t)                                 \
+  ROW(BORDER_SIDE, border_side, lv_border_side_t)                              \
+  ROW(ALIGN, align, lv_align_t)                                                \
+  ROW(BLEND_MODE, blend_mode, lv_blend_mode_t)                                 \
+  ROW(BASE_DIR, base_dir, lv_base_dir_t)                                       \
+  ROW(FLEX_MAIN_PLACE, flex_main_place, lv_flex_align_t)                       \
+  ROW(FLEX_CROSS_PLACE, flex_cross_place, lv_flex_align_t)                     \
+  ROW(FLEX_TRACK_PLACE, flex_track_place, lv_flex_align_t)                     \
+  ROW(GRID_CELL_X_ALIGN, grid_cell_x_align, lv_grid_align_t)                   \
+  ROW(GRID_CELL_Y_ALIGN, grid_cell_y_align, lv_grid_align_t)                   \
+  ROW(GRID_COLUMN_ALIGN, grid_column_align, lv_grid_align_t)                   \
+  ROW(GRID_ROW_ALIGN, grid_row_align, lv_grid_align_t)
+#define STYLE_PROPS_COORD_UINT(ROW)                                            \
+  ROW(BORDER_WIDTH, border_width)                                              \
+  ROW(RADIUS, radius)                                                          \
+  ROW(WIDTH, width)                                                            \
+  ROW(HEIGHT, height)                                                          \
+  ROW(PAD_ALL, pad_all)                                                        \
+  ROW(PAD_GAP, pad_gap)                                                        \
+  ROW(PAD_HOR, pad_hor)                                                        \
+  ROW(PAD_VER, pad_ver)
+#define STYLE_PROPS_BOOL_UINT(ROW)                                             \
+  ROW(BG_IMAGE_TILED, bg_image_tiled)                                          \
+  ROW(BORDER_POST, border_post)                                                \
+  ROW(LINE_ROUNDED, line_rounded)                                              \
+  ROW(ARC_ROUNDED, arc_rounded)                                                \
+  ROW(CLIP_CORNER, clip_corner)
+#define STYLE_PROPS_COLOR(ROW)                                                 \
+  ROW(BG_GRAD_COLOR, bg_grad_color)                                            \
+  ROW(BG_IMAGE_RECOLOR, bg_image_recolor)                                      \
+  ROW(TEXT_COLOR, text_color)                                                  \
+  ROW(BORDER_COLOR, border_color)                                              \
+  ROW(OUTLINE_COLOR, outline_color)                                            \
+  ROW(SHADOW_COLOR, shadow_color)                                              \
+  ROW(IMAGE_RECOLOR, image_recolor)                                            \
+  ROW(LINE_COLOR, line_color)                                                  \
+  ROW(ARC_COLOR, arc_color)
+/* Case generators — one per table shape. Each expands to the same arm the
+ * hand-written switch carried: slot-check, set, break. */
+#define INT_PROP_CASE(NAME, SETTER)                                            \
+  case ui_StylePropertyType_PROP_##NAME:                                       \
+    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))                        \
+      return false;                                                            \
+    lv_style_set_##SETTER(style, prop->value.int_value);                       \
+    break;
+#define OPA_UINT_PROP_CASE(NAME, SETTER)                                       \
+  case ui_StylePropertyType_PROP_##NAME:                                       \
+    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))                       \
+      return false;                                                            \
+    lv_style_set_##SETTER(style, prop->value.uint_value);                      \
+    break;
+#define ENUM_UINT_PROP_CASE(NAME, SETTER, TYPE)                                \
+  case ui_StylePropertyType_PROP_##NAME:                                       \
+    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))                       \
+      return false;                                                            \
+    lv_style_set_##SETTER(style, (TYPE)prop->value.uint_value);                \
+    break;
+#define COORD_UINT_PROP_CASE(NAME, SETTER)                                     \
+  case ui_StylePropertyType_PROP_##NAME:                                       \
+    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))                       \
+      return false;                                                            \
+    lv_style_set_##SETTER(style, (int32_t)prop->value.uint_value);             \
+    break;
+#define BOOL_UINT_PROP_CASE(NAME, SETTER)                                      \
+  case ui_StylePropertyType_PROP_##NAME:                                       \
+    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))                       \
+      return false;                                                            \
+    lv_style_set_##SETTER(style, prop->value.uint_value != 0);                 \
+    break;
+#define COLOR_PROP_CASE(NAME, SETTER)                                          \
+  case ui_StylePropertyType_PROP_##NAME:                                       \
+    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))                      \
+      return false;                                                            \
+    lv_style_set_##SETTER(style, lv_color_make(prop->value.color_value.r,      \
+                                               prop->value.color_value.g,      \
+                                               prop->value.color_value.b));    \
+    break;
 static bool apply_style_property(const ui_StyleProperty *prop,
                                  lv_style_t *style, const char *string_buf) {
   switch (prop->type) {
-  /* ---- Background ---- */
+    STYLE_PROPS_INT(INT_PROP_CASE)
+    STYLE_PROPS_OPA_UINT(OPA_UINT_PROP_CASE)
+    STYLE_PROPS_ENUM_UINT(ENUM_UINT_PROP_CASE)
+    STYLE_PROPS_COORD_UINT(COORD_UINT_PROP_CASE)
+    STYLE_PROPS_BOOL_UINT(BOOL_UINT_PROP_CASE)
+    STYLE_PROPS_COLOR(COLOR_PROP_CASE)
+  /* ---- The six irregular arms ---- */
   case ui_StylePropertyType_PROP_BG_COLOR:
+    /* The one colour arm with a SIDE EFFECT: an authored fill implies an
+     * opaque fill, so the opa rides along (a PROP_BG_OPA authored after it
+     * in the same variant overrides the ride-along). */
     if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
       return false;
-    {
-      lv_style_set_bg_color(style, lv_color_make(prop->value.color_value.r,
-                                                 prop->value.color_value.g,
-                                                 prop->value.color_value.b));
-      lv_style_set_bg_opa(style, LV_OPA_COVER);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_GRAD_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_bg_grad_color(style,
-                                 lv_color_make(prop->value.color_value.r,
+    lv_style_set_bg_color(style, lv_color_make(prop->value.color_value.r,
                                                prop->value.color_value.g,
                                                prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_GRAD_DIR:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_grad_dir(style, (lv_grad_dir_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_MAIN_STOP:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_bg_main_stop(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_GRAD_STOP:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_bg_grad_stop(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_MAIN_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_main_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_GRAD_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_grad_opa(style, prop->value.uint_value);
-    }
+    lv_style_set_bg_opa(style, LV_OPA_COVER);
     break;
   case ui_StylePropertyType_PROP_BG_IMAGE_SRC:
+    /* lv_style_set_bg_image_src stores the POINTER — persist the string in
+     * the bounded per-load pool (see persist_bg_image_src). */
     if (!slot_ok(prop, ui_StyleProperty_string_value_tag))
       return false;
     {
@@ -4423,646 +4537,34 @@ static bool apply_style_property(const ui_StyleProperty *prop,
       }
     }
     break;
-  case ui_StylePropertyType_PROP_BG_IMAGE_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_image_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_IMAGE_RECOLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_bg_image_recolor(style,
-                                    lv_color_make(prop->value.color_value.r,
-                                                  prop->value.color_value.g,
-                                                  prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_IMAGE_RECOLOR_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_image_recolor_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BG_IMAGE_TILED:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_bg_image_tiled(style, prop->value.uint_value != 0);
-    }
-    break;
-  /* ---- Text ---- */
-  case ui_StylePropertyType_PROP_TEXT_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_text_color(style, lv_color_make(prop->value.color_value.r,
-                                                   prop->value.color_value.g,
-                                                   prop->value.color_value.b));
-    }
-    break;
   case ui_StylePropertyType_PROP_TEXT_FONT:
     if (!slot_ok(prop, ui_StyleProperty_string_value_tag))
       return false;
-    {
-      lv_style_set_text_font(style, resolve_font(string_buf));
-    }
+    lv_style_set_text_font(style, resolve_font(string_buf));
     break;
-  case ui_StylePropertyType_PROP_TEXT_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_text_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TEXT_LETTER_SPACE:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_text_letter_space(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TEXT_LINE_SPACE:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_text_line_space(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TEXT_DECOR:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_text_decor(style, (lv_text_decor_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TEXT_ALIGN:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_text_align(style, (lv_text_align_t)prop->value.uint_value);
-    }
-    break;
-  /* ---- Border ---- */
-  case ui_StylePropertyType_PROP_BORDER_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_border_color(style,
-                                lv_color_make(prop->value.color_value.r,
-                                              prop->value.color_value.g,
-                                              prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_BORDER_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_border_width(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BORDER_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_border_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BORDER_SIDE:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_border_side(style, (lv_border_side_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BORDER_POST:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_border_post(style, prop->value.uint_value != 0);
-    }
-    break;
-  /* ---- Outline ---- */
-  case ui_StylePropertyType_PROP_OUTLINE_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_outline_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_OUTLINE_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_outline_color(style,
-                                 lv_color_make(prop->value.color_value.r,
-                                               prop->value.color_value.g,
-                                               prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_OUTLINE_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_outline_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_OUTLINE_PAD:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_outline_pad(style, prop->value.int_value);
-    }
-    break;
-  /* ---- Shadow (bundle) ---- */
   case ui_StylePropertyType_PROP_SHADOW:
+    /* The bundle arm: one message carries the whole drop-shadow. */
     if (!slot_ok(prop, ui_StyleProperty_shadow_value_tag))
       return false;
-    {
-      lv_style_set_shadow_width(style, prop->value.shadow_value.width);
-      lv_style_set_shadow_offset_x(style, prop->value.shadow_value.offset_x);
-      lv_style_set_shadow_offset_y(style, prop->value.shadow_value.offset_y);
-      lv_style_set_shadow_spread(style, prop->value.shadow_value.spread);
-      lv_style_set_shadow_opa(style, prop->value.shadow_value.opa);
-    }
+    lv_style_set_shadow_width(style, prop->value.shadow_value.width);
+    lv_style_set_shadow_offset_x(style, prop->value.shadow_value.offset_x);
+    lv_style_set_shadow_offset_y(style, prop->value.shadow_value.offset_y);
+    lv_style_set_shadow_spread(style, prop->value.shadow_value.spread);
+    lv_style_set_shadow_opa(style, prop->value.shadow_value.opa);
     break;
-  /* ---- Shadow (individual) ---- */
-  case ui_StylePropertyType_PROP_SHADOW_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_shadow_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SHADOW_OFFSET_X:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_shadow_offset_x(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SHADOW_OFFSET_Y:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_shadow_offset_y(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SHADOW_SPREAD:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_shadow_spread(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SHADOW_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_shadow_color(style,
-                                lv_color_make(prop->value.color_value.r,
-                                              prop->value.color_value.g,
-                                              prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_SHADOW_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_shadow_opa(style, prop->value.uint_value);
-    }
-    break;
-  /* ---- Radius ---- */
-  case ui_StylePropertyType_PROP_RADIUS:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_radius(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  /* ---- Size ---- */
-  case ui_StylePropertyType_PROP_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_width(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_HEIGHT:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_height(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MIN_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_min_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MAX_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_max_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MIN_HEIGHT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_min_height(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MAX_HEIGHT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_max_height(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_LENGTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_length(style, prop->value.int_value);
-    }
-    break;
-  /* ---- Position ---- */
-  case ui_StylePropertyType_PROP_X:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_x(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_Y:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_y(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_ALIGN:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_align(style, (lv_align_t)prop->value.uint_value);
-    }
-    break;
-  /* ---- Transform ---- */
-  case ui_StylePropertyType_PROP_TRANSFORM_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TRANSFORM_HEIGHT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_height(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TRANSLATE_X:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_translate_x(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_TRANSLATE_Y:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_translate_y(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SCALE_X:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_scale_x(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SCALE_Y:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_scale_y(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_ROTATION:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_rotation(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PIVOT_X:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_pivot_x(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PIVOT_Y:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_pivot_y(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SKEW_X:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_skew_x(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_SKEW_Y:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_transform_skew_y(style, prop->value.int_value);
-    }
-    break;
-  /* ---- Padding ---- */
-  case ui_StylePropertyType_PROP_PAD_ALL:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_pad_all(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_GAP:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_pad_gap(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_HOR:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_pad_hor(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_VER:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_pad_ver(style, (int32_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_TOP:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_pad_top(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_BOTTOM:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_pad_bottom(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_LEFT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_pad_left(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_RIGHT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_pad_right(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_ROW:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_pad_row(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_PAD_COLUMN:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_pad_column(style, prop->value.int_value);
-    }
-    break;
-  /* ---- Margin ---- */
   case ui_StylePropertyType_PROP_MARGIN_ALL:
+    /* LVGL has no lv_style_set_margin_all — fan out to the four sides. */
     if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
       return false;
-    {
-      lv_style_set_margin_top(style, (int32_t)prop->value.uint_value);
-      lv_style_set_margin_bottom(style, (int32_t)prop->value.uint_value);
-      lv_style_set_margin_left(style, (int32_t)prop->value.uint_value);
-      lv_style_set_margin_right(style, (int32_t)prop->value.uint_value);
-    }
+    lv_style_set_margin_top(style, (int32_t)prop->value.uint_value);
+    lv_style_set_margin_bottom(style, (int32_t)prop->value.uint_value);
+    lv_style_set_margin_left(style, (int32_t)prop->value.uint_value);
+    lv_style_set_margin_right(style, (int32_t)prop->value.uint_value);
     break;
-  case ui_StylePropertyType_PROP_MARGIN_TOP:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_margin_top(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MARGIN_BOTTOM:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_margin_bottom(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MARGIN_LEFT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_margin_left(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_MARGIN_RIGHT:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_margin_right(style, prop->value.int_value);
-    }
-    break;
-  /* ---- Image style ---- */
-  case ui_StylePropertyType_PROP_IMAGE_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_image_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_IMAGE_RECOLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_image_recolor(style,
-                                 lv_color_make(prop->value.color_value.r,
-                                               prop->value.color_value.g,
-                                               prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_IMAGE_RECOLOR_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_image_recolor_opa(style, prop->value.uint_value);
-    }
-    break;
-  /* ---- Line style ---- */
-  case ui_StylePropertyType_PROP_LINE_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_line_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_LINE_DASH_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_line_dash_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_LINE_DASH_GAP:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_line_dash_gap(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_LINE_ROUNDED:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_line_rounded(style, prop->value.uint_value != 0);
-    }
-    break;
-  case ui_StylePropertyType_PROP_LINE_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_line_color(style, lv_color_make(prop->value.color_value.r,
-                                                   prop->value.color_value.g,
-                                                   prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_LINE_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_line_opa(style, prop->value.uint_value);
-    }
-    break;
-  /* ---- Arc style ---- */
-  case ui_StylePropertyType_PROP_ARC_WIDTH:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_arc_width(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_ARC_ROUNDED:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_arc_rounded(style, prop->value.uint_value != 0);
-    }
-    break;
-  case ui_StylePropertyType_PROP_ARC_COLOR:
-    if (!slot_ok(prop, ui_StyleProperty_color_value_tag))
-      return false;
-    {
-      lv_style_set_arc_color(style, lv_color_make(prop->value.color_value.r,
-                                                  prop->value.color_value.g,
-                                                  prop->value.color_value.b));
-    }
-    break;
-  case ui_StylePropertyType_PROP_ARC_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_arc_opa(style, prop->value.uint_value);
-    }
-    break;
-  /* ---- Misc ---- */
-  case ui_StylePropertyType_PROP_CLIP_CORNER:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_clip_corner(style, prop->value.uint_value != 0);
-    }
-    break;
-  case ui_StylePropertyType_PROP_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_OPA_LAYERED:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_opa_layered(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_COLOR_FILTER_OPA:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_color_filter_opa(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_ANIM_DURATION:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_anim_duration(style, prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BLEND_MODE:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_blend_mode(style, (lv_blend_mode_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_BASE_DIR:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_base_dir(style, (lv_base_dir_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_ROTARY_SENSITIVITY:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_rotary_sensitivity(style, prop->value.uint_value);
-    }
-    break;
-  /* ---- Flex ---- */
   case ui_StylePropertyType_PROP_FLEX_FLOW:
+    /* Routed through the factory-generated LUT (proto number -> LVGL
+     * bitmask); an out-of-range value applies nothing, matching
+     * apply_node_layout's guard. */
     if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
       return false;
     {
@@ -5070,98 +4572,6 @@ static bool apply_style_property(const ui_StyleProperty *prop,
       if (flow > 0 && flow < FLEX_FLOW_LUT_SIZE) {
         lv_style_set_flex_flow(style, flex_flow_lut[flow]);
       }
-    }
-    break;
-  case ui_StylePropertyType_PROP_FLEX_MAIN_PLACE:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_flex_main_place(style,
-                                   (lv_flex_align_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_FLEX_CROSS_PLACE:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_flex_cross_place(style,
-                                    (lv_flex_align_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_FLEX_TRACK_PLACE:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_flex_track_place(style,
-                                    (lv_flex_align_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_FLEX_GROW:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_flex_grow(style, prop->value.uint_value);
-    }
-    break;
-  /* ---- Grid cell ---- */
-  case ui_StylePropertyType_PROP_GRID_CELL_COLUMN_POS:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_grid_cell_column_pos(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_CELL_COLUMN_SPAN:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_grid_cell_column_span(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_CELL_ROW_POS:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_grid_cell_row_pos(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_CELL_ROW_SPAN:
-    if (!slot_ok(prop, ui_StyleProperty_int_value_tag))
-      return false;
-    {
-      lv_style_set_grid_cell_row_span(style, prop->value.int_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_CELL_X_ALIGN:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_grid_cell_x_align(style,
-                                     (lv_grid_align_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_CELL_Y_ALIGN:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_grid_cell_y_align(style,
-                                     (lv_grid_align_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_COLUMN_ALIGN:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_grid_column_align(style,
-                                     (lv_grid_align_t)prop->value.uint_value);
-    }
-    break;
-  case ui_StylePropertyType_PROP_GRID_ROW_ALIGN:
-    if (!slot_ok(prop, ui_StyleProperty_uint_value_tag))
-      return false;
-    {
-      lv_style_set_grid_row_align(style,
-                                  (lv_grid_align_t)prop->value.uint_value);
     }
     break;
   default:
