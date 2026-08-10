@@ -693,9 +693,20 @@ bool renderer_designed_overlay(const lv_obj_t *obj) {
  * number-as-index, LOGGED — never a crash, but not silent.
  * ================================================================ */
 #define MAX_DROPDOWN_VALUE_MAPS 32
+/* One dropdown's decoded option_values. The map's width is DERIVED from the
+ * generated wire struct rather than restated, so it can never disagree with
+ * ui.DropdownProps.option_values' max_count (proto/ui/ui_ast.options): a
+ * widened wire widens this map in the same regeneration. The silent >16
+ * clamp that stood here would instead have truncated every wide enum
+ * dropdown on exactly that day — the dropped values never select, which
+ * reads as a device ignoring its state. Deliberately NOT a renderer MAX_*
+ * cap: the bound's one home is the wire, and renderer-caps accounts
+ * renderer-owned capacities only. */
+#define DROPDOWN_VALUE_MAP_WIDTH                                               \
+  (sizeof(((ui_DropdownProps *)0)->option_values) / sizeof(int32_t))
 typedef struct {
   const lv_obj_t *obj;
-  int32_t values[16];
+  int32_t values[DROPDOWN_VALUE_MAP_WIDTH];
   pb_size_t count;
 } dropdown_value_map_t;
 static dropdown_value_map_t dropdown_value_maps[MAX_DROPDOWN_VALUE_MAPS];
@@ -735,8 +746,12 @@ static void register_dropdown_value_map(const lv_obj_t *obj,
     m = &dropdown_value_maps[dropdown_value_map_count++];
     m->obj = obj;
   }
-  m->count = count > 16 ? 16 : count;
-  memcpy(m->values, values, m->count * sizeof(int32_t));
+  /* count is bounded by nanopb at the map's own width on decode (the width
+   * IS the generated array's — see DROPDOWN_VALUE_MAP_WIDTH) — a crafted
+   * .pb with more entries fails the decode, it does not arrive here
+   * oversized. */
+  m->count = count;
+  memcpy(m->values, values, count * sizeof(int32_t));
 }
 static void unregister_dropdown_value_map(const lv_obj_t *obj) {
   for (int i = 0; i < dropdown_value_map_count; i++) {
