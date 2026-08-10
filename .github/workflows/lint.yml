@@ -6,10 +6,14 @@
 # `--no-verify` bypasses it; protogen is pinned as a submodule by a consumer
 # fleet, so what actually protects them is this job.
 #
-# WHAT IS GATED — a positive allowlist, never an ignore list: lint.mk hands each
-# tool an explicit list of hand-authored paths and no tool ever walks the tree,
-# so generated bindings (output/**), vendored LVGL, nanopb projections and
-# generated fonts are excluded by never being passed in. One emitter projection
+# WHAT IS GATED — a positive allowlist for every lane but ONE: lint.mk hands
+# each tool an explicit list of hand-authored paths, so generated bindings
+# (output/**), vendored LVGL, nanopb projections and generated fonts are
+# excluded by never being passed in. The exception is the C formatter, whose
+# discovery is git-derived MINUS the declared FMT_C_EXCLUDES — the one lane
+# that walks, adopted so a hand-authored C file outside a named root can never
+# again sit unjudged; its exclusion list is mirrored in .clang-format's own
+# header and widening it to silence a finding is the gate bypass it looks like. One emitter projection
 # under a gated `src` root IS linted, deliberately — lint.mk's header is the one
 # home for which file and why, so it is not restated here.
 #

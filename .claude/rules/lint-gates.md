@@ -155,9 +155,13 @@ while every other lane runs there happily.
 ## Never suppress; fix at the source
 
 No `#_:clj-kondo/ignore`, no `:config-in-ns`, no widening an ignore list to make
-a finding go away. Scoping is a POSITIVE allowlist — lint.mk hands each tool an
-explicit list of hand-authored paths and no tool walks the tree, so generated and
-vendored TREES are excluded by never being passed in. Not every generated FILE is:
+a finding go away. Scoping is a POSITIVE allowlist for every lane but one —
+lint.mk hands each tool an explicit list of hand-authored paths, so generated
+and vendored TREES are excluded by never being passed in. The C formatter is
+the deliberate exception: its discovery is git-derived minus the declared
+FMT_C_EXCLUDES, so for THAT lane an exclusion entry is scope declaration, and
+widening it to make a finding go away is exactly the suppression this section
+bans. Not every generated FILE is:
 one emitter projection sits under a gated `src` root and IS linted on purpose,
 because a projection must stay canonical and lint-clean and regenerating it
 satisfies both. The structural lanes hold it out instead, by a derived path

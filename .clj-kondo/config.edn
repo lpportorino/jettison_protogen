@@ -71,7 +71,7 @@
  ;;     never sees the 143rd, so it cannot close the class it would be adopted
  ;;     for. Re-derive rather than trusting these numbers:
  ;;
- ;;       clj-kondo --cache false --lint <LINT_CLJ_PATHS> --config \
+ ;;       clj-kondo --cache false --lint <LINT_CLJ_PATHS> <LINT_CLJ_FILES> --config \
  ;;         '{:output {:analysis {:namespace-usages true} :format :edn}}'
  ;;
  ;;     Two further findings, and the second is decisive. The splits track

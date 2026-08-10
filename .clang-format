@@ -28,6 +28,7 @@
 #   renderer/lvgl/**        vendored upstream, byte-exact per .gitattributes
 #   renderer/generated/**   nanopb + threshold projections
 #   renderer/src/font_*.c   generated LVGL font data
+#   output/**               generated bindings, every language
 BasedOnStyle: LLVM
 ColumnLimit: 80
 DerivePointerAlignment: false
