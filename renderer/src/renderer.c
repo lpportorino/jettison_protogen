@@ -2497,6 +2497,53 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
 }
 /* Forward declarations */
 static void apply_bindings(const pending_bindings_t *p);
+static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
+                               void **arg);
+static bool style_groups_decode_cb(pb_istream_t *stream,
+                                   const pb_field_t *field, void **arg);
+static bool bindings_decode_cb(pb_istream_t *stream, const pb_field_t *field,
+                               void **arg);
+static bool bind_formats_decode_cb(pb_istream_t *stream,
+                                   const pb_field_t *field, void **arg);
+/* Zero `ctx` for one node build and arm the node's four pb_callback_t fields
+ * on it (text is a fixed char[256] nanopb fills by itself; children,
+ * style_groups, bindings and bind_formats stream through callbacks). The
+ * THREE decode entry points — a streamed child, a full-build root, a patch op
+ * node — each spelled this out by hand, so a widget_ctx_t field added to one
+ * and not the others was a use-of-garbage no compiler flags. One home. */
+static void widget_ctx_init(widget_ctx_t *ctx, lv_obj_t *parent, lv_obj_t *self,
+                            ui_WidgetNode *node, int depth) {
+  ctx->parent = parent;
+  ctx->self = self;
+  ctx->node = node;
+  memset(ctx->text, 0, sizeof(ctx->text));
+  ctx->error = 0;
+  ctx->depth = depth;
+  ctx->binding_count = 0;
+  ctx->bind_format_count = 0;
+  ctx->added_style_count = 0;
+  ctx->tab_staging = NULL;
+  ctx->tab_staged_count = 0;
+  node->children.funcs.decode = children_decode_cb;
+  node->children.arg = ctx;
+  node->style_groups.funcs.decode = style_groups_decode_cb;
+  node->style_groups.arg = ctx;
+  node->bindings.funcs.decode = bindings_decode_cb;
+  node->bindings.arg = ctx;
+  node->bind_formats.funcs.decode = bind_formats_decode_cb;
+  node->bind_formats.arg = ctx;
+}
+/* True when the queue has room for one more entry. Refusing is LOUD and
+ * latches ctx->error: a silently dropped attachment is a control that
+ * renders clean and never reacts, which no golden can see. */
+static bool pending_queue_has_room(int count, int max, const char *what,
+                                   widget_ctx_t *ctx) {
+  if (count < max)
+    return true;
+  LOG_ERROR("pending %s queue overflow (max %d)", what, max);
+  ctx->error = -1;
+  return false;
+}
 /* ================================================================
  * Compare bindings — ONE applier for the four reactive state bindings
  * that share the VisibilityBinding wire shape. Each class differs in
@@ -3634,80 +3681,56 @@ static void finalize_widget(widget_ctx_t *ctx) {
     apply_host_proxy(ctx);
   }
   /* Apply reactive bindings (text, value, checked) */
-  if (ctx->binding_count > 0) {
-    if (pending_bindings_count >= MAX_PENDING_BINDINGS) {
-      LOG_ERROR("pending binding queue overflow (max %d)",
-                MAX_PENDING_BINDINGS);
-      ctx->error = -1;
-    } else {
-      pending_bindings_t *p = &pending_bindings[pending_bindings_count++];
-      p->obj = obj;
-      p->wtype = node->type;
-      p->binding_count = ctx->binding_count;
-      memcpy(p->bindings, ctx->bindings, sizeof(p->bindings));
-      p->bind_format_count = ctx->bind_format_count;
-      memcpy(p->bind_formats, ctx->bind_formats, sizeof(p->bind_formats));
-    }
+  if (ctx->binding_count > 0 &&
+      pending_queue_has_room(pending_bindings_count, MAX_PENDING_BINDINGS,
+                             "binding", ctx)) {
+    pending_bindings_t *p = &pending_bindings[pending_bindings_count++];
+    p->obj = obj;
+    p->wtype = node->type;
+    p->binding_count = ctx->binding_count;
+    memcpy(p->bindings, ctx->bindings, sizeof(p->bindings));
+    p->bind_format_count = ctx->bind_format_count;
+    memcpy(p->bind_formats, ctx->bind_formats, sizeof(p->bind_formats));
   }
   /* Apply conditional visibility (show-when) */
-  if (node->has_visibility && node->visibility.subject[0] != '\0') {
-    if (pending_visibility_count >= MAX_PENDING_VISIBILITY) {
-      LOG_ERROR("pending visibility queue overflow (max %d)",
-                MAX_PENDING_VISIBILITY);
-      ctx->error = -1;
-    } else {
-      pending_visibility_t *p = &pending_visibility[pending_visibility_count++];
-      p->obj = obj;
-      p->vis = node->visibility;
-    }
+  if (node->has_visibility && node->visibility.subject[0] != '\0' &&
+      pending_queue_has_room(pending_visibility_count, MAX_PENDING_VISIBILITY,
+                             "visibility", ctx)) {
+    pending_visibility_t *p = &pending_visibility[pending_visibility_count++];
+    p->obj = obj;
+    p->vis = node->visibility;
   }
   /* Apply reactive checked-state binding (checked_when) */
-  if (node->has_checked_when && node->checked_when.subject[0] != '\0') {
-    if (pending_checked_count >= MAX_PENDING_CHECKED) {
-      LOG_ERROR("pending checked_when queue overflow (max %d)",
-                MAX_PENDING_CHECKED);
-      ctx->error = -1;
-    } else {
-      pending_checked_t *p = &pending_checked[pending_checked_count++];
-      p->obj = obj;
-      p->bind = node->checked_when;
-    }
+  if (node->has_checked_when && node->checked_when.subject[0] != '\0' &&
+      pending_queue_has_room(pending_checked_count, MAX_PENDING_CHECKED,
+                             "checked_when", ctx)) {
+    pending_checked_t *p = &pending_checked[pending_checked_count++];
+    p->obj = obj;
+    p->bind = node->checked_when;
   }
   /* Apply reactive enabled-state binding (enabled_when) */
-  if (node->has_enabled_when && node->enabled_when.subject[0] != '\0') {
-    if (pending_enabled_count >= MAX_PENDING_ENABLED) {
-      LOG_ERROR("pending enabled_when queue overflow (max %d)",
-                MAX_PENDING_ENABLED);
-      ctx->error = -1;
-    } else {
-      pending_enabled_t *p = &pending_enabled[pending_enabled_count++];
-      p->obj = obj;
-      p->bind = node->enabled_when;
-    }
+  if (node->has_enabled_when && node->enabled_when.subject[0] != '\0' &&
+      pending_queue_has_room(pending_enabled_count, MAX_PENDING_ENABLED,
+                             "enabled_when", ctx)) {
+    pending_enabled_t *p = &pending_enabled[pending_enabled_count++];
+    p->obj = obj;
+    p->bind = node->enabled_when;
   }
   /* Apply reactive pending-state binding (pending_when) */
-  if (node->has_pending_when && node->pending_when.subject[0] != '\0') {
-    if (pending_pendstate_count >= MAX_PENDING_PENDSTATE) {
-      LOG_ERROR("pending pending_when queue overflow (max %d)",
-                MAX_PENDING_PENDSTATE);
-      ctx->error = -1;
-    } else {
-      pending_pendstate_t *p = &pending_pendstate[pending_pendstate_count++];
-      p->obj = obj;
-      p->bind = node->pending_when;
-    }
+  if (node->has_pending_when && node->pending_when.subject[0] != '\0' &&
+      pending_queue_has_room(pending_pendstate_count, MAX_PENDING_PENDSTATE,
+                             "pending_when", ctx)) {
+    pending_pendstate_t *p = &pending_pendstate[pending_pendstate_count++];
+    p->obj = obj;
+    p->bind = node->pending_when;
   }
   /* Apply reactive text-color binding (color_when) */
-  if (node->has_color_when && node->color_when.when.subject[0] != '\0') {
-    if (pending_color_count >= MAX_PENDING_COLOR) {
-      LOG_ERROR("pending color_when queue overflow (max %d)",
-                MAX_PENDING_COLOR);
-      ctx->error = -1;
-    } else {
-      pending_color_t *p = &pending_color[pending_color_count++];
-      p->obj = obj;
-      p->bind = node->color_when;
-    }
+  if (node->has_color_when && node->color_when.when.subject[0] != '\0' &&
+      pending_queue_has_room(pending_color_count, MAX_PENDING_COLOR,
+                             "color_when", ctx)) {
+    pending_color_t *p = &pending_color[pending_color_count++];
+    p->obj = obj;
+    p->bind = node->color_when;
   }
   /* Belt to the UPDATE arm's has_event reject: attaching an event cb to an
    * ALREADY-LIVE object under morph would duplicate the callback (two
@@ -3726,18 +3749,15 @@ static void finalize_widget(widget_ctx_t *ctx) {
        * no registry — but a name that will NEVER resolve is a dead control,
        * and Screen.subjects streams after the tree, so the verdict can only
        * be reached at the drain (see pending_event_subject). */
-    if (node->event.set_subject[0] != '\0') {
-      if (pending_event_subject_count >= MAX_PENDING_EVENT_SUBJECT) {
-        LOG_ERROR("pending event-subject queue overflow (max %d)",
-                  MAX_PENDING_EVENT_SUBJECT);
-        ctx->error = -1;
-      } else {
-        pending_event_subject_t *p =
-            &pending_event_subject[pending_event_subject_count++];
-        strncpy(p->subject, node->event.set_subject, sizeof(p->subject) - 1);
-        p->subject[sizeof(p->subject) - 1] = '\0';
-        p->uid = node->uid;
-      }
+    if (node->event.set_subject[0] != '\0' &&
+        pending_queue_has_room(pending_event_subject_count,
+                               MAX_PENDING_EVENT_SUBJECT, "event-subject",
+                               ctx)) {
+      pending_event_subject_t *p =
+          &pending_event_subject[pending_event_subject_count++];
+      strncpy(p->subject, node->event.set_subject, sizeof(p->subject) - 1);
+      p->subject[sizeof(p->subject) - 1] = '\0';
+      p->uid = node->uid;
     }
     event_cb_data_t *cb_data = malloc(sizeof(event_cb_data_t));
     if (cb_data) {
@@ -5309,28 +5329,7 @@ static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
   }
   ui_WidgetNode child = ui_WidgetNode_init_zero;
   widget_ctx_t child_ctx;
-  child_ctx.parent = parent;
-  child_ctx.self = NULL;
-  child_ctx.node = &child;
-  memset(child_ctx.text, 0, sizeof(child_ctx.text));
-  child_ctx.error = 0;
-  child_ctx.depth = parent_ctx->depth + 1;
-  child_ctx.binding_count = 0;
-  child_ctx.added_style_count = 0;
-  child_ctx.bind_format_count = 0;
-  child_ctx.tab_staging = NULL;
-  child_ctx.tab_staged_count = 0;
-  /* Wire up callbacks for the child's callback fields.
-   * text is a fixed char[256] (max_size) — filled by nanopb automatically.
-   * children, style_groups, bindings, bind_formats are pb_callback_t. */
-  child.children.funcs.decode = children_decode_cb;
-  child.children.arg = &child_ctx;
-  child.style_groups.funcs.decode = style_groups_decode_cb;
-  child.style_groups.arg = &child_ctx;
-  child.bindings.funcs.decode = bindings_decode_cb;
-  child.bindings.arg = &child_ctx;
-  child.bind_formats.funcs.decode = bind_formats_decode_cb;
-  child.bind_formats.arg = &child_ctx;
+  widget_ctx_init(&child_ctx, parent, NULL, &child, parent_ctx->depth + 1);
   if (!pb_decode(stream, ui_WidgetNode_fields, &child)) {
     parent_ctx->error = -1;
     return false;
@@ -5459,28 +5458,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   screen.subjects.funcs.decode = subjects_decode_cb;
   screen.subjects.arg = NULL;
   widget_ctx_t root_ctx;
-  root_ctx.parent = parent;
-  root_ctx.self = NULL;
-  root_ctx.node = &screen.root;
-  memset(root_ctx.text, 0, sizeof(root_ctx.text));
-  root_ctx.error = 0;
-  root_ctx.depth = 0;
-  root_ctx.binding_count = 0;
-  root_ctx.added_style_count = 0;
-  root_ctx.bind_format_count = 0;
-  root_ctx.tab_staging = NULL;
-  root_ctx.tab_staged_count = 0;
-  /* Set up callbacks on the root WidgetNode before decoding Screen.
-   * text is a fixed char[256] (max_size) — filled by nanopb automatically.
-   * children, style_groups, bindings, bind_formats are pb_callback_t. */
-  screen.root.children.funcs.decode = children_decode_cb;
-  screen.root.children.arg = &root_ctx;
-  screen.root.style_groups.funcs.decode = style_groups_decode_cb;
-  screen.root.style_groups.arg = &root_ctx;
-  screen.root.bindings.funcs.decode = bindings_decode_cb;
-  screen.root.bindings.arg = &root_ctx;
-  screen.root.bind_formats.funcs.decode = bind_formats_decode_cb;
-  screen.root.bind_formats.arg = &root_ctx;
+  widget_ctx_init(&root_ctx, parent, NULL, &screen.root, 0);
   pb_istream_t stream = pb_istream_from_buffer(data, len);
   if (!pb_decode(&stream, ui_Screen_fields, &screen)) {
     /* A callback returned false (depth cap, fan-out cap, ensure_widget
@@ -5712,25 +5690,8 @@ static int decode_op_node(const uint8_t *buf, uint32_t len, lv_obj_t *parent,
                           lv_obj_t *morph_self, lv_obj_t **out) {
   ui_TreePatchOp op = ui_TreePatchOp_init_zero;
   widget_ctx_t ctx;
-  ctx.parent = parent;
-  ctx.self = morph_self;
-  ctx.node = &op.node;
-  memset(ctx.text, 0, sizeof(ctx.text));
-  ctx.error = 0;
-  ctx.depth = 0; /* op-node is a subtree root; its children recurse from here */
-  ctx.binding_count = 0;
-  ctx.added_style_count = 0;
-  ctx.bind_format_count = 0;
-  ctx.tab_staging = NULL;
-  ctx.tab_staged_count = 0;
-  op.node.children.funcs.decode = children_decode_cb;
-  op.node.children.arg = &ctx;
-  op.node.style_groups.funcs.decode = style_groups_decode_cb;
-  op.node.style_groups.arg = &ctx;
-  op.node.bindings.funcs.decode = bindings_decode_cb;
-  op.node.bindings.arg = &ctx;
-  op.node.bind_formats.funcs.decode = bind_formats_decode_cb;
-  op.node.bind_formats.arg = &ctx;
+  /* op-node is a subtree root (depth 0); its children recurse from here. */
+  widget_ctx_init(&ctx, parent, morph_self, &op.node, 0);
   pb_istream_t stream = pb_istream_from_buffer(buf, len);
   if (!pb_decode(&stream, ui_TreePatchOp_fields, &op)) {
     LOG_ERROR("patch op node decode failed: %s", PB_GET_ERROR(&stream));
