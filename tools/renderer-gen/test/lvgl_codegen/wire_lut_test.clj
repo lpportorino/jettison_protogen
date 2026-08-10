@@ -993,15 +993,25 @@
     ;; newly added constant "does not pair itself", leaving it hand-carried and
     ;; UNGUARDED while every sibling is checked. That cost was carried by a
     ;; prose note at the definitions; this clause makes it mechanical.
+    ;; KEYED ON THE NAME, NOT THE VALUE. The first form of this clause asked
+    ;; `(contains? (set (vals lvgl-mirrored-constants)) value)`, which is
+    ;; satisfied by ANY pair that happens to carry the same number — and these
+    ;; are bit flags drawn from two typedefs, so collisions are ordinary rather
+    ;; than exotic: LV_STATE_DEFAULT and LV_PART_MAIN are both 0, so a new
+    ;; hand-carried constant equal to either passed unpaired, which is exactly
+    ;; the omission this clause exists to catch. The C spelling is derived from
+    ;; the Clojure one rather than listed, so the derivation cannot rot.
     (let [declared (hand-carried-selector-vars)
-          paired (set (vals factory/lvgl-mirrored-constants))]
+          c-spelling (fn [var-name] (str/upper-case (str/replace var-name "-" "_")))]
       (is (seq declared)
           "style-props declares no lv-state-*/lv-part-* constants - nothing judged")
       (doseq [[var-name value] (sort declared)]
-        (is (contains? paired value)
-            (str "style-props/" var-name " (" value ") is hand-carried from the"
-                 " LVGL headers but appears in no lvgl-mirrored-constants pair,"
-                 " so nothing compares it against lv_obj_style.h"))))))
+        (let [c-name (c-spelling var-name)]
+          (is (contains? factory/lvgl-mirrored-constants c-name)
+              (str "style-props/" var-name " (" value ") is hand-carried from the"
+                   " LVGL headers but appears in no lvgl-mirrored-constants pair"
+                   " under its own name " c-name ", so nothing compares it"
+                   " against lv_obj_style.h")))))))
 
 (deftest state-selector-entries-are-authorable-through-both-surfaces
   (testing "every state key reaches the class DSL, the :style map and the wire"

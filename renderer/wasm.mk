@@ -132,12 +132,26 @@ CXXFLAGS_LINK := --target=$(TARGET) --sysroot=$(SYSROOT) \
 # gesture staging array (CMD_PATCH_MAX_GESTURES x sizeof(cmd_gesture_spec_t),
 # ~820 B per entry). Growing that bound costs the peak once rather than per
 # level, so it moved the peak while matching no trigger anyone was watching for.
-# Re-run the bisection when raising MAX_DECODE_DEPTH; when widening any string
-# bound that lands in the per-level frame — whether INLINE in ui_WidgetNode or
-# mirrored into widget_ctx_t (binding_entry_t / bind_format_entry_t), which
-# costs the same per level; AND when growing a bound that sizes a local in
-# finalize_widget. proto/ui/ui_ast.options carries the worked example of a
-# proposed string widen that overflowed this reservation.
+# AND IT HAS NOW HAPPENED A SECOND TIME, BY A SHAPE THE WIDENED LIST STILL DID
+# NOT NAME. Every trigger below was about WIDENING something that already
+# existed; none was about ADDING a field. pending_when is an optional inline
+# submessage, so it lands in ui_WidgetNode directly and moved sizeof from 2352
+# to 2424 — one whole ui_VisibilityBinding, +72 B on EVERY level, ~+2.3 KiB of
+# peak at MAX_DECODE_DEPTH — while matching no trigger anyone was watching for,
+# exactly as the paragraph above describes for finalize_widget. The figure below
+# is therefore understated by about that much and is NOT re-bisected here; the
+# headroom is ample (the reservation is 256 KiB against a peak near 168 KiB) and
+# decode_limits' nesting_at_the_declared_cap_loads_clean still passes, so this
+# records that the peak MOVED rather than pretending it did not.
+#
+# Re-run the bisection when raising MAX_DECODE_DEPTH; when ADDING any field that
+# lands INLINE in ui_WidgetNode — an optional submessage costs its whole size
+# per level, which is the trigger this list twice lacked; when widening any
+# string bound that lands in the per-level frame — whether INLINE in
+# ui_WidgetNode or mirrored into widget_ctx_t (binding_entry_t /
+# bind_format_entry_t), which costs the same per level; AND when growing a bound
+# that sizes a local in finalize_widget. proto/ui/ui_ast.options carries the
+# worked example of a proposed string widen that overflowed this reservation.
 #
 # WHETHER THE OLD FIGURE WAS ALREADY STALE BEFORE THAT BOUND MOVED IS NOT
 # MEASURED HERE, and is left open rather than guessed: the re-measured peak is

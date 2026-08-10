@@ -11,7 +11,14 @@
 # computes its root from its own location silently retargets when copied.
 #
 # Usage (inside the pinned container, from the repo root):
-#   bash .fork-scratch/wirelut/mutation-proof.sh
+#   bash tools/renderer-gen/dev/wirelut_mutation_proof.sh
+#
+# That path is the COMMITTED one. This line used to name
+# `.fork-scratch/wirelut/mutation-proof.sh`, which is where the script was
+# authored and is gitignored — so it exists in no checkout, and the one
+# instruction a reader needs in order to re-run the proof named a file they
+# could not have. A re-run instruction that cannot be followed makes the
+# evidence unreproducible, which is most of what committing it was for.
 set -uo pipefail
 
 ROOT="${1:-$PWD}"
@@ -200,6 +207,23 @@ mutate_case emitted-selector-falls-through-to-default "$EXPAND" \
   's/(get style-props\/state-selector$/(get (dissoc style-props\/state-selector :pending)/' \
   '(get (dissoc style-props/state-selector :pending)' \
   lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces \
+  lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers
+
+# M13 -- the case the VALUE-KEYED form of the pairing clause could not see, and
+#        the reason it is now keyed on the NAME. LV_PART_MAIN is a real LVGL
+#        constant whose value is 0x000000 -- the SAME number LV_STATE_DEFAULT
+#        already contributes to the pair map. Asking `(contains? (set (vals
+#        lvgl-mirrored-constants)) 0)` therefore answered YES for a constant
+#        paired with nothing, and this unpaired declaration passed. These are
+#        bit flags from two typedefs, so a zero (and any other repeat) is
+#        ordinary rather than exotic. M9 above is the complementary case the old
+#        form DID catch -- an unpaired constant whose value happens to be
+#        unique -- so the two together separate "unpaired" from "unpaired and
+#        value-distinct", which is the distinction the old form collapsed.
+mutate_case selector-constant-unpaired-value-collision "$PROPS" \
+  's/^(def \^:const lv-part-scrollbar 0x010000)$/(def ^:const lv-part-main 0x000000)\n\n(def ^:const lv-part-scrollbar 0x010000)/' \
+  'lv-part-main 0x000000' \
+  lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired \
   lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers
 
 echo

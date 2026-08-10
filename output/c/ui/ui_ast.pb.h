@@ -1261,6 +1261,27 @@ typedef struct _ui_WidgetNode {
  can neither cover anything nor be denied by anything, and this
  declaration on it excludes nothing. */
     bool designed_overlay;
+    /* Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+ the comparison against the subject holds, cleared otherwise. Polarity is
+ DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+ the condition rather than its negation, so there is nothing to invert.
+ Reuses the VisibilityBinding shape (subject + ref_value + compare);
+ EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+ custom observer (the checked_when / visibility precedent).
+
+ Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+ a command and is waiting for the confirming state to come back. That fact
+ is a property of a round trip the widget cannot observe for itself, so it
+ arrives as a host-published INT subject like any other precondition.
+
+ LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+ authored `pending:` style group and this binding are the two halves of one
+ affordance: the group says what pending LOOKS like, this says WHEN.
+ Without a binding the bit has no dynamic source at all — `states` is
+ applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+ the bit at create (or on a patch morph) and can never clear it again. */
+    bool has_pending_when;
+    ui_VisibilityBinding pending_when;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -1512,7 +1533,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {"", 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0, 0}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_default, 0, 0, NULL, false, ui_VisibilityBinding_init_default, false, ui_ColorBinding_init_default, 0, 0, false, ui_VisibilityBinding_init_default}
 #define ui_WidgetNode_BindingsEntry_init_default {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
 #define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
@@ -1560,7 +1581,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {"", 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0, 0}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, false, 0, false, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, false, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, false, ui_VisibilityBinding_init_zero, 0, 0, NULL, false, ui_VisibilityBinding_init_zero, false, ui_ColorBinding_init_zero, 0, 0, false, ui_VisibilityBinding_init_zero}
 #define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
 #define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
@@ -1815,6 +1836,7 @@ extern "C" {
 #define ui_WidgetNode_color_when_tag             46
 #define ui_WidgetNode_hit_slop_tag               47
 #define ui_WidgetNode_designed_overlay_tag       49
+#define ui_WidgetNode_pending_when_tag           50
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_TreePatchOp_kind_tag                  1
@@ -1913,7 +1935,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  enabled_when,     45) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  color_when,       46) \
 X(a, STATIC,   SINGULAR, UINT32,   hit_slop,         47) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,target_overlay_props,widget_props.target_overlay_props),  48) \
-X(a, STATIC,   SINGULAR, BOOL,     designed_overlay,  49)
+X(a, STATIC,   SINGULAR, BOOL,     designed_overlay,  49) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  pending_when,     50)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1950,6 +1973,7 @@ X(a, STATIC,   SINGULAR, BOOL,     designed_overlay,  49)
 #define ui_WidgetNode_enabled_when_MSGTYPE ui_VisibilityBinding
 #define ui_WidgetNode_color_when_MSGTYPE ui_ColorBinding
 #define ui_WidgetNode_widget_props_target_overlay_props_MSGTYPE ui_TargetOverlayProps
+#define ui_WidgetNode_pending_when_MSGTYPE ui_VisibilityBinding
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   key,               1) \

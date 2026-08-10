@@ -1,0 +1,57 @@
+pending_when mutation proof — recorded output of
+renderer/dev/pending_when_mutation_proof.sh (ANSI stripped).
+
+Each case breaks ONE of the four clauses that could make the harness tests
+pass, asserts the mutation LANDED via mutate_file (which refuses an absent or
+ambiguous anchor), rebuilds the wasm, and runs a named CONTROL that must stay
+GREEN — so each red attributes to one clause rather than to the feature.
+
+Read the FILTERED counts, not just the colours: a filter matching nothing
+prints '0 passed; 0 failed' and would otherwise read as a pass.
+
+============================================================
+############ BASELINE (unmutated) ############
+baseline: test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 276 filtered out; finished in 0.25s
+
+============================================================
+MUTATION: drain-loop-never-runs
+  file: renderer/src/renderer.c
+  landed: anchor replaced (mutate_file verified present-then-absent)
+  RED arm   (value_conditional_style::pending_when): test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 279 filtered out; finished in 0.24s
+  ok   drain-loop-never-runs: the clause fired — 2 failed
+  CONTROL   (value_conditional_style::enabled_when_eq_toggles_disabled_state): test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 280 filtered out; finished in 0.26s
+  ok   drain-loop-never-runs: control stayed green — the red is attributable to this clause
+
+============================================================
+MUTATION: eq-native-bind-wrong-state
+  file: renderer/src/renderer.c
+  landed: anchor replaced (mutate_file verified present-then-absent)
+  RED arm   (value_conditional_style::pending_when_eq_toggles_pending_state): test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 280 filtered out; finished in 0.25s
+  ok   eq-native-bind-wrong-state: the clause fired — 1 failed
+  CONTROL   (value_conditional_style::pending_when_gt_uses_range_observer): test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 280 filtered out; finished in 0.22s
+  ok   eq-native-bind-wrong-state: control stayed green — the red is attributable to this clause
+
+============================================================
+MUTATION: range-observer-wrong-state
+  file: renderer/src/renderer.c
+  landed: anchor replaced (mutate_file verified present-then-absent)
+  RED arm   (value_conditional_style::pending_when_gt_uses_range_observer): test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 280 filtered out; finished in 0.23s
+  ok   range-observer-wrong-state: the clause fired — 1 failed
+  CONTROL   (value_conditional_style::pending_when_eq_toggles_pending_state): test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 280 filtered out; finished in 0.31s
+  ok   range-observer-wrong-state: control stayed green — the red is attributable to this clause
+
+============================================================
+MUTATION: dump-oracle-reads-wrong-state
+  file: renderer/src/main.c
+  landed: anchor replaced (mutate_file verified present-then-absent)
+  RED arm   (value_conditional_style::pending_when): test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 279 filtered out; finished in 0.28s
+  ok   dump-oracle-reads-wrong-state: the clause fired — 2 failed
+  CONTROL   (value_conditional_style::enabled_when_eq_toggles_disabled_state): test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 280 filtered out; finished in 0.22s
+  ok   dump-oracle-reads-wrong-state: control stayed green — the red is attributable to this clause
+
+############ RESTORED — final control run ############
+restored: test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 276 filtered out; finished in 0.27s
+  ok   restored: renderer/src/renderer.c
+  ok   restored: renderer/src/main.c
+
+PENDING_WHEN MUTATION PROOF: 4 clauses, each attributed

@@ -7124,19 +7124,22 @@ mod checkbox_pressed_grow {
     }
 }
 // ═══════════════════════════════════════════════════════════════════
-// Value-conditional STYLE bindings: enabled_when + color_when — the
-// reactive layer that toggles a widget's LV_STATE_DISABLED / text color
-// from a subject value comparison (the style siblings of the existing
-// visibility / checked_when bindings). Each screen is built directly via
-// prost, loaded, then driven purely through controls_update_state — so a
-// state change is attributable to the binding and nothing else.
+// Value-conditional STYLE bindings: enabled_when + color_when +
+// pending_when — the reactive layer that toggles a widget's
+// LV_STATE_DISABLED / text color / LV_STATE_USER_1 from a subject value
+// comparison (the style siblings of the existing visibility /
+// checked_when bindings). Each screen is built directly via prost,
+// loaded, then driven purely through controls_update_state — so a state
+// change is attributable to the binding and nothing else.
 //
 // enabled_when is asserted via the controls_dump_tree "disabled" oracle
 // (the DISABLED sibling of the "checked" line the radio-group oracle
-// uses); color_when via a framebuffer color probe (dump_tree is blind to
-// resolved styles). Both are RED without the renderer's observer wiring:
-// the DISABLED state / RED text NEVER appears, so the "must be disabled"
-// and "must be RED" arms fail — the assertions cannot pass vacuously.
+// uses); pending_when via the "pending" oracle beside them; color_when
+// via a framebuffer color probe (dump_tree is blind to resolved styles).
+// All are RED without the renderer's observer wiring: the DISABLED /
+// USER_1 state and the RED text NEVER appear, so the "must be disabled",
+// "must be pending" and "must be RED" arms fail — the assertions cannot
+// pass vacuously.
 // ═══════════════════════════════════════════════════════════════════
 
 mod value_conditional_style {
@@ -7221,9 +7224,13 @@ mod value_conditional_style {
         host.read_framebuffer().expect("framebuffer")
     }
 
-    /// The single lv_button's `"disabled"` flag from the live dump tree
-    /// (absent = enabled, per the emit-only-when-set convention).
-    fn button_disabled(host: &mut ControlsHost) -> bool {
+    /// One boolean state flag of the single lv_button, read off the live dump
+    /// tree. ABSENT reads false, which is the emit-only-when-set convention
+    /// `dump_obj` uses for every state line — so this cannot tell "the state
+    /// is clear" from "the renderer emits no such key", and the round-trip
+    /// assertions below are what supply that: a flag that never appears fails
+    /// the arm that requires it SET.
+    fn button_state_flag(host: &mut ControlsHost, key: &str) -> bool {
         fn find<'a>(node: &'a serde_json::Value) -> Option<&'a serde_json::Value> {
             if node["type"] == "lv_button" {
                 return Some(node);
@@ -7235,7 +7242,18 @@ mod value_conditional_style {
         }
         let root = tree(host);
         let btn = find(&root).expect("a lv_button in the tree");
-        btn["disabled"] == serde_json::Value::Bool(true)
+        btn[key] == serde_json::Value::Bool(true)
+    }
+
+    /// The single lv_button's `"disabled"` flag (absent = enabled).
+    fn button_disabled(host: &mut ControlsHost) -> bool {
+        button_state_flag(host, "disabled")
+    }
+
+    /// The single lv_button's `"pending"` flag — the LV_STATE_USER_1 oracle
+    /// (absent = not pending).
+    fn button_pending(host: &mut ControlsHost) -> bool {
+        button_state_flag(host, "pending")
     }
 
     /// A button whose ENABLED state tracks `armed == 1` (EQ → the native
@@ -7366,6 +7384,102 @@ mod value_conditional_style {
         assert!(
             !analysis::has_color(&fb_cleared, RED, COLOR_TOLERANCE),
             "fault cleared: label must revert to the theme default (local override removed)"
+        );
+    }
+
+    /// A button that is PENDING while `cmd_outstanding == 1` (EQ → the native
+    /// lv_obj_bind_state_if_* fast path). Polarity is DIRECT: the bit is SET
+    /// while the comparison holds, which is the checked_when shape and not the
+    /// enabled_when one.
+    ///
+    /// The middle arm is the load-bearing one and the first arm is what makes
+    /// it mean something: LV_STATE_USER_1 is clear on a freshly built widget,
+    /// so "not pending at load" would also hold if the binding were never
+    /// wired at all. Requiring the bit to APPEAR on a subject push, and then
+    /// to CLEAR again, is what no unwired renderer can satisfy — `states` is
+    /// applied through lv_obj_add_state and cannot clear a bit, so even a
+    /// screen that raised USER_1 statically would fail the third arm.
+    #[test]
+    fn pending_when_eq_toggles_pending_state() {
+        let button = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetButton as i32,
+            uid: 42,
+            x: Some(60),
+            y: Some(50),
+            pending_when: Some(ui::VisibilityBinding {
+                subject: "cmd_outstanding".into(),
+                ref_value: 1,
+                compare: ui::CompareOp::CompareEq as i32,
+            }),
+            style_groups: vec![size_group(120, 48)],
+            children: vec![ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetLabel as i32,
+                uid: 43,
+                text: "Zoom".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut host = new_host();
+        load(
+            &mut host,
+            &screen(button, vec![int_subject("cmd_outstanding")]),
+        );
+        assert!(
+            !button_pending(&mut host),
+            "cmd_outstanding=0: no command in flight → button must NOT carry LV_STATE_USER_1"
+        );
+        push_int(&mut host, "cmd_outstanding", 1);
+        assert!(
+            button_pending(&mut host),
+            "cmd_outstanding=1: command dispatched → button must carry LV_STATE_USER_1"
+        );
+        push_int(&mut host, "cmd_outstanding", 0);
+        assert!(
+            !button_pending(&mut host),
+            "confirming state arrived: the pending bit must CLEAR (the half `states` cannot do)"
+        );
+    }
+
+    /// A button that is PENDING while `inflight > 0` (GT → the custom range
+    /// observer, not a native bind). Exercises the observer arm the EQ test
+    /// does not reach, and the counter shape a real command queue has.
+    #[test]
+    fn pending_when_gt_uses_range_observer() {
+        let button = ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetButton as i32,
+            uid: 42,
+            x: Some(60),
+            y: Some(50),
+            pending_when: Some(ui::VisibilityBinding {
+                subject: "inflight".into(),
+                ref_value: 0,
+                compare: ui::CompareOp::CompareGt as i32,
+            }),
+            style_groups: vec![size_group(120, 48)],
+            children: vec![ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetLabel as i32,
+                uid: 43,
+                text: "Send".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut host = new_host();
+        load(&mut host, &screen(button, vec![int_subject("inflight")]));
+        assert!(
+            !button_pending(&mut host),
+            "inflight=0: queue empty → button must NOT be pending"
+        );
+        push_int(&mut host, "inflight", 2);
+        assert!(
+            button_pending(&mut host),
+            "inflight=2 (> 0): commands outstanding → button must be pending"
+        );
+        push_int(&mut host, "inflight", 0);
+        assert!(
+            !button_pending(&mut host),
+            "inflight back to 0: button must stop being pending"
         );
     }
 }

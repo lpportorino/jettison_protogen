@@ -349,6 +349,14 @@
       ;; DISABLED otherwise (checked-when's inverted-polarity sibling).
       [:enabled-when {:optional true}
        [:map {:closed true} [:subject keyword?] [:value int?]]]
+      ;; Reactive PENDING binding (EQ): LV_STATE_USER_1 while subject ==
+      ;; :value, cleared otherwise. DIRECT polarity, like :checked-when —
+      ;; the bit names the condition rather than its negation. This is the
+      ;; WHEN half of a pending affordance; the `pending:` style prefix (or
+      ;; :style {:pending {..}}) is the WHAT half, and neither does anything
+      ;; alone.
+      [:pending-when {:optional true}
+       [:map {:closed true} [:subject keyword?] [:value int?]]]
       ;; Value-conditional text-color binding (EQ): LV_PART_MAIN text is
       ;; recolored to the :color design token while subject == :value. The
       ;; token bakes to one mode-invariant Color at expand.
@@ -442,7 +450,12 @@
   for. Silently. There is no ordering an author could rely on, so the pairing is an
   authoring error and not a precedence question."
   [[:checked-when :checked :checked-when-states-conflict]
-   [:enabled-when :disabled :enabled-when-states-conflict]])
+   [:enabled-when :disabled :enabled-when-states-conflict]
+   ;; :pending-when's create-time competitor is `:states #{:user-1}` — the
+   ;; SETTING-side spelling of the same LV_STATE_USER_1 bit the STYLING side
+   ;; spells :pending. Two spellings of one bit is exactly the pairing this
+   ;; table exists to keep visible.
+   [:pending-when :user-1 :pending-when-states-conflict]])
 
 (defn- check-host-proxy-node!
   "Host-proxy cross-field contract, collected into the errors atom:
@@ -610,6 +623,12 @@
                                    subject-decls
                                    :undeclared-enabled-when-subject
                                    :enabled-when-subject-not-int
+                                   errors)
+       (check-conditional-binding! widget
+                                   (:pending-when widget)
+                                   subject-decls
+                                   :undeclared-pending-when-subject
+                                   :pending-when-subject-not-int
                                    errors)
        (check-conditional-binding! widget
                                    (:color-when widget)

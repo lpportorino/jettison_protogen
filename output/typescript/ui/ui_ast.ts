@@ -2690,6 +2690,30 @@ export interface WidgetNode {
     | VisibilityBinding
     | undefined;
   /**
+   * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+   * the comparison against the subject holds, cleared otherwise. Polarity is
+   * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+   * the condition rather than its negation, so there is nothing to invert.
+   * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+   * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+   * custom observer (the checked_when / visibility precedent).
+   *
+   * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+   * a command and is waiting for the confirming state to come back. That fact
+   * is a property of a round trip the widget cannot observe for itself, so it
+   * arrives as a host-published INT subject like any other precondition.
+   *
+   * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+   * authored `pending:` style group and this binding are the two halves of one
+   * affordance: the group says what pending LOOKS like, this says WHEN.
+   * Without a binding the bit has no dynamic source at all — `states` is
+   * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+   * the bit at create (or on a patch morph) and can never clear it again.
+   */
+  pendingWhen:
+    | VisibilityBinding
+    | undefined;
+  /**
    * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
    * to `color_when.color` while the comparison holds, and reverted to the
    * theme/authored default when it does not. Unlike the three state bindings
@@ -3868,6 +3892,7 @@ function createBaseWidgetNode(): WidgetNode {
     inTabBar: false,
     checkedWhen: undefined,
     enabledWhen: undefined,
+    pendingWhen: undefined,
     colorWhen: undefined,
     hitSlop: 0,
     designedOverlay: false,
@@ -4013,6 +4038,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.enabledWhen !== undefined) {
       VisibilityBinding.encode(message.enabledWhen, writer.uint32(362).fork()).join();
+    }
+    if (message.pendingWhen !== undefined) {
+      VisibilityBinding.encode(message.pendingWhen, writer.uint32(402).fork()).join();
     }
     if (message.colorWhen !== undefined) {
       ColorBinding.encode(message.colorWhen, writer.uint32(370).fork()).join();
@@ -4417,6 +4445,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.enabledWhen = VisibilityBinding.decode(reader, reader.uint32());
           continue;
         }
+        case 50: {
+          if (tag !== 402) {
+            break;
+          }
+
+          message.pendingWhen = VisibilityBinding.decode(reader, reader.uint32());
+          continue;
+        }
         case 46: {
           if (tag !== 370) {
             break;
@@ -4666,6 +4702,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.enabled_when)
         ? VisibilityBinding.fromJSON(object.enabled_when)
         : undefined,
+      pendingWhen: isSet(object.pendingWhen)
+        ? VisibilityBinding.fromJSON(object.pendingWhen)
+        : isSet(object.pending_when)
+        ? VisibilityBinding.fromJSON(object.pending_when)
+        : undefined,
       colorWhen: isSet(object.colorWhen)
         ? ColorBinding.fromJSON(object.colorWhen)
         : isSet(object.color_when)
@@ -4834,6 +4875,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.enabledWhen !== undefined) {
       obj.enabledWhen = VisibilityBinding.toJSON(message.enabledWhen);
     }
+    if (message.pendingWhen !== undefined) {
+      obj.pendingWhen = VisibilityBinding.toJSON(message.pendingWhen);
+    }
     if (message.colorWhen !== undefined) {
       obj.colorWhen = ColorBinding.toJSON(message.colorWhen);
     }
@@ -4972,6 +5016,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
       : undefined;
     message.enabledWhen = (object.enabledWhen !== undefined && object.enabledWhen !== null)
       ? VisibilityBinding.fromPartial(object.enabledWhen)
+      : undefined;
+    message.pendingWhen = (object.pendingWhen !== undefined && object.pendingWhen !== null)
+      ? VisibilityBinding.fromPartial(object.pendingWhen)
       : undefined;
     message.colorWhen = (object.colorWhen !== undefined && object.colorWhen !== null)
       ? ColorBinding.fromPartial(object.colorWhen)

@@ -148,6 +148,12 @@
    "MAX_PENDING_ENABLED"
    "transient load-time deferral queue (enabled_when bindings), drained during
     the build; see MAX_PENDING_VISIBILITY."
+   "MAX_PENDING_PENDSTATE"
+   "transient load-time deferral queue (pending_when bindings), drained during
+    the build; see MAX_PENDING_VISIBILITY. Named for the BINDING rather than
+    mechanically after the field, because the queue prefix already means
+    'deferred' and `MAX_PENDING_PENDING` would read as a stutter rather than as
+    the two unrelated facts it states."
    "MAX_PENDING_COLOR"
    "transient load-time deferral queue (color_when bindings), drained during the
     build; see MAX_PENDING_VISIBILITY."

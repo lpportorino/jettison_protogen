@@ -652,6 +652,10 @@
       ;; INVERTED polarity: LV_STATE_DISABLED while the comparison against the
       ;; subject does NOT hold, cleared (enabled) while it holds.
       [:enabled_when {:optional true :default nil} [:maybe visibility-binding]]
+      ;; Reactive pending-state binding — the VisibilityBinding shape reused with
+      ;; DIRECT polarity: LV_STATE_USER_1 (the bit the style vocabulary spells
+      ;; `pending:`) while the comparison against the subject holds.
+      [:pending_when {:optional true :default nil} [:maybe visibility-binding]]
       ;; Value-conditional text-color binding — LV_PART_MAIN text color is set to
       ;; color_when.color while the comparison holds and reverted otherwise.
       [:color_when {:optional true :default nil} [:maybe color-binding]]

@@ -1,5 +1,5 @@
 ############ BASELINE (unmutated) ############
-173 tests, 4385 assertions, 0 failures.
+173 tests, 4391 assertions, 0 failures.
 
 ============================================================
 MUTATION: luts-wrong-but-legal
@@ -9,7 +9,7 @@ MUTATION: luts-wrong-but-legal
 -  LV_FLEX_FLOW_ROW_WRAP, /* 3: FLEX_FLOW_ROW_WRAP */
 +  LV_FLEX_FLOW_ROW_REVERSE, /* 3: FLEX_FLOW_ROW_WRAP */
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 2 failures.
+173 tests, 4391 assertions, 2 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value) ---
 FAIL in lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value (wire_lut_test.clj:569)
@@ -35,7 +35,7 @@ MUTATION: emit-proto-wrong-but-legal
 -   :flex-row-wrap :FLEX_FLOW_ROW_WRAP
 +   :flex-row-wrap :FLEX_FLOW_ROW_REVERSE
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 2 failures.
+173 tests, 4391 assertions, 2 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value) ---
 FAIL in lvgl-codegen.wire-lut-test/layout-map-resolves-to-the-header-value (wire_lut_test.clj:693)
@@ -61,7 +61,7 @@ MUTATION: enums-wrong-but-legal
 -   :center 9
 +   :center 8
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value) ---
 FAIL in lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value (wire_lut_test.clj:514)
@@ -82,7 +82,7 @@ MUTATION: totality-extra-layout-keyword
 +  {:flex-diagonal :FLEX_FLOW_ROW
 +   :flex-row :FLEX_FLOW_ROW
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/layout-map-is-total-over-the-authoring-vocabulary) ---
 FAIL in lvgl-codegen.wire-lut-test/layout-map-is-total-over-the-authoring-vocabulary (wire_lut_test.clj:669)
@@ -108,7 +108,7 @@ MUTATION: totality-phantom-align-keyword
 --- diff ---
 +   :phantom 9
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value) ---
 FAIL in lvgl-codegen.wire-lut-test/untabled-families-carry-the-header-value (wire_lut_test.clj:510)
@@ -116,7 +116,7 @@ every generated keyword->int entry equals the vendored header value lv_align_t
 lv_align_t: authoring keywords with no header enumerator: (:phantom)
 expected: (empty? (set/difference (set (keys actual)) (set (keys expected))))
   actual: (not (empty? #{:phantom}))
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/lut-families-resolve-through-the-table-to-the-header-value ---
 1 tests, 44 assertions, 0 failures.
 
@@ -128,7 +128,7 @@ MUTATION: matrix-reference-wrong-but-legal
 -FLEX_VALS=(0 1 4 8 12 5 9 13)
 +FLEX_VALS=(0 5 4 8 12 5 9 13)
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/coverage-matrix-reference-values-match-the-vendored-headers) ---
 FAIL in lvgl-codegen.wire-lut-test/coverage-matrix-reference-values-match-the-vendored-headers (wire_lut_test.clj:805)
@@ -148,7 +148,7 @@ MUTATION: grid-constant-wrong-but-legal
 -(def ^:private lv-grid-content (- lv-coord-max 101))
 +(def ^:private lv-grid-content (- lv-coord-max 100))
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 2 failures.
+173 tests, 4391 assertions, 2 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros) ---
 FAIL in lvgl-codegen.wire-lut-test/grid-track-constants-match-the-vendored-macros (wire_lut_test.clj:746)
@@ -173,7 +173,7 @@ MUTATION: selector-constant-wrong-but-legal
 -(def ^:const lv-state-user-1 0x1000)
 +(def ^:const lv-state-user-1 0x2000)
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 3 failures.
+173 tests, 4391 assertions, 3 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers) ---
 FAIL in lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers (wire_lut_test.clj:984)
@@ -182,18 +182,18 @@ LV_STATE_USER_1: the vendored header says 4096, style-props carries 8192
 Expected:
   4096
 Actual:
-FAIL in lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on (wire_lut_test.clj:1052)
+FAIL in lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on (wire_lut_test.clj:1062)
 :pending is LV_STATE_USER_1 as the vendored header declares it
 style-props/lv-state-user-1 is 8192, the vendored header says 4096
 Expected:
   4096
 Actual:
-FAIL in lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on (wire_lut_test.clj:1064)
+FAIL in lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on (wire_lut_test.clj:1074)
 :pending is LV_STATE_USER_1 as the vendored header declares it
 LV_STATE_USER_1 collides with LV_STATE_USER_2 (8192)
 expected: (not= value style-props/lv-state-user-1)
   actual: (not (not= 8192 8192))
-173 tests, 4385 assertions, 3 failures.
+173 tests, 4391 assertions, 3 failures.
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired ---
 1 tests, 12 assertions, 0 failures.
 
@@ -204,15 +204,15 @@ MUTATION: selector-constant-unpaired
 --- diff ---
 +(def ^:const lv-state-hovered 0x0040)
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4386 assertions, 1 failures.
+173 tests, 4392 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired) ---
-FAIL in lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired (wire_lut_test.clj:1001)
+FAIL in lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired (wire_lut_test.clj:1010)
 no lv-state-*/lv-part-* constant escapes the mirror pairing
-style-props/lv-state-hovered (64) is hand-carried from the LVGL headers but appears in no lvgl-mirrored-constants pair, so nothing compares it against lv_obj_style.h
-expected: (contains? paired value)
-  actual: (not (contains? #{0 4096 128 196608 512 327680 393216 262144 131072 8 65536} 64))
-173 tests, 4386 assertions, 1 failures.
+style-props/lv-state-hovered (64) is hand-carried from the LVGL headers but appears in no lvgl-mirrored-constants pair under its own name LV_STATE_HOVERED, so nothing compares it against lv_obj_style.h
+expected: (contains? factory/lvgl-mirrored-constants c-name)
+  actual: (not (contains? {"LV_PART_SCROLLBAR" 65536, "LV_PART_KNOB" 196608, "LV_PART_INDICATOR" 131072, "LV_STATE_PRESSED" 128, "LV_STATE_USER_1" 4096, "LV_PART_CURSOR" 393216, "LV_PART_ITEMS" 327680, "LV_PART_SELECTED" 262144, "LV_STATE_DEFAULT" 0, "LV_STATE_FOCUSED" 8, "LV_STATE_DISABLED" 512} "LV_STATE_HOVERED"))
+173 tests, 4392 assertions, 1 failures.
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers ---
 1 tests, 24 assertions, 0 failures.
 
@@ -224,10 +224,10 @@ MUTATION: pending-names-the-wrong-state
 -   :pending lv-state-user-1})
 +   :pending lv-state-pressed})
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on) ---
-FAIL in lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on (wire_lut_test.clj:1055)
+FAIL in lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on (wire_lut_test.clj:1065)
 :pending is LV_STATE_USER_1 as the vendored header declares it
 :pending does not resolve to lv-state-user-1
 Expected:
@@ -244,15 +244,15 @@ MUTATION: style-schema-stops-deriving
 -  (let [state-keys (sort (keys style-props/state-selector))
 +  (let [state-keys (sort (keys (dissoc style-props/state-selector :pending)))
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces) ---
-FAIL in lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces (wire_lut_test.clj:1037)
+FAIL in lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces (wire_lut_test.clj:1047)
 every state key reaches the class DSL, the :style map and the wire :pending
 :style {:pending {?}} is rejected by style-schema, so the nested authoring surface cannot reach this state
 expected: style-map-accepted?
   actual: false
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/pending-names-the-lvgl-user-bit-it-is-built-on ---
 1 tests, 16 assertions, 0 failures.
 
@@ -264,10 +264,10 @@ MUTATION: emitted-selector-falls-through-to-default
 -                                   (get style-props/state-selector
 +                                   (get (dissoc style-props/state-selector :pending)
 --- suite totals (expect FAILures, and ZERO errors) ---
-173 tests, 4385 assertions, 1 failures.
+173 tests, 4391 assertions, 1 failures.
   ERROR blocks: 0
 --- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces) ---
-FAIL in lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces (wire_lut_test.clj:1027)
+FAIL in lvgl-codegen.wire-lut-test/state-selector-entries-are-authorable-through-both-surfaces (wire_lut_test.clj:1037)
 every state key reaches the class DSL, the :style map and the wire :pending
 "pending:flex-grow-2" emits state_selector [0], not 4096
 Expected:
@@ -276,8 +276,27 @@ Actual:
 --- CONTROL (run alone): lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers ---
 1 tests, 24 assertions, 0 failures.
 
+============================================================
+MUTATION: selector-constant-unpaired-value-collision
+  file: tools/renderer-gen/src/lvgl_codegen/style_props.clj
+  landed: grep -c 'lv-part-main 0x000000' -> 1
+--- diff ---
++(def ^:const lv-part-main 0x000000)
+--- suite totals (expect FAILures, and ZERO errors) ---
+173 tests, 4392 assertions, 1 failures.
+  ERROR blocks: 0
+--- the failure, and the clause it names (expected red: lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired) ---
+FAIL in lvgl-codegen.wire-lut-test/every-hand-carried-selector-constant-is-paired (wire_lut_test.clj:1010)
+no lv-state-*/lv-part-* constant escapes the mirror pairing
+style-props/lv-part-main (0) is hand-carried from the LVGL headers but appears in no lvgl-mirrored-constants pair under its own name LV_PART_MAIN, so nothing compares it against lv_obj_style.h
+expected: (contains? factory/lvgl-mirrored-constants c-name)
+  actual: (not (contains? {"LV_PART_SCROLLBAR" 65536, "LV_PART_KNOB" 196608, "LV_PART_INDICATOR" 131072, "LV_STATE_PRESSED" 128, "LV_STATE_USER_1" 4096, "LV_PART_CURSOR" 393216, "LV_PART_ITEMS" 327680, "LV_PART_SELECTED" 262144, "LV_STATE_DEFAULT" 0, "LV_STATE_FOCUSED" 8, "LV_STATE_DISABLED" 512} "LV_PART_MAIN"))
+173 tests, 4392 assertions, 1 failures.
+--- CONTROL (run alone): lvgl-codegen.wire-lut-test/hand-carried-selector-constants-match-the-vendored-headers ---
+1 tests, 24 assertions, 0 failures.
+
 ############ RESTORED -- final control run ############
-173 tests, 4385 assertions, 0 failures.
+173 tests, 4391 assertions, 0 failures.
 restored OK: renderer/generated/ui_luts.h
 restored OK: tools/renderer-gen/src/lvgl_codegen/emit_proto.clj
 restored OK: tools/renderer-gen/src/lvgl_codegen/generated/enums.clj

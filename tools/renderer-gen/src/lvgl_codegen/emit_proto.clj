@@ -536,6 +536,12 @@
     (:enabled-when node) (assoc :enabled_when
                                 {:subject (name (get-in node [:enabled-when :subject]))
                                  :ref_value (get-in node [:enabled-when :value])})
+    ;; Reactive PENDING binding — the checked_when sibling with DIRECT polarity
+    ;; (LV_STATE_USER_1 while the comparison holds). Same EQ-only authoring
+    ;; surface, same VisibilityBinding wire shape.
+    (:pending-when node) (assoc :pending_when
+                                {:subject (name (get-in node [:pending-when :subject]))
+                                 :ref_value (get-in node [:pending-when :value])})
     ;; Value-conditional text-color binding — EQ-only authoring surface
     ;; ({:subject :value :color}); the color is an already-resolved "#RRGGBB"
     ;; (expand-screen baked the design token). The wire nests the comparison

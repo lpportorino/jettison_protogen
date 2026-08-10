@@ -173,11 +173,11 @@
         (is (contains? types err-type)
             (format "%s paired with :states #{%s} must report %s"
                     binding-key state-bit err-type)))))
-  (testing "the table is non-empty and covers both known bindings"
+  (testing "the table is non-empty and covers every known reactive binding"
     ;; A floor, because a table emptied by a bad edit would make the loop above
     ;; vacuous and it would still pass.
-    (is (>= (count schema/reactive-state-bindings) 2))
-    (is (= #{:checked-when :enabled-when}
+    (is (>= (count schema/reactive-state-bindings) 3))
+    (is (= #{:checked-when :enabled-when :pending-when}
            (set (map first schema/reactive-state-bindings))))))
 
 (deftest neither-binding-alone-is-an-error
@@ -280,6 +280,7 @@
     (doseq [[bind-key err-type] [[:show-when :show-when-subject-not-int]
                                  [:checked-when :checked-when-subject-not-int]
                                  [:enabled-when :enabled-when-subject-not-int]
+                                 [:pending-when :pending-when-subject-not-int]
                                  [:color-when :color-when-subject-not-int]]]
       (let [screen {:type :screen
                     :subjects {:s {:type :string :default ""}}
@@ -295,8 +296,9 @@
 (deftest conditional-bindings-permit-an-int-subject
   (testing "an :int subject is the comparable case and must stay clean"
     (let [mismatch-types #{:show-when-subject-not-int :checked-when-subject-not-int
-                           :enabled-when-subject-not-int :color-when-subject-not-int}]
-      (doseq [bind-key [:show-when :checked-when :enabled-when :color-when]]
+                           :enabled-when-subject-not-int :pending-when-subject-not-int
+                           :color-when-subject-not-int}]
+      (doseq [bind-key [:show-when :checked-when :enabled-when :pending-when :color-when]]
         (let [screen {:type :screen
                       :subjects {:s {:type :int :default 0}}
                       :events {}
@@ -311,6 +313,7 @@
     (doseq [[bind-key err-type] [[:show-when :undeclared-show-when-subject]
                                  [:checked-when :undeclared-checked-when-subject]
                                  [:enabled-when :undeclared-enabled-when-subject]
+                                 [:pending-when :undeclared-pending-when-subject]
                                  [:color-when :undeclared-color-when-subject]]]
       (let [screen {:type :screen
                     :subjects {}

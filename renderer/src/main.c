@@ -2939,6 +2939,16 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
    * sibling of the checked line above). */
   if (lv_obj_has_state(obj, LV_STATE_DISABLED))
     tree_append(",\"disabled\":true");
+  /* Emitted only when set: the pending_when oracle. LV_STATE_USER_1 is the
+   * bit the style vocabulary spells `pending:`, and it is the one reactive
+   * state with NO other observable — CHECKED and DISABLED both change how
+   * LVGL's own theme paints a widget, whereas USER_1 paints nothing until a
+   * screen authors a `pending:` style group. Without this line the bit is
+   * invisible to every DOM lane and to the harness, so the binding could
+   * only be judged through a framebuffer probe that depends on an authored
+   * style existing — i.e. not judged at all on a corpus that has none. */
+  if (lv_obj_has_state(obj, LV_STATE_USER_1))
+    tree_append(",\"pending\":true");
   /* POINTER REACHABILITY, emitted only when it differs from the common case.
    * lv_obj_hit_test gates on LV_OBJ_FLAG_CLICKABLE alone (lv_obj_pos.c), and
    * lv_obj_constructor sets that on EVERY object — so clickable is the norm

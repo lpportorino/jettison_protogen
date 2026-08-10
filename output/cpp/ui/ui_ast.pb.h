@@ -11397,6 +11397,7 @@ class WidgetNode final : public ::google::protobuf::Message
     kCheckedWhenFieldNumber = 42,
     kEnabledWhenFieldNumber = 45,
     kColorWhenFieldNumber = 46,
+    kPendingWhenFieldNumber = 50,
     kTypeFieldNumber = 1,
     kXFieldNumber = 2,
     kYFieldNumber = 3,
@@ -11654,6 +11655,21 @@ class WidgetNode final : public ::google::protobuf::Message
   private:
   const ::ui::ColorBinding& _internal_color_when() const;
   ::ui::ColorBinding* _internal_mutable_color_when();
+
+  public:
+  // .ui.VisibilityBinding pending_when = 50;
+  bool has_pending_when() const;
+  void clear_pending_when() ;
+  const ::ui::VisibilityBinding& pending_when() const;
+  PROTOBUF_NODISCARD ::ui::VisibilityBinding* release_pending_when();
+  ::ui::VisibilityBinding* mutable_pending_when();
+  void set_allocated_pending_when(::ui::VisibilityBinding* value);
+  void unsafe_arena_set_allocated_pending_when(::ui::VisibilityBinding* value);
+  ::ui::VisibilityBinding* unsafe_arena_release_pending_when();
+
+  private:
+  const ::ui::VisibilityBinding& _internal_pending_when() const;
+  ::ui::VisibilityBinding* _internal_mutable_pending_when();
 
   public:
   // .ui.WidgetType type = 1 [(.buf.validate.field) = {
@@ -12248,7 +12264,7 @@ class WidgetNode final : public ::google::protobuf::Message
   inline void clear_has_widget_props();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 49, 34,
+      5, 50, 35,
       94, 9>
       _table_;
 
@@ -12290,6 +12306,7 @@ class WidgetNode final : public ::google::protobuf::Message
     ::ui::VisibilityBinding* checked_when_;
     ::ui::VisibilityBinding* enabled_when_;
     ::ui::ColorBinding* color_when_;
+    ::ui::VisibilityBinding* pending_when_;
     int type_;
     ::int32_t x_;
     ::int32_t y_;
@@ -13642,13 +13659,13 @@ inline void WidgetNode::_internal_set_type(::ui::WidgetType value) {
 
 // optional int32 x = 2;
 inline bool WidgetNode::has_x() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000080u) != 0;
   return value;
 }
 inline void WidgetNode::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000040u;
+  _impl_._has_bits_[0] &= ~0x00000080u;
 }
 inline ::int32_t WidgetNode::x() const {
   // @@protoc_insertion_point(field_get:ui.WidgetNode.x)
@@ -13656,7 +13673,7 @@ inline ::int32_t WidgetNode::x() const {
 }
 inline void WidgetNode::set_x(::int32_t value) {
   _internal_set_x(value);
-  _impl_._has_bits_[0] |= 0x00000040u;
+  _impl_._has_bits_[0] |= 0x00000080u;
   // @@protoc_insertion_point(field_set:ui.WidgetNode.x)
 }
 inline ::int32_t WidgetNode::_internal_x() const {
@@ -13670,13 +13687,13 @@ inline void WidgetNode::_internal_set_x(::int32_t value) {
 
 // optional int32 y = 3;
 inline bool WidgetNode::has_y() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000080u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
   return value;
 }
 inline void WidgetNode::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000080u;
+  _impl_._has_bits_[0] &= ~0x00000100u;
 }
 inline ::int32_t WidgetNode::y() const {
   // @@protoc_insertion_point(field_get:ui.WidgetNode.y)
@@ -13684,7 +13701,7 @@ inline ::int32_t WidgetNode::y() const {
 }
 inline void WidgetNode::set_y(::int32_t value) {
   _internal_set_y(value);
-  _impl_._has_bits_[0] |= 0x00000080u;
+  _impl_._has_bits_[0] |= 0x00000100u;
   // @@protoc_insertion_point(field_set:ui.WidgetNode.y)
 }
 inline ::int32_t WidgetNode::_internal_y() const {
@@ -16071,13 +16088,13 @@ inline void WidgetNode::_internal_set_states(::uint32_t value) {
 
 // optional uint32 scroll_dir = 34;
 inline bool WidgetNode::has_scroll_dir() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000200u) != 0;
   return value;
 }
 inline void WidgetNode::clear_scroll_dir() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.scroll_dir_ = 0u;
-  _impl_._has_bits_[0] &= ~0x00000100u;
+  _impl_._has_bits_[0] &= ~0x00000200u;
 }
 inline ::uint32_t WidgetNode::scroll_dir() const {
   // @@protoc_insertion_point(field_get:ui.WidgetNode.scroll_dir)
@@ -16085,7 +16102,7 @@ inline ::uint32_t WidgetNode::scroll_dir() const {
 }
 inline void WidgetNode::set_scroll_dir(::uint32_t value) {
   _internal_set_scroll_dir(value);
-  _impl_._has_bits_[0] |= 0x00000100u;
+  _impl_._has_bits_[0] |= 0x00000200u;
   // @@protoc_insertion_point(field_set:ui.WidgetNode.scroll_dir)
 }
 inline ::uint32_t WidgetNode::_internal_scroll_dir() const {
@@ -16421,6 +16438,102 @@ inline void WidgetNode::set_allocated_enabled_when(::ui::VisibilityBinding* valu
 
   _impl_.enabled_when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.enabled_when)
+}
+
+// .ui.VisibilityBinding pending_when = 50;
+inline bool WidgetNode::has_pending_when() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.pending_when_ != nullptr);
+  return value;
+}
+inline void WidgetNode::clear_pending_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.pending_when_ != nullptr) _impl_.pending_when_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000040u;
+}
+inline const ::ui::VisibilityBinding& WidgetNode::_internal_pending_when() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::VisibilityBinding* p = _impl_.pending_when_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::VisibilityBinding&>(::ui::_VisibilityBinding_default_instance_);
+}
+inline const ::ui::VisibilityBinding& WidgetNode::pending_when() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.WidgetNode.pending_when)
+  return _internal_pending_when();
+}
+inline void WidgetNode::unsafe_arena_set_allocated_pending_when(::ui::VisibilityBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.pending_when_);
+  }
+  _impl_.pending_when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000040u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000040u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.WidgetNode.pending_when)
+}
+inline ::ui::VisibilityBinding* WidgetNode::release_pending_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000040u;
+  ::ui::VisibilityBinding* released = _impl_.pending_when_;
+  _impl_.pending_when_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::VisibilityBinding* WidgetNode::unsafe_arena_release_pending_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.WidgetNode.pending_when)
+
+  _impl_._has_bits_[0] &= ~0x00000040u;
+  ::ui::VisibilityBinding* temp = _impl_.pending_when_;
+  _impl_.pending_when_ = nullptr;
+  return temp;
+}
+inline ::ui::VisibilityBinding* WidgetNode::_internal_mutable_pending_when() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.pending_when_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::VisibilityBinding>(GetArena());
+    _impl_.pending_when_ = reinterpret_cast<::ui::VisibilityBinding*>(p);
+  }
+  return _impl_.pending_when_;
+}
+inline ::ui::VisibilityBinding* WidgetNode::mutable_pending_when() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000040u;
+  ::ui::VisibilityBinding* _msg = _internal_mutable_pending_when();
+  // @@protoc_insertion_point(field_mutable:ui.WidgetNode.pending_when)
+  return _msg;
+}
+inline void WidgetNode::set_allocated_pending_when(::ui::VisibilityBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.pending_when_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000040u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000040u;
+  }
+
+  _impl_.pending_when_ = reinterpret_cast<::ui::VisibilityBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.WidgetNode.pending_when)
 }
 
 // .ui.ColorBinding color_when = 46;

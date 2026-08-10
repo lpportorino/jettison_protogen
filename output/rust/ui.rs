@@ -166,6 +166,27 @@ pub struct WidgetNode {
     /// preconditions read satisfied.
     #[prost(message, optional, tag = "45")]
     pub enabled_when: ::core::option::Option<VisibilityBinding>,
+    /// Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+    /// the comparison against the subject holds, cleared otherwise. Polarity is
+    /// DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+    /// the condition rather than its negation, so there is nothing to invert.
+    /// Reuses the VisibilityBinding shape (subject + ref_value + compare);
+    /// EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+    /// custom observer (the checked_when / visibility precedent).
+    ///
+    /// Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+    /// a command and is waiting for the confirming state to come back. That fact
+    /// is a property of a round trip the widget cannot observe for itself, so it
+    /// arrives as a host-published INT subject like any other precondition.
+    ///
+    /// LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+    /// authored `pending:` style group and this binding are the two halves of one
+    /// affordance: the group says what pending LOOKS like, this says WHEN.
+    /// Without a binding the bit has no dynamic source at all — `states` is
+    /// applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+    /// the bit at create (or on a patch morph) and can never clear it again.
+    #[prost(message, optional, tag = "50")]
+    pub pending_when: ::core::option::Option<VisibilityBinding>,
     /// Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
     /// to `color_when.color` while the comparison holds, and reverted to the
     /// theme/authored default when it does not. Unlike the three state bindings

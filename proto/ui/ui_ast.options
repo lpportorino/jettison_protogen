@@ -131,9 +131,18 @@ ui.LineProps.points              max_count:32
 # children_decode_cb (renderer/src/renderer.c) puts one whole ui_WidgetNode plus
 # one widget_ctx_t on the C stack. The nine fields split three ways.
 #
-# TWO of them sit INLINE in ui_WidgetNode, as FIVE buffer instances:
-# EventBinding.set_subject (via .event) and VisibilityBinding.subject four times
-# over (.visibility, .checked_when, .enabled_when, .color_when.when).
+# TWO of them sit INLINE in ui_WidgetNode, as SIX buffer instances:
+# EventBinding.set_subject (via .event) and VisibilityBinding.subject FIVE times
+# over (.visibility, .checked_when, .enabled_when, .color_when.when,
+# .pending_when).
+#
+# THAT COUNT WAS FOUR-AND-FIVE UNTIL pending_when LANDED, and the way it went
+# stale is the point rather than the correction: a new inline submessage matched
+# NO trigger in renderer/wasm.mk's re-bisection list, which named only depth,
+# string bounds, and finalize_widget locals. Adding a field is now a trigger
+# there. The per-instance cost is one whole VisibilityBinding (char[64] + int32
+# + enum), so each addition moves sizeof(ui_WidgetNode) by that much on every
+# level of the recursion.
 #
 # THREE are FT_CALLBACK map entries — BindingsEntry.key/value and
 # BindFormatsEntry.key — so they cost nothing in ui_WidgetNode, but the renderer
@@ -151,8 +160,19 @@ ui.LineProps.points              max_count:32
 # nowhere. pending_event_subject[32] is NOT theirs — its sole writer copies
 # EventBinding.set_subject — so it is that field's static cost, not these.
 #
-# Widening ALL NINE to 256 therefore moves sizeof(ui_WidgetNode) 2252 -> 3212
-# (+5x192) and sizeof(widget_ctx_t) 2232 -> 4536 (+12x192). Those two account
+# Widening ALL NINE to 256 therefore moves sizeof(ui_WidgetNode) by +6x192 (it
+# was +5x192 before pending_when added a sixth inline instance) and
+# sizeof(widget_ctx_t) by +12x192.
+#
+# THE ABSOLUTE FIGURES THAT STOOD HERE ARE WITHHELD RATHER THAN REFRESHED,
+# because refreshing them would mean writing numbers nobody re-measured. The
+# pair read 2252 -> 3212 and 2232 -> 4536; an independent compile of both header
+# revisions during review put the REAL pre-change sizeof(ui_WidgetNode) at 2352,
+# not 2252, so the baseline was already stale by 100 B before this field
+# existed. What IS measured and current: pending_when moves it 2352 -> 2424,
+# exactly one ui_VisibilityBinding (72 B), on every one of MAX_DECODE_DEPTH
+# levels. Re-derive the widen-study totals by compiling rather than by adding
+# 192s to a figure of unknown provenance. Those two account
 # for the entire +3264 B/level in the table below, which is how the stack cost
 # is known to be structural rather than incidental. It also adds 156 KiB of
 # STATIC memory: pending_bindings 115712 -> 263168, subject_registry

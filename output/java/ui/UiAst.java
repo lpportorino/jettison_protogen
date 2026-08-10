@@ -11002,6 +11002,87 @@ java.lang.String defaultValue);
 
     /**
      * <pre>
+     * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+     * the comparison against the subject holds, cleared otherwise. Polarity is
+     * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+     * the condition rather than its negation, so there is nothing to invert.
+     * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+     * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+     * custom observer (the checked_when / visibility precedent).
+     *
+     * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+     * a command and is waiting for the confirming state to come back. That fact
+     * is a property of a round trip the widget cannot observe for itself, so it
+     * arrives as a host-published INT subject like any other precondition.
+     *
+     * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+     * authored `pending:` style group and this binding are the two halves of one
+     * affordance: the group says what pending LOOKS like, this says WHEN.
+     * Without a binding the bit has no dynamic source at all — `states` is
+     * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+     * the bit at create (or on a patch morph) and can never clear it again.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding pending_when = 50;</code>
+     * @return Whether the pendingWhen field is set.
+     */
+    boolean hasPendingWhen();
+    /**
+     * <pre>
+     * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+     * the comparison against the subject holds, cleared otherwise. Polarity is
+     * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+     * the condition rather than its negation, so there is nothing to invert.
+     * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+     * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+     * custom observer (the checked_when / visibility precedent).
+     *
+     * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+     * a command and is waiting for the confirming state to come back. That fact
+     * is a property of a round trip the widget cannot observe for itself, so it
+     * arrives as a host-published INT subject like any other precondition.
+     *
+     * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+     * authored `pending:` style group and this binding are the two halves of one
+     * affordance: the group says what pending LOOKS like, this says WHEN.
+     * Without a binding the bit has no dynamic source at all — `states` is
+     * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+     * the bit at create (or on a patch morph) and can never clear it again.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding pending_when = 50;</code>
+     * @return The pendingWhen.
+     */
+    ui.UiAst.VisibilityBinding getPendingWhen();
+    /**
+     * <pre>
+     * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+     * the comparison against the subject holds, cleared otherwise. Polarity is
+     * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+     * the condition rather than its negation, so there is nothing to invert.
+     * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+     * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+     * custom observer (the checked_when / visibility precedent).
+     *
+     * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+     * a command and is waiting for the confirming state to come back. That fact
+     * is a property of a round trip the widget cannot observe for itself, so it
+     * arrives as a host-published INT subject like any other precondition.
+     *
+     * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+     * authored `pending:` style group and this binding are the two halves of one
+     * affordance: the group says what pending LOOKS like, this says WHEN.
+     * Without a binding the bit has no dynamic source at all — `states` is
+     * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+     * the bit at create (or on a patch morph) and can never clear it again.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding pending_when = 50;</code>
+     */
+    ui.UiAst.VisibilityBindingOrBuilder getPendingWhenOrBuilder();
+
+    /**
+     * <pre>
      * Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
      * to `color_when.color` while the comparison holds, and reverted to the
      * theme/authored default when it does not. Unlike the three state bindings
@@ -12999,6 +13080,98 @@ java.lang.String defaultValue) {
       return enabledWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : enabledWhen_;
     }
 
+    public static final int PENDING_WHEN_FIELD_NUMBER = 50;
+    private ui.UiAst.VisibilityBinding pendingWhen_;
+    /**
+     * <pre>
+     * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+     * the comparison against the subject holds, cleared otherwise. Polarity is
+     * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+     * the condition rather than its negation, so there is nothing to invert.
+     * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+     * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+     * custom observer (the checked_when / visibility precedent).
+     *
+     * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+     * a command and is waiting for the confirming state to come back. That fact
+     * is a property of a round trip the widget cannot observe for itself, so it
+     * arrives as a host-published INT subject like any other precondition.
+     *
+     * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+     * authored `pending:` style group and this binding are the two halves of one
+     * affordance: the group says what pending LOOKS like, this says WHEN.
+     * Without a binding the bit has no dynamic source at all — `states` is
+     * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+     * the bit at create (or on a patch morph) and can never clear it again.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding pending_when = 50;</code>
+     * @return Whether the pendingWhen field is set.
+     */
+    @java.lang.Override
+    public boolean hasPendingWhen() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <pre>
+     * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+     * the comparison against the subject holds, cleared otherwise. Polarity is
+     * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+     * the condition rather than its negation, so there is nothing to invert.
+     * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+     * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+     * custom observer (the checked_when / visibility precedent).
+     *
+     * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+     * a command and is waiting for the confirming state to come back. That fact
+     * is a property of a round trip the widget cannot observe for itself, so it
+     * arrives as a host-published INT subject like any other precondition.
+     *
+     * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+     * authored `pending:` style group and this binding are the two halves of one
+     * affordance: the group says what pending LOOKS like, this says WHEN.
+     * Without a binding the bit has no dynamic source at all — `states` is
+     * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+     * the bit at create (or on a patch morph) and can never clear it again.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding pending_when = 50;</code>
+     * @return The pendingWhen.
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBinding getPendingWhen() {
+      return pendingWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : pendingWhen_;
+    }
+    /**
+     * <pre>
+     * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+     * the comparison against the subject holds, cleared otherwise. Polarity is
+     * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+     * the condition rather than its negation, so there is nothing to invert.
+     * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+     * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+     * custom observer (the checked_when / visibility precedent).
+     *
+     * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+     * a command and is waiting for the confirming state to come back. That fact
+     * is a property of a round trip the widget cannot observe for itself, so it
+     * arrives as a host-published INT subject like any other precondition.
+     *
+     * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+     * authored `pending:` style group and this binding are the two halves of one
+     * affordance: the group says what pending LOOKS like, this says WHEN.
+     * Without a binding the bit has no dynamic source at all — `states` is
+     * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+     * the bit at create (or on a patch morph) and can never clear it again.
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding pending_when = 50;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBindingOrBuilder getPendingWhenOrBuilder() {
+      return pendingWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : pendingWhen_;
+    }
+
     public static final int COLOR_WHEN_FIELD_NUMBER = 46;
     private ui.UiAst.ColorBinding colorWhen_;
     /**
@@ -13016,7 +13189,7 @@ java.lang.String defaultValue) {
      */
     @java.lang.Override
     public boolean hasColorWhen() {
-      return ((bitField0_ & 0x00000100) != 0);
+      return ((bitField0_ & 0x00000200) != 0);
     }
     /**
      * <pre>
@@ -13464,7 +13637,7 @@ java.lang.String defaultValue) {
       if (((bitField0_ & 0x00000080) != 0)) {
         output.writeMessage(45, getEnabledWhen());
       }
-      if (((bitField0_ & 0x00000100) != 0)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         output.writeMessage(46, getColorWhen());
       }
       if (hitSlop_ != 0) {
@@ -13475,6 +13648,9 @@ java.lang.String defaultValue) {
       }
       if (designedOverlay_ != false) {
         output.writeBool(49, designedOverlay_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        output.writeMessage(50, getPendingWhen());
       }
       getUnknownFields().writeTo(output);
     }
@@ -13696,7 +13872,7 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(45, getEnabledWhen());
       }
-      if (((bitField0_ & 0x00000100) != 0)) {
+      if (((bitField0_ & 0x00000200) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(46, getColorWhen());
       }
@@ -13711,6 +13887,10 @@ java.lang.String defaultValue) {
       if (designedOverlay_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(49, designedOverlay_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(50, getPendingWhen());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -13791,6 +13971,11 @@ java.lang.String defaultValue) {
       if (hasEnabledWhen()) {
         if (!getEnabledWhen()
             .equals(other.getEnabledWhen())) return false;
+      }
+      if (hasPendingWhen() != other.hasPendingWhen()) return false;
+      if (hasPendingWhen()) {
+        if (!getPendingWhen()
+            .equals(other.getPendingWhen())) return false;
       }
       if (hasColorWhen() != other.hasColorWhen()) return false;
       if (hasColorWhen()) {
@@ -13984,6 +14169,10 @@ java.lang.String defaultValue) {
       if (hasEnabledWhen()) {
         hash = (37 * hash) + ENABLED_WHEN_FIELD_NUMBER;
         hash = (53 * hash) + getEnabledWhen().hashCode();
+      }
+      if (hasPendingWhen()) {
+        hash = (37 * hash) + PENDING_WHEN_FIELD_NUMBER;
+        hash = (53 * hash) + getPendingWhen().hashCode();
       }
       if (hasColorWhen()) {
         hash = (37 * hash) + COLOR_WHEN_FIELD_NUMBER;
@@ -14263,6 +14452,7 @@ java.lang.String defaultValue) {
           getVisibilityFieldBuilder();
           getCheckedWhenFieldBuilder();
           getEnabledWhenFieldBuilder();
+          getPendingWhenFieldBuilder();
           getColorWhenFieldBuilder();
           getGesturesFieldBuilder();
         }
@@ -14394,6 +14584,11 @@ java.lang.String defaultValue) {
           enabledWhenBuilder_.dispose();
           enabledWhenBuilder_ = null;
         }
+        pendingWhen_ = null;
+        if (pendingWhenBuilder_ != null) {
+          pendingWhenBuilder_.dispose();
+          pendingWhenBuilder_ = null;
+        }
         colorWhen_ = null;
         if (colorWhenBuilder_ != null) {
           colorWhenBuilder_.dispose();
@@ -14408,7 +14603,7 @@ java.lang.String defaultValue) {
           gestures_ = null;
           gesturesBuilder_.clear();
         }
-        bitField1_ = (bitField1_ & ~0x00010000);
+        bitField1_ = (bitField1_ & ~0x00020000);
         widgetPropsCase_ = 0;
         widgetProps_ = null;
         return this;
@@ -14465,9 +14660,9 @@ java.lang.String defaultValue) {
           result.styleGroups_ = styleGroupsBuilder_.build();
         }
         if (gesturesBuilder_ == null) {
-          if (((bitField1_ & 0x00010000) != 0)) {
+          if (((bitField1_ & 0x00020000) != 0)) {
             gestures_ = java.util.Collections.unmodifiableList(gestures_);
-            bitField1_ = (bitField1_ & ~0x00010000);
+            bitField1_ = (bitField1_ & ~0x00020000);
           }
           result.gestures_ = gestures_;
         } else {
@@ -14564,18 +14759,24 @@ java.lang.String defaultValue) {
           to_bitField0_ |= 0x00000080;
         }
         if (((from_bitField1_ & 0x00001000) != 0)) {
-          result.colorWhen_ = colorWhenBuilder_ == null
-              ? colorWhen_
-              : colorWhenBuilder_.build();
+          result.pendingWhen_ = pendingWhenBuilder_ == null
+              ? pendingWhen_
+              : pendingWhenBuilder_.build();
           to_bitField0_ |= 0x00000100;
         }
         if (((from_bitField1_ & 0x00002000) != 0)) {
-          result.hitSlop_ = hitSlop_;
+          result.colorWhen_ = colorWhenBuilder_ == null
+              ? colorWhen_
+              : colorWhenBuilder_.build();
+          to_bitField0_ |= 0x00000200;
         }
         if (((from_bitField1_ & 0x00004000) != 0)) {
-          result.designedOverlay_ = designedOverlay_;
+          result.hitSlop_ = hitSlop_;
         }
         if (((from_bitField1_ & 0x00008000) != 0)) {
+          result.designedOverlay_ = designedOverlay_;
+        }
+        if (((from_bitField1_ & 0x00010000) != 0)) {
           result.uid_ = uid_;
         }
         result.bitField0_ |= to_bitField0_;
@@ -14817,6 +15018,9 @@ java.lang.String defaultValue) {
         if (other.hasEnabledWhen()) {
           mergeEnabledWhen(other.getEnabledWhen());
         }
+        if (other.hasPendingWhen()) {
+          mergePendingWhen(other.getPendingWhen());
+        }
         if (other.hasColorWhen()) {
           mergeColorWhen(other.getColorWhen());
         }
@@ -14833,7 +15037,7 @@ java.lang.String defaultValue) {
           if (!other.gestures_.isEmpty()) {
             if (gestures_.isEmpty()) {
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00010000);
+              bitField1_ = (bitField1_ & ~0x00020000);
             } else {
               ensureGesturesIsMutable();
               gestures_.addAll(other.gestures_);
@@ -14846,7 +15050,7 @@ java.lang.String defaultValue) {
               gesturesBuilder_.dispose();
               gesturesBuilder_ = null;
               gestures_ = other.gestures_;
-              bitField1_ = (bitField1_ & ~0x00010000);
+              bitField1_ = (bitField1_ & ~0x00020000);
               gesturesBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getGesturesFieldBuilder() : null;
@@ -15288,7 +15492,7 @@ java.lang.String defaultValue) {
               } // case 338
               case 344: {
                 uid_ = input.readUInt32();
-                bitField1_ |= 0x00008000;
+                bitField1_ |= 0x00010000;
                 break;
               } // case 344
               case 354: {
@@ -15315,12 +15519,12 @@ java.lang.String defaultValue) {
                 input.readMessage(
                     getColorWhenFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField1_ |= 0x00001000;
+                bitField1_ |= 0x00002000;
                 break;
               } // case 370
               case 376: {
                 hitSlop_ = input.readUInt32();
-                bitField1_ |= 0x00002000;
+                bitField1_ |= 0x00004000;
                 break;
               } // case 376
               case 386: {
@@ -15332,9 +15536,16 @@ java.lang.String defaultValue) {
               } // case 386
               case 392: {
                 designedOverlay_ = input.readBool();
-                bitField1_ |= 0x00004000;
+                bitField1_ |= 0x00008000;
                 break;
               } // case 392
+              case 402: {
+                input.readMessage(
+                    getPendingWhenFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField1_ |= 0x00001000;
+                break;
+              } // case 402
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -21297,6 +21508,325 @@ java.lang.String defaultValue) {
         return enabledWhenBuilder_;
       }
 
+      private ui.UiAst.VisibilityBinding pendingWhen_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> pendingWhenBuilder_;
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       * @return Whether the pendingWhen field is set.
+       */
+      public boolean hasPendingWhen() {
+        return ((bitField1_ & 0x00001000) != 0);
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       * @return The pendingWhen.
+       */
+      public ui.UiAst.VisibilityBinding getPendingWhen() {
+        if (pendingWhenBuilder_ == null) {
+          return pendingWhen_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : pendingWhen_;
+        } else {
+          return pendingWhenBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      public Builder setPendingWhen(ui.UiAst.VisibilityBinding value) {
+        if (pendingWhenBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          pendingWhen_ = value;
+        } else {
+          pendingWhenBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      public Builder setPendingWhen(
+          ui.UiAst.VisibilityBinding.Builder builderForValue) {
+        if (pendingWhenBuilder_ == null) {
+          pendingWhen_ = builderForValue.build();
+        } else {
+          pendingWhenBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      public Builder mergePendingWhen(ui.UiAst.VisibilityBinding value) {
+        if (pendingWhenBuilder_ == null) {
+          if (((bitField1_ & 0x00001000) != 0) &&
+            pendingWhen_ != null &&
+            pendingWhen_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
+            getPendingWhenBuilder().mergeFrom(value);
+          } else {
+            pendingWhen_ = value;
+          }
+        } else {
+          pendingWhenBuilder_.mergeFrom(value);
+        }
+        if (pendingWhen_ != null) {
+          bitField1_ |= 0x00001000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      public Builder clearPendingWhen() {
+        bitField1_ = (bitField1_ & ~0x00001000);
+        pendingWhen_ = null;
+        if (pendingWhenBuilder_ != null) {
+          pendingWhenBuilder_.dispose();
+          pendingWhenBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      public ui.UiAst.VisibilityBinding.Builder getPendingWhenBuilder() {
+        bitField1_ |= 0x00001000;
+        onChanged();
+        return getPendingWhenFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      public ui.UiAst.VisibilityBindingOrBuilder getPendingWhenOrBuilder() {
+        if (pendingWhenBuilder_ != null) {
+          return pendingWhenBuilder_.getMessageOrBuilder();
+        } else {
+          return pendingWhen_ == null ?
+              ui.UiAst.VisibilityBinding.getDefaultInstance() : pendingWhen_;
+        }
+      }
+      /**
+       * <pre>
+       * Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+       * the comparison against the subject holds, cleared otherwise. Polarity is
+       * DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+       * the condition rather than its negation, so there is nothing to invert.
+       * Reuses the VisibilityBinding shape (subject + ref_value + compare);
+       * EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+       * custom observer (the checked_when / visibility precedent).
+       *
+       * Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+       * a command and is waiting for the confirming state to come back. That fact
+       * is a property of a round trip the widget cannot observe for itself, so it
+       * arrives as a host-published INT subject like any other precondition.
+       *
+       * LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+       * authored `pending:` style group and this binding are the two halves of one
+       * affordance: the group says what pending LOOKS like, this says WHEN.
+       * Without a binding the bit has no dynamic source at all — `states` is
+       * applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+       * the bit at create (or on a patch morph) and can never clear it again.
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding pending_when = 50;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> 
+          getPendingWhenFieldBuilder() {
+        if (pendingWhenBuilder_ == null) {
+          pendingWhenBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder>(
+                  getPendingWhen(),
+                  getParentForChildren(),
+                  isClean());
+          pendingWhen_ = null;
+        }
+        return pendingWhenBuilder_;
+      }
+
       private ui.UiAst.ColorBinding colorWhen_;
       private com.google.protobuf.SingleFieldBuilder<
           ui.UiAst.ColorBinding, ui.UiAst.ColorBinding.Builder, ui.UiAst.ColorBindingOrBuilder> colorWhenBuilder_;
@@ -21314,7 +21844,7 @@ java.lang.String defaultValue) {
        * @return Whether the colorWhen field is set.
        */
       public boolean hasColorWhen() {
-        return ((bitField1_ & 0x00001000) != 0);
+        return ((bitField1_ & 0x00002000) != 0);
       }
       /**
        * <pre>
@@ -21357,7 +21887,7 @@ java.lang.String defaultValue) {
         } else {
           colorWhenBuilder_.setMessage(value);
         }
-        bitField1_ |= 0x00001000;
+        bitField1_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -21380,7 +21910,7 @@ java.lang.String defaultValue) {
         } else {
           colorWhenBuilder_.setMessage(builderForValue.build());
         }
-        bitField1_ |= 0x00001000;
+        bitField1_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -21398,7 +21928,7 @@ java.lang.String defaultValue) {
        */
       public Builder mergeColorWhen(ui.UiAst.ColorBinding value) {
         if (colorWhenBuilder_ == null) {
-          if (((bitField1_ & 0x00001000) != 0) &&
+          if (((bitField1_ & 0x00002000) != 0) &&
             colorWhen_ != null &&
             colorWhen_ != ui.UiAst.ColorBinding.getDefaultInstance()) {
             getColorWhenBuilder().mergeFrom(value);
@@ -21409,7 +21939,7 @@ java.lang.String defaultValue) {
           colorWhenBuilder_.mergeFrom(value);
         }
         if (colorWhen_ != null) {
-          bitField1_ |= 0x00001000;
+          bitField1_ |= 0x00002000;
           onChanged();
         }
         return this;
@@ -21427,7 +21957,7 @@ java.lang.String defaultValue) {
        * <code>.ui.ColorBinding color_when = 46;</code>
        */
       public Builder clearColorWhen() {
-        bitField1_ = (bitField1_ & ~0x00001000);
+        bitField1_ = (bitField1_ & ~0x00002000);
         colorWhen_ = null;
         if (colorWhenBuilder_ != null) {
           colorWhenBuilder_.dispose();
@@ -21449,7 +21979,7 @@ java.lang.String defaultValue) {
        * <code>.ui.ColorBinding color_when = 46;</code>
        */
       public ui.UiAst.ColorBinding.Builder getColorWhenBuilder() {
-        bitField1_ |= 0x00001000;
+        bitField1_ |= 0x00002000;
         onChanged();
         return getColorWhenFieldBuilder().getBuilder();
       }
@@ -21568,7 +22098,7 @@ java.lang.String defaultValue) {
       public Builder setHitSlop(int value) {
 
         hitSlop_ = value;
-        bitField1_ |= 0x00002000;
+        bitField1_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -21603,7 +22133,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearHitSlop() {
-        bitField1_ = (bitField1_ & ~0x00002000);
+        bitField1_ = (bitField1_ & ~0x00004000);
         hitSlop_ = 0;
         onChanged();
         return this;
@@ -21704,7 +22234,7 @@ java.lang.String defaultValue) {
       public Builder setDesignedOverlay(boolean value) {
 
         designedOverlay_ = value;
-        bitField1_ |= 0x00004000;
+        bitField1_ |= 0x00008000;
         onChanged();
         return this;
       }
@@ -21752,7 +22282,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearDesignedOverlay() {
-        bitField1_ = (bitField1_ & ~0x00004000);
+        bitField1_ = (bitField1_ & ~0x00008000);
         designedOverlay_ = false;
         onChanged();
         return this;
@@ -21793,7 +22323,7 @@ java.lang.String defaultValue) {
       public Builder setUid(int value) {
 
         uid_ = value;
-        bitField1_ |= 0x00008000;
+        bitField1_ |= 0x00010000;
         onChanged();
         return this;
       }
@@ -21811,7 +22341,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearUid() {
-        bitField1_ = (bitField1_ & ~0x00008000);
+        bitField1_ = (bitField1_ & ~0x00010000);
         uid_ = 0;
         onChanged();
         return this;
@@ -21820,9 +22350,9 @@ java.lang.String defaultValue) {
       private java.util.List<ui.UiAst.GestureSpec> gestures_ =
         java.util.Collections.emptyList();
       private void ensureGesturesIsMutable() {
-        if (!((bitField1_ & 0x00010000) != 0)) {
+        if (!((bitField1_ & 0x00020000) != 0)) {
           gestures_ = new java.util.ArrayList<ui.UiAst.GestureSpec>(gestures_);
-          bitField1_ |= 0x00010000;
+          bitField1_ |= 0x00020000;
          }
       }
 
@@ -22192,7 +22722,7 @@ java.lang.String defaultValue) {
       public Builder clearGestures() {
         if (gesturesBuilder_ == null) {
           gestures_ = java.util.Collections.emptyList();
-          bitField1_ = (bitField1_ & ~0x00010000);
+          bitField1_ = (bitField1_ & ~0x00020000);
           onChanged();
         } else {
           gesturesBuilder_.clear();
@@ -22409,7 +22939,7 @@ java.lang.String defaultValue) {
           gesturesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               ui.UiAst.GestureSpec, ui.UiAst.GestureSpec.Builder, ui.UiAst.GestureSpecOrBuilder>(
                   gestures_,
-                  ((bitField1_ & 0x00010000) != 0),
+                  ((bitField1_ & 0x00020000) != 0),
                   getParentForChildren(),
                   isClean());
           gestures_ = null;
@@ -60409,7 +60939,7 @@ java.lang.String defaultValue) {
       "\022 \n\014string_value\030\003 \001(\tB\010\272H\005r\003\030\377\001H\000B\007\n\005va" +
       "lue\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetN" +
       "odeH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectD" +
-      "eclarationB\007\n\005_root\"\342\016\n\nWidgetNode\022&\n\004ty" +
+      "eclarationB\007\n\005_root\"\217\017\n\nWidgetNode\022&\n\004ty" +
       "pe\030\001 \001(\0162\016.ui.WidgetTypeB\010\272H\005\202\001\002\020\001\022\016\n\001x\030" +
       "\002 \001(\005H\001\210\001\001\022\016\n\001y\030\003 \001(\005H\002\210\001\001\022\026\n\004text\030\004 \001(\t" +
       "B\010\272H\005r\003\030\377\001\022.\n\010bindings\030\005 \003(\0132\034.ui.Widget" +
@@ -60449,313 +60979,314 @@ java.lang.String defaultValue) {
       "d_row_dsc\030$ \003(\005\022\014\n\004bare\030% \001(\010\022\022\n\nin_tab_" +
       "bar\030\' \001(\010\022+\n\014checked_when\030* \001(\0132\025.ui.Vis" +
       "ibilityBinding\022+\n\014enabled_when\030- \001(\0132\025.u" +
-      "i.VisibilityBinding\022$\n\ncolor_when\030. \001(\0132" +
-      "\020.ui.ColorBinding\022\031\n\010hit_slop\030/ \001(\rB\007\272H\004" +
-      "*\002\030@\022\030\n\020designed_overlay\0301 \001(\010\022\013\n\003uid\030+ " +
-      "\001(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureSpecB\010" +
-      "\272H\005\222\001\002\020\t\032/\n\rBindingsEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014widget_" +
-      "propsB\004\n\002_xB\004\n\002_yB\r\n\013_scroll_dir\"\231\001\n\013Tre" +
-      "ePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchOpKindB" +
-      "\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\nparent_" +
-      "uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005 \001(\0132\016" +
-      ".ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013ScreenPa" +
-      "tch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_hash\030\002 " +
-      "\001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"\n\n\010Obj" +
-      "Props\"\r\n\013ButtonProps\"<\n\nLabelProps\022.\n\tlo" +
-      "ng_mode\030\001 \001(\0162\021.ui.LabelLongModeB\010\272H\005\202\001\002" +
-      "\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\t" +
-      "max_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004mode\030\004" +
-      " \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rseek_on_p" +
-      "ress\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 \001(\tB\010\272" +
-      "H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivot_x\030\003 " +
-      "\001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005 \001(\005\"\364" +
-      "\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001(\rB\010\272H\005*\003\030" +
-      "\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n\016bg_st" +
-      "art_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_end_angl" +
-      "e\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001(\005\022#\n\004m" +
-      "ode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021\n\tmin_" +
-      "value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005value\030" +
-      "\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\t" +
-      "max_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013start_" +
-      "value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.BarModeB\010" +
-      "\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked\030\001 \001(\010" +
-      "\" \n\rCheckboxProps\022\017\n\007checked\030\001 \001(\010\"\203\001\n\rD" +
-      "ropdownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r\003\030\377\007\022" +
-      "\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030\003 \001(\0162\007.u" +
-      "i.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004 \003(\005B\010" +
-      "\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007options\030\001 \001(\t" +
-      "B\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021visible_" +
-      "row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui.Rolle" +
-      "rModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035\n\013plac" +
-      "eholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_length\030\002 " +
-      "\001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_mode\030\004" +
-      " \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_value\030\001 \001(\005" +
-      "\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004st" +
-      "ep\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022separat" +
-      "or_position\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspi" +
-      "n_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B\n\010LedP" +
-      "rops\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\nbright" +
-      "ness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031\n\006poi" +
-      "nts\030\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\257" +
-      "\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.ui.ScaleMo" +
-      "deB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002 \001(\r\022\030" +
-      "\n\020major_tick_every\030\003 \001(\r\022\022\n\nlabel_show\030\004" +
-      " \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_value\030\006 \001" +
-      "(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_range\030\010 \001(" +
-      "\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005r\003\030\377\001\022" +
-      "\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030\013 \003(\0132\020.u" +
-      "i.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleSectio" +
-      "n\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_max\030\002 \001(\005\022" +
-      "\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005width\030\004 \001(\r" +
-      "\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color\022\022\n\nmain_" +
-      "width\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031\n\007map_" +
-      "str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 \001(\010\"5" +
-      "\n\nTableProps\022\021\n\trow_count\030\001 \001(\r\022\024\n\014colum" +
-      "n_count\030\002 \001(\r\"\272\001\n\014TabviewProps\022!\n\ttab_na" +
-      "mes\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\031\n\014tab_bar_siz" +
-      "e\030\002 \001(\005H\000\210\001\001\022\024\n\014active_index\030\003 \001(\r\022+\n\020ta" +
-      "b_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022" +
-      "\030\n\020tab_bar_pad_left\030\005 \001(\005B\017\n\r_tab_bar_si" +
-      "ze\"h\n\013ChartSeries\022\030\n\005color\030\001 \001(\0132\t.ui.Co" +
-      "lor\022%\n\004axis\030\002 \001(\0162\r.ui.ChartAxisB\010\272H\005\202\001\002" +
-      "\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nChartPr" +
-      "ops\022%\n\004type\030\001 \001(\0162\r.ui.ChartTypeB\010\272H\005\202\001\002" +
-      "\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n\rhas_div_lines" +
-      "\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\rB\010\272H\005*\003\030\377\001\022\034\n\n" +
-      "vdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006series\030\006 \003" +
-      "(\0132\017.ui.ChartSeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfade_ar" +
-      "ea\030\007 \001(\010\"\260\001\n\016HostProxyProps\022\033\n\010proxy_id\030" +
-      "\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui.Prox" +
-      "yModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005min_h\030" +
-      "\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005\022\023\n\013h" +
-      "andle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"i\n\tTargetBox" +
-      "\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\022\t\n\001w\030\003 \001(\005\022\t\n\001h\030\004" +
-      " \001(\005\022\026\n\005label\030\005 \001(\tB\007\272H\004r\002\030\037\022\030\n\005color\030\006 " +
-      "\001(\0132\t.ui.Color\"\206\001\n\022TargetOverlayProps\022&\n" +
-      "\005boxes\030\001 \003(\0132\r.ui.TargetBoxB\010\272H\005\222\001\002\020 \022\"\n" +
-      "\014border_width\030\002 \001(\rB\007\272H\004*\002\030\020H\000\210\001\001\022\023\n\013hid" +
-      "e_labels\030\003 \001(\010B\017\n\r_border_width\"\035\n\005Point" +
-      "\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventBinding\022" +
-      "\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007trigger\030\002 \001(" +
-      "\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tint_val" +
-      "ue\030\003 \001(\005\022\034\n\024include_widget_value\030\004 \001(\010\022\034" +
-      "\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset_valu" +
-      "e\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_host\030\010" +
-      " \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n\014cmd_by" +
-      "_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002\020\020\"\271\001\n\n" +
-      "FieldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\nbyte_" +
-      "width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.PatchKind" +
-      "B\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\022\030\n\007subjec" +
-      "t\030\005 \001(\tB\007\272H\004r\002\030?\022-\n\010encoding\030\006 \001(\0162\021.ui." +
-      "PatchEncodingB\010\272H\005\202\001\002\020\001\"\226\001\n\007CmdSpec\022\033\n\nc" +
-      "ommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_templat" +
-      "e\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.FieldPatch" +
-      "B\010\272H\005\222\001\002\020\010\022,\n\013ndc_y_sense\030\004 \001(\0162\r.ui.Ndc" +
-      "YSenseB\010\272H\005\202\001\002\020\001\"\204\001\n\013GestureSpec\022\'\n\004kind" +
-      "\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030\n\003cmd" +
-      "\030\002 \001(\0132\013.ui.CmdSpec\0222\n\ndelta_sign\030\003 \001(\0162" +
-      "\024.ui.GestureDeltaSignB\010\272H\005\202\001\002\020\001\"l\n\021Visib" +
-      "ilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006r\004\020\001\030?" +
-      "\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 \001(\0162\r.u" +
-      "i.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBinding\022#\n" +
-      "\004when\030\001 \001(\0132\025.ui.VisibilityBinding\022\030\n\005co" +
-      "lor\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$\n\004flow\030" +
-      "\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nmain_pl" +
-      "ace\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022,\n\013cr" +
-      "oss_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001" +
-      "\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAlignB\010\272H" +
-      "\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_selector\030\001" +
-      " \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.StyleVariant" +
-      "B\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rvariant_" +
-      "index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nproperties\030\002 \003(\013" +
-      "2\021.ui.StyleProperty\"\337\001\n\rStyleProperty\022-\n" +
-      "\004type\030\001 \001(\0162\025.ui.StylePropertyTypeB\010\272H\005\202" +
-      "\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint_value\030" +
-      "\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui.ColorH" +
-      "\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022(\n\014sh" +
-      "adow_value\030\006 \001(\0132\020.ui.ShadowBundleH\000B\007\n\005" +
-      "value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001g" +
-      "\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030\377\001\"h\n" +
-      "\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010offset_x" +
-      "\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r" +
-      "\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectType\022\017" +
-      "\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING\020\001*\217\001\n\013" +
-      "PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PROPS\020\000\022\031" +
-      "\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATCH_OP_IN" +
-      "SERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NODE\020\003\022\026\n" +
-      "\022PATCH_OP_MOVE_NODE\020\004*\311\003\n\nWidgetType\022\016\n\n" +
-      "WIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014WIDGE" +
-      "T_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WIDGET_I" +
-      "MAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021" +
-      "\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECKBOX\020\010\022\023" +
-      "\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROLLER\020\n\022\023" +
-      "\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPINBOX\020\014\022" +
-      "\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013W" +
-      "IDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023WIDGET" +
-      "_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022\n\016WID" +
-      "GET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021WIDGE" +
-      "T_HOST_PROXY\020\025\022\031\n\025WIDGET_TARGET_OVERLAY\020" +
-      "\026*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC\020\000\022\030\n" +
-      "\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MODE_RE" +
-      "SIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003*X\n\014E" +
-      "ventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n\025TRIG" +
-      "GER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG_PRES" +
-      "SED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_UNSPEC" +
-      "IFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PATCH_K" +
-      "IND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033\n\027PAT" +
-      "CH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIND_NDC" +
-      "_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PATCH_KI" +
-      "ND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncoding\022\036\n\032" +
-      "PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PATCH_EN" +
-      "CODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENCODING" +
-      "_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOAT_LE\020" +
-      "\003*R\n\tNdcYSense\022\033\n\027NDC_Y_SENSE_UNSPECIFIE" +
-      "D\020\000\022\022\n\016NDC_Y_SENSE_UP\020\001\022\024\n\020NDC_Y_SENSE_D" +
-      "OWN\020\002*\266\001\n\013GestureKind\022\031\n\025GESTURE_KIND_PA" +
-      "N_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022\024\n\020GE" +
-      "STURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TRACK\020\003" +
-      "\022\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE_KIND" +
-      "_WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*p\n\020Gestur" +
-      "eDeltaSign\022\032\n\026GESTURE_DELTA_SIGN_ANY\020\000\022\037" +
-      "\n\033GESTURE_DELTA_SIGN_POSITIVE\020\001\022\037\n\033GESTU" +
-      "RE_DELTA_SIGN_NEGATIVE\020\002*q\n\tCompareOp\022\016\n" +
-      "\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCOM" +
-      "PARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_LT" +
-      "\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLEX" +
-      "_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_" +
-      "FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n" +
-      "\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_RO" +
-      "W_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRA" +
-      "P\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLE" +
-      "X_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAli" +
-      "gn\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_E" +
-      "ND\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIG" +
-      "N_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_ARO" +
-      "UND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\t" +
-      "GridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_" +
-      "ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GR" +
-      "ID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_E" +
-      "VENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030" +
-      "GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign\022" +
-      "\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020" +
-      "\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_R" +
-      "IGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020\000" +
-      "\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR" +
-      "_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021BLEND_" +
-      "MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032" +
-      "\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE" +
-      "_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENCE\020\004*i" +
-      "\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR_" +
-      "RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DIR_NEU" +
-      "TRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradDir\022\021\n" +
-      "\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GR" +
-      "AD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRA" +
-      "D_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003" +
-      "Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_R" +
-      "IGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007D" +
-      "IR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005A" +
-      "lign\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEF" +
-      "T\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGH" +
-      "T\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTT" +
-      "OM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIG" +
-      "N_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALI" +
-      "GN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021A" +
-      "LIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGH" +
-      "T\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_" +
-      "OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIG" +
-      "HT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OU" +
-      "T_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022" +
-      "\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RI" +
-      "GHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001" +
-      "\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BO" +
-      "RDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022" +
-      "\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIG" +
-      "HT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SID" +
-      "E_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024LABEL_" +
-      "LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE_DOTS" +
-      "\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037LABEL_" +
-      "LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABEL_LON" +
-      "G_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MODE_NOR" +
-      "MAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016BAR_M" +
-      "ODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_NORMA" +
-      "L\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020ARC_MOD" +
-      "E_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER_MODE" +
-      "_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001*\301\001\n\t" +
-      "ScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_TOP\020\000" +
-      "\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022\034\n\030SC" +
-      "ALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_MODE_V" +
-      "ERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND_INNE" +
-      "R\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n\tChar" +
-      "tType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART_TYPE" +
-      "_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CHART_T" +
-      "YPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026\n\022CHA" +
-      "RT_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024CHART_" +
-      "AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECONDARY" +
-      "_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026CHART_" +
-      "AXIS_SECONDARY_X\020\004*\273\022\n\021StylePropertyType" +
-      "\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017" +
-      "PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n" +
-      "\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDT" +
-      "H\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020" +
-      "\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP" +
-      "_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_H" +
-      "OR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_AL" +
-      "L\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WID" +
-      "TH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEI" +
-      "GHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGT" +
-      "H\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIG" +
-      "N\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TR" +
-      "ANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024" +
-      "\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020" +
-      "\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014P" +
-      "ROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_" +
-      "SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TO" +
-      "P\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEF" +
-      "T\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020" +
-      "\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TO" +
-      "P\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARG" +
-      "IN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP" +
-      "_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025" +
-      "\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_ST" +
-      "OP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GR" +
-      "AD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_" +
-      "BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\020" +
-      "5\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP" +
-      "_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022" +
-      "\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WI" +
-      "DTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OU" +
-      "TLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PRO" +
-      "P_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X" +
-      "\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHA" +
-      "DOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017P" +
-      "ROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022" +
-      "PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOL" +
-      "OR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LI" +
-      "NE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022" +
-      "\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLO" +
-      "R\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH" +
-      "\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COL" +
-      "OR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020" +
-      "Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TE" +
-      "XT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017" +
-      "PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022" +
-      "\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025P" +
-      "ROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURA" +
-      "TION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE" +
-      "_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016P" +
-      "ROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020" +
-      "_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLE" +
-      "X_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026P" +
-      "ROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW" +
-      "_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022" +
-      "\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID" +
-      "_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_RO" +
-      "W_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027P" +
-      "ROP_GRID_CELL_ROW_SPAN\020jBEZCgit-codecomm" +
-      "it.eu-central-1.amazonaws.com/v1/repos/j" +
-      "ettison/jonp/uib\006proto3"
+      "i.VisibilityBinding\022+\n\014pending_when\0302 \001(" +
+      "\0132\025.ui.VisibilityBinding\022$\n\ncolor_when\030." +
+      " \001(\0132\020.ui.ColorBinding\022\031\n\010hit_slop\030/ \001(\r" +
+      "B\007\272H\004*\002\030@\022\030\n\020designed_overlay\0301 \001(\010\022\013\n\003u" +
+      "id\030+ \001(\r\022+\n\010gestures\030, \003(\0132\017.ui.GestureS" +
+      "pecB\010\272H\005\222\001\002\020\t\032/\n\rBindingsEntry\022\013\n\003key\030\001 " +
+      "\001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\0322\n\020BindFormatsEnt" +
+      "ry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n\014wi" +
+      "dget_propsB\004\n\002_xB\004\n\002_yB\r\n\013_scroll_dir\"\231\001" +
+      "\n\013TreePatchOp\022\'\n\004kind\030\001 \001(\0162\017.ui.PatchOp" +
+      "KindB\010\272H\005\202\001\002\020\001\022\022\n\ntarget_uid\030\002 \001(\r\022\022\n\npa" +
+      "rent_uid\030\003 \001(\r\022\r\n\005index\030\004 \001(\r\022!\n\004node\030\005 " +
+      "\001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_node\"S\n\013Scr" +
+      "eenPatch\022\021\n\tbase_hash\030\001 \001(\r\022\023\n\013target_ha" +
+      "sh\030\002 \001(\r\022\034\n\003ops\030\003 \003(\0132\017.ui.TreePatchOp\"\n" +
+      "\n\010ObjProps\"\r\n\013ButtonProps\"<\n\nLabelProps\022" +
+      ".\n\tlong_mode\030\001 \001(\0162\021.ui.LabelLongModeB\010\272" +
+      "H\005\202\001\002\020\001\"~\n\013SliderProps\022\021\n\tmin_value\030\001 \001(" +
+      "\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022#\n\004m" +
+      "ode\030\004 \001(\0162\013.ui.BarModeB\010\272H\005\202\001\002\020\001\022\025\n\rseek" +
+      "_on_press\030\005 \001(\010\"j\n\nImageProps\022\025\n\003src\030\001 \001" +
+      "(\tB\010\272H\005r\003\030\377\001\022\021\n\thas_pivot\030\002 \001(\010\022\017\n\007pivot" +
+      "_x\030\003 \001(\005\022\017\n\007pivot_y\030\004 \001(\005\022\020\n\010rotation\030\005 " +
+      "\001(\005\"\364\001\n\010ArcProps\022\035\n\013start_angle\030\001 \001(\rB\010\272" +
+      "H\005*\003\030\350\002\022\033\n\tend_angle\030\002 \001(\rB\010\272H\005*\003\030\350\002\022 \n\016" +
+      "bg_start_angle\030\003 \001(\rB\010\272H\005*\003\030\350\002\022\036\n\014bg_end" +
+      "_angle\030\004 \001(\rB\010\272H\005*\003\030\350\002\022\020\n\010rotation\030\005 \001(\005" +
+      "\022#\n\004mode\030\006 \001(\0162\013.ui.ArcModeB\010\272H\005\202\001\002\020\001\022\021\n" +
+      "\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005v" +
+      "alue\030\t \001(\005\"y\n\010BarProps\022\021\n\tmin_value\030\001 \001(" +
+      "\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013s" +
+      "tart_value\030\004 \001(\005\022#\n\004mode\030\005 \001(\0162\013.ui.BarM" +
+      "odeB\010\272H\005\202\001\002\020\001\"\036\n\013SwitchProps\022\017\n\007checked\030" +
+      "\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 \001(\010\"" +
+      "\203\001\n\rDropdownProps\022\031\n\007options\030\001 \001(\tB\010\272H\005r" +
+      "\003\030\377\007\022\020\n\010selected\030\002 \001(\r\022$\n\tdirection\030\003 \001(" +
+      "\0162\007.ui.DirB\010\272H\005\202\001\002\020\001\022\037\n\roption_values\030\004 " +
+      "\003(\005B\010\272H\005\222\001\002\020\020\"}\n\013RollerProps\022\031\n\007options\030" +
+      "\001 \001(\tB\010\272H\005r\003\030\377\003\022\020\n\010selected\030\002 \001(\r\022\031\n\021vis" +
+      "ible_row_count\030\003 \001(\r\022&\n\004mode\030\004 \001(\0162\016.ui." +
+      "RollerModeB\010\272H\005\202\001\002\020\001\"k\n\rTextareaProps\022\035\n" +
+      "\013placeholder\030\001 \001(\tB\010\272H\005r\003\030\377\001\022\022\n\nmax_leng" +
+      "th\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_m" +
+      "ode\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_value\030" +
+      "\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022" +
+      "\014\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022se" +
+      "parator_position\030\006 \001(\r\"5\n\014SpinnerProps\022\021" +
+      "\n\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"B\n" +
+      "\010LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\034\n\nb" +
+      "rightness\030\002 \001(\rB\010\272H\005*\003\030\377\001\"8\n\tLineProps\022\031" +
+      "\n\006points\030\001 \003(\0132\t.ui.Point\022\020\n\010y_invert\030\002 " +
+      "\001(\010\"\257\002\n\nScaleProps\022%\n\004mode\030\001 \001(\0162\r.ui.Sc" +
+      "aleModeB\010\272H\005\202\001\002\020\001\022\030\n\020total_tick_count\030\002 " +
+      "\001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\nlabel_s" +
+      "how\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tmax_valu" +
+      "e\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\035\n\013angle_range" +
+      "\030\010 \001(\rB\010\272H\005*\003\030\350\002\022\032\n\010text_src\030\t \001(\tB\010\272H\005r" +
+      "\003\030\377\001\022\021\n\tpost_draw\030\n \001(\010\022,\n\010sections\030\013 \003(" +
+      "\0132\020.ui.ScaleSectionB\010\272H\005\222\001\002\020\004\"\220\001\n\014ScaleS" +
+      "ection\022\021\n\trange_min\030\001 \001(\005\022\021\n\trange_max\030\002" +
+      " \001(\005\022\030\n\005color\030\003 \001(\0132\t.ui.Color\022\r\n\005width\030" +
+      "\004 \001(\r\022\035\n\nmain_color\030\005 \001(\0132\t.ui.Color\022\022\n\n" +
+      "main_width\030\006 \001(\r\"A\n\021ButtonMatrixProps\022\031\n" +
+      "\007map_str\030\001 \001(\tB\010\272H\005r\003\030\377\007\022\021\n\tone_check\030\002 " +
+      "\001(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r\022\024\n\014" +
+      "column_count\030\002 \001(\r\"\272\001\n\014TabviewProps\022!\n\tt" +
+      "ab_names\030\001 \003(\tB\016\272H\013\222\001\010\020\010\"\004r\002\030\037\022\031\n\014tab_ba" +
+      "r_size\030\002 \001(\005H\000\210\001\001\022\024\n\014active_index\030\003 \001(\r\022" +
+      "+\n\020tab_bar_position\030\004 \001(\0162\007.ui.DirB\010\272H\005\202" +
+      "\001\002\020\001\022\030\n\020tab_bar_pad_left\030\005 \001(\005B\017\n\r_tab_b" +
+      "ar_size\"h\n\013ChartSeries\022\030\n\005color\030\001 \001(\0132\t." +
+      "ui.Color\022%\n\004axis\030\002 \001(\0162\r.ui.ChartAxisB\010\272" +
+      "H\005\202\001\002\020\001\022\030\n\006values\030\003 \003(\005B\010\272H\005\222\001\002\020 \"\331\001\n\nCh" +
+      "artProps\022%\n\004type\030\001 \001(\0162\r.ui.ChartTypeB\010\272" +
+      "H\005\202\001\002\020\001\022\023\n\013point_count\030\002 \001(\r\022\025\n\rhas_div_" +
+      "lines\030\003 \001(\010\022\034\n\nhdiv_count\030\004 \001(\rB\010\272H\005*\003\030\377" +
+      "\001\022\034\n\nvdiv_count\030\005 \001(\rB\010\272H\005*\003\030\377\001\022)\n\006serie" +
+      "s\030\006 \003(\0132\017.ui.ChartSeriesB\010\272H\005\222\001\002\020\010\022\021\n\tfa" +
+      "de_area\030\007 \001(\010\"\260\001\n\016HostProxyProps\022\033\n\010prox" +
+      "y_id\030\001 \001(\tB\t\272H\006r\004\020\001\030?\022%\n\004mode\030\002 \001(\0162\r.ui" +
+      ".ProxyModeB\010\272H\005\202\001\002\020\001\022\r\n\005min_w\030\003 \001(\005\022\r\n\005m" +
+      "in_h\030\004 \001(\005\022\r\n\005max_w\030\005 \001(\005\022\r\n\005max_h\030\006 \001(\005" +
+      "\022\023\n\013handle_size\030\007 \001(\r\022\t\n\001z\030\010 \001(\005\"i\n\tTarg" +
+      "etBox\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\022\t\n\001w\030\003 \001(\005\022\t" +
+      "\n\001h\030\004 \001(\005\022\026\n\005label\030\005 \001(\tB\007\272H\004r\002\030\037\022\030\n\005col" +
+      "or\030\006 \001(\0132\t.ui.Color\"\206\001\n\022TargetOverlayPro" +
+      "ps\022&\n\005boxes\030\001 \003(\0132\r.ui.TargetBoxB\010\272H\005\222\001\002" +
+      "\020 \022\"\n\014border_width\030\002 \001(\rB\007\272H\004*\002\030\020H\000\210\001\001\022\023" +
+      "\n\013hide_labels\030\003 \001(\010B\017\n\r_border_width\"\035\n\005" +
+      "Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\242\002\n\014EventBin" +
+      "ding\022\027\n\004name\030\001 \001(\tB\t\272H\006r\004\020\001\030\177\022+\n\007trigger" +
+      "\030\002 \001(\0162\020.ui.EventTriggerB\010\272H\005\202\001\002\020\001\022\021\n\tin" +
+      "t_value\030\003 \001(\005\022\034\n\024include_widget_value\030\004 " +
+      "\001(\010\022\034\n\013set_subject\030\005 \001(\tB\007\272H\004r\002\030?\022\021\n\tset" +
+      "_value\030\006 \001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_h" +
+      "ost\030\010 \001(\010\022\030\n\003cmd\030\t \001(\0132\013.ui.CmdSpec\022+\n\014c" +
+      "md_by_value\030\n \003(\0132\013.ui.CmdSpecB\010\272H\005\222\001\002\020\020" +
+      "\"\271\001\n\nFieldPatch\022\023\n\013byte_offset\030\001 \001(\r\022\022\n\n" +
+      "byte_width\030\002 \001(\r\022%\n\004kind\030\003 \001(\0162\r.ui.Patc" +
+      "hKindB\010\272H\005\202\001\002\020\001\022\022\n\nwire_scale\030\004 \001(\021\022\030\n\007s" +
+      "ubject\030\005 \001(\tB\007\272H\004r\002\030?\022-\n\010encoding\030\006 \001(\0162" +
+      "\021.ui.PatchEncodingB\010\272H\005\202\001\002\020\001\"\226\001\n\007CmdSpec" +
+      "\022\033\n\ncommand_id\030\001 \001(\tB\007\272H\004r\002\030\177\022\025\n\rroot_te" +
+      "mplate\030\002 \001(\014\022)\n\007patches\030\003 \003(\0132\016.ui.Field" +
+      "PatchB\010\272H\005\222\001\002\020\010\022,\n\013ndc_y_sense\030\004 \001(\0162\r.u" +
+      "i.NdcYSenseB\010\272H\005\202\001\002\020\001\"\204\001\n\013GestureSpec\022\'\n" +
+      "\004kind\030\001 \001(\0162\017.ui.GestureKindB\010\272H\005\202\001\002\020\001\022\030" +
+      "\n\003cmd\030\002 \001(\0132\013.ui.CmdSpec\0222\n\ndelta_sign\030\003" +
+      " \001(\0162\024.ui.GestureDeltaSignB\010\272H\005\202\001\002\020\001\"l\n\021" +
+      "VisibilityBinding\022\032\n\007subject\030\001 \001(\tB\t\272H\006r" +
+      "\004\020\001\030?\022\021\n\tref_value\030\002 \001(\005\022(\n\007compare\030\003 \001(" +
+      "\0162\r.ui.CompareOpB\010\272H\005\202\001\002\020\001\"M\n\014ColorBindi" +
+      "ng\022#\n\004when\030\001 \001(\0132\025.ui.VisibilityBinding\022" +
+      "\030\n\005color\030\002 \001(\0132\t.ui.Color\"\267\001\n\006Layout\022$\n\004" +
+      "flow\030\001 \001(\0162\014.ui.FlexFlowB\010\272H\005\202\001\002\020\001\022+\n\nma" +
+      "in_place\030\002 \001(\0162\r.ui.FlexAlignB\010\272H\005\202\001\002\020\001\022" +
+      ",\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlignB\010\272H\005" +
+      "\202\001\002\020\001\022,\n\013track_place\030\004 \001(\0162\r.ui.FlexAlig" +
+      "nB\010\272H\005\202\001\002\020\001\"T\n\nStyleGroup\022\026\n\016state_selec" +
+      "tor\030\001 \001(\r\022.\n\010variants\030\002 \003(\0132\020.ui.StyleVa" +
+      "riantB\n\272H\007\222\001\004\010\001\020\010\"U\n\014StyleVariant\022\036\n\rvar" +
+      "iant_index\030\001 \001(\rB\007\272H\004*\002\030\007\022%\n\nproperties\030" +
+      "\002 \003(\0132\021.ui.StyleProperty\"\337\001\n\rStyleProper" +
+      "ty\022-\n\004type\030\001 \001(\0162\025.ui.StylePropertyTypeB" +
+      "\010\272H\005\202\001\002\020\001\022\024\n\nuint_value\030\002 \001(\rH\000\022\023\n\tint_v" +
+      "alue\030\003 \001(\005H\000\022 \n\013color_value\030\004 \001(\0132\t.ui.C" +
+      "olorH\000\022\037\n\014string_value\030\005 \001(\tB\007\272H\004r\002\030?H\000\022" +
+      "(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBundleH" +
+      "\000B\007\n\005value\"F\n\005Color\022\023\n\001r\030\001 \001(\rB\010\272H\005*\003\030\377\001" +
+      "\022\023\n\001g\030\002 \001(\rB\010\272H\005*\003\030\377\001\022\023\n\001b\030\003 \001(\rB\010\272H\005*\003\030" +
+      "\377\001\"h\n\014ShadowBundle\022\r\n\005width\030\001 \001(\r\022\020\n\010off" +
+      "set_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001(\005\022\016\n\006spread\030" +
+      "\004 \001(\r\022\025\n\003opa\030\005 \001(\rB\010\272H\005*\003\030\377\001*2\n\013SubjectT" +
+      "ype\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRING\020\001" +
+      "*\217\001\n\013PatchOpKind\022\031\n\025PATCH_OP_UPDATE_PROP" +
+      "S\020\000\022\031\n\025PATCH_OP_REPLACE_NODE\020\001\022\030\n\024PATCH_" +
+      "OP_INSERT_NODE\020\002\022\030\n\024PATCH_OP_REMOVE_NODE" +
+      "\020\003\022\026\n\022PATCH_OP_MOVE_NODE\020\004*\311\003\n\nWidgetTyp" +
+      "e\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BUTTON\020\001\022\020\n\014" +
+      "WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDER\020\003\022\020\n\014WID" +
+      "GET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n\nWIDGET_BA" +
+      "R\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDGET_CHECKBO" +
+      "X\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWIDGET_ROLLE" +
+      "R\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WIDGET_SPINB" +
+      "OX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWIDGET_LED\020\016" +
+      "\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SCALE\020\020\022\027\n\023W" +
+      "IDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET_TABLE\020\022\022\022" +
+      "\n\016WIDGET_TABVIEW\020\023\022\020\n\014WIDGET_CHART\020\024\022\025\n\021" +
+      "WIDGET_HOST_PROXY\020\025\022\031\n\025WIDGET_TARGET_OVE" +
+      "RLAY\020\026*p\n\tProxyMode\022\025\n\021PROXY_MODE_STATIC" +
+      "\020\000\022\030\n\024PROXY_MODE_DRAGGABLE\020\001\022\030\n\024PROXY_MO" +
+      "DE_RESIZABLE\020\002\022\030\n\024PROXY_MODE_ALIGNABLE\020\003" +
+      "*X\n\014EventTrigger\022\023\n\017TRIGGER_CLICKED\020\000\022\031\n" +
+      "\025TRIGGER_VALUE_CHANGED\020\001\022\030\n\024TRIGGER_LONG" +
+      "_PRESSED\020\002*\322\001\n\tPatchKind\022\032\n\026PATCH_KIND_U" +
+      "NSPECIFIED\020\000\022\024\n\020PATCH_KIND_NDC_X\020\001\022\024\n\020PA" +
+      "TCH_KIND_NDC_Y\020\002\022\024\n\020PATCH_KIND_DELTA\020\003\022\033" +
+      "\n\027PATCH_KIND_WIDGET_VALUE\020\004\022\025\n\021PATCH_KIN" +
+      "D_NDC_X2\020\005\022\025\n\021PATCH_KIND_NDC_Y2\020\006\022\034\n\030PAT" +
+      "CH_KIND_SUBJECT_VALUE\020\007*\214\001\n\rPatchEncodin" +
+      "g\022\036\n\032PATCH_ENCODING_UNSPECIFIED\020\000\022 \n\034PAT" +
+      "CH_ENCODING_PADDED_VARINT\020\001\022\034\n\030PATCH_ENC" +
+      "ODING_DOUBLE_LE\020\002\022\033\n\027PATCH_ENCODING_FLOA" +
+      "T_LE\020\003*R\n\tNdcYSense\022\033\n\027NDC_Y_SENSE_UNSPE" +
+      "CIFIED\020\000\022\022\n\016NDC_Y_SENSE_UP\020\001\022\024\n\020NDC_Y_SE" +
+      "NSE_DOWN\020\002*\266\001\n\013GestureKind\022\031\n\025GESTURE_KI" +
+      "ND_PAN_MOVE\020\000\022\030\n\024GESTURE_KIND_PAN_END\020\001\022" +
+      "\024\n\020GESTURE_KIND_TAP\020\002\022\026\n\022GESTURE_KIND_TR" +
+      "ACK\020\003\022\026\n\022GESTURE_KIND_PINCH\020\004\022\026\n\022GESTURE" +
+      "_KIND_WHEEL\020\005\022\024\n\020GESTURE_KIND_ROI\020\006*p\n\020G" +
+      "estureDeltaSign\022\032\n\026GESTURE_DELTA_SIGN_AN" +
+      "Y\020\000\022\037\n\033GESTURE_DELTA_SIGN_POSITIVE\020\001\022\037\n\033" +
+      "GESTURE_DELTA_SIGN_NEGATIVE\020\002*q\n\tCompare" +
+      "Op\022\016\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016" +
+      "\n\nCOMPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPA" +
+      "RE_LT\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n" +
+      "\016FLEX_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020" +
+      "FLEX_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP" +
+      "\020\003\022\031\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FL" +
+      "OW_ROW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUM" +
+      "N_WRAP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!" +
+      "\n\035FLEX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFl" +
+      "exAlign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_AL" +
+      "IGN_END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX" +
+      "_ALIGN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPAC" +
+      "E_AROUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005" +
+      "*\274\001\n\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021" +
+      "GRID_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022" +
+      "\026\n\022GRID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SP" +
+      "ACE_EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020" +
+      "\005\022\034\n\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextA" +
+      "lign\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_" +
+      "LEFT\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_AL" +
+      "IGN_RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_N" +
+      "ONE\020\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_" +
+      "DECOR_STRIKETHROUGH\020\002*\213\001\n\tBlendMode\022\025\n\021B" +
+      "LEND_MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIV" +
+      "E\020\001\022\032\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND" +
+      "_MODE_MULTIPLY\020\003\022\031\n\025BLEND_MODE_DIFFERENC" +
+      "E\020\004*i\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE" +
+      "_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002\022\024\n\020BASE_DI" +
+      "R_NEUTRAL\020 \022\021\n\rBASE_DIR_WEAK\020!*\200\001\n\007GradD" +
+      "ir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022" +
+      "\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023" +
+      "\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020" +
+      "\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\t" +
+      "DIR_RIGHT\020\002\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_BOTTOM\020\010" +
+      "\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*" +
+      "\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TO" +
+      "P_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP" +
+      "_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN" +
+      "_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n" +
+      "\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020" +
+      "\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n" +
+      "\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP" +
+      "_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024A" +
+      "LIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTO" +
+      "M_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALI" +
+      "GN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTT" +
+      "OM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_O" +
+      "UT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM" +
+      "\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022" +
+      "\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_T" +
+      "OP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SID" +
+      "E_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDE" +
+      "R_SIDE_INTERNAL\020\020*\236\001\n\rLabelLongMode\022\030\n\024L" +
+      "ABEL_LONG_MODE_WRAP\020\000\022\030\n\024LABEL_LONG_MODE" +
+      "_DOTS\020\001\022\032\n\026LABEL_LONG_MODE_SCROLL\020\002\022#\n\037L" +
+      "ABEL_LONG_MODE_SCROLL_CIRCULAR\020\003\022\030\n\024LABE" +
+      "L_LONG_MODE_CLIP\020\004*L\n\007BarMode\022\023\n\017BAR_MOD" +
+      "E_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRICAL\020\001\022\022\n\016" +
+      "BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017ARC_MODE_" +
+      "NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICAL\020\001\022\024\n\020AR" +
+      "C_MODE_REVERSE\020\002*>\n\nRollerMode\022\026\n\022ROLLER" +
+      "_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_INFINITE\020\001" +
+      "*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HORIZONTAL_" +
+      "TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_BOTTOM\020\001\022" +
+      "\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035\n\031SCALE_M" +
+      "ODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_MODE_ROUND" +
+      "_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OUTER\020\020*\217\001\n" +
+      "\tChartType\022\023\n\017CHART_TYPE_NONE\020\000\022\023\n\017CHART" +
+      "_TYPE_LINE\020\001\022\024\n\020CHART_TYPE_CURVE\020\002\022\022\n\016CH" +
+      "ART_TYPE_BAR\020\003\022\026\n\022CHART_TYPE_STACKED\020\004\022\026" +
+      "\n\022CHART_TYPE_SCATTER\020\005*w\n\tChartAxis\022\030\n\024C" +
+      "HART_AXIS_PRIMARY_Y\020\000\022\032\n\026CHART_AXIS_SECO" +
+      "NDARY_Y\020\001\022\030\n\024CHART_AXIS_PRIMARY_X\020\002\022\032\n\026C" +
+      "HART_AXIS_SECONDARY_X\020\004*\273\022\n\021StylePropert" +
+      "yType\022\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020" +
+      "\001\022\023\n\017PROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT" +
+      "\020\003\022\025\n\021PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER" +
+      "_WIDTH\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_AL" +
+      "L\020\007\022\020\n\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n" +
+      "\013PROP_HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_" +
+      "PAD_HOR\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARG" +
+      "IN_ALL\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MI" +
+      "N_WIDTH\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MI" +
+      "N_HEIGHT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_" +
+      "LENGTH\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP" +
+      "_ALIGN\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PR" +
+      "OP_TRANSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_" +
+      "X\020\032\022\024\n\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_" +
+      "X\020\034\022\020\n\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036" +
+      "\022\020\n\014PROP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013" +
+      "PROP_SKEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_P" +
+      "AD_TOP\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PA" +
+      "D_LEFT\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD" +
+      "_ROW\020\'\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARG" +
+      "IN_TOP\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP" +
+      "_MARGIN_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n" +
+      "\022PROP_BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DI" +
+      "R\020.\022\025\n\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GR" +
+      "AD_STOP\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_" +
+      "BG_GRAD_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021" +
+      "PROP_BG_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_REC" +
+      "OLOR\0205\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n" +
+      "\023PROP_BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SI" +
+      "DE\0208\022\024\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLI" +
+      "NE_WIDTH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PR" +
+      "OP_OUTLINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025" +
+      "\n\021PROP_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFF" +
+      "SET_X\020?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PRO" +
+      "P_SHADOW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B" +
+      "\022\023\n\017PROP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020" +
+      "D\022\026\n\022PROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_" +
+      "RECOLOR_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PR" +
+      "OP_LINE_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_G" +
+      "AP\020I\022\025\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE" +
+      "_COLOR\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_" +
+      "WIDTH\020M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_AR" +
+      "C_COLOR\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT" +
+      "_OPA\020Q\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PR" +
+      "OP_TEXT_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020" +
+      "T\022\023\n\017PROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORN" +
+      "ER\020V\022\014\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X" +
+      "\022\031\n\025PROP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM" +
+      "_DURATION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP" +
+      "_BASE_DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]" +
+      "\022\022\n\016PROP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_P" +
+      "LACE\020_\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PRO" +
+      "P_FLEX_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b" +
+      "\022\032\n\026PROP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRI" +
+      "D_ROW_ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_P" +
+      "OS\020e\022\032\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP" +
+      "_GRID_CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CE" +
+      "LL_ROW_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i" +
+      "\022\033\n\027PROP_GRID_CELL_ROW_SPAN\020jBEZCgit-cod" +
+      "ecommit.eu-central-1.amazonaws.com/v1/re" +
+      "pos/jettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -60791,7 +61322,7 @@ java.lang.String defaultValue) {
     internal_static_ui_WidgetNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_descriptor,
-        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "TargetOverlayProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "ColorWhen", "HitSlop", "DesignedOverlay", "Uid", "Gestures", "WidgetProps", });
+        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "TabviewProps", "ChartProps", "HostProxyProps", "TargetOverlayProps", "Visibility", "BindFormats", "ObjFlags", "ObjFlagsClear", "States", "ScrollDir", "GridColDsc", "GridRowDsc", "Bare", "InTabBar", "CheckedWhen", "EnabledWhen", "PendingWhen", "ColorWhen", "HitSlop", "DesignedOverlay", "Uid", "Gestures", "WidgetProps", });
     internal_static_ui_WidgetNode_BindingsEntry_descriptor =
       internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(0);
     internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable = new

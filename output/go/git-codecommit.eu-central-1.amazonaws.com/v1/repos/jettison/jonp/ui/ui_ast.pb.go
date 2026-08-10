@@ -2582,6 +2582,26 @@ type WidgetNode struct {
 	// Drives reactive precondition-disable — a control greyed until its
 	// preconditions read satisfied.
 	EnabledWhen *VisibilityBinding `protobuf:"bytes,45,opt,name=enabled_when,json=enabledWhen,proto3" json:"enabled_when,omitempty"`
+	// Reactive PENDING-state binding — the widget carries LV_STATE_USER_1 while
+	// the comparison against the subject holds, cleared otherwise. Polarity is
+	// DIRECT, like `checked_when` and unlike `enabled_when`: the LVGL bit names
+	// the condition rather than its negation, so there is nothing to invert.
+	// Reuses the VisibilityBinding shape (subject + ref_value + compare);
+	// EQ/NOT_EQ use the native lv_obj_bind_state_if_* helpers, the range ops a
+	// custom observer (the checked_when / visibility precedent).
+	//
+	// Drives the COMMAND-OUTSTANDING affordance — a control that has dispatched
+	// a command and is waiting for the confirming state to come back. That fact
+	// is a property of a round trip the widget cannot observe for itself, so it
+	// arrives as a host-published INT subject like any other precondition.
+	//
+	// LV_STATE_USER_1 is the bit the style vocabulary spells `pending:`, so an
+	// authored `pending:` style group and this binding are the two halves of one
+	// affordance: the group says what pending LOOKS like, this says WHEN.
+	// Without a binding the bit has no dynamic source at all — `states` is
+	// applied with lv_obj_add_state and is therefore ADD-ONLY, so it can raise
+	// the bit at create (or on a patch morph) and can never clear it again.
+	PendingWhen *VisibilityBinding `protobuf:"bytes,50,opt,name=pending_when,json=pendingWhen,proto3" json:"pending_when,omitempty"`
 	// Reactive TEXT-COLOR binding — the widget's LV_PART_MAIN text color is set
 	// to `color_when.color` while the comparison holds, and reverted to the
 	// theme/authored default when it does not. Unlike the three state bindings
@@ -3066,6 +3086,13 @@ func (x *WidgetNode) GetCheckedWhen() *VisibilityBinding {
 func (x *WidgetNode) GetEnabledWhen() *VisibilityBinding {
 	if x != nil {
 		return x.EnabledWhen
+	}
+	return nil
+}
+
+func (x *WidgetNode) GetPendingWhen() *VisibilityBinding {
+	if x != nil {
+		return x.PendingWhen
 	}
 	return nil
 }
@@ -6356,7 +6383,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xa8\x13\n" +
+	"\x05_root\"\xe2\x13\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\x11\n" +
@@ -6416,7 +6443,8 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\n" +
 	"in_tab_bar\x18' \x01(\bR\binTabBar\x128\n" +
 	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x128\n" +
-	"\fenabled_when\x18- \x01(\v2\x15.ui.VisibilityBindingR\venabledWhen\x12/\n" +
+	"\fenabled_when\x18- \x01(\v2\x15.ui.VisibilityBindingR\venabledWhen\x128\n" +
+	"\fpending_when\x182 \x01(\v2\x15.ui.VisibilityBindingR\vpendingWhen\x12/\n" +
 	"\n" +
 	"color_when\x18. \x01(\v2\x10.ui.ColorBindingR\tcolorWhen\x12\"\n" +
 	"\bhit_slop\x18/ \x01(\rB\a\xbaH\x04*\x02\x18@R\ahitSlop\x12)\n" +
@@ -7158,58 +7186,59 @@ var file_ui_ui_ast_proto_depIdxs = []int32{
 	77, // 34: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
 	68, // 35: ui.WidgetNode.checked_when:type_name -> ui.VisibilityBinding
 	68, // 36: ui.WidgetNode.enabled_when:type_name -> ui.VisibilityBinding
-	69, // 37: ui.WidgetNode.color_when:type_name -> ui.ColorBinding
-	67, // 38: ui.WidgetNode.gestures:type_name -> ui.GestureSpec
-	1,  // 39: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
-	34, // 40: ui.TreePatchOp.node:type_name -> ui.WidgetNode
-	35, // 41: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
-	22, // 42: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
-	23, // 43: ui.SliderProps.mode:type_name -> ui.BarMode
-	24, // 44: ui.ArcProps.mode:type_name -> ui.ArcMode
-	23, // 45: ui.BarProps.mode:type_name -> ui.BarMode
-	19, // 46: ui.DropdownProps.direction:type_name -> ui.Dir
-	25, // 47: ui.RollerProps.mode:type_name -> ui.RollerMode
-	74, // 48: ui.LedProps.color:type_name -> ui.Color
-	63, // 49: ui.LineProps.points:type_name -> ui.Point
-	26, // 50: ui.ScaleProps.mode:type_name -> ui.ScaleMode
-	54, // 51: ui.ScaleProps.sections:type_name -> ui.ScaleSection
-	74, // 52: ui.ScaleSection.color:type_name -> ui.Color
-	74, // 53: ui.ScaleSection.main_color:type_name -> ui.Color
-	19, // 54: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
-	74, // 55: ui.ChartSeries.color:type_name -> ui.Color
-	28, // 56: ui.ChartSeries.axis:type_name -> ui.ChartAxis
-	27, // 57: ui.ChartProps.type:type_name -> ui.ChartType
-	58, // 58: ui.ChartProps.series:type_name -> ui.ChartSeries
-	3,  // 59: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
-	74, // 60: ui.TargetBox.color:type_name -> ui.Color
-	61, // 61: ui.TargetOverlayProps.boxes:type_name -> ui.TargetBox
-	4,  // 62: ui.EventBinding.trigger:type_name -> ui.EventTrigger
-	66, // 63: ui.EventBinding.cmd:type_name -> ui.CmdSpec
-	66, // 64: ui.EventBinding.cmd_by_value:type_name -> ui.CmdSpec
-	5,  // 65: ui.FieldPatch.kind:type_name -> ui.PatchKind
-	6,  // 66: ui.FieldPatch.encoding:type_name -> ui.PatchEncoding
-	65, // 67: ui.CmdSpec.patches:type_name -> ui.FieldPatch
-	7,  // 68: ui.CmdSpec.ndc_y_sense:type_name -> ui.NdcYSense
-	8,  // 69: ui.GestureSpec.kind:type_name -> ui.GestureKind
-	66, // 70: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
-	9,  // 71: ui.GestureSpec.delta_sign:type_name -> ui.GestureDeltaSign
-	10, // 72: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
-	68, // 73: ui.ColorBinding.when:type_name -> ui.VisibilityBinding
-	74, // 74: ui.ColorBinding.color:type_name -> ui.Color
-	11, // 75: ui.Layout.flow:type_name -> ui.FlexFlow
-	12, // 76: ui.Layout.main_place:type_name -> ui.FlexAlign
-	12, // 77: ui.Layout.cross_place:type_name -> ui.FlexAlign
-	12, // 78: ui.Layout.track_place:type_name -> ui.FlexAlign
-	72, // 79: ui.StyleGroup.variants:type_name -> ui.StyleVariant
-	73, // 80: ui.StyleVariant.properties:type_name -> ui.StyleProperty
-	29, // 81: ui.StyleProperty.type:type_name -> ui.StylePropertyType
-	74, // 82: ui.StyleProperty.color_value:type_name -> ui.Color
-	75, // 83: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
-	84, // [84:84] is the sub-list for method output_type
-	84, // [84:84] is the sub-list for method input_type
-	84, // [84:84] is the sub-list for extension type_name
-	84, // [84:84] is the sub-list for extension extendee
-	0,  // [0:84] is the sub-list for field type_name
+	68, // 37: ui.WidgetNode.pending_when:type_name -> ui.VisibilityBinding
+	69, // 38: ui.WidgetNode.color_when:type_name -> ui.ColorBinding
+	67, // 39: ui.WidgetNode.gestures:type_name -> ui.GestureSpec
+	1,  // 40: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
+	34, // 41: ui.TreePatchOp.node:type_name -> ui.WidgetNode
+	35, // 42: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
+	22, // 43: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
+	23, // 44: ui.SliderProps.mode:type_name -> ui.BarMode
+	24, // 45: ui.ArcProps.mode:type_name -> ui.ArcMode
+	23, // 46: ui.BarProps.mode:type_name -> ui.BarMode
+	19, // 47: ui.DropdownProps.direction:type_name -> ui.Dir
+	25, // 48: ui.RollerProps.mode:type_name -> ui.RollerMode
+	74, // 49: ui.LedProps.color:type_name -> ui.Color
+	63, // 50: ui.LineProps.points:type_name -> ui.Point
+	26, // 51: ui.ScaleProps.mode:type_name -> ui.ScaleMode
+	54, // 52: ui.ScaleProps.sections:type_name -> ui.ScaleSection
+	74, // 53: ui.ScaleSection.color:type_name -> ui.Color
+	74, // 54: ui.ScaleSection.main_color:type_name -> ui.Color
+	19, // 55: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
+	74, // 56: ui.ChartSeries.color:type_name -> ui.Color
+	28, // 57: ui.ChartSeries.axis:type_name -> ui.ChartAxis
+	27, // 58: ui.ChartProps.type:type_name -> ui.ChartType
+	58, // 59: ui.ChartProps.series:type_name -> ui.ChartSeries
+	3,  // 60: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
+	74, // 61: ui.TargetBox.color:type_name -> ui.Color
+	61, // 62: ui.TargetOverlayProps.boxes:type_name -> ui.TargetBox
+	4,  // 63: ui.EventBinding.trigger:type_name -> ui.EventTrigger
+	66, // 64: ui.EventBinding.cmd:type_name -> ui.CmdSpec
+	66, // 65: ui.EventBinding.cmd_by_value:type_name -> ui.CmdSpec
+	5,  // 66: ui.FieldPatch.kind:type_name -> ui.PatchKind
+	6,  // 67: ui.FieldPatch.encoding:type_name -> ui.PatchEncoding
+	65, // 68: ui.CmdSpec.patches:type_name -> ui.FieldPatch
+	7,  // 69: ui.CmdSpec.ndc_y_sense:type_name -> ui.NdcYSense
+	8,  // 70: ui.GestureSpec.kind:type_name -> ui.GestureKind
+	66, // 71: ui.GestureSpec.cmd:type_name -> ui.CmdSpec
+	9,  // 72: ui.GestureSpec.delta_sign:type_name -> ui.GestureDeltaSign
+	10, // 73: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
+	68, // 74: ui.ColorBinding.when:type_name -> ui.VisibilityBinding
+	74, // 75: ui.ColorBinding.color:type_name -> ui.Color
+	11, // 76: ui.Layout.flow:type_name -> ui.FlexFlow
+	12, // 77: ui.Layout.main_place:type_name -> ui.FlexAlign
+	12, // 78: ui.Layout.cross_place:type_name -> ui.FlexAlign
+	12, // 79: ui.Layout.track_place:type_name -> ui.FlexAlign
+	72, // 80: ui.StyleGroup.variants:type_name -> ui.StyleVariant
+	73, // 81: ui.StyleVariant.properties:type_name -> ui.StyleProperty
+	29, // 82: ui.StyleProperty.type:type_name -> ui.StylePropertyType
+	74, // 83: ui.StyleProperty.color_value:type_name -> ui.Color
+	75, // 84: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
+	85, // [85:85] is the sub-list for method output_type
+	85, // [85:85] is the sub-list for method input_type
+	85, // [85:85] is the sub-list for extension type_name
+	85, // [85:85] is the sub-list for extension extendee
+	0,  // [0:85] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_ast_proto_init() }

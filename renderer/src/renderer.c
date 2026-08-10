@@ -1169,6 +1169,7 @@ typedef struct {
 #define MAX_PENDING_VISIBILITY 32
 #define MAX_PENDING_CHECKED 32
 #define MAX_PENDING_ENABLED 32
+#define MAX_PENDING_PENDSTATE 32
 #define MAX_PENDING_COLOR 32
 #define MAX_PENDING_EVENT_SUBJECT 32
 typedef struct {
@@ -1195,6 +1196,20 @@ typedef struct {
   lv_obj_t *obj;
   ui_VisibilityBinding bind;
 } pending_enabled_t;
+/* pending_when reuses the VisibilityBinding shape (DIRECT polarity — it
+ * toggles LV_STATE_USER_1, the bit the style vocabulary spells `pending:`);
+ * same post-subjects deferred attach.
+ *
+ * TWO SENSES OF "PENDING" MEET IN THIS NAME, so the suffix is `pendstate`
+ * rather than the mechanical `pending_pending`. The PREFIX is the one every
+ * queue here carries: deferred until Screen.subjects has streamed. The
+ * SUFFIX names the binding, whose own subject is the widget's pending state.
+ * They are unrelated, and collapsing them into one word would read as a
+ * stutter rather than as the two facts it is. */
+typedef struct {
+  lv_obj_t *obj;
+  ui_VisibilityBinding bind;
+} pending_pendstate_t;
 /* color_when carries the ColorBinding (VisibilityBinding shape + target
  * color); same post-subjects deferred attach. */
 typedef struct {
@@ -1232,6 +1247,8 @@ static pending_checked_t pending_checked[MAX_PENDING_CHECKED];
 static int pending_checked_count;
 static pending_enabled_t pending_enabled[MAX_PENDING_ENABLED];
 static int pending_enabled_count;
+static pending_pendstate_t pending_pendstate[MAX_PENDING_PENDSTATE];
+static int pending_pendstate_count;
 static pending_color_t pending_color[MAX_PENDING_COLOR];
 static int pending_color_count;
 static pending_event_subject_t pending_event_subject[MAX_PENDING_EVENT_SUBJECT];
@@ -2705,6 +2722,80 @@ static void apply_enabled_when(lv_obj_t *obj,
   }
 }
 /* ================================================================
+ * Reactive pending-state binding (pending_when) — the widget carries
+ * LV_STATE_USER_1 while the subject comparison holds, cleared otherwise.
+ * DIRECT polarity, so this mirrors apply_checked_when rather than
+ * apply_enabled_when: the two differ only because LV_STATE_DISABLED names
+ * the NEGATION of the condition `enabled_when` is about, while USER_1 (the
+ * bit the style vocabulary spells `pending:`) names this one outright.
+ *
+ * Drives the command-outstanding affordance: a control that has dispatched
+ * a command and is waiting for the confirming state. That is a fact about a
+ * round trip the widget cannot see, so it arrives as a host-published INT
+ * subject — and it must be a BINDING rather than the create-time `states`
+ * bitmask, because `states` is applied with lv_obj_add_state and so can
+ * only ever RAISE the bit, never clear it when the reply lands.
+ * ================================================================ */
+static void pendstate_observer_cb(lv_observer_t *observer,
+                                  lv_subject_t *subject) {
+  lv_obj_t *obj = lv_observer_get_target_obj(observer);
+  compare_cb_data_t *data =
+      (compare_cb_data_t *)lv_observer_get_user_data(observer);
+  if (!obj || !data)
+    return;
+  if (compare_holds(data->compare, lv_subject_get_int(subject),
+                    data->ref_value)) {
+    lv_obj_add_state(obj, LV_STATE_USER_1);
+  } else {
+    lv_obj_remove_state(obj, LV_STATE_USER_1);
+  }
+}
+static void apply_pending_when(lv_obj_t *obj,
+                               const ui_VisibilityBinding *bind) {
+  subject_entry_t *entry = find_subject(bind->subject);
+  if (!entry) {
+    /* B7/ITEM-8b: a pending-when bound to a never-declared subject is a dead
+       * binding. Fail the load loud (see apply_visibility). */
+    LOG_ERROR("pending_when references unknown subject '%s'", bind->subject);
+    load_resource_error = true;
+    return;
+  }
+  if (entry->type != 0) {
+    LOG_WARN("pending_when only supports INT subjects (got '%s')",
+             bind->subject);
+    return;
+  }
+  if (!compare_op_ok(bind->compare, "pending_when"))
+    return;
+  switch (bind->compare) {
+  case ui_CompareOp_COMPARE_EQ:
+    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_USER_1,
+                            bind->ref_value);
+    break;
+  case ui_CompareOp_COMPARE_NOT_EQ:
+    lv_obj_bind_state_if_not_eq(obj, &entry->subject, LV_STATE_USER_1,
+                                bind->ref_value);
+    break;
+  default: {
+    /* GT, GTE, LT, LTE — custom observer (the checked_when precedent) */
+    compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
+    if (!data) {
+      /* B5: OOM would leave the comparison binding unwired (a control
+             * that never reacts to its subject) with no signal. Fail loud. */
+      LOG_ERROR("compare observer alloc failed — binding would be inert");
+      load_resource_error = true;
+      return;
+    }
+    data->ref_value = bind->ref_value;
+    data->compare = bind->compare;
+    lv_subject_add_observer_obj(&entry->subject, pendstate_observer_cb, obj,
+                                data);
+    lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
+    break;
+  }
+  }
+}
+/* ================================================================
  * Reactive text-color binding (color_when) — the widget's LV_PART_MAIN text
  * color is set to the bound color while the subject comparison holds, and the
  * local override removed (reverting to the theme/authored default) when it
@@ -3724,6 +3815,18 @@ static void finalize_widget(widget_ctx_t *ctx) {
       pending_enabled_t *p = &pending_enabled[pending_enabled_count++];
       p->obj = obj;
       p->bind = node->enabled_when;
+    }
+  }
+  /* Apply reactive pending-state binding (pending_when) */
+  if (node->has_pending_when && node->pending_when.subject[0] != '\0') {
+    if (pending_pendstate_count >= MAX_PENDING_PENDSTATE) {
+      LOG_ERROR("pending pending_when queue overflow (max %d)",
+                MAX_PENDING_PENDSTATE);
+      ctx->error = -1;
+    } else {
+      pending_pendstate_t *p = &pending_pendstate[pending_pendstate_count++];
+      p->obj = obj;
+      p->bind = node->pending_when;
     }
   }
   /* Apply reactive text-color binding (color_when) */
@@ -5416,6 +5519,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_visibility_count = 0;
   pending_checked_count = 0;
   pending_enabled_count = 0;
+  pending_pendstate_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
   pending_patch_subject_count = 0;
@@ -5494,6 +5598,9 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   for (int i = 0; i < pending_enabled_count; i++) {
     apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
   }
+  for (int i = 0; i < pending_pendstate_count; i++) {
+    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
+  }
   for (int i = 0; i < pending_color_count; i++) {
     apply_color_when(pending_color[i].obj, &pending_color[i].bind);
   }
@@ -5507,6 +5614,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_visibility_count = 0;
   pending_checked_count = 0;
   pending_enabled_count = 0;
+  pending_pendstate_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
   pending_patch_subject_count = 0;
@@ -6055,6 +6163,7 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_visibility_count = 0;
   pending_checked_count = 0;
   pending_enabled_count = 0;
+  pending_pendstate_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
   pending_patch_subject_count = 0;
@@ -6082,6 +6191,8 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
     apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
   for (int i = 0; i < pending_enabled_count; i++)
     apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
+  for (int i = 0; i < pending_pendstate_count; i++)
+    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
   for (int i = 0; i < pending_color_count; i++)
     apply_color_when(pending_color[i].obj, &pending_color[i].bind);
   for (int i = 0; i < pending_event_subject_count; i++)
@@ -6092,6 +6203,7 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
   pending_visibility_count = 0;
   pending_checked_count = 0;
   pending_enabled_count = 0;
+  pending_pendstate_count = 0;
   pending_color_count = 0;
   pending_event_subject_count = 0;
   pending_patch_subject_count = 0;
