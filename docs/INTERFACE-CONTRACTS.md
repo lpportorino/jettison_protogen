@@ -318,16 +318,19 @@ grep -l 'Top edge in NDC' docs/proto/cmd.*.md
 grep -rniE '\+y up' proto/ui/ui_input.proto
 ```
 
-**`cmd.CV.StartTrackNDC` IS SETTLED BY NEITHER, and it is named here rather than
-assigned.** Its `y` field note states no sense, its proto states no sense, and it
-is a `cmd.CV` message whose seed point identifies an object the same subsystem
-then reports as a y-DOWN `ser.JonGuiDataROI` bounding box — so the two obvious
-readings point opposite ways and this repository holds no evidence that decides
-between them. It is therefore UNRESOLVED rather than y-UP: a producer that
-pre-encodes a template for it must refuse to guess (see
-`uigen.cmd-spec/ndc-y-sense`, which fails the build naming this paragraph)
-until the device's own behaviour settles it. An unresolved plane recorded as a
-default is exactly the state that ships a mirror.
+**`cmd.CV.StartTrackNDC` IS y-DOWN, settled from the device's own source.**
+This repository holds no artifact that decides it — its `y` field note states
+no sense and its proto states no sense — and for a long window it was recorded
+UNRESOLVED here, with the pre-encoder refusing to guess. The device's own code
+settles it from both ends: the tracker pad that consumes every seed negates the
+wire value before its `(1 - y)/2 * height` pixel mapping, its own comment
+recording that the producer sends `y = -1` as TOP; and the device's production
+frontend negates its +y-UP pointer value at the send site. Both ends agree the
+WIRE plane is y-DOWN — the seed joins the ROI family, which is also the reading
+its reported `ser.JonGuiDataROI` bounding box always suggested. The derivations
+above still cannot RETURN this member (nothing in `proto/` or the rendered
+pages states it), which is why it is named here: the evidence lives in the
+device's source, outside this repository's derivable set.
 
 The transforms in §4 apply ONLY to the y-UP plane. For a y-DOWN field the
 framebuffer mapping has no flip:

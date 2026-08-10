@@ -81,13 +81,13 @@
     (is (= :NDC_Y_SENSE_DOWN
            (sense "cmd.DayCamera.TrackROI" [y2-slot])))))
 
-(deftest an-unresolved-plane-is-refused-and-says-which
-  (let [d (refusal "cmd.CV.StartTrackNDC" [y-slot])]
-    (is (some? d) "a command whose plane this repo does not settle must refuse")
-    (is (= "cmd.CV.StartTrackNDC" (:command-id d)))
-    (is (str/includes? (:message d) "UNRESOLVED")
-        "the refusal must say the plane was LOOKED AT and not decided — an
-         unlisted command is a different fact and gets a different sentence")))
+(deftest the-track-seed-is-read-in-the-device-tracker-plane
+  (testing "cmd.CV.StartTrackNDC is y-DOWN — settled from the device's own source"
+    ;; The tracker pad negates the wire value before its (1-y)/2 pixel mapping
+    ;; (its own comment records the producer sends y = -1 as TOP), and the
+    ;; device's production frontend negates its +y-UP pointer value at the send
+    ;; site — both ends agree the WIRE plane is y-DOWN, joining the ROI family.
+    (is (= :NDC_Y_SENSE_DOWN (sense "cmd.CV.StartTrackNDC" [y-slot])))))
 
 (deftest an-unlisted-command-is-refused-and-says-so-differently
   (let [d (refusal "cmd.Probe.SomeFutureNDCCommand" [y-slot])]
@@ -101,6 +101,7 @@
     ;; The live-classpath half: the fixtures above name ids out of the shipped
     ;; table, so this fails if an id is renamed out from under them.
     (doseq [cid ["cmd.RotaryPlatform.RotateToNDC" "cmd.RotaryPlatform.HaltWithNDC"
+                 "cmd.CV.StartTrackNDC"
                  "cmd.DayCamera.FocusROI" "cmd.DayCamera.TrackROI"
                  "cmd.DayCamera.ZoomROI" "cmd.DayCamera.FxROI"
                  "cmd.HeatCamera.FocusROI" "cmd.HeatCamera.TrackROI"

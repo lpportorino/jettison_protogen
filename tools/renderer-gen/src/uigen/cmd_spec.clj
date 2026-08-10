@@ -117,16 +117,9 @@
    state its destination plane; a spec carrying neither has no plane to state."
   #{:PATCH_KIND_NDC_Y :PATCH_KIND_NDC_Y2})
 
-(def ^:private unresolved-y-plane
-  "The verdict for a command whose destination plane THIS REPOSITORY does not
-   settle. Distinct from absence: absent means nobody has looked, this means
-   somebody did and the evidence does not decide. Both refuse the build; only
-   this one can say why."
-  ::unresolved)
-
 (def ^:private ndc-y-plane
   "command-id → the vertical sense its NDC y leaves are read in, as a
-   `ui.NdcYSense` keyword (or `unresolved-y-plane`).
+   `ui.NdcYSense` keyword.
 
    WHY A TABLE HERE AT ALL, and what is wrong with it. The renderer must be told
    the plane per command, because the pointer plane it recognizes gestures in
@@ -150,11 +143,11 @@
    `protodoc.render`, `protodoc.extract`, `protodoc.manifest` and eleven
    markdown pages, and it is written up rather than half-done.
 
-   WHAT IT DOES DO in the meantime: it refuses. An unlisted command and an
-   `unresolved` one both fail the GENERATION, so no template for a command whose
-   plane nobody has established can be built at all — which is the one property
-   a table like this must have, since the failure it exists to prevent is
-   undetectable in every layer below it.
+   WHAT IT DOES DO in the meantime: it refuses. An unlisted command fails the
+   GENERATION, so no template for a command whose plane nobody has established
+   can be built at all — which is the one property a table like this must have,
+   since the failure it exists to prevent is undetectable in every layer below
+   it.
 
    THE EVIDENCE, per entry, all of it in this repository:
    - The rotary pair is the pointer plane's own: `docs/INTERFACE-CONTRACTS.md`
@@ -165,15 +158,25 @@
      type (`ser.JonGuiDataCV.roi_*`). Their own pages state it per field: y1 is
      the `Top edge`, y2 the `Bottom edge` (`grep -l 'Top edge in NDC'
      docs/proto/cmd.*.md` returns these eight and nothing else).
-   - `cmd.CV.StartTrackNDC` is UNRESOLVED. `proto/ui/ui_input.proto` used to
-     assert it shared the pointer plane; that sentence also asserted it about
-     the ROI-adjacent surface and was wrong there, so it is not evidence. Its
-     own page states no sense, and its seed identifies an object the same
-     subsystem then reports as a y-DOWN bounding box — the two readings point
-     opposite ways. `docs/INTERFACE-CONTRACTS.md` §4.1 records the gap."
+   - `cmd.CV.StartTrackNDC` is y-DOWN, settled from the DEVICE'S OWN SOURCE
+     rather than from anything in this repository — which is why it was
+     UNRESOLVED here for so long: this repo genuinely holds no artifact that
+     decides it. The device's tracker pad negates the wire value before its
+     `(1 - y)/2 * height` pixel mapping, and its own comment records that the
+     producer sends `y = -1` as TOP; the device's production frontend
+     corroborates from the other end by negating its +y-UP pointer value at
+     the send site. Both ends agree the WIRE plane is y-DOWN, joining the ROI
+     family. `docs/INTERFACE-CONTRACTS.md` §4.1 records the settlement; the
+     dedicated `unresolved` sentinel this table carried retired with its last
+     subject.
+   - `cmd.RotaryPlatform.HaltWithNDC` is VACUOUS on the device side — the
+     consumer converts it to a plain halt and never reads x/y — so any sense
+     produces identical behavior. The row stays UP (the pointer plane it was
+     specified in) because the table must answer for a y-carrying slot, and
+     the vacuity is recorded so nobody re-derives a stronger claim from it."
   {"cmd.RotaryPlatform.RotateToNDC" :NDC_Y_SENSE_UP
    "cmd.RotaryPlatform.HaltWithNDC" :NDC_Y_SENSE_UP
-   "cmd.CV.StartTrackNDC" unresolved-y-plane
+   "cmd.CV.StartTrackNDC" :NDC_Y_SENSE_DOWN
    "cmd.DayCamera.FocusROI" :NDC_Y_SENSE_DOWN
    "cmd.DayCamera.TrackROI" :NDC_Y_SENSE_DOWN
    "cmd.DayCamera.ZoomROI" :NDC_Y_SENSE_DOWN
@@ -188,7 +191,7 @@
 
    Returns `:NDC_Y_SENSE_UNSPECIFIED` when no slot receives a y — a spec with no
    y has no plane, and stating one would be a fact about nothing. Otherwise the
-   table must answer, and an unlisted or `unresolved` command is a BUILD ERROR,
+   table must answer, and an unlisted command is a BUILD ERROR,
    never a default: the two senses are byte-legal and range-legal in each
    other's plane, so a guess ships a vertically mirrored command that decodes
    cleanly and that no layer below can detect."
@@ -202,7 +205,7 @@
                      " destination y plane is "
                      (if (= sense ::absent)
                        "not in uigen.cmd-spec/ndc-y-plane"
-                       "recorded UNRESOLVED")
+                       (str "recorded as the unrecognized value " (pr-str sense)))
                      " — the pointer plane is +y UP and the device's NDC commands do"
                      " not all share it, so a guess here ships a vertically MIRRORED"
                      " command that decodes cleanly and cannot be detected"
