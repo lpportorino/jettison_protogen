@@ -34,6 +34,67 @@
   :misplaced-docstring {:level :error}
   :duplicate-require {:level :error}}
 
+ ;; ── WHAT THIS MAP IS, AND WHAT IT IS NOT ───────────────────────────────────
+ ;; It is a list of LEVEL OVERRIDES, never the armed set. clj-kondo ships its
+ ;; own defaults and the gate passes --fail-level warning, so a linter that is
+ ;; on-by-default at :warning BLOCKS without appearing here. Counting the
+ ;; entries above and calling the answer "the linters this repo arms" undercounts
+ ;; it — that reading has already been made from outside and produced a report
+ ;; of missing coverage that does not exist.
+ ;;
+ ;; Three linters an adopter reaches for are absent, each for a different and
+ ;; recorded reason (`.claude/rules/gate-enforcement.md` §1: declining on the
+ ;; record is honest, quietly weakening is not).
+ ;;
+ ;;   :refer-all — ABSENT BECAUSE IT IS ALREADY ARMED. clj-kondo defaults it to
+ ;;     :warning, and lint-clj's --fail-level warning makes exit-2 fail exactly
+ ;;     like exit-3. Measured: a planted `[clojure.string :refer :all]` fails the
+ ;;     gate, and turning :refer-all — and only it — to :off makes that same
+ ;;     input pass, which attributes the red to this clause rather than a
+ ;;     neighbour. The gated tree carries zero `:refer :all` today. An entry here
+ ;;     would restate a default and imply the map is exhaustive.
+ ;;
+ ;;   :unsorted-required-namespaces — OFF by default and REDUNDANT. .cljfmt.edn
+ ;;     sets :sort-ns-references? true and `fmt-clj` is a CHECK, so an unsorted
+ ;;     :require already fails a lane. Measured on one file, both tools: kondo
+ ;;     armed says "Unsorted namespace: clojure.edn" (exit 3), cljfmt says
+ ;;     "incorrect formatting" and prints the sorted form (exit 1). Two lanes
+ ;;     refusing one input with two messages is worse than one, and cljfmt's is
+ ;;     the half with a fix target behind it.
+ ;;
+ ;;   :consistent-alias — DECLINED. It is a DECLARED REGISTRY, not a detector:
+ ;;     with {:level :error} and no :aliases map it reports nothing at all
+ ;;     (measured), so it enforces exactly the namespaces someone enrols and is
+ ;;     silent about every other one. Measured over the paths lint.mk gates: 940
+ ;;     aliased require sites across 142 target namespaces, of which 16 carry
+ ;;     more than one alias. A registry naming those 16 leaves 126 unpoliced and
+ ;;     never sees the 143rd, so it cannot close the class it would be adopted
+ ;;     for. Re-derive rather than trusting these numbers:
+ ;;
+ ;;       clj-kondo --cache false --lint <LINT_CLJ_PATHS> --config \
+ ;;         '{:output {:analysis {:namespace-usages true} :format :edn}}'
+ ;;
+ ;;     Two further findings, and the second is decisive. The splits track
+ ;;     TOOL-TREE boundaries — four independent projects share this one config,
+ ;;     so clojure.pprint is `pp` in devcards/renderer-gen/scratchcard and
+ ;;     `pprint` in protodoc, and devcards.lanes is `dlanes` only inside
+ ;;     scratchcard, whose OWN namespace is scratchcard.lanes. And enrolling
+ ;;     devcards.lanes at its majority alias demands something UNSATISFIABLE:
+ ;;     scratchcard.lanes-test requires both namespaces, so `lanes` for the
+ ;;     devcards one is a duplicate alias — clj-kondo refuses it with
+ ;;     "Conflicting alias" and Clojure throws "Alias lanes already exists".
+ ;;     Obeying the rule there would break the linter and the runtime.
+ ;;
+ ;;     The tie-break also inverts under measurement. Counting CALL sites rather
+ ;;     than require sites, the minority alias is often the majority:
+ ;;     protodoc.binary-dedup is `bd` at 82 calls against `binary-dedup` at 1.
+ ;;     So "make it consistent" is not one mechanical rewrite; it is sixteen
+ ;;     judgements, several of which argue for the shorter cryptic name.
+ ;;
+ ;;     This is where `.claude/rules/lint-gates.md` already puts the question —
+ ;;     alias conventions sit among the splint findings that "need judgement",
+ ;;     which is why splint is a tool you run and not a gate that blocks.
+
  ;; :lint-as maps a macro to the nearest clojure.core form clj-kondo already
  ;; analyses — never to suppress a finding.
  ;;   malli.core/=>          schema annotation, not a call — treat as a no-op.
