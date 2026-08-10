@@ -250,6 +250,14 @@ static lv_color_t pick_color(bool cond, lv_color_t when_true,
     return when_true;
   return when_false;
 }
+/* The dark/light TOKEN-PAIR select — the one compound this theme spells at
+ * every token site: resolve the mode's member of a THEME_*_DARK /
+ * THEME_*_LIGHT pair to a colour. Arguments in that order (dark first),
+ * matching the pick_u32 sites it replaces. */
+static lv_color_t mode_hex(const asgard_theme_t *t, uint32_t dark_hex,
+                           uint32_t light_hex) {
+  return lv_color_hex(pick_u32(t->dark, dark_hex, light_hex));
+}
 static void style_init(asgard_theme_t *t) {
   bool v = t->family == ASGARD_THEME_FAMILY_VANILLA;
   bool inited = t->inited;
@@ -264,23 +272,20 @@ static void style_init(asgard_theme_t *t) {
       &s->panel,
       pick_color(v,
                  pick_color(t->dark, lv_color_hex(0x282b30), lv_color_white()),
-                 lv_color_hex(pick_u32(t->dark, THEME_SURFACE1_DARK,
-                                       THEME_SURFACE1_LIGHT))));
+                 mode_hex(t, THEME_SURFACE1_DARK, THEME_SURFACE1_LIGHT)));
   lv_style_set_border_color(
       &s->panel, pick_color(v,
                             pick_color(t->dark, lv_color_hex(0x2f3237),
                                        lv_palette_lighten(LV_PALETTE_GREY, 2)),
-                            lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK,
-                                                  THEME_EDGE0_LIGHT))));
+                            mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
   lv_style_set_border_width(&s->panel,
                             pick_i32(v, dpx(t->dpi, 2), THEME_BORDER_W));
   lv_style_set_text_color(
       &s->panel,
-      pick_color(
-          v,
-          pick_color(t->dark, lv_palette_lighten(LV_PALETTE_GREY, 5),
-                     lv_palette_darken(LV_PALETTE_GREY, 4)),
-          lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK, THEME_FG0_LIGHT))));
+      pick_color(v,
+                 pick_color(t->dark, lv_palette_lighten(LV_PALETTE_GREY, 5),
+                            lv_palette_darken(LV_PALETTE_GREY, 4)),
+                 mode_hex(t, THEME_FG0_DARK, THEME_FG0_LIGHT)));
   /* control radius — form-control tier. Asgard also owns the tier's
    * component boundary here: stock's card border (grey, 2px) measured
    * ~1.03-1.2:1 against the light surface on textarea/spinbox, so the
@@ -292,9 +297,8 @@ static void style_init(asgard_theme_t *t) {
   lv_style_set_radius(&s->control_rad, pick_i32(v, stock_radius_default(t),
                                                 THEME_RADIUS_CONTROL));
   if (!v) {
-    lv_style_set_border_color(
-        &s->control_rad,
-        lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
+    lv_style_set_border_color(&s->control_rad,
+                              mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
     lv_style_set_border_width(&s->control_rad, THEME_BORDER_W);
   }
   /* button geometry */
@@ -314,9 +318,8 @@ static void style_init(asgard_theme_t *t) {
    * LOSS. Measured on the pair: 6.39:1 dark / 6.79:1 light against §6.2's
    * governing 6:1, up from 4.68:1 mode-invariant. */
   if (!v)
-    lv_style_set_text_color(
-        &s->btn,
-        lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT, THEME_FG0_DARK)));
+    lv_style_set_text_color(&s->btn,
+                            mode_hex(t, THEME_FG0_LIGHT, THEME_FG0_DARK));
   /* THE SAME INK, AS A REUSABLE STYLE — because `s->btn` is not the only place
    * stock pairs color_primary with white. lv_theme_default's bg_color_primary
    * applies that pair at many sites, and fixing only the button is a half-fix
@@ -332,9 +335,8 @@ static void style_init(asgard_theme_t *t) {
    * declared tokens), so it is named here rather than left to be re-found. */
   style_reset(&s->accent_ink, inited);
   if (!v)
-    lv_style_set_text_color(
-        &s->accent_ink,
-        lv_color_hex(pick_u32(t->dark, THEME_FG0_LIGHT, THEME_FG0_DARK)));
+    lv_style_set_text_color(&s->accent_ink,
+                            mode_hex(t, THEME_FG0_LIGHT, THEME_FG0_DARK));
   lv_style_set_radius(&s->btn,
                       pick_i32(v, stock_btn_radius(t), THEME_RADIUS_BUTTON));
   lv_style_set_pad_hor(&s->btn,
@@ -432,9 +434,8 @@ static void style_init(asgard_theme_t *t) {
   if (!v) {
     lv_style_set_border_side(&s->table_grid, LV_BORDER_SIDE_FULL);
     lv_style_set_border_width(&s->table_grid, THEME_BORDER_W);
-    lv_style_set_border_color(
-        &s->table_grid,
-        lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
+    lv_style_set_border_color(&s->table_grid,
+                              mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
   }
   /* checkbox indicator */
   style_reset(&s->cb_ind, inited);
@@ -472,9 +473,8 @@ static void style_init(asgard_theme_t *t) {
   style_reset(&s->scrollbar, inited);
   if (!v) {
     lv_style_set_radius(&s->scrollbar, THEME_RADIUS_CONTROL);
-    lv_style_set_bg_color(
-        &s->scrollbar,
-        lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
+    lv_style_set_bg_color(&s->scrollbar,
+                          mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
     lv_style_set_bg_opa(&s->scrollbar, LV_OPA_COVER);
   }
   /* closed-field surface — asgard-only: the closed dropdown kept stock's
@@ -484,27 +484,24 @@ static void style_init(asgard_theme_t *t) {
    * legible as a field. */
   style_reset(&s->field_bg, inited);
   if (!v)
-    lv_style_set_bg_color(&s->field_bg,
-                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE1_DARK,
-                                                THEME_SURFACE1_LIGHT)));
+    lv_style_set_bg_color(
+        &s->field_bg, mode_hex(t, THEME_SURFACE1_DARK, THEME_SURFACE1_LIGHT));
   /* buttonmatrix ITEMS fill — asgard-only: container-vs-item contrast
    * measured ~1.0-1.1:1 (items were indistinguishable from the container
    * they sit on); the surface-2 tone gives each key a real fill against
    * the surface-1 card, and the wider gap shows the boundary. */
   style_reset(&s->btnm_items, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->btnm_items,
-                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
-                                                THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_color(
+        &s->btnm_items, mode_hex(t, THEME_SURFACE2_DARK, THEME_SURFACE2_LIGHT));
     /* Key GLYPHS take fg-0 for the same reason the fill takes surface-2: the
      * fill was themed and the ink was not, so the ink stayed stock's own
      * color_text (#FAFAFA dark / #212121 light — the greys lv_palette hands
      * lv_theme_default). Both are legible, so this is token conformance
      * rather than a contrast repair: a themed family should not paint values
      * its own catalogue does not declare. */
-    lv_style_set_text_color(
-        &s->btnm_items,
-        lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK, THEME_FG0_LIGHT)));
+    lv_style_set_text_color(&s->btnm_items,
+                            mode_hex(t, THEME_FG0_DARK, THEME_FG0_LIGHT));
   }
   /* focus ring */
   style_reset(&s->focus, inited);
@@ -514,9 +511,8 @@ static void style_init(asgard_theme_t *t) {
     lv_style_set_outline_pad(&s->focus, dpx(t->dpi, 3));
     lv_style_set_outline_opa(&s->focus, LV_OPA_50);
   } else {
-    lv_style_set_outline_color(
-        &s->focus, lv_color_hex(pick_u32(t->dark, THEME_FOCUSED_EDGE_DARK,
-                                         THEME_FOCUSED_EDGE_LIGHT)));
+    lv_style_set_outline_color(&s->focus, mode_hex(t, THEME_FOCUSED_EDGE_DARK,
+                                                   THEME_FOCUSED_EDGE_LIGHT));
     lv_style_set_outline_width(&s->focus, THEME_OUTLINE_W);
     /* Thin pad, not OUTLINE_W: the outline's corner radius grows with its
      * pad, so a 2px pad swept a visibly rounded cap around the crisp
@@ -539,8 +535,7 @@ static void style_init(asgard_theme_t *t) {
   style_reset(&s->checked_accent, inited);
   if (!v) {
     lv_style_set_bg_color(&s->checked_accent,
-                          lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
-                                                THEME_CHECKED_LIGHT)));
+                          mode_hex(t, THEME_CHECKED_DARK, THEME_CHECKED_LIGHT));
     lv_style_set_bg_opa(&s->checked_accent, LV_OPA_COVER);
   }
   /* ── the roller's SELECTED band, both states ────────────────────────────
@@ -601,26 +596,23 @@ static void style_init(asgard_theme_t *t) {
    * gate needs to reproduce upstream. */
   style_reset(&s->roller_sel, inited);
   if (!v) {
-    lv_style_set_bg_color(
-        &s->roller_sel,
-        lv_color_hex(pick_u32(t->dark, THEME_FG0_DARK, THEME_FG0_LIGHT)));
+    lv_style_set_bg_color(&s->roller_sel,
+                          mode_hex(t, THEME_FG0_DARK, THEME_FG0_LIGHT));
     lv_style_set_bg_opa(&s->roller_sel, LV_OPA_COVER);
     /* NOT optional, and not symmetry: without it the band keeps stock's
      * white text_color, which measures 1.22:1 on the dark fg-0 fill. The
      * fill and the glyph have to move together on this part. */
-    lv_style_set_text_color(&s->roller_sel,
-                            lv_color_hex(pick_u32(t->dark, THEME_SURFACE1_DARK,
-                                                  THEME_SURFACE1_LIGHT)));
+    lv_style_set_text_color(
+        &s->roller_sel, mode_hex(t, THEME_SURFACE1_DARK, THEME_SURFACE1_LIGHT));
   }
   style_reset(&s->roller_sel_dis, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->roller_sel_dis,
-                          lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                                THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_bg_color(
+        &s->roller_sel_dis,
+        mode_hex(t, THEME_DISABLED_FG_DARK, THEME_DISABLED_FG_LIGHT));
     lv_style_set_bg_opa(&s->roller_sel_dis, LV_OPA_COVER);
-    lv_style_set_text_color(&s->roller_sel_dis,
-                            lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
-                                                  THEME_SURFACE2_LIGHT)));
+    lv_style_set_text_color(&s->roller_sel_dis, mode_hex(t, THEME_SURFACE2_DARK,
+                                                         THEME_SURFACE2_LIGHT));
     /* Carried over from the `disabled_fill` this selector used to take, and
      * NOT as a no-op copied for luck: `normal_apply_layer_recolor`
      * (lv_obj_draw.c) folds the LAYER recolor and then, for any part that is
@@ -639,8 +631,7 @@ static void style_init(asgard_theme_t *t) {
   style_reset(&s->edited_edge, inited);
   if (!v) {
     lv_style_set_outline_color(
-        &s->edited_edge, lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
-                                               THEME_CHECKED_LIGHT)));
+        &s->edited_edge, mode_hex(t, THEME_CHECKED_DARK, THEME_CHECKED_LIGHT));
     lv_style_set_outline_width(&s->edited_edge, THEME_OUTLINE_W);
     lv_style_set_outline_pad(&s->edited_edge, THEME_BORDER_W);
     lv_style_set_outline_opa(&s->edited_edge, LV_OPA_COVER);
@@ -742,32 +733,28 @@ static void style_init(asgard_theme_t *t) {
    *   LIGHTENS a disabled dark table (it pops instead of receding). */
   style_reset(&s->disabled, inited);
   if (!v) {
-    lv_style_set_text_color(
-        &s->disabled, lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                            THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_text_color(&s->disabled, mode_hex(t, THEME_DISABLED_FG_DARK,
+                                                   THEME_DISABLED_FG_LIGHT));
     lv_style_set_recolor_opa(&s->disabled, LV_OPA_TRANSP);
   }
   style_reset(&s->disabled_dim, inited);
   if (!v) {
     lv_style_set_opa(&s->disabled_dim, THEME_DISABLED_OPA);
     lv_style_set_text_color(
-        &s->disabled_dim, lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                                THEME_DISABLED_FG_LIGHT)));
-    lv_style_set_recolor(&s->disabled_dim,
-                         lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                               THEME_DISABLED_FG_LIGHT)));
+        &s->disabled_dim,
+        mode_hex(t, THEME_DISABLED_FG_DARK, THEME_DISABLED_FG_LIGHT));
+    lv_style_set_recolor(&s->disabled_dim, mode_hex(t, THEME_DISABLED_FG_DARK,
+                                                    THEME_DISABLED_FG_LIGHT));
     lv_style_set_recolor_opa(&s->disabled_dim, 100);
   }
   style_reset(&s->disabled_fill, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->disabled_fill,
-                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
-                                                THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_color(&s->disabled_fill, mode_hex(t, THEME_SURFACE2_DARK,
+                                                      THEME_SURFACE2_LIGHT));
     lv_style_set_bg_opa(&s->disabled_fill, LV_OPA_COVER);
     lv_style_set_text_color(
         &s->disabled_fill,
-        lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                              THEME_DISABLED_FG_LIGHT)));
+        mode_hex(t, THEME_DISABLED_FG_DARK, THEME_DISABLED_FG_LIGHT));
     lv_style_set_recolor_opa(&s->disabled_fill, LV_OPA_TRANSP);
   }
   style_reset(&s->disabled_flat, inited);
@@ -775,8 +762,7 @@ static void style_init(asgard_theme_t *t) {
     lv_style_set_opa(&s->disabled_flat, THEME_DISABLED_OPA);
     lv_style_set_text_color(
         &s->disabled_flat,
-        lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                              THEME_DISABLED_FG_LIGHT)));
+        mode_hex(t, THEME_DISABLED_FG_DARK, THEME_DISABLED_FG_LIGHT));
   }
   /* DISABLED for a control whose VALUE IS knob-vs-track contrast — the switch.
    *
@@ -801,17 +787,15 @@ static void style_init(asgard_theme_t *t) {
    * nothing folds into layer->opa and the pair keeps its measured contrast. */
   style_reset(&s->disabled_track, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->disabled_track,
-                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
-                                                THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_color(&s->disabled_track, mode_hex(t, THEME_SURFACE2_DARK,
+                                                       THEME_SURFACE2_LIGHT));
     lv_style_set_bg_opa(&s->disabled_track, LV_OPA_COVER);
     lv_style_set_recolor_opa(&s->disabled_track, LV_OPA_TRANSP);
   }
   style_reset(&s->disabled_knob, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->disabled_knob,
-                          lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                                THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_bg_color(&s->disabled_knob, mode_hex(t, THEME_DISABLED_FG_DARK,
+                                                      THEME_DISABLED_FG_LIGHT));
     lv_style_set_bg_opa(&s->disabled_knob, LV_OPA_COVER);
     lv_style_set_recolor_opa(&s->disabled_knob, LV_OPA_TRANSP);
   }
@@ -854,14 +838,12 @@ static void style_init(asgard_theme_t *t) {
    *   the opacity diluted it back into the panel. */
   style_reset(&s->track_tone, inited);
   if (!v)
-    lv_style_set_arc_color(
-        &s->track_tone,
-        lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
+    lv_style_set_arc_color(&s->track_tone,
+                           mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
   style_reset(&s->track_bg, inited);
   if (!v) {
-    lv_style_set_bg_color(
-        &s->track_bg,
-        lv_color_hex(pick_u32(t->dark, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT)));
+    lv_style_set_bg_color(&s->track_bg,
+                          mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
     lv_style_set_bg_opa(&s->track_bg, LV_OPA_COVER);
   }
   /* readout arc — the MOVING half of a spinner ring, and the arc twin of
@@ -893,9 +875,8 @@ static void style_init(asgard_theme_t *t) {
    * dark / 3.44:1 light with no change to the indicator at all. */
   style_reset(&s->readout_arc, inited);
   if (!v)
-    lv_style_set_arc_color(&s->readout_arc,
-                           lv_color_hex(pick_u32(t->dark, THEME_CHECKED_DARK,
-                                                 THEME_CHECKED_LIGHT)));
+    lv_style_set_arc_color(
+        &s->readout_arc, mode_hex(t, THEME_CHECKED_DARK, THEME_CHECKED_LIGHT));
   /* selected tab-bar label — asgard DARK only, COLOR only. The tab bar is
    * frozen to stock geometry (demo-parity capstone), but stock derives the
    * selected label tint from color_primary while the selected tab fill is
@@ -915,16 +896,14 @@ static void style_init(asgard_theme_t *t) {
    * keeps the frozen tabview geometry frozen. */
   style_reset(&s->tab_bar_bg, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->tab_bar_bg,
-                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE2_DARK,
-                                                THEME_SURFACE2_LIGHT)));
+    lv_style_set_bg_color(
+        &s->tab_bar_bg, mode_hex(t, THEME_SURFACE2_DARK, THEME_SURFACE2_LIGHT));
     lv_style_set_bg_opa(&s->tab_bar_bg, LV_OPA_COVER);
   }
   style_reset(&s->tab_page_bg, inited);
   if (!v) {
-    lv_style_set_bg_color(&s->tab_page_bg,
-                          lv_color_hex(pick_u32(t->dark, THEME_SURFACE0_DARK,
-                                                THEME_SURFACE0_LIGHT)));
+    lv_style_set_bg_color(&s->tab_page_bg, mode_hex(t, THEME_SURFACE0_DARK,
+                                                    THEME_SURFACE0_LIGHT));
     lv_style_set_bg_opa(&s->tab_page_bg, LV_OPA_COVER);
   }
   /* disabled spinbox cursor — asgard-only: the stock cursor keeps its
@@ -937,9 +916,8 @@ static void style_init(asgard_theme_t *t) {
   style_reset(&s->cursor_off, inited);
   if (!v) {
     lv_style_set_bg_opa(&s->cursor_off, LV_OPA_TRANSP);
-    lv_style_set_text_color(
-        &s->cursor_off, lv_color_hex(pick_u32(t->dark, THEME_DISABLED_FG_DARK,
-                                              THEME_DISABLED_FG_LIGHT)));
+    lv_style_set_text_color(&s->cursor_off, mode_hex(t, THEME_DISABLED_FG_DARK,
+                                                     THEME_DISABLED_FG_LIGHT));
   }
   /* zero-time transitions — asgard-only */
   style_reset(&s->trans, inited);
