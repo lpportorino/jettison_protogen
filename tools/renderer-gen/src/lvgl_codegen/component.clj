@@ -116,6 +116,28 @@
      widget
      widget)))
 
+(defn- prune-optional-substitutions
+  "Drop template keys whose PARAM substitution resolved to nothing: a :class
+   whose template string carries a $param and substituted to blank, and an
+   :event whose template value is a :$param keyword and substituted to nil.
+   This is what makes an OPTIONAL string param on :class and an OPTIONAL
+   keyword param on :event expressible at all — without it the blank :class
+   reaches the class parser as an unknown token and the nil :event rides the
+   node as a value no authored screen can carry. Scoped to PARAM-fed values
+   only: a template's static empty :class stays as written, so a static
+   authoring error keeps failing loudly at the class parser rather than being
+   silently absorbed here."
+  [template node]
+  (cond-> node
+    (and (string? (:class template))
+         (str/includes? (:class template) "$")
+         (str/blank? (:class node)))
+    (dissoc :class)
+    (and (keyword? (:event template))
+         (str/starts-with? (name (:event template)) "$")
+         (nil? (:event node)))
+    (dissoc :event)))
+
 (declare resolve-component-usage)
 
 ;; -- Tree resolution --
@@ -144,23 +166,25 @@
          components
          visited)
         ;; Regular LVGL widget — substitute params
-        (cond-> (substitute-widget-props tree props)
-          (:text tree) (update :text substitute-string props)
-          (:class tree) (update :class substitute-string props)
-          (:bind tree) (update :bind substitute-map-vals props)
-          (:bind-fmt tree) (update :bind-fmt substitute-map-vals props)
-          (:event tree) (update :event #(substitute-value % props))
-          (:show-when tree) (update :show-when substitute-map-vals props)
-          (:checked-when tree) (update :checked-when substitute-map-vals props)
-          (:children tree)
-          (update :children
-                  (fn [ch]
-                    (vec (mapcat
-                          (fn [child]
-                            (let [resolved
-                                  (resolve-tree child props children components visited)]
-                              (if (vector? resolved) resolved [resolved])))
-                          ch)))))))
+        (prune-optional-substitutions
+         tree
+         (cond-> (substitute-widget-props tree props)
+           (:text tree) (update :text substitute-string props)
+           (:class tree) (update :class substitute-string props)
+           (:bind tree) (update :bind substitute-map-vals props)
+           (:bind-fmt tree) (update :bind-fmt substitute-map-vals props)
+           (:event tree) (update :event #(substitute-value % props))
+           (:show-when tree) (update :show-when substitute-map-vals props)
+           (:checked-when tree) (update :checked-when substitute-map-vals props)
+           (:children tree)
+           (update :children
+                   (fn [ch]
+                     (vec (mapcat
+                           (fn [child]
+                             (let [resolved
+                                   (resolve-tree child props children components visited)]
+                               (if (vector? resolved) resolved [resolved])))
+                           ch))))))))
     ;; Vector of nodes (from slot expansion)
     (vector? tree)
     (vec (mapcat (fn [child]
@@ -382,6 +406,8 @@
       [:=> [:cat [:maybe [:map-of :keyword [:maybe some?]]] props-schema] [:maybe :map]])
 
 (m/=> substitute-widget-props [:=> [:cat widget-schema props-schema] widget-schema])
+
+(m/=> prune-optional-substitutions [:=> [:cat widget-schema widget-schema] widget-schema])
 
 (m/=> resolve-tree
       [:=>

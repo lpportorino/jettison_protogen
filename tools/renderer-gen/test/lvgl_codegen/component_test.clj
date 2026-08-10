@@ -17,9 +17,12 @@
   WHY IT WAS INVISIBLE. The `:$param` KEYWORD spelling was always caught, by the
   postwalk clause that rejects any keyword starting with `$` ANYWHERE in the tree.
   Only the STRING spelling leaked — and only outside `:text`/`:class`. Nothing in
-  the shipped `edn/components.edn` uses that combination (all four of its
-  `$`-strings are in `:text`), so no authored screen could reach it and no pixel
-  oracle, golden or parity lane could ever have found it."
+  the shipped `edn/components.edn` uses that combination — derive the split from
+  the file rather than a count here (a tally of its `$`-strings stood in this
+  docstring and went stale twice as components were added); what is load-bearing
+  is only that no `$`-string sits in an UNSUBSTITUTED key, so no authored screen
+  could reach the leak and no pixel oracle, golden or parity lane could ever
+  have found it."
   (:require
    [clojure.test :refer [deftest is testing]]
    [lvgl-codegen.component :as component]))
@@ -88,3 +91,57 @@
     (is (nil? (scan-residue! {:tag :lv_label :text "Cost: $99.50"} "c"))))
   (testing "a bare $ with no name is not a reference"
     (is (nil? (scan-residue! {:tag :lv_label :text "100%$"} "c")))))
+
+;; ============================================================
+;; optional-param pruning — :class/:event fed by an ABSENT param
+;; ============================================================
+(deftest test-optional-event-param-prunes-event-key
+  (testing "an :$param :event whose param is not provided leaves NO :event key
+            (the key is param-fed, so an absent param means an event-less node,
+            not a nil-valued :event no authored screen could carry)"
+    (let [components {"btn" {:params {:label {:type :string :required true}
+                                      :event {:type :keyword}}
+                             :tree {:tag :lv_button
+                                    :event :$event
+                                    :children [{:tag :lv_label :text "$label"}]}}}
+          result (component/resolve-components components
+                                               {:tree {:tag :btn :props {:label "Idle"}}})]
+      (is (not (contains? (:tree result) :event)))
+      (is (= "Idle" (get-in result [:tree :children 0 :text]))))))
+
+(deftest test-provided-optional-event-param-substitutes
+  (testing "the same optional :event param, when provided, still substitutes"
+    (let [components {"btn" {:params {:label {:type :string :required true}
+                                      :event {:type :keyword}}
+                             :tree {:tag :lv_button
+                                    :event :$event
+                                    :children [{:tag :lv_label :text "$label"}]}}}
+          result (component/resolve-components
+                  components
+                  {:tree {:tag :btn :props {:label "Go" :event :fire}}})]
+      (is (= :fire (get-in result [:tree :event]))))))
+
+(deftest test-blank-class-param-prunes-class-key
+  (testing "a $param-only :class substituting to blank leaves NO :class key —
+            an optional class param means 'no class', never an empty class
+            string the token parser would reject"
+    (let [components {"chip" {:params {:class {:type :string :default ""}}
+                              :tree {:tag :lv_label :class "$class" :text "x"}}}
+          result (component/resolve-components components {:tree {:tag :chip}})]
+      (is (not (contains? (:tree result) :class))))))
+
+(deftest test-static-blank-class-is-not-pruned
+  (testing "a template's STATIC empty :class is not absorbed — pruning is scoped
+            to param-fed values, so a static authoring error keeps failing
+            loudly at the class parser instead of vanishing here"
+    (let [components {"bad" {:params {} :tree {:tag :lv_label :class "" :text "x"}}}
+          result (component/resolve-components components {:tree {:tag :bad}})]
+      (is (= "" (get-in result [:tree :class]))))))
+
+(deftest test-blank-param-inside-wider-class-keeps-class
+  (testing "a blank param embedded in a WIDER class string leaves the class in
+            place (only a class that is entirely param-fed and blank prunes)"
+    (let [components {"card2" {:params {:extra {:type :string :default ""}}
+                               :tree {:tag :lv_obj :class "@card $extra"}}}
+          result (component/resolve-components components {:tree {:tag :card2}})]
+      (is (= "@card " (get-in result [:tree :class]))))))
