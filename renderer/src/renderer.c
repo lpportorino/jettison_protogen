@@ -5500,6 +5500,60 @@ static bool children_decode_cb(pb_istream_t *stream, const pb_field_t *field,
    * can, latching is the behavior the contract is written against. */
   return true;
 }
+/* Start the deferred-attachment queues empty. Both decode entry points owe
+ * this before their first op/node builds: attachments queued by a PREVIOUS
+ * decode must never leak into this one's drain. One home — a queue added here
+ * and in the drain below is a queue added everywhere it must be. */
+static void reset_pending_queues(void) {
+  pending_bindings_count = 0;
+  pending_visibility_count = 0;
+  pending_checked_count = 0;
+  pending_enabled_count = 0;
+  pending_pendstate_count = 0;
+  pending_color_count = 0;
+  pending_event_subject_count = 0;
+  pending_patch_subject_count = 0;
+  pending_tabview_count = 0;
+}
+/* Batch-end drain: flush every deferred attachment against the now-populated
+ * subject registry, then reset the queues. Shared verbatim by the full build
+ * and the patch batch end — the ordering (bindings, the four state bindings,
+ * color, the two resolvability checks, then tabview activation LAST, against
+ * FINAL geometry) is part of the contract, so it lives once. */
+static void drain_pending_attachments(void) {
+  for (int i = 0; i < pending_bindings_count; i++) {
+    apply_bindings(&pending_bindings[i]);
+  }
+  for (int i = 0; i < pending_visibility_count; i++) {
+    apply_visibility(pending_visibility[i].obj, &pending_visibility[i].vis);
+  }
+  for (int i = 0; i < pending_checked_count; i++) {
+    apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
+  }
+  for (int i = 0; i < pending_enabled_count; i++) {
+    apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
+  }
+  for (int i = 0; i < pending_pendstate_count; i++) {
+    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
+  }
+  for (int i = 0; i < pending_color_count; i++) {
+    apply_color_when(pending_color[i].obj, &pending_color[i].bind);
+  }
+  for (int i = 0; i < pending_event_subject_count; i++) {
+    apply_event_subject(&pending_event_subject[i]);
+  }
+  for (int i = 0; i < pending_patch_subject_count; i++) {
+    apply_patch_subject(&pending_patch_subject[i]);
+  }
+  /* Tabview activation runs after every style group is attached — set_active
+   * calls lv_obj_update_layout itself, so the frozen frame lands on the FINAL
+   * scroll-snap position (see the pending_tabview queue note). */
+  for (int i = 0; i < pending_tabview_count; i++) {
+    lv_tabview_set_active(pending_tabview[i].tabview,
+                          pending_tabview[i].active_index, LV_ANIM_OFF);
+  }
+  reset_pending_queues();
+}
 /* ================================================================
  * Public API
  * ================================================================ */
@@ -5515,15 +5569,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
   ui_Screen screen = ui_Screen_init_zero;
   /* Bindings/visibility attach AFTER the decode (subjects stream after
    * the tree — see the pending queues); start each build empty. */
-  pending_bindings_count = 0;
-  pending_visibility_count = 0;
-  pending_checked_count = 0;
-  pending_enabled_count = 0;
-  pending_pendstate_count = 0;
-  pending_color_count = 0;
-  pending_event_subject_count = 0;
-  pending_patch_subject_count = 0;
-  pending_tabview_count = 0;
+  reset_pending_queues();
   grid_template_count = 0;
   scale_text_count = 0;
   bg_image_src_count = 0;
@@ -5586,46 +5632,7 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
    * during streaming decode, but the ROOT finalizes only above, so a
    * flush placed before it would attach root-level bindings to a
    * half-initialized widget (no uid, no props, no styles). */
-  for (int i = 0; i < pending_bindings_count; i++) {
-    apply_bindings(&pending_bindings[i]);
-  }
-  for (int i = 0; i < pending_visibility_count; i++) {
-    apply_visibility(pending_visibility[i].obj, &pending_visibility[i].vis);
-  }
-  for (int i = 0; i < pending_checked_count; i++) {
-    apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
-  }
-  for (int i = 0; i < pending_enabled_count; i++) {
-    apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
-  }
-  for (int i = 0; i < pending_pendstate_count; i++) {
-    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
-  }
-  for (int i = 0; i < pending_color_count; i++) {
-    apply_color_when(pending_color[i].obj, &pending_color[i].bind);
-  }
-  for (int i = 0; i < pending_event_subject_count; i++) {
-    apply_event_subject(&pending_event_subject[i]);
-  }
-  for (int i = 0; i < pending_patch_subject_count; i++) {
-    apply_patch_subject(&pending_patch_subject[i]);
-  }
-  pending_bindings_count = 0;
-  pending_visibility_count = 0;
-  pending_checked_count = 0;
-  pending_enabled_count = 0;
-  pending_pendstate_count = 0;
-  pending_color_count = 0;
-  pending_event_subject_count = 0;
-  pending_patch_subject_count = 0;
-  /* Every node (root included) is finalized and every style group is
-   * attached — activate tabs against FINAL geometry (set_active calls
-   * lv_obj_update_layout itself; see the pending_tabview queue note). */
-  for (int i = 0; i < pending_tabview_count; i++) {
-    lv_tabview_set_active(pending_tabview[i].tabview,
-                          pending_tabview[i].active_index, LV_ANIM_OFF);
-  }
-  pending_tabview_count = 0;
+  drain_pending_attachments();
   /* Free the root node's FT_POINTER submessages (EventBinding.cmd,
    * WidgetNode.gestures — R5a); finalize_widget + the pending flushes have
    * consumed everything the build needs. Child nodes were released in
@@ -6159,15 +6166,7 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
   /* Ops queue bindings/visibility/checked/event-subject/tabview-activation
    * exactly like a full decode; start the queues empty and drain at batch end
    * (subjects are already live during a patch — never reset here). */
-  pending_bindings_count = 0;
-  pending_visibility_count = 0;
-  pending_checked_count = 0;
-  pending_enabled_count = 0;
-  pending_pendstate_count = 0;
-  pending_color_count = 0;
-  pending_event_subject_count = 0;
-  pending_patch_subject_count = 0;
-  pending_tabview_count = 0;
+  reset_pending_queues();
   pb_istream_t stream = pb_istream_from_buffer(data, len);
   if (!pb_decode(&stream, ui_ScreenPatch_fields, &patch)) {
     if (ctx.rc != 0)
@@ -6183,35 +6182,7 @@ int apply_patch_from_proto_raw(const uint8_t *data, uint32_t len,
     return -2;
   }
   /* Batch end: drain the deferred attachments (the full-decode flush). */
-  for (int i = 0; i < pending_bindings_count; i++)
-    apply_bindings(&pending_bindings[i]);
-  for (int i = 0; i < pending_visibility_count; i++)
-    apply_visibility(pending_visibility[i].obj, &pending_visibility[i].vis);
-  for (int i = 0; i < pending_checked_count; i++)
-    apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
-  for (int i = 0; i < pending_enabled_count; i++)
-    apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
-  for (int i = 0; i < pending_pendstate_count; i++)
-    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
-  for (int i = 0; i < pending_color_count; i++)
-    apply_color_when(pending_color[i].obj, &pending_color[i].bind);
-  for (int i = 0; i < pending_event_subject_count; i++)
-    apply_event_subject(&pending_event_subject[i]);
-  for (int i = 0; i < pending_patch_subject_count; i++)
-    apply_patch_subject(&pending_patch_subject[i]);
-  pending_bindings_count = 0;
-  pending_visibility_count = 0;
-  pending_checked_count = 0;
-  pending_enabled_count = 0;
-  pending_pendstate_count = 0;
-  pending_color_count = 0;
-  pending_event_subject_count = 0;
-  pending_patch_subject_count = 0;
-  for (int i = 0; i < pending_tabview_count; i++) {
-    lv_tabview_set_active(pending_tabview[i].tabview,
-                          pending_tabview[i].active_index, LV_ANIM_OFF);
-  }
-  pending_tabview_count = 0;
+  drain_pending_attachments();
   /* A deep load site (pool exhaustion / observer malloc / a binding to an
    * undeclared subject) latched during this patch's build or drain — the patch
    * applied but a resource could not be honored. Fail loud (PATCH_ERR_OP): the
