@@ -2498,14 +2498,58 @@ static void apply_widget_props(lv_obj_t *obj, ui_WidgetNode *node) {
 /* Forward declarations */
 static void apply_bindings(const pending_bindings_t *p);
 /* ================================================================
- * Conditional visibility — show/hide via LVGL observer
+ * Compare bindings — ONE applier for the four reactive state bindings
+ * that share the VisibilityBinding wire shape. Each class differs in
+ * exactly three facts, so those three ARE the descriptor and everything
+ * else (subject resolution, the INT-only rule, the compare_op_ok guard,
+ * the EQ/NOT_EQ native-bind fast path, the custom-observer fallback and
+ * its OOM latch) lives once:
+ *
+ *   visibility    hide (LV_OBJ_FLAG_HIDDEN) while the comparison does
+ *                 NOT hold — show-when.
+ *   checked_when  LV_STATE_CHECKED while it holds. The reactive sibling
+ *                 of the create-time `states` bitmask; the radio-group
+ *                 idiom (circle-styled checkboxes mirroring one INT
+ *                 subject) rides this.
+ *   enabled_when  LV_STATE_DISABLED while it does NOT hold — reactive
+ *                 precondition-disable (a control greyed until its
+ *                 preconditions read satisfied). Inverted because
+ *                 DISABLED names the NEGATION of the condition the
+ *                 binding is about.
+ *   pending_when  LV_STATE_USER_1 (the bit the style vocabulary spells
+ *                 `pending:`) while it holds. Drives the
+ *                 command-outstanding affordance: a control that has
+ *                 dispatched a command and is waiting for the confirming
+ *                 state — a fact about a round trip the widget cannot
+ *                 see, so it arrives as a host-published INT subject. It
+ *                 must be a BINDING rather than the create-time `states`
+ *                 bitmask, because `states` is applied with
+ *                 lv_obj_add_state and so can only ever RAISE the bit,
+ *                 never clear it when the reply lands.
  * ================================================================ */
-/* Data for custom range-comparison observer callbacks (visibility +
- * checked_when share the VisibilityBinding wire shape).
- * Heap-allocated, freed on LV_EVENT_DELETE via cleanup_event_cb. */
+typedef struct {
+  const char *what;       /* diagnostic name; also compare_op_ok's `where` */
+  bool is_flag;           /* true: toggle LV_OBJ_FLAG_HIDDEN; false: `state` */
+  lv_state_t state;       /* the state bit toggled when !is_flag */
+  bool assert_when_holds; /* true: bit/flag SET while the comparison
+                           * holds; false: set while it does NOT */
+} compare_binding_class_t;
+static const compare_binding_class_t BIND_VISIBILITY = {"visibility", true, 0,
+                                                        false};
+static const compare_binding_class_t BIND_CHECKED_WHEN = {
+    "checked_when", false, LV_STATE_CHECKED, true};
+static const compare_binding_class_t BIND_ENABLED_WHEN = {
+    "enabled_when", false, LV_STATE_DISABLED, false};
+static const compare_binding_class_t BIND_PENDING_WHEN = {
+    "pending_when", false, LV_STATE_USER_1, true};
+/* Data for the custom range-comparison observer (GT/GTE/LT/LTE — the ops
+ * with no native bind helper). Heap-allocated, freed on LV_EVENT_DELETE via
+ * cleanup_event_cb; `cls` points at one of the static descriptors above, so
+ * the struct stays flat. */
 typedef struct {
   int32_t ref_value;
   ui_CompareOp compare;
+  const compare_binding_class_t *cls;
 } compare_cb_data_t;
 /* One comparison semantics for every VisibilityBinding consumer. */
 static bool compare_holds(ui_CompareOp compare, int32_t val,
@@ -2525,271 +2569,95 @@ static bool compare_holds(ui_CompareOp compare, int32_t val,
     return val == ref_value;
   }
 }
-static void visibility_observer_cb(lv_observer_t *observer,
-                                   lv_subject_t *subject) {
+/* Set or clear the class's target bit on `obj` per `asserted`. */
+static void compare_binding_apply_target(lv_obj_t *obj,
+                                         const compare_binding_class_t *cls,
+                                         bool asserted) {
+  if (cls->is_flag) {
+    if (asserted) {
+      lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
+    } else {
+      lv_obj_remove_flag(obj, LV_OBJ_FLAG_HIDDEN);
+    }
+  } else if (asserted) {
+    lv_obj_add_state(obj, cls->state);
+  } else {
+    lv_obj_remove_state(obj, cls->state);
+  }
+}
+static void compare_binding_observer_cb(lv_observer_t *observer,
+                                        lv_subject_t *subject) {
   lv_obj_t *obj = lv_observer_get_target_obj(observer);
   compare_cb_data_t *data =
       (compare_cb_data_t *)lv_observer_get_user_data(observer);
   if (!obj || !data)
     return;
-  bool show = compare_holds(data->compare, lv_subject_get_int(subject),
-                            data->ref_value);
-  if (show) {
-    lv_obj_remove_flag(obj, LV_OBJ_FLAG_HIDDEN);
-  } else {
-    lv_obj_add_flag(obj, LV_OBJ_FLAG_HIDDEN);
-  }
+  bool holds = compare_holds(data->compare, lv_subject_get_int(subject),
+                             data->ref_value);
+  compare_binding_apply_target(obj, data->cls,
+                               holds == data->cls->assert_when_holds);
 }
-static void apply_visibility(lv_obj_t *obj, const ui_VisibilityBinding *vis) {
-  subject_entry_t *entry = find_subject(vis->subject);
+static void apply_compare_binding(lv_obj_t *obj,
+                                  const ui_VisibilityBinding *bind,
+                                  const compare_binding_class_t *cls) {
+  subject_entry_t *entry = find_subject(bind->subject);
   if (!entry) {
-    /* B7/ITEM-8b: a show-when bound to a never-declared subject is a dead
-       * binding (the widget's visibility never reacts). Fail the load loud —
-       * the declaration-overflow case already does (subject_overflow). */
-    LOG_ERROR("visibility references unknown subject '%s'", vis->subject);
+    /* B7/ITEM-8b: a binding to a never-declared subject is a dead binding
+     * (the widget never reacts). Fail the load loud — the
+     * declaration-overflow case already does (subject_overflow). */
+    LOG_ERROR("%s references unknown subject '%s'", cls->what, bind->subject);
     load_resource_error = true;
     return;
   }
   if (entry->type != 0) {
-    LOG_WARN("visibility only supports INT subjects (got '%s')", vis->subject);
+    LOG_WARN("%s only supports INT subjects (got '%s')", cls->what,
+             bind->subject);
     return;
   }
-  if (!compare_op_ok(vis->compare, "visibility"))
+  if (!compare_op_ok(bind->compare, cls->what))
     return;
-  switch (vis->compare) {
+  switch (bind->compare) {
   case ui_CompareOp_COMPARE_EQ:
-    /* Show when subject == ref_value → hide when NOT equal */
-    lv_obj_bind_flag_if_not_eq(obj, &entry->subject, LV_OBJ_FLAG_HIDDEN,
-                               vis->ref_value);
+  case ui_CompareOp_COMPARE_NOT_EQ: {
+    /* Native bind fast path. The target is asserted while (subject == ref)
+     * for exactly one combination of the op and the class polarity —
+     * e.g. show-when-EQ hides on NOT equal, enabled-when-EQ disables on
+     * NOT equal, checked-when-EQ checks on equal. */
+    bool eq_holds = bind->compare == ui_CompareOp_COMPARE_EQ;
+    bool bind_if_eq = eq_holds == cls->assert_when_holds;
+    if (cls->is_flag) {
+      if (bind_if_eq) {
+        lv_obj_bind_flag_if_eq(obj, &entry->subject, LV_OBJ_FLAG_HIDDEN,
+                               bind->ref_value);
+      } else {
+        lv_obj_bind_flag_if_not_eq(obj, &entry->subject, LV_OBJ_FLAG_HIDDEN,
+                                   bind->ref_value);
+      }
+    } else if (bind_if_eq) {
+      lv_obj_bind_state_if_eq(obj, &entry->subject, cls->state,
+                              bind->ref_value);
+    } else {
+      lv_obj_bind_state_if_not_eq(obj, &entry->subject, cls->state,
+                                  bind->ref_value);
+    }
     break;
-  case ui_CompareOp_COMPARE_NOT_EQ:
-    /* Show when subject != ref_value → hide when equal */
-    lv_obj_bind_flag_if_eq(obj, &entry->subject, LV_OBJ_FLAG_HIDDEN,
-                           vis->ref_value);
-    break;
+  }
   default: {
     /* GT, GTE, LT, LTE — custom observer callback */
     compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
     if (!data) {
       /* B5: OOM would leave the comparison binding unwired (a control
-             * that never reacts to its subject) with no signal. Fail loud. */
+       * that never reacts to its subject) with no signal. Fail loud. */
       LOG_ERROR("compare observer alloc failed — binding would be inert");
       load_resource_error = true;
       return;
     }
-    data->ref_value = vis->ref_value;
-    data->compare = vis->compare;
-    lv_subject_add_observer_obj(&entry->subject, visibility_observer_cb, obj,
-                                data);
+    data->ref_value = bind->ref_value;
+    data->compare = bind->compare;
+    data->cls = cls;
+    lv_subject_add_observer_obj(&entry->subject, compare_binding_observer_cb,
+                                obj, data);
     /* Free data on widget deletion */
-    lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
-    break;
-  }
-  }
-}
-/* ================================================================
- * Reactive checked-state binding (checked_when) — the widget carries
- * LV_STATE_CHECKED while the subject comparison holds, cleared
- * otherwise. The reactive sibling of the create-time `states` bitmask;
- * the radio-group idiom (circle-styled checkboxes mirroring one INT
- * subject) rides this.
- * ================================================================ */
-static void checked_observer_cb(lv_observer_t *observer,
-                                lv_subject_t *subject) {
-  lv_obj_t *obj = lv_observer_get_target_obj(observer);
-  compare_cb_data_t *data =
-      (compare_cb_data_t *)lv_observer_get_user_data(observer);
-  if (!obj || !data)
-    return;
-  if (compare_holds(data->compare, lv_subject_get_int(subject),
-                    data->ref_value)) {
-    lv_obj_add_state(obj, LV_STATE_CHECKED);
-  } else {
-    lv_obj_remove_state(obj, LV_STATE_CHECKED);
-  }
-}
-static void apply_checked_when(lv_obj_t *obj,
-                               const ui_VisibilityBinding *bind) {
-  subject_entry_t *entry = find_subject(bind->subject);
-  if (!entry) {
-    /* B7/ITEM-8b: a checked-when bound to a never-declared subject is a dead
-       * binding. Fail the load loud (see apply_visibility). */
-    LOG_ERROR("checked_when references unknown subject '%s'", bind->subject);
-    load_resource_error = true;
-    return;
-  }
-  if (entry->type != 0) {
-    LOG_WARN("checked_when only supports INT subjects (got '%s')",
-             bind->subject);
-    return;
-  }
-  if (!compare_op_ok(bind->compare, "checked_when"))
-    return;
-  switch (bind->compare) {
-  case ui_CompareOp_COMPARE_EQ:
-    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_CHECKED,
-                            bind->ref_value);
-    break;
-  case ui_CompareOp_COMPARE_NOT_EQ:
-    lv_obj_bind_state_if_not_eq(obj, &entry->subject, LV_STATE_CHECKED,
-                                bind->ref_value);
-    break;
-  default: {
-    /* GT, GTE, LT, LTE — custom observer (the visibility precedent) */
-    compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
-    if (!data) {
-      /* B5: OOM would leave the comparison binding unwired (a control
-             * that never reacts to its subject) with no signal. Fail loud. */
-      LOG_ERROR("compare observer alloc failed — binding would be inert");
-      load_resource_error = true;
-      return;
-    }
-    data->ref_value = bind->ref_value;
-    data->compare = bind->compare;
-    lv_subject_add_observer_obj(&entry->subject, checked_observer_cb, obj,
-                                data);
-    lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
-    break;
-  }
-  }
-}
-/* ================================================================
- * Reactive enabled-state binding (enabled_when) — the reactive sibling of
- * checked_when with INVERTED polarity: the widget carries LV_STATE_DISABLED
- * while the subject comparison does NOT hold, and is cleared (enabled) while
- * it holds. Drives reactive precondition-disable (a control greyed until its
- * preconditions read satisfied).
- * ================================================================ */
-static void enabled_observer_cb(lv_observer_t *observer,
-                                lv_subject_t *subject) {
-  lv_obj_t *obj = lv_observer_get_target_obj(observer);
-  compare_cb_data_t *data =
-      (compare_cb_data_t *)lv_observer_get_user_data(observer);
-  if (!obj || !data)
-    return;
-  if (compare_holds(data->compare, lv_subject_get_int(subject),
-                    data->ref_value)) {
-    lv_obj_remove_state(obj, LV_STATE_DISABLED);
-  } else {
-    lv_obj_add_state(obj, LV_STATE_DISABLED);
-  }
-}
-static void apply_enabled_when(lv_obj_t *obj,
-                               const ui_VisibilityBinding *bind) {
-  subject_entry_t *entry = find_subject(bind->subject);
-  if (!entry) {
-    /* B7/ITEM-8b: an enabled-when bound to a never-declared subject is a dead
-       * binding. Fail the load loud (see apply_visibility). */
-    LOG_ERROR("enabled_when references unknown subject '%s'", bind->subject);
-    load_resource_error = true;
-    return;
-  }
-  if (entry->type != 0) {
-    LOG_WARN("enabled_when only supports INT subjects (got '%s')",
-             bind->subject);
-    return;
-  }
-  if (!compare_op_ok(bind->compare, "enabled_when"))
-    return;
-  switch (bind->compare) {
-  case ui_CompareOp_COMPARE_EQ:
-    /* Enabled when subject == ref → DISABLED when NOT equal */
-    lv_obj_bind_state_if_not_eq(obj, &entry->subject, LV_STATE_DISABLED,
-                                bind->ref_value);
-    break;
-  case ui_CompareOp_COMPARE_NOT_EQ:
-    /* Enabled when subject != ref → DISABLED when equal */
-    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_DISABLED,
-                            bind->ref_value);
-    break;
-  default: {
-    /* GT, GTE, LT, LTE — custom observer (the checked_when precedent) */
-    compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
-    if (!data) {
-      /* B5: OOM would leave the comparison binding unwired (a control
-             * that never reacts to its subject) with no signal. Fail loud. */
-      LOG_ERROR("compare observer alloc failed — binding would be inert");
-      load_resource_error = true;
-      return;
-    }
-    data->ref_value = bind->ref_value;
-    data->compare = bind->compare;
-    lv_subject_add_observer_obj(&entry->subject, enabled_observer_cb, obj,
-                                data);
-    lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
-    break;
-  }
-  }
-}
-/* ================================================================
- * Reactive pending-state binding (pending_when) — the widget carries
- * LV_STATE_USER_1 while the subject comparison holds, cleared otherwise.
- * DIRECT polarity, so this mirrors apply_checked_when rather than
- * apply_enabled_when: the two differ only because LV_STATE_DISABLED names
- * the NEGATION of the condition `enabled_when` is about, while USER_1 (the
- * bit the style vocabulary spells `pending:`) names this one outright.
- *
- * Drives the command-outstanding affordance: a control that has dispatched
- * a command and is waiting for the confirming state. That is a fact about a
- * round trip the widget cannot see, so it arrives as a host-published INT
- * subject — and it must be a BINDING rather than the create-time `states`
- * bitmask, because `states` is applied with lv_obj_add_state and so can
- * only ever RAISE the bit, never clear it when the reply lands.
- * ================================================================ */
-static void pendstate_observer_cb(lv_observer_t *observer,
-                                  lv_subject_t *subject) {
-  lv_obj_t *obj = lv_observer_get_target_obj(observer);
-  compare_cb_data_t *data =
-      (compare_cb_data_t *)lv_observer_get_user_data(observer);
-  if (!obj || !data)
-    return;
-  if (compare_holds(data->compare, lv_subject_get_int(subject),
-                    data->ref_value)) {
-    lv_obj_add_state(obj, LV_STATE_USER_1);
-  } else {
-    lv_obj_remove_state(obj, LV_STATE_USER_1);
-  }
-}
-static void apply_pending_when(lv_obj_t *obj,
-                               const ui_VisibilityBinding *bind) {
-  subject_entry_t *entry = find_subject(bind->subject);
-  if (!entry) {
-    /* B7/ITEM-8b: a pending-when bound to a never-declared subject is a dead
-       * binding. Fail the load loud (see apply_visibility). */
-    LOG_ERROR("pending_when references unknown subject '%s'", bind->subject);
-    load_resource_error = true;
-    return;
-  }
-  if (entry->type != 0) {
-    LOG_WARN("pending_when only supports INT subjects (got '%s')",
-             bind->subject);
-    return;
-  }
-  if (!compare_op_ok(bind->compare, "pending_when"))
-    return;
-  switch (bind->compare) {
-  case ui_CompareOp_COMPARE_EQ:
-    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_USER_1,
-                            bind->ref_value);
-    break;
-  case ui_CompareOp_COMPARE_NOT_EQ:
-    lv_obj_bind_state_if_not_eq(obj, &entry->subject, LV_STATE_USER_1,
-                                bind->ref_value);
-    break;
-  default: {
-    /* GT, GTE, LT, LTE — custom observer (the checked_when precedent) */
-    compare_cb_data_t *data = malloc(sizeof(compare_cb_data_t));
-    if (!data) {
-      /* B5: OOM would leave the comparison binding unwired (a control
-             * that never reacts to its subject) with no signal. Fail loud. */
-      LOG_ERROR("compare observer alloc failed — binding would be inert");
-      load_resource_error = true;
-      return;
-    }
-    data->ref_value = bind->ref_value;
-    data->compare = bind->compare;
-    lv_subject_add_observer_obj(&entry->subject, pendstate_observer_cb, obj,
-                                data);
     lv_obj_add_event_cb(obj, cleanup_event_cb, LV_EVENT_DELETE, data);
     break;
   }
@@ -2827,7 +2695,7 @@ static void apply_color_when(lv_obj_t *obj, const ui_ColorBinding *cb) {
   subject_entry_t *entry = find_subject(cb->when.subject);
   if (!entry) {
     /* B7/ITEM-8b: a color-when bound to a never-declared subject is a dead
-       * binding. Fail the load loud (see apply_visibility). */
+       * binding. Fail the load loud (see apply_compare_binding). */
     LOG_ERROR("color_when references unknown subject '%s'", cb->when.subject);
     load_resource_error = true;
     return;
@@ -2861,8 +2729,8 @@ static void apply_color_when(lv_obj_t *obj, const ui_ColorBinding *cb) {
  * misses at CLICK time, button_event_cb skips the mutation, and the relay
  * gate downstream still fires — so the binding keeps reporting its STATIC
  * int_value (0 for a toggle) for the life of the screen, with nothing
- * anywhere to say why. Fail the load loud, exactly as apply_visibility /
- * apply_checked_when / apply_bindings do for the same fault (B7/ITEM-8b).
+ * anywhere to say why. Fail the load loud, exactly as apply_compare_binding
+ * and apply_bindings do for the same fault (B7/ITEM-8b).
  * A declared-but-STRING subject is a WARN + skip, matching the siblings:
  * the subject exists, only this binding class cannot drive it. */
 static void apply_event_subject(const pending_event_subject_t *p) {
@@ -5525,16 +5393,20 @@ static void drain_pending_attachments(void) {
     apply_bindings(&pending_bindings[i]);
   }
   for (int i = 0; i < pending_visibility_count; i++) {
-    apply_visibility(pending_visibility[i].obj, &pending_visibility[i].vis);
+    apply_compare_binding(pending_visibility[i].obj, &pending_visibility[i].vis,
+                          &BIND_VISIBILITY);
   }
   for (int i = 0; i < pending_checked_count; i++) {
-    apply_checked_when(pending_checked[i].obj, &pending_checked[i].bind);
+    apply_compare_binding(pending_checked[i].obj, &pending_checked[i].bind,
+                          &BIND_CHECKED_WHEN);
   }
   for (int i = 0; i < pending_enabled_count; i++) {
-    apply_enabled_when(pending_enabled[i].obj, &pending_enabled[i].bind);
+    apply_compare_binding(pending_enabled[i].obj, &pending_enabled[i].bind,
+                          &BIND_ENABLED_WHEN);
   }
   for (int i = 0; i < pending_pendstate_count; i++) {
-    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
+    apply_compare_binding(pending_pendstate[i].obj, &pending_pendstate[i].bind,
+                          &BIND_PENDING_WHEN);
   }
   for (int i = 0; i < pending_color_count; i++) {
     apply_color_when(pending_color[i].obj, &pending_color[i].bind);
