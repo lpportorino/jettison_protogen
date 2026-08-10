@@ -7,15 +7,37 @@
 #   make -f lint.mk fmt-fix     # rewrite formatting in place
 #   make -f lint.mk lint-clj    # one lane at a time
 #
-# WHAT IS GATED — positive allowlist, never an ignore list. Each tool is handed
-# an explicit list of hand-authored paths and never walks the tree, so these
-# generated and vendored TREES are excluded by never being passed in, with no
-# exclusion pattern to drift out of sync with reality:
-#   output/**               generated bindings (10 languages)
-#   renderer/lvgl/**        vendored upstream, byte-exact per .gitattributes
-#   renderer/generated/**   nanopb + threshold projections
-#   renderer/src/font_*.c   generated LVGL font data
-#   docs/proto/**           generated markdown
+# WHAT IS GATED — and the shape is NOT the same for every language, so read the
+# variable rather than this heading. Two shapes live here:
+#
+#   POSITIVE ALLOWLIST (the Clojure lanes, LINT_CLJ_PATHS/LINT_CLJ_FILES). Each
+#   tool is handed an explicit list of hand-authored paths and never walks the
+#   tree, so these generated and vendored TREES are excluded by never being
+#   passed in, with no exclusion pattern to drift out of sync with reality:
+#     output/**               generated bindings (10 languages)
+#     renderer/lvgl/**        vendored upstream, byte-exact per .gitattributes
+#     renderer/generated/**   nanopb + threshold projections
+#     renderer/src/font_*.c   generated LVGL font data
+#     docs/proto/**           generated markdown
+#
+#   GIT DISCOVERY MINUS DECLARED TREES (shell, workflows, and now C —
+#   LINT_SH_FILES, LINT_CI_FILES, FMT_C_FILES). The question these lanes ask is
+#   "does the checkout hold a file of this kind that NOTHING judges", and an
+#   allowlist cannot ask it: it is silent about what it forgot. So discovery is
+#   git's, and the generated/vendored trees are subtracted by name.
+#
+# THE TWO SHAPES FAIL IN OPPOSITE DIRECTIONS, which is why the split is by
+# language and not by taste. A forgotten path drops out of an allowlist
+# SILENTLY — a green over unjudged code. A newly-generated tree that nobody
+# subtracts joins a discovery lane LOUDLY, as drift on the first run. Where the
+# population is enumerable and stable, the allowlist's failure is cheap to
+# audit (see `audit-clj-paths`). Where a new file may appear anywhere, the loud
+# failure is the safer one.
+#
+# THIS HEADING USED TO SAY "positive allowlist, never an ignore list" FLATLY,
+# and it was already untrue of the shell lane when it was written. Do not
+# restore that reading: it is what made the C lane's second coverage hole look
+# like a design choice.
 #
 # ONE GENERATED FILE IS INSIDE A GATED ROOT, so "generated code is never passed
 # in" is not true as a flat claim and is not written that way here.
@@ -150,26 +172,55 @@ LINT_CLJ_FILES := tools/scratchcard/bin/scratchcard.bb
 # RETIRES WHEN: the scripts carry `ns` forms and lint clean — at which point this
 # block is deleted and `docs/.protodoc/scripts` joins LINT_CLJ_PATHS above.
 
-# Hand-authored C. Discovery is DERIVED per root, so a NEW hand-written file is
-# picked up automatically while the generated font tables stay out.
+# Hand-authored C. Discovery is git's, minus the generated and vendored trees
+# named below — the same shape LINT_SH_FILES uses, adopted for the same measured
+# reason: a formatter that cannot see a file reports green over unjudged code,
+# which is the same class as an empty input set passing.
 #
-# THREE ROOTS, NOT ONE, and the omission of the latter two was a real hole: this
-# walked only `renderer/src` at depth 1, so the two hand-authored LVGL config
-# headers — `renderer/lv_conf.h` (release) and `renderer/config/dev/lv_conf.h`
-# (dev), both selected by name in wasm.mk's LV_CONF — were gated by NOTHING. A
-# formatter that cannot see a file reports green over unjudged code, which is the
-# same class as an empty input set passing.
+# THE ROOT LIST IT REPLACES SPRUNG THAT LEAK TWICE, and the second time is what
+# retires the mechanism rather than patching it again. First the two
+# hand-authored LVGL config headers — `renderer/lv_conf.h` (release) and
+# `renderer/config/dev/lv_conf.h` (dev), both selected by name in wasm.mk's
+# LV_CONF — were gated by NOTHING, and two roots were added. Then
+# `tools/renderer-gen/tools/theme-style-groups/emit.c` was found outside all
+# three: hand-authored C, compiled `-Wall -Wextra -Werror` by its own
+# generate.sh, judged by no formatter at all. A named-root list is silent about
+# the root nobody named, so the hole recurs wherever the next hand-authored C
+# file lands. Discovery that starts from the checkout cannot have that hole.
 #
-# Closing it cost no churn: both were measured ALREADY clang-format clean, so this
-# widens coverage without rewriting a line. `renderer/config` is walked at any
-# depth because it is keyed by BUILD MODE and a new mode adds a directory.
+# `--cached --others --exclude-standard`, exactly as LINT_SH_FILES and
+# LINT_CI_FILES carry it and for their measured reason: the INDEX ALONE gives a
+# worker who has written a new C file and not staged it a GREEN THAT NEVER READ
+# IT. Ignored paths (build output, scratch) stay out, which keeps the widening
+# free. Consequence worth knowing rather than discovering: an untracked,
+# non-ignored `.c` DOES enter this lane, so a scratch probe left in the tree
+# reds `fmt-c`. It cannot be silently REWRITTEN by the pre-push hook, whose
+# dirty-tree guard reads `git status --porcelain` and so declines to auto-fix
+# while one exists; a hand-run `fmt-c-fix` would rewrite it, the same exposure
+# `fmt-clj-fix` already has over whole paths.
 #
-# STILL POSITIVE, never an ignore list: each root is named, and the only -not is
-# the generated font tables inside an otherwise hand-authored directory.
-FMT_C_FILES := $(shell { find renderer/src -maxdepth 1 \
-	\( -name '*.c' -o -name '*.h' \) -not -name 'font_*.c'; \
-	find renderer/config \( -name '*.c' -o -name '*.h' \); \
-	find renderer -maxdepth 1 -name 'lv_conf.h'; } 2>/dev/null | sort)
+# THE SUBTRACTED TREES ARE THE ONES .clang-format's own header already names as
+# NOT formatted — this makes that prose mechanical rather than adding a second
+# list. Each is generated or vendored, so a clang-format rewrite there is either
+# destroyed at the next regeneration or forks a byte-exact pin:
+#   output/**               generated bindings (10 languages)
+#   renderer/generated/**   nanopb + threshold projections
+#   renderer/lvgl/**        vendored upstream, byte-exact per .gitattributes
+#   renderer/src/font_*.c   generated LVGL font data, inside a hand-authored dir
+# Measured at adoption: this expands to the 21 files the root list found PLUS
+# emit.c, and nothing else — so the mechanism change costs no churn beyond the
+# one file the old shape could not see.
+FMT_C_EXCLUDES := ':!output/**' ':!renderer/generated/**' \
+	':!renderer/lvgl/**' ':!renderer/src/font_*.c'
+FMT_C_DISCOVERY_ARGS := --cached --others --exclude-standard '*.c' '*.h' $(FMT_C_EXCLUDES)
+FMT_C_FILES := $(shell git ls-files $(FMT_C_DISCOVERY_ARGS) 2>/dev/null | sort)
+# CAPTURED, not discarded, for the reason lint-sh's twin states: when discovery
+# fails the reason IS the diagnosis, and the probe must ask the SAME question as
+# the discovery or a fault specific to these flags yields an empty file list and
+# an empty diagnosis. Exported so the guard reads it as a shell variable rather
+# than interpolating git's own quoting into shell text.
+FMT_C_DISCOVERY_ERR := $(shell git ls-files $(FMT_C_DISCOVERY_ARGS) 2>&1 >/dev/null)
+export FMT_C_DISCOVERY_ERR
 
 # Hand-authored shell. `--others --exclude-standard` widens the index to
 # UNTRACKED-but-not-ignored scripts, because the index alone gives a worker who
@@ -978,14 +1029,20 @@ lint-ci:
 # what the formatter produces?" — and it is the method sych gates C with, which
 # is why the two repos can share one config byte-for-byte.
 fmt-c:
-# NON-VACUITY GUARD, same class as lint-sh's: `find` yields the empty set if
-# renderer/src is ever moved or renamed, xargs then runs nothing, and the gate
-# reports a green zero-file line over no coverage at all.
+# NON-VACUITY GUARD, same class as lint-sh's — and the same failure mode now
+# that discovery is git's: `git ls-files` returns nothing when git cannot
+# resolve the checkout, xargs then runs nothing, and the gate reports a green
+# zero-file line over no coverage at all.
 	@if [ -z "$(strip $(FMT_C_FILES))" ]; then \
-		printf '\033[31m[fmt-c] FAIL\033[0m — discovered ZERO C files under renderer/src.\n' >&2; \
-		printf '  Hand-authored C is tracked there, so an empty set means the search\n' >&2; \
-		printf '  path is wrong (moved or renamed tree), not that there is nothing to\n' >&2; \
-		printf '  format-check.\n' >&2; \
+		printf '\033[31m[fmt-c] FAIL\033[0m — discovered ZERO hand-authored C files.\n' >&2; \
+		printf '  This repo tracks hand-authored C, so an empty set means DISCOVERY\n' >&2; \
+		printf '  broke, not that there is nothing to format-check.\n' >&2; \
+		if [ -n "$$FMT_C_DISCOVERY_ERR" ]; then \
+			printf '  git said: %s\n' "$$FMT_C_DISCOVERY_ERR" >&2; \
+		fi; \
+		printf '  THE LINE ABOVE IS THE DIAGNOSIS, if there is one. See lint-sh for\n' >&2; \
+		printf '  the usual causes — a gitfile checkout whose real gitdir is not\n' >&2; \
+		printf '  mounted, or a broken core.excludesFile.\n' >&2; \
 		exit 1; \
 	fi
 # MISSING-TOOL GUARD, and note WHICH failure it covers: not "no formatter" but

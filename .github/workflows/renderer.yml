@@ -251,9 +251,22 @@ jobs:
       #
       # BEFORE the wasm build, deliberately: it is seconds of work, and a
       # formatting failure should not cost a full multi-minute wasm build first.
+      #
+      # THE safe.directory ENV IS LOAD-BEARING HERE TOO, for the reason the
+      # shellcheck step below already records: FMT_C_FILES discovers with
+      # `git ls-files` rather than walking named roots, the checkout is owned by
+      # the runner uid while this container runs as root, and git then refuses
+      # the repository as dubiously-owned so discovery returns EMPTY. Measured
+      # reproducing this exact invocation locally: without the env the lane
+      # fails its non-vacuity guard printing git's own "detected dubious
+      # ownership"; with it, 22 files are drift-compared. The guard is what
+      # turns that into a red rather than a silent green over zero files.
       name: clang-format (check, pinned WASI-SDK)
       run: |
         docker run --rm -v "$PWD:/workspace:ro" -w /workspace \
+          -e GIT_CONFIG_COUNT=1 \
+          -e GIT_CONFIG_KEY_0=safe.directory \
+          -e GIT_CONFIG_VALUE_0=/workspace \
           jettison-proto-generator-base:latest \
           make -f lint.mk fmt-c
     - # shellcheck over first-party shell, HERE rather than in lint.yml's
