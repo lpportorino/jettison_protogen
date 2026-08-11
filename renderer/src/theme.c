@@ -86,12 +86,11 @@ typedef struct {
                              * widget: button, the field controls, the
                              * tabview root (asgard-only)                 */
   lv_style_t disabled_edge;  /* DISABLED BOUNDARY for a widget whose only
-                             * visual edge is its FILL — the button. Rides
-                             * BESIDE disabled_fill, never inside it: the
-                             * five other disabled_fill consumers already
-                             * carry control_rad's edge-0 border at state 0
-                             * and adding one there would override it
-                             * (asgard-only)                              */
+                             * visual edge is its FILL — the button. An
+                             * OUTLINE, never a border: a border is
+                             * layout-bearing and clipped every label it
+                             * enclosed. Rides BESIDE disabled_fill, never
+                             * inside it (asgard-only)                    */
   lv_style_t disabled_flat;  /* DISABLED for the table's line-art grid:
                              * opa fade, NO recolor — a fixed recolor
                              * target LIGHTENS dark cells. Same
@@ -789,12 +788,29 @@ static void style_init(asgard_theme_t *t) {
    * `track_tone` is the precedent for the SHAPE: an asgard-only style added
    * beside a stock default because the stock answer measured under the floor.
    * Do NOT reach for the 6:1 TEXT floor here; the quality contract names
-   * mixing the two as the error its precedence rule exists to prevent. */
+   * mixing the two as the error its precedence rule exists to prevent.
+   *
+   * AN OUTLINE, NOT A BORDER, AND THAT IS THE LOAD-BEARING PART. A first
+   * version used `border_width` and REGRESSED 20 shipped consumer screens.
+   * `lv_obj_get_style_space_left` returns `padding + border_width` whenever
+   * that side carries a border, and `lv_obj_get_content_width` subtracts that
+   * space — so a border SHRINKS the content box. Every label inside a disabled
+   * button lost the border width per side and CLIPPED, while content-sized
+   * buttons grew and OVERFLOWED their containers: 244 clipped plus 244
+   * overflow findings, exactly paired. `outline_width` appears only in the
+   * DRAW path (lv_obj_draw.c) and in no layout or space computation, so it
+   * paints the same boundary and moves nothing.
+   *
+   * The isolated widget cards in this repo could not show it — they carry
+   * slack around the button — which is why a consumer pin bump is the proof
+   * this repo's charter demands, and not this battery alone. */
   style_reset(&s->disabled_edge, inited);
   if (!v) {
-    lv_style_set_border_color(&s->disabled_edge,
-                              mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
-    lv_style_set_border_width(&s->disabled_edge, THEME_BORDER_W);
+    lv_style_set_outline_color(
+        &s->disabled_edge, mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
+    lv_style_set_outline_width(&s->disabled_edge, THEME_BORDER_W);
+    lv_style_set_outline_opa(&s->disabled_edge, LV_OPA_COVER);
+    lv_style_set_outline_pad(&s->disabled_edge, 0);
   }
   style_reset(&s->disabled_flat, inited);
   if (!v) {
@@ -1053,9 +1069,9 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      *
      * `disabled_edge` RIDES BESIDE IT, and only here. The pair swap fixes the
      * INK against the FILL; it leaves the fill itself at ~1.13:1 against the
-     * card, and a button has no border to carry the boundary because it never
-     * takes `control_rad`. See the disabled_edge init comment for why the
-     * border is a separate style rather than a line in disabled_fill. */
+     * card, and a button has no edge to carry the boundary because it never
+     * takes `control_rad`. See the disabled_edge init comment for why it is a
+     * separate style, and why it is an OUTLINE rather than a border. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.disabled_edge, LV_STATE_DISABLED);
