@@ -3045,7 +3045,7 @@ mod host_event_envelope {
     /// life of the screen with nothing anywhere to say why.
     ///
     /// The three sibling subject-resolving sites already fail the load loud
-    /// on the IDENTICAL fault (`apply_visibility`, `apply_checked_when`,
+    /// on the IDENTICAL fault (`apply_compare_binding` across its classes,
     /// `apply_bindings` — all "references unknown subject" + the
     /// `load_resource_error` latch); `set_subject` was the one member of that
     /// family that stayed silent. LOAD-time is the right tier because

@@ -145,8 +145,8 @@
 ;;
 ;; WHY THE PAIRING IS AN ERROR AND NOT A PRECEDENCE QUESTION: the reactive source
 ;; WINS by construction. Create-time states are applied while the node is built
-;; (`lv_obj_add_state(obj, node->states)`); apply_checked_when / apply_enabled_when
-;; run in a DEFERRED post-subjects pass, so the observer's first evaluation
+;; (`lv_obj_add_state(obj, node->states)`); the unified apply_compare_binding
+;; runs in a DEFERRED post-subjects pass, so the observer's first evaluation
 ;; overwrites whatever the author asked for — silently. No ordering an author could
 ;; rely on exists.
 ;;

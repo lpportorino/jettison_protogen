@@ -34,7 +34,7 @@
    bare/in_tab_bar are create-time structure.
 
    `:pending_when` is listed on the SAME ground as `:checked_when`, which it
-   copies: `apply_pending_when` attaches either a native state bind or a
+   copies: `apply_compare_binding` attaches either a native state bind or a
    `lv_subject_add_observer_obj` observer, and nothing detaches either.
 
    OBSERVED ASYMMETRY, NOT RESOLVED HERE. `:enabled_when` and `:color_when`

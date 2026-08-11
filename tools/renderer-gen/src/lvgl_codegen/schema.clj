@@ -445,7 +445,7 @@
   WHY THE COMBINATION IS REJECTED RATHER THAN ORDERED. Both sources write the same
   state bit and the reactive one WINS by construction: create-time states are applied
   while the node is built (`lv_obj_add_state(obj, node->states)`), whereas
-  `apply_checked_when` / `apply_enabled_when` run in a DEFERRED post-subjects pass, so
+  `apply_compare_binding` (the unified checked/enabled/pending applier) runs in a DEFERRED post-subjects pass, so
   the observer's first evaluation immediately overwrites whatever the author asked
   for. Silently. There is no ordering an author could rely on, so the pairing is an
   authoring error and not a precedence question."

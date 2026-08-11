@@ -155,22 +155,27 @@ echo "baseline: $(summary)"
 #        binding of either kind is ever attached. Legal C, zero iterations.
 mutate_case drain-loop-never-runs "$RENDERER" \
 	'  for (int i = 0; i < pending_pendstate_count; i++) {
-    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
+    apply_compare_binding(pending_pendstate[i].obj, &pending_pendstate[i].bind,
+                          &BIND_PENDING_WHEN);
   }' \
 	'  for (int i = 0; i < 0; i++) {
-    apply_pending_when(pending_pendstate[i].obj, &pending_pendstate[i].bind);
+    apply_compare_binding(pending_pendstate[i].obj, &pending_pendstate[i].bind,
+                          &BIND_PENDING_WHEN);
   }' \
 	value_conditional_style::pending_when \
 	value_conditional_style::enabled_when_eq_toggles_disabled_state
 
-# ── C2: the EQ NATIVE-BIND arm binds USER_2 — a real lv_state_t bit, so it
-#        type-checks and simply drives the wrong state. Invisible to the GT
-#        test (the CONTROL), which never reaches this arm.
+# ── C2: the EQ NATIVE-BIND arm binds a literal USER_2 instead of the class
+#        descriptor's state — a real lv_state_t bit, so it type-checks and
+#        simply drives the wrong state, for EVERY class routed through the
+#        unified applier's EQ arm. Still invisible to the GT test (the
+#        CONTROL), which takes the range-observer path and never reaches
+#        this arm.
 mutate_case eq-native-bind-wrong-state "$RENDERER" \
-	'    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_USER_1,
-                            bind->ref_value);' \
-	'    lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_USER_2,
-                            bind->ref_value);' \
+	'      lv_obj_bind_state_if_eq(obj, &entry->subject, cls->state,
+                              bind->ref_value);' \
+	'      lv_obj_bind_state_if_eq(obj, &entry->subject, LV_STATE_USER_2,
+                              bind->ref_value);' \
 	value_conditional_style::pending_when_eq_toggles_pending_state \
 	value_conditional_style::pending_when_gt_uses_range_observer
 
@@ -180,12 +185,14 @@ mutate_case eq-native-bind-wrong-state "$RENDERER" \
 #        mutant is a widget that never becomes pending rather than one that
 #        never stops.
 mutate_case range-observer-wrong-state "$RENDERER" \
-	'    lv_obj_add_state(obj, LV_STATE_USER_1);
+	'  } else if (asserted) {
+    lv_obj_add_state(obj, cls->state);
   } else {
-    lv_obj_remove_state(obj, LV_STATE_USER_1);' \
-	'    lv_obj_add_state(obj, LV_STATE_USER_2);
+    lv_obj_remove_state(obj, cls->state);' \
+	'  } else if (asserted) {
+    lv_obj_add_state(obj, LV_STATE_USER_2);
   } else {
-    lv_obj_remove_state(obj, LV_STATE_USER_1);' \
+    lv_obj_remove_state(obj, cls->state);' \
 	value_conditional_style::pending_when_gt_uses_range_observer \
 	value_conditional_style::pending_when_eq_toggles_pending_state
 
