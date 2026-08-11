@@ -85,6 +85,7 @@ Bank/roll angle in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
+- **Unit:** degrees
 
 
 ### offsetAzimuth (#4)
