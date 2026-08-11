@@ -177,17 +177,17 @@
    :h 480},
   "lv_button/disabled/large"
   {:sha256
-   "03d45fb2046d5e3be611677a5806b58c816befede817940ebd33d645c48a97b8",
+   "1c29ee16f05472da49b538b1d978e56b4ac94b734aa70dd16d5498ee25c564fc",
    :w 800,
    :h 480},
   "lv_button/disabled/medium"
   {:sha256
-   "24a50e71eda89c4b3bcb4ac0e792377dfc58f3250c880a2ce9bf2d4e08ea5069",
+   "f381ba489d64c4697f8799f793f1f9faa65494e2151ca5ea828e5ca4c6e0b28e",
    :w 800,
    :h 480},
   "lv_button/disabled/small"
   {:sha256
-   "82b19bc3a512aa87f4c2494e4052a7c7d12a7844d47233b45e6a4621b0e66856",
+   "f46b563a06b3f40e83cd8a974c4bd16cc0cc11e485c56a2b1ab4682f79cefb32",
    :w 800,
    :h 480},
   "lv_button/focus-key/medium"

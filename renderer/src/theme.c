@@ -85,6 +85,13 @@ typedef struct {
                              * The default for any FILLED text-bearing
                              * widget: button, the field controls, the
                              * tabview root (asgard-only)                 */
+  lv_style_t disabled_edge;  /* DISABLED BOUNDARY for a widget whose only
+                             * visual edge is its FILL — the button. Rides
+                             * BESIDE disabled_fill, never inside it: the
+                             * five other disabled_fill consumers already
+                             * carry control_rad's edge-0 border at state 0
+                             * and adding one there would override it
+                             * (asgard-only)                              */
   lv_style_t disabled_flat;  /* DISABLED for the table's line-art grid:
                              * opa fade, NO recolor — a fixed recolor
                              * target LIGHTENS dark cells. Same
@@ -757,6 +764,38 @@ static void style_init(asgard_theme_t *t) {
         mode_hex(t, THEME_DISABLED_FG_DARK, THEME_DISABLED_FG_LIGHT));
     lv_style_set_recolor_opa(&s->disabled_fill, LV_OPA_TRANSP);
   }
+  /* THE DISABLED BUTTON'S BOUNDARY, and it is a SEPARATE style on purpose.
+   *
+   * An `lv_button` here takes `btn`, `btn_shadow` and `focus` — and never
+   * `control_rad`, whose six call sites are all FIELD controls. So a button
+   * carries no border in any state, and its entire visual edge is its fill.
+   * Disabling drains that fill to surface-2, which measures ~1.13:1 dark /
+   * 1.17:1 light against the card it sits on: under the 3:1 NON-TEXT floor a
+   * boundary is governed by, so the control stops reading as a control at all
+   * and reads as static text. The population is large — every `:commit`
+   * ("Apply") renders permanently disabled, and every started-gated button
+   * renders disabled whenever its device is stopped.
+   *
+   * WHY NOT A BORDER ON `disabled_fill` ITSELF, which is the obvious edit and
+   * is WRONG: that style has six consumers, and the five that are not the
+   * button (dropdown, roller, textarea, spinbox, tabview root) already take
+   * `control_rad` at state 0, which sets exactly this border. Adding one to
+   * `disabled_fill` — applied at LV_STATE_DISABLED — would OVERRIDE the border
+   * of five widgets that are already correct, to fix the one that is not.
+   *
+   * THE TONE IS NOT NEW. `edge-0` at `THEME_BORDER_W` is the pair
+   * `control_rad` already carries, and this theme already calls it "the
+   * 3:1-floor boundary tone panels already use" — 3.62:1 dark / 3.80:1 light.
+   * `track_tone` is the precedent for the SHAPE: an asgard-only style added
+   * beside a stock default because the stock answer measured under the floor.
+   * Do NOT reach for the 6:1 TEXT floor here; the quality contract names
+   * mixing the two as the error its precedence rule exists to prevent. */
+  style_reset(&s->disabled_edge, inited);
+  if (!v) {
+    lv_style_set_border_color(&s->disabled_edge,
+                              mode_hex(t, THEME_EDGE0_DARK, THEME_EDGE0_LIGHT));
+    lv_style_set_border_width(&s->disabled_edge, THEME_BORDER_W);
+  }
   style_reset(&s->disabled_flat, inited);
   if (!v) {
     lv_style_set_opa(&s->disabled_flat, THEME_DISABLED_OPA);
@@ -1010,9 +1049,17 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * light against the governing 6:1. Both generic formulas fail here: opa
      * halves the label-vs-fill delta, and a recolor drags label and fill
      * toward the same target. THIS ARM GOT THE ANSWER RIGHT FIRST — it is
-     * the swap the rest of the disabled system was generalised from. */
-    if (t->family == ASGARD_THEME_FAMILY_ASGARD)
+     * the swap the rest of the disabled system was generalised from.
+     *
+     * `disabled_edge` RIDES BESIDE IT, and only here. The pair swap fixes the
+     * INK against the FILL; it leaves the fill itself at ~1.13:1 against the
+     * card, and a button has no border to carry the boundary because it never
+     * takes `control_rad`. See the disabled_edge init comment for why the
+     * border is a separate style rather than a line in disabled_fill. */
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
       lv_obj_add_style(obj, &t->styles.disabled_fill, LV_STATE_DISABLED);
+      lv_obj_add_style(obj, &t->styles.disabled_edge, LV_STATE_DISABLED);
+    }
     /* CHECKED — INHERITED FROM STOCK, and the determination is OVERSIGHT,
      * not a semantic. NOTHING IS ADDED FOR IT HERE YET; this is the
      * decision, written down, because the silence was the defect. Four
