@@ -53,14 +53,22 @@ Aggregated CV metadata payload combining all shared-memory sources at 60fps. Pop
 ### capture_monotonic_us (#1)
 
 Correlation timestamp taken from `CLOCK_MONOTONIC` at the moment the native library assembles and encodes the aggregated proto. Used to correlate all embedded source data to a single point in time, and logged in the `cv_meta_audit` table for diagnostics.
-- **Semantic Type:** timestamp
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
 - **Unit:** us
 
 
 ### updated_sources (#2)
 
 Freshness bitmask indicating which of the 5 SHM sources provided valid data in this read cycle. Bit 0 = rotary (`/jon_shm_rotary`), bit 1 = cam_day (`/jon_shm_cam_day`), bit 2 = cam_heat (`/jon_shm_cam_heat`), bit 3 = cuda_day (`/jon_cuda_ipc_day`), bit 4 = cuda_heat (`/jon_cuda_ipc_heat`). A value of 31 (0x1F) means all 5 sources have valid data. Consumers can check individual bits to determine which embedded sub-messages contain fresh data.
-- **Semantic Type:** raw
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
 
 
 ### camera_day (#3)

@@ -51,7 +51,11 @@ UUID: `019c40f6-825d-7e0e-9893-87c7b167a751`
 ### status (#1)
 
 Current inference status for the heat channel. Must be a valid `DetectionStatus` enum value (UNSPECIFIED/0 is excluded). Reports whether inference succeeded (`OK`), the engine is not yet initialized (`NOT_READY`), no frame arrived within the timeout window (`IPC_TIMEOUT`), the TensorRT engine returned an error (`INFER_FAILED`), or an unclassified error occurred (`ERROR`).
-- **Semantic Type:** enum-label
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
 
 
 ### detections (#2)
@@ -62,7 +66,11 @@ Repeated list of detected objects in the current thermal frame, up to 256 entrie
 ### latency_ns (#3)
 
 End-to-end inference latency in nanoseconds, measured from frame capture to detection result availability. Useful for monitoring detector performance and diagnosing pipeline bottlenecks.
-- **Semantic Type:** duration
+
+
+#### Metadata
+
+- **Semantic Type:** :duration
 - **Unit:** ns
 - **Precision:** 0
 
@@ -80,7 +88,11 @@ Inference configuration that was active when this detection batch was produced. 
 ### capture_monotonic_us (#6)
 
 Correlation timestamp from `CLOCK_MONOTONIC` in microseconds. Follows the same pattern as `CvMeta.capture_monotonic_us`, enabling temporal correlation between detection results and other sensor data (camera metadata, rotary encoder readings) across the pipeline.
-- **Semantic Type:** timestamp
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
 - **Unit:** us
 - **Precision:** 0
 

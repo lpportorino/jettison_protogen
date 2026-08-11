@@ -49,7 +49,11 @@ Object detection results for the day (visible-light) camera channel. Produced by
 ### status (#1)
 
 Current inference status for this detection cycle. Must be a valid `DetectionStatus` enum value (UNSPECIFIED/0 is excluded). Indicates whether inference succeeded (`OK`), the engine is still initializing (`NOT_READY`), the detector timed out waiting for a frame (`IPC_TIMEOUT`), the TensorRT engine failed (`INFER_FAILED`), or an unclassified error occurred (`ERROR`). Consumers should check this before reading the `detections` array.
-- **Semantic Type:** enum-label
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
 
 
 ### detections (#2)
@@ -60,7 +64,11 @@ Array of detected objects in the current frame, each containing a bounding box i
 ### latency_ns (#3)
 
 End-to-end inference latency in nanoseconds, measuring the time from frame input to detection output in the TensorRT pipeline. Used for performance monitoring and pipeline health diagnostics.
-- **Semantic Type:** duration
+
+
+#### Metadata
+
+- **Semantic Type:** :duration
 - **Unit:** ns
 - **Precision:** 0
 
@@ -78,7 +86,11 @@ Inference configuration parameters that were active when this detection was prod
 ### capture_monotonic_us (#6)
 
 Monotonic clock timestamp in microseconds (`CLOCK_MONOTONIC`) recording when the source frame was captured. Follows the same `CvMeta` correlation pattern used elsewhere in the system, enabling precise frame-to-detection matching across the day camera pipeline.
-- **Semantic Type:** timestamp
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
 - **Unit:** us
 - **Precision:** 0
 
