@@ -84,7 +84,7 @@ One or both ends is a hex LITERAL rather than a declared token — a drawn colou
 | ink | fill | mode | ink hex | fill hex | ratio | ≥4.5:1 | ≥6.0:1 | as drawn |
 |---|---|---|---|---|---:|---|---|---|
 
-## The third answer — 132 findings this derivation could NOT classify
+## The third answer — 135 findings this derivation could NOT classify
 
 An unjudged element is a FINDING, never a skip: a rule that passes over what it could not classify reports "clean" and "I could not look" as the same empty result. Each key below is a distinct reason a pair does not exist or could not be completed. EVERY key is printed with its count, including the ones at zero — a section that vanished when it had nothing to say would print the same thing whether the check ran or not, which is the failure this whole section exists to refuse.
 
@@ -124,33 +124,35 @@ By source: `demo_widgets` 2, `vocabulary` 1
 - {:source :demo_widgets, :colour "#4CAF50", :where :lv_label}
 - {:source :vocabulary, :colour "accent-bg", :where :hud-label}
 
-### `no-declared-fill` — 15
+### `no-declared-fill` — 17
 
 A glyph whose ink IS declared but whose fill is not — it sits on whatever the nearest painting ancestor turns out to be, including the screen itself, which this repo's screens leave transparent.
 
-By source: `demo_widgets` 3, `kitchen_sink` 1, `tabview_demo` 7, `vocabulary` 1, `vr-fixtures` 3
+By source: `demo_widgets` 3, `kitchen_sink` 1, `tabview_demo` 7, `vocabulary` 3, `vr-fixtures` 3
 
 - {:source :demo_widgets, :idx 0, :state nil, :ink "#2196F3", :text ""}
 - {:source :demo_widgets, :idx 0, :state nil, :ink "#2196F3", :text ""}
 - {:source :demo_widgets, :idx 0, :state nil, :ink "#4CAF50", :text " 17% growth this week"}
 - {:source :kitchen_sink, :idx 0, :state nil, :ink "fg-2", :text "Kitchen Sink v1"}
 - {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "About"}
-- {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "All systems operational"}
 - {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "Brightness"}
 - {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "LVGL Controls v1.0"}
+- {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "Static demo LED (not live)"}
 - {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "System Status"}
 - {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "Tabview Demo"}
 - {:source :tabview_demo, :idx 0, :state nil, :ink "fg-0", :text "Volume"}
+- {:source :vocabulary, :idx 0, :state nil, :ink "fg-1", :text "$placeholder"}
+- {:source :vocabulary, :idx 0, :state nil, :ink "fg-2", :text "$label"}
 - {:source :vocabulary, :idx 0, :state nil, :ink "fg-2", :text "$label"}
 - {:source :vr-fixtures, :idx 0, :state nil, :ink "fg-0", :text "<computed>"}
 - {:source :vr-fixtures, :idx 0, :state nil, :ink "fg-0", :text "<computed>"}
 - {:source :vr-fixtures, :idx 0, :state nil, :ink "fg-0", :text "<computed>"}
 
-### `no-declared-ink` — 85
+### `no-declared-ink` — 86
 
 A glyph whose ink NO source declares. It falls through to whatever ancestor style sets `text_color` at apply time, and which style that is belongs to `theme_apply`'s C dispatch — not to any declaration. Resolving these needs the rendered dump, not this tier.
 
-By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 4, `vr-fixtures` 19
+By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 5, `vr-fixtures` 19
 
 - {:source :demo_widgets, :idx 0, :state nil, :text "$27,123.25"}
 - {:source :demo_widgets, :idx 0, :state nil, :text "$411"}
@@ -214,6 +216,7 @@ By source: `demo_widgets` 60, `kitchen_sink` 2, `vocabulary` 4, `vr-fixtures` 19
 - {:source :demo_widgets, :idx 0, :state nil, :text "<computed>"}
 - {:source :kitchen_sink, :idx 0, :state nil, :text "Edit me"}
 - {:source :kitchen_sink, :idx 0, :state nil, :text "<computed>"}
+- {:source :vocabulary, :idx 0, :state nil, :text "$label"}
 - {:source :vocabulary, :idx 0, :state nil, :text "$label"}
 - {:source :vocabulary, :idx 0, :state nil, :text "$price"}
 - {:source :vocabulary, :idx 0, :state nil, :text "Blue T-shirt"}

@@ -24,7 +24,10 @@
      {:children
       [{:class "font-font-heading text-fg-0" :tag :lv_label :text "System Status"}
        {:led_props {:brightness 255 :color {:b 0 :g 200 :r 0}} :tag :lv_led}
-       {:class "font-font-body text-fg-0" :tag :lv_label :text "All systems operational"}]
+       ;; The LED and caption are static fixtures with no binding — a health
+       ;; ASSERTION here would be a claim that can never be seen to change.
+       ;; The caption names the widget, not the world.
+       {:class "font-font-body text-fg-0" :tag :lv_label :text "Static demo LED (not live)"}]
       :class "flex flex-col gap-spacing-sm w-pct-100 h-content"
       :tag :lv_obj}
      {:children

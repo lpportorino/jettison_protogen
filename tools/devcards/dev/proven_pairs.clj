@@ -291,9 +291,15 @@
                      ;; resolved, so dropping it here loses nothing. Anything
                      ;; else that fails to parse still throws, exactly as the
                      ;; real pipeline would — an unknown class token is a defect,
-                     ;; not something for this probe to absorb.
+                     ;; not something for this probe to absorb. A class that was
+                     ;; ONLY placeholders (a component template like :btn's
+                     ;; `:class "$class"`) empties under that removal, and an
+                     ;; empty string is not a token: `parse-class-string` would
+                     ;; split it into [""] and throw on a token nobody wrote,
+                     ;; so blank collapses to no-class instead.
                      (#(str/join " " (remove (fn [t] (str/includes? t "$"))
-                                             (str/split (str/trim %) #"\s+")))))
+                                             (str/split (str/trim %) #"\s+"))))
+                     (#(when-not (str/blank? %) %)))
         from-class (keep decl-of (expand/parse-class-string cls))
         ;; The nested :style form carries the same props; keyword values on a
         ;; resolvable prop are token refs, anything else is a literal. Nested
@@ -946,6 +952,15 @@
     (check "hex/short" nil (hex->rgb "#FFF"))
     (check "hex/hash" [124 58 237] (hex->rgb "#7C3AED"))
     (check "hex/0x" [124 58 237] (hex->rgb "0x7C3AED"))
+    ;; CLAUSE: a class that is ONLY placeholders empties under $-removal and
+    ;; must collapse to no-class, never reach the parser as an empty token.
+    ;; The red half is measured, not staged: a component template with
+    ;; `:class "$class"` crashed the whole vocabulary walk ("Unknown class
+    ;; token: ''") until the blank-collapse landed.
+    (check "class/placeholder-only" [] (node-decls {} {:class "$class"}))
+    (check "class/placeholder-mixed" :surface-1
+           (:token (:decl (resolve-end [(node-decls {} {:class "$cls bg-surface-1"})]
+                                       :fill 0 nil))))
     ;; CLAUSE: breakpoint precedence — HIGHEST matching tier wins regardless of
     ;; class-string order, and a tier does not apply below its own min index.
     (let [decls (node-decls {} {:class "xl:bg-surface-0 md:bg-surface-2 bg-surface-1"})
