@@ -61,6 +61,8 @@ Configures target temperatures and tolerances for the three heating zones. Each 
 
 ### target_0 (#1)
 
+<!-- NEEDS_REVIEW: quantity contradiction, unresolved on purpose. jon_shared_cmd_heater.proto comments target_0/1/2 as "Target power values per channel in watts"; this page declares them :temperature with unit °C. Which one is correct depends on what the heater firmware does with the value, so it is not decidable from this repository — settling it is a coordinated change with the firmware, never an edit here. Do not flip the semantic type or the unit on either side without that determination. The sibling temp_error_N fields are NOT in question: proto and page agree they are Celsius. -->
+
 Target temperature for heating zone 0.
 
 
@@ -73,6 +75,8 @@ Target temperature for heating zone 0.
 
 ### target_1 (#2)
 
+<!-- NEEDS_REVIEW: quantity contradiction, unresolved on purpose. jon_shared_cmd_heater.proto comments target_0/1/2 as "Target power values per channel in watts"; this page declares them :temperature with unit °C. Which one is correct depends on what the heater firmware does with the value, so it is not decidable from this repository — settling it is a coordinated change with the firmware, never an edit here. Do not flip the semantic type or the unit on either side without that determination. The sibling temp_error_N fields are NOT in question: proto and page agree they are Celsius. -->
+
 Target temperature for heating zone 1.
 
 
@@ -84,6 +88,8 @@ Target temperature for heating zone 1.
 
 
 ### target_2 (#3)
+
+<!-- NEEDS_REVIEW: quantity contradiction, unresolved on purpose. jon_shared_cmd_heater.proto comments target_0/1/2 as "Target power values per channel in watts"; this page declares them :temperature with unit °C. Which one is correct depends on what the heater firmware does with the value, so it is not decidable from this repository — settling it is a coordinated change with the firmware, never an edit here. Do not flip the semantic type or the unit on either side without that determination. The sibling temp_error_N fields are NOT in question: proto and page agree they are Celsius. -->
 
 Target temperature for heating zone 2.
 
