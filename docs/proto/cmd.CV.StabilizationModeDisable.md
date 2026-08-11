@@ -34,7 +34,7 @@ Disable computer vision stabilization mode
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCV]]
+- [[proto/ser.JonGuiDataSystem#stabilization_mode]]
 
 
 ### Related Commands

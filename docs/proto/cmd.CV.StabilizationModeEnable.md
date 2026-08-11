@@ -32,6 +32,10 @@ Enables computer vision-based image stabilization to reduce camera shake and vib
 Enables computer vision stabilization mode to reduce camera shake
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataSystem#stabilization_mode]]
+
 
 ### Related Commands
 

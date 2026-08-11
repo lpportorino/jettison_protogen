@@ -32,6 +32,10 @@ Enables AI-powered object recognition mode on the computer vision system, which 
 Enables computer vision recognition mode
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataSystem#recognition_mode]]
+
 
 ### Related Commands
 

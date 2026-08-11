@@ -32,6 +32,10 @@ Initiates recording of computer vision frame data to disk for debugging and anal
 Start dumping computer vision frames to disk for debugging
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataSystem#cv_dumping]]
+
 
 ### Related Commands
 
