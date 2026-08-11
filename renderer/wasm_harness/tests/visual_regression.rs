@@ -1713,6 +1713,96 @@ mod hud_breakpoint {
     }
 }
 // ═══════════════════════════════════════════════════════════════════
+// Focus geometry: a pointer tap must not move the widget it focuses
+// ═══════════════════════════════════════════════════════════════════
+
+mod focus_geometry {
+    use super::*;
+    /// A TAP MUST NOT MOVE THE BUTTON OR ITS LABEL.
+    ///
+    /// Border width is LAYOUT-BEARING: `lv_style.c` flags
+    /// `LV_STYLE_BORDER_WIDTH` with `LV_STYLE_PROP_FLAG_LAYOUT_UPDATE`, and
+    /// `lv_obj_get_style_space_left` adds it to the padding on any side the
+    /// border is drawn on. So a focus affordance built from `border-w` moves
+    /// the layout the moment the widget is focused.
+    ///
+    /// IT IS REACHED BY A POINTER, not only a keypad, which is what makes this
+    /// worth a test: `lv_obj.c` sets `LV_OBJ_FLAG_CLICK_FOCUSABLE`
+    /// unconditionally at construction and the renderer installs a default
+    /// group, so a plain tap focuses this button.
+    ///
+    /// THE SUBJECT IS A `w-content` BUTTON, AND THAT IS MEASURED RATHER THAN
+    /// PREFERRED. The obvious subject, `vr_hud_btn`, CANNOT show this class:
+    /// `@hud-btn` is a fixed `w-52 h-52`, so its outer box cannot grow, and its
+    /// child is a single centred "+" glyph, so a symmetric content-box shrink
+    /// leaves that child at the same centre with the same glyph-driven size.
+    /// Driven against the pre-fix sources, a coords assertion on that fixture
+    /// PASSES — it would have been a green test over a live defect. A
+    /// `w-content` macro is sized by content plus padding plus border, so the
+    /// OUTER box is what moves.
+    ///
+    /// BOTH BOXES ARE ASSERTED anyway, because which one moves is a property of
+    /// the sizing rather than something to assume, and the label is where a
+    /// content-box shrink would show if the outer box were ever pinned.
+    ///
+    /// THE NON-VACUITY GUARD IS THE FRAMEBUFFER, and it is load-bearing:
+    /// "coords unchanged" is also exactly what a tap that never landed prints,
+    /// so a dead locator, a mis-centred press or an unfocusable button would
+    /// all satisfy a geometry-only assertion. `@btn-secondary` keeps
+    /// `focused:border-color-focused-edge`, so a tap that DID land and DID
+    /// focus must repaint — which is what separates "nothing moved" from
+    /// "nothing happened".
+    #[test]
+    fn a_tap_does_not_move_the_focused_button_or_its_label() {
+        fn settle(host: &mut ControlsHost) {
+            for _ in 0..10 {
+                let _ = host.tick(16).expect("tick");
+            }
+        }
+        /// `(button, label)` coords read out of the LIVE dump tree.
+        fn boxes(host: &mut ControlsHost) -> (Vec<i64>, Vec<i64>) {
+            fn find<'a>(n: &'a serde_json::Value, ty: &str) -> Option<&'a serde_json::Value> {
+                if n["type"] == ty {
+                    return Some(n);
+                }
+                n["children"].as_array()?.iter().find_map(|c| find(c, ty))
+            }
+            let dumped = tree(host);
+            let coords = |ty: &str| -> Vec<i64> {
+                find(&dumped, ty)
+                    .unwrap_or_else(|| panic!("{ty} is present in the dumped tree"))["coords"]
+                    .as_array()
+                    .expect("coords array")
+                    .iter()
+                    .map(|v| v.as_i64().expect("coord is an integer"))
+                    .collect()
+            };
+            (coords("lv_button"), coords("lv_label"))
+        }
+        let mut host = new_host();
+        let before_fb = render(&mut host, "vr_focus_geometry");
+        let before = boxes(&mut host);
+        let (x, y) = widget_center(&mut host, "lv_button");
+        press_px(&mut host, x, y);
+        settle(&mut host);
+        release_px(&mut host, x, y);
+        settle(&mut host);
+        let after_fb = host.read_framebuffer().expect("framebuffer");
+        let after = boxes(&mut host);
+        assert_differ(
+            "the tap landed and focused the button, so it repainted",
+            &before_fb,
+            &after_fb,
+            0.0001,
+        );
+        assert_eq!(
+            before, after,
+            "focusing must not move the button ({:?} -> {:?}) or its label ({:?} -> {:?})",
+            before.0, after.0, before.1, after.1
+        );
+    }
+}
+// ═══════════════════════════════════════════════════════════════════
 // Breakpoint color tests: verify bg color changes per breakpoint
 //
 // Uses the `vr_bp_color` fixture — a 96×96 box with distinct bg
