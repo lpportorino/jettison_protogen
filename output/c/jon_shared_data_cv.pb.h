@@ -136,6 +136,39 @@ typedef struct _ser_JonGuiDataCV {
  payload, which is the authoritative and richer value. This field cannot
  answer that and must not be read as though it could. */
     bool trinity_tracking_active;
+    /* Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+
+ WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+ internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+ else's business, and an enum spelling those out would only invite a
+ progress display nobody asked for. What a client genuinely cannot
+ determine for itself is that the platform and lens are being driven by
+ something OTHER than an operator, because the manoeuvre runs on session 0
+ and looks exactly like a person turning the turret.
+
+ The concrete consumer is the zoom palette. Its pending/revert model exists
+ for a ~200 ms command round trip, and its revert timeout is the same order
+ as the whole manoeuvre — so without this flag an operator who nudges the
+ slider mid-move watches their value held for two seconds while the picture
+ goes somewhere else, then snap back with no explanation. With it, the
+ palette suppresses the revert and treats a touch as "cancel and take over".
+
+ ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+ shape for one. A refusal answers ONE command from ONE client; this is an
+ unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+ other client with no way for any of them to tell whose it was, and two
+ commands inside one tick would race last-writer-wins. That is a per-client
+ response modelled as shared state, and no number of extra fields fixes it.
+
+ Refusals belong where they can be attributed:
+   - the CLIENT pre-flights everything it can already see (camera stopped,
+     view-only mode, region too small or unreachable at the current FOV,
+     platform moving or scanning, degenerate coordinates) and declines
+     BEFORE sending — more precise, and faster than a round trip;
+   - backend-only causes no client can evaluate are LOGGED, and the
+     manoeuvre simply never starts. */
+    bool zoom_roi_active_day;
+    bool zoom_roi_active_heat;
 } ser_JonGuiDataCV;
 
 
@@ -163,8 +196,8 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0}
-#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0}
+#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0, 0, 0}
+#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCV_autofocus_state_day_tag 1
@@ -199,6 +232,8 @@ extern "C" {
 #define ser_JonGuiDataCV_camera_transform_heat_tag 71
 #define ser_JonGuiDataCV_tracked_objects_tag     80
 #define ser_JonGuiDataCV_trinity_tracking_active_tag 90
+#define ser_JonGuiDataCV_zoom_roi_active_day_tag 91
+#define ser_JonGuiDataCV_zoom_roi_active_heat_tag 92
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCV_FIELDLIST(X, a) \
@@ -233,7 +268,9 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  sharpness_metrics_heat,  61) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_day,  70) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_heat,  71) \
 X(a, CALLBACK, REPEATED, MESSAGE,  tracked_objects,  80) \
-X(a, STATIC,   SINGULAR, BOOL,     trinity_tracking_active,  90)
+X(a, STATIC,   SINGULAR, BOOL,     trinity_tracking_active,  90) \
+X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_day,  91) \
+X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_heat,  92)
 #define ser_JonGuiDataCV_CALLBACK pb_default_field_callback
 #define ser_JonGuiDataCV_DEFAULT NULL
 #define ser_JonGuiDataCV_roi_focus_day_MSGTYPE ser_JonGuiDataROI

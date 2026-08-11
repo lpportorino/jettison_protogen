@@ -291,8 +291,41 @@ type JonGuiDataCV struct {
 	// payload, which is the authoritative and richer value. This field cannot
 	// answer that and must not be read as though it could.
 	TrinityTrackingActive bool `protobuf:"varint,90,opt,name=trinity_tracking_active,json=trinityTrackingActive,proto3" json:"trinity_tracking_active,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	// Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+	//
+	// WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+	// internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+	// else's business, and an enum spelling those out would only invite a
+	// progress display nobody asked for. What a client genuinely cannot
+	// determine for itself is that the platform and lens are being driven by
+	// something OTHER than an operator, because the manoeuvre runs on session 0
+	// and looks exactly like a person turning the turret.
+	//
+	// The concrete consumer is the zoom palette. Its pending/revert model exists
+	// for a ~200 ms command round trip, and its revert timeout is the same order
+	// as the whole manoeuvre — so without this flag an operator who nudges the
+	// slider mid-move watches their value held for two seconds while the picture
+	// goes somewhere else, then snap back with no explanation. With it, the
+	// palette suppresses the revert and treats a touch as "cancel and take over".
+	//
+	// ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+	// shape for one. A refusal answers ONE command from ONE client; this is an
+	// unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+	// other client with no way for any of them to tell whose it was, and two
+	// commands inside one tick would race last-writer-wins. That is a per-client
+	// response modelled as shared state, and no number of extra fields fixes it.
+	//
+	// Refusals belong where they can be attributed:
+	//   - the CLIENT pre-flights everything it can already see (camera stopped,
+	//     view-only mode, region too small or unreachable at the current FOV,
+	//     platform moving or scanning, degenerate coordinates) and declines
+	//     BEFORE sending — more precise, and faster than a round trip;
+	//   - backend-only causes no client can evaluate are LOGGED, and the
+	//     manoeuvre simply never starts.
+	ZoomRoiActiveDay  bool `protobuf:"varint,91,opt,name=zoom_roi_active_day,json=zoomRoiActiveDay,proto3" json:"zoom_roi_active_day,omitempty"`
+	ZoomRoiActiveHeat bool `protobuf:"varint,92,opt,name=zoom_roi_active_heat,json=zoomRoiActiveHeat,proto3" json:"zoom_roi_active_heat,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCV) Reset() {
@@ -549,11 +582,25 @@ func (x *JonGuiDataCV) GetTrinityTrackingActive() bool {
 	return false
 }
 
+func (x *JonGuiDataCV) GetZoomRoiActiveDay() bool {
+	if x != nil {
+		return x.ZoomRoiActiveDay
+	}
+	return false
+}
+
+func (x *JonGuiDataCV) GetZoomRoiActiveHeat() bool {
+	if x != nil {
+		return x.ZoomRoiActiveHeat
+	}
+	return false
+}
+
 var File_jon_shared_data_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb3\x18\n" +
+	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x93\x19\n" +
 	"\fJonGuiDataCV\x12Z\n" +
 	"\x13autofocus_state_day\x18\x01 \x01(\x0e2 .ser.JonGuiDataCV.AutofocusStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\x11autofocusStateDay\x123\n" +
 	"\rsharpness_day\x18\x02 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\fsharpnessDay\x12<\n" +
@@ -590,7 +637,9 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"R\x12cameraTransformDay\x88\x01\x01\x12S\n" +
 	"\x15camera_transform_heat\x18G \x01(\v2\x1a.ser.JonGuiDataTransform3DH\vR\x13cameraTransformHeat\x88\x01\x01\x12E\n" +
 	"\x0ftracked_objects\x18P \x03(\v2\x1c.ser.JonGuiDataTrackedObjectR\x0etrackedObjects\x126\n" +
-	"\x17trinity_tracking_active\x18Z \x01(\bR\x15trinityTrackingActive\"\xc8\x01\n" +
+	"\x17trinity_tracking_active\x18Z \x01(\bR\x15trinityTrackingActive\x12-\n" +
+	"\x13zoom_roi_active_day\x18[ \x01(\bR\x10zoomRoiActiveDay\x12/\n" +
+	"\x14zoom_roi_active_heat\x18\\ \x01(\bR\x11zoomRoiActiveHeat\"\xc8\x01\n" +
 	"\x0eAutofocusState\x12\x1f\n" +
 	"\x1bAUTOFOCUS_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14AUTOFOCUS_STATE_IDLE\x10\x01\x12 \n" +

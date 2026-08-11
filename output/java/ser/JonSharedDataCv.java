@@ -519,6 +519,52 @@ public final class JonSharedDataCv {
      * @return The trinityTrackingActive.
      */
     boolean getTrinityTrackingActive();
+
+    /**
+     * <pre>
+     * Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+     *
+     * WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+     * internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+     * else's business, and an enum spelling those out would only invite a
+     * progress display nobody asked for. What a client genuinely cannot
+     * determine for itself is that the platform and lens are being driven by
+     * something OTHER than an operator, because the manoeuvre runs on session 0
+     * and looks exactly like a person turning the turret.
+     *
+     * The concrete consumer is the zoom palette. Its pending/revert model exists
+     * for a ~200 ms command round trip, and its revert timeout is the same order
+     * as the whole manoeuvre — so without this flag an operator who nudges the
+     * slider mid-move watches their value held for two seconds while the picture
+     * goes somewhere else, then snap back with no explanation. With it, the
+     * palette suppresses the revert and treats a touch as "cancel and take over".
+     *
+     * ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+     * shape for one. A refusal answers ONE command from ONE client; this is an
+     * unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+     * other client with no way for any of them to tell whose it was, and two
+     * commands inside one tick would race last-writer-wins. That is a per-client
+     * response modelled as shared state, and no number of extra fields fixes it.
+     *
+     * Refusals belong where they can be attributed:
+     * - the CLIENT pre-flights everything it can already see (camera stopped,
+     * view-only mode, region too small or unreachable at the current FOV,
+     * platform moving or scanning, degenerate coordinates) and declines
+     * BEFORE sending — more precise, and faster than a round trip;
+     * - backend-only causes no client can evaluate are LOGGED, and the
+     * manoeuvre simply never starts.
+     * </pre>
+     *
+     * <code>bool zoom_roi_active_day = 91;</code>
+     * @return The zoomRoiActiveDay.
+     */
+    boolean getZoomRoiActiveDay();
+
+    /**
+     * <code>bool zoom_roi_active_heat = 92;</code>
+     * @return The zoomRoiActiveHeat.
+     */
+    boolean getZoomRoiActiveHeat();
   }
   /**
    * <pre>
@@ -1936,6 +1982,62 @@ public final class JonSharedDataCv {
       return trinityTrackingActive_;
     }
 
+    public static final int ZOOM_ROI_ACTIVE_DAY_FIELD_NUMBER = 91;
+    private boolean zoomRoiActiveDay_ = false;
+    /**
+     * <pre>
+     * Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+     *
+     * WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+     * internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+     * else's business, and an enum spelling those out would only invite a
+     * progress display nobody asked for. What a client genuinely cannot
+     * determine for itself is that the platform and lens are being driven by
+     * something OTHER than an operator, because the manoeuvre runs on session 0
+     * and looks exactly like a person turning the turret.
+     *
+     * The concrete consumer is the zoom palette. Its pending/revert model exists
+     * for a ~200 ms command round trip, and its revert timeout is the same order
+     * as the whole manoeuvre — so without this flag an operator who nudges the
+     * slider mid-move watches their value held for two seconds while the picture
+     * goes somewhere else, then snap back with no explanation. With it, the
+     * palette suppresses the revert and treats a touch as "cancel and take over".
+     *
+     * ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+     * shape for one. A refusal answers ONE command from ONE client; this is an
+     * unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+     * other client with no way for any of them to tell whose it was, and two
+     * commands inside one tick would race last-writer-wins. That is a per-client
+     * response modelled as shared state, and no number of extra fields fixes it.
+     *
+     * Refusals belong where they can be attributed:
+     * - the CLIENT pre-flights everything it can already see (camera stopped,
+     * view-only mode, region too small or unreachable at the current FOV,
+     * platform moving or scanning, degenerate coordinates) and declines
+     * BEFORE sending — more precise, and faster than a round trip;
+     * - backend-only causes no client can evaluate are LOGGED, and the
+     * manoeuvre simply never starts.
+     * </pre>
+     *
+     * <code>bool zoom_roi_active_day = 91;</code>
+     * @return The zoomRoiActiveDay.
+     */
+    @java.lang.Override
+    public boolean getZoomRoiActiveDay() {
+      return zoomRoiActiveDay_;
+    }
+
+    public static final int ZOOM_ROI_ACTIVE_HEAT_FIELD_NUMBER = 92;
+    private boolean zoomRoiActiveHeat_ = false;
+    /**
+     * <code>bool zoom_roi_active_heat = 92;</code>
+     * @return The zoomRoiActiveHeat.
+     */
+    @java.lang.Override
+    public boolean getZoomRoiActiveHeat() {
+      return zoomRoiActiveHeat_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2045,6 +2147,12 @@ public final class JonSharedDataCv {
       }
       if (trinityTrackingActive_ != false) {
         output.writeBool(90, trinityTrackingActive_);
+      }
+      if (zoomRoiActiveDay_ != false) {
+        output.writeBool(91, zoomRoiActiveDay_);
+      }
+      if (zoomRoiActiveHeat_ != false) {
+        output.writeBool(92, zoomRoiActiveHeat_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2183,6 +2291,14 @@ public final class JonSharedDataCv {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(90, trinityTrackingActive_);
       }
+      if (zoomRoiActiveDay_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(91, zoomRoiActiveDay_);
+      }
+      if (zoomRoiActiveHeat_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(92, zoomRoiActiveHeat_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2304,6 +2420,10 @@ public final class JonSharedDataCv {
           .equals(other.getTrackedObjectsList())) return false;
       if (getTrinityTrackingActive()
           != other.getTrinityTrackingActive()) return false;
+      if (getZoomRoiActiveDay()
+          != other.getZoomRoiActiveDay()) return false;
+      if (getZoomRoiActiveHeat()
+          != other.getZoomRoiActiveHeat()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2417,6 +2537,12 @@ public final class JonSharedDataCv {
       hash = (37 * hash) + TRINITY_TRACKING_ACTIVE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getTrinityTrackingActive());
+      hash = (37 * hash) + ZOOM_ROI_ACTIVE_DAY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getZoomRoiActiveDay());
+      hash = (37 * hash) + ZOOM_ROI_ACTIVE_HEAT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getZoomRoiActiveHeat());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2577,6 +2703,7 @@ public final class JonSharedDataCv {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
+        bitField1_ = 0;
         autofocusStateDay_ = 0;
         sharpnessDay_ = 0D;
         bestSharpnessDay_ = 0D;
@@ -2663,6 +2790,8 @@ public final class JonSharedDataCv {
         }
         bitField0_ = (bitField0_ & ~0x40000000);
         trinityTrackingActive_ = false;
+        zoomRoiActiveDay_ = false;
+        zoomRoiActiveHeat_ = false;
         return this;
       }
 
@@ -2691,6 +2820,7 @@ public final class JonSharedDataCv {
         ser.JonSharedDataCv.JonGuiDataCV result = new ser.JonSharedDataCv.JonGuiDataCV(this);
         buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
+        if (bitField1_ != 0) { buildPartial1(result); }
         onBuilt();
         return result;
       }
@@ -2842,6 +2972,16 @@ public final class JonSharedDataCv {
         result.bitField0_ |= to_bitField0_;
       }
 
+      private void buildPartial1(ser.JonSharedDataCv.JonGuiDataCV result) {
+        int from_bitField1_ = bitField1_;
+        if (((from_bitField1_ & 0x00000001) != 0)) {
+          result.zoomRoiActiveDay_ = zoomRoiActiveDay_;
+        }
+        if (((from_bitField1_ & 0x00000002) != 0)) {
+          result.zoomRoiActiveHeat_ = zoomRoiActiveHeat_;
+        }
+      }
+
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof ser.JonSharedDataCv.JonGuiDataCV) {
@@ -2972,6 +3112,12 @@ public final class JonSharedDataCv {
         }
         if (other.getTrinityTrackingActive() != false) {
           setTrinityTrackingActive(other.getTrinityTrackingActive());
+        }
+        if (other.getZoomRoiActiveDay() != false) {
+          setZoomRoiActiveDay(other.getZoomRoiActiveDay());
+        }
+        if (other.getZoomRoiActiveHeat() != false) {
+          setZoomRoiActiveHeat(other.getZoomRoiActiveHeat());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -3191,6 +3337,16 @@ public final class JonSharedDataCv {
                 bitField0_ |= 0x80000000;
                 break;
               } // case 720
+              case 728: {
+                zoomRoiActiveDay_ = input.readBool();
+                bitField1_ |= 0x00000001;
+                break;
+              } // case 728
+              case 736: {
+                zoomRoiActiveHeat_ = input.readBool();
+                bitField1_ |= 0x00000002;
+                break;
+              } // case 736
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3207,6 +3363,7 @@ public final class JonSharedDataCv {
         return this;
       }
       private int bitField0_;
+      private int bitField1_;
 
       private int autofocusStateDay_ = 0;
       /**
@@ -6054,6 +6211,172 @@ public final class JonSharedDataCv {
         return this;
       }
 
+      private boolean zoomRoiActiveDay_ ;
+      /**
+       * <pre>
+       * Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+       *
+       * WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+       * internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+       * else's business, and an enum spelling those out would only invite a
+       * progress display nobody asked for. What a client genuinely cannot
+       * determine for itself is that the platform and lens are being driven by
+       * something OTHER than an operator, because the manoeuvre runs on session 0
+       * and looks exactly like a person turning the turret.
+       *
+       * The concrete consumer is the zoom palette. Its pending/revert model exists
+       * for a ~200 ms command round trip, and its revert timeout is the same order
+       * as the whole manoeuvre — so without this flag an operator who nudges the
+       * slider mid-move watches their value held for two seconds while the picture
+       * goes somewhere else, then snap back with no explanation. With it, the
+       * palette suppresses the revert and treats a touch as "cancel and take over".
+       *
+       * ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+       * shape for one. A refusal answers ONE command from ONE client; this is an
+       * unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+       * other client with no way for any of them to tell whose it was, and two
+       * commands inside one tick would race last-writer-wins. That is a per-client
+       * response modelled as shared state, and no number of extra fields fixes it.
+       *
+       * Refusals belong where they can be attributed:
+       * - the CLIENT pre-flights everything it can already see (camera stopped,
+       * view-only mode, region too small or unreachable at the current FOV,
+       * platform moving or scanning, degenerate coordinates) and declines
+       * BEFORE sending — more precise, and faster than a round trip;
+       * - backend-only causes no client can evaluate are LOGGED, and the
+       * manoeuvre simply never starts.
+       * </pre>
+       *
+       * <code>bool zoom_roi_active_day = 91;</code>
+       * @return The zoomRoiActiveDay.
+       */
+      @java.lang.Override
+      public boolean getZoomRoiActiveDay() {
+        return zoomRoiActiveDay_;
+      }
+      /**
+       * <pre>
+       * Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+       *
+       * WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+       * internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+       * else's business, and an enum spelling those out would only invite a
+       * progress display nobody asked for. What a client genuinely cannot
+       * determine for itself is that the platform and lens are being driven by
+       * something OTHER than an operator, because the manoeuvre runs on session 0
+       * and looks exactly like a person turning the turret.
+       *
+       * The concrete consumer is the zoom palette. Its pending/revert model exists
+       * for a ~200 ms command round trip, and its revert timeout is the same order
+       * as the whole manoeuvre — so without this flag an operator who nudges the
+       * slider mid-move watches their value held for two seconds while the picture
+       * goes somewhere else, then snap back with no explanation. With it, the
+       * palette suppresses the revert and treats a touch as "cancel and take over".
+       *
+       * ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+       * shape for one. A refusal answers ONE command from ONE client; this is an
+       * unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+       * other client with no way for any of them to tell whose it was, and two
+       * commands inside one tick would race last-writer-wins. That is a per-client
+       * response modelled as shared state, and no number of extra fields fixes it.
+       *
+       * Refusals belong where they can be attributed:
+       * - the CLIENT pre-flights everything it can already see (camera stopped,
+       * view-only mode, region too small or unreachable at the current FOV,
+       * platform moving or scanning, degenerate coordinates) and declines
+       * BEFORE sending — more precise, and faster than a round trip;
+       * - backend-only causes no client can evaluate are LOGGED, and the
+       * manoeuvre simply never starts.
+       * </pre>
+       *
+       * <code>bool zoom_roi_active_day = 91;</code>
+       * @param value The zoomRoiActiveDay to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZoomRoiActiveDay(boolean value) {
+
+        zoomRoiActiveDay_ = value;
+        bitField1_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+       *
+       * WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+       * internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+       * else's business, and an enum spelling those out would only invite a
+       * progress display nobody asked for. What a client genuinely cannot
+       * determine for itself is that the platform and lens are being driven by
+       * something OTHER than an operator, because the manoeuvre runs on session 0
+       * and looks exactly like a person turning the turret.
+       *
+       * The concrete consumer is the zoom palette. Its pending/revert model exists
+       * for a ~200 ms command round trip, and its revert timeout is the same order
+       * as the whole manoeuvre — so without this flag an operator who nudges the
+       * slider mid-move watches their value held for two seconds while the picture
+       * goes somewhere else, then snap back with no explanation. With it, the
+       * palette suppresses the revert and treats a touch as "cancel and take over".
+       *
+       * ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+       * shape for one. A refusal answers ONE command from ONE client; this is an
+       * unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+       * other client with no way for any of them to tell whose it was, and two
+       * commands inside one tick would race last-writer-wins. That is a per-client
+       * response modelled as shared state, and no number of extra fields fixes it.
+       *
+       * Refusals belong where they can be attributed:
+       * - the CLIENT pre-flights everything it can already see (camera stopped,
+       * view-only mode, region too small or unreachable at the current FOV,
+       * platform moving or scanning, degenerate coordinates) and declines
+       * BEFORE sending — more precise, and faster than a round trip;
+       * - backend-only causes no client can evaluate are LOGGED, and the
+       * manoeuvre simply never starts.
+       * </pre>
+       *
+       * <code>bool zoom_roi_active_day = 91;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZoomRoiActiveDay() {
+        bitField1_ = (bitField1_ & ~0x00000001);
+        zoomRoiActiveDay_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean zoomRoiActiveHeat_ ;
+      /**
+       * <code>bool zoom_roi_active_heat = 92;</code>
+       * @return The zoomRoiActiveHeat.
+       */
+      @java.lang.Override
+      public boolean getZoomRoiActiveHeat() {
+        return zoomRoiActiveHeat_;
+      }
+      /**
+       * <code>bool zoom_roi_active_heat = 92;</code>
+       * @param value The zoomRoiActiveHeat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZoomRoiActiveHeat(boolean value) {
+
+        zoomRoiActiveHeat_ = value;
+        bitField1_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool zoom_roi_active_heat = 92;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZoomRoiActiveHeat() {
+        bitField1_ = (bitField1_ & ~0x00000002);
+        zoomRoiActiveHeat_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCV)
     }
 
@@ -6121,7 +6444,7 @@ public final class JonSharedDataCv {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val" +
       "idate/validate.proto\032\033jon_shared_data_ty" +
-      "pes.proto\"\313\024\n\014JonGuiDataCV\022G\n\023autofocus_" +
+      "pes.proto\"\206\025\n\014JonGuiDataCV\022G\n\023autofocus_" +
       "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof" +
       "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001" +
       "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day" +
@@ -6161,35 +6484,36 @@ public final class JonSharedDataCv {
       "ansform_heat\030G \001(\0132\032.ser.JonGuiDataTrans" +
       "form3DH\013\210\001\001\0225\n\017tracked_objects\030P \003(\0132\034.s" +
       "er.JonGuiDataTrackedObject\022\037\n\027trinity_tr" +
-      "acking_active\030Z \001(\010\"\310\001\n\016AutofocusState\022\037" +
-      "\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOF" +
-      "OCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COA" +
-      "RSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEE" +
-      "P\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020\004\022\032\n\026AU" +
-      "TOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBridgeStatu" +
-      "s\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030C" +
-      "V_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_S" +
-      "TATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUN" +
-      "NING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n" +
-      "\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE" +
-      "_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridgeExitRea" +
-      "son\022%\n!CV_BRIDGE_EXIT_REASON_UNSPECIFIED" +
-      "\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_STARTED\020" +
-      "\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033C" +
-      "V_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n CV_BRIDG" +
-      "E_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_" +
-      "EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXI" +
-      "T_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_" +
-      "TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASON_SIGNA" +
-      "L\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi_track_dayB" +
-      "\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_dayB\021\n\017_roi_" +
-      "focus_heatB\021\n\017_roi_track_heatB\020\n\016_roi_zo" +
-      "om_heatB\016\n\014_roi_fx_heatB\030\n\026_sharpness_me" +
-      "trics_dayB\031\n\027_sharpness_metrics_heatB\027\n\025" +
-      "_camera_transform_dayB\030\n\026_camera_transfo" +
-      "rm_heatBJZHgit-codecommit.eu-central-1.a" +
-      "mazonaws.com/v1/repos/jettison/jonp/data" +
-      "/cvb\006proto3"
+      "acking_active\030Z \001(\010\022\033\n\023zoom_roi_active_d" +
+      "ay\030[ \001(\010\022\034\n\024zoom_roi_active_heat\030\\ \001(\010\"\310" +
+      "\001\n\016AutofocusState\022\037\n\033AUTOFOCUS_STATE_UNS" +
+      "PECIFIED\020\000\022\030\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034" +
+      "AUTOFOCUS_STATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFO" +
+      "CUS_STATE_FINE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STAT" +
+      "E_CONVERGED\020\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020" +
+      "\005\"\353\001\n\016CvBridgeStatus\022 \n\034CV_BRIDGE_STATUS" +
+      "_UNSPECIFIED\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPP" +
+      "ED\020\001\022\035\n\031CV_BRIDGE_STATUS_STARTING\020\002\022\034\n\030C" +
+      "V_BRIDGE_STATUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_S" +
+      "TATUS_STOPPING\020\004\022\034\n\030CV_BRIDGE_STATUS_CRA" +
+      "SHED\020\005\022\037\n\033CV_BRIDGE_STATUS_RESTARTING\020\006\"" +
+      "\324\002\n\022CvBridgeExitReason\022%\n!CV_BRIDGE_EXIT" +
+      "_REASON_UNSPECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_" +
+      "REASON_NOT_STARTED\020\001\022 \n\034CV_BRIDGE_EXIT_R" +
+      "EASON_NORMAL\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_" +
+      "ERROR\020\003\022$\n CV_BRIDGE_EXIT_REASON_CUDA_ER" +
+      "ROR\020\004\022#\n\037CV_BRIDGE_EXIT_REASON_IPC_ERROR" +
+      "\020\005\022\035\n\031CV_BRIDGE_EXIT_REASON_OOM\020\006\022!\n\035CV_" +
+      "BRIDGE_EXIT_REASON_TIMEOUT\020\007\022 \n\034CV_BRIDG" +
+      "E_EXIT_REASON_SIGNAL\020\010B\020\n\016_roi_focus_day" +
+      "B\020\n\016_roi_track_dayB\017\n\r_roi_zoom_dayB\r\n\013_" +
+      "roi_fx_dayB\021\n\017_roi_focus_heatB\021\n\017_roi_tr" +
+      "ack_heatB\020\n\016_roi_zoom_heatB\016\n\014_roi_fx_he" +
+      "atB\030\n\026_sharpness_metrics_dayB\031\n\027_sharpne" +
+      "ss_metrics_heatB\027\n\025_camera_transform_day" +
+      "B\030\n\026_camera_transform_heatBJZHgit-codeco" +
+      "mmit.eu-central-1.amazonaws.com/v1/repos" +
+      "/jettison/jonp/data/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6202,7 +6526,7 @@ public final class JonSharedDataCv {
     internal_static_ser_JonGuiDataCV_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCV_descriptor,
-        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", });
+        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", "ZoomRoiActiveDay", "ZoomRoiActiveHeat", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

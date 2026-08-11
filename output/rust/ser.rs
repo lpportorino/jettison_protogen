@@ -1983,6 +1983,41 @@ pub struct JonGuiDataCv {
     /// answer that and must not be read as though it could.
     #[prost(bool, tag = "90")]
     pub trinity_tracking_active: bool,
+    /// Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+    ///
+    /// WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+    /// internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+    /// else's business, and an enum spelling those out would only invite a
+    /// progress display nobody asked for. What a client genuinely cannot
+    /// determine for itself is that the platform and lens are being driven by
+    /// something OTHER than an operator, because the manoeuvre runs on session 0
+    /// and looks exactly like a person turning the turret.
+    ///
+    /// The concrete consumer is the zoom palette. Its pending/revert model exists
+    /// for a ~200 ms command round trip, and its revert timeout is the same order
+    /// as the whole manoeuvre — so without this flag an operator who nudges the
+    /// slider mid-move watches their value held for two seconds while the picture
+    /// goes somewhere else, then snap back with no explanation. With it, the
+    /// palette suppresses the revert and treats a touch as "cancel and take over".
+    ///
+    /// ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+    /// shape for one. A refusal answers ONE command from ONE client; this is an
+    /// unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+    /// other client with no way for any of them to tell whose it was, and two
+    /// commands inside one tick would race last-writer-wins. That is a per-client
+    /// response modelled as shared state, and no number of extra fields fixes it.
+    ///
+    /// Refusals belong where they can be attributed:
+    ///    - the CLIENT pre-flights everything it can already see (camera stopped,
+    ///      view-only mode, region too small or unreachable at the current FOV,
+    ///      platform moving or scanning, degenerate coordinates) and declines
+    ///      BEFORE sending — more precise, and faster than a round trip;
+    ///    - backend-only causes no client can evaluate are LOGGED, and the
+    ///      manoeuvre simply never starts.
+    #[prost(bool, tag = "91")]
+    pub zoom_roi_active_day: bool,
+    #[prost(bool, tag = "92")]
+    pub zoom_roi_active_heat: bool,
 }
 /// Nested message and enum types in `JonGuiDataCV`.
 pub mod jon_gui_data_cv {

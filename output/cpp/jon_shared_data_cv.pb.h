@@ -437,6 +437,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     kBridgeUptimeMsFieldNumber = 32,
     kRestartCountFieldNumber = 33,
     kTrinityTrackingActiveFieldNumber = 90,
+    kZoomRoiActiveDayFieldNumber = 91,
+    kZoomRoiActiveHeatFieldNumber = 92,
   };
   // repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;
   int tracked_objects_size() const;
@@ -825,12 +827,32 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   void _internal_set_trinity_tracking_active(bool value);
 
   public:
+  // bool zoom_roi_active_day = 91;
+  void clear_zoom_roi_active_day() ;
+  bool zoom_roi_active_day() const;
+  void set_zoom_roi_active_day(bool value);
+
+  private:
+  bool _internal_zoom_roi_active_day() const;
+  void _internal_set_zoom_roi_active_day(bool value);
+
+  public:
+  // bool zoom_roi_active_heat = 92;
+  void clear_zoom_roi_active_heat() ;
+  bool zoom_roi_active_heat() const;
+  void set_zoom_roi_active_heat(bool value);
+
+  private:
+  bool _internal_zoom_roi_active_heat() const;
+  void _internal_set_zoom_roi_active_heat(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCV)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 32, 13,
+      5, 34, 13,
       0, 13>
       _table_;
 
@@ -882,6 +904,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     ::int64_t bridge_uptime_ms_;
     ::int32_t restart_count_;
     bool trinity_tracking_active_;
+    bool zoom_roi_active_day_;
+    bool zoom_roi_active_heat_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -2457,6 +2481,50 @@ inline bool JonGuiDataCV::_internal_trinity_tracking_active() const {
 inline void JonGuiDataCV::_internal_set_trinity_tracking_active(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.trinity_tracking_active_ = value;
+}
+
+// bool zoom_roi_active_day = 91;
+inline void JonGuiDataCV::clear_zoom_roi_active_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zoom_roi_active_day_ = false;
+}
+inline bool JonGuiDataCV::zoom_roi_active_day() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.zoom_roi_active_day)
+  return _internal_zoom_roi_active_day();
+}
+inline void JonGuiDataCV::set_zoom_roi_active_day(bool value) {
+  _internal_set_zoom_roi_active_day(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.zoom_roi_active_day)
+}
+inline bool JonGuiDataCV::_internal_zoom_roi_active_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.zoom_roi_active_day_;
+}
+inline void JonGuiDataCV::_internal_set_zoom_roi_active_day(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zoom_roi_active_day_ = value;
+}
+
+// bool zoom_roi_active_heat = 92;
+inline void JonGuiDataCV::clear_zoom_roi_active_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zoom_roi_active_heat_ = false;
+}
+inline bool JonGuiDataCV::zoom_roi_active_heat() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.zoom_roi_active_heat)
+  return _internal_zoom_roi_active_heat();
+}
+inline void JonGuiDataCV::set_zoom_roi_active_heat(bool value) {
+  _internal_set_zoom_roi_active_heat(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.zoom_roi_active_heat)
+}
+inline bool JonGuiDataCV::_internal_zoom_roi_active_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.zoom_roi_active_heat_;
+}
+inline void JonGuiDataCV::_internal_set_zoom_roi_active_heat(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zoom_roi_active_heat_ = value;
 }
 
 #ifdef __GNUC__

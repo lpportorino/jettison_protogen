@@ -110,6 +110,41 @@ export interface JonGuiDataCV {
    * answer that and must not be read as though it could.
    */
   trinityTrackingActive: boolean;
+  /**
+   * Whether a zoom-to-ROI manoeuvre is currently driving this channel.
+   *
+   * WHY THIS IS ON THE WIRE AT ALL. The manoeuvre's own state machine is
+   * internal and stays internal — SLEWING vs ZOOMING vs settling is nobody
+   * else's business, and an enum spelling those out would only invite a
+   * progress display nobody asked for. What a client genuinely cannot
+   * determine for itself is that the platform and lens are being driven by
+   * something OTHER than an operator, because the manoeuvre runs on session 0
+   * and looks exactly like a person turning the turret.
+   *
+   * The concrete consumer is the zoom palette. Its pending/revert model exists
+   * for a ~200 ms command round trip, and its revert timeout is the same order
+   * as the whole manoeuvre — so without this flag an operator who nudges the
+   * slider mid-move watches their value held for two seconds while the picture
+   * goes somewhere else, then snap back with no explanation. With it, the
+   * palette suppresses the revert and treats a touch as "cancel and take over".
+   *
+   * ⚠ THERE IS DELIBERATELY NO REFUSAL REASON HERE, and this bus is the wrong
+   * shape for one. A refusal answers ONE command from ONE client; this is an
+   * unaddressed broadcast at ~30 Hz. A refusal field would be visible to every
+   * other client with no way for any of them to tell whose it was, and two
+   * commands inside one tick would race last-writer-wins. That is a per-client
+   * response modelled as shared state, and no number of extra fields fixes it.
+   *
+   * Refusals belong where they can be attributed:
+   *   - the CLIENT pre-flights everything it can already see (camera stopped,
+   *     view-only mode, region too small or unreachable at the current FOV,
+   *     platform moving or scanning, degenerate coordinates) and declines
+   *     BEFORE sending — more precise, and faster than a round trip;
+   *   - backend-only causes no client can evaluate are LOGGED, and the
+   *     manoeuvre simply never starts.
+   */
+  zoomRoiActiveDay: boolean;
+  zoomRoiActiveHeat: boolean;
 }
 
 /** Autofocus sweep state */
@@ -358,6 +393,8 @@ function createBaseJonGuiDataCV(): JonGuiDataCV {
     cameraTransformHeat: undefined,
     trackedObjects: [],
     trinityTrackingActive: false,
+    zoomRoiActiveDay: false,
+    zoomRoiActiveHeat: false,
   };
 }
 
@@ -458,6 +495,12 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     }
     if (message.trinityTrackingActive !== false) {
       writer.uint32(720).bool(message.trinityTrackingActive);
+    }
+    if (message.zoomRoiActiveDay !== false) {
+      writer.uint32(728).bool(message.zoomRoiActiveDay);
+    }
+    if (message.zoomRoiActiveHeat !== false) {
+      writer.uint32(736).bool(message.zoomRoiActiveHeat);
     }
     return writer;
   },
@@ -725,6 +768,22 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
           message.trinityTrackingActive = reader.bool();
           continue;
         }
+        case 91: {
+          if (tag !== 728) {
+            break;
+          }
+
+          message.zoomRoiActiveDay = reader.bool();
+          continue;
+        }
+        case 92: {
+          if (tag !== 736) {
+            break;
+          }
+
+          message.zoomRoiActiveHeat = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -896,6 +955,16 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
         : isSet(object.trinity_tracking_active)
         ? globalThis.Boolean(object.trinity_tracking_active)
         : false,
+      zoomRoiActiveDay: isSet(object.zoomRoiActiveDay)
+        ? globalThis.Boolean(object.zoomRoiActiveDay)
+        : isSet(object.zoom_roi_active_day)
+        ? globalThis.Boolean(object.zoom_roi_active_day)
+        : false,
+      zoomRoiActiveHeat: isSet(object.zoomRoiActiveHeat)
+        ? globalThis.Boolean(object.zoomRoiActiveHeat)
+        : isSet(object.zoom_roi_active_heat)
+        ? globalThis.Boolean(object.zoom_roi_active_heat)
+        : false,
     };
   },
 
@@ -997,6 +1066,12 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     if (message.trinityTrackingActive !== false) {
       obj.trinityTrackingActive = message.trinityTrackingActive;
     }
+    if (message.zoomRoiActiveDay !== false) {
+      obj.zoomRoiActiveDay = message.zoomRoiActiveDay;
+    }
+    if (message.zoomRoiActiveHeat !== false) {
+      obj.zoomRoiActiveHeat = message.zoomRoiActiveHeat;
+    }
     return obj;
   },
 
@@ -1063,6 +1138,8 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
       : undefined;
     message.trackedObjects = object.trackedObjects?.map((e) => JonGuiDataTrackedObject.fromPartial(e)) || [];
     message.trinityTrackingActive = object.trinityTrackingActive ?? false;
+    message.zoomRoiActiveDay = object.zoomRoiActiveDay ?? false;
+    message.zoomRoiActiveHeat = object.zoomRoiActiveHeat ?? false;
     return message;
   },
 };

@@ -2733,6 +2733,8 @@ pub const JonGuiDataCV = struct {
     camera_transform_heat: ?JonGuiDataTransform3D = null,
     tracked_objects: std.ArrayListUnmanaged(JonGuiDataTrackedObject) = .empty,
     trinity_tracking_active: bool = false,
+    zoom_roi_active_day: bool = false,
+    zoom_roi_active_heat: bool = false,
 
     pub const _desc_table = .{
         .autofocus_state_day = fd(1, .@"enum"),
@@ -2767,6 +2769,8 @@ pub const JonGuiDataCV = struct {
         .camera_transform_heat = fd(71, .submessage),
         .tracked_objects = fd(80, .{ .repeated = .submessage}),
         .trinity_tracking_active = fd(90, .{ .scalar = .bool }),
+        .zoom_roi_active_day = fd(91, .{ .scalar = .bool }),
+        .zoom_roi_active_heat = fd(92, .{ .scalar = .bool }),
     };
 
 pub const AutofocusState = enum(i32) {
