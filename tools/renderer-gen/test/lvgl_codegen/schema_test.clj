@@ -322,3 +322,20 @@
             errors (schema/validate-screen-semantics screen)]
         (is (some #(and (= err-type (:type %)) (= :nope (:ref %))) errors)
             (str bind-key " with no declaration is flagged as " err-type))))))
+
+;; event-def's inner map was OPEN, so a misspelled key validated clean and then
+;; did NOTHING: every emitter reads a fixed key set, so an unrecognised key is
+;; dropped without a word at the one point a mistake is still cheap to catch.
+;; The :props axis has carried a closed-map guard all along; this is its twin,
+;; and `gesture-step-def` two definitions above already closes its own map.
+(deftest an-undeclared-event-key-is-refused
+  (testing "a misspelled flag is REFUSED rather than silently ignored"
+    (is (not (event-valid? {:notify-hostt true}))
+        ":notify-hostt is a typo for :notify-host — an open map accepts it and the emitter drops it")
+    (is (not (event-valid? {:trigger :value-changed :toggl :armed}))
+        ":toggl is a typo for :toggle — accepted and dropped while the control looks authored"))
+  (testing "and every DECLARED shape still validates"
+    (is (event-valid? {}) "a bare {} means 'send event name on click'")
+    (is (event-valid? {:trigger :value-changed :include-value true}))
+    (is (event-valid? {:toggle :armed :notify-host true}))
+    (is (event-valid? {:set :armed :to 1}))))

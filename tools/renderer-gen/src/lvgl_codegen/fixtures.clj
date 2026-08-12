@@ -1092,8 +1092,53 @@
 ;; ═══════════════════════════════════════════════════════════════════
 ;; All fixtures combined
 ;; ═══════════════════════════════════════════════════════════════════
+;; ═══════════════════════════════════════════════════════════════════
+;; Focus geometry — a w-content button whose OUTER box must not move
+;; when a pointer tap focuses it.
+;;
+;; WHY A SEPARATE FIXTURE, when vr_hud_btn is also a button: @hud-btn
+;; CANNOT show this class, measured rather than assumed. It is a fixed
+;; w-52 h-52, so its outer box cannot grow, and its child is a single
+;; centred "+" glyph, so a symmetric content-box shrink leaves that
+;; child at the same centre with the same glyph-driven size. Both
+;; boxes therefore hold still even while a layout-bearing focus style
+;; is live, and a coords assertion on it passes over the defect.
+;;
+;; A w-content macro is the shape that moves: the widget is sized by
+;; its content plus padding plus border, so a focus style that changes
+;; border width changes the OUTER box and reflows the row.
+;; @btn-secondary carries a real base border for a focus style to
+;; differ from, which is what makes the comparison meaningful.
+(def ^:private focus-geometry-fixtures
+  {"vr_focus_geometry"
+   (make-screen-raw {:tag :lv_obj
+                     :class "w-pct-100 h-pct-100 bg-surface-0"
+                     :children [{:tag :lv_button
+                                 :class "@btn-secondary"
+                                 :children [{:tag :lv_label
+                                             :text "Focus"
+                                             :class "text-fg-0 font-font-body"}]}]})
+   ;; @btn-primary's focus affordance is an OUTLINE, and this is the fixture
+   ;; that renders it. It must satisfy BOTH halves at once: the outline draws
+   ;; (the framebuffer changes on focus) and the box holds still (an outline
+   ;; carries no layout flag). A border affordance can only ever satisfy one.
+   ;;
+   ;; PADDED WRAPPER, for the reason the devcard corpus's own focus-ring cards
+   ;; record: an outline is drawn OUTSIDE the box, so at the canvas origin it is
+   ;; clipped and only its inner arcs survive. The pad gives it room to be
+   ;; observed rather than cropped.
+   "vr_focus_outline"
+   (make-screen-raw {:tag :lv_obj
+                     :class "w-pct-100 h-pct-100 bg-surface-0 p-spacing-lg"
+                     :children [{:tag :lv_button
+                                 :class "@btn-primary"
+                                 :children [{:tag :lv_label
+                                             :text "Apply"
+                                             :class "text-accent-text font-font-body"}]}]})})
+
 (def ^:private all-fixtures
   (merge per-widget-fixtures
+         focus-geometry-fixtures
          reorder-fixtures
          modification-fixtures
          value-change-fixtures

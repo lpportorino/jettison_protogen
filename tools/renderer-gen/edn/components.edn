@@ -9,15 +9,56 @@
  ;; Referenced via @name in class strings. No nesting allowed.
  ;; ═══════════════════════════════════════════════════════════════════
  :class-defs
+ ;; NO LAYOUT-BEARING PROPERTY UNDER ANY STATE PREFIX IN ANY MACRO HERE.
+ ;; lv_style.c flags a whole class of props LV_STYLE_PROP_FLAG_LAYOUT_UPDATE —
+ ;; border width, width/height and their min/max, x/y, align, translate, every
+ ;; pad and margin, text font and spacing, layout, base dir, and the flex/grid
+ ;; families — and lv_obj_get_style_space_left adds the border width to the
+ ;; padding on each side the border is drawn on. So a state style built from
+ ;; any of them MOVES THE LAYOUT when that state is entered: it resizes a
+ ;; w-content macro and shrinks the CONTENT box of a fixed-size one. The rule
+ ;; is stated over the whole class rather than over `focused:border-w` alone,
+ ;; because `pressed:p-*`, `focus-key:border-w-*` and `focused:font-*` are the
+ ;; same defect and a narrower rule reads as permission for them.
+ ;;
+ ;; Dress a state with COLOUR, OPACITY or an OUTLINE instead.
+ ;; LV_STYLE_BORDER_COLOR carries no layout flag, and the outline props carry
+ ;; EXT_DRAW_UPDATE rather than LAYOUT_UPDATE — an outline is drawn OUTSIDE the
+ ;; box, so it changes what is painted without moving anything.
+ ;;
+ ;; WHICH OF THE TWO A MACRO CAN USE DEPENDS ON WHETHER IT HAS A BASE BORDER.
+ ;; @btn-secondary and @hud-btn carry one, so they recolour it. @btn-primary
+ ;; carries none — a colour alone would paint at width 0 — so its ring is an
+ ;; outline.
+ ;;
+ ;; AN OUTLINE NEEDS PARENT INSET, and this is the constraint an author will
+ ;; otherwise meet as a clipped ring. Its reach is outline_pad + outline_width;
+ ;; at the base breakpoint @btn-primary's is 2 + 2 = 4px, while @card gives
+ ;; `lv_obj_get_style_space_left` = pad + border_width = 2 + 1 = 3px. So a
+ ;; @btn-primary flush inside a @card overruns that card's box by 1px at base
+ ;; (it fits from md: up, where spacing-sm widens the pad). Give a focusable
+ ;; primary button at least 4px of parent inset, or expect the ring to land on
+ ;; the parent's own edge.
+ ;;
+ ;; Guarded by renderer/wasm_harness/tests/visual_regression.rs, mod
+ ;; focus_geometry — vr_focus_geometry for the border case, vr_focus_outline
+ ;; for this one.
  {:body "font-font-body text-fg-0"
+  ;; The focus ring is an OUTLINE, which is drawn outside the box and carries no
+  ;; layout flag, so it is visible without moving anything. A border here would
+  ;; not be: this macro is `w-content`, so a focus border would grow the widget
+  ;; and reflow its row, which is the defect the rule above states.
   :btn-primary
   "w-content h-content p-spacing-xs bg-accent-bg rounded-radius-button
-                pressed:bg-pressed-accent focused:border-color-focused-edge
-                focused:border-w-border-width-focus md:p-spacing-sm"
+                pressed:bg-pressed-accent
+                focused:outline-color-focused-edge
+                focused:outline-w-border-width-focus
+                focused:outline-pad-spacing-xs
+                md:p-spacing-sm"
   :btn-secondary
   "w-content h-content p-spacing-xs bg-surface-2 rounded-radius-button
                   border-edge-0 border-w-border-width-default pressed:bg-pressed-surface
-                  focused:border-color-focused-edge focused:border-w-border-width-focus
+                  focused:border-color-focused-edge
                   md:p-spacing-sm"
   :caption "font-font-caption text-fg-1"
   :card
@@ -28,13 +69,17 @@
                 border-edge-0 border-w-border-width-default md:p-spacing-sm"
   :data-value "text-fg-0 font-font-data"
   :heading "font-font-heading text-fg-0"
+  ;; The md:/xl: `border-w` tokens below are BREAKPOINT widths, not focus
+  ;; styling — vr_hud_btn/vr_hud_col exist to verify exactly that ladder. A
+  ;; sweep matching the `border-width-focus` TOKEN NAME guts them; match the
+  ;; `focused:` PREFIX.
   :hud-btn
   "w-52 h-52 p-spacing-xs
                 border-hud-border border-w-border-width-default
                 bg-status-error opa-overlay-opa
                 rounded-radius-button
                 pressed:bg-pressed-accent pressed:opa-hud-pressed-opa
-                focused:border-color-focused-edge focused:border-w-border-width-focus
+                focused:border-color-focused-edge
                 disabled:opa-disabled-opa
                 md:w-72 md:h-72 md:border-w-border-width-focus md:bg-status-warning
                 lg:w-96 lg:h-96 lg:bg-status-success

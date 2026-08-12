@@ -30,23 +30,31 @@
 (def replace-on-change-keys
   "Node keys whose CHANGE forces REPLACE_NODE in v1: observer/event-cb
    detach has no renderer code path (bindings/event/visibility/
-   checked_when/pending_when), grid templates are write-once pool slots, and
-   bare/in_tab_bar are create-time structure.
+   checked_when/pending_when/enabled_when/color_when), grid templates are
+   write-once pool slots, and bare/in_tab_bar are create-time structure.
 
    `:pending_when` is listed on the SAME ground as `:checked_when`, which it
    copies: `apply_compare_binding` attaches either a native state bind or a
    `lv_subject_add_observer_obj` observer, and nothing detaches either.
 
-   OBSERVED ASYMMETRY, NOT RESOLVED HERE. `:enabled_when` and `:color_when`
-   attach observers by the same mechanism and appear in NEITHER this set nor
-   `morph-invariant-keys`, so on their face an UPDATE_PROPS morph carries them
-   and re-enters the attach path on an already-live object. Whether that
-   actually double-attaches was not driven to a verdict, and settling it needs
-   a morph-parity card rather than a set edit — so this note records the
-   question instead of pre-empting its answer. A new binding is added here
-   deliberately rather than by following the two most recent siblings."
-  #{:type :bare :in_tab_bar :event :bindings :bind_formats :visibility :checked_when
-    :pending_when :grid_col_dsc :grid_row_dsc})
+   `:enabled_when` and `:color_when` sit here on that same ground. This
+   docstring used to record their absence as an open question; it is
+   ANSWERED, and the answer was worse than the question supposed — they
+   double-attached on EVERY UPDATE_PROPS morph of a node declaring them,
+   not only when the binding itself changed.
+
+   MEMBERSHIP OF THIS SET IS NOT WHAT FIXES THAT, and the distinction is
+   the reason the pair went unprotected for so long. This set decides
+   REPLACE-vs-morph on a CHANGE; what kept `:checked_when`/`:pending_when`
+   safe is `morph-invariant-keys`, which STRIPS them from the payload so an
+   unchanged binding never reaches the reconciler at all. A binding needs
+   BOTH. In neither, these two rode every payload into `finalize_widget`
+   against a live object, whose sole morph guard covers `:event` alone —
+   so the queue push, the drain and `apply_compare_binding` each re-ran
+   with nothing deduplicating and nothing detaching."
+  #{:type :bare :in_tab_bar :event :bindings :bind_formats :visibility
+    :checked_when :pending_when :enabled_when :color_when :grid_col_dsc
+    :grid_row_dsc})
 
 (def replace-always-types
   "Widget types whose OWN change (any key) forces REPLACE_NODE: their
@@ -80,9 +88,17 @@
    unchanged by definition — physically persistent on the live object
    (styles attached, observers wired, children present). The pure
    oracle restores them from the base node; the C reconciler's restore
-   is that persistence."
-  #{:children :event :bindings :bind_formats :visibility :checked_when :pending_when
-    :grid_col_dsc :grid_row_dsc :bare :in_tab_bar})
+   is that persistence.
+
+   THIS is the set that actually prevents a duplicate observer attach —
+   `replace-on-change-keys` only decides REPLACE-vs-morph once something
+   HAS changed, while stripping is what stops an UNCHANGED binding riding
+   the payload back into the attach path. Every observer-attaching key
+   belongs in both; see `replace-on-change-keys` for the pair that was in
+   neither."
+  #{:children :event :bindings :bind_formats :visibility :checked_when
+    :pending_when :enabled_when :color_when :grid_col_dsc :grid_row_dsc
+    :bare :in_tab_bar})
 
 (def carry-when-changed-keys
   "Keys carried in an UPDATE payload ONLY when changed (stripped when
