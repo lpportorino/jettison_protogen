@@ -374,6 +374,32 @@
             :disabled-fg {:dark :fg-dim :light :olive-500}
             ;; ── HUD overlay controls ──
             :hud-border {:dark :violet :light :violet-deep}
-            :hud-scrim-opa {:dark :subtle :light :light}
+            ;; THE OVERLAY IS OPAQUE, and that is a decision rather than a
+            ;; default. It was a translucent scrim (:subtle dark / :light
+            ;; light), which had a defect no opacity value could reach: the
+            ;; dark rung of :surface-overlay IS :base-black, the same rung
+            ;; :surface-0 takes, so blending them is the IDENTITY and the scrim
+            ;; was exactly invisible in dark — at any opacity.
+            ;;
+            ;; Raising the opacity all the way does not paper over that; it
+            ;; DISSOLVES it, because an opaque layer never blends. No rung has
+            ;; to differ from :surface-0, no per-mode reasoning is needed, and
+            ;; the dim-versus-lighten question the translucent form forced —
+            ;; light dims onto olive-200 while dark could only lighten — stops
+            ;; being asked at all.
+            ;;
+            ;; The behavioural argument is the operator's: a dialog is MODAL,
+            ;; so it must be confirmed or dismissed before anything else can be
+            ;; touched. Whatever stays visible behind it cannot be ACTED on, so
+            ;; a translucent scrim buys only the chance to misread a stale
+            ;; readout as live. Nothing behind an opaque panel can be misread.
+            ;;
+            ;; LATENT WHEN DECIDED: PROP_OPA appeared in ZERO files across both
+            ;; trees, so no shipped screen emitted an overlay and this moved no
+            ;; golden. It is set now precisely because the first author to
+            ;; reach for the token should inherit the decision rather than
+            ;; rediscover the invisible-in-dark defect — which would have
+            ;; looked correct to anyone reviewing in light mode.
+            :hud-scrim-opa :full
             :hud-pressed-opa {:dark :light :light :medium}
             :border-width-bold :thick}}

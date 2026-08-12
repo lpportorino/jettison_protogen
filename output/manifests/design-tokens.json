@@ -159,8 +159,8 @@
     },
     "hud-scrim-opa": {
       "kind": "opacity",
-      "dark": 50,
-      "light": 100
+      "dark": 255,
+      "light": 255
     },
     "media-accent": {
       "kind": "color",
