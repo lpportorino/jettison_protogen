@@ -113,3 +113,47 @@
           declared (set (keys patch/guarded-arm-fields))]
       (is (empty? (set/difference (set (keys guards)) declared))
           "renderer.c morph-guards an arm that guarded-arm-fields does not mention at all"))))
+
+(defn observer-attaching-fields
+  "Parse `renderer.c` for the `node->has_FIELD && … pending_queue_has_room(`
+  guards in `finalize_widget` and return `#{:field …}` — the node fields whose
+  presence queues an attach that ends in a subject bind or an observer.
+
+  Whitespace is collapsed first because the guard wraps across lines. The
+  pairing is what the C's own structure gives: every queued attach is written
+  as one `if` whose head names the field it reads."
+  [src]
+  (into #{}
+        (map (comp keyword second))
+        (re-seq #"if \(node->has_(\w+) &&[^{]*?pending_queue_has_room\("
+                (str/replace src #"\s+" " "))))
+
+(deftest every-observer-attaching-field-is-stripped-from-update-payloads
+  (let [fields (observer-attaching-fields (slurp renderer-c))]
+    ;; NON-VACUITY FIRST, for the reason the morph-guard test above gives: an
+    ;; empty parse compares clean and reports a perfect score for having read
+    ;; nothing (`.claude/rules/gate-enforcement.md` §3).
+    (testing "the C parse found queued attaches at all"
+      (is (seq fields)
+          "no queued observer attaches parsed from renderer.c — the pattern stopped matching")
+      (is (>= (count fields) 5)
+          "fewer queued attaches than the five known to exist; the parse is partial"))
+    (testing "every one is a morph invariant, so an UNCHANGED binding never rides an UPDATE payload back into the attach path"
+      (doseq [f fields]
+        (is (contains? patch/morph-invariant-keys f)
+            (format "renderer.c queues an observer attach for node->has_%s, but morph-invariant-keys omits it — an UPDATE_PROPS morph would carry it into finalize_widget against a LIVE object, where the only morph guard covers :event alone; neither the drain nor apply_compare_binding deduplicates, and nothing detaches, so every morph adds another observer"
+                    (name f)))))))
+
+(deftest enabled-when-and-color-when-are-stripped-and-force-replace
+  ;; THE SPECIFIC REGRESSION, spelled out so the diff stays legible if the derived
+  ;; test above is ever narrowed. These two sat in NEITHER key set, so they rode
+  ;; EVERY UPDATE payload — not merely a changed one — into a duplicate attach.
+  ;; Both memberships are load-bearing and they are not interchangeable: the
+  ;; morph-invariant half strips an unchanged binding, the replace-on-change half
+  ;; sends a changed one to a fresh object.
+  (doseq [k [:enabled_when :color_when]]
+    (testing (name k)
+      (is (contains? patch/morph-invariant-keys k)
+          (str (name k) " must be stripped from UPDATE payloads"))
+      (is (contains? patch/replace-on-change-keys k)
+          (str (name k) " must force REPLACE when it changes")))))
