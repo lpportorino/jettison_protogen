@@ -1299,15 +1299,20 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * modes, on a widget whose eight peers in the asgard focus group all
        * ring cyan.
        *
-       * THAT IS THE SCOPE OF THE CLAIM, AND IT IS NARROWER THAN THE DEFECT.
-       * theme_apply themes eighteen classes, not nine; lv_buttonmatrix and
-       * lv_table fall through to the SAME violet, and lv_dropdown to stock's
-       * red edited outline this file rejects elsewhere. Those are pre-existing
-       * and are NOT fixed here — read this as "bar was the ninth focus-group
-       * member missing its ring", never as the class being closed. It was
-       * invisible to every deterministic lane — the goldens were self-
-       * consistent and no oracle compares one widget's tone against another's
-       * — and surfaced only as a cross-card finding in a VLM review. */
+       * THE REST OF THAT CLASS IS NOW CLOSED IN THIS FILE — the buttonmatrix,
+       * table and dropdown arms below take the same rings, so no themed class
+       * still falls through to stock's violet focus or red edited outline.
+       * This paragraph used to say they were NOT fixed here; that was true
+       * when written and is retired rather than left standing.
+       *
+       * WHAT SURVIVES IS HOW IT HID. It was invisible to every deterministic
+       * lane — the goldens were self-consistent and no oracle compares one
+       * widget's tone against another's — and surfaced only as a cross-card
+       * finding in a VLM review. The buttonmatrix and table halves hid one
+       * layer deeper still: the corpus asserted both were INERT in these
+       * states, reasoning about LV_PART_ITEMS (where a highlight really does
+       * need a click) and silently omitting MAIN, where stock paints
+       * unconditionally. A probe card at states-bits 16 is what refuted it. */
       lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
@@ -1381,6 +1386,12 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
        * arc/roller arms; stock's black recolor is a near-no-op on the dark
        * surface (measured pressed-vs-default delta 3-8/255). */
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
+      /* EDITED — the focus ring above was overridden and this was not, so the
+       * edited state fell through to stock's outline_secondary: the red ring
+       * this file rejects on every other encoder-adjustable control. Cyan,
+       * two ladder steps wider than focus, matching the bar/slider/roller
+       * arms. */
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
     }
     add_interactive(t, obj);
     return;
@@ -1565,6 +1576,17 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * radius and vanilla-equals-stock holds by scope. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.control_rad, 0);
+    /* FOCUS + EDITED rings. Stock's non-calendar arm paints outline_primary
+     * and outline_secondary on MAIN, needing no selected button, so these
+     * states were never inert here — the corpus asserted they were, and a
+     * probe card at states-bits 16 rendered DIFFERENT from default, which is
+     * what retired the claim. Same off-token violet the bar arm measured
+     * under the 3:1 non-text floor. Asgard-only, so vanilla keeps stock's
+     * outlines and vanilla-equals-stock holds by scope. */
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
+      lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
+    }
     return;
   }
 #endif
@@ -1598,6 +1620,17 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
      * the text tone instead of the fade. */
     if (t->family == ASGARD_THEME_FAMILY_ASGARD)
       lv_obj_add_style(obj, &t->styles.disabled_flat, LV_STATE_DISABLED);
+    /* FOCUS + EDITED rings. The corpus omitted these on the ground that cell
+     * highlighting needs a real click — true of LV_PART_ITEMS and silent
+     * about MAIN, where stock paints outline_primary and outline_secondary
+     * unconditionally. A probe card at states-bits 16 rendered DIFFERENT from
+     * default, so the omission rested on the wrong part. Asgard-only, so
+     * vanilla keeps stock's outlines and vanilla-equals-stock holds by
+     * scope. */
+    if (t->family == ASGARD_THEME_FAMILY_ASGARD) {
+      lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
+      lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
+    }
     return;
   }
 #endif

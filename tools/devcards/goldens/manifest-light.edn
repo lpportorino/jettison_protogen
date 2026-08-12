@@ -235,6 +235,16 @@
    "b32cca2bcfcbedd0480f809f07d633bd8728fd1c280a7a109343a2296fc5bb80",
    :w 800,
    :h 480},
+  "lv_buttonmatrix/edited/medium"
+  {:sha256
+   "929584ac607038a5e06401ea44a713c3b364a465a01a385986faf8d0e33e5a1e",
+   :w 800,
+   :h 480},
+  "lv_buttonmatrix/focus-key/medium"
+  {:sha256
+   "569acc6d41c3879bb69a5510de3008cd84f0933cc31cc634e8e0b6d9f5cb3be6",
+   :w 800,
+   :h 480},
   "lv_chart/default/large/bar"
   {:sha256
    "086a43ffb2d064e0c16069254a5fca3ff4b2497a67c52a1fe967c976410d0cef",
@@ -348,6 +358,11 @@
   "lv_dropdown/disabled/small/mid"
   {:sha256
    "a532d5c9adb2f30fa943a7628077d9d6cc62f10bce8924d296c133753823f0fd",
+   :w 800,
+   :h 480},
+  "lv_dropdown/edited/medium/mid"
+  {:sha256
+   "2d2faefd5c2c2912aa509016f92e6aa66c9c88405e57cd3c294c4ec2dc357dc2",
    :w 800,
    :h 480},
   "lv_dropdown/focus-key/large/mid"
@@ -1098,6 +1113,16 @@
   "lv_table/disabled/small"
   {:sha256
    "8a93ec0c23567f4f4c41bd01a19d9a5476afd74a11922741f53446cf24488491",
+   :w 800,
+   :h 480},
+  "lv_table/edited/medium"
+  {:sha256
+   "ddecea325e1f7e97c27a0dea63e45af7ac7fdd3408a84bb9326965459d5c8c77",
+   :w 800,
+   :h 480},
+  "lv_table/focus-key/medium"
+  {:sha256
+   "25cd9199032982655cea771516329aa1becfccf9962d5b2a444cd62cd037421b",
    :w 800,
    :h 480},
   "lv_tabview/default/large"

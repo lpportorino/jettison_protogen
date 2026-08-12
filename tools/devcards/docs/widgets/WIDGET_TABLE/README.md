@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_TABLE
 
-`lv_table` — 6 atomic corpus cards (state × size[/value], ids `lv_table/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_table` — 8 atomic corpus cards (state × size[/value], ids `lv_table/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -21,6 +21,8 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `disabled/medium` | ![disabled/medium vanilla](./WIDGET_TABLE-disabled_medium-vanilla.jpg) | ![disabled/medium asgard-dark](./WIDGET_TABLE-disabled_medium-asgard-dark.jpg) | ![disabled/medium asgard-light](./WIDGET_TABLE-disabled_medium-asgard-light.jpg) |
 | `default/large` | ![default/large vanilla](./WIDGET_TABLE-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_TABLE-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_TABLE-default_large-asgard-light.jpg) |
 | `disabled/large` | ![disabled/large vanilla](./WIDGET_TABLE-disabled_large-vanilla.jpg) | ![disabled/large asgard-dark](./WIDGET_TABLE-disabled_large-asgard-dark.jpg) | ![disabled/large asgard-light](./WIDGET_TABLE-disabled_large-asgard-light.jpg) |
+| `focus-key/medium` | ![focus-key/medium vanilla](./WIDGET_TABLE-focus-key_medium-vanilla.jpg) | ![focus-key/medium asgard-dark](./WIDGET_TABLE-focus-key_medium-asgard-dark.jpg) | ![focus-key/medium asgard-light](./WIDGET_TABLE-focus-key_medium-asgard-light.jpg) |
+| `edited/medium` | ![edited/medium vanilla](./WIDGET_TABLE-edited_medium-vanilla.jpg) | ![edited/medium asgard-dark](./WIDGET_TABLE-edited_medium-asgard-dark.jpg) | ![edited/medium asgard-light](./WIDGET_TABLE-edited_medium-asgard-light.jpg) |
 
 ## Committed states
 
@@ -28,6 +30,8 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 - `default`
 - `disabled`
+- `focus-key`
+- `edited`
 
 ## Props schema — `TableProps` (`ui.TableProps`)
 
@@ -40,7 +44,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 ## Known limitations
 
-KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. Cards carry NO :w/:h on purpose: lv_table's class default is LV_SIZE_CONTENT on both axes, so the box hugs each family's OWN grid (asgard rows are ~33px under the flat 8px cell pad, vanilla's ~64px under PAD_DEF) — a fixed box either leaves one family a dead-space apron below the grid (asgard filled ~41% of the old large box) or clips the other. pressed/focus-key/edited omitted: cell highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. Disabled cells are dimmed under the asgard family (t->styles.disabled_flat, opa 128) and differ from default; vanilla/stock leave them unstyled, so vanilla≡stock holds by scope.
+KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. Cards carry NO :w/:h on purpose: lv_table's class default is LV_SIZE_CONTENT on both axes, so the box hugs each family's OWN grid (asgard rows are ~33px under the flat 8px cell pad, vanilla's ~64px under PAD_DEF) — a fixed box either leaves one family a dead-space apron below the grid (asgard filled ~41% of the old large box) or clips the other. pressed omitted: CELL highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. focus-key and edited were omitted on that same ground and are now COMMITTED, because the ground was wrong for them: it is true of LV_PART_ITEMS and silent about MAIN, where stock paints outline_primary/outline_secondary unconditionally. An :inert probe card rendered DIFFERENT from default, which is what refuted it. Disabled cells are dimmed under the asgard family (t->styles.disabled_flat, opa 128) and differ from default; vanilla/stock leave them unstyled, so vanilla≡stock holds by scope.
 
 ---
 Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

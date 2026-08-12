@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 240
+ :card-count 245
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -1990,7 +1990,7 @@
     :props-path [:spinbox_props :value]
     :range {:max 999 :mid 500 :min 0}
     :samples [:min :mid :max]}}
-  {:authored-count 15
+  {:authored-count 16
    :cards [{:expect :baseline
             :id "lv_dropdown/default/small/mid"
             :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 112}
@@ -2055,6 +2055,19 @@
             {:notes
              "Focus-ring standoff: the outline rendered at origin was canvas-clipped; border-width 0 per the harness-geometry rule."
              :props {:border-width 0 :h 72 :pad-all 8 :w 136}}}
+           {:expect :distinct
+            :id "lv_dropdown/edited/medium/mid"
+            :notes
+            "The focus ring was overridden on this widget and the edited ring was not, so edited fell through to stock's outline_secondary — the red ring theme.c rejects on every other encoder-adjustable control. Now takes the asgard edited ring. Same wrapper standoff as focus-key above, for the same canvas-clipping reason."
+            :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 120}
+            :size :medium
+            :state :edited
+            :states-bits 32
+            :value :mid
+            :wrapper
+            {:notes
+             "Edited-ring standoff: the ring is two ladder steps wider than focus, so it needs at least the focus card's margin."
+             :props {:border-width 0 :h 72 :pad-all 8 :w 136}}}
            {:expect :baseline
             :id "lv_dropdown/default/large/mid"
             :props {:dropdown_props {:options "Auto\nManual\nOff" :selected 1} :w 200}
@@ -2108,7 +2121,7 @@
             :state :default
             :states-bits 0
             :value :max}]
-   :committed-states [:default :hovered :pressed :disabled :focus-key]
+   :committed-states [:default :hovered :pressed :disabled :focus-key :edited]
    :declared-count 12
    :deviation
    "+3 over declared 12: +1 :hovered at medium (manifest-committed, absent from the survey grid); +2 value-axis cells (default x min/max at medium) per PLAN T2.1."
@@ -2526,7 +2539,7 @@
    :sizes [{:h 24 :id :small :w 60} {:h 48 :id :medium :w 120} {:h 96 :id :large :w 240}]
    :tag "lv_line"
    :type :WIDGET_LINE}
-  {:authored-count 4
+  {:authored-count 6
    :cards
    [{:expect :probe-pixel-only
      :id "lv_buttonmatrix/default/small"
@@ -2551,6 +2564,30 @@
      :size :large
      :state :default
      :states-bits 0}
+    {:expect :distinct
+     :id "lv_buttonmatrix/focus-key/medium"
+     :notes
+     "ADJUDICATED. This state was committed as INERT on the ground that whole-widget states produce zero stock delta. That is false: stock's non-calendar arm paints outline_primary on MAIN at FOCUS_KEY, needing no selected button, and an :inert probe card here rendered DIFFERENT from default. The asgard focus style now paints it like its focus-group peers, so the distinction is ours rather than stock's violet."
+     :props {:buttonmatrix_props {:map_str "A\nB\nC\n"} :h 80 :w 200}
+     :size :medium
+     :state :focus-key
+     :states-bits 16
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+      :props {:border-width 0 :h 96 :pad-all 8 :w 216}}}
+    {:expect :distinct
+     :id "lv_buttonmatrix/edited/medium"
+     :notes
+     "Same MAIN-part fall-through as focus-key above, via stock's outline_secondary. Takes the asgard edited ring — cyan, two ladder steps wider than focus."
+     :props {:buttonmatrix_props {:map_str "A\nB\nC\n"} :h 80 :w 200}
+     :size :medium
+     :state :edited
+     :states-bits 32
+     :wrapper
+     {:notes
+      "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+      :props {:border-width 0 :h 96 :pad-all 8 :w 216}}}
     {:expect :baseline
      :id "lv_buttonmatrix/default/flex-fit"
      :notes
@@ -2564,10 +2601,10 @@
       :notes
       "flex-flow 0 = LV_FLEX_FLOW_ROW; the builder must ensure the wrapper resolves LV_LAYOUT_FLEX per the renderer's flex handling."
       :props {:border-width 0 :flex-flow 0 :h 80 :pad-all 0 :w 800}}}]
-   :committed-states [:default]
-   :declared-count 4
+   :committed-states [:default :focus-key :edited]
+   :declared-count 6
    :notes
-   "Default state only: per-item pressed/checked/disabled are NOT wire-reachable today (renderer decodes only map_str + one_check; no set_btn_ctrl / set_selected_button), and whole-widget :states produce zero stock delta. The small cell's per-button rect inversion is INVISIBLE to dump_tree (buttons are not child objects) — the PNG oracle is the only backstop; assertion note recorded per cell."
+   "Per-ITEM pressed/checked/disabled are NOT wire-reachable today (renderer decodes only map_str + one_check; no set_btn_ctrl / set_selected_button). WHOLE-WIDGET focus-key and edited ARE reachable and ARE committed: this note used to close with 'and whole-widget :states produce zero stock delta', which was false — stock's non-calendar arm paints outline_primary/outline_secondary on MAIN, needing no selected button, and an :inert probe card rendered DIFFERENT from default. The retired clause is quoted because it is what kept the state untested: it reasoned about LV_PART_ITEMS, where a highlight really does need a click, and said nothing about MAIN. The small cell's per-button rect inversion is INVISIBLE to dump_tree (buttons are not child objects) — the PNG oracle is the only backstop; assertion note recorded per cell."
    :sizes
    [{:h 40
      :id :small
@@ -2587,7 +2624,7 @@
      :note "container-level probe: matrix as a flex child sized to fit its row"}]
    :tag "lv_buttonmatrix"
    :type :WIDGET_BUTTONMATRIX}
-  {:authored-count 6
+  {:authored-count 8
    :cards [{:expect :baseline
             :id "lv_table/default/small"
             :props {:table_props {:column_count 1 :row_count 1}}
@@ -2623,11 +2660,35 @@
             :props {:table_props {:column_count 3 :row_count 3}}
             :size :large
             :state :disabled
-            :states-bits 512}]
-   :committed-states [:default :disabled]
-   :declared-count 6
+            :states-bits 512}
+           {:expect :distinct
+            :id "lv_table/focus-key/medium"
+            :notes
+            "ADJUDICATED. focus-key was omitted here on the ground that CELL highlighting needs a real click — true of LV_PART_ITEMS and silent about MAIN, where stock paints outline_primary unconditionally. An :inert probe card rendered DIFFERENT from default, refuting the omission. The asgard focus style now paints it like its focus-group peers."
+            :props {:table_props {:column_count 2 :row_count 2}}
+            :size :medium
+            :state :focus-key
+            :states-bits 16
+            :wrapper
+            {:notes
+             "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 176 :pad-all 8 :w 376}}}
+           {:expect :distinct
+            :id "lv_table/edited/medium"
+            :notes
+            "Same MAIN-part fall-through as focus-key above, via stock's outline_secondary. Takes the asgard edited ring."
+            :props {:table_props {:column_count 2 :row_count 2}}
+            :size :medium
+            :state :edited
+            :states-bits 32
+            :wrapper
+            {:notes
+             "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 176 :pad-all 8 :w 376}}}]
+   :committed-states [:default :disabled :focus-key :edited]
+   :declared-count 8
    :notes
-   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. Cards carry NO :w/:h on purpose: lv_table's class default is LV_SIZE_CONTENT on both axes, so the box hugs each family's OWN grid (asgard rows are ~33px under the flat 8px cell pad, vanilla's ~64px under PAD_DEF) — a fixed box either leaves one family a dead-space apron below the grid (asgard filled ~41% of the old large box) or clips the other. pressed/focus-key/edited omitted: cell highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. Disabled cells are dimmed under the asgard family (t->styles.disabled_flat, opa 128) and differ from default; vanilla/stock leave them unstyled, so vanilla≡stock holds by scope."
+   "KNOWN RENDERER DECODE GAP (renderer-side, backlogged — recorded, not resolved here): cell TEXT is unwired — renderer.c never sets cell_data (table_props decodes row/column counts only), so EVERY CELL RENDERS EMPTY in the gallery sheets; that is the renderer gap, not a theme or fixture defect. This gallery therefore judges grid geometry, not glyph clipping; the cell-text gap is recorded follow-on scope. Cards carry NO :w/:h on purpose: lv_table's class default is LV_SIZE_CONTENT on both axes, so the box hugs each family's OWN grid (asgard rows are ~33px under the flat 8px cell pad, vanilla's ~64px under PAD_DEF) — a fixed box either leaves one family a dead-space apron below the grid (asgard filled ~41% of the old large box) or clips the other. pressed omitted: CELL highlighting is gated on a real click (row_act/col_act), unreachable from a static fixture — a faked cell would render identical to default and assert nothing. focus-key and edited were omitted on that same ground and are now COMMITTED, because the ground was wrong for them: it is true of LV_PART_ITEMS and silent about MAIN, where stock paints outline_primary/outline_secondary unconditionally. An :inert probe card rendered DIFFERENT from default, which is what refuted it. Disabled cells are dimmed under the asgard family (t->styles.disabled_flat, opa 128) and differ from default; vanilla/stock leave them unstyled, so vanilla≡stock holds by scope."
    :sizes
    [{:cols 1
      :id :small

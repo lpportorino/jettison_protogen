@@ -22,7 +22,7 @@ Per-widget rendered doc pages, generated from the same corpus the devcard gates 
 | [`WIDGET_BAR`](./WIDGET_BAR/README.md) | `default`, `disabled`, `focus-key`, `edited` | [![WIDGET_BAR](./WIDGET_BAR/WIDGET_BAR-default_small_mid-asgard-dark.jpg)](./WIDGET_BAR/README.md) |
 | [`WIDGET_SWITCH`](./WIDGET_SWITCH/README.md) | `default`, `hovered`, `checked`, `disabled`, `focus-key` | [![WIDGET_SWITCH](./WIDGET_SWITCH/WIDGET_SWITCH-default_small-asgard-dark.jpg)](./WIDGET_SWITCH/README.md) |
 | [`WIDGET_CHECKBOX`](./WIDGET_CHECKBOX/README.md) | `default`, `hovered`, `pressed`, `checked`, `disabled`, `focus-key` | [![WIDGET_CHECKBOX](./WIDGET_CHECKBOX/WIDGET_CHECKBOX-default_short-asgard-dark.jpg)](./WIDGET_CHECKBOX/README.md) |
-| [`WIDGET_DROPDOWN`](./WIDGET_DROPDOWN/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key` | [![WIDGET_DROPDOWN](./WIDGET_DROPDOWN/WIDGET_DROPDOWN-default_small_mid-asgard-dark.jpg)](./WIDGET_DROPDOWN/README.md) |
+| [`WIDGET_DROPDOWN`](./WIDGET_DROPDOWN/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key`, `edited` | [![WIDGET_DROPDOWN](./WIDGET_DROPDOWN/WIDGET_DROPDOWN-default_small_mid-asgard-dark.jpg)](./WIDGET_DROPDOWN/README.md) |
 | [`WIDGET_ROLLER`](./WIDGET_ROLLER/README.md) | `default`, `hovered`, `pressed`, `disabled`, `focus-key`, `edited` | [![WIDGET_ROLLER](./WIDGET_ROLLER/WIDGET_ROLLER-default_small_mid-asgard-dark.jpg)](./WIDGET_ROLLER/README.md) |
 | [`WIDGET_TEXTAREA`](./WIDGET_TEXTAREA/README.md) | `default`, `hovered`, `focused`, `focus-key`, `edited`, `disabled` | [![WIDGET_TEXTAREA](./WIDGET_TEXTAREA/WIDGET_TEXTAREA-default_small-asgard-dark.jpg)](./WIDGET_TEXTAREA/README.md) |
 | [`WIDGET_SPINBOX`](./WIDGET_SPINBOX/README.md) | `default`, `hovered`, `focus-key`, `edited`, `disabled` | [![WIDGET_SPINBOX](./WIDGET_SPINBOX/WIDGET_SPINBOX-default_small-asgard-dark.jpg)](./WIDGET_SPINBOX/README.md) |
@@ -30,8 +30,8 @@ Per-widget rendered doc pages, generated from the same corpus the devcard gates 
 | [`WIDGET_LED`](./WIDGET_LED/README.md) | `default`, `disabled` | [![WIDGET_LED](./WIDGET_LED/WIDGET_LED-default_default-size_off-asgard-dark.jpg)](./WIDGET_LED/README.md) |
 | [`WIDGET_LINE`](./WIDGET_LINE/README.md) | `default` | [![WIDGET_LINE](./WIDGET_LINE/WIDGET_LINE-default_small-asgard-dark.jpg)](./WIDGET_LINE/README.md) |
 | [`WIDGET_SCALE`](./WIDGET_SCALE/README.md) | `default` | [![WIDGET_SCALE](./WIDGET_SCALE/WIDGET_SCALE-default_small_horizontal-asgard-dark.jpg)](./WIDGET_SCALE/README.md) |
-| [`WIDGET_BUTTONMATRIX`](./WIDGET_BUTTONMATRIX/README.md) | `default` | [![WIDGET_BUTTONMATRIX](./WIDGET_BUTTONMATRIX/WIDGET_BUTTONMATRIX-default_small-asgard-dark.jpg)](./WIDGET_BUTTONMATRIX/README.md) |
-| [`WIDGET_TABLE`](./WIDGET_TABLE/README.md) | `default`, `disabled` | [![WIDGET_TABLE](./WIDGET_TABLE/WIDGET_TABLE-default_small-asgard-dark.jpg)](./WIDGET_TABLE/README.md) |
+| [`WIDGET_BUTTONMATRIX`](./WIDGET_BUTTONMATRIX/README.md) | `default`, `focus-key`, `edited` | [![WIDGET_BUTTONMATRIX](./WIDGET_BUTTONMATRIX/WIDGET_BUTTONMATRIX-default_small-asgard-dark.jpg)](./WIDGET_BUTTONMATRIX/README.md) |
+| [`WIDGET_TABLE`](./WIDGET_TABLE/README.md) | `default`, `disabled`, `focus-key`, `edited` | [![WIDGET_TABLE](./WIDGET_TABLE/WIDGET_TABLE-default_small-asgard-dark.jpg)](./WIDGET_TABLE/README.md) |
 | [`WIDGET_TABVIEW`](./WIDGET_TABVIEW/README.md) | `default`, `disabled` | [![WIDGET_TABVIEW](./WIDGET_TABVIEW/WIDGET_TABVIEW-default_small-asgard-dark.jpg)](./WIDGET_TABVIEW/README.md) |
 | [`WIDGET_CHART`](./WIDGET_CHART/README.md) | `default` | [![WIDGET_CHART](./WIDGET_CHART/WIDGET_CHART-default_small_line-asgard-dark.jpg)](./WIDGET_CHART/README.md) |
 | [`WIDGET_HOST_PROXY`](./WIDGET_HOST_PROXY/README.md) | `default` | [![WIDGET_HOST_PROXY](./WIDGET_HOST_PROXY/WIDGET_HOST_PROXY-default_small-asgard-dark.jpg)](./WIDGET_HOST_PROXY/README.md) |

@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_BUTTONMATRIX
 
-`lv_buttonmatrix` — 4 atomic corpus cards (state × size[/value], ids `lv_buttonmatrix/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_buttonmatrix` — 6 atomic corpus cards (state × size[/value], ids `lv_buttonmatrix/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -18,6 +18,8 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `default/small` | ![default/small vanilla](./WIDGET_BUTTONMATRIX-default_small-vanilla.jpg) | ![default/small asgard-dark](./WIDGET_BUTTONMATRIX-default_small-asgard-dark.jpg) | ![default/small asgard-light](./WIDGET_BUTTONMATRIX-default_small-asgard-light.jpg) |
 | `default/medium` | ![default/medium vanilla](./WIDGET_BUTTONMATRIX-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_BUTTONMATRIX-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_BUTTONMATRIX-default_medium-asgard-light.jpg) |
 | `default/large` | ![default/large vanilla](./WIDGET_BUTTONMATRIX-default_large-vanilla.jpg) | ![default/large asgard-dark](./WIDGET_BUTTONMATRIX-default_large-asgard-dark.jpg) | ![default/large asgard-light](./WIDGET_BUTTONMATRIX-default_large-asgard-light.jpg) |
+| `focus-key/medium` | ![focus-key/medium vanilla](./WIDGET_BUTTONMATRIX-focus-key_medium-vanilla.jpg) | ![focus-key/medium asgard-dark](./WIDGET_BUTTONMATRIX-focus-key_medium-asgard-dark.jpg) | ![focus-key/medium asgard-light](./WIDGET_BUTTONMATRIX-focus-key_medium-asgard-light.jpg) |
+| `edited/medium` | ![edited/medium vanilla](./WIDGET_BUTTONMATRIX-edited_medium-vanilla.jpg) | ![edited/medium asgard-dark](./WIDGET_BUTTONMATRIX-edited_medium-asgard-dark.jpg) | ![edited/medium asgard-light](./WIDGET_BUTTONMATRIX-edited_medium-asgard-light.jpg) |
 | `default/flex-fit` | ![default/flex-fit vanilla](./WIDGET_BUTTONMATRIX-default_flex-fit-vanilla.jpg) | ![default/flex-fit asgard-dark](./WIDGET_BUTTONMATRIX-default_flex-fit-asgard-dark.jpg) | ![default/flex-fit asgard-light](./WIDGET_BUTTONMATRIX-default_flex-fit-asgard-light.jpg) |
 
 ## Committed states
@@ -25,6 +27,8 @@ per-card JPEGs rendered from the pinned controls.wasm.
 The asgard theme commits to rendering each state below **visually distinct** from `default` (gate-held: distinctness). Any state *not* listed renders identical to `default` (inertness — hovered-on-a-label is the canonical probe).
 
 - `default`
+- `focus-key`
+- `edited`
 
 ## Props schema — `ButtonMatrixProps` (`ui.ButtonMatrixProps`)
 
@@ -37,7 +41,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 
 ## Known limitations
 
-Default state only: per-item pressed/checked/disabled are NOT wire-reachable today (renderer decodes only map_str + one_check; no set_btn_ctrl / set_selected_button), and whole-widget :states produce zero stock delta. The small cell's per-button rect inversion is INVISIBLE to dump_tree (buttons are not child objects) — the PNG oracle is the only backstop; assertion note recorded per cell.
+Per-ITEM pressed/checked/disabled are NOT wire-reachable today (renderer decodes only map_str + one_check; no set_btn_ctrl / set_selected_button). WHOLE-WIDGET focus-key and edited ARE reachable and ARE committed: this note used to close with 'and whole-widget :states produce zero stock delta', which was false — stock's non-calendar arm paints outline_primary/outline_secondary on MAIN, needing no selected button, and an :inert probe card rendered DIFFERENT from default. The retired clause is quoted because it is what kept the state untested: it reasoned about LV_PART_ITEMS, where a highlight really does need a click, and said nothing about MAIN. The small cell's per-button rect inversion is INVISIBLE to dump_tree (buttons are not child objects) — the PNG oracle is the only backstop; assertion note recorded per cell.
 
 ---
 Cross-links: [`ui_ast.proto`](../../../../../proto/ui/ui_ast.proto) &middot; [protodoc index](../../../../../docs/index.md) &middot; [widget gallery index](../README.md)

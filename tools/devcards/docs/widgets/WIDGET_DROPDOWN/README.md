@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_DROPDOWN
 
-`lv_dropdown` — 15 atomic corpus cards (state × size[/value], ids `lv_dropdown/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_dropdown` — 16 atomic corpus cards (state × size[/value], ids `lv_dropdown/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -23,6 +23,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `pressed/medium/mid` | ![pressed/medium/mid vanilla](./WIDGET_DROPDOWN-pressed_medium_mid-vanilla.jpg) | ![pressed/medium/mid asgard-dark](./WIDGET_DROPDOWN-pressed_medium_mid-asgard-dark.jpg) | ![pressed/medium/mid asgard-light](./WIDGET_DROPDOWN-pressed_medium_mid-asgard-light.jpg) |
 | `disabled/medium/mid` | ![disabled/medium/mid vanilla](./WIDGET_DROPDOWN-disabled_medium_mid-vanilla.jpg) | ![disabled/medium/mid asgard-dark](./WIDGET_DROPDOWN-disabled_medium_mid-asgard-dark.jpg) | ![disabled/medium/mid asgard-light](./WIDGET_DROPDOWN-disabled_medium_mid-asgard-light.jpg) |
 | `focus-key/medium/mid` | ![focus-key/medium/mid vanilla](./WIDGET_DROPDOWN-focus-key_medium_mid-vanilla.jpg) | ![focus-key/medium/mid asgard-dark](./WIDGET_DROPDOWN-focus-key_medium_mid-asgard-dark.jpg) | ![focus-key/medium/mid asgard-light](./WIDGET_DROPDOWN-focus-key_medium_mid-asgard-light.jpg) |
+| `edited/medium/mid` | ![edited/medium/mid vanilla](./WIDGET_DROPDOWN-edited_medium_mid-vanilla.jpg) | ![edited/medium/mid asgard-dark](./WIDGET_DROPDOWN-edited_medium_mid-asgard-dark.jpg) | ![edited/medium/mid asgard-light](./WIDGET_DROPDOWN-edited_medium_mid-asgard-light.jpg) |
 | `default/large/mid` | ![default/large/mid vanilla](./WIDGET_DROPDOWN-default_large_mid-vanilla.jpg) | ![default/large/mid asgard-dark](./WIDGET_DROPDOWN-default_large_mid-asgard-dark.jpg) | ![default/large/mid asgard-light](./WIDGET_DROPDOWN-default_large_mid-asgard-light.jpg) |
 | `pressed/large/mid` | ![pressed/large/mid vanilla](./WIDGET_DROPDOWN-pressed_large_mid-vanilla.jpg) | ![pressed/large/mid asgard-dark](./WIDGET_DROPDOWN-pressed_large_mid-asgard-dark.jpg) | ![pressed/large/mid asgard-light](./WIDGET_DROPDOWN-pressed_large_mid-asgard-light.jpg) |
 | `disabled/large/mid` | ![disabled/large/mid vanilla](./WIDGET_DROPDOWN-disabled_large_mid-vanilla.jpg) | ![disabled/large/mid asgard-dark](./WIDGET_DROPDOWN-disabled_large_mid-asgard-dark.jpg) | ![disabled/large/mid asgard-light](./WIDGET_DROPDOWN-disabled_large_mid-asgard-light.jpg) |
@@ -40,6 +41,7 @@ The asgard theme commits to rendering each state below **visually distinct** fro
 - `pressed`
 - `disabled`
 - `focus-key`
+- `edited`
 
 ## Props schema — `DropdownProps` (`ui.DropdownProps`)
 
