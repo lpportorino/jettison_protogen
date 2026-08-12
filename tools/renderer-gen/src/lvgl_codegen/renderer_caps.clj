@@ -206,13 +206,31 @@
      :btnmatrix-map-pool (btnmatrix-map-pool-count nodes)
      :line-points (line-points-max nodes)
      :line-point-pool (line-point-pool-count nodes)
+     ;; DATA bindings only. The renderer queues each reactive binding CLASS
+     ;; in its own fixed pool — :visibility (show-when), :checked_when,
+     ;; :enabled_when and :color_when are separate IR fields feeding separate
+     ;; queues, so none of them contributes here. Those pools carry a written
+     ;; rationale in the manifest's non-headroom allowlist rather than a cap
+     ;; entry, which is why there is no count for them to be measured against;
+     ;; the both-directions assertion in check-headroom! is what turns promoting
+     ;; one into a loud failure here instead of a silent no-op.
      :pending-bindings (count (filter #(seq (:bindings %)) nodes))
      :decode-depth (tree-depth ir)}))
 
 (defn check-headroom!
   "Fail loud when any count exceeds 80% of its renderer cap (5n > 4cap),
    naming every offending count, cap, and renderer #define. Capacity is a
-   codegen error here — never a truncated render on the target."
+   codegen error here — never a truncated render on the target.
+
+   The counted set is asserted in BOTH directions first, because either
+   half drifting alone un-gates a cap silently. The manifest's `:caps` IS
+   the counted set by construction: `renderer-gen.renderer-caps-json`
+   partitions every renderer MAX_* into `:caps` (the codegen counts it) or
+   `non-headroom-caps` (a written rationale for why it needs no count), and
+   refuses a define that is in both or in neither. So a `:caps` entry this
+   ns does not measure is a codegen defect, not a manifest one — and it is
+   the direction that fails SILENTLY, since the over-cap scan below is
+   nil-guarded and simply skips a concern it finds no count for."
   [ir output-path]
   (let [measured (counts ir)
         pinned (caps)
@@ -224,6 +242,19 @@
                                  "renderer-caps manifest: "
                                  missing)
                             {:missing missing :path renderer-caps-path})))
+        unmeasured (vec (sort (remove (set (keys measured)) (keys pinned))))
+        _ (when (seq unmeasured)
+            ;; The inverse, and the one the over-cap scan cannot report: a
+            ;; cap the manifest declares COUNTED but `counts` never measures
+            ;; is skipped by the nil guard below, so the build reads green
+            ;; while that pool is ungated. Promoting a cap out of the
+            ;; non-headroom allowlist therefore lands here as a loud failure
+            ;; naming the concern, instead of as a no-op.
+            (throw (ex-info (str "pinned renderer-caps manifest declares counted "
+                                 "cap(s) the codegen does not measure: "
+                                 unmeasured
+                                 " — add a `counts` entry, or the cap is ungated")
+                            {:unmeasured unmeasured :path renderer-caps-path})))
         over (for [[k {:keys [define cap]}] pinned
                    :let [n (get measured k)]
                    :when (and n (> (* 5 n) (* 4 cap)))]
