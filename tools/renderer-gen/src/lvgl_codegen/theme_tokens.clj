@@ -97,7 +97,11 @@
    {:sem-key :border-width-focus
     :c-macro "THEME_OUTLINE_W"
     :kind :spacing
-    :doc "px: focus outline width + pad"}
+    :doc "px: focus outline WIDTH (the focus pad is THEME_BORDER_W, not this)"}
+   {:sem-key :border-width-edited
+    :c-macro "THEME_EDITED_W"
+    :kind :spacing
+    :doc "px: edited-state outline width — two ladder steps above focus, which is what separates the two states now that both may paint the same tone"}
    {:sem-key :disabled-opa
     :c-macro "THEME_DISABLED_OPA"
     :kind :opacity

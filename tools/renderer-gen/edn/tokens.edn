@@ -149,7 +149,14 @@
            :md {:opa 0 :spread 0 :width 0}
            :none {:opa 0 :spread 0 :width 0}
            :sm {:opa 0 :spread 0 :width 0}}
- :border-widths {:medium 2 :none 0 :thick 3 :thin 1}
+ ;; :extra-thick exists for ONE reason: the edited ring must be separable from
+ ;; the focus ring by width alone, and one step (2 -> 3) was measured
+ ;; insufficient — a VLM review of the committed gallery put the two states'
+ ;; ring-to-ring luminance contrast at ~1.05:1 in light mode, leaving a ~1px
+ ;; core-width difference as the only cue and calling it not reliably readable
+ ;; at a glance. Two steps double the delta. It is deliberately NOT used for
+ ;; ordinary borders.
+ :border-widths {:extra-thick 4 :medium 2 :none 0 :thick 3 :thin 1}
  :breakpoints {:lg [1024 1280] :md [640 1024] :sm [0 640] :xl [1280 nil]}
  ;; ═══════════════════════════════════════════════════════════════════
  ;; LAYER 2: SEMANTIC TOKENS — Theme-aware, reference primitives.
@@ -259,10 +266,58 @@
             ;; ── Border widths ──
             :border-width-default :thin
             :border-width-focus :medium
+            ;; The EDITED ring's width, and the reason it is its own token
+            ;; rather than :border-width-focus reused: it is what separates the
+            ;; edited state from the focus ring now that both may paint
+            ;; :cyan-dim. A role distinction carried by geometry needs the two
+            ;; widths to be independently nameable, or the next edit to one
+            ;; silently collapses the pair again. :extra-thick against focus's
+            ;; :medium is TWO steps on this ladder, and the second step was
+            ;; bought rather than guessed: at one step a VLM review of the
+            ;; committed gallery measured the pair at ~1.05:1 ring-to-ring in
+            ;; light — a ~1px core-width difference as the sole cue — and
+            ;; reported it not reliably readable at a glance.
+            ;;
+            ;; THAT MEASUREMENT IS EVIDENCE, NOT A CLAIM THIS FILE MAKES.
+            ;; Whether a reader resolves two widths is a property of a PANEL
+            ;; and an OPERATOR, which `docs/UI-QUALITY-CONTRACTS.md` §0 puts
+            ;; outside this repository's reach — the same refusal
+            ;; `palette-ladder`'s `:dimmer-than` makes for the tone ladder
+            ;; ("IT ORDERS; IT DOES NOT SEPARATE"). What is recorded here is
+            ;; that one step was OBSERVED to fail, never that two will succeed;
+            ;; the bench and the next review own that.
+            :border-width-edited :extra-thick
             ;; ── Interactive states ──
             :pressed-surface {:dark :base-light :light :olive-200}
             :pressed-accent {:dark :violet-dim :light :violet}
-            :focused-edge {:dark :cyan :light :cyan-deep}
+            ;; The transient FOCUS ring. Light takes :cyan-dim on exactly the
+            ;; measurement the sibling :checked-accent below was moved for —
+            ;; cyan-deep (#0891B2) is 2.77:1 on the light surface, under the 3:1
+            ;; non-text floor; cyan-dim clears it on surface-0/1/2
+            ;; (4.68 / 4.03 / 3.44) — NOT on every pinned surface. The ladder
+            ;; pins FOUR: against :surface-overlay light (#C0C0A8) it measures
+            ;; 2.90:1, still under the floor. That is stated rather than
+            ;; re-solved, because an outline draws OUTSIDE the widget box, so
+            ;; the tone it must clear is the CONTAINER's fill, and whether a
+            ;; focusable control is ever hosted on a surface-overlay container
+            ;; is a composition question this file does not settle. The change
+            ;; is directionally an improvement there regardless — the tone it
+            ;; replaces measured 1.99:1 on the same surface. That tone was
+            ;; already rejected for the
+            ;; affordance lane and only this token was left standing on it.
+            ;;
+            ;; IT MAY SHARE :cyan-dim WITH :checked-accent BECAUSE THE TWO NO
+            ;; LONGER RELY ON COLOUR TO DIFFER. Focus and edited were previously
+            ;; identical in geometry (both outline, both :border-width-focus wide
+            ;; with a :border-width-default pad), so hue was their ONLY
+            ;; discriminator and moving focus onto cyan-dim would have collapsed
+            ;; them. The edited ring now takes :border-width-edited, so the two
+            ;; separate on WIDTH — which holds in both modes, survives greyscale
+            ;; and colour-blindness, and does not spend :checked-accent's
+            ;; deliberate mode-invariance. In dark they additionally keep
+            ;; different hues (:cyan vs :cyan-dim), so dark is strictly better
+            ;; off than before rather than merely unchanged.
+            :focused-edge {:dark :cyan :light :cyan-dim}
             ;; The checked/edited affordance — the interactive-affordance lane's
             ;; one hue, mode-invariant. Fills the checked state (checkbox/switch
             ;; indicator, roller/dropdown selected band, buttonmatrix checked

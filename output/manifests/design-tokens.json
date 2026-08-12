@@ -21,6 +21,11 @@
       "dark": 1,
       "light": 1
     },
+    "border-width-edited": {
+      "kind": "border-width",
+      "dark": 4,
+      "light": 4
+    },
     "border-width-focus": {
       "kind": "border-width",
       "dark": 2,
@@ -95,7 +100,7 @@
     "focused-edge": {
       "kind": "color",
       "dark": "#22D3EE",
-      "light": "#0891B2"
+      "light": "#0E7490"
     },
     "font-body": {
       "kind": "font",

@@ -20,7 +20,7 @@
 #define THEME_ACCENT_DARK 0xB18AF4 /* accent fill — the asgard family's stock-parent color_primary */
 #define THEME_ACCENT_LIGHT 0x5C14D7 /* accent fill — the asgard family's stock-parent color_primary */
 #define THEME_FOCUSED_EDGE_DARK 0x22D3EE /* FOCUS_KEY outline */
-#define THEME_FOCUSED_EDGE_LIGHT 0x0891B2 /* FOCUS_KEY outline */
+#define THEME_FOCUSED_EDGE_LIGHT 0x0E7490 /* FOCUS_KEY outline */
 #define THEME_CHECKED_DARK 0x0E7490 /* checked-state fill + edited-state outline */
 #define THEME_CHECKED_LIGHT 0x0E7490 /* checked-state fill + edited-state outline */
 #define THEME_DISABLED_FG_DARK 0xA7A8C3 /* disabled-state dim */
@@ -32,7 +32,8 @@
 #define THEME_PAD_CONTROL 4 /* px: control padding (button, textarea ver, btnmatrix) */
 #define THEME_PAD_NONE 0 /* px: true zero (host_proxy positioning frames) */
 #define THEME_BORDER_W 1 /* px: default border width */
-#define THEME_OUTLINE_W 2 /* px: focus outline width + pad */
+#define THEME_OUTLINE_W 2 /* px: focus outline WIDTH (the focus pad is THEME_BORDER_W, not this) */
+#define THEME_EDITED_W 4 /* px: edited-state outline width — two ladder steps above focus, which is what separates the two states now that both may paint the same tone */
 #define THEME_DISABLED_OPA 128 /* 0-255: disabled-state opacity */
 #define THEME_DROP_OPA 0 /* 0-255: drop-shadow opacity (zeroed) */
 #define THEME_DROP_W 0 /* px: drop-shadow width (zeroed) */

@@ -1099,7 +1099,7 @@
     {:expect :distinct
      :id "lv_bar/focus-key/medium/mid"
      :notes
-     "ADJUDICATED: stock outline_primary IS visible state distinction — the manifest row was extended (focus-key committed); distinct by stock behavior."
+     "ADJUDICATED: focus-key IS a visible state distinction on lv_bar — the manifest row was extended (focus-key committed). The original ground was stock's own outline_primary, and for the stock and vanilla families it still is. It is NOT the asgard family's ground any more: that violet was an off-token ring measured under the 3:1 non-text floor in both modes, and the asgard focus style now paints this widget like its focus-group peers. The card's :expect is unchanged either way; only the reason is."
      :props {:bar_props {:max_value 100 :min_value 0 :value 50} :h 16 :w 160}
      :size :medium
      :state :focus-key
