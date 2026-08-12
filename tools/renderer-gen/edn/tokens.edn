@@ -12,22 +12,29 @@
           :base-mid "#1E1E2E"
           :base-light "#2A2A3E"
           ;; Dark edge tone — light enough that a card border clears the 3:1
-          ;; non-text floor against surface-1 AND surface-2 (3.62:1 / 3.20:1);
-          ;; the retired "#3A3A52" edge measured 1.68:1.
-          :base-edge "#6B6B8A"
+          ;; non-text floor against EVERY pinned dark fill, which is four and
+          ;; not two: surface-1 3.99:1, surface-2 3.52:1, surface-overlay
+          ;; 4.24:1, pressed-surface 3.01:1. The retired "#6B6B8A" cleared the
+          ;; first three and measured 2.73:1 on pressed-surface, and the
+          ;; retired "#3A3A52" before it measured 1.68:1 on surface-1.
+          :base-edge "#717290"
           ;; Light theme base (tactical olive)
           :olive-0 "#F0F0E8"
           :olive-50 "#E0E0D4"
           :olive-100 "#D0D0C0"
           :olive-200 "#C0C0A8"
-          ;; :olive-400 = light EDGE tone (3.80:1 / 3.24:1 vs surface-1/2,
-          ;; non-text 3:1 floor); :olive-500 = the light DIMMEST-LEGIBLE TEXT
+          ;; :olive-400 = light EDGE tone, clearing the non-text 3:1 floor on
+          ;; all four pinned light fills: surface-1 4.20:1, surface-2 3.58:1,
+          ;; and 3.02:1 on BOTH surface-overlay and pressed-surface, which ship
+          ;; the same rung. The retired "#70705A" measured 2.73:1 on that
+          ;; shared rung — invisible while the modal overlay was translucent,
+          ;; because the blend gave the border accidental headroom; :olive-500 = the light DIMMEST-LEGIBLE TEXT
           ;; tone, which is both :fg-2 and — since the ladder went to three
           ;; rungs — the disabled/placeholder tone (see :disabled-fg). Two
           ;; tokens because border and text carry DIFFERENT contrast floors —
           ;; the retired :olive-300 ("#8A8A70") served both roles and could not
           ;; clear either.
-          :olive-400 "#70705A"
+          :olive-400 "#6A6954"
           ;; DERIVED: the LIGHTEST emittable colour at the retired "#585846"'s
           ;; own hue (107.5) and chroma (0.028) clearing MIL-STD-1472H
           ;; 5.2.2.7's 6:1 against the DARKEST FILL a light-theme label can sit

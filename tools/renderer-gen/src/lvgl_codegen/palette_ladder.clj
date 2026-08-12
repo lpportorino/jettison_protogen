@@ -1330,12 +1330,13 @@
     ;; ── non-text chrome ──────────────────────────────────────────────────
     {:role :edge-0
      :kind :solved
-     :shipped {:dark "#6B6B8A" :light "#70705A"}
+     :shipped {:dark "#717290" :light "#6A6954"}
      :chroma-retain-min 0.5
      :prefer :least-separation
-     :note "tokens.edn derives this one against BOTH surface-1 and surface-2 at the 3:1 non-text floor."
+     :note "tokens.edn derives this one against BOTH surface-1 and surface-2 at the 3:1 non-text floor. THE PRESSED-SURFACE CONSTRAINT IS WHY THE SOLVE IS TIGHTER THAN THOSE TWO SUGGEST, and it was added after a shipped composition rendered this edge below the floor. Measured at the previous #6B6B8A/#70705A: 3.618/3.799 on surface-1 and 3.198/3.241 on surface-2, both clear, while pressed-surface measures 2.732 dark and 2.731 light — under the floor in BOTH modes. It binds a fourth PINNED surface too without naming it: pressed-surface and surface-overlay ship the SAME light rung, so this one constraint also covers surface-overlay light (2.731 at the old value), which is the pair a shipped modal actually renders. Surface-overlay DARK needs no constraint and has none — the edge clears it at 3.845. A mode-scoped pair is not expressible here in any case: non-text-pair takes only `against` and a provenance key."
      :constraints [(non-text-pair :surface-1 :token-comment)
-                   (non-text-pair :surface-2 :token-comment)]}
+                   (non-text-pair :surface-2 :token-comment)
+                   (non-text-pair :pressed-surface :token-comment)]}
     {:role :focused-edge
      :kind :solved
      :shipped {:dark "#22D3EE" :light "#0E7490"}

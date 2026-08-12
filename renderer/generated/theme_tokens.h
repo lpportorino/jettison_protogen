@@ -13,8 +13,8 @@
 #define THEME_SURFACE1_LIGHT 0xE0E0D4 /* panel/container background */
 #define THEME_SURFACE2_DARK 0x1E1E2E /* elevated fill (buttonmatrix items) */
 #define THEME_SURFACE2_LIGHT 0xD0D0C0 /* elevated fill (buttonmatrix items) */
-#define THEME_EDGE0_DARK 0x6B6B8A /* panel/container border */
-#define THEME_EDGE0_LIGHT 0x70705A /* panel/container border */
+#define THEME_EDGE0_DARK 0x717290 /* panel/container border */
+#define THEME_EDGE0_LIGHT 0x6A6954 /* panel/container border */
 #define THEME_FG0_DARK 0xE8E8F0 /* primary text */
 #define THEME_FG0_LIGHT 0x1A1A28 /* primary text */
 #define THEME_ACCENT_DARK 0xB18AF4 /* accent fill — the asgard family's stock-parent color_primary */
