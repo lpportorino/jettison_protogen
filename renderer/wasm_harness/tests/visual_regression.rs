@@ -1718,6 +1718,33 @@ mod hud_breakpoint {
 
 mod focus_geometry {
     use super::*;
+    /// Both cases here tap and then read the tree, so both need the same two
+    /// primitives. They live at module scope rather than being re-nested per
+    /// test: two byte-identical copies of a helper is one fact with two homes,
+    /// and the second copy is the one that silently stops matching.
+    fn settle(host: &mut ControlsHost) {
+        for _ in 0..10 {
+            let _ = host.tick(16).expect("tick");
+        }
+    }
+    /// First node of `ty` in the dumped tree, depth-first.
+    fn find<'a>(node: &'a serde_json::Value, ty: &str) -> Option<&'a serde_json::Value> {
+        if node["type"] == ty {
+            return Some(node);
+        }
+        node["children"].as_array()?.iter().find_map(|c| find(c, ty))
+    }
+    /// `coords` of the first node of `ty`, read from the LIVE dump tree.
+    fn coords_of(host: &mut ControlsHost, ty: &str) -> Vec<i64> {
+        let dumped = tree(host);
+        find(&dumped, ty)
+            .unwrap_or_else(|| panic!("{ty} is present in the dumped tree"))["coords"]
+            .as_array()
+            .expect("coords array")
+            .iter()
+            .map(|v| v.as_i64().expect("coord is an integer"))
+            .collect()
+    }
     /// A TAP MUST NOT MOVE THE BUTTON OR ITS LABEL.
     ///
     /// Border width is LAYOUT-BEARING: `lv_style.c` flags
@@ -1754,30 +1781,8 @@ mod focus_geometry {
     /// "nothing happened".
     #[test]
     fn a_tap_does_not_move_the_focused_button_or_its_label() {
-        fn settle(host: &mut ControlsHost) {
-            for _ in 0..10 {
-                let _ = host.tick(16).expect("tick");
-            }
-        }
-        /// `(button, label)` coords read out of the LIVE dump tree.
         fn boxes(host: &mut ControlsHost) -> (Vec<i64>, Vec<i64>) {
-            fn find<'a>(n: &'a serde_json::Value, ty: &str) -> Option<&'a serde_json::Value> {
-                if n["type"] == ty {
-                    return Some(n);
-                }
-                n["children"].as_array()?.iter().find_map(|c| find(c, ty))
-            }
-            let dumped = tree(host);
-            let coords = |ty: &str| -> Vec<i64> {
-                find(&dumped, ty)
-                    .unwrap_or_else(|| panic!("{ty} is present in the dumped tree"))["coords"]
-                    .as_array()
-                    .expect("coords array")
-                    .iter()
-                    .map(|v| v.as_i64().expect("coord is an integer"))
-                    .collect()
-            };
-            (coords("lv_button"), coords("lv_label"))
+            (coords_of(host, "lv_button"), coords_of(host, "lv_label"))
         }
         let mut host = new_host();
         let before_fb = render(&mut host, "vr_focus_geometry");
@@ -1799,6 +1804,44 @@ mod focus_geometry {
             before, after,
             "focusing must not move the button ({:?} -> {:?}) or its label ({:?} -> {:?})",
             before.0, after.0, before.1, after.1
+        );
+    }
+    /// AN OUTLINE FOCUS RING DRAWS, AND MOVES NOTHING.
+    ///
+    /// `@btn-primary` carries no base border, so its focus affordance cannot be
+    /// a recoloured one — and it must not be a border at all, because the macro
+    /// is `w-content` and `LV_STYLE_BORDER_WIDTH` is layout-bearing, so a focus
+    /// border would grow the widget and reflow its row. An OUTLINE is drawn
+    /// outside the box and carries no layout flag, which is what makes it the
+    /// available answer.
+    ///
+    /// BOTH HALVES ARE ASSERTED IN ONE TEST BECAUSE EITHER ALONE IS SATISFIABLE
+    /// BY THE WRONG THING. A repaint alone is what a focus BORDER also produces
+    /// — the affordance this replaced — and stillness alone is what NO
+    /// affordance produces, which is the state this exists to end. Only the
+    /// conjunction distinguishes an outline from both.
+    #[test]
+    fn an_outline_focus_ring_draws_without_moving_the_button() {
+        let mut host = new_host();
+        let before_fb = render(&mut host, "vr_focus_outline");
+        let before = coords_of(&mut host, "lv_button");
+        let (x, y) = widget_center(&mut host, "lv_button");
+        press_px(&mut host, x, y);
+        settle(&mut host);
+        release_px(&mut host, x, y);
+        settle(&mut host);
+        let after_fb = host.read_framebuffer().expect("framebuffer");
+        let after = coords_of(&mut host, "lv_button");
+        assert_differ(
+            "the outline focus ring draws, so focusing repaints",
+            &before_fb,
+            &after_fb,
+            0.0001,
+        );
+        assert_eq!(
+            before, after,
+            "an outline carries no layout flag, so focusing must not move the button ({:?} -> {:?})",
+            before, after
         );
     }
 }

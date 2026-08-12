@@ -1117,7 +1117,24 @@
                                  :class "@btn-secondary"
                                  :children [{:tag :lv_label
                                              :text "Focus"
-                                             :class "text-fg-0 font-font-body"}]}]})})
+                                             :class "text-fg-0 font-font-body"}]}]})
+   ;; @btn-primary's focus affordance is an OUTLINE, and this is the fixture
+   ;; that renders it. It must satisfy BOTH halves at once: the outline draws
+   ;; (the framebuffer changes on focus) and the box holds still (an outline
+   ;; carries no layout flag). A border affordance can only ever satisfy one.
+   ;;
+   ;; PADDED WRAPPER, for the reason the devcard corpus's own focus-ring cards
+   ;; record: an outline is drawn OUTSIDE the box, so at the canvas origin it is
+   ;; clipped and only its inner arcs survive. The pad gives it room to be
+   ;; observed rather than cropped.
+   "vr_focus_outline"
+   (make-screen-raw {:tag :lv_obj
+                     :class "w-pct-100 h-pct-100 bg-surface-0 p-spacing-lg"
+                     :children [{:tag :lv_button
+                                 :class "@btn-primary"
+                                 :children [{:tag :lv_label
+                                             :text "Apply"
+                                             :class "text-accent-text font-font-body"}]}]})})
 
 (def ^:private all-fixtures
   (merge per-widget-fixtures

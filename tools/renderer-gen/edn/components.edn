@@ -21,16 +21,40 @@
  ;; because `pressed:p-*`, `focus-key:border-w-*` and `focused:font-*` are the
  ;; same defect and a narrower rule reads as permission for them.
  ;;
- ;; Dress a state with COLOUR or OPACITY instead — LV_STYLE_BORDER_COLOR
- ;; carries no layout flag. @btn-primary has no base border for a colour to
- ;; reach, so it carries no `focused:` token at all.
+ ;; Dress a state with COLOUR, OPACITY or an OUTLINE instead.
+ ;; LV_STYLE_BORDER_COLOR carries no layout flag, and the outline props carry
+ ;; EXT_DRAW_UPDATE rather than LAYOUT_UPDATE — an outline is drawn OUTSIDE the
+ ;; box, so it changes what is painted without moving anything.
+ ;;
+ ;; WHICH OF THE TWO A MACRO CAN USE DEPENDS ON WHETHER IT HAS A BASE BORDER.
+ ;; @btn-secondary and @hud-btn carry one, so they recolour it. @btn-primary
+ ;; carries none — a colour alone would paint at width 0 — so its ring is an
+ ;; outline.
+ ;;
+ ;; AN OUTLINE NEEDS PARENT INSET, and this is the constraint an author will
+ ;; otherwise meet as a clipped ring. Its reach is outline_pad + outline_width;
+ ;; at the base breakpoint @btn-primary's is 2 + 2 = 4px, while @card gives
+ ;; `lv_obj_get_style_space_left` = pad + border_width = 2 + 1 = 3px. So a
+ ;; @btn-primary flush inside a @card overruns that card's box by 1px at base
+ ;; (it fits from md: up, where spacing-sm widens the pad). Give a focusable
+ ;; primary button at least 4px of parent inset, or expect the ring to land on
+ ;; the parent's own edge.
  ;;
  ;; Guarded by renderer/wasm_harness/tests/visual_regression.rs, mod
- ;; focus_geometry, over the vr_focus_geometry fixture.
+ ;; focus_geometry — vr_focus_geometry for the border case, vr_focus_outline
+ ;; for this one.
  {:body "font-font-body text-fg-0"
+  ;; The focus ring is an OUTLINE, which is drawn outside the box and carries no
+  ;; layout flag, so it is visible without moving anything. A border here would
+  ;; not be: this macro is `w-content`, so a focus border would grow the widget
+  ;; and reflow its row, which is the defect the rule above states.
   :btn-primary
   "w-content h-content p-spacing-xs bg-accent-bg rounded-radius-button
-                pressed:bg-pressed-accent md:p-spacing-sm"
+                pressed:bg-pressed-accent
+                focused:outline-color-focused-edge
+                focused:outline-w-border-width-focus
+                focused:outline-pad-spacing-xs
+                md:p-spacing-sm"
   :btn-secondary
   "w-content h-content p-spacing-xs bg-surface-2 rounded-radius-button
                   border-edge-0 border-w-border-width-default pressed:bg-pressed-surface
