@@ -112,6 +112,9 @@ typedef struct {
   lv_style_t readout_arc;    /* MOVING spinner-ring tone — closes the stock
                               * color_primary fallthrough on a readout
                               * (asgard-only)                              */
+  lv_style_t knob_inert;     /* an arc knob the operator cannot move: the
+                              * grab affordance withdrawn, not recoloured
+                              * (asgard-only, LV_STATE_USER_2)             */
   lv_style_t track_bg;       /* resting rect-track fill (bar/slider/switch
                             * MAIN): edge tone at FULL opa — stock's
                             * LV_OPA_20 muted track dilutes any authored
@@ -949,6 +952,36 @@ static void style_init(asgard_theme_t *t) {
   if (!v)
     lv_style_set_arc_color(
         &s->readout_arc, mode_hex(t, THEME_CHECKED_DARK, THEME_CHECKED_LIGHT));
+  /* inert arc knob — the AFFORDANCE half of the readout argument above.
+   * That comment fixes what hue a readout may wear; this fixes whether a
+   * readout may offer a grab handle at all, and the two are independent:
+   * recolouring a knob still draws a knob, and a knob on an arc nothing can
+   * move is an invitation the widget cannot honour. An arc is the one ring
+   * widget where the distinction is invisible otherwise — a spinner is
+   * marked non-interactive by the renderer and a bar has no knob part, so
+   * only lv_arc renders the same grab handle whether or not anything is
+   * bound to it.
+   *
+   * WITHDRAWN, NOT RECOLOURED. A dimmed or de-saturated knob still reads as
+   * a control in a disabled state, which is a different and wrong claim: a
+   * readout is not a disabled input, and `disabled_dim` already owns that
+   * meaning on this very widget. Transparent bg plus zero pad removes the
+   * draw entirely, so the arc is a ring — and the knob PART still exists,
+   * so nothing about hit-testing or the object tree changes.
+   *
+   * The state is LV_STATE_USER_2 and the renderer DERIVES it from whether the
+   * node carries an event binding. Derived is not the same as unspellable, and
+   * the difference is load-bearing: `WidgetNode.states` is a raw lv_state_t
+   * bitmask applied verbatim and this bit sits inside its range, so a screen
+   * CAN author it on an arc that carries a command. What makes the binding
+   * authoritative is that renderer.c CLEARS the bit on the evented arm, not
+   * that nothing else can set it — and that clearing is skipped under morph,
+   * where the payload carries no binding by design. */
+  style_reset(&s->knob_inert, inited);
+  if (!v) {
+    lv_style_set_bg_opa(&s->knob_inert, LV_OPA_TRANSP);
+    lv_style_set_pad_all(&s->knob_inert, 0);
+  }
   /* selected tab-bar label — asgard DARK only, COLOR only. The tab bar is
    * frozen to stock geometry (demo-parity capstone), but stock derives the
    * selected label tint from color_primary while the selected tab fill is
@@ -1266,6 +1299,11 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
       lv_obj_add_style(obj, &t->styles.track_tone, LV_PART_MAIN);
+      /* ...and withdraw the grab handle when nothing is bound to move it.
+       * The renderer sets USER_2 from the node's own event binding, so this
+       * arm never has to ask what the screen meant. */
+      lv_obj_add_style(obj, &t->styles.knob_inert,
+                       LV_PART_KNOB | LV_STATE_USER_2);
     }
     add_interactive(t, obj);
     return;

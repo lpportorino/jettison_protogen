@@ -7,7 +7,7 @@
    :h 480},
   "kitchen-sink/gauge-cluster"
   {:sha256
-   "a0b92bde927206c76c770d42bab4ff2fc841c9b83adfe0832667f7f965641b75",
+   "e680f8e72cdfcce7c6538a87f7fcb309e03afd4af6b6dfbd6eb37bd8eadc1133",
    :w 800,
    :h 480},
   "kitchen-sink/hud-overlay"
@@ -32,72 +32,72 @@
    :h 480},
   "lv_arc/default/large/mid"
   {:sha256
-   "4a414a52c6a32fe5f4264fcc9fa6f56a1cd84a18a4d836399ad0269ebf8a9f7b",
+   "96b3562e3cf3e0f6a3e9e9547050394dc67a8ad209267ffbfc0ba02119898c5d",
    :w 800,
    :h 480},
   "lv_arc/default/medium/max"
   {:sha256
-   "db5a0a2818ce7a89fbe06bf463e5a3778f9aae017349e92ec30f66d149facb07",
+   "5db526d9c57311b8262f97929fbda9ca80e08d77aee6ecff821e18546c809bc6",
    :w 800,
    :h 480},
   "lv_arc/default/medium/mid"
   {:sha256
-   "fd51bcac4dad5731a633fe93f99a8f96b88948041ca91596b75bb683bff6538b",
+   "b8883c76133a28a15e389c62357e0489c4cc2bb49f2a35e13a939a924a95ff0b",
    :w 800,
    :h 480},
   "lv_arc/default/medium/min"
   {:sha256
-   "626ae281adbc77a99acd4b34172ec8b0b857e586ae75a1ca8417629233cbfee5",
+   "55583a478b949557302595b3ef50bc2d068cfe1b585e051f888ced6bc6042810",
    :w 800,
    :h 480},
   "lv_arc/default/small/mid"
   {:sha256
-   "b10afdd77637384c912ab43063634a7aa25202d6e58efe000f13e2851bcc74f3",
+   "13b279fbb55e151e19de3f0584283ee75fe1e4a731529474520dc7c96820463d",
    :w 800,
    :h 480},
   "lv_arc/disabled/large/mid"
   {:sha256
-   "51b6054d3268440f31e29b181419fc7b72e33f23ac7702c02f3f36c8e3763989",
+   "9057a453b89db8f01fd96777a7daab5a797dc4fb83c39d5c2e82f68864f986ab",
    :w 800,
    :h 480},
   "lv_arc/disabled/medium/mid"
   {:sha256
-   "b30dfe2e0329bff144a2bc75f729106e95a6f5180f71ebef10a25992cc08d19d",
+   "fa9ae1cd4df7d5bd65a087f4f2e04d3c38ac66407cf9f32c250232b1ae25fa3f",
    :w 800,
    :h 480},
   "lv_arc/disabled/small/mid"
   {:sha256
-   "2aeb42bcd960536f70dbfe0fe0bec20e307dc2458e4c68cb7e92c91a09702a0a",
+   "3d54ce18b3978b94c86218880b92040ae18badf1c4d7055c98141c0a3f0ac0d3",
    :w 800,
    :h 480},
   "lv_arc/hovered/medium/mid"
   {:sha256
-   "853872a6d1bf33847af6c62c91052afacc065337815b30ed9db4bb0c925f34af",
+   "39b895eaa7656328121a0c4f4b7b3b5c8d85e8f653bd7ff1b6311d939d674176",
    :w 800,
    :h 480},
   "lv_arc/pressed/large/mid"
   {:sha256
-   "09460a4100aeeba74729900e703f1223c84a3a8f39b80bf6144c51c1de7346ad",
+   "6ee9f279473f3d0d9f9c4e3662cc756b349a0e242eed4fec4c921d6a3ad4437b",
    :w 800,
    :h 480},
   "lv_arc/pressed/medium/max"
   {:sha256
-   "7305bc9f473700ae57da0717e8f741ed62d483abcf6a3a000ff650472fa2c2d8",
+   "095be0664ba5c620eedd088fa5eca059701edfe83ae2aa476639f21d36e1d046",
    :w 800,
    :h 480},
   "lv_arc/pressed/medium/mid"
   {:sha256
-   "75d8188fe9f805e831b4b3ef6b11e1befc1f7f7323fe4d3e3277d0ba42661e5a",
+   "1afc74287efc6694faa008ab52f1acfb42b16a161848a66cd9dc9f00154db738",
    :w 800,
    :h 480},
   "lv_arc/pressed/medium/min"
   {:sha256
-   "570f3397c42b46fc6b6f84bbdfa9449743fa8ce56c62650ea55047f2df1ce781",
+   "8e00374a5ff4716169d8417ffd33d827cce9d24407adacc23233112210c09c29",
    :w 800,
    :h 480},
   "lv_arc/pressed/small/mid"
   {:sha256
-   "0e916001ac972c942b031fc54a98b5893be8e1a01afc0dba04f204dc5b2c7048",
+   "e67a71ab453b478bccdbede325815cb4668b3927aad81dd4c8a98d9e1613c12e",
    :w 800,
    :h 480},
   "lv_bar/default/large/mid"

@@ -1125,6 +1125,14 @@
                 ;; the pointer path entirely. Decoration that stays clickable
                 ;; is a latent dead zone — it can take a press meant for
                 ;; something else, and nothing renders differently either way.
+                ;;
+                ;; REDUNDANT WITH THE RENDERER TODAY, and kept deliberately.
+                ;; An arc carrying no event binding is taken out of the pointer
+                ;; path by the renderer itself now, so this clears a flag that
+                ;; would be cleared anyway. It stays because it is a statement
+                ;; about THIS CARD — the atomic lane's only way to say "gauge,
+                ;; not control" — and it remains true whatever the renderer
+                ;; derives. Do not read it as the mechanism.
                 :flags-clear [:clickable]
                 :props {:w 80
                         :h 80

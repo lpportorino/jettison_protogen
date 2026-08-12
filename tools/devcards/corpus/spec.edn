@@ -983,7 +983,8 @@
              :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :distinct
             :id "lv_arc/pressed/medium/min"
-            :notes "Knob cross-term at the track start."
+            :notes
+            "The indicator's FLOOR under press-grow, and the one card where a readout arc carries no accent pixel at all: at value 0 the indicator has zero length, and every arc here is event-less, so the knob that used to mark the start is withdrawn. Measured on the re-mint: 550 accent px -> 0. That is the same representation lv_bar gives an empty track, which is why the track tone is what has to carry it."
             :props {:arc_props {:bg_end_angle 360
                                 :bg_start_angle 0
                                 :end_angle 270
@@ -1003,7 +1004,8 @@
              :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
            {:expect :distinct
             :id "lv_arc/pressed/medium/max"
-            :notes "Knob cross-term at the track end."
+            :notes
+            "The indicator's CEILING under press-grow. Unlike the min twin above this one stays unambiguous with the knob withdrawn — a full sweep reads as maximum on its own."
             :props {:arc_props {:bg_end_angle 360
                                 :bg_start_angle 0
                                 :end_angle 270

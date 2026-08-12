@@ -161,6 +161,15 @@ static lv_obj_t *make_widget(lv_obj_t *parent, uint8_t kind) {
   case 5:
     w = lv_arc_create(parent);
     lv_obj_set_ext_click_area(w, LV_DPX(ARC_EXT_CLICK_PX)); /* see case 3 */
+    /* The READOUT rule is the INTERFACE's too, for the same reason as the
+     * ext-click contract above: an arc with no command bound to it is a thing
+     * you WATCH, so it neither offers a grab handle nor accepts a drag
+     * (renderer.c's finalize_widget, theme.c's `knob_inert`). This selector
+     * vocabulary has no event binding to carry, so EVERY arc it builds is a
+     * readout by construction — which is why the rule applies here
+     * unconditionally rather than behind a test. */
+    lv_obj_add_state(w, LV_STATE_USER_2);
+    lv_obj_remove_flag(w, LV_OBJ_FLAG_CLICKABLE);
     break;
   case 6:
     w = lv_bar_create(parent);
@@ -511,8 +520,12 @@ int build_ui_from_proto_raw(const uint8_t *data, uint32_t len,
     lv_obj_t *arc = lv_arc_create(parent);
     if (arc == NULL)
       return -1;
-    /* The interface's ext-click contract — see make_widget case 3. */
+    /* The interface's ext-click contract — see make_widget case 3 — and its
+     * READOUT rule, for the same reason and on the same grounds: no event
+     * binding exists in this vocabulary, so every arc it builds is one. */
     lv_obj_set_ext_click_area(arc, LV_DPX(ARC_EXT_CLICK_PX));
+    lv_obj_add_state(arc, LV_STATE_USER_2);
+    lv_obj_remove_flag(arc, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_set_size(arc, 60, 60);
     lv_obj_align(arc, LV_ALIGN_CENTER, 0, 0);
     /* Setter ORDER mirrors renderer.c's arc_props application. */

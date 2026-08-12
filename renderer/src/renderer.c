@@ -3747,6 +3747,67 @@ static void finalize_widget(widget_ctx_t *ctx) {
     p->obj = obj;
     p->bind = node->color_when;
   }
+#if LV_USE_ARC
+  /* A READOUT ARC — one with nothing bound to move it — is marked so the
+   * theme can withdraw its grab handle (theme.c, `knob_inert`). An arc is the
+   * only ring widget where the two roles are otherwise indistinguishable: a
+   * spinner is marked non-interactive outright and a bar has no knob part, so
+   * lv_arc alone renders the same draggable-looking knob whether or not
+   * anything is listening.
+   *
+   * DERIVED WINS OVER AUTHORED, AND THAT TAKES THE `else` — a screen CAN spell
+   * this bit. `WidgetNode.states` is a raw lv_state_t bitmask applied verbatim
+   * above, and LV_STATE_USER_2 is inside its range, so an author really can
+   * set it on an arc that carries a command: knobless and non-interactive to
+   * look at, live to the finger. Deriving the bit is therefore not enough on
+   * its own; the arm below CLEARS it whenever an event IS present, which is
+   * what makes the binding the single source of truth rather than merely the
+   * usual one. It is applied HERE rather than at creation because
+   * `has_event` is only known once the node has finished decoding: the widget
+   * is created lazily from inside a nanopb callback, where a later field has
+   * not necessarily arrived yet.
+   *
+   * Scoped to lv_arc rather than set on every event-less node: the claim this
+   * bit makes is about a widget that LOOKS interactive, and only this class
+   * does.
+   *
+   * THE FLAG IS THE FIX; THE STATE BIT IS ONLY THE CUE, and shipping the cue
+   * alone would have been strictly worse than shipping neither. lv_arc handles
+   * the pointer NATIVELY: its own event handler walks the press angle onto its
+   * value whether or not anything is listening, so an event-less arc left
+   * clickable moves under the operator's finger and reports nothing — the
+   * displayed value then disagrees with the device until the next state update
+   * snaps it back. Measured on the harness before this line existed: an
+   * identical drag across a readout arc moved 11,019 framebuffer bytes.
+   * Withdrawing the knob while leaving that live would have removed the only
+   * warning the operator had. */
+  /* MORPH IS EXCLUDED, and getting this wrong DEMOTES A LIVE CONTROL.
+   * `has_event` is a property of the PAYLOAD, not of the widget, and an
+   * UPDATE_PROPS payload is guaranteed not to carry one: the differ's
+   * `morph-invariant-keys` STRIPS `:event` from every update, precisely
+   * because an unchanged binding is already physically attached to the live
+   * object and must not ride back into the attach path. Read that deliberate
+   * absence as "nothing is bound to move it" and any style, colour, position
+   * or value patch on a live interactive arc would withdraw its knob and
+   * clear its CLICKABLE flag — the callback still attached, the control
+   * simply never hit-tested again until a full reload. Nothing errors and
+   * nothing detaches, so nothing would report it.
+   *
+   * Under morph the live object already carries whatever the full load
+   * decided, and the payload cannot say otherwise, so the correct action is
+   * NEITHER arm. This is the same `!morph_in_progress` guard four siblings in
+   * `apply_widget_props` already use — one of them on this very widget's
+   * value. A REPLACE is unaffected: it builds a fresh object with the real
+   * payload, and `morph_in_progress` is false for it. */
+  if (!morph_in_progress && lv_obj_check_type(obj, &lv_arc_class)) {
+    if (node->has_event) {
+      lv_obj_remove_state(obj, LV_STATE_USER_2);
+    } else {
+      lv_obj_add_state(obj, LV_STATE_USER_2);
+      lv_obj_remove_flag(obj, LV_OBJ_FLAG_CLICKABLE);
+    }
+  }
+#endif
   /* Belt to the UPDATE arm's has_event reject: attaching an event cb to an
    * ALREADY-LIVE object under morph would duplicate the callback (two
    * host_commands per click). The patch layer rejects event-carrying UPDATEs

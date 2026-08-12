@@ -160,13 +160,19 @@ fn fnv1a32(data: &[u8]) -> u32 {
 /// RUN — and a 3 fails here exactly like a 1: a comparison that did not happen
 /// is not a comparison that passed.
 #[test]
-fn wasm_artifact_is_not_older_than_the_renderer_sources() {
+fn wasm_artifact_corresponds_to_the_renderer_sources() {
     let renderer_dir = repo_root();
     let script = renderer_dir.join("tools/wasm_inputs_verify.sh");
+    // `wasm_path()` and nothing else: this guard has to vouch for the exact
+    // artifact `new_host()` loads. Re-deriving the path here would give one
+    // fact two homes, and the failure would be silent in the only direction
+    // that matters — the guard would go on passing while vouching for a file
+    // no test in this suite renders.
+    let artifact = wasm_path();
     let output = std::process::Command::new("bash")
         .arg(&script)
         .arg("--artifact")
-        .arg(renderer_dir.join("output/controls.wasm"))
+        .arg(&artifact)
         .arg("--sidecar")
         .arg(renderer_dir.join("output/controls.wasm.build-inputs"))
         .arg("--renderer-dir")
@@ -176,9 +182,15 @@ fn wasm_artifact_is_not_older_than_the_renderer_sources() {
     assert!(
         output.status.success(),
         "controls.wasm does not correspond to the renderer sources in this tree, \
-         so every framebuffer verdict in this file is about a different binary. \
-         Relink with `make -f renderer.mk wasm` and re-run.\n\
+         so every framebuffer verdict in this file is about a different binary.\n\
+         Relink from clean: `make -C {} -f wasm.mk clean && make -f renderer.mk \
+         wasm`. Deleting only the artifact is NOT enough — `wasm.mk` is a \
+         prerequisite of nothing, objects included, so after a build-flag change \
+         a re-link would reuse the stale objects and then rewrite the sidecar \
+         from the fresh tree, turning this red into a green over a binary the \
+         flags never touched.\n\
          verifier exit: {:?}\nstdout: {}\nstderr: {}",
+        renderer_dir.display(),
         output.status.code(),
         String::from_utf8_lossy(&output.stdout).trim(),
         String::from_utf8_lossy(&output.stderr).trim(),
@@ -9279,3 +9291,422 @@ mod drag_owns_the_value {
         );
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════
+// Readout vs interactive arc — the discriminator, and its control
+// ═══════════════════════════════════════════════════════════════════
+
+/// An arc that reports a device value and an arc the operator can drag are, on
+/// screen, the same object: both draw a knob, so nothing tells a reader which
+/// one accepts a touch. The renderer already knows the difference — an
+/// `EventBinding` is what makes an arc interactive — so the distinction is
+/// DERIVED and can be drawn without widening any authored surface.
+///
+/// These two tests are the falsifier for that claim and its control. The
+/// discriminator asserts the DESIRED behaviour, so it is red until the change
+/// lands; the control asserts that a "they differ" verdict cannot come from
+/// host-to-host noise, because two fresh hosts rendering the same bytes must
+/// agree exactly.
+///
+/// Both are statements about `renderer/output/controls.wasm`, not about the C
+/// in the tree — see `wasm_artifact_corresponds_to_the_renderer_sources`,
+/// which is what stops that distinction being invisible.
+mod readout_arc {
+    use super::*;
+    use lvgl_harness::proto::ui::style_property::Value;
+    use std::collections::HashMap;
+
+    /// The `EventBinding.name` the interactive arc fires on VALUE_CHANGED.
+    /// Its content is irrelevant — PRESENCE is the whole variable.
+    const EVENT: &str = "arc-cmd";
+    /// The INT subject both arcs bind `value` to.
+    const SUBJECT: &str = "device_value";
+
+    fn size_group(w: u32, h: u32) -> ui::StyleGroup {
+        ui::StyleGroup {
+            variants: vec![ui::StyleVariant {
+                properties: vec![
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropWidth as i32,
+                        value: Some(Value::UintValue(w)),
+                    },
+                    ui::StyleProperty {
+                        r#type: ui::StylePropertyType::PropHeight as i32,
+                        value: Some(Value::UintValue(h)),
+                    },
+                ],
+                ..Default::default()
+            }],
+            ..Default::default()
+        }
+    }
+
+    /// One arc on a canvas-sized root. `evented` is the ONLY difference
+    /// between the two screens this module renders: same type, same uid, same
+    /// position, same size, same angles, same value, same value binding.
+    ///
+    /// THE VALUE BINDING IS ON BOTH SIDES DELIBERATELY, and leaving it off
+    /// silently disarms the drag clauses below. Measured: an identical press
+    /// on an arc with an event binding and NO value binding produced ZERO host
+    /// events and moved nothing, while the same press with the binding present
+    /// produced two — so a fixture without it reports "the drag changed
+    /// nothing" for every arc, which is the clause's pass value and its
+    /// nothing-happened value at once. Binding both sides keeps the event the
+    /// single variable AND keeps the pointer path live.
+    fn arc_screen(evented: bool) -> Vec<u8> {
+        arc_screen_with(evented, 0)
+    }
+
+    /// `authored_states` goes onto `WidgetNode.states`, the raw `lv_state_t`
+    /// bitmask a screen may set verbatim — the route by which an author can
+    /// spell the readout bit itself.
+    fn arc_screen_with(evented: bool, authored_states: u32) -> Vec<u8> {
+        let mut arc = ui::WidgetNode {
+            states: authored_states,
+            r#type: ui::WidgetType::WidgetArc as i32,
+            uid: 11,
+            x: Some(100),
+            y: Some(50),
+            style_groups: vec![size_group(200, 200)],
+            bindings: HashMap::from([("value".to_owned(), SUBJECT.to_owned())]),
+            widget_props: Some(ui::widget_node::WidgetProps::ArcProps(ui::ArcProps {
+                min_value: 0,
+                max_value: 100,
+                value: 50,
+                bg_start_angle: 135,
+                bg_end_angle: 45,
+                start_angle: 135,
+                end_angle: 270,
+                ..Default::default()
+            })),
+            ..Default::default()
+        };
+        if evented {
+            arc.event = Some(ui::EventBinding {
+                name: EVENT.to_owned(),
+                trigger: ui::EventTrigger::TriggerValueChanged as i32,
+                include_widget_value: true,
+                ..Default::default()
+            });
+        }
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                uid: 1,
+                style_groups: vec![size_group(WIDTH, HEIGHT)],
+                children: vec![arc],
+                ..Default::default()
+            }),
+            subjects: vec![ui::SubjectDeclaration {
+                name: SUBJECT.to_owned(),
+                r#type: ui::SubjectType::SubjectInt as i32,
+                initial: Some(ui::subject_declaration::Initial::IntInitial(50)),
+            }],
+        }
+        .encode_to_vec()
+    }
+
+    fn settle(host: &mut ControlsHost) {
+        for _ in 0..10 {
+            let _ = host.tick(TICK_MS).expect("tick");
+        }
+    }
+
+    /// A fresh host with the screen loaded and settled.
+    fn loaded(evented: bool) -> ControlsHost {
+        let mut host = new_host();
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(&arc_screen(evented)).expect("load_ui");
+        settle(&mut host);
+        host
+    }
+
+    /// Render one screen in a FRESH host and return the settled framebuffer.
+    fn render(evented: bool) -> Vec<u8> {
+        let mut host = loaded(evented);
+        host.read_framebuffer().expect("read_framebuffer")
+    }
+
+    /// How many bytes two framebuffers disagree on.
+    ///
+    /// Both assertions below go through this rather than comparing the buffers
+    /// directly, and that is not a style choice: a framebuffer here is 480,000
+    /// bytes, and `assert_eq!`/`assert_ne!` print BOTH operands on failure. The
+    /// first draft did compare them directly and buried its own one-line
+    /// finding under 3.9 MB of pixel values.
+    fn differing_bytes(a: &[u8], b: &[u8]) -> usize {
+        assert_eq!(
+            a.len(),
+            b.len(),
+            "the two framebuffers differ in SIZE, so a byte comparison would \
+             be measuring the wrong thing"
+        );
+        a.iter().zip(b.iter()).filter(|(x, y)| x != y).count()
+    }
+
+    /// NON-VACUITY CONTROL for the discriminator below. If two fresh hosts
+    /// could disagree about identical bytes, an inequality there would carry
+    /// no information at all — it would be satisfied by noise. This asserts
+    /// they cannot.
+    #[test]
+    fn the_same_arc_renders_identically_in_two_fresh_hosts() {
+        let (a, b) = (render(false), render(false));
+        assert_eq!(
+            differing_bytes(&a, &b),
+            0,
+            "two fresh hosts rendering the same screen bytes disagreed, so no \
+             framebuffer inequality in this module means anything"
+        );
+    }
+
+    /// The arc's inclusive `coords`, read from the LIVE tree rather than
+    /// computed from the authored x/y/size — theme padding can move the box,
+    /// and a press that lands off the widget makes every assertion built on it
+    /// vacuous rather than false.
+    fn arc_coords(host: &mut ControlsHost) -> [i32; 4] {
+        fn find<'a>(node: &'a serde_json::Value) -> Option<&'a serde_json::Value> {
+            if node["type"].as_str() == Some("lv_arc") {
+                return Some(node);
+            }
+            node["children"]
+                .as_array()
+                .and_then(|kids| kids.iter().find_map(find))
+        }
+        let t = tree(host);
+        let n = find(&t).expect("no lv_arc in the rendered tree");
+        let c = n["coords"].as_array().expect("coords");
+        [
+            c[0].as_i64().expect("x1") as i32,
+            c[1].as_i64().expect("y1") as i32,
+            c[2].as_i64().expect("x2") as i32,
+            c[3].as_i64().expect("y2") as i32,
+        ]
+    }
+
+    /// Press on the ring and swing along it, settling each step so the indev
+    /// observes every position. LVGL enters arc-drag only when the press lands
+    /// OUTSIDE the knob radius, which is why this starts on the ring rather
+    /// than at the value.
+    ///
+    /// BOTH ENDPOINTS ARE CHOSEN AWAY FROM THE AUTHORED VALUE, and the first
+    /// draft was not: LVGL angles run clockwise from 3 o'clock, the arc spans
+    /// 135°→45°, so value 50 of 0..100 sits at 270° — the TOP. A drag that
+    /// ended at the top therefore restored the value it had just moved, and
+    /// the frame came back byte-identical. That reads exactly like "the
+    /// pointer never reached the widget", which is the other thing this
+    /// module has to be able to tell apart. 180° (left, ≈17) to 135°
+    /// (down-left, ≈0) keeps every step clear of 50.
+    fn drag_across(host: &mut ControlsHost) {
+        let [x1, y1, x2, y2] = arc_coords(host);
+        let (cx, cy) = ((x1 + x2) / 2, (y1 + y2) / 2);
+        let r = (x2 - x1) / 2 - 4;
+        let diag = (f64::from(r) * std::f64::consts::FRAC_1_SQRT_2) as i32;
+        press_px(host, cx - r, cy);
+        settle(host);
+        move_px(host, cx - diag, cy + diag);
+        settle(host);
+        release_px(host, cx - diag, cy + diag);
+        settle(host);
+    }
+
+    fn render_after_drag(evented: bool) -> Vec<u8> {
+        let mut host = loaded(evented);
+        drag_across(&mut host);
+        host.read_framebuffer().expect("read_framebuffer")
+    }
+
+    /// CONTROL for the clause below, and it is not optional: "the drag moved
+    /// nothing" is also what a drag that MISSED the widget reports. This
+    /// proves the same gesture, at the same coordinates, does reach an arc and
+    /// does move it — so a still frame in the readout case is a property of
+    /// the readout and not of the gesture.
+    #[test]
+    fn the_same_drag_does_move_an_interactive_arc() {
+        let before = render(true);
+        let after = render_after_drag(true);
+        assert!(
+            differing_bytes(&before, &after) > 0,
+            "the drag moved nothing on an arc that HAS an event binding, so it \
+             is not reaching the widget and the readout clause below would be \
+             vacuous"
+        );
+    }
+
+    /// A READOUT ARC MUST NOT ACCEPT A DRAG. Withdrawing the knob is only the
+    /// affordance half; LVGL's arc handles the pointer natively and updates
+    /// its own value whether or not anything is listening, so an arc left
+    /// clickable moves under the operator's finger and reports NOTHING to the
+    /// device — the displayed value silently disagrees with the device until
+    /// the next state update snaps it back. A hidden knob over a live drag is
+    /// strictly worse than a visible one: it removes the cue and keeps the
+    /// behaviour.
+    #[test]
+    fn a_readout_arc_does_not_move_when_dragged() {
+        let before = render(false);
+        let after = render_after_drag(false);
+        assert_eq!(
+            differing_bytes(&before, &after),
+            0,
+            "dragging an arc with no EventBinding changed what it renders, so \
+             the operator moved a readout and the device was never told"
+        );
+    }
+
+    /// `LV_STATE_USER_2` — the readout bit the theme keys on.
+    const READOUT_BIT: u32 = 0x2000;
+
+    /// Is this arc still in the pointer path? `dump_obj` emits `clickable` ONLY
+    /// when it is FALSE, so ABSENCE means clickable — read it that way round or
+    /// the assertion inverts.
+    fn arc_is_clickable(host: &mut ControlsHost) -> bool {
+        fn find<'a>(node: &'a serde_json::Value) -> Option<&'a serde_json::Value> {
+            if node["type"].as_str() == Some("lv_arc") {
+                return Some(node);
+            }
+            node["children"]
+                .as_array()
+                .and_then(|kids| kids.iter().find_map(find))
+        }
+        let t = tree(host);
+        let n = find(&t).expect("no lv_arc in the rendered tree");
+        n.get("clickable").and_then(serde_json::Value::as_bool) != Some(false)
+    }
+
+    /// An UPDATE_PROPS patch moving the arc's value — and carrying NO event,
+    /// exactly as the differ emits one. `morph-invariant-keys` STRIPS `:event`
+    /// from every update payload, because an unchanged binding is already
+    /// attached to the live object and must not ride back into the attach path.
+    fn value_patch(base: &[u8], value: i32) -> Vec<u8> {
+        let patch = ui::ScreenPatch {
+            base_hash: fnv1a32(base),
+            target_hash: 0,
+            ops: vec![ui::TreePatchOp {
+                kind: ui::PatchOpKind::PatchOpUpdateProps as i32,
+                target_uid: 11,
+                parent_uid: 0,
+                index: 0,
+                node: Some(ui::WidgetNode {
+                    r#type: ui::WidgetType::WidgetArc as i32,
+                    uid: 11,
+                    widget_props: Some(ui::widget_node::WidgetProps::ArcProps(ui::ArcProps {
+                        min_value: 0,
+                        max_value: 100,
+                        value,
+                        bg_start_angle: 135,
+                        bg_end_angle: 45,
+                        start_angle: 135,
+                        end_angle: 270,
+                        ..Default::default()
+                    })),
+                    ..Default::default()
+                }),
+            }],
+        };
+        let mut buf = Vec::new();
+        patch.encode(&mut buf).expect("encode patch");
+        buf
+    }
+
+    /// A PATCH MUST NOT DEMOTE A LIVE CONTROL, and this is the one path no
+    /// other lane in the battery can see — the morph fixtures contain no arc at
+    /// all.
+    ///
+    /// `has_event` is a property of the PAYLOAD, not of the widget, and an
+    /// UPDATE_PROPS payload never carries one by design. Reading that
+    /// deliberate absence as "nothing is bound to move it" would withdraw the
+    /// knob and clear `CLICKABLE` on an arc whose command is still attached and
+    /// still firing — a control that is simply never hit-tested again until a
+    /// full reload. Nothing errors, nothing detaches, so nothing else reports
+    /// it.
+    #[test]
+    fn a_value_patch_does_not_demote_an_interactive_arc() {
+        let base = arc_screen(true);
+        let mut host = new_host();
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(&base).expect("load_ui");
+        settle(&mut host);
+        assert!(
+            arc_is_clickable(&mut host),
+            "precondition: an arc carrying an event binding is in the pointer \
+             path at load — without this the clause below is vacuous"
+        );
+        assert_eq!(
+            host.apply_patch(&value_patch(&base, 20))
+                .expect("apply_patch call"),
+            0,
+            "an arc value UPDATE_PROPS must apply cleanly"
+        );
+        settle(&mut host);
+        assert!(
+            arc_is_clickable(&mut host),
+            "a value patch took an interactive arc OUT of the pointer path: its \
+             command is still attached and can never fire again"
+        );
+    }
+
+    /// CONTROL for the clause above: the same dump key DOES report a readout as
+    /// out of the pointer path, so `arc_is_clickable` is reading something real
+    /// rather than always answering true.
+    #[test]
+    fn a_readout_arc_is_reported_out_of_the_pointer_path() {
+        let mut host = loaded(false);
+        assert!(
+            !arc_is_clickable(&mut host),
+            "a readout arc is still reported clickable, so every clickable \
+             assertion in this module is vacuous"
+        );
+    }
+
+    /// THE BINDING IS THE SINGLE SOURCE OF TRUTH, not merely the usual one.
+    /// `WidgetNode.states` is applied verbatim, and the readout bit is inside
+    /// its range, so a screen really can set it on an arc that carries a
+    /// command — which would render knobless and non-interactive while staying
+    /// live to the finger, the exact contradiction deriving the bit is supposed
+    /// to make unrepresentable. Deriving it is therefore not sufficient on its
+    /// own: the renderer must CLEAR it whenever an event is present.
+    ///
+    /// Asserting equality against the plain interactive arc, rather than
+    /// inequality against the readout, is deliberate — it pins the authored bit
+    /// as having NO effect, where an inequality would still pass if it had some
+    /// other one.
+    #[test]
+    fn an_authored_readout_bit_cannot_override_an_arcs_own_binding() {
+        let mut host = new_host();
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(&arc_screen_with(true, READOUT_BIT))
+            .expect("load_ui");
+        settle(&mut host);
+        let claimed_readout = host.read_framebuffer().expect("read_framebuffer");
+        assert_eq!(
+            differing_bytes(&claimed_readout, &render(true)),
+            0,
+            "an arc that CARRIES a command rendered differently once the screen \
+             authored the readout bit, so a screen can contradict its own \
+             bindings and present a control as something you only watch"
+        );
+    }
+
+    /// THE DISCRIMINATOR. A readout arc — one carrying no `EventBinding`, so
+    /// nothing an operator does can move it — must not present the drag
+    /// affordance an interactive arc presents.
+    #[test]
+    fn a_readout_arc_does_not_look_like_an_interactive_one() {
+        let readout = render(false);
+        let interactive = render(true);
+        let differing = differing_bytes(&readout, &interactive);
+        assert!(
+            differing > 0,
+            "an arc with no EventBinding renders byte-identically to one that \
+             has it across all {} bytes, so the screen offers a knob the \
+             operator cannot move",
+            readout.len()
+        );
+    }
+}
+
