@@ -35,9 +35,23 @@
 
 (def ^:private consumed-card-keys
   "Keys the driver READS out of a render result and does not carry into the
-   card. `:findings` is routed to the `:findings` channel; letting it ride
-   along would push a per-card finding vector into every golden entry."
-  [:findings])
+   card, each routed to a channel of its own. Letting either ride along would
+   push per-card bulk into every golden entry: `:findings` a finding vector,
+   `:tree` a whole dump tree.
+
+   `:tree` IS ROUTED RATHER THAN FORBIDDEN because a consumer that renders a
+   corpus already HAS each tree in hand — it judged the card with it — and a
+   second pass that re-renders purely to recover it does the same work twice
+   and describes a DIFFERENT render than the images beside it. The channel
+   hands the tree back without it reaching `card-of`.
+
+   NOTE THIS SET IS A BLACKLIST, so adding to it CHANGES BEHAVIOUR for any
+   consumer whose render fn already returns that key: it stops riding into the
+   golden entry and starts arriving on the channel. Measured before `:tree` was
+   added — no committed manifest in this repo or in the pin-bumping consumer
+   carried it (0 of 8 here), so nothing moved; a private corpus that did carry
+   one sees a golden diff at its next mint, never silent corruption."
+  [:findings :tree])
 
 (def ^:private driver-owned-card-keys
   "Keys the DRIVER owns on a result. A render fn returning one is REFUSED
@@ -89,11 +103,12 @@
    THE CARD IS THE RENDER FN'S OWN MAP, so a key BEYOND :sha256/:w/:h rides
    into the golden entry unchanged — a consumer recording per-card data it
    computes at render time (a geometry rect, a crop, a probe count) threads it
-   through here rather than forking the driver. :findings is the one key read
-   and dropped; :sha256/:w/:h are always present, nil when the render fn omits
-   them. Returning :variant, :id or :error THROWS, naming every offending
-   pair: those are the driver's own, and honouring one silently corrupts the
-   golden map's keys or its success partition."
+   through here rather than forking the driver. :findings and :tree are the
+   keys read and dropped, each to a channel of its own (`consumed-card-keys`);
+   :sha256/:w/:h are always present, nil when the render fn omits them.
+   Returning :variant, :id or :error THROWS, naming every offending pair:
+   those are the driver's own, and honouring one silently corrupts the golden
+   map's keys or its success partition."
   [screens variants result1]
   (when (empty? screens)
     (throw (ex-info "refusing to drive an EMPTY screen set" {})))
@@ -121,8 +136,17 @@
                          (mapcat (fn [{:keys [variant id card]}]
                                    (map #(assoc % :variant variant :id id) (:findings card))))
                          (or ok []))
+          ;; `keep`, not `map`: a render fn that returns no :tree contributes
+          ;; NOTHING rather than a {:tree nil} entry, so a consumer can tell
+          ;; "this driver never carried trees" from "this card had none" —
+          ;; the same distinction :findings gets for free by being a seq.
+          trees (into []
+                      (keep (fn [{:keys [variant id card]}]
+                              (when-let [t (:tree card)]
+                                {:variant variant :id id :tree t})))
+                      (or ok []))
           errors (mapv #(select-keys % [:variant :id :error]) (or errored []))]
-      {:by-variant by-variant :findings findings :errors errors})))
+      {:by-variant by-variant :findings findings :trees trees :errors errors})))
 
 (defn diff-cards
   "Diff a committed golden card map against a freshly rendered one (both

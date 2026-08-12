@@ -64,12 +64,19 @@
    The structural assertions elsewhere in this ns say the VALUES still match;
    this says the BYTES do — key order included — which is what a consumer
    minting an EDN manifest through this seam actually diffs. It is a literal on
-   purpose: a re-derivation would compare the new driver against itself."
+   purpose: a re-derivation would compare the new driver against itself.
+
+   THE `:trees []` TERM WAS ADDED DELIBERATELY when the `:tree` channel landed,
+   and this is the one edit that may be made to this literal: the RETURN grew a
+   channel, so the printed form legitimately changed. What it must never absorb
+   is a change under :by-variant — that would mean a card's bytes moved, which
+   is the drift this baseline exists to catch."
   (str "{:by-variant {:dark {\"a-screen\" {:sha256 \"dark-a-screen\", :w 10, :h 20},"
        " \"b-screen\" {:sha256 \"dark-b-screen\", :w 10, :h 20}},"
        " :light {\"a-screen\" {:sha256 \"light-a-screen\", :w 10, :h 20}}},"
        " :findings [{:invariant :zero-area, :node \"lv_label#1\","
        " :variant :dark, :id \"a-screen\"}],"
+       " :trees [],"
        " :errors [{:variant :light, :id \"b-screen\","
        " :error \"renderer rejected screen\"}]}"))
 
@@ -93,7 +100,7 @@
        " \"b-screen\" {:sha256 \"dark-b-screen\", :w nil, :h nil}},"
        " :light {\"a-screen\" {:sha256 \"light-a-screen\", :w nil, :h nil},"
        " \"b-screen\" {:sha256 \"light-b-screen\", :w nil, :h nil}}},"
-       " :findings [], :errors []}"))
+       " :findings [], :trees [], :errors []}"))
 
 (deftest render-corpus-keeps-the-nil-filled-card-skeleton
   (testing "a render fn that omits :w/:h still gets them, explicitly nil,
@@ -174,3 +181,35 @@
       (is (= {:type "lv_label" :coords [2 2 3 3] :uid 42 :children []}
              (probe/find-uid tree 42)))
       (is (nil? (probe/find-uid tree 999))))))
+
+(defn- tree-result
+  "Render stand-in that returns a dump TREE beside the documented set — the
+   shape of a consumer that already holds each tree because it judged the card
+   with it, and wants it back without a second render pass."
+  [{:keys [id]} {vk :key}]
+  (assoc (fake-result {:id id} {:key vk})
+         :tree {:type "lv_obj" :id (str (name vk) "-" id)}))
+
+(deftest tree-is-routed-to-its-channel-and-never-into-the-card
+  (let [{:keys [by-variant trees]} (corpus/render-corpus screens variants tree-result)]
+    (testing "the tree does NOT ride into the golden entry — that is the whole
+              reason it is consumed rather than left to ride along, since a
+              manifest carrying a dump tree per card is unreviewable and would
+              churn on every renderer change"
+      (is (= {:sha256 "dark-a-screen" :w 10 :h 20}
+             (get-in by-variant [:dark "a-screen"]))
+          "a :tree key reached card-of — it must be stripped by consumed-card-keys"))
+    (testing "and it arrives on the channel, tagged like a finding"
+      (is (= 3 (count trees)) "one per SUCCESSFUL pair; the errored pair contributes none")
+      (is (= #{{:variant :dark :id "a-screen" :tree {:type "lv_obj" :id "dark-a-screen"}}
+               {:variant :dark :id "b-screen" :tree {:type "lv_obj" :id "dark-b-screen"}}
+               {:variant :light :id "a-screen" :tree {:type "lv_obj" :id "light-a-screen"}}}
+             (set trees))))))
+
+(deftest a-render-fn-with-no-tree-contributes-nothing
+  ;; `keep`, not `map`: the absence must be EMPTY rather than a vector of
+  ;; {:tree nil}, so a consumer can tell "this driver carried no trees" from
+  ;; "every card had a nil one". The two read identically at a call site that
+  ;; only checks `seq`, and the second is a defect wearing the first's clothes.
+  (testing "a documented-set render fn yields an empty channel, not nil entries"
+    (is (= [] (:trees (corpus/render-corpus screens variants fake-result))))))

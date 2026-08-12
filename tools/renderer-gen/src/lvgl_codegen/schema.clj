@@ -214,9 +214,21 @@
    :notify-host — also send to host when mutating subject
    :cmd — R5a pre-encoded cmd.* template (uigen.cmd-spec) for a value command
    :cmd-by-value — R5a pre-encoded FIXED cmd.* templates the widget's int value
-     index-selects among (bool-set/on-off/enum); mutually exclusive with :cmd"
+     index-selects among (bool-set/on-off/enum); mutually exclusive with :cmd
+
+   THE MAP IS CLOSED, so the list above is the AUTHORITATIVE key set rather than
+   a summary of one. Every emitter reads a fixed set of keys, so an undeclared
+   key was dropped without a word: a typo validated clean and produced a control
+   that read as authored and did nothing — the same silent-substitution failure
+   the :to clause below was added for, one axis over. The :props axis has always
+   had this guard, and `gesture-step-def` above already closes its own map.
+
+   AUTHORING KEYS NEVER REACH HERE, which is what makes closing safe. :cmd-fixed
+   and :cmd-value are rewritten to :cmd before validation runs, and this repo
+   authors neither — so the closure rejects only genuine typos, not an authored
+   shape."
   [:and
-   [:map [:trigger {:optional true} [:enum :value-changed :long-press]]
+   [:map {:closed true} [:trigger {:optional true} [:enum :value-changed :long-press]]
     [:int-value {:optional true} int?] [:include-value {:optional true} boolean?]
     [:set {:optional true} keyword?] [:to {:optional true} int?]
     [:toggle {:optional true} keyword?] [:notify-host {:optional true} boolean?]

@@ -140,7 +140,27 @@
                   :prefixes [["border-color-" :ref] ["border-" :ref]]}
    :bg-grad-color {:proto :PROP_BG_GRAD_COLOR :slot :color_value :resolve :color}
    :bg-image-recolor {:proto :PROP_BG_IMAGE_RECOLOR :slot :color_value :resolve :color}
-   :outline-color {:proto :PROP_OUTLINE_COLOR :slot :color_value :resolve :color}
+   ;; OUTLINE IS THE NON-LAYOUT-BEARING BOUNDARY. `lv_style.c` flags
+   ;; LV_STYLE_BORDER_WIDTH with LV_STYLE_PROP_FLAG_LAYOUT_UPDATE, while
+   ;; OUTLINE_WIDTH and OUTLINE_PAD carry EXT_DRAW_UPDATE and OUTLINE_COLOR
+   ;; carries 0. Those are three distinct values, not "no flag": a state style
+   ;; built from an outline changes what is DRAWN without moving the box, which
+   ;; is what a focus or disabled ring needs.
+   ;;
+   ;; EXT_DRAW_UPDATE IS ALSO THE PREDICTION AN AUTHOR NEEDS. It is the flag
+   ;; that says the paint extends BEYOND the widget's own area, so an outline
+   ;; rendered flush against a parent edge or the canvas origin is CLIPPED —
+   ;; which is why fixtures that observe one give it inset, and why a macro
+   ;; carrying one owes its users a standoff. Reading it as "unflagged" loses
+   ;; exactly that.
+   ;;
+   ;; The widths resolve through the EXISTING border-width family rather than a
+   ;; new token layer: the two are the same scale, and inventing a family for
+   ;; three values already on it would be a second home for one fact.
+   :outline-color {:proto :PROP_OUTLINE_COLOR
+                   :slot :color_value
+                   :resolve :color
+                   :prefixes [["outline-color-" :ref]]}
    :shadow-color {:proto :PROP_SHADOW_COLOR :slot :color_value :resolve :color}
    :image-recolor {:proto :PROP_IMAGE_RECOLOR :slot :color_value :resolve :color}
    :line-color {:proto :PROP_LINE_COLOR :slot :color_value :resolve :color}
@@ -251,8 +271,16 @@
    :margin-right {:proto :PROP_MARGIN_RIGHT :slot :int_value}
    :bg-main-stop {:proto :PROP_BG_MAIN_STOP :slot :int_value}
    :bg-grad-stop {:proto :PROP_BG_GRAD_STOP :slot :int_value}
-   :outline-width {:proto :PROP_OUTLINE_WIDTH :slot :int_value}
-   :outline-pad {:proto :PROP_OUTLINE_PAD :slot :int_value}
+   ;; See the outline note beside :outline-color — the widths share the
+   ;; border-width scale, the pad shares the spacing scale.
+   :outline-width {:proto :PROP_OUTLINE_WIDTH
+                   :slot :int_value
+                   :resolve :border-width
+                   :prefixes [["outline-w-" :ref]]}
+   :outline-pad {:proto :PROP_OUTLINE_PAD
+                 :slot :int_value
+                 :resolve :spacing
+                 :prefixes [["outline-pad-" :ref]]}
    :shadow-width {:proto :PROP_SHADOW_WIDTH :slot :int_value}
    :shadow-offset-x {:proto :PROP_SHADOW_OFFSET_X :slot :int_value}
    :shadow-offset-y {:proto :PROP_SHADOW_OFFSET_Y :slot :int_value}
