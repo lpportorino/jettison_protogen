@@ -101,6 +101,7 @@
    ;; ── border widths ──
    :border-width-default :border-width
    :border-width-focus :border-width
+   :border-width-edited :border-width
    :border-width-bold :border-width})
 
 (defn check-classification!

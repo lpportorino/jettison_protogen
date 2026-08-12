@@ -631,14 +631,31 @@ static void style_init(asgard_theme_t *t) {
   /* edited-state ring — asgard-only. The SAME cyan as an OUTLINE for the
    * encoder-edit state (slider/bar/roller/spinbox/textarea), replacing stock's
    * red color_secondary edited outline (red collides semantically with
-   * :status-error AND measured under the light-surface boundary floor). The
-   * ring geometry mirrors the focus ring so both crisp affordance rings agree.
-   * Vanilla stays empty so vanilla-equals-stock holds by scope. */
+   * :status-error AND measured under the light-surface boundary floor).
+   * Vanilla stays empty so vanilla-equals-stock holds by scope.
+   *
+   * THE RING IS WIDER THAN THE FOCUS RING, AND THAT WIDTH IS THE ROLE
+   * DISTINCTION — it is not decoration. This geometry used to MIRROR the focus
+   * ring exactly (same width, same pad, differing only in tone), which left
+   * COLOUR as the sole discriminator between focused and edited. That was
+   * survivable only while the two tones differed, and it stopped being
+   * survivable when :focused-edge's light rung had to move onto :cyan-dim to
+   * clear the 3:1 non-text floor — the tone the edited ring already paints.
+   * Separating on width instead holds in BOTH modes, survives greyscale and
+   * colour-blindness, and leaves :checked-accent's deliberate mode-invariance
+   * unspent.
+   *
+   * THE PAD DELIBERATELY DOES NOT GROW WITH IT. An outline's corner radius
+   * grows with its PAD, and the focus ring records why that matters: a 2px pad
+   * swept a visibly rounded cap around the crisp 2px-radius controls. Widening
+   * the stroke outward carries the whole distinction without reintroducing
+   * that artefact, so both rings keep the same 1px standoff and the same
+   * near-crisp corner. */
   style_reset(&s->edited_edge, inited);
   if (!v) {
     lv_style_set_outline_color(
         &s->edited_edge, mode_hex(t, THEME_CHECKED_DARK, THEME_CHECKED_LIGHT));
-    lv_style_set_outline_width(&s->edited_edge, THEME_OUTLINE_W);
+    lv_style_set_outline_width(&s->edited_edge, THEME_EDITED_W);
     lv_style_set_outline_pad(&s->edited_edge, THEME_BORDER_W);
     lv_style_set_outline_opa(&s->edited_edge, LV_OPA_COVER);
   }
@@ -1276,6 +1293,22 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       /* DISABLED — the FADE variant: a bar is a track and a fill, no glyph
        * (see the disabled_dim init comment for the precondition). */
       lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
+      /* FOCUS ring — a bar took the EDITED ring below but not this one, so its
+       * focus fell through to the stock parent's, which paints color_primary:
+       * an off-token violet measured under the 3:1 non-text floor in BOTH
+       * modes, on a widget whose eight peers in the asgard focus group all
+       * ring cyan.
+       *
+       * THAT IS THE SCOPE OF THE CLAIM, AND IT IS NARROWER THAN THE DEFECT.
+       * theme_apply themes eighteen classes, not nine; lv_buttonmatrix and
+       * lv_table fall through to the SAME violet, and lv_dropdown to stock's
+       * red edited outline this file rejects elsewhere. Those are pre-existing
+       * and are NOT fixed here — read this as "bar was the ninth focus-group
+       * member missing its ring", never as the class being closed. It was
+       * invisible to every deterministic lane — the goldens were self-
+       * consistent and no oracle compares one widget's tone against another's
+       * — and surfaced only as a cross-card finding in a VLM review. */
+      lv_obj_add_style(obj, &t->styles.focus, LV_STATE_FOCUS_KEY);
       /* Edited (encoder-adjust) ring — cyan over stock's red edited outline. */
       lv_obj_add_style(obj, &t->styles.edited_edge, LV_STATE_EDITED);
       /* A bar IS a slider track (same pill stock geometry); squaring the

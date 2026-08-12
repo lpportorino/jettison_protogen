@@ -137,12 +137,12 @@
    :h 480},
   "lv_bar/edited/medium/mid"
   {:sha256
-   "d2f43b23701d919322f72b52641f6e0cd48529e203701073f8c27f7c72a6ee4d",
+   "27831cabc9505064fa6f9c34b094ff88a78a7fa6a4d762dcef393766edd2ca6e",
    :w 800,
    :h 480},
   "lv_bar/focus-key/medium/mid"
   {:sha256
-   "6d0eb93414f5b063c61d53a1a6f73e0ffed130d8a5a341d62b372db4277be142",
+   "d9b5f02872fd4164147480153974842260d1411b51ef4de6bd61b885dbe96779",
    :w 800,
    :h 480},
   "lv_button/checked/large"
@@ -682,17 +682,17 @@
    :h 480},
   "lv_roller/edited/large/mid"
   {:sha256
-   "30c4df2670494ccbaf7c3227b9bb38480219eba8f1086a9d368b491538af0041",
+   "df596161beaca42a8097b824f4271532fcc8fb6b13072bd9cbc142a873b0483e",
    :w 800,
    :h 480},
   "lv_roller/edited/medium/mid"
   {:sha256
-   "78ab70e968fee748c1ba51ea55279a255a3741dc2254b0163fe12b622ae8beae",
+   "520221ca2fbc4183a4a64abcfe97e82ade44a38fd09cc04edd1149b712e97c25",
    :w 800,
    :h 480},
   "lv_roller/edited/small/mid"
   {:sha256
-   "8cd5614406b39534d4cceefeeb72914abf93da11f0f5b3eff5b64a3fac7db58b",
+   "1bd2db39e47be94366628b0200aa679fe206a970afdaa7bba2671f3fcb4b1f19",
    :w 800,
    :h 480},
   "lv_roller/focus-key/large/mid"
@@ -832,7 +832,7 @@
    :h 480},
   "lv_slider/edited/medium/mid"
   {:sha256
-   "858a2dd08e680380550d3c016a4cb1b6d07f7c06c54ace56e9ce7e692d8c6ecf",
+   "cc6072366d3813603b85afebfc971e4b6cab056b50560a1b833e4128de60f9c5",
    :w 800,
    :h 480},
   "lv_slider/focus-key/large/mid"
@@ -922,17 +922,17 @@
    :h 480},
   "lv_spinbox/edited/large"
   {:sha256
-   "a7fc87b1c406b6ed1ec0000dc2b4134f39e07ebdbe4781c71f27465649ca9531",
+   "f978c03956f299597a1900be69661f7bd4f30690cc43fe78a6d224f4d6db5f0f",
    :w 800,
    :h 480},
   "lv_spinbox/edited/medium/mid"
   {:sha256
-   "70e89053fee8f9e7699ae2aaa165da9dcdc7d03ac4b9351fb727417ec6d45c77",
+   "720143e9a40ca30ec329540f96fb2f63245dcc57e8479a170c0ac59027315cef",
    :w 800,
    :h 480},
   "lv_spinbox/edited/small"
   {:sha256
-   "e70d468b147b2a70d3f4acb169e588546cc12b52040c6e8ff17928c4cc8b5e93",
+   "db33b6d72a8ab233d1c79057dc2d9295370816e6942f600bb5bce2ba2f0479e8",
    :w 800,
    :h 480},
   "lv_spinbox/focus-key/large"
@@ -1212,7 +1212,7 @@
    :h 480},
   "lv_textarea/edited/medium"
   {:sha256
-   "0b9723c652ba041a6f85d087efa2182c70d293ece9abbb6b008ee7facc3dc1e5",
+   "fec02c9435e8c1c7490d32c84dff110f1d3c5ebdd8d17b8d45decbd85636cd0b",
    :w 800,
    :h 480},
   "lv_textarea/focus-key/medium"

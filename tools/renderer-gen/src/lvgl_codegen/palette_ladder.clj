@@ -1338,9 +1338,11 @@
                    (non-text-pair :surface-2 :token-comment)]}
     {:role :focused-edge
      :kind :solved
-     :shipped {:dark "#22D3EE" :light "#0891B2"}
+     :shipped {:dark "#22D3EE" :light "#0E7490"}
      :chroma-retain-min 0.5
-     :constraints [(non-text-pair :surface-1 :inferred)]}
+     :note "The light rung is the SAME value :checked-accent ships, and that is deliberate rather than a collision: the focus and edited rings are separated by outline WIDTH (:border-width-focus vs :border-width-edited), not by tone. Light had to move off #0891B2 because it measures 2.77:1 on surface-1, under the 3:1 non-text floor — the identical measurement that moved :checked-accent to this value. Dark keeps its own brighter rung, so the two differ there by tone AND width. THE SURFACE-2 CONSTRAINT IS WHAT MAKES THE COLLAPSE NECESSARY, and declaring surface-1 alone understated it: against surface-1 only there is more than a full ladder rung of headroom above #0E7490 that still clears 3:1, which would have left room to keep a distinct tone. Across surface-0/1/2 the headroom is about half a rung, and that is the compression this role actually sits under. NOTE the ladder pins a FOURTH surface: on :surface-overlay light (#C0C0A8) this value measures 2.90:1, under the floor — not constrained here because an outline clears the CONTAINER's fill and no shipped composition is known to host a focusable control on that role, and because the tone it replaces measured 1.99:1 there. Stated so the constraint set is read as scoped rather than as complete."
+     :constraints [(non-text-pair :surface-1 :token-comment)
+                   (non-text-pair :surface-2 :token-comment)]}
     {:role :checked-accent
      :kind :solved
      :shipped "#0E7490"
