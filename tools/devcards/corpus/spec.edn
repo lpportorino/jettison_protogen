@@ -2574,7 +2574,7 @@
      :states-bits 16
      :wrapper
      {:notes
-      "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+      "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Every card of the class carries the SAME wrapper, so a state card hash-compares against a content-identical baseline — that, not crop slack, is what the size has to satisfy. border-width 0 per the harness-geometry rule."
       :props {:border-width 0 :h 96 :pad-all 8 :w 216}}}
     {:expect :distinct
      :id "lv_buttonmatrix/edited/medium"
@@ -2586,7 +2586,7 @@
      :states-bits 32
      :wrapper
      {:notes
-      "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+      "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Every card of the class carries the SAME wrapper, so a state card hash-compares against a content-identical baseline — that, not crop slack, is what the size has to satisfy. border-width 0 per the harness-geometry rule."
       :props {:border-width 0 :h 96 :pad-all 8 :w 216}}}
     {:expect :baseline
      :id "lv_buttonmatrix/default/flex-fit"
@@ -2671,7 +2671,7 @@
             :states-bits 16
             :wrapper
             {:notes
-             "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+             "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Every card of the class carries the SAME wrapper, so a state card hash-compares against a content-identical baseline — that, not crop slack, is what the size has to satisfy. border-width 0 per the harness-geometry rule."
              :props {:border-width 0 :h 176 :pad-all 8 :w 376}}}
            {:expect :distinct
             :id "lv_table/edited/medium"
@@ -2683,7 +2683,7 @@
             :states-bits 32
             :wrapper
             {:notes
-             "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Sized generously because the gallery content-crops, so slack costs nothing. border-width 0 per the harness-geometry rule."
+             "Focus/edited-ring standoff, the textarea/spinbox idiom: the outline draws OUTSIDE the box, so rendered at origin only its right+bottom arcs survive the canvas clip. Every card of the class carries the SAME wrapper, so a state card hash-compares against a content-identical baseline — that, not crop slack, is what the size has to satisfy. border-width 0 per the harness-geometry rule."
              :props {:border-width 0 :h 176 :pad-all 8 :w 376}}}]
    :committed-states [:default :disabled :focus-key :edited]
    :declared-count 8
