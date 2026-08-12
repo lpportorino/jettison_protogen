@@ -134,6 +134,58 @@ fn fnv1a32(data: &[u8]) -> u32 {
     h
 }
 // ═══════════════════════════════════════════════════════════════════
+// Artifact provenance — every verdict below is about controls.wasm's BYTES
+// ═══════════════════════════════════════════════════════════════════
+
+/// Every framebuffer verdict in this file describes the BYTES of
+/// `renderer/output/controls.wasm`, never the C now in the tree — and the two
+/// run shapes disagree about how those bytes get there. `make -f renderer.mk
+/// harness` declares `wasm` as a prerequisite and RELINKS the artifact before
+/// it runs cargo; a bare `cargo test --test visual_regression` builds nothing
+/// and grades whichever module happens to be on disk. An isolated run can
+/// therefore judge a binary the sources no longer describe and report the
+/// result as a statement about the sources.
+///
+/// Measured, and the whole reason this test exists: one falsifier returned
+/// OPPOSITE verdicts in the two shapes — passing alone, failing under the
+/// battery — with a relink landing between them. Neither run said the artifact
+/// had moved, so the disagreement read as harness nondeterminism, and that
+/// reading survived long enough to be written down. It is not available as an
+/// explanation here: this module imports no clock and the host advances a fixed
+/// virtual tick, so load and scheduling have no path into a render.
+///
+/// `renderer/tools/wasm_inputs_verify.sh` recomputes the link's input digest
+/// from the tree and compares it against the sidecar the link itself wrote. Its
+/// exit codes are a caller-facing contract — 0 agree, 1 CONTENT DRIFT, 3 CANNOT
+/// RUN — and a 3 fails here exactly like a 1: a comparison that did not happen
+/// is not a comparison that passed.
+#[test]
+fn wasm_artifact_is_not_older_than_the_renderer_sources() {
+    let renderer_dir = repo_root();
+    let script = renderer_dir.join("tools/wasm_inputs_verify.sh");
+    let output = std::process::Command::new("bash")
+        .arg(&script)
+        .arg("--artifact")
+        .arg(renderer_dir.join("output/controls.wasm"))
+        .arg("--sidecar")
+        .arg(renderer_dir.join("output/controls.wasm.build-inputs"))
+        .arg("--renderer-dir")
+        .arg(&renderer_dir)
+        .output()
+        .unwrap_or_else(|err| panic!("could not run {}: {err}", script.display()));
+    assert!(
+        output.status.success(),
+        "controls.wasm does not correspond to the renderer sources in this tree, \
+         so every framebuffer verdict in this file is about a different binary. \
+         Relink with `make -f renderer.mk wasm` and re-run.\n\
+         verifier exit: {:?}\nstdout: {}\nstderr: {}",
+        output.status.code(),
+        String::from_utf8_lossy(&output.stdout).trim(),
+        String::from_utf8_lossy(&output.stderr).trim(),
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // Framebuffer dimension safety (Stage 5a memory-safety)
 // ═══════════════════════════════════════════════════════════════════
 
