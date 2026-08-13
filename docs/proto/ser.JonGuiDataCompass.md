@@ -63,7 +63,7 @@ Azimuth angle in degrees (0=North, clockwise)
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### elevation (#2)
@@ -74,7 +74,7 @@ Elevation angle in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### bank (#3)
@@ -85,7 +85,7 @@ Bank/roll angle in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### offsetAzimuth (#4)

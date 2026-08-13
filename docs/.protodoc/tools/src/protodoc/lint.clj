@@ -288,6 +288,147 @@
 ;; Rule registry and orchestrator
 ;; ============================================================================
 
+(def ^:private display-format-suffix-pattern
+  "Literal text trailing the LAST `{...}` placeholder in a display-format."
+  #"\}([^{}]*)$")
+
+(defn- display-format-unit-suffix
+  "The trimmed literal a display-format prints AFTER its last placeholder, or nil
+   when the format carries no placeholder at all.
+
+   THE NO-FALSE-POSITIVE CLAIM IS NARROWER THAN IT SOUNDS, so it is stated
+   precisely: no POPULATION-LEVEL judgement enters, because both keys belong to
+   one field. That is not the same as the predicate being unconditionally safe.
+   It compares the trimmed literal against the unit, and `str/trim` strips
+   Unicode whitespace via `Character/isWhitespace` — which by definition EXCLUDES
+   the non-breaking spaces. Measured: U+2009, U+2000, U+205F, U+1680 and U+3000
+   are all above U+0020 and ARE stripped, while U+00A0, U+2007 and U+202F survive
+   and read as part of the spelling. U+202F is a standard unit separator, so that
+   is the realistic case rather than a contrived one; the value of the codepoint
+   decides nothing.
+   A decorated suffix does the same: `{value} m (AGL)` prints `m (AGL)`, which
+   is a correct format against a correct unit. This corpus carries neither today
+   (zero NBSP), so the rule is clean here rather than clean by construction.
+
+   THE NO-PLACEHOLDER CASE IS NOT A DEGENERATE ONE, IT IS LIVE. The corpus
+   carries at least one display-format that is a standing LABEL rather than a
+   value template. Such a string prints no value, so it declares no unit, and
+   taking the text after a non-existent brace would hand the whole label back as
+   a spelling — a guaranteed false finding against a field that is not wrong.
+   Returning nil is what keeps the rule below incapable of a false positive."
+  [fmt]
+  (when-let [m (re-find display-format-suffix-pattern fmt)]
+    (let [suffix (str/trim (second m))]
+      (when (seq suffix) suffix))))
+
+(defn- unit-contradicts-display-format
+  "Fields whose declared unit disagrees with the unit their own display-format
+   prints.
+
+   PER-FIELD, NO GROUPING, NO VOCABULARY. Both keys belong to ONE field, so the
+   field disagrees with itself and no corpus-wide judgement is involved. That is
+   what makes it free of false positives in a tool with no allowlist: there is no
+   population whose members might legitimately differ.
+
+   IT IS A CONSISTENCY RULE, NOT A WRONG-UNIT-ON-SCREEN RULE, and the difference
+   is worth stating because the stronger claim is the tempting one. Every finding
+   it produces is ONE QUANTITY SPELLED TWO WAYS. A consumer's display-unit
+   prefers the unit key where present, so a mismatch here puts a
+   correct-but-differently-spelled label on screen, never a false quantity. Do
+   not sell it as an accuracy gate.
+
+   RESOLVE TOWARD WHAT THE FIELD PRINTS. The display-format is the half a reader
+   actually sees, so it decides; the precedent is the hand-fix that resolved
+   meters -> m on exactly that ground rather than by counting the corpus."
+  [db]
+  (for [[_id msg] (:messages db)
+        field (:fields msg)
+        :let [inter (:interaction field)
+              unit (:unit inter)
+              fmt (:display-format inter)]
+        :when (and unit fmt)
+        :let [suffix (display-format-unit-suffix fmt)]
+        :when (and suffix (not= suffix unit))]
+    {:rule     :unit-contradicts-display-format
+     :severity :error
+     :id       (:id msg)
+     :field    (:name field)
+     :message  (format "field '%s': declares :unit \"%s\" but its display-format \"%s\" prints \"%s\" — one quantity spelled two ways; make the two keys agree"
+                       (:name field) unit fmt suffix)}))
+
+(defn- unit-bearing-fields
+  "Every field declaring a unit, flattened with its description and the literal
+   its own display-format prints (nil when it declares no value template)."
+  [db]
+  (for [[_id msg] (:messages db)
+        field (:fields msg)
+        :let [inter (:interaction field)]
+        :when (:unit inter)]
+    {:id     (:id msg)
+     :name   (:name field)
+     :desc   (:description field)
+     :unit   (:unit inter)
+     :prints (some-> (:display-format inter) display-format-unit-suffix)}))
+
+(defn- unit-disagrees-across-identical-descriptions
+  "Fields sharing a byte-identical description whose declared units disagree AND
+   whose own display-formats settle which spelling is right.
+
+   BYTE-IDENTICAL DESCRIPTION IS NOT SUFFICIENT ON ITS OWN, and believing it was
+   is what made an earlier draft of this rule fire on CORRECT data. The tempting
+   justification — two fields described identically are the same quantity by the
+   corpus's own statement — fails whenever the description is BOILERPLATE. The
+   live counter-example: nine fields share one generic step-offset description
+   across commands that step days, hours, minutes, months, seconds, timezones and
+   years; two of them declare a unit, they disagree, and BOTH ARE RIGHT. The
+   quantity lives in the message name, which this key cannot see.
+
+   SO THE GROUP MUST ARBITRATE ITSELF, and the display-format is how. Fire only
+   when the format evidence (a) is carried by fields on MORE THAN ONE SIDE of the
+   unit split and (b) agrees on one spelling.
+
+   (a) IS THE CLAUSE THAT DOES THE WORK, and dropping it looks harmless. Without
+   it, a group whose single format sits on the DISPUTED field arbitrates in that
+   field's own favour — and the one genuine cross-field quantity dispute in this
+   corpus is exactly that shape, a lone microsecond field among nanosecond
+   siblings, carrying the only template. Requiring the evidence to CROSS the
+   split is what stops the rule asserting the wrong answer to the one question it
+   cannot answer.
+
+   (b) is what lets the finding name a RESOLUTION rather than only reporting
+   disagreement, which matters in a tool with no allowlist: a finding that cannot
+   be acted on can only be silenced by deleting the rule.
+
+   IT IS SUBORDINATE TO THE PER-FIELD RULE, which makes it a ONE-SHOT CLEANUP
+   rule rather than a standing guard, and that is worth knowing before relying on
+   it. Its arbiters are exactly the fields carrying both keys — and in a corpus
+   where the per-field rule is green, every such field already has unit equal to
+   what it prints. Then all arbiters agree with their own units, the spelling set
+   collapses to one, and the more-than-one-side clause can never be satisfied.
+   Since this lint is blocking with no allowlist, per-field-green IS the enforced
+   steady state, so after the initial cleanup this rule cannot fire again.
+
+   IT DELIBERATELY UNDER-REPORTS. A group whose formats all sit on one side is
+   refused even when the disagreement is a real spelling split, because nothing
+   in the corpus settles it — that is human judgement, and a rule widened until
+   it covers those cases is a rule firing on the generic-description group again."
+  [db]
+  (for [[desc group] (group-by :desc (unit-bearing-fields db))
+        :when (and desc (< 1 (count (distinct (map :unit group)))))
+        :let [arbiters  (filter :prints group)
+              sides     (distinct (map :unit arbiters))
+              spellings (distinct (map :prints arbiters))]
+        :when (and (< 1 (count sides)) (= 1 (count spellings)))
+        :let [answer (first spellings)]
+        f group
+        :when (not= (:unit f) answer)]
+    {:rule     :unit-disagrees-across-identical-descriptions
+     :severity :error
+     :id       (:id f)
+     :field    (:name f)
+     :message  (format "field '%s': declares :unit \"%s\" while fields described identically (\"%s\") print \"%s\" — their own display-formats agree across the split, so \"%s\" is the spelling"
+                       (:name f) (:unit f) desc answer answer)}))
+
 (def default-rules
   "Registry of all lint rules."
   {:enum-values-undocumented        enum-values-undocumented
@@ -298,7 +439,9 @@
    :unresolved-state-field          unresolved-state-field
    :description-vague               description-vague
    :constrained-fields-undocumented constrained-fields-undocumented
-   :percent-display-precision       percent-display-precision})
+   :percent-display-precision       percent-display-precision
+   :unit-contradicts-display-format unit-contradicts-display-format
+   :unit-disagrees-across-identical-descriptions unit-disagrees-across-identical-descriptions})
 
 (defn lint
   "Run lint rules against a proto database.

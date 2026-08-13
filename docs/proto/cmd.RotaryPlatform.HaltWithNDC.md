@@ -120,7 +120,7 @@ State snapshot timestamp for synchronization
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** us
+- **Unit:** μs
 - **Display Format:** `{value} μs`
 
 

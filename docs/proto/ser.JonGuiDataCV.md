@@ -64,6 +64,8 @@ That split is why a fact an opaque payload already carries can also appear here,
 | 71 | camera_transform_heat | [[proto/ser.JonGuiDataTransform3D]] | - |
 | 80 | tracked_objects | repeated [[proto/ser.JonGuiDataTrackedObject]] | - |
 | 90 | trinity_tracking_active | bool | - |
+| 91 | zoom_roi_active_day | bool | - |
+| 92 | zoom_roi_active_heat | bool | - |
 
 
 ## Oneofs

@@ -60,7 +60,7 @@ Horizontal offset delta in pixels
 #### Metadata
 
 - **Semantic Type:** :raw
-- **Unit:** pixels
+- **Unit:** px
 - **Display Format:** `{value}px`
 
 
@@ -72,7 +72,7 @@ Vertical offset delta in pixels
 #### Metadata
 
 - **Semantic Type:** :raw
-- **Unit:** pixels
+- **Unit:** px
 - **Display Format:** `{value}px`
 
 

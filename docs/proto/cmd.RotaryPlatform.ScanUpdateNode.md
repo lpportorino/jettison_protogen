@@ -89,7 +89,7 @@ Azimuth angle in degrees (0=North, clockwise)
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### elevation (#5)
@@ -100,7 +100,7 @@ Elevation angle in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### linger (#6)

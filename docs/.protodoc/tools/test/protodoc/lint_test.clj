@@ -489,3 +489,113 @@
       (is (str/includes? output "WARNINGS (1)"))
       (is (str/includes? output "INFO (1)"))
       (is (str/includes? output "1 errors, 1 warnings, 1 info")))))
+
+;; ============================================================================
+;; unit-contradicts-display-format  (rule A)
+;; ============================================================================
+
+(defn- ua-db
+  "One-message DB whose single field carries the given field-level interaction."
+  [interaction]
+  (make-db :messages {"test.M" (make-msg "test.M"
+                                         :fields [(make-field "value" :double
+                                                              :description "Angle"
+                                                              :interaction interaction)])}))
+
+(defn- ua-findings [interaction]
+  (:findings (lint/lint (ua-db interaction) :rules #{:unit-contradicts-display-format})))
+
+(deftest unit-contradicts-display-format-test
+  (testing "Flags a field whose unit and its own display-format spell one quantity two ways"
+    (let [findings (ua-findings {:unit "degrees" :display-format "{value}°"})]
+      (is (= 1 (count findings)))
+      (is (= :unit-contradicts-display-format (:rule (first findings))))
+      (is (= :error (:severity (first findings))))
+      (is (= "value" (:field (first findings))))
+      (is (str/includes? (:message (first findings)) "degrees"))
+      (is (str/includes? (:message (first findings)) "°"))))
+
+  (testing "Clean when the two keys agree"
+    (is (empty? (ua-findings {:unit "°" :display-format "{value}°"}))))
+
+  (testing "Clean when the suffix is separated by whitespace but names the same unit"
+    (is (empty? (ua-findings {:unit "m" :display-format "{value} m"}))))
+
+  (testing "Clean for the canonical percent shape — the suffix IS the unit"
+    (is (empty? (ua-findings {:unit "%" :display-format "{value * 100}%"}))))
+
+  ;; THE FALSE-POSITIVE GUARD. A display-format carrying no placeholder is a
+  ;; standing LABEL, not a value template — it prints no value, so it declares no
+  ;; unit. Without the guard the whole label is taken as a spelling and the field
+  ;; is flagged for a contradiction it does not have. This case is why the rule
+  ;; can claim zero false positives.
+  (testing "Clean when the display-format is a label rather than a value template"
+    (is (empty? (ua-findings {:unit "normalized" :display-format "Shift value (±0.01)"}))))
+
+  (testing "Clean when the template prints no trailing literal at all"
+    (is (empty? (ua-findings {:unit "ns" :display-format "{value}"}))))
+
+  (testing "Silent when the field declares only one of the two keys"
+    (is (empty? (ua-findings {:unit "degrees"})))
+    (is (empty? (ua-findings {:display-format "{value}°"})))))
+
+;; ============================================================================
+;; unit-disagrees-across-identical-descriptions  (rule B)
+;; ============================================================================
+
+(defn- ub-db
+  "DB of one message whose fields are [name unit display-format description]."
+  [specs]
+  (make-db :messages
+           {"test.M" (make-msg "test.M"
+                               :fields (vec (for [[n u f d] specs]
+                                              (make-field n :double
+                                                          :description d
+                                                          :interaction (cond-> {}
+                                                                         u (assoc :unit u)
+                                                                         f (assoc :display-format f))))))}))
+
+(defn- ub-findings [specs]
+  (:findings (lint/lint (ub-db specs)
+                        :rules #{:unit-disagrees-across-identical-descriptions})))
+
+(def ^:private angle-desc "Azimuth angle in degrees")
+
+(deftest unit-disagrees-across-identical-descriptions-test
+  (testing "Flags the minority when templates on BOTH sides of the split agree"
+    (let [findings (ub-findings [["a" "°"       "{value}°" angle-desc]
+                                 ["b" "degrees" "{value}°" angle-desc]
+                                 ["c" "degrees" nil        angle-desc]])]
+      (is (= 2 (count findings)))
+      (is (every? #(= :unit-disagrees-across-identical-descriptions (:rule %)) findings))
+      (is (= #{"b" "c"} (set (map :field findings))))
+      (is (str/includes? (:message (first findings)) "degrees"))
+      (is (str/includes? (:message (first findings)) "°"))))
+
+  ;; THE REFUSAL THAT MATTERS. When the group's ONLY template sits on the
+  ;; disputed field, that field arbitrates in its own favour and the rule would
+  ;; assert the minority spelling as the answer. The live instance is a lone
+  ;; microsecond field among nanosecond siblings carrying the only template — a
+  ;; genuine quantity dispute this rule cannot settle and must not pretend to.
+  (testing "REFUSES when the only template belongs to the disputed field"
+    (is (empty? (ub-findings [["a" "nanoseconds" nil         "State snapshot timestamp"]
+                              ["b" "nanoseconds" nil         "State snapshot timestamp"]
+                              ["c" "us"          "{value} μs" "State snapshot timestamp"]]))))
+
+  ;; A GENERIC description groups genuinely different quantities. This is the
+  ;; case that refuted the rule's original key, and both units here are CORRECT.
+  (testing "REFUSES a group carrying no templates at all"
+    (is (empty? (ub-findings [["a" "minutes" nil "Step offset value"]
+                              ["b" "months"  nil "Step offset value"]]))))
+
+  (testing "REFUSES when the templates disagree in kind"
+    (is (empty? (ub-findings [["a" "normalized" "Shift value (±0.01)" "Signed offset value"]
+                              ["b" "%"          "{value * 100}%"      "Signed offset value"]]))))
+
+  (testing "Silent when the group agrees on one unit"
+    (is (empty? (ub-findings [["a" "°" "{value}°" angle-desc]
+                              ["b" "°" nil        angle-desc]]))))
+
+  (testing "Silent across DIFFERENT descriptions even when the units disagree"
+    (is (empty? (ub-findings [["a" "degrees" "{value}°" "Azimuth angle"]
+                              ["b" "°"       "{value}°" "Elevation angle"]])))))
