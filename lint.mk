@@ -88,6 +88,28 @@ NPROC := $(shell nproc 2>/dev/null \
 # `clang-format` is the host fallback for a read-only check.
 CLANG_FORMAT := $(firstword $(wildcard /opt/wasi-sdk/bin/clang-format) clang-format)
 
+# EVERY JVM THIS FILE SPAWNS WRITES FINDINGS, AND THE IMAGE SETS NO UTF-8 LOCALE,
+# so a finding quoting a non-ASCII character loses it AT WRITE TIME. Measured:
+# LANG and LC_ALL are both unset, and `java -XshowSettings:properties` reports
+# stdout.encoding = ANSI_X3.4-1968 (so does native.encoding). The doc lint's
+# output then carried 105 `?` and ZERO bytes above 127 — the characters are gone
+# from the file, not merely rendered oddly.
+#
+# `file.encoding` IS NOT THE LEVER, and is the obvious wrong fix: it already
+# reports UTF-8 here, so setting it changes nothing. The stream encodings are
+# separate properties and are the ones left at ASCII.
+#
+# WHY A VARIABLE RATHER THAN AN EXPORTED JAVA_TOOL_OPTIONS: that would be one
+# edit instead of nine, and it prints `Picked up JAVA_TOOL_OPTIONS: ...` to
+# stderr once per JVM — measured at TWO lines for a single lane — which is noise
+# in the output of gates whose whole product is readable findings.
+#
+# WHY NOT FIX THE LOCALE IN THE IMAGE: that is the root cause and would fix every
+# tool at once rather than the JVMs alone. It is deliberately NOT done here — it
+# changes a shared image and every lane's behaviour, so it deserves its own
+# change with its own battery run rather than riding along inside a lint fix.
+CLJ := clojure -J-Dstdout.encoding=UTF-8 -J-Dstderr.encoding=UTF-8
+
 # Same resolution, same reason, for clang-tidy's driver. The SDK is not on
 # PATH inside the container either, so a bare `run-clang-tidy` made
 # `tools/uber.sh 'make -f lint.mk lint-c-tidy'` fail with an error telling you
@@ -403,7 +425,7 @@ lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no
 # parsing source, because the analysis is a RESOLVED graph: it knows a var's
 # :private and resolves aliases a text scan cannot.
 lint-ns-size:
-	@clojure -M:lint-gate --check ns-size $(LINT_CLJ_PATHS)
+	@$(CLJ) -M:lint-gate --check ns-size $(LINT_CLJ_PATHS)
 
 ## lint-fn-size: the same ratchet one scale down — FUNCTION length, nesting, decisions
 # Three axes in ONE check, matching what ns-size does with its two: they share the
@@ -429,7 +451,7 @@ lint-ns-size:
 # not: the donor's thresholds measure different quantities. gates.edn records for
 # each watchlist number whether it is comparable, and where it came from.
 lint-fn-size:
-	@clojure -M:lint-gate --check fn-size $(LINT_CLJ_PATHS)
+	@$(CLJ) -M:lint-gate --check fn-size $(LINT_CLJ_PATHS)
 
 # The gate's own canaries. They ride `lint` for the same reason brief-check-test
 # and the leak-ban suite do: a gate whose canaries are never RUN is a gate nobody
@@ -475,10 +497,10 @@ lint-clj-gate-test:
 # `.claude/rules/malli-schemas.md` carries the argument.
 .PHONY: lint-docstrings lint-spec-shape lint-spec-presence
 lint-docstrings:
-	@clojure -M:lint-gate --check docstrings $(LINT_CLJ_PATHS)
+	@$(CLJ) -M:lint-gate --check docstrings $(LINT_CLJ_PATHS)
 
 lint-spec-shape:
-	@clojure -M:lint-gate --check spec-shape $(LINT_CLJ_PATHS)
+	@$(CLJ) -M:lint-gate --check spec-shape $(LINT_CLJ_PATHS)
 
 ## lint-spec-presence: every defn in an ENROLLED NAMESPACE carries an m/=>
 # THE THIRD DECLARED-SCOPE CHECK, and the one whose scope had to be finer than a
@@ -507,7 +529,7 @@ lint-spec-shape:
 # var-usage naming malli.core, once per spec; what it lacks is the subject,
 # which is a separate entry sharing only its row.
 lint-spec-presence:
-	@clojure -M:lint-gate --check spec-presence $(LINT_CLJ_PATHS)
+	@$(CLJ) -M:lint-gate --check spec-presence $(LINT_CLJ_PATHS)
 
 ## lint-md / lint-md-test: markdown quality over HAND-AUTHORED .md
 # Delegated to lint-md.mk by SUB-MAKE, never by `include`. Make's default goal is
@@ -674,7 +696,7 @@ wire-contract-envelope-test:
 # recipe stays on the host path is the remaining one — it needs no image at all,
 # and the CI job that runs it builds none.
 docs-lint:
-	@cd docs/.protodoc/tools && clojure -M:run lint --db-path ../proto-db.edn
+	@cd docs/.protodoc/tools && $(CLJ) -M:run lint --db-path ../proto-db.edn
 
 ## cpus: report the detected parallelism (debug aid across dev machines)
 cpus:
@@ -737,7 +759,7 @@ lint-clj:
 ## fmt-clj: cljfmt check (fails if any file would be rewritten)
 fmt-clj:
 	@printf '\033[32m[fmt-clj]\033[0m cljfmt check\n'
-	@clojure -M:fmt check $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
+	@$(CLJ) -M:fmt check $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
 
 ## splint-clj: idiomatic-pattern lint — REPORT-ONLY, deliberately not in `lint`
 # Measured, so the exclusion is a decision rather than an omission:
@@ -767,7 +789,7 @@ fmt-clj:
 #   findings you must sometimes ignore is a gate people learn to ignore.
 splint-clj:
 	@printf '\033[32m[splint-clj]\033[0m splint (report-only; not part of `lint`)\n'
-	@clojure -M:splint $(LINT_CLJ_PATHS)
+	@$(CLJ) -M:splint $(LINT_CLJ_PATHS)
 
 ## lint-sh: parse check + payload-apostrophe check over hand-authored shell
 # THIS ONE HAS EARNED ITS PLACE. generate-protos.sh builds most of its work as
@@ -1157,7 +1179,7 @@ fmt-fix: fmt-clj-fix fmt-c-fix
 # narrower population is a gate with no exit.
 fmt-clj-fix:
 	@printf '\033[32m[fmt-clj-fix]\033[0m cljfmt fix\n'
-	@clojure -M:fmt fix $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
+	@$(CLJ) -M:fmt fix $(LINT_CLJ_PATHS) $(LINT_CLJ_FILES)
 
 fmt-c-fix:
 	@printf '\033[32m[fmt-c-fix]\033[0m %s -i (%s cpus)\n' "$(CLANG_FORMAT)" "$(NPROC)"
