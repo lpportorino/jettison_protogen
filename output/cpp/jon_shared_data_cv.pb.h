@@ -58,6 +58,9 @@ namespace ser {
 class JonGuiDataCV;
 struct JonGuiDataCVDefaultTypeInternal;
 extern JonGuiDataCVDefaultTypeInternal _JonGuiDataCV_default_instance_;
+class JonGuiDataStabCorrection;
+struct JonGuiDataStabCorrectionDefaultTypeInternal;
+extern JonGuiDataStabCorrectionDefaultTypeInternal _JonGuiDataStabCorrection_default_instance_;
 }  // namespace ser
 namespace google {
 namespace protobuf {
@@ -184,6 +187,208 @@ inline bool JonGuiDataCV_CvBridgeExitReason_Parse(absl::string_view name, JonGui
 // ===================================================================
 
 
+// -------------------------------------------------------------------
+
+class JonGuiDataStabCorrection final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataStabCorrection) */ {
+ public:
+  inline JonGuiDataStabCorrection() : JonGuiDataStabCorrection(nullptr) {}
+  ~JonGuiDataStabCorrection() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataStabCorrection* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataStabCorrection));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataStabCorrection(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataStabCorrection(const JonGuiDataStabCorrection& from) : JonGuiDataStabCorrection(nullptr, from) {}
+  inline JonGuiDataStabCorrection(JonGuiDataStabCorrection&& from) noexcept
+      : JonGuiDataStabCorrection(nullptr, std::move(from)) {}
+  inline JonGuiDataStabCorrection& operator=(const JonGuiDataStabCorrection& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataStabCorrection& operator=(JonGuiDataStabCorrection&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataStabCorrection& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataStabCorrection* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataStabCorrection*>(
+        &_JonGuiDataStabCorrection_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(JonGuiDataStabCorrection& a, JonGuiDataStabCorrection& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataStabCorrection* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataStabCorrection* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataStabCorrection* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataStabCorrection>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataStabCorrection& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataStabCorrection& from) { JonGuiDataStabCorrection::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataStabCorrection* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataStabCorrection"; }
+
+ protected:
+  explicit JonGuiDataStabCorrection(::google::protobuf::Arena* arena);
+  JonGuiDataStabCorrection(::google::protobuf::Arena* arena, const JonGuiDataStabCorrection& from);
+  JonGuiDataStabCorrection(::google::protobuf::Arena* arena, JonGuiDataStabCorrection&& from) noexcept
+      : JonGuiDataStabCorrection(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kXPxFieldNumber = 1,
+    kYPxFieldNumber = 2,
+  };
+  // float x_px = 1;
+  void clear_x_px() ;
+  float x_px() const;
+  void set_x_px(float value);
+
+  private:
+  float _internal_x_px() const;
+  void _internal_set_x_px(float value);
+
+  public:
+  // float y_px = 2;
+  void clear_y_px() ;
+  float y_px() const;
+  void set_y_px(float value);
+
+  private:
+  float _internal_y_px() const;
+  void _internal_set_y_px(float value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataStabCorrection)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataStabCorrection& from_msg);
+    float x_px_;
+    float y_px_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5fcv_2eproto;
+};
 // -------------------------------------------------------------------
 
 class JonGuiDataCV final : public ::google::protobuf::Message
@@ -418,6 +623,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     kSharpnessMetricsHeatFieldNumber = 61,
     kCameraTransformDayFieldNumber = 70,
     kCameraTransformHeatFieldNumber = 71,
+    kStabCorrectionDayFieldNumber = 100,
+    kStabCorrectionHeatFieldNumber = 101,
     kSharpnessDayFieldNumber = 2,
     kAutofocusStateDayFieldNumber = 1,
     kSweepProgressDayFieldNumber = 4,
@@ -637,6 +844,36 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   ::ser::JonGuiDataTransform3D* _internal_mutable_camera_transform_heat();
 
   public:
+  // optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;
+  bool has_stab_correction_day() const;
+  void clear_stab_correction_day() ;
+  const ::ser::JonGuiDataStabCorrection& stab_correction_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataStabCorrection* release_stab_correction_day();
+  ::ser::JonGuiDataStabCorrection* mutable_stab_correction_day();
+  void set_allocated_stab_correction_day(::ser::JonGuiDataStabCorrection* value);
+  void unsafe_arena_set_allocated_stab_correction_day(::ser::JonGuiDataStabCorrection* value);
+  ::ser::JonGuiDataStabCorrection* unsafe_arena_release_stab_correction_day();
+
+  private:
+  const ::ser::JonGuiDataStabCorrection& _internal_stab_correction_day() const;
+  ::ser::JonGuiDataStabCorrection* _internal_mutable_stab_correction_day();
+
+  public:
+  // optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;
+  bool has_stab_correction_heat() const;
+  void clear_stab_correction_heat() ;
+  const ::ser::JonGuiDataStabCorrection& stab_correction_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataStabCorrection* release_stab_correction_heat();
+  ::ser::JonGuiDataStabCorrection* mutable_stab_correction_heat();
+  void set_allocated_stab_correction_heat(::ser::JonGuiDataStabCorrection* value);
+  void unsafe_arena_set_allocated_stab_correction_heat(::ser::JonGuiDataStabCorrection* value);
+  ::ser::JonGuiDataStabCorrection* unsafe_arena_release_stab_correction_heat();
+
+  private:
+  const ::ser::JonGuiDataStabCorrection& _internal_stab_correction_heat() const;
+  ::ser::JonGuiDataStabCorrection* _internal_mutable_stab_correction_heat();
+
+  public:
   // double sharpness_day = 2 [(.buf.validate.field) = {
   void clear_sharpness_day() ;
   double sharpness_day() const;
@@ -852,8 +1089,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 34, 13,
-      0, 13>
+      5, 36, 15,
+      0, 15>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -885,6 +1122,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     ::ser::JonGuiDataSharpness* sharpness_metrics_heat_;
     ::ser::JonGuiDataTransform3D* camera_transform_day_;
     ::ser::JonGuiDataTransform3D* camera_transform_heat_;
+    ::ser::JonGuiDataStabCorrection* stab_correction_day_;
+    ::ser::JonGuiDataStabCorrection* stab_correction_heat_;
     double sharpness_day_;
     int autofocus_state_day_;
     ::int32_t sweep_progress_day_;
@@ -2525,6 +2764,246 @@ inline bool JonGuiDataCV::_internal_zoom_roi_active_heat() const {
 inline void JonGuiDataCV::_internal_set_zoom_roi_active_heat(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.zoom_roi_active_heat_ = value;
+}
+
+// optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;
+inline bool JonGuiDataCV::has_stab_correction_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00001000u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.stab_correction_day_ != nullptr);
+  return value;
+}
+inline void JonGuiDataCV::clear_stab_correction_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.stab_correction_day_ != nullptr) _impl_.stab_correction_day_->Clear();
+  _impl_._has_bits_[0] &= ~0x00001000u;
+}
+inline const ::ser::JonGuiDataStabCorrection& JonGuiDataCV::_internal_stab_correction_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataStabCorrection* p = _impl_.stab_correction_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataStabCorrection&>(::ser::_JonGuiDataStabCorrection_default_instance_);
+}
+inline const ::ser::JonGuiDataStabCorrection& JonGuiDataCV::stab_correction_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.stab_correction_day)
+  return _internal_stab_correction_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_stab_correction_day(::ser::JonGuiDataStabCorrection* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.stab_correction_day_);
+  }
+  _impl_.stab_correction_day_ = reinterpret_cast<::ser::JonGuiDataStabCorrection*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00001000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00001000u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.stab_correction_day)
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::release_stab_correction_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00001000u;
+  ::ser::JonGuiDataStabCorrection* released = _impl_.stab_correction_day_;
+  _impl_.stab_correction_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::unsafe_arena_release_stab_correction_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.stab_correction_day)
+
+  _impl_._has_bits_[0] &= ~0x00001000u;
+  ::ser::JonGuiDataStabCorrection* temp = _impl_.stab_correction_day_;
+  _impl_.stab_correction_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::_internal_mutable_stab_correction_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.stab_correction_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataStabCorrection>(GetArena());
+    _impl_.stab_correction_day_ = reinterpret_cast<::ser::JonGuiDataStabCorrection*>(p);
+  }
+  return _impl_.stab_correction_day_;
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::mutable_stab_correction_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00001000u;
+  ::ser::JonGuiDataStabCorrection* _msg = _internal_mutable_stab_correction_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.stab_correction_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_stab_correction_day(::ser::JonGuiDataStabCorrection* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.stab_correction_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00001000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00001000u;
+  }
+
+  _impl_.stab_correction_day_ = reinterpret_cast<::ser::JonGuiDataStabCorrection*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.stab_correction_day)
+}
+
+// optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;
+inline bool JonGuiDataCV::has_stab_correction_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00002000u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.stab_correction_heat_ != nullptr);
+  return value;
+}
+inline void JonGuiDataCV::clear_stab_correction_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.stab_correction_heat_ != nullptr) _impl_.stab_correction_heat_->Clear();
+  _impl_._has_bits_[0] &= ~0x00002000u;
+}
+inline const ::ser::JonGuiDataStabCorrection& JonGuiDataCV::_internal_stab_correction_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataStabCorrection* p = _impl_.stab_correction_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataStabCorrection&>(::ser::_JonGuiDataStabCorrection_default_instance_);
+}
+inline const ::ser::JonGuiDataStabCorrection& JonGuiDataCV::stab_correction_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.stab_correction_heat)
+  return _internal_stab_correction_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_stab_correction_heat(::ser::JonGuiDataStabCorrection* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.stab_correction_heat_);
+  }
+  _impl_.stab_correction_heat_ = reinterpret_cast<::ser::JonGuiDataStabCorrection*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00002000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00002000u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.stab_correction_heat)
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::release_stab_correction_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00002000u;
+  ::ser::JonGuiDataStabCorrection* released = _impl_.stab_correction_heat_;
+  _impl_.stab_correction_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::unsafe_arena_release_stab_correction_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.stab_correction_heat)
+
+  _impl_._has_bits_[0] &= ~0x00002000u;
+  ::ser::JonGuiDataStabCorrection* temp = _impl_.stab_correction_heat_;
+  _impl_.stab_correction_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::_internal_mutable_stab_correction_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.stab_correction_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataStabCorrection>(GetArena());
+    _impl_.stab_correction_heat_ = reinterpret_cast<::ser::JonGuiDataStabCorrection*>(p);
+  }
+  return _impl_.stab_correction_heat_;
+}
+inline ::ser::JonGuiDataStabCorrection* JonGuiDataCV::mutable_stab_correction_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00002000u;
+  ::ser::JonGuiDataStabCorrection* _msg = _internal_mutable_stab_correction_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.stab_correction_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_stab_correction_heat(::ser::JonGuiDataStabCorrection* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.stab_correction_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00002000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00002000u;
+  }
+
+  _impl_.stab_correction_heat_ = reinterpret_cast<::ser::JonGuiDataStabCorrection*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.stab_correction_heat)
+}
+
+// -------------------------------------------------------------------
+
+// JonGuiDataStabCorrection
+
+// float x_px = 1;
+inline void JonGuiDataStabCorrection::clear_x_px() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_px_ = 0;
+}
+inline float JonGuiDataStabCorrection::x_px() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataStabCorrection.x_px)
+  return _internal_x_px();
+}
+inline void JonGuiDataStabCorrection::set_x_px(float value) {
+  _internal_set_x_px(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataStabCorrection.x_px)
+}
+inline float JonGuiDataStabCorrection::_internal_x_px() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_px_;
+}
+inline void JonGuiDataStabCorrection::_internal_set_x_px(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_px_ = value;
+}
+
+// float y_px = 2;
+inline void JonGuiDataStabCorrection::clear_y_px() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_px_ = 0;
+}
+inline float JonGuiDataStabCorrection::y_px() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataStabCorrection.y_px)
+  return _internal_y_px();
+}
+inline void JonGuiDataStabCorrection::set_y_px(float value) {
+  _internal_set_y_px(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataStabCorrection.y_px)
+}
+inline float JonGuiDataStabCorrection::_internal_y_px() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_px_;
+}
+inline void JonGuiDataStabCorrection::_internal_set_y_px(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_px_ = value;
 }
 
 #ifdef __GNUC__

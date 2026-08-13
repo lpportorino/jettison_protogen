@@ -46,6 +46,15 @@ typedef enum _ser_JonGuiDataCV_CvBridgeExitReason {
 } ser_JonGuiDataCV_CvBridgeExitReason;
 
 /* Struct definitions */
+/* One channel's display-stabilisation correction, in that channel's
+ delivered-FX-raster pixels. See the field comments on
+ JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
+ anchor, and the smoother-vs-applied caveat. */
+typedef struct _ser_JonGuiDataStabCorrection {
+    float x_px;
+    float y_px;
+} ser_JonGuiDataStabCorrection;
+
 /* CV Gateway state enrichment — the CV subsystem's per-tick state on the STATE
  plane: autofocus metrics and sweep status, ROIs, CV bridge health, camera
  transforms, tracked objects, and whether the trinity tracker is running.
@@ -169,6 +178,30 @@ typedef struct _ser_JonGuiDataCV {
      manoeuvre simply never starts. */
     bool zoom_roi_active_day;
     bool zoom_roi_active_heat;
+    /* The display-stabilisation correction currently PUBLISHED for each
+ channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+
+ Sign convention: the value the pixel applier ADDS to image position —
+ a scene feature at raw pixel p renders at p + C. Consumers that
+ translate between display space and raw space therefore ADD C to
+ scene-locked overlay positions and SUBTRACT C from operator input
+ (taps, drags) before it becomes a command. The anchor is the LRF
+ crosshair (the digital-zoom centre), not the raster centre.
+
+ ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+ the FX bypass on, or an FX library lacking the warp, the display shows
+ RAW pixels while this field still carries the smoother's C — that gap
+ is a documented dev-mode constraint (the bypass is a debug surface),
+ and the pixels-truth readback is a separate concern. Absence means the
+ stabiliser is not publishing for that channel (disabled, or priming
+ after a reset): consumers treat absent as C = 0 for rendering and as
+ NOT-CORRECTED for input translation — an input path that requires C
+ and finds it absent while stabilisation is commanded on must refuse,
+ never guess. */
+    bool has_stab_correction_day;
+    ser_JonGuiDataStabCorrection stab_correction_day;
+    bool has_stab_correction_heat;
+    ser_JonGuiDataStabCorrection stab_correction_heat;
 } ser_JonGuiDataCV;
 
 
@@ -195,11 +228,16 @@ extern "C" {
 #define ser_JonGuiDataCV_last_exit_reason_ENUMTYPE ser_JonGuiDataCV_CvBridgeExitReason
 
 
+
 /* Initializer values for message structs */
-#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0, 0, 0}
-#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0, 0, 0}
+#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}, 0, 0, 0, false, ser_JonGuiDataStabCorrection_init_default, false, ser_JonGuiDataStabCorrection_init_default}
+#define ser_JonGuiDataStabCorrection_init_default {0, 0}
+#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}, 0, 0, 0, false, ser_JonGuiDataStabCorrection_init_zero, false, ser_JonGuiDataStabCorrection_init_zero}
+#define ser_JonGuiDataStabCorrection_init_zero   {0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define ser_JonGuiDataStabCorrection_x_px_tag    1
+#define ser_JonGuiDataStabCorrection_y_px_tag    2
 #define ser_JonGuiDataCV_autofocus_state_day_tag 1
 #define ser_JonGuiDataCV_sharpness_day_tag       2
 #define ser_JonGuiDataCV_best_sharpness_day_tag  3
@@ -234,6 +272,8 @@ extern "C" {
 #define ser_JonGuiDataCV_trinity_tracking_active_tag 90
 #define ser_JonGuiDataCV_zoom_roi_active_day_tag 91
 #define ser_JonGuiDataCV_zoom_roi_active_heat_tag 92
+#define ser_JonGuiDataCV_stab_correction_day_tag 100
+#define ser_JonGuiDataCV_stab_correction_heat_tag 101
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCV_FIELDLIST(X, a) \
@@ -270,7 +310,9 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_heat,  71) \
 X(a, CALLBACK, REPEATED, MESSAGE,  tracked_objects,  80) \
 X(a, STATIC,   SINGULAR, BOOL,     trinity_tracking_active,  90) \
 X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_day,  91) \
-X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_heat,  92)
+X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_heat,  92) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  stab_correction_day, 100) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  stab_correction_heat, 101)
 #define ser_JonGuiDataCV_CALLBACK pb_default_field_callback
 #define ser_JonGuiDataCV_DEFAULT NULL
 #define ser_JonGuiDataCV_roi_focus_day_MSGTYPE ser_JonGuiDataROI
@@ -286,14 +328,26 @@ X(a, STATIC,   SINGULAR, BOOL,     zoom_roi_active_heat,  92)
 #define ser_JonGuiDataCV_camera_transform_day_MSGTYPE ser_JonGuiDataTransform3D
 #define ser_JonGuiDataCV_camera_transform_heat_MSGTYPE ser_JonGuiDataTransform3D
 #define ser_JonGuiDataCV_tracked_objects_MSGTYPE ser_JonGuiDataTrackedObject
+#define ser_JonGuiDataCV_stab_correction_day_MSGTYPE ser_JonGuiDataStabCorrection
+#define ser_JonGuiDataCV_stab_correction_heat_MSGTYPE ser_JonGuiDataStabCorrection
+
+#define ser_JonGuiDataStabCorrection_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, FLOAT,    x_px,              1) \
+X(a, STATIC,   SINGULAR, FLOAT,    y_px,              2)
+#define ser_JonGuiDataStabCorrection_CALLBACK NULL
+#define ser_JonGuiDataStabCorrection_DEFAULT NULL
 
 extern const pb_msgdesc_t ser_JonGuiDataCV_msg;
+extern const pb_msgdesc_t ser_JonGuiDataStabCorrection_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ser_JonGuiDataCV_fields &ser_JonGuiDataCV_msg
+#define ser_JonGuiDataStabCorrection_fields &ser_JonGuiDataStabCorrection_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ser_JonGuiDataCV_size depends on runtime parameters */
+#define SER_JON_SHARED_DATA_CV_PB_H_MAX_SIZE     ser_JonGuiDataStabCorrection_size
+#define ser_JonGuiDataStabCorrection_size        10
 
 #ifdef __cplusplus
 } /* extern "C" */

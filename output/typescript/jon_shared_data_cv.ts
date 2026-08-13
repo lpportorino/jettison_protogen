@@ -145,6 +145,30 @@ export interface JonGuiDataCV {
    */
   zoomRoiActiveDay: boolean;
   zoomRoiActiveHeat: boolean;
+  /**
+   * The display-stabilisation correction currently PUBLISHED for each
+   * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+   *
+   * Sign convention: the value the pixel applier ADDS to image position —
+   * a scene feature at raw pixel p renders at p + C. Consumers that
+   * translate between display space and raw space therefore ADD C to
+   * scene-locked overlay positions and SUBTRACT C from operator input
+   * (taps, drags) before it becomes a command. The anchor is the LRF
+   * crosshair (the digital-zoom centre), not the raster centre.
+   *
+   * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+   * the FX bypass on, or an FX library lacking the warp, the display shows
+   * RAW pixels while this field still carries the smoother's C — that gap
+   * is a documented dev-mode constraint (the bypass is a debug surface),
+   * and the pixels-truth readback is a separate concern. Absence means the
+   * stabiliser is not publishing for that channel (disabled, or priming
+   * after a reset): consumers treat absent as C = 0 for rendering and as
+   * NOT-CORRECTED for input translation — an input path that requires C
+   * and finds it absent while stabilisation is commanded on must refuse,
+   * never guess.
+   */
+  stabCorrectionDay?: JonGuiDataStabCorrection | undefined;
+  stabCorrectionHeat?: JonGuiDataStabCorrection | undefined;
 }
 
 /** Autofocus sweep state */
@@ -359,6 +383,17 @@ export function jonGuiDataCV_CvBridgeExitReasonToJSON(object: JonGuiDataCV_CvBri
   }
 }
 
+/**
+ * One channel's display-stabilisation correction, in that channel's
+ * delivered-FX-raster pixels. See the field comments on
+ * JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
+ * anchor, and the smoother-vs-applied caveat.
+ */
+export interface JonGuiDataStabCorrection {
+  xPx: number;
+  yPx: number;
+}
+
 function createBaseJonGuiDataCV(): JonGuiDataCV {
   return {
     autofocusStateDay: 0,
@@ -395,6 +430,8 @@ function createBaseJonGuiDataCV(): JonGuiDataCV {
     trinityTrackingActive: false,
     zoomRoiActiveDay: false,
     zoomRoiActiveHeat: false,
+    stabCorrectionDay: undefined,
+    stabCorrectionHeat: undefined,
   };
 }
 
@@ -501,6 +538,12 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     }
     if (message.zoomRoiActiveHeat !== false) {
       writer.uint32(736).bool(message.zoomRoiActiveHeat);
+    }
+    if (message.stabCorrectionDay !== undefined) {
+      JonGuiDataStabCorrection.encode(message.stabCorrectionDay, writer.uint32(802).fork()).join();
+    }
+    if (message.stabCorrectionHeat !== undefined) {
+      JonGuiDataStabCorrection.encode(message.stabCorrectionHeat, writer.uint32(810).fork()).join();
     }
     return writer;
   },
@@ -784,6 +827,22 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
           message.zoomRoiActiveHeat = reader.bool();
           continue;
         }
+        case 100: {
+          if (tag !== 802) {
+            break;
+          }
+
+          message.stabCorrectionDay = JonGuiDataStabCorrection.decode(reader, reader.uint32());
+          continue;
+        }
+        case 101: {
+          if (tag !== 810) {
+            break;
+          }
+
+          message.stabCorrectionHeat = JonGuiDataStabCorrection.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -965,6 +1024,16 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
         : isSet(object.zoom_roi_active_heat)
         ? globalThis.Boolean(object.zoom_roi_active_heat)
         : false,
+      stabCorrectionDay: isSet(object.stabCorrectionDay)
+        ? JonGuiDataStabCorrection.fromJSON(object.stabCorrectionDay)
+        : isSet(object.stab_correction_day)
+        ? JonGuiDataStabCorrection.fromJSON(object.stab_correction_day)
+        : undefined,
+      stabCorrectionHeat: isSet(object.stabCorrectionHeat)
+        ? JonGuiDataStabCorrection.fromJSON(object.stabCorrectionHeat)
+        : isSet(object.stab_correction_heat)
+        ? JonGuiDataStabCorrection.fromJSON(object.stab_correction_heat)
+        : undefined,
     };
   },
 
@@ -1072,6 +1141,12 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     if (message.zoomRoiActiveHeat !== false) {
       obj.zoomRoiActiveHeat = message.zoomRoiActiveHeat;
     }
+    if (message.stabCorrectionDay !== undefined) {
+      obj.stabCorrectionDay = JonGuiDataStabCorrection.toJSON(message.stabCorrectionDay);
+    }
+    if (message.stabCorrectionHeat !== undefined) {
+      obj.stabCorrectionHeat = JonGuiDataStabCorrection.toJSON(message.stabCorrectionHeat);
+    }
     return obj;
   },
 
@@ -1140,6 +1215,88 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     message.trinityTrackingActive = object.trinityTrackingActive ?? false;
     message.zoomRoiActiveDay = object.zoomRoiActiveDay ?? false;
     message.zoomRoiActiveHeat = object.zoomRoiActiveHeat ?? false;
+    message.stabCorrectionDay = (object.stabCorrectionDay !== undefined && object.stabCorrectionDay !== null)
+      ? JonGuiDataStabCorrection.fromPartial(object.stabCorrectionDay)
+      : undefined;
+    message.stabCorrectionHeat = (object.stabCorrectionHeat !== undefined && object.stabCorrectionHeat !== null)
+      ? JonGuiDataStabCorrection.fromPartial(object.stabCorrectionHeat)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseJonGuiDataStabCorrection(): JonGuiDataStabCorrection {
+  return { xPx: 0, yPx: 0 };
+}
+
+export const JonGuiDataStabCorrection: MessageFns<JonGuiDataStabCorrection> = {
+  encode(message: JonGuiDataStabCorrection, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.xPx !== 0) {
+      writer.uint32(13).float(message.xPx);
+    }
+    if (message.yPx !== 0) {
+      writer.uint32(21).float(message.yPx);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataStabCorrection {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataStabCorrection();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 13) {
+            break;
+          }
+
+          message.xPx = reader.float();
+          continue;
+        }
+        case 2: {
+          if (tag !== 21) {
+            break;
+          }
+
+          message.yPx = reader.float();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataStabCorrection {
+    return {
+      xPx: isSet(object.xPx) ? globalThis.Number(object.xPx) : isSet(object.x_px) ? globalThis.Number(object.x_px) : 0,
+      yPx: isSet(object.yPx) ? globalThis.Number(object.yPx) : isSet(object.y_px) ? globalThis.Number(object.y_px) : 0,
+    };
+  },
+
+  toJSON(message: JonGuiDataStabCorrection): unknown {
+    const obj: any = {};
+    if (message.xPx !== 0) {
+      obj.xPx = message.xPx;
+    }
+    if (message.yPx !== 0) {
+      obj.yPx = message.yPx;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataStabCorrection>, I>>(base?: I): JonGuiDataStabCorrection {
+    return JonGuiDataStabCorrection.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataStabCorrection>, I>>(object: I): JonGuiDataStabCorrection {
+    const message = createBaseJonGuiDataStabCorrection();
+    message.xPx = object.xPx ?? 0;
+    message.yPx = object.yPx ?? 0;
     return message;
   },
 };

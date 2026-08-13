@@ -2018,6 +2018,30 @@ pub struct JonGuiDataCv {
     pub zoom_roi_active_day: bool,
     #[prost(bool, tag = "92")]
     pub zoom_roi_active_heat: bool,
+    /// The display-stabilisation correction currently PUBLISHED for each
+    /// channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+    ///
+    /// Sign convention: the value the pixel applier ADDS to image position —
+    /// a scene feature at raw pixel p renders at p + C. Consumers that
+    /// translate between display space and raw space therefore ADD C to
+    /// scene-locked overlay positions and SUBTRACT C from operator input
+    /// (taps, drags) before it becomes a command. The anchor is the LRF
+    /// crosshair (the digital-zoom centre), not the raster centre.
+    ///
+    /// ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+    /// the FX bypass on, or an FX library lacking the warp, the display shows
+    /// RAW pixels while this field still carries the smoother's C — that gap
+    /// is a documented dev-mode constraint (the bypass is a debug surface),
+    /// and the pixels-truth readback is a separate concern. Absence means the
+    /// stabiliser is not publishing for that channel (disabled, or priming
+    /// after a reset): consumers treat absent as C = 0 for rendering and as
+    /// NOT-CORRECTED for input translation — an input path that requires C
+    /// and finds it absent while stabilisation is commanded on must refuse,
+    /// never guess.
+    #[prost(message, optional, tag = "100")]
+    pub stab_correction_day: ::core::option::Option<JonGuiDataStabCorrection>,
+    #[prost(message, optional, tag = "101")]
+    pub stab_correction_heat: ::core::option::Option<JonGuiDataStabCorrection>,
 }
 /// Nested message and enum types in `JonGuiDataCV`.
 pub mod jon_gui_data_cv {
@@ -2194,6 +2218,17 @@ pub mod jon_gui_data_cv {
             }
         }
     }
+}
+/// One channel's display-stabilisation correction, in that channel's
+/// delivered-FX-raster pixels. See the field comments on
+/// JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
+/// anchor, and the smoother-vs-applied caveat.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataStabCorrection {
+    #[prost(float, tag = "1")]
+    pub x_px: f32,
+    #[prost(float, tag = "2")]
+    pub y_px: f32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataPmu {

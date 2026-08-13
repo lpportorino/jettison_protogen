@@ -66,6 +66,8 @@ That split is why a fact an opaque payload already carries can also appear here,
 | 90 | trinity_tracking_active | bool | - |
 | 91 | zoom_roi_active_day | bool | - |
 | 92 | zoom_roi_active_heat | bool | - |
+| 100 | stab_correction_day | [[proto/ser.JonGuiDataStabCorrection]] | - |
+| 101 | stab_correction_heat | [[proto/ser.JonGuiDataStabCorrection]] | - |
 
 
 ## Oneofs
@@ -129,6 +131,16 @@ Fields: #70
 ### _camera_transform_heat
 
 Fields: #71
+
+
+### _stab_correction_day
+
+Fields: #100
+
+
+### _stab_correction_heat
+
+Fields: #101
 
 
 

@@ -9,6 +9,9 @@
 PB_BIND(ser_JonGuiDataCV, ser_JonGuiDataCV, 2)
 
 
+PB_BIND(ser_JonGuiDataStabCorrection, ser_JonGuiDataStabCorrection, AUTO)
+
+
 
 
 

@@ -1082,6 +1082,129 @@ public object JonGuiDataCVKt {
     public fun clearZoomRoiActiveHeat() {
       _builder.clearZoomRoiActiveHeat()
     }
+
+    /**
+     * ```
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * ```
+     *
+     * `optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;`
+     */
+    public var stabCorrectionDay: ser.JonSharedDataCv.JonGuiDataStabCorrection
+      @JvmName("getStabCorrectionDay")
+      get() = _builder.stabCorrectionDay
+      @JvmName("setStabCorrectionDay")
+      set(value) {
+        _builder.stabCorrectionDay = value
+      }
+    /**
+     * ```
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * ```
+     *
+     * `optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;`
+     */
+    public fun clearStabCorrectionDay() {
+      _builder.clearStabCorrectionDay()
+    }
+    /**
+     * ```
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * ```
+     *
+     * `optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;`
+     * @return Whether the stabCorrectionDay field is set.
+     */
+    public fun hasStabCorrectionDay(): kotlin.Boolean {
+      return _builder.hasStabCorrectionDay()
+    }
+
+    public val JonGuiDataCVKt.Dsl.stabCorrectionDayOrNull: ser.JonSharedDataCv.JonGuiDataStabCorrection?
+      get() = _builder.stabCorrectionDayOrNull
+
+    /**
+     * `optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;`
+     */
+    public var stabCorrectionHeat: ser.JonSharedDataCv.JonGuiDataStabCorrection
+      @JvmName("getStabCorrectionHeat")
+      get() = _builder.stabCorrectionHeat
+      @JvmName("setStabCorrectionHeat")
+      set(value) {
+        _builder.stabCorrectionHeat = value
+      }
+    /**
+     * `optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;`
+     */
+    public fun clearStabCorrectionHeat() {
+      _builder.clearStabCorrectionHeat()
+    }
+    /**
+     * `optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;`
+     * @return Whether the stabCorrectionHeat field is set.
+     */
+    public fun hasStabCorrectionHeat(): kotlin.Boolean {
+      return _builder.hasStabCorrectionHeat()
+    }
+
+    public val JonGuiDataCVKt.Dsl.stabCorrectionHeatOrNull: ser.JonSharedDataCv.JonGuiDataStabCorrection?
+      get() = _builder.stabCorrectionHeatOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -1123,4 +1246,10 @@ public val ser.JonSharedDataCv.JonGuiDataCVOrBuilder.cameraTransformDayOrNull: s
 
 public val ser.JonSharedDataCv.JonGuiDataCVOrBuilder.cameraTransformHeatOrNull: ser.JonSharedDataTypes.JonGuiDataTransform3D?
   get() = if (hasCameraTransformHeat()) getCameraTransformHeat() else null
+
+public val ser.JonSharedDataCv.JonGuiDataCVOrBuilder.stabCorrectionDayOrNull: ser.JonSharedDataCv.JonGuiDataStabCorrection?
+  get() = if (hasStabCorrectionDay()) getStabCorrectionDay() else null
+
+public val ser.JonSharedDataCv.JonGuiDataCVOrBuilder.stabCorrectionHeatOrNull: ser.JonSharedDataCv.JonGuiDataStabCorrection?
+  get() = if (hasStabCorrectionHeat()) getStabCorrectionHeat() else null
 

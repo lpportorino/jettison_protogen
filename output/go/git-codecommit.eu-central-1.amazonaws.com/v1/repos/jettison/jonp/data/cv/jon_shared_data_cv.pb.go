@@ -324,8 +324,30 @@ type JonGuiDataCV struct {
 	//     manoeuvre simply never starts.
 	ZoomRoiActiveDay  bool `protobuf:"varint,91,opt,name=zoom_roi_active_day,json=zoomRoiActiveDay,proto3" json:"zoom_roi_active_day,omitempty"`
 	ZoomRoiActiveHeat bool `protobuf:"varint,92,opt,name=zoom_roi_active_heat,json=zoomRoiActiveHeat,proto3" json:"zoom_roi_active_heat,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// The display-stabilisation correction currently PUBLISHED for each
+	// channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+	//
+	// Sign convention: the value the pixel applier ADDS to image position —
+	// a scene feature at raw pixel p renders at p + C. Consumers that
+	// translate between display space and raw space therefore ADD C to
+	// scene-locked overlay positions and SUBTRACT C from operator input
+	// (taps, drags) before it becomes a command. The anchor is the LRF
+	// crosshair (the digital-zoom centre), not the raster centre.
+	//
+	// ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+	// the FX bypass on, or an FX library lacking the warp, the display shows
+	// RAW pixels while this field still carries the smoother's C — that gap
+	// is a documented dev-mode constraint (the bypass is a debug surface),
+	// and the pixels-truth readback is a separate concern. Absence means the
+	// stabiliser is not publishing for that channel (disabled, or priming
+	// after a reset): consumers treat absent as C = 0 for rendering and as
+	// NOT-CORRECTED for input translation — an input path that requires C
+	// and finds it absent while stabilisation is commanded on must refuse,
+	// never guess.
+	StabCorrectionDay  *JonGuiDataStabCorrection `protobuf:"bytes,100,opt,name=stab_correction_day,json=stabCorrectionDay,proto3,oneof" json:"stab_correction_day,omitempty"`
+	StabCorrectionHeat *JonGuiDataStabCorrection `protobuf:"bytes,101,opt,name=stab_correction_heat,json=stabCorrectionHeat,proto3,oneof" json:"stab_correction_heat,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCV) Reset() {
@@ -596,11 +618,81 @@ func (x *JonGuiDataCV) GetZoomRoiActiveHeat() bool {
 	return false
 }
 
+func (x *JonGuiDataCV) GetStabCorrectionDay() *JonGuiDataStabCorrection {
+	if x != nil {
+		return x.StabCorrectionDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetStabCorrectionHeat() *JonGuiDataStabCorrection {
+	if x != nil {
+		return x.StabCorrectionHeat
+	}
+	return nil
+}
+
+// One channel's display-stabilisation correction, in that channel's
+// delivered-FX-raster pixels. See the field comments on
+// JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
+// anchor, and the smoother-vs-applied caveat.
+type JonGuiDataStabCorrection struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	XPx           float32                `protobuf:"fixed32,1,opt,name=x_px,json=xPx,proto3" json:"x_px,omitempty"`
+	YPx           float32                `protobuf:"fixed32,2,opt,name=y_px,json=yPx,proto3" json:"y_px,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonGuiDataStabCorrection) Reset() {
+	*x = JonGuiDataStabCorrection{}
+	mi := &file_jon_shared_data_cv_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataStabCorrection) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataStabCorrection) ProtoMessage() {}
+
+func (x *JonGuiDataStabCorrection) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_cv_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataStabCorrection.ProtoReflect.Descriptor instead.
+func (*JonGuiDataStabCorrection) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *JonGuiDataStabCorrection) GetXPx() float32 {
+	if x != nil {
+		return x.XPx
+	}
+	return 0
+}
+
+func (x *JonGuiDataStabCorrection) GetYPx() float32 {
+	if x != nil {
+		return x.YPx
+	}
+	return 0
+}
+
 var File_jon_shared_data_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x93\x19\n" +
+	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xee\x1a\n" +
 	"\fJonGuiDataCV\x12Z\n" +
 	"\x13autofocus_state_day\x18\x01 \x01(\x0e2 .ser.JonGuiDataCV.AutofocusStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\x11autofocusStateDay\x123\n" +
 	"\rsharpness_day\x18\x02 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\fsharpnessDay\x12<\n" +
@@ -639,7 +731,9 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\x0ftracked_objects\x18P \x03(\v2\x1c.ser.JonGuiDataTrackedObjectR\x0etrackedObjects\x126\n" +
 	"\x17trinity_tracking_active\x18Z \x01(\bR\x15trinityTrackingActive\x12-\n" +
 	"\x13zoom_roi_active_day\x18[ \x01(\bR\x10zoomRoiActiveDay\x12/\n" +
-	"\x14zoom_roi_active_heat\x18\\ \x01(\bR\x11zoomRoiActiveHeat\"\xc8\x01\n" +
+	"\x14zoom_roi_active_heat\x18\\ \x01(\bR\x11zoomRoiActiveHeat\x12R\n" +
+	"\x13stab_correction_day\x18d \x01(\v2\x1d.ser.JonGuiDataStabCorrectionH\fR\x11stabCorrectionDay\x88\x01\x01\x12T\n" +
+	"\x14stab_correction_heat\x18e \x01(\v2\x1d.ser.JonGuiDataStabCorrectionH\rR\x12stabCorrectionHeat\x88\x01\x01\"\xc8\x01\n" +
 	"\x0eAutofocusState\x12\x1f\n" +
 	"\x1bAUTOFOCUS_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14AUTOFOCUS_STATE_IDLE\x10\x01\x12 \n" +
@@ -676,7 +770,12 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\x16_sharpness_metrics_dayB\x19\n" +
 	"\x17_sharpness_metrics_heatB\x17\n" +
 	"\x15_camera_transform_dayB\x18\n" +
-	"\x16_camera_transform_heatB\x95\x01\n" +
+	"\x16_camera_transform_heatB\x16\n" +
+	"\x14_stab_correction_dayB\x17\n" +
+	"\x15_stab_correction_heat\"@\n" +
+	"\x18JonGuiDataStabCorrection\x12\x11\n" +
+	"\x04x_px\x18\x01 \x01(\x02R\x03xPx\x12\x11\n" +
+	"\x04y_px\x18\x02 \x01(\x02R\x03yPxB\x95\x01\n" +
 	"\acom.serB\x14JonSharedDataCvProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/cv\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -692,40 +791,43 @@ func file_jon_shared_data_cv_proto_rawDescGZIP() []byte {
 }
 
 var file_jon_shared_data_cv_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_jon_shared_data_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_jon_shared_data_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_jon_shared_data_cv_proto_goTypes = []any{
 	(JonGuiDataCV_AutofocusState)(0),      // 0: ser.JonGuiDataCV.AutofocusState
 	(JonGuiDataCV_CvBridgeStatus)(0),      // 1: ser.JonGuiDataCV.CvBridgeStatus
 	(JonGuiDataCV_CvBridgeExitReason)(0),  // 2: ser.JonGuiDataCV.CvBridgeExitReason
 	(*JonGuiDataCV)(nil),                  // 3: ser.JonGuiDataCV
-	(*types.JonGuiDataROI)(nil),           // 4: ser.JonGuiDataROI
-	(*types.JonGuiDataSharpness)(nil),     // 5: ser.JonGuiDataSharpness
-	(*types.JonGuiDataTransform3D)(nil),   // 6: ser.JonGuiDataTransform3D
-	(*types.JonGuiDataTrackedObject)(nil), // 7: ser.JonGuiDataTrackedObject
+	(*JonGuiDataStabCorrection)(nil),      // 4: ser.JonGuiDataStabCorrection
+	(*types.JonGuiDataROI)(nil),           // 5: ser.JonGuiDataROI
+	(*types.JonGuiDataSharpness)(nil),     // 6: ser.JonGuiDataSharpness
+	(*types.JonGuiDataTransform3D)(nil),   // 7: ser.JonGuiDataTransform3D
+	(*types.JonGuiDataTrackedObject)(nil), // 8: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_cv_proto_depIdxs = []int32{
 	0,  // 0: ser.JonGuiDataCV.autofocus_state_day:type_name -> ser.JonGuiDataCV.AutofocusState
 	0,  // 1: ser.JonGuiDataCV.autofocus_state_heat:type_name -> ser.JonGuiDataCV.AutofocusState
 	1,  // 2: ser.JonGuiDataCV.bridge_status:type_name -> ser.JonGuiDataCV.CvBridgeStatus
 	2,  // 3: ser.JonGuiDataCV.last_exit_reason:type_name -> ser.JonGuiDataCV.CvBridgeExitReason
-	4,  // 4: ser.JonGuiDataCV.roi_focus_day:type_name -> ser.JonGuiDataROI
-	4,  // 5: ser.JonGuiDataCV.roi_track_day:type_name -> ser.JonGuiDataROI
-	4,  // 6: ser.JonGuiDataCV.roi_zoom_day:type_name -> ser.JonGuiDataROI
-	4,  // 7: ser.JonGuiDataCV.roi_fx_day:type_name -> ser.JonGuiDataROI
-	4,  // 8: ser.JonGuiDataCV.roi_focus_heat:type_name -> ser.JonGuiDataROI
-	4,  // 9: ser.JonGuiDataCV.roi_track_heat:type_name -> ser.JonGuiDataROI
-	4,  // 10: ser.JonGuiDataCV.roi_zoom_heat:type_name -> ser.JonGuiDataROI
-	4,  // 11: ser.JonGuiDataCV.roi_fx_heat:type_name -> ser.JonGuiDataROI
-	5,  // 12: ser.JonGuiDataCV.sharpness_metrics_day:type_name -> ser.JonGuiDataSharpness
-	5,  // 13: ser.JonGuiDataCV.sharpness_metrics_heat:type_name -> ser.JonGuiDataSharpness
-	6,  // 14: ser.JonGuiDataCV.camera_transform_day:type_name -> ser.JonGuiDataTransform3D
-	6,  // 15: ser.JonGuiDataCV.camera_transform_heat:type_name -> ser.JonGuiDataTransform3D
-	7,  // 16: ser.JonGuiDataCV.tracked_objects:type_name -> ser.JonGuiDataTrackedObject
-	17, // [17:17] is the sub-list for method output_type
-	17, // [17:17] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	5,  // 4: ser.JonGuiDataCV.roi_focus_day:type_name -> ser.JonGuiDataROI
+	5,  // 5: ser.JonGuiDataCV.roi_track_day:type_name -> ser.JonGuiDataROI
+	5,  // 6: ser.JonGuiDataCV.roi_zoom_day:type_name -> ser.JonGuiDataROI
+	5,  // 7: ser.JonGuiDataCV.roi_fx_day:type_name -> ser.JonGuiDataROI
+	5,  // 8: ser.JonGuiDataCV.roi_focus_heat:type_name -> ser.JonGuiDataROI
+	5,  // 9: ser.JonGuiDataCV.roi_track_heat:type_name -> ser.JonGuiDataROI
+	5,  // 10: ser.JonGuiDataCV.roi_zoom_heat:type_name -> ser.JonGuiDataROI
+	5,  // 11: ser.JonGuiDataCV.roi_fx_heat:type_name -> ser.JonGuiDataROI
+	6,  // 12: ser.JonGuiDataCV.sharpness_metrics_day:type_name -> ser.JonGuiDataSharpness
+	6,  // 13: ser.JonGuiDataCV.sharpness_metrics_heat:type_name -> ser.JonGuiDataSharpness
+	7,  // 14: ser.JonGuiDataCV.camera_transform_day:type_name -> ser.JonGuiDataTransform3D
+	7,  // 15: ser.JonGuiDataCV.camera_transform_heat:type_name -> ser.JonGuiDataTransform3D
+	8,  // 16: ser.JonGuiDataCV.tracked_objects:type_name -> ser.JonGuiDataTrackedObject
+	4,  // 17: ser.JonGuiDataCV.stab_correction_day:type_name -> ser.JonGuiDataStabCorrection
+	4,  // 18: ser.JonGuiDataCV.stab_correction_heat:type_name -> ser.JonGuiDataStabCorrection
+	19, // [19:19] is the sub-list for method output_type
+	19, // [19:19] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_cv_proto_init() }
@@ -740,7 +842,7 @@ func file_jon_shared_data_cv_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_cv_proto_rawDesc), len(file_jon_shared_data_cv_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

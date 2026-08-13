@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 292 messages, 27 enums, 890 fields
+**Statistics:** 293 messages, 27 enums, 894 fields
 
 ## Messages by Package
 
@@ -389,6 +389,7 @@ That split is why a fact an opaque payload already carries can also appear here,
 - [[proto/ser.JonGuiDataRecOsd|JonGuiDataRecOsd]] — Represents the recording on-screen display (OSD) configuration state, tracking whether thermal and day camera overlays are enabled, along with their respective crosshair offset positions for proper alignment on recorded frames.
 - [[proto/ser.JonGuiDataRotary|JonGuiDataRotary]] — Represents the real-time operational state of a rotary platform, tracking current position (azimuth, elevation, platform angles), motion characteristics (speeds and movement flags), scanning mode and progression, and auxiliary features (sun position data and compass integration mode).
 - [[proto/ser.JonGuiDataSharpness|JonGuiDataSharpness]] — Image sharpness metric for autofocus. Contains the normalized sharpness value (0-1) along with first and second derivatives for tracking focus trend. Used by CV algorithms to determine optimal focus position by maximizing sharpness.
+- [[proto/ser.JonGuiDataStabCorrection|JonGuiDataStabCorrection]] — One video channel's display-stabilisation correction, in that channel's delivered-FX-raster pixels (day 1920x1080, heat 900x720). The value is what the pixel applier ADDS to image position — a scene feature at raw pixel p renders at p + C — so display-space consumers add it to scene-locked overlay positions and subtract it from operator input (taps, drags) before that input becomes a command. The anchor is the LRF crosshair (the digital-zoom centre), not the raster centre. Published by the eutropia stabilisation smoother on JonGuiDataCV.stab_correction_day/_heat; it reflects the smoother's output, not a receipt that pixels were actually warped (with the FX bypass engaged the display shows raw pixels while this value still carries the smoother's correction).
 - [[proto/ser.JonGuiDataSystem|JonGuiDataSystem]] — Captures comprehensive device telemetry including hardware metrics (CPU/GPU temperature and load), recording state with timestamped directories, storage status with warning indicators, operational modes (tracking, stabilization, recognition, geodesic, vampire, CV dumping), and battery status, enabling real-time monitoring of system health and operational state in the frontend UI.
 - [[proto/ser.JonGuiDataTarget|JonGuiDataTarget]] — Encodes a single laser rangefinder (LRF) measurement with the geographic coordinates of the detected target and the observer's position, orientation, and GPS fix quality, along with computed 2D and 3D distances and visual properties for UI display. Serves as the core data structure for target tracking in the GUI, enabling real-time visualization of LRF measurements on maps with color-coded targets.
 - [[proto/ser.JonGuiDataTime|JonGuiDataTime]] — Manages the device's current time state with support for both system and manually-set timestamps, allowing time zone context via zone_id while a boolean flag determines whether to use the manual override or system timestamp. Used throughout the frontend and backend to synchronize time-based operations across the device state distribution system.

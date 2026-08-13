@@ -565,6 +565,105 @@ public final class JonSharedDataCv {
      * @return The zoomRoiActiveHeat.
      */
     boolean getZoomRoiActiveHeat();
+
+    /**
+     * <pre>
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+     * @return Whether the stabCorrectionDay field is set.
+     */
+    boolean hasStabCorrectionDay();
+    /**
+     * <pre>
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+     * @return The stabCorrectionDay.
+     */
+    ser.JonSharedDataCv.JonGuiDataStabCorrection getStabCorrectionDay();
+    /**
+     * <pre>
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+     */
+    ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionDayOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+     * @return Whether the stabCorrectionHeat field is set.
+     */
+    boolean hasStabCorrectionHeat();
+    /**
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+     * @return The stabCorrectionHeat.
+     */
+    ser.JonSharedDataCv.JonGuiDataStabCorrection getStabCorrectionHeat();
+    /**
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+     */
+    ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionHeatOrBuilder();
   }
   /**
    * <pre>
@@ -2038,6 +2137,127 @@ public final class JonSharedDataCv {
       return zoomRoiActiveHeat_;
     }
 
+    public static final int STAB_CORRECTION_DAY_FIELD_NUMBER = 100;
+    private ser.JonSharedDataCv.JonGuiDataStabCorrection stabCorrectionDay_;
+    /**
+     * <pre>
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+     * @return Whether the stabCorrectionDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasStabCorrectionDay() {
+      return ((bitField0_ & 0x00001000) != 0);
+    }
+    /**
+     * <pre>
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+     * @return The stabCorrectionDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataStabCorrection getStabCorrectionDay() {
+      return stabCorrectionDay_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionDay_;
+    }
+    /**
+     * <pre>
+     * The display-stabilisation correction currently PUBLISHED for each
+     * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+     *
+     * Sign convention: the value the pixel applier ADDS to image position —
+     * a scene feature at raw pixel p renders at p + C. Consumers that
+     * translate between display space and raw space therefore ADD C to
+     * scene-locked overlay positions and SUBTRACT C from operator input
+     * (taps, drags) before it becomes a command. The anchor is the LRF
+     * crosshair (the digital-zoom centre), not the raster centre.
+     *
+     * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+     * the FX bypass on, or an FX library lacking the warp, the display shows
+     * RAW pixels while this field still carries the smoother's C — that gap
+     * is a documented dev-mode constraint (the bypass is a debug surface),
+     * and the pixels-truth readback is a separate concern. Absence means the
+     * stabiliser is not publishing for that channel (disabled, or priming
+     * after a reset): consumers treat absent as C = 0 for rendering and as
+     * NOT-CORRECTED for input translation — an input path that requires C
+     * and finds it absent while stabilisation is commanded on must refuse,
+     * never guess.
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionDayOrBuilder() {
+      return stabCorrectionDay_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionDay_;
+    }
+
+    public static final int STAB_CORRECTION_HEAT_FIELD_NUMBER = 101;
+    private ser.JonSharedDataCv.JonGuiDataStabCorrection stabCorrectionHeat_;
+    /**
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+     * @return Whether the stabCorrectionHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasStabCorrectionHeat() {
+      return ((bitField0_ & 0x00002000) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+     * @return The stabCorrectionHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataStabCorrection getStabCorrectionHeat() {
+      return stabCorrectionHeat_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionHeat_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionHeatOrBuilder() {
+      return stabCorrectionHeat_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionHeat_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -2153,6 +2373,12 @@ public final class JonSharedDataCv {
       }
       if (zoomRoiActiveHeat_ != false) {
         output.writeBool(92, zoomRoiActiveHeat_);
+      }
+      if (((bitField0_ & 0x00001000) != 0)) {
+        output.writeMessage(100, getStabCorrectionDay());
+      }
+      if (((bitField0_ & 0x00002000) != 0)) {
+        output.writeMessage(101, getStabCorrectionHeat());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2299,6 +2525,14 @@ public final class JonSharedDataCv {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(92, zoomRoiActiveHeat_);
       }
+      if (((bitField0_ & 0x00001000) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(100, getStabCorrectionDay());
+      }
+      if (((bitField0_ & 0x00002000) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(101, getStabCorrectionHeat());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2424,6 +2658,16 @@ public final class JonSharedDataCv {
           != other.getZoomRoiActiveDay()) return false;
       if (getZoomRoiActiveHeat()
           != other.getZoomRoiActiveHeat()) return false;
+      if (hasStabCorrectionDay() != other.hasStabCorrectionDay()) return false;
+      if (hasStabCorrectionDay()) {
+        if (!getStabCorrectionDay()
+            .equals(other.getStabCorrectionDay())) return false;
+      }
+      if (hasStabCorrectionHeat() != other.hasStabCorrectionHeat()) return false;
+      if (hasStabCorrectionHeat()) {
+        if (!getStabCorrectionHeat()
+            .equals(other.getStabCorrectionHeat())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2543,6 +2787,14 @@ public final class JonSharedDataCv {
       hash = (37 * hash) + ZOOM_ROI_ACTIVE_HEAT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getZoomRoiActiveHeat());
+      if (hasStabCorrectionDay()) {
+        hash = (37 * hash) + STAB_CORRECTION_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getStabCorrectionDay().hashCode();
+      }
+      if (hasStabCorrectionHeat()) {
+        hash = (37 * hash) + STAB_CORRECTION_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getStabCorrectionHeat().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2697,6 +2949,8 @@ public final class JonSharedDataCv {
           getCameraTransformDayFieldBuilder();
           getCameraTransformHeatFieldBuilder();
           getTrackedObjectsFieldBuilder();
+          getStabCorrectionDayFieldBuilder();
+          getStabCorrectionHeatFieldBuilder();
         }
       }
       @java.lang.Override
@@ -2792,6 +3046,16 @@ public final class JonSharedDataCv {
         trinityTrackingActive_ = false;
         zoomRoiActiveDay_ = false;
         zoomRoiActiveHeat_ = false;
+        stabCorrectionDay_ = null;
+        if (stabCorrectionDayBuilder_ != null) {
+          stabCorrectionDayBuilder_.dispose();
+          stabCorrectionDayBuilder_ = null;
+        }
+        stabCorrectionHeat_ = null;
+        if (stabCorrectionHeatBuilder_ != null) {
+          stabCorrectionHeatBuilder_.dispose();
+          stabCorrectionHeatBuilder_ = null;
+        }
         return this;
       }
 
@@ -2980,6 +3244,20 @@ public final class JonSharedDataCv {
         if (((from_bitField1_ & 0x00000002) != 0)) {
           result.zoomRoiActiveHeat_ = zoomRoiActiveHeat_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField1_ & 0x00000004) != 0)) {
+          result.stabCorrectionDay_ = stabCorrectionDayBuilder_ == null
+              ? stabCorrectionDay_
+              : stabCorrectionDayBuilder_.build();
+          to_bitField0_ |= 0x00001000;
+        }
+        if (((from_bitField1_ & 0x00000008) != 0)) {
+          result.stabCorrectionHeat_ = stabCorrectionHeatBuilder_ == null
+              ? stabCorrectionHeat_
+              : stabCorrectionHeatBuilder_.build();
+          to_bitField0_ |= 0x00002000;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -3118,6 +3396,12 @@ public final class JonSharedDataCv {
         }
         if (other.getZoomRoiActiveHeat() != false) {
           setZoomRoiActiveHeat(other.getZoomRoiActiveHeat());
+        }
+        if (other.hasStabCorrectionDay()) {
+          mergeStabCorrectionDay(other.getStabCorrectionDay());
+        }
+        if (other.hasStabCorrectionHeat()) {
+          mergeStabCorrectionHeat(other.getStabCorrectionHeat());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -3347,6 +3631,20 @@ public final class JonSharedDataCv {
                 bitField1_ |= 0x00000002;
                 break;
               } // case 736
+              case 802: {
+                input.readMessage(
+                    getStabCorrectionDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField1_ |= 0x00000004;
+                break;
+              } // case 802
+              case 810: {
+                input.readMessage(
+                    getStabCorrectionHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField1_ |= 0x00000008;
+                break;
+              } // case 810
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -6377,6 +6675,455 @@ public final class JonSharedDataCv {
         return this;
       }
 
+      private ser.JonSharedDataCv.JonGuiDataStabCorrection stabCorrectionDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataCv.JonGuiDataStabCorrection, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder, ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder> stabCorrectionDayBuilder_;
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       * @return Whether the stabCorrectionDay field is set.
+       */
+      public boolean hasStabCorrectionDay() {
+        return ((bitField1_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       * @return The stabCorrectionDay.
+       */
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection getStabCorrectionDay() {
+        if (stabCorrectionDayBuilder_ == null) {
+          return stabCorrectionDay_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionDay_;
+        } else {
+          return stabCorrectionDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      public Builder setStabCorrectionDay(ser.JonSharedDataCv.JonGuiDataStabCorrection value) {
+        if (stabCorrectionDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          stabCorrectionDay_ = value;
+        } else {
+          stabCorrectionDayBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      public Builder setStabCorrectionDay(
+          ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder builderForValue) {
+        if (stabCorrectionDayBuilder_ == null) {
+          stabCorrectionDay_ = builderForValue.build();
+        } else {
+          stabCorrectionDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      public Builder mergeStabCorrectionDay(ser.JonSharedDataCv.JonGuiDataStabCorrection value) {
+        if (stabCorrectionDayBuilder_ == null) {
+          if (((bitField1_ & 0x00000004) != 0) &&
+            stabCorrectionDay_ != null &&
+            stabCorrectionDay_ != ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance()) {
+            getStabCorrectionDayBuilder().mergeFrom(value);
+          } else {
+            stabCorrectionDay_ = value;
+          }
+        } else {
+          stabCorrectionDayBuilder_.mergeFrom(value);
+        }
+        if (stabCorrectionDay_ != null) {
+          bitField1_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      public Builder clearStabCorrectionDay() {
+        bitField1_ = (bitField1_ & ~0x00000004);
+        stabCorrectionDay_ = null;
+        if (stabCorrectionDayBuilder_ != null) {
+          stabCorrectionDayBuilder_.dispose();
+          stabCorrectionDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder getStabCorrectionDayBuilder() {
+        bitField1_ |= 0x00000004;
+        onChanged();
+        return getStabCorrectionDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      public ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionDayOrBuilder() {
+        if (stabCorrectionDayBuilder_ != null) {
+          return stabCorrectionDayBuilder_.getMessageOrBuilder();
+        } else {
+          return stabCorrectionDay_ == null ?
+              ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionDay_;
+        }
+      }
+      /**
+       * <pre>
+       * The display-stabilisation correction currently PUBLISHED for each
+       * channel, in delivered-FX-raster pixels (day 1920x1080, heat 900x720).
+       *
+       * Sign convention: the value the pixel applier ADDS to image position —
+       * a scene feature at raw pixel p renders at p + C. Consumers that
+       * translate between display space and raw space therefore ADD C to
+       * scene-locked overlay positions and SUBTRACT C from operator input
+       * (taps, drags) before it becomes a command. The anchor is the LRF
+       * crosshair (the digital-zoom centre), not the raster centre.
+       *
+       * ⚠ THIS IS THE SMOOTHER'S OUTPUT, NOT AN APPLIED-PIXELS RECEIPT. With
+       * the FX bypass on, or an FX library lacking the warp, the display shows
+       * RAW pixels while this field still carries the smoother's C — that gap
+       * is a documented dev-mode constraint (the bypass is a debug surface),
+       * and the pixels-truth readback is a separate concern. Absence means the
+       * stabiliser is not publishing for that channel (disabled, or priming
+       * after a reset): consumers treat absent as C = 0 for rendering and as
+       * NOT-CORRECTED for input translation — an input path that requires C
+       * and finds it absent while stabilisation is commanded on must refuse,
+       * never guess.
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_day = 100;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataCv.JonGuiDataStabCorrection, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder, ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder> 
+          getStabCorrectionDayFieldBuilder() {
+        if (stabCorrectionDayBuilder_ == null) {
+          stabCorrectionDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataCv.JonGuiDataStabCorrection, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder, ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder>(
+                  getStabCorrectionDay(),
+                  getParentForChildren(),
+                  isClean());
+          stabCorrectionDay_ = null;
+        }
+        return stabCorrectionDayBuilder_;
+      }
+
+      private ser.JonSharedDataCv.JonGuiDataStabCorrection stabCorrectionHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataCv.JonGuiDataStabCorrection, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder, ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder> stabCorrectionHeatBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       * @return Whether the stabCorrectionHeat field is set.
+       */
+      public boolean hasStabCorrectionHeat() {
+        return ((bitField1_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       * @return The stabCorrectionHeat.
+       */
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection getStabCorrectionHeat() {
+        if (stabCorrectionHeatBuilder_ == null) {
+          return stabCorrectionHeat_ == null ? ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionHeat_;
+        } else {
+          return stabCorrectionHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      public Builder setStabCorrectionHeat(ser.JonSharedDataCv.JonGuiDataStabCorrection value) {
+        if (stabCorrectionHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          stabCorrectionHeat_ = value;
+        } else {
+          stabCorrectionHeatBuilder_.setMessage(value);
+        }
+        bitField1_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      public Builder setStabCorrectionHeat(
+          ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder builderForValue) {
+        if (stabCorrectionHeatBuilder_ == null) {
+          stabCorrectionHeat_ = builderForValue.build();
+        } else {
+          stabCorrectionHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField1_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      public Builder mergeStabCorrectionHeat(ser.JonSharedDataCv.JonGuiDataStabCorrection value) {
+        if (stabCorrectionHeatBuilder_ == null) {
+          if (((bitField1_ & 0x00000008) != 0) &&
+            stabCorrectionHeat_ != null &&
+            stabCorrectionHeat_ != ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance()) {
+            getStabCorrectionHeatBuilder().mergeFrom(value);
+          } else {
+            stabCorrectionHeat_ = value;
+          }
+        } else {
+          stabCorrectionHeatBuilder_.mergeFrom(value);
+        }
+        if (stabCorrectionHeat_ != null) {
+          bitField1_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      public Builder clearStabCorrectionHeat() {
+        bitField1_ = (bitField1_ & ~0x00000008);
+        stabCorrectionHeat_ = null;
+        if (stabCorrectionHeatBuilder_ != null) {
+          stabCorrectionHeatBuilder_.dispose();
+          stabCorrectionHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder getStabCorrectionHeatBuilder() {
+        bitField1_ |= 0x00000008;
+        onChanged();
+        return getStabCorrectionHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      public ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder getStabCorrectionHeatOrBuilder() {
+        if (stabCorrectionHeatBuilder_ != null) {
+          return stabCorrectionHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return stabCorrectionHeat_ == null ?
+              ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance() : stabCorrectionHeat_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataStabCorrection stab_correction_heat = 101;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataCv.JonGuiDataStabCorrection, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder, ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder> 
+          getStabCorrectionHeatFieldBuilder() {
+        if (stabCorrectionHeatBuilder_ == null) {
+          stabCorrectionHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataCv.JonGuiDataStabCorrection, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder, ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder>(
+                  getStabCorrectionHeat(),
+                  getParentForChildren(),
+                  isClean());
+          stabCorrectionHeat_ = null;
+        }
+        return stabCorrectionHeatBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCV)
     }
 
@@ -6428,11 +7175,540 @@ public final class JonSharedDataCv {
 
   }
 
+  public interface JonGuiDataStabCorrectionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataStabCorrection)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>float x_px = 1;</code>
+     * @return The xPx.
+     */
+    float getXPx();
+
+    /**
+     * <code>float y_px = 2;</code>
+     * @return The yPx.
+     */
+    float getYPx();
+  }
+  /**
+   * <pre>
+   * One channel's display-stabilisation correction, in that channel's
+   * delivered-FX-raster pixels. See the field comments on
+   * JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
+   * anchor, and the smoother-vs-applied caveat.
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataStabCorrection}
+   */
+  public static final class JonGuiDataStabCorrection extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataStabCorrection)
+      JonGuiDataStabCorrectionOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataStabCorrection.class.getName());
+    }
+    // Use JonGuiDataStabCorrection.newBuilder() to construct.
+    private JonGuiDataStabCorrection(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataStabCorrection() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataCv.internal_static_ser_JonGuiDataStabCorrection_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataCv.internal_static_ser_JonGuiDataStabCorrection_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataCv.JonGuiDataStabCorrection.class, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder.class);
+    }
+
+    public static final int X_PX_FIELD_NUMBER = 1;
+    private float xPx_ = 0F;
+    /**
+     * <code>float x_px = 1;</code>
+     * @return The xPx.
+     */
+    @java.lang.Override
+    public float getXPx() {
+      return xPx_;
+    }
+
+    public static final int Y_PX_FIELD_NUMBER = 2;
+    private float yPx_ = 0F;
+    /**
+     * <code>float y_px = 2;</code>
+     * @return The yPx.
+     */
+    @java.lang.Override
+    public float getYPx() {
+      return yPx_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Float.floatToRawIntBits(xPx_) != 0) {
+        output.writeFloat(1, xPx_);
+      }
+      if (java.lang.Float.floatToRawIntBits(yPx_) != 0) {
+        output.writeFloat(2, yPx_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Float.floatToRawIntBits(xPx_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, xPx_);
+      }
+      if (java.lang.Float.floatToRawIntBits(yPx_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, yPx_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataCv.JonGuiDataStabCorrection)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataCv.JonGuiDataStabCorrection other = (ser.JonSharedDataCv.JonGuiDataStabCorrection) obj;
+
+      if (java.lang.Float.floatToIntBits(getXPx())
+          != java.lang.Float.floatToIntBits(
+              other.getXPx())) return false;
+      if (java.lang.Float.floatToIntBits(getYPx())
+          != java.lang.Float.floatToIntBits(
+              other.getYPx())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X_PX_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getXPx());
+      hash = (37 * hash) + Y_PX_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getYPx());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataCv.JonGuiDataStabCorrection prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One channel's display-stabilisation correction, in that channel's
+     * delivered-FX-raster pixels. See the field comments on
+     * JonGuiDataCV.stab_correction_day/_heat for the sign convention, the
+     * anchor, and the smoother-vs-applied caveat.
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataStabCorrection}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataStabCorrection)
+        ser.JonSharedDataCv.JonGuiDataStabCorrectionOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataCv.internal_static_ser_JonGuiDataStabCorrection_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataCv.internal_static_ser_JonGuiDataStabCorrection_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataCv.JonGuiDataStabCorrection.class, ser.JonSharedDataCv.JonGuiDataStabCorrection.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataCv.JonGuiDataStabCorrection.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        xPx_ = 0F;
+        yPx_ = 0F;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataCv.internal_static_ser_JonGuiDataStabCorrection_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection getDefaultInstanceForType() {
+        return ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection build() {
+        ser.JonSharedDataCv.JonGuiDataStabCorrection result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataCv.JonGuiDataStabCorrection buildPartial() {
+        ser.JonSharedDataCv.JonGuiDataStabCorrection result = new ser.JonSharedDataCv.JonGuiDataStabCorrection(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataCv.JonGuiDataStabCorrection result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.xPx_ = xPx_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.yPx_ = yPx_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataCv.JonGuiDataStabCorrection) {
+          return mergeFrom((ser.JonSharedDataCv.JonGuiDataStabCorrection)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataCv.JonGuiDataStabCorrection other) {
+        if (other == ser.JonSharedDataCv.JonGuiDataStabCorrection.getDefaultInstance()) return this;
+        if (other.getXPx() != 0F) {
+          setXPx(other.getXPx());
+        }
+        if (other.getYPx() != 0F) {
+          setYPx(other.getYPx());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 13: {
+                xPx_ = input.readFloat();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 13
+              case 21: {
+                yPx_ = input.readFloat();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 21
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private float xPx_ ;
+      /**
+       * <code>float x_px = 1;</code>
+       * @return The xPx.
+       */
+      @java.lang.Override
+      public float getXPx() {
+        return xPx_;
+      }
+      /**
+       * <code>float x_px = 1;</code>
+       * @param value The xPx to set.
+       * @return This builder for chaining.
+       */
+      public Builder setXPx(float value) {
+
+        xPx_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float x_px = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearXPx() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        xPx_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float yPx_ ;
+      /**
+       * <code>float y_px = 2;</code>
+       * @return The yPx.
+       */
+      @java.lang.Override
+      public float getYPx() {
+        return yPx_;
+      }
+      /**
+       * <code>float y_px = 2;</code>
+       * @param value The yPx to set.
+       * @return This builder for chaining.
+       */
+      public Builder setYPx(float value) {
+
+        yPx_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float y_px = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearYPx() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        yPx_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataStabCorrection)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataStabCorrection)
+    private static final ser.JonSharedDataCv.JonGuiDataStabCorrection DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataCv.JonGuiDataStabCorrection();
+    }
+
+    public static ser.JonSharedDataCv.JonGuiDataStabCorrection getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataStabCorrection>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataStabCorrection>() {
+      @java.lang.Override
+      public JonGuiDataStabCorrection parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataStabCorrection> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataStabCorrection> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataStabCorrection getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ser_JonGuiDataCV_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ser_JonGuiDataCV_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataStabCorrection_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataStabCorrection_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6444,7 +7720,7 @@ public final class JonSharedDataCv {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val" +
       "idate/validate.proto\032\033jon_shared_data_ty" +
-      "pes.proto\"\206\025\n\014JonGuiDataCV\022G\n\023autofocus_" +
+      "pes.proto\"\272\026\n\014JonGuiDataCV\022G\n\023autofocus_" +
       "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof" +
       "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001" +
       "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day" +
@@ -6485,35 +7761,41 @@ public final class JonSharedDataCv {
       "form3DH\013\210\001\001\0225\n\017tracked_objects\030P \003(\0132\034.s" +
       "er.JonGuiDataTrackedObject\022\037\n\027trinity_tr" +
       "acking_active\030Z \001(\010\022\033\n\023zoom_roi_active_d" +
-      "ay\030[ \001(\010\022\034\n\024zoom_roi_active_heat\030\\ \001(\010\"\310" +
-      "\001\n\016AutofocusState\022\037\n\033AUTOFOCUS_STATE_UNS" +
-      "PECIFIED\020\000\022\030\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034" +
-      "AUTOFOCUS_STATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFO" +
-      "CUS_STATE_FINE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STAT" +
-      "E_CONVERGED\020\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020" +
-      "\005\"\353\001\n\016CvBridgeStatus\022 \n\034CV_BRIDGE_STATUS" +
-      "_UNSPECIFIED\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPP" +
-      "ED\020\001\022\035\n\031CV_BRIDGE_STATUS_STARTING\020\002\022\034\n\030C" +
-      "V_BRIDGE_STATUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_S" +
-      "TATUS_STOPPING\020\004\022\034\n\030CV_BRIDGE_STATUS_CRA" +
-      "SHED\020\005\022\037\n\033CV_BRIDGE_STATUS_RESTARTING\020\006\"" +
-      "\324\002\n\022CvBridgeExitReason\022%\n!CV_BRIDGE_EXIT" +
-      "_REASON_UNSPECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_" +
-      "REASON_NOT_STARTED\020\001\022 \n\034CV_BRIDGE_EXIT_R" +
-      "EASON_NORMAL\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_" +
-      "ERROR\020\003\022$\n CV_BRIDGE_EXIT_REASON_CUDA_ER" +
-      "ROR\020\004\022#\n\037CV_BRIDGE_EXIT_REASON_IPC_ERROR" +
-      "\020\005\022\035\n\031CV_BRIDGE_EXIT_REASON_OOM\020\006\022!\n\035CV_" +
-      "BRIDGE_EXIT_REASON_TIMEOUT\020\007\022 \n\034CV_BRIDG" +
-      "E_EXIT_REASON_SIGNAL\020\010B\020\n\016_roi_focus_day" +
-      "B\020\n\016_roi_track_dayB\017\n\r_roi_zoom_dayB\r\n\013_" +
-      "roi_fx_dayB\021\n\017_roi_focus_heatB\021\n\017_roi_tr" +
-      "ack_heatB\020\n\016_roi_zoom_heatB\016\n\014_roi_fx_he" +
-      "atB\030\n\026_sharpness_metrics_dayB\031\n\027_sharpne" +
-      "ss_metrics_heatB\027\n\025_camera_transform_day" +
-      "B\030\n\026_camera_transform_heatBJZHgit-codeco" +
-      "mmit.eu-central-1.amazonaws.com/v1/repos" +
-      "/jettison/jonp/data/cvb\006proto3"
+      "ay\030[ \001(\010\022\034\n\024zoom_roi_active_heat\030\\ \001(\010\022?" +
+      "\n\023stab_correction_day\030d \001(\0132\035.ser.JonGui" +
+      "DataStabCorrectionH\014\210\001\001\022@\n\024stab_correcti" +
+      "on_heat\030e \001(\0132\035.ser.JonGuiDataStabCorrec" +
+      "tionH\r\210\001\001\"\310\001\n\016AutofocusState\022\037\n\033AUTOFOCU" +
+      "S_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOFOCUS_STATE" +
+      "_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COARSE_SWEEP\020" +
+      "\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEEP\020\003\022\035\n\031AUT" +
+      "OFOCUS_STATE_CONVERGED\020\004\022\032\n\026AUTOFOCUS_ST" +
+      "ATE_FAILED\020\005\"\353\001\n\016CvBridgeStatus\022 \n\034CV_BR" +
+      "IDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030CV_BRIDGE_S" +
+      "TATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_STATUS_STAR" +
+      "TING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUNNING\020\003\022\035\n\031" +
+      "CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n\030CV_BRIDGE" +
+      "_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE_STATUS_RE" +
+      "STARTING\020\006\"\324\002\n\022CvBridgeExitReason\022%\n!CV_" +
+      "BRIDGE_EXIT_REASON_UNSPECIFIED\020\000\022%\n!CV_B" +
+      "RIDGE_EXIT_REASON_NOT_STARTED\020\001\022 \n\034CV_BR" +
+      "IDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033CV_BRIDGE_E" +
+      "XIT_REASON_ERROR\020\003\022$\n CV_BRIDGE_EXIT_REA" +
+      "SON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_EXIT_REASO" +
+      "N_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXIT_REASON_O" +
+      "OM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_TIMEOUT\020\007\022" +
+      " \n\034CV_BRIDGE_EXIT_REASON_SIGNAL\020\010B\020\n\016_ro" +
+      "i_focus_dayB\020\n\016_roi_track_dayB\017\n\r_roi_zo" +
+      "om_dayB\r\n\013_roi_fx_dayB\021\n\017_roi_focus_heat" +
+      "B\021\n\017_roi_track_heatB\020\n\016_roi_zoom_heatB\016\n" +
+      "\014_roi_fx_heatB\030\n\026_sharpness_metrics_dayB" +
+      "\031\n\027_sharpness_metrics_heatB\027\n\025_camera_tr" +
+      "ansform_dayB\030\n\026_camera_transform_heatB\026\n" +
+      "\024_stab_correction_dayB\027\n\025_stab_correctio" +
+      "n_heat\"6\n\030JonGuiDataStabCorrection\022\014\n\004x_" +
+      "px\030\001 \001(\002\022\014\n\004y_px\030\002 \001(\002BJZHgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/data/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6526,7 +7808,13 @@ public final class JonSharedDataCv {
     internal_static_ser_JonGuiDataCV_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCV_descriptor,
-        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", "ZoomRoiActiveDay", "ZoomRoiActiveHeat", });
+        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", "TrinityTrackingActive", "ZoomRoiActiveDay", "ZoomRoiActiveHeat", "StabCorrectionDay", "StabCorrectionHeat", });
+    internal_static_ser_JonGuiDataStabCorrection_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_ser_JonGuiDataStabCorrection_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataStabCorrection_descriptor,
+        new java.lang.String[] { "XPx", "YPx", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
