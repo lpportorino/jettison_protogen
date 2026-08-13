@@ -84,3 +84,27 @@
     (is (thrown-with-msg?
          clojure.lang.ExceptionInfo #"no :export\? probe"
          (host/dump-draw-palette! {:call! (constantly nil)})))))
+
+(deftest utf8-string-decodes-multi-byte-glyphs-rather-than-one-char-per-byte
+  (testing "a DEGREE SIGN survives. The decoder used to append one char per
+            byte — Latin-1 — so U+00B0 (UTF-8 c2 b0) became the two chars
+            U+00C2 U+00B0 and was written back out as c3 82 c2 b0. That is the
+            mangling measured in a consumer's generated pages, and this is the
+            assertion that goes red if the byte loop reverts."
+    (is (= "°" (host/utf8-string (byte-array [(unchecked-byte 0xc2)
+                                              (unchecked-byte 0xb0)])))))
+  (testing "and so does a PRIVATE-USE-AREA icon codepoint, which is the case
+            that actually reaches an operator: the icon font's warning triangle
+            U+F071 (UTF-8 ef 81 b1) became c3 af c2 81 c2 b1 and rendered in the
+            page as a three-character mojibake before the label text."
+    (is (= "" (host/utf8-string (byte-array [(unchecked-byte 0xef)
+                                              (unchecked-byte 0x81)
+                                              (unchecked-byte 0xb1)])))))
+  (testing "CONTROL — ASCII is a FIXED POINT of the old bug, which is why it
+            survived unnoticed. Without this case the two above could be
+            satisfied by a decoder that mangles ordinary labels instead, and
+            every label this corpus asserts on is ASCII."
+    (is (= "Turn Off" (host/utf8-string (.getBytes "Turn Off" "UTF-8")))))
+  (testing "the empty buffer is the empty string, not nil — read-cstring hits
+            this on any node whose text is absent."
+    (is (= "" (host/utf8-string (byte-array 0))))))

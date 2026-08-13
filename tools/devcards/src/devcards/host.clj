@@ -287,6 +287,23 @@
                       {:ticks render-ticks :tick-ms tick-ms})))
     (read-framebuffer! host)))
 
+(defn utf8-string
+  "Decode `buf` — the renderer's dump payload — as UTF-8.
+
+   SPLIT OUT OF `read-cstring` SO IT CAN BE TESTED AT ALL. That function reads
+   through a GraalVM `Value`, which is a final class and cannot be faked, so the
+   decode was reachable only by standing up a wasm module. The bug below was
+   therefore invisible to every unit test in this suite while being visible in a
+   consumer's generated pages.
+
+   THE BUG IT FIXES: the byte loop used to append one CHAR PER BYTE, which is
+   Latin-1, and so double-encoded every multi-byte glyph the renderer emits.
+   ASCII is a fixed point of that mistake, which is why it survived — every
+   label this corpus asserts on is ASCII. The RENDERS were always correct: the
+   renderer never sees this String, only a reader of the text does."
+  ^String [^bytes buf]
+  (String. buf java.nio.charset.StandardCharsets/UTF_8))
+
 (defn- read-cstring
   "The NUL-terminated dump buffer at `ptr`, copied out of linear memory into a
    String.
@@ -295,14 +312,24 @@
    them all the SAME contract: the returned pointer is into the one shared dump
    buffer, so the bytes must be copied out before the next call into the module.
    A second hand-rolled copy of this loop beside the first would be a silently
-   divergent source for a rule nobody re-checks."
+   divergent source for a rule nobody re-checks.
+
+   THE BYTES ARE UTF-8 AND ARE DECODED AS SUCH — an earlier form appended one
+   CHAR PER BYTE, which is Latin-1, and that silently double-encoded every
+   multi-byte glyph the renderer emits. Measured on a consumer's generated
+   pages: a degree sign (U+00B0, UTF-8 `c2 b0`) became the two chars U+00C2
+   U+00B0 and was written back out as `c3 82 c2 b0`; the icon font's
+   warning triangle (U+F071, UTF-8 `ef 81 b1`) became `c3 af c2 81 c2 b1`.
+   ASCII is a fixed point of that bug, which is why it survived — every label
+   the corpus asserts on is ASCII, and the RENDERS were always correct because
+   the renderer never sees this String. Only a reader of the text did."
   ^String [^Value mem ^long ptr]
-  (let [sb (StringBuilder.)]
+  (let [out (java.io.ByteArrayOutputStream.)]
     (loop [p ptr]
       (let [b (.readBufferByte mem p)]
         (if (zero? b)
-          (.toString sb)
-          (do (.append sb (char (bit-and b 0xFF))) (recur (inc p))))))))
+          (utf8-string (.toByteArray out))
+          (do (.write out (bit-and b 0xFF)) (recur (inc p))))))))
 
 (def draw-palette-export
   "The renderer export carrying the draw-stream palette observation."
