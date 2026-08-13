@@ -584,7 +584,9 @@ semantics, error codes) lives at that home.
 **Guest exports** (`controls_*`, from `renderer/src/main.c`):
 `controls_init`, `controls_load_ui`, `controls_apply_patch`,
 `controls_update_state`, `controls_host_message`, `controls_key_event`,
-`controls_text_input`, `controls_get_focused_text`, `controls_tick`,
+`controls_text_input`, `controls_get_focused_text`,
+`controls_take_clipboard_request`, `controls_get_clipboard_text`,
+`controls_tick`,
 `controls_get_framebuffer`, `controls_abi_version`, `controls_fb_format`,
 `controls_fb_width`, `controls_fb_height`, `controls_fb_bpp`,
 `controls_set_breakpoint`, `controls_set_theme_dark`, `controls_set_theme_family`, `controls_set_dpi`,
@@ -605,7 +607,20 @@ still rendering; one or more nodes are degraded, canonically a duplicate uid).
 A host treating any nonzero as "failed" remains correct across this bump; a
 host that wants to distinguish "show the operator nothing" from "show it,
 flagged" gates on `>= 4` to know the distinction is real rather than assumed.
-The codes are `LOAD_ERR_*` in `renderer/src/renderer.h`),
+The codes are `LOAD_ERR_*` in `renderer/src/renderer.h`; `v5` made the text
+field SELECTION-AWARE — it added the `controls_take_clipboard_request` and
+`controls_get_clipboard_text` exports and a MODIFIER code space at or above
+`0x01000000` on `controls_key_event`, both additive and requiring no new
+import, and it CHANGED one behaviour a host must be able to detect:
+`controls_get_focused_text` now returns NULL for a PASSWORD field instead of
+its cleartext, so a host that gates on `>= 5` knows the NULL is the module
+refusing rather than an empty field. The clipboard transfer is a PULL because
+a new `env.*` import would be instantiation-mandatory and would stop every
+un-updated host from loading the module at all: the module resolves the chord,
+performs the local edit, and leaves a request code (`0` none, `1` copy, `2`
+cut, `3` paste) plus a payload for the host to drain on its next tick. `1` and
+`2` carry `controls_get_clipboard_text`; `3` carries nothing and asks the host
+to hand its own clipboard to `controls_text_input`),
 `controls_fb_format` (`1` = `RGBA8888`, memory byte order
 `framebuffer[i*4+0]`=R), `controls_fb_width`/`controls_fb_height`,
 `controls_fb_bpp` (`4`). All are plain `u32` returns (no i64/BigInt).

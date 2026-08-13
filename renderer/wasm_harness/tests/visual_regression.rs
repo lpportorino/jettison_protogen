@@ -3929,6 +3929,447 @@ mod keyboard_input {
     }
 }
 // ═══════════════════════════════════════════════════════════════════
+// Text field: selection, the Ctrl-chord clipboard, and multi-line
+// caret motion. Selection is driven the way an operator drives it —
+// a real press/move/release over controls_host_message — and read
+// back through the SHIPPING clipboard ABI rather than through any
+// test-only introspection, so a green here is a statement about the
+// surface a host actually consumes. dump_tree emits no selection key,
+// which is precisely why the assertions go through the copy path.
+// ═══════════════════════════════════════════════════════════════════
+
+mod text_field {
+    use super::*;
+    use lvgl_harness::{Lifecycle, ThemeMode};
+    /// `lv_key_t` control values (lvgl/src/core/lv_group.h).
+    const LV_KEY_UP: u32 = 17;
+    const LV_KEY_DOWN: u32 = 18;
+    const LV_KEY_BACKSPACE: u32 = 8;
+    /// Module-owned modifier code (renderer/src/main.c CONTROLS_KEY_CTRL).
+    /// Above the largest Unicode codepoint, so it cannot collide with a
+    /// typed character or an `lv_key_t`.
+    const CONTROLS_KEY_CTRL: u32 = 0x0100_0000;
+    /// controls_take_clipboard_request() codes.
+    const CLIP_NONE: u32 = 0;
+    const CLIP_COPY: u32 = 1;
+    const CLIP_CUT: u32 = 2;
+    const CLIP_PASTE: u32 = 3;
+    /// Ten ticks at 16 ms spans LVGL's 33 ms indev poll period. A shorter
+    /// settle silently drops the edge: the pointer path carries no queue, so
+    /// a press and release inside one poll window are never observed at all.
+    fn settle(host: &mut ControlsHost) {
+        for _ in 0..10 {
+            let _ = host.tick(16).expect("tick");
+        }
+    }
+    fn click(host: &mut ControlsHost, x: i32, y: i32) {
+        press_px(host, x, y);
+        settle(host);
+        release_px(host, x, y);
+        settle(host);
+    }
+    /// The coords rect `[x1, y1, x2, y2]` of the textarea's own content
+    /// LABEL — not of the textarea.
+    ///
+    /// The distinction is load-bearing and cost this test a red: LVGL starts a
+    /// selection only when the press is `!click_outside_label`, and it derives
+    /// that from `rel_pos.x = point - label.x1`, so ANY press in the
+    /// textarea's padding has `rel_pos.x < 0`, is classified outside, and
+    /// never arms `text_sel_in_prog`. A drag begun one pixel inside the
+    /// WIDGET therefore selects nothing at all, while still moving the caret —
+    /// indistinguishable from a plain click.
+    fn textarea_label_rect(host: &mut ControlsHost) -> [i32; 4] {
+        fn find_ta<'a>(node: &'a serde_json::Value) -> Option<&'a serde_json::Value> {
+            if node["type"] == "lv_textarea" {
+                return Some(node);
+            }
+            node["children"].as_array()?.iter().find_map(find_ta)
+        }
+        fn find_label<'a>(node: &'a serde_json::Value) -> Option<&'a serde_json::Value> {
+            if node["type"] == "lv_label" {
+                return Some(node);
+            }
+            node["children"].as_array()?.iter().find_map(find_label)
+        }
+        let root = tree(host);
+        let ta = find_ta(&root).expect("no lv_textarea in tree");
+        let label = find_label(ta).expect("no content label under the textarea");
+        let coords = label["coords"].as_array().expect("coords");
+        let value = |i: usize| coords[i].as_i64().expect("coord") as i32;
+        [value(0), value(1), value(2), value(3)]
+    }
+    fn focus_textarea(host: &mut ControlsHost) {
+        let (x, y) = widget_center(host, "lv_textarea");
+        click(host, x, y);
+    }
+    fn type_str(host: &mut ControlsHost, text: &str) {
+        for ch in text.chars() {
+            host.key(u32::from(ch)).expect("key");
+        }
+        settle(host);
+    }
+    /// One Ctrl-chord, as a host sends it: modifier down, letter, modifier up.
+    fn ctrl_chord(host: &mut ControlsHost, letter: char) {
+        host.key_event(CONTROLS_KEY_CTRL, true).expect("ctrl down");
+        host.key(u32::from(letter)).expect("chord letter");
+        host.key_event(CONTROLS_KEY_CTRL, false).expect("ctrl up");
+        settle(host);
+    }
+    /// Press-drag-release across the field, left inset to `to_x`. The moves
+    /// are separated by settles because selection is sampled per indev poll:
+    /// LVGL stores sel_start on PRESSED and rewrites sel_end on each PRESSING.
+    fn drag_select(host: &mut ControlsHost, from_x: i32, to_x: i32, y: i32) {
+        press_px(host, from_x, y);
+        settle(host);
+        move_px(host, (from_x + to_x) / 2, y);
+        settle(host);
+        move_px(host, to_x, y);
+        settle(host);
+        release_px(host, to_x, y);
+        settle(host);
+    }
+
+    #[test]
+    fn drag_across_the_field_selects_and_copy_carries_only_the_selection() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "abcdefgh");
+        let rect = textarea_label_rect(&mut host);
+        let mid_y = (rect[1] + rect[3]) / 2;
+        // From the first glyph to the label's horizontal middle: a PROPER
+        // PREFIX. The exact glyph count is font metrics and deliberately not
+        // asserted — what is asserted is that the copy carries LESS than the
+        // whole field and more than nothing, which is false for both the
+        // whole-field copy this replaces and for a selection that never armed.
+        drag_select(&mut host, rect[0] + 1, (rect[0] + rect[2]) / 2, mid_y);
+        ctrl_chord(&mut host, 'c');
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_COPY,
+            "Ctrl+C raises a COPY request"
+        );
+        let copied = host
+            .clipboard_text()
+            .expect("clipboard_text")
+            .expect("a selection was copied");
+        assert!(
+            !copied.is_empty(),
+            "drag selected nothing — selection never armed"
+        );
+        assert!(
+            copied.len() < "abcdefgh".len(),
+            "copy carried the WHOLE field ({copied:?}) — selection was ignored"
+        );
+        assert!(
+            "abcdefgh".starts_with(&copied),
+            "a left-to-middle drag must copy a prefix, got {copied:?}"
+        );
+    }
+
+    #[test]
+    fn copy_without_a_selection_carries_the_whole_field() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "whole");
+        ctrl_chord(&mut host, 'c');
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_COPY,
+            "Ctrl+C raises a COPY request with no selection"
+        );
+        assert_eq!(
+            host.clipboard_text().expect("clipboard_text").as_deref(),
+            Some("whole"),
+            "a caret-only copy carries the whole field rather than nothing"
+        );
+    }
+
+    #[test]
+    fn select_all_then_typing_replaces_rather_than_appends() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "old");
+        ctrl_chord(&mut host, 'a');
+        type_str(&mut host, "new");
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("new"),
+            "typing over a select-all must REPLACE; LVGL's own insert appends"
+        );
+    }
+
+    #[test]
+    fn select_all_then_backspace_clears_the_field() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "wipe");
+        ctrl_chord(&mut host, 'a');
+        host.key(LV_KEY_BACKSPACE).expect("backspace");
+        settle(&mut host);
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some(""),
+            "backspace over a selection removes the RANGE, not one character"
+        );
+    }
+
+    #[test]
+    fn cut_stages_the_selection_and_removes_it_from_the_field() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "cutme");
+        ctrl_chord(&mut host, 'a');
+        ctrl_chord(&mut host, 'x');
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_CUT,
+            "Ctrl+X raises a CUT request"
+        );
+        assert_eq!(
+            host.clipboard_text().expect("clipboard_text").as_deref(),
+            Some("cutme"),
+            "cut stages the selection BEFORE deleting it"
+        );
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some(""),
+            "cut removed the selected range from the field"
+        );
+    }
+
+    #[test]
+    fn copy_paste_round_trips_to_the_same_bytes() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "round");
+        ctrl_chord(&mut host, 'a');
+        ctrl_chord(&mut host, 'c');
+        assert_eq!(host.take_clipboard_request().expect("request"), CLIP_COPY);
+        let carried = host
+            .clipboard_text()
+            .expect("clipboard_text")
+            .expect("copied");
+        // Ctrl+V asks the HOST for its clipboard; the module cannot read one.
+        // Standing in for the host is the whole point of the request code.
+        ctrl_chord(&mut host, 'v');
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_PASTE,
+            "Ctrl+V raises a PASTE request for the host to answer"
+        );
+        ctrl_chord(&mut host, 'a');
+        host.text_input(&carried).expect("paste");
+        settle(&mut host);
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("round"),
+            "type -> select -> copy -> paste round-trips to the same bytes"
+        );
+    }
+
+    #[test]
+    fn a_drained_clipboard_request_does_not_repeat() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "once");
+        // Select first, so this test pins the DRAIN semantics alone and not
+        // the no-selection fallback that copy_without_a_selection_* owns.
+        ctrl_chord(&mut host, 'a');
+        ctrl_chord(&mut host, 'c');
+        assert_eq!(host.take_clipboard_request().expect("request"), CLIP_COPY);
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_NONE,
+            "draining the request CLEARS it — a host polling each tick must \
+             not copy again every frame"
+        );
+    }
+
+    #[test]
+    fn a_ctrl_chord_never_types_its_letter() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        type_str(&mut host, "x");
+        // 'c', 'a', 'v', 'x' are all chords; none may reach the field as text.
+        ctrl_chord(&mut host, 'c');
+        ctrl_chord(&mut host, 'v');
+        let _ = host.take_clipboard_request();
+        // 'q' is deliberately UNMAPPED: an unknown chord must be swallowed
+        // too, not fall through and type a stray character.
+        ctrl_chord(&mut host, 'q');
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("x"),
+            "a Ctrl-chord is a COMMAND — no chord letter may be inserted"
+        );
+    }
+
+    #[test]
+    fn blur_releases_a_held_modifier() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea");
+        focus_textarea(&mut host);
+        // Press Ctrl and never release it — the exact shape of a host that
+        // loses focus mid-chord and never delivers the release edge.
+        host.key_event(CONTROLS_KEY_CTRL, true).expect("ctrl down");
+        settle(&mut host);
+        host.lifecycle(Lifecycle::new(ThemeMode::Dark, false, false))
+            .expect("blur");
+        settle(&mut host);
+        host.lifecycle(Lifecycle::new(ThemeMode::Dark, true, true))
+            .expect("refocus");
+        settle(&mut host);
+        focus_textarea(&mut host);
+        type_str(&mut host, "ok");
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("ok"),
+            "a modifier held across a blur must not survive it — otherwise \
+             every later keystroke is silently eaten as a command"
+        );
+    }
+
+    #[test]
+    fn copy_and_cut_are_refused_in_password_mode() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea_password");
+        focus_textarea(&mut host);
+        type_str(&mut host, "hunter2");
+        ctrl_chord(&mut host, 'a');
+        ctrl_chord(&mut host, 'c');
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_NONE,
+            "a password field must raise NO copy request"
+        );
+        assert_eq!(
+            host.clipboard_text().expect("clipboard_text"),
+            None,
+            "a password field must stage no clipboard bytes"
+        );
+        assert_eq!(
+            host.focused_text().expect("focused_text"),
+            None,
+            "the whole-field accessor must refuse a password field too — \
+             otherwise the refusal above is cosmetic"
+        );
+        ctrl_chord(&mut host, 'x');
+        assert_eq!(
+            host.take_clipboard_request().expect("request"),
+            CLIP_NONE,
+            "cut is refused in password mode"
+        );
+        // The DELETE half must be refused with the copy half: a cut that
+        // erased text the operator can never paste back is worse than a no-op.
+        assert!(
+            label_texts_of(&mut host).iter().any(|t| t.chars().count() == 7),
+            "a refused cut must leave the field intact (7 bullets)"
+        );
+    }
+
+    /// All label texts in the dumped tree.
+    fn label_texts_of(host: &mut ControlsHost) -> Vec<String> {
+        fn collect(node: &serde_json::Value, out: &mut Vec<String>) {
+            if let Some(text) = node["text"].as_str() {
+                out.push(text.to_owned());
+            }
+            if let Some(children) = node["children"].as_array() {
+                for child in children {
+                    collect(child, out);
+                }
+            }
+        }
+        let mut out = Vec::new();
+        collect(&tree(host), &mut out);
+        out
+    }
+
+    #[test]
+    fn a_paste_past_max_length_is_refused_not_truncated() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea_capped");
+        focus_textarea(&mut host);
+        type_str(&mut host, "1234");
+        // The fixture caps at 8 characters. 6 more would reach 10 — LVGL's own
+        // add_text would silently keep the first 4 and drop the rest.
+        assert!(
+            host.text_input("567890").is_err(),
+            "a paste that would exceed max_length must be REFUSED"
+        );
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("1234"),
+            "a refused paste must leave the field byte-identical — a partial \
+             insert is the silent truncation this refusal exists to prevent"
+        );
+        // The boundary itself must still be reachable: exactly 8 fits.
+        host.text_input("5678").expect("paste up to the cap");
+        settle(&mut host);
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("12345678"),
+            "a paste that exactly reaches max_length is accepted — the \
+             refusal must not be an off-by-one that bans the last character"
+        );
+    }
+
+    #[test]
+    fn the_caret_crosses_a_line_boundary_in_a_multiline_field() {
+        let mut host = new_host();
+        let _ = render(&mut host, "vr_textarea_multiline");
+        focus_textarea(&mut host);
+        // Two explicit rows. A one_line field cannot express this at all:
+        // lv_textarea_add_char drops \n outright in one-line mode.
+        type_str(&mut host, "first\nsecond");
+        assert_eq!(
+            host.focused_text().expect("focused_text").as_deref(),
+            Some("first\nsecond"),
+            "a multi-line field accepts a newline"
+        );
+        // The caret sits at the end of row 2. UP must land it in row 1, so a
+        // typed character joins the FIRST row; a caret that ignored the row
+        // boundary would append to the second.
+        host.key(LV_KEY_UP).expect("caret up");
+        settle(&mut host);
+        type_str(&mut host, "X");
+        let text = host
+            .focused_text()
+            .expect("focused_text")
+            .expect("multiline text");
+        let (row1, row2) = text.split_once('\n').expect("still two rows");
+        assert!(
+            row1.contains('X'),
+            "caret UP must cross into row 1 — got rows {row1:?} / {row2:?}"
+        );
+        assert_eq!(
+            row2, "second",
+            "row 2 must be untouched by a caret that left it"
+        );
+        // And back DOWN again, so the assertion above cannot pass on a caret
+        // that merely got stuck at the top.
+        host.key(LV_KEY_DOWN).expect("caret down");
+        settle(&mut host);
+        type_str(&mut host, "Y");
+        let after = host
+            .focused_text()
+            .expect("focused_text")
+            .expect("multiline text");
+        let (_, row2_after) = after.split_once('\n').expect("still two rows");
+        assert!(
+            row2_after.contains('Y'),
+            "caret DOWN must return to row 2 — got {row2_after:?}"
+        );
+    }
+}
+// ═══════════════════════════════════════════════════════════════════
 // Host proxy: the positioning-proxy element (docs/lvgl-factory/08) —
 // creation SYNC, drag/resize/align gestures with START/MOVE/END
 // phases, static-mode click-through, mode-change SYNCs, hidden

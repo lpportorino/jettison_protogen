@@ -180,6 +180,8 @@ LDFLAGS := -Wl,--export=malloc -Wl,--export=free \
            -Wl,--export=controls_key_event \
            -Wl,--export=controls_text_input \
            -Wl,--export=controls_get_focused_text \
+           -Wl,--export=controls_take_clipboard_request \
+           -Wl,--export=controls_get_clipboard_text \
            -Wl,--export=controls_tick \
            -Wl,--export=controls_get_framebuffer \
            -Wl,--export=controls_abi_version \

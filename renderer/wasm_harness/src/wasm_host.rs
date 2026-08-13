@@ -517,6 +517,11 @@ pub struct ControlsHost {
     fn_text_input: TypedFunc<(u32, u32), i32>,
     /// `controls_get_focused_text() -> ptr` (NUL-terminated; 0 = no focus)
     fn_get_focused_text: TypedFunc<(), u32>,
+    /// `controls_take_clipboard_request() -> req` — drains the pending
+    /// clipboard request (0 none, 1 copy, 2 cut, 3 paste)
+    fn_take_clipboard_request: TypedFunc<(), u32>,
+    /// `controls_get_clipboard_text() -> ptr` (NUL-terminated; 0 = empty)
+    fn_get_clipboard_text: TypedFunc<(), u32>,
     /// `controls_tick(elapsed_ms) -> changed` (1 = framebuffer changed)
     fn_tick: TypedFunc<u32, i32>,
     /// `controls_get_framebuffer() -> ptr`
@@ -863,6 +868,18 @@ impl ControlsHost {
             .map_err(|err| {
                 HarnessError::Wasm(format!("missing controls_get_focused_text export: {err}"))
             })?;
+        let fn_take_clipboard_request: TypedFunc<(), u32> = instance
+            .get_typed_func(&mut store, "controls_take_clipboard_request")
+            .map_err(|err| {
+                HarnessError::Wasm(format!(
+                    "missing controls_take_clipboard_request export: {err}"
+                ))
+            })?;
+        let fn_get_clipboard_text: TypedFunc<(), u32> = instance
+            .get_typed_func(&mut store, "controls_get_clipboard_text")
+            .map_err(|err| {
+                HarnessError::Wasm(format!("missing controls_get_clipboard_text export: {err}"))
+            })?;
         let fn_tick: TypedFunc<u32, i32> = instance
             .get_typed_func(&mut store, "controls_tick")
             .map_err(|err| HarnessError::Wasm(format!("missing controls_tick export: {err}")))?;
@@ -947,6 +964,8 @@ impl ControlsHost {
             fn_key_event,
             fn_text_input,
             fn_get_focused_text,
+            fn_take_clipboard_request,
+            fn_get_clipboard_text,
             fn_tick,
             fn_get_framebuffer,
             fn_dump_tree,
@@ -1575,6 +1594,35 @@ impl ControlsHost {
             return Ok(None);
         }
         self.read_cstr(ptr, "focused_text").map(Some)
+    }
+    /// Drain the module's pending clipboard request
+    /// (`controls_take_clipboard_request`): 0 none, 1 copy, 2 cut, 3 paste.
+    /// Reading it CLEARS it, so a second call returns 0.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the WASM call fails.
+    pub fn take_clipboard_request(&mut self) -> Result<u32, HarnessError> {
+        self.fn_take_clipboard_request
+            .call(&mut self.store, ())
+            .map_err(|err| HarnessError::Wasm(format!("take_clipboard_request failed: {err}")))
+    }
+    /// Bytes the module staged for the host to put on the system clipboard
+    /// (`controls_get_clipboard_text`), or `None` when nothing is staged.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the WASM call fails or the returned pointer is
+    /// invalid.
+    pub fn clipboard_text(&mut self) -> Result<Option<String>, HarnessError> {
+        let ptr = self
+            .fn_get_clipboard_text
+            .call(&mut self.store, ())
+            .map_err(|err| HarnessError::Wasm(format!("get_clipboard_text failed: {err}")))?;
+        if ptr == 0 {
+            return Ok(None);
+        }
+        self.read_cstr(ptr, "clipboard_text").map(Some)
     }
     /// Call the WASM module's destroy function for cleanup.
     ///

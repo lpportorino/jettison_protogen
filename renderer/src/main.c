@@ -19,12 +19,19 @@
  *                                    hit-test routing (LVGL widget vs the
  *                                    gesture FSM). Negative = decode/validate
  *                                    reject; >0 = a benign no-op class.
- *   controls_key_event(key, p)     — Enqueue a keypad key (lv_key_t or
- *                                    Unicode codepoint; p=1 press, 0 release)
+ *   controls_key_event(key, p)     — Enqueue a keypad key (lv_key_t, Unicode
+ *                                    codepoint, or a modifier code >=
+ *                                    0x01000000; p=1 press, 0 release)
  *   controls_text_input(ptr, len)  — Insert UTF-8 text into the focused
- *                                    textarea (paste path)
- *   controls_get_focused_text()    — NUL-terminated text of the focused
- *                                    textarea, or NULL (copy path)
+ *                                    textarea, REPLACING any selection (the
+ *                                    paste path; refuses over-cap input)
+ *   controls_get_focused_text()    — NUL-terminated text of the WHOLE focused
+ *                                    textarea, or NULL (also NULL in password
+ *                                    mode)
+ *   controls_take_clipboard_request() — Drain the pending clipboard request
+ *                                    (0 none, 1 copy, 2 cut, 3 paste)
+ *   controls_get_clipboard_text()  — NUL-terminated bytes a copy/cut staged,
+ *                                    or NULL (the selection-aware copy path)
  *   controls_tick(ms) -> i32       — Advance LVGL, returns 1 if changed
  *   controls_get_framebuffer()     — Get RGBA framebuffer pointer
  *   controls_abi_version() -> u32  — ABI/layout contract version (host gate)
@@ -57,6 +64,8 @@
 /* lv_obj_class_t.name */
 #include "lvgl/src/core/lv_obj_draw_private.h"
 /* lv_obj_get_ext_draw_size (the OVERFLOW_VISIBLE descent gate) */
+#include "lvgl/src/misc/lv_text_private.h"
+/* lv_text_encoded_get_byte_id (selection char index -> UTF-8 byte offset) */
 #include "lvgl/src/widgets/label/lv_label_private.h"
 /* lv_label_t.dot_begin */
 #include "palette_observer.h"
@@ -104,8 +113,19 @@ static volatile int flush_happened;
  * A host treating any nonzero as "failed" stays correct — which is why this
  * is a version bump and not a break — but one that wants to distinguish
  * "show the operator nothing" from "show it, flagged" now can, and gates on
- * this version to know the distinction is real rather than assumed. */
-#define CONTROLS_ABI_VERSION 4u
+ * this version to know the distinction is real rather than assumed.
+ *
+ * v5: the text field became selection-aware. Two exports joined
+ * (controls_take_clipboard_request, controls_get_clipboard_text) and
+ * controls_key_event gained a MODIFIER code space at/above 0x01000000 — both
+ * additive, and no import joined the required set, so an unchanged host still
+ * loads and behaves as before. One behaviour DID change rather than being
+ * added, which is why a host must be able to detect this version:
+ * controls_get_focused_text now returns NULL for a PASSWORD field instead of
+ * its cleartext. A host that showed that value, or put it on a clipboard, was
+ * leaking the one thing the field exists to hide; a host that gates on v5
+ * knows the refusal is the module's and not an empty field. */
+#define CONTROLS_ABI_VERSION 5u
 /* Framebuffer pixel format id — memory BYTE order (framebuffer[i*4+0] is the
  * first listed channel); 0 reserved invalid so an uninitialized module is
  * rejected. Stable integers (Vulkan/wgpu style). The renderer emits RGBA8888:
@@ -326,6 +346,42 @@ typedef struct {
 } key_event_t;
 static key_event_t key_queue[KEY_QUEUE_CAP];
 static uint32_t key_q_head, key_q_tail; /* head == tail -> empty */
+/* ── Modifiers ride the EXISTING key ABI ───────────────────────────────────
+ * The host sends bare keys, so `Ctrl+C` and `c` are the same event unless
+ * something carries the chord. Three shapes were available; this is the third,
+ * and it is chosen because the other two each pay a cost this one does not.
+ *
+ *   (a) A modifier BITMASK beside every key — controls_key_event(key, pressed,
+ *       mods). It changes a SIGNATURE every host already calls, on the hot
+ *       path, to carry a value that is redundant on all but a handful of
+ *       events; and it cannot express a modifier edge at all, so a host that
+ *       presses Ctrl and presses nothing else has no event to send.
+ *   (b) The host resolves the chord and calls semantic entry points
+ *       (copy/cut/paste/select-all). The module gets simpler and every host
+ *       re-implements the key policy — so a new chord is an N-host change, and
+ *       two hosts disagreeing about what Ctrl+A means is undetectable here.
+ *
+ * A modifier IS a key: it has a press and a release, and its ORDER against the
+ * other keys is the whole of its meaning. So it travels as one, through
+ * controls_key_event unchanged — no new signature, no new export, no new
+ * import, and the existing ring queue supplies the ordering for free.
+ *
+ * The code space is provably free rather than conventionally free: every
+ * lv_key_t control value is <= 127 (LV_KEY_DEL, lvgl/src/core/lv_group.h) and
+ * the largest Unicode codepoint is 0x10FFFF, so nothing at or above 0x01000000
+ * can be either. CTRL is the only modifier defined, because it is the only one
+ * this module's chords consult; the encoding extends without moving anything. */
+#define CONTROLS_KEY_MOD_MIN 0x01000000u
+#define CONTROLS_KEY_CTRL 0x01000000u
+/* Held-modifier state. Cleared by the lifecycle blur/hide flush, which already
+ * exists to recover the pointer table from a focus loss — without that a host
+ * that loses focus mid-chord never delivers the release, and the module would
+ * treat every later keystroke as a command. */
+static uint32_t mod_ctrl_held;
+/* Defined with the clipboard machinery below (it needs focused_textarea).
+ * Returns 1 when the event is a modifier edge, a Ctrl-chord, or a delete that
+ * a selection has already answered — i.e. must NOT reach LVGL. */
+static int key_consumed_before_lvgl(uint32_t key, uint32_t pressed);
 /* Group of focusable widgets. lv_group_set_default makes every widget whose
  * class carries group_def TRUE (textarea, spinbox, buttons, ...) join it at
  * creation; the bound keypad indev routes keys to the group-focused widget. */
@@ -640,15 +696,23 @@ static void indev_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
  * press/release edge is observed even when several keys land in one tick. */
 static void keypad_read_cb(lv_indev_t *indev, lv_indev_data_t *data) {
   (void)indev;
-  if (key_q_head == key_q_tail) {
-    data->state = LV_INDEV_STATE_RELEASED;
+  /* Drain past every event the modifier layer consumes, so a chord never
+   * surfaces to LVGL as a printable character. The loop (rather than the
+   * single pop this used to be) is what keeps a consumed event from costing a
+   * poll: with one modifier edge per call, a Ctrl+C would otherwise need three
+   * LVGL reads — and the LAST of them would report the stale RELEASED state
+   * that an empty queue reports, indistinguishable from a real key release. */
+  while (key_q_head != key_q_tail) {
+    key_event_t ev = key_queue[key_q_head];
+    key_q_head = (key_q_head + 1u) % KEY_QUEUE_CAP;
+    if (key_consumed_before_lvgl(ev.key, ev.pressed))
+      continue;
+    data->key = ev.key;
+    data->state = ev.pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+    data->continue_reading = key_q_head != key_q_tail;
     return;
   }
-  key_event_t ev = key_queue[key_q_head];
-  key_q_head = (key_q_head + 1u) % KEY_QUEUE_CAP;
-  data->key = ev.key;
-  data->state = ev.pressed ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
-  data->continue_reading = key_q_head != key_q_tail;
+  data->state = LV_INDEV_STATE_RELEASED;
 }
 /*
  * === WASM Exports ===
@@ -1667,6 +1731,11 @@ static int32_t handle_lifecycle(const ui_Lifecycle *lc) {
     g_decision_count = 0;
     g_last_event_time = 0;
     pointer_pressed = 0;
+    /* Held modifiers die with the focus for the same reason the pointer table
+     * does: the release edge is never delivered for a key that was down when
+     * the surface lost focus, so a surviving Ctrl would silently turn every
+     * later keystroke into a command. */
+    mod_ctrl_held = 0;
     /* The cursor is no longer over anything — invalidate the hover cache so
        * the next MOVE re-reports from scratch (the host has likely repainted
        * the default cursor on blur anyway). */
@@ -1836,6 +1905,46 @@ static lv_obj_t *focused_textarea(void) {
  * NUL-terminated. Returns 0 on success (or empty input), -1 when the text
  * exceeds TEXT_INPUT_CAP or no textarea is focused.
  */
+/* The live selection as NORMALISED CHARACTER indices, or false when nothing is
+ * selected. The indices are CHARACTER offsets, not byte offsets — LVGL says so
+ * at lv_label_get_letter_on ("Expressed in character index and not byte index
+ * (different in UTF-8)"), and every caller here that needs bytes converts
+ * through lv_text_encoded_get_byte_id against the REAL text. Getting that wrong
+ * is silent: it is a no-op for ASCII and splits a codepoint the moment the
+ * field holds anything else. */
+static bool ta_selection_range(lv_obj_t *ta, uint32_t *start, uint32_t *end) {
+  lv_obj_t *label = lv_textarea_get_label(ta);
+  if (!label)
+    return false;
+  uint32_t s = lv_label_get_text_selection_start(label);
+  uint32_t e = lv_label_get_text_selection_end(label);
+  if (s == LV_LABEL_TEXT_SELECTION_OFF || e == LV_LABEL_TEXT_SELECTION_OFF ||
+      s == e)
+    return false;
+  *start = s < e ? s : e;
+  *end = s < e ? e : s;
+  return true;
+}
+/* Delete the selected range, if any. LVGL tracks and PAINTS a selection but
+ * edits right past it — lv_textarea_delete_char removes the one character
+ * before the cursor and then CLEARS the selection, and lv_textarea_add_char
+ * never consults it at all — so range deletion does not exist upstream and is
+ * supplied here.
+ *
+ * It is built from LVGL's own single-character delete rather than a cut of the
+ * label buffer, because in password mode the label holds BULLETS while the real
+ * text lives in a parallel buffer; only this path keeps the two in step, and it
+ * maintains the cursor and fires VALUE_CHANGED as a caller would expect. The
+ * loop is bounded by the field's own length. */
+static void ta_delete_selection(lv_obj_t *ta) {
+  uint32_t s, e;
+  if (!ta_selection_range(ta, &s, &e))
+    return;
+  lv_textarea_set_cursor_pos(ta, e);
+  for (uint32_t i = s; i < e; i++)
+    lv_textarea_delete_char(ta);
+  lv_textarea_clear_selection(ta);
+}
 int32_t controls_text_input(uint32_t ptr, uint32_t len) {
   static char buf[TEXT_INPUT_CAP];
   if (len == 0)
@@ -1852,20 +1961,205 @@ int32_t controls_text_input(uint32_t ptr, uint32_t len) {
   }
   memcpy(buf, (const char *)(uintptr_t)ptr, len);
   buf[len] = '\0';
+  /* A paste REPLACES the selection — the behaviour every text field has, and
+   * one LVGL does not implement (lv_textarea_add_text inserts at the cursor and
+   * leaves the selected range in place, so without this a paste over a
+   * selection would duplicate rather than replace). */
+  ta_delete_selection(ta);
+  /* max_length is the SECOND cap, and unlike TEXT_INPUT_CAP above LVGL enforces
+   * it by SILENT TRUNCATION: lv_textarea_add_text falls into a per-character
+   * loop whenever a limit is set, and each character past the limit is dropped
+   * with no signal to the caller. A field that swallowed half a paste and
+   * reported success is exactly the failure the staging cap already refuses, so
+   * it is refused here on the same terms — measured against the field's length
+   * in CHARACTERS, which is the unit max_length is expressed in. */
+  uint32_t max_len = lv_textarea_get_max_length(ta);
+  if (max_len > 0) {
+    uint32_t have = lv_text_get_encoded_length(lv_textarea_get_text(ta));
+    uint32_t add = lv_text_get_encoded_length(buf);
+    if (have + add > max_len) {
+      LOG_WARN("text input rejected: %u+%u chars exceeds max_length %u", have,
+               add, max_len);
+      return -1;
+    }
+  }
   lv_textarea_add_text(ta, buf);
   return 0;
 }
 /**
- * NUL-terminated text of the group-focused textarea (the copy path), or 0
- * (NULL) when no textarea is focused. v1 copies the WHOLE field — LVGL's
- * textarea has no selection API. lv_textarea_get_text returns the real
- * text even in password mode, which is what a copy should carry.
+ * NUL-terminated text of the WHOLE group-focused textarea, or 0 (NULL) when no
+ * textarea is focused or the field is in PASSWORD mode.
+ *
+ * This used to document itself as "the copy path", copying the whole field
+ * because "LVGL's textarea has no selection API", and returning the real text
+ * in password mode because "that is what a copy should carry". All three are
+ * retired. The selection API exists and is compiled in; the copy path is now
+ * controls_take_clipboard_request/controls_get_clipboard_text below, which
+ * carries the SELECTION; and a field whose whole purpose is to keep its
+ * contents off the screen must not hand them to a clipboard, so password mode
+ * refuses here on the same terms the chord path refuses.
  */
 uint32_t controls_get_focused_text(void) {
   lv_obj_t *ta = focused_textarea();
   if (!ta)
     return 0;
+  if (lv_textarea_get_password_mode(ta)) {
+    LOG_WARN("focused-text read refused: field is in password mode");
+    return 0;
+  }
   return (uint32_t)(uintptr_t)lv_textarea_get_text(ta);
+}
+/* ── Clipboard: the module decides WHAT, the host moves the BYTES ───────────
+ * A new env.* import is instantiation-MANDATORY (see CONTROLS_ABI_VERSION), so
+ * a module that PUSHED clipboard bytes to the host would fail to load in every
+ * host that had not yet linked it. The transfer is therefore a PULL, in the
+ * idiom the framebuffer and dirty-rect already use: the module resolves the
+ * chord, performs whatever edit is local, and leaves a REQUEST plus a payload
+ * for the host to drain on its next tick.
+ *
+ * Cut stashes BEFORE it deletes, so the host's read is independent of when it
+ * drains — the alternative (host reads the selection, then asks the module to
+ * delete it) makes the ordering of two host calls load-bearing for correctness.
+ * Paste carries no payload: the module cannot read the system clipboard, so the
+ * request means "call controls_text_input with the clipboard", which is the
+ * existing export and already refuses over-cap input. */
+#define CONTROLS_CLIP_NONE 0u
+#define CONTROLS_CLIP_COPY 1u
+#define CONTROLS_CLIP_CUT 2u
+#define CONTROLS_CLIP_PASTE 3u
+static uint32_t clip_request = CONTROLS_CLIP_NONE;
+static char clip_text[TEXT_INPUT_CAP];
+/* Stash the copy payload: the SELECTION when there is one, else the whole
+ * field. "Else the whole field" is the sensible no-selection answer because it
+ * preserves what the previous whole-field copy did for a host whose operator
+ * hit copy without selecting — a caret-only copy that yielded nothing would be
+ * a silent no-op. Returns false when there is nothing to carry. */
+static bool clip_stash_from(lv_obj_t *ta) {
+  const char *txt = lv_textarea_get_text(ta);
+  if (!txt)
+    return false;
+  uint32_t s, e;
+  uint32_t b0 = 0;
+  uint32_t b1 = (uint32_t)strlen(txt);
+  if (ta_selection_range(ta, &s, &e)) {
+    /* CHARACTER indices -> BYTE offsets, against the real text. */
+    b0 = lv_text_encoded_get_byte_id(txt, s);
+    b1 = lv_text_encoded_get_byte_id(txt, e);
+  }
+  if (b1 <= b0)
+    return false;
+  uint32_t n = b1 - b0;
+  if (n >= sizeof(clip_text)) {
+    LOG_WARN("clipboard copy refused: %u bytes exceeds cap %u", n,
+             (uint32_t)sizeof(clip_text));
+    return false;
+  }
+  memcpy(clip_text, txt + b0, n);
+  clip_text[n] = '\0';
+  return true;
+}
+/**
+ * Drain the pending clipboard request (0 none, 1 copy, 2 cut, 3 paste) and
+ * clear it. The host polls this once per tick alongside the dirty rect. For 1
+ * and 2 the payload is controls_get_clipboard_text(); for 3 the host is being
+ * asked to hand its clipboard to controls_text_input().
+ */
+uint32_t controls_take_clipboard_request(void) {
+  uint32_t r = clip_request;
+  clip_request = CONTROLS_CLIP_NONE;
+  return r;
+}
+/**
+ * NUL-terminated bytes the last copy or cut staged, or 0 (NULL) when empty.
+ * Valid until the next clipboard request is resolved.
+ */
+uint32_t controls_get_clipboard_text(void) {
+  return clip_text[0] ? (uint32_t)(uintptr_t)clip_text : 0;
+}
+/* Resolve one Ctrl-chord against the focused textarea. */
+static void resolve_ctrl_chord(uint32_t key) {
+  lv_obj_t *ta = focused_textarea();
+  if (!ta)
+    return;
+  /* Case-fold: a host that reports the shifted letter for Ctrl+Shift+C must
+   * reach the same chord, and lv_key_t control values are all below 'A'. */
+  uint32_t k = (key >= 'A' && key <= 'Z') ? key - 'A' + 'a' : key;
+  bool pwd = lv_textarea_get_password_mode(ta);
+  switch (k) {
+  case 'a':
+    /* Select-all is safe in a password field: it selects bullets, and every
+     * path that would EXPORT them refuses separately. */
+    lv_textarea_set_cursor_pos(ta, LV_TEXTAREA_CURSOR_LAST);
+    lv_label_set_text_selection_start(lv_textarea_get_label(ta), 0);
+    lv_label_set_text_selection_end(
+        lv_textarea_get_label(ta),
+        lv_text_get_encoded_length(lv_textarea_get_text(ta)));
+    lv_obj_invalidate(ta);
+    break;
+  case 'c':
+    if (pwd) {
+      LOG_WARN("copy refused: field is in password mode");
+      break;
+    }
+    if (clip_stash_from(ta))
+      clip_request = CONTROLS_CLIP_COPY;
+    break;
+  case 'x':
+    if (pwd) {
+      /* Refusing the DELETE too, not just the export: a cut whose copy half
+       * was refused would destroy text the operator can never paste back. */
+      LOG_WARN("cut refused: field is in password mode");
+      break;
+    }
+    if (clip_stash_from(ta)) {
+      clip_request = CONTROLS_CLIP_CUT;
+      ta_delete_selection(ta);
+    }
+    break;
+  case 'v':
+    clip_request = CONTROLS_CLIP_PASTE;
+    break;
+  default:
+    break;
+  }
+}
+static int key_consumed_before_lvgl(uint32_t key, uint32_t pressed) {
+  if (key >= CONTROLS_KEY_MOD_MIN) {
+    if (key == CONTROLS_KEY_CTRL)
+      mod_ctrl_held = pressed ? 1u : 0u;
+    else
+      LOG_WARN("unknown modifier key %u ignored", key);
+    return 1;
+  }
+  if (mod_ctrl_held) {
+    /* While Ctrl is held every key is a COMMAND, never text — so the release is
+     * swallowed with the press, and an unmapped chord types nothing rather than
+     * inserting a stray character. */
+    if (pressed)
+      resolve_ctrl_chord(key);
+    return 1;
+  }
+  if (!pressed)
+    return 0;
+  /* Typing over a selection REPLACES it. LVGL does not: lv_textarea_add_char
+   * inserts at the cursor with the selected range left in place, and
+   * lv_textarea_delete_char removes ONE character and then clears the
+   * selection — so without this, select-all followed by a keystroke appends to
+   * the text it was supposed to overwrite, and backspace over a selection eats
+   * one character instead of the range. */
+  lv_obj_t *ta = focused_textarea();
+  uint32_t s, e;
+  if (!ta || !ta_selection_range(ta, &s, &e))
+    return 0;
+  bool is_delete = (key == LV_KEY_BACKSPACE || key == LV_KEY_DEL);
+  bool is_text = (key == LV_KEY_ENTER || key >= 0x20u) && key != LV_KEY_DEL;
+  if (!is_delete && !is_text)
+    return 0; /* navigation and the rest keep LVGL's own behaviour */
+  ta_delete_selection(ta);
+  /* A delete key's whole effect WAS the range removal; forwarding it too would
+   * take an extra character the operator never selected. A text key still has
+   * its insert to do, so it goes on to LVGL. */
+  return is_delete ? 1 : 0;
 }
 int32_t controls_tick(uint32_t elapsed_ms) {
   lv_tick_inc(elapsed_ms);

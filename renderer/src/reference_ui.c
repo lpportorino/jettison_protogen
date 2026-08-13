@@ -188,6 +188,11 @@ static lv_obj_t *make_widget(lv_obj_t *parent, uint8_t kind) {
     break;
   case 11:
     w = lv_textarea_create(parent);
+    /* Mirror renderer.c's textarea arm. Byte-neutral for a static render — the
+     * flag only arms LVGL's press/drag selection handler and paints nothing
+     * until a selection exists — but this path is the parity ORACLE, so it
+     * tracks what the proto path does rather than what happens to render. */
+    lv_textarea_set_text_selection(w, true);
     break;
   case 12:
     w = lv_spinbox_create(parent);

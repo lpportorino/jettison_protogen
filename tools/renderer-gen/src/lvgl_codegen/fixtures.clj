@@ -132,6 +132,29 @@
                                :id "textarea"
                                :class "w-120"
                                :textarea_props {:placeholder "Type" :one_line true}})
+   ;; A genuine MULTI-LINE field — one_line false, sized tall enough for
+   ;; several wrapped rows. The one_line twin above cannot stand in: it
+   ;; suppresses newlines outright (lv_textarea_add_char drops \n in one-line
+   ;; mode), so no caret can cross a row in it.
+   "vr_textarea_multiline" (make-screen {:tag :lv_textarea
+                                         :id "textarea"
+                                         :class "w-200 h-100"
+                                         :textarea_props
+                                         {:placeholder "Notes" :one_line false}})
+   ;; PASSWORD field — the copy-refusal lane.
+   "vr_textarea_password" (make-screen {:tag :lv_textarea
+                                        :id "textarea"
+                                        :class "w-120"
+                                        :textarea_props
+                                        {:one_line true :password_mode true}})
+   ;; CAPPED field — max_length is the cap LVGL enforces by silent truncation,
+   ;; so this fixture is what proves the module refuses instead. Deliberately
+   ;; small: the assertion is about the boundary, not about volume.
+   "vr_textarea_capped" (make-screen {:tag :lv_textarea
+                                      :id "textarea"
+                                      :class "w-120"
+                                      :textarea_props
+                                      {:one_line true :max_length 8}})
    "vr_line" (make-screen {:tag :lv_line
                            :class "w-120 h-48"
                            :line_props {:points [{:x 0 :y 0} {:x 50 :y 30}

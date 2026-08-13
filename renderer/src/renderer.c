@@ -1485,6 +1485,16 @@ static lv_obj_t *ensure_widget(widget_ctx_t *ctx) {
     break;
   case ui_WidgetType_WIDGET_TEXTAREA:
     ctx->self = lv_textarea_create(ctx->parent);
+    /* A free-text field selects: LVGL's own press/drag/release handler stores
+     * sel_start on PRESSED and updates sel_end on every PRESSING, but the whole
+     * block is gated on this per-instance flag, which the constructor clears.
+     * Enabled HERE rather than in the props arm because it is a property of the
+     * widget kind, not of an authored field — a screen that carries no
+     * TextareaProps still gets a usable field. The SPINBOX arm below
+     * deliberately does not: it derives from lv_textarea but owns its text as a
+     * formatted digit buffer, the same distinction focused_textarea()'s
+     * exact-class guard encodes. */
+    lv_textarea_set_text_selection(ctx->self, true);
     break;
   case ui_WidgetType_WIDGET_SPINBOX:
     ctx->self = lv_spinbox_create(ctx->parent);
