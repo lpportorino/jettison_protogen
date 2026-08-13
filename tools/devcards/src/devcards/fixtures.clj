@@ -62,6 +62,7 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [devcards.designed :as designed]
+            [devcards.spec-check :as spec-check]
             [lvgl-codegen.generated.enums :as enums])
   (:import [com.google.protobuf ByteString]
            [ui UiAst$ArcProps UiAst$BarMode UiAst$BarProps UiAst$ButtonMatrixProps
@@ -1260,6 +1261,7 @@
                       {:sink (:id sink) :missing (vec missing)})))))
 
 ;; ── Spec loading + the build surface ────────────────────────────────────
+
 (defn load-spec
   "Read + hand-validate `corpus/spec.edn`. Asserts the spec's own
    self-description: `:card-count` equals the actual card total,
@@ -1279,6 +1281,10 @@
     (when-not (and (pos? (long (get-in spec [:render :canvas :w] 0)))
                    (pos? (long (get-in spec [:render :canvas :h] 0))))
       (throw (ex-info "spec :render :canvas missing" {:render (:render spec)})))
+    (when-some [bad (seq (spec-check/authored-count-problems spec))]
+      (throw (ex-info "spec :authored-count disagrees with the widget's own cards"
+                      {:problems (vec bad)
+                       :summary (spec-check/authored-count-message bad)})))
     spec))
 
 (defn entries

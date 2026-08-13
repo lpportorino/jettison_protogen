@@ -98,7 +98,7 @@
  :unstyled-law
  "Card nodes carry raw renderer-public props only: explicit px sizes, raw style-prop slots, hex colors, and font-name strings are all renderer vocabulary. NEVER asgard authoring vocabulary (@-macros, token names, class-defs). Everything unset falls through to the loaded wasm's own theme — that fallthrough is the object under test."
  :widgets
- [{:authored-count 5
+ [{:authored-count 7
    :cards
    [{:children [{:props {:h 20 :w 20} :type :WIDGET_OBJ}]
      :expect :baseline
@@ -1268,7 +1268,7 @@
     {:h 48 :id :large :note "touch-friendly standalone toggle" :w 96}]
    :tag "lv_switch"
    :type :WIDGET_SWITCH}
-  {:authored-count 9
+  {:authored-count 10
    :cards
    [{:expect :baseline
      :id "lv_checkbox/default/short"
@@ -2888,7 +2888,7 @@
             :w 96} {:h 130 :id :medium :w 200} {:h 200 :id :large :w 320}]
    :tag "lv_chart"
    :type :WIDGET_CHART}
-  {:authored-count 7
+  {:authored-count 5
    :cards
    [{:children [{:bare true
                  :children [{:text "LIVE" :type :WIDGET_LABEL}]
