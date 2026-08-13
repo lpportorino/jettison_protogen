@@ -65,6 +65,11 @@
    "054d0577cd843ca760f3ecf8db6c090f6a905aa94b5623b32fbfa21e13e2b961",
    :w 800,
    :h 480},
+  "lv_arc/disabled/medium/min"
+  {:sha256
+   "a14d46c699994b8286f5849a10fc2fc5e263978e8b7ba040b836a063ef9dce06",
+   :w 800,
+   :h 480},
   "lv_arc/disabled/small/mid"
   {:sha256
    "4dfc1b04ef0d0651fa753c15d1ba128e1ced4f301088eba92c593deeed16f7c8",

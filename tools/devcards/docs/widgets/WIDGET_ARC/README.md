@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_ARC
 
-`lv_arc` — 14 atomic corpus cards (state × size[/value], ids `lv_arc/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_arc` — 15 atomic corpus cards (state × size[/value], ids `lv_arc/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -29,6 +29,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `default/medium/max` | ![default/medium/max vanilla](./WIDGET_ARC-default_medium_max-vanilla.jpg) | ![default/medium/max asgard-dark](./WIDGET_ARC-default_medium_max-asgard-dark.jpg) | ![default/medium/max asgard-light](./WIDGET_ARC-default_medium_max-asgard-light.jpg) |
 | `pressed/medium/min` | ![pressed/medium/min vanilla](./WIDGET_ARC-pressed_medium_min-vanilla.jpg) | ![pressed/medium/min asgard-dark](./WIDGET_ARC-pressed_medium_min-asgard-dark.jpg) | ![pressed/medium/min asgard-light](./WIDGET_ARC-pressed_medium_min-asgard-light.jpg) |
 | `pressed/medium/max` | ![pressed/medium/max vanilla](./WIDGET_ARC-pressed_medium_max-vanilla.jpg) | ![pressed/medium/max asgard-dark](./WIDGET_ARC-pressed_medium_max-asgard-dark.jpg) | ![pressed/medium/max asgard-light](./WIDGET_ARC-pressed_medium_max-asgard-light.jpg) |
+| `disabled/medium/min` | ![disabled/medium/min vanilla](./WIDGET_ARC-disabled_medium_min-vanilla.jpg) | ![disabled/medium/min asgard-dark](./WIDGET_ARC-disabled_medium_min-asgard-dark.jpg) | ![disabled/medium/min asgard-light](./WIDGET_ARC-disabled_medium_min-asgard-light.jpg) |
 
 ## Committed states
 

@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 245
+ :card-count 246
  :conventions "conventions/ui-render-conventions.edn"
  :declared-counts {:kitchen-sinks 6
                    :total 196
@@ -752,7 +752,7 @@
     :props-path [:slider_props :value]
     :range {:max 100 :mid 50 :min 0}
     :samples [:min :mid :max]}}
-  {:authored-count 14
+  {:authored-count 15
    :cards [{:expect :baseline
             :id "lv_arc/default/small/mid"
             :props {:arc_props {:bg_end_angle 360
@@ -1022,11 +1022,32 @@
             :wrapper
             {:notes
              "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
+             :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}
+           {:expect :distinct
+            :id "lv_arc/disabled/medium/min"
+            :notes
+            "WHERE THE MARK'S WITHDRAWAL IS CLEAREST — not the only place it is detectable, which an earlier draft of this note claimed and a probe refuted. Mutating readout_knob_off to DRAW and re-minting drifts FOUR cards: this one and all three disabled/*/mid. So the mid cells DO catch a regression, and theme.c is right that a wrongly-drawn mark there reappears as a separate blob, worse when disabled than when live. What the floor adds is unambiguity for a HUMAN: at min the indicator has zero angular extent, so the mark is the only thing that could be there and its absence is the whole picture, where at mid it is a small blob beside a large sweep. Distinct from the :min baseline on two counts (the dim AND the withdrawn mark), so this cell does not pin which moved — the harness's a_disabled_readout_arc_withdraws_its_floor_mark isolates the mark; this cell is what someone can look at."
+            :props {:arc_props {:bg_end_angle 360
+                                :bg_start_angle 0
+                                :end_angle 270
+                                :max_value 100
+                                :min_value 0
+                                :start_angle 0
+                                :value 0}
+                    :h 80
+                    :w 80}
+            :size :medium
+            :state :disabled
+            :states-bits 512
+            :value :min
+            :wrapper
+            {:notes
+             "Knob-bleed margin (the slider-wrapper idiom): the stock knob pads 6px beyond the 15px arc width, so at mid/min values it overhangs the widget box and was flat-clipped at the canvas edge; 24 mirrors the slider's margin (knob + focus headroom). Every arc cell carries the SAME wrapper so state cells hash-compare against a content-identical baseline. border-width 0 per the harness-geometry rule."
              :props {:border-width 0 :h 128 :pad-all 24 :w 128}}}]
    :committed-states [:default :hovered :pressed :disabled]
    :declared-count 9
    :deviation
-   "+5 over declared 9: +1 :hovered at medium (manifest-committed, absent from survey grid); +4 value-axis cells per PLAN T2.1. Survey's vr_arc-parity value 75 normalized to the :mid sample (50); vr_arc remains asgard's own cross-check fixture."
+   "+6 over declared 9: +1 :hovered at medium (manifest-committed, absent from survey grid); +4 value-axis cells per PLAN T2.1; +1 disabled-at-floor, added because the theme's DISABLED mark-withdrawal had no rendered cell in any corpus and two reviews reported it unjudgeable. Survey's vr_arc-parity value 75 normalized to the :mid sample (50); vr_arc remains asgard's own cross-check fixture."
    :notes
    "checked N/A (continuous-value drag input, no CHECKED selector in the stock arm). Stock adds no pressed style for arc — pressed cells pin geometry-survives-state; distinctness under the asgard theme is the manifest's commitment. Every cell nests in the same 24px bleed wrapper (see any card's wrapper note): the stock knob overhangs the widget box and was flat-clipped at the canvas edge."
    :sizes
