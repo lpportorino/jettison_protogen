@@ -10,7 +10,7 @@
   "State is applied ONLY via the wire node.states bitmask (:states-bits), except where a state is a widget-prop bit by contract (switch/checkbox :checked ride their props messages; those cards carry the residual bits only)."
   "Fresh renderer context per card (hash comparisons)."
   "Widget slugs derive from the WidgetType enum."]
- :card-count 246
+ :card-count 247
  :conventions "conventions/ui-render-conventions.edn"
  :expect-legend
  {:baseline "the default-state cell — the reference hash for its class/size"
@@ -2367,7 +2367,7 @@
     :props-path [:roller_props :selected]
     :range {:max 2 :mid 1 :min 0}
     :samples [:min :mid :max]}}
-  {:authored-count 12
+  {:authored-count 13
    :cards
    [{:expect :baseline
      :id "lv_textarea/default/small"
@@ -2395,6 +2395,16 @@
      :size :medium
      :state :default
      :states-bits 0}
+    {:expect :baseline
+     :id "lv_textarea/default/medium/password"
+     :notes
+     "Password mode: every glyph is replaced by a bullet, so this card differs from its cleartext twin in the FRAMEBUFFER — the only render state password_mode can produce, and the reason it is the one previously-unadmitted TextareaProps field the fixture builder now accepts (max_length constrains input and paints nothing, so a card carrying it would be golden-identical to its twin). :expect is :baseline, not :distinct, and that is forced rather than chosen: distinctness compares a card against `baseline-id`, which is the same id with its STATE segment replaced by 'default'. This card's state segment IS 'default', so it is its own baseline and :distinct could never be satisfied — that flag belongs to state variants such as the focus-key card below. The module refuses to copy or cut this field's contents; that refusal is behaviour, and is asserted in the harness rather than here, because a card is a static render."
+     :props {:textarea_props {:one_line true :password_mode true} :w 160}
+     :size :medium
+     :state :default
+     :states-bits 0
+     :text "hunter2"
+     :variant :password}
     {:expect :distinct
      :id "lv_textarea/focus-key/medium"
      :props {:textarea_props {:one_line true :placeholder "Search..."} :w 160}

@@ -610,10 +610,17 @@
 
 (defn- textarea-props
   ^UiAst$TextareaProps [m]
-  (assert-closed "textarea_props" #{:placeholder :one_line} m)
+  (assert-closed "textarea_props" #{:placeholder :one_line :password_mode} m)
   (let [b (UiAst$TextareaProps/newBuilder)]
     (when-some [v (:placeholder m)] (.setPlaceholder b ^String v))
     (when (contains? m :one_line) (.setOneLine b (boolean (:one_line m))))
+    ;; password_mode is the fourth TextareaProps field and the only one of the
+    ;; two previously-unadmitted ones that CHANGES A RENDER: it replaces every
+    ;; glyph with a bullet. max_length stays out deliberately — it constrains
+    ;; input and paints nothing, so a card carrying it would be golden-identical
+    ;; to its twin and would assert nothing.
+    (when (contains? m :password_mode)
+      (.setPasswordMode b (boolean (:password_mode m))))
     (.build b)))
 
 (defn- spinbox-props

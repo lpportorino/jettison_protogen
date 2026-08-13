@@ -9,7 +9,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 
 # WIDGET_TEXTAREA
 
-`lv_textarea` — 12 atomic corpus cards (state × size[/value], ids `lv_textarea/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
+`lv_textarea` — 13 atomic corpus cards (state × size[/value], ids `lv_textarea/<state>/<size>[/<value>]`), rendered unstyled so everything unset falls through to the loaded theme — the object under test. One image per card × family, cropped to the card's dump_tree content box; the row caption is the card-id tail.
 
 ## States
 
@@ -19,6 +19,7 @@ per-card JPEGs rendered from the pinned controls.wasm.
 | `default/small/value` | ![default/small/value vanilla](./WIDGET_TEXTAREA-default_small_value-vanilla.jpg) | ![default/small/value asgard-dark](./WIDGET_TEXTAREA-default_small_value-asgard-dark.jpg) | ![default/small/value asgard-light](./WIDGET_TEXTAREA-default_small_value-asgard-light.jpg) |
 | `disabled/small` | ![disabled/small vanilla](./WIDGET_TEXTAREA-disabled_small-vanilla.jpg) | ![disabled/small asgard-dark](./WIDGET_TEXTAREA-disabled_small-asgard-dark.jpg) | ![disabled/small asgard-light](./WIDGET_TEXTAREA-disabled_small-asgard-light.jpg) |
 | `default/medium` | ![default/medium vanilla](./WIDGET_TEXTAREA-default_medium-vanilla.jpg) | ![default/medium asgard-dark](./WIDGET_TEXTAREA-default_medium-asgard-dark.jpg) | ![default/medium asgard-light](./WIDGET_TEXTAREA-default_medium-asgard-light.jpg) |
+| `default/medium/password` | ![default/medium/password vanilla](./WIDGET_TEXTAREA-default_medium_password-vanilla.jpg) | ![default/medium/password asgard-dark](./WIDGET_TEXTAREA-default_medium_password-asgard-dark.jpg) | ![default/medium/password asgard-light](./WIDGET_TEXTAREA-default_medium_password-asgard-light.jpg) |
 | `focus-key/medium` | ![focus-key/medium vanilla](./WIDGET_TEXTAREA-focus-key_medium-vanilla.jpg) | ![focus-key/medium asgard-dark](./WIDGET_TEXTAREA-focus-key_medium-asgard-dark.jpg) | ![focus-key/medium asgard-light](./WIDGET_TEXTAREA-focus-key_medium-asgard-light.jpg) |
 | `focused/medium` | ![focused/medium vanilla](./WIDGET_TEXTAREA-focused_medium-vanilla.jpg) | ![focused/medium asgard-dark](./WIDGET_TEXTAREA-focused_medium-asgard-dark.jpg) | ![focused/medium asgard-light](./WIDGET_TEXTAREA-focused_medium-asgard-light.jpg) |
 | `edited/medium` | ![edited/medium vanilla](./WIDGET_TEXTAREA-edited_medium-vanilla.jpg) | ![edited/medium asgard-dark](./WIDGET_TEXTAREA-edited_medium-asgard-dark.jpg) | ![edited/medium asgard-light](./WIDGET_TEXTAREA-edited_medium-asgard-light.jpg) |

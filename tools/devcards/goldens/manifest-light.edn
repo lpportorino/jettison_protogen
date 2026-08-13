@@ -1215,6 +1215,11 @@
    "c677a3c9c78b5eca1f0b908f5225a74dcc28ea9d2756bd72fbab95eb55f40b73",
    :w 800,
    :h 480},
+  "lv_textarea/default/medium/password"
+  {:sha256
+   "bf8e3306e3ded337e993757634b435823b8f88d205803e3bcdfd0ba998704f5a",
+   :w 800,
+   :h 480},
   "lv_textarea/default/small"
   {:sha256
    "9af5e707f9cb74001ab9d6066614e7ceb26f63a1cf0ce6020ff8d3cfdd88e777",
