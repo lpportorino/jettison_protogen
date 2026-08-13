@@ -57,7 +57,7 @@ Azimuth angle value in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 - **Precision:** 2
 
 

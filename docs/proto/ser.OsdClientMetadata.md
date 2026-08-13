@@ -178,7 +178,7 @@ OKLCH hue angle for the UI theme's base color. Only meaningful when `is_sharp_mo
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** deg
+- **Unit:** °
 - **Precision:** 0
 
 

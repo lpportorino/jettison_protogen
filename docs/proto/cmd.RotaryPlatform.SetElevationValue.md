@@ -58,7 +58,7 @@ Value (-90 to 90)
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 - **Precision:** 2
 
 

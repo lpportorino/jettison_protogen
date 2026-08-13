@@ -74,7 +74,7 @@ Longitude in decimal degrees
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### target_latitude (#3)
@@ -85,7 +85,7 @@ Latitude in decimal degrees
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** degrees
+- **Unit:** °
 
 
 ### target_altitude (#4)

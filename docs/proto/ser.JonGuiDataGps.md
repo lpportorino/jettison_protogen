@@ -63,7 +63,7 @@ Longitude in decimal degrees
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** degrees
+- **Unit:** °
 - **Precision:** 6
 - **Display Format:** `{value.toFixed(6)}`
 
@@ -76,7 +76,7 @@ Latitude in decimal degrees
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
-- **Unit:** degrees
+- **Unit:** °
 - **Precision:** 6
 - **Display Format:** `{value.toFixed(6)}`
 
