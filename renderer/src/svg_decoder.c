@@ -238,6 +238,20 @@ static void decoder_close(lv_image_decoder_t *decoder,
 /* ------------------------------------------------------------------ */
 /* Public API                                                          */
 /* ------------------------------------------------------------------ */
+/* NEITHER INIT RESULT IS CHECKED, and the two halves are NOT equivalent — read
+ * which is which before "fixing" them together.
+ *
+ * `lv_image_decoder_create` needs no check: `dec->name` below dereferences it
+ * IN PLACE, so a NULL return traps here rather than surviving into a later
+ * call. Under wasm a null-deref traps loudly and reddens every lane, so the
+ * fail-fast property already holds without a branch.
+ *
+ * `tvg_engine_init` is the weaker one and is a genuine gap: its result is
+ * discarded and nothing dereferences anything, so a failure surfaces only as
+ * SVG content that does not draw. Nothing here would say why. It is left
+ * unchecked deliberately rather than by oversight — an init failure on this
+ * target means the build is wrong, not the input — but a reader who assumes
+ * the trap above covers both halves is assuming too much. */
 void svg_decoder_init(void) {
   /* Initialize ThorVG software engine (single-threaded for WASM) */
   tvg_engine_init(TVG_ENGINE_SW, 0);
