@@ -164,7 +164,7 @@ static lv_obj_t *make_widget(lv_obj_t *parent, uint8_t kind) {
     /* The READOUT rule is the INTERFACE's too, for the same reason as the
      * ext-click contract above: an arc with no command bound to it is a thing
      * you WATCH, so it neither offers a grab handle nor accepts a drag
-     * (renderer.c's finalize_widget, theme.c's `knob_inert`). This selector
+     * (renderer.c's finalize_widget, theme.c's `readout_knob`). This selector
      * vocabulary has no event binding to carry, so EVERY arc it builds is a
      * readout by construction — which is why the rule applies here
      * unconditionally rather than behind a test. */

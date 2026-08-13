@@ -9692,9 +9692,15 @@ mod readout_arc {
         );
     }
 
-    /// THE DISCRIMINATOR. A readout arc — one carrying no `EventBinding`, so
-    /// nothing an operator does can move it — must not present the drag
-    /// affordance an interactive arc presents.
+    /// A readout arc differs from an interactive one SOMEWHERE.
+    ///
+    /// THIS NO LONGER ISOLATES THE KNOB, and the history is why the two
+    /// clauses below exist. While the only USER_2-scoped style was the knob,
+    /// this inequality did depend on it. The readout TONE is now attached at
+    /// `LV_PART_INDICATOR | LV_STATE_USER_2` as well, which satisfies the
+    /// inequality on its own — so this test would still pass with both knob
+    /// styles deleted outright. Read it as covering the pair being distinct at
+    /// all, never as covering the mark.
     #[test]
     fn a_readout_arc_does_not_look_like_an_interactive_one() {
         let readout = render(false);
@@ -9706,6 +9712,147 @@ mod readout_arc {
              has it across all {} bytes, so the screen offers a knob the \
              operator cannot move",
             readout.len()
+        );
+    }
+
+    /// `LV_STATE_DISABLED`.
+    const DISABLED_BIT: u32 = 0x200;
+
+    /// THE READOUT TONE, `THEME_FG0_DARK` — what both the arc INDICATOR and the
+    /// knob mark take under `DEFAULT_THEME`. Counted exactly: an anti-aliased
+    /// edge blends toward the track and does not land on this triple, so a
+    /// count above zero means some region was filled with it outright.
+    fn readout_tone_pixels(fb: &[u8]) -> usize {
+        fb.chunks(4)
+            .filter(|px| px[3] > 0 && px[0] == 0xE8 && px[1] == 0xE8 && px[2] == 0xF0)
+            .count()
+    }
+
+    /// A READOUT arc AUTHORED at its floor, carrying `authored_states`.
+    ///
+    /// BUILT AT THE FLOOR RATHER THAN PATCHED TO IT, and the first draft was
+    /// patched — measured wrong. `arc_screen_with` binds `value` to a subject
+    /// whose initial is 50, so an `UPDATE_PROPS` patch to 0 applies cleanly,
+    /// reports rc 0, and is then overwritten by the observer firing on that
+    /// binding. The frame that came back was the MID frame, byte-identical to
+    /// the unpatched render — a fixture that silently measured the wrong value
+    /// while every call in it succeeded. The subject initial and both angle
+    /// props are set together here so nothing re-drives it.
+    ///
+    /// THE FLOOR IS WHAT MAKES THE COUNT ATTRIBUTABLE. With the indicator at
+    /// zero angular extent it fills nothing, so a readout-tone pixel left in
+    /// the frame belongs to the knob mark. At any other value the indicator
+    /// dominates the count and the mark is invisible inside it.
+    fn floor_frame(authored_states: u32) -> Vec<u8> {
+        let mut arc = ui::WidgetNode {
+            states: authored_states,
+            r#type: ui::WidgetType::WidgetArc as i32,
+            uid: 11,
+            x: Some(100),
+            y: Some(50),
+            style_groups: vec![size_group(200, 200)],
+            bindings: HashMap::from([("value".to_owned(), SUBJECT.to_owned())]),
+            widget_props: Some(ui::widget_node::WidgetProps::ArcProps(ui::ArcProps {
+                min_value: 0,
+                max_value: 100,
+                value: 0,
+                bg_start_angle: 135,
+                bg_end_angle: 45,
+                start_angle: 135,
+                end_angle: 135,
+                ..Default::default()
+            })),
+            ..Default::default()
+        };
+        arc.event = None;
+        let screen = ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                uid: 1,
+                style_groups: vec![size_group(WIDTH, HEIGHT)],
+                children: vec![arc],
+                ..Default::default()
+            }),
+            subjects: vec![ui::SubjectDeclaration {
+                name: SUBJECT.to_owned(),
+                r#type: ui::SubjectType::SubjectInt as i32,
+                initial: Some(ui::subject_declaration::Initial::IntInitial(0)),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let mut host = new_host();
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(&screen.encode_to_vec()).expect("load_ui");
+        settle(&mut host);
+        host.read_framebuffer().expect("read_framebuffer")
+    }
+
+    /// A READOUT AT ITS FLOOR STILL SHOWS ITS VALUE. This is the clause the
+    /// mark exists for: a full-circle track has no ends to supply a baseline,
+    /// so with the indicator at zero extent and no mark, a ring reading zero
+    /// and a ring that is undriven chrome render identically.
+    ///
+    /// It is also the CONTROL for the disabled clause below — without a
+    /// non-zero count here, asserting zero there would pass over a mark that
+    /// was never drawn in the first place.
+    #[test]
+    fn a_readout_arc_marks_its_floor() {
+        let marked = readout_tone_pixels(&floor_frame(0));
+        assert!(
+            marked > 0,
+            "a readout arc driven to its floor rendered no pixel in the readout \
+             tone, so the ring is indistinguishable from undriven chrome — the \
+             knob mark is gone or no longer takes the readout tone"
+        );
+    }
+
+    /// Distinct opaque colours in a frame.
+    ///
+    /// COUNTED BECAUSE THE EXACT-TONE COUNTER CANNOT SEE A DIMMED MARK, and
+    /// that was measured rather than reasoned: `disabled_dim` shifts the mark
+    /// off `THEME_FG0_DARK`, so `readout_tone_pixels` reports zero on a
+    /// disabled frame whether the mark is drawn or withdrawn. A test built on
+    /// it passed with `readout_knob_off` mutated to draw — vacuous in exactly
+    /// the direction that matters. The mark brings its own tone plus its
+    /// anti-aliased ramp, so it is visible as a rise in DISTINCT tones even
+    /// once dimmed.
+    fn distinct_opaque_tones(fb: &[u8]) -> usize {
+        fb.chunks(4)
+            .filter(|px| px[3] > 0)
+            .map(|px| (px[0], px[1], px[2]))
+            .collect::<std::collections::BTreeSet<_>>()
+            .len()
+    }
+
+    /// A disabled readout at its floor carries no more tones than its dimmed
+    /// track and background need.
+    ///
+    /// SEEDED FROM MEASUREMENT, both directions, on `DEFAULT_THEME` at the
+    /// floor: 27 distinct tones with `readout_knob_off` withdrawing the mark,
+    /// and 40 with it mutated to draw. The bound sits between them with room
+    /// for anti-aliasing drift, so it is a CEILING over a continuous quantity
+    /// rather than a pinned hash — raise it only with both numbers re-measured,
+    /// and never to make a red run green.
+    const DISABLED_FLOOR_TONE_CEILING: usize = 33;
+
+    /// AND A DISABLED ONE WITHDRAWS ITS MARK. A disabled widget asserts it has
+    /// no live value, so there is nothing for the mark to mark; leaving it
+    /// draws a bright point over a dimmed ring, which reads as a grab handle on
+    /// a dead control — the one affordance this whole module exists to remove.
+    #[test]
+    fn a_disabled_readout_arc_withdraws_its_floor_mark() {
+        let tones = distinct_opaque_tones(&floor_frame(DISABLED_BIT));
+        assert!(
+            tones <= DISABLED_FLOOR_TONE_CEILING,
+            "a DISABLED readout arc at its floor renders {tones} distinct tones \
+             against a ceiling of {DISABLED_FLOOR_TONE_CEILING}, which is what \
+             the mark and its anti-aliased ramp add — so `readout_knob_off` is \
+             not winning over `readout_knob`. LVGL ranks selectors by the \
+             NUMERIC state bitmask, not by specificity, so check that the two \
+             states still combine to a larger value than USER_2 alone"
         );
     }
 }

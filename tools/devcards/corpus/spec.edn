@@ -984,7 +984,7 @@
            {:expect :distinct
             :id "lv_arc/pressed/medium/min"
             :notes
-            "The indicator's FLOOR under press-grow, and the one card where a readout arc carries no accent pixel at all: at value 0 the indicator has zero length, and every arc here is event-less, so the knob that used to mark the start is withdrawn. Measured on the re-mint: 550 accent px -> 0. That is the same representation lv_bar gives an empty track, which is why the track tone is what has to carry it."
+            "The indicator's FLOOR under press-grow, and the card that decided the readout mark. At value 0 the indicator has zero angular extent, so whatever sits at the value position is the only thing a reader has. Withdrawing the knob outright was tried and measured wrong here — 550 accent px went to 0, leaving a ring indistinguishable from undriven chrome, and a full-circle track has no ends to give a baseline the way lv_bar does. It carries a ring-thick pointer tip in the readout tone instead: 175 px, enough to locate the value, too small and too flush to read as a grab handle."
             :props {:arc_props {:bg_end_angle 360
                                 :bg_start_angle 0
                                 :end_angle 270
@@ -1005,7 +1005,7 @@
            {:expect :distinct
             :id "lv_arc/pressed/medium/max"
             :notes
-            "The indicator's CEILING under press-grow. Unlike the min twin above this one stays unambiguous with the knob withdrawn — a full sweep reads as maximum on its own."
+            "The indicator's CEILING under press-grow. Unlike the min twin above, this one is unambiguous from the sweep alone — a full ring reads as maximum whatever sits at its terminus, which is why the mark is load-bearing at the floor and merely consistent here."
             :props {:arc_props {:bg_end_angle 360
                                 :bg_start_angle 0
                                 :end_angle 270

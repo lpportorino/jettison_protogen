@@ -109,21 +109,25 @@ typedef struct {
                             * stock grey ring sinks into the light
                             * surface AND measures under the 3:1 floor
                             * on the dark canvas                           */
-  lv_style_t readout_arc;    /* MOVING spinner-ring tone — closes the stock
-                              * color_primary fallthrough on a readout
-                              * (asgard-only)                              */
-  lv_style_t knob_inert;     /* an arc knob the operator cannot move: the
-                              * grab affordance withdrawn, not recoloured
+  lv_style_t readout_arc;    /* readout VALUE tone — the arc INDICATOR under
+                              * USER_2, and the spinner's moving arm; closes
+                              * the stock color_primary fallthrough on a
+                              * readout (asgard-only)                       */
+  lv_style_t readout_knob;   /* an arc mark the operator cannot move: a
+                              * ring-thick pointer tip, not a grab handle
                               * (asgard-only, LV_STATE_USER_2)             */
-  lv_style_t track_bg;       /* resting rect-track fill (bar/slider/switch
+  lv_style_t readout_knob_off; /* the SAME mark withdrawn once the readout is
+                              * DISABLED — a dead widget shows no live value
+                              * (asgard-only, USER_2 + DISABLED)           */
+  lv_style_t track_bg;         /* resting rect-track fill (bar/slider/switch
                             * MAIN): edge tone at FULL opa — stock's
                             * LV_OPA_20 muted track dilutes any authored
                             * color back toward the panel (asgard-only)    */
-  lv_style_t tab_txt;        /* selected tab-bar label text, DARK only: the
+  lv_style_t tab_txt;          /* selected tab-bar label text, DARK only: the
                             * stock-derived selected-label tint converges
                             * with the muted accent tab fill (asgard-only) */
-  lv_style_t tab_bar_bg;     /* tab-bar chrome fill — surface-2 (asgard-only) */
-  lv_style_t tab_page_bg;    /* tab content + pages — surface-0, the base tier
+  lv_style_t tab_bar_bg;  /* tab-bar chrome fill — surface-2 (asgard-only) */
+  lv_style_t tab_page_bg; /* tab content + pages — surface-0, the base tier
                             * a surface-1 panel sits ON. COLOR-ONLY, both:
                             * the obj arm returns early for these three
                             * containers to keep stock GEOMETRY (the
@@ -137,10 +141,10 @@ typedef struct {
                             * freeze holds (the same argument tab_txt makes),
                             * and demo-parity renders VANILLA, which these skip
                             * entirely (asgard-only)                        */
-  lv_style_t cursor_off;     /* spinbox CURSOR hidden under DISABLED — a
+  lv_style_t cursor_off;  /* spinbox CURSOR hidden under DISABLED — a
                             * disabled control has no active edit cell
                             * (asgard-only)                                */
-  lv_style_t trans;          /* zero-time transitions (asgard-only)          */
+  lv_style_t trans;       /* zero-time transitions (asgard-only)          */
 } asgard_styles_t;
 typedef struct {
   lv_theme_t base;
@@ -587,7 +591,7 @@ static void style_init(asgard_theme_t *t) {
    * fg-0 — near-white on dark, near-black on light. That token is also the
    * checkbox and switch CHECKED indicator, the bar INDICATOR, the
    * dropdown-list selected option and the buttonmatrix checked item, and it
-   * is THEME_CHECKED, the same value `edited_edge` and `readout_arc` take.
+   * is THEME_CHECKED, the same value `edited_edge` takes.
    * Raising it would delete the theme's state/value hue on five other
    * surfaces to fix a contrast problem only the roller has — its band is the
    * one of the six that sits on a field surface. So the roller takes its own
@@ -939,48 +943,105 @@ static void style_init(asgard_theme_t *t) {
    * because it turns on checked-accent being a state tone rather than the
    * action hue, and not on which widgets happen to wear it.
    *
-   * WHAT THIS DOES NOT FIX, measured: the moving arm against its own resting
-   * ring is 1.04:1 dark / 1.06:1 light, far under WCAG 1.4.11's 3:1 gap-fill
-   * — and it was 1.11 / 1.13 under the leaked primary, so this is a hue fix,
-   * not a visibility fix. NO existing token clears 3:1 against the edge-0
-   * resting track (best measured: focused-edge 2.84 dark / 1.37 light), so
-   * the fix is a LIGHTNESS decision across the ladder — the derived-palette
-   * task's, not this one's. Measured lead for it: moving the resting track
-   * off the boundary tone edge-0 onto surface-2 puts this pair at 3.06:1
-   * dark / 3.44:1 light with no change to the indicator at all. */
+   * This comment once deferred the visibility half to a derived-palette task
+   * and left a lead to move the track onto surface-2. Both are refuted below,
+   * quoted rather than deleted because each was written as a measurement. */
+  /* THE TONE IS fg-0, WHICH THIS COMMENT ONCE CALLED IMPOSSIBLE: "NO existing
+   * token clears 3:1 against the edge-0 resting track (best measured:
+   * focused-edge 2.84 dark / 1.37 light)". That was WRONG WHEN WRITTEN, not
+   * overtaken since — against the edge-0 of the commit that landed it, fg-0
+   * already cleared 3:1 at 4.21 / 3.40, beating that runner-up by half again,
+   * and its figures reproduce exactly, so only the superlative was false.
+   * edge-0 has moved
+   * once since and flipped no token's verdict — it made fg-0 WORSE, down to
+   * the 3.82 / 3.08 relied on here. So do not read this as a palette move
+   * rescuing a once-true claim: the fix was available the whole time, and
+   * saying otherwise is what kept it from being taken. A contrast claim is a
+   * claim about a PAIR; recompute it rather than inheriting it.
+   *
+   * Against the CURRENT edge-0, FOUR tokens clear 3:1 in both modes — the
+   * three surfaces and fg-0 — and fg-0 is the only FOREGROUND among them,
+   * which is what a value drawn on a track has to be. The RELATIONSHIP once
+   * recorded as failing, the arm against its own ring at 1.04 / 1.06, now
+   * clears; the TOKEN PAIR named there still does not (checked vs edge-0 is
+   * 1.15 / 1.04) and is not claimed to.
+   *
+   * THE HUE ARGUMENT IS UNCHANGED, so this is no regression to the action
+   * tone: a readout wears a different NON-action tone, not the call-to-action
+   * one. checked-accent means "switched on" and a heading is not a state;
+   * fg-0 means "this is information". Legibility and semantics agree.
+   *
+   * THE SURFACE-2 LEAD IS REFUTED. It really does put the indicator/track
+   * pair at 3.06 / 3.44 — and it is silent on the track's OTHER neighbour,
+   * where it fails: surface-2 against the panel is 1.13 / 1.17, where edge-0
+   * is 3.99 / 4.20. It would trade an invisible value for an invisible ring.
+   * A track has two neighbours; a fix that measures one is half a
+   * measurement. */
   style_reset(&s->readout_arc, inited);
   if (!v)
-    lv_style_set_arc_color(
-        &s->readout_arc, mode_hex(t, THEME_CHECKED_DARK, THEME_CHECKED_LIGHT));
-  /* inert arc knob — the AFFORDANCE half of the readout argument above.
-   * That comment fixes what hue a readout may wear; this fixes whether a
-   * readout may offer a grab handle at all, and the two are independent:
-   * recolouring a knob still draws a knob, and a knob on an arc nothing can
-   * move is an invitation the widget cannot honour. An arc is the one ring
-   * widget where the distinction is invisible otherwise — a spinner is
-   * marked non-interactive by the renderer and a bar has no knob part, so
-   * only lv_arc renders the same grab handle whether or not anything is
-   * bound to it.
+    lv_style_set_arc_color(&s->readout_arc,
+                           mode_hex(t, THEME_FG0_DARK, THEME_FG0_LIGHT));
+  /* readout arc MARK — the AFFORDANCE half of the readout argument above, and
+   * independent of it: recolouring a knob still draws a knob, and a grab
+   * handle on an arc nothing can move is an invitation the widget cannot
+   * honour. An arc is the one ring widget where the distinction is invisible
+   * otherwise — a spinner is marked non-interactive by the renderer and a bar
+   * has no knob part.
    *
-   * WITHDRAWN, NOT RECOLOURED. A dimmed or de-saturated knob still reads as
-   * a control in a disabled state, which is a different and wrong claim: a
-   * readout is not a disabled input, and `disabled_dim` already owns that
-   * meaning on this very widget. Transparent bg plus zero pad removes the
-   * draw entirely, so the arc is a ring — and the knob PART still exists,
-   * so nothing about hit-testing or the object tree changes.
+   * SHRUNK TO A POINTER, NOT WITHDRAWN — the first version of this style DID
+   * withdraw it, which was measured wrong. `pad_all 0` does the work: an arc
+   * knob is sized by its pad, so zero pad leaves a mark exactly the ring's
+   * thickness, reading as the tip of the value rather than as something to
+   * grab. Removing the draw entirely reads as nothing at all.
    *
-   * The state is LV_STATE_USER_2 and the renderer DERIVES it from whether the
-   * node carries an event binding. Derived is not the same as unspellable, and
-   * the difference is load-bearing: `WidgetNode.states` is a raw lv_state_t
-   * bitmask applied verbatim and this bit sits inside its range, so a screen
-   * CAN author it on an arc that carries a command. What makes the binding
-   * authoritative is that renderer.c CLEARS the bit on the evented arm, not
-   * that nothing else can set it — and that clearing is skipped under morph,
-   * where the payload carries no binding by design. */
-  style_reset(&s->knob_inert, inited);
+   * WHY WITHDRAWING IT WAS WRONG: at a ring's FLOOR the indicator has zero
+   * angular extent, so the knob is the only mark there is, and a full-circle
+   * 0..360 track has no ends to supply a baseline the way a bar does.
+   * Withdrawn, a ring reading zero and undriven chrome render identically —
+   * measured on the corpus at the time, 550 accent pixels went to 0 at min.
+   * The floor is minted deliberately, so this is rendered rather than
+   * hypothetical; read which cards from the lv_arc entries in
+   * tools/devcards/corpus/spec.edn.
+   *
+   * IT IS NOT A DIMMED CONTROL EITHER: a dimmed knob reads as DISABLED, which
+   * `disabled_dim` already owns here, and a readout is not a disabled input.
+   * The mark takes fg-0, the tone the indicator takes, so above the floor it
+   * is continuous with the arc it terminates.
+   *
+   * The state is LV_STATE_USER_2, DERIVED by the renderer from whether the
+   * node carries an event binding. Derived is not unspellable: `states` is a
+   * raw lv_state_t applied verbatim and this bit is inside its range, so a
+   * screen CAN author it on an arc carrying a command. What makes the binding
+   * authoritative is that renderer.c CLEARS the bit on the evented arm — and
+   * that clearing is skipped under morph, whose payload carries no binding. */
+  style_reset(&s->readout_knob, inited);
   if (!v) {
-    lv_style_set_bg_opa(&s->knob_inert, LV_OPA_TRANSP);
-    lv_style_set_pad_all(&s->knob_inert, 0);
+    lv_style_set_bg_color(&s->readout_knob,
+                          mode_hex(t, THEME_FG0_DARK, THEME_FG0_LIGHT));
+    lv_style_set_bg_opa(&s->readout_knob, LV_OPA_COVER);
+    lv_style_set_pad_all(&s->readout_knob, 0);
+  }
+  /* ...and WITHDRAWN AGAIN once that readout is DISABLED — found by review
+   * rather than by reasoning. `disabled_dim` fades through layer opa plus a
+   * recolor toward disabled-fg, and measured on the disabled cards that does
+   * NOT land the mark and the indicator in the same place: the mark came out
+   * near disabled-fg while the indicator went far darker, so the two stopped
+   * being one continuous shape and the mark reappeared as a separate blob —
+   * precisely the grab-handle reading this style exists to remove, and WORSE
+   * when disabled than when live, because a dimmed track and a dimmed
+   * indicator converge while the mark does not.
+   *
+   * Withdrawing it there is the semantic answer rather than a patch for that
+   * blend: the mark gives a LIVE readout a floor value to read, and a disabled
+   * widget asserts it has none, so there is nothing to mark.
+   *
+   * IT WINS BY BITMASK VALUE, not specificity — LVGL has no such rule.
+   * `get_prop_core` ranks by `weight = state_act`, so USER_2|DISABLED at 8704
+   * beats the plain 8192 above; CHECKED|DISABLED at 516 would LOSE to it. */
+  style_reset(&s->readout_knob_off, inited);
+  if (!v) {
+    lv_style_set_bg_opa(&s->readout_knob_off, LV_OPA_TRANSP);
+    lv_style_set_pad_all(&s->readout_knob_off, 0);
   }
   /* selected tab-bar label — asgard DARK only, COLOR only. The tab bar is
    * frozen to stock geometry (demo-parity capstone), but stock derives the
@@ -1299,11 +1360,26 @@ static void theme_apply(lv_theme_t *th, lv_obj_t *obj) {
       lv_obj_add_style(obj, &t->styles.disabled_dim, LV_STATE_DISABLED);
       lv_obj_add_style(obj, &t->styles.pressed, LV_STATE_PRESSED);
       lv_obj_add_style(obj, &t->styles.track_tone, LV_PART_MAIN);
-      /* ...and withdraw the grab handle when nothing is bound to move it.
-       * The renderer sets USER_2 from the node's own event binding, so this
-       * arm never has to ask what the screen meant. */
-      lv_obj_add_style(obj, &t->styles.knob_inert,
+      /* ...and, when nothing is bound to move it, mark it a READOUT on both
+       * channels. The renderer sets USER_2 from the node's own event binding,
+       * so this arm never has to ask what the screen meant.
+       *
+       * INDICATOR first: without it the value falls through to the stock
+       * parent's `arc_indic_primary`, i.e. to color_primary — the action hue,
+       * on a widget you only watch. That is the same leak `readout_arc` was
+       * written to close for the spinner, arriving on the widget the argument
+       * was actually about. It is scoped to the READOUT state rather than
+       * applied unconditionally, because an arc that DOES carry a command is
+       * a control and the action hue is correct there.
+       *
+       * KNOB second: shrunk to a ring-thick pointer tip in the same tone, so
+       * a value at the floor still has a mark and no value reads as grabbable. */
+      lv_obj_add_style(obj, &t->styles.readout_arc,
+                       LV_PART_INDICATOR | LV_STATE_USER_2);
+      lv_obj_add_style(obj, &t->styles.readout_knob,
                        LV_PART_KNOB | LV_STATE_USER_2);
+      lv_obj_add_style(obj, &t->styles.readout_knob_off,
+                       LV_PART_KNOB | LV_STATE_USER_2 | LV_STATE_DISABLED);
     }
     add_interactive(t, obj);
     return;

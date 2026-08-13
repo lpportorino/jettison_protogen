@@ -3749,7 +3749,9 @@ static void finalize_widget(widget_ctx_t *ctx) {
   }
 #if LV_USE_ARC
   /* A READOUT ARC — one with nothing bound to move it — is marked so the
-   * theme can withdraw its grab handle (theme.c, `knob_inert`). An arc is the
+   * theme can demote its grab handle to a pointer tip (theme.c,
+   * `readout_knob`), and withdraw even that once the readout is DISABLED
+   * (`readout_knob_off`). An arc is the
    * only ring widget where the two roles are otherwise indistinguishable: a
    * spinner is marked non-interactive outright and a bar has no knob part, so
    * lv_arc alone renders the same draggable-looking knob whether or not
