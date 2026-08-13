@@ -129,12 +129,39 @@ language bindings, not a hand-maintained app.
 
 ## The determinism contract — change all-or-none
 - The pinned render protocol (tick budget, tick ms, DPI, canvas) is restated in
-  several homes that MUST stay equal: `render-protocol` in
-  `tools/devcards/src/devcards/core.clj` (and `host.clj`'s
-  `render-ticks`/`tick-ms`/`default-dpi`), `renderer/wasm_harness/src/lib.rs`
-  (`RENDER_TICKS` / `TICK_MS`), and every golden manifest's `:protocol`. A render is a deterministic function of module +
-  fixture + tick budget — never an adaptive settle. Change the constant in every
-  home or none.
+  several homes that MUST stay equal. A render is a deterministic function of
+  module + fixture + tick budget — never an adaptive settle. Change the constant
+  in every home or none.
+
+  **DERIVE THE HOMES; DO NOT TRUST A LIST — including a list here.** This clause
+  used to enumerate four (`core.clj`, `host.clj`, `lib.rs`, the golden
+  manifests) and was INCOMPLETE, which is the one shape an all-or-none
+  instruction must never take: it guarantees a partial edit while reading as
+  diligence. At least the corpus spec, the conventions EDN and its generated
+  JSON projection were missing from it.
+
+  Derive the CANDIDATE set, which cannot silently miss a home:
+
+  ```sh
+  git grep -lE 'render-ticks|render_ticks|RENDER_TICKS|:ticks|tick-ms|tick_ms|TICK_MS' \
+    -- ':!*.md'
+  git grep -l ':protocol' -- 'tools/devcards/goldens/*.edn'   # the manifest class
+  ```
+
+  Then CLASSIFY each hit by hand, because a single regex provably cannot:
+  a DECLARER restates the literal VALUE and must change; a CONSUMER reads a
+  named constant and must not. Two narrower patterns were tried and each had a
+  different blind spot — one missed the Rust `pub const TICK_MS: u32 = 16;`
+  because `u32` carries digits, the other missed `host.clj`'s `def` because its
+  docstring sits between the symbol and the literal. A pattern that separates
+  the two classes reliably was not found, so the breadth is deliberate and the
+  classification is the reader's.
+
+  Two members are worth knowing before you start. The generated JSON projection
+  under `tools/devcards/conventions/` is NOT hand-edited — regenerate it, and
+  its staleness is the one member of this set a gate already catches. And a
+  fixture literal in the scratchcard tests restates the protocol without reading
+  either constant, so it is a declarer that no compiler will point at.
 - The framebuffer is straight (non-premultiplied) alpha in the format
   `controls_fb_format` reports: color bytes under A=0 are garbage, so consumers
   MUST composite/flatten. Goldens hash the RAW framebuffer bytes, never an

@@ -259,9 +259,18 @@
 ;; inputs; the demo's anim-frozen values are functions of ticks × ms) →
 ;; at least one tick must report a flush → read framebuffer.
 ;; MIRRORED: corpus/spec.edn's `:render` section restates these same values
-;; (:render-ticks/:tick-ms/:dpi); dev/t22_smoke.clj asserts this ns's
-;; constants agree with the spec's copy, so a drift between the Rust harness
-;; and the corpus fails loudly there.
+;; (:render-ticks/:tick-ms/:dpi). dev/t22_smoke.clj compares this ns against
+;; that spec copy — Clojure against Clojure.
+;;
+;; NOTHING GUARDS THE RUST SIDE, and this comment used to say it did. It read
+;; "so a drift between the Rust harness and the corpus fails loudly there",
+;; which is false twice over: no Rust constant enters that comparison at all,
+;; so a drift between lvgl_harness::RENDER_TICKS and these pins fails NOWHERE;
+;; and "fails loudly" implies something runs it, while the only mentions of
+;; that smoke file in this repository are an alias comment in
+;; tools/devcards/deps.edn and this paragraph — no make target, no workflow.
+;; The `mirror of ...` notes on the defs below are therefore a CONVENTION a
+;; human maintains, not an asserted invariant. Treat them accordingly.
 (def render-ticks "Pinned tick count per render (mirror of lvgl_harness::RENDER_TICKS)." 3)
 
 (def tick-ms "Elapsed ms per tick (mirror of lvgl_harness::TICK_MS)." 16)

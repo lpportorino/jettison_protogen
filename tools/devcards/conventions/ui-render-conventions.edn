@@ -1,9 +1,19 @@
 ;; ui-render-conventions.edn - the shared UI-render convention facts,
 ;; beside ui_ast.proto; generated into
 ;; conventions/ui-style-conventions.json. Consumers: the devcards
-;; runner (render protocol), the in-fleet runtime builder
-;; (slots/selectors), and the renderer-side mirror gate (renderer.c +
-;; style_props.clj + harness RENDER_TICKS all asserted against THIS file).
+;; runner (render protocol) and the in-fleet runtime builder
+;; (slots/selectors).
+;;
+;; NO CODE IS ASSERTED AGAINST THIS FILE, and this header used to say it was:
+;; it named "the renderer-side mirror gate (renderer.c + style_props.clj +
+;; harness RENDER_TICKS all asserted against THIS file)". No such gate exists.
+;; devcards.conventions' only check over :render-protocol is a key-PRESENCE
+;; loop — load-conventions throws on a MISSING required authored section and
+;; never compares a value — and that namespace mentions no tick constant at
+;; all. The one armed check in this family is conventions-projection, which
+;; byte-compares the generated ui-style-conventions.json against a fresh emit
+;; of this same EDN: two AUTHORED artifacts, neither of them code. So a value
+;; here drifting from the constant it mirrors is caught by NOTHING.
 {:version 1
  :widget-states
  ;; Per WidgetType: the ordered list of states the ASGARD theme COMMITS to

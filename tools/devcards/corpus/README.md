@@ -2,10 +2,24 @@
 
 `spec.edn` is the machine-readable card inventory the public fixture builder
 consumes: per-widget atomic cards across every widget class plus the kitchen-sink
-composites (the exact tallies live in spec.edn's own `:card-count`,
-`:kitchen-sink-count`, and `:declared-counts` fields). One atomic card = one
-widget in one state at one size (optionally one value sample); a gate failure
-names its exact cell by the stable id `<tag>/<state>/<size>[/<value-or-variant>]`.
+composites. One atomic card = one widget in one state at one size (optionally
+one value sample); a gate failure names its exact cell by the stable id
+`<tag>/<state>/<size>[/<value-or-variant>]`.
+
+**The only trustworthy tallies are `:card-count` and `:kitchen-sink-count`,
+because `devcards.fixtures/load-spec` DERIVES each from the spec's own contents
+and throws when they disagree.** Cite those, and nothing else.
+
+This paragraph used to name a third field, `:declared-counts`, as carrying "the
+exact tallies". It carried nothing of the kind and has been deleted: no code
+read it, and it disagreed with the per-widget `:authored-count` beside it for 15
+of 23 widgets while its `:total` sat 50 below the validated `:card-count`. A
+hand-typed tally of the tree's own contents rots the day after it is written
+— the two surviving counts are safe precisely because they are checked rather
+than typed.
+
+`:authored-count` is still present per widget and is still UNVALIDATED, so treat
+it as a hint rather than a fact until something derives it.
 
 Sources of truth, in priority order:
 

@@ -4,9 +4,25 @@
    Goldens are sha256 over the RAW RGBA bytes the runner reads out of wasm
    linear memory: encoder-independent, engine-independent (the cross-engine
    determinism gate is what makes one manifest authoritative for both
-   wasmtime and GraalWasm hosts). Every entry pins the render protocol it
-   was minted under — the TICK BUDGET rides in the manifest so a protocol
-   drift fails loudly as a manifest diff, never as a silent re-mint.
+   wasmtime and GraalWasm hosts). The render protocol is stamped ONCE, at
+   the manifest ROOT, by `devcards.core/manifest-of`; a card entry carries
+   `:sha256`, `:w` and `:h` and nothing else.
+
+   THE STAMP IS A RECORD, NOT A GUARD, and that distinction is what a reader
+   planning render-protocol work actually needs. Nothing reads it back:
+   `read-manifest` below asserts only that `:protocol` is a MAP, and
+   `gates/golden-drift-findings` is handed `(:cards ...)` alone. So a stamp
+   that CHANGES surfaces as a committed diff, while a stamp that is merely
+   WRONG — a manifest declaring one tick budget over pixels minted under
+   another — verifies clean, because nothing compares it to the constants
+   that drove the loop.
+
+   THIS DOCSTRING USED TO CLAIM THE OPPOSITE, and the retired wording is
+   quoted because a planner already trusted it: it said every entry pins the
+   protocol and that \"the TICK BUDGET rides in the manifest so a protocol
+   drift fails loudly as a manifest diff\". No entry pins anything and no
+   mechanism fails loudly; the claim mis-sized a consumer-side plan before it
+   was caught by reading this file.
 
    Pure core: `build-manifest` walks cards through a caller-supplied
    render fn (card → {:fb bytes :w int :h int}). IO (EDN read/write) sits

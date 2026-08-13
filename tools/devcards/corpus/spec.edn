@@ -12,31 +12,6 @@
   "Widget slugs derive from the WidgetType enum."]
  :card-count 246
  :conventions "conventions/ui-render-conventions.edn"
- :declared-counts {:kitchen-sinks 6
-                   :total 196
-                   "lv_arc" 9
-                   "lv_bar" 9
-                   "lv_button" 12
-                   "lv_buttonmatrix" 4
-                   "lv_chart" 5
-                   "lv_checkbox" 8
-                   "lv_dropdown" 12
-                   "lv_host_proxy" 7
-                   "lv_image" 6
-                   "lv_label" 14
-                   "lv_led" 3
-                   "lv_line" 4
-                   "lv_obj" 7
-                   "lv_roller" 14
-                   "lv_scale" 13
-                   "lv_slider" 13
-                   "lv_spinbox" 12
-                   "lv_spinner" 7
-                   "lv_switch" 15
-                   "lv_table" 6
-                   "lv_tabview" 5
-                   "lv_target_overlay" 9
-                   "lv_textarea" 11}
  :expect-legend
  {:baseline "the default-state cell — the reference hash for its class/size"
   :distinct
