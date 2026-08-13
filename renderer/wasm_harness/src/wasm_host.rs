@@ -511,11 +511,15 @@ pub struct ControlsHost {
     /// decode-boundary oracle (nanopb + cmd_spec_copy_from_proto): 0 accepted,
     /// -1 slot-bounds reject, -2 nanopb decode reject.
     fn_cmd_spec_decode_probe: TypedFunc<(u32, u32), i32>,
-    /// `controls_key_event(key, pressed) -> status` — keypad indev queue
+    /// `controls_key_event(key, pressed) -> status` — keypad indev queue.
+    /// `key` is an `lv_key_t`, a Unicode codepoint, or a module-owned
+    /// MODIFIER code at/above `0x01000000`.
     fn_key_event: TypedFunc<(u32, u32), i32>,
-    /// `controls_text_input(ptr, len) -> status` — paste into focused textarea
+    /// `controls_text_input(ptr, len) -> status` — paste into the focused
+    /// textarea, REPLACING any selection; refuses over-cap input
     fn_text_input: TypedFunc<(u32, u32), i32>,
-    /// `controls_get_focused_text() -> ptr` (NUL-terminated; 0 = no focus)
+    /// `controls_get_focused_text() -> ptr` (NUL-terminated; 0 = no focus
+    /// OR the field is in password mode)
     fn_get_focused_text: TypedFunc<(), u32>,
     /// `controls_take_clipboard_request() -> req` — drains the pending
     /// clipboard request (0 none, 1 copy, 2 cut, 3 paste)
@@ -1578,8 +1582,13 @@ impl ControlsHost {
         self.call_with_buffer(text.as_bytes(), &func, "controls_text_input")
     }
     /// Whole text of the group-focused textarea
-    /// (`controls_get_focused_text` — the copy path), or `None` when no
-    /// textarea is focused.
+    /// (`controls_get_focused_text`), or `None` when no textarea is focused
+    /// OR the field is in PASSWORD mode.
+    ///
+    /// This is NOT the copy path — that is
+    /// [`Self::take_clipboard_request`] plus [`Self::clipboard_text`], which
+    /// carry the SELECTION. This accessor is the whole field, and it refuses
+    /// a password field rather than handing back its cleartext.
     ///
     /// # Errors
     ///
