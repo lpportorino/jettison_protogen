@@ -31,18 +31,66 @@
  ;; carries none — a colour alone would paint at width 0 — so its ring is an
  ;; outline.
  ;;
- ;; AN OUTLINE NEEDS PARENT INSET, and this is the constraint an author will
- ;; otherwise meet as a clipped ring. Its reach is outline_pad + outline_width;
- ;; at the base breakpoint @btn-primary's is 2 + 2 = 4px, while @card gives
- ;; `lv_obj_get_style_space_left` = pad + border_width = 2 + 1 = 3px. So a
+ ;; AN OUTLINE NEEDS STANDOFF, and the PARENT INSET is only one of the two
+ ;; things that can deny it. Its reach is outline_pad + outline_width — at the
+ ;; base breakpoint @btn-primary's is 2 + 2 = 4px — and that reach is spent on
+ ;; whatever already occupies those pixels, whichever is NEARER: the parent's
+ ;; own inset, or the FLEX GAP to a sibling.
+ ;;
+ ;; A SIBLING IS REACHABLE AT ALL BECAUSE LAYOUT DOES NOT RESERVE FOR A RING.
+ ;; That is the same EXT_DRAW_UPDATE-not-LAYOUT_UPDATE fact stated above, read
+ ;; forwards: a flex parent measures and spaces by the DRAWN box, so it leaves
+ ;; the ring exactly nothing and the ring lands on whoever is next. The UI
+ ;; standard already states this shape for the other quantity that widens a
+ ;; node invisibly — whoever sets `hit_slop` owes the space, because the slop
+ ;; too "lands on whatever sits beside the node". An outline is the PAINT twin
+ ;; of that REACH rule, and it is owed the same reservation.
+ ;;
+ ;; BOTH BOUNDS, WITH THE ARITHMETIC. @card gives
+ ;; `lv_obj_get_style_space_left` = pad + border_width = 2 + 1 = 3px, so a
  ;; @btn-primary flush inside a @card overruns that card's box by 1px at base
- ;; (it fits from md: up, where spacing-sm widens the pad). Give a focusable
- ;; primary button at least 4px of parent inset, or expect the ring to land on
- ;; the parent's own edge.
+ ;; (it fits from md: up, where spacing-sm widens the pad). On the sibling
+ ;; side, a `gap-spacing-sm` row gives 4px, which the ring exactly fills — it
+ ;; stops on the neighbour's first pixel and shares none, the same
+ ;; touching-is-not-overlapping boundary the overlap lane draws at
+ ;; :overlap/gap-px 0. A `gap-spacing-xs` row gives 2px, which is half of what
+ ;; the ring needs. The 4px reach is calibrated to the former.
+ ;;
+ ;; THE GAP IS THE BOUND THAT BINDS IN PRACTICE, measured rather than assumed.
+ ;; The one screen that puts this macro beside a sibling — kitchen_sink's
+ ;; Buttons card — renders a 2px gap to @btn-secondary in EVERY theme family,
+ ;; mode, canvas and breakpoint tier of the scratch matrix, while the inset
+ ;; from its own parent measures 9px under asgard and 22-26px under
+ ;; stock/vanilla. So the parent-inset advice is SATISFIED at every one of
+ ;; those cells and the ring is defective at every one of them, which is why
+ ;; naming the inset alone is worse than naming nothing: it sends an author to
+ ;; check the bound that is already met.
+ ;;
+ ;; Its row is authored `gap-spacing-sm sm:gap-spacing-xs`, and that is the
+ ;; trap to know before widening one: `sm:` is a MINIMUM tier, not a band, so
+ ;; it wins from the smallest canvas UP and the base 4px never applies
+ ;; anywhere. The 2px above is that override — measured at 1920x1080 too.
+ ;;
+ ;; THE SYMPTOM DEPENDS ON DRAW ORDER RATHER THAN ON THE OVERRUN, which is the
+ ;; part most likely to mislead whoever diagnoses it.
+ ;; renderer/lvgl/src/core/lv_refr.c walks children ASCENDING, so a button that
+ ;; PRECEDES its neighbour has the shared pixels repainted by that neighbour's
+ ;; own fill and its ring is visibly CUT on that side alone, while a button
+ ;; that is the LAST child has nothing drawn after it and instead OCCLUDES
+ ;; whatever it reached into. Same overrun, opposite appearance — and neither
+ ;; is visible in anything this repo renders today, which is why it has to be
+ ;; written down rather than looked at: the corpus that DOES drive focused
+ ;; states (the devcards state cards) is authored in the proto node shape and
+ ;; carries no class macros, while the one screen that crowds this macro is
+ ;; never rendered focused.
+ ;;
+ ;; So give a focusable primary button 4px of clearance on every side that can
+ ;; be crowded — parent inset AND sibling gap — not the inset alone.
  ;;
  ;; Guarded by renderer/wasm_harness/tests/visual_regression.rs, mod
  ;; focus_geometry — vr_focus_geometry for the border case, vr_focus_outline
- ;; for this one.
+ ;; for this one. NEITHER GUARDS THE GAP: both fixtures render a LONE button,
+ ;; so the sibling bound is measured here and unguarded there.
  {:body "font-font-body text-fg-0"
   ;; The focus ring is an OUTLINE, which is drawn outside the box and carries no
   ;; layout flag, so it is visible without moving anything. A border here would
