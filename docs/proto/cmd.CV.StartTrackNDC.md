@@ -91,9 +91,21 @@ Y coordinate in NDC (-1.0 to 1.0)
 Frame timestamp for synchronization
 
 
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
+
+
 ### state_time (#5)
 
 State snapshot timestamp for synchronization
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
 
 
 
