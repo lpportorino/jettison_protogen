@@ -247,7 +247,48 @@
    literal inside the call below because `armed-producers` has to be the set
    that actually runs — a hand-kept second list would be free to drift, and
    the NOT-EXERCISED line computed from it would then lie in the one direction
-   nothing else can catch."
+   nothing else can catch.
+
+   WHY `devcards.spacing` IS NOT HERE, and it is a MEASUREMENT rather than an
+   oversight — the same shape, and the same standard of evidence, as
+   `:palette/colors-by-mode`'s absence from `producer-thresholds` below.
+
+   The rule is written, registers cleanly, and is reachable: it requires only
+   `:nodes`, which `card-findings` derives for every card already, so arming
+   it is a one-token edit to this vector plus its threshold below. What stops
+   it is the population, and specifically ONE class.
+
+   Over the shipped corpus the rule reports ZERO `:paint-crowding` — no pair
+   whose paint extent is EXACTLY resolved encroaches on a neighbour — and a
+   few dozen `:unmeasurable-paint-extent`, EVERY ONE of which names an
+   `lv_scale`. That class asks LVGL for a blanket 100px ext draw size (a bare
+   literal in lv_scale.c, commented \"so the first tick label can be shown\"),
+   so `dump_obj` can only publish a bound, and a 100px bound is not clear of
+   anything on a 800x480 canvas. The finding is HONEST — a scale's box is a
+   few pixels wide while it really does draw ticks and labels outside it, so
+   whether those crowd their neighbours is genuinely unknown here — but it is
+   a property of the INSTRUMENT rather than of any card, it would fire on
+   every gauge card forever, and blocking on it buys per-card exemptions: the
+   ratchet CLAUDE.md refuses.
+
+   WHAT WOULD RETIRE THIS: an exact paint extent for `lv_scale`, emitted the
+   way `paint_box` already is for `lv_slider`, at which point the unmeasurable
+   population goes to zero and arming costs nothing. Note the direction — the
+   blocker is a missing RESOLVER, never a threshold, and no value of `gap-px`
+   moves it (measured at 1, 2, 3, 4, 6 and 8; the count is flat across all of
+   them because a 100px bound swamps every threshold).
+
+   THE RULE IS NOT THEREBY UNWATCHED, which is the failure this note would
+   otherwise describe. `renderer.mk`'s `spacing-canary` lane drives it on a
+   real render, in the battery and on the same footing as `overlap-canary`, so
+   both the rule and the two dump keys it reads are exercised by something CI
+   runs (gate-enforcement §6). What is deferred is judging the CORPUS with it,
+   not the rule's own proof.
+
+   RE-MEASURE rather than trusting any count above — it is a property of this
+   corpus, this theme and this renderer. The probe is
+   `tools/devcards/dev/paint_census.clj`:
+     clojure -M:bindings:paint-census"
   [tree-producer overlap/producer deadzone/producer opa/producer])
 
 (def composition-producers
