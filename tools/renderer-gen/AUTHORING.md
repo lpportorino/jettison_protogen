@@ -94,7 +94,8 @@ Any token may carry prefix modifiers, colon-separated, at most one from each
 axis:
 
 - **Breakpoint** — `sm:` `md:` `lg:` `xl:` (min-width tiers; the HIGHEST
-  matching tier wins regardless of token order).
+  matching tier wins regardless of token order — EXCEPT between `sm:` and a
+  bare token, which share a tier; see the `sm:` warning below).
 - **State** — `pressed:` `focused:` `disabled:` `pending:` — derived from
   `state-selector` in `src/lvgl_codegen/style_props.clj`, which is the roster;
   a term added there joins the prefix parse by itself.
@@ -103,6 +104,53 @@ axis:
 all valid. A typo'd prefix throws — it would otherwise silently apply always.
 A PREFIXED LAYOUT DIRECTIVE throws too: `ui.Layout` carries no breakpoint or
 state variants, so `md:flex-col` cannot mean anything.
+
+### `sm:` SCOPES NOTHING — it shadows the base token at every canvas
+
+`bp-min-index` in `src/lvgl_codegen/style_props.clj` gives `:sm` minimum
+composite index 0, which is the SAME minimum a token with no breakpoint
+prefix gets, and `expand->variants` applies a token at index `idx` exactly
+when `idx >= min-idx`. So an `sm:` token applies at all eight composite
+indices — the identical set a bare token applies at — and `sm:X` is
+indistinguishable from `X` at every canvas. There is no smallest-tier band
+for it to scope: `sm` IS the floor. Measured through the real expander:
+
+```text
+"w-80 sm:w-64"  ->  64 at all eight indices   base never applies anywhere
+"sm:w-64 w-80"  ->  80 at all eight indices   ORDER decided it, not tier
+"sm:w-64"       ->  64 at all eight indices   identical to a bare w-64
+"w-80 md:w-64"  ->  80 80 then 64 from idx 2  a real tier scope, for contrast
+```
+
+Two consequences, and the second is the one that ships defects:
+
+- The tier bullet above does NOT hold between `sm:` and a bare token. They
+  are one tier, so the LAST of the two in the class string wins, CSS-style —
+  order decides, not height.
+- The prefix's only reachable effect is to SHADOW the base token beside it
+  while reading as responsive. `X sm:Y` renders `Y` everywhere: the base
+  value never applies at any canvas, and an author reviewing the string
+  believes `Y` is a small-canvas concession it is not.
+
+**The correct idiom is the inverse: author the small-canvas value BARE and
+widen upward with `md:` / `lg:` / `xl:`.** That is what the macros in
+`edn/components.edn` already do: `@btn-primary` carries a bare `p-spacing-xs`
+and an `md:p-spacing-sm` beside it — small at the floor, grown from the
+second tier up.
+
+**Do NOT "restore the authored value" by deleting an `sm:` override.** Every
+`sm:` token authored in this repository SHRINKS what it shadows, so dropping
+the override picks the LARGE value at every canvas — the one value the author
+demonstrably did not want. Nor is the naive transposition a repair: `X sm:Y`
+rewritten as `Y md:X` INVERTS the pair rather than restoring it, since `X` was
+never the wide-canvas intent, only the shadowed base. The repair is to author
+base-small and widen upward, with the large-canvas value chosen deliberately.
+
+This is not hypothetical. A row authored `gap-spacing-sm sm:gap-spacing-xs`
+renders the `xs` gap at EVERY canvas rather than only the smallest, and a
+focus ring calibrated against the wider `sm` base gap overran it at every
+rendered cell. The `:class-defs` preamble in `edn/components.edn` carries that
+measurement and the LVGL arithmetic behind it.
 
 Design tokens live in `edn/tokens.edn` (layer 1 primitives + layer 2
 semantics); the pipeline consumes the RESOLVED projection
