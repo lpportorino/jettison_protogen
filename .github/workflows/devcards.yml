@@ -317,8 +317,21 @@ jobs:
       # verdicts turn on (click_area, clickable, the proxy triple) are emitted
       # from renderer/src/main.c, which matches renderer.yml's and none of
       # this one's. Neither file alone arms it over both halves.
-      name: Corpus gate + gallery + interaction + dead-zone + overlap canaries (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt scratchcard-test scratchcard-lane-prebuilt
+      #
+      # spacing-canary-prebuilt is the same argument once more, and it carries
+      # MORE than the others do. `devcards.spacing` is deliberately in no lane
+      # vector — a widget asking LVGL for a blanket ext draw size makes a class
+      # of nodes unmeasurable, and `lanes/atomic-producers` records that
+      # measurement and the resolver that retires it — so the corpus gate above
+      # never runs the rule at all. This canary is therefore the ONLY thing CI
+      # runs that exercises the crowding rule or either dump key it reads
+      # (paint_box, paint_bound), which is what gate-enforcement §6 requires of
+      # a rule that ships unarmed. Its two sides split across the two workflows
+      # exactly as overlap's do: the rule and its canary are under
+      # tools/devcards/**, matched HERE, while the paint-extent emit lives in
+      # renderer/src/main.c, matched by renderer.yml and not by this file.
+      name: Corpus gate + gallery + interaction + dead-zone + overlap + spacing canaries (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt spacing-canary-prebuilt scratchcard-test scratchcard-lane-prebuilt
     - # B3a: a devcards-path change that shifts pixels re-mints the goldens AND
       # the gallery/doc pages inside the runner; without this assertion it would
       # exit green (the pass value == the nothing-ran value, fail-fast.md). The

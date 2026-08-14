@@ -1252,3 +1252,142 @@ compute it — that value has to come from the dump.
 So: derive the pair set from what the authoring vocabulary and the theme
 actually pair, and where that cannot be established, emit the third answer
 rather than an empty one.
+
+---
+
+## 7. The crowding rule
+
+> **No element's PAINT may eat the clearance the layout gave to another
+> element.**
+
+`devcards.spacing`. §2's sibling one pipeline over: that rule asks whether one
+element can steal another's press, this one asks whether one element's drawn
+pixels take back space the layout allocated to a neighbour. Neither substitutes
+for the other, and §2 cannot be widened into this one — a pointer gate must not
+report layout, which is why its `gap-px` is 0 and raising it is refused.
+
+### 7.1 A node box cannot answer it
+
+`coords` is what a widget DECLARED; it is not the extent of what it DRAWS. The
+standing case is the slider knob, which is centred on the indicator end and
+then grown by the knob part's own padding — so a slider whose box clears its
+neighbour can paint across the gutter into it, and every rule reading `coords`
+reports that pair clean. `dump_obj` emits `paint_box` (the exact painted
+extent) and `paint_bound` (a conservative box the paint provably stays inside)
+for precisely this, and this rule is their consumer.
+
+Both keys are emitted only where they DIFFER from `coords`, so absence of both
+is a positive statement — nothing escapes the node box — and never a producer
+that did not look. A consumer that rebuilds the wasm and keeps a coords-reading
+producer therefore recreates the under-report in full, the same shape §2.4
+records for `click_area`.
+
+### 7.2 What fires, and why the obvious half alone would not
+
+    the layout allocated at least gap-px clear pixels between two elements,
+    AND their painted extents leave fewer than that.
+
+The second half alone would report ABUTMENT, which is how layout works here: a
+tab bar meets its content area, one tab button meets the next, a scrubber's
+rows stack flush. `lanes/overlap-thresholds` carries the measurement — a
+node-box threshold raised by one pixel floods the lane with tabview abutments —
+and calls that reporting layout rather than hazards. The first half keeps the
+flood out with NO exclusion list: two elements the author placed flush were
+placed flush on purpose, and whether that is too tight is a design question the
+reviewer's alignment keyword owns. What this rule owns is the pair the author
+placed APART and the renderer brought together — a defect with no author, which
+is why nothing else was going to catch it.
+
+Both boxes are clipped by every ancestor before they are compared, because that
+is what the renderer does before drawing a child: it intersects the clip with
+each ancestor's box, grown by the resolved ext draw size where that ancestor
+carries `LV_OBJ_FLAG_OVERFLOW_VISIBLE`. An overhang that escapes its container
+is never painted at all, so it crowds nothing. That is §2.4's reachability
+argument applied to the paint pipeline instead of the pointer one, and the rule
+reads the same emitted `descend_gate` for it, falling back to `coords` because
+absence there means the two boxes are EQUAL. LVGL computes the descent gate and
+the child clip identically, so one key answers both — the renderer's
+coincidence, not an assumption of the rule's. Should they ever diverge, this
+rule needs a key of its own and that fallback is what changes with it.
+
+### 7.3 What is excluded, and what deliberately is not
+
+Excluded: RELATED nodes, per §2.3's argument unchanged — containment is
+composition, and without it the rule reports every button against its own
+label; HIDDEN nodes and their subtree, and nodes a carousel has snapped out of
+view, neither of which is drawn; a node its ancestors clip away to nothing,
+whose extent is empty and which therefore has no neighbours at all; and pairs
+the LAYOUT already placed within `gap-px`, per §7.2.
+
+That last one excludes no NODE and no declaration can claim it. A pair is out
+of scope only while the author's own boxes are the thing that is tight.
+
+NOT excluded, against the intuition:
+
+- **A declared overlay, and a proxy's affordance stack.** Those exist so §1 and
+  §2 can accept an INTENDED pointer collision, and they buy nothing here
+  because the case cannot arise: an overlay covers what it declares over, so
+  those node boxes intersect, so the pair already fails the layout half. A
+  reader for either declaration would be an exclusion with no case behind it.
+- **A decorative node.** This rule judges every drawn element regardless of §3's
+  `:interactive?` axis, because crowding is about pixels and a label crowded by
+  a knob looks exactly as wrong as a button would. It therefore asks nothing of
+  a node's type: an undeclared type costs it no knowledge, and it emits no
+  unclassified finding of its own.
+
+### 7.4 The third answer, which is where this rule earns its keep
+
+A widget whose exact extent could not be resolved publishes `paint_bound` and
+nothing finer. That bound is sound for proving a NEGATIVE — clear of its
+neighbour proves no encroachment, and those pairs are clean here with no caveat
+— and unsound for asserting one. So a pair that is clear under the bound is
+silent, and a pair that is not is reported as `:unmeasurable-paint-extent`
+rather than as crowding, as is any drawn node whose boxes could not be resolved
+at all.
+
+This is the standard's *"an unjudged element is a FINDING, never a skip"* at
+the point where it costs something. The rule's clean value and its nothing-ran
+value are the same empty vector, so one that could not tell "no overhang" from
+"overhang unknown" would report a clean run over an unmeasured one.
+
+Its known blind spots are the facts the paint pipeline consults and the dump
+does not carry: a TRANSFORM (both boxes live in the pre-transform space, as
+§2.4's do), `CLIP_CORNER` (the rule uses the rectangular clip, so along a
+rounded corner it credits a few pixels the parent cuts — which can only make it
+report a pair the corner would have separated, never hide one), and OPACITY (a
+fully transparent widget occupies its box here; that is a limit of the RULE,
+since `opa` is a resolved style the dump does carry).
+
+### 7.5 Verdict shape, threshold, and what a consumer owes
+
+**Shape: `exact`** (§0) — integer arithmetic on inclusive rects. The producer
+declares no outcomes, so none of its findings can later be softened to an
+uncertain verdict in a small diff.
+
+**One threshold, `gap-px`, and it is NOT §2's.** The two answer different
+questions and share no value: overlap's is 0 because a pointer gate must not
+report layout, and this one is a clearance floor in DRAWN pixels. The registry
+namespaces thresholds by producer id, so both may carry that name without
+either shadowing the other. `gap-px` 0 does not disable this rule — it is the
+strictest-NEGATIVE setting, at which only a painted OVERLAP between two
+non-overlapping boxes fires.
+
+**Arming is the consumer's call and it is one edit**: append the producer to
+your lane vector and supply its threshold, since the resolver throws on a key
+no armed producer declares. Protogen's own corpus does NOT arm it, and that is
+a measurement with a retirement condition rather than a preference — a widget
+class that asks LVGL for a blanket ext draw size can only ever publish a bound,
+and a bound that size is clear of nothing on this canvas, so the rule would
+report that class forever and blocking on it would buy the per-card exemptions
+this standard refuses. What retires it is an exact paint extent for that class,
+emitted the way the slider's already is; no value of `gap-px` moves it.
+`lanes/atomic-producers` holds that measurement and is its authority — re-derive
+from there rather than from this paragraph, because the population is a property
+of a corpus, a theme and a renderer.
+
+**Unarmed is not unwatched**, which is what §5's second clause requires of any
+rule in this document. `renderer.mk`'s `spacing-canary` drives the rule on a
+REAL render — in the battery, and in the devcards CI workflow beside the
+overlap canary — so the rule and both dump keys it reads are exercised by
+something CI runs. What is deferred is judging the CORPUS with it, never the
+rule's own proof. A consumer wiring its own CI arms that target the same way.
