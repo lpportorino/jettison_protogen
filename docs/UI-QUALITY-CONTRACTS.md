@@ -1476,10 +1476,19 @@ and 15px along it, on the side the value has travelled to. A per-class entry
 carrying one number would have to carry the larger, which over-claims the cross
 axis by 2.5x and turns every mid-range slider into a crowding report.
 
-**What retires the `lv_scale` exemption** is that class's entry, and nothing
-else: the population of unresolved pairs in protogen's own corpus is 100%
-`lv_scale`. No value of `gap-px` moves it and no amount of computed resolving
-touches it, because the residual is arithmetic no style can explain.
+**What retires the `lv_scale` exemption** is an EXACT paint extent for that
+class, and nothing weaker. An earlier form of this paragraph said the
+unresolved-pair population "is 100% `lv_scale`" — retired: a pair is
+unresolved when EITHER side lacks an exact extent, and pairs whose other
+side is a bound-only class (`lv_label` against a slider is the measured
+case) are unresolved with no `lv_scale` in them. A declared entry does the
+whole job for `lv_scale`; for a margin-shaped blanket like `lv_label`'s the
+entry budgets without conferring exactness (§7.4b withholds the
+is-this-also-the-extent bit from a margin), so those pairs retire only with
+an exact extent per class. No value of `gap-px` moves any of this and no
+amount of computed resolving touches it, because the residual is arithmetic
+no style can explain. `devcards.lanes` owns the live population; re-derive
+it there rather than from any figure here.
 
 ### 7.5 Verdict shape, threshold, and what a consumer owes
 
