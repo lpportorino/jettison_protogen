@@ -573,6 +573,40 @@ overlap-canary: wasm bindings
 
 overlap-canary-prebuilt: wasm-present bindings
 	$(call overlap-canary-suite,overlap-canary-prebuilt)
+
+# The SPACING rule's real-render canary — a slider and a neighbour whose
+# DECLARED boxes are four pixels apart while the knob PAINTS across the
+# gutter, built through fixtures/build-authored-card and rendered on the real
+# wasm.
+#
+# WHY IT IS NOT A CORPUS CARD, the same reason the overlap and dead-zone
+# canaries are not: the card exists to FIRE an armed rule, so parking it in the
+# golden corpus would need a per-card exemption — the ratchet the standard
+# forbids. Kept outside, it asserts a firing rule directly.
+#
+# WHY IT IS ARMED EVEN THOUGH `devcards.spacing` IS NOT IN A LANE VECTOR. The
+# rule's absence from `lanes/atomic-producers` is a measured decision recorded
+# in `lanes/producer-thresholds`, not an oversight — and it would leave the
+# rule and the two dump keys it reads exercised by NOTHING that CI runs, which
+# .claude/rules/gate-enforcement.md §6 refuses. This target is what carries
+# them: it drives the real renderer, so it also covers `dump_obj`'s paint-extent
+# emit, which no unit suite can reach.
+#
+# IT DOES NOT DUPLICATE `overlap-canary`. That one judges the POINTER lane over
+# click areas and descent gates; this one judges DRAWN extents, and one of its
+# clauses is that the overlap lane reports the very card it fires on as clean.
+define spacing-canary-suite
+@test -f $(R)/output/controls.wasm || { \
+	echo "FATAL: $(R)/output/controls.wasm missing — run 'make -f renderer.mk $(1)' first" >&2; \
+	exit 1; }
+cd tools/devcards && clojure -M:bindings:spacing-canary
+endef
+
+spacing-canary: wasm bindings
+	$(call spacing-canary-suite,spacing-canary)
+
+spacing-canary-prebuilt: wasm-present bindings
+	$(call spacing-canary-suite,spacing-canary-prebuilt)
 # ── Two-way disk reconciliation over the generated trees ────────────────────
 # No doc/golden emitter here has a DELETION path — they only ever write. So
 # retire a widget, kitchen sink or lego and the generator simply stops
@@ -1735,5 +1769,5 @@ check-renderer:
 # the stale-belief-as-blocker that rule exists to prevent.
 # That target's own block carries the full boundary. Every other name below
 # fails on its own subject.
-check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints presence-semantics
+check-renderer-lanes: graal-check generated-projection-canary generated-projection construct-bindings conventions-projection state-mirror manifests devcards-test scratchcard-test scratchcard-brief clj-schema-test spec-coverage standard-brief-generate wasm wasm-inputs-check reference dead-c-externs dead-c-externs-test fixtures deadzone-canary overlap-canary spacing-canary scratchcard-lane dump-contracts harness interaction oracles reload decode-limits wire-constraints presence-semantics
 	@echo "renderer battery: GREEN ($^)"

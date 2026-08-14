@@ -75,7 +75,7 @@
    probe exists to remove. Widen the walk before widening the list."
   [:text :opa :text_color :text_opa :bg_color :bg_opa :text_on
    :backdrop_unresolved :click_area :descend_gate :vis_px :hidden :disabled
-   :text_font :text_font_unnamed])
+   :text_font :text_font_unnamed :paint_box :paint_bound])
 
 (defn -main
   [& show]

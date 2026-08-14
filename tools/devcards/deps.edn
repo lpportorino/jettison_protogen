@@ -18,6 +18,21 @@
            ;; as dump `type` (the classification table's real key set), and
            ;; what the overlap rule says about the real corpus. Gates nothing.
            :class-census {:extra-paths ["dev"] :main-opts ["-m" "class-census"]}
+           ;; The SPACING rule's real-render canary: a slider and a neighbour
+           ;; whose DECLARED boxes are clear while the knob PAINTS across the
+           ;; gutter, built through fixtures/build-authored-card and rendered on
+           ;; the pinned wasm. It is what proves the rule's premise is true of
+           ;; the renderer and not only of a hand-written dump map. Armed in
+           ;; renderer.mk's battery.
+           :spacing-canary
+           {:extra-paths ["dev"] :main-opts ["-m" "spacing-canary"]}
+           ;; Read-only probe: the PAINT-EXTENT population of the real corpus
+           ;; (how many nodes paint outside their own box, how many resolve
+           ;; exactly, how many only to a bound) and every pair whose DRAWN
+           ;; separation differs from its DECLARED one. The arming evidence for
+           ;; devcards.spacing's gap-px — its docstring says to re-derive here
+           ;; rather than trust a number in prose.
+           :paint-census {:extra-paths ["dev"] :main-opts ["-m" "paint-census"]}
            ;; Read-only audit: ordered DISABLED pointer dead zones plus
            ;; population accounting and four real-wasm planted cases.
            :deadzone-census
