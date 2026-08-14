@@ -35,6 +35,12 @@ Sets a manual GPS position override with specified latitude, longitude, and alti
 Set manual GPS position override
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataGps#manual_latitude]]
+- [[proto/ser.JonGuiDataGps#manual_longitude]]
+- [[proto/ser.JonGuiDataGps#manual_altitude]]
+
 
 ### Related Commands
 
