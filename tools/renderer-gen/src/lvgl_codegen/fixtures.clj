@@ -1157,7 +1157,44 @@
                                  :class "@btn-primary"
                                  :children [{:tag :lv_label
                                              :text "Apply"
-                                             :class "text-accent-text font-font-body"}]}]})})
+                                             :class "text-accent-text font-font-body"}]}]})
+   ;; THE SIBLING BOUND, which the two fixtures above cannot show: both render
+   ;; a LONE button, so the ring has no neighbour to reach into and the whole
+   ;; gap half of @btn-primary's clearance contract is unguarded by them.
+   ;;
+   ;; The row gives the ring exactly the clearance that macro's own preamble
+   ;; prescribes — `gap-spacing-sm`, 4px, which is `outline_pad +
+   ;; outline_width` — so the fixture renders the CONTRACT rather than the
+   ;; defect. Its assertion (visual_regression.rs, focus_geometry) is green
+   ;; while the ring stops on the neighbour's first pixel and red the moment
+   ;; either side of that equality moves: a wider ring, or a tighter gap.
+   ;;
+   ;; THE GAP IS AUTHORED UNPREFIXED ON PURPOSE. A `sm:`-prefixed one would
+   ;; read as a small-canvas variant and be none: `bp-min-index` gives `:sm`
+   ;; minimum composite index 0, the same index a bare token applies from, so
+   ;; the two are indistinguishable at every tier and the prefix could only
+   ;; ever shadow the base token beside it.
+   ;;
+   ;; @btn-secondary is the neighbour because it is the one the single screen
+   ;; crowding this macro actually puts there, and because the measured
+   ;; overhang then belongs to exactly one ring: its own focus affordance is a
+   ;; border recolour, and the THEME outline that would otherwise join in is
+   ;; attached on LV_STATE_FOCUS_KEY, which lv_obj.c sets only for a keypad or
+   ;; encoder — the assertion focuses by POINTER, so that ring never arms.
+   "vr_focus_crowding"
+   (make-screen-raw {:tag :lv_obj
+                     :class "w-pct-100 h-pct-100 bg-surface-0 p-spacing-lg
+                             flex flex-row gap-spacing-sm"
+                     :children [{:tag :lv_button
+                                 :class "@btn-primary"
+                                 :children [{:tag :lv_label
+                                             :text "Apply"
+                                             :class "text-accent-text font-font-body"}]}
+                                {:tag :lv_button
+                                 :class "@btn-secondary"
+                                 :children [{:tag :lv_label
+                                             :text "Cancel"
+                                             :class "text-fg-0 font-font-body"}]}]})})
 
 (def ^:private all-fixtures
   (merge per-widget-fixtures

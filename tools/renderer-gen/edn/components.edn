@@ -67,9 +67,31 @@
  ;; check the bound that is already met.
  ;;
  ;; Its row is authored `gap-spacing-sm sm:gap-spacing-xs`, and that is the
- ;; trap to know before widening one: `sm:` is a MINIMUM tier, not a band, so
- ;; it wins from the smallest canvas UP and the base 4px never applies
- ;; anywhere. The 2px above is that override — measured at 1920x1080 too.
+ ;; trap to know before widening one — but the trap is SHARPER than "a
+ ;; minimum tier rather than a band", and the sharper statement is what tells
+ ;; an author what to do. `bp-min-index` in lvgl-codegen.style-props gives
+ ;; `:sm` minimum composite index 0, and `expand->variants` applies a token at
+ ;; index `idx` exactly when `idx >= min-idx` — so an `sm:` token applies at
+ ;; all eight indices, which is the identical set a BARE token applies at.
+ ;; `sm:X` and `X` are therefore indistinguishable at every canvas, and the
+ ;; prefix can never SCOPE anything: its only reachable effect is to shadow
+ ;; the base token beside it while reading as responsive. The base 4px never
+ ;; applies anywhere, and the 2px is that shadowing — measured at 1920x1080
+ ;; too.
+ ;;
+ ;; SO THE 2px IS NOT A SMALL-CANVAS CHOICE, and that matters because the two
+ ;; readings prescribe opposite repairs. Every `sm:` token in the screen that
+ ;; crowds this macro SHRINKS what it overrides — gap and pad from `-sm` to
+ ;; `-xs`, and three widget boxes to smaller ones — while every other tier
+ ;; prefix in this repository GROWS with the tier, this macro's own
+ ;; `md:p-spacing-sm` included. Base-large with a smaller `sm:` beside it is
+ ;; only meaningful under a MAX-width reading, which this DSL does not have,
+ ;; so the row expresses an intent it cannot carry. The spelling that carries
+ ;; it is the inverse — a base `-xs` widened by `md:` — which is the idiom the
+ ;; macros here already use, and which still renders 2px at the base tier. A
+ ;; reader who retires the override to "restore the authored gap" therefore
+ ;; picks the LARGE value at every canvas, which is the one value that row's
+ ;; author demonstrably did not want.
  ;;
  ;; THE SYMPTOM DEPENDS ON DRAW ORDER RATHER THAN ON THE OVERRUN, which is the
  ;; part most likely to mislead whoever diagnoses it.
@@ -77,20 +99,60 @@
  ;; PRECEDES its neighbour has the shared pixels repainted by that neighbour's
  ;; own fill and its ring is visibly CUT on that side alone, while a button
  ;; that is the LAST child has nothing drawn after it and instead OCCLUDES
- ;; whatever it reached into. Same overrun, opposite appearance — and neither
- ;; is visible in anything this repo renders today, which is why it has to be
- ;; written down rather than looked at: the corpus that DOES drive focused
- ;; states (the devcards state cards) is authored in the proto node shape and
- ;; carries no class macros, while the one screen that crowds this macro is
- ;; never rendered focused.
+ ;; whatever it reached into. Same overrun, opposite appearance.
+ ;;
+ ;; THE CUT HALF IS NOW OBSERVED RATHER THAN ONLY REASONED, and it is the
+ ;; reason vr_focus_crowding measures the ring on its FREE flank. Driven with
+ ;; that fixture's gap tightened to the 2px the real screen renders, the
+ ;; sibling flank shows ZERO changed pixels on focus while the free flank
+ ;; still shows the full 4px: the neighbour repaints every pixel the ring put
+ ;; inside it, so a framebuffer read taken toward the sibling reports an
+ ;; ABSENT ring for an overrunning one. Nothing this repo SHIPS renders it,
+ ;; though — the corpus that drives focused states (the devcards state cards)
+ ;; is authored in the proto node shape and carries no class macros, and the
+ ;; one screen that crowds this macro is never rendered focused.
  ;;
  ;; So give a focusable primary button 4px of clearance on every side that can
  ;; be crowded — parent inset AND sibling gap — not the inset alone.
  ;;
+ ;; SPENDING THE PAD TO FIT A TIGHTER GAP IS REFUTED, not merely declined, and
+ ;; the refutation is arithmetic over this repo's own tokens. Taking
+ ;; `outline-pad` to `spacing-none` and leaving the width would halve the
+ ;; reach to 2 — and it would put the ring flush on this macro's OWN fill,
+ ;; where `focused-edge` against `accent-bg` measures 1.49:1 dark and 1.55:1
+ ;; light. The ring is legible today only because the pad shows the surface
+ ;; BEHIND the button between fill and stroke: against `surface-1` that same
+ ;; ring measures 10.27:1 dark and 4.03:1 light, and against `surface-2`
+ ;; 9.08:1 and 3.44:1. The pad is the contrast mechanism, not slack in a
+ ;; budget, so a zero-pad ring would trade a neighbour's 2px for its own
+ ;; legibility on every card.
+ ;;
+ ;; RECOLOURING DOES NOT RESCUE THAT, and the reason is the ring's TWO
+ ;; neighbours rather than one: without a pad its inner edge borders the fill
+ ;; and its outer edge the surface, so it owes a contrast floor to both at
+ ;; once. Swept over every colour token this repo declares, SIX clear 3:1
+ ;; against `accent-bg` in both modes — and all six are surface or ink
+ ;; tokens that then fail against the surface side. ZERO clear 3:1 against
+ ;; `accent-bg` and all three surfaces together. The pad is what removes the
+ ;; inner obligation, which is why it is the mechanism and not the slack.
+ ;;
+ ;; AND SHRINKING THIS MACRO WOULD NOT CLEAR SUCH A ROW ANYWAY, because it is
+ ;; not the only ring drawn there. The theme attaches its own focus outline to
+ ;; a button's MAIN part on LV_STATE_FOCUS_KEY (renderer/src/theme.c), reach
+ ;; `outline_pad + outline_width`: asgard takes THEME_BORDER_W + THEME_OUTLINE_W
+ ;; = 1 + 2 = 3px, and stock/vanilla takes `dpx(dpi, 3)` twice, so 6px at the
+ ;; reference DPI and more above it. Those land on @btn-secondary and on a
+ ;; plain unmacro'd button, neither of which carries a class outline to
+ ;; shrink, so a keypad focus in a 2px row still overruns after any change
+ ;; confined here — and stock's reach does not fit a 4px gap either. The gap
+ ;; is the bound that has to move; this ring is not where the fix is.
+ ;;
  ;; Guarded by renderer/wasm_harness/tests/visual_regression.rs, mod
  ;; focus_geometry — vr_focus_geometry for the border case, vr_focus_outline
- ;; for this one. NEITHER GUARDS THE GAP: both fixtures render a LONE button,
- ;; so the sibling bound is measured here and unguarded there.
+ ;; for the outline drawing at all, and vr_focus_crowding for THIS bound: a
+ ;; row that gives the ring exactly the 4px prescribed above, asserting the
+ ;; drawn ring reaches no further than the gap allows and is not cut on the
+ ;; sibling side. The first two render a LONE button and guard no gap.
  {:body "font-font-body text-fg-0"
   ;; The focus ring is an OUTLINE, which is drawn outside the box and carries no
   ;; layout flag, so it is visible without moving anything. A border here would

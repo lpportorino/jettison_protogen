@@ -1798,6 +1798,39 @@ mod focus_geometry {
         }
         node["children"].as_array()?.iter().find_map(|c| find(c, ty))
     }
+    /// Every node of `ty` in the dumped tree, depth-first — the sibling case
+    /// `find` cannot serve, since a crowding pair is two nodes of one type.
+    fn find_all(node: &serde_json::Value, ty: &str, out: &mut Vec<serde_json::Value>) {
+        if node["type"] == ty {
+            out.push(node.clone());
+        }
+        if let Some(kids) = node["children"].as_array() {
+            for child in kids {
+                find_all(child, ty, out);
+            }
+        }
+    }
+    /// An inclusive `[x1, y1, x2, y2]` rect read from a dump key.
+    fn rect(node: &serde_json::Value, key: &str) -> Vec<i64> {
+        node[key]
+            .as_array()
+            .unwrap_or_else(|| panic!("{key} is an array on this node"))
+            .iter()
+            .map(|v| v.as_i64().expect("rect member is an integer"))
+            .collect()
+    }
+    /// The first and last `x` on scanline `y` whose pixel differs between the
+    /// two framebuffers, or `None` when the row is untouched.
+    fn changed_span_x(before: &[u8], after: &[u8], y: i64) -> Option<(i64, i64)> {
+        let row = y as usize * WIDTH as usize;
+        let differs = |x: usize| {
+            let i = (row + x) * 4;
+            before[i..i + 4] != after[i..i + 4]
+        };
+        let first = (0..WIDTH as usize).find(|&x| differs(x))? as i64;
+        let last = (0..WIDTH as usize).rev().find(|&x| differs(x))? as i64;
+        Some((first, last))
+    }
     /// `coords` of the first node of `ty`, read from the LIVE dump tree.
     fn coords_of(host: &mut ControlsHost, ty: &str) -> Vec<i64> {
         let dumped = tree(host);
@@ -1906,6 +1939,148 @@ mod focus_geometry {
             before, after,
             "an outline carries no layout flag, so focusing must not move the button ({:?} -> {:?})",
             before, after
+        );
+    }
+    /// A FOCUS RING MUST STAY OUT OF THE SIBLING IT WAS GAPPED FROM.
+    ///
+    /// THE TWO TESTS ABOVE CANNOT ASK THIS, and that is why this one exists
+    /// rather than being folded into either. Both render a LONE button, so
+    /// the ring has no neighbour to reach into: `@btn-primary`'s clearance
+    /// contract has two bounds — the parent's own inset and the FLEX GAP to a
+    /// sibling — and the lone-button fixtures guard neither one against a
+    /// neighbour. A ring that overruns its gap is therefore invisible to
+    /// every assertion in this file, which is how one shipped.
+    ///
+    /// THE REACHABILITY IS NOT AN ACCIDENT OF THIS FIXTURE. An outline
+    /// carries EXT_DRAW_UPDATE and not LAYOUT_UPDATE — the same fact the test
+    /// above asserts from the other side, as stillness — so a flex parent
+    /// measures and spaces by the DRAWN box, reserves the ring exactly
+    /// nothing, and the ring lands on whoever is next.
+    ///
+    /// THE FIXTURE RENDERS THE CONTRACT, NOT THE DEFECT. Its row is
+    /// `gap-spacing-sm`, which is the clearance the macro's own preamble
+    /// prescribes, so this is green while the ring stops on the neighbour's
+    /// first pixel and shares none — the same touching-is-not-overlapping
+    /// boundary the corpus draws at `:overlap/gap-px` 0. Pinning the shipped
+    /// 2px row here instead would have asserted the defect and gone red on
+    /// the fix.
+    ///
+    /// IT MEASURES DRAWN PIXELS, NOT `paint_bound`, and that is a measurement
+    /// rather than a preference. `dump_obj` publishes a BOUND for a focused
+    /// button — `lv_obj_get_ext_draw_size`, which no exact resolver covers
+    /// outside `lv_slider` — and here that bound sits a constant 3px WIDER
+    /// than the ring on every side: measured 7 against a 4px ring, and 5 when
+    /// the pad was mutated to zero, so the excess is additive and not the
+    /// outline's. A bound is sound for proving a NEGATIVE and this negative is
+    /// the wrong one: keyed on the bound, this test demands a 7px gap for a
+    /// 4px ring and reds the very row the macro's preamble calls correct.
+    ///
+    /// THE RING IS LOCATED BY WHAT CHANGED, which needs no colour literal and
+    /// therefore cannot drift from the token that supplies it (`edn` is the
+    /// home; a hand-mirrored hex here would be a second one). Focus is the
+    /// only thing that moved between the two framebuffers, so on a scanline
+    /// through the button's middle the changed span IS the ring's two flanks
+    /// — and that row crosses them straight rather than at the rounded
+    /// corners, where anti-aliasing would blur the reading.
+    ///
+    /// THE REACH IS READ FROM THE FREE SIDE, and that is forced rather than
+    /// chosen. `lv_refr.c` walks children ASCENDING, so this button precedes
+    /// its neighbour and any pixel the ring puts inside that neighbour is
+    /// repainted by the neighbour's own fill — the overrun then shows as a
+    /// ring visibly CUT on that side, and a framebuffer diff there measures
+    /// ZERO. Measured, by tightening this fixture's gap to the 2px the one
+    /// real screen renders: the sibling flank read 0 changed pixels while the
+    /// free flank still read the full reach. So a check that only looked
+    /// toward the sibling would report "no ring at all" for an overrun, which
+    /// is the wrong finding for the right defect.
+    ///
+    /// HENCE BOTH HALVES. The free flank gives the ring's true reach, which
+    /// the row's gap must cover; the sibling flank must then MATCH it,
+    /// because a ring drawn short on one side only is exactly the cut. The
+    /// second is the pixel-level witness of the first.
+    ///
+    /// WHAT THIS DOES NOT COVER, said outright so a green is not over-read:
+    /// the OTHER draw order. A `@btn-primary` authored as the LAST child of
+    /// its row would OCCLUDE rather than be cut — its sibling flank would
+    /// stay whole while painting over the neighbour — and this fixture puts
+    /// it first, so no assertion here observes that. The reach-against-gap
+    /// arithmetic is the half that would catch it; a fixture rendering that
+    /// order is owed to guard it.
+    ///
+    /// NON-VACUITY, because "the ring is clear of the sibling" is also
+    /// exactly what a tap that never landed prints, and what a button with NO
+    /// ring prints. So a pixel must have changed on that row at all, and the
+    /// free-side reach must be positive — a focus style that repainted only
+    /// the fill satisfies neither.
+    #[test]
+    fn a_focus_ring_stays_out_of_the_sibling_it_was_gapped_from() {
+        fn pair(host: &mut ControlsHost) -> Vec<serde_json::Value> {
+            let dumped = tree(host);
+            let mut found = Vec::new();
+            find_all(&dumped, "lv_button", &mut found);
+            assert_eq!(
+                found.len(),
+                2,
+                "the crowding fixture renders exactly two sibling buttons"
+            );
+            found
+        }
+        let mut host = new_host();
+        let before_fb = render(&mut host, "vr_focus_crowding");
+        let buttons = pair(&mut host);
+        let coords = rect(&buttons[0], "coords");
+        let neighbour = rect(&buttons[1], "coords");
+        // Inclusive rects, so the clear pixels between them are one fewer
+        // than the coordinate difference.
+        let gap = neighbour[0] - coords[2] - 1;
+        assert!(
+            gap > 0,
+            "the layout must leave the ring somewhere to go, or this test \
+             asserts nothing: buttons at {coords:?} and {neighbour:?} leave \
+             {gap}px"
+        );
+        let (x, y) = widget_center(&mut host, "lv_button");
+        press_px(&mut host, x, y);
+        settle(&mut host);
+        release_px(&mut host, x, y);
+        settle(&mut host);
+        let after_fb = host.read_framebuffer().expect("framebuffer");
+        let mid_y = (coords[1] + coords[3]) / 2;
+        let (first, last) = changed_span_x(&before_fb, &after_fb, mid_y).unwrap_or_else(|| {
+            panic!(
+                "focusing repainted nothing on row {mid_y} — the tap did not \
+                 land, or this button draws no focus affordance at all"
+            )
+        });
+        let free_reach = coords[0] - first;
+        let sibling_reach = last - coords[2];
+        assert!(
+            free_reach > 0,
+            "the focus affordance must be drawn OUTSIDE the button box, or \
+             'it is clear of the sibling' is what an absent ring also prints \
+             — focusing changed pixels {first}..={last} on row {mid_y}, and \
+             the button box is {coords:?}"
+        );
+        assert!(
+            free_reach <= gap,
+            "the focus ring reaches {free_reach}px and its row gives it \
+             {gap}px, so it is drawn {overrun}px inside the sibling box \
+             {neighbour:?}. A flex parent measures by the DRAWN box and \
+             reserves an outline nothing, so a ring's reach \
+             (outline_pad + outline_width) is owed by the GAP — widen the \
+             gap or shrink the ring. The rightmost pixel focusing changed on \
+             that row is {last}: when that is left of the box, the ring's \
+             sibling flank was repainted away by the neighbour, which is \
+             drawn after this button",
+            overrun = free_reach - gap
+        );
+        assert_eq!(
+            sibling_reach, free_reach,
+            "the ring must be drawn WHOLE: it reaches {free_reach}px on the \
+             free side and {sibling_reach}px toward the sibling, so it is \
+             being cut (or extended) on the sibling side alone — changed \
+             pixels {first}..={last} on row {mid_y}, button {coords:?}, \
+             sibling {neighbour:?}"
         );
     }
 }
