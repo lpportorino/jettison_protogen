@@ -666,8 +666,8 @@ jobs:
       # Armed only there, it would run exclusively on pushes that cannot touch
       # the renderer half; armed only here, exclusively on pushes that cannot
       # touch the rule. Both, or it is decorative on one side.
-      name: Corpus build + judge + gallery + interaction + dead-zone + overlap canaries (renderer.mk *-prebuilt)
-      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt scratchcard-test scratchcard-lane-prebuilt
+      name: Corpus build + judge + gallery + interaction + dead-zone + overlap + spacing canaries (renderer.mk *-prebuilt)
+      run: make -f renderer.mk fixtures-prebuilt gallery-prebuilt interaction-prebuilt deadzone-canary-prebuilt overlap-canary-prebuilt spacing-canary-prebuilt scratchcard-test scratchcard-lane-prebuilt
     - # A renderer change that shifts any pixel MUST re-mint the goldens AND
       # the gallery/doc pages in the same change (the manifests pin per-card
       # raw-FB sha256; the contact sheets are renders of the same corpus). A
