@@ -68,6 +68,8 @@
 /* lv_text_encoded_get_byte_id (selection char index -> UTF-8 byte offset) */
 #include "lvgl/src/widgets/label/lv_label_private.h"
 /* lv_label_t.dot_begin */
+#include "lvgl/src/widgets/slider/lv_slider_private.h"
+/* lv_slider_t.{left,right}_knob_area — the knob's DRAWN rect (paint extent) */
 #include "palette_observer.h"
 #include "renderer.h"
 #include "svg_decoder.h"
@@ -3127,6 +3129,135 @@ static void dump_composition_keys(const lv_obj_t *obj) {
   if (renderer_designed_overlay(obj))
     tree_append(",\"designed_overlay\":true");
 }
+/* ── PAINT EXTENT — what is DRAWN, against `coords`, which is DECLARED ──────
+ *
+ * A widget may paint outside its own box, and LVGL bounds that with ONE
+ * scalar: before dispatching LV_EVENT_DRAW_MAIN, `refr_obj` truncates the
+ * layer's clip area to `coords` grown by `lv_obj_get_ext_draw_size` on every
+ * side (lv_refr.c). That box is therefore a HARD guarantee of the draw
+ * pipeline rather than a convention, and its ZERO case is the one that carries
+ * the most weight here:
+ *
+ *   NEITHER KEY EMITTED => the paint extent IS `coords`, exactly. The scalar
+ *   is 0, so the clip forbids a single pixel outside it. That is the common
+ *   case and it costs no dump bytes.
+ *
+ * When the scalar is non-zero the widget paints somewhere outside — and the
+ * answer splits in two, because the scalar is a CONSERVATIVE SYMMETRIC BOUND
+ * and not the extent. `lv_obj_calculate_ext_draw_size` folds an asymmetric
+ * shadow offset into a max, and lv_slider's own handler adds half the knob
+ * diameter plus 2 "for rounding error" (lv_slider.c), so on this repo's 16px
+ * slider cards it reports 16 where the knob really overhangs 6. Publishing
+ * that as the paint box over-reports by 10px a side; publishing `coords`
+ * instead under-reports the overhang completely. Both are wrong in ways no
+ * consumer can detect from the dump, so the two answers take DIFFERENT NAMES:
+ *
+ *   "paint_box"   — the EXACT extent, resolved from the rects the widget
+ *                   actually drew. Decide with it.
+ *   "paint_bound" — the extent is UNRESOLVED and lies somewhere inside this
+ *                   box. Sound for proving a NEGATIVE (nothing painted outside
+ *                   it), unsound for asserting one — so a consumer needing an
+ *                   answer strictly inside it owes a FINDING, not a number.
+ *
+ * Exactly one is emitted, and only when it differs from `coords`. This is the
+ * `text_font` / `text_font_unnamed` shape from the same function: the fact
+ * that the answer is UNAVAILABLE is itself emitted, because a rule that cannot
+ * tell "no overhang" from "overhang unknown" reports a clean run over an
+ * unmeasured one. */
+static void paint_join(lv_area_t *acc, const lv_area_t *add) {
+  if (add->x1 < acc->x1)
+    acc->x1 = add->x1;
+  if (add->y1 < acc->y1)
+    acc->y1 = add->y1;
+  if (add->x2 > acc->x2)
+    acc->x2 = add->x2;
+  if (add->y2 > acc->y2)
+    acc->y2 = add->y2;
+}
+/* Does this PART paint outside the rect it is positioned into? The three
+ * non-transform contributors `lv_obj_calculate_ext_draw_size` sums, restated
+ * per property rather than called through that function, because TRANSFORM
+ * must be excluded here and it cannot be subtracted back out afterwards:
+ * `position_knob` already folds transform_width/height into the knob rect it
+ * stores, so a pressed knob (the stock theme's `grow` style) is fully
+ * described by that rect while `lv_obj_calculate_ext_draw_size` still reports
+ * the transform and would force a needless UNRESOLVED. */
+static bool part_paints_outside(lv_obj_t *obj, lv_part_t part) {
+  const bool shadow = lv_obj_get_style_shadow_width(obj, part) != 0 &&
+                      lv_obj_get_style_shadow_opa(obj, part) > LV_OPA_MIN;
+  const bool outline = lv_obj_get_style_outline_width(obj, part) != 0 &&
+                       lv_obj_get_style_outline_opa(obj, part) > LV_OPA_MIN;
+  const bool drop = lv_obj_get_style_drop_shadow_opa(obj, part) > LV_OPA_MIN;
+  return shadow || outline || drop;
+}
+/* THE ONE CLASS THIS TREE CAN RESOLVE EXACTLY, and it is the class the whole
+ * distinction exists for: lv_slider stores the knob rect it DREW
+ * (`position_knob` writes it, `draw_knob` copies it into the widget), so the
+ * exact extent is `coords` joined with that rect and nothing is inferred.
+ *
+ * It refuses in three cases rather than answering approximately:
+ *   - MAIN or INDICATOR contributes extent (a focus outline, a shadow, a
+ *     transform) — then the knob rects are not the whole story;
+ *   - the KNOB carries a shadow/outline/drop-shadow of its own, which paints
+ *     outside the stored rect;
+ *   - LV_SLIDER_MODE_RANGE is off, in which case `left_knob_area` is never
+ *     written by `draw_knob` and holds construction zeroes; joining it would
+ *     drag the reported box to the screen origin. The mode gate is what keeps
+ *     that unreachable, and `dump_paint_extent`'s containment check is the
+ *     second line under it. */
+static bool paint_box_of_slider(const lv_obj_t *obj, const lv_area_t *coords,
+                                lv_area_t *out) {
+  /* THE CLASS TEST IS LOAD-BEARING AND IS THE FIRST THING HERE. Without it
+   * the cast below reinterprets whatever object it is handed as an
+   * lv_slider_t and reads two lv_area_t out of unrelated memory. Measured
+   * before it existed: 10 lv_scale nodes reported an "exact" paint_box built
+   * from that garbage, and the containment guard did not catch them because
+   * garbage landing INSIDE the bound is indistinguishable from an answer.
+   * Worse than a wrong box, it can silently produce the RIGHT-LOOKING one —
+   * a knob rect that happens to fall within coords joins to nothing, and the
+   * node is then published as painting nowhere outside its box. */
+  if (!lv_obj_check_type(obj, &lv_slider_class))
+    return false;
+  lv_obj_t *m = (lv_obj_t *)obj;
+  if (lv_obj_calculate_ext_draw_size(m, LV_PART_MAIN) != 0 ||
+      lv_obj_calculate_ext_draw_size(m, LV_PART_INDICATOR) != 0 ||
+      part_paints_outside(m, LV_PART_KNOB))
+    return false;
+  const lv_slider_t *slider = (const lv_slider_t *)obj;
+  *out = *coords;
+  paint_join(out, &slider->right_knob_area);
+  if (lv_slider_get_mode(m) == LV_SLIDER_MODE_RANGE)
+    paint_join(out, &slider->left_knob_area);
+  return true;
+}
+static void dump_paint_extent(const lv_obj_t *obj, const lv_area_t *coords) {
+  const int32_t ext = lv_obj_get_ext_draw_size(obj);
+  if (ext == 0)
+    return; /* the clip forbids paint outside coords — nothing to say */
+  lv_area_t bound = *coords;
+  lv_area_increase(&bound, ext, ext);
+  lv_area_t box;
+  bool exact = paint_box_of_slider(obj, coords, &box);
+  /* THE RESOLVER IS CHECKED AGAINST LVGL'S OWN GUARANTEE, not trusted. Paint
+   * is clipped to `bound`, so an "exact" box escaping it means this code and
+   * the draw pipeline disagree — which is the one situation where publishing a
+   * confident number is worse than publishing none. Demoting to the bound also
+   * covers a slider whose stored knob rect is stale because it has never been
+   * drawn (a hidden one), without needing a second way to ask that. */
+  if (exact && !(box.x1 >= bound.x1 && box.y1 >= bound.y1 &&
+                 box.x2 <= bound.x2 && box.y2 <= bound.y2))
+    exact = false;
+  if (!exact)
+    box = bound;
+  if (box.x1 == coords->x1 && box.y1 == coords->y1 && box.x2 == coords->x2 &&
+      box.y2 == coords->y2)
+    return; /* resolved, and it paints nowhere outside after all */
+  char pbuf[80];
+  (void)snprintf(pbuf, sizeof(pbuf), ",\"%s\":[%d,%d,%d,%d]",
+                 exact ? "paint_box" : "paint_bound", (int)box.x1, (int)box.y1,
+                 (int)box.x2, (int)box.y2);
+  tree_append(pbuf);
+}
 static void dump_obj(const lv_obj_t *obj, bool is_root) {
   lv_area_t a;
   lv_obj_get_coords(obj, &a);
@@ -3299,6 +3430,7 @@ static void dump_obj(const lv_obj_t *obj, bool is_root) {
       tree_append(gbuf);
     }
   }
+  dump_paint_extent(obj, &a);
   dump_composition_keys(obj);
   /* RESOLVED STYLE — see the block comment above obj_effective_opa for what
    * each key's ABSENCE means; they do not all fail the same way. */

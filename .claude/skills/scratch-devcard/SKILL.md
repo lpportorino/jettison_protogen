@@ -144,6 +144,17 @@ emitted only when they carry information, so an absent key means a DEFAULT, not
 | `scroll_dirs` | `scrollable_overflow` did not fire — never "no axis" |
 | `text` | only an EXACT `lv_label` emits it; `lv_roller_label` draws glyphs with `text` AND `text_clipped` both absent |
 | `gesture_part` | **not a gesture affordance** — and a render is never mid-drag, so it is absent on EVERY card here, including cards whose surface would draw one |
+| `paint_box` / `paint_bound` | **BOTH absent = the paint extent IS `coords`, exactly** — `lv_obj_get_ext_draw_size` is 0, so `refr_obj` clips the widget's drawing to its own box and no pixel escapes. One of the two is emitted, never both, and only when it differs from `coords` |
+
+**`paint_bound` is the row to read twice, because it is the one key here whose
+presence means IGNORANCE rather than a value.** `paint_box` is the extent the
+widget really painted; `paint_bound` is a box the paint provably stays inside
+and nothing finer, published where no exact resolver exists for that class. So
+a bound is sound for proving a NEGATIVE — nothing outside it was drawn — and
+unsound for asserting one, and reading it as an extent will over-report by a
+lot: `lv_scale` asks for a blanket 100px (a bare literal in lv_scale.c) and
+every `lv_label` for `font_h / 4`, neither of which describes any pixel either
+one actually draws. Treat a bound as a question, not an answer.
 
 **`text_wrapped` is the trap in the other direction.** A WRAP-mode label
 reflowed onto more lines GROWS rather than clipping, so `text_clipped` (CLIP
