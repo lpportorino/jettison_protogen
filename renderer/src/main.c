@@ -2212,6 +2212,39 @@ uint32_t controls_fb_bpp(void) { return 4u; }
  * because they do not all mean the same thing when missing. */
 #define TREE_BUF_SIZE 131072u
 static char tree_buf[TREE_BUF_SIZE];
+/* The per-label text budget in the dump, in BYTES.
+ *
+ * THE NUMBER IS A BUDGET DECISION, NOT AN INHERITED CONSTANT, so the argument
+ * is recorded rather than the value alone. Everything the dump emits shares the
+ * ONE fixed tree_buf above, and per-node text is the only contributor that
+ * scales with what a screen SAYS rather than with how it is built — so this cap
+ * is what decides how many nodes a complete dump can carry.
+ *
+ * Measured through the harness on a label node placed off-canvas (type +
+ * coords + vis_px + clipped + clickable + paint_bound + backdrop_unresolved +
+ * children): 234 dump bytes, of which this cap is 64. Raising it to the field's
+ * own wire bound — ui.WidgetNode.text is 255 bytes, so a cap there could never
+ * bind and the dump would be lossless — takes that node to 425 bytes and cuts
+ * the labels a complete dump can carry from roughly 560 to roughly 310.
+ *
+ * That trade goes the wrong way, and the two failures are not comparable. A cap
+ * that binds costs the TAIL OF ONE LABEL, and (with the boundary cut below)
+ * costs it as a valid prefix. Flooding tree_buf costs the consumer THE WHOLE
+ * TREE: the sentinel makes it loud, and the only sound consumer response to a
+ * truncated dump is to discard every node in it, because the emitted bytes are
+ * a clean prefix on some byte counts and interleaved on others (the harness's
+ * `truncated_dump_never_parses` records that measurement). Trading a local
+ * lossy read for a total one buys nothing, and the headroom is what pays for
+ * the deep screens the dump exists to describe. So the cap stays — as a named
+ * constant carrying its budget, rather than as a literal at the call site.
+ *
+ * WHAT THE CAP STILL DOES NOT BUY, stated so nobody reads its survival as a
+ * clean bill: a consumer cannot tell a label that was exactly this long from
+ * one that was cut here, so a dumped text of exactly this many bytes means "at
+ * least this long" and no more. Closing that needs the dump to SAY it was cut,
+ * which is a new key and therefore a change to the dump contract — a different
+ * change from this one, with its own consumers to carry. */
+#define TREE_TEXT_CAP 64u
 /* Bounded JSON output sink — the ONE appending/escaping machinery, shared by
  * the tree dump (tree_buf) and the host_event envelope emitter (its own small
  * buffer). `truncated` records that an append was DROPPED for space: the tree
@@ -2237,19 +2270,60 @@ static void json_append(json_out_t *out, const char *s) {
   out->pos += len;
   out->buf[out->pos] = '\0';
 }
+/* esc[] must hold the worst case of the WIDEST cap any caller passes, so it is
+ * sized off that maximum rather than off one caller's constant — the two are
+ * independent and either may move. */
+#define JSON_ESC_MAX_CAP                                                       \
+  (UI_EVENT_NAME_BUF > TREE_TEXT_CAP ? UI_EVENT_NAME_BUF : TREE_TEXT_CAP)
+/* Back a byte-length cut off to the nearest UTF-8 codepoint boundary at or
+ * below it: given `s` and a proposed cut of `cut` bytes, return the largest
+ * length ≤ cut that does not end inside a character.
+ *
+ * THE ONE HOME FOR THIS, and both byte caps in the dump path call it. A cut
+ * chosen by arithmetic — a cap, a buffer offset — knows nothing about the bytes
+ * it lands on, and label text is not ASCII: the devcard corpus alone renders
+ * `°`, `±`, `…`, `–` and `→` (tools/devcards/corpus/spec.edn), two and three
+ * bytes each. Half a character is not UTF-8, so a host that decodes the dump as
+ * a string REFUSES IT WHOLE rather than receiving it slightly wrong; at the
+ * sentinel site the bytes destroyed are the truncation signal's own, so the
+ * signal dies of the truncation it exists to report.
+ *
+ * A continuation byte (10xxxxxx) is never the first byte of a character, so a
+ * cut landing on one splits the character that began before it. Walking back
+ * over at most THREE is total for well-formed input — four bytes is the
+ * longest UTF-8 sequence, so a cut can sit at most three bytes inside one — and
+ * bounding it there is also what keeps malformed input from walking the buffer:
+ * a cut that is still on a continuation byte after three steps came from bytes
+ * that were not UTF-8 to begin with, and no choice of cut makes them so. */
+static uint32_t utf8_trim_to_boundary(const char *s, uint32_t cut) {
+  for (uint32_t back = 0; back < 3u && cut > 0u; back++) {
+    if (((unsigned char)s[cut] & 0xC0u) != 0x80u)
+      break;
+    cut--;
+  }
+  return cut;
+}
 /* Append a JSON-escaped string value (no quotes added), capping the input at
- * `max_chars`. esc[] is sized for the LARGEST cap any caller uses
- * (UI_EVENT_NAME_BUF × the 6-byte \u00xx worst case + NUL), so escaping is TOTAL
+ * `max_bytes` — BYTES, and the parameter is named for what the loop below
+ * counts, because a name promising CHARACTERS is precisely the misreading the
+ * boundary cut exists to prevent. esc[] is sized for the LARGEST cap any caller uses
+ * (JSON_ESC_MAX_CAP × the 6-byte \u00xx worst case + NUL), so escaping is TOTAL
  * for every in-cap input — a control-char-dense name escapes fully, never clips
  * mid-name. The event tag passes UI_EVENT_NAME_BUF (the full dotted command-id,
  * one home shared with the decode + cache buffers, renderer.h); the trigger is a
- * short enum name; the tree dump keeps its compact 64-char cap. */
+ * short enum name; the tree dump passes TREE_TEXT_CAP.
+ *
+ * The cut is taken ONCE, up front, and backed off to a codepoint boundary, so
+ * the emitted value is always a valid UTF-8 PREFIX of the input. */
 static void json_append_str(json_out_t *out, const char *s,
-                            uint32_t max_chars) {
-  char esc[UI_EVENT_NAME_BUF * 6u + 8u];
+                            uint32_t max_bytes) {
+  char esc[JSON_ESC_MAX_CAP * 6u + 8u];
+  uint32_t n = 0;
+  while (s[n] != '\0' && n < max_bytes)
+    n++;
+  n = utf8_trim_to_boundary(s, n);
   uint32_t o = 0;
-  for (uint32_t i = 0; s[i] != '\0' && i < max_chars && o + 8u < sizeof(esc);
-       i++) {
+  for (uint32_t i = 0; i < n && o + 8u < sizeof(esc); i++) {
     unsigned char c = (unsigned char)s[i];
     if (c == '"' || c == '\\') {
       esc[o++] = '\\';
@@ -2265,7 +2339,7 @@ static void json_append_str(json_out_t *out, const char *s,
 }
 static void tree_append(const char *s) { json_append(&tree_out, s); }
 static void tree_append_json_str(const char *s) {
-  json_append_str(&tree_out, s, 64u); /* compact dump cap */
+  json_append_str(&tree_out, s, TREE_TEXT_CAP);
 }
 /* ── UI-event envelope (host_event — the named-event lane) ──────────────────
  * Build + relay the CLOSED envelope JSON for a fired EventBinding with a
@@ -3586,6 +3660,14 @@ uint32_t controls_dump_tree(void) {
     uint32_t at = tree_out.pos < (TREE_BUF_SIZE - 1u - slen)
                       ? tree_out.pos
                       : (TREE_BUF_SIZE - 1u - slen);
+    /* The clamped offset is arithmetic on buffer sizes and knows nothing about
+     * the bytes it lands on, so it can fall inside a multi-byte character and
+     * leave its first half behind — and then a host that decodes the dump as a
+     * string refuses the whole thing, destroying THIS SENTINEL along with it.
+     * Back the overwrite off to a codepoint boundary so the signal survives the
+     * truncation it reports. The unclamped arm is unaffected: `at` is then
+     * tree_out.pos, where the byte is the NUL and no character is open. */
+    at = utf8_trim_to_boundary(tree_buf, at);
     memcpy(tree_buf + at, sentinel, slen);
     tree_buf[at + slen] = '\0';
     tree_out.pos = at + slen;

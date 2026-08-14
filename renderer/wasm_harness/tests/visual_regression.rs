@@ -7498,6 +7498,21 @@ mod boundary_contracts {
 /// Consumers detect truncation by suffix BEFORE attempting a JSON parse.
 mod dump_truncation {
     use super::*;
+    use lvgl_harness::proto::ui;
+    /// The loud tail `controls_dump_tree` writes when the dump overflowed.
+    const SENTINEL: &str = ",\"truncated\":true";
+    /// main.c's `TREE_BUF_SIZE`. The dump is a NUL-terminated string inside
+    /// that buffer, so its greatest possible length is one byte less.
+    ///
+    /// Duplicated from the C deliberately: these tests exist to hold that
+    /// constant to its promise, so reading the promise from the place that
+    /// makes it would assert nothing.
+    const TREE_BUF_SIZE: usize = 131_072;
+    /// The byte offset the sentinel `memcpy` CLAMPS to once the emitted bytes
+    /// reached past it — `TREE_BUF_SIZE - 1 - SENTINEL.len()`. Everything from
+    /// here on is overwritten, so this offset is where a flooded dump is CUT,
+    /// and a flooded dump is therefore exactly `TREE_BUF_SIZE - 1` bytes long.
+    const CLAMP: usize = TREE_BUF_SIZE - 1 - SENTINEL.len();
     #[test]
     fn oversized_dump_carries_truncated_sentinel() {
         let mut host = new_host_with_wasi();
@@ -7555,10 +7570,6 @@ mod dump_truncation {
     /// merely conservative.
     #[test]
     fn truncated_dump_never_parses() {
-        const SENTINEL: &str = ",\"truncated\":true";
-        /// main.c's `TREE_BUF_SIZE`. The dump is a NUL-terminated string inside
-        /// that buffer, so its greatest possible length is one byte less.
-        const TREE_BUF_SIZE: usize = 131_072;
         /// Slack on the "the buffer FILLED" guard below, deliberately larger
         /// than any single chunk the tree dump can hand `json_append`: its two
         /// widest are the 160-byte `hdr` and a 64-char text escaping to at most
@@ -7620,6 +7631,282 @@ mod dump_truncation {
         assert!(
             serde_json::from_str::<serde_json::Value>(&dump).is_err(),
             "a truncated dump must NOT parse — the suffix check comes first"
+        );
+    }
+
+    // ── THE TWO BYTE CAPS IN THE DUMP PATH ───────────────────────────────
+    //
+    // The dump is cut to a byte COUNT at two independent places, and a byte
+    // count is not a character count. Label text is not ASCII — the devcard
+    // corpus alone renders `°`, `±`, `…`, `–` and `→` — so either cut can land
+    // inside a character and leave the emitted string malformed.
+    //
+    // THE DETECTOR IS THE HOST, and it is already wired: `read_cstr` runs
+    // `std::str::from_utf8` over the bytes it reads out of linear memory, so
+    // `dump_tree()` returns Err and the ENTIRE dump is lost rather than
+    // arriving slightly wrong. At the second site that is self-defeating in a
+    // way worth naming: the bytes destroyed are the truncation SENTINEL's own,
+    // so the signal that a dump was truncated is destroyed by the error that
+    // truncation caused.
+    //
+    // Both cases below are written so they keep meaning if the caps move:
+    // neither hard-codes a cap, and each drives the cut from BOTH byte
+    // parities so exactly one of its two runs must straddle a character
+    // whatever the cap is.
+
+    /// One screen, encoded as the `.pb` bytes `controls_load_ui` takes: a
+    /// plain root `lv_obj` carrying `children`.
+    ///
+    /// SYNTHETIC RATHER THAN A FIXTURE, for the same reason `decode_limits`
+    /// builds its trees in-process: what these cases turn on is a byte offset
+    /// inside the dump, which is a property of the dump format and of nothing
+    /// an authored screen is about.
+    fn screen_pb(children: Vec<ui::WidgetNode>) -> Vec<u8> {
+        ui::Screen {
+            root: Some(ui::WidgetNode {
+                r#type: ui::WidgetType::WidgetObj as i32,
+                children,
+                ..Default::default()
+            }),
+            ..Default::default()
+        }
+        .encode_to_vec()
+    }
+    /// A label at an explicit position. The flooding cases place theirs off
+    /// the 400px canvas, the way `vc_trunc` does: an off-screen label still
+    /// dumps in full and costs no drawing.
+    fn label_node(text: &str, x: i32, y: i32) -> ui::WidgetNode {
+        ui::WidgetNode {
+            r#type: ui::WidgetType::WidgetLabel as i32,
+            x: Some(x),
+            y: Some(y),
+            text: text.to_owned(),
+            ..Default::default()
+        }
+    }
+    /// Load + tick a synthetic screen and hand back whatever `dump_tree`
+    /// says. The Err arm is not incidental — it IS the detector both cases
+    /// rest on, so it is returned rather than unwrapped here.
+    fn dump_of(pb: &[u8]) -> Result<String, lvgl_harness::HarnessError> {
+        let mut host = new_host_with_wasi();
+        host.set_breakpoint(DEFAULT_BP).expect("set_breakpoint");
+        host.set_theme_dark(DEFAULT_THEME).expect("set_theme_dark");
+        host.set_dpi(DPI).expect("set_dpi");
+        host.load_ui(pb).expect("load_ui");
+        for _ in 0..RENDER_TICKS {
+            host.tick(TICK_MS).expect("tick");
+        }
+        host.dump_tree()
+    }
+
+    /// The `text` of the first `lv_label` in a parsed dump. Walked rather than
+    /// indexed: the dump's root is the SCREEN, so an authored root sits one
+    /// level down, and hard-coding that depth would break on any change to how
+    /// a screen is mounted.
+    fn first_label_text(node: &serde_json::Value) -> Option<&str> {
+        if node["type"] == "lv_label" {
+            return node["text"].as_str();
+        }
+        node["children"]
+            .as_array()?
+            .iter()
+            .find_map(first_label_text)
+    }
+
+    /// SITE A — the per-label text cap. `tree_append_json_str` caps a dumped
+    /// label's text, and the cap is a BYTE budget: the emitting loop compares
+    /// a byte index against it, so the cut can fall inside a character.
+    ///
+    /// CAP-AGNOSTIC BY CONSTRUCTION, so it still means something if the cap
+    /// ever moves. Both texts are the same two-byte character repeated, one of
+    /// them displaced by a single ASCII byte, so their character boundaries
+    /// sit at opposite byte parities: for ANY byte cap inside the run, exactly
+    /// one of the two has a character straddling it.
+    ///
+    /// The contract asserted is the one a consumer needs and neither more nor
+    /// less: a dumped label is a valid UTF-8 PREFIX of the label's text.
+    #[test]
+    fn a_capped_label_is_a_valid_utf8_prefix() {
+        // 254 bytes. `ui.WidgetNode.text` is bounded at 255 on the wire
+        // (`max_len` in the proto, `max_size:256` in the nanopb options), so
+        // this is as long as a label can legally be, plus one ASCII byte of
+        // displacement in the second run.
+        const DEGREES: usize = 127;
+        for pad in 0..=1_usize {
+            let text = format!("{}{}", "x".repeat(pad), "°".repeat(DEGREES));
+            let pb = screen_pb(vec![label_node(&text, 0, 0)]);
+            let dump = dump_of(&pb).unwrap_or_else(|err| {
+                panic!(
+                    "pad {pad}: a {}-byte non-ASCII label must dump readably, but the \
+                     byte cap cut a character in half and the host refused the whole \
+                     dump: {err:?}",
+                    text.len()
+                );
+            });
+            let tree: serde_json::Value =
+                serde_json::from_str(&dump).expect("a dump that did not overflow parses whole");
+            let dumped = first_label_text(&tree).expect("the dump carries the label");
+            // NON-VACUITY FIRST: if the cap did not bind, everything below is
+            // asserting about an uncut string and proves nothing.
+            assert!(
+                dumped.len() < text.len(),
+                "pad {pad}: the cap must actually cut here, or this case asserts nothing \
+                 (dumped {} of {} bytes)",
+                dumped.len(),
+                text.len()
+            );
+            assert!(
+                text.starts_with(dumped),
+                "pad {pad}: a capped label must be a PREFIX of its source text, not a \
+                 re-encoding of it"
+            );
+        }
+    }
+
+    /// Where the last `"text":"` value at or before byte offset `at` starts,
+    /// as a byte offset into the dump.
+    ///
+    /// Byte-level on purpose: a flooded dump cannot be sliced by `str` index at
+    /// these offsets, because whether they are character boundaries is the very
+    /// question. It returns only the START, because the END of the run the
+    /// clamp lands in is not observable — the sentinel has overwritten it.
+    fn text_run_start_before(dump: &str, at: usize) -> Option<usize> {
+        const KEY: &[u8] = b"\"text\":\"";
+        let start = dump
+            .as_bytes()
+            .get(..=at)?
+            .windows(KEY.len())
+            .rposition(|window| window == KEY)?
+            + KEY.len();
+        (start <= at).then_some(start)
+    }
+
+    /// SITE B — the truncation sentinel. When the dump filled the buffer the
+    /// sentinel is not appended, it OVERWRITES the tail at a CLAMPED offset,
+    /// and that offset is arithmetic on buffer sizes: nothing relates it to
+    /// the emitted characters. A character straddling it loses its second half
+    /// to the `memcpy`, and the host then refuses the dump — taking the
+    /// truncation signal down with it.
+    ///
+    /// HOW THE CUT IS AIMED. The clamp offset is fixed, so the screen is what
+    /// moves: a run of spacer labels of growing total text length walks the
+    /// dump's byte layout under it until the clamp lands inside a label's text
+    /// run, which is checked rather than assumed. The step is smaller than a
+    /// text run, so some step must land inside one.
+    ///
+    /// Once it does, the two variants finish the job. They carry the SAME
+    /// characters in a different order — identical byte length, identical
+    /// glyph advances, hence the same dump layout — with their two-byte
+    /// characters at opposite byte parities. So whichever byte the clamp
+    /// lands on, exactly one of them has a character straddling it.
+    #[test]
+    fn the_truncation_sentinel_never_splits_a_character() {
+        /// Enough labels to flood the 128 KB buffer at ~234 dump bytes each.
+        const FLOOD_LABELS: usize = 800;
+        /// Walk the layout in steps well under a 64-byte text run, over more
+        /// than one node's worth of dump bytes.
+        const STEP: usize = 24;
+        const STEPS: usize = 11;
+        /// Keep the clamp this far inside the run it landed in, so the ±1..2
+        /// bytes of layout wobble between the two variants cannot push it out.
+        const MARGIN: usize = 8;
+
+        // 64 bytes each, two 'q' and thirty-one '°'. Same length and same
+        // glyphs, so both dump with the same byte layout; the '°' runs start
+        // at even offsets in the first and odd offsets in the second.
+        let variants = [
+            format!("qq{}", "°".repeat(31)),
+            format!("q{}q", "°".repeat(31)),
+        ];
+
+        for step in 0..STEPS {
+            let shift = step * STEP;
+            // Four spacers, because one label's dumped text saturates at the
+            // cap: four of them cover more than a whole node period, which is
+            // what makes "some step lands inside a run" true rather than
+            // hopeful.
+            let spacers: Vec<_> = (0..4)
+                .map(|i| label_node(&"z".repeat(shift.saturating_sub(64 * i).min(64)), 500, 0))
+                .collect();
+            let dumps: Vec<String> = variants
+                .iter()
+                .enumerate()
+                .map(|(which, text)| {
+                    let mut children = spacers.clone();
+                    children.extend((0..FLOOD_LABELS).map(|_| label_node(text, 500, 0)));
+                    dump_of(&screen_pb(children)).unwrap_or_else(|err| {
+                        panic!(
+                            "variant {which}, spacer shift {shift}: the sentinel was memcpy'd \
+                             at a byte offset inside a character, so the host refused the whole \
+                             dump — and the bytes destroyed were the truncation SIGNAL's own: \
+                             {err:?}"
+                        );
+                    })
+                })
+                .collect();
+
+            // WHERE THE CLAMP LANDED, read only from bytes the sentinel did
+            // NOT overwrite — everything from CLAMP on is the sentinel, so the
+            // last byte that still carries emitted content is CLAMP - 1.
+            let run_len = variants[0].len();
+            let Some(run_start) = text_run_start_before(&dumps[0], CLAMP - 1) else {
+                continue;
+            };
+            if CLAMP < run_start + MARGIN || CLAMP + MARGIN > run_start + run_len {
+                continue;
+            }
+            // …and prove it is one of the VARIANT runs rather than a spacer's,
+            // again from untouched bytes only: every byte from the run's start
+            // up to the clamp must be one this variant is made of.
+            if !dumps[0].as_bytes()[run_start..CLAMP - 1]
+                .iter()
+                .all(|&b| b == b'q' || b == 0xC2 || b == 0xB0)
+            {
+                continue;
+            }
+            // The variants are sized to sit exactly AT the label cap, so this
+            // case cannot be quietly answered by site A's cut instead. Measured
+            // on the PRECEDING run, whose closing quote is still observable.
+            let prior = text_run_start_before(&dumps[0], run_start - 9).expect("a preceding label");
+            assert_eq!(
+                dumps[0].as_bytes()[prior..]
+                    .iter()
+                    .position(|&b| b == b'"')
+                    .expect("the preceding run closes"),
+                run_len,
+                "the variants must reach the dump uncut, or this case is measuring the \
+                 label cap rather than the sentinel clamp"
+            );
+            for (which, dump) in dumps.iter().enumerate() {
+                assert!(
+                    dump.ends_with(SENTINEL),
+                    "variant {which} must overflow the buffer, or there is no clamp to test; \
+                     tail was …{}",
+                    &dump[dump.len().saturating_sub(48)..]
+                );
+            }
+            // THE CONTRACT, AND ITS NON-VACUITY IN ONE ASSERTION. A flooded
+            // dump ends at the clamp, so its length is TREE_BUF_SIZE - 1. One
+            // byte less means the clamp was backed off — which can only happen
+            // if the byte it named was a continuation byte, i.e. exactly the
+            // straddle this case aimed at. Requiring one of each therefore
+            // proves both that the aim landed and that the cut respected it.
+            let mut lengths = [dumps[0].len(), dumps[1].len()];
+            lengths.sort_unstable();
+            assert_eq!(
+                lengths,
+                [TREE_BUF_SIZE - 2, TREE_BUF_SIZE - 1],
+                "at spacer shift {shift} the clamp sat {} bytes into a {run_len}-byte text run, \
+                 so exactly one variant must have had a character straddling it and been backed \
+                 off by one byte",
+                CLAMP - run_start
+            );
+            return;
+        }
+        panic!(
+            "could not walk the dump layout so that the clamp offset {CLAMP} landed inside a \
+             label's text run in {STEPS} steps of {STEP} bytes — this case proved nothing, \
+             which is not the same as passing"
         );
     }
 }
