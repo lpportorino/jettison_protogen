@@ -354,7 +354,7 @@ other lane.
 | `:vlm/state-indistinguishable` | a state the unit README lists as committed-distinct is not distinguishable BY EYE from `default` |
 | `:vlm/theme-inconsistency` | a defect present in one family and absent in its siblings, same card |
 | `:vlm/cross-card-inconsistency` | sibling cards disagree where their axis says they should agree — a size step that changes more than size, a non-monotonic value axis |
-| `:vlm/alignment-defect` | misalignment, uneven spacing, or off-centre content between elements that share no pixel, so no geometry lane sees it |
+| `:vlm/alignment-defect` | misalignment, uneven spacing, or off-centre content between elements that share no pixel — **the band below is now split with `devcards.spacing`; read the boundary note** |
 | `:vlm/visual-artifact` | rendering garbage attributable to the renderer: stray pixels, seams, uncomposited alpha, torn edges |
 | `:vlm/illegible-contrast` | foreground not separable from background by eye — always subject to the honesty rule below |
 
@@ -368,6 +368,32 @@ this section exists to prevent. Check the card's `dump_tree` first. Emit
 the real gap, and it is worth catching precisely because no flag fires there.
 Say in `:detail` that you checked and which flags were absent.
 
+**`:vlm/alignment-defect` NOW SHARES ITS BAND, and this row used to end "so no
+geometry lane sees it" — a clause that was true when written and is false now.**
+`devcards.spacing` is a deterministic lane over the same pixels, so the two need
+a boundary rather than an overlap, and the split is by CAUSE, not by distance:
+
+- **The renderer brought them together → `devcards.spacing`.** Its subject is a
+  pair whose DECLARED boxes (`coords`) left at least its `gap-px` of clearance
+  while what they DRAW leaves less. That is possible because a widget may paint
+  outside its own box — a slider's knob is grown past the track by the
+  LV_PART_KNOB pad — and `dump_obj` reports the drawn extent as `paint_box`.
+  Exact arithmetic on inclusive rects. Do not eyeball it.
+- **The author placed them that way → still yours.** A pair whose own boxes are
+  flush or 1px apart is deliberately OUT of the spacing lane's scope: abutment
+  is how layout works here (a tab bar meets its content, one tab button meets
+  the next), and a lane firing on it would report layout rather than defects.
+  So "these two are drawn correctly and it still looks cramped" has no machine
+  owner and remains exactly what this keyword is for.
+- **Everything non-adjacent → still yours.** Uneven spacing across a row,
+  off-centre content, a baseline that drifts — no rect comparison decides any of
+  them.
+
+The practical test before you emit this keyword: are the two elements' declared
+boxes further apart than their painted ones? If yes, `devcards.spacing` owns it
+and a finding here duplicates a machine one. If no — if the tightness is in the
+layout itself, or the elements are nowhere near each other — it is yours.
+
 The set is closed. A defect that fits none goes under the nearest keyword with
 the mismatch stated in `:detail`; inventing a keyword ad hoc breaks exemption
 matching. Adding a row is a change to this skill.
@@ -378,17 +404,27 @@ Duplicating a deterministic lane is noise: it inflates the disposition queue
 with findings that already have an owner, and it dresses an unreproducible
 observation in a reproducible lane's clothes.
 
-**One caveat you must hold while reading this list.** `devcards.overlap` and
-`devcards.layers` are OPT-IN producers. protogen's gate runs through the
-finding-producer registry, but those two are not in the producer vector it
-passes, so on THIS repo's corpus their classes currently have no machine
-owner. Deferring to them is still right, because the answer is to arm the lane
-rather than to eyeball geometry that exact arithmetic already decides, and a
-model's guess at a rect comparison is worth less than the comparison. But do
-not report the class as "covered" — if you notice something in it, say so as an
-UNCERTAIN note naming the producer that should own it, so the gap is visible
-rather than silently absorbed. In a consumer repo that HAS armed them, the
-deferral is literal.
+**One caveat you must hold while reading this list, and it is now PER PRODUCER
+rather than blanket.** This paragraph used to say that `devcards.overlap` and
+`devcards.layers` were both absent from the producer vector protogen's gate
+passes, so that neither class had a machine owner here. That is no longer one
+answer, and reading it as one either credits coverage that does not exist or
+withholds a deferral that is literal. Derive the current state from
+`devcards.lanes` rather than from this list — `atomic-producers` and
+`composition-producers` ARE the armed set — and as of this writing:
+
+- **`devcards.overlap` is ARMED** on both lanes. Its deferral is literal.
+- **`devcards.spacing` is registered and canaried, and is NOT in either lane
+  vector.** `lanes/producer-thresholds` carries the measurement and the reason.
+  Defer to it anyway — the answer is to resolve what blocks arming rather than
+  to eyeball arithmetic — but do not report its class as covered.
+- **`devcards.layers` is NOT armed**, so its class has no machine owner here.
+
+Where a producer is unarmed, deferring is still right — a model's guess at a
+rect comparison is worth less than the comparison — but say so as an UNCERTAIN
+note naming the producer that should own it, so the gap stays visible rather
+than being silently absorbed. In a consumer repo that HAS armed them, every
+deferral below is literal.
 
 - **Exact overlap** — two pointer-path elements sharing a pixel is
   `devcards.overlap`, measured on inclusive rects. Do not eyeball it. Note the
