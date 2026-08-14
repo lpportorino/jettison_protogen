@@ -258,12 +258,12 @@
    it is a one-token edit to this vector plus its threshold below. What stops
    it is the population, and specifically ONE class.
 
-   Over the shipped corpus the rule reports ZERO `:paint-crowding` — no pair
-   whose paint extent is EXACTLY resolved encroaches on a neighbour — and a
-   few dozen `:unmeasurable-paint-extent`, EVERY ONE of which names an
-   `lv_scale`. That class asks LVGL for a blanket 100px ext draw size (a bare
-   literal in lv_scale.c, commented \"so the first tick label can be shown\"),
-   so `dump_obj` can only publish a bound, and a 100px bound is not clear of
+   Over the shipped corpus the rule reports ONE `:paint-crowding` and several
+   dozen `:unmeasurable-paint-extent`, and the second population is what
+   blocks arming: `lv_scale` is on one side of EVERY unresolved PAIR. That
+   class asks LVGL for a blanket 100px ext draw size (a bare literal in
+   lv_scale.c, commented \"so the first tick label can be shown\"), so
+   `dump_obj` can only publish a bound, and a 100px bound is not clear of
    anything on a 800x480 canvas. The finding is HONEST — a scale's box is a
    few pixels wide while it really does draw ticks and labels outside it, so
    whether those crowd their neighbours is genuinely unknown here — but it is
@@ -271,19 +271,35 @@
    every gauge card forever, and blocking on it buys per-card exemptions: the
    ratchet CLAUDE.md refuses.
 
-   WHAT WOULD RETIRE THIS: an exact paint extent for `lv_scale`, emitted the
-   way `paint_box` already is for `lv_slider`, at which point the unmeasurable
-   population goes to zero and arming costs nothing. Note the direction — the
-   blocker is a missing RESOLVER, never a threshold, and no value of `gap-px`
-   moves it (measured at 1, 2, 3, 4, 6 and 8; the count is flat across all of
-   them because a 100px bound swamps every threshold).
+   THIS PARAGRAPH USED TO SAY THE RULE REPORTS ZERO `:paint-crowding` AND THAT
+   EVERY UNMEASURABLE FINDING NAMES AN `lv_scale`, and the overflow-padding
+   change made both false in the same run — recorded rather than quietly
+   corrected, because the direction of the change is the finding. Rule 2 now
+   judges the INFLATED boxes, so a slider's along-track budget is compared
+   against neighbours its mid-range pixels never reached: one pair resolves
+   EXACTLY and crowds (`kitchen-sink/tabview-with-content`, a button against a
+   slider entitled to 16px it was not allocated), and five slider-against-
+   label pairs land in the uncertainty arm because a label carries only a
+   bound. So the unmeasurable PAIR count went UP while the unresolved NODE
+   population went down; the two move independently and quoting either as
+   \"the unmeasurable set\" without saying which is how this note went stale.
+
+   WHAT WOULD RETIRE THIS: an overflow-padding budget for `lv_scale` —
+   DECLARED per class and part with its arithmetic, since no resolved style
+   explains a literal 100 — at which point those pairs resolve and arming
+   costs nothing. Note the direction: the blocker is a missing BUDGET, never a
+   threshold, and no value of `gap-px` moves it (measured at 1, 2, 3, 4, 6 and
+   8; the unmeasurable count is flat from 1 to 3 and rises only because a
+   larger threshold admits more pairs, never because the bound shrinks).
+   `docs/UI-QUALITY-CONTRACTS.md` §7.4b carries the entry shape and the home.
 
    THE RULE IS NOT THEREBY UNWATCHED, which is the failure this note would
    otherwise describe. `renderer.mk`'s `spacing-canary` lane drives it on a
    real render, in the battery and on the same footing as `overlap-canary`, so
-   both the rule and the two dump keys it reads are exercised by something CI
-   runs (gate-enforcement §6). What is deferred is judging the CORPUS with it,
-   not the rule's own proof.
+   the rule and the three dump keys it reads — `paint_box`, `paint_bound` and
+   `overflow_padding` — are exercised by something CI runs (gate-enforcement
+   §6). What is deferred is judging the CORPUS with it, not the rule's own
+   proof.
 
    RE-MEASURE rather than trusting any count above — it is a property of this
    corpus, this theme and this renderer. The probe is

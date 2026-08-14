@@ -145,6 +145,7 @@ emitted only when they carry information, so an absent key means a DEFAULT, not
 | `text` | only an EXACT `lv_label` emits it; `lv_roller_label` draws glyphs with `text` AND `text_clipped` both absent |
 | `gesture_part` | **not a gesture affordance** — and a render is never mid-drag, so it is absent on EVERY card here, including cards whose surface would draw one |
 | `paint_box` / `paint_bound` | **BOTH absent = the paint extent IS `coords`, exactly** — `lv_obj_get_ext_draw_size` is 0, so `refr_obj` clips the widget's drawing to its own box and no pixel escapes. One of the two is emitted, never both, and only when it differs from `coords` |
+| `overflow_padding` | **NO BUDGET RESOLVED — which is not "budget zero"** — emitted per side, `[l t r b]`, only where the node's resolved styles (or a slider knob's own escape) account for the WHOLE of LVGL's reservation. A node with no reservation at all carries no paint key either and reads as `[0 0 0 0]`; a node whose widget class reserved more than its styles explain carries `paint_bound` and no budget, and that is the unresolved case |
 
 **`paint_bound` is the row to read twice, because it is the one key here whose
 presence means IGNORANCE rather than a value.** `paint_box` is the extent the
@@ -155,6 +156,16 @@ unsound for asserting one, and reading it as an extent will over-report by a
 lot: `lv_scale` asks for a blanket 100px (a bare literal in lv_scale.c) and
 every `lv_label` for `font_h / 4`, neither of which describes any pixel either
 one actually draws. Treat a bound as a question, not an answer.
+
+**`overflow_padding` answers a different question from either paint key, and
+the two must not be merged.** A paint box says where THIS render's pixels
+landed; the budget says how far the node may reach at any value it can hold. A
+horizontal slider mid-track paints 6px across the track and nothing along it,
+while the same widget at either end of its range paints roughly half a knob
+diameter along it — so its budget is `[16 6 16 6]` where its paint box
+overhangs `[0 6 0 6]`. Reading the budget as an extent over-reports this
+render; reading the extent as a budget under-allocates every value the render
+does not show.
 
 **`text_wrapped` is the trap in the other direction.** A WRAP-mode label
 reflowed onto more lines GROWS rather than clipping, so `text_clipped` (CLIP

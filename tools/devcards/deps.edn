@@ -33,6 +33,12 @@
            ;; devcards.spacing's gap-px — its docstring says to re-derive here
            ;; rather than trust a number in prose.
            :paint-census {:extra-paths ["dev"] :main-opts ["-m" "paint-census"]}
+           ;; Read-only probe: the PER-SIDE escape a widget really needs,
+           ;; driven at the value extremes the corpus cannot show. The
+           ;; per-direction evidence behind overflow-padding being a
+           ;; four-sided vector rather than one reach.
+           :overflow-padding-probe
+           {:extra-paths ["dev"] :main-opts ["-m" "overflow-padding-probe"]}
            ;; Read-only audit: ordered DISABLED pointer dead zones plus
            ;; population accounting and four real-wasm planted cases.
            :deadzone-census

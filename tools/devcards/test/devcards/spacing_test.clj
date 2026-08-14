@@ -60,8 +60,8 @@
     (let [fs (judge (root-with [(with-paint slider-node) neighbour]))]
       (is (= 1 (count (crowding fs))))
       (is (= "lv_slider#1 vs lv_label#2" (:node (first (crowding fs)))))
-      (is (re-find #"the layout left 4px" (:detail (first (crowding fs)))))
-      (is (re-find #"OVERLAP by 2px" (:detail (first (crowding fs)))))))
+      (is (re-find #"the layout left 4px" (str (:detail (first (crowding fs))))))
+      (is (re-find #"OVERLAP by 2px" (str (:detail (first (crowding fs))))))))
   (testing "CONTROL — the identical geometry with no paint key is SILENT, which
             is what makes the case above a statement about paint and not about
             the boxes"
@@ -216,3 +216,74 @@
     (let [resolved (findings/resolve-thresholds [spacing/producer] {})]
       (is (= (:default (:gap-px (:thresholds spacing/producer)))
              (get-in resolved [:spacing :gap-px]))))))
+
+;; ── OVERFLOW PADDING — the budget, and the two rules over inflated boxes ──
+;; The renderer computes `overflow_padding` and the paint keys from the same
+;; object, so a real render cannot exhibit a paint escaping its own budget:
+;; the violating pair is constructible only here. That is the division of
+;; labour the canary's docstring already draws — this file pins the reducer's
+;; verdicts, the canary pins that the vocabulary exists and that the renderer
+;; agrees with the rule on a real widget.
+
+(defn- escapes [fs] (filterv #(= :paint-escapes-budget (:invariant %)) fs))
+
+(deftest overflow-padding-defaults-to-zero-and-inflates-nothing
+  (testing "an absent key reads as [0 0 0 0], so the budget box IS :coords and
+            both rules are exactly the node-box rules the corpus already ran"
+    (is (= [0 0 0 0] (spacing/overflow-padding neighbour)))
+    (is (= (:coords neighbour) (spacing/budget-box neighbour))))
+  (testing "and a present one inflates per SIDE, not by one reach — the shape
+            the slider measurement forced: 6px across the track, 16 along it"
+    (is (= [-6 4 126 35]
+           (spacing/budget-box (assoc slider-node
+                                      :overflow_padding [16 6 16 6]))))))
+
+(deftest rule-1-containment-fires-where-the-paint-outruns-its-own-budget
+  (testing "an exactly-resolved paint reaching outside inflate(coords, pad) is
+            a finding on its own, with no neighbour involved — a widget
+            painting into space nothing allocated is wrong on an empty screen"
+    (let [over (assoc (with-paint slider-node) :overflow_padding [0 2 0 2])
+          fs (judge (root-with [over]))]
+      (is (= 1 (count (escapes fs))))
+      (is (re-find #"not inside the budgeted" (str (:detail (first (escapes fs))))))))
+  (testing "CONTROL — the identical paint under a budget that covers it is
+            silent, so the clause is about the budget and not about the
+            overhang existing"
+    (let [ok (assoc (with-paint slider-node) :overflow_padding [0 6 0 6])]
+      (is (empty? (escapes (judge (root-with [ok])))))))
+  (testing "a BOUND never fires it: the bound says where the paint cannot have
+            gone, which asserts nothing about where it did"
+    (let [bounded (assoc slider-node
+                         :paint_bound [10 4 110 35]
+                         :overflow_padding [0 2 0 2])]
+      (is (empty? (escapes (judge (root-with [bounded])))))))
+  (testing "and an UNBUDGETED node never fires it either — absence is 'no
+            budget resolved', so reading it as a zero budget would report
+            every unresolved overhang as an escape"
+    (is (empty? (escapes (judge (root-with [(with-paint slider-node)])))))))
+
+(deftest rule-2-judges-the-INFLATED-box-not-this-renders-pixels
+  (testing "a budget wider than the paint takes the clearance: the slider
+            draws nothing into the gutter here, and is entitled to 6px of it"
+    (let [claiming (assoc slider-node :overflow_padding [0 6 0 6])
+          fs (judge (root-with [claiming neighbour]))]
+      (is (= 1 (count (crowding fs))))
+      (is (re-find #"This render draws 4px of clearance"
+                   (str (:detail (first (crowding fs))))))))
+  (testing "CONTROL — the same two nodes with no budget are silent, because
+            their DRAWN boxes are 4px apart and the layout allocated 4"
+    (is (empty? (judge (root-with [slider-node neighbour])))))
+  (testing "the LAYOUT half still keys the rule: a pair the author placed
+            flush is out of scope however much either claims"
+    (let [flush-nb (assoc neighbour :coords [10 30 110 53])
+          claiming (assoc slider-node :overflow_padding [0 6 0 6])]
+      (is (empty? (judge (root-with [claiming flush-nb]))))))
+  (testing "a budget reaches BOTH ways along its axis, which is the property a
+            snapshot cannot show: the same claim fires against a neighbour
+            ABOVE, where this render painted nothing at all"
+    (let [claiming (assoc slider-node :overflow_padding [0 6 0 6])
+          above {:type "lv_label" :uid 3 :coords [10 -15 110 5] :children []}
+          fs (judge (root-with [claiming above]))]
+      (is (= 1 (count (crowding fs))))
+      (is (re-find #"This render draws 4px of clearance"
+                   (str (:detail (first (crowding fs)))))))))

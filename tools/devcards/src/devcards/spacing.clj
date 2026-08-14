@@ -21,10 +21,30 @@
    `paint_box` / `paint_bound` for exactly this, and this rule is their
    consumer.
 
+   ONE BUDGETED NUMBER PER SIDE, AND THE RULES RUN OVER INFLATED BOXES.
+   `overflow-padding` is how far outside its own layout box a node is
+   ENTITLED to paint — LVGL's own ext-draw-size concept, reified as an
+   honest per-side value instead of the blanket a widget class asks for.
+   It defaults to 0, which is nearly every node, and at 0 both rules below
+   are exactly the node-box rules this corpus already ran: the delivered
+   behaviour is their degenerate case rather than a second path.
+
+     1. CONTAINMENT — an exactly-resolved paint stays inside
+        `inflate(coords, overflow-padding)`.
+     2. NON-INTRUSION — two INFLATED boxes keep the same clearance the
+        rule already demanded, cause-keyed the same way.
+
+   A NONZERO VALUE IS A CLAIM ON SPACE THE ROW MUST ALLOCATE, which is why
+   rule 2 judges the budget rather than this render's pixels: a slider's
+   knob escapes across the track always and ALONG it only at the ends of
+   its range, so a card rendered mid-range shows the first and not the
+   second. Under a paint-only rule that space is free on every such card
+   until someone drags the control.
+
    WHAT FIRES, and it is deliberately not \"these two are close\":
 
      the layout allocated at least `gap-px` clear pixels between two
-     elements, AND their painted extents leave fewer than that.
+     elements, AND their inflated boxes leave fewer than that.
 
    The second half alone would report ABUTMENT, which is how layout works
    here — a tab bar meets its content area, one tab button meets the next,
@@ -95,6 +115,15 @@
      emits no `:unclassified-type` finding: it asks nothing of a node's
      type, so an undeclared type costs it no knowledge.
 
+   WHERE THE BUDGET COMES FROM, and the rule must never know which. It is
+   fed COMPUTED, from the part's resolved styles — the shadow, outline,
+   drop-shadow and transform terms `lv_obj_calculate_ext_draw_size` sums,
+   restated per side, plus a slider knob's own escape — and it will be fed
+   DECLARED, per widget class and part, for the classes whose reservation
+   is widget-code arithmetic no style can explain (lv_scale's literal 100,
+   lv_label's font_h/4). A declared entry is not yet implemented, which is
+   why the classes below still reach the third answer.
+
    THE THIRD ANSWER, which is the one this rule most needs. A widget whose
    exact paint extent could not be resolved carries `paint_bound`: a
    conservative box the paint provably stays inside, and nothing finer. That
@@ -140,6 +169,48 @@
    producer forgot to look."
   [node]
   (or (:descend_gate node) (:coords node)))
+
+(defn overflow-padding
+  "This node's OVERFLOW PADDING: how far outside its own layout box it is
+   ENTITLED to paint, per side, as [left top right bottom].
+
+   ONE NUMBER PER SIDE, DEFAULT ZERO, and the default is the common case —
+   `dump_obj` emits the key only where a budget was RESOLVED and is
+   therefore non-zero, so absence reads as [0 0 0 0] and `budget-box`
+   collapses to `:coords`. That is what makes the two rules below the
+   degenerate case of the node-box rules rather than a second path.
+
+   IT IS NOT THE PAINT EXTENT, and the difference is the whole point. A
+   paint box says where this render's pixels landed; a budget says how far
+   the widget may reach at any value it can hold. A horizontal slider
+   mid-track paints 6px across the track and NOTHING along it, while the
+   same widget at either end of its range paints roughly half a knob
+   diameter along it — so a rule reading only the snapshot allocates no
+   space for a value the corpus never renders.
+
+   ABSENCE IS 'NO BUDGET RESOLVED', WHICH IS NOT 'BUDGET ZERO', and the
+   two are told apart by the paint keys rather than by this one: a node
+   with no reservation at all carries no paint key either, while a node
+   whose widget CLASS reserved more than its styles explain carries
+   `paint_bound` and no budget. The second is the unresolved case, and it
+   keeps this rule's uncertainty arm."
+  [node]
+  (or (:overflow_padding node) [0 0 0 0]))
+
+(defn budget-box
+  "`:coords` inflated by this node's overflow padding — the box the two
+   rules below judge. nil when the node has no `:coords` to inflate."
+  [node]
+  (when-let [[x1 y1 x2 y2] (:coords node)]
+    (let [[l t r b] (overflow-padding node)]
+      [(- x1 l) (- y1 t) (+ x2 r) (+ y2 b)])))
+
+(defn contains-box?
+  "Is `inner` wholly inside `outer`? Inclusive rects, exact integers."
+  [outer inner]
+  (let [[ox1 oy1 ox2 oy2] outer
+        [ix1 iy1 ix2 iy2] inner]
+    (and (>= ix1 ox1) (>= iy1 oy1) (<= ix2 ox2) (<= iy2 oy2))))
 
 (defn paint-extent
   "This node's painted extent, as [status box]:
@@ -221,7 +292,14 @@
                        (let [[n-stat n-box] (clip-through-ancestors
                                              path->node path (:coords node))
                              [p-stat p-box] (clip-through-ancestors
-                                             path->node path paint)]
+                                             path->node path paint)
+                             ;; The budget is clipped by the SAME ancestors:
+                             ;; an entitlement to paint outside a container
+                             ;; that never lets the pixels through is an
+                             ;; entitlement to nothing, exactly as an
+                             ;; overhang is.
+                             [_ b-box] (clip-through-ancestors
+                                        path->node path (budget-box node))]
                          (cond
                            (= :unmeasurable n-stat)
                            (assoc entry ::unmeasurable n-box)
@@ -240,6 +318,8 @@
                            (assoc entry
                                   ::node-box p-box
                                   ::paint p-box
+                                  ::budget b-box
+                                  ::budgeted? (some? (:overflow_padding node))
                                   ::exact? (= :exact status))
 
                            (= :clipped-away p-stat) nil
@@ -247,24 +327,76 @@
                            :else (assoc entry
                                         ::node-box n-box
                                         ::paint p-box
+                                        ::budget b-box
+                                        ::budgeted? (some? (:overflow_padding
+                                                            node))
                                         ::exact? (= :exact status)))))))))
           nodes)))
 
 (defn node-box [entry] (::node-box entry))
 (defn paint-outer [entry] (::paint entry))
 (defn paint-exact? [entry] (::exact? entry))
+(defn budgeted? [entry] (true? (::budgeted? entry)))
+
+(defn claim-box
+  "The box rule 2 judges: everything this entry either PAINTS or is
+   ENTITLED to paint. The union rather than the budget alone, because a
+   paint escaping its budget is a rule-1 finding and must not also be
+   allowed to vanish from rule 2 while that finding is being read."
+  [entry]
+  (let [p (::paint entry)
+        b (::budget entry)]
+    (if (and p b)
+      (let [[px1 py1 px2 py2] p
+            [bx1 by1 bx2 by2] b]
+        [(min px1 bx1) (min py1 by1) (max px2 bx2) (max py2 by2)])
+      (or p b))))
 
 (defn findings
   "Spacing findings for one card. Reads ctx :card-id, :nodes (the shared
    annotated walk) and :thresholds {:gap-px n}.
 
-   Boxes are compared as DRAWN regions — the painted extent clipped by
-   every ancestor — so both the verdict and the reported coordinates name
-   pixels that are really on the screen."
+   TWO RULES, BOTH OVER THE INFLATED BOX, and at overflow-padding 0 — which
+   is nearly every node — both collapse to the node-box rule the corpus
+   already ran, so the delivered behaviour is their degenerate case rather
+   than a second path beside them:
+
+     1. CONTAINMENT — a node's exact paint stays inside its own budget.
+        Per NODE, and it needs no neighbour: a widget painting outside what
+        its styles entitle it to is wrong on an empty screen.
+
+     2. NON-INTRUSION — two elements the LAYOUT placed at least `gap-px`
+        apart do not come within `gap-px` once each is inflated by its own
+        budget. Cause-keyed exactly as before: the layout half is what keeps
+        deliberate abutment out with no exclusion list.
+
+   Boxes are clipped by every ancestor first, so both the verdict and the
+   reported coordinates name pixels that can really reach the screen."
   [{:keys [card-id nodes thresholds]}]
   (let [gap-px (:gap-px thresholds 3)
         cands (candidates nodes)
         judged (filterv #(nil? (::unmeasurable %)) cands)
+        ;; RULE 1 — CONTAINMENT. Only where BOTH halves are known: an exact
+        ;; paint (a bound proves nothing about where the pixels went) and a
+        ;; RESOLVED budget (an absent one is 0 by convention, and firing on
+        ;; that would report every unbudgeted overhang as an escape).
+        escapes (for [e judged
+                      :when (and (budgeted? e) (paint-exact? e)
+                                 (::budget e) (::paint e)
+                                 (not (contains-box? (::budget e)
+                                                     (::paint e))))]
+                  {:card card-id
+                   :invariant :paint-escapes-budget
+                   :node (label-of e)
+                   :detail (str "what this node DRAWS reaches outside the "
+                                "overflow padding its own resolved styles "
+                                "entitle it to: paint "
+                                (geometry/describe (::paint e))
+                                " is not inside the budgeted "
+                                (geometry/describe (::budget e))
+                                ". The budget is what every other element's "
+                                "spacing was allocated against, so the "
+                                "difference is space no layout reserved")})
         ;; A node that WOULD be judged but cannot be measured is a finding,
         ;; never a quiet drop: an unmeasurable node reading as "far from
         ;; everything" makes a broken run and a clean run produce the same
@@ -278,7 +410,7 @@
                         :detail (str "drawn node could not be judged: " why
                                      " — it is NOT thereby clear of everything "
                                      "else")})]
-    (into (vec unmeasurable)
+    (into (into (vec unmeasurable) escapes)
           (for [[i a] (map-indexed vector judged)
                 b (subvec judged (inc i))
                 :when (not (invariants/related? a b))
@@ -286,22 +418,34 @@
                 ;; The LAYOUT half: only a pair the author placed at least
                 ;; gap-px apart can have that clearance taken from it.
                 :when (>= node-sep gap-px)
-                :let [paint-sep (geometry/separation (paint-outer a)
-                                                     (paint-outer b))]
-                :when (< paint-sep gap-px)]
+                ;; RULE 2, over the INFLATED boxes. At padding 0 the claim
+                ;; box IS the paint extent, so this is the delivered
+                ;; comparison; where a budget is resolved it is what the
+                ;; widget may reach at any value, not only at this one.
+                :let [claim-a (claim-box a)
+                      claim-b (claim-box b)
+                      claim-sep (geometry/separation claim-a claim-b)]
+                :when (< claim-sep gap-px)
+                :let [drawn-sep (geometry/separation (paint-outer a)
+                                                     (paint-outer b))]]
             (if (and (paint-exact? a) (paint-exact? b))
               {:card card-id
                :invariant :paint-crowding
                :node (str (label-of a) " vs " (label-of b))
                :detail (str "the layout left " node-sep "px between these two, "
-                            "and what they DRAW leaves "
-                            (if (neg? paint-sep)
-                              (str "none — the painted boxes OVERLAP by "
-                                   (- paint-sep) "px")
-                              (str paint-sep "px"))
+                            "and what they may PAINT leaves "
+                            (if (neg? claim-sep)
+                              (str "none — the boxes OVERLAP by "
+                                   (- claim-sep) "px")
+                              (str claim-sep "px"))
                             ", under the " gap-px "px minimum — "
-                            (geometry/describe (paint-outer a)) " vs "
-                            (geometry/describe (paint-outer b))
+                            (geometry/describe claim-a) " vs "
+                            (geometry/describe claim-b)
+                            (when (not= claim-sep drawn-sep)
+                              (str ". This render draws " drawn-sep
+                                   "px of clearance; the shortfall is the "
+                                   "overflow padding these two are entitled "
+                                   "to and the layout did not allocate"))
                             ". A rule reading :coords reports this pair clean")}
               {:card card-id
                :invariant :unmeasurable-paint-extent
@@ -309,10 +453,10 @@
                :detail (str "the layout left " node-sep "px between these two "
                             "and at least one paints an extent that could not "
                             "be resolved exactly; within the bound the "
-                            "clearance may be as little as " paint-sep
+                            "clearance may be as little as " claim-sep
                             "px, under the " gap-px "px minimum. Unknown, not "
-                            "clean — " (geometry/describe (paint-outer a))
-                            " vs " (geometry/describe (paint-outer b)))})))))
+                            "clean — " (geometry/describe claim-a)
+                            " vs " (geometry/describe claim-b))})))))
 
 (def producer
   "The registry entry.

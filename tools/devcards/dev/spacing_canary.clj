@@ -54,6 +54,30 @@
       renderer that emitted the key everywhere, or nowhere, would leave every
       other clause here green.
 
+   7. THE BUDGET IS RESOLVED, AND IT IS PER-SIDE. The slider emits an
+      `overflow_padding`, and it is NOT one reach: across the track it is
+      the knob part's own pad, along it the whole reservation, because the
+      knob's along-track escape is a function of the VALUE and a budget must
+      claim both ends. Asserted for its SHAPE off the dump — the two axes
+      differ, and the cross axis is the smaller — never restated from a
+      constant, which would agree with the renderer only until one moved.
+
+   8. CONTAINMENT HOLDS ON A REAL WIDGET, which is the clause the whole
+      budget exists to make checkable. The slider's `paint_box` comes from
+      the knob rect `draw_knob` stored; its budget comes from resolved
+      styles and the reservation. Two independent computations over one
+      object, and rule 1 is the assertion that they agree — so shrinking
+      either one in the renderer turns this clause red while every other
+      clause here stays green. The rule reports NO `:paint-escapes-budget`
+      on either card.
+
+   9. THE BUDGET CLAIMS WHAT THE SNAPSHOT DOES NOT. On the CONTROL card the
+      slider draws clear of its neighbour, and its budget still reaches
+      further than its pixels do — the along-track space this mid-range
+      card does not paint into. This is asserted as an inequality between the two boxes,
+      which is what makes clause 9 a statement about the budget being an
+      ENTITLEMENT rather than a second name for the paint extent.
+
    WHAT THIS DOES NOT COVER. The exclusions — related nodes, hidden and
    snapped subtrees, the ancestor clip, the threshold arithmetic — are
    reducer behaviour over a walk and stay in `devcards.spacing-test`, where
@@ -233,7 +257,42 @@
      ;; 6. ABSENCE IS EXACT
      [(and (nil? (:paint_box t-nb)) (nil? (:paint_bound t-nb)))
       (format "the neighbour emits NEITHER paint key, so absence really is the ordinary case and means 'paints nowhere outside coords' — paint_box %s, paint_bound %s"
-              (pr-str (:paint_box t-nb)) (pr-str (:paint_bound t-nb)))]]))
+              (pr-str (:paint_box t-nb)) (pr-str (:paint_bound t-nb)))]
+
+     ;; 7. THE BUDGET IS RESOLVED, AND PER-SIDE
+     [(some? (:overflow_padding t-sl))
+      (format "the slider publishes an overflow_padding budget: %s"
+              (pr-str (:overflow_padding t-sl)))]
+     [(when-let [[l t r b] (:overflow_padding t-sl)]
+        (and (= l r) (= t b) (< (long t) (long l))))
+      (format "…and it is PER-SIDE rather than one reach — [l t r b] = %s, the two axes differing, with the cross-track pair the smaller: a horizontal knob escapes by its own pad across the track and by half a knob diameter along it"
+              (pr-str (:overflow_padding t-sl)))]
+     [(and (nil? (:overflow_padding t-nb))
+           (= [0 0 0 0] (spacing/overflow-padding t-nb)))
+      (format "…while the neighbour publishes none, which the rule reads as the [0 0 0 0] default — so its budget box IS its coords: %s"
+              (pr-str (spacing/budget-box t-nb)))]
+
+     ;; 8. CONTAINMENT HOLDS ON A REAL WIDGET
+     [(when-let [budget (spacing/budget-box t-sl)]
+        (and (:paint_box t-sl)
+             (spacing/contains-box? budget (:paint_box t-sl))))
+      (format "what the slider DRAWS is inside what its budget entitles it to — paint %s within budget %s, two independent computations over one object agreeing"
+              (pr-str (:paint_box t-sl))
+              (pr-str (spacing/budget-box t-sl)))]
+     [(empty? (filterv #(= :paint-escapes-budget (:invariant %)) sp-fs))
+      (format "…and rule 1 reports no escape on this card: %s"
+              (pr-str (mapv (juxt :invariant :node)
+                            (filterv #(= :paint-escapes-budget (:invariant %))
+                                     sp-fs))))]
+
+     ;; 9. THE BUDGET CLAIMS WHAT THE SNAPSHOT DOES NOT
+     [(let [budget (spacing/budget-box c-sl)
+            paint (:paint_box c-sl)]
+        (and budget paint (not= budget paint)
+             (spacing/contains-box? budget paint)))
+      (format "on the control card the budget reaches strictly further than the pixels — budget %s vs paint %s — the along-track space this mid-range card does not paint into"
+              (pr-str (spacing/budget-box c-sl))
+              (pr-str (:paint_box c-sl)))]]))
 
 (defn -main
   [& _]

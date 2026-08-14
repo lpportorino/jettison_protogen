@@ -1,0 +1,101 @@
+OVERFLOW-PADDING — MUTATION EVIDENCE
+====================================
+
+Two clauses landed with this change, and neither is proven by a green run:
+rule 1 (CONTAINMENT — an exact paint stays inside inflate(coords,
+overflow_padding)) and rule 2 (NON-INTRUSION — the pair test runs over the
+INFLATED boxes). Both have a clean value identical to their nothing-ran
+value, so each was broken deliberately and watched to fail. Recorded here
+because an authoring-side observation dies with the session.
+
+The two mutations are in DIFFERENT LANGUAGES on purpose. The rule and the
+renderer compute the budget independently — that independence is the whole
+reason containment is checkable on a real widget — so a mutation of one is
+not evidence about the other.
+
+
+=== A · the RULE — `devcards.spacing/budget-box` stops inflating ==========
+
+Mutation (tools/devcards/src/devcards/spacing.clj), the padding destructured
+and then discarded so the arity and the callers are unchanged:
+
+    -      [(- x1 l) (- y1 t) (+ x2 r) (+ y2 b)]
+    +      [x1 y1 x2 y2]
+
+Run: clojure -M:test, from tools/devcards in the toolchain container.
+
+BASELINE (unmutated): Ran 453 tests containing 4852 assertions.
+                      0 failures, 0 errors.
+
+MUTATED — six failures, ALL of them in the three deftests this change added,
+and nothing else in the 453 moved:
+
+  FAIL in (overflow-padding-defaults-to-zero-and-inflates-nothing) (spacing_test.clj:237)
+  expected: (= [-6 4 126 35] (spacing/budget-box (assoc slider-node :overflow_padding [16 6 16 6])))
+    actual: (not (= [-6 4 126 35] [10 10 110 29]))
+
+  FAIL in (rule-2-judges-the-INFLATED-box-not-this-renders-pixels) (spacing_test.clj:270)
+  expected: (= 1 (count (crowding fs)))
+    actual: (not (= 1 0))
+
+  FAIL in (rule-2-judges-the-INFLATED-box-not-this-renders-pixels) (spacing_test.clj:271)
+  expected: (re-find #"This render draws 4px of clearance" (str (:detail (first (crowding fs)))))
+    actual: (not (re-find #"This render draws 4px of clearance" ""))
+
+  FAIL in (rule-2-judges-the-INFLATED-box-not-this-renders-pixels) (spacing_test.clj:287)
+  expected: (= 1 (count (crowding fs)))
+    actual: (not (= 1 0))
+
+  FAIL in (rule-2-judges-the-INFLATED-box-not-this-renders-pixels) (spacing_test.clj:288)
+  expected: (re-find #"This render draws 4px of clearance" (str (:detail (first (crowding fs)))))
+    actual: (not (re-find #"This render draws 4px of clearance" ""))
+
+  FAIL in (rule-1-containment-fires-where-the-paint-outruns-its-own-budget) (spacing_test.clj:253)
+  expected: (empty? (escapes (judge (root-with [ok]))))
+    actual: (not (empty? [{:card "c", :invariant :paint-escapes-budget, :node "lv_slider#1", :detail "what this node DRAWS reaches outside the overflow padding its own resolved styles entitle it to: paint [10,4,110,35] 101x32 is not inside the budgeted [10,10,110,29] 101x20. The budget is what every other element's spacing was allocated against, so the difference is space no layout reserved"}]))
+
+  Ran 453 tests containing 4852 assertions.
+  6 failures, 0 errors.
+
+Read the LAST one carefully — it is the direction that matters. With the
+inflation removed, rule 1's CONTROL (an overhang that its budget covers)
+starts firing, because every budget collapsed to the node box. A mutation
+that only silenced the rule would have left that control green; this one
+shows the clause is keyed on the budget rather than on the overhang.
+
+
+=== B · the RENDERER — the knob's cross-axis budget goes to zero ==========
+
+Mutation (renderer/src/main.c, `knob_overflow_pad`): the cross-track term
+forced to 0, so the published budget no longer covers the pad
+`position_knob` really grows the knob rect by.
+
+    const int32_t across_mut = 0;
+    #define across across_mut
+
+Run: make -f renderer.mk wasm, then
+     clojure -M:bindings:spacing-canary from tools/devcards
+     — both inside the toolchain container built from Dockerfile.base.
+
+BASELINE (unmutated): spacing-canary: 16/16 checks passed / GREEN
+
+MUTATED — the budget publishes [16 0 16 0], the drawn knob escapes it by 6px
+on each cross-track side, and the containment clause plus everything that
+depends on it turns red while the paint-extent clauses stay green:
+
+  FAIL devcards.spacing fires exactly once, and on the EXACT arm rather than the uncertainty arm: [[:paint-escapes-budget "lv_slider"] [:paint-crowding "lv_slider vs lv_obj"]]
+  FAIL ...naming both participants: "lv_slider"
+  FAIL ...and the same two widgets there report nothing: [[:paint-escapes-budget "lv_slider"]]
+  FAIL what the slider DRAWS is inside what its budget entitles it to - paint [100 94 219 121] within budget [84 100 235 115], two independent computations over one object agreeing
+  FAIL ...and rule 1 reports no escape on this card: [[:paint-escapes-budget "lv_slider"]]
+  FAIL on the control card the budget reaches strictly further than the pixels - budget [84 100 235 115] vs paint [100 94 219 121] - which is the along-track space no mid-range render can show
+
+  spacing-canary: 10/16 checks passed
+  spacing-canary: FAILED
+
+The clauses that stayed GREEN are the informative half: the slider still
+emitted an exact `paint_box` of [100 94 219 121], the overlap lane still
+reported the card clean, and the neighbour still emitted neither paint key.
+So the red came from the budget disagreeing with the paint and from nothing
+else — which is what separates this canary from one that goes red for the
+right colour and the wrong reason.

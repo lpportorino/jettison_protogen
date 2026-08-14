@@ -1282,12 +1282,73 @@ that did not look. A consumer that rebuilds the wasm and keeps a coords-reading
 producer therefore recreates the under-report in full, the same shape §2.4
 records for `click_area`.
 
+### 7.1b Overflow padding — one budgeted number per node and part
+
+**`overflow-padding` is how far outside its own layout box an element is
+ENTITLED to paint. One number per side, per node and part, DEFAULT 0.** It is
+LVGL's own ext-draw-size concept reified as an honest budgeted value instead of
+the blanket a widget class asks for, and both rules below judge the INFLATED
+box `inflate(layout_box, overflow-padding)` rather than the layout box.
+
+**At 0 — nearly every node — both rules collapse to the node-box rules this
+document already specified**, so the delivered behaviour is their degenerate
+case and not a second path beside them. A NONZERO value is a CLAIM ON SPACE the
+row must allocate.
+
+**Per SIDE rather than one reach, and that is a measurement.** A 120x16
+horizontal slider escapes its box by 6px across the track at every value, and
+by 15px along it at value 0 — on the left only — and 13px at value 100, on the
+right only. A single reach honest enough for the along-track case over-claims
+the cross-track one by 2.5x. Four sides subsume both the per-axis and the
+single-reach shapes, so the dump publishes four.
+
+**The budget is not the paint extent, and the difference is the point.** A
+paint box says where THIS render's pixels landed; the budget says how far the
+widget may reach at any value it holds. Measured on protogen's own corpus: most
+exactly-resolved sliders sit mid-range and show NO along-track escape at all,
+while the deliberate value-axis cells at min and max show it plainly — so a
+paint-only rule leaves that space free on every card but those, and the widget
+needs only to be dragged for it to be taken.
+
+**It is fed two ways and the rules must never know which.** COMPUTED, from the
+part's resolved styles — the shadow, outline, drop-shadow and transform terms
+`lv_obj_calculate_ext_draw_size` sums, restated per side instead of folded into
+that function's symmetric maximum, plus a slider knob's own escape. DECLARED,
+per widget class and part, for the classes whose reservation is widget-code
+arithmetic no style can explain. Only the computed feed is implemented; §7.4b
+carries the declared half's design and what it retires.
+
+`dump_obj` emits `overflow_padding` ONLY where the budget is resolved — where
+the per-side value accounts for the whole of LVGL's own reservation. **Absence
+is therefore "no budget resolved", which is NOT "budget zero"**, and the two
+are told apart by the paint keys rather than by this one: a node with no
+reservation carries no paint key either and its budget really is zero, while a
+node whose class reserved more than its styles explain carries `paint_bound`
+and no budget. That second one is §7.4's third answer, unchanged.
+
 ### 7.2 What fires, and why the obvious half alone would not
 
-    the layout allocated at least gap-px clear pixels between two elements,
-    AND their painted extents leave fewer than that.
+Two rules, both over the inflated box:
 
-The second half alone would report ABUTMENT, which is how layout works here: a
+    1. CONTAINMENT — the ancestor-clipped paint_box lies inside
+       inflate(layout_box, overflow-padding).
+
+    2. NON-INTRUSION — the layout allocated at least gap-px clear pixels
+       between two elements, AND their INFLATED boxes leave fewer than that.
+
+Rule 1 is per NODE and needs no neighbour: a widget painting outside what its
+own styles entitle it to is wrong on an empty screen, and its finding is
+`:paint-escapes-budget`. It fires only where BOTH halves are known — an exact
+paint (a bound asserts nothing about where the pixels went) and a RESOLVED
+budget (reading an absent one as zero would report every unresolved overhang as
+an escape). On a real render the two halves come from independent computations
+over one object — the knob rect `draw_knob` stored, against resolved styles and
+the reservation — which is what makes the rule checkable rather than true by
+construction.
+
+Rule 2 is the delivered pair rule with the inflated box in place of the painted
+one, cause-keyed identically. Its second half alone would report ABUTMENT,
+which is how layout works here: a
 tab bar meets its content area, one tab button meets the next, a scrubber's
 rows stack flush. `lanes/overlap-thresholds` carries the measurement — a
 node-box threshold raised by one pixel floods the lane with tabview abutments —
@@ -1297,6 +1358,10 @@ placed flush on purpose, and whether that is too tight is a design question the
 reviewer's alignment keyword owns. What this rule owns is the pair the author
 placed APART and the renderer brought together — a defect with no author, which
 is why nothing else was going to catch it.
+
+The BUDGET is clipped by every ancestor too, on the same argument the paint
+boxes are: an entitlement to paint outside a container that never lets the
+pixels through is an entitlement to nothing.
 
 Both boxes are clipped by every ancestor before they are compared, because that
 is what the renderer does before drawing a child: it intersects the clip with
@@ -1358,11 +1423,71 @@ report a pair the corner would have separated, never hide one), and OPACITY (a
 fully transparent widget occupies its box here; that is a limit of the RULE,
 since `opa` is a resolved style the dump does carry).
 
+### 7.4b The DECLARED half, and what it retires
+
+The computed feed resolves a budget for every class whose reservation is a
+resolved style. What it cannot resolve is the class that asks LVGL for a
+blanket: `lv_scale` sets a literal 100 ("so the first tick label can be
+shown"), `lv_label` sets `font_h / 4` for italic overhang, `lv_arc` adds its
+knob correction. Those keep `paint_bound` and the third answer, and the second
+feed is what retires them.
+
+**Shape.** One entry per widget CLASS x PART, each carrying a per-side value
+and ITS ARITHMETIC: `scale`/`ITEMS` is the major tick length, `scale`/
+`INDICATOR` the label extent from the font table, `label`/`MAIN` the same
+`font_h / 4` stated as a font metric rather than a constant. **An entry with no
+arithmetic is refused**, because a number nobody can re-derive is a blanket
+wearing a budget's name; **an entry no canary can drive red is vacuous**, and
+the canary is the mutation shape §7.5 already requires.
+
+**Where the entries live is decided by which home BOTH proof surfaces already
+read, and that was measured rather than argued.** The two surfaces are the DOM
+lane (`devcards.spacing` over `dump_tree`) and the pixel oracle (the wasmtime
+visual-regression suite over a framebuffer). The one home both already read is
+`output/manifests/design-tokens.json` — `devcards.tokens` on one side,
+`visual_regression.rs` on the other — and that manifest is GENERATED FROM
+`renderer/src/theme.c`. Neither surface reads `renderer-caps.json` and neither
+reads `edn/components.edn`; those are consumed by the codegen and by the
+scratch-devcard input validator, never by a lane.
+
+So the home is the RENDERER, with a manifest projection if a consumer needs to
+see the table — the shape the design tokens already have. That also puts the
+entry where a wrong one is catchable: the reservation is resolved in
+`dump_obj`, so a table parked outside it would be visible to the rule and
+invisible to the thing whose behaviour it describes. It needs no vocabulary
+change either — the part selectors are already on the wire.
+
+**A DECLARED ENTRY MUST NOT INHERIT THE EXTENT INFERENCE, and this is the
+constraint the computed half makes easy to miss.** Where the computed feed
+resolves a budget it also resolves the EXTENT, because an outline and a shadow
+paint out to exactly the box their styles describe — so `dump_obj` publishes
+both, and `inflate(coords, overflow-padding)` IS the paint box for those
+classes. A declared entry has no such licence: `lv_label`'s `font_h / 4` is a
+SAFETY MARGIN for italic overhang, which the glyphs usually do not use, so
+publishing it as an extent would over-report every label on the screen by
+several pixels a side. The declared feed therefore carries a second bit — is
+this budget also the extent? — and the answer is NO for every margin-shaped
+entry. §7.4's third answer survives for those: budgeted, and still without an
+exact extent.
+
+**Per direction, not one reach.** §7.1b's measurement is the argument, and the
+knob is the case that settles it: the same widget escapes 6px across its track
+and 15px along it, on the side the value has travelled to. A per-class entry
+carrying one number would have to carry the larger, which over-claims the cross
+axis by 2.5x and turns every mid-range slider into a crowding report.
+
+**What retires the `lv_scale` exemption** is that class's entry, and nothing
+else: the population of unresolved pairs in protogen's own corpus is 100%
+`lv_scale`. No value of `gap-px` moves it and no amount of computed resolving
+touches it, because the residual is arithmetic no style can explain.
+
 ### 7.5 Verdict shape, threshold, and what a consumer owes
 
 **Shape: `exact`** (§0) — integer arithmetic on inclusive rects. The producer
 declares no outcomes, so none of its findings can later be softened to an
-uncertain verdict in a small diff.
+uncertain verdict in a small diff. Its findings are `:paint-crowding` (rule 2),
+`:paint-escapes-budget` (rule 1) and `:unmeasurable-paint-extent` (the third
+answer, §7.4).
 
 **One threshold, `gap-px`, and it is NOT §2's.** The two answer different
 questions and share no value: overlap's is 0 because a pointer gate must not

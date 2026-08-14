@@ -3304,14 +3304,219 @@ static bool paint_box_of_slider(const lv_obj_t *obj, const lv_area_t *coords,
     paint_join(out, &slider->left_knob_area);
   return true;
 }
+/* ── OVERFLOW PADDING — the BUDGET, as against the EXTENT ──────────────────
+ *
+ * `paint_box` / `paint_bound` answer "where did this node's pixels land in
+ * THIS render". A budget answers a different question: "how far outside its
+ * layout box is this node ENTITLED to paint, at any value it may hold". The
+ * two are not interchangeable, and a snapshot cannot stand in for the second.
+ * MEASURED on this repo's own corpus rather than assumed: of the sliders whose
+ * extent resolves exactly, the great majority sit MID-RANGE and escape only
+ * across the track, while a handful of deliberate value-axis cells sit at the
+ * ends and escape roughly half a knob diameter ALONG it, on one side. So the
+ * along-track escape is real and is invisible on most cards — a paint-only
+ * rule allocates nothing for it there, and the widget needs only to be dragged
+ * for the space to be taken.
+ *
+ * ONE NUMBER PER SIDE, DEFAULT ZERO, and the zero case is the common one: for
+ * the great majority of nodes `lv_obj_get_ext_draw_size` is 0, the clip
+ * forbids a pixel outside `coords`, and the budget is [0,0,0,0]. A consumer
+ * inflating by an absent budget gets `coords` back, which is why the rules
+ * reading it collapse to the node-box rules at zero rather than branching.
+ *
+ * PER SIDE RATHER THAN ONE REACH, and this is a measurement rather than a
+ * preference: a horizontal slider's own escape is 6px across the track and up
+ * to 15px along it, and along it only on the side the knob has travelled to.
+ * A shadow offset splits the same way — LVGL folds the offset into a
+ * symmetric max precisely because ONE scalar is all `refr_obj` can clip with.
+ * Four sides subsume both the per-axis and the single-reach shapes, so this
+ * publishes four.
+ *
+ * WHAT FEEDS IT HERE — resolved styles, and nothing else. The three
+ * contributors `lv_obj_calculate_ext_draw_size` sums (shadow, outline, drop
+ * shadow) plus the transform pad, restated PER SIDE rather than folded into
+ * that function's symmetric maximum. Where those account for the whole of
+ * LVGL's own reservation the budget is RESOLVED and emitted; where a widget
+ * CLASS reserved more than its styles explain — lv_scale's literal 100,
+ * lv_label's font_h/4, lv_arc's knob correction — nothing is emitted, the
+ * node keeps its `paint_bound`, and the residual is what a DECLARED per-class
+ * entry would have to carry. Absence is therefore "no budget resolved", never
+ * "budget zero": the zero case emits nothing because it has no reservation to
+ * explain, and a reader can tell the two apart because only the second
+ * carries a paint key. */
+typedef struct {
+  int32_t l, t, r, b;
+} overflow_pad_t;
+static int32_t pad_pos(int32_t v) { return v > 0 ? v : 0; }
+static void pad_join_max(overflow_pad_t *acc, const overflow_pad_t *add) {
+  if (add->l > acc->l)
+    acc->l = add->l;
+  if (add->t > acc->t)
+    acc->t = add->t;
+  if (add->r > acc->r)
+    acc->r = add->r;
+  if (add->b > acc->b)
+    acc->b = add->b;
+}
+static int32_t pad_widest(const overflow_pad_t *p) {
+  int32_t m = p->l;
+  if (p->t > m)
+    m = p->t;
+  if (p->r > m)
+    m = p->r;
+  if (p->b > m)
+    m = p->b;
+  return m;
+}
+/* `lv_obj_calculate_ext_draw_size` for ONE part, per side. Term for term and
+ * in the same combining order as that function — max(shadow, outline), then
+ * the drop shadow ADDED to it, then the transform pad — with each term's
+ * offset applied to the side it actually moves toward instead of being folded
+ * into `LV_MAX(LV_ABS(ofs_x), LV_ABS(ofs_y))`. Every side of the result is
+ * therefore <= the scalar that function returns, which is what keeps the
+ * budget inside LVGL's own clip guarantee. */
+static overflow_pad_t style_overflow_pad(lv_obj_t *obj, lv_part_t part) {
+  overflow_pad_t p = {0, 0, 0, 0};
+  const int32_t sh_w = lv_obj_get_style_shadow_width(obj, part);
+  if (sh_w != 0 && lv_obj_get_style_shadow_opa(obj, part) > LV_OPA_MIN) {
+    const int32_t base =
+        sh_w / 2 + 1 + lv_obj_get_style_shadow_spread(obj, part);
+    const int32_t ox = lv_obj_get_style_shadow_offset_x(obj, part);
+    const int32_t oy = lv_obj_get_style_shadow_offset_y(obj, part);
+    const overflow_pad_t s = {pad_pos(base - ox), pad_pos(base - oy),
+                              pad_pos(base + ox), pad_pos(base + oy)};
+    pad_join_max(&p, &s);
+  }
+  const int32_t out_w = lv_obj_get_style_outline_width(obj, part);
+  if (out_w != 0 && lv_obj_get_style_outline_opa(obj, part) > LV_OPA_MIN) {
+    const int32_t s = lv_obj_get_style_outline_pad(obj, part) + out_w;
+    const overflow_pad_t o = {s, s, s, s};
+    pad_join_max(&p, &o);
+  }
+  if (lv_obj_get_style_drop_shadow_opa(obj, part) > 0) {
+    const int32_t r = lv_obj_get_style_drop_shadow_radius(obj, part) + 1;
+    const int32_t ox = lv_obj_get_style_drop_shadow_offset_x(obj, part);
+    const int32_t oy = lv_obj_get_style_drop_shadow_offset_y(obj, part);
+    p.l += pad_pos(r - ox);
+    p.t += pad_pos(r - oy);
+    p.r += pad_pos(r + ox);
+    p.b += pad_pos(r + oy);
+  }
+  const int32_t tw = lv_obj_get_style_transform_width(obj, part);
+  const int32_t th = lv_obj_get_style_transform_height(obj, part);
+  if (tw > 0) {
+    p.l += tw;
+    p.r += tw;
+  }
+  if (th > 0) {
+    p.t += th;
+    p.b += th;
+  }
+  return p;
+}
+/* The parts a budget is unioned over. LVGL resolves a style for ANY part
+ * whether or not the class draws it, so an unused part simply contributes
+ * zero; enumerating them is what keeps a themed INDICATOR or SELECTED shadow
+ * from being missed. LV_PART_KNOB is deliberately ABSENT — a knob's rect
+ * escapes `coords` on its own, so its padding is not a padding OF the node
+ * box and folding it in here would under-report the escape rather than
+ * over-report it. `knob_overflow_pad` is where that case is answered. */
+static const lv_part_t OVERFLOW_PAD_PARTS[] = {
+    LV_PART_MAIN,     LV_PART_SCROLLBAR, LV_PART_INDICATOR,
+    LV_PART_SELECTED, LV_PART_ITEMS,     LV_PART_CURSOR};
+static overflow_pad_t style_overflow_pad_all_parts(lv_obj_t *obj) {
+  overflow_pad_t p = {0, 0, 0, 0};
+  for (size_t i = 0;
+       i < sizeof(OVERFLOW_PAD_PARTS) / sizeof(OVERFLOW_PAD_PARTS[0]); i++) {
+    const overflow_pad_t q = style_overflow_pad(obj, OVERFLOW_PAD_PARTS[i]);
+    pad_join_max(&p, &q);
+  }
+  return p;
+}
+/* THE ONE CLASS OF WIDGET WHOSE RESERVATION IS GEOMETRY RATHER THAN STYLE,
+ * and the reason the budget is worth having at all.
+ *
+ * `position_knob` centres the knob on the indicator end and then grows it by
+ * the LV_PART_KNOB padding, so the escape splits by AXIS: across the track it
+ * is exactly that padding, while along the track half a knob diameter is in
+ * play before any padding is added — and which SIDE that lands on is the
+ * current value, not a property of the widget. A budget must claim both ends,
+ * so along the track it takes LVGL's own reservation, which is the tightest
+ * value-independent number this tree can state without restating
+ * `lv_slider`'s arithmetic; across it, the knob part's resolved padding,
+ * which is exact.
+ *
+ * Refuses on anything but a slider, so the caller falls back to the styles-
+ * only budget. The switch has the same knob shape but stores no knob rect, so
+ * nothing here could be checked against a drawn box; it keeps its bound. */
+static bool knob_overflow_pad(lv_obj_t *obj, int32_t ext, overflow_pad_t *out) {
+  if (!lv_obj_check_type(obj, &lv_slider_class))
+    return false;
+  const int32_t across =
+      LV_MAX(LV_MAX(lv_obj_get_style_pad_left(obj, LV_PART_KNOB),
+                    lv_obj_get_style_pad_right(obj, LV_PART_KNOB)),
+             LV_MAX(lv_obj_get_style_pad_top(obj, LV_PART_KNOB),
+                    lv_obj_get_style_pad_bottom(obj, LV_PART_KNOB))) +
+      LV_MAX(lv_obj_get_style_transform_width(obj, LV_PART_KNOB),
+             lv_obj_get_style_transform_height(obj, LV_PART_KNOB));
+  if (across > ext)
+    return false; /* the styles claim more than LVGL reserved — do not guess */
+  const bool hor = lv_obj_get_width(obj) >= lv_obj_get_height(obj);
+  const overflow_pad_t p = hor ? (overflow_pad_t){ext, across, ext, across}
+                               : (overflow_pad_t){across, ext, across, ext};
+  *out = p;
+  return true;
+}
+/* The node's budget, or false when the resolved styles do not account for the
+ * whole of `ext` — which is exactly the widget-code blanket case, and the one
+ * a DECLARED per-class entry exists to retire. */
+static bool overflow_padding_of(lv_obj_t *obj, int32_t ext,
+                                overflow_pad_t *out) {
+  if (knob_overflow_pad(obj, ext, out))
+    return true;
+  const overflow_pad_t p = style_overflow_pad_all_parts(obj);
+  /* EQUALITY, NOT ">=", AND THE STRICTNESS RUNS BOTH WAYS. Short of `ext` is
+   * the widget-code blanket this refuses to guess at. OVER `ext` is the case
+   * that looks harmless and is not: LVGL reserved less than these styles ask
+   * for, so either a part was resolved that the class never draws or two
+   * offsets attained their maxima on opposite sides, and a budget wider than
+   * the clip claims space no pixel can reach. Both fall back to the bound. */
+  if (pad_widest(&p) != ext)
+    return false;
+  *out = p;
+  return true;
+}
 static void dump_paint_extent(const lv_obj_t *obj, const lv_area_t *coords) {
   const int32_t ext = lv_obj_get_ext_draw_size(obj);
   if (ext == 0)
     return; /* the clip forbids paint outside coords — nothing to say */
   lv_area_t bound = *coords;
   lv_area_increase(&bound, ext, ext);
+  overflow_pad_t pad;
+  const bool budgeted = overflow_padding_of((lv_obj_t *)obj, ext, &pad);
   lv_area_t box;
   bool exact = paint_box_of_slider(obj, coords, &box);
+  /* A RESOLVED BUDGET RESOLVES THE EXTENT TOO, for every class whose escape
+   * is a style: a shadow, an outline and a transform pad each paint out to
+   * the side they extend and no further, so `coords` grown per side IS the
+   * extent. The slider is the exception and keeps its own resolver, because
+   * its budget is a value-independent CLAIM while its `left/right_knob_area`
+   * is where the knob went in this render — two different numbers, and
+   * publishing the claim as the extent would over-report the snapshot. */
+  if (budgeted && !exact && !lv_obj_check_type(obj, &lv_slider_class)) {
+    box = *coords;
+    box.x1 -= pad.l;
+    box.y1 -= pad.t;
+    box.x2 += pad.r;
+    box.y2 += pad.b;
+    exact = true;
+  }
+  if (budgeted) {
+    char obuf[80];
+    (void)snprintf(obuf, sizeof(obuf), ",\"overflow_padding\":[%d,%d,%d,%d]",
+                   (int)pad.l, (int)pad.t, (int)pad.r, (int)pad.b);
+    tree_append(obuf);
+  }
   /* THE RESOLVER IS CHECKED AGAINST LVGL'S OWN GUARANTEE, not trusted. Paint
    * is clipped to `bound`, so an "exact" box escaping it means this code and
    * the draw pipeline disagree — which is the one situation where publishing a
