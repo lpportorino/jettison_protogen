@@ -7515,47 +7515,56 @@ mod dump_truncation {
         );
     }
     /// The other half of that contract, and the half the sentinel check cannot
-    /// state: a truncated dump is NOT A CLEAN PREFIX. Checking the suffix and
-    /// then parsing is safe; parsing first and checking afterwards is not, and
-    /// nothing pinned that distinction — so the day the emission order changes,
-    /// a consumer built on the wrong order would keep working here.
+    /// state: a truncated dump NEVER PARSES. That is what makes the ordering
+    /// safe — a consumer reaching for a tree before it looks at the suffix gets
+    /// an error, never the well-formed-looking tree with subtrees silently
+    /// missing that `controls_dump_tree`'s sentinel exists to prevent.
     ///
-    /// WHY IT IS NOT A PREFIX. `json_append` (main.c) latches `truncated` and
-    /// returns when a chunk exceeds the room left, but it compares only THAT
-    /// CHUNK's length against `avail` — so a SHORTER chunk emitted later still
-    /// lands, behind a longer one that was dropped. The bytes interleave rather
-    /// than stop. Measured on this fixture: a node's closing `,"children":[]}`
-    /// and the sibling separator `,` both land, the NEXT node's multi-field
-    /// `{"type":…,"coords":[…]` header is dropped for space, and that same
-    /// node's 11-byte `,"vis_px":0` lands behind it — leaving `]},,"vis_px":0`,
-    /// a doubled comma that no prefix of any valid JSON document can contain.
+    /// THIS TEST USED TO ASSERT MORE THAN THAT, UNDER THE NAME
+    /// `truncated_dump_is_not_a_clean_json_prefix`, AND THE EXTRA CLAIM WAS
+    /// NEVER A CONTRACT. It classified the SENTINEL-STRIPPED BODY and demanded
+    /// serde's `Syntax` — "met something illegal with input still behind it" —
+    /// rather than `Eof`, "merely ran out of input". Its stated ground: that
+    /// `json_append` latches `truncated` and returns when a chunk exceeds the
+    /// room left, but compares only THAT chunk against `avail`, so a shorter
+    /// chunk emitted later still lands behind a longer one that was dropped and
+    /// the bytes interleave rather than stop.
     ///
-    /// THE ASSERTION GENERALISES THAT INSTANCE RATHER THAN PINNING IT, because
-    /// which chunk loses the race is an artifact of one fixture's byte counts.
-    /// serde_json classifies a parse failure as `Eof` when it merely ran out of
-    /// input — which is exactly what a clean prefix yields, and what the
-    /// control below proves it yields for this very emitter — and as `Syntax`
-    /// when it met something illegal with input still behind it. So `Syntax` IS
-    /// the interleaving, at whatever offset it lands.
+    /// THE MECHANISM IS REAL AND UNCHANGED; WHAT IS FALSE IS THAT IT IS
+    /// OBSERVABLE HERE. When the buffer is full `controls_dump_tree` does not
+    /// append the sentinel, it OVERWRITES the trailing `SENTINEL.len()` bytes.
+    /// So the body this test can reach is the emission cut at
+    /// `TREE_BUF_SIZE - 1 - SENTINEL.len()`, while the interleaving begins at
+    /// the FIRST DROPPED CHUNK — an offset fixed by the fixture's byte counts
+    /// and by nothing else. Land that offset inside the overwrite window and
+    /// the sentinel erases every trace of it, leaving a clean prefix that
+    /// classifies `Eof`; land it earlier and the body carries the artifact and
+    /// classifies `Syntax`. Both are legal output of one unchanged emitter.
     ///
-    /// The `Eof` control is not decoration: "truncated JSON fails to parse" is
-    /// trivially true of a clean prefix too, so without a demonstration that
-    /// the discriminator can return the other answer, a `Syntax` verdict would
-    /// carry no information.
+    /// MEASURED, NOT ARGUED. Inserting twenty spaces of JSON whitespace into
+    /// the ROOT node's `,"bp":…,"theme_dark":…` chunk — semantically null, it
+    /// only shifts every later byte — flips this fixture from `Eof` to
+    /// `Syntax` and reproduces the very `]},,"vis_px":0` artifact the retired
+    /// text describes, within a few bytes of where an earlier measurement had
+    /// recorded it. A verdict a space can decide is an offset, not a contract.
+    ///
+    /// WHAT SURVIVES IS THE SHARPER RULE, not a weaker one: the truncated body
+    /// is a clean prefix on some byte counts and interleaved garbage on others,
+    /// so NO consumer may recover partial nodes from it — `normalize-dump` in
+    /// devcards' host discarding the WHOLE tree is mandatory rather than
+    /// merely conservative.
     #[test]
-    fn truncated_dump_is_not_a_clean_json_prefix() {
+    fn truncated_dump_never_parses() {
         const SENTINEL: &str = ",\"truncated\":true";
-        const CHILDREN: &str = ",\"children\":[";
         /// main.c's `TREE_BUF_SIZE`. The dump is a NUL-terminated string inside
         /// that buffer, so its greatest possible length is one byte less.
         const TREE_BUF_SIZE: usize = 131_072;
         /// Slack on the "the buffer FILLED" guard below, deliberately larger
         /// than any single chunk the tree dump can hand `json_append`: its two
         /// widest are the 160-byte `hdr` and a 64-char text escaping to at most
-        /// 384 bytes. So an emitter that stopped dead at the first drop — the
-        /// clean-prefix shape this test exists to detect — still clears this
-        /// guard, and reds the CONTRACT assertion by name instead of being
-        /// misreported here as a vacuous run.
+        /// 384 bytes. So a dump that latched the flag WITHOUT filling the
+        /// buffer reds this guard by name, instead of being carried into the
+        /// contract assertion below as a vacuous run.
         const FILL_SLACK: usize = 1024;
 
         let mut host = new_host_with_wasi();
@@ -7596,39 +7605,21 @@ mod dump_truncation {
         serde_json::from_str::<serde_json::Value>(&control)
             .expect("a dump that did not overflow must parse whole");
 
-        // ── THE CONTROL FOR THE DISCRIMINATOR ITSELF ─────────────────────
-        // A genuine clean prefix of that control, cut immediately after the
-        // root's `"children":[` — an unambiguous mid-document point. serde_json
-        // must call this `Eof`: it ran out of input, it met nothing illegal.
-        let cut = control.find(CHILDREN).expect("root carries a children array") + CHILDREN.len();
-        let clean_prefix = &control[..cut];
-        let prefix_err = serde_json::from_str::<serde_json::Value>(clean_prefix)
-            .expect_err("a cut document cannot parse");
-        assert_eq!(
-            prefix_err.classify(),
-            serde_json::error::Category::Eof,
-            "a CLEAN prefix must classify as Eof, or Syntax below proves nothing; got {prefix_err}"
-        );
-
         // ── THE CONTRACT ─────────────────────────────────────────────────
-        // 1. What a consumer that parses BEFORE checking the suffix meets.
+        // What a consumer that parses BEFORE checking the suffix meets.
+        //
+        // IT IS WORTH STATING EVEN THOUGH THE SUFFIX ASSERTION ABOVE IMPLIES
+        // IT TODAY, and the implication is worth knowing rather than leaning
+        // on: no JSON document can END with `,"truncated":true`, so with those
+        // exact bytes as the tail a parse failure is guaranteed and no narrow
+        // mutation can red this line alone. What it does catch is a REDESIGN
+        // of the sentinel — a tail that closes the document (`…,"truncated":
+        // true}`) would let a flooded dump parse as a complete tree, and the
+        // suffix assertion above would be edited in the same breath to match
+        // the new bytes while this one still refuses.
         assert!(
             serde_json::from_str::<serde_json::Value>(&dump).is_err(),
             "a truncated dump must NOT parse — the suffix check comes first"
-        );
-        // 2. And stripping the sentinel does not hand back a clean prefix
-        //    either: the body is illegal on its own terms.
-        let body = &dump[..dump.len() - SENTINEL.len()];
-        let body_err = serde_json::from_str::<serde_json::Value>(body)
-            .expect_err("the sentinel-stripped body cannot parse either");
-        assert_eq!(
-            body_err.classify(),
-            serde_json::error::Category::Syntax,
-            "the truncated body must be ILLEGAL, not merely incomplete — \
-             an Eof verdict would mean the dump had become a clean prefix, \
-             which would retire the parse-after-suffix rule. \
-             serde said: {body_err} (body is {} bytes)",
-            body.len()
         );
     }
 }
