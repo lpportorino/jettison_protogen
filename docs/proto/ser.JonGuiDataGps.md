@@ -98,6 +98,13 @@ Altitude in meters above sea level
 Longitude in decimal degrees
 
 
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** °
+- **Precision:** 6
+
+
 ### manual_latitude (#5)
 
 Latitude in decimal degrees
@@ -106,6 +113,8 @@ Latitude in decimal degrees
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
+- **Unit:** °
+- **Precision:** 6
 
 
 ### manual_altitude (#6)
@@ -116,6 +125,8 @@ Altitude in meters above sea level
 #### Metadata
 
 - **Semantic Type:** :distance
+- **Unit:** m
+- **Precision:** 2
 
 
 ### fix_type (#7)
