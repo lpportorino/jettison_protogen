@@ -256,20 +256,27 @@
    The rule is written, registers cleanly, and is reachable: it requires only
    `:nodes`, which `card-findings` derives for every card already, so arming
    it is a one-token edit to this vector plus its threshold below. What stops
-   it is the population, and specifically ONE class.
+   it is the population, and specifically the classes whose ext-draw
+   reservation no resolved style explains.
 
    Over the shipped corpus the rule reports ONE `:paint-crowding` and several
    dozen `:unmeasurable-paint-extent`, and the second population is what
-   blocks arming: `lv_scale` is on one side of EVERY unresolved PAIR. That
-   class asks LVGL for a blanket 100px ext draw size (a bare literal in
-   lv_scale.c, commented \"so the first tick label can be shown\"), so
-   `dump_obj` can only publish a bound, and a 100px bound is not clear of
-   anything on a 800x480 canvas. The finding is HONEST — a scale's box is a
-   few pixels wide while it really does draw ticks and labels outside it, so
-   whether those crowd their neighbours is genuinely unknown here — but it is
-   a property of the INSTRUMENT rather than of any card, it would fire on
-   every gauge card forever, and blocking on it buys per-card exemptions: the
-   ratchet CLAUDE.md refuses.
+   blocks arming: `dump_obj` can publish only a BOUND for a node whose widget
+   CLASS reserves more ext draw size than its resolved styles explain, and a
+   bound is sound for proving a NEGATIVE and unsound for asserting one.
+   `lv_scale` dominates that population — it asks LVGL for a blanket 100px ext
+   draw size (a bare literal in lv_scale.c, commented \"so the first tick label
+   can be shown\"), and a 100px bound is not clear of anything on a 800x480
+   canvas — but it is NOT the whole of it, and this sentence said `lv_scale`
+   was on one side of EVERY unresolved PAIR until the slider-against-label
+   pairs recorded below refuted it in the same run: `lv_label` reserves
+   `font_h / 4` for italic overhang, which no style explains either, so a
+   slider against a label is unresolved with no scale in sight. The finding is
+   HONEST — a scale's box is a few pixels wide while it really does draw ticks
+   and labels outside it, so whether those crowd their neighbours is genuinely
+   unknown here — but it is a property of the INSTRUMENT rather than of any
+   card, it would fire on every gauge card forever, and blocking on it buys
+   per-card exemptions: the ratchet CLAUDE.md refuses.
 
    THIS PARAGRAPH USED TO SAY THE RULE REPORTS ZERO `:paint-crowding` AND THAT
    EVERY UNMEASURABLE FINDING NAMES AN `lv_scale`, and the overflow-padding
@@ -284,10 +291,20 @@
    population went down; the two move independently and quoting either as
    \"the unmeasurable set\" without saying which is how this note went stale.
 
-   WHAT WOULD RETIRE THIS: an overflow-padding budget for `lv_scale` —
-   DECLARED per class and part with its arithmetic, since no resolved style
-   explains a literal 100 — at which point those pairs resolve and arming
-   costs nothing. Note the direction: the blocker is a missing BUDGET, never a
+   WHAT WOULD RETIRE THIS: an EXACT paint extent for every class in that
+   population — which is two classes here, so a condition naming `lv_scale`
+   alone retires only part of it. For `lv_scale` a DECLARED overflow-padding
+   entry does the whole job (per class and part with its arithmetic, since no
+   resolved style explains a literal 100): that class's reservation IS where
+   it paints, so the declared entry carries §7.4b's is-this-also-the-extent
+   bit and `dump_paint_extent` resolves the extent from the budget exactly as
+   it already does for a computed one. For `lv_label` it does NOT, and that is
+   the half worth stating: §7.4b refuses a MARGIN-shaped entry that inference
+   — `font_h / 4` is a safety margin the glyphs usually do not use — so the
+   label keeps its bound; and that bound is ALREADY `coords` grown by the same
+   `font_h / 4`, so a declared entry moves neither `claim-box` (the union of
+   paint and budget) nor the exactness bit, and those pairs stay exactly where
+   they are. Note the direction: the blocker is a missing EXTENT, never a
    threshold, and no value of `gap-px` moves it (measured at 1, 2, 3, 4, 6 and
    8; the unmeasurable count is flat from 1 to 3 and rises only because a
    larger threshold admits more pairs, never because the bound shrinks).
