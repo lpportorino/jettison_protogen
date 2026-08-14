@@ -29,7 +29,7 @@ Initiates transport/shipping mode by commanding all system components (rotary pl
 
 ### Purpose
 
-Enter transport/storage mode - safely prepares system for transport
+Enters transport/storage mode, safely preparing the system for transport
 
 
 ### Related State

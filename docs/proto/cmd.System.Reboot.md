@@ -29,7 +29,7 @@ Restarts the system after gracefully shutting down services, allowing users to r
 
 ### Purpose
 
-Reboot the entire system
+Reboots the entire system
 
 
 

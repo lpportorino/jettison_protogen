@@ -29,7 +29,7 @@ Resets all device configurations to their default values. The command prompts fo
 
 ### Purpose
 
-Reset all system configurations to defaults
+Resets all system configurations to defaults
 
 
 ### Related State
