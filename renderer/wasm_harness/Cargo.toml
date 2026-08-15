@@ -30,10 +30,17 @@ json-patch = "4.2.0"
 
 # R5b cmd-out: decode the OPAQUE cmd.* bytes captured from host_command (the
 # generated prost bindings in protogen/output/rust/ are included by
-# wasm_harness/src/proto.rs and derive ::prost::Message). prost-types pulls the
-# well-known-type support those bindings reference.
+# wasm_harness/src/proto.rs and derive ::prost::Message).
+#
+# There is deliberately NO prost-types here. It was carried for years on the
+# claim that the generated bindings referenced well-known-type support, and
+# that claim was never true: nothing under output/rust/ mentions prost_types
+# (`grep -rl prost_types output/rust/` -> 0 files, against 22 for `::prost::`
+# as the control), and no `.proto` in this tree imports a google.protobuf
+# well-known type. cargo-machete flagged it correctly. If a WKT (Timestamp,
+# Duration, Any, Struct) is ever added to a proto, prost will generate
+# `::prost_types::` paths and the dependency comes back with it.
 prost = "0.13"
-prost-types = "0.13"
 
 [dev-dependencies]
 serde_json = "1.0.150"
