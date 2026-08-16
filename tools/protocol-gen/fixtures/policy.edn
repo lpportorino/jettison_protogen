@@ -1,0 +1,32 @@
+;; The fixture ACCESS POLICY: which messages and fields each group may see and
+;; send.
+;;
+;; The two groups are deliberately asymmetric, because the canary's assertions
+;; are about the DIFFERENCE between them:
+;;
+;;   * `sensor-reader` gets three of `pgfix.Reading`'s six fields. The other
+;;     three must be absent from its schema — that absence is what "a group's
+;;     decoder cannot express what it was not granted" means, and dropping a
+;;     grant is one of the mutations the canary drives.
+;;   * `commander` gets the command tree whole, including the locally-minted
+;;     heartbeat, so one emitted file carries both a descriptor-numbered
+;;     message and a registry-numbered one.
+;;
+;; `pgfix.Secret` is granted to NEITHER, and appears in neither emitted file.
+{:version 1
+ :groups
+ [{:id :sensor-reader
+   :package "pgfix.sensor"
+   :grants [{:message "pgfix.Reading"
+             :access #{:read}
+             :fields #{"value" "mode" "history"}}]
+   :enums ["pgfix.Mode"]}
+
+  {:id :commander
+   :package "pgfix.commander"
+   :grants [{:message "pgfix.Command" :access #{:write} :fields :all}
+            {:message "pgfix.Start" :access #{:write} :fields :all}
+            {:message "pgfix.Stop" :access #{:write} :fields :all}
+            {:message "pgfix.SetMode" :access #{:write} :fields :all}
+            {:message "pgfix.Heartbeat" :access #{:write} :fields :all}]
+   :enums ["pgfix.Mode"]}]}

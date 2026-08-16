@@ -94,18 +94,15 @@
       (finally (io/delete-file f true)))))
 
 (deftest emission-is-blocked-on-a-number-with-no-provenance
-  (let [ok {"grp.M" {:id "grp.M" :name "M"
-                     :fields [{:number 1 :name "a" :type :int32
-                               :number-source :descriptor}]}}]
+  (let [ok [{:id "grp.M" :fields [{:number 1 :name "a" :type :int32
+                                   :number-source :descriptor}]}]]
     (is (= ok (numbering/assert-stamped! ok)))
     (is (thrown-with-msg?
          clojure.lang.ExceptionInfo #"Field number has no recorded provenance"
          (numbering/assert-stamped!
-          {"grp.M" {:id "grp.M" :name "M"
-                    :fields [{:number 1 :name "a" :type :int32}]}})))
+          [{:id "grp.M" :fields [{:number 1 :name "a" :type :int32}]}])))
     (is (thrown-with-msg?
          clojure.lang.ExceptionInfo #"Field number has no recorded provenance"
          (numbering/assert-stamped!
-          {"grp.M" {:id "grp.M" :name "M"
-                    :fields [{:number 1 :name "a" :type :int32
-                              :number-source :invented}]}})))))
+          [{:id "grp.M" :fields [{:number 1 :name "a" :type :int32
+                                  :number-source :invented}]}])))))

@@ -1,0 +1,64 @@
+// Fixture protos for the protocol generator's canary. THIS REPOSITORY OWNS
+// THIS FILE and it describes nothing real: the names are deliberately generic
+// and the shapes exist to exercise the generator, not to model a device.
+//
+// IT IS NOT AN INPUT TO ANY SHIPPED GENERATION LEG. Generation walks the proto
+// source tree at the repository root; this file lives inside the tool's own
+// directory, so no binding is produced from it and nothing here reaches a
+// published binding repository.
+//
+// THE FIELD NUMBERS ARE DELIBERATELY NON-CONTIGUOUS AND DO NOT START AT 1.
+// That is the whole point of the fixture. A generator that numbered fields by
+// their position in the emitted set would produce 1, 2, 3 … here and every
+// projection of it would still be internally consistent — so a fixture
+// numbered 1..n in order could not tell the two apart, and this one can.
+syntax = "proto3";
+
+package pgfix;
+
+import "buf/validate/validate.proto";
+
+enum Mode {
+  MODE_UNSPECIFIED = 0;
+  MODE_IDLE = 1;
+  MODE_ACTIVE = 7;
+}
+
+message Reading {
+  double value = 3 [(buf.validate.field).double = {
+    gte: -1,
+    lte: 1
+  }];
+  uint32 sample_count = 9 [(buf.validate.field).uint32 = {gte: 1}];
+  string label = 11 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 16
+  }];
+  Mode mode = 14 [(buf.validate.field).enum = {defined_only: true}];
+  bool stale = 20;
+  repeated int32 history = 25 [(buf.validate.field).repeated = {max_items: 8}];
+}
+
+message Command {
+  oneof action {
+    option (buf.validate.oneof).required = true;
+    Start start = 2;
+    Stop stop = 5;
+    SetMode set_mode = 8;
+  }
+}
+
+message Start {}
+
+message Stop {}
+
+message SetMode {
+  Mode mode = 4 [(buf.validate.field).enum = {defined_only: true}];
+}
+
+// Granted to NO group. Its absence from every emitted schema is what the
+// projection property means: a group's decoder cannot express what the policy
+// did not grant, because the schema does not name it.
+message Secret {
+  string token = 1;
+}

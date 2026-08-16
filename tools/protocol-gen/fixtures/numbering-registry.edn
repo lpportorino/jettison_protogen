@@ -1,0 +1,11 @@
+;; The assign-once FIELD-number registry for the minted messages.
+;;
+;; APPEND-ONLY, AND A PIN IS PERMANENT. An entry here is a wire contract: it
+;; survives the field being deleted, precisely so the number can never be
+;; handed to a different field later. Deleting a pin frees a number for reuse,
+;; which is the one edit that can break a peer that is already deployed.
+;;
+;; Grown by `protocol-gen reconcile`, never by generating — a generator that
+;; could grow its own registry would assign a number as a side effect of being
+;; run.
+{"pgfix.Heartbeat" {"seq" 1, "sent_at_ns" 2}}

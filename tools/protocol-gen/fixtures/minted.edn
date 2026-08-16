@@ -1,0 +1,11 @@
+;; LOCALLY-MINTED messages: shapes this generator declares itself, which no
+;; descriptor database carries.
+;;
+;; A MINT DECLARES NO FIELD NUMBER, AND THE SCHEMA HAS NO KEY FOR ONE. That is
+;; what leaves `numbering-registry.edn` as the only possible source of a number
+;; — the generator refuses to run against an unpinned field rather than
+;; inventing one, so a number here cannot move because a policy changed.
+{"pgfix.Heartbeat"
+ {:name "Heartbeat"
+  :fields [{:name "seq" :type :uint32 :constraints {:gte 1}}
+           {:name "sent_at_ns" :type :uint64}]}}

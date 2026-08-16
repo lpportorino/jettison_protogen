@@ -1,0 +1,71 @@
+;; The fixture DESCRIPTOR DATABASE — the generator's input side, in the shape
+;; this repository's proto-documentation tooling emits.
+;;
+;; IT IS HAND-WRITTEN AND THAT IS A LIABILITY, so it is not left on trust: the
+;; canary compiles `fixtures/proto/fixture_core.proto` with protoc and asserts
+;; this file agrees with the resulting descriptor, message by message and field
+;; by field, numbers and types and constraints included. A fixture that had
+;; drifted from the proto it claims to describe would make every later
+;; assertion a statement about nothing.
+;;
+;; WHY NOT DERIVE IT INSTEAD. Deriving it would mean running the parser that
+;; owns the real database, which is a tree this tool consumes and does not
+;; touch. Comparing against protoc's own descriptor gets the same guarantee
+;; from the other direction and couples this tool to nothing.
+{:messages
+ {"pgfix.Reading"
+  {:id "pgfix.Reading"
+   :name "Reading"
+   :package "pgfix"
+   :source "fixture_core.proto"
+   :fields [{:number 3 :name "value" :type :double :constraints {:gte -1 :lte 1}}
+            {:number 9 :name "sample_count" :type :uint32 :constraints {:gte 1}}
+            {:number 11 :name "label" :type :string :constraints {:min-len 1 :max-len 16}}
+            {:number 14 :name "mode" :type :enum :type-ref "pgfix.Mode"
+             :constraints {:defined-only true}}
+            {:number 20 :name "stale" :type :bool}
+            {:number 25 :name "history" :type :int32 :repeated true
+             :constraints {:max-items 8}}]}
+
+  "pgfix.Command"
+  {:id "pgfix.Command"
+   :name "Command"
+   :package "pgfix"
+   :source "fixture_core.proto"
+   :fields [{:number 2 :name "start" :type :message :type-ref "pgfix.Start"}
+            {:number 5 :name "stop" :type :message :type-ref "pgfix.Stop"}
+            {:number 8 :name "set_mode" :type :message :type-ref "pgfix.SetMode"}]
+   :oneofs [{:name "action" :required true :fields [2 5 8]}]}
+
+  "pgfix.Start"
+  {:id "pgfix.Start" :name "Start" :package "pgfix" :source "fixture_core.proto"
+   :fields []}
+
+  "pgfix.Stop"
+  {:id "pgfix.Stop" :name "Stop" :package "pgfix" :source "fixture_core.proto"
+   :fields []}
+
+  "pgfix.SetMode"
+  {:id "pgfix.SetMode"
+   :name "SetMode"
+   :package "pgfix"
+   :source "fixture_core.proto"
+   :fields [{:number 4 :name "mode" :type :enum :type-ref "pgfix.Mode"
+             :constraints {:defined-only true}}]}
+
+  "pgfix.Secret"
+  {:id "pgfix.Secret"
+   :name "Secret"
+   :package "pgfix"
+   :source "fixture_core.proto"
+   :fields [{:number 1 :name "token" :type :string}]}}
+
+ :enums
+ {"pgfix.Mode"
+  {:id "pgfix.Mode"
+   :name "Mode"
+   :package "pgfix"
+   :source "fixture_core.proto"
+   :values [{:number 0 :name "MODE_UNSPECIFIED"}
+            {:number 1 :name "MODE_IDLE"}
+            {:number 7 :name "MODE_ACTIVE"}]}}}

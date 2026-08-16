@@ -89,6 +89,24 @@
    [:subject [:string {:min 1}]]
    [:detail [:string {:min 1}]]])
 
+(defn refuse!
+  "Throw a refusal carrying `reason` from the closed set above, naming its
+   `subject` and why.
+
+   ONE THROW SITE FOR EVERY PASS, so a caller catching a refusal sees one
+   shape and a canary can attribute a red to a clause by its reason. It lives
+   here rather than beside any one pass because this namespace owns the reason
+   set, and a second copy of the thrower is how two passes end up reporting the
+   same defect two different ways."
+  [reason subject detail]
+  (throw (ex-info (str "protocol-gen refuses: " (name reason))
+                  {:reason reason :subject subject :detail detail})))
+
+(m/=> refuse!
+      [:=> [:cat (into [:enum] (sort refusal-reasons)) [:string {:min 1}]
+            [:string {:min 1}]]
+       :nil])
+
 (defn reserved-number?
   "True when `n` falls in the range protoc reserves for the implementation."
   [n]

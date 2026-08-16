@@ -211,9 +211,16 @@
       [:=> [:cat registry-schema mints-schema]
        [:map-of db/proto-qualified-name db/message]])
 
+(def numbered-message
+  "The shape `assert-stamped!` judges: anything carrying an id and fields. It
+   deliberately does not name a fuller message schema, because both a projected
+   message and a freshly-stamped mint pass through here and they carry
+   different surrounding keys."
+  [:map [:id db/proto-qualified-name] [:fields [:vector db/field]]])
+
 (defn assert-stamped!
   "Throw unless every field of every message in `messages` carries a number AND
-   says where it came from.
+   says where it came from; return `messages` unchanged.
 
    THE LAST GUARD BEFORE EMISSION, and it exists because the emitter cannot
    defend itself: it reads `:number` and has no way to tell a descriptor's
@@ -221,19 +228,18 @@
    value rather than an assumption, and this is where the assumption is
    checked."
   [messages]
-  (doseq [[msg-id msg] messages
+  (doseq [msg messages
           fld (:fields msg)]
     (when-not (contains? #{:descriptor :registry} (:number-source fld))
       (throw (ex-info "Field number has no recorded provenance"
-                      {:message msg-id
+                      {:message (:id msg)
                        :field (:name fld)
                        :number-source (:number-source fld)
                        :legal #{:descriptor :registry}})))
     (when-not (int? (:number fld))
       (throw (ex-info "Field reached emission with no number"
-                      {:message msg-id :field (:name fld)}))))
+                      {:message (:id msg) :field (:name fld)}))))
   messages)
 
 (m/=> assert-stamped!
-      [:=> [:cat [:map-of db/proto-qualified-name db/message]]
-       [:map-of db/proto-qualified-name db/message]])
+      [:=> [:cat [:sequential numbered-message]] [:sequential numbered-message]])

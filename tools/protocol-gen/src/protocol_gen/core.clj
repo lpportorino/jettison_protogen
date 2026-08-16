@@ -9,6 +9,12 @@
        fact about the corpus and becomes a failure only when a policy grants
        the thing that carries it.
 
+     generate --db <path> --minted <path> --registry <path> --policy <path>
+              --out <dir>
+       Emit one `.proto` per group PLUS the permission mirror, both derived
+       from the same projection in the same run so the two cannot disagree.
+       Every path is named; nothing is defaulted.
+
      reconcile --minted <path> --registry <path>
        Grow the assign-once field-number registry to cover every declared mint,
        and write it back. DELIBERATELY SEPARATE FROM GENERATING: a generator
@@ -22,11 +28,18 @@
    rather than being ignored, and no path has a default: a generator that
    invents a destination writes somewhere nobody checked, and a generator that
    invents an input reads something nobody chose."
-  (:require [clojure.pprint :as pp]
+  (:require [clojure.java.io :as io]
+            [clojure.pprint :as pp]
             [malli.core :as m]
+            [protocol-gen.constraints :as constraints]
             [protocol-gen.constructs :as constructs]
             [protocol-gen.db :as db]
-            [protocol-gen.numbering :as numbering]))
+            [protocol-gen.emit :as emit]
+            [protocol-gen.mirror :as mirror]
+            [protocol-gen.numbering :as numbering]
+            [protocol-gen.policy :as policy]
+            [protocol-gen.projection :as projection]
+            [protocol-gen.render :as render]))
 
 (set! *warn-on-reflection* true)
 
@@ -35,7 +48,9 @@
    absent from this map is a usage error, never a silently ignored argument."
   {"--db" :db
    "--minted" :minted
-   "--registry" :registry})
+   "--registry" :registry
+   "--policy" :policy
+   "--out" :out})
 
 (defn parse-args
   "Parse `args` into a flag map. Throws on an odd argument count, on an unknown
@@ -103,10 +118,57 @@
 
 (m/=> reconcile! [:=> [:cat [:map-of :keyword [:string {:min 1}]]] :nil])
 
+(defn- write-group!
+  "Emit one group's `.proto` into `out-dir`, and return the projected group so
+   the mirror is built from the same value that produced the text.
+
+   IMPORTS ARE DERIVED FROM THE RENDERED FILE, not predicted from the policy: a
+   file that emits no annotation must not import the validation proto, and an
+   unused import is not something protoc reports."
+  [out-dir g]
+  (let [bare (render/render-group g constraints/field-options [])
+        annotated? (boolean (some (comp seq :options) (mapcat :fields (:messages bare))))
+        file (assoc bare :imports (constraints/imports-for annotated?))
+        path (str out-dir "/" (name (:id g)) ".proto")]
+    (io/make-parents path)
+    (spit path (emit/file->proto file))
+    (println (str "protocol-gen: " path " — "
+                  (count (:messages file)) " message(s), "
+                  (count (:enums file)) " enum(s), "
+                  (reduce + 0 (map (comp count :fields) (:messages file))) " field(s)"))
+    g))
+
+(defn generate!
+  "Project the database and the minted messages through the policy, then emit
+   one `.proto` per group and one permission mirror beside them.
+
+   THE ORDER IS THE CONTRACT. Mints are numbered from the registry FIRST, so a
+   run against an incomplete registry dies before it writes anything; the
+   projection then refuses anything it cannot emit truthfully; only then does
+   any file appear. A generator that wrote as it went would leave a partial
+   output set behind on a refusal, and a partial set is indistinguishable from
+   a policy that granted less."
+  [opts]
+  (let [database (db/load-database (require-flag opts :db "--db"))
+        mints (numbering/load-mints (require-flag opts :minted "--minted"))
+        registry (numbering/load-registry (require-flag opts :registry "--registry"))
+        p (policy/load-policy (require-flag opts :policy "--policy"))
+        out-dir (require-flag opts :out "--out")
+        groups (projection/project database (numbering/apply-numbering registry mints) p)
+        mirror-path (str out-dir "/permissions.edn")]
+    (run! #(write-group! out-dir %) groups)
+    (io/make-parents mirror-path)
+    (spit mirror-path (with-out-str (pp/pprint (mirror/mirror groups))))
+    (println (str "protocol-gen: " mirror-path " — " (count groups) " group(s)")))
+  nil)
+
+(m/=> generate! [:=> [:cat [:map-of :keyword [:string {:min 1}]]] :nil])
+
 (def ^:private subcommands
   "Subcommand name -> handler. Closed for the same reason the flag map is."
   {"survey" survey!
-   "reconcile" reconcile!})
+   "reconcile" reconcile!
+   "generate" generate!})
 
 (defn -main
   "Dispatch on the first argument; anything unrecognised is a usage error."
