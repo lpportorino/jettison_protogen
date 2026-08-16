@@ -492,8 +492,24 @@ static int rebuild_ui(void) {
  * montserrat_16 (lv_demo_widgets_components.c), and the theme font
  * feeds class-dispatched metrics (the checkbox marker, screen-level
  * text) — the demo-parity differential needs both builds on the same
- * theme font. Widget text otherwise gets explicit fonts from the
- * codegen pipeline. */
+ * theme font.
+ *
+ * THAT SENTENCE USED TO END "widget text otherwise gets explicit fonts
+ * from the codegen pipeline", which is false and hid the mechanism.
+ * PROP_TEXT_FONT is OPTIONAL and apply_style_property (renderer.c)
+ * applies only the properties a node actually carries, so authored
+ * screens do ship glyph-bearing widgets with no face at all — the
+ * dropdown, roller and textarea on the coverage card of
+ * renderer/edn/screens/kitchen_sink.edn carry sizing classes and
+ * nothing else.
+ *
+ * Such a node does NOT fall through to LV_FONT_DEFAULT.
+ * LV_STYLE_TEXT_FONT is INHERITABLE (the builtin prop-flag table in
+ * lv_style.c) and lv_theme_default puts font_normal on the SCREEN, so
+ * the ancestor walk in lv_obj_style.c finds the pin set HERE and the
+ * glyphs are drawn in the THEME's face. LV_FONT_DEFAULT is only what
+ * lv_style_prop_get_default returns, i.e. it is reached outside the
+ * object style cascade rather than at the end of it. */
 static void apply_default_theme(void) {
   if (!display)
     return;
