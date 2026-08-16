@@ -85,7 +85,7 @@ Altitude in meters above sea level
 #### Metadata
 
 - **Semantic Type:** :distance
-- **Unit:** meters
+- **Unit:** m
 - **Precision:** 1
 
 

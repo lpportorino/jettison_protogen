@@ -63,7 +63,7 @@ Monotonic timestamp in microseconds
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** microseconds
+- **Unit:** μs
 
 
 ### target_longitude (#2)
@@ -96,7 +96,7 @@ Altitude in meters above sea level
 #### Metadata
 
 - **Semantic Type:** :distance
-- **Unit:** meters
+- **Unit:** m
 
 
 ### target_azimuth (#5)
@@ -129,7 +129,7 @@ Distance to target in meters
 #### Metadata
 
 - **Semantic Type:** :distance
-- **Unit:** meters
+- **Unit:** m
 
 
 ### uuid_part1 (#8)

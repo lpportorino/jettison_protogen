@@ -56,7 +56,7 @@ Monotonic timestamp in microseconds
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** microseconds
+- **Unit:** μs
 - **Display Format:** `ISO 8601 datetime`
 
 
@@ -68,7 +68,7 @@ Monotonic timestamp in microseconds
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** microseconds
+- **Unit:** μs
 - **Display Format:** `ISO 8601 datetime`
 
 

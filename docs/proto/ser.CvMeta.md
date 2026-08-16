@@ -58,7 +58,7 @@ Correlation timestamp taken from `CLOCK_MONOTONIC` at the moment the native libr
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** us
+- **Unit:** μs
 
 
 ### updated_sources (#2)

@@ -93,7 +93,7 @@ Correlation timestamp from `CLOCK_MONOTONIC` in microseconds. Follows the same p
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** us
+- **Unit:** μs
 - **Precision:** 0
 
 

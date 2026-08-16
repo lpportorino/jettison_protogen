@@ -94,7 +94,7 @@ Frame timestamp for synchronization
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** nanoseconds
+- **Unit:** ns
 
 
 ### state_time (#5)
@@ -105,7 +105,7 @@ State snapshot timestamp for synchronization
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** nanoseconds
+- **Unit:** ns
 
 
 

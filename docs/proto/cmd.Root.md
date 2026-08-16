@@ -119,7 +119,7 @@ Frame timestamp for synchronization
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** nanoseconds
+- **Unit:** ns
 
 
 ### frame_time_heat (#7)
@@ -130,7 +130,7 @@ Frame timestamp for synchronization
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** nanoseconds
+- **Unit:** ns
 
 
 ### state_time (#8)
@@ -141,7 +141,7 @@ State snapshot timestamp for synchronization
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** nanoseconds
+- **Unit:** ns
 
 
 ### client_time_ms (#9)
@@ -152,7 +152,7 @@ Client-side timestamp in milliseconds
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** milliseconds
+- **Unit:** ms
 
 
 ### opaque_payloads (#11)

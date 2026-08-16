@@ -293,6 +293,66 @@
   (testing "Invalid semantic type fails"
     (is (not (schema/valid? schema/SemanticType :unknown-type)))))
 
+;; The vocabulary this guards is CLOSED, so the interesting assertions are the
+;; REFUSALS. Every retired spelling below was live in the corpus, so each `not`
+;; here is the regression guard that stops the enum being widened back to admit
+;; it — the failure a bare `:string` could not produce and nothing else can.
+(def ^:private unit-members
+  "Every member `schema/Unit` accepts, read from the schema rather than retyped."
+  (into #{} (rest schema/Unit)))
+
+(deftest unit-schema-test
+  ;; NON-VACUITY FLOOR. Every assertion below that walks the member set would
+  ;; pass over an EMPTY enum, and an empty enum accepts nothing — the pass value
+  ;; and the nothing-to-check value are the same. Floor the population first.
+  (testing "The vocabulary is populated"
+    (is (< 10 (count unit-members))))
+
+  (testing "Every declared member validates"
+    (doseq [u unit-members]
+      (is (schema/valid? schema/Unit u) (str "member rejected by its own enum: " u))))
+
+  (testing "Spellings this vocabulary keeps"
+    (is (schema/valid? schema/Unit "°"))
+    (is (schema/valid? schema/Unit "ns"))
+    (is (schema/valid? schema/Unit "μs"))
+    (is (schema/valid? schema/Unit "m"))
+    (is (schema/valid? schema/Unit "index"))
+    (is (schema/valid? schema/Unit "NDC")))
+
+  ;; THE RED. Each of these was a live spelling of a quantity the vocabulary
+  ;; already names, and each is now unrepresentable.
+  (testing "Retired spellings are refused"
+    (is (not (schema/valid? schema/Unit "nanoseconds")))
+    (is (not (schema/valid? schema/Unit "microseconds")))
+    (is (not (schema/valid? schema/Unit "us")))
+    (is (not (schema/valid? schema/Unit "milliseconds")))
+    (is (not (schema/valid? schema/Unit "meters")))
+    (is (not (schema/valid? schema/Unit "table index"))))
+
+  ;; U+00B5 MICRO SIGN renders identically to the U+03BC GREEK SMALL LETTER MU
+  ;; the vocabulary uses, so this is the near-miss no reader can see. As a bare
+  ;; string it would have entered the corpus and the manifests silently.
+  (testing "The micro-sign homoglyph is refused"
+    (is (not (schema/valid? schema/Unit "µs")))
+    (is (schema/valid? schema/Unit "μs")))
+
+  (testing "An unknown spelling is refused"
+    (is (not (schema/valid? schema/Unit "furlongs"))))
+
+  ;; ATTRIBUTION. A FieldMeta carrying a bad unit must fail FOR THE UNIT, and
+  ;; the error must say so — a refusal reported against some other key would be
+  ;; the right colour from the wrong clause.
+  (testing "A bad unit fails FieldMeta naming :unit and nothing else"
+    (let [errors (schema/validate schema/FieldMeta
+                                  {:semantic-type :timestamp :unit "nanoseconds"})]
+      (is (some? errors))
+      (is (= [:unit] (keys errors)))))
+
+  (testing "The same FieldMeta with the canonical spelling is clean"
+    (is (nil? (schema/validate schema/FieldMeta
+                               {:semantic-type :timestamp :unit "ns"})))))
+
 (deftest field-meta-schema-test
   (testing "Valid field metadata"
     (is (schema/valid? schema/FieldMeta

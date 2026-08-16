@@ -135,7 +135,7 @@ Monotonic timestamp in microseconds
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** microseconds
+- **Unit:** μs
 
 
 

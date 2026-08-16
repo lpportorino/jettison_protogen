@@ -112,11 +112,57 @@
    :toggle-state        ; Boolean with on/off semantics
    :raw])               ; No transformation
 
+;; Display unit — the CLOSED spelling vocabulary for `:unit`.
+;;
+;; WHY CLOSED. This key names the label a consumer prints beside a value, so two
+;; spellings of one quantity are two labels on one screen. As a bare `:string`
+;; it drifted exactly that way, and nothing could see it: the per-field rule in
+;; `protodoc.lint` compares a field against ITSELF and the group rule fires only
+;; where the corpus can arbitrate its own split, so a quantity spelled two ways
+;; across fields that share neither a description nor a display-format was
+;; unreachable by both. An enum is reachable by construction — every spelling is
+;; judged, whether or not any other field agrees with it.
+;;
+;; ONE SPELLING PER QUANTITY, and the SURVIVOR IS THE ONE A READER SEES. That is
+;; this repository's own precedent rather than a rule invented here: the
+;; `meters` -> `m` hand-fix resolved toward what the field PRINTS, and the rules
+;; that followed it resolved `degrees` -> `°` and `pixels` -> `px` on the same
+;; ground. Counting occurrences is explicitly NOT the tie-breaker, and for the
+;; SI time family it gives the opposite answer — the full words outnumbered the
+;; symbols, while every display-format in that family printed a symbol.
+;;
+;; A QUANTITY WITH NO ACCEPTED SYMBOL KEEPS ITS WORD. `minutes` and `months` are
+;; a matched pair on the clock-stepping commands; `min` is an accepted symbol
+;; and `month` has none, so abbreviating half the pair would reintroduce the
+;; inconsistency this vocabulary exists to remove. They are single spellings of
+;; distinct quantities, which is all closing the type asks for.
+;;
+;; `μs` IS U+03BC GREEK SMALL LETTER MU, never U+00B5 MICRO SIGN. The two are
+;; visually identical and are DIFFERENT STRINGS, so an author who types the
+;; other one gets a rejection whose expected-value list looks like the value
+;; they just wrote. That confusion is the reason to close the type rather than
+;; an argument against it: as a bare string the wrong codepoint would have
+;; entered the corpus silently and reached every consumer of the manifests.
+(def Unit
+  [:enum
+   ;; Angle and temperature
+   "°" "°C"
+   ;; Dimensionless ratios and ordinals
+   "%" "normalized" "NDC" "x" "index"
+   ;; Length
+   "m"
+   ;; Time
+   "ns" "μs" "ms" "s" "minutes" "months"
+   ;; Electrical
+   "V" "A" "mA" "W" "mW"
+   ;; Imaging
+   "px" "fps"])
+
 ;; Field-level interaction metadata
 (def FieldMeta
   [:map
    [:semantic-type {:optional true} SemanticType]
-   [:unit {:optional true} :string]              ; "°", "%", "V", "A", "W", "°C", "m"
+   [:unit {:optional true} Unit]
    [:precision {:optional true} nat-int?]        ; Decimal places (0-6)
    [:display-format {:optional true} :string]    ; "{value * 100}%" or "{value}°"
    [:presets {:optional true} [:vector [:or number? :string]]]])  ; Includes "auto"

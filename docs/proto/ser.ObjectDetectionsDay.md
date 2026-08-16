@@ -91,7 +91,7 @@ Monotonic clock timestamp in microseconds (`CLOCK_MONOTONIC`) recording when the
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** us
+- **Unit:** μs
 - **Precision:** 0
 
 

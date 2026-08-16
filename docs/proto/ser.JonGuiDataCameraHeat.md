@@ -163,7 +163,7 @@ CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM i
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** us
+- **Unit:** μs
 
 
 ### delivered_fps (#17)

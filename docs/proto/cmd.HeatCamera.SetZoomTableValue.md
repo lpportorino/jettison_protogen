@@ -67,7 +67,7 @@ Zoom table position index (discrete zoom level)
 #### Metadata
 
 - **Semantic Type:** :count
-- **Unit:** table index
+- **Unit:** index
 - **Precision:** 0
 
 
