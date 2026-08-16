@@ -4,10 +4,18 @@ paths:
   - "renderer/**"
   - "renderer.mk"
   - "tools/renderer-gen/**"
-  # The determinism contract below enumerates FOUR homes of the pinned render
-  # protocol and only one (wasm_harness/src/lib.rs) was inside these globs. An
-  # all-or-none obligation that does not load where three of its four homes are
-  # edited is the exact shape of a silent partial change.
+  # The determinism contract below is an all-or-none obligation over the
+  # pinned render protocol, and a rule that does not load where a home of that
+  # protocol is edited is the exact shape of a silent partial change. The three
+  # entries under this comment were added to reach homes outside renderer/**.
+  #
+  # THEY ARE A REACH AND NOT A GUARANTEE, and this comment used to imply
+  # otherwise by naming FOUR homes as if that were the set. It is not: the
+  # section retired that list as INCOMPLETE and now DERIVES the homes, and at
+  # least the corpus spec, the conventions EDN and its generated JSON
+  # projection match no glob here. Nothing gates the correspondence between
+  # this list and that derivation, and widening it by enumeration would
+  # rebuild the drift-prone list the section deleted. Run the derivation.
   - "tools/devcards/src/devcards/core.clj"
   - "tools/devcards/src/devcards/host.clj"
   - "tools/devcards/goldens/**"
