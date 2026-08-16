@@ -1,0 +1,14 @@
+#kaocha/v1
+;; :kaocha.hooks/post-load ARMS malli `m/=>` instrumentation for the whole run.
+;;
+;; post-load, not pre-run and not pre-load: `m/=>` registers at LOAD time and
+;; `instrument!` covers only what is registered when it is called, so arming
+;; earlier instruments nothing while printing exactly what success prints.
+;; protocol-gen.instrument/arm! carries the argument, the non-vacuity floor and
+;; the proof that vars were measurably replaced; protocol-gen.instrument-test is
+;; its canary and names what to revert to break it.
+{:tests [{:id :unit :source-paths ["src"] :test-paths ["test"]}]
+ ;; The hooks PLUGIN is what reads :kaocha.hooks/* — without it the key is inert
+ ;; config and the seam never fires.
+ :plugins [:kaocha.plugin/hooks]
+ :kaocha.hooks/post-load [protocol-gen.instrument/arm!]}

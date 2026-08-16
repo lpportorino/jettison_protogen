@@ -1,0 +1,41 @@
+;; tools/protocol-gen — the protocol generator's own project file.
+;;
+;; THE GENERATOR ITSELF DEPENDS ON MALLI AND NOTHING ELSE. That is deliberate
+;; rather than incidental: its whole job is to turn EDN into `.proto` text, so
+;; a protobuf runtime on the generation path would be a dependency the output
+;; does not need and a second opinion about what the wire is.
+;;
+;; The protobuf runtime lives in the `:verify` alias instead, on a SEPARATE
+;; source root (`verify/`). That split is the point: the verifier reads a
+;; descriptor set protoc built from the emitted text and re-derives every field
+;; number from it, so it must share no code with the emitter — an oracle that
+;; imports the thing it judges can only ever agree with it.
+;;
+;; Quality-tool pins are NOT repeated here. The repository root `deps.edn` is
+;; their one home (`:fmt`, `:splint`, `:lint-gate`), and every lane is invoked
+;; from the root with an explicit path list.
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.5"}
+        metosin/malli {:mvn/version "0.20.1"}}
+ :aliases
+ {;; The generator CLI: policy + database -> per-group `.proto` + permission
+  ;; mirror. See `protocol-gen.core`'s docstring for the subcommands.
+  :run {:main-opts ["-m" "protocol-gen.core"]}
+
+  ;; The unit suite. Kaocha's `post-load` hook arms the `m/=>` specs
+  ;; (`protocol-gen.instrument`), so inside this suite a spec is a contract
+  ;; something checks rather than prose — see `.claude/rules/malli-schemas.md`
+  ;; for why an unarmed spec in this repository is worth nothing.
+  :test {:extra-paths ["test"]
+         :extra-deps {lambdaisland/kaocha {:mvn/version "1.91.1392"}}
+         :main-opts ["-m" "kaocha.runner"]}
+
+  ;; The INDEPENDENT oracle. protobuf-java parses the `FileDescriptorSet`
+  ;; protoc produced from the emitted text and re-derives the numbers from it.
+  ;; `:paths` still puts `src` on this classpath — an alias cannot subtract one
+  ;; — so independence is a property of what `verify/` REQUIRES, not of the
+  ;; classpath, and it is asserted rather than assumed: the canary greps the
+  ;; verifier for a `protocol-gen.` require and fails on one.
+  :verify {:extra-paths ["verify"]
+           :extra-deps {com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}}
+           :main-opts ["-m" "protocol-gen.verify"]}}}
