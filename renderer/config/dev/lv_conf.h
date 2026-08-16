@@ -80,9 +80,25 @@
  * dark flag tracks the theme_dark subject so bare containers and
  * built-in widget chrome flip with the theme, and the theme font is
  * pinned to Montserrat 16 (lv_demo_widgets' DISP_LARGE font_normal —
- * demo parity). LV_FONT_DEFAULT stays as Montserrat 14 for LVGL
- * internals; our widgets always get explicit font styles from the
- * codegen pipeline. */
+ * demo parity).
+ *
+ * LV_FONT_DEFAULT is left UNDEFINED here, so lv_conf_internal.h's
+ * Montserrat 14 stands. It is the LAST resort and not the usual one:
+ * the style system answers it for LV_STYLE_TEXT_FONT only when
+ * nothing in the ancestor chain set a face, and it is the pre-init
+ * value in lv_draw_label_dsc_init / lv_draw_letter_dsc_init and the
+ * return of lv_font_get_default(). A screen node does not land there
+ * while the theme above is installed: LV_STYLE_TEXT_FONT is
+ * inheritable and the default theme puts font_normal on the SCREEN,
+ * so a node carrying no face of its own renders in the THEME face.
+ *
+ * A per-node PROP_TEXT_FONT is therefore an EXPECTATION of whatever
+ * emitted the screen, never an invariant this tree enforces — the
+ * property is optional and the interpreter applies only the ones
+ * present (renderer.c). An omitted one is SILENT: the node renders in
+ * the inherited face, and dump_obj emits text_font only where the
+ * resolved face CHANGES, so nothing here distinguishes "inherited on
+ * purpose" from "the emitter forgot". */
 /* Built-in Montserrat fonts (fallbacks + the set lv_demo_widgets picks
  * across display sizes — the demo-parity oracle needs them identical
  * on both differential paths) */
