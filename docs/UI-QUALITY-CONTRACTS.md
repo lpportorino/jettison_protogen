@@ -1076,10 +1076,28 @@ The honest counter is that **scrims exist to preserve context, and an opaque
 modal loses it** — which is a real design cost, not a quibble.
 
 **Both arguments are recorded here precisely so that neither is adopted by
-default. This is an operator decision that has not been taken, and writing a
-rule down is how such a decision gets made by accident.** Until it is taken, a
-consumer stacking a translucent scrim over live text owes §2.2's audit and gets
-no verdict from this section.
+default, and this section adopts NEITHER.** A consumer stacking a translucent
+scrim over live text owes §2.2's audit and gets no verdict from here.
+
+**THIS PARAGRAPH USED TO READ "this is an operator decision that has not been
+taken", and that is no longer true.** It has been taken for this repository's
+own modal overlay: `:hud-scrim-opa` in `tools/renderer-gen/edn/tokens.edn` is
+`:full`, and the operator's behavioural argument is recorded in the comment
+above it — a modal must be confirmed or dismissed before anything else can be
+touched, so whatever stays visible behind it cannot be ACTED on, which leaves a
+translucent scrim buying only the chance to misread a stale readout as live.
+That ANSWERS the counter above rather than weighing it. Read the record at the
+token, not here: it also carries the defect that forced the value (the dark
+rung of `:surface-overlay` is the rung `:surface-0` takes, so blending them was
+the identity and the scrim was exactly invisible in dark at any opacity), and
+it is written to be inherited rather than rediscovered.
+
+**A THEME TOKEN IS NOT AN INVARIANT, which is why the heading still reads
+OPEN.** What was decided is one token's value in one theme. What is still
+undecided is whether *if you can read it, you should be able to touch it*
+becomes a clause every ui_ast surface is judged against — no lane implements
+it, no finding names it, and writing that rule down here would bind screens
+nobody has seen, which is the accident this section was built to avoid.
 
 ### 6.7 What the STATIC tier still owes
 

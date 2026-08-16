@@ -407,6 +407,13 @@
             ;; reach for the token should inherit the decision rather than
             ;; rediscover the invisible-in-dark defect — which would have
             ;; looked correct to anyone reviewing in light mode.
+            ;;
+            ;; IT IS A TOKEN VALUE AND NOT A STANDARD-LEVEL RULE, and the two
+            ;; read as one thing from here. docs/UI-QUALITY-CONTRACTS.md §6.6
+            ;; records this decision and still DECLINES to make "if you can
+            ;; read it, you should be able to touch it" an invariant every
+            ;; ui_ast surface is judged against — so nothing forbids a
+            ;; translucent scrim an authored screen puts up for itself.
             :hud-scrim-opa :full
             :hud-pressed-opa {:dark :light :light :medium}
             :border-width-bold :thick}}
