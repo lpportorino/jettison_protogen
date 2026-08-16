@@ -5,11 +5,11 @@ A containerized environment for generating protocol buffer bindings for multiple
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Kotlin, Python, TypeScript, Rust, Zig, and Java
-- **Buf.validate support**: Go, C++, Kotlin, Java, and TypeScript (validated) bindings include validation support
+- **Buf.validate annotations**: carried as field options in the Go, C++, Kotlin, Java and validated-TypeScript bindings, and in the JSON descriptor set. CARRYING them is not ENFORCING them — every language needs its own protovalidate library at run time, and a descriptor-driven one reads the descriptor set rather than the bindings
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Sequential generation**: All languages generated in a single GitHub Actions job
 - **Automatic distribution**: Generated code pushed to language-specific repositories
-- **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them
+- **Automatic cleanup**: strips buf.validate annotations before the legs whose CODEGEN cannot carry the extension — C, Python, standard TypeScript, Rust and Zig. That is a statement about those code generators, never about whether the language has a validation story
 - **CI/CD Integration**: Fully automated via GitHub Actions
 - **Cross-language wire contract**: [`docs/INTERFACE-CONTRACTS.md`](docs/INTERFACE-CONTRACTS.md) is the canonical byte-level wire contract (stream framing, codec/transport headers, the `cmd.*`/state/enrichment encoding, the `controls.tar`/`controls.wasm` ABI + golden vectors) the downstream ARM web + native clients implement — update it when a proto change touches those surfaces
 
@@ -147,6 +147,12 @@ output/
 ### Rust
 - Uses prost for Rust code generation
 - Creates proper Rust module structure
+- buf.validate annotations are stripped before this leg runs, like the other legs
+  whose code generator cannot carry the extension
+- Runtime validation requires a DESCRIPTOR-DRIVEN protovalidate library, which
+  decodes `output/json-descriptors/` reflectively rather than reading annotations
+  out of the generated code. Nothing is lost by the strip, and a separate
+  validated Rust output would carry nothing such a library reads
 
 ### Zig
 - Uses zig-protobuf (Arwalk/zig-protobuf) for Zig code generation

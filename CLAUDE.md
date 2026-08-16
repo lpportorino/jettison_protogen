@@ -682,6 +682,16 @@ that has the origin, not from the clone you are authoring in.
   `import "buf/validate/validate.proto"` added automatically. They are
   DECLARATIONS only — runtime enforcement needs the language's protovalidate
   library, which is neither in the image nor in the generated output.
+- **A STRIPPED LEG IS NOT AN UNSUPPORTED LANGUAGE.** Enforcement comes in two
+  shapes and conflating them is the misreading the bullet above invites.
+  ANNOTATION-CARRYING: the library reads the annotations out of the GENERATED
+  CODE, which is why the validated TypeScript output is a whole leg of its own
+  rather than a flag. DESCRIPTOR-DRIVEN: the library decodes the descriptor set
+  reflectively and needs nothing in the bindings at all. A language of the second
+  shape loses nothing to the strip, and a validated leg for it would carry
+  nothing it reads — so the absence of one is a consequence of the shape, never a
+  gap to fill. This is what `output/json-descriptors/` is for, and it is why that
+  leg preserves every constraint rather than being a convenience export.
 - **Kotlin uses local `protoc --kotlin_out`, not `buf`**, so its proto package
   is respected without a prefix.
 - **Go uses `buf generate` with LOCAL plugins** — `protoc-gen-go` and
