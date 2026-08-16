@@ -107,6 +107,16 @@
            ;; chaining)? Adjudicated by framebuffer identity, not by the
            ;; probe's own arithmetic. Exits non-zero on a mismatch.
            :opa-rail-probe {:extra-paths ["dev"] :main-opts ["-m" "opa-rail-probe"]}
+           ;; Read-only probe: can a committed golden tell a LIVE lv_spinner
+           ;; from a DEAD one? A golden is one frame at the pinned tick
+           ;; budget and `dump_obj` emits no animation phase, so the
+           ;; framebuffer is the only surface a stopped animation could
+           ;; appear on. Models `dead` by authoring a spin time longer than
+           ;; the schedule rather than by mutating the renderer, and sweeps
+           ;; both the tick budget and the authored spin time so a reader can
+           ;; tell a PROTOCOL-level blindness from an authoring-level one.
+           ;; Judges nothing.
+           :spinner-liveness {:extra-paths ["dev"] :main-opts ["-m" "spinner-liveness-probe"]}
            ;; The stimulus instrument for docs/VLM-READBACK-PROTOCOL.md: emits
            ;; the ANSWER KEY for a read-back calibration corpus (high-entropy
            ;; strings loaded with the cockpit confusable set) plus its exact
