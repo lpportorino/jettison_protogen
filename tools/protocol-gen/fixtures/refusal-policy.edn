@@ -1,0 +1,6 @@
+;; Grants the field whose type cannot be resolved. The generator must REFUSE
+;; this run, naming `unresolved-type-ref`.
+{:version 1
+ :groups [{:id :bad
+           :package "pgbad.g"
+           :grants [{:message "pgbad.Holder" :access #{:read} :fields #{"nested"}}]}]}

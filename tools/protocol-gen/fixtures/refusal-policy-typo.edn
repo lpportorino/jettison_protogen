@@ -1,0 +1,8 @@
+;; The NEIGHBOUR CONTROL for the refusal canary. It grants a field name the
+;; message does not carry, so a DIFFERENT clause refuses it — which is what
+;; proves that neutering the unresolved-reference clause damaged that clause and
+;; not the whole pass.
+{:version 1
+ :groups [{:id :bad
+           :package "pgbad.g"
+           :grants [{:message "pgbad.Holder" :access #{:read} :fields #{"nestedd"}}]}]}

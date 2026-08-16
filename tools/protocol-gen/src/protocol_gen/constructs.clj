@@ -21,6 +21,16 @@
       and is refused in `protocol-gen.projection`, with a reason from this same
       closed set so a caller reads one vocabulary.
 
+      THE TWO CLASSES OVERLAP ON THE GENERATION PATH, and knowing which way is
+      the difference between a proof and a plausible story. A reference that
+      resolves to nothing also names a type no policy could have granted, so
+      when the projection runs, BOTH would refuse the same input and class 1
+      wins only because it runs first. That is defence in depth working, and
+      the canary says so out loud rather than asserting a colour flip that
+      would prove nothing: attribution for class 1 is taken on the SURVEY path,
+      where no policy is in the picture and nothing else can refuse the same
+      input.
+
    3. NOT DETECTABLE AT ALL, because the database never carried the fact. These
       are the ones worth writing down, since no gate here can ever find them:
 

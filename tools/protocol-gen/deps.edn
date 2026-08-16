@@ -36,6 +36,11 @@
   ;; — so independence is a property of what `verify/` REQUIRES, not of the
   ;; classpath, and it is asserted rather than assumed: the canary greps the
   ;; verifier for a `protocol-gen.` require and fails on one.
+  ;;
+  ;; The JVM flag keeps the oracle's own output readable: protobuf-java reaches
+  ;; for sun.misc.Unsafe and the runtime warns about it on every start, four
+  ;; lines at a time, into the stream a canary reads its findings from.
   :verify {:extra-paths ["verify"]
            :extra-deps {com.google.protobuf/protobuf-java {:mvn/version "4.35.0"}}
+           :jvm-opts ["--sun-misc-unsafe-memory-access=allow"]
            :main-opts ["-m" "protocol-gen.verify"]}}}

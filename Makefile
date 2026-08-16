@@ -468,6 +468,25 @@ protocol-gen-survey: ## Enumerate what a descriptor database can and cannot be e
 	@cd $(PROTOCOL_GEN_DIR) && $(PROTOCOL_GEN_CLJ) -M:run survey \
 		--db $(if $(DB),$(DB),../../docs/.protodoc/proto-db.edn)
 
+.PHONY: protocol-gen-generate
+protocol-gen-generate: ## Emit the fixture groups into OUT (default: a temp dir)
+	@out=$(if $(OUT),$(OUT),$$(mktemp -d)); \
+		cd $(PROTOCOL_GEN_DIR) && $(PROTOCOL_GEN_CLJ) -M:run generate \
+			--db fixtures/db.edn --minted fixtures/minted.edn \
+			--registry fixtures/numbering-registry.edn --policy fixtures/policy.edn \
+			--out "$$out"
+
+# The canary. It needs protoc as well as clojure, and it HARD-FAILS when either
+# is absent rather than skipping — a suite that passed because its toolchain was
+# missing is the defect it exists to catch, wearing a green.
+#
+# protoc resolves the emitted files' validation import out of the COMMITTED
+# descriptor set, so this needs no network, no container and no vendored copy of
+# the validation schema.
+.PHONY: protocol-gen-canary
+protocol-gen-canary: ## Drive the generator over its fixtures and prove it can FAIL
+	@bash $(PROTOCOL_GEN_DIR)/canary/protocol_gen_canary.sh
+
 .PHONY: protocol-gen-check
-protocol-gen-check: protocol-gen-lint protocol-gen-test ## Every protocol-gen lane
+protocol-gen-check: protocol-gen-lint protocol-gen-test protocol-gen-canary ## Every protocol-gen lane
 	@printf "$(GREEN)protocol-gen: all lanes green$(NC)\n"

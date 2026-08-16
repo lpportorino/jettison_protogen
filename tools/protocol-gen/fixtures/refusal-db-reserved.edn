@@ -1,0 +1,15 @@
+;; The NEIGHBOUR CONTROL's input for the refusal canary: a field pinned inside
+;; the range protoc reserves for the protobuf implementation.
+;;
+;; It exists so that neutering the unresolvable-reference clause can be shown to
+;; have damaged THAT clause and not the refusal pass as a whole. A mutation that
+;; broke everything would otherwise satisfy the attribution case by breaking
+;; everything.
+{:messages
+ {"pgbad.Reserved"
+  {:id "pgbad.Reserved"
+   :name "Reserved"
+   :package "pgbad"
+   :source "none"
+   :fields [{:number 19000 :name "in_reserved_range" :type :bool}]}}
+ :enums {}}

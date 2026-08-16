@@ -1,0 +1,20 @@
+;; A descriptor database carrying a construct this generator CANNOT express, so
+;; the canary can prove the refusal fires rather than being approximated.
+;;
+;; `holder.nested` names an enum that is not in the database. That is not a
+;; contrived shape: the parser that produces a real database reads enums at FILE
+;; level only, so an enum declared INSIDE a message is dropped while the fields
+;; referring to it survive with a reference that resolves to nothing. A map
+;; field lands in the same place, because the entry message is dropped too.
+;;
+;; An emitter that guessed here would write a type name nothing declares, and
+;; the failure would surface at the consumer rather than at generation.
+{:messages
+ {"pgbad.Holder"
+  {:id "pgbad.Holder"
+   :name "Holder"
+   :package "pgbad"
+   :source "none"
+   :fields [{:number 1 :name "nested" :type :enum :type-ref "pgbad.Holder.Nested"}
+            {:number 2 :name "ok" :type :bool}]}}
+ :enums {}}
