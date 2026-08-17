@@ -427,41 +427,39 @@ docs-docker-all: docs-docker-build docs-docker-test docs-docker-generate ## Buil
 #
 # The tool lives in tools/protocol-gen and has its own deps.edn. These targets
 # are the ONLY way it is reachable without typing a classpath, so they exist to
-# make it discoverable and runnable rather than to gate anything.
+# make it discoverable and runnable.
 #
-# NOT IN ANY AGGREGATE THIS REPOSITORY ALREADY RUNS, and that is a GAP rather
-# than a decision. `.claude/rules/gate-enforcement.md` §6 is explicit that a
-# gate reachable only by a human typing its target is not armed, and none of
-# the three files that could arm one — lint.mk's `lint-lanes`,
-# .githooks/pre-push, .github/workflows/ — is this tool's to edit. What is owed,
-# stated here so it is not rediscovered:
+# TWO OF THEM ARE ARMED, and by two different mechanisms. `protocol-gen-test`
+# and `protocol-gen-canary` are prerequisites of `lint.mk`'s `lint-lanes`, which
+# the pre-push hook runs — they are enrolled there rather than here because each
+# needs the tool's OWN deps.edn aliases (kaocha with the armed malli specs;
+# protobuf-java for the oracle), so no generic Clojure lane can absorb them.
+# Everything the tree's Clojure OWES to a formatter or a linter is covered by
+# `LINT_CLJ_PATHS`, which now carries `tools/protocol-gen/{src,test,verify}`, so
+# `make -f lint.mk audit-clj-paths` no longer reports this tree.
 #
-#   * `protocol-gen-lint` and `protocol-gen-test` join `lint.mk`'s `lint-lanes`,
-#     and `tools/protocol-gen/{src,test,verify}` join `LINT_CLJ_PATHS` so the
-#     Clojure lanes reach this tree the way they reach every other one. Until
-#     then `make -f lint.mk audit-clj-paths` reports these files as UNGATED,
-#     which is the honest report and the reason that audit exists.
-#   * `protocol-gen-canary` joins the same aggregate; it needs bash, git,
-#     clojure and protoc, and the first three are already `lint`'s footprint.
+# THERE IS NO `protocol-gen-lint`, AND ITS ABSENCE IS THE POINT rather than an
+# omission. It ran the repository root's `:fmt` alias and clj-kondo over those
+# same three roots, which is exactly what `fmt-clj` and `lint-clj` now do — the
+# same two tools, resolved from the same one home for their pins, over the same
+# files. It was retired with the path enrolment that replaced it, in the same
+# change, because a target that re-runs a lane the aggregate already runs is a
+# doubled run whose green means nothing the aggregate's green did not already
+# mean.
+#
+# The remaining targets — survey, generate — are runnable rather than armed, and
+# that is correct: neither judges anything.
 #
 # WHY THE ENCODING FLAGS. Same reason lint.mk carries them: the JVMs here write
 # findings, and a stdout left at the image's ASCII default loses every non-ASCII
 # character AT WRITE TIME rather than merely rendering it oddly.
 PROTOCOL_GEN_DIR := tools/protocol-gen
 PROTOCOL_GEN_CLJ := clojure -J-Dstdout.encoding=UTF-8 -J-Dstderr.encoding=UTF-8
-PROTOCOL_GEN_PATHS := $(PROTOCOL_GEN_DIR)/src $(PROTOCOL_GEN_DIR)/test $(PROTOCOL_GEN_DIR)/verify
 
 .PHONY: protocol-gen-test
 protocol-gen-test: ## Run the protocol-gen unit suite (arms its malli specs)
 	@printf "$(GREEN)protocol-gen: unit suite$(NC)\n"
 	@cd $(PROTOCOL_GEN_DIR) && $(PROTOCOL_GEN_CLJ) -M:test
-
-.PHONY: protocol-gen-lint
-protocol-gen-lint: ## cljfmt + clj-kondo over the protocol-gen tree
-	@printf "$(GREEN)protocol-gen: cljfmt$(NC)\n"
-	@$(PROTOCOL_GEN_CLJ) -M:fmt check $(PROTOCOL_GEN_PATHS)
-	@printf "$(GREEN)protocol-gen: clj-kondo$(NC)\n"
-	@clj-kondo --parallel --cache false --fail-level warning --lint $(PROTOCOL_GEN_PATHS)
 
 .PHONY: protocol-gen-survey
 protocol-gen-survey: ## Enumerate what a descriptor database can and cannot be emitted from
@@ -487,6 +485,11 @@ protocol-gen-generate: ## Emit the fixture groups into OUT (default: a temp dir)
 protocol-gen-canary: ## Drive the generator over its fixtures and prove it can FAIL
 	@bash $(PROTOCOL_GEN_DIR)/canary/protocol_gen_canary.sh
 
+# The tool's own two lanes in one command, for iterating on the tool. It is NOT
+# the whole of what judges this tree and does not claim to be: the formatter, the
+# linter and the structural and declared-scope Clojure gates all reach these
+# files through `LINT_CLJ_PATHS`, so `make -f lint.mk lint` is the wider verdict
+# and the one the pre-push hook takes.
 .PHONY: protocol-gen-check
-protocol-gen-check: protocol-gen-lint protocol-gen-test protocol-gen-canary ## Every protocol-gen lane
-	@printf "$(GREEN)protocol-gen: all lanes green$(NC)\n"
+protocol-gen-check: protocol-gen-test protocol-gen-canary ## The protocol-gen lanes that need its own deps
+	@printf "$(GREEN)protocol-gen: own lanes green$(NC)\n"

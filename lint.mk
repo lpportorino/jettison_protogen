@@ -148,7 +148,10 @@ LINT_CLJ_PATHS := tools/devcards/src \
 	docs/.protodoc/tools/src \
 	docs/.protodoc/tools/test \
 	docs/.protodoc/tools/build.clj \
-	tools/lint/src
+	tools/lint/src \
+	tools/protocol-gen/src \
+	tools/protocol-gen/test \
+	tools/protocol-gen/verify
 
 # HAND-AUTHORED CLOJURE JUDGED BY clj-kondo AND cljfmt BUT NOT BY THE
 # STRUCTURAL GATES. `LINT_CLJ_PATHS` above is what every lane receives; this
@@ -384,10 +387,12 @@ hooks-status:
 # remembering a flag is a speedup nobody gets. renderer.mk's `check-renderer` uses
 # exactly this shape for exactly this reason.
 #
-# VERIFIED NOT TO CHECK LESS, which is the trap a parallel gate invites: all 18 lane
-# completion markers are present in the -j12 log and `make` reports no "Nothing to be
-# done". A faster gate that judged fewer files would be a regression wearing an
-# improvement.
+# VERIFIED NOT TO CHECK LESS, which is the trap a parallel gate invites: every lane
+# named on the prerequisite line below prints its completion marker in the -j12 log and
+# `make` reports no "Nothing to be done". A faster gate that judged fewer files would
+# be a regression wearing an improvement. NO LANE COUNT IS GIVEN HERE — the
+# prerequisite line is the population, and a tally beside it rots the next time a lane
+# lands, which this sentence's own did.
 #
 # WHAT PARALLELISM COSTS: interleaved output. A failing lane is still named by make's
 # own `*** [<target>] Error N` line, and the canary suites print their own labels, so a
@@ -396,7 +401,35 @@ hooks-status:
 lint:
 	@$(MAKE) --no-print-directory -f lint.mk -j$(NPROC) lint-lanes
 
-lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test wire-contract-envelope-test fork-hazards fmt-clj lint-clj fmt-c
+lint-lanes: lint-sh lint-ci lint-md-test lint-md lint-no-host-paths-test lint-no-host-paths lint-file-size-test lint-file-size lint-clj-gate-test lint-ns-size lint-fn-size lint-spec-shape lint-spec-presence lint-docstrings brief-check-test forks-release-test uber-chown-test leg-strictness-test wasm-provenance-test wire-contract-codec-test wire-contract-envelope-test fork-hazards protocol-gen-test protocol-gen-canary fmt-clj lint-clj fmt-c
+
+## protocol-gen-test / protocol-gen-canary: the generator tool's two OWN lanes
+# Delegated to `Makefile` by SUB-MAKE, exactly as lint-md is delegated to
+# lint-md.mk, because that is where the targets live: `Makefile` owns the tool's
+# entry points and this file owns what the pre-push gate runs. Neither fact
+# belongs in the other file, so the aggregate reaches across rather than the
+# targets moving.
+#
+# WHY THESE TWO AND NOT THE TOOL'S LINT TARGET. Its lint target was RETIRED
+# rather than enrolled: it ran the root `:fmt` alias and clj-kondo over
+# `tools/protocol-gen/{src,test,verify}`, and those three roots are now in
+# LINT_CLJ_PATHS — so `fmt-clj` and `lint-clj` above check the same files with
+# the same tools, from the same one home for the pins. A second invocation of one
+# formatter is not a second authority, it is the same run done twice.
+# These two are the opposite case: both need the TOOL's own `deps.edn` aliases —
+# kaocha plus the armed malli instrumentation for the suite, protobuf-java for
+# the oracle the canary drives — so no generic lane can absorb them.
+#
+# THEY GROW `lint`'S FOOTPRINT BY ONE TOOL: protoc. The canary hard-fails when
+# protoc or clojure is absent rather than skipping, which is the correct shape
+# for a canary and the cost of arming it here — a suite that passed because its
+# toolchain was missing is the defect it exists to catch, wearing a green.
+.PHONY: protocol-gen-test protocol-gen-canary
+protocol-gen-test:
+	@$(MAKE) --no-print-directory -f Makefile protocol-gen-test
+
+protocol-gen-canary:
+	@$(MAKE) --no-print-directory -f Makefile protocol-gen-canary
 
 ## lint-ns-size: NAMESPACE SIZE ceiling over hand-authored Clojure
 # TWO AXES (code-LOC, public-var count) and TWO TIERS (a blocking ceiling and a

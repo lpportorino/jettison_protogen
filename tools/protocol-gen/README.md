@@ -67,10 +67,13 @@ access policy ──────────────────────
 make protocol-gen-survey     # what a database holds, and what cannot be emitted
 make protocol-gen-generate   # emit the fixture groups (OUT=<dir> to choose where)
 make protocol-gen-test       # the unit suite, with the malli specs armed
-make protocol-gen-lint       # cljfmt + clj-kondo over this tree
 make protocol-gen-canary     # drive the generator and prove it can FAIL
-make protocol-gen-check      # all of the above
+make protocol-gen-check      # both of the above
 ```
+
+There is no lint target here. This tree's Clojure is formatted and linted by the
+repository-wide lanes — `make -f lint.mk fmt-clj` and `make -f lint.mk lint-clj`
+— which reach it through `LINT_CLJ_PATHS`.
 
 `make protocol-gen-survey DB=<path>` points the survey at another database; it
 defaults to this repository's committed one.
@@ -230,27 +233,29 @@ It needs `clojure` and `protoc`, and HARD-FAILS when either is missing rather
 than skipping. protoc resolves the emitted files' validation import out of the
 committed descriptor set, so the suite needs no network and no container.
 
-## Two things this tree does not yet have
+## How this tree is gated
 
-Stated rather than left for a reader to assume.
-
-**Its Clojure is in no aggregate this repository already runs.** The lanes above
-are reachable by typing their target and by nothing else, and
-`.claude/rules/gate-enforcement.md` §6 is explicit that such a gate is not
-armed. What is owed: `protocol-gen-lint`, `protocol-gen-test` and
-`protocol-gen-canary` join `lint.mk`'s `lint-lanes`, and
+**Its Clojure rides the aggregate the pre-push hook runs.**
 `tools/protocol-gen/src`, `tools/protocol-gen/test` and
-`tools/protocol-gen/verify` join `LINT_CLJ_PATHS` so the Clojure lanes reach
-this tree the way they reach every other one. Until then
-`make -f lint.mk audit-clj-paths` reports this tree as UNGATED, which is the
-honest report.
+`tools/protocol-gen/verify` are in `LINT_CLJ_PATHS`, so every Clojure lane —
+cljfmt, clj-kondo at the zero-warning floor, and the structural `ns-size` and
+`fn-size` ceilings — reaches this tree the way it reaches every other one, and
+`make -f lint.mk audit-clj-paths` no longer reports it. The two lanes that need
+this tool's OWN `deps.edn` aliases, `protocol-gen-test` and
+`protocol-gen-canary`, are prerequisites of `lint.mk`'s `lint-lanes`.
 
-**Its roots are not enrolled in the declared-scope gates.** `docstrings`,
-`spec-shape` and `spec-presence` read their enrolment from
-`tools/lint/gates.edn`. This tree was held to those bars during authoring by
-running them against a throw-away copy of the repository with the root enrolled,
-and it passes; but that is an authoring-side observation, not a gate. Enrolling
-`tools/protocol-gen/src` is what makes it one.
+**Two of the three declared-scope gates cover the source root; the third takes
+namespaces and covers one.** `docstrings` and `spec-shape` read enrolled ROOTS
+from `tools/lint/gates.edn` and `tools/protocol-gen/src` is enrolled in both.
+`spec-presence` enrols NAMESPACES, not roots, and its list only ever holds
+namespaces measured at 100% presence — of this tree's ten, only
+`protocol-gen.emit` is, so only it is enrolled. The other nine are named in
+`tools/lint/gates.edn` with their measured fractions; the way to enrol one is to
+write its missing specs.
+
+**`tools/protocol-gen/verify` is enrolled nowhere.** It is not a scope decision:
+three of its sixteen functions carry no docstring and it practises no arrow
+specs, so it is enrolled in each gate the day it is clean for that gate.
 
 ## Reading order
 

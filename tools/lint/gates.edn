@@ -109,32 +109,50 @@
  ;;                           surface: its name and its assertions ARE its
  ;;                           documentation, and a docstring on a fixture adds
  ;;                           noise without catching drift.
+ ;;   tools/protocol-gen/verify
+ ;;                           the generator's INDEPENDENT oracle, on its own
+ ;;                           source root. Not a scope question: 3 of its 16
+ ;;                           defn-family vars carry no docstring (`die`,
+ ;;                           `parse-args`, `read-edn`), so enrolling it today
+ ;;                           would land red. Enrolled the day it is clean —
+ ;;                           the same terms tools/devcards/src is held on.
  :docstrings
  {:enrolled ["docs/.protodoc/tools/src"
              "tools/renderer-gen/src"
-             "tools/lint/src"]}
+             "tools/lint/src"
+             "tools/protocol-gen/src"]}
 
  ;; ── spec-shape ───────────────────────────────────────────────────────────
  ;;
- ;; Enrolled where arrow specs are actually PRACTISED. Every other gated tree
- ;; carries no `m/=>` at all, so enrolling it would add a vacuous root — and the
- ;; check's own non-vacuity floor is over SPECS, so an enrolled root with none
- ;; contributes nothing but a chance for the floor to be satisfied by a neighbour.
+ ;; Enrolled where arrow specs are actually PRACTISED — two roots do so today,
+ ;; `tools/renderer-gen/src` and `tools/protocol-gen/src`, and the gate prints the
+ ;; per-root count every run so that claim is re-measured rather than trusted. The
+ ;; remaining gated trees carry no `m/=>` at all, so enrolling one adds a root the
+ ;; check's own non-vacuity floor — which is over SPECS — cannot see going dark.
+ ;; That is what the run's UNMEASURED line names, every run, rather than a list
+ ;; kept here.
  ;; tools/lint/src is enrolled so this gate's own specs, if it ever grows any, are
  ;; judged by it.
  :spec-shape
  {:enrolled ["tools/renderer-gen/src"
              "docs/.protodoc/tools/src"
-             "tools/lint/src"]}
+             "tools/lint/src"
+             "tools/protocol-gen/src"]}
 
  ;; ── spec-presence ────────────────────────────────────────────────────────
  ;;
  ;; Enrolment is by NAMESPACE, not by root, and the measurement is why: NO ROOT
- ;; QUALIFIES. Every enrolled namespace lives in ONE root,
- ;; `tools/renderer-gen/src`, that root is not itself at 100%, and no other
- ;; gated root practises `m/=>` at all. A root-grain enrolment would therefore
- ;; have to be EMPTY, which this check's own floor refuses as a green tick over
- ;; zero coverage.
+ ;; QUALIFIES. The enrolled namespaces come from the two roots that practise
+ ;; `m/=>` at all — `tools/renderer-gen/src` and `tools/protocol-gen/src` — and
+ ;; NEITHER root is itself at 100%, while every other gated root carries no
+ ;; `m/=>` whatsoever. A root-grain enrolment would therefore have to be EMPTY,
+ ;; which this check's own floor refuses as a green tick over zero coverage.
+ ;;
+ ;; THAT IS ALSO WHY A ROOT ENROLLED IN `:docstrings` AND `:spec-shape` IS NOT
+ ;; AUTOMATICALLY ENROLLED HERE, and reading the three keys as one scope is the
+ ;; error to avoid: those two take ROOTS and this one takes NAMESPACES, so
+ ;; "the tool's source root is enrolled in the declared-scope gates" is true of
+ ;; two of the three and cannot be said of this one at all.
  ;;
  ;; RE-DERIVE THE FRACTIONS; DO NOT TRUST A NUMBER FROZEN HERE. The gated corpus
  ;; grows whenever a path joins `LINT_CLJ_PATHS`, so a percentage written into
@@ -180,6 +198,25 @@
  ;;     Not a scope question and not claimed as one: these five are the practising
  ;;     root's remaining project. Each is enrolled the day it reaches 100%, and
  ;;     the honest way to grow this list is to write the specs, never to widen it.
+ ;;   protocol-gen.numbering           7/14 specced
+ ;;   protocol-gen.projection          4/11 specced
+ ;;   protocol-gen.render              1/ 5 specced
+ ;;   protocol-gen.constructs          7/ 9 specced
+ ;;   protocol-gen.core                6/ 7 specced
+ ;;   protocol-gen.db                  4/ 5 specced
+ ;;   protocol-gen.constraints         2/ 4 specced
+ ;;   protocol-gen.policy              3/ 4 specced
+ ;;   protocol-gen.mirror              1/ 3 specced
+ ;;     The second practising root's remaining project, on the same terms as the
+ ;;     five above: measured with this check's own reader, `protocol-gen.emit` is
+ ;;     the only namespace of the ten at 100% and is the only one enrolled. The
+ ;;     fractions are recorded so the distance is visible rather than implied —
+ ;;     re-derive them rather than trusting them, since a spec written tomorrow
+ ;;     moves one and nothing here updates it.
+ ;;   protocol-gen.verify              0/16 specced
+ ;;     The generator's independent oracle, on its own source root. Same terms
+ ;;     again — it practises no arrow specs today, so it is enrolled the day it
+ ;;     reaches 100% and not before.
  ;;   asgard.proto, asgard.video-config
  ;;     A population reason rather than a debt: both define ZERO functions, and
  ;;     enrolling a namespace with an empty population would trip this check's own
@@ -223,4 +260,5 @@
              "uigen.resolve"
              "uigen.scales"
              "uigen.wire-bounds"
-             "uigen.wire-encode"]}}
+             "uigen.wire-encode"
+             "protocol-gen.emit"]}}
