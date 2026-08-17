@@ -34,18 +34,35 @@
 (set! *warn-on-reflection* true)
 
 (def numeric-types
-  "Field types carrying numeric bounds."
-  #{:double :float :int32 :int64 :uint32 :uint64})
+  "Field types carrying numeric bounds.
+
+   The zigzag and fixed-width integers belong here beside the varint ones:
+   protovalidate offers `gt`/`gte`/`lt`/`lte`/`example` on each of them, so a
+   bound on one of these fields is expressible and omitting the type would
+   refuse a constraint the source legitimately declares."
+  #{:double :float :int32 :int64 :uint32 :uint64
+    :sint32 :sint64 :fixed32 :fixed64 :sfixed32 :sfixed64})
 
 (def rules-name
   "Field type -> the protovalidate rule set that type's constraints live in.
 
+   ONE RULE SET PER TYPE, spelled the same as the type. Read off buf.validate's
+   own `FieldRules` oneof, which carries an arm per descriptor type — including
+   `SInt32Rules`, `Fixed64Rules` and their siblings — rather than assumed from
+   the varint names. The rule set matters beyond tidiness: routing a bound into
+   the wrong one is NOT a compile error, so protoc accepts it and the runtime
+   then judges the value under another type's rules.
+
    `:message` is absent deliberately: protovalidate has no scalar rule set for
    a message field, so every type-scoped constraint on one is a mismatch rather
-   than something to route somewhere."
+   than something to route somewhere. `:group` is absent for a stronger reason
+   — this generator cannot emit a group at all, so a group field never reaches
+   here."
   {:double "double" :float "float" :int32 "int32" :int64 "int64"
    :uint32 "uint32" :uint64 "uint64" :bool "bool" :string "string"
-   :bytes "bytes" :enum "enum"})
+   :bytes "bytes" :enum "enum"
+   :sint32 "sint32" :sint64 "sint64" :fixed32 "fixed32" :fixed64 "fixed64"
+   :sfixed32 "sfixed32" :sfixed64 "sfixed64"})
 
 (def constraint-table
   "Database constraint key -> how it is emitted.

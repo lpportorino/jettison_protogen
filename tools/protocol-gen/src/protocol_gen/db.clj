@@ -35,8 +35,20 @@
 
 (def scalar-types
   "Database `:type` values that name a proto scalar outright — no `:type-ref`,
-   no resolution step, emitted as themselves."
-  #{:bool :bytes :double :float :int32 :int64 :string :uint32 :uint64})
+   no resolution step, emitted as themselves.
+
+   ONE MEMBER PER WIRE ENCODING, and the six beyond the obvious ones are why
+   this set is worth reading twice. `sint32`/`sint64` are ZIGZAG,
+   `fixed32`/`fixed64`/`sfixed32`/`sfixed64` are FIXED-WIDTH, and
+   `int32`/`int64`/`uint32`/`uint64` are varint two's-complement: the three
+   families DECODE THE SAME BYTES TO DIFFERENT VALUES. The producing parser
+   folded them onto one another for a long while, so a database could not say
+   which it meant and this generator could not have emitted the difference if
+   it had wanted to. It can now, and dropping one of these members would not
+   produce a visibly wrong schema — it would produce a REFUSAL, which is the
+   safe direction and the reason the omission survived unnoticed."
+  #{:bool :bytes :double :float :int32 :int64 :string :uint32 :uint64
+    :sint32 :sint64 :fixed32 :fixed64 :sfixed32 :sfixed64})
 
 (def referring-types
   "Database `:type` values whose real type is named by `:type-ref` and has to be
@@ -45,8 +57,19 @@
 
 (def known-types
   "Every `:type` value this generator can emit. A field carrying anything else
-   — the producer's `:unknown` fallback among them — is refused by
-   `protocol-gen.constructs`, never guessed at."
+   is refused by `protocol-gen.constructs`, never guessed at.
+
+   TWO VALUES A DATABASE CAN CARRY ARE DELIBERATELY ABSENT:
+
+   - `:unknown`, the producer's fallback for a descriptor type it has no
+     mapping for. It exists so an unmappable type reaches a refusal here rather
+     than dying as a parse error in a message nobody projected.
+   - `:group`, the proto2 delimited encoding. proto3 HAS NO GROUP SYNTAX, so a
+     group has no truthful emission from this generator and refusing is the
+     only honest outcome — where folding it onto `:message`, which the
+     producing parser used to do, silently substituted a length-delimited field
+     for a tag-delimited one. Its absence here is what turns that fold into a
+     refusal a caller can read."
   (into scalar-types referring-types))
 
 (def proto-identifier

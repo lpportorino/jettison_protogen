@@ -89,14 +89,19 @@ emission for (including the producing parser's own `:unknown` fallback); a
 protoc's reserved 19000..19999; two fields sharing a number; a oneof naming a
 member the message does not carry.
 
-The unresolvable-reference class is not hypothetical. Run
-`make protocol-gen-survey` against this repository's own committed database: the
-refusals it reports are all of that class, and each is a field whose type is an
-enum declared INSIDE a message. The parser that produces the database walks
-nested messages but reads enums at file level only, so a nested enum is absent
-while the fields referring to it survive. A map field lands in the same place,
-because the entry message is dropped too. Read the count from a run rather than
-from a number here, which would rot on the next database.
+The unresolvable-reference class is not hypothetical, and this repository's own
+committed database used to demonstrate it: every refusal `make
+protocol-gen-survey` reported was a field whose type is an enum declared INSIDE
+a message, because the producing parser walked nested messages while reading
+enums at file level only. It reads them at every level now, and that survey is
+clean. Read the count from a run rather than from a number here, which would rot
+on the next database.
+
+A clean survey there is a fact about THIS corpus, not a property of the check. A
+map field still lands in this class whenever one reaches the database, because
+the entry message is a nested type the parser deliberately drops; no map-typed
+field is inside the parser's current file filter, which is why the survey does
+not show one.
 
 **2. Detectable only against the policy.** A granted field whose type is a
 message or enum the policy did not also grant; a field name a grant asks for
@@ -107,18 +112,22 @@ These two classes OVERLAP on the generation path, and the canary says so rather
 than pretending otherwise: a reference that resolves to nothing also names a
 type no policy could have granted, so class 1 wins only by running first.
 
-**3. Not detectable at all, because the database never carried the fact.** These
-are the ones worth knowing, because no check here can ever find them:
+**3. Not detectable at all, because the database never carries the fact.** These
+are the ones worth knowing, because no check here can ever find them: explicit
+field presence, proto2 defaults, `reserved` ranges and names, extension ranges,
+`allow_alias`, services, `json_name` and every file-level option are absent from
+the database entirely.
 
-- `sint32`/`sint64` and the `fixed`/`sfixed` family are folded onto
-  `int32`/`int64`/`uint32`/`uint64` by the producing parser. Those are DIFFERENT
-  WIRE ENCODINGS — zigzag and fixed-width against varint — so a schema
-  re-emitted from the database decodes the same bytes differently, and nothing
-  in the database says so;
-- proto2 groups arrive as `:message`;
-- explicit field presence, proto2 defaults, `reserved` ranges and names,
-  extension ranges, `allow_alias`, services, `json_name` and every file-level
-  option are absent from the database entirely.
+Two entries used to HEAD that list and have moved out of it, which is worth
+recording because the retired claim is the plausible one to carry forward. It
+said that `sint32`/`sint64` and the `fixed`/`sfixed` family were folded onto
+`int32`/`int64`/`uint32`/`uint64` by the producing parser, and that proto2
+groups arrived as `:message` — so a schema re-emitted from the database decoded
+the same bytes differently with nothing recording it. The parser now records one
+keyword per descriptor type: the six distinctly-encoded integers are emittable
+scalars here and are emitted as themselves, and `:group` is deliberately NOT
+emittable, so it lands in class 1 as a named refusal rather than as a silent
+substitution of a length-delimited field for a tag-delimited one.
 
 So the honest scope of a green run is "nothing in class 1 or 2", never "the
 emitted schema is wire-identical to the source". A generator cannot refuse what

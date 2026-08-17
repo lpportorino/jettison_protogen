@@ -31,24 +31,30 @@
       where no policy is in the picture and nothing else can refuse the same
       input.
 
-   3. NOT DETECTABLE AT ALL, because the database never carried the fact. These
-      are the ones worth writing down, since no gate here can ever find them:
-
-      - `sint32`/`sint64` and the `fixed`/`sfixed` family are folded onto
-        `int32`/`int64`/`uint32`/`uint64` by the producing parser. Those are
-        DIFFERENT WIRE ENCODINGS — zigzag and fixed-width against varint — so a
-        schema re-emitted from the database would decode the same bytes
-        differently, and nothing in the database says so.
-      - proto2 groups arrive as `:message`.
-      - explicit field presence (`optional` in proto3), proto2 defaults,
-        `reserved` ranges and names, extension ranges, `allow_alias`, services,
-        `json_name` and every file-level option are absent from the database
-        entirely.
+   3. NOT DETECTABLE AT ALL, because the database never carries the fact:
+      explicit field presence (`optional` in proto3), proto2 defaults,
+      `reserved` ranges and names, extension ranges, `allow_alias`, services,
+      `json_name` and every file-level option.
 
       A generator cannot refuse what it cannot see. What it CAN do is refuse to
       pretend otherwise, which is why this list is in the source rather than in
       a commit message: the honest scope of a green run is \"nothing in class 1
-      or 2\", never \"the emitted schema is wire-identical to the source\"."
+      or 2\", never \"the emitted schema is wire-identical to the source\".
+
+      TWO ENTRIES USED TO HEAD THIS CLASS AND NO LONGER BELONG TO IT, recorded
+      because the retired claim is the one a reader is most likely to carry
+      forward from the surrounding documents. It said that `sint32`/`sint64`
+      and the `fixed`/`sfixed` family were folded onto
+      `int32`/`int64`/`uint32`/`uint64` by the producing parser, and that
+      proto2 groups arrived as `:message` — so a schema re-emitted from the
+      database decoded the same bytes differently with nothing recording it.
+      That was true and is now false: the parser records one keyword per
+      descriptor type, the six distinctly-encoded integers are in
+      `db/scalar-types` and are EMITTED as themselves, and `:group` is
+      deliberately outside `db/known-types` so it lands in CLASS 1 as an
+      `:unknown-field-type` refusal — visible, attributable, and reachable only
+      because the reference it names survives into the database.
+      `protocol-gen.wire-encoding-test` carries the end-to-end proof."
   (:require [malli.core :as m]
             [protocol-gen.db :as db]))
 
@@ -152,8 +158,11 @@
       (not (contains? db/known-types t))
       {:reason :unknown-field-type
        :subject subject
-       :detail (str "type " t " has no emission; the database's producer uses "
-                    ":unknown for a descriptor type it cannot map")}
+       :detail (str "type " t " has no emission; the emittable set is "
+                    (pr-str (vec (sort db/known-types)))
+                    ". :unknown is the producer's fallback for a descriptor type "
+                    "it cannot map, and :group is a proto2 delimited field, which "
+                    "proto3 cannot express at all")}
 
       (and (contains? db/referring-types t) (nil? type-ref))
       {:reason :missing-type-ref
