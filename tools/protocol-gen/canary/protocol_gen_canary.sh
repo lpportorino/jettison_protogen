@@ -6,33 +6,48 @@
 # asserts an exact EXIT CODE and a substring naming the finding, so a stack
 # trace can never be mistaken for a clause firing.
 #
-# THE THREE FAILURES IT EXISTS TO CATCH, each proven by MUTATION:
+# THE FAILURES IT EXISTS TO CATCH, each proven by MUTATION. Read the list from
+# the sections below rather than from a tally here, which rots the next time one
+# lands:
 #
-#   1. A WRONG FIELD NUMBER. The mutation makes the renderer number fields by
-#      their position in the emitted set. Every projection would still be
-#      internally consistent, so nothing that looks at one file alone can see
-#      it — the oracle compares against the SOURCE numbers instead.
-#   2. A DROPPED GRANT EMITTING A SILENTLY-ALLOWED FIELD. The mutation makes an
-#      explicit field set behave like `:all`. The permission mirror moves with
-#      it, so mirror-versus-schema stays clean; the oracle re-derives what the
-#      POLICY granted and catches it there.
-#   3. A CONSTRUCT THE EMITTER CANNOT EXPRESS BEING APPROXIMATED. The mutation
-#      neuters the unresolved-reference clause and the FINDING disappears.
+#   * A WRONG FIELD NUMBER. The mutation makes the renderer number fields by
+#     their position in the emitted set. Every projection would still be
+#     internally consistent, so nothing that looks at one file alone can see
+#     it — the oracle compares against the SOURCE numbers instead.
+#   * A DROPPED GRANT EMITTING A SILENTLY-ALLOWED FIELD. The mutation makes an
+#     explicit field set behave like `:all`. The permission mirror moves with
+#     it, so mirror-versus-schema stays clean; the oracle re-derives what the
+#     POLICY granted and catches it there.
+#   * A CONSTRUCT THE EMITTER CANNOT EXPRESS BEING APPROXIMATED. The mutation
+#     neuters the unresolved-reference clause and the FINDING disappears.
 #
-#      READ THE PREDICATE RATHER THAN INFERRING IT FROM A RED, which is the
-#      trap `.claude/rules/gate-enforcement.md` §2 names. On the GENERATION path
-#      that clause is shadowed by the closure check one pass later: an input
-#      whose reference resolves to nothing also has a type the policy could not
-#      have granted, so with the clause dead the run STILL refuses, for a
-#      different reason. That is defence in depth working, and a case asserting
-#      only a colour flip there would have been unattributable.
+#     READ THE PREDICATE RATHER THAN INFERRING IT FROM A RED, which is the
+#     trap `.claude/rules/gate-enforcement.md` §2 names. On the GENERATION path
+#     that clause is shadowed by the closure check one pass later: an input
+#     whose reference resolves to nothing also has a type the policy could not
+#     have granted, so with the clause dead the run STILL refuses, for a
+#     different reason. That is defence in depth working, and a case asserting
+#     only a colour flip there would have been unattributable.
 #
-#      So attribution is taken on the SURVEY path, where the clause is reached
-#      with no policy in the picture and nothing else can refuse the same input;
-#      the generation path is then asserted on the FINDING NAME rather than on
-#      the exit code. A neighbouring clause is required to keep refusing on that
-#      same mutant, or a mutation that broke the whole pass would satisfy the
-#      case by breaking everything.
+#     So attribution is taken on the SURVEY path, where the clause is reached
+#     with no policy in the picture and nothing else can refuse the same input;
+#     the generation path is then asserted on the FINDING NAME rather than on
+#     the exit code. A neighbouring clause is required to keep refusing on that
+#     same mutant, or a mutation that broke the whole pass would satisfy the
+#     case by breaking everything.
+#
+#   * A MINTED ONEOF SILENTLY FLATTENED INTO FREE FIELDS. The mutation restores
+#     the empty oneof vector the stamping pass used to write unconditionally.
+#     Its fields still emit, with the right numbers, so the ORACLE STAYS CLEAN
+#     — asserted here rather than assumed, because that blindness is the whole
+#     reason this case reads the emitted TEXT.
+#   * A MINTED ENUM THAT DOES NOT RESOLVE. The mutation points enum resolution
+#     back at the database, where a locally-minted enum has never been, and the
+#     run refuses `enum-not-in-database`.
+#   * A MINTED ONEOF NAMING A MEMBER ITS MESSAGE DOES NOT CARRY, and one
+#     naming a field TWO oneofs claim. Each is proven by neutering its own
+#     clause, and each is the OTHER's neighbouring control on that same mutant
+#     — so neither red can be a mutation that broke the pass as a whole.
 #
 # THE ORACLE IS ALWAYS THE REAL TREE'S. A mutation is applied to a COPY of the
 # generator, and the verifier that judges its output is the one under
@@ -108,7 +123,7 @@ copy_tool() {
 	cp -a "$PG/deps.edn" "$PG/src" "$PG/fixtures" "$PG/verify" "$1/"
 }
 
-# generate <tool-dir> <out-dir> <policy-file> <db-file> [registry-file]
+# generate <tool-dir> <out-dir> <policy-file> <db-file> [registry-file] [mint-file]
 # Runs the generator BARE and reads its own status on the next line; a pipe here
 # would report the filter's status and a red would record as green.
 GEN_RC=0
@@ -116,12 +131,21 @@ GEN_OUT=""
 generate() {
 	local tool="$1" out="$2" policy="$3" database="$4"
 	local registry="${5:-fixtures/numbering-registry.edn}"
+	local mints="${6:-fixtures/minted.edn}"
 	set +e
 	GEN_OUT="$(cd "$tool" && clojure -M:run generate \
-		--db "$database" --minted fixtures/minted.edn \
+		--db "$database" --minted "$mints" \
 		--registry "$registry" --policy "$policy" --out "$out" 2>&1)"
 	GEN_RC=$?
 	set -e
+}
+
+# oneof_block <file> <name> — the emitted text of one `oneof` block, so a case
+# can ask what is INSIDE it. A whole-file grep cannot: every member of a oneof
+# is also a plain field line, so "the file mentions raw" is true whether raw is
+# in the block, in a different block, or free.
+oneof_block() {
+	sed -n "/^  oneof $2 {/,/^  }/p" "$1"
 }
 
 # verify <out-dir> [file-list] — compile the emitted protos and judge them with
@@ -278,6 +302,19 @@ if [ "$VER_RC" -eq 1 ] && contains "$VER_OUT" "descriptor has"; then
 else
 	bad "positional numbering was not caught (rc=$VER_RC): $VER_OUT"
 fi
+# AND INSIDE THE MINTED ONEOF, which is where the oracle cannot follow it. The
+# same mutation renumbers a oneof's members, and because the emitter orders a
+# block by NUMBER the two swap into declaration order — so this is the failing
+# direction of the two assertions the MINTED ONEOF section makes on the real
+# tree, taken on a mutant rather than asserted about one.
+M1_DETAIL="$(oneof_block "$WORK/m1-out/commander.proto" detail)"
+if ! contains "$M1_DETAIL" "uint32 code = 4;" &&
+	[ "$(printf '%s\n' "$M1_DETAIL" |
+		awk '/uint32 code/{c=NR} /string text/{t=NR} END{print (c && t && c < t) ? "yes" : "no"}')" = no ]; then
+	ok "MUTANT: the minted oneof's members lose the registry's numbers AND their order"
+else
+	bad "positional numbering left the minted oneof intact, so those assertions prove nothing: $M1_DETAIL"
+fi
 
 section "MUTATION 2 — a withheld field emitted anyway is caught"
 M2="$WORK/m2"
@@ -370,12 +407,248 @@ else
 	bad "the generation path stopped refusing on the mutant: $GEN_OUT"
 fi
 
+section "MINTED ONEOF — declared by NAME, emitted with the registry's numbers"
+# The mint names its members "text" and "code"; the registry pins them 7 and 4.
+# Everything asserted here is a fact about that translation.
+DETAIL_BLOCK="$(oneof_block "$BASE/commander.proto" detail)"
+if contains "$DETAIL_BLOCK" "uint32 code = 4;" &&
+	contains "$DETAIL_BLOCK" "string text = 7"; then
+	ok "the minted oneof's members carry the REGISTRY's numbers"
+else
+	bad "the minted oneof did not emit its members with the registry's numbers: $DETAIL_BLOCK"
+fi
+# Declaration order is text-then-code and the emitted order must be the
+# NUMBERS' — 4 before 7. A block that merely contains both cannot tell the two
+# orderings apart, which is exactly the defect a positional emitter produces.
+if [ "$(printf '%s\n' "$DETAIL_BLOCK" |
+	awk '/uint32 code = 4;/{c=NR} /string text = 7/{t=NR} END{print (c && t && c < t) ? "yes" : "no"}')" = yes ]; then
+	ok "its members are emitted in NUMBER order, which is not their declaration order"
+else
+	bad "the minted oneof's members are not in number order: $DETAIL_BLOCK"
+fi
+if contains "$DETAIL_BLOCK" "option (buf.validate.oneof).required = true;"; then
+	ok "the mint's :required reaches the emitted block"
+else
+	bad "the minted oneof lost its required option: $DETAIL_BLOCK"
+fi
+# The free field beside it keeps its own registry number and stays OUT of the
+# block — a mint declares membership, so a field it did not name must not join.
+if command grep -q '^  pgfix_Level level = 15' "$BASE/commander.proto" &&
+	! contains "$DETAIL_BLOCK" "level"; then
+	ok "the free field the mint left out of the oneof is not inside the block"
+else
+	bad "a field the mint did not name joined the oneof: $DETAIL_BLOCK"
+fi
+
+section "MUTATION 4 — a minted oneof flattened into free fields is caught"
+MONEOF="$WORK/m-oneof"
+copy_tool "$MONEOF"
+mutate_file "$MONEOF/src/protocol_gen/numbering.clj" \
+	'     :oneofs (mapv #(stamp-oneof msg-id by-name %) oneofs)}))' \
+	'     :oneofs []}))' \
+	|| bad "mutation 4 did not land"
+generate "$MONEOF" "$WORK/m-oneof-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+if command grep -q '^  oneof detail {' "$WORK/m-oneof-out/commander.proto"; then
+	bad "the mutant still emitted the oneof, so this case attributes nothing"
+else
+	ok "MUTANT: the oneof block is GONE and its fields emit free"
+fi
+# THE POINT OF THIS CASE. Every field is still there, under the right number, so
+# the ORACLE — which reads the descriptor's fields and never their oneof index —
+# reports the mutant CLEAN. That blindness is why the assertions above read the
+# emitted text, and asserting it here stops a later reader assuming otherwise.
+verify "$WORK/m-oneof-out"
+if [ "$VER_RC" -eq 0 ]; then
+	ok "CONTROL: the oracle calls that mutant CLEAN — it cannot see oneof membership"
+else
+	bad "the oracle reddened on the flattened mutant (rc=$VER_RC), so this case is now about something else: $VER_OUT"
+fi
+
+section "MUTATION 5 — a minted oneof's :required dropped is caught"
+# The failing direction of the MINTED ONEOF section's assertion about that
+# option, and it needs its OWN mutant: `buf.validate.oneof` also appears on the
+# DESCRIPTOR oneof of pgfix_Command, which no mutation here touches, so a
+# whole-file probe for that string is true on every mutant and proves nothing.
+MREQ="$WORK/m-required"
+copy_tool "$MREQ"
+mutate_file "$MREQ/src/protocol_gen/numbering.clj" \
+	'   :required required' \
+	'   :required false' \
+	|| bad "mutation 5 did not land"
+generate "$MREQ" "$WORK/m-required-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+MREQ_DETAIL="$(oneof_block "$WORK/m-required-out/commander.proto" detail)"
+if contains "$MREQ_DETAIL" "uint32 code = 4;" &&
+	! contains "$MREQ_DETAIL" "option (buf.validate.oneof).required = true;"; then
+	ok "MUTANT: the block still emits and its required option is GONE"
+else
+	bad "dropping the mint's :required did not change the emitted block: $MREQ_DETAIL"
+fi
+# CONTROL: the DESCRIPTOR oneof beside it is unaffected, so the assertion above
+# is about the minted path and not about the emitter forgetting the option.
+if contains "$(oneof_block "$WORK/m-required-out/commander.proto" action)" \
+	"option (buf.validate.oneof).required = true;"; then
+	ok "CONTROL: the descriptor oneof in the same file keeps its option"
+else
+	bad "the descriptor oneof lost its option too — mutation 5 broke more than the minted path"
+fi
+
+section "MINTED ENUM — declared in the mint, resolved out of the universe"
+if command grep -q '^enum pgfix_Level {' "$BASE/commander.proto" &&
+	command grep -q '  LEVEL_ALERT = 12;' "$BASE/commander.proto"; then
+	ok "the minted enum is emitted with the numbers it declared"
+else
+	bad "the minted enum did not reach the emitted schema"
+fi
+# The projection property, for an enum no database carries: a group that did not
+# list it does not name it. The presence check above is this probe's control.
+if command grep -q 'pgfix_Level' "$BASE/sensor-reader.proto"; then
+	bad "a minted enum reached a group that did not list it"
+else
+	ok "the group that did not list it does not name it"
+fi
+
+section "MUTATION 6 — a minted enum resolved against the DATABASE is caught"
+MENUM="$WORK/m-enum"
+copy_tool "$MENUM"
+mutate_file "$MENUM/src/protocol_gen/projection.clj" \
+	'        enums (project-enums all g)]' \
+	'        enums (project-enums database g)]' \
+	|| bad "mutation 6 did not land"
+generate "$MENUM" "$WORK/m-enum-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "enum-not-in-database"; then
+	ok "MUTANT: a minted enum stops resolving, and the run REFUSES rather than emitting"
+else
+	bad "asking the database alone did not refuse the minted enum (rc=$GEN_RC): $GEN_OUT"
+fi
+# THE NEIGHBOUR, on that same mutant: a clause that does not depend on enum
+# resolution must still refuse, or the case above is satisfied by a mutation
+# that broke the pass as a whole.
+generate "$MENUM" "$WORK/m-enum-neighbour" fixtures/refusal-policy-typo.edn fixtures/refusal-db.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "field-not-in-message"; then
+	ok "CONTROL: on that same mutant a NEIGHBOURING clause still refuses"
+else
+	bad "the neighbour stopped refusing too — mutation 6 broke more than its clause: $GEN_OUT"
+fi
+
+section "MUTATION 7 — a minted enum's members renumbered by POSITION is caught"
+# The enum half of MUTATION 1, and it needs its own case because the numbers
+# reach the file by a different route: an enum's members are declared in the
+# mint and pass through untouched, where a field's come from the registry.
+MENUMPOS="$WORK/m-enum-pos"
+copy_tool "$MENUMPOS"
+mutate_file "$MENUMPOS/src/protocol_gen/numbering.clj" \
+	'  {:id enum-id :name enum-name :values values})' \
+	'  {:id enum-id :name enum-name :values (vec (map-indexed (fn [i v] (assoc v :number i)) values))})' \
+	|| bad "mutation 7 did not land"
+generate "$MENUMPOS" "$WORK/m-enum-pos-out" fixtures/policy.edn fixtures/db.edn
+if [ "$GEN_RC" -eq 0 ]; then
+	ok "the mutant still GENERATES — the red below is a verdict, not a crash"
+else
+	bad "the mutant failed to generate (rc=$GEN_RC): $GEN_OUT"
+fi
+if command grep -q '  LEVEL_ALERT = 12;' "$WORK/m-enum-pos-out/commander.proto"; then
+	bad "the mutant kept the declared number, so the assertion above proves nothing"
+else
+	ok "MUTANT: the minted enum's declared numbers are replaced by positions"
+fi
+# THE SAME BLINDNESS AS MUTATION 4, on a different construct. The oracle checks
+# that a granted enum is PRESENT and never reads its members, so it calls this
+# mutant clean — which is why the assertion above reads the emitted text.
+verify "$WORK/m-enum-pos-out"
+if [ "$VER_RC" -eq 0 ]; then
+	ok "CONTROL: the oracle calls that mutant CLEAN — it does not read enum members"
+else
+	bad "the oracle reddened on the renumbered enum (rc=$VER_RC), so this case is now about something else: $VER_OUT"
+fi
+
+section "MINTED ONEOF REFUSALS — an absent member, and one two oneofs claim"
+ONEOF_REG=fixtures/refusal-registry-oneof.edn
+generate "$PG" "$WORK/absent-out" fixtures/refusal-policy-oneof-absent.edn fixtures/db.edn \
+	"$ONEOF_REG" fixtures/refusal-mint-oneof-absent.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "oneof-member-absent"; then
+	ok "the real tree REFUSES a member the message does not carry, by name"
+else
+	bad "a minted oneof naming an absent member was not refused (rc=$GEN_RC): $GEN_OUT"
+fi
+generate "$PG" "$WORK/shared-out" fixtures/refusal-policy-oneof-shared.edn fixtures/db.edn \
+	"$ONEOF_REG" fixtures/refusal-mint-oneof-shared.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "oneof-member-shared"; then
+	ok "the real tree REFUSES a field claimed by two oneofs, by name"
+else
+	bad "a field in two oneofs was not refused (rc=$GEN_RC): $GEN_OUT"
+fi
+
+section "MUTATION 8 — the absent-member clause, broken alone"
+MABSENT="$WORK/m-absent"
+copy_tool "$MABSENT"
+mutate_file "$MABSENT/src/protocol_gen/numbering.clj" \
+	'                   (or (get by-name member)' \
+	'                   (or (get by-name member) 0' \
+	|| bad "mutation 8 did not land"
+generate "$MABSENT" "$WORK/m-absent-out" fixtures/refusal-policy-oneof-absent.edn fixtures/db.edn \
+	"$ONEOF_REG" fixtures/refusal-mint-oneof-absent.edn
+if [ "$GEN_RC" -eq 0 ] && ! contains "$GEN_OUT" "oneof-member-absent"; then
+	ok "MUTANT: the FINDING is gone and the run emits the approximation instead"
+else
+	bad "the mutant still named the clause (rc=$GEN_RC), so the red is not attributable: $GEN_OUT"
+fi
+# THE NEIGHBOUR is the OTHER new clause, on this same mutant.
+generate "$MABSENT" "$WORK/m-absent-neighbour" fixtures/refusal-policy-oneof-shared.edn fixtures/db.edn \
+	"$ONEOF_REG" fixtures/refusal-mint-oneof-shared.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "oneof-member-shared"; then
+	ok "CONTROL: the shared-member clause still refuses on that same mutant"
+else
+	bad "the neighbouring clause stopped refusing too: $GEN_OUT"
+fi
+
+section "MUTATION 9 — the shared-member clause, broken alone"
+MSHARED="$WORK/m-shared"
+copy_tool "$MSHARED"
+mutate_file "$MSHARED/src/protocol_gen/numbering.clj" \
+	'          :when (> (count claims) 1)]' \
+	'          :when (> (count claims) 99)]' \
+	|| bad "mutation 9 did not land"
+generate "$MSHARED" "$WORK/m-shared-out" fixtures/refusal-policy-oneof-shared.edn fixtures/db.edn \
+	"$ONEOF_REG" fixtures/refusal-mint-oneof-shared.edn
+if [ "$GEN_RC" -eq 0 ] && ! contains "$GEN_OUT" "oneof-member-shared"; then
+	ok "MUTANT: the FINDING is gone and the run emits instead of refusing"
+else
+	bad "the mutant still named the clause (rc=$GEN_RC): $GEN_OUT"
+fi
+# AND THE APPROXIMATION IS SHOWN, not merely inferred. `raw` was declared in
+# both oneofs; the emitted file puts it in the first and `secondary` loses it
+# without a word. This is what the refusal buys, and it compiles either way.
+if contains "$(oneof_block "$WORK/m-shared-out/bad.proto" primary)" "raw" &&
+	! contains "$(oneof_block "$WORK/m-shared-out/bad.proto" secondary)" "raw"; then
+	ok "MUTANT: the losing oneof silently lost its member — a compiling, wrong schema"
+else
+	bad "the mutant did not produce the approximation this clause exists to prevent"
+fi
+# THE NEIGHBOUR, again the other new clause.
+generate "$MSHARED" "$WORK/m-shared-neighbour" fixtures/refusal-policy-oneof-absent.edn fixtures/db.edn \
+	"$ONEOF_REG" fixtures/refusal-mint-oneof-absent.edn
+if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "oneof-member-absent"; then
+	ok "CONTROL: the absent-member clause still refuses on that same mutant"
+else
+	bad "the neighbouring clause stopped refusing too: $GEN_OUT"
+fi
+
 section "NUMBERING — an unpinned minted field stops the run"
 M4="$WORK/m4"
 copy_tool "$M4"
 mutate_file "$M4/fixtures/numbering-registry.edn" \
-	'{"pgfix.Heartbeat" {"seq" 1, "sent_at_ns" 2}}' \
-	'{"pgfix.Heartbeat" {"seq" 1}}' \
+	'{"pgfix.Heartbeat" {"seq" 1, "sent_at_ns" 2}' \
+	'{"pgfix.Heartbeat" {"seq" 1}' \
 	|| bad "the registry mutation did not land"
 generate "$M4" "$WORK/m4-out" fixtures/policy.edn fixtures/db.edn
 if [ "$GEN_RC" -ne 0 ] && contains "$GEN_OUT" "Field not in the field-number registry"; then

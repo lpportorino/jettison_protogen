@@ -1,0 +1,12 @@
+;; The registry for BOTH minted-oneof refusal fixtures.
+;;
+;; One file for two mints on purpose: a registry may legitimately carry pins for
+;; messages a given mint file does not declare — `apply-numbering` looks up only
+;; what it is asked for — so sharing it keeps the two cases differing in exactly
+;; one input, which is what makes each refusal attributable to its own mint.
+;;
+;; Every field named by either fixture is pinned here. A refusal on either input
+;; is therefore about the ONEOF and never about a missing pin, which is a
+;; different refusal with a different message.
+{"pgbad.Ping" {"seq" 6}
+ "pgbad.Reading" {"raw" 5, "scaled" 9}}

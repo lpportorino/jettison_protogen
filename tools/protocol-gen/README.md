@@ -79,15 +79,52 @@ The CLI itself takes closed flags and defaults no path. A generator that
 invented a destination would write somewhere nobody checks, and one that
 invented an input would read something nobody chose.
 
+## What a locally-minted declaration can express
+
+A mint file is `{id declaration}`, and a declaration is a MESSAGE or an ENUM,
+tagged `:kind` so the two are told apart by a value rather than by which key a
+reader happens to test for first. An untagged or unknown-kind declaration is
+refused at LOAD.
+
+- **A message** declares `:name`, `:fields`, and optionally `:oneofs`. A field
+  declares no number and the schema HAS NO KEY FOR ONE, so the assign-once
+  registry is the only thing that can supply one.
+- **A oneof** declares `:name`, `:required`, and its members BY FIELD NAME. A
+  database oneof names its members by NUMBER — the wire identity — and a mint
+  has no numbers, so a name is the only identifier available. The stamping pass
+  turns each name into the number the registry supplied for that field, against
+  the message's OWN declared fields rather than against the registry entry: a
+  retired pin keeps its number for ever, so resolving against the entry would
+  hand a dead name a live number.
+- **An enum** declares `:name` and `:values`, each value carrying its own
+  number. The registry has no part in this and could not: its value schema
+  excludes 0, and proto3 requires an enum member numbered 0. The schema instead
+  supplies the floor protoc would have — a member numbered 0, distinct numbers,
+  distinct names — because a database comes from protoc and cannot carry an enum
+  proto3 rejects, while a mint has no such upstream.
+
+Both kinds are merged into the UNIVERSE, so a minted field referring to a minted
+enum resolves, and a minted enum is granted through the policy's `:enums` list
+exactly the way a descriptor enum is. Nothing in the policy says which kind of
+enum it is naming.
+
+Two ways a mint can be wrong that would otherwise be approximated silently, and
+both are refused by name: a oneof member naming no field of its message
+(`oneof-member-absent`), and a field claimed by more than one oneof
+(`oneof-member-shared` — a proto field belongs to at most one, so the losing
+block would emit a member short, or vanish, and still compile).
+
 ## What the emitter can and cannot express
 
 Three classes, and only the first two can ever be caught here.
 
-**1. Detectable in the database, refused by name.** A type the generator has no
-emission for (including the producing parser's own `:unknown` fallback); a
-`:type-ref` that resolves to nothing; a field number outside 1..2^29-1 or inside
-protoc's reserved 19000..19999; two fields sharing a number; a oneof naming a
-member the message does not carry.
+**1. Detectable in the database or the mint, refused by name.** A type the
+generator has no emission for (including the producing parser's own `:unknown`
+fallback); a `:type-ref` that resolves to nothing; a field number outside
+1..2^29-1 or inside protoc's reserved 19000..19999; two fields sharing a number;
+a oneof naming a member the message does not carry; and — reachable only from a
+MINT, because protoc's own descriptors give each field one oneof index — a field
+claimed by two oneofs at once.
 
 The unresolvable-reference class is not hypothetical, and this repository's own
 committed database used to demonstrate it: every refusal `make
@@ -158,16 +195,36 @@ repository.
 
 The fixture field numbers are deliberately non-contiguous and do not start at 1.
 A fixture numbered 1..n in order could not tell a correct generator from one
-numbering by position; this one can.
+numbering by position; this one can. The minted `pgfix.Notice` carries that
+further: its registry pins disagree with its declaration ORDER as well as with
+1..n, and its oneof's two members are pinned so that number order and
+declaration order are opposites — so an emitter listing members as declared is
+caught by the same fixture that catches one numbering by position.
+
+One emitted file therefore carries all four combinations that matter: a
+descriptor message with a descriptor oneof, a minted message with a minted
+oneof, a descriptor enum, and a minted one.
 
 `canary/protocol_gen_canary.sh` is not a demo. It drives the real generator in
-both directions and FAILS when the generator is broken, proving each of three
-failures by MUTATION — a wrong field number, a dropped grant emitting a
-silently-allowed field, and a construct that cannot be expressed being
-approximated instead of refused. Every case asserts an exact exit code and a
+both directions and FAILS when the generator is broken, proving every failure it
+covers by MUTATION — a wrong field number, a dropped grant emitting a
+silently-allowed field, a construct that cannot be expressed being approximated
+instead of refused, and, on the minted side, a oneof flattened into free fields,
+a oneof losing its `required`, an enum that stops resolving, an enum renumbered
+by position, and each of the two minted-oneof refusals broken alone with the
+other as its neighbouring control. Read the list from the script's sections
+rather than from a count here. Every case asserts an exact exit code and a
 substring naming the finding; every absence probe carries a control that makes
 it produce a hit; and each mutant is asserted still to RUN, so a red is a
 verdict rather than a crash.
+
+**Two of those cases assert what the ORACLE CANNOT SEE, and they are the reason
+the minted-construct cases read the emitted TEXT rather than the descriptor.**
+The oracle compares fields — number, type, repeated, constrained — and an enum's
+NAME. It never reads a field's oneof index nor an enum's members, so a mutant
+that flattens a oneof into free fields, or renumbers an enum's members, is CLEAN
+by its verdict. Both are asserted clean on their mutants, so a later reader
+cannot mistake that blindness for coverage.
 
 It needs `clojure` and `protoc`, and HARD-FAILS when either is missing rather
 than skipping. protoc resolves the emitted files' validation import out of the

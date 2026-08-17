@@ -80,7 +80,17 @@
 
    Closed because a refusal is read by a canary that has to attribute a red to
    its own clause: a free-text reason lets two different defects wear the same
-   message, and then a green after a fix proves nothing about which one moved."
+   message, and then a green after a fix proves nothing about which one moved.
+
+   THE SET IS THIS NAMESPACE'S; THE THROW SITES ARE NOT ALL HERE, and a reader
+   looking for one clause per reason will not find it. `protocol-gen.projection`
+   raises the four the policy decides, `protocol-gen.constraints` the two an
+   option decides, and `protocol-gen.numbering` the two a minted oneof decides
+   — the latter because a mint names its members by NAME and a name becomes a
+   number only in the stamping pass, which is therefore the first place a
+   member naming nothing is detectable at all. `oneof-refusals` below judges
+   the same class over a DATABASE message, where members already are numbers;
+   the two share the reason and not the clause."
   #{:unknown-field-type
     :missing-type-ref
     :unresolved-type-ref
@@ -88,6 +98,7 @@
     :field-number-reserved
     :duplicate-field-number
     :oneof-member-absent
+    :oneof-member-shared
     :type-not-granted
     :field-not-in-message
     :message-not-in-database

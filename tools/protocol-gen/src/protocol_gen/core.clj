@@ -92,8 +92,10 @@
 (m/=> survey! [:=> [:cat [:map-of :keyword [:string {:min 1}]]] :nil])
 
 (defn reconcile!
-  "Grow the registry named by `--registry` to cover every mint named by
-   `--minted`, write it back, and print what moved.
+  "Grow the registry named by `--registry` to cover every minted MESSAGE named
+   by `--minted`, write it back, and print what moved. A minted ENUM carries its
+   members' numbers inline and is skipped: there is no assignment for
+   assign-once to protect in a number that is already written down.
 
    Prints the ADDED pins rather than a bare success line: a reconcile that
    silently wrote nothing and one that silently minted a wire contract look

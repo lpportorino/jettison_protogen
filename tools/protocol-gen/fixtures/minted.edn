@@ -1,11 +1,50 @@
-;; LOCALLY-MINTED messages: shapes this generator declares itself, which no
+;; LOCALLY-MINTED declarations: shapes this generator declares itself, which no
 ;; descriptor database carries.
 ;;
 ;; A MINT DECLARES NO FIELD NUMBER, AND THE SCHEMA HAS NO KEY FOR ONE. That is
-;; what leaves `numbering-registry.edn` as the only possible source of a number
-;; — the generator refuses to run against an unpinned field rather than
-;; inventing one, so a number here cannot move because a policy changed.
+;; what leaves `numbering-registry.edn` as the only possible source of one — the
+;; generator refuses to run against an unpinned field rather than inventing one,
+;; so a number here cannot move because a policy changed.
+;;
+;; EACH DECLARATION IS TAGGED `:kind`, and the two kinds are numbered by
+;; different mechanisms for a reason stated in `protocol-gen.numbering`: a
+;; MESSAGE's fields take the registry's numbers, while an ENUM's members carry
+;; their own, because the registry's value schema excludes 0 and proto3 requires
+;; an enum member numbered 0.
+;;
+;; A MINTED ONEOF NAMES ITS MEMBERS BY FIELD NAME, where a database oneof names
+;; them by number. A mint has no numbers to name them with; the stamping pass
+;; resolves each name against this message's own fields, so a member naming
+;; something not below is REFUSED rather than dropped.
+;;
+;; `pgfix.Notice` is deliberately awkward in three ways at once, because a
+;; fixture that is tidy cannot tell a correct generator from a lucky one:
+;;
+;;   * its registry pins are non-contiguous AND out of declaration order, so a
+;;     generator numbering by position emits 1/2/3 and is caught;
+;;   * its oneof's members are pinned so that NUMBER order and DECLARATION order
+;;     disagree, so an emitter listing members as declared is caught too;
+;;   * it carries a free field beside the oneof, and refers to a minted enum
+;;     that exists in no database — the reference resolves only if enum
+;;     resolution consults the universe rather than the database.
 {"pgfix.Heartbeat"
- {:name "Heartbeat"
+ {:kind :message
+  :name "Heartbeat"
   :fields [{:name "seq" :type :uint32 :constraints {:gte 1}}
-           {:name "sent_at_ns" :type :uint64}]}}
+           {:name "sent_at_ns" :type :uint64}]}
+
+ "pgfix.Level"
+ {:kind :enum
+  :name "Level"
+  :values [{:number 0 :name "LEVEL_UNSPECIFIED"}
+           {:number 3 :name "LEVEL_INFO"}
+           {:number 12 :name "LEVEL_ALERT"}]}
+
+ "pgfix.Notice"
+ {:kind :message
+  :name "Notice"
+  :fields [{:name "level" :type :enum :type-ref "pgfix.Level"
+            :constraints {:defined-only true}}
+           {:name "text" :type :string :constraints {:min-len 1}}
+           {:name "code" :type :uint32}]
+  :oneofs [{:name "detail" :required true :fields ["text" "code"]}]}}

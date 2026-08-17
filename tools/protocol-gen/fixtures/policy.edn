@@ -12,6 +12,15 @@
 ;;     heartbeat, so one emitted file carries both a descriptor-numbered
 ;;     message and a registry-numbered one.
 ;;
+;; The commander group also carries the minted `pgfix.Notice` and the minted
+;; `pgfix.Level` it refers to, so ONE emitted file holds all four combinations
+;; that matter: a descriptor message with a descriptor oneof (`pgfix.Command`),
+;; a minted message with a MINTED oneof (`pgfix.Notice`), a descriptor enum
+;; (`pgfix.Mode`) and a minted one (`pgfix.Level`). A minted enum is granted
+;; exactly the way a descriptor enum is — `:enums` names it and nothing else
+;; distinguishes the two — which is the property `project-enums` resolving
+;; against the universe buys.
+;;
 ;; `pgfix.Secret` is granted to NEITHER, and appears in neither emitted file.
 {:version 1
  :groups
@@ -28,5 +37,6 @@
             {:message "pgfix.Start" :access #{:write} :fields :all}
             {:message "pgfix.Stop" :access #{:write} :fields :all}
             {:message "pgfix.SetMode" :access #{:write} :fields :all}
-            {:message "pgfix.Heartbeat" :access #{:write} :fields :all}]
-   :enums ["pgfix.Mode"]}]}
+            {:message "pgfix.Heartbeat" :access #{:write} :fields :all}
+            {:message "pgfix.Notice" :access #{:write} :fields :all}]
+   :enums ["pgfix.Mode" "pgfix.Level"]}]}

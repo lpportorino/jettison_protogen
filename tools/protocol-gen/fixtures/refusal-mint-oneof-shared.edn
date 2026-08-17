@@ -1,0 +1,18 @@
+;; A MINT that puts one field in TWO oneofs.
+;;
+;; A proto field belongs to at most one oneof, so this declaration has no
+;; truthful emission — and the failure is SILENT rather than loud, which is why
+;; it is refused instead of left to protoc. `projection/oneof-of` takes the
+;; FIRST oneof carrying a number, so with the refusal removed `raw` joins
+;; `primary`, `secondary` emits with `scaled` alone, and the resulting file
+;; compiles cleanly while saying something the mint did not.
+;;
+;; Both fields are real and pinned: the ONLY fault here is the double
+;; membership, so a refusal on this input cannot be attributed to anything else.
+{"pgbad.Reading"
+ {:kind :message
+  :name "Reading"
+  :fields [{:name "raw" :type :uint32}
+           {:name "scaled" :type :double}]
+  :oneofs [{:name "primary" :required false :fields ["raw"]}
+           {:name "secondary" :required false :fields ["raw" "scaled"]}]}}

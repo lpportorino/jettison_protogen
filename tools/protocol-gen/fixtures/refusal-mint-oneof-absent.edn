@@ -1,0 +1,15 @@
+;; A MINT whose oneof names a member the message does not carry.
+;;
+;; A minted oneof names its members by FIELD NAME, because a mint declares no
+;; numbers — so this is the mistake the form makes available, and it is the one
+;; the generator must REFUSE rather than drop. Dropping it emits a oneof one arm
+;; short, or none at all when that arm was its only member, and the emitted file
+;; then reads as a policy that deliberately withheld the arm.
+;;
+;; `seq` is real and pinned; `absent_member` is neither. The refusal names
+;; `oneof-member-absent` and lists the fields the message does carry.
+{"pgbad.Ping"
+ {:kind :message
+  :name "Ping"
+  :fields [{:name "seq" :type :uint32}]
+  :oneofs [{:name "detail" :required false :fields ["seq" "absent_member"]}]}}

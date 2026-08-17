@@ -76,7 +76,7 @@
   ;; THE END-TO-END CLAIM. Every pass runs: the projection resolves the grant
   ;; and stamps the number, the renderer turns the type into the emitted
   ;; spelling, and the emitter writes the line.
-  (let [projected (projection/project-group database {} policy-group)
+  (let [projected (projection/project-group database {:messages {} :enums {}} policy-group)
         text (emit/file->proto
               (render/render-group projected (fn [_ _] []) []))]
     (doseq [[i t] (map-indexed vector distinctly-encoded-integers)]

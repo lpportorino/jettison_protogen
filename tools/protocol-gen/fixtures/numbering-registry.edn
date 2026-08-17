@@ -8,4 +8,16 @@
 ;; Grown by `protocol-gen reconcile`, never by generating — a generator that
 ;; could grow its own registry would assign a number as a side effect of being
 ;; run.
-{"pgfix.Heartbeat" {"seq" 1, "sent_at_ns" 2}}
+;;
+;; ONLY MESSAGES APPEAR HERE. A minted ENUM carries its members' numbers in the
+;; mint itself and is skipped by `reconcile` outright, because an empty entry
+;; under an enum's id would read exactly like a message whose fields had all
+;; been retired.
+;;
+;; `pgfix.Notice`'s pins are deliberately non-contiguous and disagree with the
+;; order its fields are declared in: `level` is declared first and pinned 15,
+;; `text` second and pinned 7, `code` third and pinned 4. A generator numbering
+;; by position would emit 1/2/3, and the oneof block would list `text` before
+;; `code` instead of after it.
+{"pgfix.Heartbeat" {"seq" 1, "sent_at_ns" 2}
+ "pgfix.Notice" {"code" 4, "level" 15, "text" 7}}

@@ -40,7 +40,18 @@
    field; growing the registry is a separate, deliberate act with its own
    reviewed commit. A generator that could grow its own registry would assign a
    number as a side effect of being run, which is the one thing assign-once
-   exists to prevent."
+   exists to prevent.
+
+   WHAT A MINT MAY DECLARE, and where each part gets its number. A mint file is
+   `{id declaration}`, and a declaration is a MESSAGE or an ENUM, tagged by
+   `:kind` so the two are told apart by a value rather than by which key a
+   reader happens to find. A message's fields are numbered by the registry and
+   by nothing else; its oneofs name their members by FIELD NAME and are
+   resolved here against the numbers the registry just supplied; an enum's
+   members carry their own numbers inline, for the reasons `minted-enum-values`
+   states. Nothing in this file derives a number from a position, and
+   `apply-numbering` yields the same shape a descriptor database uses, so from
+   there on a minted declaration and a projected one are indistinguishable."
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.pprint :as pp]
@@ -77,15 +88,98 @@
    [:repeated {:optional true} :boolean]
    [:constraints {:optional true} [:map-of :keyword db/constraint-value]]])
 
-(def mint
-  "One locally-minted message as declared."
+(def minted-oneof
+  "One oneof of a locally-minted message, AS DECLARED.
+
+   MEMBERS ARE NAMED BY FIELD NAME, and that is forced rather than preferred. A
+   database oneof identifies its members by NUMBER — the wire identity, and
+   what the projection re-resolves membership by — while a mint declares no
+   number at all, because `mint-field` above is closed and has no `:number`
+   key. The one identifier a mint does give a field is its NAME, so a name is
+   the only thing a minted oneof can name a member with. `stamp-oneof` turns
+   each name into the number the registry supplied for that field, which is why
+   this is the ONLY place the two forms differ: everything downstream sees a
+   `db/oneof`, members and all.
+
+   THE ALTERNATIVE CONSIDERED, and why it lost. A `:oneof \"name\"` key on
+   `mint-field` would make double membership unrepresentable — a field can
+   carry only one such key — but `:required` is a real emitted option
+   (`option (buf.validate.oneof).required`) with nowhere to live on a field, so
+   a message-level declaration would still be needed and one oneof would then
+   be declared in two places at once. That is worse than one place plus a
+   refusal, and it would make a mint describe a construct differently from the
+   database for no gain."
   [:map {:closed true}
    [:name db/proto-identifier]
-   [:fields [:vector {:min 1} mint-field]]])
+   [:required :boolean]
+   [:fields [:vector {:min 1} db/proto-identifier]]])
+
+(def minted-message
+  "One locally-minted MESSAGE as declared."
+  [:map {:closed true}
+   [:kind [:= :message]]
+   [:name db/proto-identifier]
+   [:fields [:vector {:min 1} mint-field]]
+   [:oneofs {:optional true} [:vector {:min 1} minted-oneof]]])
+
+(def minted-enum-values
+  "The members of a locally-minted enum, each carrying its own number.
+
+   NUMBERS ARE DECLARED INLINE AND DO NOT COME FROM THE REGISTRY — the one
+   place a mint departs from how a minted FIELD is numbered. Three reasons, and
+   the first alone settles it:
+
+   - `field-number`, the registry's value schema, EXCLUDES 0 and protoc's
+     reserved range, and proto3 REQUIRES an enum member numbered 0. A registry
+     entry could not hold a legal enum value set at all.
+   - the registry exists to stop generation INVENTING a number. A number
+     written down in the mint is invented by nothing, so there is no assignment
+     step for assign-once to protect; changing it is exactly as deliberate as
+     changing a registry pin, and the two files are committed side by side.
+   - a database enum carries its numbers inline for the same reason, so
+     `db/enum-value` is reused verbatim here rather than mirrored, and a minted
+     enum reaches the projection in the shape a projected one already has.
+
+   THE THREE PREDICATES ARE THE FLOOR protoc WOULD OTHERWISE HAVE SUPPLIED. A
+   descriptor database is produced from protoc's own output and so cannot carry
+   an enum proto3 rejects; a mint has no such upstream, and a value the
+   language cannot express must not reach a pass that assumes it can. They are
+   LOAD-time shape rules rather than refusals carrying a reason because each
+   would be caught LOUDLY by protoc on the emitted file — where the oneof
+   faults `apply-numbering` refuses would be approximated SILENTLY instead,
+   which is the distinction that decides where a check belongs."
+  [:and
+   [:vector {:min 1} db/enum-value]
+   [:fn {:error/message "proto3 requires a member numbered 0"}
+    (fn [vs] (boolean (some (comp zero? :number) vs)))]
+   [:fn {:error/message "two members share a number, which needs allow_alias — not emittable here"}
+    (fn [vs] (= (count vs) (count (distinct (map :number vs)))))]
+   [:fn {:error/message "two members share a name"}
+    (fn [vs] (= (count vs) (count (distinct (map :name vs)))))]])
+
+(def minted-enum
+  "One locally-minted ENUM as declared."
+  [:map {:closed true}
+   [:kind [:= :enum]]
+   [:name db/proto-identifier]
+   [:values minted-enum-values]])
+
+(def minted-declaration
+  "One locally-minted declaration: a message or an enum.
+
+   TAGGED BY `:kind`, dispatched on that value. A sum told apart by which key
+   happens to be present is decided by the reader guessing at a carrier's
+   shape, so a declaration carrying neither `:fields` nor `:values` — or both —
+   would be resolved by whichever test ran first. `:multi` with no default arm
+   refuses an absent or unknown `:kind` outright, at load, which is where a
+   malformed declaration is cheapest to refuse."
+  [:multi {:dispatch :kind}
+   [:message minted-message]
+   [:enum minted-enum]])
 
 (def mints-schema
-  "`{message-id mint}` — the declared mints, keyed by fully-qualified name."
-  [:map-of db/proto-qualified-name mint])
+  "`{id declaration}` — the declared mints, keyed by fully-qualified name."
+  [:map-of db/proto-qualified-name minted-declaration])
 
 (defn- load-edn!
   "Read `path`, validate it against `schema`, return it. Throws on a missing or
@@ -113,9 +207,13 @@
 (m/=> load-registry [:=> [:cat [:string {:min 1}]] registry-schema])
 
 (defn load-mints
-  "Read and validate the locally-minted message declarations at `path`."
+  "Read and validate the locally-minted declarations at `path`.
+
+   The word MESSAGE is deliberately absent from the failure text below: a mint
+   file carries enums too, and a message-shaped diagnosis on a malformed enum
+   would point the reader at the wrong half of the file."
   [path]
-  (load-edn! mints-schema path "minted-message declarations"))
+  (load-edn! mints-schema path "minted declarations"))
 
 (m/=> load-mints [:=> [:cat [:string {:min 1}]] mints-schema])
 
@@ -160,16 +258,25 @@
       (assoc entry field-name n))))
 
 (defn reconcile
-  "Fold every field of `mints` into `registry`, returning the grown registry.
+  "Fold every field of every minted MESSAGE in `mints` into `registry`,
+   returning the grown registry.
 
    Append-only: an existing pin is never changed and never removed, so a second
    reconcile of the same declarations is a no-op. Deliberately NOT called by
-   generation — see the namespace docstring."
+   generation — see the namespace docstring.
+
+   AN ENUM DECLARATION IS SKIPPED ENTIRELY, not merely left unnumbered. Folding
+   one would write an EMPTY entry under its id, putting a name in the registry
+   that pins nothing — and a later reader could not tell that from a message
+   whose fields had all been retired, which is a state the registry is supposed
+   to record faithfully."
   [registry mints]
-  (reduce (fn [reg [msg-id {:keys [fields]}]]
-            (assoc reg msg-id (reduce #(reconcile-field msg-id %1 %2)
-                                      (get reg msg-id {})
-                                      fields)))
+  (reduce (fn [reg [msg-id {:keys [kind fields]}]]
+            (if (not= :message kind)
+              reg
+              (assoc reg msg-id (reduce #(reconcile-field msg-id %1 %2)
+                                        (get reg msg-id {})
+                                        fields))))
           registry
           mints))
 
@@ -187,29 +294,100 @@
                      :field field-name
                      :remedy "run the reconcile subcommand and commit the registry"}))))
 
+(defn- assert-oneof-members-distinct!
+  "Refuse a field name claimed more than once across `oneofs`.
+
+   A proto field belongs to at most ONE oneof, so such a declaration cannot be
+   emitted as written — and nothing downstream would say so.
+   `projection/oneof-of` takes the FIRST oneof carrying a number, so the losing
+   block emits one member short, or vanishes entirely when that was its only
+   member. Approximating a construct that cannot be expressed is the failure
+   this generator exists to refuse, so it is refused here instead of shipped.
+
+   This has no counterpart on the database side because protoc cannot produce
+   the shape: a descriptor's fields carry a oneof INDEX, one apiece, so the
+   producer of a real database has nothing to read that could name a field
+   twice. It is reachable only from a hand-written mint."
+  [msg-id oneofs]
+  (doseq [[member claims] (sort-by key (group-by first (for [o oneofs
+                                                             member (:fields o)]
+                                                         [member (:name o)])))
+          :when (> (count claims) 1)]
+    (constructs/refuse! :oneof-member-shared (str msg-id "." member)
+                        (str "field " (pr-str member) " is claimed as a oneof member more "
+                             "than once, by " (pr-str (vec (sort (map second claims))))
+                             "; a proto field belongs to at most one oneof"))))
+
+(defn- stamp-oneof
+  "One declared oneof with its member NAMES resolved to the numbers the
+   registry supplied for this message's fields, yielding a `db/oneof`.
+
+   RESOLVED AGAINST `by-name` — the fields just stamped — and never against the
+   registry entry, which is the whole safety of this function. A registry entry
+   legitimately outlives the field it pinned, because a retired pin keeps its
+   number for ever; a member naming a retired field would therefore RESOLVE
+   against the entry and yield a member number naming no live field. Resolving
+   against the declared fields refuses it here, under the name the author
+   actually wrote."
+  [msg-id by-name {oneof-name :name :keys [required fields]}]
+  {:name oneof-name
+   :required required
+   :fields (mapv (fn [member]
+                   (or (get by-name member)
+                       (constructs/refuse!
+                        :oneof-member-absent (str msg-id "." oneof-name)
+                        (str "oneof member " (pr-str member) " names no field of this "
+                             "message; its fields are "
+                             (pr-str (vec (sort (keys by-name))))))))
+                 fields)})
+
+(defn- stamp-message
+  "One minted message with every field's registry number stamped on and every
+   oneof member resolved to one of those numbers."
+  [registry msg-id {msg-name :name :keys [fields oneofs]}]
+  (let [entry (or (get registry msg-id)
+                  (throw (ex-info "Message not in the field-number registry"
+                                  {:message msg-id})))
+        stamped (mapv #(stamp-field msg-id entry %) fields)
+        by-name (into {} (map (juxt :name :number)) stamped)]
+    (assert-oneof-members-distinct! msg-id oneofs)
+    {:id msg-id
+     :name msg-name
+     :fields stamped
+     :oneofs (mapv #(stamp-oneof msg-id by-name %) oneofs)}))
+
+(defn- minted-enum->db
+  "One minted enum in the shape a descriptor database records an enum in. Its
+   members already carry their numbers, so nothing is stamped and nothing may
+   be: see `minted-enum-values` for why the registry has no part in this."
+  [enum-id {enum-name :name :keys [values]}]
+  {:id enum-id :name enum-name :values values})
+
 (defn apply-numbering
-  "Stamp the registry's numbers over `mints`, yielding message maps in the same
-   shape a descriptor database uses — so a projection treats a minted message
-   and a projected one identically from here on.
+  "Stamp the registry's numbers over `mints`, yielding the same shape a
+   DESCRIPTOR DATABASE uses — `{:messages {id message} :enums {id enum}}` — so
+   a projection treats a minted declaration and a projected one identically
+   from here on.
 
-   Every message and every field must ALREADY be pinned; a miss throws. That
-   throw is the assign-once property: nothing on the generation path can invent
-   a number, so a policy edit cannot move one."
+   Every minted MESSAGE and every one of its fields must ALREADY be pinned; a
+   miss throws. That throw is the assign-once property: nothing on the
+   generation path can invent a number, so a policy edit cannot move one. A
+   minted ENUM is passed through carrying the numbers it declared, and the
+   registry is not consulted for it at all.
+
+   THE `case` HAS NO DEFAULT ARM ON PURPOSE. `minted-declaration` is a `:multi`
+   with none either, so an unknown `:kind` cannot survive `load-mints`, and
+   writing an arm here for a value that cannot arrive would be a branch nothing
+   can reach and nothing can test."
   [registry mints]
-  (into {}
-        (map (fn [[msg-id {msg-name :name :keys [fields]}]]
-               (let [entry (or (get registry msg-id)
-                               (throw (ex-info "Message not in the field-number registry"
-                                               {:message msg-id})))]
-                 [msg-id {:id msg-id
-                          :name msg-name
-                          :fields (mapv #(stamp-field msg-id entry %) fields)
-                          :oneofs []}])))
-        mints))
+  (reduce (fn [acc [id decl]]
+            (case (:kind decl)
+              :message (assoc-in acc [:messages id] (stamp-message registry id decl))
+              :enum (assoc-in acc [:enums id] (minted-enum->db id decl))))
+          {:messages {} :enums {}}
+          mints))
 
-(m/=> apply-numbering
-      [:=> [:cat registry-schema mints-schema]
-       [:map-of db/proto-qualified-name db/message]])
+(m/=> apply-numbering [:=> [:cat registry-schema mints-schema] db/database])
 
 (def numbered-message
   "The shape `assert-stamped!` judges: anything carrying an id and fields. It

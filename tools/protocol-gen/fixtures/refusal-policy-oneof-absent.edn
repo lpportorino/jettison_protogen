@@ -1,0 +1,6 @@
+;; Grants the minted message whose oneof names an absent member. The generator
+;; must REFUSE this run, naming `oneof-member-absent`.
+{:version 1
+ :groups [{:id :bad
+           :package "pgbad.g"
+           :grants [{:message "pgbad.Ping" :access #{:write} :fields :all}]}]}

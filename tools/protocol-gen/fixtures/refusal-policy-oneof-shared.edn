@@ -1,0 +1,6 @@
+;; Grants the minted message that puts one field in two oneofs. The generator
+;; must REFUSE this run, naming `oneof-member-shared`.
+{:version 1
+ :groups [{:id :bad
+           :package "pgbad.g"
+           :grants [{:message "pgbad.Reading" :access #{:write} :fields :all}]}]}

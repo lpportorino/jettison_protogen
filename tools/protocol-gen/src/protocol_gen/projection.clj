@@ -1,6 +1,13 @@
 (ns protocol-gen.projection
-  "The JOIN: descriptor database + locally-minted messages + access policy ->
-   one resolved projection per group.
+  "The JOIN: descriptor database + locally-minted declarations + access policy
+   -> one resolved projection per group.
+
+   `minted` ARRIVES DATABASE-SHAPED — `{:messages … :enums …}` — because
+   `numbering/apply-numbering` has already stamped every minted field with its
+   registry number. So a minted message and a projected one are one shape from
+   here on, and a minted ENUM resolves through the same lookup a projected one
+   does; the only thing that still tells them apart is the `:origin` recorded
+   per message, which the permission mirror carries.
 
    This is where the policy is applied, and it is applied over the EDN BEFORE
    anything is emitted. A group's projection contains only what that group was
@@ -93,12 +100,16 @@
 
 (defn- resolve-message
   "The message `grant` names, from the database or the minted set, tagged with
-   its origin. Refuses when neither carries it."
+   its origin. Refuses when neither carries it.
+
+   `minted` is itself database-shaped, so both lookups read `:messages`; the
+   two are kept apart rather than merged here because the ORIGIN is what
+   distinguishes them, and it is a fact the permission mirror carries."
   [database minted grant]
   (let [id (:message grant)]
     (cond
       (contains? (:messages database) id) [:descriptor (get-in database [:messages id])]
-      (contains? minted id) [:minted (get minted id)]
+      (contains? (:messages minted) id) [:minted (get-in minted [:messages id])]
       :else (constructs/refuse! :message-not-in-database id
                                 (str "the policy grants this message and neither the "
                                      "database nor the minted declarations carry it")))))
@@ -157,24 +168,44 @@
                              (pr-str (vec (sort (map :id items))))))))
 
 (defn- project-enums
-  "The enums a group listed, resolved against the database."
-  [database g]
+  "The enums a group listed, resolved against `all` — the UNIVERSE, not the
+   database.
+
+   The universe is what makes a minted enum resolve the way a minted message
+   already does. Asking the database alone refused a locally-minted enum for
+   not being in a file it was never in, which is the same mistake
+   `project-field` avoids by judging expressibility against the union.
+
+   NO `:origin` IS RECORDED HERE, and a reader should know that rather than
+   infer it. A projected MESSAGE carries one and the permission mirror reports
+   it; an enum's entry in that mirror is its emitted name and nothing else, so
+   a minted enum and a descriptor enum are indistinguishable there. Recording
+   an origin the mirror has no field for would put a fact in the projection
+   that nothing reads."
+  [all g]
   (mapv (fn [id]
-          (if-let [e (get-in database [:enums id])]
+          (if-let [e (get-in all [:enums id])]
             {:id id :proto-name (proto-name-of id) :values (:values e)}
             (constructs/refuse! :enum-not-in-database id
-                                "the policy lists this enum and the database does not carry it")))
+                                (str "the policy lists this enum and neither the database "
+                                     "nor the minted declarations carry it"))))
         (:enums g [])))
 
 (defn universe
-  "The database with the minted messages merged in — everything that EXISTS, as
-   opposed to everything a group was granted. Reference resolution asks this;
-   the closure check asks the grants."
-  [database minted]
-  (update database :messages merge minted))
+  "The database with the minted declarations merged in — everything that
+   EXISTS, as opposed to everything a group was granted. Reference resolution
+   asks this; the closure check asks the grants.
 
-(m/=> universe
-      [:=> [:cat db/database [:map-of db/proto-qualified-name db/message]] db/database])
+   BOTH MAPS, not `:messages` alone. `constructs/type-refusal` asks
+   `db/enum-ref?` of this value, so with only messages merged a minted field
+   referring to a minted enum was refused `:unresolved-type-ref` — a reference
+   that resolves perfectly well, reported as one that resolves to nothing."
+  [database minted]
+  (-> database
+      (update :messages merge (:messages minted))
+      (update :enums merge (:enums minted))))
+
+(m/=> universe [:=> [:cat db/database db/database] db/database])
 
 (defn project-group
   "The resolved projection for one group."
@@ -193,15 +224,14 @@
                                           (granted-fields grant msg))
                             :oneofs (vec (:oneofs msg))}))
                        (:grants g))
-        enums (project-enums database g)]
+        enums (project-enums all g)]
     (assert-types-granted! (:id g) messages enums)
     (assert-names-distinct! (:id g) messages enums)
     (numbering/assert-stamped! messages)
     {:id (:id g) :package (:package g) :messages messages :enums enums}))
 
 (m/=> project-group
-      [:=> [:cat db/database [:map-of db/proto-qualified-name db/message] policy/group]
-       projected-group])
+      [:=> [:cat db/database db/database policy/group] projected-group])
 
 (defn project
   "Every group's projection, in policy order. Refuses a duplicated group id —
@@ -214,5 +244,4 @@
   (mapv #(project-group database minted %) (:groups p)))
 
 (m/=> project
-      [:=> [:cat db/database [:map-of db/proto-qualified-name db/message] policy/policy]
-       [:vector projected-group]])
+      [:=> [:cat db/database db/database policy/policy] [:vector projected-group]])
