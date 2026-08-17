@@ -5,26 +5,63 @@
             [clojure.string :as str]
             [taoensso.telemere :as t]))
 
-;; Type mapping from proto type strings to keywords
 (def type-mapping
+  "Descriptor type name -> the keyword this database records it as.
+
+   ONE KEYWORD PER DESCRIPTOR TYPE, and that is a wire-correctness property
+   rather than tidiness. `sint32`/`sint64` are ZIGZAG, the `fixed`/`sfixed`
+   family is FIXED-WIDTH, and `int32`/`int64`/`uint32`/`uint64` are varint
+   two's-complement: the three families DECODE THE SAME BYTES TO DIFFERENT
+   VALUES. A map that folded them onto one keyword left a consumer re-emitting
+   a `.proto` from this database declaring a type that reads the wire wrongly,
+   with nothing in the database recording that the substitution had happened —
+   the defect no downstream check can find, because the information is gone by
+   the time it is written.
+
+   `TYPE_GROUP` is preserved distinctly for exactly the same reason and is NOT
+   folded onto `:message`. A proto2 group is message-SHAPED but is framed by
+   START_GROUP/END_GROUP tags rather than by a length prefix, so emitting a
+   plain message field in its place is the same class of silent re-encoding. It
+   carries a `:type-ref` like any other reference (see `types-with-type-ref`),
+   which is what lets a consumer resolve it and then refuse it KNOWINGLY —
+   proto3 has no group syntax, so refusing is the only truthful outcome, and a
+   refusal needs the fact to refuse.
+
+   EACH VALUE IS THE TYPE'S `.proto` SPELLING, which is a contract two
+   consumers already depend on: `protocol-gen.render` emits a scalar as
+   `(name (:type fld))`, and `protodoc.render` prints the same keyword into the
+   documentation. `protodoc.parse-test` asserts that spelling per entry rather
+   than checking a hand-written list, so the property cannot decay.
+
+   A descriptor type absent here becomes `:unknown` at the field, which every
+   consumer is required to refuse rather than guess at."
   {"TYPE_DOUBLE"   :double
    "TYPE_FLOAT"    :float
    "TYPE_INT64"    :int64
    "TYPE_UINT64"   :uint64
    "TYPE_INT32"    :int32
    "TYPE_UINT32"   :uint32
-   "TYPE_FIXED64"  :uint64
-   "TYPE_FIXED32"  :uint32
-   "TYPE_SFIXED32" :int32
-   "TYPE_SFIXED64" :int64
-   "TYPE_SINT32"   :int32
-   "TYPE_SINT64"   :int64
+   "TYPE_FIXED64"  :fixed64
+   "TYPE_FIXED32"  :fixed32
+   "TYPE_SFIXED32" :sfixed32
+   "TYPE_SFIXED64" :sfixed64
+   "TYPE_SINT32"   :sint32
+   "TYPE_SINT64"   :sint64
    "TYPE_BOOL"     :bool
    "TYPE_STRING"   :string
    "TYPE_BYTES"    :bytes
    "TYPE_ENUM"     :enum
    "TYPE_MESSAGE"  :message
-   "TYPE_GROUP"    :message})
+   "TYPE_GROUP"    :group})
+
+(def types-with-type-ref
+  "The database types whose real type is NAMED rather than spelled out, so the
+   field carries a `:type-ref` a consumer resolves against the database.
+
+   `:group` belongs here with `:enum` and `:message`: a group names a message
+   in the descriptor exactly as a message field does, and dropping the name
+   would leave a distinctly-recorded type nobody can resolve."
+  #{:enum :message :group})
 
 (defn- normalize-type-ref
   "Convert .pkg.Type to pkg.Type (remove leading dot)."
@@ -209,8 +246,8 @@
               :name (get field-desc "name")
               :type (get type-mapping (get field-desc "type") :unknown)}]
     (cond-> base
-      ;; Add type reference for enums and messages
-      (contains? #{:enum :message} (:type base))
+      ;; Add type reference for every type whose real type is NAMED
+      (contains? types-with-type-ref (:type base))
       (assoc :type-ref (normalize-type-ref (get field-desc "typeName")))
 
       ;; Mark repeated fields

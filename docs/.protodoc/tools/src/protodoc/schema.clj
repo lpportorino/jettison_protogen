@@ -238,10 +238,23 @@
       [ref-str nil]
       [(subs ref-str 0 idx) (subs ref-str (inc idx))])))
 
-;; Proto field types
+;; Proto field types — one member per DESCRIPTOR type, never per value range.
+;;
+;; The zigzag (`sint*`), fixed-width (`fixed*`/`sfixed*`) and varint
+;; two's-complement (`int*`/`uint*`) families read the same bytes differently,
+;; so each keeps its own member; `protodoc.parse/type-mapping` owns the mapping
+;; and the reasoning. `:group` is the proto2 delimited encoding, message-shaped
+;; and framed differently, so it is a member too rather than a spelling of
+;; `:message`.
+;;
+;; CLOSED, AND THAT IS WHAT MAKES IT LOAD-BEARING HERE: `protodoc.core/generate`
+;; validates the whole database against `ProtoDb` before writing it, so a type
+;; the parser can produce and this set omits stops the regeneration outright
+;; rather than reaching the committed database.
 (def FieldType
   [:enum :uint32 :int32 :uint64 :int64 :double :float
-   :bool :string :bytes :enum :message])
+   :fixed32 :fixed64 :sfixed32 :sfixed64 :sint32 :sint64
+   :bool :string :bytes :enum :message :group])
 
 ;; Field within a message
 (def Field

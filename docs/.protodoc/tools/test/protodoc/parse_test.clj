@@ -1,6 +1,7 @@
 (ns protodoc.parse-test
   "Tests for JSON descriptor parsing."
   (:require [clojure.data.json :as json]
+            [clojure.string :as str]
             [clojure.test :refer [deftest testing is]]
             [protodoc.parse :as parse]))
 
@@ -459,6 +460,99 @@
               field (first (:fields msg))]
           (is (= 1 (:min-items (:constraints field))))
           (is (= 100 (:max-items (:constraints field)))))
+        (finally
+          (.delete temp-file))))))
+
+;; ============================================================================
+;; Scalar type mapping — one keyword per WIRE ENCODING
+;; ============================================================================
+;;
+;; DERIVED, NEVER LISTED. Both tests below read `parse/type-mapping`'s own keys
+;; and compute what each one must produce, so neither can be satisfied by a map
+;; that has been re-collapsed and neither rots when a descriptor type is added.
+;; A hand-written expectation list would have to be edited in step with the map
+;; it judges, which is the one edit an author making the map wrong would also
+;; make.
+
+(defn- descriptor-type-suffix
+  "The proto spelling a descriptor type name carries — `TYPE_SFIXED32` ->
+   `sfixed32`. It is the type's spelling in `.proto` source, which is what a
+   consumer re-emitting from this database writes out."
+  [descriptor-type-name]
+  (str/lower-case (subs descriptor-type-name (count "TYPE_"))))
+
+(deftest type-mapping-preserves-every-encoding-test
+  (testing "each descriptor type maps to the keyword naming its own proto type"
+    ;; A shared keyword is a COLLAPSED WIRE ENCODING: zigzag, fixed-width and
+    ;; varint two's-complement decode the same bytes to different values, so a
+    ;; database that cannot tell them apart cannot be re-emitted truthfully.
+    (doseq [[descriptor-name mapped] parse/type-mapping]
+      (is (= (keyword (descriptor-type-suffix descriptor-name)) mapped)
+          (str descriptor-name " must map to :" (descriptor-type-suffix descriptor-name)))))
+
+  (testing "no two descriptor types share a keyword"
+    (is (= (count parse/type-mapping)
+           (count (set (vals parse/type-mapping))))
+        (str "collapsed keywords: "
+             (->> (group-by val parse/type-mapping)
+                  (filter (fn [[_ entries]] (> (count entries) 1)))
+                  (mapv (fn [[k entries]] [k (mapv key entries)])))))))
+
+(deftest parse-preserves-every-encoding-end-to-end-test
+  (testing "a field of every descriptor type reaches the database with its own type"
+    ;; Built FROM the mapping's keys, so the descriptor under test grows with
+    ;; the mapping rather than having to be edited alongside it.
+    (let [names (sort (keys parse/type-mapping))
+          descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "EveryType"
+                          "field"
+                          (vec (map-indexed
+                                (fn [i descriptor-name]
+                                  {"name" (descriptor-type-suffix descriptor-name)
+                                   "number" (inc i)
+                                   "type" descriptor-name
+                                   "typeName" ".test.Referenced"})
+                                names))}]}]}
+          temp-file (java.io.File/createTempFile "every-type" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              fields (:fields (get-in db [:messages "test.EveryType"]))
+              by-name (into {} (map (juxt :name :type)) fields)]
+          (is (= (count names) (count fields)))
+          (doseq [descriptor-name names]
+            (is (= (keyword (descriptor-type-suffix descriptor-name))
+                   (get by-name (descriptor-type-suffix descriptor-name)))
+                (str descriptor-name " lost its encoding on the way into the database")))
+          (is (= (count fields) (count (set (map :type fields))))
+              "two fields of different descriptor types share one database type"))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-group-keeps-its-type-ref-test
+  (testing "a proto2 group is preserved distinctly and keeps its reference"
+    ;; A group is a MESSAGE-shaped construct with a DIFFERENT encoding —
+    ;; START_GROUP/END_GROUP tags rather than a length prefix — so folding it
+    ;; onto :message is the same defect as folding sint32 onto int32. It is
+    ;; preserved with its :type-ref so a consumer can resolve it and then refuse
+    ;; it knowingly, rather than emit a length-delimited field in its place.
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Legacy"
+                          "field" [{"name" "leg" "number" 1 "type" "TYPE_GROUP"
+                                    "typeName" ".test.Legacy.Leg"}]}]}]}
+          temp-file (java.io.File/createTempFile "group" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              field (first (:fields (get-in db [:messages "test.Legacy"])))]
+          (is (= :group (:type field)))
+          (is (= "test.Legacy.Leg" (:type-ref field))))
         (finally
           (.delete temp-file))))))
 
