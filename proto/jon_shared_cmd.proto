@@ -54,6 +54,14 @@ message Root {
   // Reserved fields for future use
   reserved 12 to 19;
 
+  // Field 33 held DayCamGlassHeater.Root day_cam_glass_heater in the payload
+  // oneof below, until that module was superseded by Heater. It was deleted
+  // without a reservation, leaving the number freely re-assignable while a peer
+  // built before the deletion can still emit the old field at it. A oneof
+  // cannot carry a reserved statement, so the number is retired here at message
+  // level, which covers the whole message's number space including the oneof's.
+  reserved 33;
+
   oneof payload {
     option (buf.validate.oneof).required = true;
     DayCamera.Root day_camera = 20;

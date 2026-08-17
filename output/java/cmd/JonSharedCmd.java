@@ -6723,7 +6723,7 @@ public final class JonSharedCmd {
       "md_lira.proto\032\032jon_shared_cmd_power.prot" +
       "o\032\030jon_shared_cmd_pmu.proto\032\033jon_shared_" +
       "cmd_heater.proto\032\033jon_shared_data_types." +
-      "proto\"\323\007\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
+      "proto\"\331\007\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
       "B\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\ti" +
       "mportant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001(" +
       "\010\022:\n\013client_type\030\005 \001(\0162\031.ser.JonGuiDataC" +
@@ -6747,10 +6747,10 @@ public final class JonSharedCmd {
       "\" \001(\0132\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132\017" +
       ".cmd.Power.RootH\000\022\034\n\003pmu\030$ \001(\0132\r.cmd.PMU" +
       ".RootH\000\022\"\n\006heater\030% \001(\0132\020.cmd.Heater.Roo" +
-      "tH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\014\020\024\"\006\n\004Ping\"\006\n\004N" +
-      "oop\"\010\n\006FrozenBFZDgit-codecommit.eu-centr" +
-      "al-1.amazonaws.com/v1/repos/jettison/jon" +
-      "p/cmdb\006proto3"
+      "tH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\014\020\024J\004\010!\020\"\"\006\n\004Pin" +
+      "g\"\006\n\004Noop\"\010\n\006FrozenBFZDgit-codecommit.eu" +
+      "-central-1.amazonaws.com/v1/repos/jettis" +
+      "on/jonp/cmdb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

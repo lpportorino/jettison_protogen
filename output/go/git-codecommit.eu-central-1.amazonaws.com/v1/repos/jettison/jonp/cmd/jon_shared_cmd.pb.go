@@ -563,7 +563,7 @@ var File_jon_shared_cmd_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1ajon_shared_cmd_power.proto\x1a\x18jon_shared_cmd_pmu.proto\x1a\x1bjon_shared_cmd_heater.proto\x1a\x1bjon_shared_data_types.proto\"\xe3\t\n" +
+	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1ajon_shared_cmd_power.proto\x1a\x18jon_shared_cmd_pmu.proto\x1a\x1bjon_shared_cmd_heater.proto\x1a\x1bjon_shared_data_types.proto\"\xe9\t\n" +
 	"\x04Root\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12\x1d\n" +
@@ -603,7 +603,7 @@ const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\x05power\x18# \x01(\v2\x0f.cmd.Power.RootH\x00R\x05power\x12!\n" +
 	"\x03pmu\x18$ \x01(\v2\r.cmd.PMU.RootH\x00R\x03pmu\x12*\n" +
 	"\x06heater\x18% \x01(\v2\x10.cmd.Heater.RootH\x00R\x06heaterB\x10\n" +
-	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\f\x10\x14\"\x06\n" +
+	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\f\x10\x14J\x04\b!\x10\"\"\x06\n" +
 	"\x04Ping\"\x06\n" +
 	"\x04Noop\"\b\n" +
 	"\x06FrozenB\x8e\x01\n" +
